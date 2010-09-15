@@ -1,0 +1,746 @@
+package be.mxs.common.util.pdf.general;
+
+import be.mxs.common.model.vo.healthrecord.ItemVO;
+import be.mxs.common.model.vo.healthrecord.TransactionVO;
+import be.mxs.common.util.pdf.PDFBasic;
+import be.mxs.common.util.pdf.official.EndPage;
+import be.mxs.common.util.pdf.official.EndPage2;
+import be.mxs.common.util.pdf.official.PDFOfficialBasic;
+import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
+import be.openclinic.adt.Encounter;
+import be.openclinic.medical.LabRequest;
+import be.openclinic.medical.RequestedLabAnalysis;
+import be.openclinic.medical.LabAnalysis;
+import net.admin.User;
+import net.admin.AdminPerson;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.ByteArrayOutputStream;
+import java.util.*;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+
+/**
+ * User: stijn smets
+ * Date: 21-nov-2006
+ */
+public class PDFLabResultGenerator extends PDFOfficialBasic {
+
+    // declarations
+    private final int pageWidth = 100;
+    private String type;
+
+
+    //--- CONSTRUCTOR -----------------------------------------------------------------------------
+    public PDFLabResultGenerator(User user, String sProject,String sPrintLanguage){
+        this.user = user;
+        this.sPrintLanguage=sPrintLanguage;
+        this.sProject = sProject;
+
+        doc = new Document();
+    }
+
+    public void addHeader(){
+    }
+
+    public void addContent(){
+    }
+
+    protected void addFooter(String sId){
+        int serverid=Integer.parseInt(sId.split("\\.")[0]);
+        int transactionid=Integer.parseInt(sId.split("\\.")[1]);
+        LabRequest labRequest=new LabRequest(serverid,transactionid);
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        AdminPerson adminPerson=AdminPerson.getAdminPerson(ad_conn,labRequest.getPersonid()+"");
+        try {
+			ad_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        String sFooter=adminPerson.lastname.toUpperCase()+", "+adminPerson.firstname.toUpperCase()+" - "+sId+" - ";
+        Font font = FontFactory.getFont(FontFactory.HELVETICA,7);
+        HeaderFooter footer = new HeaderFooter(new Phrase(sFooter+"\n",font),true);
+        footer.disableBorderSide(HeaderFooter.BOTTOM);
+        footer.setAlignment(HeaderFooter.ALIGN_CENTER);
+
+        doc.setFooter(footer);
+    }
+
+    //--- GENERATE PDF DOCUMENT BYTES -------------------------------------------------------------
+    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, Vector labrequestids,Date since) throws Exception {
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+		PdfWriter docWriter = PdfWriter.getInstance(doc,baosPDF);
+        //docWriter.setPageEvent(new EndPage2());
+        this.req = req;
+
+        String sURL = req.getRequestURL().toString();
+        if(sURL.indexOf("openclinic",10) > 0){
+            sURL = sURL.substring(0,sURL.indexOf("openclinic", 10));
+        }
+
+        String sContextPath = req.getContextPath()+"/";
+        HttpSession session = req.getSession();
+        String sProjectDir = (String)session.getAttribute("activeProjectDir");
+
+        this.url = sURL;
+        this.contextPath = sContextPath;
+        this.projectDir = sProjectDir;
+
+		try{
+            doc.addProducer();
+            doc.addAuthor(user.person.firstname+" "+user.person.lastname);
+			doc.addCreationDate();
+			doc.addCreator("OpenClinic Software");
+            doc.setPageSize(PageSize.A4);
+            doc.setMargins(10,10,10,10);
+            if(labrequestids.size()>0){
+            	addFooter((String)labrequestids.elementAt(0));
+            }
+            doc.open();
+
+            // add content to document
+            for (int n=0;n<labrequestids.size();n++){
+                if(n>0){
+                    doc.newPage();
+                }
+                String id =(String)labrequestids.elementAt(n);
+                printLabResult(id,since);
+            }
+		}
+		catch(Exception e){
+			baosPDF.reset();
+			e.printStackTrace();
+		}
+		finally{
+			if(doc!=null) doc.close();
+            if(docWriter!=null) docWriter.close();
+		}
+
+		if(baosPDF.size() < 1){
+			throw new DocumentException("document has no bytes");
+		}
+
+		return baosPDF;
+	}
+
+    //---- ADD PAGE HEADER ------------------------------------------------------------------------
+    private void addPageHeader() throws Exception {
+    }
+
+    protected void printLabResult(String sLabRequestId,Date since){
+        try {
+            int serverid=Integer.parseInt(sLabRequestId.split("\\.")[0]);
+            int transactionid=Integer.parseInt(sLabRequestId.split("\\.")[1]);
+            LabRequest labRequest=new LabRequest(serverid,transactionid);
+        	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+            AdminPerson adminPerson=AdminPerson.getAdminPerson(ad_conn,labRequest.getPersonid()+"");
+            ad_conn.close();
+            printHeader(labRequest,adminPerson);
+            printContent(labRequest,adminPerson,since);
+            printFooter(labRequest,adminPerson,since);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void printFooter(LabRequest labRequest,AdminPerson adminPerson,Date since) throws Exception{
+        table = new PdfPTable(100);
+        table.setWidthPercentage(100);
+
+        cell=createLabelCourier(" ",10,5,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        table.addCell(cell);
+        cell=createLabelCourier("*",10,5,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        table.addCell(cell);
+        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","resultnewerthan",user.person.language)+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(since),8,90,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        table.addCell(cell);
+        cell=createLabelCourier(" ",10,10,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        table.addCell(cell);
+        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","legenda",user.person.language),8,90,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        table.addCell(cell);
+        cell=createLabelCourier(" ",10,10,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        table.addCell(cell);
+        cell=createLabelCourier(" \n"+MedwanQuery.getInstance().getLabel("labresult","validatedby",user.person.language),10,90,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        table.addCell(cell);
+        Enumeration enumeration = labRequest.getAnalyses().elements();
+        Hashtable validators=new Hashtable();
+        while(enumeration.hasMoreElements()){
+            RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis)enumeration.nextElement();
+            if(validators.get(requestedLabAnalysis.getFinalvalidation()+"")==null){
+                validators.put(requestedLabAnalysis.getFinalvalidation()+"","1");
+                cell=createLabelCourier(" ",10,10,Font.NORMAL);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                table.addCell(cell);
+                cell=createLabelCourier(MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getFinalvalidation()),10,90,Font.BOLD);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                table.addCell(cell);
+            }
+        }
+        doc.add(table);
+    }
+
+    private void printContent(LabRequest labRequest,AdminPerson adminPerson,Date since) throws Exception{
+        table = new PdfPTable(100);
+        table.setWidthPercentage(100);
+
+        PdfPTable subTable = new PdfPTable(100);
+        subTable.setWidthPercentage(100);
+
+        SortedMap groups = new TreeMap();
+        Enumeration enumeration = labRequest.getAnalyses().elements();
+        while(enumeration.hasMoreElements()){
+            RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis)enumeration.nextElement();
+            if(groups.get(getTran("labanalysis.group",requestedLabAnalysis.getLabgroup()))==null){
+                groups.put(getTran("labanalysis.group",requestedLabAnalysis.getLabgroup()),new TreeMap());
+            }
+            ((TreeMap)groups.get(getTran("labanalysis.group",requestedLabAnalysis.getLabgroup()))).put(requestedLabAnalysis.getAnalysisCode()+"$"+LabAnalysis.labelForCode(requestedLabAnalysis.getAnalysisCode(),user.person.language),requestedLabAnalysis.getAnalysisCode());
+        }
+
+        Iterator groupsIterator = groups.keySet().iterator();
+        while(groupsIterator.hasNext()){
+            String groupname=(String)groupsIterator.next();
+            cell=createLabelCourier(" ",12,100,Font.NORMAL);
+            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            subTable.addCell(cell);
+            cell=createLabelCourier(groupname,12,45,Font.BOLD);
+            cell.setBorder(Cell.BOTTOM);
+            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            subTable.addCell(cell);
+            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","value",user.person.language),10,15,Font.BOLD);
+            cell.setBorder(Cell.BOTTOM);
+            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            subTable.addCell(cell);
+            if(groupname.equalsIgnoreCase(MedwanQuery.getInstance().getLabel("labanalysis.group", "bacteriology", sPrintLanguage))){
+	            cell=createLabelCourier("",10,40,Font.BOLD);
+	            cell.setBorder(Cell.BOTTOM);
+	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            subTable.addCell(cell);
+            }
+            else {
+	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","unit",user.person.language),10,10,Font.BOLD);
+	            cell.setBorder(Cell.BOTTOM);
+	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            subTable.addCell(cell);
+	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","min",user.person.language),10,10,Font.BOLD);
+	            cell.setBorder(Cell.BOTTOM);
+	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            subTable.addCell(cell);
+	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","max",user.person.language),10,10,Font.BOLD);
+	            cell.setBorder(Cell.BOTTOM);
+	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            subTable.addCell(cell);
+	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","normal",user.person.language),10,10,Font.BOLD);
+	            cell.setBorder(Cell.BOTTOM);
+	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            subTable.addCell(cell);
+            }
+            TreeMap analysisList = (TreeMap)groups.get(groupname);
+            Iterator analysisEnumeration = analysisList.keySet().iterator();
+            while (analysisEnumeration.hasNext()){
+                String analysisCode=(String)analysisList.get((String)analysisEnumeration.next());
+                String result="";
+                String unit="";
+                String min="";
+                String max="";
+                String normal="";
+                String newresult="";
+                int fonttype=Font.NORMAL;
+                RequestedLabAnalysis requestedLabAnalysis=(RequestedLabAnalysis)labRequest.getAnalyses().get(analysisCode);
+                if(requestedLabAnalysis!=null){
+                    unit=requestedLabAnalysis.getResultUnit();
+                    min=requestedLabAnalysis.getResultRefMin();
+                    max=requestedLabAnalysis.getResultRefMax();
+                    if(requestedLabAnalysis.getFinalvalidationdatetime()!=null){
+                        result=requestedLabAnalysis.getResultValue();
+                        normal=requestedLabAnalysis.getResultModifier();
+                        if(requestedLabAnalysis.getFinalvalidationdatetime().after(since)){
+                            newresult="*";
+                        }
+                        if(normal.length()>0 && MedwanQuery.getInstance().getConfigString("abnormalModifiers","*+*++*+++*-*--*---*h*hh*hhh*l*ll*lll*").indexOf("*"+normal+"*")>-1){
+                            fonttype=Font.BOLD;
+                        }
+                    }
+                }
+                cell=createLabelCourier(newresult,8,5,fonttype);
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                subTable.addCell(cell);
+                cell=createLabelCourier(analysisCode,8,10,fonttype);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                subTable.addCell(cell);
+                cell=createLabelCourier(LabAnalysis.labelForCode(analysisCode,user.person.language),8,30,fonttype);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                subTable.addCell(cell);
+                //Hier moeten we evalueren of het om een antibiogram gaat
+                if(groupname.equalsIgnoreCase(MedwanQuery.getInstance().getLabel("labanalysis.group", "bacteriology", sPrintLanguage))){
+	                //Stel het resultaat samen
+                	//Voor elk van de ingevulde kiemen geven we de sensibiliteits-gegevens
+                	Map ab = RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode());
+                	result="";
+                	String result2="";
+                	if(ab.get("germ1")!=null && !(ab.get("germ1")+"").equalsIgnoreCase("")){
+                		result+=ab.get("germ1")+"\n";
+                		result2+="\n";
+                		String antibiotics = (String)ab.get("ANTIBIOGRAMME1");
+                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+                			String[] tests = antibiotics.split(",");
+                			for(int n=0;n<tests.length;n++){
+                				if(tests[n].split("=").length==2){
+                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
+                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+                				}
+                			}
+                		}
+                	}
+                	if(ab.get("germ2")!=null && !(ab.get("germ2")+"").equalsIgnoreCase("")){
+                		if(result.length()>0){
+                			result+="\n";
+                    		result2+="\n";
+                		}
+                		result2+="\n";
+                		result+=ab.get("germ2")+"\n";
+                		String antibiotics = (String)ab.get("ANTIBIOGRAMME2");
+                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+                			String[] tests = antibiotics.split(",");
+                			for(int n=0;n<tests.length;n++){
+                				if(tests[n].split("=").length==2){
+                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
+                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+                				}
+                			}
+                		}
+                	}
+                	if(ab.get("germ3")!=null && !(ab.get("3")+"").equalsIgnoreCase("")){
+                		if(result.length()>0){
+                			result+="\n";
+                    		result2+="\n";
+                		}
+                		result2+="\n";
+                		result+=ab.get("germ3")+"\n";
+                		String antibiotics = (String)ab.get("ANTIBIOGRAMME3");
+                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+                			String[] tests = antibiotics.split(",");
+                			for(int n=0;n<tests.length;n++){
+                				if(tests[n].split("=").length==2){
+                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
+                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+                				}
+                			}
+                		}
+                	}
+                	cell=createLabelCourier(result2,8,3,Font.BOLD);
+	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                subTable.addCell(cell);
+                	cell=createLabelCourier(result,8,52,Font.NORMAL);
+	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                subTable.addCell(cell);
+                }
+                else {
+	                cell=createLabelCourier(result,8,15,Font.BOLD);
+	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                subTable.addCell(cell);
+	                cell=createLabelCourier(unit,8,10,fonttype);
+	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                subTable.addCell(cell);
+	                cell=createLabelCourier(min,8,10,fonttype);
+	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                subTable.addCell(cell);
+	                cell=createLabelCourier(max,8,10,fonttype);
+	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                subTable.addCell(cell);
+                    if(normal.length()==0){
+                    	//We proberen na te gaan of de waarde buiten de grenzen valt
+                    	try{
+	                        double iResult = Double.parseDouble(result.replaceAll(",", "\\."));
+	                        double iMin = Double.parseDouble(min.replaceAll(",", "\\."));
+	                        double iMax = Double.parseDouble(max.replaceAll(",", "\\."));
+	
+	                        if ((iResult >= iMin)&&(iResult <= iMax)){
+	                            normal = "n";
+	                        }
+	                        else {
+	                            double iAverage = (iMax-iMin);
+	
+	                            if (iResult > iMax+iAverage*2){
+	                                normal = "+++";
+	                            }
+	                            else if (iResult > iMax + iAverage){
+	                                normal = "++";
+	                            }
+	                            else if (iResult > iMax){
+	                                normal = "+";
+	                            }
+	                            else if (iResult < iMin - iAverage*2){
+	                                normal = "---";
+	                            }
+	                            else if (iResult < iMin - iAverage){
+	                                normal = "--";
+	                            }
+	                            else if (iResult < iMin){
+	                                normal = "-";
+	                            }
+	                        }
+                    	}
+                    	catch(Exception e2){
+                    		//e2.printStackTrace();
+                    	}
+                    }
+	                cell=createLabelCourier(normal,8,10,fonttype);
+	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                subTable.addCell(cell);
+                }
+            }
+        }
+        cell=createBorderlessCell(5);
+        table.addCell(cell);
+        cell=createBorderlessCell(90);
+        cell.setBorder(Cell.BOX);
+        cell.addElement(subTable);
+        table.addCell(cell);
+        cell=createBorderlessCell(5);
+        table.addCell(cell);
+        doc.add(table);
+    }
+    
+    private String getAntibiotic(String id){
+    	if(id.equalsIgnoreCase("1")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","penicillineg",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("2")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","oxacilline",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("3")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","ampicilline",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("4")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","amoxicacclavu",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("5")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","cefalotine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("6")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","mecillinam",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("7")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","cefotaxime",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("8")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","gentamicine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("9")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","amikacine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("10")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","chloramphenicol",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("11")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","tetracycline",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("12")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","colistine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("13")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","erythromycine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("14")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","lincomycine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("15")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","pristinamycine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("16")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","cotrimoxazole",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("17")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","nitrofurane",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("18")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","acnalidixique",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("19")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","ciprofloxacine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("20")){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","imipenem",sPrintLanguage);
+    	}
+    	else {
+    		return "?";
+    	}
+    }
+
+    private void printHeader(LabRequest labRequest,AdminPerson adminPerson) throws Exception{
+        Encounter encounter = Encounter.getActiveEncounter(adminPerson.personid);
+        table = new PdfPTable(100);
+        table.setWidthPercentage(100);
+        //Hospital logo
+        //Logo
+        Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_patientcard.gif"));
+        image.scaleToFit(72*400/254,144);
+        cell = new PdfPCell(image);
+        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setColspan(25);
+        cell.setPadding(10);
+        table.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","title",user.person.language),14,45,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        table.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","encounter.id",user.person.language)+":\n"+MedwanQuery.getInstance().getLabel("labresult","request.id",user.person.language)+":",10,15,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        table.addCell(cell);
+        cell=createLabel((encounter!=null?encounter.getUid():"")+"\n"+labRequest.getTransactionid(),10,15,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        table.addCell(cell);
+
+        //Patient Header
+        PdfPTable subTable = new PdfPTable(100);
+        subTable.setWidthPercentage(100);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","patient",user.person.language),10,100,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","name",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(adminPerson.firstname+" "+adminPerson.lastname,10,55,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","dateofbirth",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(adminPerson.dateOfBirth,10,25,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","gender",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(adminPerson.gender,10,5,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","personid",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(adminPerson.personid,10,15,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","archiveid",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(adminPerson.getID("archiveFileCode"),10,15,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","nationalid",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(adminPerson.adminextends.get("natreg")!=null?(String)user.person.adminextends.get("natreg"):"",10,25,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+
+        cell=createBorderlessCell(5);
+        table.addCell(cell);
+        cell=createBorderlessCell(90);
+        cell.setBorder(Cell.BOX);
+        cell.addElement(subTable);
+        table.addCell(cell);
+        cell=createBorderlessCell(5);
+        table.addCell(cell);
+
+        //Service Header
+        subTable = new PdfPTable(100);
+        subTable.setWidthPercentage(100);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","request",user.person.language),10,100,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","prescriber",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        TransactionVO tran = MedwanQuery.getInstance().loadTransaction(labRequest.getServerid(), labRequest.getTransactionid());
+        String sPrescriber="";
+        if(tran!=null){
+        	ItemVO pItem = tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_PRESCRIBER");
+        	if(pItem!=null){
+        		sPrescriber=pItem.getValue();
+        	}
+        }
+        cell=createLabel(sPrescriber,10,55,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","requestdate",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate()),10,25,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","service",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(labRequest.getServicename(),10,55,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","reportdate",user.person.language),8,10,Font.ITALIC);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+        cell=createLabel(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date()),10,25,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        subTable.addCell(cell);
+
+        cell=createBorderlessCell(5);
+        table.addCell(cell);
+        cell=createBorderlessCell(90);
+        cell.setBorder(Cell.BOX);
+        cell.addElement(subTable);
+        table.addCell(cell);
+        cell=createBorderlessCell(5);
+        table.addCell(cell);
+
+        cell=createLabel(" ",8,100,Font.ITALIC);
+        table.addCell(cell);
+
+
+        doc.add(table);
+    }
+
+    //################################### UTILITY FUNCTIONS #######################################
+
+    //--- CREATE UNDERLINED CELL ------------------------------------------------------------------
+    protected PdfPCell createUnderlinedCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE))); // underlined
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    //--- PRINT VECTOR ----------------------------------------------------------------------------
+    protected String printVector(Vector vector){
+        StringBuffer buf = new StringBuffer();
+        for(int i=0; i<vector.size(); i++){
+            buf.append(vector.get(i)).append(", ");
+        }
+
+        // remove last comma
+        if(buf.length() > 0) buf.deleteCharAt(buf.length()-2);
+
+        return buf.toString();
+    }
+
+    //--- CREATE TITLE ----------------------------------------------------------------------------
+    protected PdfPCell createTitle(String msg, int colspan){
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+
+        return cell;
+    }
+
+    //--- CREATE TITLE ----------------------------------------------------------------------------
+    protected PdfPCell createLabel(String msg, int fontsize, int colspan,int style){
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontsize,style)));
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+
+        return cell;
+    }
+
+    //--- CREATE TITLE ----------------------------------------------------------------------------
+    protected PdfPCell createLabelCourier(String msg, int fontsize, int colspan,int style){
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.COURIER,fontsize,style)));
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+
+        return cell;
+    }
+
+    //--- CREATE BORDERLESS CELL ------------------------------------------------------------------
+    protected PdfPCell createBorderlessCell(String value, int height, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setPaddingTop(height); //
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createBorderlessCell(String value, int colspan){
+        return createBorderlessCell(value,3,colspan);
+    }
+
+    protected PdfPCell createBorderlessCell(int colspan){
+        cell = new PdfPCell();
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.NO_BORDER);
+
+        return cell;
+    }
+
+    //--- CREATE ITEMNAME CELL --------------------------------------------------------------------
+    protected PdfPCell createItemNameCell(String itemName, int colspan){
+        cell = new PdfPCell(new Paragraph(itemName,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    //--- CREATE PADDED VALUE CELL ----------------------------------------------------------------
+    protected PdfPCell createPaddedValueCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setPaddingRight(5); // difference
+
+        return cell;
+    }
+
+    //--- CREATE NUMBER VALUE CELL ----------------------------------------------------------------
+    protected PdfPCell createNumberCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+
+        return cell;
+    }
+
+}

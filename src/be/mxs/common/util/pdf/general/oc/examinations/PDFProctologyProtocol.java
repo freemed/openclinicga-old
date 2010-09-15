@@ -1,0 +1,235 @@
+package be.mxs.common.util.pdf.general.oc.examinations;
+
+import be.mxs.common.util.pdf.general.PDFGeneralBasic;
+import be.mxs.common.util.system.Miscelaneous;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.*;
+import com.lowagie.text.Image;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Vector;
+
+/**
+ * User: ssm
+ * Date: 18-jul-2007
+ */
+public class PDFProctologyProtocol extends PDFGeneralBasic {
+
+    //--- ADD CONTENT -----------------------------------------------------------------------------
+    protected void addContent(){
+        try{
+            if(transactionVO.getItems().size() >= minNumberOfItems){
+                contentTable = new PdfPTable(1);
+                table = new PdfPTable(5);
+
+                // motive
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_MOTIVE");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","motive"),itemValue);
+                }
+
+                // external_examination
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_EXTERNAL_EXAMINATION");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","external_examination"),itemValue);
+                }
+
+                // touch_rectum
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_TOUCH_RECTUM");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","touch_rectum"),itemValue);
+                }
+                
+                // add transaction to doc
+                if(table.size() > 0){
+                    if(contentTable.size() > 0) contentTable.addCell(emptyCell());
+                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    tranTable.addCell(createContentCell(contentTable));
+                    addTransactionToDoc();
+                }
+
+                // todo : anuscopy
+                addAnuscopy();
+
+                contentTable = new PdfPTable(1);
+                table = new PdfPTable(5);
+
+                // rectosigmoidoscopy
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_RECTOSIGMOIDOSCOPY");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","rectosigmoidoscopy"),itemValue);
+                }
+
+                //*** investigations_done (BIOSCOPY) ***
+                String investigations = "";
+
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_BIOSCOPY");
+                if(itemValue.equalsIgnoreCase("medwan.common.true")){
+                    if(investigations.length() > 0) investigations+= ", ";
+                    investigations+= getTran("openclinic.chuk","bioscopy");
+                }
+
+                /*
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_BIOSCOPY2");
+                if(itemValue.equalsIgnoreCase("medwan.common.true")){
+                    if(investigations.length() > 0) investigations+= ", ";
+                    investigations+= getTran("openclinic.chuk","bioscopy2");
+                }
+                */
+
+                if(investigations.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","investigations_done"),investigations);
+                }
+
+                // conclusion
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_CONCLUSION");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","conclusion"),itemValue);
+                }               
+
+                // remarks
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_REMARKS");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","remarks"),itemValue);
+                }
+
+                // add transaction to doc
+                if(table.size() > 0){
+                    if(contentTable.size() > 0) contentTable.addCell(emptyCell());
+                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    tranTable.addCell(createContentCell(contentTable));
+                    addTransactionToDoc();
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //### PRIVATE METHODS #########################################################################
+
+    //--- DRAW DOT --------------------------------------------------------------------------------
+    private void drawDot(Graphics2D graphics, double x, double y, Color color, int size){
+        graphics.setColor(color);
+        graphics.fillOval(new Double(x).intValue(),new Double(y).intValue(),size,size);
+    }
+
+    //--- ADD ANUSCOPY ---------------------------------------------------------------------------- 
+    private void addAnuscopy(){
+        Vector list = new Vector();
+        list.add(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_LEFT_BACK");
+        list.add(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_RIGHT_BACK");
+        list.add(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_IMAGE_COORDS");
+        list.add(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_LEFT_BELLY");
+        list.add(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_RIGHT_BELLY");
+
+        if(verifyList(list)){
+            try{
+                contentTable = new PdfPTable(1);
+                table = new PdfPTable(5);
+
+                PdfPTable anuscopyTable = new PdfPTable(8);
+
+                // left back textarea
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_LEFT_BACK");
+                anuscopyTable.addCell(createValueCell(itemValue,3));
+
+                // back title
+                cell = createValueCell(getTran("openclinic.chuk","back"),2);
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setVerticalAlignment(Cell.ALIGN_BOTTOM);
+                cell.setBorder(Cell.LEFT+Cell.RIGHT+Cell.TOP); // no bottom
+                anuscopyTable.addCell(cell);
+
+                // right back textarea
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_RIGHT_BACK");
+                anuscopyTable.addCell(createValueCell(itemValue,3));
+
+                //*** image ***
+                // left
+                cell = createValueCell(getTran("web.occup","medwan.common.left"),3);
+                cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setBorder(Cell.LEFT+Cell.TOP+Cell.BOTTOM); // no right
+                anuscopyTable.addCell(cell);
+
+                MediaTracker mediaTracker = new MediaTracker(new Container());
+                java.awt.Image imgPointer = Miscelaneous.getImage("anuscopie.gif");
+                mediaTracker.addImage(imgPointer,0);
+                mediaTracker.waitForID(0);
+
+                BufferedImage locationImg = new BufferedImage(imgPointer.getWidth(null),imgPointer.getHeight(null),BufferedImage.TYPE_INT_RGB);
+                Graphics2D graphics = locationImg.createGraphics();
+                graphics.drawImage(imgPointer,0,0,Color.WHITE,null);
+
+                // get coordinates and visualize them with red dots
+                int xPos, yPos;
+                String[] oneCoord;
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_IMAGE_COORDS");
+                String[] coords = itemValue.split(";");
+                for(int i=0; i<coords.length; i++){
+                    if (coords[i].length() > 0){
+                        oneCoord = coords[i].split(",");
+                        xPos = Integer.parseInt(oneCoord[0]);
+                        yPos = Integer.parseInt(oneCoord[1]);
+
+                        drawDot(graphics,xPos-3,yPos-2,Color.RED,4);
+                    }
+                }
+
+                // add image
+                cell = new PdfPCell();
+                cell.setImage(Image.getInstance(locationImg,null));
+                cell.setHorizontalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setBorder(Cell.NO_BORDER);
+                cell.setPadding(8);
+                cell.setColspan(2);
+                anuscopyTable.addCell(cell);
+
+                // right
+                cell = createValueCell(getTran("web.occup","medwan.common.right"),3);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setBorder(Cell.RIGHT+Cell.TOP+Cell.BOTTOM); // no left
+                anuscopyTable.addCell(cell);
+
+                // right back textarea
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_LEFT_BELLY");
+                anuscopyTable.addCell(createValueCell(itemValue,3));
+
+                // belly title
+                cell = createValueCell(getTran("openclinic.chuk","belly"),2);
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setBorder(Cell.LEFT+Cell.RIGHT+Cell.BOTTOM); // no top
+                anuscopyTable.addCell(cell);
+
+                // right belly textarea
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_RIGHT_BELLY");
+                anuscopyTable.addCell(createValueCell(itemValue,3));
+
+                // add anuscopy
+                table.addCell(createItemNameCell(getTran("openclinic.chuk","anuscopy"),2));
+
+                cell = new PdfPCell(anuscopyTable);
+                cell.setColspan(3);
+                table.addCell(cell);
+
+                // add transaction to doc
+                if(table.size() > 0){
+                    if(contentTable.size() > 0) contentTable.addCell(emptyCell());
+                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    tranTable.addCell(createContentCell(contentTable));
+                    addTransactionToDoc();
+                }         
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
