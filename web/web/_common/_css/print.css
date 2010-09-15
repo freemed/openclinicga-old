@@ -1,0 +1,115 @@
+body
+{
+	margin-top: 10px;
+	margin-left: 10px;
+	color: #333333;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: White;
+	font-size : x-small;
+}
+
+td
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-style:normal;
+	font-size: 12px;
+	color:#000000;
+	background-color : White;
+}
+
+td.patient
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-style:normal;
+	font-size: x-small;
+	color:#000000;
+	font-weight : bold;
+	text-align : left;
+	background-color : White;
+	text-transform : uppercase;
+}
+
+td.small
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-style:normal;
+	font-size: xx-small;
+	color:#000000;
+	text-align : left;
+	background-color : White;
+}
+
+td.bar
+{
+	font-style:normal;
+	font-size: xx-large;
+	color:#000000;
+	text-align : right;
+	background-color : White;
+	font-family : "Free 3 of 9 Extended";
+}
+
+.line 
+{
+	font-size:11px;
+	background-color: Black;
+}
+
+table.content
+{
+	margin-left : 50px;
+	padding-bottom : 0;
+	padding-left : 0;
+	padding-right : 0;
+	padding-top : 0;
+}
+
+table.list
+{
+	border-style: solid;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: #000000;
+    border-right-color: #000000;
+    border-top-color: #000000;
+    border-bottom-color: #000000;
+
+}
+td.list
+{
+	border : 1px solid Black;
+}
+td.bottomlist
+{
+	border-bottom : 1px solid Black;
+	font-size : xx-small;
+}
+
+td.smallst
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-style:normal;
+	font-size: 45%;
+	color:#000000;
+	background-color : White;
+}
+td.smalllist
+{
+	border : 1px solid Black;
+	font-style : normal;
+	font-size : xx-small;
+	font-family : Arial, Helvetica, sans-serif;
+}
+
+font.bar
+{
+	font-family : "Free 3 of 9 Extended";
+	font-style:normal;
+	font-size: x-large;
+}
+table.etiket
+{
+
+}

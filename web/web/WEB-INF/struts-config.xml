@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+ "-//Apache Software Foundation//DTD Struts Configuration 1.0//EN"
+ "http://struts.apache.org/dtds/struts-config_1_0.dtd">
+
+
+<!--
+     This is the Struts configuration file for the application,
+     using the proposed new syntax.
+-->
+
+
+<struts-config>
+
+  <!-- ========== Message Resources Definitions =================================== -->
+
+  <!-- ========== Form Bean Definitions =================================== -->
+  <form-beans>
+
+     
+  </form-beans>
+
+
+  <!-- ========== Global Forward Definitions ============================== -->
+  <global-forwards>
+    <forward name="login"               path="/login.do"/>
+
+  </global-forwards>
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+      <!-- ========================================================================================================= -->
+      <!-- OC - Common Actions ================================================================================= -->
+      <!-- ========================================================================================================= -->
+
+      <!-- login -->
+      <action    path="/login"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/login.jsp"/>
+      </action>
+
+      <!-- check login -->
+      <action    path="/checkLogin"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/checkLogin.jsp"/>
+      </action>
+
+      <!-- relogin -->
+      <action    path="/relogin"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/sessionExpired.jsp"/>
+      </action>
+
+      <!-- logout -->
+      <action    path="/logout"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.LogoutAction">
+        <forward name="success"              path="/loggedOut.jsp"/>
+      </action>
+
+      <action    path="/changePassword" type="org.apache.struts.actions.ForwardAction" parameter="/userprofile/changepasswordonly.jsp"/>
+
+       ========================================================================================================= -->
+      <!-- Occupational Medicine - Risk Profile related actions ==================================================== -->
+      <!-- ========================================================================================================= -->
+
+      <!-- Occupational Medicine - Show Risk Profile -->
+      <action    path="/healthrecord/showRiskProfile"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.occupationalmedicine.ShowRiskProfileAction">
+        <forward name="success"              path="/main.do?Page=/healthrecord/showRiskProfile_view.jsp"/>
+      </action>
+
+
+      <!-- Occupational Medicine - Manage Periodic examinations Page -->
+      <action    path="/healthrecord/managePeriodicExaminations"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.occupationalmedicine.ManagePeriodicExaminationsAction">
+        <forward name="success"              path="/main.do?Page=curative/manageExaminations.jsp"/>
+      </action>
+
+
+       <!-- Occupational Medicine - Manage Alerts Page -->
+      <action    path="/healthrecord/manageAlertsPage"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.occupationalmedicine.ManageAlertsPageAction">
+        <forward name="success"              path="/main.do?Page=/healthrecord/manageAlerts_view.jsp"/>
+      </action>
+
+      <!--  ========================================================================================================= -->
+      <!-- Health Record - Actions ================================================================================= -->
+      <!-- ========================================================================================================= -->
+      <action    path="/healthrecord/managePrintHistoryPopup"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.occupationalmedicine.ManagePrintHistoryAction">
+        <forward name="success"              path="/healthrecord/printHistoryPopup.jsp"/>
+      </action>
+
+      <!-- Health Record - Save Lab Analyses Action -->
+      <action    path="/healthrecord/saveLabAnalyses"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.healthrecord.SaveLabAnalysesAction">
+        <forward name="examinationsOverview"              path="/main.do?Page=/curative/manageExaminations.jsp"/>
+      </action>
+
+      <!-- Health Record - Create Transaction -->
+      <action    path="/healthrecord/createTransaction"
+                 type="be.mxs.webapp.wl.struts.actions.healthrecord.CreateTransactionAction">
+      </action>
+
+       <!-- Health Record - Edit Transaction -->
+      <action    path="/healthrecord/editTransaction"
+                 type="be.mxs.webapp.wl.struts.actions.healthrecord.EditTransactionAction">
+      </action>
+
+       <!-- Health Record - Update Transaction -->
+      <action    path="/healthrecord/updateTransaction"
+                 type="be.mxs.webapp.wl.struts.actions.healthrecord.UpdateTransactionAction">
+      </action>
+
+      <!-- Health Record - Delete Transaction -->
+      <action    path="/healthrecord/manageDeleteTransaction"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.healthrecord.ManageDeleteTransactionAction">
+        <forward name="success"              path="/main.do?Page=curative/index.jsp"/>
+      </action>
+
+       <!--Health Record - manage Vaccination -->
+      <action    path="/healthrecord/manageVaccination"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.healthrecord.ManageVaccinationAction">
+        <forward name="success"           path="/main.do?Page=/healthrecord/manageVaccination_view.jsp"/>
+      </action>
+      <!-- Health Record - manage Next Vaccination -->
+      <action    path="/healthrecord/manageNextVaccination"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.healthrecord.ManageNextVaccinationAction">
+        <forward name="success"           path="/main.do?Page=/healthrecord/manageVaccination_view.jsp"/>
+      </action>
+
+      <!-- Health Record - show Vaccination summary -->
+      <action    path="/healthrecord/showVaccinationSummary"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.healthrecord.ShowVaccinationSummaryAction">
+        <forward name="success"           path="/main.do?Page=/healthrecord/vaccinationsSummary_view.jsp"/>
+      </action>
+      <!-- Health Record - show Vaccination history -->
+      <action    path="/healthrecord/showVaccinationHistory"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.healthrecord.ManageNextVaccinationAction">
+        <forward name="success"           path="/main.do?Page=/healthrecord/vaccinationHistory_view.jsp"/>
+      </action>
+      <!-- Health Record - manage Clinical Contact -->
+      <action    path="/healthrecord/manageClinicalExamination"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.healthrecord.ManageClinicalExaminationAction">
+        <forward name="success"           path="/main.do?Page=/healthrecord/manageClinicalExamination_view.jsp"/>
+      </action>
+
+            <!-- Health Record - Absent -->
+      <action    path="/healthrecord/showPeriodicExaminations"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.occupationalmedicine.ShowPeriodicExaminationsAction">
+        <forward name="success"              path="/healthrecord/managePeriodicExaminations.do"/>
+      </action>
+
+      <action    path="/main"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/main.jsp"/>
+      </action>
+
+      <action    path="/patientdata"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/main.do?Page=_common/patient/patientdata.jsp"/>
+      </action>
+
+      <action    path="/patientedit"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/main.do?Page=_common/patient/patientedit.jsp"/>
+      </action>
+
+      <action    path="/patienthistory"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/main.do?Page=_common/patient/patienthistory.jsp"/>
+      </action>
+
+      <action    path="/patientnew"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/main.do?Page=_common/patient/patientedit.jsp"/>
+      </action>
+
+      <action    path="/patientslist"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/main.do?Page=_common/patientslist.jsp"/>
+      </action>
+
+      <action    path="/print"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/_common/print/print.jsp"/>
+      </action>
+
+      <action    path="/start"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/main.do?Page=_common/start.jsp"/>
+      </action>
+
+      <action    path="/managePeriodicExaminations"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.ShowAuthenticationPageAction">
+        <forward name="success"              path="/main.do?Page=curative/manageExaminations.jsp"/>
+      </action>
+      
+  </action-mappings>
+
+</struts-config>

@@ -1,0 +1,15 @@
+<contexts>
+    <context id="context.context.internal-medicine"/>
+    <context id="context.context.surgery"/>
+    <context id="context.context.pediatrics"/>
+    <context id="context.context.gynecology"/>
+    <context id="context.context.ophtalmology"/>
+    <context id="context.context.dermatology"/>
+    <context id="context.context.nte"/>
+    <context id="context.context.orthopedie"/>
+    <context id="context.context.polyclinic"/>
+    <context id="context.context.anesthesia"/>
+    <context id="context.context.dental-care"/>
+    <context id="context.context.emergency"/>
+    <context id="context.context.intensivecare"/>
+</contexts>

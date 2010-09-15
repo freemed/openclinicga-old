@@ -1,0 +1,22 @@
+<defaultPages>
+    <defaultPage type='administration'>
+        <page>
+            patientdata.do
+        </page>
+    </defaultPage>
+    <defaultPage type='medicalrecord'>
+        <page>
+            main.do?Page=curative/index.jsp
+        </page>
+    </defaultPage>
+    <defaultPage type='planning'>
+        <page>
+            main.do?Page=planning/findPlanning.jsp
+        </page>
+    </defaultPage>
+     <defaultPage type='examinations'>
+        <page>
+            main.do?Page=curative/manageExaminations.jsp
+        </page>
+    </defaultPage>
+</defaultPages>

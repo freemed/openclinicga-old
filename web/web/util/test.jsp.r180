@@ -1,0 +1,9 @@
+<script>
+	function showClipboard(){
+		var cb = window.clipboardData.getData("Text");
+		if(cb.indexOf("<concept")>-1){
+			alert(cb);
+		}
+	}
+	window.setInterval("showClipboard();",500);
+</script>

@@ -1,0 +1,83 @@
+[ENGLISH]
+[PORTUGUES]
+
+SPECIFIC SOFTWARE LICENSE AGREEMENT - GRFINGER JAVA INTEGRATOR 4.5 LIGHT EDITION (INTEGRATOR LICENSE)
+ACORDO ESPECIFICO DE LICENCA DE USO DE SOFTWARE - GRFINGER JAVA INTEGRATOR 4.5 EDICAO LIGHT (LICENCA DE INTEGRADOR)
+
+1.
+LICENSE SERIAL NUMBER:  
+NUMERO DE SERIE DA LICENCA:
+--------------------
+GFJL45011
+--------------------
+
+2.
+LICENSEE:
+LICENCIADO:
+-----------------------------------------------------------------------------------------------
+MXS
+Pastoriestraat 58, Boutersem, Vlaams Brabant, BELGIUM
+http://www.mxs.be
+-----------------------------------------------------------------------------------------------
+
+3.
+LICENSED SOFTWARE:
+SOFTWARE LICENCIADO:
+-----------------------------------------------------------------------------------------------
+OpenClinic
+-----------------------------------------------------------------------------------------------
+
+[ENGLISH] -------------------------------------------------------------------------------------
+
+- See also the GENERAL Software License Agreement -
+ 
+This is a legal license agreement between you (an individual or a single entity), hereinafter referred to as LICENSEE and Griaule Tecnologia (hereinafter referred to as GRIAULE) about a software product which includes software, the associated media, any printed materials, and any "online" or electronic documentation (further together called SOFTWARE). Please read this agreement carefully. By installing, copying or otherwise using SOFTWARE, the LICENSEE agrees to be bound by the terms of this Agreement. If the LICENSEE disagrees with these conditions, the LICENSEE should immediately delete all copies of the software stored in its system. 
+
+4. Regular License 
+This License allows the use of the SOFTWARE embedded in the LICENSED SOFTWARE developed by the LICENSEE only.
+Using the SOFTWARE in a software other than the LICENSED SOFTWARE is a violation of this License.
+The LICENSEE acknowledge he/she isn't now and do not plan to develop competing products. A competing product is every software that corresponds or is similar to the SOFTWARE, as protected by copyright. The LICENSEE agrees not to use the SOFTWARE, sample source codes, binaries or any information learned from the SOFTWARE in any competing product.
+The LICENSEE shall not decompile the code for the purposes of developing a competing product.
+The LICENSEE can't expose SOFTWARE functions in his/her applications or use SOFTWARE to develop another SDK.
+The LICENSEE must acknowledge that his/her application includes the SOFTWARE. This acknowledgement must be placed in the application "about" dialog box, user manuals and in the end-user license agreement.
+
+5. Support
+For this INTEGRATOR LICENSE, support is provided by LICENSEE or in a collaborative way in the Griaule public forum at forum.griaule.com.
+
+Issuing date:
+(UTC) Sun Jul  1 06:39:24 2007
+
+
+[PORTUGUES] -----------------------------------------------------------------------------------
+
+-- Veja tambem o acordo GERAL de licenca de uso de software --
+
+O presente Acordo Especifico de Licenca de Uso de Software e' celebrado entre voce, pessoa fisica ou juridica, doravante denominada LICENCIADA, e Griaule Tecnologia, doravante denominada GRIAULE. Para os propositos deste Acordo, todos os produtos relacionados ao software (o que inclui midia, material impresso e qualquer documentacao eletronica) serao tambem denominados como SOFTWARE. Leia atentamente este Acordo. Ao instalar, copiar ou fazer uso do SOFTWARE, a LICENCIADA automaticamente concorda com os termos deste Acordo. Se a LICENCIADA discorda destas condicoes deve imediatamente apagar todas as copias do SOFTWARE gravado em seus sistemas.
+
+4. Licenca de uso 
+Esta licenca permite o uso do SOFTWARE somente embutido no SOFTWARE LICENCIADO desenvolvido pela LICENCIADA.
+Usar o SOFTWARE em outras aplicacoes que nao o SOFTWARE LICENCIADO constitui-se em violacao desta licenca.
+A LICENCIADA reconhece que nao esta' desenvolvendo nem planeja desenvolver produtos concorrentes do SOFTWARE. Um produto concorrente constitui-se em qualquer software que corresponda ou seja similar ao SOFTWARE, que e' protegido pelas leis de direito autoral. A LICENCIADA concorda em nao usar o SOFTWARE, os codigos-fonte dos exemplos, os arquivos binarios, assim como nenhuma outra informacao descoberta a partir do SOFTWARE, em nenhum produto concorrente.
+A LICENCIADA nao pode disponibilizar funcoes do SOFTWARE para o usuario final em sua aplicacao ou usar o SOFTWARE para desenvolver outra biblioteca biometrica (SDK).
+A LICENCIADA deve reconhecer que sua aplicacao inclui o SOFTWARE. Este reconhecimento deve ser colocado na caixa de dialogo "sobre" da aplicacao, no manual do usuario e no acordo de licenca do usuario final.
+
+5. Suporte
+Para esta LICENCA DE INTEGRADOR o suporte e' fornecido pela LICENCIADA ou de maneira colaborativa pela comunidade no forum publico da Griaule em forum.griaule.com.
+
+Data de emissao:
+(UTC) Sun Jul  1 06:39:24 2007
+
+
+-------------HEADER-------------
+b0cTF+UN9HbDc9VuQCx0gz30+30BcZ5J
+1A3JKmjSy/aIzMnwvJ2U3RliA2Hlyueu
+dQUJ7bybkiYLBnQTRv4Rph+4JTSGr63a
+kjS5X5wAEQPobiA+o2lv7CjZzvBINFgV
+dJZ9jlbTHz25f+943Com5PJ46mMOI3BV
+vpdND72/D6rmfpvqXc7BTM4HVPOBNFLO
+o2ehVP0ibXYQqfSI+/IaTTTb30UFvdHo
+oUWlaEKUMnI+5FqOz9ngPg7oq3/8BBO1
+vmDgmlrmQD3uKvXPDG2nUlkDnzcJmUGY
+W96yPLX+rhrqTmyaEfJwXgTwqvaKUu+4
+WdxOlyQzFYu2wqe9hgqM/g==
+-------------FOOTER-------------

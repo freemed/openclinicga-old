@@ -1,0 +1,28 @@
+<letters>
+    <letter id="a" color="white" bgcolor="#73FF00"/>
+    <letter id="b" color="black" bgcolor="#FF7800"/>
+    <letter id="c" color="black" bgcolor="#9000D0"/>
+    <letter id="d" color="white" bgcolor="#FABC00"/>
+    <letter id="e" color="black" bgcolor="#00D02F"/>
+    <letter id="f" color="white" bgcolor="#FC91EB"/>
+    <letter id="g" color="white" bgcolor="#6EE1FB"/>
+    <letter id="h" color="white" bgcolor="#C78757"/>
+    <letter id="i" color="white" bgcolor="#FDFB51"/>
+    <letter id="j" color="white" bgcolor="#777619"/>
+    <letter id="k" color="white" bgcolor="#FBCF20"/>
+    <letter id="l" color="white" bgcolor="#CFD34F"/>
+    <letter id="m" color="white" bgcolor="#B74CA6"/>
+    <letter id="n" color="white" bgcolor="#73FF00"/>
+    <letter id="o" color="black" bgcolor="#FF7800"/>
+    <letter id="p" color="black" bgcolor="#9000D0"/>
+    <letter id="q" color="white" bgcolor="#FABC00"/>
+    <letter id="r" color="black" bgcolor="#00D02F"/>
+    <letter id="s" color="white" bgcolor="#FC91EB"/>
+    <letter id="t" color="white" bgcolor="#6EE1FB"/>
+    <letter id="u" color="white" bgcolor="#C78757"/>
+    <letter id="v" color="white" bgcolor="#FDFB51"/>
+    <letter id="w" color="white" bgcolor="#777619"/>
+    <letter id="x" color="white" bgcolor="#FBCF20"/>
+    <letter id="y" color="white" bgcolor="#CFD34F"/>
+    <letter id="z" color="white" bgcolor="#B74CA6"/>
+</letters>

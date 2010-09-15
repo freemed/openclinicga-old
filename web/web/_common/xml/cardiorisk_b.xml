@@ -1,0 +1,434 @@
+<coronary>
+    <women smoker="no" age="0">
+        <risk chol="0" syst="0" value="0"/>
+        <risk chol="175" syst="0" value="0"/>
+        <risk chol="225" syst="0" value="0"/>
+        <risk chol="275" syst="0" value="0"/>
+        <risk chol="0" syst="130" value="0"/>
+        <risk chol="175" syst="130" value="0"/>
+        <risk chol="225" syst="130" value="0"/>
+        <risk chol="275" syst="130" value="0"/>
+        <risk chol="0" syst="150" value="0"/>
+        <risk chol="175" syst="150" value="0"/>
+        <risk chol="225" syst="150" value="0"/>
+        <risk chol="275" syst="150" value="0"/>
+        <risk chol="0" syst="170" value="0"/>
+        <risk chol="175" syst="170" value="0"/>
+        <risk chol="225" syst="170" value="1"/>
+        <risk chol="275" syst="170" value="1"/>
+    </women>
+    <women smoker="no" age="45">
+        <risk chol="0" syst="0" value="0"/>
+        <risk chol="175" syst="0" value="0"/>
+        <risk chol="225" syst="0" value="1"/>
+        <risk chol="275" syst="0" value="1"/>
+        <risk chol="0" syst="130" value="0"/>
+        <risk chol="175" syst="130" value="1"/>
+        <risk chol="225" syst="130" value="1"/>
+        <risk chol="275" syst="130" value="1"/>
+        <risk chol="0" syst="150" value="1"/>
+        <risk chol="175" syst="150" value="1"/>
+        <risk chol="225" syst="150" value="1"/>
+        <risk chol="275" syst="150" value="1"/>
+        <risk chol="0" syst="170" value="1"/>
+        <risk chol="175" syst="170" value="1"/>
+        <risk chol="225" syst="170" value="2"/>
+        <risk chol="275" syst="170" value="2"/>
+    </women>
+    <women smoker="no" age="53">
+        <risk chol="0" syst="0" value="1"/>
+        <risk chol="175" syst="0" value="1"/>
+        <risk chol="225" syst="0" value="1"/>
+        <risk chol="275" syst="0" value="1"/>
+        <risk chol="0" syst="130" value="1"/>
+        <risk chol="175" syst="130" value="1"/>
+        <risk chol="225" syst="130" value="1"/>
+        <risk chol="275" syst="130" value="2"/>
+        <risk chol="0" syst="150" value="1"/>
+        <risk chol="175" syst="150" value="1"/>
+        <risk chol="225" syst="150" value="2"/>
+        <risk chol="275" syst="150" value="2"/>
+        <risk chol="0" syst="170" value="2"/>
+        <risk chol="175" syst="170" value="2"/>
+        <risk chol="225" syst="170" value="3"/>
+        <risk chol="275" syst="170" value="3"/>
+    </women>
+    <women smoker="no" age="58">
+        <risk chol="0" syst="0" value="1"/>
+        <risk chol="175" syst="0" value="1"/>
+        <risk chol="225" syst="0" value="1"/>
+        <risk chol="275" syst="0" value="2"/>
+        <risk chol="0" syst="130" value="1"/>
+        <risk chol="175" syst="130" value="2"/>
+        <risk chol="225" syst="130" value="2"/>
+        <risk chol="275" syst="130" value="3"/>
+        <risk chol="0" syst="150" value="2"/>
+        <risk chol="175" syst="150" value="2"/>
+        <risk chol="225" syst="150" value="3"/>
+        <risk chol="275" syst="150" value="4"/>
+        <risk chol="0" syst="170" value="3"/>
+        <risk chol="175" syst="170" value="4"/>
+        <risk chol="225" syst="170" value="4"/>
+        <risk chol="275" syst="170" value="6"/>
+    </women>
+    <women smoker="no" age="63">
+        <risk chol="0" syst="0" value="2"/>
+        <risk chol="175" syst="0" value="2"/>
+        <risk chol="225" syst="0" value="3"/>
+        <risk chol="275" syst="0" value="3"/>
+        <risk chol="0" syst="130" value="2"/>
+        <risk chol="175" syst="130" value="3"/>
+        <risk chol="225" syst="130" value="4"/>
+        <risk chol="275" syst="130" value="5"/>
+        <risk chol="0" syst="150" value="3"/>
+        <risk chol="175" syst="150" value="4"/>
+        <risk chol="225" syst="150" value="5"/>
+        <risk chol="275" syst="150" value="7"/>
+        <risk chol="0" syst="170" value="5"/>
+        <risk chol="175" syst="170" value="6"/>
+        <risk chol="225" syst="170" value="8"/>
+        <risk chol="275" syst="170" value="9"/>
+    </women>
+    <women smoker="no" age="68">
+        <risk chol="0" syst="0" value="3"/>
+        <risk chol="175" syst="0" value="3"/>
+        <risk chol="225" syst="0" value="4"/>
+        <risk chol="275" syst="0" value="5"/>
+        <risk chol="0" syst="130" value="4"/>
+        <risk chol="175" syst="130" value="5"/>
+        <risk chol="225" syst="130" value="6"/>
+        <risk chol="275" syst="130" value="8"/>
+        <risk chol="0" syst="150" value="6"/>
+        <risk chol="175" syst="150" value="7"/>
+        <risk chol="225" syst="150" value="9"/>
+        <risk chol="275" syst="150" value="11"/>
+        <risk chol="0" syst="170" value="8"/>
+        <risk chol="175" syst="170" value="10"/>
+        <risk chol="225" syst="170" value="13"/>
+        <risk chol="275" syst="170" value="16"/>
+    </women>
+    <women smoker="yes" age="0">
+        <risk chol="0" syst="0" value="0"/>
+        <risk chol="175" syst="0" value="0"/>
+        <risk chol="225" syst="0" value="0"/>
+        <risk chol="275" syst="0" value="0"/>
+        <risk chol="0" syst="130" value="0"/>
+        <risk chol="175" syst="130" value="0"/>
+        <risk chol="225" syst="130" value="1"/>
+        <risk chol="275" syst="130" value="1"/>
+        <risk chol="0" syst="150" value="1"/>
+        <risk chol="175" syst="150" value="1"/>
+        <risk chol="225" syst="150" value="1"/>
+        <risk chol="275" syst="150" value="1"/>
+        <risk chol="0" syst="170" value="1"/>
+        <risk chol="175" syst="170" value="1"/>
+        <risk chol="225" syst="170" value="1"/>
+        <risk chol="275" syst="170" value="1"/>
+    </women>
+    <women smoker="yes" age="45">
+        <risk chol="0" syst="0" value="1"/>
+        <risk chol="175" syst="0" value="1"/>
+        <risk chol="225" syst="0" value="1"/>
+        <risk chol="275" syst="0" value="1"/>
+        <risk chol="0" syst="130" value="1"/>
+        <risk chol="175" syst="130" value="1"/>
+        <risk chol="225" syst="130" value="2"/>
+        <risk chol="275" syst="130" value="2"/>
+        <risk chol="0" syst="150" value="1"/>
+        <risk chol="175" syst="150" value="2"/>
+        <risk chol="225" syst="150" value="2"/>
+        <risk chol="275" syst="150" value="3"/>
+        <risk chol="0" syst="170" value="2"/>
+        <risk chol="175" syst="170" value="2"/>
+        <risk chol="225" syst="170" value="3"/>
+        <risk chol="275" syst="170" value="4"/>
+    </women>
+    <women smoker="yes" age="53">
+        <risk chol="0" syst="0" value="1"/>
+        <risk chol="175" syst="0" value="1"/>
+        <risk chol="225" syst="0" value="2"/>
+        <risk chol="275" syst="0" value="2"/>
+        <risk chol="0" syst="130" value="2"/>
+        <risk chol="175" syst="130" value="2"/>
+        <risk chol="225" syst="130" value="3"/>
+        <risk chol="275" syst="130" value="3"/>
+        <risk chol="0" syst="150" value="2"/>
+        <risk chol="175" syst="150" value="3"/>
+        <risk chol="225" syst="150" value="4"/>
+        <risk chol="275" syst="150" value="5"/>
+        <risk chol="0" syst="170" value="3"/>
+        <risk chol="175" syst="170" value="4"/>
+        <risk chol="225" syst="170" value="5"/>
+        <risk chol="275" syst="170" value="7"/>
+    </women>
+    <women smoker="yes" age="58">
+        <risk chol="0" syst="0" value="2"/>
+        <risk chol="175" syst="0" value="2"/>
+        <risk chol="225" syst="0" value="3"/>
+        <risk chol="275" syst="0" value="4"/>
+        <risk chol="0" syst="130" value="3"/>
+        <risk chol="175" syst="130" value="3"/>
+        <risk chol="225" syst="130" value="4"/>
+        <risk chol="275" syst="130" value="5"/>
+        <risk chol="0" syst="150" value="4"/>
+        <risk chol="175" syst="150" value="5"/>
+        <risk chol="225" syst="150" value="6"/>
+        <risk chol="275" syst="150" value="8"/>
+        <risk chol="0" syst="170" value="6"/>
+        <risk chol="175" syst="170" value="7"/>
+        <risk chol="225" syst="170" value="9"/>
+        <risk chol="275" syst="170" value="11"/>
+    </women>
+    <women smoker="yes" age="63">
+        <risk chol="0" syst="0" value="3"/>
+        <risk chol="175" syst="0" value="4"/>
+        <risk chol="225" syst="0" value="5"/>
+        <risk chol="275" syst="0" value="6"/>
+        <risk chol="0" syst="130" value="5"/>
+        <risk chol="175" syst="130" value="6"/>
+        <risk chol="225" syst="130" value="7"/>
+        <risk chol="275" syst="130" value="9"/>
+        <risk chol="0" syst="150" value="7"/>
+        <risk chol="175" syst="150" value="8"/>
+        <risk chol="225" syst="150" value="10"/>
+        <risk chol="275" syst="150" value="13"/>
+        <risk chol="0" syst="170" value="10"/>
+        <risk chol="175" syst="170" value="12"/>
+        <risk chol="225" syst="170" value="15"/>
+        <risk chol="275" syst="170" value="18"/>
+    </women>
+    <women smoker="yes" age="68">
+        <risk chol="0" syst="0" value="6"/>
+        <risk chol="175" syst="0" value="7"/>
+        <risk chol="225" syst="0" value="9"/>
+        <risk chol="275" syst="0" value="11"/>
+        <risk chol="0" syst="130" value="8"/>
+        <risk chol="175" syst="130" value="10"/>
+        <risk chol="225" syst="130" value="13"/>
+        <risk chol="275" syst="130" value="15"/>
+        <risk chol="0" syst="150" value="12"/>
+        <risk chol="175" syst="150" value="14"/>
+        <risk chol="225" syst="150" value="18"/>
+        <risk chol="275" syst="150" value="22"/>
+        <risk chol="0" syst="170" value="16"/>
+        <risk chol="175" syst="170" value="20"/>
+        <risk chol="225" syst="170" value="24"/>
+        <risk chol="275" syst="170" value="30"/>
+    </women>
+    <men smoker="no" age="0">
+        <risk chol="0" syst="0" value="0"/>
+        <risk chol="175" syst="0" value="0"/>
+        <risk chol="225" syst="0" value="0"/>
+        <risk chol="275" syst="0" value="1"/>
+        <risk chol="0" syst="130" value="0"/>
+        <risk chol="175" syst="130" value="1"/>
+        <risk chol="225" syst="130" value="1"/>
+        <risk chol="275" syst="130" value="1"/>
+        <risk chol="0" syst="150" value="1"/>
+        <risk chol="175" syst="150" value="1"/>
+        <risk chol="225" syst="150" value="1"/>
+        <risk chol="275" syst="150" value="1"/>
+        <risk chol="0" syst="170" value="1"/>
+        <risk chol="175" syst="170" value="1"/>
+        <risk chol="225" syst="170" value="1"/>
+        <risk chol="275" syst="170" value="2"/>
+    </men>
+    <men smoker="no" age="45">
+        <risk chol="0" syst="0" value="1"/>
+        <risk chol="175" syst="0" value="1"/>
+        <risk chol="225" syst="0" value="1"/>
+        <risk chol="275" syst="0" value="2"/>
+        <risk chol="0" syst="130" value="1"/>
+        <risk chol="175" syst="130" value="1"/>
+        <risk chol="225" syst="130" value="2"/>
+        <risk chol="275" syst="130" value="2"/>
+        <risk chol="0" syst="150" value="2"/>
+        <risk chol="175" syst="150" value="2"/>
+        <risk chol="225" syst="150" value="3"/>
+        <risk chol="275" syst="150" value="3"/>
+        <risk chol="0" syst="170" value="2"/>
+        <risk chol="175" syst="170" value="3"/>
+        <risk chol="225" syst="170" value="4"/>
+        <risk chol="275" syst="170" value="5"/>
+    </men>
+    <men smoker="no" age="53">
+        <risk chol="0" syst="0" value="1"/>
+        <risk chol="175" syst="0" value="2"/>
+        <risk chol="225" syst="0" value="2"/>
+        <risk chol="275" syst="0" value="3"/>
+        <risk chol="0" syst="130" value="2"/>
+        <risk chol="175" syst="130" value="2"/>
+        <risk chol="225" syst="130" value="3"/>
+        <risk chol="275" syst="130" value="4"/>
+        <risk chol="0" syst="150" value="3"/>
+        <risk chol="175" syst="150" value="3"/>
+        <risk chol="225" syst="150" value="4"/>
+        <risk chol="275" syst="150" value="5"/>
+        <risk chol="0" syst="170" value="4"/>
+        <risk chol="175" syst="170" value="5"/>
+        <risk chol="225" syst="170" value="6"/>
+        <risk chol="275" syst="170" value="8"/>
+    </men>
+    <men smoker="no" age="58">
+        <risk chol="0" syst="0" value="2"/>
+        <risk chol="175" syst="0" value="3"/>
+        <risk chol="225" syst="0" value="3"/>
+        <risk chol="275" syst="0" value="4"/>
+        <risk chol="0" syst="130" value="3"/>
+        <risk chol="175" syst="130" value="4"/>
+        <risk chol="225" syst="130" value="5"/>
+        <risk chol="275" syst="130" value="6"/>
+        <risk chol="0" syst="150" value="4"/>
+        <risk chol="175" syst="150" value="5"/>
+        <risk chol="225" syst="150" value="7"/>
+        <risk chol="275" syst="150" value="8"/>
+        <risk chol="0" syst="170" value="6"/>
+        <risk chol="175" syst="170" value="8"/>
+        <risk chol="225" syst="170" value="10"/>
+        <risk chol="275" syst="170" value="12"/>
+    </men>
+    <men smoker="no" age="63">
+        <risk chol="0" syst="0" value="3"/>
+        <risk chol="175" syst="0" value="4"/>
+        <risk chol="225" syst="0" value="5"/>
+        <risk chol="275" syst="0" value="6"/>
+        <risk chol="0" syst="130" value="5"/>
+        <risk chol="175" syst="130" value="6"/>
+        <risk chol="225" syst="130" value="7"/>
+        <risk chol="275" syst="130" value="9"/>
+        <risk chol="0" syst="150" value="7"/>
+        <risk chol="175" syst="150" value="8"/>
+        <risk chol="225" syst="150" value="11"/>
+        <risk chol="275" syst="150" value="13"/>
+        <risk chol="0" syst="170" value="10"/>
+        <risk chol="175" syst="170" value="12"/>
+        <risk chol="225" syst="170" value="15"/>
+        <risk chol="275" syst="170" value="18"/>
+    </men>
+    <men smoker="no" age="68">
+        <risk chol="0" syst="0" value="5"/>
+        <risk chol="175" syst="0" value="6"/>
+        <risk chol="225" syst="0" value="8"/>
+        <risk chol="275" syst="0" value="10"/>
+        <risk chol="0" syst="130" value="7"/>
+        <risk chol="175" syst="130" value="9"/>
+        <risk chol="225" syst="130" value="11"/>
+        <risk chol="275" syst="130" value="14"/>
+        <risk chol="0" syst="150" value="10"/>
+        <risk chol="175" syst="150" value="13"/>
+        <risk chol="225" syst="150" value="16"/>
+        <risk chol="275" syst="150" value="20"/>
+        <risk chol="0" syst="170" value="15"/>
+        <risk chol="175" syst="170" value="18"/>
+        <risk chol="225" syst="170" value="22"/>
+        <risk chol="275" syst="170" value="27"/>
+    </men>
+    <men smoker="yes" age="0">
+        <risk chol="0" syst="0" value="1"/>
+        <risk chol="175" syst="0" value="1"/>
+        <risk chol="225" syst="0" value="1"/>
+        <risk chol="275" syst="0" value="1"/>
+        <risk chol="0" syst="130" value="1"/>
+        <risk chol="175" syst="130" value="1"/>
+        <risk chol="225" syst="130" value="1"/>
+        <risk chol="275" syst="130" value="2"/>
+        <risk chol="0" syst="150" value="1"/>
+        <risk chol="175" syst="150" value="2"/>
+        <risk chol="225" syst="150" value="2"/>
+        <risk chol="275" syst="150" value="2"/>
+        <risk chol="0" syst="170" value="2"/>
+        <risk chol="175" syst="170" value="2"/>
+        <risk chol="225" syst="170" value="3"/>
+        <risk chol="275" syst="170" value="4"/>
+    </men>
+    <men smoker="yes" age="45">
+        <risk chol="0" syst="0" value="2"/>
+        <risk chol="175" syst="0" value="2"/>
+        <risk chol="225" syst="0" value="2"/>
+        <risk chol="275" syst="0" value="3"/>
+        <risk chol="0" syst="130" value="2"/>
+        <risk chol="175" syst="130" value="3"/>
+        <risk chol="225" syst="130" value="4"/>
+        <risk chol="275" syst="130" value="5"/>
+        <risk chol="0" syst="150" value="3"/>
+        <risk chol="175" syst="150" value="4"/>
+        <risk chol="225" syst="150" value="5"/>
+        <risk chol="275" syst="150" value="7"/>
+        <risk chol="0" syst="170" value="5"/>
+        <risk chol="175" syst="170" value="6"/>
+        <risk chol="225" syst="170" value="8"/>
+        <risk chol="275" syst="170" value="10"/>
+    </men>
+    <men smoker="yes" age="53">
+        <risk chol="0" syst="0" value="3"/>
+        <risk chol="175" syst="0" value="3"/>
+        <risk chol="225" syst="0" value="4"/>
+        <risk chol="275" syst="0" value="5"/>
+        <risk chol="0" syst="130" value="4"/>
+        <risk chol="175" syst="130" value="5"/>
+        <risk chol="225" syst="130" value="6"/>
+        <risk chol="275" syst="130" value="8"/>
+        <risk chol="0" syst="150" value="6"/>
+        <risk chol="175" syst="150" value="7"/>
+        <risk chol="225" syst="150" value="9"/>
+        <risk chol="275" syst="150" value="11"/>
+        <risk chol="0" syst="170" value="8"/>
+        <risk chol="175" syst="170" value="10"/>
+        <risk chol="225" syst="170" value="12"/>
+        <risk chol="275" syst="170" value="15"/>
+    </men>
+    <men smoker="yes" age="58">
+        <risk chol="0" syst="0" value="4"/>
+        <risk chol="175" syst="0" value="5"/>
+        <risk chol="225" syst="0" value="7"/>
+        <risk chol="275" syst="0" value="8"/>
+        <risk chol="0" syst="130" value="6"/>
+        <risk chol="175" syst="130" value="8"/>
+        <risk chol="225" syst="130" value="9"/>
+        <risk chol="275" syst="130" value="12"/>
+        <risk chol="0" syst="150" value="9"/>
+        <risk chol="175" syst="150" value="11"/>
+        <risk chol="225" syst="150" value="13"/>
+        <risk chol="275" syst="150" value="17"/>
+        <risk chol="0" syst="170" value="12"/>
+        <risk chol="175" syst="170" value="15"/>
+        <risk chol="225" syst="170" value="19"/>
+        <risk chol="275" syst="170" value="23"/>
+    </men>
+    <men smoker="yes" age="63">
+        <risk chol="0" syst="0" value="7"/>
+        <risk chol="175" syst="0" value="8"/>
+        <risk chol="225" syst="0" value="10"/>
+        <risk chol="275" syst="0" value="13"/>
+        <risk chol="0" syst="130" value="9"/>
+        <risk chol="175" syst="130" value="12"/>
+        <risk chol="225" syst="130" value="15"/>
+        <risk chol="275" syst="130" value="18"/>
+        <risk chol="0" syst="150" value="13"/>
+        <risk chol="175" syst="150" value="17"/>
+        <risk chol="225" syst="150" value="20"/>
+        <risk chol="275" syst="150" value="25"/>
+        <risk chol="0" syst="170" value="19"/>
+        <risk chol="175" syst="170" value="23"/>
+        <risk chol="225" syst="170" value="28"/>
+        <risk chol="275" syst="170" value="34"/>
+    </men>
+    <men smoker="yes" age="68">
+        <risk chol="0" syst="0" value="10"/>
+        <risk chol="175" syst="0" value="13"/>
+        <risk chol="225" syst="0" value="16"/>
+        <risk chol="275" syst="0" value="19"/>
+        <risk chol="0" syst="130" value="15"/>
+        <risk chol="175" syst="130" value="18"/>
+        <risk chol="225" syst="130" value="22"/>
+        <risk chol="275" syst="130" value="27"/>
+        <risk chol="0" syst="150" value="20"/>
+        <risk chol="175" syst="150" value="25"/>
+        <risk chol="225" syst="150" value="30"/>
+        <risk chol="275" syst="150" value="36"/>
+        <risk chol="0" syst="170" value="28"/>
+        <risk chol="175" syst="170" value="34"/>
+        <risk chol="225" syst="170" value="41"/>
+        <risk chol="275" syst="170" value="48"/>
+    </men>
+</coronary>

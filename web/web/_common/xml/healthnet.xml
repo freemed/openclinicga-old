@@ -1,0 +1,13 @@
+<healthnet>
+    <client id="hn.fve"/>
+    <server host="netserver.chuk.hnrw.org" user="hn.fve" password="hn.fve" port="21"/>
+    <storage directory="c:/hn/messages"/>
+    <integrator directory="c:/hn/received">
+        <class id="ENCOUNTER" name="org.hnrw.chin.integrators.EncounterIntegrator"/>
+        <class id="BEDINVENTORY" name="org.hnrw.chin.integrators.BedInventoryIntegrator"/>
+    </integrator>
+    <extractor>
+        <class id="ENCOUNTER" name="org.hnrw.chin.extractors.EncounterExtractor"/>
+        <class id="BEDINVENTORY" name="org.hnrw.chin.extractors.BedInventoryExtractor"/>
+    </extractor>
+</healthnet>

@@ -1,0 +1,11 @@
+<diagnoses>
+    <diagnosis codetype="icpc" code="B90"/>
+    <diagnosis codetype="icd10" code="B20"/>
+    <diagnosis codetype="icd10" code="B21"/>
+    <diagnosis codetype="icd10" code="B22"/>
+    <diagnosis codetype="icd10" code="B23"/>
+    <diagnosis codetype="icd10" code="B24"/>
+    <diagnosis codetype="icd10" code="F02.4"/>
+    <diagnosis codetype="icd10" code="R75"/>
+    <diagnosis codetype="icd10" code="Z21"/>
+</diagnoses>

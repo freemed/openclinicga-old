@@ -1,0 +1,46 @@
+<counters>
+    <counter name="OC_PRESCRIPTIONS" table="OC_PRESCRIPTIONS" field="OC_PRESCR_OBJECTID" bd='openclinic'/>
+    <counter name="OC_BEDS" table="OC_BEDS" field="OC_BED_OBJECTID" bd='openclinic'/>
+    <counter name="OC_ENCOUNTERS" table="OC_ENCOUNTERS" field="OC_ENCOUNTER_OBJECTID" bd='openclinic'/>
+    <counter name="OC_BALANCES" table="OC_BALANCES" field="OC_BALANCE_OBJECTID" bd='openclinic'/>
+    <counter name="OC_CREDITS" table="OC_CREDITS" field="OC_CREDIT_OBJECTID" bd='openclinic'/>
+    <counter name="OC_DEBETS" table="OC_DEBETS" field="OC_DEBET_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PRODUCTS" table="OC_PRODUCTS" field="OC_PRODUCT_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PRESTATIONS" table="OC_PRESTATIONS" field="OC_PRESTATION_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PRESTATIONGROUPS" table="OC_PRESTATIONGRPS" field="OC_PRESTATIONGRP_OBJECTID" bd='openclinic'/>
+    <counter name="OC_SERVICESTOCKS" table="OC_SERVICESTOCKS" field="OC_STOCK_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PRODUCTSTOCKS" table="OC_PRODUCTSTOCKS" field="OC_STOCK_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PRODUCTSTOCKOPERATIONS" table="OC_PRODUCTSTOCKOPERATIONS" field="OC_OPERATION_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PRODUCTORDERS" table="OC_PRODUCTORDERS" field="OC_ORDER_OBJECTID" bd='openclinic'/>
+    <counter name="OC_DIAGNOSES" table="OC_DIAGNOSES" field="OC_DIAGNOSIS_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PLANNING" table="OC_PLANNING" field="OC_PLANNING_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PROBLEMS" table="OC_PROBLEMS" field="OC_PROBLEM_OBJECTID" bd='openclinic'/>
+    <counter name="OC_CHRONICMEDICATIONS" table="OC_CHRONICMEDICATIONS" field="OC_CHRONICMED_OBJECTID" bd='openclinic'/>
+    <counter name="OC_WICKETS" table="OC_WICKETS" field="OC_WICKET_OBJECTID" bd='openclinic'/>
+    <counter name="OC_INSURANCES" table="OC_INSURANCES" field="OC_INSURANCE_OBJECTID" bd='openclinic'/>
+    <counter name="OC_WICKET_CREDITS" table="OC_WICKET_CREDITS" field="OC_WICKET_CREDIT_OBJECTID" bd='openclinic'/>
+    <counter name="OC_CAREPRESCRIPTIONS" table="OC_CAREPRESCRIPTIONS" field="OC_CAREPRESCR_OBJECTID" bd='openclinic'/>
+    <counter name="OC_ANESTHESIE_CONTROLS" table="OC_ANESTHESIE_CONTROLS" field="OC_AC_OBJECTID" bd='openclinic'/>
+    <counter name="OC_REFERENCE" table="OC_REFERENCES" field="OC_REFERENCE_OBJECTID" bd='openclinic'/>
+    <counter name="Errors" table="Errors" field="errorId" bd='openclinic'/>
+    <counter name="OC_WICKET_DEBETS" table="OC_WICKET_DEBETS" field="OC_WICKET_DEBET_OBJECTID" bd='openclinic'/>
+    <counter name="OC_TERMINOLOGIES" table="OC_TERMINOLOGIES" field="OC_TERMINOLOGY_OBJECTID" bd='openclinic'/>
+    <counter name="SchemaID" table="OC_PRODUCT_SCHEMA" field="OC_SCHEMA_OBJECTID" bd='openclinic'/>
+    <counter name="DocumentID" table="Documents" field="id" bd='openclinic'/>
+    <counter name="ExaminationID" table="Examinations" field="id" bd='openclinic'/>
+    <counter name="LabProfileID" table="LabProfiles" field="profileID" bd='openclinic'/>
+    <counter name="LabAnalysisID" table="LabAnalysis" field="labID" bd='openclinic'/>
+    <counter name="HealthRecordID" table="Healthrecord" field="healthRecordId" bd='openclinic'/>
+    <counter name="TransactionID" table="Transactions" field="transactionId" bd='openclinic'/>
+    <counter name="ItemID" table="Items" field="itemId" bd='openclinic'/>
+    <counter name="LabID" table="LabAnalysis" field="labID" bd='openclinic'/>
+    <counter name="InsurarId" table="OC_INSURARS" field="OC_INSURAR_OBJECTID" bd='openclinic'/>
+    <counter name="InsuranceCategoryId" table="OC_INSURANCECATEGORIES" field="OC_INSURANCECATEGORY_OBJECTID" bd='openclinic'/>
+    <counter name="OC_INVOICES" table="OC_INVOICES_COUNTERVIEW" field="OC_INVOICE_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PAPERPRESCRIPTIONS" table="OC_PAPERPRESCRIPTIONS" field="OC_PP_OBJECTID" bd='openclinic'/>
+    <counter name="OC_INSURARCREDITS" table="OC_INSURARCREDITS" field="OC_INSURARCREDIT_OBJECTID" bd='openclinic'/>
+    <counter name="OC_INSURARINVOICES" table="OC_INSURARINVOICES" field="OC_INSURARINVOICE_OBJECTID" bd='openclinic'/>
+    <counter name="OC_RFE" table="OC_RFE" field="OC_RFE_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PATIENTCREDITS" table="OC_PATIENTCREDITS" field="OC_PATIENTCREDIT_OBJECTID" bd='openclinic'/>
+
+</counters>

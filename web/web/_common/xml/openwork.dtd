@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT model ((table | view | proc | exec)*)>
+<!ATTLIST model
+	name CDATA #REQUIRED
+	date CDATA #IMPLIED
+	version CDATA #IMPLIED
+>
+<!ELEMENT table (columns?, indexes?)>
+<!ATTLIST table
+	name CDATA #REQUIRED
+	db CDATA #REQUIRED
+	sync (MASTER | MASTEREXIST | MERGE | NONE) #REQUIRED
+	proc CDATA #IMPLIED
+	insql CDATA #IMPLIED
+	outsql CDATA #IMPLIED
+>
+<!ELEMENT columns (column*)>
+<!ELEMENT indexes (index*)>
+<!ELEMENT column EMPTY>
+<!ATTLIST column
+	name CDATA #REQUIRED
+	dbtype (int | float | char | varchar | text | image | bit | datetime | smalldatetime | timestamp) #REQUIRED
+	size CDATA #IMPLIED
+	javatype (integer | float | string | bytes | boolean | date | timestamp) #REQUIRED
+	primary (0 | 1) #IMPLIED
+	version (0 | 1) #IMPLIED
+	nulls (0 | 1) #IMPLIED
+	versioncompare CDATA #IMPLIED
+>
+<!ELEMENT index (indexcolumn*)>
+<!ATTLIST index
+	name CDATA #REQUIRED
+	unique (0 | 1) #IMPLIED
+>
+<!ELEMENT indexcolumn EMPTY>
+<!ATTLIST indexcolumn
+	name CDATA #REQUIRED
+	order (DESC | ASC) #REQUIRED
+>
+<!ELEMENT view (sql+)>
+<!ATTLIST view
+	name CDATA #REQUIRED
+	db CDATA #REQUIRED
+	drop (0 | 1) #IMPLIED
+>
+<!ELEMENT sql (#PCDATA)>
+<!ATTLIST sql
+    db CDATA #IMPLIED
+>
+<!ELEMENT proc (sql+)>
+<!ATTLIST proc
+	name CDATA #REQUIRED
+	db CDATA #REQUIRED
+	drop (0 | 1) #IMPLIED
+>
+<!ELEMENT exec (sql+)>
+<!ATTLIST exec
+	db CDATA #REQUIRED
+    id CDATA #REQUIRED
+>
+

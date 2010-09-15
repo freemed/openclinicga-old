@@ -1,0 +1,30 @@
+<rfe>
+    <flags>
+        <!--Malaria-->
+        <flag codetype="icd10" start="B50" end="B64.9" flag="CDE"/>
+        <!--Diahrrée-->
+        <flag codetype="icpc" start="D1100" end="D1199" flag="BR"/>
+        <!--Tuberculose-->
+        <flag codetype="icpc" start="A7000" end="A7099" flag="C"/>
+        <flag codetype="icd10" start="A15" end="A19.9" flag="C"/>
+        <flag codetype="icd10" start="B90" end="B90.9" flag="C"/>
+        <flag codetype="icd10" start="J65" end="J65" flag="C"/>
+        <flag codetype="icd10" start="M01.1" end="M01.1" flag="C"/>
+        <flag codetype="icd10" start="M49.0" end="M49.0" flag="C"/>
+        <flag codetype="icd10" start="M90.0" end="M90.0" flag="C"/>
+        <flag codetype="icd10" start="O98.0" end="O98.0" flag="C"/>
+        <flag codetype="icd10" start="P37.0" end="P37.0" flag="C"/>
+        <!--Syphillis-->
+        <flag codetype="icpc" start="X7000" end="X7000" flag="C"/>
+        <flag codetype="icpc" start="Y7000" end="Y7000" flag="C"/>
+        <flag codetype="icd10" start="A50" end="A53.9" flag="C"/>
+        <flag codetype="icd10" start="A65" end="A65" flag="C"/>
+        <!--Fièvre-->
+        <flag codetype="icpc" start="A0300" end="A0399" flag="R"/>
+        <!--Céphalées-->
+        <flag codetype="icpc" start="N0100" end="N0199" flag="R"/>
+        <!--Rougeole-->
+        <flag codetype="icpc" start="A7100" end="A7199" flag="V"/>
+        <flag codetype="icd10" start="B05" end="B05.9" flag="V"/>
+    </flags>
+</rfe>

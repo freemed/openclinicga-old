@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Queries>
+	<Query id="QUERY.AgeGenderControl.1" db="openclinic" date="07/02/2010">
+    	alter table agegendercontrol modify frequency numeric(15,5), modify tolerance numeric(15,5), modify minAge numeric(15,5), modify maxAge numeric(15,5);
+  	</Query>
+	<Query id="QUERY.OcPrestations.1" db="openclinic" date="04/05/2010">
+    	alter table OC_PRESTATIONS add OC_PRESTATION_INVOICEGROUP varchar(50) null;
+  	</Query>
+	<Query id="QUERY.OcPrestations.2" db="openclinic" date="04/05/2010">
+    	update OC_PRESTATIONS set OC_PRESTATION_INVOICEGROUP=OC_PRESTATION_REFTYPE where OC_PRESTATION_INVOICEGROUP is null and OC_PRESTATION_REFTYPE is not null;
+  	</Query>
+	<Query id="QUERY.OcInsurarCredits.1" db="openclinic" date="24/06/2010">
+		alter table oc_insurarcredits modify column oc_insurarcredit_invoiceuid varchar(20); 	
+  	</Query>
+</Queries>

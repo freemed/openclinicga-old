@@ -1,0 +1,201 @@
+/* jours pour Netscape */
+.NSday
+{
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	bold;
+	font-size:	12px;
+	color:		#0000cc;
+	text-decoration: none;
+}
+/* tableau des jours */
+.Gtab
+{
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	normal;
+	font-size:	12px;
+	text-decoration: none;
+	border-bottom:	solid 1px #505050;
+	border-right:	solid 1px #505050;
+	width:		180px;
+}
+/* champs texte */
+.Gname
+{
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	bold;
+	font-size:	12px;
+	color:		#ffffff;
+	text-decoration: none;
+	cursor:		pointer;
+}
+
+/* champs texte */
+.Gtxt
+{
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	normal;
+	font-size:	12px;
+	color:		#6c628a;
+	text-decoration: none;
+	margin-left:	0px;
+}
+.monthselect{
+    width:118px;
+}
+.yearselect{
+    width:60px;
+}
+/* en-tete semaine */
+.Gh1, .Gh2, .Gh3, .Gh4, .Gh5
+{
+	width: 		20px;
+	height: 	16px;
+	font-size:	12px;
+	background:	white;
+	border:		solid 1px #949fc7;
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	bold;
+	color:		#505050;
+	text-align:	center;
+	line-height:	16px;
+}
+.Gh0, .Gh6
+{
+	width: 		20px;
+	font-size:	12px;
+	height: 	16px;
+	border:		solid 1px #b7a9c7;
+	background:	white;
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	bold;
+	color:		#505050;
+	text-align:	center;
+	line-height:	16px;
+}
+.Gfree
+{
+	width: 		20px;
+	height: 	16px;
+	background:	white;
+	border:		solid 1px #ffffff;
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	normal;
+	padding:	0px;
+	margin:		0px;
+	color:	 #505050;
+	text-align:	center;
+	cursor: 	pointer;
+	line-height:	16px;
+}
+.Gfreeon
+{
+	width: 		20px;
+	height: 	16px;
+	background:	white;
+	border:		solid 1px #000000;
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	normal;
+	padding:	0px;
+	margin:		0px;
+	color:		#000000;
+	text-align:	center;
+	cursor: 	pointer;
+	line-height:	16px;
+}
+.Gc1, .Gc2, .Gc3, .Gc4, .Gc5
+{
+	width: 		20px;
+	height: 	16px;
+	background:	white;
+	border:		solid 1px #949fc7;
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	normal;
+	padding:	0px;
+	margin:		0px;
+	color:		#000000;
+	text-align:	center;
+	cursor: 	default;
+	line-height:	16px;
+    font-size:13px;
+}
+.Gc1on, .Gc2on, .Gc3on, .Gc4on, .Gc5on
+{
+	width: 		20px;
+	height: 	16px;
+	background:	#C3D9FF;
+	border:		solid 1px #ffffff;
+	font-family: 	Arial,Helvetica,sans-serif;
+	font-weight: 	normal;
+	padding:	0px;
+	margin:		0px;
+	color:		black;
+	text-align:	center;
+	cursor: 	pointer;
+	line-height:	16px;
+     font-size:13px;
+}
+.Gc0, .Gc6
+{
+	width: 		20px;
+	height: 	16px;
+	border:		solid 1px #b7a9c7;
+	background:	white;
+	font-family: 	Arial, Helvetica, sans-serif;
+	font-weight: 	normal;
+	padding:	0px;
+	margin:		0px;
+	color:		#505050;
+	text-align:	center;
+	cursor: 	default;
+	line-height:	16px;
+     font-size:13px;
+}
+.Gc0on, .Gc6on
+{
+	width: 		20px;
+	height: 	16px;
+	border:		solid 1px #ffffff;
+	background:	#C3D9FF;
+	font-family: 	Arial, Helvetica, sans-serif;
+	font-weight: 	normal;
+	padding:	0px;
+	margin:		0px;
+	color:		black;
+	text-align:	center;
+	cursor: 	pointer;
+	line-height:	16px;
+     font-size:13px;
+}
+.Gc
+{
+	width: 		20px;
+	height: 	16px;
+	border:		solid 1px #ffffff;
+	background:	#4975A7;
+	font-family: 	Arial, Helvetica, sans-serif;
+	font-weight: 	normal;
+	padding:	0px;
+	margin:		0px;
+	color:		white;
+    font-weight:bold;
+    text-align:	center;
+	cursor: 	default;
+	line-height:	16px;
+     font-size:13px;
+}
+.Gcon
+{
+	width: 		20px;
+	height: 	16px;
+	border:		solid 1px orange;
+	background:	#C3D9FF;
+	font-family: 	Arial, Helvetica, sans-serif;
+	font-weight: 	normal;
+	padding:	0px;
+	margin:		0px;
+	color:		white;
+	text-align:	center;
+	cursor: 	pointer;
+	line-height:	16px;
+     font-size:13px;
+}

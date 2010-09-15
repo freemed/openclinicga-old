@@ -1,0 +1,19 @@
+ /* Opera HACK */
+@media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0)
+{
+button.button{
+    margin-top:0px;
+
+    padding-top:3px;
+}
+ input.button{
+   padding-top:2px;  
+ }
+ select{
+   border: 1px #6CA0D9 solid;
+    border-right: 1px solid #DDEDFF;
+    border-bottom: 1px solid #DDEDFF;
+     background:white;
+
+ }
+}

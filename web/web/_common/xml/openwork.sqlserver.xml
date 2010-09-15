@@ -1,0 +1,1597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Frank Verbeke (Post Factum bvba) -->
+<!DOCTYPE model SYSTEM "openwork.dtd">
+<model name="OpenWork" date="08/10/2004" version="1.0">
+	<!-- Definitions of admin database -->
+	<table name="AccessCodes" db="admin" sync="NONE">
+		<columns>
+			<column name="documentid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="accesscode" dbtype="varchar" javatype="string" size="255" primary="1"/>
+		</columns>
+	</table>
+	<table name="AccessLogs" db="admin" sync="NONE">
+		<columns>
+			<column name="userid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="accesstime" dbtype="datetime" javatype="date" primary="1"/>
+		</columns>
+	</table>
+	<table name="AccessRights" db="admin" sync="MASTER">
+		<columns>
+			<column name="userid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="accessright" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="accessrights_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Admin" db="admin" sync="MASTER">
+		<columns>
+			<column name="personid" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="natreg" dbtype="varchar" javatype="string" size="11"/>
+			<column name="immatold" dbtype="varchar" javatype="string" size="25"/>
+			<column name="immatnew" dbtype="varchar" javatype="string" size="25"/>
+			<column name="candidate" dbtype="varchar" javatype="string" size="25"/>
+			<column name="lastname" dbtype="varchar" javatype="string" size="100" nulls="0"/>
+			<column name="firstname" dbtype="varchar" javatype="string" size="100"/>
+			<column name="gender" dbtype="char" javatype="string" size="1"/>
+			<column name="dateofbirth" dbtype="smalldatetime" javatype="date"/>
+			<column name="comment" dbtype="varchar" javatype="string" size="255"/>
+			<column name="sourceid" dbtype="char" javatype="string" size="1"/>
+			<column name="language" dbtype="char" javatype="string" size="1"/>
+			<column name="engagement" dbtype="datetime" javatype="date"/>
+			<column name="pension" dbtype="datetime" javatype="date"/>
+			<column name="statute" dbtype="char" javatype="string" size="1"/>
+			<column name="claimant" dbtype="char" javatype="string" size="1"/>
+			<column name="searchname" dbtype="varchar" javatype="string" size="100"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="claimant_expiration" dbtype="datetime" javatype="date"/>
+			<column name="native_town" dbtype="varchar" javatype="string" size="100"/>
+			<column name="motive_end_of_service" dbtype="char" javatype="string" size="3"/>
+			<column name="startdate_inactivity" dbtype="datetime" javatype="date"/>
+			<column name="enddate_inactivity" dbtype="datetime" javatype="date"/>
+			<column name="code_inactivity" dbtype="char" javatype="string" size="3"/>
+			<column name="update_status" dbtype="char" javatype="string" size="1"/>
+			<column name="person_type" dbtype="char" javatype="string" size="1"/>
+			<column name="situation_end_of_service" dbtype="char" javatype="string" size="1"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+			<column name="comment1" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment2" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment3" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment4" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment5" dbtype="varchar" javatype="string" size="100"/>
+			<column name="native_country" dbtype="varchar" javatype="string" size="100"/>
+		</columns>
+		<indexes>
+			<index name="admin_personid">
+				<indexcolumn name="personid" order="ASC" unique="1"/>
+			</index>
+			<index name="admin_natreg">
+				<indexcolumn name="natreg" order="ASC"/>
+			</index>
+			<index name="admin_immatold">
+				<indexcolumn name="immatold" order="ASC"/>
+			</index>
+			<index name="admin_immatnew">
+				<indexcolumn name="immatnew" order="ASC"/>
+			</index>
+			<index name="admin_searchname">
+				<indexcolumn name="searchname" order="ASC"/>
+			</index>
+			<index name="admin_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="AdminFunctions" db="admin" sync="MASTER">
+		<columns>
+			<column name="workid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="functionid" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="functiontype" dbtype="char" javatype="string" size="1"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="adminfunctions_workid">
+				<indexcolumn name="workid" order="ASC"/>
+			</index>
+			<index name="adminfunctions_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="AdminPrivate" db="admin" sync="MASTER">
+		<columns>
+			<column name="privateid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="personid" dbtype="int" javatype="integer"/>
+			<column name="start" dbtype="datetime" javatype="date"/>
+			<column name="stop" dbtype="datetime" javatype="date"/>
+			<column name="address" dbtype="varchar" javatype="string" size="255"/>
+			<column name="city" dbtype="varchar" javatype="string" size="100"/>
+			<column name="zipcode" dbtype="varchar" javatype="string" size="10"/>
+			<column name="country" dbtype="char" javatype="string" size="2"/>
+			<column name="telephone" dbtype="varchar" javatype="string" size="100"/>
+			<column name="fax" dbtype="varchar" javatype="string" size="100"/>
+			<column name="mobile" dbtype="varchar" javatype="string" size="100"/>
+			<column name="email" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment" dbtype="varchar" javatype="string" size="255"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="adminprivate_personid">
+				<indexcolumn name="personid" order="ASC"/>
+			</index>
+			<index name="adminprivate_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="AdminServices" db="admin" sync="MASTER">
+		<columns>
+			<column name="workid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="serviceid" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="servicetype" dbtype="char" javatype="string" size="1"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="adminservices_workid">
+				<indexcolumn name="workid" order="ASC"/>
+			</index>
+			<index name="adminservices_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="AlternateID" db="admin" sync="NONE">
+		<columns>
+			<column name="personid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="alternateid" dbtype="varchar" javatype="string" size="100" primary="1"/>
+		</columns>
+		<indexes>
+			<index name="alternateid_personid">
+				<indexcolumn name="personid" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Counters" db="admin" sync="NONE">
+		<columns>
+			<column name="name" dbtype="varchar" javatype="string" size="255"/>
+			<column name="counter" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name="counters_name">
+				<indexcolumn name="name" order="ASC"/>
+			</index>
+		</indexes>
+	</table>	
+	<table name="Groups" db="admin" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="groupType" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="groupName" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="linkId" dbtype="varchar" javatype="string" size="50" primary="1"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="groups_linkid">
+				<indexcolumn name="linkId" order="ASC"/>
+			</index>
+			<index name="groups_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Labels" db="admin" sync="MASTER">
+		<columns>
+			<column name="labeltype" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="labelid" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="labelnl" dbtype="varchar" javatype="string" size="255"/>
+			<column name="labelfr" dbtype="varchar" javatype="string" size="255"/>
+			<column name="labelen" dbtype="varchar" javatype="string" size="255"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="doNotShowLink" dbtype="bit" javatype="boolean" nulls="0"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name="labels_labeltype_id">
+				<indexcolumn name="labeltype" order="ASC"/>
+				<indexcolumn name="labelid" order="ASC"/>
+			</index>
+			<index name="labels_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>	
+	<table name="Services" db="admin" sync="MASTER">
+		<columns>
+			<column name="serviceid" dbtype="varchar" javatype="string" size="100" primary="1"/>
+			<column name="address" dbtype="varchar" javatype="string" size="100"/>
+			<column name="city" dbtype="varchar" javatype="string" size="100"/>
+			<column name="zipcode" dbtype="varchar" javatype="string" size="10"/>
+			<column name="country" dbtype="varchar" javatype="string" size="100"/>
+			<column name="telephone" dbtype="varchar" javatype="string" size="100"/>
+			<column name="fax" dbtype="varchar" javatype="string" size="100"/>
+			<column name="email" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment" dbtype="varchar" javatype="string" size="255"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="code1" dbtype="varchar" javatype="string" size="50"/>
+			<column name="code2" dbtype="varchar" javatype="string" size="50"/>
+			<column name="code3" dbtype="varchar" javatype="string" size="50"/>
+			<column name="code4" dbtype="varchar" javatype="string" size="50"/>
+			<column name="code5" dbtype="varchar" javatype="string" size="50"/>
+			<column name="serviceparentid" dbtype="varchar" javatype="string" size="255"/>
+			<column name="servicelanguage" dbtype="char" javatype="string" size="2"/>
+			<column name="serviceorder" dbtype="char" javatype="string" size="2"/>
+			<column name="inscode" dbtype="char" javatype="string" size="255"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name="services_serviceid">
+				<indexcolumn name="serviceid" order="ASC"/>
+			</index>
+			<index name="services_zipcode">
+				<indexcolumn name="zipcode" order="ASC"/>
+			</index>
+			<index name="services_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Support" db="admin" sync="NONE">
+		<columns>
+			<column name="supportID" dbtype="int" javatype="integer" primary="1"/>
+			<column name="supportName" dbtype="varchar" javatype="string" size="255"/>
+			<column name="supportDate" dbtype="datetime" javatype="date"/>
+			<column name="supportFrom" dbtype="datetime" javatype="date"/>
+			<column name="supportUntil" dbtype="datetime" javatype="date"/>
+			<column name="supportLocationID" dbtype="varchar" javatype="string" size="255"/>
+			<column name="supportTask" dbtype="text" javatype="string"/>
+			<column name="supportDuration" dbtype="datetime" javatype="date"/>
+		</columns>
+	</table>
+	<table name="UpdateErrors" db="admin" sync="NONE">
+		<columns>
+			<column name="updatetime" dbtype="datetime" javatype="date"/>
+			<column name="comment" dbtype="varchar" javatype="string" size="255"/>
+			<column name="xml" dbtype="text" javatype="string"/>
+		</columns>
+	</table>
+	<table name="UserParameters" db="admin" sync="MASTER">
+		<columns>
+			<column name="userid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="parameter" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="value" dbtype="varchar" javatype="string" size="255"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="userpars_userid_parameter">
+				<indexcolumn name="userid" order="ASC"/>
+				<indexcolumn name="parameter" order="ASC"/>
+			</index>
+			<index name="userpars_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="UserProfileMotivations" db="admin" sync="MERGE">
+		<columns>
+			<column name="userid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="patientid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" primary="1" version="1"/>
+			<column name="motivation" dbtype="varchar" javatype="string" size="255"/>
+			<column name="screenid" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+		<indexes>
+			<index name="userproms_userid_parameter">
+				<indexcolumn name="userid" order="ASC"/>
+			</index>
+			<index name="userproms_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="UserProfilePermissions" db="admin" sync="MASTER">
+		<columns>
+			<column name="userprofileid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="screenid" dbtype="varchar" javatype="string" size="255"/>
+			<column name="permission" dbtype="varchar" javatype="string" size="255"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+	</table>
+	<table name="UserProfiles" db="admin" sync="MASTER">
+		<columns>
+			<column name="userprofileid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="userprofilename" dbtype="varchar" javatype="string" size="255"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+	</table>
+	<table name="Users" db="admin" sync="MASTER">
+		<columns>
+			<column name="userid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="personid" dbtype="int" javatype="integer"/>
+			<column name="start" dbtype="datetime" javatype="date"/>
+			<column name="stop" dbtype="datetime" javatype="date"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="project" dbtype="varchar" javatype="string" size="255"/>
+			<column name="encryptedpassword" dbtype="image" javatype="bytes"/>
+		</columns>
+		<indexes>
+			<index name="users_userid">
+				<indexcolumn name="userid" order="ASC"/>
+			</index>
+			<index name="users_personid">
+				<indexcolumn name="personid" order="ASC"/>
+			</index>
+			<index name="users_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	
+	<view name="AdminView" db="admin" drop="1">
+		<sql>create view AdminView as select * from Admin</sql>
+	</view>
+	<view name="FunctionsView" db="admin" drop="1">
+		<sql>
+			create view FunctionsView
+			as
+			select workid,functionid,functiontype,labeltype,labelid,labelnl,labelfr,labelen from AdminFunctions,Labels 
+			where 
+			Labels.labeltype='Function' and 
+			Labels.labelid = AdminFunctions.functionid
+		</sql>
+	</view>
+	
+	<view name="PrivateView" db="admin" drop="1">
+		<sql>
+			create view PrivateView as
+			select privateid,personid,start,stop,AdminPrivate.comment privatecomment,address,city,zipcode,country,telephone,fax,email,mobile from AdminPrivate
+		</sql>
+	</view>
+	
+	<view name="ServicesView" db="admin" drop="1">
+		<sql>
+			create view ServicesView
+			as
+			select workid,serviceid,servicetype,labeltype,labelid,labelnl,labelfr,labelen from AdminServices,Labels 
+			where 
+			Labels.labeltype='Service' and 
+			Labels.labelid = AdminServices.serviceid
+		</sql>
+	</view>
+	<view name="UnitGroupsView" db="admin" drop="1">
+		<sql>
+			create view UnitGroupsView as select convert(int,linkId) as intLinkId,* from Groups
+		</sql>
+	</view>
+	<view name="UsersView" db="admin" drop="1">
+		<sql>
+			create view UsersView as
+			select * from Users
+		</sql>
+	</view>
+
+	<!-- Definitions of occup database -->
+	<table name="AgeGenderControl" db="occup" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="minAge" dbtype="int" javatype="integer"/>
+			<column name="maxAge" dbtype="int" javatype="integer"/>
+			<column name="gender" dbtype="varchar" javatype="string" size="2"/>
+			<column name="frequency" dbtype="int" javatype="integer"/>
+			<column name="tolerance" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+	</table>
+	<table name="Appointments" db="occup" sync="NONE">
+		<columns>
+			<column name="appointmentId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="serverId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="personId" dbtype="int" javatype="integer"/>
+			<column name="appointmentDate" dbtype="datetime" javatype="date"/>
+			<column name="visitDate" dbtype="datetime" javatype="date"/>
+			<column name="userId" dbtype="int" javatype="integer"/>
+			<column name="linkId" dbtype="varchar" javatype="string" size="50"/>
+			<column name="ow_comment" dbtype="varchar" javatype="string" size="255"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="appointments_userid">
+				<indexcolumn name="userId" order="ASC"/>
+			</index>
+			<index name="appointments_personid">
+				<indexcolumn name="personId" order="ASC"/>
+			</index>
+			<index name="appointments_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="carSchedule" db="occup" sync="NONE">
+		<columns>
+			<column name="carId" dbtype="varchar" javatype="string" size="100"/>
+			<column name="serviceId1" dbtype="varchar" javatype="string" size="100"/>
+			<column name="serviceId2" dbtype="varchar" javatype="string" size="100"/>
+			<column name="serviceId3" dbtype="varchar" javatype="string" size="100"/>
+			<column name="serviceId4" dbtype="varchar" javatype="string" size="100"/>
+			<column name="serviceId5" dbtype="varchar" javatype="string" size="100"/>
+			<column name="visitDateTime" dbtype="datetime" javatype="date"/>
+			<column name="comment1" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment2" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment3" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment4" dbtype="varchar" javatype="string" size="100"/>
+			<column name="comment5" dbtype="varchar" javatype="string" size="100"/>
+		</columns>
+	</table>
+	<table name="ContactTypes" db="occup" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1" version="1"/>
+			<column name="messageKey" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+	</table>
+	<table name="counters" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="name" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="counter" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<table name="diagnoses" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="itemTypeId" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="criterium" dbtype="varchar" javatype="string" size="50" primary="1"/>
+		</columns>
+	</table>
+	<table name="Documents" db="occup" sync="NONE">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="type" dbtype="varchar" javatype="string" size="255"/>
+			<column name="format" dbtype="varchar" javatype="string" size="255"/>
+			<column name="name" dbtype="varchar" javatype="string" size="255"/>
+			<column name="filename" dbtype="varchar" javatype="string" size="255"/>
+			<column name="userid" dbtype="int" javatype="integer"/>
+			<column name="folder" dbtype="varchar" javatype="string" size="255"/>
+			<column name="personid" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="documents_id">
+				<indexcolumn name="id" order="ASC"/>
+			</index>
+			<index name="documents_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Examinations" db="occup" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="transactionType" dbtype="varchar" javatype="string" size="255"/>
+			<column name="messageKey" dbtype="varchar" javatype="string" size="255"/>
+			<column name="priority" dbtype="int" javatype="integer"/>
+			<column name="data" dbtype="image" javatype="bytes"/>
+			<column name="deletedate" dbtype="datetime" javatype="date"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+			<column name="NL" dbtype="varchar" javatype="string" size="255"/>
+			<column name="FR" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+	</table>
+	<table name="exclusionDates" db="occup" sync="NONE">
+		<columns>
+			<column name="serviceId" dbtype="varchar" javatype="string" size="255"/>
+			<column name="dateBegin" dbtype="datetime" javatype="date"/>
+			<column name="dateEnd" dbtype="datetime" javatype="date"/>
+		</columns>
+	</table>
+	<table name="exportActivities" db="occup" sync="NONE">
+		<columns>
+			<column name="personId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="userId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="activityDateTime" dbtype="datetime" javatype="date" primary="1"/>
+			<column name="activityCode" dbtype="varchar" javatype="string" size="255" primary="1"/>
+		</columns>
+	</table>
+	<table name="exportSpecifications" db="occup" sync="NONE">
+		<columns>
+			<column name="elementType" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="exportCode" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="elementContent" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+	</table>
+	<table name="FunctionCategories" db="occup" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="messageKey" dbtype="varchar" javatype="string" size="255"/>
+			<column name="deletedate" dbtype="datetime" javatype="date"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+			<column name="NL" dbtype="varchar" javatype="string" size="255"/>
+			<column name="FR" dbtype="varchar" javatype="string" size="255"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<table name="FunctionCategoryRisks" db="occup" sync="MASTER">
+		<columns>
+			<column name="functionCategoryId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="riskId" dbtype="int" javatype="integer" primary="1"/>
+		</columns>
+	</table>
+	<table name="FunctionGroupExaminations" db="occup" sync="MASTER">
+		<columns>
+			<column name="functionGroupExaminationId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="contactTypeId" dbtype="int" javatype="integer"/>
+			<column name="tolerance" dbtype="int" javatype="integer"/>
+			<column name="frequency" dbtype="int" javatype="integer"/>
+			<column name="functionGroupId" dbtype="int" javatype="integer"/>
+			<column name="examinationId" dbtype="int" javatype="integer"/>
+			<column name="ageGenderControl" dbtype="char" javatype="string" size="1"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+	</table>
+	<table name="FunctionGroups" db="occup" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="messageKey" dbtype="varchar" javatype="string" size="255"/>
+			<column name="deletedate" dbtype="datetime" javatype="date"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+			<column name="NL" dbtype="varchar" javatype="string" size="255"/>
+			<column name="FR" dbtype="varchar" javatype="string" size="255"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<table name="Groups" db="occup" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="groupType" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="groupName" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="linkId" dbtype="varchar" javatype="string" size="50" primary="1"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="groups_linkid">
+				<indexcolumn name="linkId" order="ASC"/>
+			</index>
+			<index name="groups_updatetime">
+				<indexcolumn name="updatetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Healthrecord" db="occup" sync="NONE">
+		<columns>
+			<column name="healthRecordId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="dateBegin" dbtype="datetime" javatype="date"/>
+			<column name="dateEnd" dbtype="datetime" javatype="date"/>
+			<column name="personId" dbtype="int" javatype="integer"/>
+			<column name="serverid" dbtype="int" javatype="integer"/>
+			<column name="version" dbtype="int" javatype="integer"/>
+			<column name="versionserverid" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name="healthrecord_healthrecordid">
+				<indexcolumn name="healthRecordId" order="ASC"/>
+			</index>
+			<index name="healthrecord_personid">
+				<indexcolumn name="personId" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="ItemGroupItems" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="groupId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="header" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="type" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="itemId" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<table name="ItemGroups" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="groupId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="groupname" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+	</table>
+	<table name="Items" db="occup" sync="NONE">
+		<columns>
+			<column name="itemId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="type" dbtype="varchar" javatype="string" size="255"/>
+			<column name="value" dbtype="varchar" javatype="string" size="255"/>
+			<column name="date" dbtype="datetime" javatype="date"/>
+			<column name="transactionId" dbtype="int" javatype="integer"/>
+			<column name="serverid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="version" dbtype="int" javatype="integer" primary="1"/>
+			<column name="versionserverid" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name="items_itemid">
+				<indexcolumn name="itemId" order="ASC"/>
+			</index>
+			<index name="items_type">
+				<indexcolumn name="type" order="ASC"/>
+			</index>
+			<index name="items_transactionid">
+				<indexcolumn name="transactionId" order="ASC"/>
+			</index>
+			<index name="items_value">
+				<indexcolumn name="value" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="ItemsHistory" db="occup" sync="NONE">
+		<columns>
+			<column name="itemId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="type" dbtype="varchar" javatype="string" size="255"/>
+			<column name="value" dbtype="varchar" javatype="string" size="255"/>
+			<column name="date" dbtype="datetime" javatype="date"/>
+			<column name="transactionId" dbtype="int" javatype="integer"/>
+			<column name="serverid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="version" dbtype="int" javatype="integer" primary="1"/>
+			<column name="versionserverid" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<table name="ItemViewList" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="itemType" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="label" dbtype="varchar" javatype="string" size="255"/>
+			<column name="context1" dbtype="varchar" javatype="string" size="255"/>
+			<column name="context2" dbtype="varchar" javatype="string" size="255"/>
+			<column name="context3" dbtype="varchar" javatype="string" size="255"/>
+			<column name="priority" dbtype="int" javatype="integer"/>
+			<column name="showValue" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name="itemviewlist_type">
+				<indexcolumn name="itemType" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="KeyFrequencies" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="messageKey" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="frequency" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<table name="Macros" db="occup" sync="NONE">
+		<columns>
+			<column name="id" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="category" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="nl" dbtype="varchar" javatype="string" size="255"/>
+			<column name="fr" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+	</table>
+	<table name="OC_Config" db="config" sync="NONE">
+		<columns>
+			<column name="oc_key" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="oc_value" dbtype="varchar" javatype="string" size="255"/>
+			<column name="deletedate" dbtype="datetime" javatype="date"/>
+			<column name="updatetime" dbtype="datetime" javatype="date"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+			<column name="comment" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+	</table>
+	<table name="PermanentItems" db="occup" sync="MERGE">
+		<columns>
+			<column name="transactionId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="serverid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="itemType" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="ts" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="permanentitems_transactionid">
+				<indexcolumn name="transactionId" order="ASC"/>
+			</index>
+			<index name="permanentitems_itemtype">
+				<indexcolumn name="itemType" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="PersonalExaminations" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="personalExaminationId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="tolerance" dbtype="int" javatype="integer"/>
+			<column name="frequency" dbtype="int" javatype="integer"/>
+			<column name="personId" dbtype="int" javatype="integer"/>
+			<column name="examinationId" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<table name="PersonalRisks" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="personId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="riskId" dbtype="int" javatype="integer" primary="1"/>
+		</columns>
+	</table>
+	<table name="report_riskSummaryPerUnit" db="occup" sync="NONE">
+		<columns>
+			<column name="personId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="lastname" dbtype="varchar" javatype="string" size="255"/>
+			<column name="firstname" dbtype="varchar" javatype="string" size="255"/>
+			<column name="immat" dbtype="varchar" javatype="string" size="20"/>
+			<column name="unit" dbtype="varchar" javatype="string" size="255"/>
+			<column name="r1" dbtype="char" javatype="string" size="1"/>
+			<column name="r2" dbtype="char" javatype="string" size="1"/>
+			<column name="r3" dbtype="char" javatype="string" size="1"/>
+			<column name="r4" dbtype="char" javatype="string" size="1"/>
+			<column name="r5" dbtype="char" javatype="string" size="1"/>
+			<column name="r6" dbtype="char" javatype="string" size="1"/>
+			<column name="r7" dbtype="char" javatype="string" size="1"/>
+			<column name="r8" dbtype="char" javatype="string" size="1"/>
+			<column name="hasProfile" dbtype="char" javatype="string" size="1"/>
+		</columns>
+	</table>
+	<table name="ResultGroups" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="type" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="priority" dbtype="int" javatype="integer" primary="1"/>
+			<column name="id" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="groupid" dbtype="varchar" javatype="string" size="255" primary="1"/>
+		</columns>
+	</table>
+	<table name="RiskCodes" db="occup" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="code" dbtype="varchar" javatype="string" size="255"/>
+			<column name="showDefault" dbtype="int" javatype="integer"/>
+			<column name="NL" dbtype="varchar" javatype="string" size="255"/>
+			<column name="FR" dbtype="varchar" javatype="string" size="255"/>
+			<column name="messageKey" dbtype="varchar" javatype="string" size="255"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+	</table>
+	<table name="RiskExaminations" db="occup" sync="MASTER">
+		<columns>
+			<column name="riskExaminationId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="frequency" dbtype="int" javatype="integer"/>
+			<column name="tolerance" dbtype="int" javatype="integer"/>
+			<column name="riskId" dbtype="int" javatype="integer"/>
+			<column name="examinationId" dbtype="int" javatype="integer"/>
+			<column name="ageGenderControl" dbtype="char" javatype="string" size="1"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+	</table>
+	<table name="RiskProfileContexts" db="occup" sync="NONE">
+		<columns>
+			<column name="profileContextId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="itemType" dbtype="varchar" javatype="string" size="255"/>
+			<column name="itemId" dbtype="int" javatype="integer"/>
+			<column name="profileId" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name="riskprofilecontexts_profileid">
+				<indexcolumn name="profileId" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="RiskProfileItems" db="occup" sync="NONE">
+		<columns>
+			<column name="profileItemId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="itemType" dbtype="varchar" javatype="string" size="255"/>
+			<column name="itemId" dbtype="int" javatype="integer"/>
+			<column name="status" dbtype="int" javatype="integer"/>
+			<column name="comment" dbtype="varchar" javatype="string" size="255"/>
+			<column name="profileId" dbtype="int" javatype="integer"/>
+			<column name="frequency" dbtype="int" javatype="integer"/>
+			<column name="tolerance" dbtype="int" javatype="integer"/>
+			<column name="ageGenderControl" dbtype="char" javatype="string" size="1"/>
+		</columns>
+		<indexes>
+			<index name="riskprofileitems_profileid">
+				<indexcolumn name="profileId" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="RiskProfiles" db="occup" sync="MERGE" proc="RiskProfile" insql="dateEnd is null" outsql="dateEnd is null">
+		<columns>
+			<column name="profileId" dbtype="int" javatype="integer"/>
+			<column name="dateBegin" dbtype="datetime" javatype="date" version="1" primary="1"/>
+			<column name="dateEnd" dbtype="datetime" javatype="date"/>
+			<column name="personId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="updatetime" dbtype="datetime" javatype="date"/>
+		</columns>
+		<indexes>
+			<index name="riskprofileitems_personid">
+				<indexcolumn name="personId" order="ASC"/>
+			</index>
+			<index name="riskprofileitems_datebegin">
+				<indexcolumn name="dateBegin" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Selection" db="occup" sync="NONE">
+		<columns>
+			<column name="selectionId" dbtype="varchar" javatype="string" size="255"/>
+			<column name="personId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="profileId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="flag1" dbtype="bit" javatype="boolean"/>
+			<column name="flag2" dbtype="bit" javatype="boolean"/>
+			<column name="flag3" dbtype="bit" javatype="boolean"/>
+			<column name="flag4" dbtype="bit" javatype="boolean"/>
+			<column name="flag5" dbtype="bit" javatype="boolean"/>
+			<column name="flag6" dbtype="bit" javatype="boolean"/>
+			<column name="flag7" dbtype="bit" javatype="boolean"/>
+			<column name="flag8" dbtype="bit" javatype="boolean"/>
+			<column name="profileStart" dbtype="datetime" javatype="date"/>
+			<column name="profileStop" dbtype="datetime" javatype="date"/>
+			<column name="serviceId" dbtype="varchar" javatype="string" size="255"/>
+			<column name="serviceStart" dbtype="datetime" javatype="date"/>
+			<column name="serviceStop" dbtype="datetime" javatype="date"/>
+			<column name="linkId" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name="selection_personid">
+				<indexcolumn name="personId" order="ASC"/>
+			</index>
+			<index name="selection_serviceId">
+				<indexcolumn name="serviceId" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Servers" db="occup" sync="MASTEREXIST">
+		<columns>
+			<column name="serverId" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="serverName" dbtype="varchar" javatype="string" size="255"/>
+			<column name="fromServerDirectory" dbtype="varchar" javatype="string" size="255"/>
+			<column name="toServerDirectory" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+	</table>
+	<table name="Transactions" db="occup" sync="MERGE" proc="Transaction" outsql="versionserverid=@sourceserverid@">
+		<columns>
+			<column name="transactionId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="creationDate" dbtype="datetime" javatype="date"/>
+			<column name="transactionType" dbtype="varchar" javatype="string" size="255"/>
+			<column name="updateTime" dbtype="datetime" javatype="date"/>
+			<column name="status" dbtype="int" javatype="integer"/>
+			<column name="healthRecordId" dbtype="int" javatype="integer"/>
+			<column name="userId" dbtype="int" javatype="integer"/>
+			<column name="serverid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="version" dbtype="int" javatype="integer"/>
+			<column name="versionserverid" dbtype="int" javatype="integer"/>
+			<column name="ts" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="transactions_transactionid">
+				<indexcolumn name="transactionId" order="ASC"/>
+			</index>
+			<index name="transactions_healthrecordid">
+				<indexcolumn name="healthRecordId" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="TransactionsHistory" db="occup" sync="NONE">
+		<columns>
+			<column name="transactionId" dbtype="varchar" javatype="string" size="255" primary="1"/>
+			<column name="creationDate" dbtype="datetime" javatype="date"/>
+			<column name="transactionType" dbtype="varchar" javatype="string" size="255"/>
+			<column name="updateTime" dbtype="datetime" javatype="date"/>
+			<column name="status" dbtype="int" javatype="integer"/>
+			<column name="healthRecordId" dbtype="int" javatype="integer"/>
+			<column name="userId" dbtype="int" javatype="integer"/>
+			<column name="serverid" dbtype="int" javatype="integer" primary="1"/>
+			<column name="version" dbtype="int" javatype="integer" primary="1"/>
+			<column name="versionserverid" dbtype="int" javatype="integer"/>
+			<column name="ts" dbtype="datetime" javatype="date"/>
+		</columns>
+		<indexes>
+			<index name="transactions_transactionid">
+				<indexcolumn name="transactionId" order="ASC"/>
+			</index>
+			<index name="transactions_healthrecordid">
+				<indexcolumn name="healthRecordId" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="UserRequests" db="occup" sync="NONE">
+		<columns>
+			<column name="userid" dbtype="int" javatype="integer"/>
+			<column name="firstpagetime" dbtype="datetime" javatype="date"/>
+			<column name="lastpagetime" dbtype="datetime" javatype="date"/>
+			<column name="pagerequest" dbtype="image" javatype="bytes"/>
+		</columns>
+		<indexes>
+			<index name="userreqs_userid_firstpage">
+				<indexcolumn name="userid" order="ASC"/>
+				<indexcolumn name="firstpagetime" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="WorkplaceRisks" db="occup" sync="MASTER">
+		<columns>
+			<column name="riskId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="workplaceId" dbtype="int" javatype="integer" primary="1"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+		</columns>
+		<indexes>
+			<index name="workplacerisks_workplaceid">
+				<indexcolumn name="workplaceId" order="ASC"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="Workplaces" db="occup" sync="MASTER">
+		<columns>
+			<column name="id" dbtype="int" javatype="integer" primary="1"/>
+			<column name="messageKey" dbtype="varchar" javatype="string" size="255"/>
+			<column name="deletedate" dbtype="datetime" javatype="date"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+			<column name="NL" dbtype="varchar" javatype="string" size="255"/>
+			<column name="FR" dbtype="varchar" javatype="string" size="255"/>
+			<column name="active" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<view name="AdminServicesView" db="occup" drop="1">
+		<sql>
+			create view AdminServicesView as
+			select * from @admin@.dbo.AdminServices
+		</sql>
+	</view>
+	<view name="AdminView" db="occup" drop="1">
+		<sql>
+			create view AdminView as select * from @admin@.dbo.Admin
+		</sql>
+	</view>
+	
+	<view name="DiagnosisConvocation" db="occup" drop="1">
+		<sql>
+			create view DiagnosisConvocation as
+			select a.convocationId, a.label diagnosis, b.criterium criterium 
+			from FullConvocation a, diagnoses b 
+			where
+			a.itemType=b.itemTypeId
+		</sql>
+	</view>
+	<view name="FirstPlannedConvocation" db="occup" drop="1">
+		<sql>
+			create view FirstPlannedConvocation as
+			select personId personid,min(convert(datetime,value,103)) plannedconvocation from Items a, Transactions b, Healthrecord c
+			where
+			c.healthRecordId=b.healthRecordId and
+			a.transactionId=b.transactionId and
+			a.type='be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_NEW_CONVOCATION_DATE' and
+			convert(datetime,value,103) > getdate()
+			group by personId
+		</sql>
+	</view>
+
+	<view name="LabelsView" db="occup" drop="1">
+		<sql>
+			create view LabelsView as select * from @admin@.dbo.Labels
+		</sql>
+	</view>
+	<view name="LastConvocation" db="occup" drop="1">
+		<sql>
+			create view LastConvocation as
+			select  personId personid,max(a.updateTime) lastconvocation from Transactions a, Healthrecord b
+			where
+			a.healthRecordId=b.healthRecordId and
+			a.transactionType='be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MER'
+			group by personId
+		</sql>
+	</view>
+	
+	<view name="ServicesAddressView" db="occup" drop="1">
+		<sql>
+			create view ServicesAddressView as
+			SELECT convert(int,zipcode) zip, * FROM @admin@.dbo.Services
+		</sql>
+	</view>
+	<view name="ServicesView" db="occup" drop="1">
+		<sql>
+			create view ServicesView
+			as
+			select * from @admin@.dbo.AdminServices
+		</sql>
+	</view>
+	<view name="ServicesView2" db="occup" drop="1">
+		<sql>
+			create view ServicesView2 as select * from @admin@.dbo.ServicesView
+		</sql>
+	</view>
+	<view name="UnitGroupsView" db="occup" drop="1">
+		<sql>
+			create view UnitGroupsView as select convert(int,linkId) intLinkId,* from @admin@.dbo.Groups
+		</sql>
+	</view>
+	<view name="UsersView" db="occup" drop="1">
+		<sql>
+			create view UsersView
+			as
+			select * from @admin@.dbo.Users
+		</sql>
+	</view>
+
+	<proc name="InsertConvocation" db="occup" drop="1">
+		<sql>
+			create procedure InsertConvocation
+			(@invitationDateTime datetime, @personID int, @comment varchar(255))
+			as
+			declare @convocationID int
+			select @convocationID=counter from counters where name='ConvocationID'
+			update counters set counter=counter+1 where name='ConvocationID'
+			insert R_Convocations(convocationId,personId,invitationDateTime,visitDateTime,status,comment,updateTime)
+			values(@convocationID,@personID,@invitationDateTime,null,'medwan.status.open',@comment,getdate())
+		</sql>
+	</proc>
+	<proc name="calculateDelhaizeSubmitted" db="occup" drop="1">
+		<sql>
+			create proc calculateDelhaizeSubmitted(@visitsPerDay int,@maxVisitDays int,@carId varchar(255),@startDate datetime,@minInterval int = 90) as
+			declare @addDays int
+			declare @serviceToGo varchar(255)
+			declare @activeDate datetime
+			declare @freeDays int
+			declare @receivedDays int
+			declare @daysToGo int
+			declare @group1 varchar(255)
+			declare @group2 varchar(255)
+			select count(*) employees,serviceid,itemId,e.messageKey,count(*)/frequency submitted
+			into #tmp
+			from RiskProfiles a,WorkView2 b,AdminServicesView c,RiskProfileContexts d,Workplaces e, KeyFrequencies f
+			where
+			a.personId=b.personid and
+			b.stop is null and
+			a.dateEnd is null and
+			b.workid=c.workid and
+			servicetype='M' and
+			a.profileId=d.profileId and
+			d.itemType='be.dpms.medwan.common.model.IConstants.WORKPLACE' and
+			d.itemId=e.id and
+			e.messageKey=f.messageKey
+			GROUP BY serviceid,itemId,e.messageKey,f.frequency
+			order by serviceid,itemId
+			select sum(employees) employees,serviceid,sum(submitted) submitted,sum(submitted)/@visitsPerDay days,0 receivedDays,dateadd(day,-@minInterval-1,			@startDate) lastVisit
+			into #tmp2
+			from #tmp
+			group by serviceid
+			order by serviceid
+			update #tmp2 set days=@maxVisitDays where days&gt;@maxVisitDays
+			update #tmp2 set days=1 where days=0 and submitted&gt;(@visitsPerDay/2)
+			delete from carSchedule where carId=@carId
+			select @addDays=0
+			while (@addDays&lt;366)
+			begin
+				select @activeDate=dateadd(day,@addDays,@startDate)
+				select @serviceToGo='NIL'
+				if (datepart(weekday,@activeDate)&gt;1 and datepart(weekday,@activeDate)&lt;7)
+				begin
+					select @serviceToGo=a.serviceid 
+						from #tmp2 a,serviceGroups b 
+						where 
+						a.serviceid=b.serviceId and
+						b.group1=convert(varchar(255),datepart(weekday,@activeDate)-1) and
+						b.group2=convert(varchar(255),((datepart(week,@activeDate)-1) % 4)+1) and
+						days-receivedDays&gt;0 and
+						datediff(day,lastVisit,@activeDate)&gt;@minInterval and
+						a.serviceid not in (select serviceId from exclusionDates where dateBegin &lt;=@activeDate and dateEnd&gt;=@activeDate)
+						order by (days-receivedDays) ASC,receivedDays ASC,lastVisit DESC
+				end
+				if (@serviceToGo='NIL')
+				begin
+					select @serviceToGo=a.serviceid 
+						from #tmp2 a,serviceGroups b 
+						where 
+						a.serviceid=b.serviceId and
+						b.group1=convert(varchar(255),datepart(weekday,@activeDate)-1) and
+						b.group2=convert(varchar(255),((datepart(week,@activeDate)) % 4)+1) and
+						days-receivedDays&gt;0 and
+						datediff(day,lastVisit,@activeDate)&gt;@minInterval and
+						a.serviceid not in (select serviceId from exclusionDates where dateBegin &lt;=@activeDate and dateEnd&gt;=@activeDate)
+						order by (days-receivedDays) ASC,receivedDays ASC,lastVisit DESC
+				end
+				if (@serviceToGo='NIL')
+				begin
+					select @serviceToGo=a.serviceid 
+						from #tmp2 a,serviceGroups b 
+						where 
+						a.serviceid=b.serviceId and
+						b.group1=convert(varchar(255),datepart(weekday,@activeDate)-1) and
+						b.group2=convert(varchar(255),((datepart(week,@activeDate)+1) % 4)+1) and
+						days-receivedDays&gt;0 and
+						datediff(day,lastVisit,@activeDate)&gt;@minInterval and
+						a.serviceid not in (select serviceId from exclusionDates where dateBegin &lt;=@activeDate and dateEnd&gt;=@activeDate)
+						order by (days-receivedDays) ASC,receivedDays ASC,lastVisit DESC
+				end
+				if (@serviceToGo='NIL')
+				begin
+					select @serviceToGo=a.serviceid 
+						from #tmp2 a,serviceGroups b 
+						where 
+						a.serviceid=b.serviceId and
+						b.group1=convert(varchar(255),datepart(weekday,@activeDate)-1) and
+						b.group2=convert(varchar(255),((datepart(week,@activeDate)+2) % 4)+1) and
+						days-receivedDays&gt;0 and
+						datediff(day,lastVisit,@activeDate)&gt;@minInterval and
+						a.serviceid not in (select serviceId from exclusionDates where dateBegin &lt;=@activeDate and dateEnd&gt;=@activeDate)
+						order by (days-receivedDays) ASC,receivedDays ASC,lastVisit DESC
+				end
+				if (@serviceToGo&lt;&gt;'NIL')
+				begin
+					update #tmp2 set receivedDays=receivedDays+1,lastVisit=@activeDate where serviceid=@serviceToGo	
+					select @receivedDays=receivedDays,@daysToGo=days-@receivedDays from #tmp2 where serviceid=@serviceToGo
+					insert into carSchedule(carId,serviceId1,serviceId2,serviceId3,serviceId4,serviceId5,visitDateTime) select @carId,@serviceToGo,convert(varchar			(255),datepart(weekday,@activeDate)-1),char(97+((datepart(week,@activeDate)-1) % 4)),convert(varchar(255),@receivedDays),convert(varchar	(255),		@daysToGo),@activeDate
+				end
+				else
+				begin
+					insert into carSchedule(carId,serviceId1,visitDateTime) select @carId,null,@activeDate
+				end
+				select @addDays=@addDays+1
+			end
+			select @addDays=0
+			while (@addDays&lt;366)
+			begin
+				select @activeDate=dateadd(day,@addDays,@startDate)
+				select @serviceToGo=serviceId1 from carSchedule where visitDateTime=@activeDate
+				if ((@serviceToGo is null) and (datepart(weekday,@activeDate)&gt;1 and datepart(weekday,@activeDate)&lt;7))
+				begin
+					select @serviceToGo=a.serviceid,@group1=b.group1,@group2=b.group2 
+						from #tmp2 a,serviceGroups b
+						where 
+						days-receivedDays&gt;0 and
+						a.serviceid=b.serviceId and
+						b.group1 in ('1','2','3','4','5') and
+						b.group2 in ('1','2','3','4') and
+						a.serviceid not in (select serviceId from exclusionDates where dateBegin &lt;=@activeDate and dateEnd&gt;=@activeDate)
+						order by (days-receivedDays) ASC,receivedDays ASC,lastVisit DESC
+					if (@serviceToGo is not null)
+					begin
+						update #tmp2 set receivedDays=receivedDays+1,lastVisit=@activeDate where serviceid=@serviceToGo
+						select @receivedDays=receivedDays,@daysToGo=days-@receivedDays from #tmp2 where serviceid=@serviceToGo
+						update carSchedule set serviceId1=@serviceToGo,serviceId2=@group1,serviceId3=char(96+convert(int,@group2)),serviceId4=convert	(varchar		(255),@receivedDays),serviceId5=convert(varchar(255),@daysToGo) where visitDateTime=@activeDate
+					end
+				end
+				select @addDays=@addDays+1
+			end
+			select a.*,b.labelnl serviceName from carSchedule a,LabelsView b where a.serviceId1*=b.labelid and b.labeltype='Service' order by visitDateTime
+		</sql>
+	</proc>
+	<proc name="exRisksQuery" db="occup" drop="1">
+		<sql>
+			create proc exRisksQuery(@selectionId varchar(255))
+			as
+			select
+			convert(bit,sum(flag1&amp;1))&amp;1 as ow_f1,
+			convert(bit,sum(flag2&amp;1))&amp;1 as ow_f2,
+			convert(bit,sum(flag3&amp;1))&amp;1 as ow_f3,
+			convert(bit,sum(flag4&amp;1))&amp;1 as ow_f4,
+			convert(bit,sum(flag5&amp;1))&amp;1 as ow_f5,
+			convert(bit,sum(flag6&amp;1))&amp;1 as ow_f6,
+			convert(bit,sum(flag7&amp;1))&amp;1 as ow_f7
+			into #exRisks
+			from Selection where selectionId=@selectionId group by personId
+			select 
+			sum(ow_f1) as ow_f1,
+			sum(ow_f2) as ow_f2,
+			sum(ow_f3) as ow_f3,
+			sum(ow_f4) as ow_f4,
+			sum(ow_f5) as ow_f5,
+			sum(ow_f6) as ow_f6,
+			sum(ow_f7) as ow_f7
+			from #exRisks
+		</sql>
+	</proc>
+	<proc name="exSubjectsTotalQuery" db="occup" drop="1">
+		<sql>
+			create proc exSubjectsTotalQuery(@selectionId varchar(255))
+			as
+			select convert(bit,sum((flag6|flag1|flag2|flag3)&amp;1))&amp;1 as s_f1,convert(bit,sum(flag4 &amp;~((flag6|flag1|flag2|flag3)&amp;1)))&amp;1 as s_f2,
+			convert(bit,sum(flag5 &amp;~((flag6|flag1|flag2|flag3|flag4)&amp;1)))&amp;1 as s_f3
+			into #exSub
+			from Selection
+			where selectionId=@selectionId
+			group by personId,serviceId
+			select sum(s_f1) as s_f1,sum(s_f2) as s_f2,
+			sum(s_f3) as s_f3
+			from #exSub
+		</sql>
+	</proc>
+	<proc name="hasRisk" db="occup" drop="1">
+		<sql>
+			create proc hasRisk
+			(@personid int, @riskcode varchar(255),@result char(1) output)
+			as
+			begin
+			declare cpHR CURSOR for
+				select  a.personId personid
+				from 
+				RiskProfiles a,RiskProfileContexts b,FunctionCategoryRisks c,RiskCodes d
+				where
+				a.profileId=b.profileId and
+				b.itemType='be.dpms.medwan.common.model.IConstants.FUNCTION_CATEGORY' and
+				a.dateEnd=null and
+				b.itemId=c.functionCategoryId and
+				c.riskId=d.id and
+				code like @riskcode+'%' and
+				personId=@personid
+				union
+				select a.personId personid
+				from 
+				RiskProfiles a,RiskProfileContexts b,WorkplaceRisks c,RiskCodes d
+				where
+				a.profileId=b.profileId and
+				b.itemType='be.dpms.medwan.common.model.IConstants.WORKPLACE' and
+				a.dateEnd=null and
+				b.itemId=c.workplaceId and
+				c.riskId=d.id and
+				code like @riskcode+'%' and
+				personId=@personid
+				union
+				select a.personId personid
+				from
+				RiskProfiles a,RiskProfileItems b,RiskCodes c
+				where
+				a.profileId=b.profileId and
+				b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_RISK' and
+				a.dateEnd=null and
+				b.itemId=c.id and
+				code like @riskcode+'%' and
+				personId=@personid
+				open cpHR
+				fetch cpHR into @personid
+				if (@@sqlstatus=0)
+					select @result='Y'
+				else
+					select @result='N'
+				close cpHR
+			end
+		</sql>
+	</proc>
+	
+	<proc name="perExUnitQuery" db="occup" drop="1">
+		<sql>
+			create proc perExUnitQuery (@selectionId varchar(255))
+			as
+			select 
+			convert(bit,sum((flag6|flag1|flag2|flag3)&amp;1))&amp;1 s_f1,
+			convert(bit,sum(flag4 &amp;~((flag6|flag1|flag2|flag3)&amp;1)))&amp;1 s_f2,
+			convert(bit,sum(flag5 &amp;~((flag6|flag1|flag2|flag3|flag4)&amp;1)))&amp;1 s_f3,
+			a.personId,serviceId,labelnl into #ruqtmp
+			from Selection a, LabelsView b, Healthrecord c,Transactions d, Items e
+			where 
+			d.transactionId=e.transactionId and 
+			c.healthRecordId=d.healthRecordId and 
+			c.personId=a.personId and 
+			selectionId=@selectionId And
+			b.labeltype='Service' and 
+			a.serviceId=b.labelid and 
+			e.type='be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT' and  
+			e.value='context.context.periodic-examinations' and 
+			d.updateTime&gt;=profileStart and
+			d.updateTime&gt;=serviceStart and 
+			((profileStop is null) or (d.updateTime&lt;profileStop)) and 
+			((serviceStop is null) or (d.updateTime&lt;serviceStop)) 
+			group by a.personId,serviceId,labelnl
+			select sum(s_f1) ow_f1,sum(s_f2) ow_f2,sum(s_f3) ow_f3,serviceId,labelnl
+			from #ruqtmp
+			group by serviceId,labelnl
+		</sql>
+	</proc>
+	<proc name="perExUserQuery" db="occup" drop="1">
+		<sql>
+			create proc perExUserQuery (@selectionId varchar(255))
+			as
+			select 
+			convert(bit,sum((flag6|flag1|flag2|flag3)&amp;1))&amp;1 s_f1,
+			convert(bit,sum(flag4 &amp;~((flag6|flag1|flag2|flag3)&amp;1)))&amp;1 s_f2,
+			convert(bit,sum(flag5 &amp;~((flag6|flag1|flag2|flag3|flag4)&amp;1)))&amp;1 s_f3,
+			a.personId,b.userid,lastname,firstname into #ruqtmp
+			from Selection a, UsersView b, Healthrecord c,Transactions d, Items e, AdminView f where
+			d.transactionId=e.transactionId and
+			c.healthRecordId=d.healthRecordId and 
+			c.personId=a.personId and 
+			selectionId=@selectionId 
+			and  d.userId=b.userid and  
+			b.personid=f.personid and 
+			e.type='be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT' and  
+			e.value='context.context.periodic-examinations' and 
+			d.updateTime&gt;=profileStart and 
+			d.updateTime&gt;=serviceStart and
+			((profileStop is null) or (d.updateTime&lt;profileStop)) and
+			((serviceStop is null) or (d.updateTime&lt;serviceStop)) 
+			group by a.personId,b.userid,lastname,firstname
+			select sum(s_f1) ow_f1,sum(s_f2) ow_f2,sum(s_f3) ow_f3,userid,lastname,firstname
+			from #ruqtmp
+			group by userid,lastname,firstname
+		</sql>
+	</proc>
+	<proc name="planBusPersons" db="occup" drop="1">
+		<sql>
+			create proc planBusPersons as
+			select a.personId,g.healthRecordId,convert(datetime,'01/01/2000',103) lastVisit, c.serviceid, convert(datetime,null,103) planned
+			into #tmp
+			from RiskProfiles a,WorkView2 b,AdminServicesView c,RiskProfileContexts d,Workplaces e, KeyFrequencies f, Healthrecord g where
+			a.personId=b.personid and
+			b.stop is null and
+			a.dateEnd is null and
+			b.workid=c.workid and
+			servicetype='A' and
+			a.profileId=d.profileId and
+			d.itemType='be.dpms.medwan.common.model.IConstants.WORKPLACE' and
+			d.itemId=e.id and
+			e.messageKey=f.messageKey and
+			a.personId *= g.personId
+			order by serviceid
+			update #tmp set lastVisit=lastconvocation from #tmp a,LastConvocation b where a.personId=b.personid
+			declare @service varchar(255)
+			declare @visitdatetime datetime
+			declare @personid int
+			declare ep cursor for
+			select serviceId1,visitDateTime from carSchedule order by visitDateTime ASC
+			open ep
+			fetch ep into @service,@visitdatetime
+			while (@@sqlstatus=0)
+			begin
+				declare eq cursor for
+				select personId from #tmp where planned is null and serviceid=@service order by lastVisit ASC
+				fetch eq into @personid
+				begin
+					update #tmp set planned=@visitdatetime where personId=@personid
+					fetch eq into @personid
+				end
+				close eq
+				fetch ep into @service,@visitdatetime
+			end
+			close ep
+			select * from #tmp order by serviceid
+		</sql>
+	</proc>
+	
+	<proc name="risksUnitQuery" db="occup" drop="1">
+		<sql>
+			create proc risksUnitQuery (@selectionId varchar(255))
+			as
+			select 
+			convert(bit,sum(flag1&amp;1))&amp;1 ow_f1,
+			convert(bit,sum(flag2&amp;1))&amp;1 ow_f2,
+			convert(bit,sum(flag3&amp;1))&amp;1 ow_f3,
+			convert(bit,sum(flag4&amp;1))&amp;1 ow_f4,
+			convert(bit,sum(flag5&amp;1))&amp;1 ow_f5,
+			convert(bit,sum(flag6&amp;1))&amp;1 ow_f6,
+			convert(bit,sum(flag7&amp;1))&amp;1 ow_f7,
+			personId,serviceId,labelnl into #ruqtmp
+			from Selection a, LabelsView b 
+			where 
+			selectionId=@selectionId and 
+			b.labeltype='Service' and 
+			a.serviceId=b.labelid and
+			(flag6|flag1|flag2|flag3|flag4|flag5|flag7)&amp;1=1
+			group by personId,serviceId,labelnl
+			select sum(ow_f1) ow_f1,sum(ow_f2) ow_f2,sum(ow_f3) ow_f3,sum(ow_f4) ow_f4,sum(ow_f5) ow_f5,sum(ow_f6) ow_f6,sum(ow_f7) 				ow_f7,serviceId,labelnl
+			from #ruqtmp
+			group by serviceId,labelnl
+		</sql>
+	</proc>
+	<proc name="statusReport" db="occup" drop="1">
+		<sql>
+			create proc statusReport (@start char(10),@stop char(10),@minzip1 int,@maxzip1 int,@minzip2 int,@maxzip2 int,@groupname varchar(255),				@selectionId varchar(255),@language varchar(255)) 
+			as 
+			if @groupname='%' 
+			begin 
+				select  
+				a.personid,d.serviceid,convert(bit,sum(flag1&amp;1)) as flag1, 
+				convert(bit,sum(flag2&amp;1)) as flag2,convert(bit,sum(flag3&amp;1)) as flag3,convert(bit,sum(flag4&amp;1)) as flag4,convert(bit,sum(flag5&amp;1)) 				as flag5,convert	(bit,sum	(flag7&amp;1)) as flag7 
+				into #tmpreport 
+				from AdminView a,WorkView2 c,ServicesView d,ServicesAddressView e,Selection f 
+				where 
+				d.workid=c.workid and   
+			 	f.selectionId=@selectionId and
+				a.personid=c.personid and  
+				d.serviceid=e.serviceid and 
+				c.start&lt;=convert(datetime,@stop,103) and (c.stop is null or c.stop&gt;convert(datetime,@start,103)) and  
+				(a.pension is null or a.pension&gt;convert(datetime,@start,103)) and  
+				((zip&gt;@minzip1 and zip&lt;@maxzip1) or (zip&gt;@minzip2 and zip&lt;@maxzip2)) and 
+				a.personid *=f.personId and
+				a.language like @language
+				group by d.serviceid,a.personid 
+				select distinct a.serviceid,labelnl,lastname,firstname,immatnew,dateofbirth,language,gender,a.flag1,a.flag2,a.flag3,a.flag4,a.flag5,a.flag7,selectionId			
+				from #tmpreport a,LabelsView b,AdminView c,Selection d 
+				where 
+				a.serviceid = b.labelid and 
+				b.labeltype='Service' and 
+				a.personid=c.personid and 
+				a.personid*=d.personId and
+				d.selectionId=@selectionId 
+				order by labelnl,language,lastname,firstname 
+			end 
+			else 
+			begin 
+				select  
+				a.personid,d.serviceid,convert(bit,sum(flag1&amp;1)) as flag1,convert(bit,sum(flag2&amp;1)) as flag2,convert(bit,sum(flag3&amp;1)) as flag3,convert				(bit,sum(flag4&amp;1)) 	as 	flag4,convert(bit,sum(flag5&amp;1)) as flag5,convert(bit,sum(flag7&amp;1)) as flag7 
+				into #tmpreport2 
+				from AdminView a,WorkView2 c,ServicesView d,ServicesAddressView e,Selection f,UnitGroupsView g 
+				where 
+				d.workid=c.workid and  
+				f.selectionId=@selectionId and
+				a.personid=c.personid and  
+				d.serviceid=e.serviceid and 
+				c.start&lt;=convert(datetime,@stop,103) and (c.stop is null or c.stop&gt;convert(datetime,@start,103)) and  
+				(a.pension is null or a.pension&gt;convert(datetime,@start,103)) and  
+				((zip&gt;@minzip1 and zip&lt;@maxzip1) or (zip&gt;@minzip2 and zip&lt;@maxzip2)) and 
+				a.personid *=f.personId and 
+				g.linkId=e.serviceid and 
+				g.groupType='ServiceGroup' and 
+				g.groupName like @groupname and
+				a.language like @language
+				group by d.serviceid,a.personid 
+			 
+				select distinct a.serviceid,labelnl,lastname,firstname,immatnew,dateofbirth,language,gender,a.flag1,a.flag2,a.flag3,a.flag4,a.flag5,a.flag7,selectionId
+				from #tmpreport2 a,LabelsView b,AdminView c,Selection d 
+				where 
+				a.serviceid = b.labelid and 
+				b.labeltype='Service' and 
+				a.personid=c.personid and 
+				a.personid*=d.personId and
+				d.selectionId=@selectionId
+				order by labelnl,language,lastname,firstname
+			end
+		</sql>
+	</proc>
+	<proc name="subjTot" db="occup" drop="1">
+		<sql>
+			create proc subjTot(@selectionId varchar(255)) 
+			as 
+			declare @s_f1 int 
+			declare @s_f2 int 
+			declare @s_f3 int 
+			select @s_f1=count(distinct personId)  
+			from Selection 
+			where (flag1|flag2|flag3|flag6)=1 
+			and selectionId=@selectionId 
+			select @s_f2=count 
+			(distinct personId)  
+			from Selection 
+			where flag4=1 and 
+			personId not in( 
+			select personId  
+			from Selection 
+			where (flag1|flag2|flag3|flag6)=1 
+			) 
+			and selectionId=@selectionId 
+			select @s_f3=count(distinct personId) 
+			from Selection 
+			where flag5=1 and 
+			personId not in( 
+			select personId  
+			from Selection 
+			where (flag1|flag2|flag3|flag6|flag4)=1 
+			) 
+			and selectionId=@selectionId 
+			select @s_f1 s_f1,@s_f2 s_f2,@s_f3 s_f3 
+		</sql>
+	</proc>
+	<proc name="subjectRisksUnit" db="occup" drop="1">
+		<sql>
+			create proc subjectRisksUnit(@serviceId int)
+			as
+			select '9' test,personid into #tmptbl2 from AdminView where lastname like 'LAT%'
+			delete Selection
+			insert into Selection (selectionId,flag1,flag2,flag3,flag4,flag5,flag6,flag7,flag8,linkId) select test,1,0,0,0,0,0,0,0,personid from #tmptbl2 
+			select 
+			sum((flag1 | flag2 | flag3 | flag5) &amp;1) as ow_flag1,
+			sum(flag4 &amp;~ ((flag1 | flag2 | flag3 | flag5) &amp;1)) as ow_flag2,
+			sum(flag5 &amp;~ ((flag1 | flag2 | flag3 | flag5 | flag4) &amp;1)) as ow_flag3,
+			serviceId
+			from Selection
+			group by serviceId
+		</sql>
+	</proc>
+	<proc name="subjectsUnitQuery" db="occup" drop="1">
+		<sql>
+			create proc subjectsUnitQuery (@selectionId varchar(255))
+			as
+			select 
+			convert(bit,sum((flag6|flag1|flag2|flag3)&amp;1))&amp;1 s_f1,
+			convert(bit,sum(flag4 &amp;~((flag6|flag1|flag2|flag3)&amp;1)))&amp;1 s_f2,
+			convert(bit,sum(flag5 &amp;~((flag6|flag1|flag2|flag3|flag4)&amp;1)))&amp;1 s_f3,
+			personId,serviceId,labelnl into #ruqtmp
+			from Selection a, LabelsView b 
+			where 
+			selectionId=@selectionId and 
+			b.labeltype='Service' and 
+			a.serviceId=b.labelid and
+			(flag6|flag1|flag2|flag3|flag4|flag5)&amp;1=1
+			group by personId,serviceId,labelnl
+			select sum(s_f1) ow_f1,sum(s_f2) ow_f2,sum(s_f3) ow_f3,serviceId,labelnl
+			from #ruqtmp
+			group by serviceId,labelnl
+		</sql>
+	</proc>
+	<proc name="vaccinationCard" db="occup" drop="1">
+		<sql>
+			create proc vaccinationCard(@personId int)
+			as
+			select c.messageKey
+			from RiskProfiles a, RiskProfileItems b, Examinations c
+			where 
+			a.dateEnd is null and
+			b.profileId = a.profileId and
+			b.status&gt;0 and
+			b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_EXAMINATION' and
+			b.itemId=c.id and
+			c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+			personId=@personId
+			union
+			select c.messageKey
+			from RiskProfiles a, RiskProfileItems b, Examinations c, RiskExaminations d
+			where 
+			a.dateEnd is null and
+			b.profileId = a.profileId and
+			b.status&gt;0 and
+			b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_RISK' and
+			b.itemId=d.riskId and
+			d.examinationId=c.id and
+			c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+			personId=@personId
+			union
+			select c.messageKey
+			from RiskProfiles a, RiskProfileContexts b, Examinations c, RiskExaminations d, FunctionCategoryRisks e
+			where 
+			a.dateEnd is null and
+			b.profileId = a.profileId and
+			b.itemType='be.dpms.medwan.common.model.IConstants.FUNCTION_CATEGORY' and
+			b.itemId=e.functionCategoryId and
+			d.riskId=e.riskId and
+			d.examinationId=c.id and
+			c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+			e.riskId not in (
+				select itemId
+				from RiskProfiles a, RiskProfileItems b
+				where
+				a.dateEnd is null and
+				b.profileId=a.profileId and
+				b.status&lt;0 and
+				b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_RISK' and
+				a.personId=@personId
+			) and
+			personId=@personId
+			union
+			select c.messageKey
+			from RiskProfiles a, RiskProfileContexts b, Examinations c, RiskExaminations d, WorkplaceRisks e
+			where 
+			a.dateEnd is null and
+			b.profileId = a.profileId and
+			b.itemType='be.dpms.medwan.common.model.IConstants.WORKPLACE' and
+			b.itemId=e.workplaceId and
+			d.riskId=e.riskId and
+			d.examinationId=c.id and
+			c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+			e.riskId not in (
+				select itemId
+				from RiskProfiles a, RiskProfileItems b
+				where
+				a.dateEnd is null and
+				b.profileId=a.profileId and
+				b.status&lt;0 and
+				b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_RISK' and
+				a.personId=@personId
+			) and
+			personId=@personId
+			union 
+			select c.messageKey
+			from RiskProfiles a, RiskProfileContexts b, Examinations c, FunctionGroupExaminations d
+			where 
+			a.dateEnd is null and
+			b.profileId = a.profileId and
+			b.itemType='be.dpms.medwan.common.model.IConstants.FUNCTION_GROUP' and
+			b.itemId=d.functionGroupId and
+			d.examinationId=c.id and
+			c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+			c.id not in (
+				select itemId
+				from RiskProfiles a, RiskProfileItems b
+				where
+				a.dateEnd is null and
+				b.profileId=a.profileId and
+				b.status&lt;0 and
+				b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_EXAMINATION' and
+				a.personId=@personId
+			) and
+			personId=@personId 
+		</sql>
+	</proc>
+</model>

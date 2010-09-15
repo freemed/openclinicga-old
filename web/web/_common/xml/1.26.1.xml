@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data Type="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_LAB_REQUEST">
+	<Element ID="LabItem" Label="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_919">
+		<Modifier Type="DefaultValue">
+			<Item ID="Value">medwan.common.true</Item>
+		</Modifier>
+	</Element>
+	<Element ID="LabItem" Label="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_720">
+		<Modifier Type="DefaultValue">
+			<Item ID="Value">medwan.common.true</Item>
+		</Modifier>
+	</Element>
+</Data>

@@ -1,0 +1,689 @@
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Frank Verbeke (Post Factum bvba) -->
+<report>
+	<admissions>
+		<rfe fr="Paludisme simple avec troubles digestifs mineurs" en="Malaria, with mild digestive problems" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="ND">
+			<case minage="0" maxage="29" gender="M"/>
+			<case minage="0" maxage="29" gender="F"/>
+			<case days="yes" minage="0" maxage="29" gender="M"/>
+			<case days="yes" minage="0" maxage="29" gender="F"/>
+			<case minage="30" maxage="364" gender="M"/>
+			<case minage="30" maxage="364" gender="F"/>
+			<case days="yes" minage="30" maxage="364" gender="M"/>
+			<case days="yes" minage="30" maxage="364" gender="F"/>
+			<case minage="365" maxage="1824" gender="M"/>
+			<case minage="365" maxage="1824" gender="F"/>
+			<case days="yes" minage="365" maxage="1824" gender="M"/>
+			<case days="yes" minage="365" maxage="1824" gender="F"/>
+			<case minage="1825" maxage="5474" gender="M"/>
+			<case minage="1825" maxage="5474" gender="F"/>
+			<case days="yes" minage="1825" maxage="5474" gender="M"/>
+			<case days="yes" minage="1825" maxage="5474" gender="F"/>
+			<case minage="5475" maxage="9124" gender="M"/>
+			<case minage="5475" maxage="9124" gender="F"/>
+			<case days="yes" minage="5475" maxage="9124" gender="M"/>
+			<case days="yes" minage="5475" maxage="9124" gender="F"/>
+			<case minage="9125" maxage="18249" gender="M"/>
+			<case minage="9125" maxage="18249" gender="F"/>
+			<case days="yes" minage="9125" maxage="18249" gender="M"/>
+			<case days="yes" minage="9125" maxage="18249" gender="F"/>
+			<case minage="18250" maxage="50000" gender="M"/>
+			<case minage="18250" maxage="50000" gender="F"/>
+			<case days="yes" minage="18250" maxage="50000" gender="M"/>
+			<case days="yes" minage="18250" maxage="50000" gender="F"/>
+			<case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case minage="0" maxage="50000" gender="M"/>
+			<case minage="0" maxage="50000" gender="F"/>
+			<case days="yes" minage="0" maxage="50000" gender="M"/>
+			<case days="yes" minage="0" maxage="50000" gender="F"/>
+		</rfe>
+		<rfe fr="Pneumonie" en="Pneumonia" codes="ICD10:A48.1,J10.0,J11.0,J12-J12.9,J13,J14,J15-J15.9,J16.0,J16.8,J17.0-J17.3,J17.8,J18.0-J18.2,J18.8,J18.9;ICPC:R8100" flags="N">
+			<case minage="0" maxage="29" gender="M"/>
+			<case minage="0" maxage="29" gender="F"/>
+			<case days="yes" minage="0" maxage="29" gender="M"/>
+			<case days="yes" minage="0" maxage="29" gender="F"/>
+			<case minage="30" maxage="364" gender="M"/>
+			<case minage="30" maxage="364" gender="F"/>
+			<case days="yes" minage="30" maxage="364" gender="M"/>
+			<case days="yes" minage="30" maxage="364" gender="F"/>
+			<case minage="365" maxage="1824" gender="M"/>
+			<case minage="365" maxage="1824" gender="F"/>
+			<case days="yes" minage="365" maxage="1824" gender="M"/>
+			<case days="yes" minage="365" maxage="1824" gender="F"/>
+			<case minage="1825" maxage="5474" gender="M"/>
+			<case minage="1825" maxage="5474" gender="F"/>
+			<case days="yes" minage="1825" maxage="5474" gender="M"/>
+			<case days="yes" minage="1825" maxage="5474" gender="F"/>
+			<case minage="5475" maxage="9124" gender="M"/>
+			<case minage="5475" maxage="9124" gender="F"/>
+			<case days="yes" minage="5475" maxage="9124" gender="M"/>
+			<case days="yes" minage="5475" maxage="9124" gender="F"/>
+			<case minage="9125" maxage="18249" gender="M"/>
+			<case minage="9125" maxage="18249" gender="F"/>
+			<case days="yes" minage="9125" maxage="18249" gender="M"/>
+			<case days="yes" minage="9125" maxage="18249" gender="F"/>
+			<case minage="18250" maxage="50000" gender="M"/>
+			<case minage="18250" maxage="50000" gender="F"/>
+			<case days="yes" minage="18250" maxage="50000" gender="M"/>
+			<case days="yes" minage="18250" maxage="50000" gender="F"/>
+			<case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case minage="0" maxage="50000" gender="M"/>
+			<case minage="0" maxage="50000" gender="F"/>
+			<case days="yes" minage="0" maxage="50000" gender="M"/>
+			<case days="yes" minage="0" maxage="50000" gender="F"/>
+		</rfe>
+		<rfe fr="Autres infections aigues des VRI" en="Other acute infections of the URA" codes="ICD10:A36-A36.9,B44.7,B44.9,J05.1,J31.0-J31.2,J37.0,J37.1,J85.0-J85.3,J86.0,J86.9;ICPC:R8300" flags="N">
+			<case minage="0" maxage="29" gender="M"/>
+			<case minage="0" maxage="29" gender="F"/>
+			<case days="yes" minage="0" maxage="29" gender="M"/>
+			<case days="yes" minage="0" maxage="29" gender="F"/>
+			<case minage="30" maxage="364" gender="M"/>
+			<case minage="30" maxage="364" gender="F"/>
+			<case days="yes" minage="30" maxage="364" gender="M"/>
+			<case days="yes" minage="30" maxage="364" gender="F"/>
+			<case minage="365" maxage="1824" gender="M"/>
+			<case minage="365" maxage="1824" gender="F"/>
+			<case days="yes" minage="365" maxage="1824" gender="M"/>
+			<case days="yes" minage="365" maxage="1824" gender="F"/>
+			<case minage="1825" maxage="5474" gender="M"/>
+			<case minage="1825" maxage="5474" gender="F"/>
+			<case days="yes" minage="1825" maxage="5474" gender="M"/>
+			<case days="yes" minage="1825" maxage="5474" gender="F"/>
+			<case minage="5475" maxage="9124" gender="M"/>
+			<case minage="5475" maxage="9124" gender="F"/>
+			<case days="yes" minage="5475" maxage="9124" gender="M"/>
+			<case days="yes" minage="5475" maxage="9124" gender="F"/>
+			<case minage="9125" maxage="18249" gender="M"/>
+			<case minage="9125" maxage="18249" gender="F"/>
+			<case days="yes" minage="9125" maxage="18249" gender="M"/>
+			<case days="yes" minage="9125" maxage="18249" gender="F"/>
+			<case minage="18250" maxage="50000" gender="M"/>
+			<case minage="18250" maxage="50000" gender="F"/>
+			<case days="yes" minage="18250" maxage="50000" gender="M"/>
+			<case days="yes" minage="18250" maxage="50000" gender="F"/>
+			<case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case minage="0" maxage="50000" gender="M"/>
+			<case minage="0" maxage="50000" gender="F"/>
+			<case days="yes" minage="0" maxage="50000" gender="M"/>
+			<case days="yes" minage="0" maxage="50000" gender="F"/>
+		</rfe>
+		<rfe fr="Rougeole" en="Measles" codes="ICD10:B05-B05.9;ICPC:A7100" flags="N">
+			<case minage="0" maxage="29" gender="M"/>
+			<case minage="0" maxage="29" gender="F"/>
+			<case days="yes" minage="0" maxage="29" gender="M"/>
+			<case days="yes" minage="0" maxage="29" gender="F"/>
+			<case minage="30" maxage="364" gender="M"/>
+			<case minage="30" maxage="364" gender="F"/>
+			<case days="yes" minage="30" maxage="364" gender="M"/>
+			<case days="yes" minage="30" maxage="364" gender="F"/>
+			<case minage="365" maxage="1824" gender="M"/>
+			<case minage="365" maxage="1824" gender="F"/>
+			<case days="yes" minage="365" maxage="1824" gender="M"/>
+			<case days="yes" minage="365" maxage="1824" gender="F"/>
+			<case minage="1825" maxage="5474" gender="M"/>
+			<case minage="1825" maxage="5474" gender="F"/>
+			<case days="yes" minage="1825" maxage="5474" gender="M"/>
+			<case days="yes" minage="1825" maxage="5474" gender="F"/>
+			<case minage="5475" maxage="9124" gender="M"/>
+			<case minage="5475" maxage="9124" gender="F"/>
+			<case days="yes" minage="5475" maxage="9124" gender="M"/>
+			<case days="yes" minage="5475" maxage="9124" gender="F"/>
+			<case minage="9125" maxage="18249" gender="M"/>
+			<case minage="9125" maxage="18249" gender="F"/>
+			<case days="yes" minage="9125" maxage="18249" gender="M"/>
+			<case days="yes" minage="9125" maxage="18249" gender="F"/>
+			<case minage="18250" maxage="50000" gender="M"/>
+			<case minage="18250" maxage="50000" gender="F"/>
+			<case days="yes" minage="18250" maxage="50000" gender="M"/>
+			<case days="yes" minage="18250" maxage="50000" gender="F"/>
+			<case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case minage="0" maxage="50000" gender="M"/>
+			<case minage="0" maxage="50000" gender="F"/>
+			<case days="yes" minage="0" maxage="50000" gender="M"/>
+			<case days="yes" minage="0" maxage="50000" gender="F"/>
+		</rfe>
+		<rfe fr="Diarrhée sanglante" en="Diarrhoea with blood" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="NB">
+			<case minage="0" maxage="29" gender="M"/>
+			<case minage="0" maxage="29" gender="F"/>
+			<case days="yes" minage="0" maxage="29" gender="M"/>
+			<case days="yes" minage="0" maxage="29" gender="F"/>
+			<case minage="30" maxage="364" gender="M"/>
+			<case minage="30" maxage="364" gender="F"/>
+			<case days="yes" minage="30" maxage="364" gender="M"/>
+			<case days="yes" minage="30" maxage="364" gender="F"/>
+			<case minage="365" maxage="1824" gender="M"/>
+			<case minage="365" maxage="1824" gender="F"/>
+			<case days="yes" minage="365" maxage="1824" gender="M"/>
+			<case days="yes" minage="365" maxage="1824" gender="F"/>
+			<case minage="1825" maxage="5474" gender="M"/>
+			<case minage="1825" maxage="5474" gender="F"/>
+			<case days="yes" minage="1825" maxage="5474" gender="M"/>
+			<case days="yes" minage="1825" maxage="5474" gender="F"/>
+			<case minage="5475" maxage="9124" gender="M"/>
+			<case minage="5475" maxage="9124" gender="F"/>
+			<case days="yes" minage="5475" maxage="9124" gender="M"/>
+			<case days="yes" minage="5475" maxage="9124" gender="F"/>
+			<case minage="9125" maxage="18249" gender="M"/>
+			<case minage="9125" maxage="18249" gender="F"/>
+			<case days="yes" minage="9125" maxage="18249" gender="M"/>
+			<case days="yes" minage="9125" maxage="18249" gender="F"/>
+			<case minage="18250" maxage="50000" gender="M"/>
+			<case minage="18250" maxage="50000" gender="F"/>
+			<case days="yes" minage="18250" maxage="50000" gender="M"/>
+			<case days="yes" minage="18250" maxage="50000" gender="F"/>
+			<case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+			<case minage="0" maxage="50000" gender="M"/>
+			<case minage="0" maxage="50000" gender="F"/>
+			<case days="yes" minage="0" maxage="50000" gender="M"/>
+			<case days="yes" minage="0" maxage="50000" gender="F"/>
+		</rfe>
+        <rfe fr="Diarrhée non sanglante" en="Diarrhoea without blood" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="Nb">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Choléra (suspect)" en="Cholera (suspicion)" codes="ICD10:A00-A00.9" flags="N">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Méningite" en="Meningitis" codes="ICD10:A32.1,A83-A87.9,B00.3-B00.4,B01.0,B02.1,B05.1,B26.1,B37.5,B38.4,G00-G05.9,G96.1;ICPC:N7100" flags="N">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Tétanos néonatal" en="Neonatal tetanus" codes="ICD10:A33;ICPC:N7200" flags="N">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Tétanos (suspect)" en="Tetanus (suspicion)" codes="ICD10:A33;ICPC:N7200" flags="N">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Troubles psychiatriques" en="Psychiatric disorders" codes="ICD10:F-F99.9;ICPC:P-P2999,P7000-P9999" flags="N">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Traumatismes physiques" en="Physical trauma" codes="ICD10:F07.2,H40.3,H83.3,K06.2,M23.2,M24.2,M87.2,O08.6,O71-O71.9,P00.5,P10-P15.9,S06.0,S06.2,S07.0,S07.9,S08.0,S11-S11.9,S14.0-S14.1,S15-S15.7,S21-S21.9,S23.1,S24.0,S25-S25.8,S26.0,S26.8-S26.9,S27-S27.9,S33.1,S34.0,S35-S35.9,S37.9,S38.0-S38.1,S38.3,S39.0,S39.6-S39.9,S45-S45.9,S55.0-S55.2,S55.7,S65-S65.7,S75.0-S75.2,S75.7,S75.9,S85-S85.9,S95.0-S95.2,S95.7,S95.9,T09-T09.9,T14.5,T14.7-T14.9,T28.4,T70.0-T70.1,T79-T79.9,T90-T94.1,T95-T96,T97,T98.0-T98.3;ICPC:A8000-A8200,H7900,H8500,L8000,N7900,N8000-N8100,W7500,X8200,Y8000" flags="N">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Complications du post-partum" en="Post-partum complications" codes="ICD10:085-O90.9;ICPC:W9600" flags="N">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Observations du post-partum" en="Post-partum observation" codes="ICD10:0" flags="N">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Affections gynéco obstétriques" en="Gynaecologic and obstetrical disorders" codes="ICD10:C50-C58.9,N61-099.9;ICPC:W-W9999,X-X9999" flags="N">
+            <case/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Tuberculose BK+" en="Tuberculosis BK+" codes="ICD10:A15-A19.9,B90-B90.9,J65,M01.1,M49.0,M90.0,098.0,P37.0;ICPC:A7000" flags="NC">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="SIDA" en="AIDS" codes="ICD10:B20-B24.9;ICPC:B9000" flags="N">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Malnutrition protéino-calorique" en="Protein-energy malnutrition" codes="ICD10:E40,E41,E42,E43,E44.0-E44.1,E45,E46" flags="N">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <otherrfe>
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case days="yes" minage="0" maxage="29" gender="M"/>
+            <case days="yes" minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case days="yes" minage="30" maxage="364" gender="M"/>
+            <case days="yes" minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case days="yes" minage="365" maxage="1824" gender="M"/>
+            <case days="yes" minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case days="yes" minage="1825" maxage="5474" gender="M"/>
+            <case days="yes" minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case days="yes" minage="5475" maxage="9124" gender="M"/>
+            <case days="yes" minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case days="yes" minage="9125" maxage="18249" gender="M"/>
+            <case days="yes" minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case days="yes" minage="18250" maxage="50000" gender="M"/>
+            <case days="yes" minage="18250" maxage="50000" gender="F"/>
+            <case pregnant="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case pregnant="yes" days="yes" minage="0" maxage="50000" gender="F" colspan="2"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+            <case days="yes" minage="0" maxage="50000" gender="M"/>
+            <case days="yes" minage="0" maxage="50000" gender="F"/>
+        </otherrfe>
+	</admissions>
+</report>

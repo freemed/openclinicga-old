@@ -1,0 +1,201 @@
+<permissions>
+    <application type="Web" id="examinations" displaysection="false">
+        <permission type="Web.Occup" id="audiometry">occup.audiometry</permission>
+        <permission type="Web.Occup" id="clinicalexamination">occup.clinicalexamination</permission>
+        <permission type="Web.Occup" id="labrequest">occup.labrequest</permission>
+        <permission type="Web.Occup" id="ecg">occup.ecg</permission>
+        <permission type="Web.Occup" id="otherrequests">occup.otherrequests</permission>
+        <permission type="Web.Occup" id="respiratoryfunction">occup.respiratoryfunction</permission>
+        <permission type="Web.Occup" id="nurseexamination">occup.nurseexamination</permission>
+        <permission type="Web.Occup" id="nursefollowup">occup.nursefollowup</permission>
+        <permission type="Web.Occup" id="internalreferencefollowup">occup.internalreferencefollowup</permission>
+        <permission type="Web.Occup" id="internalreferencefollowup.summary">occup.internalreferencefollowupsummary</permission>
+        <permission type="Web.Occup" id="anatomopathology">occup.anatomopathology</permission>
+        <permission type="Web.Occup" id="medicalimagingrequest">occup.medicalimagingrequest</permission>
+        <permission type="Web.Occup" id="reference">occup.reference</permission>
+        <permission type="Web.Occup" id="surveillance">occup.surveillance</permission>
+        <permission type="Web.Occup" id="urineexamination">occup.urineexamination</permission>
+        <permission type="Web.Occup" id="diabetesfollowup">occup.diabetesfollowup</permission>
+        <permission type="Web.Occup" id="neurologycarefile">occup.neurologycarefile</permission>
+        <permission type="Web.Occup" id="neurologytransfer">occup.neurologytransfer</permission>
+        <permission type="Web.Occup" id="neurologyfollowup">occup.neurologyfollowup</permission>
+        <permission type="Web.Occup" id="physioreport">occup.physioreport</permission>
+        <permission type="Web.Occup" id="physioconsultation">occup.physioconsultation</permission>
+        <permission type="Web.Occup" id="anesthesiaperop">occup.anesthesiaperop</permission>
+        <permission type="Web.Occup" id="anesthesiapreop">occup.anesthesiapreop</permission>
+        <permission type="Web.Occup" id="anesthesiareport">occup.anesthesiareport</permission>
+        <permission type="Web.Occup" id="anesthesiadailynote">occup.anesthesia.daily.note</permission>
+        <permission type="Web.Occup" id="dentistconsultation">occup.dentist.consultation</permission>
+        <permission type="Web.Occup" id="stomatoimaging">occup.stomato.imaging</permission>
+        <permission type="Web.Occup" id="stomatooperationprotocol">occup.stomato.operation.protocol</permission>
+        <permission type="Web.Occup" id="delivery">occup.delivery</permission>
+        <permission type="Web.Occup" id="deliverydata">occup.delivery.data</permission>
+        <permission type="Web.Occup" id="postpartummother">occup.postpartummother</permission>
+        <permission type="Web.Occup" id="postpartumchild">occup.postpartumchild</permission>
+        <permission type="Web.Occup" id="biometricexamination">occup.biometricexamination</permission>
+        <permission type="Web.Occup" id="operationprotocol">occup.operationprotocol</permission>
+        <permission type="Web.Occup" id="kinesitherapy.application">occup.kinesitherapy.application</permission>
+        <permission type="Web.Occup" id="ophtalmology.consultation">occup.ophtalmology.consultation</permission>
+        <permission type="Web.Occup" id="ophtalmology.operation.protocol">occup.ophtalmology.operation.protocol</permission>
+        <permission type="Web.Occup" id="kinesitherapy.consultation.treatment">occup.kinesitherapy.consultation.treatment</permission>
+        <permission type="Web.Occup" id="kinesitherapy.request">occup.kinesitherapy.request</permission>
+        <permission type="Web.Occup" id="protocol.bronchoscopy">occup.protocol.bronchoscopy</permission>
+        <permission type="Web.Occup" id="protocol.oesophagogastroduodenoscopy">occup.protocol.oesophagogastroduodenoscopy</permission>
+        <permission type="Web.Occup" id="protocol.colonoscopy">occup.protocol.colonoscopy</permission>
+        <permission type="Web.Occup" id="protocol.proctology">occup.protocol.proctology</permission>
+        <permission type="Web.Occup" id="protocol.cardioechography">occup.protocol.cardioechography</permission>
+        <permission type="Web.Occup" id="protocol.abdominalechography">occup.protocol.abdominalechography</permission>
+        <permission type="Web.Occup" id="protocol.thyroidechography">occup.protocol.thyroidechography</permission>
+        <permission type="Web.Occup" id="protocol.images.stomatology">occup.protocol.images.stomatology</permission>
+        <permission type="Web.Occup" id="vaccinations">occup.vaccinations</permission>
+        <permission type="Web.Occup" id="medicalcare">occup.medicalcare</permission>
+        <permission type="Web.Occup" id="intensivecare.daily.note">occup.intensivecare.daily.note</permission>
+        <permission type="Web.Occup" id="warning">occup.warning</permission>
+        <permission type="Web.Occup" id="other">occup.other</permission>
+        <permission type="Web.Occup" id="documents">occup.documents</permission>
+        <permission type="Web.Occup" id="delivery.obreport">occup.delivery.obreport</permission>
+        <permission type="Web.Occup" id="surveillance_anesthesie">occup.surveillance_anesthesie</permission>
+        <permission type="Web.Occup" id="vitalsigns">occup.vitalsigns</permission>
+        <permission type="Web.Occup" id="minimalclinicaldata">occup.minimalclinicaldata</permission>
+    </application>
+    <application type="Web" id="newexaminations">
+        <permission type="web" id="globalexaminations">examinations.global</permission>
+        <permission type="web" id="specificexaminations">examinations.specific</permission>
+    </application>
+    <application type="Web" id="printabledocuments">
+        <permission type="web" id="printabledocuments">printabledocuments</permission>
+    </application>
+    <application type="Web" id="patient">
+        <permission type="Web" id="patient.administration">patient.administration</permission>
+        <permission type="Web" id="patient.archive">patient.archive</permission>
+    </application>
+    <application type="Web" id="curative">
+        <permission type="Web" id="curative">curative</permission>
+        <permission type="Web" id="medical">medical</permission>
+        <permission type="Web" id="problemlist">problemlist</permission>
+        <permission type="Web" id="examinations">examinations</permission>
+    </application>
+    <application type="Web" id="applications">
+        <permission type="web" id="chronicmedication">chronicmedication</permission>
+        <permission type="web" id="urgencybedoverview">adt.urgencybedoverview</permission>
+        <permission type="web" id="managecareprescriptionsschema">medical.managecareprescriptionsschema</permission>
+        <permission type="web" id="technicalexaminations">technicalexaminations</permission>
+    </application>
+    <application type="Web" id="planning">
+        <permission type="web" id="planning">planning</permission>
+        <permission type="planning" id="user">planning.user</permission>
+        <permission type="planning" id="patient">planning.patient</permission>
+    </application>
+    <application type="Web" id="anesthesie">
+        <permission type="web" id="anesthesie">medical.anesthesie</permission>
+        <permission type="web" id="controlanesthesie">medical.anesthesieedit</permission>
+        <permission type="web" id="findcontrolanesthesie">medical.anesthesiefind</permission>
+    </application>
+    <application type="Web" id="prescriptions">
+        <permission type="web" id="prescriptions">prescription</permission>
+        <permission type="web" id="medications">prescriptions.drugs</permission>
+        <permission type="web" id="careprescriptions">prescriptions.care</permission>
+        <permission type="web" id="managePrescriptions">prescriptions.manage</permission>
+    </application>
+    <application type="Web" id="diagnoses">
+        <permission type="web" id="diagnoses">diagnoses</permission>
+        <permission type="web" id="manageDiagnosesPop">diagnoses.populationDiagnoses</permission>
+        <permission type="web" id="manageDiagnosesPatient">diagnoses.patientDiagnoses</permission>
+        <permission type="web" id="manageRestrictedDiagnosis">restricteddiagnosis</permission>
+    </application>
+    <application type="Web" id="meals">
+        <permission type="web" id="patientmeals">patientmeals</permission>
+        <permission type="web" id="manageMeals">manage.meals</permission>
+        <permission type="web" id="managePatientMeals">manage.patientMeals</permission>
+
+    </application>
+    <application type="Web" id="adt">
+        <permission type="web" id="manageEncounters">adt.encounter</permission>
+        <permission type="web" id="encounterHistory">adt.encounterHistory</permission>
+        <permission type="web" id="urgencybedoverview">adt.urgencybedoverview</permission>
+    </application>
+    <application type="Web" id="nursing">
+        <permission type="web" id="nursing">nursing</permission>
+    </application>
+    <application type="Web" id="statistics">
+        <permission type="web" id="statistics">statistics</permission>
+        <permission type="web" id="statistics.globalpathologydistribution">statistics.globalpathologydistribution</permission>
+        <permission type="web" id="statistics.episodesperdepartment">statistics.episodesperdepartment</permission>
+        <permission type="web" id="statistics.servicetransactions">statistics.servicetransactions</permission>
+        <permission type="web" id="statistics.chin">statistics.chin</permission>
+    </application>
+    <application type="Web" id="medication">
+        <permission type="web" id="medicationschema">medication.medicationschema</permission>
+    </application>
+    <application type="Web" id="financial">
+        <permission type="balance" id="financial">financial</permission>
+        <permission type="balance" id="manageBalances">financial.balance</permission>
+        <permission type="balance" id="balancehistory">financial.balancehistory</permission>
+        <permission type="balance" id="addDebet">financial.debettransaction</permission>
+        <permission type="balance" id="addCredit">financial.credittransaction</permission>
+        <permission type="web" id="patientCreditEdit">financial.patientcreditedit</permission>
+        <permission type="web" id="insurarCreditEdit">financial.insurarcreditedit</permission>
+        <permission type="web" id="debeteedit">financial.debet</permission>
+        <permission type="web" id="patientInvoiceEdit">financial.patientinvoice</permission>
+        <permission type="web" id="insuranceInvoiceEdit">financial.insuranceinvoice</permission>
+        <permission type="web" id="updateInvoice">financial.invoiceupdate</permission>
+    </application>
+    <application type="Web" id="executive">
+        <permission type="web" id="bedoccupation">occup.bedoccupation</permission>
+    </application>
+    <application type="Web" id="examenstechniques">
+        <permission type="web" id="labos">labos</permission>
+        <permission type="web" id="userLaboResults">labos.userlaboresults</permission>
+        <permission type="web" id="patientLaboResults">labos.patientlaboresults</permission>
+        <permission type="web" id="serviceLaboResults">labos.servicelaboresults</permission>
+        <permission type="web" id="openUserLaboResults">labos.openuserlaboresults</permission>
+        <permission type="web" id="openPatientLaboResults">labos.openpatientlaboresults</permission>
+        <permission type="web" id="requestswithoutsamples">labos.requestswithoutsamples</permission>
+        <permission type="web" id="prepareworklists">labos.prepareworklists</permission>
+        <permission type="web" id="worklists">labos.worklists</permission>
+        <permission type="web" id="fastresultsedit">labos.fastresults</permission>
+        <permission type="web" id="biologicvalidationbyworklist">labos.biologicvalidationbyworklist</permission>
+        <permission type="web" id="biologicvalidationbyrequest">labos.biologicvalidationbyrequest</permission>
+        <permission type="web" id="samplereception">labos.samplereception</permission>
+        <permission type="web" id="printnewresults">labos.printnewresults</permission>
+    </application>
+    <application type="Web" id="xrays">
+        <permission type="web" id="rx">rx</permission>
+        <permission type="web" id="occup.medicalimagingrequest.execute">occup.medicalimagingrequest.execute</permission>
+        <permission type="web" id="openxrayrequest">rx.openxrayrequests</permission>
+    </application>
+    <application type="Web" id="system">
+        <permission type="web" id="systemmanagement">system.management</permission>
+        <permission type="web" id="centerinfo">system.centerinfo</permission>
+        <permission type="web.manage" id="manageExaminations">system.manageexaminations</permission>
+        <permission type="web.manage" id="manageserviceexaminations">system.manageserviceexaminations</permission>
+        <permission type="web.manage" id="manageinsurars">system.manageinsurars</permission>
+        <permission type="web.manage" id="manageprestations">system.manageprestations</permission>
+        <permission type="web.manage" id="manageUserDiagnoses">diagnoses.manageuserdiagnoses</permission>
+        <permission type="Web.manage" id="manageServices">system.manageservices</permission>
+        <permission type="web.manage" id="manageBeds">adt.managebeds</permission>
+        <permission type="web.manage" id="managetranslations">system.managetranslations</permission>
+        <permission type="web" id="printlabel">system.printlabel</permission>
+        <permission type="web" id="managealerts">occup.managealerts</permission>
+        <permission type="web.UserProfile" id="usersPerProfile">permissions.usersPerProfile</permission>
+        <permission type="web" id="insurance">financial.insurance</permission>
+        <permission type="web" id="insurancehistory">financial.insurancehistory</permission>
+        <permission type="web.manage" id="manageWickets">financial.wicket</permission>
+        <permission type="wicket" id="wicketoverview">financial.wicketoverview</permission>
+        <permission type="web" id="immo">system.immo</permission>
+    </application>
+    <application type="Web" id="pharmacy">
+        <permission type="web" id="pharmacy">pharmacy</permission>
+        <permission type="web" id="medication">medication</permission>
+        <permission type="web" id="medicationdelivery">medication.medicationdelivery</permission>
+        <permission type="web" id="medicationreceipt">medication.medicationreceipt</permission>
+        <permission type="Web.manage" id="manageUserProducts">pharmacy.manageuserproducts</permission>
+        <permission type="Web.manage" id="manageProducts">pharmacy.manageproducts</permission>
+        <permission type="Web.manage" id="editproductUnit">pharmacy.editproductunit</permission>
+        <permission type="Web.manage" id="manageServiceStocks">pharmacy.manageservicestocks</permission>
+        <permission type="Web.manage" id="orders">pharmacy.order</permission>
+        <permission type="Web.manage" id="manageProductOrders">pharmacy.manageproductorders</permission>
+        <permission type="Web.manage" id="viewOrderTickets">pharmacy.viewordertickets</permission>
+        <permission type="Web.manage" id="viewProductStockFiches">pharmacy.viewproductstockfiches</permission>
+    </application>
+</permissions>

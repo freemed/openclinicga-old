@@ -1,0 +1,476 @@
+<config>
+    <parameter name="query8.4.A.2">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_A_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-a.option-1' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.A.3">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_A_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-a.option-3' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.A.4">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_A_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-a.option-2' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.B.2">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_B_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-b.option-1' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.B.3">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_B_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-b.option-3' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.B.4">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_B_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-b.option-2' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.B.5">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_B_OPTION_SUB2' and
+        value='medwan.occupational-medicine.medical-examination-report.section-b.option-4-1' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.B.6">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_B_OPTION_SUB2' and
+        value='medwan.occupational-medicine.medical-examination-report.section-b.option-4-2' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.B.7">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_B_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-b.option-5' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.C.2">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_C_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-c.option-1' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.C.3">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_C_OPTION_SUB' and
+        value='medwan.occupational-medicine.medical-examination-report.section-c.option-2-2' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.C.4">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_C_OPTION_SUB' and
+        value='medwan.occupational-medicine.medical-examination-report.section-c.option-2-1' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.C.5">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_C_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-c.option-3' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.C.6">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_C_OPTION' and
+        value='medwan.occupational-medicine.medical-examination-report.section-c.option-4' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.D.2">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_D_OPTION_SUB1' and
+        value='medwan.occupational-medicine.medical-examination-report.section-d.option-1-1' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.D.3">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_D_OPTION_SUB1' and
+        value='medwan.occupational-medicine.medical-examination-report.section-d.option-1-2' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.D.4">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_D_OPTION_SUB1' and
+        value='medwan.occupational-medicine.medical-examination-report.section-d.option-1-3' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.D.5">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_D_OPTION_SUB2' and
+        value='medwan.occupational-medicine.medical-examination-report.section-d.option-2-1' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.D.6">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_D_OPTION_SUB2' and
+        value='medwan.occupational-medicine.medical-examination-report.section-d.option-2-2' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.D.7">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_D' and
+        value='medwan.occupational-medicine.medical-examination-report.section-d.option-3' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.E.2">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_E' and
+        value='medwan.occupational-medicine.medical-examination-report.section-e.option-1' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.E.3">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_E' and
+        value='medwan.occupational-medicine.medical-examination-report.section-e.option-2' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="query8.4.G">
+        select count(a.transactionId) as ow_total
+        from Transactions a,Items b, Healthrecord c, Selection d
+        where
+        a.healthrecordId=c.healthRecordId and
+        c.personId=d.personId and
+        type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_SECTION_G_COMMENT' and
+        updateTime&gt;=? And updateTime&lt;=? and
+        a.transactionId=b.transactionId and
+        a.serverid=b.serverid
+    </parameter>
+    <parameter name="queryPersonalVaccinations">
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileItems b, Examinations c
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.status>0 and
+        b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_EXAMINATION' and
+        b.itemId=c.id and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        personId=? 
+        union
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileItems b, Examinations c, RiskExaminations d
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.status>0 and
+        b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_RISK' and
+        b.itemId=d.riskId and
+        d.examinationId=c.id and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        personId=?
+        union
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileContexts b, Examinations c, RiskExaminations d, FunctionCategoryRisks e
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.itemType='be.dpms.medwan.common.model.IConstants.FUNCTION_CATEGORY' and
+        b.itemId=e.functionCategoryId and
+        d.riskId=e.riskId and
+        d.examinationId=c.id and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        e.riskId not in (
+        select itemId
+        from RiskProfiles a, RiskProfileItems b
+        where
+        a.dateEnd is null and
+        b.profileId=a.profileId and
+        b.status&lt;0 and
+        b.itemType like 'be.dpms.medwan.common.model.IConstants.%_RISK' and
+        a.personId=?)
+        and personId=?
+        union
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileContexts b, Examinations c, RiskExaminations d, WorkplaceRisks e
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.itemType='be.dpms.medwan.common.model.IConstants.WORKPLACE' and
+        b.itemId=e.workplaceId and
+        d.riskId=e.riskId and
+        d.examinationId=c.id and
+        e.active=1 and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        e.riskId not in (
+        select itemId
+        from RiskProfiles a, RiskProfileItems b
+        where
+        a.dateEnd is null and
+        b.profileId=a.profileId and
+        b.status&lt;0 and
+        b.itemType like 'be.dpms.medwan.common.model.IConstants.%_RISK' and
+        a.personId=?)
+        and personId=?
+        UNION
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileContexts b, Examinations c, FunctionGroupExaminations d
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.itemType='be.dpms.medwan.common.model.IConstants.FUNCTION_GROUP' and
+        b.itemId=d.functionGroupId and
+        d.examinationId=c.id and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        c.id not in (
+        select itemId
+        from RiskProfiles a, RiskProfileItems b
+        where
+        a.dateEnd is null and
+        b.profileId=a.profileId and
+        b.status&lt;0 and
+        b.itemType like 'be.dpms.medwan.common.model.IConstants.%_EXAMINATION' and
+        a.personId=?
+        )
+        and personId=?
+    </parameter>
+    <parameter name="queryPersonalVaccinationsCache">
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileItems b, Examinations c
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.status>0 and
+        b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_EXAMINATION' and
+        b.itemId=c.id and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        personId=?
+        union
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileItems b, Examinations c, RiskExaminations d
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.status>0 and
+        b.itemType='be.dpms.medwan.common.model.IConstants.PERSONAL_RISK' and
+        b.itemId=d.riskId and
+        d.examinationId=c.id and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        personId=?
+        union
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileContexts b, Examinations c, RiskExaminations d, FunctionCategoryRisks e
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.itemType='be.dpms.medwan.common.model.IConstants.FUNCTION_CATEGORY' and
+        b.itemId=e.functionCategoryId and
+        d.riskId=e.riskId and
+        d.examinationId=c.id and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        e.riskId not in (
+        select itemId
+        from RiskProfiles a, RiskProfileItems b
+        where
+        a.dateEnd is null and
+        b.profileId=a.profileId and
+        b.status&lt;0 and
+        b.itemType like 'be.dpms.medwan.common.model.IConstants.%_RISK' and
+        a.personId=?)
+        and personId=?
+        union
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileContexts b, Examinations c, RiskExaminations d, WorkplaceRisks e
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.itemType='be.dpms.medwan.common.model.IConstants.WORKPLACE' and
+        b.itemId=e.workplaceId and
+        d.riskId=e.riskId and
+        d.examinationId=c.id and
+        e.active=1 and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        e.riskId not in (
+        select itemId
+        from RiskProfiles a, RiskProfileItems b
+        where
+        a.dateEnd is null and
+        b.profileId=a.profileId and
+        b.status&lt;0 and
+        b.itemType like 'be.dpms.medwan.common.model.IConstants.%_RISK' and
+        a.personId=?)
+        and personId=?
+        UNION
+        select  c.messageKey
+        from RiskProfiles a, RiskProfileContexts b, Examinations c, FunctionGroupExaminations d
+        where
+        a.dateEnd is null and
+        b.profileId = a.profileId and
+        b.itemType='be.dpms.medwan.common.model.IConstants.FUNCTION_GROUP' and
+        b.itemId=d.functionGroupId and
+        d.examinationId=c.id and
+        c.transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and
+        c.id not in (
+        select itemId
+        from RiskProfiles a, RiskProfileItems b
+        where
+        a.dateEnd is null and
+        b.profileId=a.profileId and
+        b.status&lt;0 and
+        b.itemType like 'be.dpms.medwan.common.model.IConstants.%_EXAMINATION' and
+        a.personId=?
+        )
+        and personId=?
+    </parameter>
+    <parameter name="query.statistics.hospital.overheadcosts">
+        select 9885674 as cost
+    </parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_TAAK1">be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_TAAK2;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_TAAK3;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_TAAK4;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_TAAK5;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_TAAK6;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_TAAK7;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_TAAK8</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL1">be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL2;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL3;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL4;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL5;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL6;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL7;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL8</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK1">be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK2;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK3;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK4;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK5;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK6;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK7;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK8</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_REMARK">be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_REMARK1;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_REMARK2;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_REMARK3;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_REMARK4;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_REMARK5;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_REMARK6;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_REMARK7</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_HOBBY">be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_HOBBY1;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_HOBBY2;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_HOBBY3;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_HOBBY4;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_HOBBY5;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_HOBBY6;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_HOBBY7</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_MEDISCHE_ANTECEDENTEN1">be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_MEDISCHE_ANTECEDENTEN2;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_MEDISCHE_ANTECEDENTEN3;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_MEDISCHE_ANTECEDENTEN4;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_MEDISCHE_ANTECEDENTEN5</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COMPLAINTS">be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COMPLAINTS1;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COMPLAINTS2;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COMPLAINTS3;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COMPLAINTS4;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COMPLAINTS5;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COMPLAINTS6;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COMPLAINTS7</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_REMARK">be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_REMARK1;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_REMARK2;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_REMARK3;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_REMARK4;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_REMARK5;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_REMARK6;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_REMARK7</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_MEDICIATIONS">be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_MEDICIATIONS1;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_MEDICIATIONS2;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_MEDICIATIONS3;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_MEDICIATIONS4;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_MEDICIATIONS5;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_MEDICIATIONS6;be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_MEDICIATIONS7</parameter>
+    <parameter name="compoundItemtype=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT">be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT1;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT2;be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT3</parameter>
+    <parameter name="calculatableContexts"></parameter>
+    <parameter name="getVaccinationQuery">select a.*,b.value,convert(datetime,(select c.value from Items c where b.transactionId=c.transactionId and b.serverid=c.serverid and c.type='be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE'),103) mydate from Transactions a,Items b  where b.transactionId=a.transactionId and healthRecordId=? and b.serverid=a.serverid and b.type='be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE' and transactionType='be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION' order by b.value,mydate DESC</parameter>
+    <parameter name="noShowExaminationsGenderM">
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DELIVERY
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPERATION_PROTOCOL_GYN
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_POST_PARTUM_MOTHER
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GYNAE_CONSULTATION
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OBREPORT
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_ACCOUCHEMENT
+    </parameter>
+</config>

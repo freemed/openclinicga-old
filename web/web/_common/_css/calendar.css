@@ -1,0 +1,85 @@
+/*===== CSS theme file for CalendarXP 8.0 (Totally configurable) =====*/
+/* NOTE: Better use numbered color values instead of literal ones, because opera has problem with the latter in certain cases. */
+
+/* Calendar Day Header - the cells showing "Sunday", "Monday" .... */
+.CalHead {cursor:default; text-align:center; font:bold 7.5pt Tahoma, Verdana, sans-serif; color:white;}
+/* Day Cell - the calendar cell of each day */
+.CalCell {cursor:pointer; text-align:center;background:red;}
+/* Day Number Anchor style */
+.CellAnchor {text-decoration:none; font:9pt verdana;background:transparent;}
+
+/* WeekNo Header - the top header cell of the week number column */
+.WeekHead {cursor:default; text-align:center; font:bold 10pt arial; color:white;}
+/* WeekNo Column Cell - the cells of the week number column */
+.WeekCol {cursor:default; text-align:center; background:#858A8F;}
+/* WeekNo Anchor style */
+.WeekAnchor {text-decoration:none; font:bold 8pt arial; color:white;background:red;}
+
+/* Month navigators - the "<" or ">" used to move to previous or next month */
+.MonthNav {
+    font-family: verdana;
+	font-size: 10px;
+	font-weight: normal;
+	color: white;
+	height : 17px;
+    border-left-width: 0px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-color: #858A8F;
+	border-top-color: #858A8F;
+	border-right-color: #858A8F;
+	border-bottom-color: #858A8F;
+	cursor: pointer;
+    background: url( "../../_img/button-bg.png" ) repeat-x;
+    background:#858A8F;
+}
+A.MonthNav:hover {color:#ffcc00;}
+A.MonthNav:active {color:red}
+
+/* styles for the 3 calendar sections (actually 3 table TDs) */
+.CalTop {text-align:center;}
+.CalMiddle {}
+.CalBottom {text-align:center;}
+
+/* Calendar title - showing year and month. when giDCStyle=0, it's the style of the year/month dropdowns; giDCStyle>0, it's the style to show gsCalTitle.  */
+.CalTitle {
+	FONT-WEIGHT: normal;
+	FONT-SIZE: 10px;
+	BACKGROUND: #ffffff;
+	COLOR: #333399;
+	BORDER-TOP-STYLE: groove;
+	FONT-FAMILY: Verdana;
+	BORDER-RIGHT-STYLE: groove;
+	BORDER-LEFT-STYLE: groove;
+	BORDER-BOTTOM-STYLE: groove;
+}
+
+/* The style of internal floating div/layer tags, which are usually used to create the artificial dropdown selectors. */
+.FreeDiv {}
+
+/* The style of the outer TABLE tag which is the outer calendar panel. */
+#outerTable {border:1px solid #ACB5BF;background:#ACB5BF;}
+/* The style of the inner DIV tag that holds the inner panel of all calendar cells. */
+#innerDiv {border:1px solid #ACB5BF;background:#858A8F;}
+/*===== Above CSS styles are commonly used in the script engine =====*/
+
+/*====== Following are additional per-theme styles, e.g. the inner dropdown selectors and today etc. You may have your own defined. ======*/
+.Today {text-decoration:none; font:bold 9pt Tahoma, Verdana; color:white;}
+A.Today:hover {color:#ffcc00;}
+A.Today:active {color:red;}
+
+TR.Label
+{
+	color: black;
+	font-family: Verdana;
+	font-size: 9px;
+	font-weight: bolder;
+	text-align: center;
+	background-color: #BFC3C7;
+	padding-left: 5px;
+	padding-right: 1px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+
+}

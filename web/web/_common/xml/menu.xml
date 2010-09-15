@@ -1,0 +1,91 @@
+<Menus>
+	<Menu labelid="employee">
+		<Menu labelid="administration" accessrights="patient.administration.select" url="/patientdata.do" patientselected="true"/>
+        <Menu labelid="new_patient" accessrights="patient.administration" url="/patientnew.do?PatientNew=true"/>
+		<Menu labelid="clear" accessrights="patient.administration.select" url="/start.do?PatientNew=true"/>
+        <Menu labelid="printPatientCard" accessrights="patient.administration.select" url="javascript:printPatientCard();" patientselected="true"/>
+        <Menu labelid="loadPicture" accessrights="patient.administration" url="javascript:storePicture();" patientselected="true"/>
+        <Menu labelid="showPicture" accessrights="patient.administration.select" url="javascript:showPicture();" patientselected="true"/>
+        <Menu labelid="enrollFingerPrint" accessrights="patient.administration" url="javascript:enrollFingerPrint();" patientselected="true"/>
+        <Menu labelid="Read_fingerprint" accessrights="patient.administration.select" url="javascript:readFingerprint();"/>
+        <Menu labelid="createArchiveFile" accessrights="patient.archive.select" url="javascript:createArchiveFile();" patientselected="true"/>
+    </Menu>
+    <Menu labelid="curative" accessrights="curative.select" patientselected="true" url="/main.do?Page=curative/index.jsp"/>
+    <Menu labelid="nursing" accessrights="nursing.select" patientselected="true" url="/main.do?Page=pharmacy/manageAdministrations.jsp"/>
+    <Menu labelid="applications">
+		<Menu labelid="planning" accessrights="planning.select" url="/main.do?Page=planning/findPlanning.jsp"/>
+        <Menu labelid="anesthesie" accessrights="medical.anesthesie.select">
+            <Menu labelid="controlanesthesie" accessrights="medical.anesthesieedit.select" url="/main.do?Page=medical/controlAnesthesieEdit.jsp"/>
+            <Menu labelid="findcontrolanesthesie" accessrights="medical.anesthesiefind.select" url="/main.do?Page=medical/controlAnesthesieFind.jsp"/>
+        </Menu>
+        <Menu labelid="prescriptions" accessrights="prescription.select" patientselected="false">
+            <Menu labelid="medications" accessrights="prescriptions.drugs.select" patientselected="true" url="javascript:openPopup('medical/managePrescriptionsPopup.jsp&amp;skipEmpty=1',900,400,'medication');"/>
+            <Menu labelid="medicationpaperprescription" accessrights="prescriptions.drugs.select" patientselected="true" url="javascript:openPopup('medical/managePrescriptionForm.jsp&amp;skipEmpty=1',650,430,'medication');"/>
+            <Menu labelid="servicemedications" accessrights="prescriptions.drugs.select" patientselected="false" url="javascript:openPopup('medical/managePrescriptionsPopup.jsp&amp;ServicePrescriptions=true',900,400,'medication');"/>
+            <Menu labelid="careprescriptions" accessrights="prescriptions.care.select" patientselected="true" url="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp&amp;skipEmpty=1',900,400,'care');"/>
+            <Menu labelid="ManagePrescriptions" accessrights="prescription" patientselected="true" url="/main.do?Page=medical/managePrescriptions.jsp"/>
+            <Menu labelid="chronicmedication" accessrights="chronicmedication.select" patientselected="true" url="/main.do?Page=medical/manageChronicMedication.jsp"/>
+        </Menu>
+        <Menu labelid="urgencybedoverview" accessrights="adt.urgencybedoverview.select" url="/main.do?Page=adt/overviewUrgencyBeds.jsp"/>
+        <Menu labelid="pharmacy" accessrights="pharmacy.select">
+            <Menu labelid="medication" patientselected="true" accessrights="medication.select">
+                <Menu labelid="medicationdelivery" accessrights="medication.medicationdelivery" patientselected="true" url="/main.do?Page=pharmacy/medication/deliverMedicationBySearch.jsp"/>
+                <Menu labelid="medicationreceipt" accessrights="medication.medicationreceipt" patientselected="true" url="/main.do?Page=pharmacy/medication/receiveMedication.jsp"/>
+            </Menu>
+            <Menu labelid="manageUserProducts" accessrights="pharmacy.manageuserproducts.select" url="/main.do?Page=pharmacy/manageUserProducts.jsp"/>
+            <Menu labelid="manageProducts" accessrights="pharmacy.manageproducts.select" url="/main.do?Page=pharmacy/manageProducts.jsp"/>
+            <Menu labelid="manageServiceStocks" accessrights="pharmacy.manageservicestocks.select" url="/main.do?Page=pharmacy/manageServiceStocks.jsp"/>
+            <Menu labelid="productOrderManagement" accessrights="pharmacy.order.select">
+                <Menu labelid="manageProductOrders" accessrights="pharmacy.manageproductorders" url="/main.do?Page=pharmacy/manageProductOrders.jsp"/>
+                <Menu labelid="viewOrderTickets" accessrights="pharmacy.viewordertickets" url="/main.do?Page=pharmacy/viewOrderTickets.jsp"/>
+            </Menu>
+            <Menu labelid="viewProductStockFiches" accessrights="pharmacy.viewproductstockfiches" url="/main.do?Page=pharmacy/viewProductStockFiches.jsp"/>
+        </Menu>
+        <Menu labelid="financial" accessrights="financial.select">
+            <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
+            <Menu labelid="insurarCreditEdit" accessrights="financial.insurarcreditedit" url="/main.do?Page=financial/insurarCreditEdit.jsp"/>
+            <Menu labelid="debetEdit" patientselected="true" accessrights="financial.debet.edit" url="/main.do?Page=financial/debetEdit.jsp"/>
+            <Menu labelid="patientInvoiceEdit" patientselected="true" accessrights="financial.patientinvoice.edit" url="/main.do?Page=financial/patientInvoiceEdit.jsp"/>
+            <Menu labelid="insuranceInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/insuranceInvoiceEdit.jsp"/>
+            <Menu labelid="extraInsuranceInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/extraInsuranceInvoiceEdit.jsp"/>
+            <Menu labelid="searchInvoice" accessrights="financial.insuranceinvoice.select" url="/main.do?Page=financial/searchInvoice.jsp"/>
+            <Menu labelid="updateInvoice" accessrights="financial.insuranceinvoice.update" url="/main.do?Page=financial/updateInvoice.jsp"/>
+        </Menu>
+        <Menu labelid="wicket" accessrights="financial.wicket.select">
+            <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
+            <Menu labelid="manageWicketCredit" accessrights="financial.wicket" url="/main.do?Page=financial/wicket/manageWicketOperationCredit.jsp"/>
+            <Menu labelid="manageWicketDebet" accessrights="financial.wicket" url="/main.do?Page=financial/wicket/manageWicketOperationDebet.jsp"/>
+            <Menu labelid="manageWicketOverview" accessrights="financial.wicketoverview" url="/main.do?Page=financial/wicket/wicketOverview.jsp"/>
+        </Menu>
+        <Menu labelid="examenstechniques" accessrights="technicalexaminations.select">
+   		    <Menu labelid="labos" accessrights="labos.select" url="/main.do?Page=labos/index.jsp"/>
+            <Menu labelid="xrays" accessrights="rx.select" url="/main.do?Page=xrays/index.jsp"/>
+       	</Menu>
+        <Menu labelid="adt" accessrights="adt.encounter.select">
+            <Menu labelid="newEncounter" accessrights="adt.encounter" patientselected="true" url="/main.do?Page=adt/editEncounter.jsp"/>
+            <Menu labelid="historyEncounters" accessrights="adt.encounterhistory" patientselected="true" url="/main.do?Page=adt/historyEncounter.jsp"/>
+        </Menu>
+        <Menu labelid="diagnoses" accessrights="diagnoses.select">
+            <Menu labelid="manageUserDiagnoses" accessrights="diagnoses.manageuserdiagnoses" url="/main.do?Page=medical/manageUserDiagnoses.jsp"/>
+            <Menu labelid="manageDiagnosesPop" accessrights="diagnoses.populationdiagnoses" url="/main.do?Page=medical/manageDiagnosesPop.jsp"/>
+            <Menu labelid="manageDiagnosesPatient" accessrights="diagnoses.patientdiagnoses" url="/main.do?Page=medical/manageDiagnosesPatient.jsp"/>
+        </Menu>
+        <Menu labelid="meals" accessrights="patientmeals" url="/main.do?Page=meals/manageMeals.jsp" />            
+        <Menu labelid="statistics" accessrights="statistics.select" url="/main.do?Page=statistics/index.jsp"/>
+        <todo><Menu labelid="datacenter" accessrights="sa" url="/main.do?Page=datacenterstatistics/index.jsp"/></todo>
+        <Menu labelid="executive" accessrights="executive.select">
+            <Menu labelid="executive.bedoccupancy" accessrights="occup.bedoccupation.select" url="/main.do?Page=statistics/bedoccupancyStatus.jsp"/>
+        </Menu>
+        <Menu labelid="printlabel" accessrights="system.printlabel" patientselected="true" url="javascript:printPatientLabel();"/>
+    </Menu>
+    <Menu labelid="documents" accessrights="printableDocuments.select" patientselected="true" url="/main.do?Page=medical/showPrintableDocuments.jsp"/>
+	<Menu labelid="system">
+		<Menu labelid="myProfile" url="/main.do?Page=userprofile/index.jsp"/>
+
+        <Menu labelid="centerinfo" accessrights="system.centerinfo" url="/main.do?Page=center/index.jsp"/>
+		<Menu labelid="management" accessrights="system.management" url="/main.do?Page=system/menu.jsp"/>
+		<Menu labelid="permissions" accessrights="sa" url="/main.do?Page=permissions/index.jsp"/>
+    </Menu>
+    <Menu labelid="immo" accessrights="system.immo.select" url="/main.do?Page=util/listImmoLabels.jsp"/>
+    <Menu labelid="help" url="javascript:showmanual();"/>
+</Menus>

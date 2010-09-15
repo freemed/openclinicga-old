@@ -1,0 +1,148 @@
+<report>
+    <consultations>
+        <rfe fr="Paludisme simple présumé" en="Malaria, presumed" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="Nc">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NcP">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Paludisme simple confirmé" en="Malaria, presumed" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NC">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NCP">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Paludisme simple présumé avec troubles digestifs mineurs" en="Malaria, presumed" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NcD">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NcPD">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Paludisme simple confirmé avec troubles digestifs mineurs" en="Malaria, presumed" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NCD">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NCPD">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+    </consultations>
+</report>

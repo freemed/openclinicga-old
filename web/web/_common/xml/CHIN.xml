@@ -1,0 +1,54 @@
+<indicators>
+    <indicator id="chin.tuberculosis" type="diagnosistrend">
+        <comment language="en">
+            New cases of tuberculosis (ICPC-2 A70) per month for the past 36 months at the CHUK
+        </comment>
+        <comment language="fr">
+            Nouveaux cas de tuberculose (CISP-2 A70) par mois durant les derniers 36 mois pour: CHUK
+        </comment>
+        <diagnosis codetype="icpc" code="A70%" duration="1100"/>
+        <alert type="absolutecases" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="relativecases" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="absolutecasesincrease" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="relativecasesincrease" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+    </indicator>
+    <indicator id="chin.malaria" type="diagnosistrend">
+        <comment language="en">
+            New cases of malaria (ICPC-2 A73) per month during the past 36 months at the CHUK
+        </comment>
+        <comment language="fr">
+            Nouveaux cas de paludisme (CISP-2 A73) par mois durant les derniers 36 mois pour: CHUK
+        </comment>
+        <diagnosis codetype="icpc" code="A73%" duration="1100"/>
+        <alert type="absolutecases" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="relativecases" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="absolutecasesincrease" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="relativecasesincrease" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+    </indicator>
+    <indicator id="chin.hiv" type="diagnosistrend">
+        <comment language="en">
+            New cases of HIV (ICPC-2 B90) per month during the past 36 months at the CHUK
+        </comment>
+        <comment language="fr">
+            Nouveaux cas de VIH (CISP-2 B90) par mois durant les derniers 36 mois pour: CHUK
+        </comment>
+        <diagnosis codetype="icpc" code="B90%" duration="1100"/>
+        <alert type="absolutecases" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="relativecases" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="absolutecasesincrease" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="relativecasesincrease" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+    </indicator>
+    <indicator id="chin.nutrition" type="diagnosistrend">
+        <comment language="en">
+            New cases of malnutrition (ICPC-2 T91) per month during the past 36 months at the CHUK
+        </comment>
+        <comment language="fr">
+            Nouveaux cas de malnutrition (CISP-2 T91) par mois durant les derniers 36 mois pour: CHUK
+        </comment>
+        <diagnosis codetype="icpc" code="T91%" duration="1100"/>
+        <alert type="absolutecases" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="relativecases" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="absolutecasesincrease" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+        <alert type="relativecasesincrease" timeunit="30" level="400" destination="frank.verbeke@chukigali.org"/>
+    </indicator>
+</indicators>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+	<version major="4" minor="0" bug="29" date="07/09/2010"/>
+	<integrityChecks>
+		<integrityCheck className="be.mxs.common.util.diagnostics.CleanHealthRecord"/>
+		<integrityCheck className="be.mxs.common.util.diagnostics.CleanUsers"/>
+		<integrityCheck className="be.mxs.common.util.diagnostics.CleanAdminPrivate"/>
+		<integrityCheck className="be.mxs.common.util.diagnostics.CleanLabels"/>
+		<integrityCheck className="be.mxs.common.util.diagnostics.CleanNullUpdatetime"/>
+		<integrityCheck className="be.mxs.common.util.diagnostics.CleanCounters"/>
+	</integrityChecks>
+</application>
