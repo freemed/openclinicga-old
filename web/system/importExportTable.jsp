@@ -1,6 +1,4 @@
-<%@ page import="com.codestudio.util.SQLUtil,
-                 com.codestudio.util.JDBCPool,
-                 be.mxs.common.util.io.table.SyncTables,
+<%@ page import="be.mxs.common.util.io.table.SyncTables,
                  be.mxs.common.util.io.table.SyncTable,
                  be.mxs.common.util.io.table.SyncRow,
                  be.mxs.common.util.io.table.SyncColumn,
@@ -14,7 +12,7 @@
                  be.mxs.common.util.db.MedwanQuery,
                  java.util.SortedSet,
                  java.util.TreeSet,
-                 java.sql.*,com.codestudio.sql.PoolMan"%>
+                 java.sql.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -54,7 +52,16 @@
         SyncColumn column;
         SyncRow row;
 
-        Connection connectionMy = PoolMan.findDataSource(sFindDatabase).getConnection();
+        Connection connectionMy = null;
+    	if(sFindDatabase.equalsIgnoreCase("openclinic")){
+    		connectionMy = MedwanQuery.getInstance().getOpenclinicConnection();
+    	}
+    	else if(sFindDatabase.equalsIgnoreCase("admin")){
+    		connectionMy = MedwanQuery.getInstance().getAdminConnection();
+    	}
+    	else if(sFindDatabase.equalsIgnoreCase("stats")){
+    		connectionMy = MedwanQuery.getInstance().getStatsConnection();
+    	}
         String sSelect = " SELECT * FROM "+sFindTable;
         PreparedStatement ps = connectionMy.prepareStatement(sSelect);
         ResultSet rs = ps.executeQuery();
@@ -161,6 +168,7 @@
         }
         rs.close();
         ps.close();
+        connectionMy.close();
         out.print(iCounter+" rows added<br>");
 
         tables.getTables().add(table);
@@ -199,14 +207,10 @@
                         <td class="admin2">
                             <select name="FindDatabase" class="text" onchange="transactionForm.submit();">
                             <%
-                                SortedSet set = new TreeSet();
-                                SQLUtil sqlUtil = SQLUtil.getInstance();
-                                java.util.Enumeration jdbcPools = sqlUtil.getAllPoolnames();
-                                JDBCPool jdbcPool;
-                                while (jdbcPools.hasMoreElements()){
-                                    jdbcPool = sqlUtil.getPool((String)jdbcPools.nextElement());
-                                    set.add(jdbcPool.getPoolname());
-                                }
+	                            SortedSet set = new TreeSet();
+	    	                    set.add("openclinic");
+	    	                    set.add("admin");
+	    	                    set.add("stats");
                                 //sorteer
                                 Iterator it = set.iterator();
                                 String sPool, sSelected;
@@ -233,7 +237,16 @@
                             <select name="FindTable" class="text" onchange="doSubmit('SelectTable');">
                                 <option/>
                         <%
-                            Connection connectionMy = PoolMan.findDataSource(sFindDatabase).getConnection();
+	                        Connection connectionMy = null;
+	                    	if(sFindDatabase.equalsIgnoreCase("openclinic")){
+	                    		connectionMy = MedwanQuery.getInstance().getOpenclinicConnection();
+	                    	}
+	                    	else if(sFindDatabase.equalsIgnoreCase("admin")){
+	                    		connectionMy = MedwanQuery.getInstance().getAdminConnection();
+	                    	}
+	                    	else if(sFindDatabase.equalsIgnoreCase("stats")){
+	                    		connectionMy = MedwanQuery.getInstance().getStatsConnection();
+	                    	}
                             DatabaseMetaData dbmd = connectionMy.getMetaData();
                             String[] tableTypes = {"TABLE"};
                             ResultSet rs = dbmd.getTables(null,null,null,tableTypes);
@@ -285,6 +298,9 @@
                                 </tr>
                             <%
                         }
+                        rs.close();
+                        ps.close();
+                        connectionMy.close();
                         %>
                             </table>
                         </td>

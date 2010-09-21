@@ -1,6 +1,4 @@
-<%@page import="com.codestudio.util.SQLUtil,
-                com.codestudio.util.JDBCPool,
-                com.codestudio.sql.PoolMan,java.util.*" %>
+
 <%@include file="/includes/validateUser.jsp"%>
 
 <%!
@@ -65,7 +63,16 @@
         // execute the sql statement
         try {
         	Statement ps;
-            Connection connection = PoolMan.findDataSource(db).getConnection();
+        	Connection connection = null;
+        	if(db.equalsIgnoreCase("openclinic")){
+        		connection = MedwanQuery.getInstance().getOpenclinicConnection();
+        	}
+        	else if(db.equalsIgnoreCase("admin")){
+        		connection = MedwanQuery.getInstance().getAdminConnection();
+        	}
+        	else if(db.equalsIgnoreCase("stats")){
+        		connection = MedwanQuery.getInstance().getStatsConnection();
+        	}
 			if(sqlText.indexOf(";")>-1){
 	            ps = connection.createStatement();
 	            String[] s = sqlText.split(";");
@@ -81,6 +88,7 @@
 
             if (ps.getResultSet()==null){
             	ps.close();
+            	connection.close();
                 result.append("This query does not return any rows");
             }
             else {
@@ -162,6 +170,7 @@
                 }
                 rs.close();
                 ps.close();
+                connection.close();
 
                 // add number of found records
                 result.append("<br/><br/>");
@@ -188,13 +197,9 @@
                 <select name="db" class="text">
                     <%
                         SortedSet set = new TreeSet();
-                        SQLUtil sqlUtil = SQLUtil.getInstance();
-                        Enumeration jdbcPools = sqlUtil.getAllPoolnames();
-                        JDBCPool jdbcPool;
-                        while (jdbcPools.hasMoreElements()) {
-                            jdbcPool = sqlUtil.getPool((String) jdbcPools.nextElement());
-                            set.add(jdbcPool.getPoolname());
-                        }
+	                    set.add("openclinic");
+	                    set.add("admin");
+	                    set.add("stats");
 
                         // sort
                         String sPool, sSelected;
