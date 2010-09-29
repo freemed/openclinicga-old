@@ -44,8 +44,17 @@ public class Diagnosis extends OC_Object{
     private String encounterUID;
     private String POA;
     private String NC;
+    private String serviceUid;
 
-    public String getNC() {
+    public String getServiceUid() {
+		return serviceUid;
+	}
+
+	public void setServiceUid(String serviceUid) {
+		this.serviceUid = serviceUid;
+	}
+
+	public String getNC() {
         return NC;
     }
 
@@ -251,7 +260,8 @@ public class Diagnosis extends OC_Object{
                                      " OC_DIAGNOSIS_REFERENCETYPE," +
                                     " OC_DIAGNOSIS_REFERENCEUID," +
                                     " OC_DIAGNOSIS_POA," +
-                                    " OC_DIAGNOSIS_NC" +
+                                    " OC_DIAGNOSIS_NC," +
+                                    " OC_DIAGNOSIS_SERVICEUID" +
                               " FROM OC_DIAGNOSES " +
                               " WHERE OC_DIAGNOSIS_SERVERID = ?" +
                               " AND OC_DIAGNOSIS_OBJECTID = ?";
@@ -307,9 +317,10 @@ public class Diagnosis extends OC_Object{
                                     " OC_DIAGNOSIS_REFERENCEUID," +
                                     " OC_DIAGNOSIS_POA," +
                                     " OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
-                                    " OC_DIAGNOSIS_NC" +
+                                    " OC_DIAGNOSIS_NC," +
+                                    " OC_DIAGNOSIS_SERVICEUID" +
                                       ") " +
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1,Integer.parseInt(ids[0]));
@@ -344,6 +355,7 @@ public class Diagnosis extends OC_Object{
                     ps.setInt(19,0);
                 }
                 ps.setString(20,this.getNC());
+                ps.setString(21,this.getServiceUid());
 
                 ps.executeUpdate();
                 ps.close();
@@ -406,6 +418,7 @@ public class Diagnosis extends OC_Object{
                         diagnosis.setReferenceUID(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_REFERENCEUID")));
                         diagnosis.setPOA(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_POA")));
                         diagnosis.setNC(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_NC")));
+                        diagnosis.setServiceUid(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_SERVICEUID")));
                     }
 
                     rs.close();
@@ -442,7 +455,7 @@ public class Diagnosis extends OC_Object{
         String sCondition = " a.OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","b.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.oc_encounter_objectid")+" and";
         String sSelect = " SELECT distinct OC_DIAGNOSIS_SERVERID,OC_DIAGNOSIS_OBJECTID,OC_DIAGNOSIS_CODE,OC_DIAGNOSIS_DATE," +
                 "OC_DIAGNOSIS_ENDDATE,OC_DIAGNOSIS_CERTAINTY,OC_DIAGNOSIS_GRAVITY,"+ MedwanQuery.getInstance().convert("varchar(4000)","OC_DIAGNOSIS_LATERALISATION")+" as OC_DIAGNOSIS_LATERALISATION," +
-                "OC_DIAGNOSIS_ENCOUNTERUID,OC_DIAGNOSIS_AUTHORUID,OC_DIAGNOSIS_CODETYPE,OC_DIAGNOSIS_POA,OC_DIAGNOSIS_NC  FROM OC_DIAGNOSES a,OC_ENCOUNTERS_view b";
+                "OC_DIAGNOSIS_ENCOUNTERUID,OC_DIAGNOSIS_AUTHORUID,OC_DIAGNOSIS_CODETYPE,OC_DIAGNOSIS_POA,OC_DIAGNOSIS_NC,OC_DIAGNOSIS_SERVICEUID  FROM OC_DIAGNOSES a,OC_ENCOUNTERS_view b";
 
         if(serverID.length() >0)      sCondition += " OC_DIAGNOSIS_SERVERID = ? AND";
         if(objectID.length() >0)      sCondition += " OC_DIAGNOSIS_OBJECTID = ? AND";
@@ -522,6 +535,7 @@ public class Diagnosis extends OC_Object{
                 dTmp.setCodeType(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_CODETYPE")));
                 dTmp.setPOA(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_POA")));
                 dTmp.setNC(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_NC")));
+                dTmp.setServiceUid(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_SERVICEUID")));
                 MedwanQuery.getInstance().getObjectCache().putObject("diagnosis",dTmp);
                 vDiagnoses.addElement(dTmp);
             }
@@ -634,6 +648,7 @@ public class Diagnosis extends OC_Object{
                 hDiagnosisInfo.put("Certainty",ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_CERTAINTY")));
                 hDiagnosisInfo.put("POA",ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_POA")));
                 hDiagnosisInfo.put("NC",ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_NC")));
+                hDiagnosisInfo.put("ServiceUid",ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_SERVICEUID")));
                 hDiagnoses.put(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_CODE")),hDiagnosisInfo);
             }
         }catch(Exception e){
@@ -771,6 +786,40 @@ public class Diagnosis extends OC_Object{
             objDiagnosis.setEncounterUID(encounter.getUid());
             objDiagnosis.setPOA(POA);
             objDiagnosis.setNC(NC);
+            MedwanQuery.getInstance().getObjectCache().putObject("diagnosis",objDiagnosis);
+            objDiagnosis.store();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveTransactionDiagnosisWithService(String sCode,String sLateralisation,String sGravity,String sCertainty, String sPersonid,String sCodeType,String sType,Timestamp updateTime,String sTransactionUID, int userid,Encounter encounter,String POA, String NC,String serviceUid){
+        try{
+            if(POA==null){
+                POA="";
+            }
+            if(NC==null){
+                NC="";
+            }
+            Diagnosis objDiagnosis = new Diagnosis();
+
+            //objDiagnosis.setAuthor(user);
+            objDiagnosis.setAuthorUID(Integer.toString(userid));
+            objDiagnosis.setCertainty(Integer.parseInt(sCertainty));
+            objDiagnosis.setGravity(Integer.parseInt(sGravity));
+            objDiagnosis.setCode(sCode.substring(sCodeType.length(),sCode.length()));
+            objDiagnosis.setCodeType(sType);
+            objDiagnosis.setLateralisation(new StringBuffer(sLateralisation));
+            objDiagnosis.setDate(encounter.getBegin());
+            objDiagnosis.setCreateDateTime(ScreenHelper.getSQLTime());
+            objDiagnosis.setUpdateDateTime(ScreenHelper.getSQLTime());
+            objDiagnosis.setUpdateUser(Integer.toString(userid));
+            objDiagnosis.setReferenceType("Transaction");
+            objDiagnosis.setReferenceUID(sTransactionUID);
+            objDiagnosis.setEncounterUID(encounter.getUid());
+            objDiagnosis.setPOA(POA);
+            objDiagnosis.setNC(NC);
+            objDiagnosis.setServiceUid(serviceUid);
             MedwanQuery.getInstance().getObjectCache().putObject("diagnosis",objDiagnosis);
             objDiagnosis.store();
         }catch(Exception e){

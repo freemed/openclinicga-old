@@ -39,7 +39,7 @@ public class DiagnosisGroupStats extends DStats{
         Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
         try {
             String sQuery="select distinct substring(OC_DIAGNOSIS_CODE,1,"+detail+") code " +
-                    "from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS_VIEW b where " +
+                    "from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS b where " +
                     "a.OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_OBJECTID")+" and "+
                     "a.OC_DIAGNOSIS_ENCOUNTEROBJECTID=b.OC_ENCOUNTER_OBJECTID and "+
                     "b.OC_ENCOUNTER_BEGINDATE<=? and " +
@@ -47,7 +47,7 @@ public class DiagnosisGroupStats extends DStats{
                     "b.OC_ENCOUNTER_ENDDATE>=? and "+
                     MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,a.OC_DIAGNOSIS_CODETYPE)=1 AND " +
                     (code.length()==0?"'"+code+"'=? and ":MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,a.OC_DIAGNOSIS_CODE)=1 AND ") +
-                    MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,b.OC_ENCOUNTER_SERVICEUID)=1 ";
+                    MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,a.OC_DIAGNOSIS_SERVICEUID)=1 ";
             PreparedStatement ps = loc_conn.prepareStatement(sQuery);
             ps.setDate(1,new java.sql.Date(end.getTime()));
             ps.setDate(2,new java.sql.Date(start.getTime()));
@@ -174,18 +174,18 @@ public class DiagnosisGroupStats extends DStats{
                         "   OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
                         "   "+MedwanQuery.getInstance().iif("OC_ENCOUNTER_BEGINDATE>?","OC_ENCOUNTER_BEGINDATE","?")+" begindate," +
                         "   "+MedwanQuery.getInstance().iif("OC_ENCOUNTER_ENDDATE<?","OC_ENCOUNTER_ENDDATE","?")+" enddate " +
-                        "from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS_VIEW b where " +
+                        "from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS b where " +
                         "b.OC_ENCOUNTER_TYPE='"+this.type+"' and " +
                         "a.OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_OBJECTID")+" and " +
                         "a.OC_DIAGNOSIS_ENCOUNTEROBJECTID=b.OC_ENCOUNTER_OBJECTID and "+
                         "b.OC_ENCOUNTER_BEGINDATE<=? and " +
                         "(b.OC_ENCOUNTER_ENDDATE is null or b.OC_ENCOUNTER_ENDDATE>=?) and " +
                         MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,a.OC_DIAGNOSIS_CODETYPE)=1 AND " +
-                        "OC_ENCOUNTER_SERVICEUID in ("+children+") "+
+                        "OC_DIAGNOSIS_SERVICEUID in ("+children+") "+
                         "group by OC_DIAGNOSIS_ENCOUNTERUID,OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
                         " OC_ENCOUNTER_BEGINDATE," +
                         " OC_ENCOUNTER_ENDDATE " +
-                        ") a, OC_DIAGNOSES_VIEW b, OC_ENCOUNTERS_VIEW c " +
+                        ") a, OC_DIAGNOSES_VIEW b, OC_ENCOUNTERS c " +
                         "where " +
                         "c.OC_ENCOUNTER_TYPE='"+this.type+"' and " +
                         "a.OC_DIAGNOSIS_ENCOUNTERUID=b.OC_DIAGNOSIS_ENCOUNTERUID and " +
@@ -193,7 +193,7 @@ public class DiagnosisGroupStats extends DStats{
                         "a.OC_DIAGNOSIS_ENCOUNTEROBJECTID=c.OC_ENCOUNTER_OBJECTID and "+
                         MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,b.OC_DIAGNOSIS_CODETYPE)=1 AND " +
                         "b.OC_DIAGNOSIS_CODE like ? AND " +
-                        "OC_ENCOUNTER_SERVICEUID in ("+children+") "+
+                        "OC_DIAGNOSIS_SERVICEUID in ("+children+") "+
                         "group by c.OC_ENCOUNTER_OUTCOME";
 
                 ps = loc_conn.prepareStatement(sQuery);
@@ -398,16 +398,16 @@ public class DiagnosisGroupStats extends DStats{
                         "   OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
                         "   "+MedwanQuery.getInstance().iif("OC_ENCOUNTER_BEGINDATE>?","OC_ENCOUNTER_BEGINDATE","?")+" begindate," +
                         "   "+MedwanQuery.getInstance().iif("OC_ENCOUNTER_ENDDATE<?","OC_ENCOUNTER_ENDDATE","?")+" enddate " +
-                        "from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS_VIEW b where " +
+                        "from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS b where " +
                         "b.OC_ENCOUNTER_TYPE='"+type+"' and " +
                         "a.OC_DIAGNOSIS_ENCOUNTERUID="+MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_OBJECTID")+" and " +
                         "a.OC_DIAGNOSIS_ENCOUNTEROBJECTID=b.OC_ENCOUNTER_OBJECTID and "+
                         "b.OC_ENCOUNTER_BEGINDATE<=? and " +
                         "b.OC_ENCOUNTER_ENDDATE>=? and " +
                         MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,a.OC_DIAGNOSIS_CODETYPE)=1 AND " +
-                        "OC_ENCOUNTER_SERVICEUID in ("+children+") "+
+                        "OC_DIAGNOSIS_SERVICEUID in ("+children+") "+
                         "group by OC_DIAGNOSIS_ENCOUNTERUID,OC_DIAGNOSIS_ENCOUNTEROBJECTID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_ENDDATE " +
-                        ") a, OC_DIAGNOSES_VIEW b, OC_ENCOUNTERS_VIEW c " +
+                        ") a, OC_DIAGNOSES_VIEW b, OC_ENCOUNTERS c " +
                         "where " +
                         "c.OC_ENCOUNTER_TYPE='"+type+"' and " +
                         "a.OC_DIAGNOSIS_ENCOUNTERUID=b.OC_DIAGNOSIS_ENCOUNTERUID and " +
@@ -415,7 +415,7 @@ public class DiagnosisGroupStats extends DStats{
                         "a.OC_DIAGNOSIS_ENCOUNTEROBJECTID=c.OC_ENCOUNTER_OBJECTID and "+
                         MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,b.OC_DIAGNOSIS_CODETYPE)=1 AND " +
                         "b.OC_DIAGNOSIS_CODE like ? and " +
-                        "OC_ENCOUNTER_SERVICEUID in ("+children+") "+
+                        "OC_DIAGNOSIS_SERVICEUID in ("+children+") "+
                         "group by substring(b.OC_DIAGNOSIS_CODE,1,"+detail+"),c.OC_ENCOUNTER_OUTCOME " +
                         "order by substring(b.OC_DIAGNOSIS_CODE,1,"+detail+"),c.OC_ENCOUNTER_OUTCOME";
 
@@ -534,7 +534,7 @@ public class DiagnosisGroupStats extends DStats{
                         "   OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
                         "  OC_DIAGNOSIS_CODE," +
                         "  OC_DIAGNOSIS_CODETYPE" +
-                        "  from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS_VIEW b" +
+                        "  from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS b" +
                         "  where" +
                         "  b.OC_ENCOUNTER_TYPE='"+type+"' and " +
                         "  a.OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_OBJECTID")+" and " +
@@ -544,7 +544,7 @@ public class DiagnosisGroupStats extends DStats{
                         (outcome.equalsIgnoreCase("null")?" (b.OC_ENCOUNTER_OUTCOME IS NULL OR b.OC_ENCOUNTER_OUTCOME='') AND":"  b.OC_ENCOUNTER_OUTCOME = ? and" )+
                         "  b.OC_ENCOUNTER_BEGINDATE<=? and" +
                         "  b.OC_ENCOUNTER_ENDDATE>=? and " +
-                        "OC_ENCOUNTER_SERVICEUID in ("+children+") "+
+                        "OC_DIAGNOSIS_SERVICEUID in ("+children+") "+
                         " ) d" +
                         " where" +
                         " c.OC_DIAGNOSIS_CODE<>d.OC_DIAGNOSIS_CODE and" +
@@ -623,7 +623,7 @@ public class DiagnosisGroupStats extends DStats{
                         " (select" +
                         "   "+MedwanQuery.getInstance().iif("OC_ENCOUNTER_BEGINDATE>?","OC_ENCOUNTER_BEGINDATE","?")+" begindate," +
                         "   "+MedwanQuery.getInstance().iif("OC_ENCOUNTER_ENDDATE<?","OC_ENCOUNTER_ENDDATE","?")+" enddate " +
-                        "  from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS_VIEW b" +
+                        "  from OC_DIAGNOSES_VIEW a,OC_ENCOUNTERS b" +
                         "  where" +
                         "  b.OC_ENCOUNTER_TYPE='"+type+"' and " +
                         "  a.OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_ENCOUNTER_OBJECTID")+" and " +
@@ -633,7 +633,7 @@ public class DiagnosisGroupStats extends DStats{
                         "  b.OC_ENCOUNTER_OUTCOME = ? and " +
                         "  b.OC_ENCOUNTER_BEGINDATE<=? and " +
                         "  b.OC_ENCOUNTER_ENDDATE>=? and " +
-                        "OC_ENCOUNTER_SERVICEUID in ("+children+") "+
+                        "OC_DIAGNOSIS_SERVICEUID in ("+children+") "+
                         " ) a" +
                         " order by duration";
                 ps = loc_conn.prepareStatement(sQuery);

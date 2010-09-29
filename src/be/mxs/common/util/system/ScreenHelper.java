@@ -1519,65 +1519,68 @@ public class ScreenHelper {
     	Vector exams = (Vector)MedwanQuery.getInstance().getServiceexaminations().get(serviceId+"."+language); 
     	if(exams==null){
 	        exams = new Vector();
-	        PreparedStatement ps = null;
-	        ResultSet rs = null;
-	        String sSelect, examIds = "";
-	        //*** get examination ids of examinations linked to the service ***
-	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-	        try{
-	            sSelect = "SELECT distinct examinationid FROM ServiceExaminations WHERE serviceid = ?";
-	            ps = oc_conn.prepareStatement(sSelect);
-	            ps.setString(1,serviceId);
-	
-	            rs = ps.executeQuery();
-	            while(rs.next()){
-	                examIds+= rs.getString("examinationid")+",";
-	            }
-	
-	            // remove last comma
-	            if(examIds.indexOf(",") > -1){
-	                examIds = examIds.substring(0,examIds.lastIndexOf(","));
-	            }
-	        }
-	        catch(Exception e){
-	            e.printStackTrace();
-	        }
-	        finally{
-	            try{
-	                if(rs!=null) rs.close();
-	                if(ps!=null) ps.close();
-	                oc_conn.close();
-	            }
-	            catch(SQLException sqle){
-	                sqle.printStackTrace();
-	            }
-	        }
-	
-	        //*** get examination objects ***
-	        if(examIds.length() > 0){
-	            oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-	            try{
-	                sSelect = "SELECT * FROM Examinations WHERE id IN ("+examIds+") ORDER BY priority";
-	                ps = oc_conn.prepareStatement(sSelect);
-	                rs = ps.executeQuery();
-	
-	                while(rs.next()){
-	                    exams.add(new ExaminationVO(new Integer(rs.getInt("id")),rs.getString("messageKey"),new Integer(rs.getInt("priority")),rs.getBytes("data"),rs.getString("transactionType"),"","",language));
-	                }
-	            }
-	            catch(Exception e){
-	                e.printStackTrace();
-	            }
-	            finally{
-	                try{
-	                    if(rs!=null) rs.close();
-	                    if(ps!=null) ps.close();
-	                    oc_conn.close();
-	                }
-	                catch(SQLException sqle){
-	                    sqle.printStackTrace();
-	                }
-	            }
+	        Service service = Service.getService(serviceId);
+	        if(service!=null && service.comment.indexOf("NOEXAMS")<0){
+		        PreparedStatement ps = null;
+		        ResultSet rs = null;
+		        String sSelect, examIds = "";
+		        //*** get examination ids of examinations linked to the service ***
+		        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		        try{
+		            sSelect = "SELECT distinct examinationid FROM ServiceExaminations WHERE serviceid = ?";
+		            ps = oc_conn.prepareStatement(sSelect);
+		            ps.setString(1,serviceId);
+		
+		            rs = ps.executeQuery();
+		            while(rs.next()){
+		                examIds+= rs.getString("examinationid")+",";
+		            }
+		
+		            // remove last comma
+		            if(examIds.indexOf(",") > -1){
+		                examIds = examIds.substring(0,examIds.lastIndexOf(","));
+		            }
+		        }
+		        catch(Exception e){
+		            e.printStackTrace();
+		        }
+		        finally{
+		            try{
+		                if(rs!=null) rs.close();
+		                if(ps!=null) ps.close();
+		                oc_conn.close();
+		            }
+		            catch(SQLException sqle){
+		                sqle.printStackTrace();
+		            }
+		        }
+		
+		        //*** get examination objects ***
+		        if(examIds.length() > 0){
+		            oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		            try{
+		                sSelect = "SELECT * FROM Examinations WHERE id IN ("+examIds+") ORDER BY priority";
+		                ps = oc_conn.prepareStatement(sSelect);
+		                rs = ps.executeQuery();
+		
+		                while(rs.next()){
+		                    exams.add(new ExaminationVO(new Integer(rs.getInt("id")),rs.getString("messageKey"),new Integer(rs.getInt("priority")),rs.getBytes("data"),rs.getString("transactionType"),"","",language));
+		                }
+		            }
+		            catch(Exception e){
+		                e.printStackTrace();
+		            }
+		            finally{
+		                try{
+		                    if(rs!=null) rs.close();
+		                    if(ps!=null) ps.close();
+		                    oc_conn.close();
+		                }
+		                catch(SQLException sqle){
+		                    sqle.printStackTrace();
+		                }
+		            }
+		        }
 	        }
 	        MedwanQuery.getInstance().getServiceexaminations().put(serviceId+"."+language,exams);
     	}
@@ -1595,7 +1598,11 @@ public class ScreenHelper {
 	        String sSelect, examIds = "",allserviceids="'"+serviceId+"'";
 	        Vector serviceIds=Service.getParentIds(serviceId);
 	        for(int n=0;n<serviceIds.size();n++){
-	            allserviceids+=",'"+(String)serviceIds.elementAt(n)+"'";
+	        	String sv=(String)serviceIds.elementAt(n);
+	        	Service service = Service.getService(sv);
+	        	if(service.comment.indexOf("NOEXAMS")<0){
+	        		allserviceids+=",'"+sv+"'";
+	        	}
 	        }
 	        //*** get examination ids of examinations linked to the service ***
 	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
