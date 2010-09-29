@@ -39,7 +39,7 @@
 			         String sReferenceType = "Transaction";
 			         Hashtable hDiagnoses = Diagnosis.getDiagnosesByReferenceUID(sReferenceUID, sReferenceType);
 			         Hashtable hDiagnosisInfo;
-			         String sCode, sGravity, sCertainty,POA,NC;
+			         String sCode, sGravity, sCertainty,POA,NC,serviceUid;
 			
 			         while (items.hasNext()) {
 			             item = (ItemVO) items.next();
@@ -51,16 +51,18 @@
 			                     sCertainty = (String) hDiagnosisInfo.get("Certainty");
 			                     POA = (String) hDiagnosisInfo.get("POA");
 			                     NC = (String) hDiagnosisInfo.get("NC");
+			                     serviceUid = (String) hDiagnosisInfo.get("ServiceUid");
 			                 } else {
 			                     sGravity = "";
 			                     sCertainty = "";
 			                     POA = "";
 			                     NC = "";
+			                     serviceUid="";
 			                 }
 			     			%><tr id="ICPCCode<%=item.getItemId()%>"><td width="1%" nowrap>
 			                         <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="deleteDiagnosis('ICPCCode<%=item.getItemId()%>');"/>
 			                         </td><td width="1%">ICPC</td><td width="1%"><b><%=item.getType().replaceAll("ICPCCode","")%></b></td><td><b><%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%></i></b>
-			                         <input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/><input type='hidden' name='POAICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=POA%>"/><input type='hidden' name='NCICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=NC%>"/>
+			                         <input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/><input type='hidden' name='POAICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=POA%>"/><input type='hidden' name='NCICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=NC%>"/><input type='hidden' name='ServiceICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=serviceUid%>"/>
 			                   </td></tr>
 			                 <%
 			             }
@@ -72,16 +74,18 @@
 			                     sCertainty = (String) hDiagnosisInfo.get("Certainty");
 			                     POA = (String) hDiagnosisInfo.get("POA");
 			                     NC = (String) hDiagnosisInfo.get("NC");
+			                     serviceUid = (String) hDiagnosisInfo.get("ServiceUid");
 			                 } else {
 			                     sGravity = "";
 			                     sCertainty = "";
 			                     POA = "";
 			                     NC = "";
+			                     serviceUid = "";
 			                 }
 			                 %><tr id='ICD10Code<%=item.getItemId()%>'><td width="1%" nowrap>
 			                         <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="deleteDiagnosis('ICD10Code<%=item.getItemId()%>');"/>
 			                         </td><td width="1%">ICD10</td><td width="1%"><b><%=item.getType().replaceAll("ICD10Code","")%></b></td><td><b><%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%></i></b>
-			                         <input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/><input type='hidden' name='POAICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=POA%>"/><input type='hidden' name='NCICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=NC%>"/>			                   
+			                         <input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/><input type='hidden' name='POAICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=POA%>"/><input type='hidden' name='NCICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=NC%>"/><input type='hidden' name='ServiceICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=serviceUid%>"/>			                   
 			                         </td></tr>
 			                 <%
 			             }

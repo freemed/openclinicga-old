@@ -55,7 +55,7 @@
 						         String sReferenceType = "Transaction";
 						         Hashtable hDiagnoses = Diagnosis.getDiagnosesByReferenceUID(sReferenceUID, sReferenceType);
 						         Hashtable hDiagnosisInfo;
-						         String sCode, sGravity, sCertainty,POA,NC;
+						         String sCode, sGravity, sCertainty,POA,NC,serviceUid;
 						
 						         while (items.hasNext()) {
 						             item = (ItemVO) items.next();
@@ -67,11 +67,13 @@
 						                     sCertainty = (String) hDiagnosisInfo.get("Certainty");
 						                     POA = (String) hDiagnosisInfo.get("POA");
 						                     NC = (String) hDiagnosisInfo.get("NC");
+						                     serviceUid = (String) hDiagnosisInfo.get("ServiceUid");
 						                 } else {
 						                     sGravity = "";
 						                     sCertainty = "";
 						                     POA = "";
 						                     NC = "";
+						                     serviceUid = "";
 						                 }
 						     			%><tr id="ICPCCode<%=item.getItemId()%>"><td width="1%" nowrap>
 						                         <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="deleteDiagnosis('ICPCCode<%=item.getItemId()%>');"/>
@@ -88,11 +90,13 @@
 						                     sCertainty = (String) hDiagnosisInfo.get("Certainty");
 						                     POA = (String) hDiagnosisInfo.get("POA");
 						                     NC = (String) hDiagnosisInfo.get("NC");
+						                     serviceUid = (String) hDiagnosisInfo.get("ServiceUid");
 						                 } else {
 						                     sGravity = "";
 						                     sCertainty = "";
 						                     POA = "";
 						                     NC = "";
+						                     serviceUid = "";
 						                 }
 						                 %><tr id='ICD10Code<%=item.getItemId()%>'><td width="1%" nowrap>
 						                         <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="deleteDiagnosis('ICD10Code<%=item.getItemId()%>');"/>

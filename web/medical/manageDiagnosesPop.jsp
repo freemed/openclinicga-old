@@ -234,12 +234,12 @@
                 <%=getTran("medical.diagnosis","diagnosiscode",sWebLanguage)%>
             </td>
             <td class="admin2">
-                <input class="text" type="text" name="FindDiagnosisCodeLabel" value="<%=sFindDiagnosisCodeLabel%>" size="<%=sTextWidth%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchICPC('FindDiagnosisForm.FindDiagnosisCode','FindDiagnosisForm.FindDiagnosisCodeLabel','FindDiagnosisForm.FindDiagnosisCodeType');">
+                <input class="text" type="text" name="FindDiagnosisCodeLabel" id="FindDiagnosisCodeLabel" value="<%=sFindDiagnosisCodeLabel%>" size="<%=sTextWidth%>">
+                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchICPC('FindDiagnosisCode','FindDiagnosisCodeLabel','FindDiagnosisCodeType');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="FindDiagnosisForm.FindDiagnosisCode.value='';FindDiagnosisForm.FindDiagnosisCodeLabel.value='';FindDiagnosisForm.FindDiagnosisCodeType.value='';">
             </td>
-            <input type="hidden" name="FindDiagnosisCode" value="<%=sFindDiagnosisCode%>">
-            <input type="hidden" name="FindDiagnosisCodeType" value="<%=sFindDiagnosisCodeType%>">
+            <input type="hidden" name="FindDiagnosisCode" id="FindDiagnosisCode" value="<%=sFindDiagnosisCode%>">
+            <input type="hidden" name="FindDiagnosisCodeType" id="FindDiagnosisCodeType" value="<%=sFindDiagnosisCodeType%>">
         </tr>
         <!-- certainty -->
         <tr>
