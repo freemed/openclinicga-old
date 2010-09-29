@@ -19,7 +19,7 @@
     String sFindEnd = checkString(request.getParameter("FindEnd"));
 %>
 <form name="transactionForm" method="post" onKeyDown="if(enterEvent(event,13)){doFind();}">
-    <%=writeTableHeader("Web","statistics.activitystats.encountercoding",sWebLanguage," doBack();")%>
+    <%=writeTableHeader("Web","statistics.activitystats.transactionviewing",sWebLanguage," doBack();")%>
     <table class="menu" width="100%" cellspacing="0">
          <tr>
             <td><%=getTran("Web","Begin",sWebLanguage)%></td>
@@ -39,11 +39,14 @@
 <table>
 <%
     if ((sFindBegin.length() > 0) || (sFindEnd.length() > 0)) {
-    	String sQuery="select count(*) total,count(distinct oc_encounter_objectid) contacts,oc_encounter_updateuid from "+
-    					" oc_encounters"+ 
-    					" where oc_encounter_updatetime between ? and ?"+
-    					" group by oc_encounter_updateuid"+
-    					" order by count(*) DESC";
+    	String sQuery="select count(*) total,userid "+
+						" from accesslogs "+
+						" where "+
+						" accesstime between ? and ? and "+
+						" accesscode like 'T.%' and "+
+						" "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(accesscode)>2 "+
+						" group by userid "+
+						" order by count(*) desc";
     	Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())), end = new Date();
     	if(sFindBegin.length()>0){
     		try{
@@ -57,7 +60,7 @@
     		}
     		catch(Exception e){}
     	}
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn=MedwanQuery.getInstance().getAdminConnection();
     	PreparedStatement ps = oc_conn.prepareStatement(sQuery);
     	ps.setTimestamp(1,new Timestamp(begin.getTime()));
     	ps.setTimestamp(2,new Timestamp(end.getTime()));
@@ -66,9 +69,9 @@
     	double generaltotal=0;
     	while(rs.next()){
     		double total = rs.getInt("total");
-    		double contacts = rs.getInt("contacts");
+    		double contacts = total;
     		generaltotal+=total;
-    		int userid = rs.getInt("oc_encounter_updateuid");
+    		int userid = rs.getInt("userid");
     		String username = MedwanQuery.getInstance().getUserName(userid);
     		lines.add(new Line(username,total,contacts));
     	}
@@ -77,7 +80,7 @@
 		oc_conn.close();
     	for(int n=0;n<lines.size();n++){
     		Line line = (Line)lines.elementAt(n);
-    		out.println("<tr><td class='admin2'>"+line.name.toUpperCase()+"</td><td><b>"+getTran("web","encounters",sWebLanguage)+": "+new DecimalFormat("#,###").format(line.contacts)+"</b></td></tr>");
+    		out.println("<tr><td class='admin2'>"+line.name.toUpperCase()+"</td><td><b>"+getTran("web","documents",sWebLanguage)+": "+new DecimalFormat("#,###").format(line.contacts)+"</b></td></tr>");
     	}
 
     }

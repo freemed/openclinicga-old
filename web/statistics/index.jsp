@@ -21,6 +21,8 @@
         out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.activitystats",sWebLanguage),sCONTEXTPATH)
                 +writeTblChildNoButton("main.do?Page=statistics/diagnosticCodingStats.jsp",getTran("Web","statistics.activitystats.diagnosticcoding",sWebLanguage))
                 +writeTblChildNoButton("main.do?Page=statistics/encounterCodingStats.jsp",getTran("Web","statistics.activitystats.encountercoding",sWebLanguage))
+                +writeTblChildNoButton("main.do?Page=statistics/recordViewingStats.jsp",getTran("Web","statistics.activitystats.recordviewing",sWebLanguage))
+                +writeTblChildNoButton("main.do?Page=statistics/transactionViewingStats.jsp",getTran("Web","statistics.activitystats.transactionviewing",sWebLanguage))
                 //+writeTblChildNoButton("main.do?Page=statistics/prestationCodingStats.jsp",getTran("Web","statistics.activitystats.prestationcoding",sWebLanguage))
             +ScreenHelper.writeTblFooter()+"<br>");
         String firstdayPreviousMonth="01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));

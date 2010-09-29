@@ -48,11 +48,11 @@
     }
     int patientcounter=0,diagnosiscounter=0;
     if(request.getParameter("submit")!=null){
-        String sQuery="select a.*,(select max(OC_LABEL_VALUE+'$'+OC_ENCOUNTER_SERVICEUID) from OC_ENCOUNTERS_VIEW,OC_LABELS where OC_LABEL_TYPE='service' and OC_LABEL_ID=OC_ENCOUNTER_SERVICEUID and OC_LABEL_LANGUAGE='fr' and OC_ENCOUNTER_OBJECTID=replace(OC_DIAGNOSIS_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')) OC_ENCOUNTER_SERVICEUID from OC_DIAGNOSES a "+
-        " where "+
+        String sQuery="select a.*,OC_LABEL_VALUE"+MedwanQuery.getInstance().concatSign()+"'$'"+MedwanQuery.getInstance().concatSign()+"OC_DIAGNOSIS_SERVICEUID as DIAGNOSIS_SERVICEUID  from OC_DIAGNOSES a,OC_LABELS b where OC_LABEL_TYPE='service' and OC_LABEL_ID=a.OC_DIAGNOSIS_SERVICEUID and OC_LABEL_LANGUAGE='fr' and "+
         " a.OC_DIAGNOSIS_UPDATETIME>=? and "+
         " a.OC_DIAGNOSIS_UPDATETIME<? "+
-        " order by OC_ENCOUNTER_SERVICEUID,OC_DIAGNOSIS_ENCOUNTERUID";
+        " order by OC_LABEL_VALUE,OC_DIAGNOSIS_ENCOUNTERUID";
+        System.out.println(sQuery);
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         PreparedStatement ps = oc_conn.prepareStatement(sQuery);
         end.setTime(end.getTime()+24*3600*1000);
@@ -67,7 +67,7 @@
                 diagnosiscounter++;
                 AdminPerson patient=encounter.getPatient();
                 String name="";
-                String[] sv=checkString(rs.getString("OC_ENCOUNTER_SERVICEUID")).split("\\$");
+                String[] sv=checkString(rs.getString("DIAGNOSIS_SERVICEUID")).split("\\$");
                 Service service= Service.getService(sv.length>1?sv[1]:"---");
                 String servicename="-";
                 if(service!=null){

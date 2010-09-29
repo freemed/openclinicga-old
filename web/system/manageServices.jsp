@@ -265,6 +265,7 @@
         if (sFindServiceCode.length() > 0) {
             sFindServiceText = getTranNoLink("service", sEditServiceCode, sWebLanguage);
         }
+        MedwanQuery.getInstance().removeServiceExaminations(sEditServiceCode);
     }
     //--- DELETE ----------------------------------------------------------------------------------
     else if (sAction.equals("delete")) {
@@ -276,6 +277,7 @@
                   	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                     service.delete(ad_conn);
                     ad_conn.close();
+                    MedwanQuery.getInstance().removeServiceExaminations(sFindServiceCode);
                 }
             }
         }
@@ -692,6 +694,7 @@
                     <td class="admin"> <%=getTran("Web","Comment",sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" class="text" name="EditServiceComment" value="<%=service.comment%>" size="<%=sTextWidth%>">
+                        <BR/><%=getTran("web","noexams",sWebLanguage) %>
                     </td>
                 </tr>
                 <%-- spacer --%>
