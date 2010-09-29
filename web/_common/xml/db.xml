@@ -248,6 +248,7 @@
     		<column  name="OC_DIAGNOSIS_POA" dbtype="char" javatype="string" size="1"/>
     		<column  name="OC_DIAGNOSIS_ENCOUNTEROBJECTID" dbtype="varchar" javatype="string" size="20"/>
     		<column  name="OC_DIAGNOSIS_NC" dbtype="char" javatype="string" size="1"/>
+    		<column  name="OC_DIAGNOSIS_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
 		</columns>
 		<indexes>
 			<index name="AUTHORUID">
@@ -290,6 +291,7 @@
     		<column  name="OC_DIAGNOSIS_POA" dbtype="char" javatype="string" size="1"/>
     		<column  name="OC_DIAGNOSIS_ENCOUNTEROBJECTID" dbtype="varchar" javatype="string" size="20"/>
     		<column  name="OC_DIAGNOSIS_NC" dbtype="char" javatype="string" size="1"/>
+    		<column  name="OC_DIAGNOSIS_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
 		</columns>
 	</table>
 	<table name="OC_DIAGNOSIS_GROUPS" db="openclinic" sync="NONE">
@@ -3368,6 +3370,7 @@
 			a.OC_DIAGNOSIS_ENDDATE,
 			a.OC_DIAGNOSIS_POA,
 			a.OC_DIAGNOSIS_NC,
+			a.OC_DIAGNOSIS_SERVICEUID,
 			a.OC_DIAGNOSIS_ENCOUNTEROBJECTID,
 			a.OC_DIAGNOSIS_SERVERID,
 			a.OC_DIAGNOSIS_OBJECTID

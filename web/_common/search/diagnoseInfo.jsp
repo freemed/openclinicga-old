@@ -9,6 +9,7 @@
     String sLabel = checkString(request.getParameter("Label"));
     String sType = checkString(request.getParameter("Type"));
     String sPatientUid = checkString(request.getParameter("patientuid"));
+    String sServiceUid = checkString(request.getParameter("serviceUid"));
 %>
 <%=sJSSCRPTACULOUS%>
 <form name="diagnoseInfoForm" action="" method="">
@@ -121,6 +122,75 @@
                 <table width="100%"><tr><td><input type="checkbox" name="DiagnosisTransferToProblemlist"/></td></tr></table>
             </td>
         </tr>
+        <tr>
+            <td class="admin"><%=HTMLEntities.htmlentities(getTran("web","service",sWebLanguage))%></td>
+            <td class="admin2">
+                <%
+                	Hashtable<String,String> hServices = new Hashtable<String,String>();
+                	//Make a list of acceptable services
+	            	//1. The active encounter's service
+                	Vector<String> services = new Vector<String>();
+	            	SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
+	                java.util.Date activeDate=new java.util.Date();
+	            	TransactionVO curTran = sessionContainerWO.getCurrentTransactionVO();
+	            	String activetransaction="?";
+	                if(curTran!=null && curTran.getUpdateTime()!=null){
+	                	activetransaction=getTran("web.occup",curTran.getTransactionType(),sWebLanguage);
+	                	activeDate=curTran.getUpdateTime();
+	                }
+	                Encounter activeEnc = Encounter.getActiveEncounterOnDate(new Timestamp(activeDate.getTime()),activePatient.personid);
+					String activeEncParents="",activeService="";
+	                if(activeEnc!=null && activeEnc.getService()!=null){
+	                	activeEncParents=","+activeEnc.getServiceUID()+","+Service.getParentIds(activeEnc.getServiceUID())+",";
+	                	activeService=activeEnc.getService().getLabel(sWebLanguage);
+	                	if(hServices.get(activeEnc.getServiceUID())==null){
+		            		services.add(activeEnc.getServiceUID()+";"+activeEnc.getService().getLabel(sWebLanguage));
+		            		hServices.put(activeEnc.getServiceUID(),"1");
+	                	}
+	                }
+					//2. The user's service
+	            	if(activeUser.activeService!=null){
+	            		services.add(activeUser.activeService.code+";"+activeUser.activeService.getLabel(sWebLanguage));
+	            		hServices.put(activeUser.activeService.code,"1");
+	            	}
+	                //3. All services the current transactionType is available for
+	                boolean bMatch=false;
+	                if(curTran!=null && curTran.getTransactionType()!=null){
+		                Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		                String sQuery="select distinct a.serviceid from serviceexaminations a,examinations b where a.examinationid=b.id and transactionType=?";
+		                PreparedStatement ps = conn.prepareStatement(sQuery);
+		                ps.setString(1,curTran.getTransactionType());
+		                ResultSet rs = ps.executeQuery();
+		                while(rs.next()){
+		                	String serviceuid = rs.getString("serviceid");
+	                		Service service = Service.getService(serviceuid);
+	                		if(service!=null){
+			                	if(activeEncParents.indexOf(","+serviceuid+",")>-1){
+			                		bMatch=true;
+			                	}
+			                	if(serviceuid!=null && hServices.get(serviceuid)==null){
+				            		services.add(serviceuid+";"+service.getLabel(sWebLanguage));
+				            		hServices.put(serviceuid,"1");
+		                		}
+		                	}
+		                }
+		                rs.close();
+		                ps.close();
+		                conn.close();
+	                }
+	                if(services.size()>0){
+	                	out.println("<select name='serviceUid' id='serviceUid' class='text'>");
+	                	for(int n=0;n<services.size();n++){
+	                		out.println("<option value='"+((String)services.elementAt(n)).split(";")[0]+"'>"+((String)services.elementAt(n)).split(";")[1]+"</option>");
+	                	}
+	                	out.println("</select>");
+	                	if(!bMatch){
+	                		out.println("<br/><font color='red'>"+getTran("web","diagnosis.servicemismatch",sWebLanguage).replaceAll("#activeservice#",activeService).replaceAll("#activetransaction#",activetransaction)+"</font>");
+	                	}
+	                }
+                %>
+            </td>
+        </tr>
         <%=ScreenHelper.setFormButtonsStart()%>
             <input class="button" type="button" name="EditAddButton" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="doAdd();">&nbsp;
         <%=ScreenHelper.setFormButtonsStop()%>
@@ -146,7 +216,7 @@
         var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
         (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("medical.diagnosis","gravity_missing",sWebLanguage)%>");
     }else{
-        var POA="",POAComment="", NC="",NCComment="";
+        var POA="",POAComment="", NC="",NCComment="",serviceUid="";
         varMyOpener = window.opener;
         varOpener = varMyOpener.opener;
         varAddon = "("+$F("DiagnosisCertainty")+","+$F("DiagnosisGravity")+")";
@@ -158,12 +228,13 @@
             NC="1";
             NCComment="N";
         }
+        serviceUid=document.getElementById("serviceUid").value;
         if("<%=sType%>" == "ICPC"){
-            varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICPC<%=sCode%>'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC<%=sCode%>\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode<%=sCode%>' value=\"<%=sValue%>  "   + "\"/><input type='hidden' name='GravityICPCCode<%=sCode%>' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICPCCode<%=sCode%>' value=\"" + certainty + "\"/><input type='hidden' name='POAICPCCode<%=sCode%>' value=\"" + POA + "\"/><input type='hidden' name='NCICPCCode<%=sCode%>' value=\"" + NC + "\"/><i><b>ICPC</b></i> <%=sCode%>&nbsp;<%=sLabel%>&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+"<br/></span>";
-            if(document.all['alternativeCode']) varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICD10"+document.all['alternativeCode'].value+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10"+document.all['alternativeCode'].value+"\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+document.all['alternativeCode'].value+"' value=\"<%=sValue%>  " + "\"/><input type='hidden' name='GravityICD10Code"+document.all['alternativeCode'].value+"' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICD10Code"+document.all['alternativeCode'].value+"' value=\"" + certainty + "\"/><input type='hidden' name='POAICD10Code"+document.all['alternativeCode'].value+"' value=\"" + POA + "\"/><input type='hidden' name='NCICD10Code"+document.all['alternativeCode'].value+"' value=\"" + NC + "\"/><i><b>ICD10</b></i> "+document.all['alternativeCode'].value+"&nbsp;"+document.all['alternativeCodeLabel'].value+"&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
+            varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICPC<%=sCode%>'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC<%=sCode%>\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode<%=sCode%>' value=\"<%=sValue%>  "   + "\"/><input type='hidden' name='GravityICPCCode<%=sCode%>' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICPCCode<%=sCode%>' value=\"" + certainty + "\"/><input type='hidden' name='POAICPCCode<%=sCode%>' value=\"" + POA + "\"/><input type='hidden' name='NCICPCCode<%=sCode%>' value=\"" + NC + "\"/><input type='hidden' name='ServiceICPCCode<%=sCode%>' value=\"" + serviceUid + "\"/><i><b>ICPC</b></i> <%=sCode%>&nbsp;<%=sLabel%>&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+"<br/></span>";
+            if(document.all['alternativeCode']) varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICD10"+document.all['alternativeCode'].value+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10"+document.all['alternativeCode'].value+"\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+document.all['alternativeCode'].value+"' value=\"<%=sValue%>  " + "\"/><input type='hidden' name='GravityICD10Code"+document.all['alternativeCode'].value+"' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICD10Code"+document.all['alternativeCode'].value+"' value=\"" + certainty + "\"/><input type='hidden' name='POAICD10Code"+document.all['alternativeCode'].value+"' value=\"" + POA + "\"/><input type='hidden' name='NCICD10Code"+document.all['alternativeCode'].value+"' value=\"" + NC + "\"/><input type='hidden' name='ServiceICD10Code"+document.all['alternativeCode'].value+"' value=\"" + serviceUid + "\"/><i><b>ICD10</b></i> "+document.all['alternativeCode'].value+"&nbsp;"+document.all['alternativeCodeLabel'].value+"&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
         }else if("<%=sType%>" == "ICD10"){
-            varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICD10<%=sCode%>'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10<%=sCode%>\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code<%=sCode%>' value=\"<%=sValue%>  " + "\"/><input type='hidden' name='GravityICD10Code<%=sCode%>' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICD10Code<%=sCode%>' value=\"" + certainty + "\"/><input type='hidden' name='POAICD10Code<%=sCode%>' value=\"" + POA + "\"/><input type='hidden' name='NCICD10Code<%=sCode%>' value=\"" + NC + "\"/><i><b>ICD10</b></i> <%=sCode%>&nbsp;<%=sLabel%>&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
-            if(document.all['alternativeCode']) varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICPC"+document.all['alternativeCode'].value+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC"+document.all['alternativeCode'].value+"\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode"+document.all['alternativeCode'].value+"' value=\"<%=sValue%>  "  + "\"/><input type='hidden' name='GravityICPCCode"+document.all['alternativeCode'].value+"' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICPCCode"+document.all['alternativeCode'].value+"' value=\"" + certainty + "\"/><input type='hidden' name='POAICPCCode"+document.all['alternativeCode'].value+"' value=\"" + POA + "\"/><input type='hidden' name='NCICPCCode"+document.all['alternativeCode'].value+"' value=\"" + NC + "\"/><i><b>ICPC</b></i> "+document.all['alternativeCode'].value+"&nbsp;"+document.all['alternativeCodeLabel'].value+"&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
+            varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICD10<%=sCode%>'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10<%=sCode%>\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code<%=sCode%>' value=\"<%=sValue%>  " + "\"/><input type='hidden' name='GravityICD10Code<%=sCode%>' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICD10Code<%=sCode%>' value=\"" + certainty + "\"/><input type='hidden' name='POAICD10Code<%=sCode%>' value=\"" + POA + "\"/><input type='hidden' name='NCICD10Code<%=sCode%>' value=\"" + NC + "\"/><input type='hidden' name='ServiceICD10Code<%=sCode%>' value=\"" + serviceUid + "\"/><i><b>ICD10</b></i> <%=sCode%>&nbsp;<%=sLabel%>&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
+            if(document.all['alternativeCode']) varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICPC"+document.all['alternativeCode'].value+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC"+document.all['alternativeCode'].value+"\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode"+document.all['alternativeCode'].value+"' value=\"<%=sValue%>  "  + "\"/><input type='hidden' name='GravityICPCCode"+document.all['alternativeCode'].value+"' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICPCCode"+document.all['alternativeCode'].value+"' value=\"" + certainty + "\"/><input type='hidden' name='POAICPCCode"+document.all['alternativeCode'].value+"' value=\"" + POA + "\"/><input type='hidden' name='ServiceICPCCode"+document.all['alternativeCode'].value+"' value=\"" + serviceUid + "\"/><i><b>ICPC</b></i> "+document.all['alternativeCode'].value+"&nbsp;"+document.all['alternativeCodeLabel'].value+"&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
         }
         if(diagnoseInfoForm.DiagnosisTransferToProblemlist.checked){
             window.open("<c:url value='/'/>_common/search/transferToProblemlist.jsp?codetype=<%=sType%>&code=<%=sCode%>&certainty="+certainty+"&gravity="+gravity+"&patientuid=<%=sPatientUid%>");

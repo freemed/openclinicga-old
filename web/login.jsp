@@ -63,36 +63,40 @@
 
                             // execute query
                             if (conn != null) {
-                                sQuery = queryElem.getTextTrim();
-                                if (sQuery.length() > 0) {
-                                    try {
-                                        ps = conn.prepareStatement(sQuery);
-                                        ps.execute();
-
-                                        // add configString query.id
-                                        MedwanQuery.getInstance().setConfigString(queryElem.attribute("id").getValue(), "executed : first time");
-                                        if (Debug.enabled)
-                                            Debug.println(queryElem.attribute("id").getValue() + " : executed");
-                                    }
-                                    catch (Exception e) {
-                                        if (e.getMessage().indexOf("There is already an object named") > -1) {
-                                            // table allready exists in DB, add configValue query.id
-                                            MedwanQuery.getInstance().setConfigString(queryElem.attribute("id").getValue(), "executed : table allready exists");
-                                            if (Debug.enabled)
-                                                Debug.println(queryElem.attribute("id").getValue() + " : table already exists");
-                                        } else {
-                                            // display query error
-                                            if (Debug.enabled)
-                                                Debug.println(queryElem.attribute("id").getValue() + " : ERROR : " + e.getMessage());
-                                        }
-                                    }
-                                    finally {
-                                        if (ps != null) ps.close();
-                                    }
-                                } else {
-                                    if (Debug.enabled) {
-                                        Debug.println(queryElem.attribute("id").getValue() + " : empty");
-                                    }
+                                String sLocalDbType = conn.getMetaData().getDatabaseProductName();
+                                if (queryElem.attribute("dbserver") == null || queryElem.attribute("dbserver").getValue().equalsIgnoreCase(sLocalDbType)) {
+                                	sQuery = queryElem.getTextTrim().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin"));
+	                                sQuery = queryElem.getTextTrim().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin"));
+	                                if (sQuery.length() > 0) {
+	                                    try {
+	                                        ps = conn.prepareStatement(sQuery);
+	                                        ps.execute();
+	
+	                                        // add configString query.id
+	                                        MedwanQuery.getInstance().setConfigString(queryElem.attribute("id").getValue(), "executed : first time");
+	                                        if (Debug.enabled)
+	                                            Debug.println(queryElem.attribute("id").getValue() + " : executed");
+	                                    }
+	                                    catch (Exception e) {
+	                                        if (e.getMessage().indexOf("There is already an object named") > -1) {
+	                                            // table allready exists in DB, add configValue query.id
+	                                            MedwanQuery.getInstance().setConfigString(queryElem.attribute("id").getValue(), "executed : table allready exists");
+	                                            if (Debug.enabled)
+	                                                Debug.println(queryElem.attribute("id").getValue() + " : table already exists");
+	                                        } else {
+	                                            // display query error
+	                                            if (Debug.enabled)
+	                                                Debug.println(queryElem.attribute("id").getValue() + " : ERROR : " + e.getMessage());
+	                                        }
+	                                    }
+	                                    finally {
+	                                        if (ps != null) ps.close();
+	                                    }
+	                                } else {
+	                                    if (Debug.enabled) {
+	                                        Debug.println(queryElem.attribute("id").getValue() + " : empty");
+	                                    }
+	                                }
                                 }
                                 conn.close();
                             } else {

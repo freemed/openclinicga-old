@@ -13,4 +13,71 @@
 	<Query id="QUERY.OcInsurarCredits.1" db="openclinic" date="24/06/2010">
 		alter table oc_insurarcredits modify column oc_insurarcredit_invoiceuid varchar(20); 	
   	</Query>
+	<Query id="QUERY.diagnosisServices.0" db="openclinic" date="23/09/2010">
+		alter table OC_DIAGNOSES add OC_DIAGNOSIS_SERVICEUID varchar(50) null; 	
+  	</Query>
+	<Query id="QUERY.diagnosisServices.1" db="openclinic" date="23/09/2010" dbserver="Microsoft SQL Server">
+		update oc_diagnoses set oc_diagnosis_serviceuid=d.oc_encounter_serviceuid
+		from oc_diagnoses a,@admin@..users b,@admin@..userparameters c,oc_encounters_view d
+		where
+		a.oc_diagnosis_updateuid=b.userid and
+		b.userid=c.userid and
+		b.userid&lt;&gt;4 and
+		c.parameter='defaultserviceid' and
+		(c.value is not null or c.value='') and
+		d.oc_encounter_objectid=convert(int,replace(a.oc_diagnosis_encounteruid,'1.','')) and
+		d.oc_encounter_serviceuid like c.value+'%' and
+		(a.oc_diagnosis_serviceuid is null or a.oc_diagnosis_serviceuid='')
+  	</Query>
+	<Query id="QUERY.diagnosisServices.1" db="openclinic" date="23/09/2010" dbserver="MySQL">
+		update oc_diagnoses a,@admin@.users b,@admin@.userparameters c,oc_encounters_view d
+		set a.oc_diagnosis_serviceuid=d.oc_encounter_serviceuid
+		where
+		a.oc_diagnosis_updateuid=b.userid and
+		b.userid=c.userid and
+		b.userid&lt;&gt;4 and
+		c.parameter='defaultserviceid' and
+		(c.value is not null or c.value='') and
+		d.oc_encounter_objectid=cast(replace(a.oc_diagnosis_encounteruid,'1.','') as signed) and
+		locate(c.value,d.oc_encounter_serviceuid)=1 and
+		(a.oc_diagnosis_serviceuid is null or a.oc_diagnosis_serviceuid='')
+  	</Query>
+	<Query id="QUERY.diagnosisServices.2" db="openclinic" date="23/09/2010" dbserver="Microsoft SQL Server">
+		update oc_diagnoses set oc_diagnosis_serviceuid=c.value
+		from oc_diagnoses a,@admin@..users b,@admin@..userparameters c
+		where
+		a.oc_diagnosis_updateuid=b.userid and
+		b.userid=c.userid and
+		b.userid&lt;&gt;4 and
+		c.value like 'CLI.%' and
+		c.parameter='defaultserviceid' and
+		(c.value is not null or c.value='') and
+		(a.oc_diagnosis_serviceuid is null or a.oc_diagnosis_serviceuid='')
+  	</Query>
+	<Query id="QUERY.diagnosisServices.2" db="openclinic" date="23/09/2010" dbserver="MySQL">
+		update oc_diagnoses a,@admin@.users b,@admin@.userparameters c
+		set a.oc_diagnosis_serviceuid=c.value
+		where
+		a.oc_diagnosis_updateuid=b.userid and
+		b.userid=c.userid and
+		b.userid&lt;&gt;4 and
+		c.value like 'CLI.%' and
+		c.parameter='defaultserviceid' and
+		(c.value is not null or c.value='') and
+		(a.oc_diagnosis_serviceuid is null or a.oc_diagnosis_serviceuid='')
+  	</Query>
+	<Query id="QUERY.diagnosisServices.3" db="openclinic" date="23/09/2010" dbserver="Microsoft SQL Server">
+		update oc_diagnoses set oc_diagnosis_serviceuid=d.oc_encounter_serviceuid
+		from oc_diagnoses a,oc_encounters_view d
+		where
+		d.oc_encounter_objectid=convert(int,replace(a.oc_diagnosis_encounteruid,'1.','')) and
+		(a.oc_diagnosis_serviceuid is null or a.oc_diagnosis_serviceuid='')
+  	</Query>
+	<Query id="QUERY.diagnosisServices.3" db="openclinic" date="23/09/2010" dbserver="MySQL">
+		update oc_diagnoses a,oc_encounters_view d
+		set a.oc_diagnosis_serviceuid=d.oc_encounter_serviceuid
+		where
+		d.oc_encounter_objectid=cast(replace(a.oc_diagnosis_encounteruid,'1.','') as signed) and
+		(a.oc_diagnosis_serviceuid is null or a.oc_diagnosis_serviceuid='')
+  	</Query>
 </Queries>
