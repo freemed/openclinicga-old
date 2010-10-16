@@ -5,7 +5,7 @@
 <%@ page import="be.mxs.webapp.wl.servlet.http.RequestParameterParser" %>
 <%@ page import="be.mxs.common.util.system.HTMLEntities" %>
 <%@ page errorPage="/includes/error.jsp" %>
-<%@ include file="/_common/templateAddIns.jsp" %>
+<%@ include file="/_common/templateAddIns.jsp" %> 
 <%!
     private void saveDiagnosesToTable(Hashtable ICPCCodes, Hashtable ICD10Codes, String sTransactionUID, SessionContainerWO sessionContainerWO, Encounter encounter) {
         //First remove existing diagnosis
@@ -337,7 +337,7 @@
     </tr>
     <tr class="admin">
         <td align="left" colspan="2"><a
-                href="javascript:openPopup('healthrecord/findICPC.jsp&ts=<%=getTs()%>&patientuid=<%=sPatientUID%>',700,400)"><%=
+                href="javascript:openPopup('healthrecord/findICPC.jsp&ts=<%=getTs()%>&patientuid=<%=sPatientUID%>&showpatientencounters=1',700,400)"><%=
             getTran("openclinic.chuk", "diagnostic", sWebLanguage)%> <%=getTran("Web.Occup", "ICPC-2", sWebLanguage)%>
             /<%=getTran("Web.Occup", "ICD-10", sWebLanguage)%>
         </a></td>

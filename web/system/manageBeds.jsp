@@ -63,6 +63,18 @@
         tmpBed.store();
         sEditUID = tmpBed.getUid();
     }
+    if(sAction.equals("DELETE")){
+        if(sEditUID.length() > 0 ){//update
+			Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	PreparedStatement ps = conn.prepareStatement("delete from OC_BEDS where OC_BED_SERVERID=? and OC_BED_OBJECTID=?");
+        	ps.setInt(1,Integer.parseInt(sEditUID.split("\\.")[0]));
+        	ps.setInt(2,Integer.parseInt(sEditUID.split("\\.")[1]));
+        	ps.execute();
+        	ps.close();
+        	conn.close();
+        }
+        sEditUID = "";
+    }
     if(sEditUID.length() > 0){
         Bed tmpBed          = Bed.get(sEditUID);
         sEditUID            = tmpBed.getUid();
@@ -74,7 +86,7 @@
         sEditBedServiceName = getTran("Service",sEditBedService,sWebLanguage);
     }
 
-    if(sAction.equals("SEARCH") || sAction.equals("")){
+    if(sAction.equals("SEARCH") || sAction.equals("") || sAction.equals("DELETE")){
 %>
 <%-- BEGIN FIND BLOCK--%>
 <form name='FindBedForm' method='POST' action='<c:url value="/main.do"/>?Page=system/manageBeds.jsp&ts=<%=getTs()%>'>
@@ -235,6 +247,7 @@
             <input class='button' type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
             <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBackToSearch();">
             <input class='button' type="button" name="newButton" value='<%=getTranNoLink("Web","new",sWebLanguage)%>' onclick="doNewBed();">
+            <input class='button' type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDeleteBed();">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
 </form>
@@ -324,6 +337,17 @@
         EditBedForm.EditComment.value="";
         EditBedForm.EditUID.value="";
         EditBedForm.submit();
+    }
+
+    function doDeleteBed(){
+        EditBedForm.deleteButton.disabled = true;
+	    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
+	    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+	    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
+	    if(answer==1){
+	        EditBedForm.Action.value = "DELETE";
+	        EditBedForm.submit();
+	    }
     }
 
     function doSave(){
