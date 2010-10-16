@@ -5,13 +5,14 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-	String sPatientUid=request.getParameter("patientuid");
+String sShowPatientEncounters=checkString(request.getParameter("showpatientencounters"));
+String sPatientUid=request.getParameter("patientuid");
 	if(sPatientUid==null){
 		sPatientUid=activePatient.personid;
 	}
 	
 %>
-<%=sJSPOPUPSEARCH%>
+<%=sJSPOPUPSEARCH%> 
 <%=sJSCHAR%>
 <%-- Start Floating Layer ------------------------------------------------------------------------%>
 
@@ -266,7 +267,7 @@
                 }
             }
             else{
-                openPopup("/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&Type=ICPC&Code="+code+"&Value="+document.all['ICPCComment'+code].value+"&Label="+label+"&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>",800,400);
+                openPopup("/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICPC&Code="+code+"&Value="+document.all['ICPCComment'+code].value+"&Label="+label+"&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>",800,400);
             }
         }
         else {
@@ -307,7 +308,7 @@
         }
       }
       else {
-        openPopup('/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&Type=ICD10&Code='+code+'&Value='+document.all["ICD10Comment"+code].value+'&Label='+label+'&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>',800,400);
+        openPopup('/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICD10&Code='+code+'&Value='+document.all["ICD10Comment"+code].value+'&Label='+label+'&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>',800,400);
       }
     }
     else {

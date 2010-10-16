@@ -43,9 +43,9 @@
        style="border:1px solid #cccccc;">
     <%-- header --%>
     <tr class="admin">
-        <td width="200"><%=HTMLEntities.htmlentities(getTran("system.manage", "insurarName", sWebLanguage))%>
+        <td><%=HTMLEntities.htmlentities(getTran("system.manage", "insurarName", sWebLanguage))%>
         </td>
-        <td width="*"><%=HTMLEntities.htmlentities(getTran("system.manage", "insurarContact", sWebLanguage))%>
+        <td><%=HTMLEntities.htmlentities(getTran("system.manage", "insurarContact", sWebLanguage))%>
         </td>
     </tr>
     <tbody>

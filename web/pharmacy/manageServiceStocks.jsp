@@ -55,7 +55,12 @@
                     sPreviousManagerUid = sManagerUid;
                   	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                     sManagerName = ScreenHelper.getFullUserName(sManagerUid, ad_conn);
-                    ad_conn.close();
+                    try{
+                    	ad_conn.close();
+                    }
+                    catch(Exception e){
+                    	e.printStackTrace();
+                    }
                 }
             }
 

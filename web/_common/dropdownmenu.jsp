@@ -485,7 +485,7 @@
     }
     
     function showmanual(){
-    	window.open("<c:url value="/documents/help/openclinic_manual_fr.pdf"/>");
+    	window.open("<c:url value="/documents/help/"/>openclinic_manual_<%=sWebLanguage.toLowerCase()%>.pdf");
     }
     <%
       if(MedwanQuery.getInstance().getConfigInt("enableNationalBarcodeID",0)==1){

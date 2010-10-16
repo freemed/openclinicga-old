@@ -81,7 +81,7 @@
     <Menu labelid="documents" accessrights="printableDocuments.select" patientselected="true" url="/main.do?Page=medical/showPrintableDocuments.jsp"/>
 	<Menu labelid="system">
 		<Menu labelid="myProfile" url="/main.do?Page=userprofile/index.jsp"/>
-
+        <Menu labelid="mergepersons" accessrights="system.mergepersons" url="/main.do?Page=system/mergePersons.jsp"/>
         <Menu labelid="centerinfo" accessrights="system.centerinfo" url="/main.do?Page=center/index.jsp"/>
 		<Menu labelid="management" accessrights="system.management" url="/main.do?Page=system/menu.jsp"/>
 		<Menu labelid="permissions" accessrights="sa" url="/main.do?Page=permissions/index.jsp"/>

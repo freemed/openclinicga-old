@@ -4,14 +4,18 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
     String sReturnField = checkString(request.getParameter("returnField"));
-    String sCode = checkString(request.getParameter("Code"));
+	String sShowPatientEncounters = checkString(request.getParameter("showpatientencounters"));
+	String sCode = checkString(request.getParameter("Code"));
     String sValue = checkString(request.getParameter("Value"));
     String sLabel = checkString(request.getParameter("Label"));
     String sType = checkString(request.getParameter("Type"));
     String sPatientUid = checkString(request.getParameter("patientuid"));
+    if(sPatientUid.length()==0 && activePatient!=null){
+    	sPatientUid=activePatient.personid;
+    }
     String sServiceUid = checkString(request.getParameter("serviceUid"));
 %>
-<%=sJSSCRPTACULOUS%>
+<%=sJSSCRPTACULOUS%> 
 <form name="diagnoseInfoForm" action="" method="">
     <%=HTMLEntities.htmlentities(writeTableHeader("Web","diagnosegravityandcertainty",sWebLanguage,""))%>
     <table class="list" width="100%" cellspacing="1">
@@ -138,7 +142,7 @@
 	                	activetransaction=getTran("web.occup",curTran.getTransactionType(),sWebLanguage);
 	                	activeDate=curTran.getUpdateTime();
 	                }
-	                Encounter activeEnc = Encounter.getActiveEncounterOnDate(new Timestamp(activeDate.getTime()),activePatient.personid);
+	                Encounter activeEnc = Encounter.getActiveEncounterOnDate(new Timestamp(activeDate.getTime()),sPatientUid);
 					String activeEncParents="",activeService="";
 	                if(activeEnc!=null && activeEnc.getService()!=null){
 	                	activeEncParents=","+activeEnc.getServiceUID()+","+Service.getParentIds(activeEnc.getServiceUID())+",";
@@ -155,7 +159,7 @@
 	            	}
 	                //3. All services the current transactionType is available for
 	                boolean bMatch=false;
-	                if(curTran!=null && curTran.getTransactionType()!=null){
+	                if(curTran!=null && curTran.getTransactionType()!=null && !sShowPatientEncounters.equalsIgnoreCase("1")){
 		                Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 		                String sQuery="select distinct a.serviceid from serviceexaminations a,examinations b where a.examinationid=b.id and transactionType=?";
 		                PreparedStatement ps = conn.prepareStatement(sQuery);
@@ -178,10 +182,24 @@
 		                ps.close();
 		                conn.close();
 	                }
+	                else {
+	                	//4. all services the patient has been admitted to
+	                	Vector encounters=Encounter.selectEncounters("","","","","","","","",sPatientUid,"");
+	                	for (int n=0;n<encounters.size();n++){
+	                		Encounter encounter = (Encounter)encounters.elementAt(n);
+		                	if(hServices.get(encounter.getServiceUID())==null){
+			            		services.add(encounter.getServiceUID()+";"+encounter.getService().getLabel(sWebLanguage));
+			            		hServices.put(encounter.getServiceUID(),"1");
+		                	}
+	                	}
+	                	
+	                }
 	                if(services.size()>0){
 	                	out.println("<select name='serviceUid' id='serviceUid' class='text'>");
 	                	for(int n=0;n<services.size();n++){
-	                		out.println("<option value='"+((String)services.elementAt(n)).split(";")[0]+"'>"+((String)services.elementAt(n)).split(";")[1]+"</option>");
+	                		if(((String)services.elementAt(n)).split(";").length>1){
+	                			out.println("<option value='"+((String)services.elementAt(n)).split(";")[0]+"'>"+((String)services.elementAt(n)).split(";")[1]+"</option>");
+	                		}
 	                	}
 	                	out.println("</select>");
 	                	if(!bMatch){
