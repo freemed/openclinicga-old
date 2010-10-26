@@ -94,10 +94,153 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
     protected void printPrescription(AdminPerson person,String prescription,String prescriptiondate,User user){
         try {
             String countrycode=MedwanQuery.getInstance().getConfigString("countrycode","BE");
-            if(countrycode.equalsIgnoreCase("BE")){
+            if(countrycode.equalsIgnoreCase("RW")){
+                table = new PdfPTable(10);
+                table.setWidthPercentage(pageWidth);
+                cell = new PdfPCell();
+                cell.setBorder(Cell.BOTTOM);
+                cell.setPaddingLeft(0);
+                cell.setPaddingRight(0);
+                cell.setFixedHeight(100*72/254);
+                cell.setColspan(10);
+                table.addCell(cell);
+                //Identification of prescriber
+                // - barcode
+                PdfContentByte cb = docWriter.getDirectContent();
+                Barcode39 barcode39 = new Barcode39();
+                barcode39.setCode(ScreenHelper.checkString(user.getParameter("organisationid")));
+                Image image = barcode39.createImageWithBarcode(cb, null, null);
+                cell = new PdfPCell(image);
+                cell.setBorder(Cell.BOTTOM+Cell.RIGHT);
+                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setColspan(5);
+                cell.setPadding(0);
+                cell.setFixedHeight(230*72/254);
+                table.addCell(cell);
+                // - name prescriber
+                PdfPTable wrappertable = new PdfPTable(1);
+                cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","name.prescriber"),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                cell.setBorder(Cell.NO_BORDER);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setPaddingLeft(10);
+                cell.setPaddingRight(10);
+                wrappertable.addCell(cell);
+                cell=new PdfPCell(new Paragraph(user.person.lastname.toUpperCase()+" "+user.person.firstname.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,9,Font.BOLD)));
+                cell.setBorder(Cell.NO_BORDER);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setPaddingLeft(10);
+                cell.setPaddingRight(10);
+                wrappertable.addCell(cell);
+                cell=new PdfPCell(wrappertable);
+                cell.setBorder(Cell.BOTTOM);
+                cell.setPaddingLeft(0);
+                cell.setPaddingRight(0);
+                cell.setFixedHeight(230*72/254);
+                cell.setColspan(5);
+                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                table.addCell(cell);
+                //Identification of patient
+                wrappertable = new PdfPTable(10);
+                cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","inserted.by.prescriber").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                cell.setBorder(Cell.NO_BORDER);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setPaddingLeft(0);
+                cell.setPaddingRight(10);
+                cell.setColspan(10);
+                wrappertable.addCell(cell);
+                cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","name.lastname")+" "+getTran("pdfprescriptions","name.lastname.claimant"),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                cell.setBorder(Cell.NO_BORDER);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setPaddingLeft(0);
+                cell.setPaddingRight(10);
+                cell.setColspan(3);
+                wrappertable.addCell(cell);
+                cell=new PdfPCell(new Paragraph(person.lastname.toUpperCase()+" "+person.firstname.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,9,Font.BOLD)));
+                cell.setBorder(Cell.NO_BORDER);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setPaddingLeft(0);
+                cell.setPaddingRight(10);
+                cell.setColspan(7);
+                wrappertable.addCell(cell);
+                cell=new PdfPCell(wrappertable);
+                cell.setBorder(Cell.BOTTOM);
+                cell.setPaddingLeft(0);
+                cell.setPaddingRight(0);
+                cell.setFixedHeight(175*72/254);
+                cell.setColspan(10);
+                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                table.addCell(cell);
+                //Prescription content
+                cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","vignette"),FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
+                cell.setBorder(Cell.RIGHT+Cell.BOTTOM);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setPaddingLeft(0);
+                cell.setPaddingRight(10);
+                cell.setColspan(3);
+                cell.setFixedHeight(930*72/254);
+                table.addCell(cell);
+                cell=new PdfPCell(formatPresctiption(prescription));
+                cell.setBorder(Cell.BOTTOM);
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setPaddingLeft(10);
+                cell.setPaddingRight(10);
+                cell.setColspan(7);
+                cell.setFixedHeight(930*72/254);
+                table.addCell(cell);
+                //Signature prescriber
+                Paragraph paragraph = new Paragraph();
+                Chunk chunk = new Chunk(getTran("pdfprescriptions","stamp.prescriber")+"\n\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                paragraph.add(chunk);
+                chunk = new Chunk(user.person.lastname+" "+user.person.firstname+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD));
+                paragraph.add(chunk);
+                chunk = new Chunk(user.person.getActivePrivate().businessfunction+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                paragraph.add(chunk);
+                chunk = new Chunk(user.person.getActivePrivate().business+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD));
+                paragraph.add(chunk);
+                chunk = new Chunk(user.person.getActivePrivate().district+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                paragraph.add(chunk);
+                chunk = new Chunk(user.person.getActivePrivate().city+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                paragraph.add(chunk);
+                chunk = new Chunk(user.person.getActivePrivate().telephone+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                paragraph.add(chunk);
+                chunk = new Chunk(ScreenHelper.checkString("# "+user.getParameter("organisationid")),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                paragraph.add(chunk);
+                cell=new PdfPCell(paragraph);
+                cell.setBorder(Cell.BOTTOM+Cell.RIGHT);
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setPaddingLeft(10);
+                cell.setPaddingRight(10);
+                cell.setColspan(5);
+                cell.setFixedHeight(320*72/254);
+                table.addCell(cell);
+                paragraph = new Paragraph();
+                chunk = new Chunk(getTran("pdfprescriptions","date.signature.prescriber")+"\n\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                paragraph.add(chunk);
+                chunk = new Chunk(prescriptiondate+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
+                paragraph.add(chunk);
+                cell=new PdfPCell(paragraph);
+                cell.setBorder(Cell.BOTTOM);
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setPaddingLeft(10);
+                cell.setPaddingRight(10);
+                cell.setColspan(5);
+                cell.setFixedHeight(320*72/254);
+                table.addCell(cell);
+                cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","medicine.prescription").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+                cell.setBorder(Cell.NO_BORDER);
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setPaddingLeft(10);
+                cell.setPaddingRight(10);
+                cell.setColspan(10);
+                table.addCell(cell);
 
+
+                doc.add(table);
             }
-            else if(countrycode.equalsIgnoreCase("RW")){
+            else {
                 table = new PdfPTable(10);
                 table.setWidthPercentage(pageWidth);
                 cell = new PdfPCell();
