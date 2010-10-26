@@ -84,7 +84,19 @@
             <td align="right" nowrap><%=getTran("Web", "DateOfBirth", sWebLanguage)%>&nbsp;<input
                     class='<%=setFocus("DateOfBirth",sDefaultFocus)%>' type='TEXT' name='findDateOfBirth'
                     value="<%=sDateOfBirth%>" size='17' OnBlur='checkDate(this)' maxlength='10'></td>
-            <td width="1%"/>
+            <td width="1%" nowrap>
+            	<%	
+            	if(activePatient!=null){
+	            	java.util.Date death=activePatient.isDead();	
+	            	if(death!=null){
+						out.print("<img src='_img/warning.gif'/> <font style='{font-size: 12px; font-weight: bold; vertical-align: top}'>"+getTran("web","died",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy").format(death)+"</font>");
+	            	}
+	            	else {
+	            		out.print(" ("+activePatient.getAge()+" "+getTran("web","years",sWebLanguage).toLowerCase()+")");
+	            	}
+            	}
+            	%>
+            </td>
             <td width="98%"/>
         </tr>
         <%-- row 2 --%>
