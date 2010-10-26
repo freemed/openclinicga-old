@@ -81,7 +81,10 @@
         if (sClass.equals("")) sClass = "1";
         else sClass = "";
 
-        boolean inStock = product.isInStock(activePatient.getActiveDivision().code);
+        boolean inStock = activePatient.getActiveDivision()!=null && product.isInStock(activePatient.getActiveDivision().code);
+        if(MedwanQuery.getInstance().getConfigInt("assumeStock",0)==1){
+        	inStock=true;
+        }
 
         sProductName = checkString(product.getName());
         sProductName = sProductName.replaceAll("'", "");
