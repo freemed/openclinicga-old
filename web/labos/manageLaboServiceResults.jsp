@@ -21,7 +21,7 @@
     }
 %>
 <form name="samplesForm" method="post">
-    <%=writeTableHeader("Web","openUserLaboResults",sWebLanguage," doBack();")%>
+    <%=writeTableHeader("Web","serviceLaboResults",sWebLanguage," doBack();")%>
     <table width="100%" cellspacing="0" cellpadding="1" class="menu">
         <tr>
             <td>

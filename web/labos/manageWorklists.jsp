@@ -126,19 +126,19 @@ be.openclinic.medical.RequestedLabAnalysis,java.util.Date,be.openclinic.medical.
                     RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis) labRequest.getAnalyses().get(analysis.get("labcode"));
                     if (requestedLabAnalysis != null && requestedLabAnalysis.getFinalvalidation()==0) {
                         bTechnicallyValidated = bTechnicallyValidated && requestedLabAnalysis.getTechnicalvalidation()>0;
-                        String sColor="";
+                        String sColor="lightgreen";
+                        if(requestedLabAnalysis.getTechnicalvalidation()==0){
+                            sColor="yellow";
+                        }
                         if(alertValues.get(requestedLabAnalysis.getAnalysisCode())!=null){
-                            if(requestedLabAnalysis.getTechnicalvalidation()==0){
-                                sColor="yellow";
-                            }
                             try{
                                 if(Double.parseDouble(requestedLabAnalysis.getResultValue())>((Double)alertValues.get(requestedLabAnalysis.getAnalysisCode())).doubleValue()){
-                                    sColor="red";
+                                    sColor="#ff9999";
                                 }
                             }
                             catch(Exception e){}
                         }
-                        out.print("<td><input class='text" + sColor + "' type='text' size='5' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "' value='" + requestedLabAnalysis.getResultValue() + "' onchange='validateAlert(this,\""+requestedLabAnalysis.getAnalysisCode()+"\");'></td>");
+                        out.print("<td><input style='{background: "+sColor+"}' class='text' type='text' size='5' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "' value='" + requestedLabAnalysis.getResultValue() + "' onchange='validateAlert(this,\""+requestedLabAnalysis.getAnalysisCode()+"\");'></td>");
                     } else {
                         if(requestedLabAnalysis !=null){
                             out.print("<td><b>"+requestedLabAnalysis.getResultValue()+"</b></td>");
@@ -153,7 +153,7 @@ be.openclinic.medical.RequestedLabAnalysis,java.util.Date,be.openclinic.medical.
                 out.print("</tr>");
             }
             out.print("<tr><td colspan='"+(profileAnalysis.size()+4)+"'><hr/></td></tr>");
-            out.print("<tr><td colspan='2'><input readonly class='textyellow' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","notechnicalvalidation",sWebLanguage)+"<br/><input readonly class='textred' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","higherthanalertvalue",sWebLanguage)+"</td><td colspan='"+(allAnalysis.length+1)+"'><input class='button' type='submit' name='save' value='"+getTran("web","save",sWebLanguage)+"'/></tr>");
+            out.print("<tr><td colspan='2'><input readonly style='{background: yellow}' class='text' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","notechnicalvalidation",sWebLanguage)+"<br/><input readonly style='{background: #ff9999}' class='text' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","higherthanalertvalue",sWebLanguage)+"</td><td colspan='"+(allAnalysis.length+1)+"'><input class='button' type='submit' name='save' value='"+getTran("web","save",sWebLanguage)+"'/></tr>");
         %>
         </table>
         <input type="hidden" name="worklistAnalyses" value="<%=worklistAnalyses%>"/>

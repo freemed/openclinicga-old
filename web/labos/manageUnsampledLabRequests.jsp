@@ -4,10 +4,6 @@
 <%
     String serviceId=checkString(request.getParameter("serviceId"));
     String serviceText=checkString(request.getParameter("serviceText"));
-    if(serviceId.length()==0){
-        serviceId=activeUser.activeService.code;
-        serviceText=activeUser.activeService.getLabel(sWebLanguage);
-    }
 %>
 <form name="samplesForm" method="post">
     <%=writeTableHeader("Web","unsampledRequests",sWebLanguage," doBack();")%>
@@ -78,6 +74,7 @@
             <td><%=getTran("web","samples",sWebLanguage)%></td>
         </tr>
     <%
+	System.out.println("Service = "+serviceId);
         Vector unsampledRequests = LabRequest.findUnsampledRequests(serviceId, sWebLanguage);
         LabRequest labRequest = null;
         for (int n = 0; n < unsampledRequests.size(); n++) {

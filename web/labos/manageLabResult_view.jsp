@@ -99,11 +99,15 @@
                     catch (Exception e){}
                     refs=" ["+min+"-"+max+"]";
                 }
-                out.print("<tr bgcolor='#FFFCD6'><td width='25%' nowrap><b>"+MedwanQuery.getInstance().getLabel("labanalysis",c,sWebLanguage)+" "+u+refs+"</b></td>");
                 requestsIterator = requestList.keySet().iterator();
                 if(requestsIterator.hasNext()){
                     labRequest = (LabRequest)requestList.get(requestsIterator.next());
                     RequestedLabAnalysis requestedLabAnalysis=(RequestedLabAnalysis)labRequest.getAnalyses().get(analysisCode);
+                    String sEdit=" ";
+                    if(activeUser.getAccessRight("labos.worklists.select") && (requestedLabAnalysis.getTechnicalvalidation()>0 || requestedLabAnalysis.getFinalvalidation()>0)){
+                    	sEdit="<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' onclick='reactivate("+labRequest.getServerid()+","+labRequest.getTransactionid()+",\""+requestedLabAnalysis.getAnalysisCode()+"\")'/>";
+                    }
+                    out.print("<tr bgcolor='#FFFCD6'><td width='25%' nowrap>"+sEdit+" <b>"+MedwanQuery.getInstance().getLabel("labanalysis",c,sWebLanguage)+" "+u+refs+"</b></td>");
                     String result=(requestedLabAnalysis!=null?requestedLabAnalysis.getFinalvalidation()>0 && requestedLabAnalysis.getResultValue().length()>0?requestedLabAnalysis.getResultValue():"?":"");
                     boolean bAbnormal=(result.length()>0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*")>-1);
                     out.print("<td"+(bAbnormal?" bgcolor='#FF8C68'":"")+">"+result+(bAbnormal?" "+checkString(requestedLabAnalysis.getResultModifier().toUpperCase()):"")+"</td>");
@@ -115,8 +119,8 @@
                     out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getTechnicalvalidationdatetime()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(requestedLabAnalysis.getTechnicalvalidationdatetime()):"")+"</td>");
                     out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidation()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getFinalvalidation()):"")+"</td>");
                     out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidationdatetime()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(requestedLabAnalysis.getFinalvalidationdatetime()):"")+"</td>");
+                    out.print("</tr>");
                 }
-                out.print("</tr>");
             }
         }
     %>
@@ -128,5 +132,9 @@
     }
     function doBack(){
         window.location.href="<c:url value="/main.do"/>?Page=labos/showLabRequestList.jsp";
+    }
+
+    function reactivate(serverid,transactionid,labanalysiscode){
+		window.open("<c:url value="/"/>labos/reactivateAnalysis.jsp?serverid="+serverid+"&transactionid="+transactionid+"&labanalysiscode="+labanalysiscode);
     }
 </script>

@@ -32,7 +32,7 @@
 <%
     if(request.getParameter("startdate")!=null){
 %>
-        <form  target="_print" action="<c:url value='/labos/createLabResultsPdf.jsp'/>" method="post">
+        <form  name="printfrm" id="printfrm" target="_print" action="<c:url value='/labos/createLabResultsPdf.jsp'/>" method="post">
 <%
         Date date=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("startdate"));
         Vector r = LabRequest.findServiceValidatedRequestsSince("",date,sWebLanguage,999);
@@ -66,7 +66,8 @@
     <%
         if(services.size()>0){
     %>
-    <input type="submit" class="button" name="submit" value="<%=getTran("web","print",sWebLanguage)%>"/>
+    <input type="hidden" name="startdate" id="startdate"/>
+    <input type="submit" class="button" name="submit" value="<%=getTran("web","print",sWebLanguage)%>" onclick="document.getElementById('startdate').value=document.getElementById('trandate').value"/>
     <%
         }
         
