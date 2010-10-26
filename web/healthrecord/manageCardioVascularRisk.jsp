@@ -44,7 +44,7 @@
         document.transactionForm.save.disabled = true;
         <%
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-            out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.traactionForm.submit();"));
+            out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();"));
         %>
       }
     </script>
@@ -126,20 +126,27 @@
 
   function calculateRisk(){
     var smoker='no';
-    if (document.all['smoker'].checked){
+    if (document.getElementById('smoker').checked){
       smoker='yes';
     }
 
-    if (transactionForm.sbpr.value.length==0){
+    if (document.getElementById("sbpr").value.length==0){
       alert("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup",sPREFIX+"item_type_recruitment_sce_sbp",sWebLanguage)%>)");
-      transactionForm.sbpr.focus();
+      document.getElementById("sbpr").focus();
       return 0;
     }
-    else if (transactionForm.chol.value.length==0){
+    else if (document.getElementById("chol").value.length==0){
       alert("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup","medwan.healthrecord.laboratory-examinations.blood.totale-cholesterol",sWebLanguage)%>)");
-      transactionForm.chol.focus();
+      document.getElementById("chol").focus();
       return 0;
     }
+    var url = "<c:url value="/healthrecord/viewCardioVascularRiskBelgium.jsp"/>"+
+              "?Action=ShowCardio"+
+              "&smoker="+smoker+
+              "&chol="+document.getElementById("chol").value+
+              "&syst="+document.getElementById("sbpr").value+
+              "&comment="+document.getElementById("comment").value;
+    window.open(url,"CardioVacularRisk","toolbar=no,status=no,scrollbars=yes,resizable=yes,width=1,height=1,menubar=yes");
   }
 
   <%-- set bloodpressure --%>

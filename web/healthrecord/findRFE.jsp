@@ -75,32 +75,6 @@
                                 }
                             }
                         }
-
-                        if (MedwanQuery.getInstance().getConfigInt("enableICD10")==1){
-                            // Hier worden de geselecteerde ICD10-codes getoond
-                            codes = MedwanQuery.getInstance().findICD10Codes(request.getParameter("keywords"),sWebLanguage);
-
-                            // header
-                            if(codes.size() > 0){
-                                out.print("<tr class='admin'><td colspan='3'>"+getTran("Web.Occup","ICD-10",sWebLanguage)+"</td></tr>");
-                            }
-
-                            for (int n=0; n<codes.size(); n++){
-                                foundRecords++;
-
-                                code = (ICPCCode)codes.elementAt(n);
-                                if (code.code.length()<=3){
-                                    out.print("<tr class='label2'>");
-                                }
-                                else {
-                                    out.print("<tr>");
-                                }
-
-                                out.print(" <td onclick='addICD10(\""+code.code+"\",\""+code.label+"\");'>"+code.code+"</td>");
-                                out.print(" <td onclick='addICD10(\""+code.code+"\",\""+code.label+"\");'>"+code.label+"</td>");
-                                out.print("</tr>");
-                            }
-                        }
                     }
                     %>
                     </tbody>
