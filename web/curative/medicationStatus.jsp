@@ -10,8 +10,7 @@
     <tr valign="top">
     <%
         String sProductUnit, timeUnitTran, sPrescrRule;
-        Vector chronicMedications = ChronicMedication.find(activePatient.personid, "", "",
-                "", "OC_CHRONICMED_BEGIN", "ASC");
+        Vector chronicMedications = ChronicMedication.find(activePatient.personid, "", "", "", "OC_CHRONICMED_BEGIN", "ASC");
         if(chronicMedications.size()>0){
                 out.println("<td width='1'><table><tr><td>"+getTran("curative","medication.chronic",sWebLanguage)+"</td></tr></table></td>");
                 out.println("<td><table>");
@@ -49,8 +48,12 @@
         }
         Vector activePrescriptions = Prescription.getActivePrescriptions(activePatient.personid);
         if(activePrescriptions!=null && activePrescriptions.size()>0){
+            long latencydays=1000*MedwanQuery.getInstance().getConfigInt("activeMedicationLatency",60);
+            latencydays*=24*3600;
+        	Timestamp ts = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()-latencydays);
+
     %>
-        <td width="1"><table><tr><td><%=getTran("curative","medication.prescription",sWebLanguage)%></td></tr></table></td>
+        <td width="1"><table><tr><td><%=getTran("curative","medication.prescription",sWebLanguage)%> (<%=getTran("web","after",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy").format(ts) %>)</td></tr></table></td>
         <td><table>
     <%
         Prescription prescription;
