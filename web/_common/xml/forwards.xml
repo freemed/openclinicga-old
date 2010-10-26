@@ -20,7 +20,7 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_RESP_FUNC_EX"                         path="/main.do?Page=/healthrecord/medIntRespiratoryFunctionExamination.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_BRONCHOSCOPY_PROTOCOL"                path="/main.do?Page=/healthrecord/medIntBronchoscopyProtocol.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_COLONOSCOPY_PROTOCOL"                 path="/main.do?Page=/healthrecord/medIntColonoscopyProtocol.jsp"/>
-    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PROCTOLOGY_PROTOCOL"                 path="/main.do?Page=/healthrecord/medIntProctologyProtocol.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PROCTOLOGY_PROTOCOL"                  path="/main.do?Page=/healthrecord/medIntProctologyProtocol.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL"        path="/main.do?Page=/healthrecord/medIntAbdominalEchographyProtocol.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL"           path="/main.do?Page=/healthrecord/medIntCardioEchographyProtocol.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_THYROID_ECHOGRAPHY_PROTOCOL"          path="/main.do?Page=/healthrecord/medIntThyroidEchographyProtocol.jsp"/>
@@ -75,4 +75,5 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_PLANNING_FAMILIAL"                 path="/main.do?Page=/healthrecord/csPlanningFamilial.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_CONSULTATION"                      path="/main.do?Page=/healthrecord/csConsultation.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MCD"                       		   path="/main.do?Page=/healthrecord/manageMinimalClinicalData_view.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_INTRADERMO"                       	   path="/main.do?Page=/healthrecord/manageIntradermo_view.jsp"/>
 </mappings>

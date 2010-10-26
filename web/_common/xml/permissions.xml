@@ -184,6 +184,7 @@
         <permission type="wicket" id="wicketoverview">financial.wicketoverview</permission>
         <permission type="web" id="immo">system.immo</permission>
         <permission type="mergepersons" id="mergepersons">system.mergepersons</permission>
+        <permission type="web" id="permissions">system.permissions</permission>
     </application>
     <application type="Web" id="pharmacy">
         <permission type="web" id="pharmacy">pharmacy</permission>
