@@ -91,20 +91,20 @@
     <tr>
         <td class="admin"><%=getTran("web", "name", sWebLanguage)%>
         </td>
-        <td class="admin2"><input type="bold" class="text" name="patientLastname" value="<%=sPatientLastname%>"
+        <td class="admin2"><input type="bold" class="text" name="patientLastname" id="pl" value="<%=sPatientLastname%>"
                                   size="25"/></td>
         <td class="admin"><%=HTMLEntities.htmlentities(getTran("web", "firstname", sWebLanguage))%>
         </td>
-        <td class="admin2"><input type="text" class="text" name="patientFirstname" value="<%=sPatientFirstname%>"
+        <td class="admin2"><input type="text" class="text" name="patientFirstname" id="pf" value="<%=sPatientFirstname%>"
                                   size="15"/></td>
         <td class="admin"><%=getTran("web", "dateofbirth", sWebLanguage)%>
         </td>
-        <td class="admin2"><input type="text" class="text" name="patientDateOfBirth" value="<%=sPatientDateOfBirth%>"
+        <td class="admin2"><input type="text" class="text" name="patientDateOfBirth" id="pd" value="<%=sPatientDateOfBirth%>"
                                   size="12" maxlength="10" OnBlur='checkDate(this)'/></td>
         <td class="admin"><%=getTran("web", "gender", sWebLanguage)%>
         </td>
         <td class="admin2">
-            <select class="text" name="patientGender">
+            <select class="text" name="patientGender" id="pg">
                 <option value="M" <%=sPatientGender.equalsIgnoreCase("M") ? "selected" : ""%>>M</option>
                 <option value="F" <%=sPatientGender.equalsIgnoreCase("F") ? "selected" : ""%>>F</option>
             </select>
@@ -117,7 +117,7 @@
                                                                           size="1" onclick="newpat();"/></td>
         <td class="admin2"><input type="button" class="button" class="text" name="clear"
                                   value="<%=getTran("web","clear",sWebLanguage)%>" size="1"
-                                  onclick="clearPatient();EditPatientForm.document.all['patientLastname'].focus();"/>
+                                  onclick="clearPatient();EditPatientForm.document.getElementById('patientLastname').focus();"/>
         </td>
     </tr>
 </table>
@@ -202,10 +202,10 @@
         patient.lastname = checkString(request.getParameter("patientLastname"));
         patient.firstname = checkString(request.getParameter("patientFirstname"));
         patient.gender = checkString(request.getParameter("patientGender"));
-        patient.language = "F";
-        patient.nativeCountry = "RW";
+        patient.language = MedwanQuery.getInstance().getConfigString("DefaultLanguage","fr");
+        patient.nativeCountry = MedwanQuery.getInstance().getConfigString("DefaultCountry","RW");
         patient.sourceid = "4";
-        patient.updateuserid = "4";
+        patient.updateuserid = activeUser.userid;
       	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         patient.saveToDB(ad_conn);
         ad_conn.close();
@@ -421,10 +421,10 @@
         return d;
     }
     function clearPatient() {
-        EditPatientForm.document.all['patientLastname'].value = '';
-        EditPatientForm.document.all['patientFirstname'].value = '';
-        EditPatientForm.document.all['patientDateOfBirth'].value = '';
-        EditPatientForm.document.all['patientGender'].value = '';
+        document.getElementById('pl').value = '';
+        document.getElementById('pf').value = '';
+        document.getElementById('pd').value = '';
+        document.getElementById('pg').value = '';
     }
 
     function searchService(serviceUidField, serviceNameField) {
