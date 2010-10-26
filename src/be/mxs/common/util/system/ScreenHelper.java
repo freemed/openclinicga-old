@@ -256,7 +256,7 @@ public class ScreenHelper {
         }
 
         try{
-            if(sLanguage==null || sLanguage.length() != 2) throw new Exception("Language must be a two-letter notation.");
+            if(sLanguage==null || sLanguage.length() != 2) throw new Exception("Language must be a two-letter notation. sType="+sType+", sID="+sID+", sLanguage="+sLanguage);
 
             if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
                 labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
@@ -1419,7 +1419,6 @@ public class ScreenHelper {
         try {
 			co_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return s;
