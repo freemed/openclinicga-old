@@ -2614,6 +2614,39 @@ public class AdminPerson extends OC_Object{
         return vData;
     }
 
+    public java.util.Date isDead(){
+    	java.util.Date death=null;
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sSelect = "SELECT * from oc_encounters where oc_encounter_patientuid=? and oc_encounter_outcome='dead' order by oc_encounter_enddate desc";
+
+    	Connection ad_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            ps = ad_conn.prepareStatement(sSelect);
+            ps.setString(1,this.personid);
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+            	death=rs.getDate("oc_encounter_enddate");
+            }
+
+            rs.close();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                ad_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return death;
+    }
+
     /*
         Query customized for patientEditSavePopup.jsp
      */

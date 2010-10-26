@@ -601,7 +601,7 @@ public class LabRequest {
                 Encounter encounter = Encounter.getActiveEncounter(labRequest.getPersonid()+"");
                 if(encounter!=null){
                     if(encounter.getService()!=null){
-                        labRequest.setServicename(encounter.getService().getLabel(language));
+                        labRequest.setServicename(encounter.getServiceUID()+" "+encounter.getService().getLabel(language));
                     }
                 }
                 labRequest.loadRequestAnalyses();
@@ -879,24 +879,46 @@ public class LabRequest {
     }
 
     public static Vector findUnsampledRequests(String service,String language){
-        Vector requests=new Vector();
+        Hashtable transactions = new Hashtable();
+    	Vector requests=new Vector();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sQuery="select distinct serverid,transactionid" +
+        	String sQuery="select serverid,transactionid,requestdatetime " +
                     " from RequestedLabAnalyses a, OC_ENCOUNTERS b,OC_ENCOUNTER_SERVICES c" +
                     " where" +
                     " b.OC_ENCOUNTER_SERVERID=c.OC_ENCOUNTER_SERVERID AND" +
                     " b.OC_ENCOUNTER_OBJECTID=c.OC_ENCOUNTER_OBJECTID AND"+
                     " a.patientid="+ MedwanQuery.getInstance().convert("int","b.OC_ENCOUNTER_PATIENTUID")+" and" +
-                    " c.OC_ENCOUNTER_SERVICEUID like ? and" +
                     " sampletakendatetime is null and" +
-                    " samplereceptiondatetime is null " +
-                    " order by requestdatetime";
+                    " samplereceptiondatetime is null and"+
+                    " requestdatetime>? and"+
+                    " c.OC_ENCOUNTER_SERVICEUID like ?" +
+                    " order by requestdatetime desc";
+            if (service==null || service.length()==0){
+            	sQuery="select serverid,transactionid,requestdatetime" +
+                " from RequestedLabAnalyses" +
+                " where" +
+                " sampletakendatetime is null and" +
+                " samplereceptiondatetime is null and"+
+                " requestdatetime >?"+
+                " order by requestdatetime desc";
+            }
             PreparedStatement ps = oc_conn.prepareStatement(sQuery);
-            ps.setString(1,service+"%");
+            long oneWeekAgo= new Date().getTime();
+            oneWeekAgo-=1000*3600*24*7;
+            ps.setDate(1,new java.sql.Date(oneWeekAgo));
+            if (service!=null && service.length()>0){
+            	ps.setString(2,service+"%");
+            }
             ResultSet rs = ps.executeQuery();
+            int serverid,transactionid;
             while (rs.next()){
-                requests.add(LabRequest.getUnsampledRequest(rs.getInt("serverid"),rs.getInt("transactionid"),language));
+            	serverid=rs.getInt("serverid");
+            	transactionid=rs.getInt("transactionid");
+            	if(transactions.get(serverid+"."+transactionid)==null){
+            		requests.add(LabRequest.getUnsampledRequest(serverid,transactionid,language));
+            		transactions.put(serverid+"."+transactionid, "1");
+            	}
             }
             rs.close();
             ps.close();
@@ -1067,25 +1089,50 @@ public class LabRequest {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             if(sample!=null && !sample.equalsIgnoreCase("?")){
-                String sQuery="update RequestedLabAnalyses set sampletakendatetime=?,sampler=? from RequestedLabAnalyses a, LabAnalysis b where a.analysiscode=b.labcode and b.deletetime is null and serverid=? and transactionid=? and b.monster=? and sampletakendatetime is null";
-                PreparedStatement ps = oc_conn.prepareStatement(sQuery);
-                ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()));
-                ps.setInt(2,userid);
-                ps.setInt(3,serverid);
-                ps.setInt(4,transactionid);
-                ps.setString(5,sample);
-                ps.executeUpdate();
-                ps.close();
+            	try {
+	            	String sQuery="update RequestedLabAnalyses set sampletakendatetime=?,sampler=? from RequestedLabAnalyses a, LabAnalysis b where a.analysiscode=b.labcode and b.deletetime is null and serverid=? and transactionid=? and b.monster=? and sampletakendatetime is null";
+	                PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+	                ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()));
+	                ps.setInt(2,userid);
+	                ps.setInt(3,serverid);
+	                ps.setInt(4,transactionid);
+	                ps.setString(5,sample);
+	                ps.executeUpdate();
+	                ps.close();
+            	}
+            	catch (Exception es){
+	            	String sQuery="update RequestedLabAnalyses a, LabAnalysis b set a.sampletakendatetime=?,a.sampler=? where a.analysiscode=b.labcode and b.deletetime is null and serverid=? and transactionid=? and b.monster=? and sampletakendatetime is null";
+	                PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+	                ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()));
+	                ps.setInt(2,userid);
+	                ps.setInt(3,serverid);
+	                ps.setInt(4,transactionid);
+	                ps.setString(5,sample);
+	                ps.executeUpdate();
+	                ps.close();
+            	}
             }
             else {
-                String sQuery="update RequestedLabAnalyses set sampletakendatetime=?,sampler=? from RequestedLabAnalyses a, LabAnalysis b where a.analysiscode=b.labcode and b.deletetime is null and serverid=? and transactionid=? and (b.monster is null or b.monster='') and sampletakendatetime is null";
-                PreparedStatement ps = oc_conn.prepareStatement(sQuery);
-                ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()));
-                ps.setInt(2,userid);
-                ps.setInt(3,serverid);
-                ps.setInt(4,transactionid);
-                ps.executeUpdate();
-                ps.close();
+            	try {
+	                String sQuery="update RequestedLabAnalyses set sampletakendatetime=?,sampler=? from RequestedLabAnalyses a, LabAnalysis b where a.analysiscode=b.labcode and b.deletetime is null and serverid=? and transactionid=? and (b.monster is null or b.monster='') and sampletakendatetime is null";
+	                PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+	                ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()));
+	                ps.setInt(2,userid);
+	                ps.setInt(3,serverid);
+	                ps.setInt(4,transactionid);
+	                ps.executeUpdate();
+	                ps.close();
+            	}
+            	catch (Exception es){
+	                String sQuery="update RequestedLabAnalyses a, LabAnalysis b set sampletakendatetime=?,sampler=? where a.analysiscode=b.labcode and b.deletetime is null and serverid=? and transactionid=? and (b.monster is null or b.monster='') and sampletakendatetime is null";
+	                PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+	                ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()));
+	                ps.setInt(2,userid);
+	                ps.setInt(3,serverid);
+	                ps.setInt(4,transactionid);
+	                ps.executeUpdate();
+	                ps.close();
+            	}
             }
         }
         catch(Exception e){

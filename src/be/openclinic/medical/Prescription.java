@@ -640,7 +640,9 @@ public class Prescription extends OC_Object{
                              " WHERE OC_PRESCR_PATIENTUID = ? AND (OC_PRESCR_END IS NULL OR OC_PRESCR_END >= ?)";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,patientuid);
-            Timestamp ts = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())).getTime()-24*3600*1000*MedwanQuery.getInstance().getConfigInt("activeMedicationLatency",60));
+            long latencydays=1000*MedwanQuery.getInstance().getConfigInt("activeMedicationLatency",60);
+            latencydays*=24*3600;
+        	Timestamp ts = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()-latencydays);
             ps.setTimestamp(2,ts);
             rs = ps.executeQuery();
 

@@ -88,6 +88,7 @@ public class LabProfile {
             .append("  AND l.OC_LABEL_TYPE = 'labprofiles'")
             .append("  AND l.OC_LABEL_LANGUAGE = ?")
             .append("  AND p.deletetime IS NULL order by p.profilecode");
+        System.out.println(sQuery);
 
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -99,7 +100,6 @@ public class LabProfile {
                 objLabProf = new LabProfile();
                 objLabProf.setProfileID(rs.getInt("profileID"));
                 sLabel = ScreenHelper.checkString(rs.getString("OC_LABEL_VALUE"));
-
                 hProfiles.put(sLabel,objLabProf);
             }
             rs.close();
