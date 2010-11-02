@@ -3,7 +3,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%!
 	public class Line {
-		String name;
+		String name,profile,service;
 		double total;
 		double contacts;
 		String userid;
@@ -41,6 +41,9 @@
 <table>
 <%
     if ((sFindBegin.length() > 0) || (sFindEnd.length() > 0)) {
+		%>
+		<tr><td class='admin'><td class='admin'/><%=getTran("web","user",sWebLanguage) %></td><td class='admin'><%=getTran("web","profile",sWebLanguage) %></td><td class='admin'><%=getTran("web","service",sWebLanguage) %></td><td class='admin'><%=getTran("web","encounters",sWebLanguage)%></td><td class='admin'><%=getTran("web","creations_modifications",sWebLanguage)%></td></tr>
+		<%
     	String sQuery="select count(*) total,userid "+
 						" from accesslogs "+
 						" where "+
@@ -75,7 +78,31 @@
     		generaltotal+=total;
     		int userid = rs.getInt("userid");
     		String username = MedwanQuery.getInstance().getUserName(userid);
-    		lines.add(new Line(username,total,contacts,userid+""));
+    		Line line = new Line(username,total,contacts,userid+"");
+    		PreparedStatement ps2 = oc_conn.prepareStatement("select b.userprofilename from UserParameters a,Userprofiles b where a.userid=? and a.active=1 and a.parameter='userprofileid' and a.value=b.userprofileid");
+    		ps2.setInt(1,userid);
+    		ResultSet rs2=ps2.executeQuery();
+    		if(rs2.next()){
+    			line.profile=rs2.getString("userprofilename");
+    		}
+    		else {
+    			line.profile="";
+    		}
+    		rs2.close();
+    		ps2.close();
+    		ps2 = oc_conn.prepareStatement("select value from UserParameters where userid=? and active=1 and parameter='defaultserviceid'");
+    		ps2.setInt(1,userid);
+    		rs2=ps2.executeQuery();
+    		if(rs2.next()){
+    			line.service=MedwanQuery.getInstance().getService(rs2.getString("value")).getLabel(sWebLanguage);
+    		}
+    		else {
+    			line.service="";
+    		}
+    		rs2.close();
+    		ps2.close();
+    		
+    		lines.add(line);
     	}
 		rs.close();
 		ps.close();
@@ -95,7 +122,7 @@
     		if(hModif.get(line.userid)!=null){
     			creations=((Integer)hModif.get(line.userid)).intValue();
     		}
-    		out.println("<tr><td class='admin2'>"+line.name.toUpperCase()+"</td><td>"+getTran("web","patients",sWebLanguage)+": <b>"+new DecimalFormat("#,###").format(line.contacts)+"</b></td><td>"+getTran("web","creations_modifications",sWebLanguage)+": <b>"+new DecimalFormat("#,###").format(creations)+"</b></td></tr>");
+    		out.println("<tr><td class='admin2'>"+line.userid+"</td><td class='admin2'>"+line.name.toUpperCase()+"</td><td class='admin2'>"+line.profile+"</td><td class='admin2'>"+line.service+"</td><td class='admin2'><b>"+new DecimalFormat("#,###").format(line.contacts)+"</b></td><td class='admin2'><b>"+new DecimalFormat("#,###").format(creations)+"</b></td></tr>");
     	}
 
     }

@@ -12,7 +12,8 @@
     <input type="hidden" name="pid2" value="">
 
 <%
-    //####################### THIS FILE SHOULD ONLY BE EXECUTED ON A SERVER #######################
+	try{
+//####################### THIS FILE SHOULD ONLY BE EXECUTED ON A SERVER #######################
 
     // get request parameters
     String sAction      = checkString(request.getParameter("action")),
@@ -996,6 +997,10 @@
             </script>
         <%
     }
+	}
+	catch(Exception e){
+		e.printStackTrace();
+	}
 %>
 </form>
 

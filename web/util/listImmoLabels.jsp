@@ -11,8 +11,6 @@
     String sImmoId=checkString(request.getParameter("immoId"));
     String sAction= checkString(request.getParameter("immoAction"));
 
-    System.out.println("sAction="+sAction);
-    System.out.println("sImmoId="+sImmoId);
     Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 
     if("delete".equalsIgnoreCase(sAction) && sImmoId.length()>0){

@@ -203,7 +203,6 @@
                         else                            sLabelText = sLabelTextFR;
 
                         if(sLabelText.length()==0 || sLabelText.equals("NULL")){
-                            //System.out.println("*** '"+sLabelTextNL+"' & '"+sLabelTextFR+"'");
                             validLabelCount++;
 
                             // orange background if label only occurs in one of both ini's

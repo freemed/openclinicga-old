@@ -52,7 +52,6 @@
         " a.OC_DIAGNOSIS_UPDATETIME>=? and "+
         " a.OC_DIAGNOSIS_UPDATETIME<? "+
         " order by OC_LABEL_VALUE,OC_DIAGNOSIS_ENCOUNTERUID";
-        System.out.println(sQuery);
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         PreparedStatement ps = oc_conn.prepareStatement(sQuery);
         end.setTime(end.getTime()+24*3600*1000);

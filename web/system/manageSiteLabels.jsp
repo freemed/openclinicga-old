@@ -27,7 +27,6 @@
 			if(sParName.split("\\$").length==3){
 				String sParValue=checkString(request.getParameter(sParName));
 				if(!sParValue.equals(getTranNoLink(sParName.split("\\$")[0],sParName.split("\\$")[1],sParName.split("\\$")[2]))){
-					System.out.println(sParValue+"<>"+getTranNoLink(sParName.split("\\$")[0],sParName.split("\\$")[1],sParName.split("\\$")[2]));
 					updated=true;
 	                boolean bExists=false;
 					Label oldLabel = new Label();

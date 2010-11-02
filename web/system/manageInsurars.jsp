@@ -73,7 +73,6 @@
     	if(request.getParameter("EditInsurarExtra")==null){
 			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
 			for(int n=0;n<supportedlanguages.length;n++){
-				System.out.println("deleting "+sEditInsurarId+" "+supportedlanguages[n]);
 	    		Label.delete("patientsharecoverageinsurance",sEditInsurarId,supportedlanguages[n]);
 			}
     	}

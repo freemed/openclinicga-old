@@ -38,25 +38,11 @@
     String sEditWicketServiceName = checkString(request.getParameter("EditWicketServiceName"));
     String sEditWicketBalance = checkString(request.getParameter("EditWicketBalance"));
     String sEditWicketAuthorizedUsers = checkString(request.getParameter("EditAuthorizedUsers"));
-    /*
-    System.out.println("EditWIcketUID: " + sEditWicketUID);
-    System.out.println("EditWIcketService: " + sEditWicketService);
-    System.out.println("EditWIcketServiceName: " + sEditWicketServiceName);
-    System.out.println("EditWIcketBalance: " + sEditWicketBalance);
-    System.out.println("EditWIcketAuthorizedUsers: " + sEditWicketAuthorizedUsers);
-    */
     String sFindWicketBegin = checkString(request.getParameter("FindWicketBegin"));
     String sFindWicketEnd = checkString(request.getParameter("FindWicketEnd"));
     String sFindWicketService = checkString(request.getParameter("FindWicketService"));
     String sFindWicketServiceName = checkString(request.getParameter("FindWicketServiceName"));
     String sFindSortColumn = checkString(request.getParameter("FindSortColumn"));
-    /*
-    System.out.println("FindWIcketBegin: " + sFindWicketBegin);
-    System.out.println("FindWIcketEnd: " + sFindWicketEnd);
-    System.out.println("FindWIcketService: " + sFindWicketService);
-    System.out.println("FindWIcketServiceName: " + sFindWicketServiceName);
-    System.out.println("SortColumn: " + sFindSortColumn);
-    */
     if (sAction.equals("DELETE")) {
         Wicket wicket = Wicket.get(sEditWicketUID);
         wicket.delete();
@@ -87,7 +73,6 @@
     }
 
     if (sEditWicketUID.length() > 0) {
-        //System.out.println("WicketUID: " + sEditWicketUID + " Filling up");
         Wicket wicket = Wicket.get(sEditWicketUID);
 
         sEditWicketService = wicket.getServiceUID();
