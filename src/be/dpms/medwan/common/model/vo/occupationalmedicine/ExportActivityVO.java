@@ -164,16 +164,6 @@ public class ExportActivityVO {
     }
 
     public Vector validate(){
-        /*
-        System.out.println("\n=============== DEBUG ==================");
-        System.out.println("MD            : "+MD);
-        System.out.println("para          : "+para);
-        System.out.println("medicalCenter : "+medicalCenter);
-        System.out.println("provider      : "+provider);
-
-        System.out.println("MD       needed for code "+code+" : "+MedwanQuery.getInstance().getActivity(code).md);
-        System.out.println("provider needed for code "+code+" : "+MedwanQuery.getInstance().getActivity(code).provider);
-        */
 
         Vector errors = new Vector();
         if ((MD==null || MD.trim().length()==0) && (para==null || para.trim().length()==0)){

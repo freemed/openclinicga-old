@@ -19,7 +19,6 @@ public class UpdateStats4 extends UpdateStatsBase{
 	
 	public void execute(){
         String serverid=MedwanQuery.getInstance().getConfigString("serverId")+".";
-		System.out.println("Executing "+modulename);
 		String sql = "SELECT top 250000 a.OC_DEBET_OBJECTID," +
 				" OC_DEBET_ENCOUNTERUID," +
 				" OC_DEBET_INSURANCEUID," +
@@ -83,7 +82,6 @@ public class UpdateStats4 extends UpdateStatsBase{
 						ps2.setDate(9, new java.sql.Date(begindate.getTime()));
 						ps2.setDate(10, new java.sql.Date(enddate.getTime()));
 						ps2.executeUpdate();
-						System.out.println("Added "+type+" #"+encounteruid+" on "+new SimpleDateFormat("dd/MM/yyyy").format(begindate)+" for insurar "+insurar);
 						ps2.close();
 					}
 					catch(Exception e2){

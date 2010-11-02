@@ -18,7 +18,6 @@ public class UpdateStats3 extends UpdateStatsBase{
 	}
 	
 	public void execute(){
-		System.out.println("Executing "+modulename);
 		String sql = "SELECT OC_DEBET_ENCOUNTERUID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_TYPE,OC_DEBET_INSURANCEUID,OC_DEBET_UPDATETIME from OC_DEBETS a,OC_ENCOUNTERS b where" +
 				" b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND "+
 				" OC_DEBET_UPDATETIME>? order by OC_DEBET_UPDATETIME ASC";
@@ -67,7 +66,6 @@ public class UpdateStats3 extends UpdateStatsBase{
 							ps2.setDate(3, new java.sql.Date(debetdate.getTime()));
 							ps2.setString(4, type);
 							ps2.executeUpdate();
-							System.out.println("Added "+type+" #"+encounteruid+" on "+new SimpleDateFormat("dd/MM/yyyy").format(debetdate)+" for insurar "+insurar);
 						}
 						else {
 							rs2.close();

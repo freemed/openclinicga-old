@@ -218,7 +218,6 @@ public class HospitalStats {
 
         Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
         try {
-        	System.out.println(new Date()+": 1");
         	PreparedStatement ps = loc_conn.prepareStatement(sql);
             ps.setTimestamp(1, new java.sql.Timestamp(begin.getTime()));
             ps.setTimestamp(2, new java.sql.Timestamp(end.getTime()));
@@ -227,7 +226,6 @@ public class HospitalStats {
             ps.setTimestamp(5, new java.sql.Timestamp(end.getTime()));
             ps.setString(6, codetype);
             ResultSet rs = ps.executeQuery();
-        	System.out.println(new Date()+": 2");
             String encounterUid, patientUid, outcome, type, service, diagnosis;
             Hashtable lastadmissions = new Hashtable();
             Hashtable lastvisits = new Hashtable();
@@ -537,7 +535,6 @@ public class HospitalStats {
                     }
             	}
             	else {
-            		//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ MISSING ENCOUNTER: "+encounteruid+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             	}
             }
             rs.close();

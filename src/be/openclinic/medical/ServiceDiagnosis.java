@@ -59,7 +59,6 @@ public class ServiceDiagnosis {
 
         int i = 1;
 
-        //System.out.println("QUERY: " + sSelect);
 
         Vector vServiceDiagnoses = new Vector();
 

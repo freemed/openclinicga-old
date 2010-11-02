@@ -337,7 +337,6 @@ public class Bed extends OC_Object{
 
         //sLower.replaceAll("<param>","OC_BED_SERVERID") + " = " + sLower.replaceAll("<param>","?") + " AND";
 
-        //System.out.println("Service: " + serviceID);
 
         if(serverID.length() > 0 )  { sConditions += " OC_BED_SERVERID = ? AND";}
         if(objectID.length() > 0 )  { sConditions += " OC_BED_OBJECTID = ? AND";}
@@ -355,11 +354,9 @@ public class Bed extends OC_Object{
             sSelect += " ORDER BY " + sortColumn;
         }
 
-        //System.out.println("Query: " + sSelect);
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            //System.out.println("Query: " + sSelect);
             ps = oc_conn.prepareStatement(sSelect);
 
             int i = 1;

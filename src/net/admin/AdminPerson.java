@@ -1095,7 +1095,6 @@ public class AdminPerson extends OC_Object{
                         " AND o.OC_ENCOUNTER_TYPE = 'admission'" +
                         " AND o.OC_ENCOUNTER_MANAGERUID = ?" +
                         " AND o.OC_ENCOUNTER_PATIENTUID = " + MedwanQuery.getInstance().convert("varchar(255)","personid");
-        //System.out.println("\n\nQUERY: " + sSelect + "\n\n");
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect.trim());
@@ -1170,7 +1169,6 @@ public class AdminPerson extends OC_Object{
                         " AND o.OC_ENCOUNTER_TYPE = 'visit'" +
                         " AND o.OC_ENCOUNTER_MANAGERUID = ?" +
                         " AND o.OC_ENCOUNTER_PATIENTUID = " + MedwanQuery.getInstance().convert("varchar(255)","personid");
-        //System.out.println("\n\nQUERY: " + sSelect + "\n\n");
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect.trim());
@@ -1476,7 +1474,6 @@ public class AdminPerson extends OC_Object{
                 AdminPerson tempPat;
                 while(rs.next()){
                     tempPat = new AdminPerson();
-                    //System.out.println("\nOC_ENCOUNTER_PATIENTUID: " + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID")) + " == personid: " + ScreenHelper.checkString(rs.getString("personid")) + "\n");
                     //tempPat.setPatientUID(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID")));
                     tempPat.personid = ScreenHelper.checkString(rs.getString("personid"));
                     //tempPat.setPersonid(ScreenHelper.checkString(rs.getString("personid")));
@@ -1600,7 +1597,6 @@ public class AdminPerson extends OC_Object{
                 AdminPerson tempPat;
                 while(rs.next() && lResultList.size()<=iMaxResults){
                     tempPat = new AdminPerson();
-                    //System.out.println("\nOC_ENCOUNTER_PATIENTUID: " + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID")) + " == personid: " + ScreenHelper.checkString(rs.getString("personid")) + "\n");
                     //tempPat.setPatientUID(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID")));
                     tempPat.personid = ScreenHelper.checkString(rs.getString("personid"));
                     //tempPat.setPersonid(ScreenHelper.checkString(rs.getString("personid")));

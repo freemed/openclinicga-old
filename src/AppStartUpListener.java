@@ -20,11 +20,6 @@ public final class AppStartUpListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event){
         try{
             this.context = event.getServletContext();
-            System.out.println("Application Initialization Starting…");
-            System.out.println("Loading application properties");
-            System.out.println("Loading application loggers");
-            System.out.println("Loading application meta data");
-            System.out.println("Application Initialization Done…");
         }
         catch(Exception e){
             e.printStackTrace();

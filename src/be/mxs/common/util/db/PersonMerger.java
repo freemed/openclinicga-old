@@ -150,6 +150,7 @@ public class PersonMerger {
         rs.close();
         ps.close();
         // get healthRecordId of source healthRecord
+        ps = occupConn.prepareStatement("SELECT healthRecordId FROM Healthrecord WHERE personId = ?");
         ps.setInt(1,removePersonId);
         rs = ps.executeQuery();
         int removeHealthRecordId = -1;

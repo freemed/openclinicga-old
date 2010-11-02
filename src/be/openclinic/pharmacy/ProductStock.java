@@ -651,7 +651,6 @@ public class ProductStock extends OC_Object implements Comparable {
 
             // order by selected col or default col
             sSelect += "ORDER BY " + sSortCol + " " + sSortDir;
-            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
 
             // set questionmark values

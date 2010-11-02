@@ -17,7 +17,6 @@ public class UpdateStats1 extends UpdateStatsBase{
 	}
 	
 	public void execute(){
-		System.out.println("Executing "+modulename);
 		String sql = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>? order by OC_ENCOUNTER_UPDATETIME ASC";
 		Date lastupdatetime=getLastUpdateTime(STARTDATE);
         Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
@@ -61,7 +60,6 @@ public class UpdateStats1 extends UpdateStatsBase{
 							ps2.setString(6, insurance==null?"":insurance.getInsurar().getName());
 							ps2.setString(7, type);
 							ps2.executeUpdate();
-							System.out.println("Added "+type+" #"+encounteruid+" on "+new SimpleDateFormat("dd/MM/yyyy").format(begindate)+" for patient ID "+patientuid+" in department "+serviceuid);
 							ps2.close();
 						}
 						catch(Exception e2){

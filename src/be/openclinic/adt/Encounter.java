@@ -1273,7 +1273,7 @@ public class Encounter extends OC_Object {
             sType = ", " + MedwanQuery.getInstance().getLabel("encountertype", this.getType(), language);
         }
 
-        return this.getUid() + sBegin + sEnd + sType;
+        return this.getUid() + sBegin + sEnd + sType+" ("+this.getServiceUID()+")";
     }
 
     public static Vector selectEncounters(String serverID, String objectID, String beginDate, String endDate, String type,

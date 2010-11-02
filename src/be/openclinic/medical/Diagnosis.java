@@ -671,7 +671,6 @@ public class Diagnosis extends OC_Object{
                 POA="";
             }
             Diagnosis objDiagnosis = new Diagnosis();
-            //System.out.println("1: " + userid + " 2: " + user.userid);
 
             //objDiagnosis.setAuthor(user);
             objDiagnosis.setAuthorUID(Integer.toString(userid));
@@ -705,7 +704,6 @@ public class Diagnosis extends OC_Object{
                 NC="";
             }
             Diagnosis objDiagnosis = new Diagnosis();
-            //System.out.println("1: " + userid + " 2: " + user.userid);
 
             //objDiagnosis.setAuthor(user);
             objDiagnosis.setAuthorUID(Integer.toString(userid));

@@ -59,7 +59,6 @@ public class UserDiagnosis {
 
         int i = 1;
 
-        //System.out.println("QUERY: " + sSelect);
 
         Vector vUserDiagnoses = new Vector();
 

@@ -17,6 +17,8 @@ import net.admin.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import quicktime.std.anim.SpriteWorld;
+
 public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
     String sProforma = "no";
 
@@ -123,8 +125,14 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         table.addCell(createValueCell(getTran("web","prestations"),1,8,Font.NORMAL));
         double totalDebet=0;
         double totalinsurardebet=0;
+        Hashtable services = new Hashtable();
+        String service="";
         for(int n=0;n<invoice.getDebets().size();n++){
             Debet debet = (Debet)invoice.getDebets().elementAt(n);
+            service=debet.getEncounter().getService().getLabel(sPrintLanguage);
+            if(service!=null){
+            	services.put(service, "1");
+            }
             totalDebet+=debet.getAmount();
             totalinsurardebet+=debet.getInsurarAmount();
         }
@@ -155,8 +163,27 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         cell.setColspan(40);
         receiptTable.addCell(cell);
         receiptTable.addCell(createEmptyCell(50));
-        receiptTable.addCell(createValueCell(getTran("web","prestations"),50,8,Font.BOLD));
+        receiptTable.addCell(createValueCell(getTran("web","service"),10,8,Font.BOLD));
+        Enumeration es = services.keys();
+        int nLines=2;
+        while (es.hasMoreElements()){
+        	if(nLines==0){
+                receiptTable.addCell(createEmptyCell(10));
+                nLines=1;
+        	}
+        	else if(nLines==1){
+        		nLines=0;
+        	}
+        	else {
+        		nLines=1;
+        	}
+        	service=(String)es.nextElement();
+            receiptTable.addCell(createValueCell(service,20,7,Font.NORMAL));
+        }
+        receiptTable.addCell(createEmptyCell(50-((services.size() % 2)*20)));
+        receiptTable.addCell(createValueCell(getTran("web","prestations"),10,8,Font.BOLD));
         Vector debets = invoice.getDebets();
+        nLines=2;
         for(int n=0;n<debets.size();n++){
             Debet debet = (Debet)debets.elementAt(n);
             String extraInsurar="";
@@ -169,9 +196,19 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
                     }
                 }
             }
-            receiptTable.addCell(createValueCell(debet.getQuantity()+" x  ["+debet.getPrestation().getCode()+"] "+debet.getPrestation().getDescription()+extraInsurar,25,7,Font.NORMAL));
+        	if(nLines==0){
+                receiptTable.addCell(createEmptyCell(10));
+                nLines=1;
+        	}
+        	else if(nLines==1){
+        		nLines=0;
+        	}
+        	else {
+        		nLines=1;
+        	}
+            receiptTable.addCell(createValueCell(debet.getQuantity()+" x  ["+debet.getPrestation().getCode()+"] "+debet.getPrestation().getDescription()+extraInsurar,20,7,Font.NORMAL));
         }
-        receiptTable.addCell(createEmptyCell(50-((debets.size() % 2)*25)));
+        receiptTable.addCell(createEmptyCell(50-((debets.size() % 2)*20)));
         receiptTable.addCell(createEmptyCell(50));
         receiptTable.addCell(createCell(createValueCell(" "),50,Cell.ALIGN_CENTER,Cell.BOTTOM));
         receiptTable.addCell(createEmptyCell(50));

@@ -541,7 +541,6 @@ public class DatacenterHospitalStats {
                     }
             	}
             	else {
-            		//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ MISSING ENCOUNTER: "+encounteruid+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             	}
             }
             rs.close();

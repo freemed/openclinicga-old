@@ -122,7 +122,6 @@ public class User extends OC_Object {
     }
     
     public void addPrestation(String prestationuid){
-    	System.out.println("counter prestationuid "+prestationuid+" = "+popularPrestations.get(prestationuid));
     	if(popularPrestations.get(prestationuid)==null){
     		popularPrestations.put(prestationuid, 1);
     	}

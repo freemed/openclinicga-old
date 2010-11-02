@@ -367,7 +367,6 @@ public class InsurarCredit extends OC_Object {
                 sSelect +=" AND OC_INSURARCREDIT_AMOUNT < ?  ";
             }
 
-            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,sInsurarUid);
             int iIndex = 2;

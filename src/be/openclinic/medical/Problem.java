@@ -395,7 +395,6 @@ public class Problem extends OC_Object {
             sSelect += " ORDER BY " + sortColumn;
         }
 
-        //System.out.println("PROBLEM QUERY: " + sSelect);
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{

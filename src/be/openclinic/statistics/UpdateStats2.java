@@ -20,7 +20,6 @@ public class UpdateStats2 extends UpdateStatsBase{
 	}
 	
 	public void execute(){
-		System.out.println("Executing "+modulename);
 		Date lastupdatetime;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		try{
@@ -129,7 +128,6 @@ public class UpdateStats2 extends UpdateStatsBase{
 										ps2.setInt(12, diagnosiscertainty);
 										ps2.executeUpdate();
 										ps2.close();
-										System.out.println((n)+"/"+encounters.size()+" Added "+diagnosiscodetype+" "+diagnosiscode+" on "+new SimpleDateFormat("dd/MM/yyyy").format(begindate)+" for encounter "+encounteruid+" in department "+serviceuid);
 							}
 							catch(Exception e2){
 								e2.printStackTrace();
@@ -168,7 +166,6 @@ public class UpdateStats2 extends UpdateStatsBase{
 								ps2.setObject(12, null);
 								ps2.executeUpdate();
 								ps2.close();
-								System.out.println((n)+"/"+encounters.size()+" Added  encounter "+encounteruid+" in department "+serviceuid+" without diagnoses");
 							}
 							catch(Exception e2){
 								e2.printStackTrace();

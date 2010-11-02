@@ -680,8 +680,6 @@ public class Product extends OC_Object implements Comparable {
     }
 
     public static boolean isInStock(String sProductUID,String sServiceUID){
-    	System.out.println("sProductUID="+sProductUID);
-    	System.out.println("sServiceUID="+sServiceUID);
     	boolean isInStock = false;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -693,7 +691,6 @@ public class Product extends OC_Object implements Comparable {
                         " b.oc_stock_objectid=replace(a.oc_stock_servicestockuid,'"+ MedwanQuery.getInstance().getConfigInt("serverId")+".','') and" +
                         " a.oc_stock_productuid=? and" +
                         " b.oc_stock_serviceuid=?";
-                System.out.println(sQuery);
                 PreparedStatement ps = oc_conn.prepareStatement(sQuery);
                 ps.setString(1,sProductUID);
                 ps.setString(2,sServiceUID);

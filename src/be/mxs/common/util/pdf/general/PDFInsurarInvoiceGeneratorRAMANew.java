@@ -248,12 +248,12 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
                 debet = (Debet)debets.get(i);
                 date = debet.getDate();
                 displayDate = !date.equals(prevdate);
-                sPatientName = debet.getPatientName();
+                sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
                 displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName) || (debet.getPatientInvoiceUid()!=null && debet.getPatientInvoiceUid().indexOf(".")>=0 && invoiceid.indexOf(debet.getPatientInvoiceUid().split("\\.")[1])<0 && invoiceid.length()>0);
                 if(i>0 && (displayDate || displayPatientName)){
                     table = new PdfPTable(2000);
                     table.setWidthPercentage(pageWidth);
-                    printDebet2(table,categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName,total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct,tableParent);
+                    printDebet2(table,categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct,tableParent);
                 	if(linecounter==36 || (linecounter-36)%40==0){
                         // display debet total
                 		table.addCell(createEmptyCell(700));
@@ -445,7 +445,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             if(debets.size()>0 && linecounter!=36 && (linecounter-36)%40!=0){
                 table = new PdfPTable(2000);
                 table.setWidthPercentage(pageWidth);
-            	printDebet2(table,categories,true,prevdate,invoiceid,adherent,sPrevPatientName,total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct,tableParent);
+            	printDebet2(table,categories,true,prevdate,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct,tableParent);
             	// display debet total
                 table.addCell(createEmptyCell(700));
                 cell = createLabelCell(getTran("web","pagesubtotalprice"),300);

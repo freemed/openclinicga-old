@@ -306,8 +306,6 @@ public class PDFDatacenterHospitalReportGenerator extends PDFOfficialBasic {
 	    	//Table
 	    	Hashtable deliveryIncomes = hospitalStats.getDeliveryincomes();
 	    	KeyValue[] kv = StatFunctions.getTop(deliveryIncomes, deliveryIncomes.size());
-        	System.out.println("kv.size="+kv.length);
-        	System.out.println("deliveryIncomes.size="+deliveryIncomes.size());
 	    	cell = new PdfPCell(new Paragraph(ScreenHelper.getTranNoLink("hospital.statistics", "delivery", sPrintLanguage),FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
 	        cell.setPaddingTop(5);
 	        cell.setColspan(70);

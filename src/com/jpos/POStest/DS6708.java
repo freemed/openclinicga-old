@@ -95,7 +95,6 @@ public class DS6708 implements DataListener, ErrorListener {
                 sb.append(new String(b));
                 if(stage==0 && sb.length()==21){
                     ident=sb.substring(0,21);
-                    System.out.println(ident);
                     stage=1;
                 }
                 else if(stage==1 && sb.length()==31){
@@ -104,7 +103,6 @@ public class DS6708 implements DataListener, ErrorListener {
                 }
                 else if(stage==2 && b[0]==0){
                     lastname = sb.substring(0,sb.length()-1);
-                    System.out.println(lastname);
                     stage=3;
                 }
                 else if (stage==3 && b[0]==0){
@@ -115,7 +113,6 @@ public class DS6708 implements DataListener, ErrorListener {
                 }
                 else if(stage==4 && b[0]==0){
                     firstname = sb.substring(0,sb.length()-1);
-                    System.out.println(firstname);
                     HttpClient httpClient = new HttpClient();
                     PostMethod method = new PostMethod(MedwanQuery.getInstance().getConfigString("barcodeUpdateURL","http://localhost/openclinic/util/setbarcode.jsp"));
                     method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,new DefaultHttpMethodRetryHandler(3, false));
