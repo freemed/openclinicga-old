@@ -216,7 +216,6 @@
     } else if (sFindPlanningUID.length() > 0) {
         //####################### IF EXISTS APPOINTMENT ###################################//
         planning = Planning.get(sFindPlanningUID);
-        // System.out.println(sFindPlanningUID+" - "+planning.getPlannedDate());
         // appointment date
         if (planning.getPlannedDate() != null) {
             appointmentDateDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedDate());

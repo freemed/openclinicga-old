@@ -74,7 +74,6 @@
             <td><%=getTran("web","samples",sWebLanguage)%></td>
         </tr>
     <%
-	System.out.println("Service = "+serviceId);
         Vector unsampledRequests = LabRequest.findUnsampledRequests(serviceId, sWebLanguage);
         LabRequest labRequest = null;
         for (int n = 0; n < unsampledRequests.size(); n++) {

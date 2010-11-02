@@ -62,7 +62,6 @@
     }
     //--- SAVE ------------------------------------------------------------------------------------
     if(sAction.equals("save")){
-    	System.out.println("sEditCreditInvoiceUid="+sEditCreditInvoiceUid);
         // get or create credit
         if(sEditCreditUid.length() > 0){
             credit = PatientCredit.get(sEditCreditUid);

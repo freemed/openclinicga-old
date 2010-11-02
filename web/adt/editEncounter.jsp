@@ -235,15 +235,10 @@
     if(sEditEncounterUID.length() > 0){
 
         sRfe= ReasonForEncounter.getReasonsForEncounterAsHtml(sEditEncounterUID,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
-        System.out.println("1");
         tmpEncounter = Encounter.get(sEditEncounterUID);
-        System.out.println("2");
 		sMaxTransferDate=new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getMaxTransferDate());
-        System.out.println("3");
         sEditEncounterType            = checkString(tmpEncounter.getType());
-        System.out.println("4");
         sEditEncounterBegin           = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getBegin()));
-        System.out.println("5");
         sEditEncounterBeginHour           = checkString(new SimpleDateFormat("HH:mm").format(tmpEncounter.getBegin()));
 
         if(tmpEncounter.getEnd() == null){

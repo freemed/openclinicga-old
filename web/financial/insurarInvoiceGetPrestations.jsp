@@ -24,9 +24,6 @@
                 debet = (Debet) vDebets.elementAt(i);
                 if(debet!=null){
     				count2++;
-    				if(hSort.get(debet.getPatientName()+"="+debet.getDate().getTime() + "=" + debet.getUid())!=null){
-    					System.out.println(debet.getPatientName()+"="+debet.getDate().getTime() + "=" + debet.getUid());
-    				}
                     hSort.put(debet.getPatientName()+"="+debet.getDate().getTime() + "=" + debet.getUid(),debet);
                 }
             }
@@ -113,7 +110,6 @@
                     }
                 }
             }
-            System.out.println("*********************************** Total debets2:::::::::::::: "+count+"/"+count2);
 
         }
         return sReturn.toString();
@@ -265,7 +261,6 @@
     if (sEditInsurarInvoiceUID.length() > 0) {
         insurarInvoice = InsurarInvoice.get(sEditInsurarInvoiceUID);
         Vector vDebets = insurarInvoice.getDebets();
-        System.out.println("*********************************** Total debets:::::::::::::: "+vDebets.size());
         String s = addDebets(vDebets, sClass, sWebLanguage, true);
         out.print(s);
     }

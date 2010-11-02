@@ -435,32 +435,20 @@
                 //*************************************************************************************
                 // type 1 : prescr before and in order
                 if ((prescrBegin.before(now.getTime()) || prescrBegin.getTime() == now.getTimeInMillis()) && (prescrEnd.before(untilDate.getTime()) || prescrEnd.getTime() == untilDate.getTimeInMillis())) {
-                    //System.out.println("*** prescription type 1 ***");//////////// todo
-                    //System.out.println("     oooooooooooooooooooooooooo");////////////  todo
-                    //System.out.println("pppppppppppppppppppppppppp");////////////   todo
                     concurrentTime = prescrEnd.getTime() - now.getTimeInMillis();
                 }
                 // type 2 : prescr before and after order
                 else
                 if ((prescrBegin.before(now.getTime()) || prescrBegin.getTime() == now.getTimeInMillis()) && prescrEnd.after(untilDate.getTime())) {
-                    //System.out.println("*** prescription type 2 ***");//////////// todo
-                    //System.out.println("     oooooooooooooooooooooooooo");////////////    todo
-                    //System.out.println("pppppppppppppppppppppppppppppppppppp");////////////   todo
                     concurrentTime = untilDate.getTimeInMillis() - now.getTimeInMillis(); // time of order
                 }
                 // type 3 : prescr in and after order
                 else if (prescrBegin.after(now.getTime()) && prescrEnd.after(untilDate.getTime())) {
-                    //System.out.println("*** prescription type 3 ***");//////////// todo
-                    //System.out.println("oooooooooooooooooooooooooo");////////////       todo
-                    //System.out.println("     pppppppppppppppppppppppppp");////////////     todo
                     concurrentTime = untilDate.getTimeInMillis() - prescrBegin.getTime();
                 }
                 // type 4 : prescr in order
                 else
                 if (prescrBegin.after(now.getTime()) && (prescrEnd.before(untilDate.getTime()) || prescrEnd.getTime() == untilDate.getTimeInMillis())) {
-                    //System.out.println("*** prescription type 4 ***");//////////// todo
-                    //System.out.println("oooooooooooooooooooooooooo");////////////  todo
-                    //System.out.println("     pppppppppppppppp");////////////      todo
                     concurrentTime = prescrEnd.getTime() - prescrBegin.getTime(); // time of prescr
                 }
 

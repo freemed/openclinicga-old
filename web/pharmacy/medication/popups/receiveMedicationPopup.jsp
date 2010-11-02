@@ -27,7 +27,6 @@
            sEditBatchComment   = checkString(request.getParameter("EditBatchComment")),
            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
-    System.out.println("EditBatchUid="+sEditBatchUid);
     // lookup productName if none provided
     if(sEditProductStockUid.length() > 0){
         ProductStock productStock = ProductStock.get(sEditProductStockUid);
@@ -312,9 +311,6 @@
                             }
                         }
 
-                        //System.out.println("\n... sPrevUsedSrcDestUid : "+sPrevUsedSrcDestUid+" ("+getTranNoLink("service",sPrevUsedSrcDestUid,sWebLanguage)+")");/// todo
-                        //System.out.println("... supplierCode        : "+supplierCode+" ("+getTranNoLink("service",supplierCode,sWebLanguage)+")");///////// todo
-                        //System.out.println("... centralPharmacyCode : "+centralPharmacyCode+" ("+getTranNoLink("service",centralPharmacyCode,sWebLanguage)+")\n");//// todo
                     %>
                     <script>
                       var prevSrcDestType;

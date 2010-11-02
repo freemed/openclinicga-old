@@ -67,10 +67,8 @@
                         else sClass = "";
 
                         String cellClass = "", level = "";
-                        System.out.println("sSearchProductUid="+checkString(request.getParameter("SearchProductUid")));
                         if (sSearchProductUid.length() > 0) {
                             ProductStock productStock = serviceStock.getProductStock(sSearchProductUid);
-                            System.out.println("productStock="+productStock);
                             if (productStock == null || (sSearchProductLevel.length() > 0 && productStock.getLevel() < Integer.parseInt(sSearchProductLevel))) {
                                 cellClass = " class='strike'";
                             }

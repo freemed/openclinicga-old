@@ -202,7 +202,6 @@
     Vector userProducts = null;
     if (sAction.equals("find")) {
         userProducts = UserProduct.find(activeUser.userid);
-        System.out.println(userProducts + sSearchProductName + sSearchProductGroup + sWebLanguage);
         productsHtml = objectsToHtml(userProducts, sSearchProductName, sSearchProductGroup, sWebLanguage);
         foundProductCount = userProducts.size();
     }
