@@ -58,7 +58,7 @@
 
         out.print(
             writeTblChildNoButton("main.do?Page=statistics/hospitalizedPatients.jsp",getTran("Web","statistics.hospitalizedpatients",sWebLanguage))+
-            writeTblChildNoButton("main.do?Page=statistics/serviceIncome.jsp",getTran("Web","statistics.serviceIncome",sWebLanguage))+
+            writeTblChildNoButton("main.do?Page=datacenterstatistics/serviceIncome.jsp",getTran("Web","statistics.serviceIncome",sWebLanguage))+
             writeTblChildNoButton("main.do?Page=statistics/diagnosesPerSituation.jsp",getTran("Web","statistics.diagnosespersituation",sWebLanguage))
             +ScreenHelper.writeTblFooter()+"<br>");
 
