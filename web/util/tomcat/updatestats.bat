@@ -1,0 +1,2 @@
+java -Xms64m -Xmx256m -classpath ../WEB-INF/classes;../WEB-INF/lib/mysql-connector-java-5.1.10-bin.jar;../WEB-INF/lib/log4j-1.2.15.jar;../WEB-INF/lib/primrose.jar;../WEB-INF/lib/sqljdbc.jar;../WEB-INF/lib/dom4j-full.jar be.openclinic.statistics.UpdateStatsDb "c:/program files/apache software foundation/tomcat 5.5/conf/db.cfg"
+//exit
