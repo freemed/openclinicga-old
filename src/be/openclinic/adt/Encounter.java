@@ -1151,30 +1151,44 @@ public class Encounter extends OC_Object {
         ResultSet rs;
 
         String sSelect = " SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID " +
-                " FROM OC_ENCOUNTERS" +
-                " WHERE OC_ENCOUNTER_PATIENTUID = ? " +
-                " AND (OC_ENCOUNTER_ENDDATE IS NULL" +
-                " OR OC_ENCOUNTER_ENDDATE > ?)";
+        " FROM OC_ENCOUNTERS" +
+        " WHERE OC_ENCOUNTER_PATIENTUID = ? " +
+        " AND OC_ENCOUNTER_ENDDATE IS NULL";
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            ps = oc_conn.prepareStatement(sSelect);
-            ps.setString(1, patientUID);
-            ps.setTimestamp(2, new Timestamp(ScreenHelper.getSQLDate(ScreenHelper.getDate()).getTime()));
+		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		try {
+		    ps = oc_conn.prepareStatement(sSelect);
+		    ps.setString(1, patientUID);
+		
+		    rs = ps.executeQuery();
+		
+		    if (rs.next()) {
+		        String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+		        activeEncounter = Encounter.get(sUID);
+		    }
+		    else {
+				sSelect = " SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID " +
+				" FROM OC_ENCOUNTERS" +
+				" WHERE OC_ENCOUNTER_PATIENTUID = ? " +
+				" AND OC_ENCOUNTER_ENDDATE > ?";
+				rs.close();
+				ps.close();
+				ps = oc_conn.prepareStatement(sSelect);
+				ps.setString(1, patientUID);
+				ps.setTimestamp(2, new Timestamp(ScreenHelper.getSQLDate(ScreenHelper.getDate()).getTime()));
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+					activeEncounter = Encounter.get(sUID);
+				}
+		    }
+		    rs.close();
+		    ps.close();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
-                activeEncounter = Encounter.get(sUID);
-            }
-
-            rs.close();
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
+		try {
 			oc_conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

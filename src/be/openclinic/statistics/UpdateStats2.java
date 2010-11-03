@@ -22,13 +22,24 @@ public class UpdateStats2 extends UpdateStatsBase{
 	public void execute(){
 		Date lastupdatetime;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-		try{
+        try{
 			//Eerst maken we een lijst van alle encounters die moeten worden geupdated
 			//Vooreerst de encounters met een nieuwe updatetime
 			Hashtable encounters = new Hashtable();
 			setModulename("stats.hospitalstats.encounters");
 			lastupdatetime=getLastUpdateTime(STARTDATE);
-			String sql = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>?";
+			System.out.println("executing "+this.modulename);
+	        String sLocalDbType = "Microsoft SQL Server";
+	        try {
+				sLocalDbType=oc_conn.getMetaData().getDatabaseProductName();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String sql = "SELECT top "+maxbatchsize+" * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>? order by OC_ENCOUNTER_UPDATETIME ASC";
+			if(sLocalDbType.equalsIgnoreCase("MySQL")){
+				sql = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>? order by OC_ENCOUNTER_UPDATETIME ASC limit "+maxbatchsize+"";
+			}
 			PreparedStatement ps = oc_conn.prepareStatement(sql);
 			ps.setTimestamp(1, new Timestamp(lastupdatetime.getTime()));
 			ResultSet rs = ps.executeQuery();
@@ -45,7 +56,10 @@ public class UpdateStats2 extends UpdateStatsBase{
 			//Vervolgens voegen we de encounters toe met een diagnose met nieuwe updatetime
 			setModulename("stats.hospitalstats.diagnoses");
 			lastupdatetime=getLastUpdateTime(STARTDATE);
-			sql = "SELECT * from OC_DIAGNOSES where OC_DIAGNOSIS_UPDATETIME>?";
+			sql = "SELECT top "+maxbatchsize+" * from OC_DIAGNOSES where OC_DIAGNOSIS_UPDATETIME>? order by OC_DIAGNOSIS_UPDATETIME ASC";
+			if(sLocalDbType.equalsIgnoreCase("MySQL")){
+				sql = "SELECT * from OC_DIAGNOSES where OC_DIAGNOSIS_UPDATETIME>? order by OC_DIAGNOSIS_UPDATETIME ASC limit "+maxbatchsize+"";
+			}
 			ps = oc_conn.prepareStatement(sql);
 			ps.setTimestamp(1, new Timestamp(lastupdatetime.getTime()));
 			rs = ps.executeQuery();
@@ -59,14 +73,17 @@ public class UpdateStats2 extends UpdateStatsBase{
 			}
 			rs.close();
 			ps.close();
+			oc_conn.close();
 			Iterator iEncounters = encounters.keySet().iterator();
-			int n=0;
+			int n=0,counter=0;
 			while(iEncounters.hasNext()){
 				try{
 					n++;
 					String encounteruid=(String)iEncounters.next();
+			        System.out.println("U2 processing encounter UID "+encounteruid+" (#"+(counter++)+")");
 					//register diagnoses for every service visited
 					sql="SELECT * from OC_ENCOUNTERS_VIEW where OC_ENCOUNTER_SERVERID=? and OC_ENCOUNTER_OBJECTID=?";
+					oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 					PreparedStatement ps3=oc_conn.prepareStatement(sql);
 					ps3.setInt(1, Integer.parseInt(encounteruid.split("\\.")[0]));
 					ps3.setInt(2, Integer.parseInt(encounteruid.split("\\.")[1]));
@@ -80,11 +97,13 @@ public class UpdateStats2 extends UpdateStatsBase{
 						Date enddate=rs3.getDate("OC_ENCOUNTER_ENDDATE");
 						//remove the encounter record(s) from the statstable
 						sql="DELETE FROM UPDATESTATS2 WHERE OC_ENCOUNTER_SERVERID=? and OC_ENCOUNTER_OBJECTID=?";
-						PreparedStatement ps2 = MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+				        Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
+						PreparedStatement ps2 = stats_conn.prepareStatement(sql);
 						ps2.setInt(1, Integer.parseInt(encounteruid.split("\\.")[0]));
 						ps2.setInt(2, Integer.parseInt(encounteruid.split("\\.")[1]));
 						ps2.executeUpdate();
 						ps2.close();
+						stats_conn.close();
 						//add the encounter records
 						String serviceuid=rs3.getString("OC_ENCOUNTER_SERVICEUID");
 						sql="SELECT * from OC_DIAGNOSES_VIEW where OC_DIAGNOSIS_ENCOUNTERUID=?";
@@ -94,6 +113,7 @@ public class UpdateStats2 extends UpdateStatsBase{
 						ResultSet rs4=ps4.executeQuery();
 						boolean bDiagnosesFound=false;
 						while(rs4.next()){
+							stats_conn=MedwanQuery.getInstance().getStatsConnection();
 							try{
 								bDiagnosesFound=true;
 								String diagnosiscode=rs4.getString("OC_DIAGNOSIS_CODE");
@@ -113,25 +133,26 @@ public class UpdateStats2 extends UpdateStatsBase{
 										"OC_DIAGNOSIS_CODETYPE," +
 										"OC_DIAGNOSIS_GRAVITY," +
 										"OC_DIAGNOSIS_CERTAINTY) values(?,?,?,?,?,?,?,?,?,?,?,?)";
-										ps2=MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
-										ps2.setInt(1, Integer.parseInt(encounteruid.split("\\.")[0]));
-										ps2.setInt(2, Integer.parseInt(encounteruid.split("\\.")[1]));
-										ps2.setString(3, patientuid);
-										ps2.setDate(4, new java.sql.Date(begindate.getTime()));
-										ps2.setDate(5, new java.sql.Date(enddate.getTime()));
-										ps2.setString(6, outcome);
-										ps2.setString(7, type);
-										ps2.setString(8, serviceuid);
-										ps2.setString(9, diagnosiscode);
-										ps2.setString(10, diagnosiscodetype);
-										ps2.setInt(11, diagnosisgravity);
-										ps2.setInt(12, diagnosiscertainty);
-										ps2.executeUpdate();
-										ps2.close();
+								ps2=stats_conn.prepareStatement(sql);
+								ps2.setInt(1, Integer.parseInt(encounteruid.split("\\.")[0]));
+								ps2.setInt(2, Integer.parseInt(encounteruid.split("\\.")[1]));
+								ps2.setString(3, patientuid);
+								ps2.setDate(4, new java.sql.Date(begindate.getTime()));
+								ps2.setDate(5, new java.sql.Date(enddate.getTime()));
+								ps2.setString(6, outcome);
+								ps2.setString(7, type);
+								ps2.setString(8, serviceuid);
+								ps2.setString(9, diagnosiscode);
+								ps2.setString(10, diagnosiscodetype);
+								ps2.setInt(11, diagnosisgravity);
+								ps2.setInt(12, diagnosiscertainty);
+								ps2.executeUpdate();
+								ps2.close();
 							}
 							catch(Exception e2){
 								e2.printStackTrace();
 							}
+							stats_conn.close();
 						}
 						rs4.close();
 						ps4.close();
@@ -151,7 +172,8 @@ public class UpdateStats2 extends UpdateStatsBase{
 								"OC_DIAGNOSIS_CODETYPE," +
 								"OC_DIAGNOSIS_GRAVITY," +
 								"OC_DIAGNOSIS_CERTAINTY) values(?,?,?,?,?,?,?,?,?,?,?,?)";
-								ps2=MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+								stats_conn=MedwanQuery.getInstance().getStatsConnection();
+								ps2=stats_conn.prepareStatement(sql);
 								ps2.setInt(1, Integer.parseInt(encounteruid.split("\\.")[0]));
 								ps2.setInt(2, Integer.parseInt(encounteruid.split("\\.")[1]));
 								ps2.setString(3, patientuid);
@@ -166,6 +188,7 @@ public class UpdateStats2 extends UpdateStatsBase{
 								ps2.setObject(12, null);
 								ps2.executeUpdate();
 								ps2.close();
+								stats_conn.close();
 							}
 							catch(Exception e2){
 								e2.printStackTrace();
@@ -174,6 +197,7 @@ public class UpdateStats2 extends UpdateStatsBase{
 					}
 					rs3.close();
 					ps3.close();
+					oc_conn.close();
 				}
 				catch (Exception e3) {
 					e3.printStackTrace();
@@ -191,12 +215,6 @@ public class UpdateStats2 extends UpdateStatsBase{
 			}
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

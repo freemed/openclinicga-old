@@ -17,23 +17,37 @@ public class UpdateStats1 extends UpdateStatsBase{
 	}
 	
 	public void execute(){
-		String sql = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>? order by OC_ENCOUNTER_UPDATETIME ASC";
-		Date lastupdatetime=getLastUpdateTime(STARTDATE);
         Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
+        String sLocalDbType = "Microsoft SQL Server";
+        try {
+			sLocalDbType=loc_conn.getMetaData().getDatabaseProductName();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String sql = "SELECT top "+maxbatchsize+" * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>? order by OC_ENCOUNTER_UPDATETIME ASC";
+		if(sLocalDbType.equalsIgnoreCase("MySQL")){
+			sql = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>? order by OC_ENCOUNTER_UPDATETIME ASC limit "+maxbatchsize+"";
+		}
+		Date lastupdatetime=getLastUpdateTime(STARTDATE);
+		System.out.println("executing "+this.modulename);
+		int counter=0;
 		try{
 			PreparedStatement ps = loc_conn.prepareStatement(sql);
 			ps.setTimestamp(1, new Timestamp(lastupdatetime.getTime()));
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 		        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-				try{
+		        Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
+		        try{
 					String encounteruid=rs.getInt("OC_ENCOUNTER_SERVERID")+"."+rs.getInt("OC_ENCOUNTER_OBJECTID");
+			        System.out.println("U1 processing encounter UID "+encounteruid+" (#"+(counter++)+") "+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(lastupdatetime));
 					String patientuid=rs.getString("OC_ENCOUNTER_PATIENTUID");
 					String type=rs.getString("OC_ENCOUNTER_TYPE");
 					lastupdatetime=rs.getTimestamp("OC_ENCOUNTER_UPDATETIME");
 					//remove the encounter record(s) from the statstable
 					sql="DELETE FROM UPDATESTATS1 WHERE OC_ENCOUNTERUID=?";
-					PreparedStatement ps2 = MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+					PreparedStatement ps2 = stats_conn.prepareStatement(sql);
 					ps2.setString(1, encounteruid );
 					ps2.executeUpdate();
 					ps2.close();
@@ -50,7 +64,7 @@ public class UpdateStats1 extends UpdateStatsBase{
 							Date enddate=rs3.getDate("OC_ENCOUNTER_ENDDATE");
 							String serviceuid=rs3.getString("OC_ENCOUNTER_SERVICEUID");
 							sql="INSERT INTO UPDATESTATS1(OC_ENCOUNTERUID,OC_PATIENTUID,OC_BEGINDATE,OC_ENDDATE,OC_SERVICEUID,OC_INSURAR,OC_TYPE) values (?,?,?,?,?,?,?)";
-							ps2=MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+							ps2=stats_conn.prepareStatement(sql);
 							ps2.setString(1, encounteruid);
 							ps2.setString(2, patientuid);
 							ps2.setDate(3, new java.sql.Date(begindate.getTime()));
@@ -68,11 +82,15 @@ public class UpdateStats1 extends UpdateStatsBase{
 					}
 					rs3.close();
 					ps3.close();
+					if(counter%100==0){
+						setLastUpdateTime(lastupdatetime);
+					}
 				}
 				catch (Exception e3) {
 					e3.printStackTrace();
 				}
 				oc_conn.close();
+				stats_conn.close();
 			}
 			rs.close();
 			ps.close();

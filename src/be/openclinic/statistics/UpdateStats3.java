@@ -18,19 +18,34 @@ public class UpdateStats3 extends UpdateStatsBase{
 	}
 	
 	public void execute(){
-		String sql = "SELECT OC_DEBET_ENCOUNTERUID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_TYPE,OC_DEBET_INSURANCEUID,OC_DEBET_UPDATETIME from OC_DEBETS a,OC_ENCOUNTERS b where" +
-				" b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND "+
-				" OC_DEBET_UPDATETIME>? order by OC_DEBET_UPDATETIME ASC";
-		Date lastupdatetime=getLastUpdateTime(STARTDATE);
+        String sLocalDbType = "Microsoft SQL Server";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
+        try {
+			sLocalDbType=oc_conn.getMetaData().getDatabaseProductName();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String sql = "SELECT top "+maxbatchsize+" OC_DEBET_ENCOUNTERUID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_TYPE,OC_DEBET_INSURANCEUID,OC_DEBET_UPDATETIME from OC_DEBETS a,OC_ENCOUNTERS b where" +
+				" b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND "+
+				" OC_DEBET_UPDATETIME>? order by OC_DEBET_UPDATETIME ASC";
+		if(sLocalDbType.equalsIgnoreCase("MySQL")){
+			sql = "SELECT OC_DEBET_ENCOUNTERUID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_TYPE,OC_DEBET_INSURANCEUID,OC_DEBET_UPDATETIME from OC_DEBETS a,OC_ENCOUNTERS b where" +
+			" b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND "+
+			" OC_DEBET_UPDATETIME>? order by OC_DEBET_UPDATETIME ASC limit "+maxbatchsize+"";
+		}
+		Date lastupdatetime=getLastUpdateTime(STARTDATE);
+		System.out.println("executing "+this.modulename);
 		try{
 			PreparedStatement ps = loc_conn.prepareStatement(sql);
 			ps.setTimestamp(1, new Timestamp(lastupdatetime.getTime()));
 			ResultSet rs = ps.executeQuery();
+			int counter=0;
 			while(rs.next()){
 				try{
 					String encounteruid=rs.getString("OC_DEBET_ENCOUNTERUID");
+			        System.out.println("U3 processing encounter UID "+encounteruid+" (#"+(counter++)+") "+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(lastupdatetime));
 					String type=rs.getString("OC_ENCOUNTER_TYPE");
 					Date debetdate = rs.getDate("OC_ENCOUNTER_BEGINDATE");
 					String insuranceuid=rs.getString("OC_DEBET_INSURANCEUID");
@@ -51,7 +66,8 @@ public class UpdateStats3 extends UpdateStatsBase{
 					try{
 						//remove the debet record(s) from the statstable
 						sql="SELECT OC_ENCOUNTERUID FROM UPDATESTATS3 WHERE OC_ENCOUNTERUID=? and OC_INSURAR=?";
-						PreparedStatement ps2 = MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+						Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
+						PreparedStatement ps2 = stats_conn.prepareStatement(sql);
 						ps2.setString(1, encounteruid );
 						ps2.setString(2, insurar);
 						ResultSet rs2=ps2.executeQuery();
@@ -60,7 +76,7 @@ public class UpdateStats3 extends UpdateStatsBase{
 							ps2.close();
 							//add the debet records
 							sql="INSERT INTO UPDATESTATS3(OC_ENCOUNTERUID,OC_INSURAR,OC_DATE,OC_ENCOUNTERTYPE) values (?,?,?,?)";
-							ps2=MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+							ps2=stats_conn.prepareStatement(sql);
 							ps2.setString(1, encounteruid);
 							ps2.setString(2, insurar);
 							ps2.setDate(3, new java.sql.Date(debetdate.getTime()));
@@ -71,6 +87,10 @@ public class UpdateStats3 extends UpdateStatsBase{
 							rs2.close();
 						}
 						ps2.close();
+						if(counter%100==0){
+							setLastUpdateTime(lastupdatetime);
+						}
+						stats_conn.close();
 					}
 					catch(Exception e2){
 						e2.printStackTrace();

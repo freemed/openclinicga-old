@@ -1,5 +1,6 @@
 package be.openclinic.statistics;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import be.mxs.common.util.db.MedwanQuery;
 public class UpdateStatsBase {
 	protected static Date STARTDATE;
 	protected String modulename;
+	protected String maxbatchsize=getConfigString("maxbatchsize","10000");
 	
 	public UpdateStatsBase(){
 		try {
@@ -61,7 +63,8 @@ public class UpdateStatsBase {
 		String value=null;
 		try{
 			String sql = "SELECT * from OC_CONFIG where OC_KEY=?";
-			PreparedStatement ps = MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+			Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
+			PreparedStatement ps = stats_conn.prepareStatement(sql);
 			ps.setString(1, key);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
@@ -69,6 +72,7 @@ public class UpdateStatsBase {
 			}
 			rs.close();
 			ps.close();
+			stats_conn.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -76,19 +80,29 @@ public class UpdateStatsBase {
 		return value;
 	}
 
+	public String getConfigString(String key, String defaultValue){
+		String value=getConfigString(key);
+		if(value==null){
+			value=defaultValue;
+		}
+		return value;
+	}
+
 	public void setConfigString(String key,String value){
 		try{
 			String sql = "DELETE from OC_CONFIG where OC_KEY=?";
-			PreparedStatement ps = MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+			Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
+			PreparedStatement ps = stats_conn.prepareStatement(sql);
 			ps.setString(1, key);
 			ps.executeUpdate();
 			ps.close();
 			sql = "INSERT INTO OC_CONFIG(OC_KEY,OC_VALUE) VALUES(?,?)";
-			ps = MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
+			ps = stats_conn.prepareStatement(sql);
 			ps.setString(1, key);
 			ps.setString(2, value);
 			ps.executeUpdate();
 			ps.close();
+			stats_conn.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
