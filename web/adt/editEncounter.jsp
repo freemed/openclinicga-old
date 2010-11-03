@@ -533,7 +533,7 @@
             <%
                 if(!sReadOnly.equalsIgnoreCase("yes")){
             %>
-            <input class='button' type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+            <input class='button' type="button" id="saveButton" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
             <%
                 }
                 if(!sPopup.equalsIgnoreCase("yes") && !sReadOnly.equalsIgnoreCase("yes")){
@@ -571,7 +571,8 @@
         }
         else{
 
-            if(Encounter.getActiveEncounter(activePatient.personid) != null){
+            Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
+        	if(activeEncounter != null && activeEncounter.getEnd()==null){
                 bActiveEncounterStatus = true;
             }else{
                 bActiveEncounterStatus = false;
@@ -590,7 +591,10 @@
 
 
                         if(answer){
-                            closeActiveEncounter();
+                            window.location.href='<c:url value="/main.do?Page=adt/editEncounter.jsp&EditEncounterUID="/><%=activeEncounter.getUid()%>';
+                        }
+                        else {
+                            history.back();
                         }
                     </script>
                 <%
