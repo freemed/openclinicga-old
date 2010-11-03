@@ -181,14 +181,17 @@
 			<column name="OC_ENCOUNTERTYPE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_ENCOUNTERUID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_AMOUNT" dbtype="float" javatype="float"/>
+			<column name="OC_PATIENTAMOUNT" dbtype="float" javatype="float"/>
+			<column name="OC_INSURARAMOUNT" dbtype="float" javatype="float"/>
+			<column name="OC_EXTRAINSURARAMOUNT" dbtype="float" javatype="float"/>
 			<column name="OC_BEGINDATE" dbtype="datetime" javatype="date"/>
 			<column name="OC_ENDDATE" dbtype="datetime" javatype="date"/>
 		</columns>
 		<indexes>
-			<index name="STATS3_BEGINDATE">
+			<index name="STATS4_BEGINDATE">
 				<indexcolumn order="ASC" name="OC_BEGINDATE"/>
 			</index>
-			<index name="STATS3_ENDDATE">
+			<index name="STATS4_ENDDATE">
 				<indexcolumn order="ASC" name="OC_ENDDATE"/>
 			</index>
 		</indexes>
