@@ -1,3 +1,4 @@
+<%@page import="be.openclinic.finance.Prestation"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
@@ -43,22 +44,14 @@
         java.util.Date end=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("end"));
         //We zoeken alle debets op van de betreffende periode en ventileren deze per dienst
 		
-        String sQuery="select count(*) number,sum(oc_debet_amount+oc_debet_insuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount) insurarincome, serviceuid, oc_prestation_description, oc_prestation_code" +
-                        " from" +
-                        " (select oc_debet_amount,oc_debet_insuraramount,oc_debet_prestationuid," +
-                        "   (" +
-                        "       select max(oc_encounter_serviceuid) " +
-                        "       from oc_encounters_view" +
-                        "       where" +
-                        "       oc_encounter_objectid=replace(oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
-                        "   ) serviceuid" +
-                        "   from oc_debets where oc_debet_date between ? and ?) a, oc_prestations b" +
-                        " where" +
-                        " oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
-                        " and serviceuid in ("+Service.getChildIdsAsString(service)+")"+
-                        " group by serviceuid,oc_prestation_description,oc_prestation_code" +
-                        " order by serviceuid,total desc";
-        Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
+        String sQuery="select count(*) number,sum(oc_amount) total,sum(oc_patientamount) patientincome,sum(oc_insuraramount+oc_extrainsuraramount) insurarincome,oc_serviceuid,oc_prestationcode" +
+                        " from updatestats4" +
+                        " where oc_serviceuid in ("+Service.getChildIdsAsString(service)+")"+
+                        " and oc_enddate>?"+
+                       	" and oc_begindate<?"+
+                        " group by oc_serviceuid,oc_prestationcode" +
+                        " order by oc_serviceuid,total desc";
+        Connection loc_conn=MedwanQuery.getInstance().getStatsConnection();
         PreparedStatement ps = loc_conn.prepareStatement(sQuery);
         ps.setDate(1,new java.sql.Date(begin.getTime()));
         ps.setDate(2,new java.sql.Date(end.getTime()));
@@ -69,7 +62,7 @@
         int totalservicepatientincome=0;
         int totalserviceinsurarincome=0;
         while (rs.next()){
-            String serviceuid=checkString(rs.getString("serviceuid"));
+            String serviceuid=checkString(rs.getString("oc_serviceuid"));
             if(activeservice==null || !activeservice.equalsIgnoreCase(serviceuid)){
                 if(activeservice!=null){
                     out.println("<tr><td/><td colspan='4'><hr/></td></tr><tr><td colspan='2'/><td><b>"+(totalserviceinsurarincome+totalservicepatientincome)+"</b></td><td><b>"+totalservicepatientincome+"</b></td><td><b>"+totalserviceinsurarincome+"</b></td></tr>");
@@ -86,7 +79,9 @@
             int insurarincome = rs.getInt("insurarincome");
             totalserviceinsurarincome+=insurarincome;
             totalservicepatientincome+=patientincome;
-            out.println("<tr><td class='admin'>"+rs.getString("oc_prestation_code")+": "+rs.getString("oc_prestation_description")+"</td><td>"+rs.getInt("number")+"</td><td>"+(patientincome+insurarincome)+"</td><td>"+patientincome+"</td><td>"+insurarincome+"</td></tr>");
+            String prestationcode=rs.getString("oc_prestationcode");
+            Prestation prestation = Prestation.getByCode(prestationcode);
+            out.println("<tr><td class='admin'>"+prestationcode+": "+(prestation==null?"":prestation.getDescription())+"</td><td>"+rs.getInt("number")+"</td><td>"+(patientincome+insurarincome)+"</td><td>"+patientincome+"</td><td>"+insurarincome+"</td></tr>");
         }
         if(activeservice!=null){
             out.println("<tr><td/><td colspan='4'><hr/></td></tr><tr><td colspan='2'/><td><b>"+(totalserviceinsurarincome+totalservicepatientincome)+"</b></td><td><b>"+totalservicepatientincome+"</b></td><td><b>"+totalserviceinsurarincome+"</b></td></tr>");
