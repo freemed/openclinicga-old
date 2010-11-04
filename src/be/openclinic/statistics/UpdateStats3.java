@@ -45,7 +45,8 @@ public class UpdateStats3 extends UpdateStatsBase{
 			while(rs.next()){
 				try{
 					String encounteruid=rs.getString("OC_DEBET_ENCOUNTERUID");
-			        System.out.println("U3 processing encounter UID "+encounteruid+" (#"+(counter++)+") "+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(lastupdatetime));
+					counter++;
+					if(counter%100==0) System.out.println("U3 processing encounter UID "+encounteruid+" (#"+counter+") "+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(lastupdatetime));
 					String type=rs.getString("OC_ENCOUNTER_TYPE");
 					Date debetdate = rs.getDate("OC_ENCOUNTER_BEGINDATE");
 					String insuranceuid=rs.getString("OC_DEBET_INSURANCEUID");

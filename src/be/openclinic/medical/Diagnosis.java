@@ -558,12 +558,12 @@ public class Diagnosis extends OC_Object{
     public static String getCodeLabel(String code,String codeType,String language){
         String sLabel = "";
 
-        String label = "labelnl";
+        String label = "labelen";
         if (language.equalsIgnoreCase("F") || language.equalsIgnoreCase("FR")) {
             label = "labelfr";
         }
-        if (language.equalsIgnoreCase("E") || language.equalsIgnoreCase("EN")) {
-            label = "labelen";
+        if (language.equalsIgnoreCase("N") || language.equalsIgnoreCase("NL")) {
+            label = "labelnl";
         }
 
         PreparedStatement ps;

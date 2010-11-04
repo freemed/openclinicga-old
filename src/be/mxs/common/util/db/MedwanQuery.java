@@ -503,7 +503,7 @@ public class MedwanQuery {
                     result = rs.getString("labelnl");
                 } else if (sLanguage.toLowerCase().startsWith("f")) {
                     result = rs.getString("labelfr");
-                } else if (sLanguage.toLowerCase().startsWith("e")) {
+                } else if (sLanguage.toLowerCase().startsWith("e") || sLanguage.toLowerCase().startsWith("p")) {
                     result = rs.getString("labelen");
                 } else {
                     result = rs.getString("labelfr");
@@ -1965,7 +1965,7 @@ public class MedwanQuery {
     public Vector findICPCCodes(String keywords, String language) {
         Vector codes = new Vector();
         Hashtable counters = new Hashtable();
-        String label = "labelnl";
+        String label = "labelen";
         if (language.equalsIgnoreCase("FR")) {
             language = "F";
         }
@@ -1978,8 +1978,8 @@ public class MedwanQuery {
         if (language.equalsIgnoreCase("F")) {
             label = "labelfr";
         }
-        if (language.equalsIgnoreCase("E")) {
-            label = "labelen";
+        if (language.equalsIgnoreCase("N")) {
+            label = "labelnl";
         }
         //First find all keywords
         String[] keys = keywords.toUpperCase().split(" ");
@@ -2048,7 +2048,7 @@ public class MedwanQuery {
     public Vector findICD10Codes(String keywords, String language) {
         Vector codes = new Vector();
         Hashtable counters = new Hashtable();
-        String label = "labelnl";
+        String label = "labelen";
         if (language.equalsIgnoreCase("FR")) {
             language = "F";
         }
@@ -2061,8 +2061,8 @@ public class MedwanQuery {
         if (language.equalsIgnoreCase("F")) {
             label = "labelfr";
         }
-        if (language.equalsIgnoreCase("E")) {
-            label = "labelen";
+        if (language.equalsIgnoreCase("N")) {
+            label = "labelnl";
         }
         //First find all keywords
         String[] keys = keywords.toUpperCase().split(" ");
@@ -2433,12 +2433,12 @@ public class MedwanQuery {
     public String getCodeTran(String code, String language) {
         PreparedStatement ps = null;
         Connection OccupdbConnection;
-        String label = "labelnl";
+        String label = "labelen";
         String result = code;
         if (language.equalsIgnoreCase("f") || language.equalsIgnoreCase("fr")) {
             label = "labelfr";
-        } else if (language.equalsIgnoreCase("e") || language.equalsIgnoreCase("en")) {
-            label = "labelen";
+        } else if (language.equalsIgnoreCase("n") || language.equalsIgnoreCase("nl")) {
+            label = "labelnl";
         }
         try {
             OccupdbConnection = getOpenclinicConnection();

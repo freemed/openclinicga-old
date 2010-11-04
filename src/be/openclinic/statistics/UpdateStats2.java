@@ -80,7 +80,8 @@ public class UpdateStats2 extends UpdateStatsBase{
 				try{
 					n++;
 					String encounteruid=(String)iEncounters.next();
-			        System.out.println("U2 processing encounter UID "+encounteruid+" (#"+(counter++)+")");
+					counter++;
+					if(counter%100==0) System.out.println("U2 processing encounter UID "+encounteruid+" (#"+counter+")");
 					//register diagnoses for every service visited
 					sql="SELECT * from OC_ENCOUNTERS_VIEW where OC_ENCOUNTER_SERVERID=? and OC_ENCOUNTER_OBJECTID=?";
 					oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();

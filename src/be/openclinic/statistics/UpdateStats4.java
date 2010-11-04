@@ -77,7 +77,8 @@ public class UpdateStats4 extends UpdateStatsBase{
 				try{
 					int debetobjectid=rs.getInt("OC_DEBET_OBJECTID");
 					String encounteruid=rs.getString("OC_DEBET_ENCOUNTERUID");
-			        System.out.println("U4 processing encounter UID "+encounteruid+" (#"+(counter++)+") "+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(lastupdatetime));
+					counter++;
+					if(counter%100==0) System.out.println("U4 processing encounter UID "+encounteruid+" (#"+counter+") "+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(lastupdatetime));
 					String prestationreftype=rs.getString("OC_PRESTATION_REFTYPE");
 					String prestationcode=rs.getString("OC_PRESTATION_CODE");
 					String encounterserviceuid=rs.getString("OC_ENCOUNTER_SERVICEUID");

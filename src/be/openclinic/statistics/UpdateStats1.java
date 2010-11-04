@@ -40,8 +40,9 @@ public class UpdateStats1 extends UpdateStatsBase{
 		        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		        Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
 		        try{
+		        	counter++;
 					String encounteruid=rs.getInt("OC_ENCOUNTER_SERVERID")+"."+rs.getInt("OC_ENCOUNTER_OBJECTID");
-			        System.out.println("U1 processing encounter UID "+encounteruid+" (#"+(counter++)+") "+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(lastupdatetime));
+			        if(counter%100==0) System.out.println("U1 processing encounter UID "+encounteruid+" (#"+counter+") "+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(lastupdatetime));
 					String patientuid=rs.getString("OC_ENCOUNTER_PATIENTUID");
 					String type=rs.getString("OC_ENCOUNTER_TYPE");
 					lastupdatetime=rs.getTimestamp("OC_ENCOUNTER_UPDATETIME");
