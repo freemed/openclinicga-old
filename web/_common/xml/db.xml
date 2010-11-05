@@ -194,6 +194,9 @@
 			<index name="STATS4_ENDDATE">
 				<indexcolumn order="ASC" name="OC_ENDDATE"/>
 			</index>
+			<index name="OC_DEBETOBJECTID">
+				<indexcolumn order="ASC" name="OC_DEBETOBJECTID"/>
+			</index>
 		</indexes>
 	</table>
 	<table name="OC_CONFIG" db="stats" sync="NONE">
