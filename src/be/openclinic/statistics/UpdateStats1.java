@@ -25,9 +25,9 @@ public class UpdateStats1 extends UpdateStatsBase{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String sql = "SELECT top "+maxbatchsize+" * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>? order by OC_ENCOUNTER_UPDATETIME ASC";
+		String sql = "SELECT top "+maxbatchsize+" * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>=? order by OC_ENCOUNTER_UPDATETIME ASC";
 		if(sLocalDbType.equalsIgnoreCase("MySQL")){
-			sql = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>? order by OC_ENCOUNTER_UPDATETIME ASC limit "+maxbatchsize+"";
+			sql = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_UPDATETIME>=? order by OC_ENCOUNTER_UPDATETIME ASC limit "+maxbatchsize+"";
 		}
 		Date lastupdatetime=getLastUpdateTime(STARTDATE);
 		System.out.println("executing "+this.modulename);
@@ -83,7 +83,7 @@ public class UpdateStats1 extends UpdateStatsBase{
 					}
 					rs3.close();
 					ps3.close();
-					if(counter%100==0){
+					if(counter%10==0){
 						setLastUpdateTime(lastupdatetime);
 					}
 				}
@@ -95,7 +95,6 @@ public class UpdateStats1 extends UpdateStatsBase{
 			}
 			rs.close();
 			ps.close();
-			setLastUpdateTime(lastupdatetime);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

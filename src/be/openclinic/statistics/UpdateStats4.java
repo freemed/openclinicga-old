@@ -45,7 +45,7 @@ public class UpdateStats4 extends UpdateStatsBase{
 				" from OC_DEBETS a,OC_ENCOUNTERS_VIEW b, OC_PRESTATIONS c where" +
 				" c.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+serverid+"','') and"+
 				" b.oc_encounter_objectid=replace(a.oc_debet_encounteruid,'"+serverid+"','') and"+
-				" OC_DEBET_UPDATETIME>? order by OC_DEBET_UPDATETIME ASC";
+				" OC_DEBET_UPDATETIME>=? order by OC_DEBET_UPDATETIME ASC";
         if(sLocalDbType.equalsIgnoreCase("MySQL")){
         	sql = "SELECT a.OC_DEBET_OBJECTID," +
 			" OC_DEBET_ENCOUNTERUID," +
@@ -64,7 +64,7 @@ public class UpdateStats4 extends UpdateStatsBase{
 			" from OC_DEBETS a,OC_ENCOUNTERS_VIEW b, OC_PRESTATIONS c where" +
 			" c.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+serverid+"','') and"+
 			" b.oc_encounter_objectid=replace(a.oc_debet_encounteruid,'"+serverid+"','') and"+
-			" OC_DEBET_UPDATETIME>? order by OC_DEBET_UPDATETIME ASC limit "+maxbatchsize+"";
+			" OC_DEBET_UPDATETIME>=? order by OC_DEBET_UPDATETIME ASC limit "+maxbatchsize+"";
         }
 		Date lastupdatetime=getLastUpdateTime(STARTDATE);
 		System.out.println("executing "+this.modulename);
@@ -83,10 +83,10 @@ public class UpdateStats4 extends UpdateStatsBase{
 					String prestationcode=rs.getString("OC_PRESTATION_CODE");
 					String encounterserviceuid=rs.getString("OC_ENCOUNTER_SERVICEUID");
 					String type=rs.getString("OC_ENCOUNTER_TYPE");
-					double amount=rs.getDouble("amount");
-					double patientamount= rs.getDouble("OC_DEBET_AMOUNT");
-					double insuraramount= rs.getDouble("OC_DEBET_INSURARAMOUNT");
-					double extrainsuraramount= rs.getDouble("OC_DEBET_EXTRAINSURARAMOUNT");
+					float amount=rs.getFloat("amount");
+					float patientamount= rs.getFloat("OC_DEBET_AMOUNT");
+					float insuraramount= rs.getFloat("OC_DEBET_INSURARAMOUNT");
+					float extrainsuraramount= rs.getFloat("OC_DEBET_EXTRAINSURARAMOUNT");
 					Date begindate = rs.getDate("OC_ENCOUNTER_BEGINDATE");
 					Date enddate = rs.getDate("OC_ENCOUNTER_ENDDATE");
 					String insuranceuid=rs.getString("OC_DEBET_INSURANCEUID");
@@ -106,9 +106,15 @@ public class UpdateStats4 extends UpdateStatsBase{
 					}
 					try{
 						//add the debet records
-						sql="INSERT INTO UPDATESTATS4(OC_INSURAR,OC_DEBETOBJECTID,OC_PRESTATIONREFTYPE,OC_PRESTATIONCODE,OC_SERVICEUID,OC_ENCOUNTERTYPE,OC_ENCOUNTERUID,OC_AMOUNT,OC_BEGINDATE,OC_ENDDATE,OC_PATIENTAMOUNT,OC_INSURARAMOUNT,OC_EXTRAINSURARAMOUNT) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						sql="delete from UPDATESTATS4 where OC_DEBETOBJECTID=? and OC_INSURAR=?";
 						Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
 						PreparedStatement ps2=stats_conn.prepareStatement(sql);
+						ps2.setInt(1, debetobjectid);
+						ps2.setString(2, insurar);
+						ps2.execute();
+						ps2.close();
+						sql="INSERT INTO UPDATESTATS4(OC_INSURAR,OC_DEBETOBJECTID,OC_PRESTATIONREFTYPE,OC_PRESTATIONCODE,OC_SERVICEUID,OC_ENCOUNTERTYPE,OC_ENCOUNTERUID,OC_AMOUNT,OC_BEGINDATE,OC_ENDDATE,OC_PATIENTAMOUNT,OC_INSURARAMOUNT,OC_EXTRAINSURARAMOUNT) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						ps2=stats_conn.prepareStatement(sql);
 						ps2.setString(1, insurar);
 						ps2.setInt(2, debetobjectid);
 						ps2.setString(3, prestationreftype);
@@ -124,12 +130,13 @@ public class UpdateStats4 extends UpdateStatsBase{
 						ps2.setDouble(13, extrainsuraramount);
 						ps2.executeUpdate();
 						ps2.close();
-						if(counter%100==0){
+						if(counter%10==0){
 							setLastUpdateTime(lastupdatetime);
 						}
 						stats_conn.close();
 					}
 					catch(Exception e2){
+						System.out.println("patientamount="+patientamount);
 						e2.printStackTrace();
 					}
 				}
@@ -139,7 +146,6 @@ public class UpdateStats4 extends UpdateStatsBase{
 			}
 			rs.close();
 			ps.close();
-			setLastUpdateTime(lastupdatetime);
 			System.out.println("closing "+this.modulename);
 		}
 		catch (Exception e) {

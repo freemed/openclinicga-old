@@ -29,11 +29,11 @@ public class UpdateStats3 extends UpdateStatsBase{
 		}
 		String sql = "SELECT top "+maxbatchsize+" OC_DEBET_ENCOUNTERUID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_TYPE,OC_DEBET_INSURANCEUID,OC_DEBET_UPDATETIME from OC_DEBETS a,OC_ENCOUNTERS b where" +
 				" b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND "+
-				" OC_DEBET_UPDATETIME>? order by OC_DEBET_UPDATETIME ASC";
+				" OC_DEBET_UPDATETIME>=? order by OC_DEBET_UPDATETIME ASC";
 		if(sLocalDbType.equalsIgnoreCase("MySQL")){
 			sql = "SELECT OC_DEBET_ENCOUNTERUID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_TYPE,OC_DEBET_INSURANCEUID,OC_DEBET_UPDATETIME from OC_DEBETS a,OC_ENCOUNTERS b where" +
 			" b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND "+
-			" OC_DEBET_UPDATETIME>? order by OC_DEBET_UPDATETIME ASC limit "+maxbatchsize+"";
+			" OC_DEBET_UPDATETIME>=? order by OC_DEBET_UPDATETIME ASC limit "+maxbatchsize+"";
 		}
 		Date lastupdatetime=getLastUpdateTime(STARTDATE);
 		System.out.println("executing "+this.modulename);
@@ -66,29 +66,23 @@ public class UpdateStats3 extends UpdateStatsBase{
 					}
 					try{
 						//remove the debet record(s) from the statstable
-						sql="SELECT OC_ENCOUNTERUID FROM UPDATESTATS3 WHERE OC_ENCOUNTERUID=? and OC_INSURAR=?";
+						sql="DELETE FROM UPDATESTATS3 WHERE OC_ENCOUNTERUID=? and OC_INSURAR=?";
 						Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
 						PreparedStatement ps2 = stats_conn.prepareStatement(sql);
 						ps2.setString(1, encounteruid );
 						ps2.setString(2, insurar);
-						ResultSet rs2=ps2.executeQuery();
-						if(!rs2.next()){
-							rs2.close();
-							ps2.close();
-							//add the debet records
-							sql="INSERT INTO UPDATESTATS3(OC_ENCOUNTERUID,OC_INSURAR,OC_DATE,OC_ENCOUNTERTYPE) values (?,?,?,?)";
-							ps2=stats_conn.prepareStatement(sql);
-							ps2.setString(1, encounteruid);
-							ps2.setString(2, insurar);
-							ps2.setDate(3, new java.sql.Date(debetdate.getTime()));
-							ps2.setString(4, type);
-							ps2.executeUpdate();
-						}
-						else {
-							rs2.close();
-						}
+						ps2.execute();
 						ps2.close();
-						if(counter%100==0){
+						//add the debet records
+						sql="INSERT INTO UPDATESTATS3(OC_ENCOUNTERUID,OC_INSURAR,OC_DATE,OC_ENCOUNTERTYPE) values (?,?,?,?)";
+						ps2=stats_conn.prepareStatement(sql);
+						ps2.setString(1, encounteruid);
+						ps2.setString(2, insurar);
+						ps2.setDate(3, new java.sql.Date(debetdate.getTime()));
+						ps2.setString(4, type);
+						ps2.executeUpdate();
+						ps2.close();
+						if(counter%10==0){
 							setLastUpdateTime(lastupdatetime);
 						}
 						stats_conn.close();
@@ -103,7 +97,6 @@ public class UpdateStats3 extends UpdateStatsBase{
 			}
 			rs.close();
 			ps.close();
-			setLastUpdateTime(lastupdatetime);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
