@@ -397,7 +397,7 @@
         </tr>
         <%-- service --%>
        <tr id="Service">
-           <td class="admin"><%=getTran("Web","service",sWebLanguage)%></td>
+           <td class="admin"><%=getTran("Web","service",sWebLanguage)%> *</td>
            <td class='admin2'>
                <input type="hidden" name="EditEncounterService" value="<%=sEditEncounterService%>" onchange="EditEncounterForm.EditEncounterBed.value='';EditEncounterForm.EditEncounterBedName.value='';setBedButton();setTransfer();">
                <input class="text" type="text" name="EditEncounterServiceName" id="EditEncounterServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterServiceName%>" onblur="">

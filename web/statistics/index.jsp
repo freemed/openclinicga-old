@@ -72,6 +72,7 @@
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"document.list\",\"openclinic\");",getTran("Web","statistics.download.documentlist",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"user.list\",\"admin\");",getTran("Web","statistics.download.userlist",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"service.list\",\"openclinic\");",getTran("Web","statistics.download.servicelist",sWebLanguage))
+            +(MedwanQuery.getInstance().getConfigInt("datacenterenabled",0)==1?writeTblChildWithCodeNoButton("javascript:downloadDatacenterStats(\"service.income.list\",\"stats\");",getTran("Web","statistics.download.serviceincomelist",sWebLanguage)):"")
             +ScreenHelper.writeTblFooter()+"<br>");
 
          out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.toinvoicelists",sWebLanguage),sCONTEXTPATH)+
@@ -93,9 +94,12 @@
 %>
 </form>
 <script type="text/javascript">
-    function downloadStats(query,db){
-        var w=window.open("<c:url value='/util/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.all['begin'].value+"&end="+document.all['end'].value);
-    }
+	function downloadStats(query,db){
+	    var w=window.open("<c:url value='/util/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.all['begin'].value+"&end="+document.all['end'].value);
+	}
+	function downloadDatacenterStats(query,db){
+	    var w=window.open("<c:url value='/datacenterstatistics/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.all['begin'].value+"&end="+document.all['end'].value);
+	}
     function minisanteReport(){
         var w=window.open("<c:url value='/statistics/createMonthlyReportPdf.jsp?'/>start="+document.getElementById('begin2').value+"&end="+document.getElementById('end2').value+"&ts=<%=getTs()%>");
     }
