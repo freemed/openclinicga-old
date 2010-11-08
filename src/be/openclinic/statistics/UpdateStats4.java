@@ -104,10 +104,10 @@ public class UpdateStats4 extends UpdateStatsBase{
 						rs3.close();
 						ps3.close();
 					}
+					Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
 					try{
 						//add the debet records
 						sql="delete from UPDATESTATS4 where OC_DEBETOBJECTID=? and OC_INSURAR=?";
-						Connection stats_conn=MedwanQuery.getInstance().getStatsConnection();
 						PreparedStatement ps2=stats_conn.prepareStatement(sql);
 						ps2.setInt(1, debetobjectid);
 						ps2.setString(2, insurar);
@@ -133,11 +133,14 @@ public class UpdateStats4 extends UpdateStatsBase{
 						if(counter%10==0){
 							setLastUpdateTime(lastupdatetime);
 						}
-						stats_conn.close();
 					}
 					catch(Exception e2){
+						System.out.println("debetobjectid="+debetobjectid);
 						System.out.println("patientamount="+patientamount);
 						e2.printStackTrace();
+					}
+					finally{
+						stats_conn.close();
 					}
 				}
 				catch (Exception e3) {
