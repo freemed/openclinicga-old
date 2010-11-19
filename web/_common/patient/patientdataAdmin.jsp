@@ -2,7 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
     String sGender = "&nbsp;", sComment = "&nbsp;", sNativeCountry = "&nbsp;", sLanguage = "&nbsp;", sNatreg = "&nbsp;"
-            , sCivilStatus = "&nbsp;", sTracnetID = "&nbsp;", sTreatingPhysician = "&nbsp;";
+            , sCivilStatus = "&nbsp;", sTracnetID = "&nbsp;", sTreatingPhysician = "&nbsp;", sComment3="";
 
     // language
     sWebLanguage = activeUser.person.language;
@@ -39,6 +39,11 @@
         sComment = (activePatient.comment);
     }
 
+    // comment
+    if ((activePatient.comment3!=null)&&(activePatient.comment3.trim().length()>0)) {
+        sComment3 = (activePatient.comment3);
+    }
+
     // nativeCountry
     if ((activePatient.nativeCountry!=null)&&(activePatient.nativeCountry.trim().length()>0)) {
         sNativeCountry = getTran("Country",activePatient.nativeCountry,sWebLanguage);
@@ -59,6 +64,7 @@
         +setRow("Web","tracnetid",sTracnetID,sWebLanguage)
         +setRow("Web","treating-physician",sTreatingPhysician,sWebLanguage)
         +setRow("Web","civilstatus",sCivilStatus,sWebLanguage)
+        +setRow("Web","comment3",sComment3,sWebLanguage)
         +setRow("Web","comment",sComment,sWebLanguage))
     %>
     <tr height='1'><td width='<%=sTDAdminWidth%>'/></tr>

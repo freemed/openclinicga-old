@@ -80,4 +80,20 @@
 		d.oc_encounter_objectid=cast(replace(a.oc_diagnosis_encounteruid,'1.','') as signed) and
 		(a.oc_diagnosis_serviceuid is null or a.oc_diagnosis_serviceuid='')
   	</Query>
+	<Query id="QUERY.updateAccessLogs.1" db="ocadmin" date="16/11/2010" dbserver="Microsoft SQL Server">
+	  	insert into AccessLogs(userid,accesstime,accessid,accesscode)
+		select updateuserid,updatetime,-personid,'M.'+convert(varchar(50),personid)
+		from admin a
+		where
+		updateuserid is not null and updatetime is not null and
+		not exists (select * from accesslogs where a.updateuserid=userid and accesscode='M.'+convert(varchar(50),personid))
+  	</Query>
+	<Query id="QUERY.updateAccessLogs.1" db="ocadmin" date="16/11/2010" dbserver="MySQL">
+	  	insert into AccessLogs(userid,accesstime,accessid,accesscode)
+		select updateuserid,updatetime,-personid,'M.'||convert(personid,char)
+		from admin a
+		where
+		updateuserid is not null and updatetime is not null and
+		not exists (select * from accesslogs where a.updateuserid=userid and accesscode='M.'||convert(personid,char))
+  	</Query>
 </Queries>

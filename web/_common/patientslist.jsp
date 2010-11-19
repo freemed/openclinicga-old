@@ -241,7 +241,7 @@
         %>
         <%=getTran("web","nopatientsfound",sWebLanguage)%><br><br>
         <%
-            if ((sName.length()>0)||(sFirstname.length()>0)||(sDateOfBirth.length()>0)||(simmatnew.length()>0)){
+            if (((sName.length()>0)||(sFirstname.length()>0)||(sDateOfBirth.length()>0)||(simmatnew.length()>0)) && activeUser.getAccessRight("patient.administration.add")){
         %>
         <a href="<c:url value='/patientnew.do'/>?PatientNew=true&pLastname=<%=sName%>&pFirstname=<%=sFirstname%>&pImmatnew=<%=simmatnew%>&pArchiveCode=<%=sArchiveFileCode%>&pNatreg=<%=snatreg%>&pDateofbirth=<%=sDateOfBirth%>&pDistrict=<%=sDistrict%>"><%=getTran("web","new_patient",sWebLanguage)%></a><br><br>
         <a href="<c:url value='/_common/patient/patienteditSave.jsp'/>?Lastname=<%=sName%>&Firstname=<%=sFirstname%>&DateOfBirth=<%=sDateOfBirth%>&NatReg=<%=snatreg%>&ImmatNew=<%=simmatnew%>&PDistrict=<%=sDistrict%>&PBegin=<%=getDate()%>&NextPage=planning/findPlanning.jsp&SavePatientEditForm=ok"><%=getTran("web","create_person_and_go_to_agenda",sWebLanguage)%></a>

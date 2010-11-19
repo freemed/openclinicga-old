@@ -123,6 +123,7 @@
         <permission type="web" id="statistics.episodesperdepartment">statistics.episodesperdepartment</permission>
         <permission type="web" id="statistics.servicetransactions">statistics.servicetransactions</permission>
         <permission type="web" id="statistics.chin">statistics.chin</permission>
+        <permission type="web" id="statistics.quickdiagnosisentry">statistics.quickdiagnosisentry</permission>
     </application>
     <application type="Web" id="medication">
         <permission type="web" id="medicationschema">medication.medicationschema</permission>
