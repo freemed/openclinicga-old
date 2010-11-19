@@ -483,7 +483,26 @@
         SF.Action.value = "MY_VISITS";
         SF.submit();
     }
-    
+
+    function newEncounter(){
+		<%
+			boolean bActive=activePatient!=null;
+			if(bActive){
+				Encounter ac = Encounter.getActiveEncounter(activePatient.personid);
+				bActive=(ac!=null && ac.getEnd()==null);
+			}
+			if(bActive){
+				%>
+		    	alert('<%=getTranNoLink("web","close.active.encounter.first",sWebLanguage)%>');
+		    	<%
+			}
+			else {
+				%>
+				window.location.href='<c:url value="/main.do?Page=adt/editEncounter.jsp"/>';
+				<%	
+			}
+		%>
+    }
     function showmanual(){
     	window.open("<c:url value="/documents/help/"/>openclinic_manual_<%=sWebLanguage.toLowerCase()%>.pdf");
     }                   
