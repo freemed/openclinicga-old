@@ -670,7 +670,7 @@ public class Encounter extends OC_Object {
             }
         }
     }
-
+    
     public Date getMaxTransferDate(){
     	Date maxtransferdate=getBegin();
     	PreparedStatement ps = null;
@@ -2184,5 +2184,37 @@ public class Encounter extends OC_Object {
             e.printStackTrace();
         }
         return getServiceUID();
+    }
+    
+    public static Vector getOverlapEncounters(String personid, Date begin, Date end){
+    	Vector encounters = new Vector();
+    	PreparedStatement ps=null;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            String sSQL = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_PATIENTUID=? AND OC_ENCOUNTER_BEGINDATE<? AND (OC_ENCOUNTER_ENDDATE>? OR OC_ENCOUNTER_SERVICEENDDATE IS NULL) order by OC_ENCOUNTER_BEGINDATE";
+            ps = oc_conn.prepareStatement(sSQL);
+            ps.setString(1, personid);
+            ps.setTimestamp(2, new java.sql.Timestamp(end.getTime()));
+            ps.setTimestamp(3, new java.sql.Timestamp(begin.getTime()));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+            	encounters.add(Encounter.get(rs.getInt("OC_ENCOUNTER_SERVERID")+"."+rs.getInt("OC_ENCOUNTER_OBJECTID")));
+            }
+            rs.close();
+            ps.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (ps != null) ps.close();
+                oc_conn.close();
+            }
+            catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    	return encounters;
     }
 }
