@@ -138,7 +138,7 @@
 	                java.util.Date activeDate=new java.util.Date();
 	            	TransactionVO curTran = sessionContainerWO.getCurrentTransactionVO();
 	            	String activetransaction="?";
-	                if(curTran!=null && curTran.getUpdateTime()!=null){
+	            	if(curTran!=null && curTran.getUpdateTime()!=null){
 	                	activetransaction=getTran("web.occup",curTran.getTransactionType(),sWebLanguage);
 	                	activeDate=curTran.getUpdateTime();
 	                }
@@ -187,7 +187,7 @@
 	                	Vector encounters=Encounter.selectEncounters("","","","","","","","",sPatientUid,"");
 	                	for (int n=0;n<encounters.size();n++){
 	                		Encounter encounter = (Encounter)encounters.elementAt(n);
-		                	if(hServices.get(encounter.getServiceUID())==null){
+		                	if(encounter.getServiceUID()!=null && encounter.getServiceUID().length()>0 && hServices.get(encounter.getServiceUID())==null){
 			            		services.add(encounter.getServiceUID()+";"+encounter.getService().getLabel(sWebLanguage));
 			            		hServices.put(encounter.getServiceUID(),"1");
 		                	}
