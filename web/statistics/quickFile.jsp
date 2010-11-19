@@ -4,6 +4,7 @@
 <%@ page import="be.openclinic.medical.Diagnosis" %>
 <%@ page import="be.mxs.webapp.wl.servlet.http.RequestParameterParser" %>
 <%@ page import="be.mxs.common.util.system.HTMLEntities" %>
+<%@ page import="be.openclinic.medical.ReasonForEncounter" %>
 <%@ page errorPage="/includes/error.jsp" %>
 <%@ include file="/_common/templateAddIns.jsp" %> 
 <%!
@@ -83,6 +84,7 @@
     String sEditEncounterService = checkString(request.getParameter("EditEncounterService"));
     String sEditEncounterServiceName = checkString(request.getParameter("EditEncounterServiceName"));
     String sEditEncounterOutcome = checkString(request.getParameter("EditEncounterOutcome"));
+    String sEditEncounterOrigin = checkString(request.getParameter("EditEncounterOrigin"));
     String sICPCHtml = "";
 %>
 <form name='EditPatientForm' id='EditPatientForm' method='post'
@@ -146,6 +148,7 @@
             	encounter.setEnd(new SimpleDateFormat("dd/MM/yyyy").parse(sEditEncounterEnd));
             }
             encounter.setServiceUID(sEditEncounterService);
+            encounter.setOrigin(sEditEncounterOrigin);
             encounter.setOutcome(sEditEncounterOutcome);
             encounter.setCreateDateTime(new java.util.Date());
             encounter.setUpdateDateTime(new java.util.Date());
@@ -179,6 +182,7 @@
             sEditEncounterServiceName = encounter.getService().getLabel(sWebLanguage);
         }
         sEditEncounterOutcome = encounter.getOutcome();
+        sEditEncounterOrigin = encounter.getOrigin();
         Vector diagnoses = Diagnosis.selectDiagnoses("", "", sEditEncounterUID, "", "", "", "", "", "", "", "", "", "");
         for (int n = 0; n < diagnoses.size(); n++) {
             Diagnosis diagnosis = (Diagnosis) diagnoses.elementAt(n);
@@ -307,6 +311,19 @@
                 writeDateField("EditEncounterEnd", "EditPatientForm", sEditEncounterEnd + "' onblur='validatePeriod();", sWebLanguage)%>
         </td>
     </tr>
+    <%-- origin --%>
+    <tr>
+        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("openclinic.chuk","urgency.origin",sWebLanguage)%>
+        </td>
+        <td class="admin2">
+                <select class="text" name="EditEncounterOrigin" style="vertical-align:-2px;">
+                    <option/>
+                    <%
+                        out.print(ScreenHelper.writeSelect("urgency.origin",sEditEncounterOrigin,sWebLanguage));
+                    %>
+                </select>
+        </td>
+    </tr>
     <%-- service --%>
     <tr id="Service">
         <td class="admin"><%=getTran("Web", "service", sWebLanguage)%>
@@ -335,6 +352,15 @@
             </select>
         </td>
     </tr>
+	<%
+	    String sRfe= ReasonForEncounter.getReasonsForEncounterAsHtml(sEditEncounterUID,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
+	%>
+    <tr class="admin">
+        <td align="left" colspan="2"><a href="javascript:openPopup('healthrecord/findRFE.jsp&field=rfe&encounterUid=<%=sEditEncounterUID%>&ts=<%=getTs()%>',700,400)"><%=getTran("openclinic.chuk","rfe",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></a></td>
+    </tr>
+    <tr>
+        <td id="rfe" colspan="2"><%=sRfe%></td>
+    </tr>
     <tr class="admin">
         <td align="left" colspan="2"><a
                 href="javascript:openPopup('healthrecord/findICPC.jsp&ts=<%=getTs()%>&patientuid=<%=sPatientUID%>&showpatientencounters=1',700,400)"><%=
@@ -343,17 +369,15 @@
         </a></td>
     </tr>
     <tr>
-        <td id='icpccodes' colspan="2"><%=HTMLEntities.htmlentities(sICPCHtml)%>
-        </td>
-        <tr></tr>
-        <%=ScreenHelper.setFormButtonsStart()%>
-        <input class='button' type="button" name="saveMe" value='<%=getTranNoLink("Web","save",sWebLanguage)%>'
-               onclick='doSubmit();'>&nbsp;
-        <input type="hidden" name="saveEncounter"/>
-        <input type="hidden" name="EditEncounterUID" value="<%=sEditEncounterUID%>"/>
-        <%=ScreenHelper.setFormButtonsStop()%>
-        <%-- action, uid --%>
+        <td id='icpccodes' colspan="2" align="left"><%=HTMLEntities.htmlentities(sICPCHtml)%></td>
+    </tr>
 </table>
+<%=ScreenHelper.setFormButtonsStart()%>
+<input class='button' type="button" name="saveMe" value='<%=getTranNoLink("Web","save",sWebLanguage)%>'
+       onclick='doSubmit();'>&nbsp;
+<input type="hidden" name="saveEncounter"/>
+<input type="hidden" name="EditEncounterUID" value="<%=sEditEncounterUID%>"/>
+<%=ScreenHelper.setFormButtonsStop()%>
 <%
 } else {
 %>

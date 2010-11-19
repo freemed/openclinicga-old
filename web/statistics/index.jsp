@@ -2,7 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <form name="stats">
 <%
-    if(activeUser.getAccessRight("patient.administration.add")){
+    if(activeUser.getAccessRight("patient.administration.add")||activeUser.getAccessRight("statistics.quickdiagnosisentry")){
 
         out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.quickdiagnosisentry",sWebLanguage),sCONTEXTPATH)
             +writeTblChildWithCode("javascript:openPopup(\"statistics/quickFile.jsp\",800,600,\"quickFile\")",getTran("Web","statistics.quickdiagnosisentry",sWebLanguage))

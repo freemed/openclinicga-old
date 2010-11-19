@@ -42,7 +42,7 @@
 <%
     if ((sFindBegin.length() > 0) || (sFindEnd.length() > 0)) {
 		%>
-		<tr><td class='admin'><td class='admin'/><%=getTran("web","user",sWebLanguage) %></td><td class='admin'><%=getTran("web","profile",sWebLanguage) %></td><td class='admin'><%=getTran("web","service",sWebLanguage) %></td><td class='admin'><%=getTran("web","encounters",sWebLanguage)%></td><td class='admin'><%=getTran("web","creations_modifications",sWebLanguage)%></td></tr>
+		<tr><td class='admin'><td class='admin'/><%=getTran("web","user",sWebLanguage) %></td><td class='admin'><%=getTran("web","profile",sWebLanguage) %></td><td class='admin'><%=getTran("web","service",sWebLanguage) %></td><td class='admin'><%=getTran("web","opened_records",sWebLanguage)%></td><td class='admin'><%=getTran("web","creations_modifications",sWebLanguage)%></td></tr>
 		<%
     	String sQuery="select count(*) total,userid "+
 						" from accesslogs "+
@@ -106,15 +106,23 @@
     	}
 		rs.close();
 		ps.close();
-		sQuery="select count(*) total, updateuserid from admin where updatetime between ? and ? group by updateuserid";
+    	sQuery="select count(*) total,userid "+
+		" from accesslogs "+
+		" where "+
+		" accesstime between ? and ? and "+
+		" accesscode like 'M.%' and "+
+		" "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(accesscode)>2 "+
+		" group by userid";
     	ps = oc_conn.prepareStatement(sQuery);
     	ps.setTimestamp(1,new Timestamp(begin.getTime()));
     	ps.setTimestamp(2,new Timestamp(end.getTime()));
     	rs = ps.executeQuery();
     	Hashtable hModif = new Hashtable();
     	while (rs.next()){
-    		hModif.put(rs.getString("updateuserid"),rs.getInt("total"));
+    		hModif.put(rs.getString("userid"),rs.getInt("total"));
     	}
+		rs.close();
+		ps.close();
 		oc_conn.close();
     	for(int n=0;n<lines.size();n++){
     		Line line = (Line)lines.elementAt(n);
