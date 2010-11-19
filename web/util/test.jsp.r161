@@ -1,7 +1,0 @@
-<%@ taglib uri="/WEB-INF/c-1_0.tld" prefix="c" %>
-<%@ page import="be.mxs.common.util.db.MedwanQuery" %>
-<%@ page import="java.util.Date" %>
-<%@include file="/util/progressbar.jsp"%>
-<script>
-	startProgress("mine");
-</script>
