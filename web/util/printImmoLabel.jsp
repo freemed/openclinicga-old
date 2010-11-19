@@ -12,6 +12,7 @@
     while(parameters.hasMoreElements()){
         String parameterName = (String)parameters.nextElement();
         if(parameterName.startsWith("article")){
+        	System.out.println("parametername="+parameterName);
             Article article = new Article();
             article.id=parameterName.replaceAll("article","");
             article.name=request.getParameter(parameterName);
@@ -30,24 +31,32 @@
     }
     try {
         // PDF generator
+        System.out.println("1");
         PDFImmoLabelGenerator pdfImmoLabelGenerator = new PDFImmoLabelGenerator(activeUser, sProject);
+        System.out.println("2");
         baosPDF = pdfImmoLabelGenerator.generatePDFDocumentBytes(request, articles);
+        System.out.println("3");
         StringBuffer sbFilename = new StringBuffer();
         sbFilename.append("filename_").append(System.currentTimeMillis()).append(".pdf");
+        System.out.println("4");
 
         StringBuffer sbContentDispValue = new StringBuffer();
         sbContentDispValue.append("inline; filename=")
                 .append(sbFilename);
+        System.out.println("5");
 
         // prepare response
         response.setHeader("Cache-Control", "max-age=30");
         response.setContentType("application/pdf");
         response.setHeader("Content-disposition", sbContentDispValue.toString());
         response.setContentLength(baosPDF.size());
+        System.out.println("6");
 
         // write PDF to servlet
         ServletOutputStream sos = response.getOutputStream();
+        System.out.println("7");
         baosPDF.writeTo(sos);
+        System.out.println("8");
         sos.flush();
     }
     catch (DocumentException dex) {

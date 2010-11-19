@@ -236,7 +236,7 @@ oc_conn.close();
 	}
 
 	function printImmo(id,name){
-		window.open('<c:url value="util/printImmoLabel.jsp"/>?article'+id+'=CHUK/'+name);
+		window.open('<c:url value="util/printImmoLabel.jsp"/>?article'+id+'=<%=MedwanQuery.getInstance().getConfigString("immoprefix","CHUK")%>/'+name);
 	}
 		
 </script>
