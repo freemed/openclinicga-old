@@ -14,6 +14,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import net.admin.system.AccessLog;
+
 
 public class AdminPerson extends OC_Object{
     // declarations
@@ -580,6 +582,7 @@ public class AdminPerson extends OC_Object{
             bReturn = false;
         }
 
+        AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"M."+this.personid);
         return bReturn;
     }
 
@@ -836,6 +839,7 @@ public class AdminPerson extends OC_Object{
             ScreenHelper.writeMessage(getClass()+" (1) "+e.getMessage()+" "+sSelect);
             bReturn = false;
         }
+        AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"M."+this.personid);
 
         return bReturn;
     }
