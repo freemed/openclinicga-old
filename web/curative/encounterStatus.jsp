@@ -32,7 +32,7 @@
                     <td width="200">
                         <%=getTran("curative","encounter.status.title",sWebLanguage)%>&nbsp;
                         <a href="<c:url value='/main.do'/>?Page=adt/historyEncounter.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_history2.gif'/>" class="link" alt="<%=getTran("web","historyencounters",sWebLanguage)%>" style="vertical-align:-4px;"></a>
-                        <a href="<c:url value='/main.do'/>?Page=adt/editEncounter.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_new.gif'/>" class="link" alt="<%=getTran("web","newencounter",sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                        <a href="javascript:newEncounter();"><img src="<c:url value='/_img/icon_new.gif'/>" class="link" alt="<%=getTran("web","newencounter",sWebLanguage)%>" style="vertical-align:-4px;"></a>
                     </td>
                     <td width="250"><i><%=getTran("curative","encounter.last.hospitalisation",sWebLanguage)%>:
                         <%
