@@ -127,12 +127,16 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         String service="";
         for(int n=0;n<invoice.getDebets().size();n++){
             Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            service=debet.getEncounter().getService().getLabel(sPrintLanguage);
-            if(service!=null){
-            	services.put(service, "1");
+            if(debet!=null){
+            	if(debet.getEncounter()!=null && debet.getEncounter().getService()!=null){
+            		service=debet.getEncounter().getService().getLabel(sPrintLanguage);
+            	}
+	            if(service!=null){
+	            	services.put(service, "1");
+	            }
+	            totalDebet+=debet.getAmount();
+	            totalinsurardebet+=debet.getInsurarAmount();
             }
-            totalDebet+=debet.getAmount();
-            totalinsurardebet+=debet.getInsurarAmount();
         }
         table.addCell(createPriceCell(totalDebet,1));
         table.addCell(createValueCell(getTran("web","cashiersignature"),3,8,Font.NORMAL));
