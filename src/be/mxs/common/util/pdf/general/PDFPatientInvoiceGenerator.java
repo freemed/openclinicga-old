@@ -17,8 +17,6 @@ import net.admin.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import quicktime.std.anim.SpriteWorld;
-
 public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
     String sProforma = "no";
 
