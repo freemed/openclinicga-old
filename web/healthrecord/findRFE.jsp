@@ -55,27 +55,59 @@
                     %>
                     <tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
                     <%
-                        String oldcodelabel="";
-                        for (int n=0; n<codes.size(); n++){
-                            foundRecords++;
+                    String oldcodelabel="";
+                    for (int n=0; n<codes.size(); n++){
+                        foundRecords++;
 
-                            code = (ICPCCode)codes.elementAt(n);
-                            if(!oldcodelabel.equalsIgnoreCase(code.label)){
-                                oldcodelabel=code.label;
-                                if (code.code.length()>=5){
-	                                if (code.code.substring(3,5).equalsIgnoreCase("00")){
-	                                    out.print("<tr class='label2'>");
-	                                }
-	                                else {
-	                                    out.print("<tr>");
-	                                }
-	                                out.print(" <td onclick='addICPC(\""+code.code+"\",\""+code.label+"\");'>"+code.code+"</td>");
-	                                out.print(" <td onclick='addICPC(\""+code.code+"\",\""+code.label+"\");'>"+code.label+"</td>");
-	                                out.print("</tr>");
+                        code = (ICPCCode)codes.elementAt(n);
+                        if(!oldcodelabel.equalsIgnoreCase(code.label)){
+                            oldcodelabel=code.label;
+                            if (code.code.length()>=5){
+                                if (code.code.substring(3,5).equalsIgnoreCase("00")){
+                                    out.print("<tr class='label2'>");
                                 }
+                                else {
+                                    out.print("<tr>");
+                                }
+                                out.print(" <td onclick='addICPC(\""+code.code+"\",\""+code.label+"\");'>"+code.code+"</td>");
+                                out.print(" <td onclick='addICPC(\""+code.code+"\",\""+code.label+"\");'>"+code.label+"</td>");
+                                out.print("</tr>");
                             }
                         }
                     }
+                    if (MedwanQuery.getInstance().getConfigInt("enableICD10")==1 || request.getParameter("enableICD10")!=null){
+		                codes = MedwanQuery.getInstance().findICD10Codes(keywords, sWebLanguage);
+		
+		                // header
+		                if (codes.size() > 0) {
+		                    out.print("<tr class='admin'><td colspan='3'>" + getTran("Web.Occup", "ICD-10", sWebLanguage) + "</td></tr>");
+		                }
+		
+		                %>
+		                <tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
+		                <%
+		                oldcodelabel="";
+		                for (int n=0; n<codes.size(); n++){
+		                    foundRecords++;
+		
+		                    code = (ICPCCode)codes.elementAt(n);
+		                    if(!oldcodelabel.equalsIgnoreCase(code.label)){
+		                        oldcodelabel=code.label;
+		                        if (code.code.length()>=5){
+		                            if (code.code.substring(3,5).equalsIgnoreCase("00")){
+		                                out.print("<tr class='label2'>");
+		                            }
+		                            else {
+		                                out.print("<tr>");
+		                            }
+		                            out.print(" <td onclick='addICD10(\""+code.code+"\",\""+code.label+"\");'>"+code.code+"</td>");
+		                            out.print(" <td onclick='addICD10(\""+code.code+"\",\""+code.label+"\");'>"+code.label+"</td>");
+		                            out.print("</tr>");
+		                        }
+		                    }
+		                }
+                    }
+                }
                     %>
                     </tbody>
                     <%
@@ -108,6 +140,10 @@
 
     function addICPC(code,label){
         openPopup("/_common/search/RFEInfo.jsp&ts=<%=getTs()%>&field=<%=ScreenHelper.checkString(request.getParameter("field"))%>&trandate=<%=ScreenHelper.checkString(request.getParameter("trandate"))%>&encounterUid=<%=encounterUid%>&Type=ICPC&Code="+code+"&Label="+label,800,300);
+    }
+
+    function addICD10(code,label){
+        openPopup("/_common/search/RFEInfo.jsp&ts=<%=getTs()%>&field=<%=ScreenHelper.checkString(request.getParameter("field"))%>&trandate=<%=ScreenHelper.checkString(request.getParameter("trandate"))%>&encounterUid=<%=encounterUid%>&Type=ICD10&Code="+code+"&Label="+label,800,300);
     }
 
 </script>
