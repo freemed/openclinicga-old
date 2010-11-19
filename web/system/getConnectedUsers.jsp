@@ -137,3 +137,30 @@
 	<td colspan='10'><hr/></td>
 </tr>
 </table>
+<%
+	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+	PreparedStatement ps = conn.prepareStatement("select count(*) total from Admin");
+	ResultSet rs=ps.executeQuery();
+	rs.next();
+	int totalpatients=rs.getInt("total");
+	rs.close();
+	ps.close();
+	conn.close();
+	conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	ps=conn.prepareStatement("select count(*) total from OC_ENCOUNTERS");
+	rs=ps.executeQuery();
+	rs.next();
+	int totalencounters=rs.getInt("total");
+	rs.close();
+	ps.close();
+	conn.close();
+%>
+<table width='100%'>
+<tr>
+	<td class='admin2' width='50%'><center><%=getTran("web","total_patients",sWebLanguage)%>: <%=totalpatients%></center></td>
+	<td class='admin2' width='50%'><center><%=getTran("web","total_encounters",sWebLanguage)%>: <%=totalencounters%></center></td>
+</tr>
+<tr>
+	<td colspan='10'><hr/></td>
+</tr>
+</table>
