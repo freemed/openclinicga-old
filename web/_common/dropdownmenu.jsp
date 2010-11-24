@@ -259,6 +259,20 @@
     function openHelpFile() {
         openPopup("<%=sHelp.replaceAll("@@language@@",activeUser.person.language)%>", 800, 600);
     }
+	function newEncounter(){
+		<%
+			if (Encounter.getActiveEncounter(activePatient.personid)!=null){
+		%>
+			alert('<%=getTranNoLink("web","close.active.encounter.first",sWebLanguage)%>');
+		<%
+			}
+			else{
+		%>
+			window.location.href='<c:url value="/main.do"/>?Page=adt/editEncounter.jsp&ts=<%=getTs()%>';
+		<%
+			}
+		%>
+	}
     <%-- READ BARCODE --%>
     function readBarcode() {
         openPopup("/_common/readBarcode.jsp&ts=<%=getTs()%>");
