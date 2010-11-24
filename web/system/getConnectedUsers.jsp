@@ -154,11 +154,29 @@
 	rs.close();
 	ps.close();
 	conn.close();
+	conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	ps=conn.prepareStatement("select count(*) total from OC_DEBETS");
+	rs=ps.executeQuery();
+	rs.next();
+	int totaldebets=rs.getInt("total");
+	rs.close();
+	ps.close();
+	conn.close();
+	conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	ps=conn.prepareStatement("select count(*) total from OC_PATIENTINVOICES");
+	rs=ps.executeQuery();
+	rs.next();
+	int totalpatientinvoices=rs.getInt("total");
+	rs.close();
+	ps.close();
+	conn.close();
 %>
 <table width='100%'>
 <tr>
-	<td class='admin2' width='50%'><center><%=getTran("web","total_patients",sWebLanguage)%>: <%=totalpatients%></center></td>
-	<td class='admin2' width='50%'><center><%=getTran("web","total_encounters",sWebLanguage)%>: <%=totalencounters%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_patients",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalpatients)%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_encounters",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalencounters)%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_patientinvoices",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalpatientinvoices)%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_debets",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totaldebets)%></center></td>
 </tr>
 <tr>
 	<td colspan='10'><hr/></td>

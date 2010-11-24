@@ -16,6 +16,12 @@
 		sOut+="<tr><td colspan='2'><hr/></td></tr>";
 		return sOut;
 	}
+	private String writeConfigRow(String labtype){
+		String sOut="<tr class='admin2'>";
+		sOut+="<td valign='top'>"+labtype+"</td><td><textarea onKeyup='resizeTextarea(this,10);' class='text' cols='100', rows='1' name='config$"+labtype+"'>"+MedwanQuery.getInstance().getConfigString(labtype)+"</textarea></td></tr>";
+		sOut+="<tr><td colspan='2'><hr/></td></tr>";
+		return sOut;
+	}
 %>
 <%
 	boolean updated=false;
@@ -54,6 +60,9 @@
 	                }
 				}
 			}
+			else if(sParName.split("\\$").length==2 && sParName.split("\\$")[0].equalsIgnoreCase("config")){
+				MedwanQuery.getInstance().setConfigString(sParName.split("\\$")[1],checkString(request.getParameter(sParName)));
+			}
 			
 		}
 	}
@@ -76,6 +85,7 @@
 	out.println(writeRow("web.occup","invoicefinancialmessagetitle2"));
 	out.println(writeRow("web","productionsystemwarning"));
 	out.println(writeRow("web","testsystemredirection"));
+	out.println(writeConfigRow("footer."+checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase()));
 %>
   </table>
   <input type='submit' name='save' value='<%=getTran("web","save",sWebLanguage)%>'/>
