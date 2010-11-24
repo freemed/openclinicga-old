@@ -156,7 +156,7 @@ public abstract class MessageReader {
                             ps.setInt(3,serverId);
                             ps.execute();
                             ps.close();
-                            ps = occupConnection.prepareStatement("delete Items where transactionId=? and serverid=?");
+                            ps = occupConnection.prepareStatement("delete from Items where transactionId=? and serverid=?");
                             ps.setInt(1,transactionId);
                             ps.setInt(2,serverId);
                             ps.execute();

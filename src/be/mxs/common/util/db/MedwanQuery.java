@@ -1891,7 +1891,7 @@ public class MedwanQuery {
     public void fillTransactionItems(TransactionVO transactionVO) {
         try {
             Connection OccupdbConnection = getOpenclinicConnection();
-            PreparedStatement ps = OccupdbConnection.prepareStatement("delete TransactionItems where transactionTypeId=?");
+            PreparedStatement ps = OccupdbConnection.prepareStatement("delete from TransactionItems where transactionTypeId=?");
             ps.setString(1, transactionVO.getTransactionType());
             ps.execute();
             ps.close();

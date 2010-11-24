@@ -571,14 +571,14 @@ public class ExtraInsurarInvoice extends Invoice {
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            sSelect = "SELECT a.lastname, a.firstname, d.*,e.*,c.*"+
-                      " FROM OC_DEBETS d, OC_EXTRAINSURARINVOICES i, OC_ENCOUNTERS e, AdminView a,OC_PRESTATIONS c"+
-                      "  WHERE d.OC_DEBET_EXTRAINSURARINVOICEUID = ?"+
-                      "   AND d.OC_DEBET_EXTRAINSURARINVOICEUID = "+ MedwanQuery.getInstance().convert("varchar(10)","OC_INSURARINVOICE_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_INSURARINVOICE_OBJECTID")+
-                      "   AND d.OC_DEBET_ENCOUNTERUID = "+ MedwanQuery.getInstance().convert("varchar(10)","e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","e.oc_encounter_objectid")+
-                      "   AND d.OC_DEBET_PRESTATIONUID="+ MedwanQuery.getInstance().convert("varchar(10)","c.oc_prestation_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","c.oc_prestation_objectid")+
-                      "   AND e.OC_ENCOUNTER_PATIENTUID = a.personid"+
-                      " ORDER BY lastname, firstname, OC_DEBET_DATE DESC";
+            sSelect = "SELECT a.lastname, a.firstname, d.*,e.* ,c.* "+
+            " FROM OC_DEBETS d, OC_EXTRAINSURARINVOICES i, OC_ENCOUNTERS e, AdminView a, OC_PRESTATIONS c"+
+            "  WHERE d.OC_DEBET_EXTRAINSURARINVOICEUID = ?"+
+            "   AND i.OC_INSURARINVOICE_OBJECTID = replace(d.OC_DEBET_EXTRAINSURARINVOICEUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+            "   AND e.OC_ENCOUNTER_OBJECTID = replace(d.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+            "   AND c.OC_PRESTATION_OBJECTID = replace(d.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+            "   AND e.OC_ENCOUNTER_PATIENTUID = a.personid"+
+            " ORDER BY lastname, firstname, OC_DEBET_DATE";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,sInvoiceUid);
 

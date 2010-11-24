@@ -211,7 +211,6 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
     //--- GET DEBETS (prestations) ----------------------------------------------------------------
     // grouped by patient, sorted on date desc
     private void getDebets(InsurarInvoice invoice, PdfPTable tableParent){
-
         if(PrintType.equalsIgnoreCase("sortbypatient")){
             Vector debets = InsurarInvoice.getDebetsForInvoice(invoice.getUid());
             if(debets.size() > 0){
@@ -260,7 +259,7 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                     table = new PdfPTable(20);
                     table.setWidthPercentage(pageWidth);
                     debet = (Debet)debets.get(i);
-                    sPatientName = debet.getPatientName();
+                    sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
                     displayPatientName = !sPatientName.equals(sPrevPatientName);
                     total+= debet.getInsurarAmount();
                     printDebet(table,debet,displayPatientName);

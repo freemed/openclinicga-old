@@ -255,17 +255,19 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                 boolean displayPatientName;
 
                 for(int i=0; i<debets.size(); i++){
-                    table = new PdfPTable(20);
-                    table.setWidthPercentage(pageWidth);
                     debet = (Debet)debets.get(i);
-                    sPatientName = debet.getPatientName();
-                    displayPatientName = !sPatientName.equals(sPrevPatientName);
-                    total+= debet.getExtraInsurarAmount();
-                    printDebet(table,debet,displayPatientName);
-                    sPrevPatientName = sPatientName;
-                    cell=new PdfPCell(table);
-                    cell.setPadding(0);
-                    tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+                    if(debet.getExtraInsurarAmount()!=0){
+	                    table = new PdfPTable(20);
+	                    table.setWidthPercentage(pageWidth);
+	                    sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
+	                    displayPatientName = !sPatientName.equals(sPrevPatientName);
+	                    total+= debet.getExtraInsurarAmount();
+	                    printDebet(table,debet,displayPatientName);
+	                    sPrevPatientName = sPatientName;
+	                    cell=new PdfPCell(table);
+	                    cell.setPadding(0);
+	                    tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+                    }
                 }
 
                 table = new PdfPTable(20);
