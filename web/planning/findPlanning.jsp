@@ -130,9 +130,11 @@ var clientMsg = new ClientMsg("");
             $("PatientID").value = "";
             if(!initialize) displayWeek(makeDate($('beginDate').value));
             $("tableHeaderTitle").update("&nbsp;&nbsp;<%=getTran("planning","useropenplanning",sWebLanguage)%>")
+            togglePrintButtons(sTab);
         }else if(sTab=="managePlanning"){
             setSlider();
         }
+
     }
   <%
     String sTab = checkString(request.getParameter("Tab"));
@@ -167,6 +169,7 @@ var clientMsg = new ClientMsg("");
       window.location.href="<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType="+sTransactionType+"&be.mxs.healthrecord.createTransaction.context=&be.mxs.healthrecord.server_id="+ServerID+"&be.mxs.healthrecord.transaction_id="+TransactionID+"&PersonID="+sPatientID+"&ts="+new Date().getTime();
   }
      function activatePatient(sTab){
+
          if(!$("truser").visible()){
              $("truser").style.display = "";
          }
@@ -190,6 +193,33 @@ var clientMsg = new ClientMsg("");
          
          }
          %>
+         togglePrintButtons(sTab);
     }
+  function togglePrintButtons(sTab){
+        if(sTab=="patient"){
+           var a = $("weekScheduler_container").getElementsByClassName('print_user_button');
+            for (var index = 0; index < a.length; ++index) {
+              var item = a[index];
+              item.hide();
+            }
+            var a = $("weekScheduler_container").getElementsByClassName('print_patient_button');
+            for (var index = 0; index < a.length; ++index) {
+              var item = a[index];
+              item.style.display = '';
+            }
+        }else if(sTab=="user"){
+            var a = $("weekScheduler_container").getElementsByClassName('print_user_button');
+            for (var index = 0; index < a.length; ++index) {
+              var item = a[index];
+              item.style.display = '';
+            }
+            var a = $("weekScheduler_container").getElementsByClassName('print_patient_button');
+            for (var index = 0; index < a.length; ++index) {
+              var item = a[index];
+              item.hide();
+            }
+
+        }
+  }
      activateTab("<%=sTab%>",true);
 </script>

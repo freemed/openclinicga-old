@@ -96,10 +96,10 @@
 
         if(document.all){
             var containerWidth = document.body.clientWidth-8;
-              var containerHeight = document.body.clientHeight - 265;
+              var containerHeight = document.body.clientHeight - 285;
         }else{
              var containerWidth = document.body.clientWidth-16;
-              var containerHeight = document.body.clientHeight - 251;
+              var containerHeight = document.body.clientHeight - 271;
         }
     </script>
     <%=sJSWEEKPLANNER%><%=sCSSWEEKPLANNER%>
@@ -122,15 +122,17 @@
             <div class="spacer"><span></span>
 
                 <div id="weekScheduler_warning" onmouseover="$('weekScheduler_warning_popup').show();">&nbsp;</div>
+                <a class="print_user_button" href="javascript:;" onclick="printPlanning('');" title="<%=getTran("hrm.persinfo","printalltabs",sWebLanguage)%>" alt='<%=getTran("hrm.persinfo","printalltabs",sWebLanguage)%>'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a>
+                <a class="print_patient_button" href="javascript:;" onclick="printPlanning('',true);" title="<%=getTran("hrm.persinfo","printalltabs",sWebLanguage)%>" alt='<%=getTran("hrm.persinfo","printalltabs",sWebLanguage)%>'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a>
             </div>
             <div class="days" id="weekScheduler_dayRow">
-                <div id="top_day_1" class="<%=(todayNumber==1)?"today":""%>"><%=getTran("web", "monday", sWebLanguage)%><span></span></div>
-                <div id="top_day_2" class="<%=(todayNumber==2)?"today":""%>"><%=getTran("web", "Tuesday", sWebLanguage)%><span></span></div>
-                <div id="top_day_3" class="<%=(todayNumber==3)?"today":""%>"><%=getTran("web", "Wednesday", sWebLanguage)%><span></span></div>
-                <div id="top_day_4" class="<%=(todayNumber==4)?"today":""%>"><%=getTran("web", "Thursday", sWebLanguage)%><span></span></div>
-                <div id="top_day_5" class="<%=(todayNumber==5)?"today":""%>"><%=getTran("web", "Friday", sWebLanguage)%><span></span></div>
-                <div id="top_day_6" class="<%=(todayNumber==6)?"today":""%>"><%=getTran("web", "Saturday", sWebLanguage)%><span></span></div>
-                <div id="top_day_0" class="<%=(todayNumber==7)?"today":""%>"><%=getTran("web", "Sunday", sWebLanguage)%><span></span></div>
+                <div id="top_day_1" class="<%=(todayNumber==1)?"today":""%>"><%=getTran("web", "monday", sWebLanguage)%> <span></span> <a class="print_user_button" title="<%=getTran("web","print",sWebLanguage)%>" href="javascript:;" onclick="printPlanning('<%=Calendar.MONDAY%>');" alt='print'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a></div>
+                <div id="top_day_2" class="<%=(todayNumber==2)?"today":""%>"><%=getTran("web", "Tuesday", sWebLanguage)%> <span></span> <a class="print_user_button" title="<%=getTran("web","print",sWebLanguage)%>" href="javascript:;" onclick="printPlanning('<%=Calendar.TUESDAY%>');" alt='print'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a></div>
+                <div id="top_day_3" class="<%=(todayNumber==3)?"today":""%>"><%=getTran("web", "Wednesday", sWebLanguage)%> <span></span> <a class="print_user_button" title="<%=getTran("web","print",sWebLanguage)%>" href="javascript:;" onclick="printPlanning('<%=Calendar.WEDNESDAY%>');" alt='print'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a></div>
+                <div id="top_day_4" class="<%=(todayNumber==4)?"today":""%>"><%=getTran("web", "Thursday", sWebLanguage)%> <span></span> <a class="print_user_button" title="<%=getTran("web","print",sWebLanguage)%>" href="javascript:;" onclick="printPlanning('<%=Calendar.THURSDAY%>');" alt='print'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a></div>
+                <div id="top_day_5" class="<%=(todayNumber==5)?"today":""%>"><%=getTran("web", "Friday", sWebLanguage)%> <span></span> <a class="print_user_button" title="<%=getTran("web","print",sWebLanguage)%>" href="javascript:;" onclick="printPlanning('<%=Calendar.FRIDAY%>');" alt='print'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a></div>
+                <div id="top_day_6" class="<%=(todayNumber==6)?"today":""%>"><%=getTran("web", "Saturday", sWebLanguage)%> <span></span> <a class="print_user_button" title="<%=getTran("web","print",sWebLanguage)%>" class="" href="javascript:;" onclick="printPlanning('<%=Calendar.SATURDAY%>');" alt='print'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a></div>
+                <div id="top_day_0" class="<%=(todayNumber==7)?"today":""%>"><%=getTran("web", "Sunday", sWebLanguage)%> <span></span> <a class="print_user_button" title="<%=getTran("web","print",sWebLanguage)%>" class="" href="javascript:;" onclick="printPlanning('<%=Calendar.SUNDAY%>');" alt='print'><img src="<c:url value="/_img/printer-print.png" />" class="link" alt="print" /></a></div>
             </div>
             
         </div>
@@ -284,15 +286,16 @@
                 return true;
             }
         }
+
         function openNewAppointment(params){
             if(params==null){
                 params = "&Action=new&FindUserUID=" + $F('FindUserUID') + "&AppointmentID=-1&inputId=" + actualAppointmentId
                     + '&appointmentDateDay=' +$("beginDate").value
-                    + '&appointmentDateHour=' + <%=sFrom%>
-                    + '&appointmentDateMinutes=' + 0
+                    + '&appointmentDateHour=<%=sFrom%>'
+                    + '&appointmentDateMinutes=0'
                     + '&appointmentDateEndDay=' + $("beginDate").value
-                    + '&appointmentDateEndHour=' + <%=Integer.parseInt(sFrom)+1%>
-                    + '&appointmentDateEndMinutes=' + 0;
+                    + '&appointmentDateEndHour=<%=(Double.valueOf((sFrom)+1))%>'
+                    + '&appointmentDateEndMinutes=0';
             }
 
             var url = "<c:url value='/planning/ajax/editPlanning.jsp'/>?ts="+new Date().getTime();
@@ -472,9 +475,32 @@
                  }
             }
         }
-
+         function printPlanning(day, isPatient) {
+            var url = "<c:url value='/planning/ajax/getCalendarPdf.jsp'/>?ts="+new Date().getTime();
+            var params = '&dayToShow='+day+'&PatientID=<%=activePatient.personid%>&FindUserUID=' + $F("FindUserUID") + '&year=' + dateStartOfWeek.getFullYear() + '&month=' + (dateStartOfWeek.getMonth() / 1 + 1) + '&day=' + dateStartOfWeek.getDate();	// Specifying which file to get
+               if(isPatient){
+                 params+="&ispatient="+isPatient;  
+               }
+              window.location.href = url+params;
+           /* var params = "&Action=print&AppointmentID=" + actualAppointmentId;
+            if(page)params+="&Page="+page;
+                var div = "responseByAjax";
+                new Ajax.Request(url,
+                {
+                    evalScripts: true,
+                    parameters:params,
+                    onComplete:
+                            function(request) {
+                                $(div).update(request.responseText);
+                            }
+                });  */
+        }
         resizeSheduler(containerHeight,containerWidth);
         clientMsg.setDiv("weekScheduler_messages");
+//        $("body").style.overflowY ='hidden';
+
+      
+ 
     </script>
 </form>
   
