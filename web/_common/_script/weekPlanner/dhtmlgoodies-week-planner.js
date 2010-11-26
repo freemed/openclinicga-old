@@ -775,7 +775,7 @@ function cancelSelectionEvent(e)
     return false;
 }
 function initWeekScheduler()
-{
+{      $("weekScheduler_warning_popup").style.display = "none"; 
     weekScheduler_container = $('weekScheduler_container');
     if (!document.all)weekScheduler_container.onclick = ffEndEdit;
     weekScheduler_appointments = document.getElementById('weekScheduler_appointments');
@@ -930,4 +930,6 @@ function getAppointment(id) {
     }
     return obj;
 }
-window.onload = initWeekScheduler;
+Event.observe(window, 'load', function() {
+  initWeekScheduler();
+});
