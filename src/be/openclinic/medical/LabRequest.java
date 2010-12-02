@@ -1146,6 +1146,30 @@ public class LabRequest {
 		}
     }
 
+    public boolean hasBacteriology(){
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        boolean bBact=false;
+        try{
+            PreparedStatement ps = oc_conn.prepareStatement("select count(*) as total from OC_ANTIBIOGRAMS where OC_AB_REQUESTEDLABANALYSISUID like '"+this.getServerid()+"."+this.getTransactionid()+"%'");
+            ResultSet rs = ps.executeQuery();
+            bBact=rs.next() && rs.getInt("total")>0;
+            rs.close();
+            ps.close();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+        finally{
+            try{
+    			oc_conn.close();
+            }
+            catch(Exception e){
+            	e.printStackTrace();
+            }
+        }
+        return bBact;
+    }
+    
     public static void setSampleReceived(int serverid,int transactionid,String sample){
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{

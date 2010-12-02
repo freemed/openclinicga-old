@@ -119,6 +119,19 @@ public class AdminPerson extends OC_Object{
         return adminPerson;
     }
 
+    public static AdminPerson getAdminPerson (String sPersonID){
+    	AdminPerson adminPerson=null;
+    	try {
+	        Connection conn = MedwanQuery.getInstance().getAdminConnection();
+	        adminPerson= AdminPerson.getAdminPerson(conn,sPersonID);
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return adminPerson;
+    }
+
     public String getUid(){
     	return personid;
     }

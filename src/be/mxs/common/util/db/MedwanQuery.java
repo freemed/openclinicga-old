@@ -2101,10 +2101,10 @@ public class MedwanQuery {
         Hashtable existing = new Hashtable();
         for (int n = 0; n < codes.size(); n++) {
             String code = (String) codes.elementAt(n);
-            if (((Integer) counters.get(code)).intValue() == keys.length) {
+            if (((Integer) counters.get(code)).intValue() >= keys.length) {
                 ICPCCode icpc = new ICPCCode(code, label, "icd10");
                 if (icpc.label.length() > 0 && existing.get(icpc.code) == null) {
-                    existing.put(icpc.code, "1");
+                	existing.put(icpc.code, "1");
                     returncodes.add(icpc);
                 }
             }

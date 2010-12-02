@@ -39,6 +39,11 @@ public class ServiceDiagnosis {
 
     public static Vector selectServiceDiagnoses(String serviceID,String diagnoseCode,String codeType, String sortColumn){
 
+        Vector vServiceDiagnoses = new Vector();
+        if (serviceID.length()==0){
+        	return vServiceDiagnoses;
+        }
+
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -60,7 +65,6 @@ public class ServiceDiagnosis {
         int i = 1;
 
 
-        Vector vServiceDiagnoses = new Vector();
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{

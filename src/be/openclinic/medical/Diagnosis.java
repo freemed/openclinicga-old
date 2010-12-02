@@ -10,8 +10,10 @@ import net.admin.User;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Vector;
 import java.util.Hashtable;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,9 @@ import java.sql.Timestamp;
 import java.sql.SQLException;
 
 import org.apache.taglibs.standard.functions.Functions;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,8 +50,26 @@ public class Diagnosis extends OC_Object{
     private String POA;
     private String NC;
     private String serviceUid;
+    private String flags;
 
-    public String getServiceUid() {
+    public boolean checkFlags(String flags){
+        for(int n=0;n<flags.length();n++){
+            if(getFlags().indexOf(flags.substring(n,n+1))<0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String getFlags() {
+		return flags;
+	}
+
+	public void setFlags(String flags) {
+		this.flags = flags;
+	}
+
+	public String getServiceUid() {
 		return serviceUid;
 	}
 
@@ -261,7 +284,8 @@ public class Diagnosis extends OC_Object{
                                     " OC_DIAGNOSIS_REFERENCEUID," +
                                     " OC_DIAGNOSIS_POA," +
                                     " OC_DIAGNOSIS_NC," +
-                                    " OC_DIAGNOSIS_SERVICEUID" +
+                                    " OC_DIAGNOSIS_SERVICEUID," +
+                                    " OC_DIAGNOSIS_FLAGS" +
                               " FROM OC_DIAGNOSES " +
                               " WHERE OC_DIAGNOSIS_SERVERID = ?" +
                               " AND OC_DIAGNOSIS_OBJECTID = ?";
@@ -318,9 +342,10 @@ public class Diagnosis extends OC_Object{
                                     " OC_DIAGNOSIS_POA," +
                                     " OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
                                     " OC_DIAGNOSIS_NC," +
-                                    " OC_DIAGNOSIS_SERVICEUID" +
+                                    " OC_DIAGNOSIS_SERVICEUID," +
+                                    " OC_DIAGNOSIS_FLAGS" +
                                       ") " +
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1,Integer.parseInt(ids[0]));
@@ -356,6 +381,7 @@ public class Diagnosis extends OC_Object{
                 }
                 ps.setString(20,this.getNC());
                 ps.setString(21,this.getServiceUid());
+                ps.setString(22,this.getFlags());
 
                 ps.executeUpdate();
                 ps.close();
@@ -419,6 +445,7 @@ public class Diagnosis extends OC_Object{
                         diagnosis.setPOA(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_POA")));
                         diagnosis.setNC(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_NC")));
                         diagnosis.setServiceUid(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_SERVICEUID")));
+                        diagnosis.setFlags(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_FLAGS")));
                     }
 
                     rs.close();
@@ -455,7 +482,7 @@ public class Diagnosis extends OC_Object{
         String sCondition = " a.OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","b.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.oc_encounter_objectid")+" and";
         String sSelect = " SELECT distinct OC_DIAGNOSIS_SERVERID,OC_DIAGNOSIS_OBJECTID,OC_DIAGNOSIS_CODE,OC_DIAGNOSIS_DATE," +
                 "OC_DIAGNOSIS_ENDDATE,OC_DIAGNOSIS_CERTAINTY,OC_DIAGNOSIS_GRAVITY,"+ MedwanQuery.getInstance().convert("varchar(4000)","OC_DIAGNOSIS_LATERALISATION")+" as OC_DIAGNOSIS_LATERALISATION," +
-                "OC_DIAGNOSIS_ENCOUNTERUID,OC_DIAGNOSIS_AUTHORUID,OC_DIAGNOSIS_CODETYPE,OC_DIAGNOSIS_POA,OC_DIAGNOSIS_NC,OC_DIAGNOSIS_SERVICEUID  FROM OC_DIAGNOSES a,OC_ENCOUNTERS_view b";
+                "OC_DIAGNOSIS_ENCOUNTERUID,OC_DIAGNOSIS_AUTHORUID,OC_DIAGNOSIS_CODETYPE,OC_DIAGNOSIS_POA,OC_DIAGNOSIS_NC,OC_DIAGNOSIS_SERVICEUID,OC_DIAGNOSIS_FLAGS  FROM OC_DIAGNOSES a,OC_ENCOUNTERS_view b";
 
         if(serverID.length() >0)      sCondition += " OC_DIAGNOSIS_SERVERID = ? AND";
         if(objectID.length() >0)      sCondition += " OC_DIAGNOSIS_OBJECTID = ? AND";
@@ -536,6 +563,7 @@ public class Diagnosis extends OC_Object{
                 dTmp.setPOA(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_POA")));
                 dTmp.setNC(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_NC")));
                 dTmp.setServiceUid(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_SERVICEUID")));
+                dTmp.setFlags(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_FLAGS")));
                 MedwanQuery.getInstance().getObjectCache().putObject("diagnosis",dTmp);
                 vDiagnoses.addElement(dTmp);
             }
@@ -649,6 +677,7 @@ public class Diagnosis extends OC_Object{
                 hDiagnosisInfo.put("POA",ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_POA")));
                 hDiagnosisInfo.put("NC",ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_NC")));
                 hDiagnosisInfo.put("ServiceUid",ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_SERVICEUID")));
+                hDiagnosisInfo.put("Flags",ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_FLAGS")));
                 hDiagnoses.put(ScreenHelper.checkString(rs.getString("OC_DIAGNOSIS_CODE")),hDiagnosisInfo);
             }
         }catch(Exception e){
@@ -825,6 +854,41 @@ public class Diagnosis extends OC_Object{
         }
     }
 
+    public static void saveTransactionDiagnosisWithServiceAndFlags(String sCode,String sLateralisation,String sGravity,String sCertainty, String sPersonid,String sCodeType,String sType,Timestamp updateTime,String sTransactionUID, int userid,Encounter encounter,String POA, String NC,String serviceUid,String flags){
+        try{
+            if(POA==null){
+                POA="";
+            }
+            if(NC==null){
+                NC="";
+            }
+            Diagnosis objDiagnosis = new Diagnosis();
+
+            //objDiagnosis.setAuthor(user);
+            objDiagnosis.setAuthorUID(Integer.toString(userid));
+            objDiagnosis.setCertainty(Integer.parseInt(sCertainty));
+            objDiagnosis.setGravity(Integer.parseInt(sGravity));
+            objDiagnosis.setCode(sCode.substring(sCodeType.length(),sCode.length()));
+            objDiagnosis.setCodeType(sType);
+            objDiagnosis.setLateralisation(new StringBuffer(sLateralisation));
+            objDiagnosis.setDate(encounter.getBegin());
+            objDiagnosis.setCreateDateTime(ScreenHelper.getSQLTime());
+            objDiagnosis.setUpdateDateTime(ScreenHelper.getSQLTime());
+            objDiagnosis.setUpdateUser(Integer.toString(userid));
+            objDiagnosis.setReferenceType("Transaction");
+            objDiagnosis.setReferenceUID(sTransactionUID);
+            objDiagnosis.setEncounterUID(encounter.getUid());
+            objDiagnosis.setPOA(POA);
+            objDiagnosis.setNC(NC);
+            objDiagnosis.setServiceUid(serviceUid);
+            objDiagnosis.setFlags(flags);
+            MedwanQuery.getInstance().getObjectCache().putObject("diagnosis",objDiagnosis);
+            objDiagnosis.store();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public boolean existsComorbidity(String code,String codetype){
         boolean bResult=false;
         String sSelect = "SELECT * FROM OC_DIAGNOSES a WHERE OC_DIAGNOSIS_ENCOUNTERUID = ? AND OC_DIAGNOSIS_CODETYPE=? AND (OC_DIAGNOSIS_CODE like ? OR EXISTS (SELECT * FROM OC_DIAGNOSIS_GROUPS WHERE OC_DIAGNOSIS_GROUPCODE like ? AND OC_DIAGNOSIS_CODETYPE=a.OC_DIAGNOSIS_CODETYPE AND OC_DIAGNOSIS_CODE>=OC_DIAGNOSIS_CODESTART AND OC_DIAGNOSIS_CODE<=OC_DIAGNOSIS_CODEEND))";
@@ -917,4 +981,28 @@ public class Diagnosis extends OC_Object{
 		}
     	return i;
      }
+    
+	public static String getFlags(String codeType, String code, String flags){
+	    SAXReader reader = new SAXReader(false);
+	    String sDoc = MedwanQuery.getInstance().getConfigString("templateSource")+"/diagnosis.xml";
+	    try {
+	        Document document = reader.read(new URL(sDoc));
+	        Element root = document.getRootElement();
+	        Element e = root.element("flags");
+	        Iterator flagElements = e.elementIterator("flag");
+	        while(flagElements.hasNext()){
+	            Element f = (Element)flagElements.next();
+	            if (flags.indexOf(f.attributeValue("flag"))<0 &&
+	                    f.attributeValue("codetype").equalsIgnoreCase(codeType) &&
+	                    f.attributeValue("start").compareTo(code)<1 &&
+	                    f.attributeValue("end").compareTo(code)>-1){
+	                flags+=f.attributeValue("flag");
+	            }
+	        }
+	
+	    } catch (Exception e) {
+	        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+	    }
+	    return flags;
+	}
 }

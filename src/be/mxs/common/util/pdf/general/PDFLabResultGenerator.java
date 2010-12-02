@@ -164,12 +164,15 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","resultnewerthan",user.person.language)+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(since),8,90,Font.NORMAL);
         cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
         table.addCell(cell);
-        cell=createLabelCourier(" ",10,10,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        table.addCell(cell);
-        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","legenda",user.person.language),8,90,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        table.addCell(cell);
+        // Show legenda when bacteriology results available
+        if(labRequest.hasBacteriology()){
+	        cell=createLabelCourier(" ",10,10,Font.NORMAL);
+	        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	        table.addCell(cell);
+	        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","legenda",user.person.language),8,90,Font.NORMAL);
+	        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	        table.addCell(cell);
+        }
         cell=createLabelCourier(" ",10,10,Font.NORMAL);
         cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
         table.addCell(cell);
@@ -486,6 +489,9 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     	else if(id.equalsIgnoreCase("20")){
     		return MedwanQuery.getInstance().getLabel("labanalysis","imipenem",sPrintLanguage);
     	}
+    	else if("*21*22*23*24*25*26*27*28*29*30*31*32*33*".indexOf("*"+id+"*")>-1){
+    		return MedwanQuery.getInstance().getLabel("labanalysis","ab"+(Integer.parseInt(id)-20),sPrintLanguage);
+    	}
     	else {
     		return "?";
     	}
@@ -497,9 +503,14 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         table.setWidthPercentage(100);
         //Hospital logo
         //Logo
-        Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_patientcard.gif"));
-        image.scaleToFit(72*400/254,144);
-        cell = new PdfPCell(image);
+        try{
+	        Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_patientcard.gif"));
+	        image.scaleToFit(72*400/254,144);
+	        cell = new PdfPCell(image);
+        }
+        catch(Exception e){
+        	cell=emptyCell();
+        }
         cell.setBorder(Cell.NO_BORDER);
         cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
         cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);

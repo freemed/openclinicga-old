@@ -247,7 +247,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                     itemContextVO = new ItemContextVO(new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier()), "", "");
                     while (enumeration.hasMoreElements()){
                         code=(String)enumeration.nextElement();
-                        if (code.indexOf("ICPCCode")==0 || code.indexOf("GravityICPCCode")==0 || code.indexOf("CertaintyICPCCode")==0 || code.indexOf("POAICPCCode")==0 || code.indexOf("NCICPCCode")==0 || code.indexOf("ServiceICPCCode")==0){
+                        if (code.indexOf("ICPCCode")==0 || code.indexOf("GravityICPCCode")==0 || code.indexOf("CertaintyICPCCode")==0 || code.indexOf("POAICPCCode")==0 || code.indexOf("NCICPCCode")==0 || code.indexOf("ServiceICPCCode")==0 || code.indexOf("FlagsICPCCode")==0){
                             oldTransaction.getItems().add(new ItemVO(new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier()), code,(String)ICPCCodes.get(code),new Date(),itemContextVO));
                         }
                     }
@@ -256,7 +256,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                     enumeration=ICD10Codes.keys();
                     while (enumeration.hasMoreElements()){
                         code=(String)enumeration.nextElement();
-                        if (code.indexOf("ICD10Code")==0 || code.indexOf("GravityICD10Code")==0 || code.indexOf("CertaintyICD10Code")==0 || code.indexOf("POAICD10Code")==0 || code.indexOf("NCICD10Code")==0 || code.indexOf("ServiceICD10Code")==0){
+                        if (code.indexOf("ICD10Code")==0 || code.indexOf("GravityICD10Code")==0 || code.indexOf("CertaintyICD10Code")==0 || code.indexOf("POAICD10Code")==0 || code.indexOf("NCICD10Code")==0 || code.indexOf("ServiceICD10Code")==0 || code.indexOf("FlagsICD10Code")==0){
                             oldTransaction.getItems().add(new ItemVO(new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier()), code,(String)ICD10Codes.get(code),new Date(),itemContextVO));
                         }
                     }
@@ -481,7 +481,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
             code=(String)enumeration.nextElement();
             if (code.indexOf("ICPCCode")==0){
                 if(ScreenHelper.checkString((String)ICPCCodes.get("Gravity"+code)).length() > 0 && ScreenHelper.checkString((String)ICPCCodes.get("Certainty"+code)).length() > 0){
-                    Diagnosis.saveTransactionDiagnosisWithService(code,
+                    Diagnosis.saveTransactionDiagnosisWithServiceAndFlags(code,
                                                       ScreenHelper.checkString((String)ICPCCodes.get(code)),
                                                       ScreenHelper.checkString((String)ICPCCodes.get("Gravity"+code)),
                                                       ScreenHelper.checkString((String)ICPCCodes.get("Certainty"+code)),
@@ -494,7 +494,8 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                                                       encounter,
                                                       ScreenHelper.checkString((String)ICPCCodes.get("POA"+code)),
                                                       ScreenHelper.checkString((String)ICPCCodes.get("NC"+code)),
-                                                      ScreenHelper.checkString((String)ICPCCodes.get("Service"+code))
+                                                      ScreenHelper.checkString((String)ICPCCodes.get("Service"+code)),
+                                                      ScreenHelper.checkString((String)ICPCCodes.get("Flags"+code))
                     );
                 }
             }
@@ -506,7 +507,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
             code=(String)enumeration.nextElement();
             if (code.indexOf("ICD10Code")==0){
                 if(ScreenHelper.checkString((String)ICD10Codes.get("Gravity"+code)).length() > 0 && ScreenHelper.checkString((String)ICD10Codes.get("Certainty"+code)).length() > 0){
-                    Diagnosis.saveTransactionDiagnosisWithService(code,
+                    Diagnosis.saveTransactionDiagnosisWithServiceAndFlags(code,
                                                       ScreenHelper.checkString((String)ICD10Codes.get(code)),
                                                       ScreenHelper.checkString((String)ICD10Codes.get("Gravity"+code)),
                                                       ScreenHelper.checkString((String)ICD10Codes.get("Certainty"+code)),
@@ -519,7 +520,8 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                                                       encounter,
                                                       ScreenHelper.checkString((String)ICD10Codes.get("POA"+code)),
                                                       ScreenHelper.checkString((String)ICD10Codes.get("NC"+code)),
-                                                      ScreenHelper.checkString((String)ICD10Codes.get("Service"+code))
+                                                      ScreenHelper.checkString((String)ICD10Codes.get("Service"+code)),
+                                                      ScreenHelper.checkString((String)ICD10Codes.get("Flags"+code))
 
                     );
                 }

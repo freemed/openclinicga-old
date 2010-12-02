@@ -477,7 +477,7 @@ public abstract class PDFBasic {
     //--- CREATE GREY CELL ------------------------------------------------------------------------
     protected PdfPCell createGreyCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-        cell.setColspan(1);
+        cell.setColspan(colspan);
         cell.setBorder(Cell.BOX);
         cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
         cell.setHorizontalAlignment(Cell.ALIGN_CENTER);

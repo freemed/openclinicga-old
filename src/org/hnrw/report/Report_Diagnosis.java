@@ -21,10 +21,10 @@ import java.sql.Timestamp;
  * Time: 13:11:05
  * To change this template use File | Settings | File Templates.
  */
-public class Report_RFE {
-    public Vector rfes;
+public class Report_Diagnosis {
+    public Vector diagnoses;
 
-    public class RFE {
+    public class Diagnosis {
         String codeType;
         String code;
         long ageInDays;
@@ -34,6 +34,7 @@ public class Report_RFE {
         String location;
         String origin;
 		boolean counted=false;
+		boolean newcase=false;
         int duration;
 
         
@@ -130,7 +131,7 @@ public class Report_RFE {
         }
 
         public boolean isNewcase(){
-            return flags.indexOf("N")>-1;
+            return newcase;
         }
 
         public boolean checkGender(String gender){
@@ -143,7 +144,17 @@ public class Report_RFE {
 
         public boolean checkFlags(String flags){
             for(int n=0;n<flags.length();n++){
-                if(getFlags().indexOf(flags.substring(n,n+1))<0){
+            	if(flags.substring(n,n+1).equals("N")){
+                	if(!isNewcase()){
+                		return false;
+                	}
+                }
+                else if(flags.substring(n,n+1).equals("n")){
+                	if(isNewcase()){
+                		return false;
+                	}
+                }
+                else if(getFlags().indexOf(flags.substring(n,n+1))<0){
                     return false;
                 }
             }
@@ -155,25 +166,25 @@ public class Report_RFE {
         }
     }
 
-    public Vector getRfes() {
-        return rfes;
+    public Vector getDiagnoses() {
+        return diagnoses;
     }
 
-    public void setRfes(Vector rfes) {
-        this.rfes = rfes;
+    public void setDiagnoses(Vector diagnoses) {
+        this.diagnoses = diagnoses;
     }
 
-    public Report_RFE(Date begin, Date end,String encounterType){
-        rfes= new Vector();
+    public Report_Diagnosis(Date begin, Date end,String encounterType){
+        diagnoses= new Vector();
         //We zoeken alle diagnoses op voor de gevraagde periode
         PreparedStatement ps;
         ResultSet rs;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sQuery="SELECT e.OC_ENCOUNTER_ORIGIN,e.OC_ENCOUNTER_OBJECTID,e.OC_ENCOUNTER_SITUATION,r.OC_RFE_CODETYPE,r.OC_RFE_CODE,r.OC_RFE_FLAGS,r.OC_RFE_DATE,a.dateofbirth,a.gender,e.OC_ENCOUNTER_BEGINDATE,e.OC_ENCOUNTER_ENDDATE " +
-                    " from OC_RFE r, OC_ENCOUNTERS e, AdminView a" +
+            String sQuery="SELECT e.OC_ENCOUNTER_ORIGIN,e.OC_ENCOUNTER_OBJECTID,e.OC_ENCOUNTER_SITUATION,r.OC_DIAGNOSIS_NC,r.OC_DIAGNOSIS_CODETYPE,r.OC_DIAGNOSIS_CODE,r.OC_DIAGNOSIS_FLAGS,r.OC_DIAGNOSIS_DATE,a.dateofbirth,a.gender,e.OC_ENCOUNTER_BEGINDATE,e.OC_ENCOUNTER_ENDDATE " +
+                    " from OC_DIAGNOSES r, OC_ENCOUNTERS e, AdminView a" +
                     " where " +
-                    " e.OC_ENCOUNTER_OBJECTID=replace(r.OC_RFE_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND"+
+                    " e.OC_ENCOUNTER_OBJECTID=replace(r.OC_DIAGNOSIS_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND"+
                     " e.OC_ENCOUNTER_PATIENTUID="+MedwanQuery.getInstance().convert("varchar(50)","a.personid")+" AND" +
                     " (e.OC_ENCOUNTER_ENDDATE IS NULL OR e.OC_ENCOUNTER_ENDDATE >=?) AND" +
                     " e.OC_ENCOUNTER_BEGINDATE<=? AND" +
@@ -186,26 +197,27 @@ public class Report_RFE {
             rs=ps.executeQuery();
             
             while(rs.next()){
-                RFE rfe = new RFE();
-                rfe.encounterUid=rs.getInt("OC_ENCOUNTER_OBJECTID")+"";
-                rfe.location=rs.getString("OC_ENCOUNTER_SITUATION");
-                rfe.origin=rs.getString("OC_ENCOUNTER_ORIGIN");
-                if(rfe.location==null || rfe.location.length()==0){
-                    rfe.location="1";
+                Diagnosis diag = new Diagnosis();
+                diag.encounterUid=rs.getInt("OC_ENCOUNTER_OBJECTID")+"";
+                diag.location=rs.getString("OC_ENCOUNTER_SITUATION");
+                diag.origin=rs.getString("OC_ENCOUNTER_ORIGIN");
+                if(diag.location==null || diag.location.length()==0){
+                	diag.location="1";
                 }
-                rfe.code=rs.getString("OC_RFE_CODE");
-                rfe.codeType=rs.getString("OC_RFE_CODETYPE");
-                rfe.flags=rs.getString("OC_RFE_FLAGS");
-                rfe.gender=rs.getString("gender");
-                if("mf".indexOf(rfe.gender.toLowerCase())<0){
-                    rfe.gender="m";
+                diag.code=rs.getString("OC_DIAGNOSIS_CODE");
+                diag.codeType=rs.getString("OC_DIAGNOSIS_CODETYPE");
+                diag.flags=rs.getString("OC_DIAGNOSIS_FLAGS");
+                diag.gender=rs.getString("gender");
+                diag.newcase="1".equalsIgnoreCase(rs.getString("OC_DIAGNOSIS_NC"));
+                if("mf".indexOf(diag.gender.toLowerCase())<0){
+                	diag.gender="m";
                 }
-                rfe.ageInDays=6000l;
+                diag.ageInDays=6000l;
                 Date dateofbirth = rs.getDate("dateofbirth");
-                Date diagnosisdate = rs.getDate("OC_RFE_DATE");
+                Date diagnosisdate = rs.getDate("OC_DIAGNOSIS_DATE");
                 if(dateofbirth!=null && diagnosisdate!=null){
                     long t = diagnosisdate.getTime()-dateofbirth.getTime();
-                    rfe.ageInDays=t/(1000*3600*24);
+                    diag.ageInDays=t/(1000*3600*24);
                 }
                 Timestamp b=rs.getTimestamp("OC_ENCOUNTER_BEGINDATE");
                 Timestamp e=rs.getTimestamp("OC_ENCOUNTER_ENDDATE");
@@ -219,8 +231,8 @@ public class Report_RFE {
                     e=new Timestamp(end.getTime());
                 }
                 long secs = e.getTime()-b.getTime();
-                rfe.setDuration(Math.round(secs/(1000*3600*24)));
-                rfes.add(rfe);
+                diag.setDuration(Math.round(secs/(1000*3600*24)));
+                diagnoses.add(diag);
             }
             rs.close();
             ps.close();
@@ -272,7 +284,7 @@ public class Report_RFE {
         CodeRange codeRange;
 
         public CodeSegment(String segment){
-            String[] s = segment.split(":");
+        	String[] s = segment.split(":");
             setCodeType(s[0]);
             codeRange=new CodeRange(s[1]);
         }
@@ -364,18 +376,18 @@ public class Report_RFE {
     }
 
     public void reset(){
-        for(int n=0;n<getRfes().size();n++){
-            RFE rfe = (RFE)getRfes().elementAt(n);
-            rfe.setCounted(false);
+        for(int n=0;n<getDiagnoses().size();n++){
+            Diagnosis diag = (Diagnosis)getDiagnoses().elementAt(n);
+            diag.setCounted(false);
         }
     }
 
-    public Hashtable getUncountedRFEs(){
+    public Hashtable getUncountedDiagnoses(){
         Hashtable uncounted = new Hashtable();
-        for(int n=0;n<getRfes().size();n++){
-            RFE rfe = (RFE)getRfes().elementAt(n);
-            if(!rfe.isCounted()){
-                uncounted.put(rfe.getCode()+"."+rfe.getCode(),rfe);
+        for(int n=0;n<getDiagnoses().size();n++){
+            Diagnosis diag = (Diagnosis)getDiagnoses().elementAt(n);
+            if(!diag.isCounted()){
+                uncounted.put(diag.getCode()+"."+diag.getCode(),diag);
             }
         }
         return uncounted;
@@ -384,11 +396,11 @@ public class Report_RFE {
     public int count(String codes,String gender,int minageInDays,int maxAgeInDays,String flags){
         Hashtable encounters=new Hashtable();
         CodeRules codeRules = new CodeRules(codes);
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(rfe.checkGender(gender) && rfe.checkAge(minageInDays,maxAgeInDays) && rfe.checkFlags(flags) && rfe.checkCode(codeRules)){
-                rfe.setCounted(true);
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(diag.checkGender(gender) && diag.checkAge(minageInDays,maxAgeInDays) && diag.checkFlags(flags) && diag.checkCode(codeRules)){
+                diag.setCounted(true);
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -397,11 +409,11 @@ public class Report_RFE {
     public int countDuration(String codes,String gender,int minageInDays,int maxAgeInDays,String flags){
         Hashtable encounters=new Hashtable();
         CodeRules codeRules = new CodeRules(codes);
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(rfe.checkGender(gender) && rfe.checkAge(minageInDays,maxAgeInDays) && rfe.checkFlags(flags) && rfe.checkCode(codeRules)){
-                rfe.setCounted(true);
-                encounters.put(rfe.getEncounterUid(),new Integer(rfe.getDuration()));
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(diag.checkGender(gender) && diag.checkAge(minageInDays,maxAgeInDays) && diag.checkFlags(flags) && diag.checkCode(codeRules)){
+            	diag.setCounted(true);
+                encounters.put(diag.getEncounterUid(),new Integer(diag.getDuration()));
             }
         }
         Iterator durations = encounters.values().iterator();
@@ -414,10 +426,10 @@ public class Report_RFE {
 
     public int countNewCases(){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(rfe.isNewcase()){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(diag.isNewcase()){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -425,10 +437,10 @@ public class Report_RFE {
 
     public int countNewCases(String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(rfe.isNewcase() && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(diag.isNewcase() && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -436,10 +448,10 @@ public class Report_RFE {
 
     public int countGender(String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -447,10 +459,10 @@ public class Report_RFE {
 
     public int countLocations(String location){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -458,10 +470,10 @@ public class Report_RFE {
 
     public int countLocationsDifferentFrom(String location){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())==-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())==-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -469,10 +481,10 @@ public class Report_RFE {
 
     public int countLocations(String location, String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())>-1 && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())>-1 && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -480,10 +492,10 @@ public class Report_RFE {
 
     public int countLocationsDifferentFrom(String location, String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())==-1 && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())==-1 && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -491,10 +503,10 @@ public class Report_RFE {
 
     public int countLocations(String location, boolean newcase,String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())>-1 && rfe.isNewcase()==newcase && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())>-1 && diag.isNewcase()==newcase && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -502,10 +514,10 @@ public class Report_RFE {
 
     public int countLocationsDifferentFrom(String location, boolean newcase,String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())==-1 && rfe.isNewcase()==newcase && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())==-1 && diag.isNewcase()==newcase && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -513,10 +525,10 @@ public class Report_RFE {
 
     public int countOrigins(String origin, boolean newcase,String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(origin.toLowerCase().indexOf(rfe.getOrigin().toLowerCase())>-1 && rfe.isNewcase()==newcase && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(origin.toLowerCase().indexOf(diag.getOrigin().toLowerCase())>-1 && diag.isNewcase()==newcase && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -524,10 +536,10 @@ public class Report_RFE {
 
     public int countOriginsDifferentFrom(String origin, boolean newcase,String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(origin.toLowerCase().indexOf(rfe.getOrigin().toLowerCase())==-1 && rfe.isNewcase()==newcase && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(origin.toLowerCase().indexOf(diag.getOrigin().toLowerCase())==-1 && diag.isNewcase()==newcase && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -535,10 +547,10 @@ public class Report_RFE {
 
     public int countLocationOrigins(String location, String origin, boolean newcase,String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())>-1 && origin.toLowerCase().indexOf(rfe.getOrigin().toLowerCase())>-1 && rfe.isNewcase()==newcase && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())>-1 && origin.toLowerCase().indexOf(diag.getOrigin().toLowerCase())>-1 && diag.isNewcase()==newcase && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -546,10 +558,10 @@ public class Report_RFE {
 
     public int countLocationDifferentFromOrigins(String location, String origin, boolean newcase,String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())==-1 && origin.toLowerCase().indexOf(rfe.getOrigin().toLowerCase())>-1 && rfe.isNewcase()==newcase && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())==-1 && origin.toLowerCase().indexOf(diag.getOrigin().toLowerCase())>-1 && diag.isNewcase()==newcase && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -557,10 +569,10 @@ public class Report_RFE {
 
     public int countLocationDifferentFromOriginsDifferentFrom(String location, String origin, boolean newcase,String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(location.toLowerCase().indexOf(rfe.getLocation().toLowerCase())==-1 && origin.toLowerCase().indexOf(rfe.getOrigin().toLowerCase())==-1 && rfe.isNewcase()==newcase && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(location.toLowerCase().indexOf(diag.getLocation().toLowerCase())==-1 && origin.toLowerCase().indexOf(diag.getOrigin().toLowerCase())==-1 && diag.isNewcase()==newcase && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -568,10 +580,10 @@ public class Report_RFE {
 
     public int countOldCases(){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(!rfe.isNewcase()){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(!diag.isNewcase()){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
@@ -579,10 +591,10 @@ public class Report_RFE {
 
     public int countOldCases(String gender){
         Hashtable encounters=new Hashtable();
-        for(int n=0;n<rfes.size();n++){
-            RFE rfe = (RFE)rfes.elementAt(n);
-            if(!rfe.isNewcase()  && gender.toLowerCase().indexOf(rfe.getGender().toLowerCase())>-1){
-                encounters.put(rfe.getEncounterUid(),"1");
+        for(int n=0;n<diagnoses.size();n++){
+            Diagnosis diag = (Diagnosis)diagnoses.elementAt(n);
+            if(!diag.isNewcase()  && gender.toLowerCase().indexOf(diag.getGender().toLowerCase())>-1){
+                encounters.put(diag.getEncounterUid(),"1");
             }
         }
         return encounters.size();
