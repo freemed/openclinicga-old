@@ -280,7 +280,6 @@
     function checkSave(sAction){
         if(formComplete()){
             var today = new Date();
-
             var url= path + '/system/manageTranslationsStore.jsp?ts=' + today;
             new Ajax.Request(url,{
                     method: "POST",

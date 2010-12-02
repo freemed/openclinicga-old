@@ -12,7 +12,8 @@
     StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
     while (tokenizer.hasMoreTokens()) {
         tmpLang = tokenizer.nextToken();
-        hTranslations.put(tmpLang.toUpperCase(),checkString(request.getParameter("EditLabelValue"+tmpLang.toUpperCase())).replaceAll("<BR>","\n"));
+        String val=checkString(request.getParameter("EditLabelValue"+tmpLang.toUpperCase())).replaceAll("<BR>","\n").replaceAll("<PLUS>","+");
+        hTranslations.put(tmpLang.toUpperCase(),val);
     }
 
     String sAction = checkString(request.getParameter("Action"));
