@@ -17,7 +17,7 @@
             code = (String) enumeration.nextElement();
             if (code.indexOf("ICPCCode") == 0) {
                 if (ScreenHelper.checkString((String) ICPCCodes.get("Gravity" + code)).length() > 0 && ScreenHelper.checkString((String) ICPCCodes.get("Certainty" + code)).length() > 0) {
-                    Diagnosis.saveTransactionDiagnosisWithService(code,
+                    Diagnosis.saveTransactionDiagnosisWithServiceAndFlags(code,
                             ScreenHelper.checkString((String) ICPCCodes.get(code)),
                             ScreenHelper.checkString((String) ICPCCodes.get("Gravity" + code)),
                             ScreenHelper.checkString((String) ICPCCodes.get("Certainty" + code)),
@@ -30,7 +30,8 @@
                             encounter,
                             ScreenHelper.checkString((String) ICPCCodes.get("POA" + code)),
                             ScreenHelper.checkString((String) ICPCCodes.get("NC" + code)),
-                            ScreenHelper.checkString((String) ICPCCodes.get("Service" + code))
+                            ScreenHelper.checkString((String) ICPCCodes.get("Service" + code)),
+                            ScreenHelper.checkString((String) ICPCCodes.get("Flags" + code))
                     );
                 }
             }
@@ -42,7 +43,7 @@
             code = (String) enumeration.nextElement();
             if (code.indexOf("ICD10Code") == 0) {
                 if (ScreenHelper.checkString((String) ICD10Codes.get("Gravity" + code)).length() > 0 && ScreenHelper.checkString((String) ICD10Codes.get("Certainty" + code)).length() > 0) {
-                    Diagnosis.saveTransactionDiagnosisWithService(code,
+                    Diagnosis.saveTransactionDiagnosisWithServiceAndFlags(code,
                             ScreenHelper.checkString((String) ICD10Codes.get(code)),
                             ScreenHelper.checkString((String) ICD10Codes.get("Gravity" + code)),
                             ScreenHelper.checkString((String) ICD10Codes.get("Certainty" + code)),
@@ -55,7 +56,8 @@
                             encounter,
                             ScreenHelper.checkString((String) ICD10Codes.get("POA" + code)),
                             ScreenHelper.checkString((String) ICD10Codes.get("NC" + code)),
-                            ScreenHelper.checkString((String) ICD10Codes.get("Service" + code))
+                            ScreenHelper.checkString((String) ICD10Codes.get("Service" + code)),
+                            ScreenHelper.checkString((String) ICD10Codes.get("Flags" + code))
                     );
                 }
             }
@@ -188,6 +190,7 @@
                     "<input type='hidden' name='POA" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getPOA() + "'/>" +
                     "<input type='hidden' name='NC" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getNC() + "'/>" +
                     "<input type='hidden' name='Service" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getServiceUid() + "'/>" +
+                    "<input type='hidden' name='Flags" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getFlags() + "'/>" +
                     "" + diagnosis.getCodeType().toUpperCase() + " " + diagnosis.getCode() + " " + MedwanQuery.getInstance().getDiagnosisLabel(diagnosis.getCodeType(), diagnosis.getCode(), sWebLanguage) + " [" + diagnosis.getLateralisation() + "] (" + getTranNoLink("medical.diagnosis.certainty", diagnosis.getCertainty() + "", sWebLanguage) + "," + getTranNoLink("medical.diagnosis.gravity", diagnosis.getGravity() + "", sWebLanguage) + ")"+(diagnosis.getPOA().length()>0?" POA":"")+(diagnosis.getNC().length()>0?" NC":"")+"<br/></span>";
         }
 
