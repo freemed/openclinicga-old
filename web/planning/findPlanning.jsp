@@ -102,7 +102,7 @@ var clientMsg = new ClientMsg("");
       <%=(activePatient!=null)?writeTabBegin("patient"):""%>
     <%=(activePatient!=null)?writeTabEnd():""%>
    <%=writeTabBegin("service")%>
-    <%ScreenHelper.setIncludePage(customerInclude("healthrecord/globalReferenceSummary.jsp"), pageContext);%>
+    <%//ScreenHelper.setIncludePage(customerInclude("healthrecord/globalReferenceSummary.jsp"), pageContext);%>
     <%=writeTabEnd()%>
     <%=writeTabBegin("missedAppointments")%>
     <%ScreenHelper.setIncludePage(customerInclude("planning/missedAppointments.jsp"),pageContext);%>
