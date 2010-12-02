@@ -1,0 +1,48 @@
+<rfe>
+    <flags>
+        <!--Malaria-->
+        <flag codetype="icd10" start="B50" end="B64.9" flag="DSMA"/>
+        <flag codetype="icpc" start="A7300" end="A7300" flag="DSMA"/>
+        <!--Diahrrée-->
+        <flag codetype="icpc" start="D1100" end="D1199" flag="BHRXYZ"/>
+        <!--Tuberculose-->
+        <flag codetype="icpc" start="A7000" end="A7099" flag="K"/>
+        <flag codetype="icd10" start="A15" end="A19.9" flag="K"/>
+        <flag codetype="icd10" start="B90" end="B90.9" flag="K"/>
+        <flag codetype="icd10" start="J65" end="J65" flag="K"/>
+        <flag codetype="icd10" start="M01.1" end="M01.1" flag="K"/>
+        <flag codetype="icd10" start="M49.0" end="M49.0" flag="K"/>
+        <flag codetype="icd10" start="M90.0" end="M90.0" flag="K"/>
+        <flag codetype="icd10" start="O98.0" end="O98.0" flag="K"/>
+        <flag codetype="icd10" start="P37.0" end="P37.0" flag="K"/>
+        <!--HIV-->
+        <flag codetype="icd10" start="B20" end="B24.9" flag="L"/>
+        <!--Fractures-->
+        <flag codetype="icd10" start="M80" end="M81.0" flag="O"/>
+        <flag codetype="icd10" start="M84" end="M84.4" flag="O"/>
+        <flag codetype="icd10" start="M90.7" end="M90.7" flag="O"/>
+        <flag codetype="icd10" start="M96.6" end="M96.6" flag="O"/>
+        <flag codetype="icd10" start="P13.0" end="P13.0" flag="O"/>
+        <flag codetype="icd10" start="P13.4" end="P13.4" flag="O"/>
+        <flag codetype="icd10" start="S02" end="S02.9" flag="O"/>
+        <flag codetype="icd10" start="S12" end="S12.9" flag="O"/>
+        <flag codetype="icd10" start="S22" end="S22.9" flag="O"/>
+        <flag codetype="icd10" start="S32" end="S32.9" flag="O"/>
+        <flag codetype="icd10" start="S42" end="S42.9" flag="O"/>
+        <flag codetype="icd10" start="S52" end="S52.9" flag="O"/>
+        <flag codetype="icd10" start="S62" end="S62.9" flag="O"/>
+        <flag codetype="icd10" start="S72" end="S72.9" flag="O"/>
+        <flag codetype="icd10" start="S82" end="S82.9" flag="O"/>
+        <flag codetype="icd10" start="S92" end="S92.9" flag="O"/>
+        <flag codetype="icd10" start="T02" end="T02.9" flag="O"/>
+        <flag codetype="icd10" start="T08" end="T08" flag="O"/>
+        <flag codetype="icd10" start="T10" end="T10" flag="O"/>
+        <flag codetype="icd10" start="T12" end="T12" flag="O"/>
+        <flag codetype="icd10" start="T14.2" end="T14.2" flag="O"/>
+        <flag codetype="icd10" start="T90" end="T90" flag="O"/>
+        <flag codetype="icd10" start="T91.1" end="T91.2" flag="O"/>
+        <flag codetype="icd10" start="T92.1" end="T92.2" flag="O"/>
+        <flag codetype="icd10" start="T93.1" end="T93.2" flag="O"/>
+        <flag codetype="icpc" start="L7200" end="L7699" flag="O"/>
+    </flags>
+</rfe>

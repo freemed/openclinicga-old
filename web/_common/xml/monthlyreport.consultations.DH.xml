@@ -1,6 +1,6 @@
 <report>
     <consultations>
-        <rfe fr="Paludisme simple présumé" en="Malaria, presumed" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="Nc">
+        <rfe fr="Paludisme simple" en="Malaria, uncomplicated" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -18,7 +18,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NcE">
+        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="E">
             <case/>
             <case/>
             <case/>
@@ -36,7 +36,7 @@
             <case/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Paludisme simple confirmé" en="Malaria, presumed" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NC">
+        <rfe fr="Paludisme simple avec troubles mineurs" en="Malaria, with mild complications" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="D">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -54,7 +54,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NCE">
+        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="ED">
             <case/>
             <case/>
             <case/>
@@ -72,7 +72,7 @@
             <case/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Paludisme simple présumé avec troubles digestifs mineurs" en="Malaria, with mild digestive problems" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NcD">
+        <rfe fr="Paludisme grave" en="Malaria, severe" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="SC">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -90,7 +90,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NcED">
+        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="SCE">
             <case/>
             <case/>
             <case/>
@@ -108,7 +108,7 @@
             <case/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Paludisme simple confirmé avec troubles digestifs mineurs" en="Malaria, presumed" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NCD">
+        <rfe fr="Borréliose confirmée" en="Confirmed Lyme disease" codes="ICD10:A69.2,M01.2" flags="C">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -126,25 +126,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      dont femmes enceintes" en="      from whom pregnant women" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="NCEmD">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="IAVRS" en="AIURS" codes="ICD10:B00.2,B08.5,J00,J02.8,J02.9,J06.0,J06.8,J06.9,J10.1,J10.8,J11.1,J11.8,J03.8,J03.9,J36,H60.0-H60.9,H62.0-H62.4,H62.8,H66.0,H66.4,H66.9,H67.0,H67.1,H70.0,H73.0,H65.0-H65.4,H65.9,B26.8,B26.9;ICPC:R7400,R8000,R7600,H7000,H7100,H7200,D7100" flags="N">
+        <rfe fr="IAVRS" en="AIURS" codes="ICD10:B00.2,B08.5,J00,J02.8,J02.9,J06.0,J06.8,J06.9,J10.1,J10.8,J11.1,J11.8,J03.8,J03.9,J36,H60.0-H60.9,H62.0-H62.4,H62.8,H66.0,H66.4,H66.9,H67.0,H67.1,H70.0,H73.0,H65.0-H65.4,H65.9,B26.8,B26.9;ICPC:R7400,R8000,R7600,H7000,H7100,H7200,D7100" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -162,7 +144,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      Syndrome grippal" en="      Influenza" codes="ICD10:J10.1,J10.8,J11.1,J11.8;ICPC:R8000" flags="N">
+        <rfe fr="Pneumonie" en="Pneumonia" codes="ICD10:A48.1,J10.0,J11.0,J12-J12.9,J13,J14,J15-J15.9,J16.0,J16.8,J17.0-J17.3,J17.8,J18.0-J18.2,J18.8,J18.9;ICPC:R8100" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -180,7 +162,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      Angine" en="      Angina" codes="ICD10:J03.8,J03.9,J36;ICPC:R7600" flags="N">
+        <rfe fr="Asthme" en="Asthma" codes="ICD10:J44-J44.9" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -198,7 +180,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      Otites" en="      Otitis" codes="ICD10:H60.0-H60.9,H62.0-H62.4,H62.8,H66.0,H66.4,H66.9,H67.0,H67.1,H70.0,H73.0,H65.0-H65.4,H65.9;ICPC:H7000,H7100,H7200" flags="N">
+        <rfe fr="Angine" en="Angina" codes="ICD10:J03.8,J03.9,J36;ICPC:R7600" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -216,7 +198,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      Oreillons" en="      Mumps" codes="ICD10:B26.8,B26.9;ICPC:D7100" flags="N">
+        <rfe fr="Autres IAVRI" en="Other AILRA" codes="ICD10:A36-A36.9,B44.7,B44.9,J05.1,J31.0-J31.2,J37.0,J37.1,J85.0-J85.3,J86.0,J86.9;ICPC:R8300" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -234,7 +216,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Pneumonie" en="Pneumonia" codes="ICD10:A48.1,J10.0,J11.0,J12-J12.9,J13,J14,J15-J15.9,J16.0,J16.8,J17.0-J17.3,J17.8,J18.0-J18.2,J18.8,J18.9;ICPC:R8100" flags="N">
+        <rfe fr="Diarrhée non sanglante (aigue)" en="Diarrhoea without blood (acute)" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="br">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -252,7 +234,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Coqueluche" en="Whooping cough" codes="ICD10:A37-A37.9;ICPC:R7100" flags="N">
+        <rfe fr="      dont avec déshydratation" en="      of whom with deshydration" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="brH">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -270,7 +252,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Autres infections aigues des VRI" en="Other acute infections of the URA" codes="ICD10:A36-A36.9,B44.7,B44.9,J05.1,J31.0-J31.2,J37.0,J37.1,J85.0-J85.3,J86.0,J86.9;ICPC:R8300" flags="N">
+        <rfe fr="Diarrhée sanglante" en="Diarrhoea with blood (acute)" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="Br">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -288,7 +270,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Affections bucco-dentaires" en="Teeth/gum disease" codes="ICD10:K00-K01.1,K02-K10.9;ICPC:D8200" flags="N">
+        <rfe fr="      dont dysenterie bacillaire" en="      of whom bacillary dysenteria" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="BrX">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -306,7 +288,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Conjonctivite (bactérienne ou allergique)" en="Conjunctivitis (bacterial or allergic)" codes="ICD10:B30.3,B30.9,H10-H10.9,H13-H13.3,H13.8;ICPC:F7000,F7100" flags="N">
+        <rfe fr="      dont dysenterie amibienne" en="      of whom amoebic dysenteria" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="BrY">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -324,7 +306,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Traumatisme oculaire" en="Ocular trauma" codes="ICD10:S04.0,S04.1,S04.4" flags="N">
+        <rfe fr="      dont shigellose" en="      of whom shigellosis" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="BrZ">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -342,7 +324,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Cataracte" en="Cataract" codes="ICD10:H25-H26.9,H28-H28.8;ICPC:F9200" flags="N">
+        <rfe fr="Autre parasitoses intestinales" en="Other Intestinal parasitosis" codes="ICD10:B82-B82.9" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -360,7 +342,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Autres affections oculaires" en="Other ocular diseases" codes="ICD10:H02.0,H02.1,H04-H06.3,H11-H11.9,H15-H15.9,H17-H18.9,H27-H27.9,H31-H31.9,H34-H35.9,H43-H48.8,H53.0,H53.4-H53.6,H53.8,H54.5,57.0,H57.8,H58.0,H58.1,H58.8;ICPC:F9900" flags="N">
+        <rfe fr="Bilharziose intestinale" en="Intestinal bilharziosis" codes="ICD10:B65" flags="I">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -378,7 +360,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Avitaminose A" en="Avitaminosis A" codes="ICD10:E50-E50.9" flags="N">
+        <rfe fr="Bilharziose urinaire" en="Urinary bilharziosis" codes="ICD10:B65" flags="U">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -396,7 +378,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Diarrhée non sanglante (aigue)" en="Diarrhoea without blood (acute)" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="Nbr">
+        <rfe fr="Affections cutanées" en="Skin disorders" codes="ICPC:S-S9999" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -414,7 +396,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Diarrhée sanglante" en="Diarrhoea with blood (acute)" codes="ICD10:K52.9,K59.1;ICPC:D1100" flags="NBr">
+        <rfe fr="Fractures" en="Fractures" codes="ICD10:M80-M80.9,M81,M84.0-M84.4,M90.7,M96.6,P13.0,P13.4,S02-S02.9,S12-S12.9,S22-S22.9,S32-S32.8,S42-S42.9,S52-S52.9,S62-S62.9,S72-S72.9,S82-S82.9,S92-S92.9,T02-T02.9,T08,T10,T12,T14.2,T90,T91.1,T91.2,T92.1,T92.2,T93.1,T93.2;ICPC:L72-L7699" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -432,7 +414,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Parasitose intestinale" en="Intestinal parasitosis" codes="ICD10:B82-B82.9" flags="N">
+        <rfe fr="Autres traumatismes physiques" en="Other physical trauma" codes="ICD10:H26.1,H40.3,I62-I62.9,I69.2,K06.2,M12.5,M16.4,M16.5,M17.2,M17.3,M18.2,M18.3,M19.1,M48.3,M61.0,M87.2,N35.0,O71-O71.9,P10-P15.9,S06.1,S06.5,S06.6,S08-S08.9,S09.2,S13.0,S18,S23.0,S27-S27.2,S28,S28.1,S33.0,S33.4,S38-S38.3,S48-S48.9,S53.2,S53.3,S58-S58.9,S63.3,S63.4,S68-S68.9,S78-S78.9,S88-S88.9,S98-S98.4,T05-T05.9,T09.6,T11.6,T13.6,T14.7,T70.0,T70.1,T79-T79.9,T92.6,T93.6,T98.2;ICPC:A80-A8299,B7600,H8500,L7901,L9702,N80-N8099,S1100" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -450,205 +432,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Gastrite (douleurs épigastriques ou épigastralgies" en="Gastritis (epigastric pain or epigastralgia)" codes="ICD10:R10.1,K29-K29.9;ICPC:D0200" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Affections cutanées" en="Skin disorders" codes="ICPC:S-S9999" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Abcès" en="Abcedation" codes="ICD10:A06.4-AO6.6,A54.0,A54.1,B43-B43.2,D73.3,E32.1,G06-G06.2,G07,H60.0,J43,J39.0,J39.1J85-J85.3,K04.6,K04.7,K11.3,K12.2,K35.1,K57-K57.9,K61-K61.4,K63.0,K75.0,L02-L02.9,L05.0,L05.9,M65.0,M71.0,N15.1,N34.0,N41.2,N45.0,N45.9,N75.1,N76.4,O91.1;ICPC:D9500,R7300" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Plaie infectée" en="Infected wound" codes="ICD10:T79.3;ICPC:S1100" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Traumatismes physiques" en="Physical trauma" codes="ICD10:F07.2,H40.3,H83.3,K06.2,M23.2,M24.2,M87.2,O08.6,O71-O71.9,P00.5,P10-P15.9,S06.0,S06.2,S07.0,S07.9,S08.0,S11-S11.9,S14.0-S14.1,S15-S15.7,S21-S21.9,S23.1,S24.0,S25-S25.8,S26.0,S26.8-S26.9,S27-S27.9,S33.1,S34.0,S35-S35.9,S37.9,S38.0-S38.1,S38.3,S39.0,S39.6-S39.9,S45-S45.9,S55.0-S55.2,S55.7,S65-S65.7,S75.0-S75.2,S75.7,S75.9,S85-S85.9,S95.0-S95.2,S95.7,S95.9,T09-T09.9,T14.5,T14.7-T14.9,T28.4,T70.0-T70.1,T79-T79.9,T90-T94.1,T95-T96,T97,T98.0-T98.3;ICPC:A8000-A8200,H7900,H8500,L8000,N7900,N8000-N8100,W7500,X8200,Y8000" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Douleurs articulaires" en="Paain in joint" codes="ICD10:M25.5" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Malnutrition protéino-calorique" en="Protein-energy malnutrition" codes="ICD10:E40,E41,E42,E43,E44.0-E44.1,E45,E46" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Kwashiorkor" en="      Kwashiorkor" codes="ICD10:E40" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Marasme" en="      Marasmus" codes="ICD10:E41" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Kwashiorkor+marasme" en="      Kwashiorkor+marasmus" codes="ICD10:E42" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Tétanos néonatal" en="Neonatal tetanus" codes="ICD10:A33;ICPC:N7200" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Tétanos" en="Tetanus" codes="ICD10:A33;ICPC:N7200" flags="N">
+        <rfe fr="Caries dentaire" en="Dental caries" codes="ICD10:K02-K02.9" flags="">
             <case/>
             <case/>
             <case minage="30" maxage="364" gender="M"/>
@@ -666,7 +450,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Paralysie flasque aigue" en="Acute flaccid paraplegia" codes="ICD10:G81.0,G82.0,G82.3" flags="N">
+        <rfe fr="Gingivite" en="Gingivitis" codes="ICD10:B00.2,K05-K05.1,K06-K06.2;ICPC:D8201" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -684,7 +468,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Malformations congénitales" en="Congenital malformations" codes="ICD10:Q00.0,Q03.0,Q04-Q04.0,Q04.8-Q04.9,Q06,Q06.3,Q06.8-Q06.9,Q07-Q07.0,Q07.8-Q07.9,Q10,Q10.3,Q10.6-Q10.7,Q12,Q12.8-Q12.9,Q13,Q13.2,Q13.4,Q13.8-Q13.9,Q14-Q14.3,Q14.8-Q14.9,Q15,Q15.8-Q15.9,Q16,Q16.3-Q16.5,Q16.9,Q17,Q17.8-Q17.9,Q18,Q18.2,Q18.8-Q18.9,Q20,Q20.8-Q20.9,Q21-Q21.1,Q21.8-Q21.9,Q22,Q22.2-Q22.3,Q22.8-Q22.9,Q23,Q23.4,Q23.8-Q23.9,Q24,Q24.5,Q24.8-Q24.9,Q25,Q25.4,Q25.7-Q25.9,Q26,Q26.8-Q26.9,Q27,Q27.2-Q27.3,Q27.8-Q27.9,Q28-Q28.3,Q28.8-Q28.9,Q30,Q30.8-Q30.9,Q31,Q31.8-Q31.9,Q32,Q32.1,Q32.4,Q33,Q33.6,Q33.8-Q33.9,Q34,Q34.8-Q34.9,Q38-Q38.0,Q38.3-Q38.8,Q39,Q39.8-Q39.9,Q40,Q40.2-Q40.3,Q40.8-Q40.9,Q43,Q43.3,Q43.8-Q43.9,Q44,Q44.1,Q44.5,Q44.7Q45,Q45.3,Q45.8-Q45.9,Q50,Q50.3,Q50.6,Q51,Q51.8-Q51.9,Q52,Q52.4,Q52.6-Q52.9,Q55,Q55.2,Q55.4,Q55.6,Q55.8-Q55.9,Q62,Q62.8,Q63,Q63.8-Q63.9,Q64,Q64.4,Q64.7-Q64.9,Q65.8-Q65.9,Q66.8-Q66.9,Q67.5,Q67.8Q68.0-Q68.1,Q68.8,Q72.9,Q73.8,Q74-Q74.2,Q74.8-Q74.9,Q75,Q75.8-Q75.9,Q76,Q76.3-Q76.9,Q79,Q79.1,Q79.5,Q79.8-Q79.9,Q82,Q82.8-Q82.9,Q83,Q83.8-Q83.9,Q84,Q84.2,Q84.6,Q84.8-Q84.9,Q89-Q89.2,Q89.7-Q89.9" flags="N">
+        <rfe fr="Paradontopathie" en="Paradontopathia" codes="ICD10:K05.2-K05.6,K08-K08.9" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -702,7 +486,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Diabète" en="Diabetes" codes="ICD10:E10-E14.9,N08.3,O24-O24.9,P70.2;ICPC:T8900,T9000,W8500" flags="N">
+        <rfe fr="Malformations congénitales (bec de lièvre)" en="Congenital malformations" codes="ICD10:Q00.0,Q03.0,Q04-Q04.0,Q04.8-Q04.9,Q06,Q06.3,Q06.8-Q06.9,Q07-Q07.0,Q07.8-Q07.9,Q10,Q10.3,Q10.6-Q10.7,Q12,Q12.8-Q12.9,Q13,Q13.2,Q13.4,Q13.8-Q13.9,Q14-Q14.3,Q14.8-Q14.9,Q15,Q15.8-Q15.9,Q16,Q16.3-Q16.5,Q16.9,Q17,Q17.8-Q17.9,Q18,Q18.2,Q18.8-Q18.9,Q20,Q20.8-Q20.9,Q21-Q21.1,Q21.8-Q21.9,Q22,Q22.2-Q22.3,Q22.8-Q22.9,Q23,Q23.4,Q23.8-Q23.9,Q24,Q24.5,Q24.8-Q24.9,Q25,Q25.4,Q25.7-Q25.9,Q26,Q26.8-Q26.9,Q27,Q27.2-Q27.3,Q27.8-Q27.9,Q28-Q28.3,Q28.8-Q28.9,Q30,Q30.8-Q30.9,Q31,Q31.8-Q31.9,Q32,Q32.1,Q32.4,Q33,Q33.6,Q33.8-Q33.9,Q34,Q34.8-Q34.9,Q38-Q38.0,Q38.3-Q38.8,Q39,Q39.8-Q39.9,Q40,Q40.2-Q40.3,Q40.8-Q40.9,Q43,Q43.3,Q43.8-Q43.9,Q44,Q44.1,Q44.5,Q44.7Q45,Q45.3,Q45.8-Q45.9,Q50,Q50.3,Q50.6,Q51,Q51.8-Q51.9,Q52,Q52.4,Q52.6-Q52.9,Q55,Q55.2,Q55.4,Q55.6,Q55.8-Q55.9,Q62,Q62.8,Q63,Q63.8-Q63.9,Q64,Q64.4,Q64.7-Q64.9,Q65.8-Q65.9,Q66.8-Q66.9,Q67.5,Q67.8Q68.0-Q68.1,Q68.8,Q72.9,Q73.8,Q74-Q74.2,Q74.8-Q74.9,Q75,Q75.8-Q75.9,Q76,Q76.3-Q76.9,Q79,Q79.1,Q79.5,Q79.8-Q79.9,Q82,Q82.8-Q82.9,Q83,Q83.8-Q83.9,Q84,Q84.2,Q84.6,Q84.8-Q84.9,Q89-Q89.2,Q89.7-Q89.9" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -720,7 +504,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Hypertension artérielle" en="Arterial hypertension" codes="ICD10:I10,I11.0,I11.9,I12.0,I12.9,I13.0-I13.2,I13.9,I15-I15.2,I15.8-I15.9,I27.0,I67.4,K76.6,O10-O10.4,O10.9,O11,O12,O13,O14,O14.9,O15.0,O16,P29.2;ICPC:K8500,K8600,K8700" flags="N">
+        <rfe fr="Autres affections bucco-dentaires" en="Other teeth/gum disease" codes="ICD10:K00-K01.1,K03-K4.9,K06.3-K7.9,K09-K10.9;ICPC:D8200" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -738,7 +522,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Infections urinaires" en="Urinairy infections" codes="ICD10:A54.0-A54.2,A56.0-A56.2,A60.0,A65.0,N30-N30.9,N39.0,O23,O23.3-O23.4,O23.9,O86.2-O86.3,P39.3,T83.5;ICPC:U7100" flags="N">
+        <rfe fr="Diabète" en="Diabetes" codes="ICD10:E10-E14.9,N08.3,O24-O24.9,P70.2;ICPC:T8900,T9000,W8500" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -756,7 +540,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Tuberculose BK+" en="Tuberculosis BK+" codes="ICD10:A15-A19.9,B90-B90.9,J65,M01.1,M49.0,M90.0,O98.0,P37.0;ICPC:A7000" flags="NC">
+        <rfe fr="Hypertension artérielle" en="Arterial hypertension" codes="ICD10:I10,I11.0,I11.9,I12.0,I12.9,I13.0-I13.2,I13.9,I15-I15.2,I15.8-I15.9,I27.0,I67.4,K76.6,O10-O10.4,O10.9,O11,O12,O13,O14,O14.9,O15.0,O16,P29.2;ICPC:K8500,K8600,K8700" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -774,7 +558,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Lèpre" en="Lepra" codes="ICD10:A30-A30.9" flags="N">
+        <rfe fr="Insuffisance cardiaque" en="Heart failure" codes="ICD10:I05.1,I05.2,I06.1,I06.2,I07.1,I07.2,I11.0,I11.9,I13.0,I13.2,I50-I50.9" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -792,97 +576,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Ecoulement uréthral" en="Urethral discharge" codes="ICD10:R36;ICPC:Y0300" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case/>
-        </rfe>
-        <rfe fr="Ecoulement vaginal" en="Vaginal discharge" codes="ICPC:X1400" flags="N">
-            <case/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Ulcération génitale" en="Genital ulceration" codes="ICD10:A57" flags="N">
-            <case/>
-            <case/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Conjonctivite du nouveau né" en="Newborn conjunctivitis" codes="ICD10:P39.1" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Tuméfaction du scrotum" en="Scrotal tumefaction" codes="ICD10:C63.2,D29.2,D29.4;ICPC:Y7900" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case/>
-        </rfe>
-        <rfe fr="Bubon inguinal" en="Granuloma inguinale" codes="ICD10:A58" flags="N">
+        <rfe fr="Autres maladies cardiovasculaires" en="Other cardio-vascular disease" codes="ICD10:I00-I05.0,I05.3-I06.0,I06.3-I07.0,I07.3-I09.9,I14-I14.9,I16-I27,I27.1-I49.9,I51-I99.9" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -900,43 +594,25 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Herpes génital femme" en="Genital herpes women" codes="ICD10:A60-A60.1,A60.9;ICPC:X9000" flags="N">
+        <rfe fr="Goitre" en="Goitre" codes="ICD10:E01.0-E01.2,E03.0,E04-E05.2,E07.1,P72.0;ICPC:T8100" flags="">
             <case/>
-            <case minage="0" maxage="29" gender="F"/>
             <case/>
-            <case minage="30" maxage="364" gender="F"/>
             <case/>
-            <case minage="365" maxage="1824" gender="F"/>
             <case/>
-            <case minage="1825" maxage="5474" gender="F"/>
             <case/>
-            <case minage="5475" maxage="9124" gender="F"/>
             <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
             <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Herpes génital homme" en="Genital herpes man" codes="ICD10:A60-A60.1,A60.9;ICPC:X9000" flags="N">
-            <case minage="0" maxage="29" gender="M"/>
-            <case/>
-            <case minage="30" maxage="364" gender="M"/>
-            <case/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case/>
-            <case minage="1825" maxage="5474" gender="M"/>
             <case/>
             <case minage="5475" maxage="9124" gender="M"/>
-            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
             <case minage="9125" maxage="18249" gender="M"/>
-            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
             <case minage="18250" maxage="50000" gender="M"/>
-            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
             <case minage="0" maxage="50000" gender="M"/>
-            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Syphilis confirmé" en="Confirmed syphilis" codes="ICD10:A50-A53.9,A65;ICPC:X7000,Y7000" flags="NC">
+        <rfe fr="Abdomen aigu" en="Acute abdomen" codes="ICD10:R10.0,K65-K65.9" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -954,7 +630,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Autres IST" en="Other STD" codes="ICD10:A54-A56.8,A59-A59.9,A63-A64.9;ICPC:X7000,Y7000" flags="N">
+        <rfe fr="Autres affections abdominales chirurgicales" en="Other abdominal surgical disorders" codes="ICD10:S30-S31.8,S35-S39.9,K35-K51.9,K55-K56.7,K60-K64.9,K66-K67.8;ICPC:D9100-D91003" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -972,7 +648,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Diarrhées chroniques" en="Chronic diarrhoea" codes="ICD10:A54-A56.8,A59-A59.9,A63-A64.9;ICPC:X7000,Y7000" flags="NR">
+        <rfe fr="Hépatites" en="Hepatitis" codes="ICD10:B15-B19.9,B25.1,B58.1,B94.2,K70.1,K71.2-K71.6,K73-K73.9,K75.2-K75.4,O98.4,P35.3,Z22.5;ICPC:D7200-D7204" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -990,7 +666,25 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Fièvre prolongée" en="Chronic fever" codes="ICD10:A01-A01.0,A25,A68-A68.1,A68.9,A77-A77.3,A77.8-A77.9,A78,A79.0,A88.0,A92-A96.9,A99,R50-R50.9;ICPC:A0300" flags="N">
+        <rfe fr="Cirrhose hépatique" en="Hepatic cirrhosis" codes="ICD10:K70.0,K70.3,K71.7,K74,K74.3-K74.6" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Autres affections hépatiques" en="Other hepatic disorders" codes="ICD10:A06.4,C22-C22.9,C78.7,D01.5,D13.4,D37.6,K70,K70.2,K70.9,K71-K71.1,K71.3-K71.6,K71.8-K71.9,K75-K76.9,P15.0,Q44,Q44.6,Q44.7,R93.2,S36.1,T86.4,Z94.4;ICPC:D9700" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1008,7 +702,43 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Candidose bucco pharyngée" en="Bucco-pharyngeal candidiasis" codes="ICD10:B37.0" flags="N">
+        <rfe fr="Gastrite" en="Gastritis" codes="ICD10:R10.1,K29-K29.9;ICPC:D0200" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Ulcère gastro-duodénal" en="Gastro-duodenal ulcer" codes="ICD10:K25-K28.9;ICPC:D8500,D8600-D8601" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Kwashiorkor" en="Kwashiorkor" codes="ICD10:E40" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1026,7 +756,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Toux chronique" en="Chronic cough" codes="ICD10:R05;ICPC:R0500" flags="NR">
+        <rfe fr="Marasme" en="Marasmus" codes="ICD10:E41" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1044,7 +774,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Céphalées rebelles aux antalgiques" en="Headache persistant to pain killers" codes="ICPC:N0100" flags="NR">
+        <rfe fr="Kwashiorkor marasmique" en="Marasmic kwashiorkor" codes="ICD10:E42" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1062,7 +792,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Zona" en="Zona" codes="ICD10:B02-B02.9;ICPC:S7000" flags="N">
+        <rfe fr="Tuberculose pulmonaire BK+" en="Lung tuberculosis BK+" codes="ICD10:A15-A16.9" flags="K">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1080,7 +810,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Dermatose généralisée" en="Generalised dermatosis" codes="ICPC:S0700" flags="N">
+        <rfe fr="Tuberculose pulmonaire BK-" en="Lung tuberculosis BK-" codes="ICD10:A15-A16.9" flags="k">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1098,7 +828,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="SIDA" en="AIDS" codes="ICD10:B20-B24.9;ICPC:B9000" flags="N">
+        <rfe fr="Tuberculose extra pulmonaire" en="Tuberculosis other than lung-" codes="ICD10:A17-A19.9,B90-B90.9,J65,M01.1,M49.0,M90.0,O98.0,P37.0" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1116,187 +846,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Affections gynéco obstétriques" en="Gynaecologic and obstetrical disorders" codes="ICD10:C50-C58.9,N61-099.9;ICPC:W-W9999,X-X9999" flags="N">
-            <case/>
-            <case minage="0" maxage="29" gender="F"/>
-            <case/>
-            <case minage="30" maxage="364" gender="F"/>
-            <case/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Métrorragie" en="      Irregular menstruation" codes="ICD10:N92-N92.9;ICPC:X0600,X0700" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Troubles de la grossesse" en="      Pregnancy disorders" codes="ICD10:O-O99.9;ICPC:W-W9999" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Avortement" en="      Abortion" codes="ICD10:N96,O03-O06.9,O08-O08.9;ICPC:W8200,W8300" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Menace d'accouchement prématuré" en="      Threatened abortion" codes="ICD10:020.0" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Infections du post partum" en="      Post partum infections" codes="ICD10:086.1-O86.2;ICPC:W7000" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="      Autres affections" en="      Other disorders" codes="ICD10:C50-C58.9,N61-N91.9,N93-N95.9,N96.1-N99.9;ICPC:X-X0599,X0701-X9999" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Epilepsie" en="Epilepsy" codes="ICD10:G40-G41.9;ICPC:N8800" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Etat de stress post-traumatique" en="Post traumatic stress syndrome" codes="ICD10:F43-F43.9;ICPC:P8200" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Troubles psychiatriques" en="Psychiatric disorders" codes="ICD10:F-F99.9;ICPC:P-P2999,P7000-P9999" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Troubles neurologiques" en="Neurologic disorders" codes="ICD10:G-G99.9;ICPC:N-N2999,N7000-N9999" flags="N">
+        <rfe fr="Syndrome néphrotique" en="Nephrotic syndrome" codes="ICD10:N04-N04.9;ICPC:U8800" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1314,43 +864,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Troubles psychosomatiques" en="Psychosomatic disorders" codes="ICD10:F45-F45.9;ICPC:P7500" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Troubles psychologiques divers" en="Other psychologic disorders" codes="ICD10:F06.0,F07.9,F48.0-F48.1,F48.8-F48.9,F50.4-F50.5,F50.8-F50.9,F52.2,F53.9,F54,F59,F63.3,F66,F68.0-F68.1,F84-F84.9,F88,F89,F93.2,F98.8-F98.9,F99,R44-R46.9;ICPC:P9900,Z1200,Z1600" flags="N">
-            <case/>
-            <case/>
-            <case/>
-            <case/>
-            <case minage="365" maxage="1824" gender="M"/>
-            <case minage="365" maxage="1824" gender="F"/>
-            <case minage="1825" maxage="5474" gender="M"/>
-            <case minage="1825" maxage="5474" gender="F"/>
-            <case minage="5475" maxage="9124" gender="M"/>
-            <case minage="5475" maxage="9124" gender="F"/>
-            <case minage="9125" maxage="18249" gender="M"/>
-            <case minage="9125" maxage="18249" gender="F"/>
-            <case minage="18250" maxage="50000" gender="M"/>
-            <case minage="18250" maxage="50000" gender="F"/>
-            <case minage="0" maxage="50000" gender="M"/>
-            <case minage="0" maxage="50000" gender="F"/>
-        </rfe>
-        <rfe fr="Trypanosomiase" en="Trypanosomiasis" codes="ICD10:B56-B56.9" flags="N">
+        <rfe fr="Autres maladies de l'appareil urinaire" en="Other urinary disorders" codes="ICD10:A54-A54.2,A56-A56.2,A60.0,A65.0,B90.1,C68,C68.8,C68.9,C79.1,D09.1,D30,D30.7,D30.9,D41,D41.7,D41.9,E71.0,N00-N03.9,N05-N39.9,N99-N99.9,O23-O23.9,P0P39.3,Q51.7,Q64,Q64.8,Q64.9,R32,R33,R39,R39.0,R39.8,R82,R82.5-R82.9,R93.4,T19,T19.8,T19.9,T28.3,T28.8,T83-T83.9,Y84.6,Z46.6Z90.6,Z93.6;ICPC:U0000-U8799,U8900-U9999" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1368,7 +882,61 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Rage" en="Rabies" codes="ICD10:A82-A82.9" flags="N">
+        <rfe fr="Affections de la prostate" en="Prostatic disorders" codes="ICD10:C61,D07.5,D29.1,D40.0,N40,N41-N42.9,N51.0,Q55.4,;ICPC:Y0600,Y7300,Y7700,Y8500" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case/>
+        </rfe>
+        <rfe fr="Ecoulement uréthral" en="Urethral discharge" codes="ICD10:R36;ICPC:Y0300" flags="">
+            <case/>
+            <case/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case/>
+        </rfe>
+        <rfe fr="Ecoulement vaginal" en="Vaginal discharge" codes="ICPC:X1400" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Ulcération génitale" en="Genital ulceration" codes="ICD10:A57" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1386,7 +954,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Méningite" en="Meningitis" codes="ICD10:A32.1,A83-A87.9,B00.3-B00.4,B01.0,B02.1,B05.1,B26.1,B37.5,B38.4,G00-G05.9,G96.1;ICPC:N7100" flags="N">
+        <rfe fr="Syphilis confirmé" en="Confirmed syphilis" codes="ICD10:A50-A53.9,A65;ICPC:X7000,Y7000" flags="C">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1404,7 +972,43 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Rougeole" en="Measles" codes="ICD10:B05-B05.9;ICPC:A7100" flags="N">
+        <rfe fr="Douleurs abdominales pelviennes" en="Pelvic abdominal pain" codes="ICD10:N73,N73.3-N73.5,N73.9-N74.8,R10,R10.2;ICPC:X7400,X7401" flags="">
+            <case/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Tuméfaction du scrotum" en="Scrotal tumefaction" codes="ICD10:C63.2,D29.2,D29.4;ICPC:Y7900" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case/>
+        </rfe>
+        <rfe fr="Bubon inguinal" en="Granuloma inguinale" codes="ICD10:A58" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1422,7 +1026,61 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="      dont non vaccinés" en="      without vaccination" codes="ICD10:B05-B05.9;ICPC:A7100" flags="Nv">
+        <rfe fr="Conjonctivite du nouveau né" en="Newborn conjunctivitis" codes="ICD10:P39.1" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Herpes génital femme" en="Genital herpes women" codes="ICD10:A60-A60.1,A60.9;ICPC:X9000" flags="">
+            <case/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Herpes génital homme" en="Genital herpes man" codes="ICD10:A60-A60.1,A60.9;ICPC:X9000" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case/>
+        </rfe>
+        <rfe fr="Diarrhées chroniques" en="Chronic diarrhoea" codes="ICD10:A54-A56.8,A59-A59.9,A63-A64.9;ICPC:X7000,Y7000" flags="R">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1440,7 +1098,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Fièvre jaune" en="Yellow fever" codes="ICD10:A95-A95.9" flags="N">
+        <rfe fr="Fièvre prolongée &gt; 1 mois" en="Chronic fever &gt; 1 month" codes="ICD10:A01-A01.0,A25,A68-A68.1,A68.9,A77-A77.3,A77.8-A77.9,A78,A79.0,A88.0,A92-A96.9,A99,R50-R50.9;ICPC:A0300" flags="R">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1458,7 +1116,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Fièvre hémorragique virale" en="Haemorragic fever" codes="ICD10:A91,A96-A96.9,A98-A98.9,A99" flags="N">
+        <rfe fr="Candidose bucco pharyngée" en="Bucco-pharyngeal candidiasis" codes="ICD10:B37.0" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1476,7 +1134,7 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Typhus" en="Typhus" codes="ICD10:A75-A75.9" flags="N">
+        <rfe fr="Pneumonies à pneumocystis carinii" en="Pneumocystis carinii pneumonia" codes="ICD10:B20.6,B59" flags="">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>
@@ -1494,7 +1152,889 @@
             <case minage="0" maxage="50000" gender="M"/>
             <case minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Peste" en="Pest" codes="ICD10:A20-A20.9" flags="N">
+        <rfe fr="Pathologies cutanées liés au VIH" en="Cutaneous lesions due to HIV" codes="ICD10:B20-B24.9;ICPC:B9000-B9002" flags="M">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Lymphadénopathies chroniques" en="Chronic lymphadenopathia" codes="ICD10:I88-I89.9" flags="R">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Sarcoma de Kaposi" en="Kaposi sarcoma" codes="ICD10:C46-C46.9,B21.0" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Méningite à cryptocoques" en="Cryptococcus meningitis" codes="ICD10:B45-B45.9" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="SIDA" en="AIDS" codes="ICD10:B20-B24.9;ICPC:B9000" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Affections gynéco obstétriques" en="Gynaecologic and obstetrical disorders" codes="ICD10:C50-C58.9,N61-099.9;ICPC:W-W9999,X-X9999" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Hémorrhagie sur grossesse" en="Pregnancy complicated by hemorrhage" codes="ICD10:O44.1,O46-O46.9,O67-O67.9" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Menace d'accouchement prématuré" en="Threatened abortion" codes="ICD10:020.0" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Avortement" en="Abortion" codes="ICD10:N96,O03-O06.9,O08-O08.9;ICPC:W8200,W8300" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Stérilité" en="Infertility" codes="ICD10:N46,N97-N97.9;ICPC:W1500,Y1000" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Epilepsie" en="Epilepsy" codes="ICD10:G40-G41.9;ICPC:N8800" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Etat de stress post-traumatique" en="Post traumatic stress syndrome" codes="ICD10:F43-F43.9;ICPC:P8200" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Troubles psychiatriques" en="Psychiatric disorders" codes="ICD10:F-F99.9;ICPC:P-P2999,P7000-P9999" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Troubles neurologiques" en="Neurologic disorders" codes="ICD10:G-G99.9;ICPC:N-N2999,N7000-N9999" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Troubles psychosomatiques" en="Psychosomatic disorders" codes="ICD10:F45-F45.9;ICPC:P7500" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Troubles psychologiques divers" en="Other psychologic disorders" codes="ICD10:F06.0,F07.9,F48.0-F48.1,F48.8-F48.9,F50.4-F50.5,F50.8-F50.9,F52.2,F53.9,F54,F59,F63.3,F66,F68.0-F68.1,F84-F84.9,F88,F89,F93.2,F98.8-F98.9,F99,R44-R46.9;ICPC:P9900,Z1200,Z1600" flags="">
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Violences sexuelles" en="Sexual violence" codes="ICD10:T74.2,Y05" flags="">
+            <case/>
+            <case/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Cataracte" en="Cataract" codes="ICD10:H25-H26.9,H28-H28.8;ICPC:F9200" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Trachomes" en="Trachoma" codes="ICD10:A71-A71.9,B94.0;ICPC:F8600" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Ectropion" en="Ectropion" codes="ICD10:H02.1,Q10.1" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Entropion" en="Entropion" codes="ICD10:H02.0" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Avitaminose A" en="Avitaminosis A" codes="ICD10:E50-E50.9" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Conjonctivite allergique" en="Allergic conjunctivitis" codes="ICD10:H10.1;ICPC:F7100,F7101" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Conjonctivite bactérienne" en="Bacterial conjunctivitis" codes="ICD10:B30.3,B30.9,H10,H10.2-H10.9,H13-H13.3,H13.8;ICPC:F7000,F7001" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Traumatisme oculaire" en="Ocular trauma" codes="ICD10:S00.1,S00.1,S01.1,S04.0,S04.1,S04.4,S05-S05.6,T26.0-T26.7" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Glaucome" en="Glaucoma" codes="ICD10:H40-H40.9,H42,H42.0,H42.8,Q15.0;ICPC:F9300-F9304" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Ulcère de la cornée" en="Corneal ulcer" codes="ICD10:H16.0;ICPC:F8500" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Autres affections oculaires" en="Other ocular diseases" codes="ICD10:H01.0-H9.9,H11-H11.9,H15-H15.9,H17-H18.9,H27-H27.9,H31-H31.9,H34-H35.9,H43-H48.8,H53.0,H53.4-H53.6,H53.8,H54.5,57.0,H57.8,H58.0,H58.1,H58.8;ICPC:F7200-F7203,F9900" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Otite" en="Otitis" codes="ICD10:H60.0-H60.9,H62.0-H62.4,H62.8,H66.0,H66.4,H66.9,H67.0,H67.1,H70.0,H73.0,H65.0-H65.4,H65.9;ICPC:H7000,H7100,H7200" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Atres affection de l'oreille" en="Other ear disorders" codes="ICD10:C30.1,C43.2,C44.2,D02,D03.2,D04.2,D14,D14.0,D22.2,D23.2,D38,H00-H59.9,H67.2-H69.9,H70.1-H72.9,H73.1-H64.9,H66-H99.9,M95.1,Q16-Q17.9,S00.4,S01.3,S08.1,T16,T70.0;ICPC:H0000-H6900,H7300-H9900" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Lèpre" en="Lepra" codes="ICD10:A30-A30.9" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Trypanosomiase" en="Trypanosomiasis" codes="ICD10:B56-B56.9" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Affections articulaires" en="Joint disorders" codes="ICD10:M00-M99.9,S12-S13.9,S40-S43.9,S62-S63.9,S72-S73.9,S82-S83.9,S92-S93.9,T02-T03.9;ICPC:K7100-K7102,L2000,L2800,L2900,L7100-L7102,L7900,L7901,L8100-L8102,L8200-L8204,L9700-L9704,L9900-L9911" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Coqueluche" en="Whooping cough" codes="ICD10:A37-A37.9;ICPC:R7100" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Peste" en="Pest" codes="ICD10:A20-A20.9" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Typhus" en="Typhus" codes="ICD10:A75-A75.9" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Rage" en="Rabies" codes="ICD10:A82-A82.9" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Fièvre jaune" en="Yellow fever" codes="ICD10:A95-A95.9" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Tétanos néonatal &lt; 28j" en="Neonatal tetanus &lt; 28d" codes="ICD10:A33;ICPC:N7200" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Tétanos" en="Tetanus" codes="ICD10:A33;ICPC:N7200" flags="">
+            <case/>
+            <case/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Paralysie flasque aigue" en="Acute flaccid paraplegia" codes="ICD10:G81.0,G82.0,G82.3" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Fièvre hémorragique virale" en="Haemorragic fever" codes="ICD10:A91,A96-A96.9,A98-A98.9,A99" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Rougeole" en="Measles" codes="ICD10:B05-B05.9;ICPC:A7100" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont non vaccinés" en="      without vaccination" codes="ICD10:B05-B05.9;ICPC:A7100" flags="v">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Méningite bactérienne" en="Bacterial meningitis" codes="ICD10:A20.3,A32.1,A39.0,G00-G01;ICPC:N7101" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="Documents médico-légaux" en="Medico-legal documents" codes="ICD10:Z02.7" flags="">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont attestation d'aptitude physique" en="      of whom physical fitness certificates" codes="ICD10:Z02.7" flags="A">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont attestation de naissance" en="      of whom birth certificates" codes="ICD10:Z02.7" flags="F">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont autopsie / certificat de décès" en="      of whom autopsy / death certificate" codes="ICD10:Z02.7" flags="G">
+            <case minage="0" maxage="29" gender="M"/>
+            <case minage="0" maxage="29" gender="F"/>
+            <case minage="30" maxage="364" gender="M"/>
+            <case minage="30" maxage="364" gender="F"/>
+            <case minage="365" maxage="1824" gender="M"/>
+            <case minage="365" maxage="1824" gender="F"/>
+            <case minage="1825" maxage="5474" gender="M"/>
+            <case minage="1825" maxage="5474" gender="F"/>
+            <case minage="5475" maxage="9124" gender="M"/>
+            <case minage="5475" maxage="9124" gender="F"/>
+            <case minage="9125" maxage="18249" gender="M"/>
+            <case minage="9125" maxage="18249" gender="F"/>
+            <case minage="18250" maxage="50000" gender="M"/>
+            <case minage="18250" maxage="50000" gender="F"/>
+            <case minage="0" maxage="50000" gender="M"/>
+            <case minage="0" maxage="50000" gender="F"/>
+        </rfe>
+        <rfe fr="      dont repos médical et certificat de consolidation" en="      of whom rest for medical reasons" codes="ICD10:Z02.7" flags="J">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case minage="30" maxage="364" gender="M"/>

@@ -1,5 +1,6 @@
 <%@ page import="java.util.Vector" %>
 <%@ page import="be.mxs.common.util.system.HTMLEntities" %>
+<%@ page import="be.openclinic.medical.ReasonForEncounter" %>
 <%@ page import="be.openclinic.medical.Diagnosis" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%
@@ -9,6 +10,7 @@
     String sValue = checkString(request.getParameter("Value"));
     String sLabel = checkString(request.getParameter("Label"));
     String sType = checkString(request.getParameter("Type"));
+    String flags = Diagnosis.getFlags(sType,sCode,"");
     String sPatientUid = checkString(request.getParameter("patientuid"));
     if(sPatientUid.length()==0 && activePatient!=null){
     	sPatientUid=activePatient.personid;
@@ -41,6 +43,7 @@
                     Vector alternatives = MedwanQuery.getInstance().getAlternativeDiagnosisCodes(sType,sFindCode);
                     if(alternatives.size()==1){
                         out.print(alternatives.elementAt(0)+" "+MedwanQuery.getInstance().getDiagnosisLabel(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(0),sWebLanguage));
+                        flags=Diagnosis.getFlags(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(0),flags);
                         out.print("<input type='hidden' id='alternativeCode' name='alternativeCode' value='"+alternatives.elementAt(0)+"'/>");
                         out.print("<input type='hidden' name='alternativeCodeLabel' value='"+MedwanQuery.getInstance().getDiagnosisLabel(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(0),sWebLanguage)+"'/>");
                     }
@@ -49,6 +52,7 @@
 						out.print("<option vlaue=''></option>");
                         for(int n=0;n<alternatives.size();n++){
                             out.print("<option onclick='setGravity(this.value);' value='"+alternatives.elementAt(n)+"'>"+alternatives.elementAt(n)+" "+ScreenHelper.left(MedwanQuery.getInstance().getDiagnosisLabel(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(n),sWebLanguage),80)+"</option>");
+                            flags=Diagnosis.getFlags(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(n),flags);
                         }
                         out.print("</select>");
                         out.print("<input type='hidden' name='alternativeCodeLabel' value='"+MedwanQuery.getInstance().getDiagnosisLabel(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(0),sWebLanguage)+"'/>");
@@ -119,6 +123,189 @@
                 </table>
             </td>
         </tr>
+        <%
+	        if(flags.indexOf("A")>-1){
+        %>
+            <!-- digestif -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","anemia",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="anemia" id="anemia" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="anemia" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+	        if(flags.indexOf("B")>-1){
+        %>
+            <!-- bloody -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","bloody",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="bloody" id="bloody" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="bloody" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("C")>-1){
+        %>
+            <!-- confirmed -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","confirmed",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="confirmed" id="confirmed" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="confirmed" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+	        if(flags.indexOf("D")>-1){
+        %>
+            <!-- digestif -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","digestive.problems",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="digestive" id="digestive" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="digestive" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+			AdminPerson thePatient = AdminPerson.getAdminPerson(sPatientUid);
+	        if(flags.indexOf("E")>-1 && thePatient!=null && !thePatient.gender.equalsIgnoreCase("m") && thePatient.getAge()>14 && activePatient.getAge()<50){
+        %>
+            <!-- pregnant -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","pregnant",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="pregnant" id="pregnant" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="pregnant" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("H")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","deshydration",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="deshydration" id="deshydration" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="deshydration" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("K")>-1){
+        %>
+            <!-- bloody -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","bkplus",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="bkplus" id="bkplus" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="bkplus" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("L")>-1){
+        %>
+            <!-- bloody -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","cutaneous",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="cutaneous" id="cutaneous" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="cutaneous" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+	        if(flags.indexOf("M")>-1){
+        %>
+            <!-- pregnant -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","neurologic",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="neurologic" id="neurologic" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="neurologic" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("O")>-1){
+        %>
+            <!-- chronic -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","open",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="open" id="open" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="open" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("R")>-1){
+        %>
+            <!-- chronic -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","chronic",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="chronic" id="chronic" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="chronic" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("S")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","severe",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="severe" id="severe" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="severe" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("X")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","bacillaire",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="bacillaire" id="bacillaire" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="bacillaire" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("Y")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","amibienne",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="amibienne" id="amibienne" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="amibienne" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("Z")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","shigellosis",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="shigellosis" id="shigellosis" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="shigellosis" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+        %>
         <!-- transfer to problem list -->
         <tr>
             <td class="admin"><%=HTMLEntities.htmlentities(getTran("medical.diagnosis","transfer.problemlist",sWebLanguage))%></td>
@@ -247,12 +434,133 @@
             NCComment="N";
         }
         serviceUid=document.getElementById("serviceUid").value;
+        var flags="";
+        if(document.getElementById('anemia')){
+            if(document.getElementById('anemia').checked){
+	            flags+="A";
+	        }
+	        else {
+	            flags+="a";
+	        }
+        }
+        if(document.getElementById('bloody')){
+            if(document.getElementById('bloody').checked){
+	            flags+="B";
+	        }
+	        else {
+	            flags+="b";
+	        }
+        }
+        if(document.getElementById('confirmed')){
+            if(document.getElementById('confirmed').checked){
+	            flags+="C";
+	        }
+	        else {
+	            flags+="c";
+	        }
+        }
+        if(document.getElementById('digestive')){
+            if(document.getElementById('digestive').checked){
+	            flags+="D";
+	        }
+	        else {
+	            flags+="d";
+	        }
+        }
+        if(document.getElementById('pregnant')){
+            if(document.getElementById('pregnant').checked){
+	            flags+="E";
+	        }
+	        else {
+	            flags+="e";
+	        }
+        }
+        if(document.getElementById('deshydration')){
+            if(document.getElementById('deshydration').checked){
+	            flags+="H";
+	        }
+	        else {
+	            flags+="h";
+	        }
+        }
+        if(document.getElementById('bkplus')){
+            if(document.getElementById('bkplus').checked){
+	            flags+="K";
+	        }
+	        else {
+	            flags+="k";
+	        }
+        }
+        if(document.getElementById('cutaneous')){
+            if(document.getElementById('cutaneous').checked){
+	            flags+="L";
+	        }
+	        else {
+	            flags+="l";
+	        }
+        }
+        if(document.getElementById('neurologic')){
+            if(document.getElementById('neurologic').checked){
+	            flags+="M";
+	        }
+	        else {
+	            flags+="m";
+	        }
+        }
+        if(document.getElementById('open')){
+            if(document.getElementById('open').checked){
+	            flags+="O";
+	        }
+	        else {
+	            flags+="o";
+	        }
+        }
+        if(document.getElementById('chronic')){
+            if(document.getElementById('chronic').checked){
+	            flags+="R";
+	        }
+	        else {
+	            flags+="r";
+	        }
+        }
+        if(document.getElementById('severe')){
+            if(document.getElementById('severe').checked){
+	            flags+="S";
+	        }
+	        else {
+	            flags+="s";
+	        }
+        }
+        if(document.getElementById('bacillaire')){
+            if(document.getElementById('bacillaire').checked){
+	            flags+="X";
+	        }
+	        else {
+	            flags+="x";
+	        }
+        }
+        if(document.getElementById('amibienne')){
+            if(document.getElementById('amibienne').checked){
+	            flags+="Y";
+	        }
+	        else {
+	            flags+="y";
+	        }
+        }
+        if(document.getElementById('shigellosis')){
+            if(document.getElementById('shigellosis').checked){
+	            flags+="Z";
+	        }
+	        else {
+	            flags+="Z";
+	        }
+        }
         if("<%=sType%>" == "ICPC"){
-            varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICPC<%=sCode%>'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC<%=sCode%>\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode<%=sCode%>' value=\"<%=sValue%>  "   + "\"/><input type='hidden' name='GravityICPCCode<%=sCode%>' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICPCCode<%=sCode%>' value=\"" + certainty + "\"/><input type='hidden' name='POAICPCCode<%=sCode%>' value=\"" + POA + "\"/><input type='hidden' name='NCICPCCode<%=sCode%>' value=\"" + NC + "\"/><input type='hidden' name='ServiceICPCCode<%=sCode%>' value=\"" + serviceUid + "\"/><i><b>ICPC</b></i> <%=sCode%>&nbsp;<%=sLabel%>&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+"<br/></span>";
-            if(document.all['alternativeCode']) varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICD10"+document.all['alternativeCode'].value+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10"+document.all['alternativeCode'].value+"\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+document.all['alternativeCode'].value+"' value=\"<%=sValue%>  " + "\"/><input type='hidden' name='GravityICD10Code"+document.all['alternativeCode'].value+"' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICD10Code"+document.all['alternativeCode'].value+"' value=\"" + certainty + "\"/><input type='hidden' name='POAICD10Code"+document.all['alternativeCode'].value+"' value=\"" + POA + "\"/><input type='hidden' name='NCICD10Code"+document.all['alternativeCode'].value+"' value=\"" + NC + "\"/><input type='hidden' name='ServiceICD10Code"+document.all['alternativeCode'].value+"' value=\"" + serviceUid + "\"/><i><b>ICD10</b></i> "+document.all['alternativeCode'].value+"&nbsp;"+document.all['alternativeCodeLabel'].value+"&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
+            varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICPC<%=sCode%>'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC<%=sCode%>\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode<%=sCode%>' value=\"<%=sValue%>  "   + "\"/><input type='hidden' name='GravityICPCCode<%=sCode%>' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICPCCode<%=sCode%>' value=\"" + certainty + "\"/><input type='hidden' name='POAICPCCode<%=sCode%>' value=\"" + POA + "\"/><input type='hidden' name='NCICPCCode<%=sCode%>' value=\"" + NC + "\"/><input type='hidden' name='ServiceICPCCode<%=sCode%>' value=\"" + serviceUid + "\"/><input type='hidden' name='FlagsICPCCode<%=sCode%>' value=\"" + flags + "\"/><i><b>ICPC</b></i> <%=sCode%>&nbsp;<%=sLabel%>&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ " " + flags+"<br/></span>";
+            if(document.all['alternativeCode']) varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICD10"+document.all['alternativeCode'].value+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10"+document.all['alternativeCode'].value+"\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+document.all['alternativeCode'].value+"' value=\"<%=sValue%>  " + "\"/><input type='hidden' name='GravityICD10Code"+document.all['alternativeCode'].value+"' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICD10Code"+document.all['alternativeCode'].value+"' value=\"" + certainty + "\"/><input type='hidden' name='POAICD10Code"+document.all['alternativeCode'].value+"' value=\"" + POA + "\"/><input type='hidden' name='NCICD10Code"+document.all['alternativeCode'].value+"' value=\"" + NC + "\"/><input type='hidden' name='ServiceICD10Code"+document.all['alternativeCode'].value+"' value=\"" + serviceUid + "\"/><input type='hidden' name='FlagsICD10Code"+document.all['alternativeCode'].value+"' value=\"" + flags + "\"/><i><b>ICD10</b></i> "+document.all['alternativeCode'].value+"&nbsp;"+document.all['alternativeCodeLabel'].value+"&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ " " + flags+"<br/></span>";
         }else if("<%=sType%>" == "ICD10"){
-            varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICD10<%=sCode%>'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10<%=sCode%>\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code<%=sCode%>' value=\"<%=sValue%>  " + "\"/><input type='hidden' name='GravityICD10Code<%=sCode%>' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICD10Code<%=sCode%>' value=\"" + certainty + "\"/><input type='hidden' name='POAICD10Code<%=sCode%>' value=\"" + POA + "\"/><input type='hidden' name='NCICD10Code<%=sCode%>' value=\"" + NC + "\"/><input type='hidden' name='ServiceICD10Code<%=sCode%>' value=\"" + serviceUid + "\"/><i><b>ICD10</b></i> <%=sCode%>&nbsp;<%=sLabel%>&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
-            if(document.all['alternativeCode']) varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICPC"+document.all['alternativeCode'].value+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC"+document.all['alternativeCode'].value+"\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode"+document.all['alternativeCode'].value+"' value=\"<%=sValue%>  "  + "\"/><input type='hidden' name='GravityICPCCode"+document.all['alternativeCode'].value+"' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICPCCode"+document.all['alternativeCode'].value+"' value=\"" + certainty + "\"/><input type='hidden' name='POAICPCCode"+document.all['alternativeCode'].value+"' value=\"" + POA + "\"/><input type='hidden' name='ServiceICPCCode"+document.all['alternativeCode'].value+"' value=\"" + serviceUid + "\"/><i><b>ICPC</b></i> "+document.all['alternativeCode'].value+"&nbsp;"+document.all['alternativeCodeLabel'].value+"&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ "<br/></span>";
+            varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICD10<%=sCode%>'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10<%=sCode%>\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code<%=sCode%>' value=\"<%=sValue%>  " + "\"/><input type='hidden' name='GravityICD10Code<%=sCode%>' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICD10Code<%=sCode%>' value=\"" + certainty + "\"/><input type='hidden' name='POAICD10Code<%=sCode%>' value=\"" + POA + "\"/><input type='hidden' name='NCICD10Code<%=sCode%>' value=\"" + NC + "\"/><input type='hidden' name='ServiceICD10Code<%=sCode%>' value=\"" + serviceUid + "\"/><input type='hidden' name='FlagsICD10Code<%=sCode%>' value=\"" + flags + "\"/><i><b>ICD10</b></i> <%=sCode%>&nbsp;<%=sLabel%>&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ " " + flags+"<br/></span>";
+            if(document.all['alternativeCode']) varOpener.document.getElementById('<%=sReturnField%>').innerHTML+= "<span id='ICPC"+document.all['alternativeCode'].value+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC"+document.all['alternativeCode'].value+"\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode"+document.all['alternativeCode'].value+"' value=\"<%=sValue%>  "  + "\"/><input type='hidden' name='GravityICPCCode"+document.all['alternativeCode'].value+"' value=\"" + gravity + "\"/><input type='hidden' name='CertaintyICPCCode"+document.all['alternativeCode'].value+"' value=\"" + certainty + "\"/><input type='hidden' name='POAICPCCode"+document.all['alternativeCode'].value+"' value=\"" + POA + "\"/><input type='hidden' name='ServiceICPCCode"+document.all['alternativeCode'].value+"' value=\"" + serviceUid + "\"/><input type='hidden' name='FlagsICPCCode"+document.all['alternativeCode'].value+"' value=\"" + flags + "\"/><i><b>ICPC</b></i> "+document.all['alternativeCode'].value+"&nbsp;"+document.all['alternativeCodeLabel'].value+"&nbsp;<%=sValue%>  " + varAddon + " "+POAComment+ " "+NCComment+ " " + flags+"<br/></span>";
         }
         if(diagnoseInfoForm.DiagnosisTransferToProblemlist.checked){
             window.open("<c:url value='/'/>_common/search/transferToProblemlist.jsp?codetype=<%=sType%>&code=<%=sCode%>&certainty="+certainty+"&gravity="+gravity+"&patientuid=<%=sPatientUid%>");

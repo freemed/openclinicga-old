@@ -1,19 +1,19 @@
 <rfe>
     <flags>
         <!--Malaria-->
-        <flag codetype="icd10" start="B50" end="B64.9" flag="CDE"/>
+        <flag codetype="icd10" start="B50" end="B64.9" flag="CDES"/>
         <!--Diahrrée-->
-        <flag codetype="icpc" start="D1100" end="D1199" flag="BR"/>
+        <flag codetype="icpc" start="D1100" end="D1199" flag="BRHXYZ"/>
         <!--Tuberculose-->
-        <flag codetype="icpc" start="A7000" end="A7099" flag="C"/>
-        <flag codetype="icd10" start="A15" end="A19.9" flag="C"/>
-        <flag codetype="icd10" start="B90" end="B90.9" flag="C"/>
-        <flag codetype="icd10" start="J65" end="J65" flag="C"/>
-        <flag codetype="icd10" start="M01.1" end="M01.1" flag="C"/>
-        <flag codetype="icd10" start="M49.0" end="M49.0" flag="C"/>
-        <flag codetype="icd10" start="M90.0" end="M90.0" flag="C"/>
-        <flag codetype="icd10" start="O98.0" end="O98.0" flag="C"/>
-        <flag codetype="icd10" start="P37.0" end="P37.0" flag="C"/>
+        <flag codetype="icpc" start="A7000" end="A7099" flag="K"/>
+        <flag codetype="icd10" start="A15" end="A19.9" flag="K"/>
+        <flag codetype="icd10" start="B90" end="B90.9" flag="K"/>
+        <flag codetype="icd10" start="J65" end="J65" flag="K"/>
+        <flag codetype="icd10" start="M01.1" end="M01.1" flag="K"/>
+        <flag codetype="icd10" start="M49.0" end="M49.0" flag="K"/>
+        <flag codetype="icd10" start="M90.0" end="M90.0" flag="K"/>
+        <flag codetype="icd10" start="O98.0" end="O98.0" flag="K"/>
+        <flag codetype="icd10" start="P37.0" end="P37.0" flag="K"/>
         <!--Syphillis-->
         <flag codetype="icpc" start="X7000" end="X7000" flag="C"/>
         <flag codetype="icpc" start="Y7000" end="Y7000" flag="C"/>
@@ -26,5 +26,13 @@
         <!--Rougeole-->
         <flag codetype="icpc" start="A7100" end="A7199" flag="V"/>
         <flag codetype="icd10" start="B05" end="B05.9" flag="V"/>
+        <!--Bilharziosis-->
+        <flag codetype="icd10" start="B65" end="B65" flag="IU"/>
+        <!--HIV-->
+        <flag codetype="icd10" start="B20" end="B24.9" flag="M"/>
+        <!--Lymphadénopathie chronique-->
+        <flag codetype="icd10" start="I88" end="I89.9" flag="R"/>
+        <!--Documents médico-légaux-->
+        <flag codetype="icd10" start="Z02.7" end="Z02.7" flag="AFGJ"/>
     </flags>
 </rfe>

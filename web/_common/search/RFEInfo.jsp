@@ -6,6 +6,10 @@
     String sLabel = checkString(request.getParameter("Label"));
     String sType = checkString(request.getParameter("Type"));
     String flags = ReasonForEncounter.getFlags(sType,sCode);
+    String sPatientUid = checkString(request.getParameter("patientuid"));
+    if(sPatientUid.length()==0 && activePatient!=null){
+    	sPatientUid=activePatient.personid;
+    }
 %>
 <form name="RFEInfoForm" id="RFEInfoForm" action="" method="">
     <%=writeTableHeader("Web","diagnosegravityandcertainty",sWebLanguage,"")%>
@@ -53,7 +57,7 @@
         %>
             <!-- confirmed -->
             <tr>
-                <td class="admin"><%=getTran("medical.diagnosis","confirmed",sWebLanguage)%> *</td>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","confirmed",sWebLanguage)%> *</td>
                 <td class="admin2">
                     <input type="radio" name="confirmed" id="confirmed" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
                     <input type="radio" name="confirmed" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
@@ -65,7 +69,7 @@
         %>
             <!-- digestif -->
             <tr>
-                <td class="admin"><%=getTran("medical.diagnosis","digestive.problems",sWebLanguage)%> *</td>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","digestive.problems",sWebLanguage)%> *</td>
                 <td class="admin2">
                     <input type="radio" name="digestive" id="digestive" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
                     <input type="radio" name="digestive" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
@@ -73,26 +77,15 @@
             </tr>
         <%
             }
-            if(flags.indexOf("E")>-1 && !activePatient.gender.equalsIgnoreCase("m") && activePatient.getAge()>14 && activePatient.getAge()<50){
+			AdminPerson thePatient = AdminPerson.getAdminPerson(sPatientUid);
+	        if(flags.indexOf("E")>-1 && thePatient!=null && !thePatient.gender.equalsIgnoreCase("m") && thePatient.getAge()>14 && activePatient.getAge()<50){
         %>
             <!-- pregnant -->
             <tr>
-                <td class="admin"><%=getTran("medical.diagnosis","pregnant",sWebLanguage)%> *</td>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","pregnant",sWebLanguage)%> *</td>
                 <td class="admin2">
                     <input type="radio" name="pregnant" id="pregnant" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
                     <input type="radio" name="pregnant" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
-                </td>
-            </tr>
-        <%
-            }
-            if(flags.indexOf("B")>-1){
-        %>
-            <!-- bloody -->
-            <tr>
-                <td class="admin"><%=getTran("medical.diagnosis","bloody",sWebLanguage)%> *</td>
-                <td class="admin2">
-                    <input type="radio" name="bloody" id="bloody" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
-                    <input type="radio" name="bloody" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
                 </td>
             </tr>
         <%
@@ -101,7 +94,7 @@
         %>
             <!-- chronic -->
             <tr>
-                <td class="admin"><%=getTran("medical.diagnosis","chronic",sWebLanguage)%> *</td>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","chronic",sWebLanguage)%> *</td>
                 <td class="admin2">
                     <input type="radio" name="chronic" id="chronic" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
                     <input type="radio" name="chronic" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
@@ -113,7 +106,7 @@
         %>
             <!-- vaccination -->
             <tr>
-                <td class="admin"><%=getTran("medical.diagnosis","vaccination",sWebLanguage)%> *</td>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","vaccination",sWebLanguage)%> *</td>
                 <td class="admin2">
                     <input type="radio" name="vaccination" id="vaccination" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
                     <input type="radio" name="vaccination" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
@@ -121,10 +114,178 @@
             </tr>
         <%
             }
+            if(flags.indexOf("S")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","severe",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="severe" id="severe" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="severe" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("H")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","deshydration",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="deshydration" id="deshydration" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="deshydration" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("B")>-1){
+        %>
+            <!-- bloody -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","bloody",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="bloody" id="bloody" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="bloody" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("K")>-1){
+        %>
+            <!-- bloody -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","bkplus",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="bkplus" id="bkplus" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="bkplus" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("M")>-1){
+        %>
+            <!-- bloody -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","cutaneous",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="cutaneous" id="cutaneous" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="cutaneous" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("X")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","bacillaire",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="bacillaire" id="bacillaire" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="bacillaire" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("Y")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","amibienne",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="amibienne" id="amibienne" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="amibienne" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("Z")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","shigellosis",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="shigellosis" id="shigellosis" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="shigellosis" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("I")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","intestinal",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="intestinal" id="intestinal" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="intestinal" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("U")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","urinary",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="urinary" id="urinary" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="urinary" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("A")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","aptitudephys",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="aptitudephys" id="aptitudephys" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="aptitudephys" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("F")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","birthcert",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="birthcert" id="birthcert" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="birthcert" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("G")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","deathcert",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="deathcert" id="deathcert" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="deathcert" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
+            if(flags.indexOf("J")>-1){
+        %>
+            <!-- severe -->
+            <tr>
+                <td class="admin" nowrap><%=getTran("medical.diagnosis","restcert",sWebLanguage)%> *</td>
+                <td class="admin2">
+                    <input type="radio" name="restcert" id="restcert" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                    <input type="radio" name="restcert" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                </td>
+            </tr>
+        <%
+            }
         %>
         <!-- newcase -->
         <tr>
-            <td class="admin"><%=getTran("medical.diagnosis","newcase",sWebLanguage)%> *</td>
+            <td class="admin" nowrap><%=getTran("medical.diagnosis","newcase",sWebLanguage)%> *</td>
             <td class="admin2">
                 <input type="radio" name="newcase" id="newcase" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
                 <input type="radio" name="newcase" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
@@ -132,7 +293,7 @@
         </tr>
         <!-- planned -->
         <tr>
-            <td class="admin"><%=getTran("medical.diagnosis","planned",sWebLanguage)%> *</td>
+            <td class="admin" nowrap><%=getTran("medical.diagnosis","planned",sWebLanguage)%> *</td>
             <td class="admin2">
                 <input type="radio" name="planned" id="planned" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
                 <input type="radio" name="planned" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
@@ -140,7 +301,7 @@
         </tr>
         <!-- transfer to problem list -->
         <tr>
-            <td class="admin"><%=getTran("medical.diagnosis","transfer.problemlist",sWebLanguage)%></td>
+            <td class="admin" nowrap><%=getTran("medical.diagnosis","transfer.problemlist",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="checkbox" name="DiagnosisTransferToProblemlist"/>
             </td>
@@ -154,53 +315,173 @@
 <script>
     function doAdd(){
         var flags="";
-        if(document.getElementById('newcase') && document.getElementById('newcase').checked){
-            flags+="N";
+        if(document.getElementById('aptitudephys')){
+			if(document.getElementById('aptitudephys').checked){
+	            flags+="A";
+	        }
+	        else {
+	            flags+="a";
+	        }
         }
-        else {
-            flags+="n";
+        if(document.getElementById('bloody')){
+			if(document.getElementById('bloody').checked){
+	            flags+="B";
+	        }
+	        else {
+	            flags+="b";
+	        }
         }
-        if(document.getElementById('digestive') && document.getElementById('digestive').checked){
-            flags+="D";
+        if(document.getElementById('confirmed')){
+			if(document.getElementById('confirmed').checked){
+	            flags+="C";
+	        }
+	        else {
+	            flags+="c";
+	        }
         }
-        else {
-            flags+="d";
+        if(document.getElementById('digestive')){
+			if(document.getElementById('digestive').checked){
+	            flags+="D";
+	        }
+	        else {
+	            flags+="d";
+	        }
         }
-        if(document.getElementById('bloody') && document.getElementById('bloody').checked){
-            flags+="B";
+        if(document.getElementById('pregnant')){
+			if(document.getElementById('pregnant').checked){
+	            flags+="E";
+	        }
+	        else {
+	            flags+="e";
+	        }
         }
-        else {
-            flags+="b";
+        if(document.getElementById('birthcert')){
+			if(document.getElementById('birthcert').checked){
+	            flags+="F";
+	        }
+	        else {
+	            flags+="f";
+	        }
         }
-        if(document.getElementById('chronic') && document.getElementById('chronic').checked){
-            flags+="R";
+        if(document.getElementById('deathcert')){
+			if(document.getElementById('deathcert').checked){
+	            flags+="G";
+	        }
+	        else {
+	            flags+="g";
+	        }
         }
-        else {
-            flags+="r";
+        if(document.getElementById('deshydration')){
+			if(document.getElementById('deshydration').checked){
+	            flags+="H";
+	        }
+	        else {
+	            flags+="h";
+	        }
         }
-        if(document.getElementById('planned') && document.getElementById('planned').checked){
-            flags+="P";
+        if(document.getElementById('intestinal')){
+			if(document.getElementById('intestinal').checked){
+	            flags+="I";
+	        }
+	        else {
+	            flags+="i";
+	        }
         }
-        else {
-            flags+="p";
+        if(document.getElementById('restcert')){
+			if(document.getElementById('restcert').checked){
+	            flags+="J";
+	        }
+	        else {
+	            flags+="j";
+	        }
         }
-        if(document.getElementById('vaccination') && document.getElementById('vaccination').checked){
-            flags+="V";
+        if(document.getElementById('bkplus')){
+			if(document.getElementById('bkplus').checked){
+	            flags+="K";
+	        }
+	        else {
+	            flags+="k";
+	        }
         }
-        else {
-            flags+="v";
+        if(document.getElementById('cutaneous')){
+			if(document.getElementById('cutaneous').checked){
+	            flags+="M";
+	        }
+	        else {
+	            flags+="m";
+	        }
         }
-        if(document.getElementById('confirmed') && document.getElementById('confirmed').checked){
-            flags+="C";
+        if(document.getElementById('newcase')){
+			if(document.getElementById('newcase').checked){
+	            flags+="N";
+	        }
+	        else {
+	            flags+="n";
+	        }
         }
-        else {
-            flags+="c";
+        if(document.getElementById('planned')){
+			if(document.getElementById('planned').checked){
+	            flags+="P";
+	        }
+	        else {
+	            flags+="p";
+	        }
         }
-        if(document.getElementById('pregnant') && document.getElementById('pregnant').checked){
-            flags+="E";
+        if(document.getElementById('chronic')){
+			if(document.getElementById('chronic').checked){
+	            flags+="R";
+	        }
+	        else {
+	            flags+="r";
+	        }
         }
-        else {
-            flags+="e";
+        if(document.getElementById('severe')){
+			if(document.getElementById('severe').checked){
+	            flags+="S";
+	        }
+	        else {
+	            flags+="s";
+	        }
+        }
+        if(document.getElementById('urinary')){
+			if(document.getElementById('urinary').checked){
+	            flags+="U";
+	        }
+	        else {
+	            flags+="u";
+	        }
+        }
+        if(document.getElementById('vaccination')){
+			if(document.getElementById('vaccination').checked){
+	            flags+="V";
+	        }
+	        else {
+	            flags+="v";
+	        }
+        }
+        if(document.getElementById('bacillaire')){
+			if(document.getElementById('bacillaire').checked){
+	            flags+="X";
+	        }
+	        else {
+	            flags+="x";
+	        }
+        }
+        if(document.getElementById('amibienne')){
+			if(document.getElementById('amibienne').checked){
+	            flags+="Y";
+	        }
+	        else {
+	            flags+="y";
+	        }
+        }
+        if(document.getElementById('shigellosis')){
+			if(document.getElementById('shigellosis').checked){
+	            flags+="Z";
+	        }
+	        else {
+	            flags+="z";
+	        }
         }
         //Now we have to save the reason for encounter
         saveRFE(flags);

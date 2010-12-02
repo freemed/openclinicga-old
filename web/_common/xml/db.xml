@@ -249,6 +249,7 @@
     		<column  name="OC_DIAGNOSIS_ENCOUNTEROBJECTID" dbtype="varchar" javatype="string" size="20"/>
     		<column  name="OC_DIAGNOSIS_NC" dbtype="char" javatype="string" size="1"/>
     		<column  name="OC_DIAGNOSIS_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
+    		<column  name="OC_DIAGNOSIS_FLAGS" dbtype="varchar" javatype="string" size="50"/>
 		</columns>
 		<indexes>
 			<index name="AUTHORUID">
@@ -292,6 +293,7 @@
     		<column  name="OC_DIAGNOSIS_ENCOUNTEROBJECTID" dbtype="varchar" javatype="string" size="20"/>
     		<column  name="OC_DIAGNOSIS_NC" dbtype="char" javatype="string" size="1"/>
     		<column  name="OC_DIAGNOSIS_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
+    		<column  name="OC_DIAGNOSIS_FLAGS" dbtype="varchar" javatype="string" size="50"/>
 		</columns>
 	</table>
 	<table name="OC_DIAGNOSIS_GROUPS" db="openclinic" sync="NONE">

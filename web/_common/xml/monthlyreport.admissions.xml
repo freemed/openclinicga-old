@@ -541,7 +541,7 @@
             <case/>
             <case days="yes" minage="0" maxage="50000" gender="F"/>
         </rfe>
-        <rfe fr="Tuberculose BK+" en="Tuberculosis BK+" codes="ICD10:A15-A19.9,B90-B90.9,J65,M01.1,M49.0,M90.0,098.0,P37.0;ICPC:A7000" flags="NC">
+        <rfe fr="Tuberculose BK+" en="Tuberculosis BK+" codes="ICD10:A15-A19.9,B90-B90.9,J65,M01.1,M49.0,M90.0,O98.0,P37.0;ICPC:A7000" flags="NC">
             <case minage="0" maxage="29" gender="M"/>
             <case minage="0" maxage="29" gender="F"/>
             <case days="yes" minage="0" maxage="29" gender="M"/>
