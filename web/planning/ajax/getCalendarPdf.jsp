@@ -38,9 +38,9 @@
 
    
     PDFCalendarGenerator calendarGenerator = new PDFCalendarGenerator(activeUser, sProjectName, sWebLanguage);
-    String sHeader = "Calendar\n\nHealth professional : "+activeUser.person.lastname+" "+activeUser.person.firstname;
+    String sHeader = getTranNoLink("web","calendar.health.professional",sWebLanguage)+": "+activeUser.person.lastname+" "+activeUser.person.firstname;
     if(isPatient){
-        sHeader = getTran("web.occup","medwan.common.appointment-list-patient",sWebLanguage)+" \n"+activePatient.lastname+" "+activePatient.firstname+" \n"+ activePatient.dateOfBirth+" ("+activePatient.personid+")";
+        sHeader = getTranNoLink("web","appointment.list.patient",sWebLanguage)+" \n"+activePatient.lastname+" "+activePatient.firstname+" \n"+ activePatient.dateOfBirth+" ("+activePatient.personid+")";
     }
     calendarGenerator.addHeader(sHeader);
     if (sBegin.length() == 0) {
