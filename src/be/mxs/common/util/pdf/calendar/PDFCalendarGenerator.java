@@ -100,7 +100,7 @@ public class PDFCalendarGenerator extends PDFBasic {
             this.table.addCell(t);
         }
         catch (NullPointerException e) {
-            Debug.println("WARNING : PDFPatientInvoiceGenerator --> IMAGE NOT FOUND : logo_" + sProject + ".gif");
+            Debug.println("WARNING : PDFCalendarGenerator --> IMAGE NOT FOUND : logo_" + sProject + ".gif");
             e.printStackTrace();
         }
     }
@@ -173,7 +173,7 @@ public class PDFCalendarGenerator extends PDFBasic {
             t.addCell(this.createBorderlessCell(sDate, 1));
 
 
-            String sName = "Health professional: "+user.person.lastname+" "+user.person.firstname;
+            String sName = MedwanQuery.getInstance().getLabel("web", "health.professional", sPrintLanguage)+": "+user.person.lastname+" "+user.person.firstname;
             t.addCell(this.createBorderlessCell(sName,1));
 
 
