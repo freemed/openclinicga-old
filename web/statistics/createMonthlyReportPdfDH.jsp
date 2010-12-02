@@ -3,19 +3,19 @@
 <%@page import="java.io.ByteArrayOutputStream,
                 com.lowagie.text.DocumentException,
                 java.io.PrintWriter,be.mxs.common.util.pdf.general.PDFPatientCardGenerator, be.openclinic.id.Barcode" %>
-<%@ page import="be.mxs.common.util.pdf.general.PDFMonthlyReportGenerator" %>
+<%@ page import="be.mxs.common.util.pdf.general.PDFMonthlyReportGeneratorDH" %>
 <%@ page import="org.hnrw.report.Report_RFE" %>
 <%
     ByteArrayOutputStream baosPDF = null;
-	java.util.Date start = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("start"))+" 23:59");
-	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
+    java.util.Date start = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("start"))+" 23:59");
+    java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
     Report_RFE report_rfe = new Report_RFE(start,end,"visit");
     for(int n=0;n<report_rfe.rfes.size();n++){
         Report_RFE.RFE rfe = (Report_RFE.RFE)report_rfe.rfes.elementAt(n);
     }
     try {
         // PDF generator
-        PDFMonthlyReportGenerator pdfMonthlyReportGenerator = new PDFMonthlyReportGenerator(activeUser, sProject);
+        PDFMonthlyReportGeneratorDH pdfMonthlyReportGenerator = new PDFMonthlyReportGeneratorDH(activeUser, sProject);
         baosPDF = pdfMonthlyReportGenerator.generatePDFDocumentBytes(request, start,end);
         StringBuffer sbFilename = new StringBuffer();
         sbFilename.append("filename_").append(System.currentTimeMillis()).append(".pdf");
