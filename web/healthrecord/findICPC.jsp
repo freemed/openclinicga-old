@@ -267,7 +267,7 @@ String sPatientUid=request.getParameter("patientuid");
                 }
             }
             else{
-                openPopup("/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICPC&Code="+code+"&Value="+document.all['ICPCComment'+code].value+"&Label="+label+"&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>",800,400);
+                openPopup("/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICPC&Code="+code+"&Value="+document.all['ICPCComment'+code].value+"&Label="+label+"&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>",800,600);
             }
         }
         else {
@@ -308,7 +308,7 @@ String sPatientUid=request.getParameter("patientuid");
         }
       }
       else {
-        openPopup('/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICD10&Code='+code+'&Value='+document.all["ICD10Comment"+code].value+'&Label='+label+'&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>',800,400);
+        openPopup('/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICD10&Code='+code+'&Value='+document.all["ICD10Comment"+code].value+'&Label='+label+'&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>',800,600);
       }
     }
     else {

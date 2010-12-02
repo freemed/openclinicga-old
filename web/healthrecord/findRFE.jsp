@@ -93,8 +93,8 @@
 		                    code = (ICPCCode)codes.elementAt(n);
 		                    if(!oldcodelabel.equalsIgnoreCase(code.label)){
 		                        oldcodelabel=code.label;
-		                        if (code.code.length()>=5){
-		                            if (code.code.substring(3,5).equalsIgnoreCase("00")){
+		                        if (code.code.length()>=3){
+		                            if (code.code.length()==3){
 		                                out.print("<tr class='label2'>");
 		                            }
 		                            else {
@@ -139,11 +139,11 @@
     }
 
     function addICPC(code,label){
-        openPopup("/_common/search/RFEInfo.jsp&ts=<%=getTs()%>&field=<%=ScreenHelper.checkString(request.getParameter("field"))%>&trandate=<%=ScreenHelper.checkString(request.getParameter("trandate"))%>&encounterUid=<%=encounterUid%>&Type=ICPC&Code="+code+"&Label="+label,800,300);
+        openPopup("/_common/search/RFEInfo.jsp&ts=<%=getTs()%>&field=<%=ScreenHelper.checkString(request.getParameter("field"))%>&trandate=<%=ScreenHelper.checkString(request.getParameter("trandate"))%>&encounterUid=<%=encounterUid%>&Type=ICPC&Code="+code+"&Label="+label,800,500);
     }
 
     function addICD10(code,label){
-        openPopup("/_common/search/RFEInfo.jsp&ts=<%=getTs()%>&field=<%=ScreenHelper.checkString(request.getParameter("field"))%>&trandate=<%=ScreenHelper.checkString(request.getParameter("trandate"))%>&encounterUid=<%=encounterUid%>&Type=ICD10&Code="+code+"&Label="+label,800,300);
+        openPopup("/_common/search/RFEInfo.jsp&ts=<%=getTs()%>&field=<%=ScreenHelper.checkString(request.getParameter("field"))%>&trandate=<%=ScreenHelper.checkString(request.getParameter("trandate"))%>&encounterUid=<%=encounterUid%>&Type=ICD10&Code="+code+"&Label="+label,800,500);
     }
 
 </script>
