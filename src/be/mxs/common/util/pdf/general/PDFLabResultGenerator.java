@@ -496,6 +496,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     		return "?";
     	}
     }
+    
 
     private void printHeader(LabRequest labRequest,AdminPerson adminPerson) throws Exception{
         Encounter encounter = Encounter.getActiveEncounter(adminPerson.personid);
