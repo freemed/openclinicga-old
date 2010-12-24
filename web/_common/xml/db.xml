@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Frank Verbeke (Post Factum bvba) -->
 <!DOCTYPE model SYSTEM "openwork.dtd">
-<model name="OpenWork" date="28/12/2004" version="2.0.3">
+<model name="OpenCklinic" date="21/12/2010" version="4.0.52">
         <table name="Applications" db="openclinic" sync="NONE">
 		<columns>
 			<column name="ScreenId" dbtype="varchar" javatype="string" size="255"/>
@@ -9,6 +9,45 @@
 		</columns>
 	</table>
     <!-- ###################################  OPENCLINIC TABLES ################################### -->
+	<table name="OC_EXPORTS" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_EXPORT_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="OC_EXPORT_ID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_EXPORT_CREATEDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_EXPORT_SENTDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_EXPORT_ACKDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_EXPORT_IMPORTDATETIME" dbtype="datetime" javatype="date"/>
+	        <column name="OC_EXPORT_DATA" dbtype="text" javatype="string"/>
+	    </columns>
+	    <indexes>
+	    	<index name="OC_EXPORT_OBJECTID">
+	    		<indexcolumn order="ASC" name="OC_EXPORT_OBJECTID"/>
+	    	</index>
+	    	<index name="OC_EXPORT_CREATEDATETIME">
+	    		<indexcolumn order="ASC" name="OC_EXPORT_CREATEDATETIME"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="OC_IMPORTS" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_IMPORT_SERVERID" dbtype="int" javatype="integer" />
+			<column name="OC_IMPORT_OBJECTID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_IMPORT_ID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_IMPORT_CREATEDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_IMPORT_RECEIVEDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_IMPORT_ACKDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_IMPORT_IMPORTDATETIME" dbtype="datetime" javatype="date"/>
+	        <column name="OC_IMPORT_DATA" dbtype="text" javatype="string"/>
+	    </columns>
+	    <indexes>
+	    	<index name="OC_IMPORT_OBJECTID">
+	    		<indexcolumn order="ASC" name="OC_IMPORT_OBJECTID"/>
+	    	</index>
+	    	<index name="OC_IMPORT_CREATEDATETIME">
+	    		<indexcolumn order="ASC" name="OC_IMPORT_CREATEDATETIME"/>
+	    	</index>
+	    </indexes>
+	</table>
 	<table name="OC_BATCHES" db="openclinic" sync="NONE">
 		<columns>
 			<column name="OC_BATCH_OBJECTID" dbtype="varchar" javatype="string" size="50"/>
