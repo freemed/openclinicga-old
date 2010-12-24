@@ -7,6 +7,9 @@ import be.mxs.common.util.pdf.official.PDFOfficialBasic;
 import be.mxs.common.util.system.Picture;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.adt.Encounter;
+import be.openclinic.medical.LabAnalysis;
+import be.openclinic.medical.RequestedLabAnalysis;
+
 import com.lowagie.text.*;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -101,10 +104,7 @@ public class PDFMonthlyReportGeneratorDH extends PDFOfficialBasic {
             printAnesthaesia(begin,end);
             printFunctionalRehabilitation(begin,end);
             doc.newPage();
-            printLab(begin,end);
-            //printPrenatalData(begin,end,report_transaction);
-            //doc.newPage();
-            //printDeliveryData(begin,end,report_transaction);
+            printDiagnostics(begin,end);
 		}
 		catch(Exception e){
 			baosPDF.reset();
@@ -130,9 +130,346 @@ public class PDFMonthlyReportGeneratorDH extends PDFOfficialBasic {
     private void addPageHeader() throws Exception {
     }
 
-    protected void printLab(Date begin,Date end){
+    protected void printDiagnostics(Date begin,Date end){
     	try {
-    		
+            table = new PdfPTable(7);
+            table.setWidthPercentage(pageWidth);
+            table.addCell(createBorderlessCell("",5,7));
+            cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.title",user.person.language),14,7,Font.BOLD);
+            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            table.addCell(cell);
+            table.addCell(createBorderlessCell("",5,7));
+            cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.lab.title",user.person.language),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            table.addCell(cell);
+            table.addCell(createBorderlessCell("",5,7));
+            table.addCell(createBorderlessCell("",5,4));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.results",user.person.language),8,2));
+            cell=createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.total",user.person.language),8,1);
+            cell.setBorder(Cell.LEFT+Cell.RIGHT+Cell.TOP);
+            table.addCell(cell);
+            table.addCell(createBorderlessCell("",5,1));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.exams",user.person.language),8,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.positive",user.person.language),8,1));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.negative",user.person.language),8,1));
+            cell=createBorderCell("",8,1);
+            cell.setBorder(Cell.LEFT+Cell.RIGHT+Cell.BOTTOM);
+            table.addCell(cell);
+            //Nu voegen we alle te onderzoeken analyses toe
+            //Eerst alle onderzoeken van de betreffende periode opzoeken
+            Vector results=RequestedLabAnalysis.find("", "", "", "", "", "", "", "", "", "", "", "", new SimpleDateFormat("dd/MM/yyyy").format(begin), new SimpleDateFormat("dd/MM/yyyy").format(end), "", "", false, "");
+            //Ook een lijst maken van alle bestaande analyses
+            Hashtable allAnalyses=LabAnalysis.getAllLabanalyses();
+        	Hashtable allTreatedRequests=new Hashtable();
+            SAXReader saxReader = new SAXReader(false);
+            org.dom4j.Document document = saxReader.read(MedwanQuery.getInstance().getConfigString("templateSource")+"/monthlyreport.lab.DH.xml");
+            Element root = document.getRootElement();
+            Iterator labgroups = root.elementIterator("labgroup");
+            String language="fr";
+            if(user.person.language.toLowerCase().startsWith("e")){
+                language="en";
+            }
+            else if(user.person.language.toLowerCase().startsWith("n")){
+                language="nl";
+            }
+            int counter=0,at=0;;
+            while(labgroups.hasNext()){
+            	Element labgroup = (Element)labgroups.next();
+            	boolean initialized=false;
+            	String[] loinccodestoinclude,samplecodestoinclude,positives,positiveresults,labgroupstoinclude,loinccodestoexclude,lgs;
+            	String analysisloinccodes,modifier,columns,pos,loinc,samp,labgr,lg;
+            	LabAnalysis la;
+            	Iterator analyses = labgroup.elementIterator("lab");
+            	while(analyses.hasNext()){
+            		Element analysis=(Element)analyses.next();
+            		int positive=0,negative=0;
+                	Hashtable treatedRequests=new Hashtable();
+            		for(int n=0;n<results.size();n++){
+            			RequestedLabAnalysis result = (RequestedLabAnalysis)results.elementAt(n);
+            			boolean done=false;
+						boolean isPositive=false;
+						boolean matchingExam=false;
+            			Iterator includes = analysis.elementIterator("include");
+            			while(includes.hasNext() && !done){
+            				Element include=(Element)includes.next();
+            				if(include.attributeValue("loinc")!=null && include.attributeValue("loinc").length()>0){
+            					loinc=ScreenHelper.checkString(include.attributeValue("loinc"));
+            					loinccodestoinclude=loinc.split(";");
+            					for(int i=0;i<loinccodestoinclude.length && !done;i++){
+	            					la=(LabAnalysis)allAnalyses.get(result.getAnalysisCode());
+	            					if(la!=null && la.getMedidoccode().contains(loinccodestoinclude[i])){
+	                        			if(treatedRequests.get(result.getServerId()+"."+result.getTransactionId())==null){
+		                    				matchingExam=true;
+	                        				treatedRequests.put(result.getServerId()+"."+result.getTransactionId(),"1");
+	                        				allTreatedRequests.put(result.getServerId()+"."+result.getTransactionId(),"1");
+		            						//This is a labexam for which we have to check the results
+		            						pos=ScreenHelper.checkString(include.attributeValue("positive"));
+		            						positives=pos.split("$");
+		            						for(int p=0;p<positives.length && !done;p++){
+		            							if(positives[p].split(":").length>1){
+			            							modifier=positives[p].split(":")[0];
+			            							positiveresults=positives[p].split(":")[1].split(";");
+			            							if(modifier.equalsIgnoreCase("not-equals")){
+			            								isPositive=true;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().equalsIgnoreCase(positiveresults[q])){
+				            									isPositive=false;
+				            									done=true;
+				            								}
+				            							}
+			            							}
+			            							else if(modifier.equalsIgnoreCase("not-contains")){
+			            								isPositive=true;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
+				            									isPositive=false;
+				            									done=true;
+				            								}
+				            							}
+			            							}
+			            							else if(modifier.equalsIgnoreCase("contains")){
+			            								isPositive=false;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
+				            									isPositive=true;
+				            								}
+				            							}
+			            								if(!isPositive){
+			            									done=true;
+			            								}
+			            							}
+		            							}
+		            						}
+	                        			}
+	            					}
+            					}
+            				}
+            				else if(include.attributeValue("sample")!=null && include.attributeValue("sample").length()>0){
+            					samp=ScreenHelper.checkString(include.attributeValue("sample"));
+            					samplecodestoinclude=samp.split(";");
+            					for(int i=0;i<samplecodestoinclude.length && !done;i++){
+	            					la=(LabAnalysis)allAnalyses.get(result.getAnalysisCode());
+	            					if(la!=null && la.getMonster().contains(samplecodestoinclude[i])){
+	                        			if(treatedRequests.get(result.getServerId()+"."+result.getTransactionId())==null){
+		                    				matchingExam=true;
+	                        				treatedRequests.put(result.getServerId()+"."+result.getTransactionId(),"1");
+	                        				allTreatedRequests.put(result.getServerId()+"."+result.getTransactionId(),"1");
+		            						//This is a labexam for which we have to check the results
+		            						pos=ScreenHelper.checkString(include.attributeValue("positive"));
+		            						positives=pos.split("\\$");
+		            						for(int p=0;p<positives.length && !done;p++){
+		            							if(positives[p].split(":").length>1){
+			            							modifier=positives[p].split(":")[0];
+			            							positiveresults=positives[p].split(":")[1].split(";");
+			            							if(modifier.equalsIgnoreCase("not-equals")){
+			            								isPositive=true;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().equalsIgnoreCase(positiveresults[q])){
+				            									isPositive=false;
+				            									done=true;
+				            								}
+				            							}
+			            							}
+			            							else if(modifier.equalsIgnoreCase("not-contains")){
+			            								isPositive=true;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
+				            									isPositive=false;
+				            									done=true;
+				            								}
+				            							}
+			            							}
+			            							else if(modifier.equalsIgnoreCase("contains")){
+			            								isPositive=false;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
+				            									isPositive=true;
+				            								}
+				            							}
+			            								if(!isPositive){
+			            									done=true;
+			            								}
+			            							}
+		            							}
+		            						}
+	                        			}
+	            					}
+            					}
+            				}
+            				else if(include.attributeValue("labgroup")!=null && include.attributeValue("labgroup").length()>0){
+            					labgr=ScreenHelper.checkString(include.attributeValue("labgroup"));
+            					//De mapping tussen een labgroup in de XML-file en de labgroups in de db wordt gemaakt via oc_config
+            					//parameters waarvan de naam begint met 'labgroup_', vb 'labgroup_biochemistry=usualchemistry;biochemy'
+            					//Zonder deze mapping wordt een 1 op 1 relatie verondersteld tussen de XML-file en de db
+            					lgs=MedwanQuery.getInstance().getConfigString("labgroup_"+labgr.split(":")[0],labgr.split(":")[0]).split(";");
+            					for(int o=0;o<lgs.length;o++){
+            						lg=lgs[o];
+	            					la=(LabAnalysis)allAnalyses.get(result.getAnalysisCode());
+	            					if(la!=null && la.getLabgroup().contains(lg)){
+	            						boolean excluded=false;
+	            						if(labgr.split(":").length>1){
+	            							loinccodestoexclude=labgr.split(":")[1].split(";");
+	            							for(int r=0;r<loinccodestoexclude.length;r++){
+	            								if(la.getMedidoccode().contains(loinccodestoexclude[r])){
+	            									excluded=true;
+	            									break;
+	            								}
+	            							}
+	            						}
+	            						if(!excluded && treatedRequests.get(result.getServerId()+"."+result.getTransactionId())==null){
+		                    				matchingExam=true;
+	                        				treatedRequests.put(result.getServerId()+"."+result.getTransactionId(),"1");
+	                        				allTreatedRequests.put(result.getServerId()+"."+result.getTransactionId(),"1");
+		            						//This is a labexam for which we have to check the results
+		            						pos=ScreenHelper.checkString(include.attributeValue("positive"));
+		            						positives=pos.split("\\$");
+		            						for(int p=0;p<positives.length && !done;p++){
+		            							if(positives[p].split(":").length>1){
+			            							modifier=positives[p].split(":")[0];
+			            							positiveresults=positives[p].split(":")[1].split(";");
+			            							if(modifier.equalsIgnoreCase("not-equals")){
+			            								isPositive=true;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().equalsIgnoreCase(positiveresults[q])){
+				            									isPositive=false;
+				            									done=true;
+				            								}
+				            							}
+			            							}
+			            							else if(modifier.equalsIgnoreCase("not-contains")){
+			            								isPositive=true;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
+				            									isPositive=false;
+				            									done=true;
+				            								}
+				            							}
+			            							}
+			            							else if(modifier.equalsIgnoreCase("contains")){
+			            								isPositive=false;
+			            								for(int q=0;q<positiveresults.length && !done;q++){
+				            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
+				            									isPositive=true;
+				            								}
+				            							}
+			            								if(!isPositive){
+			            									done=true;
+			            								}
+			            							}
+		            							}
+		            						}
+	                        			}
+	            					}
+            					}
+            				}
+            			}
+						if(matchingExam){
+	            			if(isPositive){
+								positive++;
+							}
+							else {
+								negative++;
+							}
+						}
+            		}
+            		if(!initialized){
+                        cell=createBorderCell(ScreenHelper.checkString(labgroup.attributeValue(language)),8,1);
+                        cell.setBorder(Cell.LEFT+Cell.RIGHT+Cell.TOP);
+                        table.addCell(cell);
+            		}
+            		else{
+                        cell=createBorderCell("",8,1);
+                        cell.setBorder(Cell.LEFT+Cell.RIGHT);
+                        table.addCell(cell);
+            		}
+                    table.addCell(createBorderCell(analysis.attributeValue(language),8,3));
+                    columns=ScreenHelper.checkString(analysis.attributeValue("columns"));
+                    if(columns.indexOf("positive")>-1){
+                    	table.addCell(createBorderCell(positive+"",8,1));
+                    }
+                    else {
+                    	cell=createBorderCell("",8,1);
+                    	cell.setBackgroundColor(Color.LIGHT_GRAY);
+                    	table.addCell(cell);
+                    }
+                    if(columns.indexOf("negative")>-1){
+                    	table.addCell(createBorderCell(negative+"",8,1));
+                    }
+                    else {
+                    	cell=createBorderCell("",8,1);
+                    	cell.setBackgroundColor(Color.LIGHT_GRAY);
+                    	table.addCell(cell);
+                    }
+                    if(columns.indexOf("total")>-1){
+                    	table.addCell(createBorderCell((positive+negative)+"",8,1));
+                		at+=positive+negative;
+                    }
+                    else {
+                    	cell=createBorderCell("",8,1);
+                    	cell.setBackgroundColor(Color.LIGHT_GRAY);
+                    	table.addCell(cell);
+                    }
+            		initialized=true;
+            	}
+            }
+            //Now we add all other exams
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.other.exams",user.person.language),8,4));
+        	cell=createBorderCell("",8,1);
+        	cell.setBackgroundColor(Color.LIGHT_GRAY);
+        	table.addCell(cell);
+        	cell=createBorderCell("",8,1);
+        	cell.setBackgroundColor(Color.LIGHT_GRAY);
+        	table.addCell(cell);
+        	table.addCell(createBorderCell((results.size()-at)+"",8,1));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.total",user.person.language),8,4));
+        	cell=createBorderCell("",8,1);
+        	cell.setBackgroundColor(Color.LIGHT_GRAY);
+        	table.addCell(cell);
+        	cell=createBorderCell("",8,1);
+        	cell.setBackgroundColor(Color.LIGHT_GRAY);
+        	table.addCell(cell);
+        	table.addCell(createBorderCell(results.size()+"",8,1));
+            doc.add(table);
+            
+            //Now add medical imaging
+            table = new PdfPTable(7);
+            table.setWidthPercentage(pageWidth);
+            table.addCell(createBorderlessCell("",5,7));
+            cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.imaging.title",user.person.language),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            table.addCell(cell);
+            table.addCell(createBorderlessCell("",5,7));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.type",user.person.language),8,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.number",user.person.language),8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.xrays",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.lungs",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.bones",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.abdomen",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.abdomen.contrast",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.other.xrays",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.gastroscopy",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.echography",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","diagnostics.ecg",user.person.language),8,3));
+            table.addCell(createBorderCell("",8,1));
+            table.addCell(createBorderlessCell("",5,3));
+            doc.add(table);
     	}
     	catch(Exception e){
     		e.printStackTrace();

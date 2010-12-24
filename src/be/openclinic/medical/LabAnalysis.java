@@ -222,6 +222,49 @@ public class LabAnalysis {
         return vResults;
     }
 
+    public static Hashtable getAllLabanalyses(){
+        Hashtable hLabAnalysis=new Hashtable();
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sSelect="select * from Labanalysis";
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            ps = oc_conn.prepareStatement(sSelect);
+            rs = ps.executeQuery();
+
+            LabAnalysis objLabAnalysis;
+            String sName;
+
+            while(rs.next()){
+                objLabAnalysis = new LabAnalysis();
+                objLabAnalysis.setLabId(rs.getInt("labID"));
+                objLabAnalysis.setLabtype(ScreenHelper.checkString(rs.getString("labtype")));
+                objLabAnalysis.setLabgroup(ScreenHelper.checkString(rs.getString("labgroup")));
+                objLabAnalysis.setLabcode(ScreenHelper.checkString(rs.getString("labcode")));
+                objLabAnalysis.setLabcodeother(ScreenHelper.checkString(rs.getString("labcodeother")));
+                objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
+                objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("medidoccode")));
+                objLabAnalysis.setMonster(ScreenHelper.checkString(rs.getString("monster")));
+
+                hLabAnalysis.put(objLabAnalysis.getLabcode(),objLabAnalysis);
+            }
+
+            rs.close();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                oc_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return hLabAnalysis;
+    }
+    
     public static Vector searchByLabCode(String sSearchCode, String sSortColumn, String sWebLanguage){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -257,7 +300,7 @@ public class LabAnalysis {
                 objLabAnalysis.setLabcode(ScreenHelper.checkString(rs.getString("labcode")));
                 objLabAnalysis.setLabcodeother(ScreenHelper.checkString(rs.getString("labcodeother")));
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
-                objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("name")));
+                objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("medidoccode")));
 
                 hLabAnalysis.add(objLabAnalysis);
             }

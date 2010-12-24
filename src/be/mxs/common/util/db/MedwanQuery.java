@@ -45,6 +45,7 @@ import java.util.Date;
 import jpos.JposException;
 import be.openclinic.adt.Encounter;
 import be.openclinic.common.OC_Object;
+import be.openclinic.datacenter.Scheduler;
 public class MedwanQuery {
 	private static DataSource dsOpenClinic=null;
 	private static DataSource dsLongOpenClinic=null;
@@ -82,6 +83,7 @@ public class MedwanQuery {
     private Hashtable examinations = new Hashtable();
     private Hashtable serviceexaminations = new Hashtable();
     private Hashtable serviceexaminationsincludingparent = new Hashtable();
+    private Scheduler scheduler;
 
     public static Hashtable getSessions() {
 		return sessions;
@@ -195,7 +197,7 @@ public class MedwanQuery {
     		return value.intValue();
     	}
     }
-
+    
     public String getAccomodationPrestationUIDs() {
         if (accomodationprestationuids == null) {
             accomodationprestationuids = "";
@@ -455,7 +457,11 @@ public class MedwanQuery {
         loadRiskExaminationLabcodes();
         loadRiskCategories();
         ObjectCacheFactory.getInstance().setObjectCacheSize(getConfigInt("objectCacheSize",10000));
+        
+        scheduler=new Scheduler();        
     }
+    
+    
     public String getValue(String parameter) {
         if (sessionValues.get(parameter) != null) {
             return (String) sessionValues.get(parameter);

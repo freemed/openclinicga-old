@@ -116,7 +116,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         table = new PdfPTable(5);
         table.setWidthPercentage(100);
         table.addCell(createGrayCell(getTran("web","receiptforinvoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceUid())+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),5,10,Font.BOLD));
-        table.addCell(createValueCell(getTran("web","receivedfrom")+": "+patient.lastname.toUpperCase()+" "+patient.firstname,3,8,Font.NORMAL));
+        table.addCell(createValueCell(getTran("web","receivedfrom")+": "+patient.lastname.toUpperCase()+" "+patient.firstname+" ("+patient.personid+")",3,8,Font.NORMAL));
         table.addCell(createValueCell(patient.dateOfBirth,1,8,Font.NORMAL));
         table.addCell(createValueCell(patient.gender,1,8,Font.NORMAL));
         table.addCell(createEmptyCell(3));

@@ -154,7 +154,7 @@ public class Report_Diagnosis {
                 		return false;
                 	}
                 }
-                else if(getFlags().indexOf(flags.substring(n,n+1))<0){
+                else if((getFlags()==null && flags.substring(n,n+1).equals(flags.substring(n,n+1).toUpperCase())) || (getFlags()!=null && getFlags().indexOf(flags.substring(n,n+1))<0)){
                     return false;
                 }
             }

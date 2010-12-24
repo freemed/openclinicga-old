@@ -265,6 +265,9 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                     	previousTransaction = MedwanQuery.getInstance().loadTransaction(oldTransaction.getServerId(), oldTransaction.getTransactionId().intValue());
                     }
                     //Sla de transactie op
+                    System.out.println("sessionContainerWO.getPersonVO()="+sessionContainerWO.getPersonVO());
+                    System.out.println("sessionContainerWO.getPersonVO().personId="+sessionContainerWO.getPersonVO().personId);
+                    System.out.println("oldTransaction="+oldTransaction);
                     returnedTransactionVO = MedwanQuery.getInstance().updateTransaction(sessionContainerWO.getPersonVO().personId.intValue(),oldTransaction);
                     if (MedwanQuery.getInstance().getConfigInt("automatedDebet",1)==1){
                         ItemVO ctxt=returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT");

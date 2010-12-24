@@ -896,11 +896,15 @@ public class RequestedLabAnalysis {
     public static Vector find(String serverId, String transactionId, String patientId, String analysisCode,
                               String comment, String resultValue, String resultUnit, String resultModifier,
                               String resultComment, String resultRefMax, String resultRefMin, String resultUserId,
-                              String resultDate, String sSortCol, String sSortDir, boolean openAnalysesOnly,String sRequestUserId){
+                              String resultDateMin, String resultDateMax, String sSortCol, String sSortDir, boolean openAnalysesOnly,String sRequestUserId){
         Vector foundObjects = new Vector();
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
+        if(sSortCol==null || sSortCol.length()==0){
+        	sSortCol="resultdate";
+        }
+        
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sSelect = "SELECT a.*,b.userId FROM RequestedLabAnalyses a,Transactions b";
@@ -908,7 +912,7 @@ public class RequestedLabAnalysis {
             if(serverId.length()>0 || transactionId.length()>0 || patientId.length()>0 || analysisCode.length()>0 ||
                comment.length()>0 || resultValue.length()>0 || resultUnit.length()>0 || resultModifier.length()>0 ||
                resultComment.length()>0 || resultRefMax.length()>0 || resultRefMin.length()>0 ||
-               resultUserId.length()>0 || sRequestUserId.length()>0 || resultDate.length()>0){
+               resultUserId.length()>0 || sRequestUserId.length()>0 || resultDateMin.length()>0 || resultDateMax.length()>0){
                 sSelect+= " WHERE a.transactionId=b.transactionId and a.serverid=b.serverid and ";
 
                 String lowerComment       = ScreenHelper.getConfigParam("lowerCompare","comment"),
@@ -934,7 +938,8 @@ public class RequestedLabAnalysis {
                 if(resultRefMin.length()>0)  sSelect+= "a.resultrefmin = ? AND ";
                 if(resultUserId.length()>0)  sSelect+= "a.resultuserid = ? AND ";
                 if(sRequestUserId.length()>0)  sSelect+= "b.userId = ? AND ";
-                if(resultDate.length()>0)    sSelect+= "a.resultdate >= ? AND ";
+                if(resultDateMin.length()>0)    sSelect+= "a.resultdate >= ? AND ";
+                if(resultDateMax.length()>0)    sSelect+= "a.resultdate <= ? AND ";
 
                 // remove last AND if any
                 if(sSelect.indexOf("AND ")>-1){
@@ -962,16 +967,37 @@ public class RequestedLabAnalysis {
             if(resultRefMin.length()>0)   ps.setString(questionMarkIdx++,resultRefMin);
             if(resultUserId.length()>0)   ps.setInt(questionMarkIdx++,Integer.parseInt(resultUserId));
             if(sRequestUserId.length()>0)   ps.setInt(questionMarkIdx++,Integer.parseInt(sRequestUserId));
-            if(resultDate.length()>0)     ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(resultDate));
+            if(resultDateMin.length()>0)     ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(resultDateMin));
+            if(resultDateMax.length()>0)     ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(resultDateMax));
 
             // execute
             rs = ps.executeQuery();
 
-            int serverID, transactionID;
+            RequestedLabAnalysis labAnalysis;
             while(rs.next()){
-                    serverID      = Integer.parseInt(rs.getString("serverid"));
-                    transactionID = Integer.parseInt(rs.getString("transactionid"));
-                    foundObjects.add(get(serverID,transactionID,rs.getString("analysiscode")));
+                    labAnalysis = new RequestedLabAnalysis();
+                    labAnalysis.setServerId(rs.getString("serverid"));
+                    labAnalysis.setTransactionId(rs.getString("transactionid"));
+                    labAnalysis.setAnalysisCode(rs.getString("analysiscode"));
+                    labAnalysis.patientId = ScreenHelper.checkString(rs.getString("patientid"));
+                    labAnalysis.comment   = ScreenHelper.checkString(rs.getString("comment"));
+
+                    // result..
+                    labAnalysis.resultValue    = ScreenHelper.checkString(rs.getString("resultvalue"));
+                    labAnalysis.resultUnit     = ScreenHelper.checkString(rs.getString("resultunit"));
+                    labAnalysis.resultModifier = ScreenHelper.checkString(rs.getString("resultmodifier"));
+                    labAnalysis.resultComment  = ScreenHelper.checkString(rs.getString("resultcomment"));
+                    labAnalysis.resultRefMax   = ScreenHelper.checkString(rs.getString("resultrefmax"));
+                    labAnalysis.resultRefMin   = ScreenHelper.checkString(rs.getString("resultrefmin"));
+                    labAnalysis.resultUserId   = ScreenHelper.checkString(rs.getString("resultuserid"));
+                    labAnalysis.requestUserId   = ScreenHelper.checkString(rs.getString("userId"));
+                    labAnalysis.resultProvisional   = ScreenHelper.checkString(rs.getString("resultprovisional"));
+
+                    // result date
+                    java.util.Date tmpDate = rs.getDate("resultdate");
+                    if(tmpDate!=null) labAnalysis.resultDate = tmpDate;
+                    
+                    foundObjects.add(labAnalysis);
             }
         }
         catch(Exception e){

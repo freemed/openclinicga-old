@@ -157,7 +157,11 @@ public class PDFCalendarGenerator extends PDFBasic {
             t.addCell(this.createBorderlessCell(sBirthdate,1));
 
             String sPersonId = patient.personid;
-            t.addCell(this.createBorderlessCell(sPersonId,1));
+            String sTel="";
+            if(patient.getActivePrivate()!=null){
+            	sTel=patient.getActivePrivate().telephone;
+            }
+            t.addCell(this.createBorderlessCell("ID: "+sPersonId+"  Tel: "+sTel,1));
 
             table.addCell(t);
         } catch (Exception e) {
