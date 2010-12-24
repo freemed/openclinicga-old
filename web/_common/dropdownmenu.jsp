@@ -261,7 +261,8 @@
     }
 	function newEncounter(){
 		<%
-			if (Encounter.getActiveEncounter(activePatient.personid)!=null){
+			Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
+			if (activeEncounter!=null && activeEncounter.getEnd()==null){
 		%>
 			alert('<%=getTranNoLink("web","close.active.encounter.first",sWebLanguage)%>');
 		<%
