@@ -29,17 +29,15 @@
         <tr>
             <td class='admin'><%=getTran("Web.Occup","medwan.common.type",sWebLanguage)%>&nbsp;</td>
             <td class='admin2'>
+				<%
+					ItemVO mirType=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE");
+					String sMirtype="";
+					if(mirType!=null){
+						sMirtype=mirType.getValue();
+					}
+				%>
                 <select id="examination" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE" property="itemId"/>]>.value">
-                    <option value="0" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=0" property="value" outputString="selected"/>><%=getTran("Web","choose",sWebLanguage)%>
-                    <option value="1" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=1" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-1",sWebLanguage)%>
-                    <option value="2" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=2" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-2",sWebLanguage)%>
-                    <option value="3" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=3" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-3",sWebLanguage)%>
-                    <option value="4" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=4" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-4",sWebLanguage)%>
-                    <option value="5" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=5" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-5",sWebLanguage)%>
-                    <option value="6" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=6" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-6",sWebLanguage)%>
-                    <option value="7" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=7" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-7",sWebLanguage)%>
-                    <option value="8" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=8" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-8",sWebLanguage)%>
-                    <option value="9" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_TYPE;value=9" property="value" outputString="selected"/>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-9",sWebLanguage)%>
+	            	<%=ScreenHelper.writeSelect("medwan.occupational-medicine.medical-imaging-request.type",sMirtype,sWebLanguage,false,true) %>
                 </select>
             </td>
         </tr>
