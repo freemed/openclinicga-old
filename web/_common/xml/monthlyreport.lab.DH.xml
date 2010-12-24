@@ -1,0 +1,144 @@
+<report>
+	<labgroup fr="Parasitologie" en="Parasitology">
+		<lab fr="G.E.      Total" 			en="T.D.      Total" columns="positive;negative;total">
+			<include loinc="32206-5;6323-0;10729-2;40745-2" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="          Plasmodium" 		en="          Plasmodium" columns="positive">
+			<include loinc="32206-5" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="          Borrelia" 		en="          Borrelia" columns="positive">
+			<include loinc="6323-0" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="          Trypanosomes" 	en="          Trypanosoma" columns="positive">
+			<include loinc="10729-2" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="          Micro-filaires" 	en="          Microfilariae" columns="positive">
+			<include loinc="40745-2" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="Selles    Total" 			en="Stool     Total" columns="positive;negative;total">
+			<include sample="stool;faeces" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="          Amibes" 			en="          Amoeba" columns="positive">
+			<include loinc="10643-5" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+			<include sample="stool;faeces" positive="contains:amib;amoeb"/>
+		</lab>
+		<lab fr="          Giardia" 		en="          Giardia" columns="positive">
+			<include loinc="10670-8" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+			<include sample="stool;faeces" positive="contains:giard"/>
+		</lab>
+		<lab fr="          Bilharzies" 		en="          Bilharziasis" columns="positive">
+			<include loinc="11085-8" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+			<include sample="stool;faeces" positive="contains:bilharz;schistos"/>
+		</lab>
+		<lab fr="          Autres parasites" 			en="          Other parasites" columns="positive">
+			<include sample="stool;faeces" positive="not-contains:bilharz;schistos;giard;amoeb;amib$not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+	</labgroup>
+	<labgroup fr="Bactériologie" en="Bacteriology">
+		<lab fr="Frottis vaginal à frais" 			en="Vaginal swab" columns="positive;negative;total">
+			<include loinc="00000-1" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="                gram pos" 			en="                gram pos" columns="positive;total">
+			<include loinc="00000-1" positive="contains:gram$contains:+;pos"/>
+		</lab>
+		<lab fr="                gram nég" 			en="                gram neg" columns="positive;total">
+			<include loinc="00000-1" positive="contains:gram$contains:-;neg;nég"/>
+		</lab>
+		<lab fr="                Diplocoques Gram (-)" 			en="                gram neg" columns="positive">
+			<include loinc="00000-1" positive="contains:gram$contains:-;neg;nég$contains:diplo"/>
+			<include loinc="00000-1" positive="contains:gono"/>
+		</lab>
+		<lab fr="Frottis urétral à frais" 			en="Uretral swab" columns="positive;negative;total">
+			<include loinc="00000-2" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="                gram pos" 			en="                gram pos" columns="positive;total">
+			<include loinc="00000-2" positive="contains:gram$contains:+;pos"/>
+		</lab>
+		<lab fr="                gram nég" 			en="                gram neg" columns="positive;total">
+			<include loinc="00000-2" positive="contains:gram$contains:-;neg;nég"/>
+		</lab>
+		<lab fr="                Diplocoques Gram (-)" 			en="                gram neg" columns="positive">
+			<include loinc="00000-2" positive="contains:gram$contains:-;neg;nég$contains:diplo"/>
+			<include loinc="00000-2" positive="contains:gono"/>
+		</lab>
+		<lab fr="Urine culot" 			en="Urine sediment" columns="positive,negative,total">
+			<include loinc="00000-3" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="                gram pos" 			en="                gram pos" columns="positive;total">
+			<include loinc="00000-3" positive="contains:gram$contains:+;pos"/>
+		</lab>
+		<lab fr="                gram nég" 			en="                gram neg" columns="positive;total">
+			<include loinc="00000-3" positive="contains:gram$contains:-;neg;nég"/>
+		</lab>
+		<lab fr="Crachat Ziehl" 			en="Sputum Ziehl" columns="positive,negative,total">
+			<include loinc="00000-4" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+	</labgroup>
+	<labgroup fr="Hématologie" en="Hematology">
+		<lab fr="VS" 			en="SR" columns="total">
+			<include loinc="30341-2" positive=""/>
+		</lab>
+		<lab fr="FNS" 			en="Blood count panel" columns="total">
+			<include loinc="55429-5" positive=""/>
+		</lab>
+		<lab fr="Hémoglobine" 			en="Hemoglobin" columns="total">
+			<include loinc="14775-1" positive=""/>
+		</lab>
+		<lab fr="Groupe sanguin" 			en="ABO group" columns="total">
+			<include loinc="34474-7" positive=""/>
+		</lab>
+		<lab fr="Autres" 			en="Other" columns="total">
+			<include labgroup="hematology:34474-7;14775-1;55429-5;30341-2" positive=""/>
+		</lab>
+	</labgroup>
+	<labgroup fr="Biochimie du sang" en="Blood biochemics">
+		<lab fr="Glycémie" 			en="Glycemia" columns="total">
+			<include loinc="15074-8" positive=""/>
+		</lab>
+		<lab fr="Urée" 			en="Urea" columns="total">
+			<include loinc="20977-5" positive=""/>
+		</lab>
+		<lab fr="Créatinine" 			en="Creatinine" columns="total">
+			<include loinc="38483-4" positive=""/>
+		</lab>
+		<lab fr="Transaminases" 			en="Trans" columns="total">
+			<include loinc="2324-2;44786-2;1920-8" positive=""/>
+		</lab>
+		<lab fr="Autres" 			en="Other" columns="total">
+			<include labgroup="biochemistry:2324-2;44786-2;38483-4;20977-5;15074-8" positive=""/>
+		</lab>
+	</labgroup>
+	<labgroup fr="Biochimie d'urine" en="Urine biochemics">
+		<lab fr="Albumine" 			en="Albumin" columns="total">
+			<include loinc="13986-5" positive=""/>
+		</lab>
+		<lab fr="Glucose" 			en="Glucose" columns="total">
+			<include loinc="2349-9" positive=""/>
+		</lab>
+		<lab fr="Autres" 			en="Other" columns="total">
+			<include labgroup="urinebiochemistry:2349-9;13986-5" positive=""/>
+		</lab>
+	</labgroup>
+	<labgroup fr="Sérologie" en="Serology">
+		<lab fr="RPR" 			en="RPR" columns="positive,negative,total">
+			<include loinc="39231-6" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="VIH" 			en="HIV" columns="positive,negative,total">
+			<include loinc="7918-6" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="Test de grossesse" 			en="Pregnancy test" columns="positive,negative,total">
+			<include loinc="19080-1" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="Widal" 			en="Widal" columns="positive,negative,total">
+			<include loinc="00000-5" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+	</labgroup>
+	<labgroup fr="Autres liquides" en="Other fluids">
+		<lab fr="LCR" 			en="CSF" columns="total">
+			<include loinc="00000-6" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+		<lab fr="Liquide de ponction" 			en="Punction" columns="total">
+			<include loinc="00000-7" positive="not-equals:neg;nég;negatif;négatif;negative;-;ras;r.a.s.;nihil;0"/>
+		</lab>
+	</labgroup>
+</report>
