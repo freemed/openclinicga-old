@@ -23,12 +23,12 @@
                         %>
                             <%-- HEADER --%>
                             <tr class="gray">
-                                <td width="80"><%=getTran("web.occup","medwan.common.date",sWebLanguage)%></td>
-                                <td width="50"><%=getTran("web","from",sWebLanguage)%></td>
-                                <td width="50"><%=getTran("web","to",sWebLanguage)%></td>
-                                <td width="120"><%=getTran("planning","cancelationdate",sWebLanguage)%></td>
-                                <td width="250"><%=getTran("planning","user",sWebLanguage)%></td>
-                                <td width="230"><%=getTran("web","prestation",sWebLanguage)%></td>
+                                <td><%=getTran("web.occup","medwan.common.date",sWebLanguage)%></td>
+                                <td><%=getTran("web","from",sWebLanguage)%></td>
+                                <td><%=getTran("web","to",sWebLanguage)%></td>
+                                <td><%=getTran("planning","cancelationdate",sWebLanguage)%></td>
+                                <td><%=getTran("planning","user",sWebLanguage)%></td>
+                                <td><%=getTran("web","prestation",sWebLanguage)%></td>
                                 <td><%=getTran("web","description",sWebLanguage)%></td>
                             </tr>
                         <%
@@ -84,14 +84,25 @@
                                     <td><%=ScreenHelper.getSQLDate(planning.getCancelationDate())%></td>
                                     <td>
                                         <%
-                                        	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+                                        	User user = activeUser;
+                                        	String userService=user.getParameter("defaultserviceid");
+                                        	if(userService!=null && userService.length()>0){
+                                        		userService=" ("+userService.toUpperCase()+": "+getTran("service",userService,sWebLanguage)+")";
+                                        	}
 											if (planning.getUserUID().equals(activeUser.userid)){
-                                                out.print("<b>"+ScreenHelper.getFullUserName(planning.getUserUID(), ad_conn)+"</b>");
+												out.print("<b>"+user.person.firstname.toUpperCase()+" "+user.person.lastname.toUpperCase()+userService+"</b>");
                                             }
                                             else {
-                                                out.print(ScreenHelper.getFullUserName(planning.getUserUID(), ad_conn));
+                                            	user = new User();
+                                            	user.initialize(Integer.parseInt(planning.getUserUID()));
+                                            	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+                                            	user.person.initialize(conn,user.personid);
+                                            	userService=user.getParameter("defaultserviceid");
+                                            	if(userService!=null && userService.length()>0){
+                                            		userService=" ("+userService.toUpperCase()+": "+getTran("service",userService,sWebLanguage)+")";
+                                            	}
+                                            	out.print(user.person.firstname.toUpperCase()+" "+user.person.lastname.toUpperCase()+userService);
                                             }
-											ad_conn.close();
                                         %>
                                     </td>
                                     <td>

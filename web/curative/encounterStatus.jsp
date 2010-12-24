@@ -72,7 +72,7 @@
                     <%
                         }
                     %>
-                    <td><%=getTran("web.occup","doctor",sWebLanguage)%></td>
+                    <td><%=getTran("web","manager",sWebLanguage)%></td>
                 </tr>
                 <tr class='list' onmouseover="this.style.cursor='hand';this.className='list_select';"
                                  onmouseout="this.style.cursor='default';this.className='list';"
