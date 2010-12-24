@@ -66,12 +66,14 @@
                    planning.setEstimatedtime("00:"+minutes);
            }
        }catch(Exception e){
+    	   e.printStackTrace();
            Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
        }
        return bRefresh;
     }
 %>
 <%
+	try{
 	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
     String sAction = checkString(request.getParameter("Action"));
     String sFindPlanningUID = checkString(request.getParameter("FindPlanningUID"));
@@ -89,11 +91,11 @@
     }
     String sFrom = checkString(activeUser.getParameter("PlanningFindFrom"));
     if (sFrom.length() == 0) {
-        sFrom = 8 + "";
+        sFrom = "8";
     }
     String sUntil = checkString(activeUser.getParameter("PlanningFindUntil"));
     if (sUntil.length() == 0) {
-        sUntil = 20 + "";
+        sUntil = "20";
     }
 
     int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sFrom))).intValue();    // Start hour of week planner
@@ -456,5 +458,9 @@
 </div>
 <%}
 	ad_conn.close();
+	}
+catch(Exception e){
+	e.printStackTrace();
+}
 
 %>          
