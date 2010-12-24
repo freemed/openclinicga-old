@@ -81,11 +81,11 @@
     }
     String sFrom = checkString(activeUser.getParameter("PlanningFindFrom"));
     if (sFrom.length() == 0) {
-        sFrom = 8 + "";
+        sFrom = "8" ;
     }
     String sUntil = checkString(activeUser.getParameter("PlanningFindUntil"));
     if (sUntil.length() == 0) {
-        sUntil = 20 + "";
+        sUntil = "20" ;
     }%>
     <script type="text/javascript">
         var weekplannerStartHour = <%=Double.valueOf(Math.floor(Float.parseFloat(sFrom))).intValue()%>;
@@ -294,7 +294,7 @@
                     + '&appointmentDateHour=<%=sFrom%>'
                     + '&appointmentDateMinutes=0'
                     + '&appointmentDateEndDay=' + $("beginDate").value
-                    + '&appointmentDateEndHour=<%=(Double.valueOf((sFrom)+1))%>'
+                    + '&appointmentDateEndHour=<%=(Double.valueOf(sFrom).intValue()+1)+""%>'
                     + '&appointmentDateEndMinutes=0';
             }
 
@@ -477,7 +477,7 @@
         }
          function printPlanning(day, isPatient) {
             var url = "<c:url value='/planning/ajax/getCalendarPdf.jsp'/>?ts="+new Date().getTime();
-            var params = '&dayToShow='+day+'&PatientID=<%=activePatient.personid%>&FindUserUID=' + $F("FindUserUID") + '&year=' + dateStartOfWeek.getFullYear() + '&month=' + (dateStartOfWeek.getMonth() / 1 + 1) + '&day=' + dateStartOfWeek.getDate();	// Specifying which file to get
+            var params = '&dayToShow='+day+'&PatientID=<%=activePatient!=null?activePatient.personid:""%>&FindUserUID=' + $F("FindUserUID") + '&year=' + dateStartOfWeek.getFullYear() + '&month=' + (dateStartOfWeek.getMonth() / 1 + 1) + '&day=' + dateStartOfWeek.getDate();	// Specifying which file to get
                if(isPatient){
                  params+="&ispatient="+isPatient;  
                }
