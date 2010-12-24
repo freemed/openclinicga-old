@@ -88,7 +88,7 @@
           +inputRow("Web","tracnetid","TracnetID","Admin",checkString((String)activePatient.adminextends.get("tracnetid")),"T",true,false,sWebLanguage)
           +inputRow("Web","treating-physician","TreatingPhysician","Admin",activePatient.comment1,"T",true,false,sWebLanguage)
           +normalRow("Web","civilstatus","CivilStatus","Admin",sWebLanguage)+sCivilStatus+"</td></tr>"
-          +inputRow("Web","comment3","Comment3","Admin",activePatient.comment,"T",true, false,sWebLanguage) 
+          +inputRow("Web","comment3","Comment3","Admin",activePatient.comment3,"T",true, false,sWebLanguage) 
 	      +inputRow("Web","comment","Comment","Admin",activePatient.comment,"T",true, false,sWebLanguage));
     %>
     <tr height="0">
