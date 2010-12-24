@@ -1,6 +1,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
     if(request.getParameter("serverid")!=null && request.getParameter("transactionid")!=null){
+    	MedwanQuery.getInstance().getObjectCache().removeObject("transaction",request.getParameter("serverid")+"."+request.getParameter("transactionid"));
         TransactionVO tran = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(request.getParameter("serverid")),Integer.parseInt(request.getParameter("transactionid")));
         int healthRecordId=tran.getHealthrecordId();
         int personid=MedwanQuery.getInstance().getPersonIdFromHealthrecordId(healthRecordId);
