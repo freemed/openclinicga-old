@@ -65,6 +65,9 @@
     <application type="Web" id="printabledocuments">
         <permission type="web" id="printabledocuments">printabledocuments</permission>
     </application>
+    <application type="web" id="datacenter">
+        <permission type="web" id="datacenter">datacenter</permission>
+    </application>
     <application type="Web" id="patient">
         <permission type="Web" id="patient.administration">patient.administration</permission>
         <permission type="Web" id="patient.archive">patient.archive</permission>

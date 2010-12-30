@@ -72,7 +72,7 @@
         </Menu>
         <Menu labelid="meals" accessrights="patientmeals" url="/main.do?Page=meals/manageMeals.jsp" />            
         <Menu labelid="statistics" accessrights="statistics.select" url="/main.do?Page=statistics/index.jsp"/>
-        <todo><Menu labelid="datacenter" accessrights="sa" url="/main.do?Page=datacenterstatistics/index.jsp"/></todo>
+        <Menu labelid="datacenter" accessrights="datacenter.select" url="/main.do?Page=datacenter/index.jsp"/>
         <Menu labelid="executive" accessrights="executive.select">
             <Menu labelid="executive.bedoccupancy" accessrights="occup.bedoccupation.select" url="/main.do?Page=statistics/bedoccupancyStatus.jsp"/>
         </Menu>

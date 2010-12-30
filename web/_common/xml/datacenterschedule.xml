@@ -1,0 +1,52 @@
+<datacenter>
+	<exporters>
+		<!-- 	interval format:
+				simple interval: put interval time in milliseconds
+				daily: DAILY:hhmm;hhmm;hhmm (executes every day at times indicated by hhmm)
+				monthly: MONTHLY:d;hhmm,d;hhmm,d;hhmm (executes every month on days d at time indicated by hhmm)
+				yearly: YEARLY:M;d,M;d,M;d (executes on every month M on day d at 00h00)
+		-->
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.3" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.4" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.4.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.4.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.5" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.6" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.7" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.8" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.8.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.8.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.9" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.9.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.9.2" interval="DAILY:0000"/>
+	</exporters>
+	<senders>
+		<module class="be.openclinic.datacenter.SMTPSender" interval="300000"/>
+	</senders>
+	<receivers>
+		<module class="be.openclinic.datacenter.POP3Receiver"/>
+	</receivers>
+	<parameters>
+		<parameter param="core.1" 	type="simplevalue"/>
+		<parameter param="core.2" 	type="simplevalue"/>
+		<parameter param="core.3" 	type="simplevalue"/>
+		<parameter param="core.4" 	type="simplevalue"/>
+		<parameter param="core.4.1" type="simplevalue"/>
+		<parameter param="core.4.2" type="simplevalue"/>
+		<parameter param="core.5" 	type="simplevalue"/>
+		<parameter param="core.6" 	type="simplevalue"/>
+		<parameter param="core.7" 	type="simplevalue"/>
+		<parameter param="core.8" 	type="simplevalue"/>
+		<parameter param="core.8.1" type="simplevalue"/>
+		<parameter param="core.8.2" type="simplevalue"/>
+		<parameter param="core.9" 	type="simplevalue"/>
+		<parameter param="core.9.1" type="simplevalue"/>
+		<parameter param="core.9.2" type="simplevalue"/>
+	</parameters>
+	<errorcodes>
+		<error code="0" meaning="no errors"/>
+		<error code="1" meaning="tried to insert an already existing row in stats.DC_SIMPLEVALUES"/>
+	</errorcodes>
+</datacenter>
