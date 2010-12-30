@@ -4,23 +4,24 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import be.mxs.common.util.db.MedwanQuery;
 
 public abstract class Exporter {
 	String param="";
-	long interval=0;
-
+	Date deadline;
+	
 	public abstract void export();
 
-	public long getInterval() {
-		return interval;
+	public Date getDeadline() {
+		return deadline;
 	}
 
-	public void setInterval(long interval) {
-		this.interval = interval;
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
-	
+
 	public String getParam() {
 		return param;
 	}
@@ -44,11 +45,8 @@ public abstract class Exporter {
 		PreparedStatement ps,ps2;
 		try {
 			ps = oc_conn.prepareStatement("select * from OC_EXPORTS where OC_EXPORT_ID=? and OC_EXPORT_CREATEDATETIME>?");
-			java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime()-getInterval());
-			System.out.println("date="+date);
-			System.out.println("interval="+getInterval());
 			ps.setString(1, sExportId);
-			ps.setTimestamp(2, date);
+			ps.setTimestamp(2, new java.sql.Timestamp(getDeadline().getTime()));
 			ResultSet rs = ps.executeQuery();
 			if(!rs.next()){
 				rs.close();

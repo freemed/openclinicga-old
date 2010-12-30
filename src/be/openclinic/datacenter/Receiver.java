@@ -1,5 +1,6 @@
 package be.openclinic.datacenter;
 
-public class Receiver {
+public abstract class Receiver {
 
+	public abstract void receive();
 }

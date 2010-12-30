@@ -84,8 +84,17 @@ public class MedwanQuery {
     private Hashtable serviceexaminations = new Hashtable();
     private Hashtable serviceexaminationsincludingparent = new Hashtable();
     private Scheduler scheduler;
+    private Hashtable datacenterparametertypes=new Hashtable();
 
-    public static Hashtable getSessions() {
+    public Hashtable getDatacenterparametertypes() {
+		return datacenterparametertypes;
+	}
+
+	public void setDatacenterparametertypes(Hashtable datacenterparametertypes) {
+		this.datacenterparametertypes = datacenterparametertypes;
+	}
+
+	public static Hashtable getSessions() {
 		return sessions;
 	}
 
@@ -458,6 +467,23 @@ public class MedwanQuery {
         loadRiskCategories();
         ObjectCacheFactory.getInstance().setObjectCacheSize(getConfigInt("objectCacheSize",10000));
         
+        // load DataCenter data
+        try {
+            String sDoc = getConfigString("templateSource") + "/datacenterschedule.xml";
+            Document document = reader.read(new URL(sDoc));
+            Element root = document.getRootElement();
+            Element parameters = root.element("parameters");
+            Iterator elements = parameters.elementIterator("parameter");
+            Element parameter;
+            while (elements.hasNext()) {
+                parameter = (Element) elements.next();
+                datacenterparametertypes.put(parameter.attributeValue("param"), parameter.attributeValue("type"));
+            }
+        }
+        catch (Exception e) {
+            if (Debug.enabled) Debug.println(e.getMessage());
+        }
+
         scheduler=new Scheduler();        
     }
     
