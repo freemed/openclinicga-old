@@ -24,11 +24,15 @@ public class Scheduler implements Runnable{
 	
 	public static void runScheduler(){
         // load scheduler config from XML
+		String sDoc=null;
+		SAXReader reader=null;
+		Document document=null;
+		Element root=null;
         try {
-            String sDoc = MedwanQuery.getInstance().getConfigString("datacenterTemplateSource",MedwanQuery.getInstance().getConfigString("templateSource")) + "datacenterschedule.xml";
-            SAXReader reader = new SAXReader(false);
-            Document document = reader.read(new URL(sDoc));
-            Element root = document.getRootElement();
+            sDoc = MedwanQuery.getInstance().getConfigString("datacenterTemplateSource",MedwanQuery.getInstance().getConfigString("templateSource")) + "datacenterschedule.xml";
+            reader = new SAXReader(false);
+            document = reader.read(new URL(sDoc));
+            root = document.getRootElement();
             Element exporters = root.element("exporters");
             Iterator elements = exporters.elementIterator("module");
             Element module;
@@ -42,8 +46,14 @@ public class Scheduler implements Runnable{
                 exporter.setDeadline(parseDeadline(module.attributeValue("interval")));
                 exporter.export();
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
             Element senders = root.element("senders");
-            elements = senders.elementIterator("module");
+            Iterator elements = senders.elementIterator("module");
+            Element module;
             while (elements.hasNext()) {
                 module = (Element) elements.next();
                 String className = module.attributeValue("class");
@@ -52,8 +62,14 @@ public class Scheduler implements Runnable{
                 sender.setDeadline(parseDeadline(module.attributeValue("interval")));
                 sender.send();
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
             Element receivers = root.element("receivers");
-            elements = receivers.elementIterator("module");
+            Iterator elements = receivers.elementIterator("module");
+            Element module;
             while (elements.hasNext()) {
                 module = (Element) elements.next();
                 String className = module.attributeValue("class");

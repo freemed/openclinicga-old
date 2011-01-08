@@ -44,7 +44,7 @@ public abstract class Exporter {
 		}
 		PreparedStatement ps,ps2;
 		try {
-			ps = oc_conn.prepareStatement("select * from OC_EXPORTS where OC_EXPORT_ID=? and OC_EXPORT_CREATEDATETIME>?");
+			ps = oc_conn.prepareStatement("select * from OC_EXPORTS where OC_EXPORT_ID=? and OC_EXPORT_CREATEDATETIME>=?");
 			ps.setString(1, sExportId);
 			ps.setTimestamp(2, new java.sql.Timestamp(getDeadline().getTime()));
 			ResultSet rs = ps.executeQuery();
@@ -72,6 +72,77 @@ public abstract class Exporter {
 		finally {
 			try {
 				conn.close();
+				oc_conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void exportSingleValue(String sValue,String sExportId){
+		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		PreparedStatement ps;
+		try {
+			ps = oc_conn.prepareStatement("select * from OC_EXPORTS where OC_EXPORT_ID=? and OC_EXPORT_CREATEDATETIME>=?");
+			ps.setString(1, sExportId);
+			ps.setTimestamp(2, new java.sql.Timestamp(getDeadline().getTime()));
+			ResultSet rs = ps.executeQuery();
+			if(!rs.next()){
+				rs.close();
+				ps.close();
+				String sQuery="INSERT INTO OC_EXPORTS(OC_EXPORT_OBJECTID,OC_EXPORT_ID,OC_EXPORT_CREATEDATETIME,OC_EXPORT_DATA) VALUES(?,?,?,?)";
+				ps=oc_conn.prepareStatement(sQuery);
+				ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("OC_EXPORT_OBJECTID"));
+				ps.setString(2, sExportId);
+				ps.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
+				ps.setString(4, sValue);
+				ps.execute();
+				ps.close();
+			}
+			else{
+				rs.close();
+			}
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				oc_conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void exportUniqueValue(String sValue, String sExportId){
+		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		PreparedStatement ps;
+		try {
+			ps = oc_conn.prepareStatement("select * from OC_EXPORTS where OC_EXPORT_ID=? ORDER BY OC_EXPORT_CREATEDATETIME DESC");
+			ps.setString(1, sExportId);
+			ResultSet rs = ps.executeQuery();
+			if(!rs.next() || (!rs.getString("OC_EXPORT_DATA").equals(sValue) && rs.getTimestamp("OC_EXPORT_CREATEDATETIME").before(getDeadline()))){
+				rs.close();
+				ps.close();
+				String sQuery="INSERT INTO OC_EXPORTS(OC_EXPORT_OBJECTID,OC_EXPORT_ID,OC_EXPORT_CREATEDATETIME,OC_EXPORT_DATA) VALUES(?,?,?,?)";
+				ps=oc_conn.prepareStatement(sQuery);
+				ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("OC_EXPORT_OBJECTID"));
+				ps.setString(2, sExportId);
+				ps.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
+				ps.setString(4, sValue);
+				ps.execute();
+				ps.close();
+			}
+			else {
+				rs.close();
+			}
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
 				oc_conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -469,7 +469,7 @@ public class MedwanQuery {
         
         // load DataCenter data
         try {
-            String sDoc = getConfigString("templateSource") + "/datacenterschedule.xml";
+            String sDoc = getConfigString("datacenterTemplateSource",getConfigString("templateSource")) + "datacenterschedule.xml";
             Document document = reader.read(new URL(sDoc));
             Element root = document.getRootElement();
             Element parameters = root.element("parameters");

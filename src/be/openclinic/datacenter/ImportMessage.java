@@ -67,54 +67,37 @@ public class ImportMessage extends DatacenterMessage {
 		this.receiveDateTime = receiveDateTime;
 	}
 	
-	public void store(){
+	public void store() throws SQLException{
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps=null;
-		try{
-			ps=conn.prepareStatement("select * from OC_IMPORTS where OC_IMPORT_SERVERID=? and OC_IMPORT_OBJECTID=?");
+		ps=conn.prepareStatement("select * from OC_IMPORTS where OC_IMPORT_SERVERID=? and OC_IMPORT_OBJECTID=?");
+		ps.setInt(1, getServerId());
+		ps.setInt(2, getObjectId());
+		ResultSet rs = ps.executeQuery();
+		if(!rs.next()){
+			rs.close();
+			ps.close();
+			ps=conn.prepareStatement("INSERT INTO OC_IMPORTS(OC_IMPORT_SERVERID,OC_IMPORT_OBJECTID,OC_IMPORT_ID,OC_IMPORT_CREATEDATETIME,OC_IMPORT_RECEIVEDATETIME,OC_IMPORT_ACKDATETIME,OC_IMPORT_DATA,OC_IMPORT_REF,OC_IMPORT_UID,OC_IMPORT_SENTDATETIME) values (?,?,?,?,?,?,?,?,?,?)");
 			ps.setInt(1, getServerId());
 			ps.setInt(2, getObjectId());
-			ResultSet rs = ps.executeQuery();
-			if(!rs.next()){
-				rs.close();
-				ps.close();
-				ps=conn.prepareStatement("INSERT INTO OC_IMPORTS(OC_IMPORT_SERVERID,OC_IMPORT_OBJECTID,OC_IMPORT_ID,OC_IMPORT_CREATEDATETIME,OC_IMPORT_RECEIVEDATETIME,OC_IMPORT_ACKDATETIME,OC_IMPORT_DATA,OC_IMPORT_REF,OC_IMPORT_UID,OC_IMPORT_SENTDATETIME) values (?,?,?,?,?,?,?,?,?,?)");
-				ps.setInt(1, getServerId());
-				ps.setInt(2, getObjectId());
-				ps.setString(3, getMessageId());
-				ps.setTimestamp(4, new java.sql.Timestamp(getCreateDateTime().getTime()));
-				ps.setTimestamp(5, new java.sql.Timestamp(getReceiveDateTime().getTime()));
-				ps.setTimestamp(6, getAckDateTime()==null?null:new java.sql.Timestamp(getAckDateTime().getTime()));
-				ps.setString(7,getData());
-				ps.setString(8, getRef());
-				setUid(MedwanQuery.getInstance().getOpenclinicCounter("OC_IMPORTS_UID"));
-				ps.setInt(9, getUid());
-				ps.setTimestamp(10, getSentDateTime()==null?null:new java.sql.Timestamp(getSentDateTime().getTime()));
-				ps.executeUpdate();
-			}
-			else {
-				rs.close();
-			}
+			ps.setString(3, getMessageId());
+			ps.setTimestamp(4, new java.sql.Timestamp(getCreateDateTime().getTime()));
+			ps.setTimestamp(5, new java.sql.Timestamp(getReceiveDateTime().getTime()));
+			ps.setTimestamp(6, getAckDateTime()==null?null:new java.sql.Timestamp(getAckDateTime().getTime()));
+			ps.setString(7,getData());
+			ps.setString(8, getRef());
+			setUid(MedwanQuery.getInstance().getOpenclinicCounter("OC_IMPORTS_UID"));
+			ps.setInt(9, getUid());
+			ps.setTimestamp(10, getSentDateTime()==null?null:new java.sql.Timestamp(getSentDateTime().getTime()));
+			ps.executeUpdate();
 		}
-		catch(Exception e){
-			try {
-				if(ps!=null){
-					ps.close();
-				}
-			} catch (SQLException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-			e.printStackTrace();
+		else {
+			rs.close();
 		}
-		finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if(ps!=null){
+			ps.close();
 		}
+		conn.close();
 	}
 	
 	public void updateAckDateTime(Date ackDateTime){
@@ -258,7 +241,7 @@ public class ImportMessage extends DatacenterMessage {
 			ps.setInt(1, uid);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
-				importMessage = new ImportMessage();
+				importMessage=new ImportMessage();
 				importMessage.setUid(uid);
 				importMessage.setServerId(rs.getInt("OC_IMPORT_SERVERID"));
 				importMessage.setObjectId(rs.getInt("OC_IMPORT_OBJECTID"));
@@ -299,7 +282,7 @@ public class ImportMessage extends DatacenterMessage {
 	}
 	
 	public void sendError(){
-		
+		updateErrorCode(getError());
 	}
 	
 	public String asImportAckXML(){
@@ -401,7 +384,12 @@ public class ImportMessage extends DatacenterMessage {
 				setMessageId(data.attributeValue("parameterid"));
 				setCreateDateTime(new SimpleDateFormat("yyyyMMddHHmmss").parse(data.attributeValue("createdatetime")));
 				setSentDateTime(new SimpleDateFormat("yyyyMMddHHmmss").parse(data.attributeValue("sentdatetime")));
-				setData(data.getText());
+				if(data.elements().size()>0){
+					setData(data.asXML());
+				}
+				else {
+					setData(data.getText());
+				}
 			}
 			
 		} catch (Exception e) {
@@ -417,7 +405,12 @@ public class ImportMessage extends DatacenterMessage {
 			setMessageId(data.attributeValue("parameterid"));
 			setCreateDateTime(new SimpleDateFormat("yyyyMMddHHmmss").parse(data.attributeValue("createdatetime")));
 			setSentDateTime(new SimpleDateFormat("yyyyMMddHHmmss").parse(data.attributeValue("sentdatetime")));
-			setData(data.getText());
+			if(data.elements().size()>0){
+				setData(data.asXML());
+			}
+			else {
+				setData(data.getText());
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

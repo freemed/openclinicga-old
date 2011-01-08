@@ -1,5 +1,7 @@
 package be.openclinic.datacenter;
 
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,9 +10,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.mail.MessagingException;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
@@ -23,7 +31,7 @@ public class Importer {
 		PreparedStatement ps=null;
 		String parameterid,parametertype;
 		try{
-			ps = conn.prepareStatement("select * from OC_IMPORTS where OC_IMPORT_IMPORTDATETIME is null");
+			ps = conn.prepareStatement("select * from OC_IMPORTS where OC_IMPORT_IMPORTDATETIME is null and OC_IMPORT_ERRORCODE is null");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				parameterid=rs.getString("OC_IMPORT_ID");
@@ -32,6 +40,16 @@ public class Importer {
 					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
 					importMessage.setImportDateTime(new java.util.Date());
 					if(storeSimpleValue(importMessage)){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+				}
+				else if(parametertype.equalsIgnoreCase("diagnosis")){
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storeDiagnosis(importMessage)){
 						importMessage.updateImportDateTime(importMessage.getImportDateTime());
 					}
 					else if(importMessage.getError()>0){
@@ -74,6 +92,72 @@ public class Importer {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static boolean storeDiagnosis(ImportMessage importMessage){
+		boolean bSuccess=false;
+		importMessage.setError(-1);
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps=null;
+		try{
+            SAXReader reader = new SAXReader(false);
+			Document document = reader.read(new ByteArrayInputStream(importMessage.data.getBytes("UTF-8")));
+			Element root = document.getRootElement();
+			if(root.getName().equalsIgnoreCase("data") && root.attributeValue("parameterid").equalsIgnoreCase("medical.1")){
+				Element diags = root.element("diags");
+				Iterator diagnoses = diags.elementIterator("diagnosis");
+				while(diagnoses.hasNext()){
+					Element diagnosis = (Element)diagnoses.next();
+					//First clear a possible existing value
+					ps = conn.prepareStatement("delete from DC_DIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE=? and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR=? and DC_DIAGNOSISVALUE_MONTH=?");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setString(2, "KPGS");
+					ps.setString(3, diagnosis.attributeValue("code"));
+					ps.setInt(4,Integer.parseInt(diagnosis.attributeValue("year")));
+					ps.setInt(5,Integer.parseInt(diagnosis.attributeValue("month")));
+					ps.execute();
+					ps.close();
+					ps = conn.prepareStatement("insert into DC_DIAGNOSISVALUES(DC_DIAGNOSISVALUE_SERVERID,DC_DIAGNOSISVALUE_OBJECTID,DC_DIAGNOSISVALUE_CODETYPE,DC_DIAGNOSISVALUE_CODE,DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH,DC_DIAGNOSISVALUE_COUNT) values(?,?,?,?,?,?,?)");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setInt(2, importMessage.getObjectId());
+					ps.setString(3, "KPGS");
+					ps.setString(4, diagnosis.attributeValue("code"));
+					ps.setInt(5,Integer.parseInt(diagnosis.attributeValue("year")));
+					ps.setInt(6,Integer.parseInt(diagnosis.attributeValue("month")));
+					ps.setInt(7,Integer.parseInt(diagnosis.attributeValue("count")));
+					ps.execute();
+					ps.close();
+				}
+				bSuccess=true;
+			}
+			
+		}
+		catch(SQLException e){
+			try {
+				if(ps!=null){
+					ps.close();
+				}
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bSuccess;
 	}
 	
 	public static boolean storeSimpleValue(ImportMessage importMessage){

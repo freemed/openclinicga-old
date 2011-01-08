@@ -3,6 +3,7 @@ package be.openclinic.datacenter;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
@@ -49,9 +50,14 @@ public class POP3Receiver extends Receiver {
 						msg.setType(root.attributeValue("type"));
 				    	msg.setReceiveDateTime(new java.util.Date());
 				    	msg.setRef("SMTP:"+message[i].getFrom()[0]);
-				    	msg.store();
-				    	message[i].setFlag(Flags.Flag.DELETED, true);
-				    	ackMessages.add(msg);
+				    	try {
+							msg.store();
+					    	message[i].setFlag(Flags.Flag.DELETED, true);
+					    	ackMessages.add(msg);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 			    	//Set ackDateTime for all received messages in mail
 					ImportMessage.sendAck(ackMessages);
