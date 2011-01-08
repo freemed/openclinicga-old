@@ -143,6 +143,7 @@
                             hMenu.put(getTran("Web.Manage", "ManageServerId", sWebLanguage), "main.do?Page=system/manageServerId.jsp");
                             hMenu.put(getTran("Web.Manage", "applications", sWebLanguage), "main.do?Page=system/manageApplications.jsp");
                             hMenu.put(getTran("Web.Manage", "manageSiteLabels", sWebLanguage), "main.do?Page=system/manageSiteLabels.jsp");
+                            hMenu.put(getTran("Web.Manage", "manageDatacenterConfig", sWebLanguage), "main.do?Page=system/manageDatacenterConfig.jsp");
 
                             out.print(ScreenHelper.writeTblHeader(getTran("web.manage", "setup", sWebLanguage), sCONTEXTPATH)
                                     + sortMenu(hMenu)

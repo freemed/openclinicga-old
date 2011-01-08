@@ -9,6 +9,29 @@
 		</columns>
 	</table>
     <!-- ###################################  OPENCLINIC TABLES ################################### -->
+	<table name="DC_DIAGNOSISVALUES" db="stats" sync="NONE">
+		<columns>
+			<column name="DC_DIAGNOSISVALUE_SERVERID" dbtype="int" javatype="integer" />
+			<column name="DC_DIAGNOSISVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_DIAGNOSISVALUE_CODETYPE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_DIAGNOSISVALUE_CODE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_DIAGNOSISVALUE_YEAR" dbtype="int" javatype="integer"/>
+			<column name="DC_DIAGNOSISVALUE_MONTH" dbtype="int" javatype="integer"/>
+			<column name="DC_DIAGNOSISVALUE_COUNT" dbtype="int" javatype="integer"/>
+	    </columns>
+	    <indexes>
+	    	<index name="DC_DIAGNOSISVALUE_OBJECTID">
+	    		<indexcolumn order="ASC" name="DC_DIAGNOSISVALUE_OBJECTID"/>
+	    	</index>
+	    	<index name="DC_DIAGNOSISVALUE_CODE">
+	    		<indexcolumn order="ASC" name="DC_DIAGNOSISVALUE_CODE"/>
+	    	</index>
+	    	<index name="DC_DIAGNOSISVALUE_YEARMONTH">
+	    		<indexcolumn order="ASC" name="DC_DIAGNOSISVALUE_YEAR"/>
+	    		<indexcolumn order="ASC" name="DC_DIAGNOSISVALUE_MONTH"/>
+	    	</index>
+	    </indexes>
+	</table>
 	<table name="DC_SIMPLEVALUES" db="stats" sync="NONE">
 		<columns>
 			<column name="DC_SIMPLEVALUE_SERVERID" dbtype="int" javatype="integer" />

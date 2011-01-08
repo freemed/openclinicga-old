@@ -560,6 +560,86 @@
 
         return sText;
     }
+    
+    public void autoLogin(String username, String password,javax.servlet.http.HttpServletRequest request){
+    	String ag = request.getHeader("User-Agent"), browser="", version="";
+    	try{
+    		int tmpPos; 
+    		ag = ag.toLowerCase();
+    		if (ag.contains("msie")) {
+    			browser = "Internet Explorer";
+    		    String str = ag.substring(ag.indexOf("msie") + 5);
+    		    version = str.substring(0, str.indexOf(";"));
+    		}
+    		else if (ag.contains("opera")){
+    			browser = "Opera";
+    			ag=ag.substring(ag.indexOf("version"));
+    			String str="";
+    			if(ag.indexOf(" ")>-1){
+    				str = (ag.substring(tmpPos = (ag.indexOf("/")) + 1, tmpPos + ag.indexOf(" "))).trim();
+    			    version = str.substring(0, str.indexOf(" "));
+    			}
+    			else{
+    				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
+    			}
+    		}
+    		else if (ag.contains("chrome")){
+    			browser = "Chrome";
+    			ag=ag.substring(ag.indexOf("chrome"));
+    			String str="";
+    			if(ag.indexOf(" ")>-1){
+    				str = (ag.substring(tmpPos = (ag.indexOf("/")) + 1, tmpPos + ag.indexOf(" "))).trim();
+    			    version = str.substring(0, str.indexOf(" "));
+    			}
+    			else{
+    				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
+    			}
+    		}
+    		else if (ag.contains("firefox")){
+    			browser = "Firefox";
+    			ag=ag.substring(ag.indexOf("firefox"));
+    			String str="";
+    			if(ag.indexOf(" ")>-1){
+    				str = (ag.substring(tmpPos = (ag.indexOf("/")) + 1, tmpPos + ag.indexOf(" "))).trim();
+    			    version = str.substring(0, str.indexOf(" "));
+    			}
+    			else{
+    				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
+    			}
+    		}
+    		else if (ag.contains("safari") && ag.contains("version")){
+    			browser = "Safari";
+    			ag=ag.substring(ag.indexOf("version"));
+    			String str="";
+    			if(ag.indexOf(" ")>-1){
+    				str = (ag.substring(tmpPos = (ag.indexOf("/")) + 1, tmpPos + ag.indexOf(" "))).trim();
+    			    version = str.substring(0, str.indexOf(" "));
+    			}
+    			else{
+    				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
+    			}
+    		}
+    	}
+    	catch(Exception e3){
+    		e3.printStackTrace();
+    	}
+    	User user=new User();
+    	java.sql.Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	user.initialize(ad_conn, username, user.encrypt(password));
+    	try{
+    		ad_conn.close();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+        request.getSession().setAttribute("activeUser",user);
+        MedwanQuery.setSession(request.getSession(),user);
+        //Add some session attributes for user connectivity monitoring
+        request.getSession().setAttribute("mon_ipaddress",request.getRemoteAddr());
+        request.getSession().setAttribute("mon_browser",browser+" "+version);
+        request.getSession().setAttribute("mon_start",new java.util.Date());
+
+    }
 
     //--- GET BUTTONS HTML ------------------------------------------------------------------------
     public String getButtonsHtml(HttpServletRequest req, User activeUser, AdminPerson activePatient,

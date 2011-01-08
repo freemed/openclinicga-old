@@ -7,6 +7,8 @@
     String sWebLanguage = null;
     User activeUser = null;
     AdminPerson activePatient = null;
+    
+   
 
     //***** session timed out *********************************************************************
     if (session == null || session.isNew()) {

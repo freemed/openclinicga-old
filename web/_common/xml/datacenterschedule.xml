@@ -7,6 +7,9 @@
 				yearly: YEARLY:M;d,M;d,M;d (executes on every month M on day d at 00h00)
 		-->
 		<module class="be.openclinic.datacenter.ExporterCore" param="core.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.1.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.1.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.1.3" interval="DAILY:0000"/>
 		<module class="be.openclinic.datacenter.ExporterCore" param="core.2" interval="DAILY:0000"/>
 		<module class="be.openclinic.datacenter.ExporterCore" param="core.3" interval="DAILY:0000"/>
 		<module class="be.openclinic.datacenter.ExporterCore" param="core.4" interval="DAILY:0000"/>
@@ -21,6 +24,23 @@
 		<module class="be.openclinic.datacenter.ExporterCore" param="core.9" interval="DAILY:0000"/>
 		<module class="be.openclinic.datacenter.ExporterCore" param="core.9.1" interval="DAILY:0000"/>
 		<module class="be.openclinic.datacenter.ExporterCore" param="core.9.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.10" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.11" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.12" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.13" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.14" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.15" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.16" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.17" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.18" interval="DAILY:0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.3" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.4" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.5" interval="DAILY:0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1" interval="MONTHLY:15;0000"/>
 	</exporters>
 	<senders>
 		<module class="be.openclinic.datacenter.SMTPSender" interval="300000"/>
@@ -30,6 +50,9 @@
 	</receivers>
 	<parameters>
 		<parameter param="core.1" 	type="simplevalue"/>
+		<parameter param="core.1.1" type="simplevalue"/>
+		<parameter param="core.1.2" type="simplevalue"/>
+		<parameter param="core.1.3" type="simplevalue"/>
 		<parameter param="core.2" 	type="simplevalue"/>
 		<parameter param="core.3" 	type="simplevalue"/>
 		<parameter param="core.4" 	type="simplevalue"/>
@@ -44,9 +67,25 @@
 		<parameter param="core.9" 	type="simplevalue"/>
 		<parameter param="core.9.1" type="simplevalue"/>
 		<parameter param="core.9.2" type="simplevalue"/>
+		<parameter param="core.10" type="simplevalue"/>
+		<parameter param="core.11" type="simplevalue"/>
+		<parameter param="core.12" type="simplevalue"/>
+		<parameter param="core.13" type="simplevalue"/>
+		<parameter param="core.14" type="simplevalue"/>
+		<parameter param="core.15" type="simplevalue"/>
+		<parameter param="core.16" type="simplevalue"/>
+		<parameter param="core.17" type="simplevalue"/>
+		<parameter param="core.18" type="simplevalue"/>
+		<parameter param="system.1" type="simplevalue"/>
+		<parameter param="system.2" type="simplevalue"/>
+		<parameter param="system.3" type="simplevalue"/>
+		<parameter param="system.4" type="simplevalue"/>
+		<parameter param="system.5" type="simplevalue"/>
+		<parameter param="medical.1" type="diagnosis"/>
 	</parameters>
 	<errorcodes>
 		<error code="0" meaning="no errors"/>
 		<error code="1" meaning="tried to insert an already existing row in stats.DC_SIMPLEVALUES"/>
+		<error code="2" meaning="Diagnosis XML parsing error at import"/>
 	</errorcodes>
 </datacenter>
