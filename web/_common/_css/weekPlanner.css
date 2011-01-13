@@ -192,13 +192,14 @@ div.weekScheduler_appointment_info {
     background: no-repeat center center url( "../../_img/resize.gif" );
 }
 
-.weekScheduler_appointment_txt hr {
-    height: 1px;
-    background-color: #9cc0e9;
-    border: none;
-    width: 100%;
-    margin-right: 5px;
-    display: none;
+.weekScheduler_appointment_txt ul {
+    margin:0;
+    padding:0;
+
+}
+.weekScheduler_appointment_txt{
+    list-style:none;
+    line-height:14px;
 }
 
 .weekScheduler_appointment_time {
@@ -288,7 +289,7 @@ div.weekScheduler_appointment_info {
     line-height: 18px;
     list-style: none; /* border-bottom: 1px solid #d7d7d7;*/
 
- 
+
 }
 
 #weekScheduler_popup a {
@@ -301,34 +302,38 @@ div.weekScheduler_appointment_info {
     font-weight: normal;
     text-decoration: underline;
     color: #505050;
-    padding: 1px 1px 1px 20px;
+    padding: 1px 1px 1px 22px;
+    border:1px solid white;
 }
 
 #weekScheduler_popup ul li a:hover {
-    _padding: 4px;
+
     border: 1px solid #A6A6A6;
     background-color: #FFFAEA;
 }
+#weekScheduler_popup ul li a{
+   background: url( ../../_img/buttons_transparent.png ) left 0 no-repeat;
+}
+#weekScheduler_popup ul li.del a {
 
-li.del a {
-    background: no-repeat left center url( "../../_img/icon_delete.gif" );
+        background-position:left -18px;
     line-height:22px;
 }
 
-li.open a {
-    background: no-repeat left center url( "../../_img/view.gif" );
+#weekScheduler_popup ul li.open a {
+        background-position:left -78px;
     line-height:22px;
 }
 
-li.after a {
-    background: no-repeat left center url( "../../_img/arrow-down-bottom.png" );
+#weekScheduler_popup ul li.after a {
+     background-position:left -435px;
 }
 
-li.before a {
-    background: no-repeat left center url( "../../_img/arrow-up-top.png" );
+#weekScheduler_popup ul li.before a {
+   background-position:left -405px;
 }
-li.person a {
-    background: no-repeat left center url( "../../_img/icon_person.png" );
+#weekScheduler_popup ul li.person a {
+   background-position:left -186px;
 }
 #weekScheduler_popup span {
 /* Appointment header row */
@@ -421,7 +426,7 @@ div.effective{
 
 }
 div.effective i{
-   color:#505050; 
+   color:#505050;
 }
 div.effectiveHeader{
     color:red;
