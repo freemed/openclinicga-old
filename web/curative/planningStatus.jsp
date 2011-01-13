@@ -18,8 +18,8 @@
                 <%
                     String sClass = "";
                     SimpleDateFormat hhmmDateFormat = new SimpleDateFormat("HH:mm");
-                    Vector vPatientFuturePlannings = Planning.getPatientFuturePlannings(activePatient.personid, new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
-                    if (vPatientFuturePlannings.size() > 0) {
+                    List lPatientFuturePlannings = Planning.getPatientFuturePlannings(activePatient.personid, new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+                    if (lPatientFuturePlannings.size() > 0) {
                         %>
                             <%-- HEADER --%>
                             <tr class="gray">
@@ -28,6 +28,7 @@
                                 <td><%=getTran("web","to",sWebLanguage)%></td>
                                 <td><%=getTran("planning","cancelationdate",sWebLanguage)%></td>
                                 <td><%=getTran("planning","user",sWebLanguage)%></td>
+                                <td><%=getTran("web","context",sWebLanguage)%></td>
                                 <td><%=getTran("web","prestation",sWebLanguage)%></td>
                                 <td><%=getTran("web","description",sWebLanguage)%></td>
                             </tr>
@@ -37,8 +38,8 @@
                         Calendar calPlanningStop;
                         Hashtable hFuture = new Hashtable();
 
-                        for (int i = 0; i < vPatientFuturePlannings.size(); i++) {
-                            planning = (Planning) vPatientFuturePlannings.elementAt(i);
+                        for (int i = 0; i < lPatientFuturePlannings.size(); i++) {
+                            planning = (Planning) lPatientFuturePlannings.get(i);
                             hFuture.put(planning.getPlannedDate(), planning);
                         }
 
@@ -105,6 +106,7 @@
                                             }
                                         %>
                                     </td>
+                                    <td><%=getTran("Web.Occup",planning.getContextID(),sWebLanguage)%></td>
                                     <td>
                                         <%
                                             orContact = planning.getContact();
