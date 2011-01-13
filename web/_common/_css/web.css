@@ -1743,7 +1743,13 @@ div.resultsDisplay {
     text-align: center;
     clear: both;
 }
-
+span.info{
+  padding-left: 15px;
+  background:transparent url( ../../_img/buttons_small_transparent.png ) left -4px no-repeat;
+}
+span.person{
+    background-position: left -20px;
+}
 a.link {
     outline: none;
     padding: 5px;
