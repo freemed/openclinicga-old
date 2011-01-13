@@ -5,9 +5,9 @@
 <%@ page import="java.util.Date" %>
 <%@include file="/includes/validateUser.jsp" %>
 <%=checkPermission("planning.user", "select", activeUser)%><%!
-    private int testItemMargin(Vector v, Planning a) {
-        for (int i = 0; i < v.size(); i++) {
-            Planning tempA = (Planning) v.get(i);
+    private int testItemMargin(List l, Planning a) {
+        for (int i = 0; i < l.size(); i++) {
+            Planning tempA = (Planning) l.get(i);
             long actualBegin = a.getPlannedDate().getTime();
             long actualEnd = a.getPlannedEndDate().getTime();
             long tempBegin = tempA.getPlannedDate().getTime();
@@ -48,7 +48,7 @@
     Planning appointment;
     String sUserName, sOnClick;
     String sTranViewDossier = getTranNoLink("web", "viewDossier", sWebLanguage);
-    Vector userAppointments = new Vector();
+    List userAppointments = new LinkedList();
     if (sUserId.length() > 0 && sPatientId.length() <= 0) {
         userAppointments = Planning.getUserPlannings(sUserId, startOfWeek, endOfWeek);
     } else if (sPatientId.length() > 0) {
@@ -82,11 +82,16 @@
         }
         // display one appointment
         sHtml.append(">");
-        String sToDisplay = "";
+         sHtml.append(">");
+        String sToDisplay = "<ul>";
         if (!appointment.getUserUID().equals("")) {
-            sToDisplay += "<i>" + ((appointment.getPatient()!=null)?HTMLEntities.htmlentities(appointment.getPatient().lastname + " " + appointment.getPatient().firstname):"") + "</i><hr />";
+            sToDisplay += "<li><span class='info person'>" + ((appointment.getPatient()!=null)?HTMLEntities.htmlentities(appointment.getPatient().lastname + " " + appointment.getPatient().firstname):"") + "</li>";
         }
-
+        if(appointment.getContextID().length()>0){
+            sToDisplay+="<li><span class='info'>"+getTran("Web.Occup", appointment.getContextID(), sWebLanguage)+"</li>";
+        }
+        sToDisplay+="</ul>";
+        
         // appointment info
         sHtml.append("\n\n<item>");
         sHtml.append("\n<id>" + appointment.getUid() + "</id>");

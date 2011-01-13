@@ -59,7 +59,7 @@
     // display all registered appointments for the active User
 
     Planning appointment;
-    Vector userAppointments = new Vector();
+    List userAppointments = new LinkedList();
 
 
     if (sUserId.length() > 0 && !isPatient) {
@@ -90,11 +90,11 @@
         }
 
         if(bShow){
-            calendarGenerator.addDateRow(appointment.getPlannedDate());
+            calendarGenerator.addDateRow(appointment);
             if(isPatient){
-                calendarGenerator.addAppointmentRow(appointment.getPlannedDate(),appointment.getPlannedEndDate(),activeUser);
+                calendarGenerator.addAppointmentRow(activeUser);
             }else{
-                 calendarGenerator.addAppointmentRow(appointment.getPlannedDate(),appointment.getPlannedEndDate(),appointment.getPatient());
+                 calendarGenerator.addAppointmentRow(appointment);
             }
         }
     }
