@@ -1280,6 +1280,28 @@ public class Encounter extends OC_Object {
         return this.getUid() + sBegin + sEnd + sType;
     }
 
+    public String getEncounterDisplayNameService(String language) {
+        String sType = "", sBegin = "", sEnd = "", sService="";
+
+        if (ScreenHelper.checkString(this.getType()).length() > 0) {
+            sType = ", " + MedwanQuery.getInstance().getLabel("encountertype", this.getType(), language);
+        }
+
+        if (this.getBegin() != null) {
+            sBegin = ", " + new SimpleDateFormat("dd/MM/yyyy").format(this.getBegin());
+        }
+
+        if (this.getEnd() != null) {
+            sEnd = " -> " + new SimpleDateFormat("dd/MM/yyyy").format(this.getEnd());
+        }
+        if (ScreenHelper.checkString(this.getServiceUID()).length() > 0) {
+            sService = MedwanQuery.getInstance().getLabel("service", this.getServiceUID(), language);
+        }
+
+
+        return sService + sBegin + sEnd + sType;
+    }
+
     public String getEncounterDisplayNameNoDate(String language) {
         String sType = "", sBegin = "", sEnd = "";
 

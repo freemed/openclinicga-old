@@ -37,19 +37,19 @@ import com.lowagie.text.Cell;
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.PdfPCell;
 
-public class DiagnosisGraph {
+public class EncounterDiagnosisGraph {
 	
-	public static String drawSimpleValueGraph(int serverId, String code, String sLanguage,String userid){
+	public static String drawSimpleValueGraph(int serverId, String code, String sLanguage,String userid,String type){
     	
 		Connection conn=null;
 		PreparedStatement ps=null;
         try {
 			TimeSeries series = new TimeSeries("data");
 			conn = MedwanQuery.getInstance().getStatsConnection();
-			ps = conn.prepareStatement("select * from DC_DIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE='KPGS' and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR>? order by DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH");
+			ps = conn.prepareStatement("select * from DC_ENCOUNTERDIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE='KPGS' and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_ENCOUNTERTYPE=? order by DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH");
 			ps.setInt(1, serverId);
 			ps.setString(2, code);
-			ps.setInt(3, MedwanQuery.getInstance().getConfigInt("datacenterFirstGraphYear",1900));
+			ps.setString(3, type);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 	    		series.addOrUpdate(new Day(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+rs.getString("DC_DIAGNOSISVALUE_MONTH")+"/"+rs.getString("DC_DIAGNOSISVALUE_YEAR"))),Integer.parseInt(rs.getString("DC_DIAGNOSISVALUE_COUNT")));
@@ -59,7 +59,7 @@ public class DiagnosisGraph {
 	    	TimeSeriesCollection dataset = new TimeSeriesCollection(series);
 	    	// create chart
 	        final JFreeChart chart = ChartFactory.createTimeSeriesChart(
-	        		ScreenHelper.getTranNoLink("datacenterserver", serverId+"", sLanguage)+"\n"+MedwanQuery.getInstance().getCodeTran("icd10code"+code, sLanguage), // chart title
+	        		ScreenHelper.getTranNoLink("datacenterserver", serverId+"", sLanguage)+"\n"+MedwanQuery.getInstance().getLabel("web",type,sLanguage)+": "+MedwanQuery.getInstance().getCodeTran("icd10code"+code, sLanguage), // chart title
 	            ScreenHelper.getTranNoLink("web","time", sLanguage), // domain axis label
 	            "#", // range axis label
 	            dataset, // data

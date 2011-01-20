@@ -62,7 +62,6 @@ public class ScreenHelper {
 
         try{
             if(sLanguage==null || sLanguage.length() != 2){
-                System.out.println("Exception in ScreenHelper.getTran : Language is null or not composed of two-letters");
                 return sID;
             }
 
@@ -252,49 +251,50 @@ public class ScreenHelper {
         	sLanguage="nl";
         }
         else if(sLanguage!=null && sLanguage.equalsIgnoreCase("e")){
-        	sLanguage="e";
+        	sLanguage="en";
         }
 
         try{
-            if(sLanguage==null || sLanguage.length() != 2) throw new Exception("Language must be a two-letter notation. sType="+sType+", sID="+sID+", sLanguage="+sLanguage);
-
-            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
-                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
-            }
-            else {
-                Hashtable labels = MedwanQuery.getInstance().getLabels();
-                if(labels==null){
-                    saveUnknownLabel(sType,sID,sLanguage);
-                    return sID;
-                }
-                else{
-                    Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
-                    if(langHashtable == null){
-                        return sID;
-                    }
-
-                    Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
-                    if(typeHashtable == null){
-                        return sID;
-                    }
-
-                    Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
-                    if(idHashtable == null){
-                        return sID;
-                    }
-
-                    Label label = (Label)idHashtable.get(sID.toLowerCase());
-                    if(label == null){
-                        return sID;
-                    }
-
-                    labelValue = label.value;
-
-                    // empty label : return id as labelValue
-                    if(labelValue==null || labelValue.trim().length()==0) {
-                        return sID;
-                    }
-                }
+            if(sLanguage!=null && sLanguage.length() == 2) {
+	
+	            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
+	                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
+	            }
+	            else {
+	                Hashtable labels = MedwanQuery.getInstance().getLabels();
+	                if(labels==null){
+	                    saveUnknownLabel(sType,sID,sLanguage);
+	                    return sID;
+	                }
+	                else{
+	                    Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
+	                    if(langHashtable == null){
+	                        return sID;
+	                    }
+	
+	                    Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
+	                    if(typeHashtable == null){
+	                        return sID;
+	                    }
+	
+	                    Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
+	                    if(idHashtable == null){
+	                        return sID;
+	                    }
+	
+	                    Label label = (Label)idHashtable.get(sID.toLowerCase());
+	                    if(label == null){
+	                        return sID;
+	                    }
+	
+	                    labelValue = label.value;
+	
+	                    // empty label : return id as labelValue
+	                    if(labelValue==null || labelValue.trim().length()==0) {
+	                        return sID;
+	                    }
+	                }
+	            }
             }
         }
         catch(Exception e){

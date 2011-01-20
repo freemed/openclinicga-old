@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -36,6 +37,7 @@ public class Importer {
 			while(rs.next()){
 				parameterid=rs.getString("OC_IMPORT_ID");
 				parametertype=ScreenHelper.checkString((String)MedwanQuery.getInstance().getDatacenterparametertypes().get(parameterid));
+				System.out.println("parametertype="+parametertype);
 				if(parametertype.equalsIgnoreCase("simplevalue")){
 					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
 					importMessage.setImportDateTime(new java.util.Date());
@@ -46,10 +48,43 @@ public class Importer {
 						importMessage.sendError();
 					}
 				}
+				else if(parametertype.equalsIgnoreCase("bedoccupancy")){
+					System.out.println("bedoccupancy");
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storeBedOccupancy(importMessage)){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+				}
 				else if(parametertype.equalsIgnoreCase("diagnosis")){
 					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
 					importMessage.setImportDateTime(new java.util.Date());
 					if(storeDiagnosis(importMessage)){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+				}
+				else if(parametertype.equalsIgnoreCase("admissiondiagnosis")){
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storeDiagnosis(importMessage,"admission")){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+					else {
+					}
+				}
+				else if(parametertype.equalsIgnoreCase("visitdiagnosis")){
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storeDiagnosis(importMessage,"visit")){
 						importMessage.updateImportDateTime(importMessage.getImportDateTime());
 					}
 					else if(importMessage.getError()>0){
@@ -125,6 +160,138 @@ public class Importer {
 					ps.setInt(5,Integer.parseInt(diagnosis.attributeValue("year")));
 					ps.setInt(6,Integer.parseInt(diagnosis.attributeValue("month")));
 					ps.setInt(7,Integer.parseInt(diagnosis.attributeValue("count")));
+					ps.execute();
+					ps.close();
+				}
+				bSuccess=true;
+			}
+			
+		}
+		catch(SQLException e){
+			try {
+				if(ps!=null){
+					ps.close();
+				}
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bSuccess;
+	}
+	
+	public static boolean storeBedOccupancy(ImportMessage importMessage){
+		boolean bSuccess=false;
+		importMessage.setError(-1);
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps=null;
+		try{
+            SAXReader reader = new SAXReader(false);
+			Document document = reader.read(new ByteArrayInputStream(importMessage.data.getBytes("UTF-8")));
+			Element root = document.getRootElement();
+			if(root.getName().equalsIgnoreCase("data") && root.attributeValue("parameterid").equalsIgnoreCase("encounter.1")){
+				Element services = root.element("services");
+				Iterator servs = services.elementIterator("service");
+				ps = conn.prepareStatement("delete from DC_BEDOCCUPANCYVALUES where DC_BEDOCCUPANCYVALUE_SERVERID=? and DC_BEDOCCUPANCYVALUE_OBJECTID=?");
+				ps.setInt(1, importMessage.getServerId());
+				ps.setInt(2, importMessage.getObjectId());
+				ps.executeUpdate();
+				ps.close();
+				while(servs.hasNext()){
+					Element service = (Element)servs.next();
+					//First clear a possible existing value
+					ps = conn.prepareStatement("insert into DC_BEDOCCUPANCYVALUES(DC_BEDOCCUPANCYVALUE_SERVERID,DC_BEDOCCUPANCYVALUE_OBJECTID,DC_BEDOCCUPANCYVALUE_SERVICEUID,DC_BEDOCCUPANCYVALUE_DATE,DC_BEDOCCUPANCYVALUE_TOTALBEDS,DC_BEDOCCUPANCYVALUE_OCCUPIEDBEDS) values(?,?,?,?,?,?)");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setInt(2, importMessage.getObjectId());
+					ps.setString(3, service.attributeValue("serviceid"));
+					ps.setTimestamp(4, new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmss").parse(service.attributeValue("date")).getTime()));
+					ps.setInt(5,Integer.parseInt(service.attributeValue("totalbeds")));
+					ps.setInt(6,Integer.parseInt(service.attributeValue("occupiedbeds").equalsIgnoreCase("null")?"0":service.attributeValue("occupiedbeds")));
+					ps.execute();
+					ps.close();
+				}
+				bSuccess=true;
+			}
+			
+		}
+		catch(SQLException e){
+			try {
+				if(ps!=null){
+					ps.close();
+				}
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (ParseException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bSuccess;
+	}
+	
+	public static boolean storeDiagnosis(ImportMessage importMessage,String type){
+		boolean bSuccess=false;
+		importMessage.setError(-1);
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps=null;
+		try{
+            SAXReader reader = new SAXReader(false);
+			Document document = reader.read(new ByteArrayInputStream(importMessage.data.getBytes("UTF-8")));
+			Element root = document.getRootElement();
+			if(root.getName().equalsIgnoreCase("data") && root.attributeValue("parameterid").startsWith("medical.1")){
+				Element diags = root.element("diags");
+				Iterator diagnoses = diags.elementIterator("diagnosis");
+				while(diagnoses.hasNext()){
+					Element diagnosis = (Element)diagnoses.next();
+					//First clear a possible existing value
+					ps = conn.prepareStatement("delete from DC_ENCOUNTERDIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE=? and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR=? and DC_DIAGNOSISVALUE_MONTH=?");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setString(2, "KPGS");
+					ps.setString(3, diagnosis.attributeValue("code"));
+					ps.setInt(4,Integer.parseInt(diagnosis.attributeValue("year")));
+					ps.setInt(5,Integer.parseInt(diagnosis.attributeValue("month")));
+					ps.execute();
+					ps.close();
+					ps = conn.prepareStatement("insert into DC_ENCOUNTERDIAGNOSISVALUES(DC_DIAGNOSISVALUE_SERVERID,DC_DIAGNOSISVALUE_OBJECTID,DC_DIAGNOSISVALUE_CODETYPE,DC_DIAGNOSISVALUE_CODE,DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH,DC_DIAGNOSISVALUE_COUNT,DC_DIAGNOSISVALUE_ENCOUNTERTYPE) values(?,?,?,?,?,?,?,?)");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setInt(2, importMessage.getObjectId());
+					ps.setString(3, "KPGS");
+					ps.setString(4, diagnosis.attributeValue("code"));
+					ps.setInt(5,Integer.parseInt(diagnosis.attributeValue("year")));
+					ps.setInt(6,Integer.parseInt(diagnosis.attributeValue("month")));
+					ps.setInt(7,Integer.parseInt(diagnosis.attributeValue("count")));
+					ps.setString(8, type);
 					ps.execute();
 					ps.close();
 				}

@@ -24,6 +24,7 @@ public class Scheduler implements Runnable{
 	
 	public static void runScheduler(){
         // load scheduler config from XML
+
 		String sDoc=null;
 		SAXReader reader=null;
 		Document document=null;
@@ -77,11 +78,11 @@ public class Scheduler implements Runnable{
                 Receiver receiver = (Receiver)Class.forName(className).newInstance();
                 receiver.receive();
             }
-            Importer.execute();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        Importer.execute();
 	}
 
 	public void run() {
@@ -121,9 +122,6 @@ public class Scheduler implements Runnable{
 				String weekdays = s.split("\\:")[1].split(";")[0];
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(new Date());
-				System.out.println("weekdays="+weekdays);
-				System.out.println("calendar.get(Calendar.DAY_OF_WEEK)="+calendar.get(Calendar.DAY_OF_WEEK));
-				System.out.println("weekdays.indexOf(''+calendar.get(Calendar.DAY_OF_WEEK))="+weekdays.indexOf(""+calendar.get(Calendar.DAY_OF_WEEK)));
 				if(weekdays.indexOf(""+calendar.get(Calendar.DAY_OF_WEEK))>-1){
 					if(Integer.parseInt(s.split("\\:")[1].split(";")[1])<=getTime()){
 						deadline= new SimpleDateFormat("ddMMyyyyHHmm").parse(new SimpleDateFormat("ddMMyyyy").format(new Date())+s.split("\\:")[1].split(";")[1]);

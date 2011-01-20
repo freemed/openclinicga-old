@@ -21,21 +21,21 @@ import org.dom4j.io.SAXReader;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 
-public class POP3Receiver extends Receiver {
+public class IMAP4Receiver extends Receiver {
 
 	public void receive(){
         String host = MedwanQuery.getInstance().getConfigString("datacenterPOP3Host","localhost");
         String username = MedwanQuery.getInstance().getConfigString("datacenterPOP3Username","");
         String password = MedwanQuery.getInstance().getConfigString("datacenterPOP3Password","");
     	Properties props=System.getProperties();
+    	//props.put("mail.debug","true");
         Session session = Session.getInstance(props, null);
 	    try {
-	    	Store store = session.getStore("pop3");
-
+	    	Store store = session.getStore("imap");
 			store.connect(host, username, password);
 		    Folder folder = store.getFolder("INBOX");
 		    folder.open(Folder.READ_WRITE);
-	
+		    System.out.println("receiving...");
 		    Message message[] = folder.getMessages();
 		    for (int i=0, n=message.length; i<n; i++) {
 		    	if(message[i].getSubject().startsWith("datacenter.content")){
