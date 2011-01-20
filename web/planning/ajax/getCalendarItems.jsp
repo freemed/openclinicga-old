@@ -70,7 +70,7 @@
         g2.setTime(appointment.getPlannedEndDate());
 
         int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sBegin))).intValue();    // Start hour of week planner
-
+		
         if (g.get(Calendar.HOUR_OF_DAY) < startHourOfWeekPlanner || (g2.get(Calendar.HOUR_OF_DAY) > (Float.parseFloat(sEnd) + 1) || ((g2.get(Calendar.HOUR_OF_DAY) == (Float.parseFloat(sEnd) + 1)) && g2.get(Calendar.MINUTE) > 0))) {
             hidden = fullDateFormat.format(g.getTime()) + " -> " + fullDateFormat.format(g2.getTime());
         }

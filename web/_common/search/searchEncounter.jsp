@@ -62,6 +62,7 @@ java.util.Vector" %>
                                 String sTRClass = "";
                                 String sTRSelectClass = "";
                                 String sEncounterUID = "";
+                                String sService = "";
 
                                 while (iter.hasNext()) {
 
@@ -83,10 +84,14 @@ java.util.Vector" %>
                                         sType = getTran("encountertype", eTmp.getType(), sWebLanguage);
                                     }
 
-                                    sStart = getSQLTimeStamp(new Timestamp(eTmp.getBegin().getTime()));
+                                    if (eTmp.getServiceUID().length() > 0) {
+                                        sService = getTran("service", eTmp.getServiceUID(), sWebLanguage);
+                                    }
+
+                                    sStart = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getBegin());
 
                                     if (eTmp.getEnd() != null) {
-                                        sEnd = getSQLTimeStamp(new Timestamp(eTmp.getEnd().getTime()));
+                                    	sEnd = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getEnd());
                                     } else {
                                         sEnd = "";
                                     }
@@ -101,11 +106,11 @@ java.util.Vector" %>
                                     results.append("<tr class='" + sTRClass + "' " +
                                             " onmouseover=\"this.style.cursor='hand';this.className='list_select" + sTRSelectClass + "';\" " +
                                             " onmouseout=\"this.style.cursor='default';this.className='" + sTRClass + "';\" " +
-                                            " onclick=\"setEncounter('" + sEncounterUID + "', '" + sEncounterUID + ", " + sStart + ", " + sEnd + ", " + sType + "');\">")
+                                            " onclick=\"setEncounter('" + sEncounterUID + "', '" + sService + ", " + sStart + " -> " + sEnd + ", " + sType + "');\">")
                                             .append(" <td>" + sEncounterUID + "</td>")
                                             .append(" <td>" + sStart + "</td>")
                                             .append(" <td>" + sEnd + "</td>")
-                                            .append(" <td>" + checkString(eTmp!=null && eTmp.getService()!=null?eTmp.getService().getLabel(sWebLanguage):"") + "</td>")
+                                            .append(" <td>" + sService + "</td>")
                                             .append(" <td>" + sType + "</td>")
                                             .append("</tr><tr height='1'/>");
                                 }

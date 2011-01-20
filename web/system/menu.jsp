@@ -70,15 +70,12 @@
                         hMenu.put(getTran("Web.Occup", "medwan.common.execute-sql", sWebLanguage), "main.do?Page=system/executeSQL.jsp");
                         hMenu.put(getTran("Web.Manage", "MonitorConnections", sWebLanguage), "main.do?Page=system/monitorConnections.jsp");
                         hMenu.put(getTran("Web.Manage", "MonitorAccess", sWebLanguage), "main.do?Page=system/monitorAccess.jsp");
-                        hMenu.put(getTran("Web", "monitorservices", sWebLanguage), "main.do?Page=system/monitorServices.jsp");
                         hMenu.put(getTran("Web.Manage", "ViewErrors", sWebLanguage), "main.do?Page=system/monitorErrors.jsp");
                         hMenu.put(getTran("Web.Manage", "processUpdateQueries", sWebLanguage), "main.do?Page=system/processUpdateQueries.jsp");
                         if (MedwanQuery.getInstance().getConfigString("serverId").equals("1")) {
                             hMenu.put(getTran("Web.Manage", "merge_persons", sWebLanguage), "main.do?Page=system/mergePersons.jsp");
                         }
 
-                        hMenu.put(getTran("Web.manage", "archiveActiveFile", sWebLanguage), "main.do?Page=system/archiveActiveFile.jsp");
-                        hMenu.put(getTran("Web.manage", "reactivateArchivedFile", sWebLanguage), "main.do?Page=system/reactivateArchivedFile.jsp");
 
                         out.print(ScreenHelper.writeTblHeader(getTran("Web.Manage", "Database", sWebLanguage), sCONTEXTPATH)
                                 + sortMenu(hMenu)
@@ -97,9 +94,7 @@
                     hMenu = new Hashtable();
                     hMenu.put(getTran("Web.Occup", "medwan.common.messages", sWebLanguage), "main.do?Page=system/readMessage.jsp");
                     hMenu.put(getTran("Web.Manage", "SynchronizeLabelsWithIni", sWebLanguage), "main.do?Page=system/syncLabelsWithIni.jsp");
-                    hMenu.put(getTran("Web.Manage", "Synchronization", sWebLanguage), "main.do?Page=system/incrementalSynchronization.jsp");
                     hMenu.put(getTran("Web.Manage", "SynchronizeTransactionItemsWithIni", sWebLanguage), "main.do?Page=system/syncTransactionItemsWithIni.jsp");
-                    hMenu.put(getTran("Web.Manage", "Import_Export_Table", sWebLanguage), "main.do?Page=system/importExportTable.jsp");
                     hMenu.put(getTran("Web.Manage", "synchronization.of.counters", sWebLanguage), "main.do?Page=system/countersSync.jsp");
 
                     out.print(ScreenHelper.writeTblHeader(getTran("web.manage", "Synchronization", sWebLanguage), sCONTEXTPATH)
@@ -138,8 +133,6 @@
                             hMenu.put(getTran("Web.Manage", "ManageConfiguration", sWebLanguage), "main.do?Page=system/manageConfig.jsp");
                             hMenu.put(getTran("Web.Manage", "ManageConfigurationTabbed", sWebLanguage), "main.do?Page=system/manageConfigTabbed.jsp");
                             hMenu.put(getTran("Web.Manage", "manageTransactionItems", sWebLanguage), "main.do?Page=system/manageTransactionItems.jsp");
-                            hMenu.put(getTran("Web.Manage", "Counters", sWebLanguage), "main.do?Page=system/manageCounters.jsp");
-                  //          hMenu.put(getTran("Web.Manage", "UpdateCounters", sWebLanguage), "main.do?Page=system/updateCounters.jsp");
                             hMenu.put(getTran("Web.Manage", "ManageServerId", sWebLanguage), "main.do?Page=system/manageServerId.jsp");
                             hMenu.put(getTran("Web.Manage", "applications", sWebLanguage), "main.do?Page=system/manageApplications.jsp");
                             hMenu.put(getTran("Web.Manage", "manageSiteLabels", sWebLanguage), "main.do?Page=system/manageSiteLabels.jsp");
@@ -160,8 +153,6 @@
                             <%
                                 hMenu = new Hashtable();
                                 hMenu.put(getTran("Web.manage", "diagnostics", sWebLanguage), "main.do?Page=system/diagnostics.jsp");
-                                hMenu.put(getTran("Web.manage", "macro", sWebLanguage), "main.do?Page=system/macro.jsp");
-                                hMenu.put(getTran("Web.manage", "resetdebet", sWebLanguage), "main.do?Page=system/resetDebet.jsp");
 
                                 out.print(ScreenHelper.writeTblHeader(getTran("web.occup", "medwan.common.other", sWebLanguage), sCONTEXTPATH)
                                         + sortMenu(hMenu)

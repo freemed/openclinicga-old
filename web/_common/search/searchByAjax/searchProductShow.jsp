@@ -81,7 +81,7 @@
         if (sClass.equals("")) sClass = "1";
         else sClass = "";
 
-        boolean inStock = activePatient.getActiveDivision()!=null && product.isInStock(activePatient.getActiveDivision().code);
+        boolean inStock = activePatient!=null && activePatient.getActiveDivision()!=null && product.isInStock(activePatient.getActiveDivision().code);
         if(MedwanQuery.getInstance().getConfigInt("assumeStock",0)==1){
         	inStock=true;
         }

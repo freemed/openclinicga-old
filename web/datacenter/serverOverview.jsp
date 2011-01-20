@@ -158,11 +158,38 @@
 	%>
 	<tr class='admin'>
 		<td colspan="<%= colspan %>">
+			<img src="<c:url value="/_img/plus.jpg"/>" onclick="document.getElementById('divBedoccupancy').style.display='';"/>
+			<img src="<c:url value="/_img/minus.jpg"/>" onclick="document.getElementById('divBedoccupancy').style.display='none';"/>
+			<%=getTran("datacenter","server.bedoccupancy",sWebLanguage) %>&nbsp;
+			<span style="font-size: 14"><%=DatacenterHelper.getGlobalBedoccupancy(Integer.parseInt(serverid))+"%" %></span>
+		</td>
+	</tr>
+	<tr ><td colspan="<%= colspan%>"><div style="display: none" id="divBedoccupancy" name="divBedoccupancy"></div></td></tr>
+	<tr class='admin'>
+		<td colspan="<%= colspan %>">
+			<img src="<c:url value="/_img/plus.jpg"/>" onclick="document.getElementById('divDiagnoses').style.display='';"/>
+			<img src="<c:url value="/_img/minus.jpg"/>" onclick="document.getElementById('divDiagnoses').style.display='none';"/>
 			<%=getTran("datacenter","server.diagnostics",sWebLanguage) %>&nbsp;
+			<select name="diagtype" id="diagtype" class="text" onchange="loadDiagnoses('<%=serverid %>',document.getElementById('diagmonth').value);">
+				<option value='ALL'><%=getTran("web","all",sWebLanguage) %></option>
+				<%
+					if(DatacenterHelper.hasEncounterDiagnosticMonths(Integer.parseInt(serverid),"admission")){
+				%>
+				<option value='admission'><%=getTran("web","admissions",sWebLanguage) %></option>
+				<%
+					}
+					if(DatacenterHelper.hasEncounterDiagnosticMonths(Integer.parseInt(serverid),"visit")){
+				%>
+				<option value='visit'><%=getTran("web","consultations",sWebLanguage) %></option>
+				<%
+					}
+				%>
+			</select>
+			&nbsp;
 			<select name="diagmonth" id="diagmonth" class="text" onchange="loadDiagnoses('<%=serverid %>',this.value);"><%=sb.toString() %></select>
 		</td>
 	</tr>
-	<tr><td colspan="<%= colspan%>"><div id="divDiagnoses" name="divDiagnoses"></div></td></tr>
+	<tr ><td colspan="<%= colspan%>"><div style="display: none" id="divDiagnoses" name="divDiagnoses"></div></td></tr>
 </table>
 	
 
@@ -195,14 +222,50 @@
     }
 
     function loadDiagnoses(serverid,period){
-        var params = 'serverid=' + serverid
-                +"&period="+ period;
-        var url= '<c:url value="/datacenter/loadDiagnoses.jsp"/>?ts=' + <%=getTs()%>;
+        if(document.getElementById("diagtype").options[document.getElementById("diagtype").selectedIndex].value=="ALL"){
+            document.getElementById('divDiagnoses').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+	        var params = 'serverid=' + serverid
+	                +"&period="+ period;
+	        var url= '<c:url value="/datacenter/loadDiagnoses.jsp"/>?ts=' + new Date();
+	        new Ajax.Request(url,{
+	                method: "GET",
+	                parameters: params,
+	                onSuccess: function(resp){
+	                    $('divDiagnoses').innerHTML=resp.responseText;
+	                },
+	                onFailure: function(){
+	                }
+	            }
+	        );
+        }
+        else {
+            document.getElementById('divDiagnoses').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+            var params = 'serverid=' + serverid
+	        +"&encountertype="+ document.getElementById("diagtype").options[document.getElementById("diagtype").selectedIndex].value
+	        +"&period="+ period;
+		    var url= '<c:url value="/datacenter/loadEncounterDiagnoses.jsp"/>?ts=' + new Date();
+		    new Ajax.Request(url,{
+		            method: "GET",
+		            parameters: params,
+		            onSuccess: function(resp){
+		                $('divDiagnoses').innerHTML=resp.responseText;
+		            },
+		            onFailure: function(){
+		            }
+		        }
+		    );
+        }
+    }
+
+    function loadBedoccupancy(serverid){
+        document.getElementById('divBedoccupancy').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+        var params = 'serverid=' + serverid;
+        var url= '<c:url value="/datacenter/loadBedoccupancy.jsp"/>?ts=' + new Date();
         new Ajax.Request(url,{
                 method: "GET",
                 parameters: params,
                 onSuccess: function(resp){
-                    $('divDiagnoses').innerHTML=resp.responseText;
+                    $('divBedoccupancy').innerHTML=resp.responseText;
                 },
                 onFailure: function(){
                 }
@@ -214,7 +277,12 @@
         openPopupWindow("/datacenter/diagnosisGraph.jsp&serverid=<%=serverid%>&diagnosiscode="+code+"&ts=<%=getTs()%>");
     }
 
+    function encounterDiagnosisGraph(code,type){
+        openPopupWindow("/datacenter/encounterDiagnosisGraph.jsp&serverid=<%=serverid%>&diagnosiscode="+code+"&type="+type+"&ts=<%=getTs()%>");
+    }
+
     loadDiagnoses('<%=serverid%>',document.getElementById('diagmonth').options[document.getElementById('diagmonth').selectedIndex].value);
+    loadBedoccupancy('<%=serverid%>');
 
 	
 </script>

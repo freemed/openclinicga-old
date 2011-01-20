@@ -35,6 +35,8 @@
 		if(MedwanQuery.getInstance().getConfigString("datacenterUserPassword."+request.getParameter("username"),"plmouidgsjejn,fjfk").equalsIgnoreCase(request.getParameter("password"))){
 			session.setAttribute("datacenteruser",request.getParameter("username"));
 		}
+		activeUser.person.language=MedwanQuery.getInstance().getConfigString("datacenterUserLanguage."+request.getParameter("username"),"FR");
+        session.setAttribute(sAPPTITLE + "WebLanguage", activeUser.person.language);
 	}
 	if(session.getAttribute("datacenteruser")==null){
 %>

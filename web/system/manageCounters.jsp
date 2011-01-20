@@ -1,6 +1,4 @@
-<%@page import="com.codestudio.util.SQLUtil,
-                 com.codestudio.util.JDBCPool,
-                be.openclinic.system.Counter,java.util.*" %>
+<%@page import="be.openclinic.system.Counter,java.util.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -22,34 +20,8 @@
             <td width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web.Manage.Counter","DB",sWebLanguage)%></td>
             <td>
                 <select name="FindDatabase" class="text" onchange="transactionForm.submit();">
-                <%
-                    SortedSet set = new TreeSet();
-                    SQLUtil sqlUtil = SQLUtil.getInstance();
-                    Enumeration jdbcPools = sqlUtil.getAllPoolnames();
-
-                    JDBCPool jdbcPool;
-                    while (jdbcPools.hasMoreElements()) {
-                        jdbcPool = sqlUtil.getPool((String) jdbcPools.nextElement());
-                        set.add(jdbcPool.getPoolname());
-                    }
-
-                    // sort
-                    Iterator it = set.iterator();
-                    String sPool, sSelected;
-                    while (it.hasNext()) {
-                        sSelected = "";
-                        sPool = (String) it.next();
-                        if (sFindDatabase == null || sFindDatabase.length() == 0) {
-                            sFindDatabase = sPool;
-                        }
-
-                        if (sPool.equals(sFindDatabase)) {
-                            sSelected = " selected";
-                        }
-
-                %><option<%=sSelected%> name="<%=sPool%>"><%=sPool%></option><%
-                    }
-                %>
+                	<option <%=sFindDatabase.equals("admin")?"selected":"" %> value="admin">admin</option>
+                	<option <%=sFindDatabase.equals("occup")?"selected":"" %> value="occup">occup</option>
                 </select>
             </td>
         </tr>

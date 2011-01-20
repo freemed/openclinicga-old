@@ -41,13 +41,34 @@
 		<module class="be.openclinic.datacenter.ExporterSystem" param="system.5" interval="DAILY:0000"/>
 
 		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1.2" interval="MONTHLY:15;0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterEncounter" param="encounter.1" interval="DAILY:0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.0" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.0.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.0.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.1.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.1.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.2.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.2.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.3" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.3.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.3.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.4" interval="MONTHLY:15;0000"/>
 	</exporters>
 	<senders>
 		<module class="be.openclinic.datacenter.SMTPSender" interval="300000"/>
 	</senders>
 	<receivers>
-		<module class="be.openclinic.datacenter.POP3Receiver"/>
+		<module class="be.openclinic.datacenter.IMAP4Receiver"/>
 	</receivers>
+	<unusedreceivers>
+		<module class="be.openclinic.datacenter.POP3Receiver"/>
+	</unusedreceivers>
 	<parameters>
 		<parameter param="core.1" 	type="simplevalue"/>
 		<parameter param="core.1.1" type="simplevalue"/>
@@ -82,6 +103,9 @@
 		<parameter param="system.4" type="simplevalue"/>
 		<parameter param="system.5" type="simplevalue"/>
 		<parameter param="medical.1" type="diagnosis"/>
+		<parameter param="medical.1.1" type="admissiondiagnosis"/>
+		<parameter param="medical.1.2" type="visitdiagnosis"/>
+		<parameter param="encounter.1" type="bedoccupancy"/>
 	</parameters>
 	<errorcodes>
 		<error code="0" meaning="no errors"/>
