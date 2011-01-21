@@ -98,13 +98,13 @@ h1 {
 
 }
 
-div.logo {
+/*div.logo {
     position: absolute;
     width: 500px;
     height: 130px;
     top: 50px;
     left: 10px;
-}
+}    */
 
 div.logo a {
     width: 600px;
