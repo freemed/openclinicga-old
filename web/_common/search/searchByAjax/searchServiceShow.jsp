@@ -39,7 +39,7 @@
     private String writeMyRow(String sType, String sID, String sWebLanguage, String sIcon) {
 
         String row = "";
-        String sLabel = getTran(sType, sID, sWebLanguage);
+        String sLabel = getTran(sType, sID, sWebLanguage).replaceAll("'","´");
         boolean hasBeds = !needsbeds || Service.hasBeds(sID);
         boolean acceptsvisits = !needsvisits || Service.acceptsVisits(sID);
         Service service=Service.getService(sID);
@@ -253,7 +253,7 @@
         Iterator it = set.iterator();
         while (it.hasNext()) {
             element = it.next();
-            sOut.append(HTMLEntities.htmlentities((String) hSelected.get(element.toString())));
+            sOut.append((String) hSelected.get(element.toString()));
         }
 
         // display search results
