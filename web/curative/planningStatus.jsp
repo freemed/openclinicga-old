@@ -98,6 +98,7 @@
                                             	user.initialize(Integer.parseInt(planning.getUserUID()));
                                             	Connection conn = MedwanQuery.getInstance().getAdminConnection();
                                             	user.person.initialize(conn,user.personid);
+                                            	conn.close();
                                             	userService=user.getParameter("defaultserviceid");
                                             	if(userService!=null && userService.length()>0){
                                             		userService=" ("+userService.toUpperCase()+": "+getTran("service",userService,sWebLanguage)+")";
