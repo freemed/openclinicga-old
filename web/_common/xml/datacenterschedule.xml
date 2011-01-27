@@ -106,6 +106,19 @@
 		<parameter param="medical.1.1" type="admissiondiagnosis"/>
 		<parameter param="medical.1.2" type="visitdiagnosis"/>
 		<parameter param="encounter.1" type="bedoccupancy"/>
+		<parameter param="financial.0" type="financial"/>
+		<parameter param="financial.0.1" type="financial"/>
+		<parameter param="financial.0.2" type="financial"/>
+		<parameter param="financial.1" type="financial"/>
+		<parameter param="financial.1.1" type="financial"/>
+		<parameter param="financial.1.2" type="financial"/>
+		<parameter param="financial.2" type="financial"/>
+		<parameter param="financial.2.1" type="financial"/>
+		<parameter param="financial.2.2" type="financial"/>
+		<parameter param="financial.3" type="financial"/>
+		<parameter param="financial.3.1" type="financial"/>
+		<parameter param="financial.3.2" type="financial"/>
+		<parameter param="financial.4" type="financial"/>
 	</parameters>
 	<errorcodes>
 		<error code="0" meaning="no errors"/>
