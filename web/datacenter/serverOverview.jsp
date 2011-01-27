@@ -166,10 +166,12 @@
 	</tr>
 	<tr ><td colspan="<%= colspan%>"><div style="display: none" id="divBedoccupancy" name="divBedoccupancy"></div></td></tr>
 	<tr class='admin'>
-		<td colspan="<%= colspan %>">
+		<td colspan="1">
 			<img src="<c:url value="/_img/plus.jpg"/>" onclick="document.getElementById('divDiagnoses').style.display='';"/>
 			<img src="<c:url value="/_img/minus.jpg"/>" onclick="document.getElementById('divDiagnoses').style.display='none';"/>
 			<%=getTran("datacenter","server.diagnostics",sWebLanguage) %>&nbsp;
+		</td>
+		<td colspan="<%= Integer.parseInt(colspan)-1+"" %>">
 			<select name="diagtype" id="diagtype" class="text" onchange="loadDiagnoses('<%=serverid %>',document.getElementById('diagmonth').value);">
 				<option value='ALL'><%=getTran("web","all",sWebLanguage) %></option>
 				<%
@@ -190,6 +192,27 @@
 		</td>
 	</tr>
 	<tr ><td colspan="<%= colspan%>"><div style="display: none" id="divDiagnoses" name="divDiagnoses"></div></td></tr>
+	<!-- Financial -->
+	<%
+		sb = new StringBuffer("");
+		String financial;
+		Vector financials = DatacenterHelper.getFinancialMonths(Integer.parseInt(serverid));
+		for(int n=0;n<financials.size();n++){
+			financial=(String)financials.elementAt(n);
+			sb.append("<option value='"+financial+"'>"+financial+"</option>");
+		}
+	%>
+	<tr class='admin'>
+		<td colspan="1">
+			<img src="<c:url value="/_img/plus.jpg"/>" onclick="document.getElementById('divFinancials').style.display='';"/>
+			<img src="<c:url value="/_img/minus.jpg"/>" onclick="document.getElementById('divFinancials').style.display='none';"/>
+			<%=getTran("datacenter","server.financial",sWebLanguage) %>&nbsp;
+		</td>
+		<td colspan="<%= Integer.parseInt(colspan)-1+"" %>">
+			<select name="financialmonth" id="financialmonth" class="text" onchange="loadFinancials('<%=serverid %>',this.value);"><%=sb.toString() %></select>
+		</td>
+	</tr>
+	<tr ><td colspan="<%= colspan%>"><div style="display: none" id="divFinancials" name="divFinancials"></div></td></tr>
 </table>
 	
 
@@ -257,6 +280,23 @@
         }
     }
 
+    function loadFinancials(serverid,period){
+        document.getElementById('divFinancials').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+        var params = 'serverid=' + serverid
+                +"&period="+ period;
+        var url= '<c:url value="/datacenter/loadFinancials.jsp"/>?ts=' + new Date();
+        new Ajax.Request(url,{
+                method: "GET",
+                parameters: params,
+                onSuccess: function(resp){
+                    $('divFinancials').innerHTML=resp.responseText;
+                },
+                onFailure: function(){
+                }
+            }
+        );
+    }
+
     function loadBedoccupancy(serverid){
         document.getElementById('divBedoccupancy').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
         var params = 'serverid=' + serverid;
@@ -283,6 +323,7 @@
 
     loadDiagnoses('<%=serverid%>',document.getElementById('diagmonth').options[document.getElementById('diagmonth').selectedIndex].value);
     loadBedoccupancy('<%=serverid%>');
+	window.setTimeout("loadFinancials('<%=serverid%>',document.getElementById('financialmonth').options[document.getElementById('financialmonth').selectedIndex].value);",500);
 
 	
 </script>

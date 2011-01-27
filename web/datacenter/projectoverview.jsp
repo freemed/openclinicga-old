@@ -51,6 +51,10 @@
 		counter++;
 		group=rs.getString("DC_SERVERGROUP_ID");
 		server=rs.getString("DC_SERVERGROUP_SERVERID");
+		String sEdit="";
+		if(session.getAttribute("datacenteruser")!=null && ((String)session.getAttribute("datacenteruser")).toLowerCase().equalsIgnoreCase("mxs")){
+			sEdit="<a href='javascript:openmanualdataentry("+server+");'><img class='link' src='../_img/icon_edit.gif' /></a> ";
+		}
 		if(!activeGroup.equalsIgnoreCase(group)){
 			if(activeGroup.length()>0){
 				//Show totals for the group
@@ -79,7 +83,7 @@
 			activeGroup=group;
 			counter=1;
 		}
-		out.print("<tr><td class='admin2'><a href='javascript:openserverdetail("+server+")'>"+counter+". "+getTran("datacenterserver",server,sWebLanguage)+" ("+server+")</a></td>");
+		out.print("<tr><td class='admin2'>"+sEdit+"<a href='javascript:openserverdetail("+server+")'>"+counter+". "+getTran("datacenterserver",server,sWebLanguage)+" ("+server+")</a></td>");
 		java.util.Date lastdate=DatacenterHelper.getLastDate(Integer.parseInt(server));
 		String color="color='green'";
 		if(lastdate!=null && new java.util.Date().getTime()-lastdate.getTime()>MedwanQuery.getInstance().getConfigInt("datacenterServerInactiveDaysRedAlert",7)*24*3600000){
@@ -118,6 +122,9 @@
 
 <script>
 
+	function openmanualdataentry(serverid){
+		openPopupWindow("/datacenter/manualDataEntry.jsp?ts=<%=getTs()%>&serverid="+serverid,800,600,"OpenClinic Datacenter");
+	}
 	function openserverdetail(serverid){
 		openPopupWindow("/datacenter/serverOverview.jsp?ts=<%=getTs()%>&serverid="+serverid,800,600,"OpenClinic Datacenter");
 	}
