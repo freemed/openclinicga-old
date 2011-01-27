@@ -9,6 +9,26 @@
 		</columns>
 	</table>
     <!-- ###################################  OPENCLINIC TABLES ################################### -->
+	<table name="DC_FINANCIALVALUES" db="stats" sync="NONE">
+		<columns>
+			<column name="DC_FINANCIALVALUE_SERVERID" dbtype="int" javatype="integer" />
+			<column name="DC_FINANCIALVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_FINANCIALVALUE_PARAMETERID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_FINANCIALVALUE_CLASS" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_FINANCIALVALUE_YEAR" dbtype="int" javatype="integer"/>
+			<column name="DC_FINANCIALVALUE_MONTH" dbtype="int" javatype="integer"/>
+			<column name="DC_FINANCIALVALUE_VALUE" dbtype="varchar" javatype="string" size="50"/>
+	    </columns>
+	    <indexes>
+	    	<index name="DC_FINANCIALVALUE_OBJECTID">
+	    		<indexcolumn order="ASC" name="DC_FINANCIALVALUE_OBJECTID"/>
+	    	</index>
+	    	<index name="DC_FINANCIALVALUE_YEARMONTH">
+	    		<indexcolumn order="ASC" name="DC_FINANCIALVALUE_YEAR"/>
+	    		<indexcolumn order="ASC" name="DC_FINANCIALVALUE_MONTH"/>
+	    	</index>
+	    </indexes>
+	</table>
 	<table name="DC_BEDOCCUPANCYVALUES" db="stats" sync="NONE">
 		<columns>
 			<column name="DC_BEDOCCUPANCYVALUE_SERVERID" dbtype="int" javatype="integer" />
