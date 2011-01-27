@@ -79,6 +79,31 @@ public abstract class Exporter {
 		}
 	}
 	
+	public boolean mustExport(String sExportId){
+		boolean mustExport = false;
+		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		PreparedStatement ps;
+		try {
+			ps = oc_conn.prepareStatement("select * from OC_EXPORTS where OC_EXPORT_ID=? and OC_EXPORT_CREATEDATETIME>=?");
+			ps.setString(1, sExportId);
+			ps.setTimestamp(2, new java.sql.Timestamp(getDeadline().getTime()));
+			ResultSet rs = ps.executeQuery();
+			mustExport=!rs.next();
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				oc_conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return mustExport;
+	}
+
 	public void exportSingleValue(String sValue,String sExportId){
 		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps;

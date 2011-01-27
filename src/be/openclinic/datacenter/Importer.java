@@ -37,7 +37,6 @@ public class Importer {
 			while(rs.next()){
 				parameterid=rs.getString("OC_IMPORT_ID");
 				parametertype=ScreenHelper.checkString((String)MedwanQuery.getInstance().getDatacenterparametertypes().get(parameterid));
-				System.out.println("parametertype="+parametertype);
 				if(parametertype.equalsIgnoreCase("simplevalue")){
 					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
 					importMessage.setImportDateTime(new java.util.Date());
@@ -49,7 +48,6 @@ public class Importer {
 					}
 				}
 				else if(parametertype.equalsIgnoreCase("bedoccupancy")){
-					System.out.println("bedoccupancy");
 					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
 					importMessage.setImportDateTime(new java.util.Date());
 					if(storeBedOccupancy(importMessage)){
@@ -67,6 +65,18 @@ public class Importer {
 					}
 					else if(importMessage.getError()>0){
 						importMessage.sendError();
+					}
+				}
+				else if(parametertype.equalsIgnoreCase("financial")){
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storeFinancial(importMessage)){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+					else {
 					}
 				}
 				else if(parametertype.equalsIgnoreCase("admissiondiagnosis")){
@@ -292,6 +302,96 @@ public class Importer {
 					ps.setInt(6,Integer.parseInt(diagnosis.attributeValue("month")));
 					ps.setInt(7,Integer.parseInt(diagnosis.attributeValue("count")));
 					ps.setString(8, type);
+					ps.execute();
+					ps.close();
+				}
+				bSuccess=true;
+			}
+			
+		}
+		catch(SQLException e){
+			try {
+				if(ps!=null){
+					ps.close();
+				}
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bSuccess;
+	}
+	
+	public static boolean storeFinancial(ImportMessage importMessage){
+		boolean bSuccess=false;
+		importMessage.setError(-1);
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps=null;
+		try{
+            SAXReader reader = new SAXReader(false);
+			Document document = reader.read(new ByteArrayInputStream(importMessage.data.getBytes("UTF-8")));
+			Element root = document.getRootElement();
+			if(root.getName().equalsIgnoreCase("data") && ( root.attributeValue("parameterid").startsWith("financial.0") ||
+					root.attributeValue("parameterid").startsWith("financial.1") ||
+					root.attributeValue("parameterid").startsWith("financial.2") ||
+					root.attributeValue("parameterid").startsWith("financial.3") )){
+				Element financial = root.element("financial");
+				//First clear a possible existing value
+				ps = conn.prepareStatement("delete from DC_FINANCIALVALUES where DC_FINANCIALVALUE_SERVERID=? and DC_FINANCIALVALUE_PARAMETERID=? and DC_FINANCIALVALUE_YEAR=? and DC_FINANCIALVALUE_MONTH=?");
+				ps.setInt(1, importMessage.getServerId());
+				ps.setString(2, root.attributeValue("parameterid"));
+				ps.setInt(3,Integer.parseInt(financial.attributeValue("month").substring(0,4)));
+				ps.setInt(4,Integer.parseInt(financial.attributeValue("month").substring(4,6)));
+				ps.execute();
+				ps.close();
+				ps = conn.prepareStatement("insert into DC_FINANCIALVALUES(DC_FINANCIALVALUE_SERVERID,DC_FINANCIALVALUE_OBJECTID,DC_FINANCIALVALUE_PARAMETERID,DC_FINANCIALVALUE_YEAR,DC_FINANCIALVALUE_MONTH,DC_FINANCIALVALUE_VALUE) values(?,?,?,?,?,?)");
+				ps.setInt(1, importMessage.getServerId());
+				ps.setInt(2, importMessage.getObjectId());
+				ps.setString(3, root.attributeValue("parameterid"));
+				ps.setInt(4,Integer.parseInt(financial.attributeValue("month").substring(0,4)));
+				ps.setInt(5,Integer.parseInt(financial.attributeValue("month").substring(4,6)));
+				ps.setString(6,financial.attributeValue("count"));
+				ps.execute();
+				ps.close();
+				bSuccess=true;
+			}
+			else if(root.getName().equalsIgnoreCase("data") &&  root.attributeValue("parameterid").equalsIgnoreCase("financial.4")){
+				Element financials =root.element("financials");
+				Iterator fins = financials.elementIterator("financial");
+				while(fins.hasNext()){
+					Element financial = (Element)fins.next();
+					//First clear a possible existing value
+					ps = conn.prepareStatement("delete from DC_FINANCIALVALUES where DC_FINANCIALVALUE_SERVERID=? and DC_FINANCIALVALUE_PARAMETERID=? and DC_FINANCIALVALUE_CLASS=? and DC_FINANCIALVALUE_YEAR=? and DC_FINANCIALVALUE_MONTH=?");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setString(2, root.attributeValue("parameterid"));
+					ps.setString(3, financial.attributeValue("family"));
+					ps.setInt(4,Integer.parseInt(financial.attributeValue("month").substring(0,4)));
+					ps.setInt(5,Integer.parseInt(financial.attributeValue("month").substring(4,6)));
+					ps.execute();
+					ps.close();
+					ps = conn.prepareStatement("insert into DC_FINANCIALVALUES(DC_FINANCIALVALUE_SERVERID,DC_FINANCIALVALUE_OBJECTID,DC_FINANCIALVALUE_PARAMETERID,DC_FINANCIALVALUE_YEAR,DC_FINANCIALVALUE_MONTH,DC_FINANCIALVALUE_VALUE,DC_FINANCIALVALUE_CLASS) values(?,?,?,?,?,?,?)");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setInt(2, importMessage.getObjectId());
+					ps.setString(3, root.attributeValue("parameterid"));
+					ps.setInt(4,Integer.parseInt(financial.attributeValue("month").substring(0,4)));
+					ps.setInt(5,Integer.parseInt(financial.attributeValue("month").substring(4,6)));
+					ps.setString(6,financial.attributeValue("count"));
+					ps.setString(7,financial.attributeValue("family"));
 					ps.execute();
 					ps.close();
 				}

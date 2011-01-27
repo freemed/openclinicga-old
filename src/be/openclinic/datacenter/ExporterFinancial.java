@@ -18,6 +18,9 @@ import be.mxs.common.util.system.ScreenHelper;
 public class ExporterFinancial extends Exporter {
 
 	public void export(){
+		if(!mustExport(getParam())){
+			return;
+		}
 		if(getParam().equalsIgnoreCase("financial.0")){
 			//Find last months total revenue
 			Date begin = DatacenterHelper.getBeginOfPreviousMonth();
@@ -165,7 +168,7 @@ public class ExporterFinancial extends Exporter {
 				ResultSet rs = ps.executeQuery();
 				if(rs.next()){
 					int amount = rs.getInt("total");
-					exportSingleValue("<financial month='"+new SimpleDateFormat("yyyyMM").format(begin)+"' count='"+amount+"'/>", "financial.0.2");
+					exportSingleValue("<financial month='"+new SimpleDateFormat("yyyyMM").format(begin)+"' count='"+amount+"'/>", "financial.1.2");
 				}
 				rs.close();
 				ps.close();

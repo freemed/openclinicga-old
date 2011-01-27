@@ -35,7 +35,6 @@ public class IMAP4Receiver extends Receiver {
 			store.connect(host, username, password);
 		    Folder folder = store.getFolder("INBOX");
 		    folder.open(Folder.READ_WRITE);
-		    System.out.println("receiving...");
 		    Message message[] = folder.getMessages();
 		    for (int i=0, n=message.length; i<n; i++) {
 		    	if(message[i].getSubject().startsWith("datacenter.content")){

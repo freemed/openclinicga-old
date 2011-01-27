@@ -49,6 +49,43 @@ public class DatacenterHelper {
 		return value;
 	}
 	
+	public static String getFinancialValue(int serverid,String parameterid,String period){
+		String value="?";
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery;
+			if(period.split("\\.").length==2){
+				sQuery="select DC_FINANCIALVALUE_VALUE from DC_FINANCIALVALUES where DC_FINANCIALVALUE_SERVERID=? and DC_FINANCIALVALUE_PARAMETERID=? and DC_FINANCIALVALUE_YEAR=? and DC_FINANCIALVALUE_MONTH=?";
+			}
+			else {
+				sQuery="select DC_FINANCIALVALUE_VALUE from DC_FINANCIALVALUES where DC_FINANCIALVALUE_SERVERID=? and DC_FINANCIALVALUE_PARAMETERID=? and DC_FINANCIALVALUE_YEAR=?";
+			}
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ps.setString(2, parameterid);
+			ps.setInt(3, Integer.parseInt(period.split("\\.")[0]));
+			if(period.split("\\.").length==2){
+				ps.setInt(4, Integer.parseInt(period.split("\\.")[1]));
+			}
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				value=rs.getString("DC_FINANCIALVALUE_VALUE");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return value;
+	}
+	
 	public static java.util.Date getEndOfPreviousMonth(){
 		try {
 			return  new java.util.Date(new SimpleDateFormat("yyyyMMdd").parse(new SimpleDateFormat("yyyyMM").format(new java.util.Date())+"01").getTime()-1);
@@ -150,6 +187,70 @@ public class DatacenterHelper {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				v.add(rs.getString("DC_DIAGNOSISVALUE_CODE")+";"+rs.getString("DC_DIAGNOSISVALUE_COUNT"));
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return v;
+	}
+	
+	public static Vector getFinancials(int serverid, String period){
+		if(period.split("\\.").length>1){
+			return getFinancials(serverid, Integer.parseInt(period.split("\\.")[0]), Integer.parseInt(period.split("\\.")[1]));
+		}
+		else {
+			return getFinancials(serverid, Integer.parseInt(period.split("\\.")[0]));
+		}
+	}
+	
+	public static Vector getFinancials(int serverid, int year, int month){
+		Vector v = new Vector();
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery="select * from DC_FINANCIALVALUES where DC_FINANCIALVALUE_SERVERID=? and DC_FINANCIALVALUE_YEAR=? and DC_FINANCIALVALUE_MONTH=? and DC_FINANCIALVALUE_PARAMETERID='financial.4' order by DC_FINANCIALVALUE_CLASS";
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ps.setInt(2,year);
+			ps.setInt(3,month);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				v.add(rs.getString("DC_FINANCIALVALUE_CLASS")+";"+rs.getString("DC_FINANCIALVALUE_VALUE"));
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return v;
+	}
+
+	public static Vector getFinancials(int serverid, int year){
+		Vector v = new Vector();
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery="select sum(DC_FINANCIALVALUE_VALUE) DC_FINANCIALVALUE_VALUE,DC_FINANCIALVALUE_CLASS from DC_FINANCIALVALUES where DC_FINANCIALVALUE_SERVERID=? and DC_FINANCIALVALUE_YEAR=? and DC_FINANCIALVALUE_PARAMETERID='financial.4' group by DC_FINANCIALVALUE_CLASS order by DC_FINANCIALVALUE_CLASS";
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ps.setInt(2,year);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				v.add(rs.getString("DC_FINANCIALVALUE_CLASS")+";"+rs.getString("DC_FINANCIALVALUE_VALUE"));
 			}
 			rs.close();
 			ps.close();
@@ -368,6 +469,38 @@ public class DatacenterHelper {
 					v.add(year);
 				}
 				v.add(rs.getString("diagnosis"));
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return v;
+	}
+	
+	public static Vector getFinancialMonths(int serverid){
+		Vector v = new Vector();
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery="select distinct DC_FINANCIALVALUE_YEAR,"+MedwanQuery.getInstance().convert("varchar","DC_FINANCIALVALUE_YEAR")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar","DC_FINANCIALVALUE_MONTH")+" as financial from DC_FINANCIALVALUES where DC_FINANCIALVALUE_SERVERID=? order by DC_FINANCIALVALUE_YEAR DESC,DC_FINANCIALVALUE_MONTH DESC";
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ResultSet rs = ps.executeQuery();
+			String activeYear="",year="";
+			while(rs.next()){
+				year=rs.getString("DC_FINANCIALVALUE_YEAR");
+				if(!activeYear.equalsIgnoreCase(year)){
+					activeYear=year;
+					v.add(year);
+				}
+				v.add(rs.getString("financial"));
 			}
 			rs.close();
 			ps.close();

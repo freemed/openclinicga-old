@@ -113,39 +113,39 @@ public class ExporterCore extends Exporter {
 			exportSingleValue("openclinic","select count(*) total from OC_RFE where OC_RFE_CODETYPE='icpc'", "total", "core.9.2");
 		}
 		else if(getParam().equalsIgnoreCase("core.10")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records OC_PROBLEMS table
 			exportSingleValue("openclinic","select count(*) total from OC_PROBLEMS", "total", "core.10");
 		}
 		else if(getParam().equalsIgnoreCase("core.11")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records OC_PATIENTINVOICES table
 			exportSingleValue("openclinic","select count(*) total from OC_PATIENTINVOICES", "total", "core.11");
 		}
 		else if(getParam().equalsIgnoreCase("core.12")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records OC_INSURARINVOICES table
 			exportSingleValue("openclinic","select count(*) total from OC_INSURARINVOICES", "total", "core.12");
 		}
 		else if(getParam().equalsIgnoreCase("core.13")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records OC_PATIENTCREDITS table
 			exportSingleValue("openclinic","select count(*) total from OC_PATIENTCREDITS", "total", "core.13");
 		}
 		else if(getParam().equalsIgnoreCase("core.14")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records OC_INSURARS table
 			exportSingleValue("openclinic","select count(*) total from OC_INSURARS", "total", "core.14");
 		}
 		else if(getParam().equalsIgnoreCase("core.15")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records OC_INSURARCREDITS table
 			exportSingleValue("openclinic","select count(*) total from OC_INSURARCREDITS", "total", "core.15");
 		}
 		else if(getParam().equalsIgnoreCase("core.16")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records labanalysis table
 			exportSingleValue("openclinic","select count(*) total from labanalysis", "total", "core.16");
 		}
 		else if(getParam().equalsIgnoreCase("core.17")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records requestedlabanalyses table
 			exportSingleValue("openclinic","select count(*) total from requestedlabanalyses", "total", "core.17");
 		}
 		else if(getParam().equalsIgnoreCase("core.18")){
-			//Export total number of ICPC reasons for encounter in the openclinic.OC_RFE table
+			//Export total number of records labprofiles table
 			exportSingleValue("openclinic","select count(*) total from labprofiles", "total", "core.18");
 		}
 	}
