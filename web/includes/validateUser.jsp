@@ -119,7 +119,7 @@
 
 
     if (activeUser == null) {
-%><script>window.location.href="<c:url value='/relogin.do'/>?ts=<%=getTs()%>";</script><%
+%><script>//window.location.href="<c:url value='/relogin.do'/>?ts=<%=getTs()%>";</script><%
     }
 %>
 
