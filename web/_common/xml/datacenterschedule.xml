@@ -59,6 +59,10 @@
 		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.3.1" interval="MONTHLY:15;0000"/>
 		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.3.2" interval="MONTHLY:15;0000"/>
 		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.4" interval="MONTHLY:15;0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterActivity" param="activity.1" interval="MONTHLY:15;0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterMortality" param="mortality.1" interval="MONTHLY:15;0000"/>
 	</exporters>
 	<senders>
 		<module class="be.openclinic.datacenter.SMTPSender" interval="300000"/>
@@ -119,6 +123,8 @@
 		<parameter param="financial.3.1" type="financial"/>
 		<parameter param="financial.3.2" type="financial"/>
 		<parameter param="financial.4" type="financial"/>
+		<parameter param="activity.1" type="activity"/>
+		<parameter param="mortality.1" type="mortality"/>
 	</parameters>
 	<errorcodes>
 		<error code="0" meaning="no errors"/>

@@ -1345,6 +1345,7 @@
 			<column name="OC_PATIENTINVOICE_VERSION" dbtype="int" javatype="integer" nulls="0"/>
             <column name="OC_PATIENTINVOICE_STATUS" dbtype="varchar" javatype="string" size="255" nulls="0"/>
             <column name="OC_PATIENTINVOICE_BALANCE" dbtype="float" javatype="float"/>
+            <column name="OC_PATIENTINVOICE_NUMBER" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_PATIENTINVOICE_OBJECTID">
@@ -1372,6 +1373,7 @@
 			<column name="OC_PATIENTINVOICE_VERSION" dbtype="int" javatype="integer" nulls="0"/>
             <column name="OC_PATIENTINVOICE_STATUS" dbtype="varchar" javatype="string" size="255" nulls="0"/>
             <column name="OC_PATIENTINVOICE_BALANCE" dbtype="float" javatype="float"/>
+            <column name="OC_PATIENTINVOICE_NUMBER" dbtype="varchar" javatype="string" size="50"/>
         </columns>
     </table>
 
