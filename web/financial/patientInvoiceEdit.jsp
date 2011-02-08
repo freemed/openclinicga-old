@@ -222,6 +222,18 @@
             <td class="admin2">
                 <input type="hidden" id="EditInvoiceUID" name="EditInvoiceUID" value="<%=checkString(patientInvoice.getInvoiceUid())%>">
                 <input type="text" class="text" readonly id="EditInvoiceUIDText" name="EditInvoiceUIDText" value="<%=sPatientInvoiceID%>">
+                <%
+                	if(checkString(patientInvoice.getNumber()).length()>0 && !patientInvoice.getInvoiceUid().equalsIgnoreCase(patientInvoice.getInvoiceNumber())){
+                		out.print("("+patientInvoice.getInvoiceNumber()+")");
+                	}
+                	if(checkString(patientInvoice.getInvoiceUid()).length()==0 && MedwanQuery.getInstance().getConfigString("multiplePatientInvoiceSeries","").length()>0){
+                		String[] invoiceSeries = MedwanQuery.getInstance().getConfigString("multiplePatientInvoiceSeries").split(";");
+                		out.println("<input type='radio' class='text' name='invoiceseries' value='0'/>"+getTran("web","internal",sWebLanguage));
+                		for(int n=0;n<invoiceSeries.length;n++){
+                    		out.println("<input type='radio' class='text' name='invoiceseries' value='"+invoiceSeries[n]+"'/>"+invoiceSeries[n]);
+                		}
+                	}
+                %>
             </td>
         </tr>
         <tr>
@@ -373,7 +385,20 @@
 %>
 <script type="text/javascript">
     function doSave(){
-        if ((EditForm.EditDate.value.length>0)&&(EditForm.EditStatus.selectedIndex>-1)){
+        var bInvoiceSeries=false;
+        var sInvoiceSeries="";
+        if(EditForm.invoiceseries){
+        	for (var i=0; i < EditForm.invoiceseries.length; i++){
+        	   if (EditForm.invoiceseries[i].checked){
+        	      bInvoiceSeries=true;
+        	      sInvoiceSeries=EditForm.invoiceseries[i].value;
+        	   }
+        	}
+        }
+        else {
+			bInvoiceSeries=true;
+        }
+        if ((EditForm.EditDate.value.length>0)&&(EditForm.EditStatus.selectedIndex>-1)&&bInvoiceSeries){
             if ((EditForm.EditBalance.value*1==0)&&(EditForm.EditStatus.value!="closed")&&(EditForm.EditStatus.value!="canceled")){
                 var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.finance&labelID=closetheinvoice";
                 var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
@@ -402,6 +427,7 @@
                           +'&EditInvoiceUID=' + EditForm.EditInvoiceUID.value
                           +'&EditStatus=' + EditForm.EditStatus.value
                           +'&EditCBs='+sCbs
+                          +'&EditInvoiceSeries='+sInvoiceSeries
                           +'&EditBalance=' + EditForm.EditBalance.value,
                   onSuccess: function(resp){
                       var label = eval('('+resp.responseText+')');

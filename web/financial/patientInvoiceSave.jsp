@@ -9,6 +9,7 @@
     String sEditStatus = checkString(request.getParameter("EditStatus"));
     String sEditBalance = checkString(request.getParameter("EditBalance"));
     String sEditCBs = checkString(request.getParameter("EditCBs"));
+    String sEditInvoiceSeries = checkString(request.getParameter("EditInvoiceSeries"));
 
     PatientInvoice patientinvoice = new PatientInvoice();
     AdminPerson invoicePatient=activePatient;
@@ -16,6 +17,7 @@
     if (sEditPatientInvoiceUID.length() > 0) {
         PatientInvoice oldpatientinvoice = PatientInvoice.get(sEditPatientInvoiceUID);
         patientinvoice.setCreateDateTime(oldpatientinvoice.getCreateDateTime());
+        patientinvoice.setNumber(oldpatientinvoice.getNumber());
         if(oldpatientinvoice!=null){
             invoicePatient=oldpatientinvoice.getPatient();
         }
@@ -30,7 +32,9 @@
     patientinvoice.setUid(sEditPatientInvoiceUID);
     patientinvoice.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
     patientinvoice.setUpdateUser(activeUser.userid);
-
+	if(!sEditInvoiceSeries.equalsIgnoreCase("") && checkString(patientinvoice.getNumber()).length()==0){
+		patientinvoice.setNumber(sEditInvoiceSeries+"."+MedwanQuery.getInstance().getOpenclinicCounter(sEditInvoiceSeries));
+	}
     patientinvoice.setDebets(new Vector());
     patientinvoice.setCredits(new Vector());
 

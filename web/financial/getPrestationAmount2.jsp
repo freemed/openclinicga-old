@@ -4,6 +4,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
     double dPatientAmount=0,dInsurarAmount=0,dPatientAmount2=0,dInsurarAmount2=0;
+	String sPrestationUIDs = checkString(request.getParameter("PrestationUIDs"));
 	String sPrestationUID = checkString(request.getParameter("PrestationUID"));
 	String sPrestationGroupUID = checkString(request.getParameter("PrestationGroupUID"));
     String sInsuranceUID = checkString(request.getParameter("EditInsuranceUID"));
@@ -16,7 +17,62 @@
     int quantity=Integer.parseInt(sQuantity);
     Insurance bestInsurance = null;
 
-    if (sPrestationUID.length() > 0) {
+    if(sPrestationUIDs.length()>0){
+        String type="";
+        Insurance insurance=null;
+        if(sInsuranceUID.length()==0){
+            insurance = Insurance.getMostInterestingInsuranceForPatient(activePatient.personid);
+        }
+        else {
+            insurance = Insurance.get(sInsuranceUID);
+        }
+		String[] prestations = sPrestationUIDs.split(";");
+        prestationcontent ="<table width='100%'>";
+        prestationcontent+="<tr><td width='50%'><b>"+getTran("web","prestation",sWebLanguage)+
+        "</b></td><td width='16%'><b>"+getTran("web","quantity",sWebLanguage)+
+        "</b></td><td width='16%'><b>"+getTran("web.finance","amount.patient",sWebLanguage)+
+        "</b></td><td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td></tr>";
+		for(int n=0;n<prestations.length;n++){
+	        Prestation prestation = Prestation.get(prestations[n].split("=")[0]);
+	        quantity=Integer.parseInt(prestations[n].split("=")[1]);
+	        if (insurance != null) {
+	            bestInsurance=insurance;
+	            type = insurance.getType();
+
+	            if (prestation != null) {
+	                double dPrice = prestation.getPrice(type);
+	                double dInsuranceMaxPrice = prestation.getInsuranceTariff(insurance.getInsurar().getUid(),insurance.getInsuranceCategoryLetter());
+	                String sShare=checkString(prestation.getPatientShare(insurance)+"");
+	                if (sShare.length()>0){
+	                    dPatientAmount2 = quantity * dPrice * Double.parseDouble(sShare) / 100;
+	                    dInsurarAmount2 = quantity * dPrice - dPatientAmount2;
+	                    if(dInsuranceMaxPrice>-1 && quantity * dInsuranceMaxPrice<dInsurarAmount2){
+	                    	dInsurarAmount2=quantity * dInsuranceMaxPrice;
+	                   		dPatientAmount2=quantity * dPrice - dInsurarAmount2;
+	                    }
+	                    dPatientAmount+=dPatientAmount2;
+	                    dInsurarAmount+=dInsurarAmount2;
+	                }
+	            }
+	        }
+	        else {
+	            dPatientAmount+=quantity * prestation.getPrice("C");
+	            dPatientAmount2=quantity * prestation.getPrice("C");
+	            dInsurarAmount+= 0;
+	            dInsurarAmount2= 0;
+	        }
+	      	pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount2);
+	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount2);
+	        prestationcontent+="<tr>";
+	        prestationcontent+="<td><input type='hidden' name='PPC_"+prestation.getUid()+"'/>"+prestation.getDescription()+"</td>";
+	        prestationcontent+="<td><input type='hidden' name='PPQ_"+prestation.getUid()+"' value='"+quantity+"'/>"+quantity+"</td>";
+	        prestationcontent+="<td "+(sCoverageInsurance.length()>0?"class='strikeonly'":"")+"><input type='hidden' name='PPP_"+prestation.getUid()+"' value='"+pa+"'/>"+pa+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+	        prestationcontent+="<td><input type='hidden' name='PPI_"+prestation.getUid()+"' value='"+pi+"'/>"+pi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+	        prestationcontent+="</tr>";
+		}
+        prestationcontent+="</table>";
+    }
+    else if (sPrestationUID.length() > 0) {
         String type="";
         Insurance insurance=null;
         if(sInsuranceUID.length()==0){
