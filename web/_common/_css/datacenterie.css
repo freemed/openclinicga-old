@@ -1,0 +1,61 @@
+/*html, body#datacenter{
+	height: 100%;
+
+}
+
+#header-wrap, #footer-wrap {
+	position: absolute;
+}
+
+
+
+#ie6-container-wrap {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}          */
+
+
+#content {
+    width:100%;
+}
+div.landlist div.subcontent,div.landlist h3 {
+    width:99.5%;
+}
+div.container div.subcontent, div.container h3{
+    width:99.5%;
+}
+div.smallcontainer div.subcontent, div.smallcontainer h3{
+    width:99%;
+}
+div#footer-wrap {
+    position: absolute;
+    top:expression(body.scrollTop + document.body.clientHeight -60 + "px");
+    left: 0px;
+    z-index:100;
+    height:60px;
+    width:100%;
+
+}
+div#container {
+    padding-bottom:5px;
+}
+div.leftcontainer {
+    margin-right:0;
+}
+div.smallcontainer {
+   width: 49.9%; 
+}
+#footer-container,div#footer_logo{
+   /* height:250px;*/
+}
+#footer-container {
+  /*  height:250px;*/
+     background: url( "../../_img/background_footer_ghb.gif" ) repeat-x top left;
+}
+div#footer_logo {
+    background:  url( "../../_img/background_footer_ghb.jpg" ) no-repeat left top;
+    text-align:left;
+    padding-top:15px;
+    
+}

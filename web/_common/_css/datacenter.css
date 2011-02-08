@@ -1,0 +1,556 @@
+/*
+******* STYLE FIXED HEADER AND FOOTER ****************
+html {
+    height: 100%;
+    max-height: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+
+    overflow: hidden;
+
+
+}
+
+body {
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    border: 0;
+
+    color: #333333;
+    font-family: verdana, sans-serif;
+    font-size: 10px;
+
+}
+
+body div.clear {
+    height: 1px;
+    clear: both;
+    float: left;
+}
+
+div#header-wrap {
+    background: url( "../../_img/background_body_ghb.png" ) repeat-x top left #efeee9;
+
+
+    position: absolute;
+    margin: 0;
+    top: 0;
+    right: 18px;
+    display: block;
+    width: 100%;
+    height: 122px;
+    font-size: 4em;
+    z-index: 5;
+}
+
+#header-container {
+ background: url( "../../_img/background_ghb.jpg" ) no-repeat top left;
+    height: 120px;
+}
+
+
+div#container {
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    overflow: auto;
+    margin: 0 auto;
+    display: block;
+    height: 100%;
+    max-height: 100%;
+    position: relative;
+    z-index: 3;
+    word-wrap: break-word;
+}
+#content {
+    width:99%;
+    padding-left:0.5%;
+}
+div#footer-wrap {
+    background: white url( "../../_img/background_footer_ghb.gif" ) no-repeat bottom left;
+    background-repeat: repeat-x;
+
+    position: absolute;
+    margin: 0;
+    bottom: -1px;
+    right: 18px;
+    display: block;
+    width: 100%;
+    height: 62px;
+    background: #fff;
+    color: #000;
+    text-align: right;
+    font-size: 2em;
+    z-index: 4;
+}
+.pad1 {
+display:block;
+height:130px;
+}
+.pad2 {
+display:block;
+height:150px;
+float:left;
+    position:relative;
+}
+
+#footer-container {
+    height: 60px;
+     background: white url( "../../_img/background_footer_ghb.gif" ) repeat-x bottom left;
+}
+
+#footer {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+div#footer_logo {
+    background: white url( "../../_img/background_footer_ghb.jpg" ) no-repeat bottom left;
+    width: 839px;
+    height: 60px;
+    text-align:left;
+    float:left;
+}
+
+div#footer-wrap img {
+    padding: 15px 0 0 10px;
+
+}
+
+div#footer_info {
+    color: white;
+    display: none;
+}
+*/
+
+html {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    color: #333333;
+    font-family: verdana, sans-serif;
+    font-size: 10px;
+}
+
+body div.clear {
+    height: 1px;
+    clear: both;
+    float: left;
+}
+
+div#header-wrap {
+    background: url( "../../_img/background_body_ghb.gif" ) repeat-x top left white;
+
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: 127px;
+    font-size: 4em;
+    z-index: 5;
+}
+
+#header-container {
+    background: url( "../../_img/background_ghb.jpg" ) no-repeat top left;
+    height: 127px;
+    width: 1000px;
+}
+
+div#container {
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    float: left;
+    z-index: 3;
+    padding-bottom: 100px;
+    word-wrap: break-word;
+}
+
+#content {
+    width: 99%;
+    padding-left: 0.5%;
+}
+
+div#footer-wrap {
+    margin: 0;
+    width: 100%;
+    height: 60px;
+    background: transparent;
+    z-index: 4;
+    position: fixed;
+    bottom: -2px;
+}
+
+#footer-container {
+    width: 100%;
+    position: relative;
+    float: left;
+    background: transparent url( "../../_img/GHB_footer.png" ) repeat-x top left;
+
+}
+
+#footer {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    float: left;
+}
+
+div#footer_logo {
+    background: transparent url( "../../_img/background_footer_ghb.png" ) no-repeat left 10px;
+    width: 850px;
+    height: 60px;
+    text-align: left;
+    float: left;
+    padding: 10px 0 0 20px;
+
+}
+
+div#footer_info {
+    position: absolute;
+    height: 60px;
+    top: 30px;
+    right: 20px;
+    color: white;
+    font-size: 12px;
+    text-align: right;
+    z-index: 9999;
+
+}
+
+div#footer-wrap img {
+    padding: 5px 0 0 10px;
+}
+
+table.content {
+
+}
+
+table.content tr.header {
+    color: #000;
+}
+
+table.content tr.header td {
+    border-bottom: none;
+    font-size: 12px;
+}
+
+table.content tr.header td.header {
+    background: url( "../../_img/row_ghb.gif" ) no-repeat bottom left;
+    background-repeat: repeat-x;
+}
+
+table.content td.important {
+    font-size: 16px;
+    color: #505050;
+    font-weight: bold;
+}
+
+table.content tr {
+/*  background: url( "../../_img/tr_ghb.gif" ) repeat-x bottom left;*/
+    padding: 5px 0 0 0;
+}
+
+table.content tr td {
+    padding: 3px;
+    color: #505050;
+    font-size: 12px;
+    border-bottom: 1px solid #c9c9c8; /*   background: url( "../../_img/cell_border_ghb.gif" ) repeat-x bottom left;*/
+}
+
+table.content tr.firstrow td {
+    background: none;
+}
+
+table.content tr td a {
+    color: #505050;
+    font-size: 12px;
+}
+
+table.content tr td.admin2 {
+/*background: url( "../../_img/cell_border_ghb.gif" ) repeat-x bottom left;*/
+    border-bottom: 1px solid #c9c9c8;
+}
+
+table.content tr.last td {
+/*  border-right: 1px solid #c9c9c8;*/
+    border-bottom:none;
+}
+
+table.content tr.result td {
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+}
+
+div.landlist {
+    float: left;
+    position: relative;
+    width: 100%;
+}
+
+div.landlist h3 {
+    font-size: 13px;
+    color: white;
+    margin: 5px 0 0 0;
+    background: #183D60 url( "../../_img/background_title_ghb.gif" ) repeat-x top left;
+    width: 98%;
+    padding: 4px 1% 3px 1%;
+    border-left: 1px solid #183D60;
+    border-right: 1px solid #183D60;
+
+
+}
+
+div.landlist div.subcontent {
+    padding: 1%;
+    float: left;
+    width: 98%;
+    border: 1px solid #BCBBB7;
+    background: #F7F7F7;
+}
+
+div#logout {
+    background: url( "../../_img/button_logout_ghb.png" ) no-repeat bottom left;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+
+div#logout a {
+    width: 190px;
+    height: 40px;
+    float: left;
+    text-decoration: none;
+}
+
+/*** SERVER OVERVIEW ***/
+
+div.container {
+    float: left;
+    position: relative;
+    width: 100%;
+}
+
+div.smallcontainer {
+    width: 49.5%;
+}
+
+div.leftcontainer {
+    margin-right: 1%;
+}
+
+div.container h3 {
+    font-size: 13px;
+    color: white;
+    margin: 6px 0 0 0;
+    padding: 4px 1% 0 1%;
+     background: #183D60 url( "../../_img/background_title_ghb.gif" ) repeat-x top left;
+    width: 98%;
+    border-left: 1px solid #183D60;
+    border-right: 1px solid #183D60;
+}
+
+div.container h3 span.icon {
+    margin-left: 5px;
+}
+
+div.container div.subcontent {
+    border: 1px solid #BCBBB7;
+    height: 100px;
+    padding: 1%;
+    float: left;
+    width: 98%;
+    background: #F7F7F7;
+    /*     -webkit-box-shadow: 4px 3px 7px #888;
+   -moz-box-shadow: 4px 3px 7px #888;
+   box-shadow: 4px 3px 7px #888;
+
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;*/
+}
+
+div.subcontent a.togglecontent {
+    text-decoration: none;
+    position: absolute;
+    right: 10px;
+    top: 40px;
+    width: 30px;
+    height: 26px;
+}
+
+div.subcontent a.togglecontent span {
+    width: 30px;
+    height: 26px;
+    cursor: pointer;
+    line-height: 25px;
+}
+
+div.subcontent a.expandcontent {
+    text-decoration: none;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    width: 30px;
+    height: 26px;
+}
+
+div.tables div.subcontent, div.diagnostics div.subcontent,
+    div.financial div.subcontent, div.bedoccupancy div.subcontent,
+    div.demographics div.subcontent {
+    border: 1px solid #BCBBB7;
+    height: auto;
+}
+
+div.diagnostics select {
+
+}
+
+div.diagnostics div#divDiagnoses {
+}
+
+span.icon {
+    outline: none;
+    padding: 5px;
+    padding-left: 30px;
+    line-height: 30px;
+    background: url( ../../_img/datacenter_icons.png ) no-repeat left center;
+}
+
+span.server {
+    background-position: left -7px;
+}
+
+span.system {
+    background-position: left -45px;
+}
+
+span.lists {
+    background-position: left -85px;
+}
+
+span.geo {
+    background-position: left -127px;
+}
+
+span.bedoccupancy {
+    background-position: left -275px;
+}
+
+span.diagnostics {
+    background-position: left -207px;
+}
+
+span.financial {
+    background-position: left -242px;
+}
+
+span.down {
+    background-position: left -313px;
+}
+
+span.up {
+    background-position: left -350px;
+}
+
+span.expand {
+    background-position: left -384px;
+}
+
+span.reduction {
+    background-position: left -417px;
+}
+span.edit {
+    background-position: left -508px;
+}
+div.container tr td {
+    border-bottom: 1px solid #E7E7E7;
+    font-size: 11px;
+    line-height: 17px;
+}
+
+div.container tr td a {
+    color: #183D60;
+}
+
+div.container tr td.admin2 {
+    width: 160px;
+}
+
+div.container tr.last td {
+    border-bottom: none;
+}
+
+span.important {
+    font-size: 16px;
+    font-weight: bold;
+}
+a.button {
+    padding: 0 0 0 0;
+    position: relative;
+    margin: 0px 1px 0px 5px;
+    float: left;
+    line-height: 24px;
+    font-size: 11px;
+    text-decoration: none;
+    height: 24px;
+    text-align: left;
+    font-weight: bold;
+    display: inline;
+    clear: none;
+    cursor:pointer;
+    background: url( "../../_img/button_right_ghb.png" ) no-repeat right top;
+}
+
+a.button span.title {
+    height: 25px;
+    float: left;
+    margin-right: 7px;
+    text-align: center;
+    padding-right: 8px;
+    padding-left: 15px;
+    color: #505050;
+    background: url( "../../_img/button_left_ghb.png" ) no-repeat left top;
+}
+a.link{
+    text-decoration:none;
+    line-height:20px;
+}
+
+table.data tr td{
+    border:1px solid #cdcdcd;
+}
+
+/** LOGIN **/
+
+div#login{
+    width:500px;
+    /*border-top:2px solid #7BA0B2;*/
+    margin-left:0;
+    margin-top:20px;
+    padding:10px 0 0 100px;
+    height:200px;
+}
+div#login table{
+
+}
+ div#login input.text{
+     margin:2px;
+     padding:5px;
+ }
+
+
+
+
