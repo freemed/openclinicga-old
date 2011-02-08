@@ -35,7 +35,6 @@
 <head>
     <%=sCSSNORMAL%>
     <%=sCSSMODALBOX%>
-    <%=sCSSOPERA%>
     <%=sJSTOGGLE%>
     <%=sJSFORM%>
     <%=sJSPOPUPMENU%>
