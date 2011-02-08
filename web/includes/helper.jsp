@@ -742,8 +742,11 @@
     String sCSSRTEDITOR = "<link href='" + sCONTEXTPATH + "/_common/_css/rteditor.css' rel='stylesheet' type='text/css'>";
     String sCSSWEEKPLANNER     = "<link href='"+sCONTEXTPATH+"/_common/_css/weekPlanner.css' rel='stylesheet' type='text/css'>";
     String sCSSMODALBOX   = "<link href='"+sCONTEXTPATH+"/_common/_css/modalbox.css' rel='stylesheet' type='text/css'>";
+    String sCSSMODALBOXDATACENTER   = "<link href='"+sCONTEXTPATH+"/_common/_css/modalboxdatacenter.css' rel='stylesheet' type='text/css'>";
     String sCSSGNOOCALENDAR   = "<link href='"+sCONTEXTPATH+"/_common/_css/gnoocalendar.css' rel='stylesheet' type='text/css'>";
     String sCSSOPERA   = "<link href='"+sCONTEXTPATH+"/_common/_css/opera.css' rel='stylesheet' type='text/css'>";
+    String sCSSDATACENTER   = "<link href='"+sCONTEXTPATH+"/_common/_css/datacenter.css' rel='stylesheet' type='text/css'>";
+    String sCSSDATACENTERIE   = "<link href='"+sCONTEXTPATH+"/_common/_css/datacenterie.css' rel='stylesheet' type='text/css'>";
     // JS
     String sJSSHORTCUTS = "<script src='" + sCONTEXTPATH + "/_common/_script/shortcuts.js'></script>";
     String sJSCHAR = "<script src='" + sCONTEXTPATH + "/_common/_script/char.js'></script>";
@@ -774,6 +777,8 @@
     String sJSWEEKPLANNER  = "<script src='"+sCONTEXTPATH+"/_common/_script/weekPlanner/dhtmlgoodies-week-planner.js'></script>";
     String sJSMODALBOX  = "<script src='"+sCONTEXTPATH+"/_common/_script/modalbox.js'></script>";
     String sJSGNOOCALENDAR  = "<script src='"+sCONTEXTPATH+"/_common/_script/gnoocalendar.js'></script>";
+    String sJSPROTOCHART  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/ProtoChart.js'></script>";
+    String sJSEXCANVAS  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/excanvas.js'></script>";
     String sPROGRESSBAR  = "<script src='"+sCONTEXTPATH+"/_common/_script/pb_prototype.js'></script><script src='"+sCONTEXTPATH+"/_common/_script/pb_ProgressBarHandler.js'></script>";
 
     // varia
