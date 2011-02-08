@@ -63,16 +63,7 @@
         session.setAttribute(sAPPTITLE + "WebLanguage", activeUser.person.language);
 	}
 
-    System.out.println("*** TESTS ****");
-    Tester i = new Tester();
-    Tester icopy = i;
-    test(icopy);
 
-
-    System.out.println("i = "+i.cinq+" and icopy = "+icopy.cinq);
-
-
-    System.out.println("*** END TESTS ****");
 %>
 <body>
         <div id="footer-wrap">
