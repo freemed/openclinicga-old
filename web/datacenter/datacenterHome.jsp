@@ -63,7 +63,6 @@
         session.setAttribute(sAPPTITLE + "WebLanguage", activeUser.person.language);
 	}
 
-
 %>
 <body>
         <div id="footer-wrap">
@@ -114,7 +113,7 @@
                
                     <div id="login">
 
-                        <form name="transactionForm" id="transactionForm" method="post" action="datacenterHome.jsp" >
+                        <form name="transactionForm" id="transactionForm" onkeyup="entsub(event,'transactionForm')" method="post" action="datacenterHome.jsp" >
                             <table width="100%" class="content">
                                 <tr ><td colspan="2"></td></tr>
                                 <tr class="last">
@@ -206,6 +205,14 @@
         [
             {data: array, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"}
         ],options);
+    }
+    function entsub(event,ourform) {
+        if (event && event.which == 13){
+            $('transactionForm').submit();
+            return true;
+        }else{
+           return false;
+        }
     }
     </script>
 
