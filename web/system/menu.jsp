@@ -152,7 +152,8 @@
                         <td>
                             <%
                                 hMenu = new Hashtable();
-                                hMenu.put(getTran("Web.manage", "diagnostics", sWebLanguage), "main.do?Page=system/diagnostics.jsp");
+                            hMenu.put(getTran("Web.manage", "diagnostics", sWebLanguage), "main.do?Page=system/diagnostics.jsp");
+                            hMenu.put(getTran("Web.manage", "quicklist", sWebLanguage), "main.do?Page=system/manageQuickList.jsp");
 
                                 out.print(ScreenHelper.writeTblHeader(getTran("web.occup", "medwan.common.other", sWebLanguage), sCONTEXTPATH)
                                         + sortMenu(hMenu)
