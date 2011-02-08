@@ -56,7 +56,7 @@
 		if(cls==null || cls.length()==0){
 			cls="?";
 		}
-		out.print("<tr><td class='admin'>"+cls+"</td><td class='admin2' colspan='3'><a href='javascript:financialGraph(\""+cls+"\")'>"+new java.text.DecimalFormat(sFormat).format(Double.parseDouble(financial.split(";")[1]))+" "+sCurrency+"</a></td></tr>");
+		out.print("<tr><td class='admin'>"+cls+"</td><td class='admin2' colspan='3'><a href='javascript:financialGraph(\""+cls+"\",\""+period+"\")'>"+new java.text.DecimalFormat(sFormat).format(Double.parseDouble(financial.split(";")[1]))+" "+sCurrency+"</a></td></tr>");
 	}
 %>
 </table>

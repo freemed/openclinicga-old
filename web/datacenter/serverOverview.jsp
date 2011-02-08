@@ -358,6 +358,10 @@
         openPopupWindow("/datacenter/diagnosisGraph.jsp?serverid=<%=serverid%>&diagnosiscode="+code+"&ts=<%=getTs()%>");
     }
 
+    function financialGraph(code,period){
+        openPopupWindow("/datacenter/financialGraph.jsp?serverid=<%=serverid%>&code="+code+"&period="+period+"&ts=<%=getTs()%>");
+    }
+
     Event.observe(window, 'load', function() {
         loadDiagnoses('<%=serverid%>',$('diagmonth').value);
        loadBedoccupancy('<%=serverid%>');
