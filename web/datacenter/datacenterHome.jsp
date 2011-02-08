@@ -1,14 +1,25 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-
 <html>
 <head>
     <%=sJSTOGGLE%>
     <%=sJSFORM%>
     <%=sJSPOPUPMENU%>
-    <%=sCSSNORMAL%>
+    <%//=sCSSNORMAL%>
     <%=sJSPROTOTYPE %>
     <%=sJSAXMAKER %>
+    <%=sJSPROTOCHART %>
+    <!--[if IE]>
+    <%=sJSEXCANVAS %>
+    <![endif]-->
+    <%=sJSAXMAKER %>
+    <%=sJSSCRPTACULOUS %>
+    <%=sJSMODALBOX%>
+    <%=sCSSDATACENTER%>
+    <%=sCSSMODALBOXDATACENTER%>
+    <!--[if IE]>
+    <%=sCSSDATACENTERIE%>
+     <![endif]-->
 </head>
 
 <%
@@ -17,17 +28,30 @@
 %>
 
 <%
+    String sPage=checkString(request.getParameter("p"));
     if(MedwanQuery.getInstance().getConfigString("BackButtonDisabled").equalsIgnoreCase("true")){
         %>
             <script>
               if(window.history.forward(1) != null){
-                window.history.forward(1);
+               // window.history.forward(1);
               }
             </script>
         <%
     }
 %>
-<% 
+<%!
+    class Tester{
+        int cinq = 5;
+        public Tester(){
+
+        }
+    }
+    public void test(Tester i){
+        i.cinq--;
+        
+    }
+%>
+<%
 	if(request.getParameter("logout")!=null){
 		session.removeAttribute("datacenteruser");
 	}
@@ -38,50 +62,101 @@
 		activeUser.person.language=MedwanQuery.getInstance().getConfigString("datacenterUserLanguage."+request.getParameter("username"),"FR");
         session.setAttribute(sAPPTITLE + "WebLanguage", activeUser.person.language);
 	}
-	if(session.getAttribute("datacenteruser")==null){
-%>
-	<table width="100%">
-		<tr>
-			<td width="1%"><img height="150px" src="<c:url value="/_img/ghb.png"/>"/></td>
-			<td>
-				<form name="transactionForm" method="post" action="datacenterHome.jsp"/>
-					<input type="text" name="username" class="text"/><br/>
-					<input type="password" name="password" class="text"/><br/>
-					<input type="submit" name="submit" value="login" class="button"/>
-				</form>
-			</td>
-		</tr>
-	</table>
-	
-<%
-	}
-	else {
-	
-%>
 
+    System.out.println("*** TESTS ****");
+    Tester i = new Tester();
+    Tester icopy = i;
+    test(icopy);
+
+
+    System.out.println("i = "+i.cinq+" and icopy = "+icopy.cinq);
+
+
+    System.out.println("*** END TESTS ****");
+%>
 <body>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="list" height="100%">
-        <%-- CONTENT --%>
-        <tr>
-            <td  valign="top" class="white" height="100%">
-                <div class="content" id="Juist">
-                    <a name='topp'></a>
-                    <table width="100%" border="0" id="mijn">
-						<tr>
-							<td align="right"><a href="javascript:logout();"><%=getTran("web","logout",sWebLanguage) %></a></td>
-						</tr>
-                        <tr>
-                            <td valign="top" class="white">
-                                <%ScreenHelper.setIncludePage("/datacenter/projectoverview.jsp&servergroups="+MedwanQuery.getInstance().getConfigString("datacenterUserServerGroups."+session.getAttribute("datacenteruser")),pageContext);%>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
-    </table>
+        <div id="footer-wrap">
+           <div id="footer-container">
+                <div id="footer">
+                    <div id="footer_logo">
+                        <%
+                            if(session.getAttribute("datacenteruser")!=null){
+                        %>
+                            <img height="40px;" src="<%=MedwanQuery.getInstance().getConfigString("datacenterUserLogo."+session.getAttribute("datacenteruser"))%>"/>
+                        <%
+                            }
+                        %>
 
-    <%=sJSJUIST%>
+                        </div>
+                        <div id="footer_info">developped by Mxs</div>
+                </div>
+            </div>
+        </div>
+        <div id="header-wrap">
+            <div id="header-container">
+                <div id="header">
+                    <div id="logout"><a href="javascript:logout();" title="<%=getTranNoLink("web","logout",sWebLanguage) %>" <%=((session.getAttribute("datacenteruser")==null)?"style='display:none;'":"")%>>&nbsp;</a></div>
+                </div>
+            </div>
+        </div>
+        <div id="container">
+            <div id="content">
+
+                 <%
+                     if(session.getAttribute("datacenteruser")!=null){
+                        if(sPage.length()>0){
+                            ScreenHelper.setIncludePage(sPage,pageContext);
+
+                        }else{
+                            ScreenHelper.setIncludePage("/datacenter/projectoverview.jsp&servergroups="+MedwanQuery.getInstance().getConfigString("datacenterUserServerGroups."+session.getAttribute("datacenteruser")),pageContext);
+                        }
+                       %>
+                     <script type="text/javascript">
+                        Event.observe(window, 'load', function() {
+                          //  window.setInterval("keepAlive()",30000);
+                        });
+                     </script>
+                      <%
+                     }else{
+                        %>
+                <div class="container">
+               
+                    <div id="login">
+
+                        <form name="transactionForm" id="transactionForm" method="post" action="datacenterHome.jsp" >
+                            <table width="100%" class="content">
+                                <tr ><td colspan="2"></td></tr>
+                                <tr class="last">
+                                    <td>Login</td>
+                                    <td>
+                                        <input type="text" name="username" class="text"/>
+                                    </td>
+                                </tr>
+                                <tr class="last">
+                                    <td>Password</td>
+                                    <td>
+                                        <input type="password" name="password" class="text"/><br/>
+                                    </td>
+                                </tr>
+                                <tr class="last">
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <a href="javascript:void(0)" class="button" onclick="$('transactionForm').submit()"><span class="title">Submit</span></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form> 
+                    </div>
+                </div>
+                <%
+                    }
+                %>
+
+            </div>
+            <div class="pad2">&nbsp;</div>
+        </div>
+
+    <%//=sJSJUIST%>
 
     <script>
 	    function keepAlive(){
@@ -99,14 +174,14 @@
 	        );
 	    }
 
-	  window.setInterval("keepAlive()",30000);
-      resizeAllTextareas(10);
+
+    //  resizeAllTextareas(10);
 
       <%
           if(MedwanQuery.getInstance().getConfigString("BackButtonDisabled").equalsIgnoreCase("true")){
               %>
                 if(window.history.forward(1) != null){
-                  window.history.forward(1);
+                 // window.history.forward(1);
                 }
               <%
           }
@@ -116,15 +191,37 @@
   		window.location.href="<c:url value="/datacenter/datacenterHome.jsp?logout=true"/>";
       }
 
-      
+    function openPopupWindow(page, width, height, title){
+        if (width == undefined){
+            width = 700;
+        }
+        if (title == undefined) {
+           title = "&nbsp;";
+        }
+        page = "<c:url value="/"/>"+page;
+
+        Modalbox.show(page, {title: title, width: width,height:'400'} );
+    }
+
+    function setGraph(array){
+        var options = {
+        lines: { show: true },
+        points: { show: true },
+        xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
+        selection: { mode: "x" }
+        };
+
+        new Proto.Chart($('barchart'),
+        [
+            {data: array, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"}
+        ],options);
+    }
     </script>
 
-    <%=ScreenHelper.getDefaults(request)%>
-    
-    
+    <%//=ScreenHelper.getDefaults(request)%>
+
+
 </body>
 
-<%
-	}
-%>
+
 </html>
