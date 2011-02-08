@@ -2,6 +2,8 @@ package be.chuk;
 
 import java.io.IOException;
 
+import be.mxs.common.util.db.MedwanQuery;
+
 import uk.org.primrose.GeneralException;
 import uk.org.primrose.vendor.standalone.PrimroseLoader;
 
@@ -20,5 +22,6 @@ public class SyncSage {
         Sage.synchronizePrestations();
         Sage.synchronizeReimbursements();
         Sage.synchronizeFamilyReimbursements();
+        MedwanQuery.getInstance().stopScheduler();
     }
 }

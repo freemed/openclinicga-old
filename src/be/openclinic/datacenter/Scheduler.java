@@ -16,7 +16,16 @@ import be.mxs.common.util.system.Debug;
 
 public class Scheduler implements Runnable{
 	Thread thread;
+	boolean stopped=false;
 	
+	public boolean isStopped() {
+		return stopped;
+	}
+
+	public void setStopped(boolean stopped) {
+		this.stopped = stopped;
+	}
+
 	public Scheduler(){
 		thread = new Thread(this);
 		thread.start();
@@ -84,11 +93,11 @@ public class Scheduler implements Runnable{
         }
         Importer.execute();
 	}
-
+	
 	public void run() {
 		// TODO Auto-generated method stub
         try {
-        	while(true){
+        	while(!isStopped()){
         		if(MedwanQuery.getInstance().getConfigInt("datacenterEnabled",0)==1){
 	        		runScheduler();
         		}

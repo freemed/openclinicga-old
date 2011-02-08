@@ -487,6 +487,11 @@ public class MedwanQuery {
         scheduler=new Scheduler();        
     }
     
+    public void stopScheduler(){
+    	if(scheduler!=null){
+    		scheduler.setStopped(true);
+    	}
+    }
     
     public String getValue(String parameter) {
         if (sessionValues.get(parameter) != null) {

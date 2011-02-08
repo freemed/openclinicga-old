@@ -2,6 +2,7 @@ package be.mxs.common.util.pdf.general;
 
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.*;
+
 import java.util.*;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -115,11 +116,17 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
         table = new PdfPTable(5);
         table.setWidthPercentage(100);
-        table.addCell(createGrayCell(getTran("web","receiptforinvoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceUid())+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),5,10,Font.BOLD));
+        table.addCell(createGrayCell(getTran("web","receiptforinvoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceNumber())+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),5,10,Font.BOLD));
         table.addCell(createValueCell(getTran("web","receivedfrom")+": "+patient.lastname.toUpperCase()+" "+patient.firstname+" ("+patient.personid+")",3,8,Font.NORMAL));
         table.addCell(createValueCell(patient.dateOfBirth,1,8,Font.NORMAL));
         table.addCell(createValueCell(patient.gender,1,8,Font.NORMAL));
-        table.addCell(createEmptyCell(3));
+        if(invoice.getInvoiceNumber().equalsIgnoreCase(invoice.getInvoiceUid())){
+        	table.addCell(createEmptyCell(3));
+        }
+        else {
+            table.addCell(createValueCell(getTran("web.occup","medwan.common.reference")+": "+invoice.getInvoiceUid(),1,8,Font.NORMAL));
+        	table.addCell(createEmptyCell(2));
+        }
         table.addCell(createValueCell(getTran("web","prestations"),1,8,Font.NORMAL));
         double totalDebet=0;
         double totalinsurardebet=0;
@@ -238,7 +245,22 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             }
 
             //*** title ***
-            table.addCell(createTitleCell(getTran("web","invoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceUid())+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),"",3));
+            if(invoice.getInvoiceNumber().equalsIgnoreCase(invoice.getInvoiceUid())){
+                table.addCell(createTitleCell(getTran("web","invoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceNumber())+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),"",3));
+            }
+            else {
+            	PdfPTable table2 = new PdfPTable(1);
+                table2.setWidthPercentage(100);
+                table2.addCell(createTitleCell(getTran("web","invoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceNumber())+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),"",1));
+            	cell=createValueCell(getTran("web.occup","medwan.common.reference")+": "+invoice.getInvoiceUid(),1,8,Font.NORMAL);
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            	table2.addCell(cell);
+            	cell = new PdfPCell(table2);
+                cell.setBorder(Cell.NO_BORDER);
+            	cell.setColspan(3);
+            	table.addCell(cell);
+            }
+
 
             if(!sProforma.equalsIgnoreCase("yes")){
                 //*** barcode ***

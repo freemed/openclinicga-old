@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 public class Sage {
     public static void synchronizeInsurars(){
         try {
+    		System.out.println("Synchronising insurars");
             Date lastSync= new SimpleDateFormat("yyyyMMddHHmmss").parse("19000101000000");
             try{
                 lastSync = new SimpleDateFormat("yyyyMMddHHmmss").parse(MedwanQuery.getInstance().getConfigString("lastSageInsurarSync","19000101000000"));
@@ -27,8 +28,8 @@ public class Sage {
 
             }
             Date maxDate=lastSync;
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-            Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            Connection oc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
+            Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
             PreparedStatement ps = loc_conn.prepareStatement("select * from SageInsurars where cbModification>?");
             ps.setTimestamp(1,new Timestamp(lastSync.getTime()));
             ResultSet rs = ps.executeQuery();
@@ -42,6 +43,7 @@ public class Sage {
 
                 //We zoeken nu deze verzekeraar op
                 boolean bexists=false;
+                System.out.println("Checking SAGE insurar "+insuranceCode);
                 Vector insurars = Insurar.getInsurarsByName("%#"+insuranceCode);
                 if(insurars.size()>0){
                     Insurar insurar=null;
@@ -52,6 +54,7 @@ public class Sage {
                         }
                 	}
                 	if(insurar!=null){
+                		System.out.println("Updating");
                 		bexists=true;
                         //De verzekeraar bestaat reeds, we gaan de gegevens updaten
 	                    insurar.setName(insuranceName+" #"+insuranceCode);
@@ -103,6 +106,7 @@ public class Sage {
                 	}
                 }
                 if(!bexists) {
+            		System.out.println("Creating");
                     //De verzekeraar bestaat nog niet, we gaan hem toevoegen
                     Insurar insurar = new Insurar();
                     insurar.setUid("1.-1");
@@ -164,6 +168,7 @@ public class Sage {
 
     public static void synchronizeReimbursements(){
         try {
+    		System.out.println("Synchronizing reimbursements");
             Date lastSync= new SimpleDateFormat("yyyyMMddHHmmss").parse("19000101000000");
             try{
                 lastSync = new SimpleDateFormat("yyyyMMddHHmmss").parse(MedwanQuery.getInstance().getConfigString("lastSageReimbursementSync","19000101000000"));
@@ -172,17 +177,19 @@ public class Sage {
 
             }
             Date maxDate = lastSync;
-            Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
             PreparedStatement ps = loc_conn.prepareStatement("select * from SageReimbursements where cbModification>?  order by ar_ref");
             ps.setTimestamp(1,new Timestamp(lastSync.getTime()));
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 String prestationCode=ScreenHelper.checkString(rs.getString("AR_Ref")).replaceAll("'","");
-                int patientshare=rs.getInt("AC_Remise");
+        		System.out.println("Checking prestation code "+prestationCode);
+        		int patientshare=rs.getInt("AC_Remise");
                 String insurarCode=ScreenHelper.checkString(rs.getString("CT_Num"));
                 Vector insurars = Insurar.getInsurarsByName("%#"+insurarCode);
                 Prestation prestation=Prestation.getByCode(prestationCode);
                 if(insurars.size()>0 && prestation!=null){
+            		System.out.println("Updating");
                     Date d = rs.getTimestamp("cbModification");
                     if(d.after(maxDate)){
                         maxDate=d;
@@ -225,6 +232,7 @@ public class Sage {
 
     public static void synchronizeFamilyReimbursements(){
         try {
+    		System.out.println("Synchronizing familyreimbursements");
             Date lastSync= new SimpleDateFormat("yyyyMMddHHmmss").parse("19000101000000");
             try{
                 lastSync = new SimpleDateFormat("yyyyMMddHHmmss").parse(MedwanQuery.getInstance().getConfigString("lastSageFamilyReimbursementSync","19000101000000"));
@@ -233,16 +241,18 @@ public class Sage {
 
             }
             Date maxDate = lastSync;
-            Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
             PreparedStatement ps = loc_conn.prepareStatement("select * from SageFamilyReimbursements where cbModification>?  order by FA_CodeFamille");
             ps.setTimestamp(1,new Timestamp(lastSync.getTime()));
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 String familyCode=ScreenHelper.checkString(rs.getString("FA_CodeFamille")).replaceAll("'","");
+        		System.out.println("Checking family code "+familyCode);
                 int patientshare=rs.getInt("FC_Remise");
                 String insurarCode=ScreenHelper.checkString(rs.getString("CT_Num"));
                 Vector insurars = Insurar.getInsurarsByName("%#"+insurarCode);
                 if(insurars.size()>0){
+            		System.out.println("Updating");
                     Date d = rs.getTimestamp("cbModification");
                     if(d.after(maxDate)){
                         maxDate=d;
@@ -283,6 +293,7 @@ public class Sage {
 
     public static void synchronizePrestations(){
         try{
+    		System.out.println("Synchronising prestations");
             Date lastSync= new SimpleDateFormat("yyyyMMddHHmmss").parse("19000101000000");
             try{
                 lastSync = new SimpleDateFormat("yyyyMMddHHmmss").parse(MedwanQuery.getInstance().getConfigString("lastSagePrestationSync","19000101000000"));
@@ -291,12 +302,13 @@ public class Sage {
 
             }
             Date maxDate=lastSync;
-            Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
             PreparedStatement ps = loc_conn.prepareStatement("select * from SagePrestations where cbModification>?  order by ar_ref");
             ps.setTimestamp(1,new Timestamp(lastSync.getTime()));
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 String prestationCode=ScreenHelper.checkString(rs.getString("AR_Ref")).replaceAll("'","");
+        		System.out.println("Checking prestationcode "+prestationCode);
 
                 double prestationPrice=0;
                 try{
@@ -325,6 +337,7 @@ public class Sage {
                 }
                 Prestation prestation=Prestation.getByCode(prestationCode);
                 if(prestation.getCode()!=null && prestation.getCode().equalsIgnoreCase(prestationCode)){
+            		System.out.println("Updating");
                     //De prestatie bestaat reeds, we gaan ze updaten
                     prestation.setDescription(ScreenHelper.checkString(rs.getString("AR_Design")).replaceAll("'",""));
                     prestation.setPrice(prestationPrice);
@@ -345,6 +358,7 @@ public class Sage {
                     prestation.store();
                 }
                 else {
+            		System.out.println("Creating");
                     //De prestatie bestaat nog niet, toevoegen
                     prestation=new Prestation();
                     prestation.setCode(prestationCode);

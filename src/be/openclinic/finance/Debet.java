@@ -389,7 +389,7 @@ public class Debet extends OC_Object implements Comparable {
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? AND d.OC_DEBET_CREDITED=0"
-                    + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + " = e.oc_encounter_objectid"
+                    + " AND e.oc_encounter_objectid=" + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") 
                     + " AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ') order by OC_DEBET_DATE DESC";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sPatientId);

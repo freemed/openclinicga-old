@@ -18,8 +18,26 @@ import be.mxs.common.util.db.MedwanQuery;
 public class PatientInvoice extends Invoice {
     private String patientUid;
     private AdminPerson patient;
+    private String number;
+    
+    public String getInvoiceNumber() {
+        if(number==null || number.equalsIgnoreCase("")){
+        	return invoiceUid;
+        }
+        else {
+        	return number+"";
+        }
+    }
 
-    //--- S/GET PATIENT UID -----------------------------------------------------------------------
+    public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	//--- S/GET PATIENT UID -----------------------------------------------------------------------
     public void setPatientUid(String patientUid) {
         this.patientUid = patientUid;
     }
@@ -97,6 +115,7 @@ public class PatientInvoice extends Invoice {
                         patientInvoice.setVersion(rs.getInt("OC_PATIENTINVOICE_VERSION"));
                         patientInvoice.setBalance(rs.getDouble("OC_PATIENTINVOICE_BALANCE"));
                         patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
+                        patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
                     }
                     rs.close();
                     ps.close();
@@ -146,6 +165,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setVersion(rs.getInt("OC_PATIENTINVOICE_VERSION"));
                 patientInvoice.setBalance(rs.getDouble("OC_PATIENTINVOICE_BALANCE"));
                 patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
+                patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
             }
             rs.close();
             ps.close();
@@ -244,9 +264,10 @@ public class PatientInvoice extends Invoice {
                           " OC_PATIENTINVOICE_UPDATEUID," +
                           " OC_PATIENTINVOICE_VERSION," +
                           " OC_PATIENTINVOICE_BALANCE," +
-                          " OC_PATIENTINVOICE_STATUS" +
+                          " OC_PATIENTINVOICE_STATUS," +
+                          " OC_PATIENTINVOICE_NUMBER" +
                         ") " +
-                         " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = oc_conn.prepareStatement(sSelect);
                 while(!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_PATIENTINVOICES","OC_PATIENTINVOICE_OBJECTID",ids[1])){
                     ids[1] = MedwanQuery.getInstance().getOpenclinicCounter("OC_INVOICES") + "";
@@ -262,6 +283,7 @@ public class PatientInvoice extends Invoice {
                 ps.setInt(9,iVersion);
                 ps.setDouble(10,this.getBalance());
                 ps.setString(11,this.getStatus());
+                ps.setString(12,this.getNumber());
                 ps.executeUpdate();
                 ps.close();
 
@@ -421,6 +443,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setVersion(rs.getInt("OC_PATIENTINVOICE_VERSION"));
                 patientInvoice.setBalance(rs.getDouble("OC_PATIENTINVOICE_BALANCE"));
                 patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
+                patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
 
                 invoices.add(patientInvoice);
             }
@@ -507,6 +530,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setVersion(rs.getInt("OC_PATIENTINVOICE_VERSION"));
                 patientInvoice.setBalance(rs.getDouble("OC_PATIENTINVOICE_BALANCE"));
                 patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
+                patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
 
                 invoices.add(patientInvoice);
             }
@@ -629,6 +653,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setVersion(rs.getInt("OC_PATIENTINVOICE_VERSION"));
                 patientInvoice.setBalance(rs.getDouble("OC_PATIENTINVOICE_BALANCE"));
                 patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
+                patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
 
                 vPatientInvoices.add(patientInvoice);
             }
