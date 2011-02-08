@@ -11,6 +11,7 @@
     +writeTblChild("main.do?Page=userprofile/changelanguage.jsp",getTran("Web.UserProfile","ChangeLanguage",sWebLanguage))
 //    +writeTblChild("main.do?Page=userprofile/manageExaminations.jsp",getTranNoLink("Web.UserProfile","ManageExaminations",sWebLanguage))
     +writeTblChild("main.do?Page=userprofile/managePlanning.jsp",getTranNoLink("Web.UserProfile","ManagePlanning",sWebLanguage))
+    +writeTblChild("main.do?Page=system/manageQuickList.jsp&UserQuickList=1",getTran("Web.UserProfile","ManageQuickList",sWebLanguage))
     +ScreenHelper.writeTblFooter()
  )
 %>
