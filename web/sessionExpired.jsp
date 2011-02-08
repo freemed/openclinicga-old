@@ -23,6 +23,11 @@
     </title>
 </head>
 <body class="Geenscroll login" onkeydown="escBackSpace();if(enterEvent(event,13)){goToLogin();}">
+<%
+	if(request.getServerName().toLowerCase().indexOf("globalhealthbarometer")>-1){
+		out.print("<script>window.location.href='http://www.globalhealthbarometer.org';</script>");
+	}
+%>
 <div id="login" class="withoutfields">
     <div id="logo">
         <img src="<%=sTmpAPPDIR%>_img/logo.jpg" border="0">
