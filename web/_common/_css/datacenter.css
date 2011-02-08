@@ -172,6 +172,7 @@ div#container {
     display: block;
     position: relative;
     float: left;
+    width:100%;
     z-index: 3;
     padding-bottom: 100px;
     word-wrap: break-word;
