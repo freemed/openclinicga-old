@@ -46,17 +46,22 @@
 		<td class='admin2'><%=format(serverid,sFormat,"financial.0.1",period)+" "+sCurrency %></td>
 		<td class='admin2'><%=format(serverid,sFormat,"financial.0.2",period)+" "+sCurrency %></td>
 	</tr>
-	<tr><td colspan="4"><hr/></td></tr>
-
-<%
-	java.util.Vector financials = DatacenterHelper.getFinancials(Integer.parseInt(serverid),period);
-	for(int n=0;n<financials.size();n++){
-		String financial=(String)financials.elementAt(n);
-		String cls = financial.split(";")[0].toUpperCase();
-		if(cls==null || cls.length()==0){
-			cls="?";
-		}
-		out.print("<tr><td class='admin'>"+cls+"</td><td class='admin2' colspan='3'><a href='javascript:financialGraph(\""+cls+"\",\""+period+"\")'>"+new java.text.DecimalFormat(sFormat).format(Double.parseDouble(financial.split(";")[1]))+" "+sCurrency+"</a></td></tr>");
-	}
-%>
 </table>
+<hr />
+<div style="float:left;width:45%;display:inline;">
+    <table width="100%">
+    <%
+        java.util.Vector financials = DatacenterHelper.getFinancials(Integer.parseInt(serverid),period);
+        for(int n=0;n<financials.size();n++){
+            String financial=(String)financials.elementAt(n);
+            String cls = financial.split(";")[0].toUpperCase();
+            if(cls==null || cls.length()==0){
+                cls="?";
+            }
+            out.print("<tr><td class='admin'>"+cls+"</td><td class='admin2'><a href='javascript:financialGraph(\""+cls+"\",\""+period+"\")'>"+new java.text.DecimalFormat(sFormat).format(Double.parseDouble(financial.split(";")[1]))+" "+sCurrency+"</a></td></tr>");
+        }
+    %>
+    </table>
+</div>
+<div id="financial_chart_ajax" style="width:50%;float:left;display:inline;"></div>
+<div id="financial_chart_ajax_operations" style="display:none;"></div>
