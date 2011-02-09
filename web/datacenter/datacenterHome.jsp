@@ -12,6 +12,7 @@
     <!--[if IE]>
     <%=sJSEXCANVAS %>
     <![endif]-->
+    <%=sJSFUSIONCHARTS%>
     <%=sJSAXMAKER %>
     <%=sJSSCRPTACULOUS %>
     <%=sJSMODALBOX%>
@@ -39,18 +40,6 @@
         <%
     }
 %>
-<%!
-    class Tester{
-        int cinq = 5;
-        public Tester(){
-
-        }
-    }
-    public void test(Tester i){
-        i.cinq--;
-        
-    }
-%>
 <%
 	if(request.getParameter("logout")!=null){
 		session.removeAttribute("datacenteruser");
@@ -62,7 +51,6 @@
 		activeUser.person.language=MedwanQuery.getInstance().getConfigString("datacenterUserLanguage."+request.getParameter("username"),"FR");
         session.setAttribute(sAPPTITLE + "WebLanguage", activeUser.person.language);
 	}
-
 %>
 <body>
         <div id="footer-wrap">
@@ -145,9 +133,6 @@
             </div>
             <div class="pad2">&nbsp;</div>
         </div>
-
-    <%//=sJSJUIST%>
-
     <script>
 	    function keepAlive(){
 	        var r="";
@@ -215,10 +200,6 @@
         }
     }
     </script>
-
-    <%//=ScreenHelper.getDefaults(request)%>
-
-
 </body>
 
 
