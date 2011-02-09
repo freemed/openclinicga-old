@@ -213,7 +213,7 @@
    <div class="subcontent">
        <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'financial')"><span class="icon down">&nbsp;</span></a>
        <select name="financialmonth" id="financialmonth" class="text" onchange="loadFinancials('<%=serverid %>',this.value);"><%=sb.toString() %></select>
-       <div id="financial_ajax" style="display:none;"></div>
+       <div id="financial_ajax" style="display:none;width:100%;"></div>
    </div>
    </div>
 
@@ -359,7 +359,9 @@
     }
 
     function financialGraph(code,period){
-        openPopupWindow("/datacenter/financialGraph.jsp?serverid=<%=serverid%>&code="+code+"&period="+period+"&ts=<%=getTs()%>");
+        url = "<c:url value="/" />/datacenter/financialGraph.jsp?serverid=<%=serverid%>&code="+code+"&period="+period+"&ts=<%=getTs()%>&graphwidth="+$("financial_chart_ajax").getWidth();
+        new Ajax.Updater("financial_chart_ajax_operations",url,{evalScripts:true});
+        //openPopupWindow("/datacenter/financialGraph.jsp?serverid=<%=serverid%>&code="+code+"&period="+period+"&ts=<%=getTs()%>");
     }
 
     Event.observe(window, 'load', function() {
