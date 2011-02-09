@@ -26,5 +26,4 @@
 <script type="text/javascript">
     setGraph(<%=sJsArray%>);
     Modalbox.setTitle("<%=HTMLEntities.htmlentities(getTran("datacenterserver", serverId + "", sWebLanguage)) + "<br />" + HTMLEntities.htmlentities(getTranNoLink("datacenterparameter", parameterId, sWebLanguage))%>");
-
 </script>
