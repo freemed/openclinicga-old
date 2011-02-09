@@ -1,134 +1,3 @@
-/*
-******* STYLE FIXED HEADER AND FOOTER ****************
-html {
-    height: 100%;
-    max-height: 100%;
-    padding: 0;
-    margin: 0;
-    border: 0;
-
-    overflow: hidden;
-
-
-}
-
-body {
-    height: 100%;
-    max-height: 100%;
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
-    border: 0;
-
-    color: #333333;
-    font-family: verdana, sans-serif;
-    font-size: 10px;
-
-}
-
-body div.clear {
-    height: 1px;
-    clear: both;
-    float: left;
-}
-
-div#header-wrap {
-    background: url( "../../_img/background_body_ghb.png" ) repeat-x top left #efeee9;
-
-
-    position: absolute;
-    margin: 0;
-    top: 0;
-    right: 18px;
-    display: block;
-    width: 100%;
-    height: 122px;
-    font-size: 4em;
-    z-index: 5;
-}
-
-#header-container {
- background: url( "../../_img/background_ghb.jpg" ) no-repeat top left;
-    height: 120px;
-}
-
-
-div#container {
-    top: 0px;
-    right: 0px;
-    left: 0px;
-    bottom: 0px;
-    overflow: auto;
-    margin: 0 auto;
-    display: block;
-    height: 100%;
-    max-height: 100%;
-    position: relative;
-    z-index: 3;
-    word-wrap: break-word;
-}
-#content {
-    width:99%;
-    padding-left:0.5%;
-}
-div#footer-wrap {
-    background: white url( "../../_img/background_footer_ghb.gif" ) no-repeat bottom left;
-    background-repeat: repeat-x;
-
-    position: absolute;
-    margin: 0;
-    bottom: -1px;
-    right: 18px;
-    display: block;
-    width: 100%;
-    height: 62px;
-    background: #fff;
-    color: #000;
-    text-align: right;
-    font-size: 2em;
-    z-index: 4;
-}
-.pad1 {
-display:block;
-height:130px;
-}
-.pad2 {
-display:block;
-height:150px;
-float:left;
-    position:relative;
-}
-
-#footer-container {
-    height: 60px;
-     background: white url( "../../_img/background_footer_ghb.gif" ) repeat-x bottom left;
-}
-
-#footer {
-    width: 100%;
-    margin: 0 auto;
-    position: relative;
-}
-
-div#footer_logo {
-    background: white url( "../../_img/background_footer_ghb.jpg" ) no-repeat bottom left;
-    width: 839px;
-    height: 60px;
-    text-align:left;
-    float:left;
-}
-
-div#footer-wrap img {
-    padding: 15px 0 0 10px;
-
-}
-
-div#footer_info {
-    color: white;
-    display: none;
-}
-*/
-
 html {
     padding: 0;
     margin: 0;
@@ -172,7 +41,7 @@ div#container {
     display: block;
     position: relative;
     float: left;
-    width:100%;
+    width: 100%;
     z-index: 3;
     padding-bottom: 100px;
     word-wrap: break-word;
@@ -286,7 +155,7 @@ table.content tr td.admin2 {
 
 table.content tr.last td {
 /*  border-right: 1px solid #c9c9c8;*/
-    border-bottom:none;
+    border-bottom: none;
 }
 
 table.content tr.result td {
@@ -299,6 +168,13 @@ div.landlist {
     float: left;
     position: relative;
     width: 100%;
+    -webkit-box-shadow: 0px 3px 7px #888;
+    -moz-box-shadow: 0px 3px 7px #888;
+    box-shadow: 0px 3px 7px #888;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 div.landlist h3 {
@@ -310,7 +186,6 @@ div.landlist h3 {
     padding: 4px 1% 3px 1%;
     border-left: 1px solid #183D60;
     border-right: 1px solid #183D60;
-
 
 }
 
@@ -357,7 +232,7 @@ div.container h3 {
     color: white;
     margin: 6px 0 0 0;
     padding: 4px 1% 0 1%;
-     background: #183D60 url( "../../_img/background_title_ghb.gif" ) repeat-x top left;
+    background: #183D60 url( "../../_img/background_title_ghb.gif" ) repeat-x top left;
     width: 98%;
     border-left: 1px solid #183D60;
     border-right: 1px solid #183D60;
@@ -374,13 +249,13 @@ div.container div.subcontent {
     float: left;
     width: 98%;
     background: #F7F7F7;
-    /*     -webkit-box-shadow: 4px 3px 7px #888;
-   -moz-box-shadow: 4px 3px 7px #888;
-   box-shadow: 4px 3px 7px #888;
+    -webkit-box-shadow: 0px 3px 7px #888;
+    -moz-box-shadow: 0px 3px 7px #888;
+    box-shadow: 0px 3px 7px #888;
 
-   -webkit-border-radius: 3px;
-   -moz-border-radius: 3px;
-   border-radius: 3px;*/
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 div.subcontent a.togglecontent {
@@ -473,9 +348,11 @@ span.expand {
 span.reduction {
     background-position: left -417px;
 }
+
 span.edit {
     background-position: left -508px;
 }
+
 div.container tr td {
     border-bottom: 1px solid #E7E7E7;
     font-size: 11px;
@@ -498,6 +375,7 @@ span.important {
     font-size: 16px;
     font-weight: bold;
 }
+
 a.button {
     padding: 0 0 0 0;
     position: relative;
@@ -511,7 +389,7 @@ a.button {
     font-weight: bold;
     display: inline;
     clear: none;
-    cursor:pointer;
+    cursor: pointer;
     background: url( "../../_img/button_right_ghb.png" ) no-repeat right top;
 }
 
@@ -525,32 +403,34 @@ a.button span.title {
     color: #505050;
     background: url( "../../_img/button_left_ghb.png" ) no-repeat left top;
 }
-a.link{
-    text-decoration:none;
-    line-height:20px;
+
+a.link {
+    text-decoration: none;
+    line-height: 20px;
 }
 
-table.data tr td{
-    border:1px solid #cdcdcd;
+table.data tr td {
+    border: 1px solid #cdcdcd;
 }
 
 /** LOGIN **/
 
-div#login{
-    width:500px;
-    /*border-top:2px solid #7BA0B2;*/
-    margin-left:0;
-    margin-top:20px;
-    padding:10px 0 0 100px;
-    height:200px;
+div#login {
+    width: 500px; /*border-top:2px solid #7BA0B2;*/
+    margin-left: 0;
+    margin-top: 20px;
+    padding: 10px 0 0 100px;
+    height: 200px;
 }
-div#login table{
+
+div#login table {
 
 }
- div#login input.text{
-     margin:2px;
-     padding:5px;
- }
+
+div#login input.text {
+    margin: 2px;
+    padding: 5px;
+}
 
 
 
