@@ -780,6 +780,7 @@
     String sJSPROTOCHART  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/ProtoChart.js'></script>";
     String sJSEXCANVAS  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/excanvas.js'></script>";
     String sPROGRESSBAR  = "<script src='"+sCONTEXTPATH+"/_common/_script/pb_prototype.js'></script><script src='"+sCONTEXTPATH+"/_common/_script/pb_ProgressBarHandler.js'></script>";
+    String sJSFUSIONCHARTS  = "<script src='"+sCONTEXTPATH+"/_common/_script/FusionCharts.js'></script>";
 
     // varia
     String sTDAdminWidth = "200";
