@@ -24,7 +24,7 @@
 </head>
 <body class="Geenscroll login" onkeydown="escBackSpace();if(enterEvent(event,13)){goToLogin();}">
 <%
-	if(request.getServerName().toLowerCase().indexOf("globalhealthbarometer")>-1){
+	if(request.getRequestURL().toString().indexOf("globalhealthbarometer")>-1){
 		out.print("<script>window.location.href='http://www.globalhealthbarometer.org';</script>");
 	}
 %>
