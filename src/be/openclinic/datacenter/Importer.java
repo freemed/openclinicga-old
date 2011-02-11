@@ -101,6 +101,26 @@ public class Importer {
 						importMessage.sendError();
 					}
 				}
+				else if(parametertype.equalsIgnoreCase("mortality")){
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storeMortality(importMessage)){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+				}
+				else if(parametertype.equalsIgnoreCase("activity")){
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storeActivity(importMessage)){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+				}
 			}
 			rs.close();
 			ps.close();
@@ -304,6 +324,159 @@ public class Importer {
 					ps.setString(8, type);
 					ps.execute();
 					ps.close();
+				}
+				bSuccess=true;
+			}
+			
+		}
+		catch(SQLException e){
+			try {
+				if(ps!=null){
+					ps.close();
+				}
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bSuccess;
+	}
+	
+	public static boolean storeActivity(ImportMessage importMessage){
+		boolean bSuccess=false;
+		importMessage.setError(-1);
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps=null;
+		try{
+            SAXReader reader = new SAXReader(false);
+			Document document = reader.read(new ByteArrayInputStream(importMessage.data.getBytes("UTF-8")));
+			Element root = document.getRootElement();
+			if(root.getName().equalsIgnoreCase("data") && root.attributeValue("parameterid").startsWith("activity.1")){
+				Element diags = root.element("activities");
+				Iterator diagnoses = diags.elementIterator("activity");
+				while(diagnoses.hasNext()){
+					Element activity = (Element)diagnoses.next();
+					//First clear a possible existing value
+					ps = conn.prepareStatement("delete from DC_ACTIVITYVALUES where DC_ACTIVITYVALUE_SERVERID=? and DC_ACTIVITYVALUE_TYPE=? and DC_ACTIVITYVALUE_YEAR=? and DC_ACTIVITYVALUE_MONTH=?");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setString(2, activity.attributeValue("type"));
+					ps.setInt(3,Integer.parseInt(activity.attributeValue("year")));
+					ps.setInt(4,Integer.parseInt(activity.attributeValue("month")));
+					ps.execute();
+					ps.close();
+					ps = conn.prepareStatement("insert into DC_ACTIVITYVALUES(DC_ACTIVITYVALUE_SERVERID,DC_ACTIVITYVALUE_OBJECTID,DC_ACTIVITYVALUE_TYPE,DC_ACTIVITYVALUE_YEAR,DC_ACTIVITYVALUE_MONTH,DC_ACTIVITYVALUE_USERCOUNT,DC_ACTIVITYVALUE_MEAN,DC_ACTIVITYVALUE_MEDIAN,DC_ACTIVITYVALUE_MEANDEVIATION) values(?,?,?,?,?,?,?,?,?)");
+					ps.setInt(1, importMessage.getServerId());
+					ps.setInt(2, importMessage.getObjectId());
+					ps.setString(3, activity.attributeValue("type"));
+					ps.setInt(4,Integer.parseInt(activity.attributeValue("year")));
+					ps.setInt(5,Integer.parseInt(activity.attributeValue("month")));
+					ps.setInt(6,Integer.parseInt(activity.attributeValue("users")));
+					ps.setFloat(7,Float.parseFloat(activity.attributeValue("mean")));
+					ps.setFloat(8,Float.parseFloat(activity.attributeValue("median")));
+					ps.setFloat(9,Float.parseFloat(activity.attributeValue("meanDeviation")));
+					ps.execute();
+					ps.close();
+				}
+				bSuccess=true;
+			}
+			
+		}
+		catch(SQLException e){
+			try {
+				if(ps!=null){
+					ps.close();
+				}
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bSuccess;
+	}
+	
+	public static boolean storeMortality(ImportMessage importMessage){
+		boolean bSuccess=false;
+		importMessage.setError(-1);
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps=null;
+		try{
+            SAXReader reader = new SAXReader(false);
+			Document document = reader.read(new ByteArrayInputStream(importMessage.data.getBytes("UTF-8")));
+			Element root = document.getRootElement();
+			if(root.getName().equalsIgnoreCase("data") && root.attributeValue("parameterid").startsWith("mortality.1")){
+				Element mortalities = root.element("mortalities");
+				Iterator ms = mortalities.elementIterator();
+				while (ms.hasNext()){
+					Element mortality = (Element)ms.next();
+					if(mortality.getName().equalsIgnoreCase("mortality")){
+						//First clear a possible existing value
+						ps = conn.prepareStatement("delete from DC_MORTALITYVALUES where DC_MORTALITYVALUE_SERVERID=? and DC_MORTALITYVALUE_CODETYPE is NULL and DC_MORTALITYVALUE_CODE is NULL and DC_MORTALITYVALUE_YEAR=? and DC_MORTALITYVALUE_MONTH=?");
+						ps.setInt(1, importMessage.getServerId());
+						ps.setInt(2,Integer.parseInt(mortality.attributeValue("year")));
+						ps.setInt(3,Integer.parseInt(mortality.attributeValue("month")));
+						ps.execute();
+						ps.close();
+						ps = conn.prepareStatement("insert into DC_MORTALITYVALUES(DC_MORTALITYVALUE_SERVERID,DC_MORTALITYVALUE_OBJECTID,DC_MORTALITYVALUE_CODETYPE,DC_MORTALITYVALUE_CODE,DC_MORTALITYVALUE_YEAR,DC_MORTALITYVALUE_MONTH,DC_MORTALITYVALUE_COUNT) values(?,?,NULL,NULL,?,?,?)");
+						ps.setInt(1, importMessage.getServerId());
+						ps.setInt(2, importMessage.getObjectId());
+						ps.setInt(3,Integer.parseInt(mortality.attributeValue("year")));
+						ps.setInt(4,Integer.parseInt(mortality.attributeValue("month")));
+						ps.setInt(5,Integer.parseInt(mortality.attributeValue("deaths")));
+						ps.execute();
+						ps.close();
+					}
+					if(mortality.getName().equalsIgnoreCase("diagnosismortality")){
+						//First clear a possible existing value
+						ps = conn.prepareStatement("delete from DC_MORTALITYVALUES where DC_MORTALITYVALUE_SERVERID=? and DC_MORTALITYVALUE_CODETYPE=? and DC_MORTALITYVALUE_CODE=? and DC_MORTALITYVALUE_YEAR=? and DC_MORTALITYVALUE_MONTH=?");
+						ps.setInt(1, importMessage.getServerId());
+						ps.setString(2, "KPGS");
+						ps.setString(3, mortality.attributeValue("code"));
+						ps.setInt(4,Integer.parseInt(mortality.attributeValue("year")));
+						ps.setInt(5,Integer.parseInt(mortality.attributeValue("month")));
+						ps.execute();
+						ps.close();
+						ps = conn.prepareStatement("insert into DC_MORTALITYVALUES(DC_MORTALITYVALUE_SERVERID,DC_MORTALITYVALUE_OBJECTID,DC_MORTALITYVALUE_CODETYPE,DC_MORTALITYVALUE_CODE,DC_MORTALITYVALUE_YEAR,DC_MORTALITYVALUE_MONTH,DC_MORTALITYVALUE_COUNT,DC_MORTALITYVALUE_DIAGNOSISCOUNT) values(?,?,?,?,?,?,?,?)");
+						ps.setInt(1, importMessage.getServerId());
+						ps.setInt(2, importMessage.getObjectId());
+						ps.setString(3, "KPGS");
+						ps.setString(4, mortality.attributeValue("code"));
+						ps.setInt(5,Integer.parseInt(mortality.attributeValue("year")));
+						ps.setInt(6,Integer.parseInt(mortality.attributeValue("month")));
+						ps.setInt(7,Integer.parseInt(mortality.attributeValue("deaths")));
+						ps.setInt(8,Integer.parseInt(mortality.attributeValue("all")));
+						ps.execute();
+						ps.close();
+					}
 				}
 				bSuccess=true;
 			}

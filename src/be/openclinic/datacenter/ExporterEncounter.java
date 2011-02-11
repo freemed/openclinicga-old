@@ -18,6 +18,9 @@ import be.mxs.common.util.system.ScreenHelper;
 public class ExporterEncounter extends Exporter {
 
 	public void export(){
+		if(!mustExport(getParam())){
+			return;
+		}
 		if(getParam().equalsIgnoreCase("encounter.1")){
 			//Export a summary of bed occupancy
 			StringBuffer sb = new StringBuffer("<services>");

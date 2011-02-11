@@ -10,6 +10,9 @@ import be.mxs.common.util.db.MedwanQuery;
 public class ExporterCore extends Exporter {
 
 	public void export(){
+		if(!mustExport(getParam())){
+			return;
+		}
 		if(getParam().equalsIgnoreCase("core.1")){
 			//Export total number of patients in the ocadmin.admin table
 			exportSingleValue("admin","select count(*) total from Admin", "total", "core.1");

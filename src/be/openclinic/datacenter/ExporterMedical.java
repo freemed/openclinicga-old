@@ -13,6 +13,9 @@ import be.mxs.common.util.db.MedwanQuery;
 public class ExporterMedical extends Exporter {
 
 	public void export(){
+		if(!mustExport(getParam())){
+			return;
+		}
 		if(getParam().equalsIgnoreCase("medical.1")){
 			//Export a summary of all ICD-10 based KPGS codes per month
 			//First find first month for which a summary must be provided

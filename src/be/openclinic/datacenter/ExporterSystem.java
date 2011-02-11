@@ -10,6 +10,9 @@ import be.mxs.common.util.db.MedwanQuery;
 public class ExporterSystem extends Exporter {
 
 	public void export(){
+		if(!mustExport(getParam())){
+			return;
+		}
 		if(getParam().equalsIgnoreCase("system.1")){
 			//Export operating system info when changed
 			exportUniqueValue(System.getProperty("os.name")+" v"+System.getProperty("os.version")+" "+System.getProperty("os.arch"), "system.1");
