@@ -198,7 +198,7 @@ div.landlist div.subcontent {
 }
 
 div#logout {
-    background: url( "../../_img/button_logout_ghb.png" ) no-repeat bottom left;
+    
     position: absolute;
     right: 5px;
     top: 10px;
@@ -301,7 +301,6 @@ span.icon {
     outline: none;
     padding: 5px;
     padding-left: 30px;
-    line-height: 30px;
     background: url( ../../_img/datacenter_icons.png ) no-repeat left center;
 }
 
@@ -355,7 +354,7 @@ span.edit {
 
 div.container tr td {
     border-bottom: 1px solid #E7E7E7;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 17px;
 }
 
@@ -407,6 +406,10 @@ a.button span.title {
 a.link {
     text-decoration: none;
     line-height: 20px;
+}
+
+a.whitelink {
+	color: white;
 }
 
 table.data tr td {
