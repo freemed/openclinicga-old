@@ -233,6 +233,11 @@
         <a href="http://mxs.rwandamed.org" target="_new"><b>MXS Central Africa SARL</b></a>
         <BR/> PO Box 3242 - Kigali Rwanda Tel +250 07884 32 435 -
         <a href="mailto:mxs@rwandamed.org">mxs@rwandamed.org</a>
+        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("bi")) { %>
+        <img src="_img/burundiflag.jpg" height="15px" width="30px" alt="Burundi"/>
+        <a href="http://www.openit-burundi.com" target="_new"><b>Open-IT Burundi SARL</b></a>
+        <BR/> Burundi Business Incubator - Bujumbura -
+        <a href="mailto:mxs@rwandamed.org">info@openit-burundi.com</a>
         <% } else { %>
         <img src="_img/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
         <a href="http://www.mxs.be" target="_new"><b>MXS SA/NV</b></a>
