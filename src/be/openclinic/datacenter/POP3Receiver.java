@@ -33,7 +33,6 @@ public class POP3Receiver extends Receiver {
 	    	Store store = session.getStore("pop3");
 
 			store.connect(host, username, password);
-		    System.out.println("connecdonetion");
 		    Folder folder = store.getFolder("INBOX");
 		    folder.open(Folder.READ_WRITE);
 	
@@ -80,7 +79,6 @@ public class POP3Receiver extends Receiver {
 		    		}
 		    	}
 		    	else if (message[i].getSubject().startsWith("datacenter.ack")){
-		    		System.out.println("ack");
 		            SAXReader reader = new SAXReader(false);
 		            try{
 			            Document document = reader.read(new ByteArrayInputStream(message[i].getContent().toString().getBytes("UTF-8")));
@@ -115,7 +113,6 @@ public class POP3Receiver extends Receiver {
 		    		}
 		    	}
 		    	else if (message[i].getSubject().startsWith("datacenter.importack")){
-		    		System.out.println("importack");
 		            SAXReader reader = new SAXReader(false);
 		            try{
 			            Document document = reader.read(new ByteArrayInputStream(message[i].getContent().toString().getBytes("UTF-8")));
