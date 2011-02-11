@@ -288,7 +288,7 @@
 
  <!-- Mortality -->
 <div class="wrap-smallcontainer">
-    <div id="mortality" class="container smallcontainer mortality">
+    <div id="mortality" class="container smallcontainer financial">
         <h3 id="mortality_title">
             <span class="icon mortality"><%=getTranNoLink("datacenter","server.mortality",sWebLanguage) %></span>
         </h3>

@@ -63,7 +63,7 @@
                         %>
 
                         </div>
-                        <div id="footer_info"><a class='whitelink' href="javascript:setLanguage('FR')">Fr</a> <a class='whitelink' href="javascript:setLanguage('EN')">En</a> - developped by Mxs</div>
+                        <div id="footer_info"><a href="javascript:setLanguage('FR')">Fr</a> <a href="javascript:setLanguage('EN')">En</a> - developped by Mxs</div>
                 </div>
             </div>
         </div>
