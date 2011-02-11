@@ -236,8 +236,8 @@
         <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("bi")) { %>
         <img src="_img/burundiflag.jpg" height="15px" width="30px" alt="Burundi"/>
         <a href="http://www.openit-burundi.com" target="_new"><b>Open-IT Burundi SARL</b></a>
-        <BR/> Burundi Business Incubator - Bujumbura -
-        <a href="mailto:mxs@rwandamed.org">info@openit-burundi.com</a>
+        <BR/> Burundi Business Incubator - Bujumbura +257 78 837 342
+        <a href="mailto:info@openit-burundi.com">info@openit-burundi.com</a>
         <% } else { %>
         <img src="_img/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
         <a href="http://www.mxs.be" target="_new"><b>MXS SA/NV</b></a>
