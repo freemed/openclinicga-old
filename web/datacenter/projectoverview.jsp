@@ -125,7 +125,6 @@
 %>
 
 <script>
-
 	function openserverdetail(serverid){
 		openPopupWindow("/datacenter/serverOverview.jsp?ts=<%=getTs()%>&serverid="+serverid,800,600,"OpenClinic Datacenter");
 	}

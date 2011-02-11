@@ -2,15 +2,15 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%!
-    public String getBack(){
-        return "<a href=\""+sCONTEXTPATH+"/datacenter/datacenterHome.jsp?ts="+getTs()+"\" class=\"button\"><span class=\"title\">Retour a la page initiale</span></a>";
+    public String getBack(String language){
+        return "<a href=\""+sCONTEXTPATH+"/datacenter/datacenterHome.jsp?ts="+getTs()+"\" class=\"button\"><span class=\"title\">"+getTran("web","homepage",language)+"</span></a>";
     }
 %>
 <%
 	String serverid=checkString(request.getParameter("serverid"));
 	String location=DatacenterHelper.getServerLocation(Integer.parseInt(serverid));
 %>
-<div style="width:100%;float:left;padding:0 0 3px 0"><%=getBack()%></div>
+<div style="width:100%;float:left;padding:0 0 3px 0"><%=getBack(sWebLanguage)%></div>
 
  <!-- Server identification -->
 <div id="identification" class="container smallcontainer leftcontainer identification">
@@ -274,6 +274,27 @@
 
 </div>
 
+ <!-- Mortality -->
+<div id="mortality" class="container smallcontainer financial">
+    <h3 id="mortality_title">
+        <span class="icon bedoccupancy"><%=getTranNoLink("datacenter","server.mortality",sWebLanguage) %></span>
+    </h3>
+    <%
+            sb = new StringBuffer("");
+            diags = DatacenterHelper.getMortalityMonths(Integer.parseInt(serverid));
+            for(int n=0;n<diags.size();n++){
+                diag=(String)diags.elementAt(n);
+                sb.append("<option value='"+diag+"'>"+diag+"</option>");
+            }
+        %>
+    <div class="subcontent">
+        <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'mortality')"><span class="icon down">&nbsp;</span></a>
+        <select name="mortalitymonth" id="mortalitymonth" class="text" onchange="loadMortality('<%=serverid %>',this.value);"><%=sb.toString() %></select>
+        <div id="mortality_ajax" style="display:none;"></div>
+    </div>
+</div>
+
+
 <script>
 <%-- OPEN POPUP --%>
 	function showlocation(url){
@@ -338,6 +359,23 @@
         );
     }
 
+    function loadMortality(serverid,period){
+    	$('mortality_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+        var params = 'serverid=' + serverid
+                +"&period="+ period;
+        var url= '<c:url value="/datacenter/loadMortality.jsp"/>?ts=' + new Date();
+        new Ajax.Request(url,{
+                method: "GET",
+                parameters: params,
+                onSuccess: function(resp){
+                    $('mortality_ajax').innerHTML=resp.responseText;
+                },
+                onFailure: function(){
+                }
+            }
+        );
+    }
+
     function loadBedoccupancy(serverid){
         document.getElementById('bedoccupancy_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
         var params = 'serverid=' + serverid;
@@ -366,7 +404,8 @@
 
     Event.observe(window, 'load', function() {
         loadDiagnoses('<%=serverid%>',$('diagmonth').value);
-       loadBedoccupancy('<%=serverid%>');
+        loadBedoccupancy('<%=serverid%>');
+        window.setTimeout("loadMortality('<%=serverid%>',$('mortalitymonth').value);",500);
         window.setTimeout("loadFinancials('<%=serverid%>',$('financialmonth').value);",500);
 
     });

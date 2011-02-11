@@ -9,7 +9,7 @@
 	String period=request.getParameter("period");
 	java.util.Vector financials = DatacenterHelper.getFinancials(serverId,period);
 
-    String strXML = "<graph bgColor='F7F7F7' numberSuffix=' RWF' showNames='1' showValues='1' pieBorderAlpha='100' pieBorderThickness='0' animation='1' shadowXShift='4' shadowYShift='4' shadowAlpha='40' pieFillAlpha='95' pieBorderColor='FFFFFF' > ";
+    String strXML = "<graph bgColor='F7F7F7' numberSuffix=' RWF' showNames='1' showValues='0' pieBorderAlpha='100' pieBorderThickness='0' animation='1' shadowXShift='4' shadowYShift='4' shadowAlpha='40' pieFillAlpha='95' pieBorderColor='FFFFFF' > ";
     
      for(int n=0;n<financials.size();n++){
         String financial=(String)financials.elementAt(n);

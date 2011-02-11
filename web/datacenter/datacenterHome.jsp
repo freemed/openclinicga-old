@@ -22,7 +22,6 @@
     <%=sCSSDATACENTERIE%>
      <![endif]-->
 </head>
-
 <%
     response.setHeader("Pragma","no-cache"); //HTTP 1.0
     response.setDateHeader("Expires", 0); //prevents caching at the proxy server
@@ -48,8 +47,6 @@
 		if(MedwanQuery.getInstance().getConfigString("datacenterUserPassword."+request.getParameter("username"),"plmouidgsjejn,fjfk").equalsIgnoreCase(request.getParameter("password"))){
 			session.setAttribute("datacenteruser",request.getParameter("username"));
 		}
-		activeUser.person.language=MedwanQuery.getInstance().getConfigString("datacenterUserLanguage."+request.getParameter("username"),"FR");
-        session.setAttribute(sAPPTITLE + "WebLanguage", activeUser.person.language);
 	}
 %>
 <body>
@@ -66,14 +63,14 @@
                         %>
 
                         </div>
-                        <div id="footer_info">developped by Mxs</div>
+                        <div id="footer_info"><a class='whitelink' href="javascript:setLanguage('FR')">Fr</a> <a class='whitelink' href="javascript:setLanguage('EN')">En</a> - developped by Mxs</div>
                 </div>
             </div>
         </div>
         <div id="header-wrap">
             <div id="header-container">
                 <div id="header">
-                    <div id="logout"><a href="javascript:logout();" title="<%=getTranNoLink("web","logout",sWebLanguage) %>" <%=((session.getAttribute("datacenteruser")==null)?"style='display:none;'":"")%>>&nbsp;</a></div>
+                    <div id="logout"><img src='<c:url value="/_img/logoff.jpg"/>' onclick="logout();" title="<%=getTranNoLink("web","logout",sWebLanguage) %>" <%=((session.getAttribute("datacenteruser")==null)?"style='display:none;'":"")%>/></div>
                 </div>
             </div>
         </div>
@@ -105,13 +102,13 @@
                             <table width="100%" class="content">
                                 <tr ><td colspan="2"></td></tr>
                                 <tr class="last">
-                                    <td>Login</td>
+                                    <td><%=getTran("web","login",sWebLanguage) %></td>
                                     <td>
                                         <input type="text" name="username" class="text"/>
                                     </td>
                                 </tr>
                                 <tr class="last">
-                                    <td>Password</td>
+                                    <td><%=getTran("web","password",sWebLanguage) %></td>
                                     <td>
                                         <input type="password" name="password" class="text"/><br/>
                                     </td>
@@ -119,7 +116,7 @@
                                 <tr class="last">
                                     <td>&nbsp;</td>
                                     <td>
-                                        <a href="javascript:void(0)" class="button" onclick="$('transactionForm').submit()"><span class="title">Submit</span></a>
+                                        <a href="javascript:void(0)" class="button" onclick="$('transactionForm').submit()"><span class="title"><%=getTran("web","save",sWebLanguage) %></span></a>
                                     </td>
                                 </tr>
                             </table>
@@ -199,6 +196,21 @@
            return false;
         }
     }
+    function setLanguage(language){
+        var today = new Date();
+        var url= '<c:url value="/datacenter/setLanguage.jsp"/>?ts='+today;
+        new Ajax.Request(url,{
+                method: "GET",
+                parameters: "language="+language,
+                onSuccess: function(resp){
+    				window.location.href=window.location.href;
+                },
+                onFailure: function(){
+                }
+            }
+        );
+    }
+    
     </script>
 </body>
 
