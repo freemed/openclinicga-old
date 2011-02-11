@@ -99,6 +99,10 @@ div#footer_info {
 
 }
 
+div#footer_info a {
+    color: white;
+}
+
 div#footer-wrap img {
     padding: 5px 0 0 10px;
 }
