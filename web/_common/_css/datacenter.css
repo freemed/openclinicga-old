@@ -168,13 +168,6 @@ div.landlist {
     float: left;
     position: relative;
     width: 100%;
-    -webkit-box-shadow: 0px 3px 7px #888;
-    -moz-box-shadow: 0px 3px 7px #888;
-    box-shadow: 0px 3px 7px #888;
-
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
 }
 
 div.landlist h3 {
@@ -186,6 +179,12 @@ div.landlist h3 {
     padding: 4px 1% 3px 1%;
     border-left: 1px solid #183D60;
     border-right: 1px solid #183D60;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-right-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -moz-border-radius-topleft : 4px;
+    border-top-left-radius: 4px;
 
 }
 
@@ -195,10 +194,19 @@ div.landlist div.subcontent {
     width: 98%;
     border: 1px solid #BCBBB7;
     background: #F7F7F7;
+    -webkit-box-shadow: 0px 3px 7px #888;
+    -moz-box-shadow: 0px 3px 7px #888;
+    box-shadow: 0px 3px 7px #888;
+    -webkit-border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft : 4px;
+    border-bottom-left-radius: 4px;
 }
 
 div#logout {
-    
+    background: url( "../../_img/button_logout_ghb.png" ) no-repeat bottom left;
     position: absolute;
     right: 5px;
     top: 10px;
@@ -213,21 +221,32 @@ div#logout a {
 
 /*** SERVER OVERVIEW ***/
 
-div.container {
+div.wrap-container {
     float: left;
     position: relative;
     width: 100%;
 }
-
-div.smallcontainer {
-    width: 49.5%;
+div.wrap-smallcontainer {
+    float: left;
+    position: relative;
+    width: 50%;
 }
-
-div.leftcontainer {
+div.leftcontainer{
+   clear:left;
+}
+div.leftcontainer div.container{
+    width: 99%;
     margin-right: 1%;
-}
 
+}
+div.container{
+   float: left;
+   position: relative;
+   width: 100%;
+   padding:0 0 0 0%;
+}
 div.container h3 {
+    float:left;
     font-size: 13px;
     color: white;
     margin: 6px 0 0 0;
@@ -236,6 +255,13 @@ div.container h3 {
     width: 98%;
     border-left: 1px solid #183D60;
     border-right: 1px solid #183D60;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-right-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -moz-border-radius-topleft : 4px;
+    border-top-left-radius: 4px;
+
 }
 
 div.container h3 span.icon {
@@ -252,16 +278,18 @@ div.container div.subcontent {
     -webkit-box-shadow: 0px 3px 7px #888;
     -moz-box-shadow: 0px 3px 7px #888;
     box-shadow: 0px 3px 7px #888;
-
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft : 4px;
+    border-bottom-left-radius: 4px;
 }
 
 div.subcontent a.togglecontent {
     text-decoration: none;
     position: absolute;
-    right: 10px;
+    right:10px;
     top: 40px;
     width: 30px;
     height: 26px;
@@ -272,6 +300,7 @@ div.subcontent a.togglecontent span {
     height: 26px;
     cursor: pointer;
     line-height: 25px;
+    padding:0;
 }
 
 div.subcontent a.expandcontent {
@@ -281,6 +310,7 @@ div.subcontent a.expandcontent {
     top: 40px;
     width: 30px;
     height: 26px;
+    display:none;
 }
 
 div.tables div.subcontent, div.diagnostics div.subcontent,
@@ -289,7 +319,11 @@ div.tables div.subcontent, div.diagnostics div.subcontent,
     border: 1px solid #BCBBB7;
     height: auto;
 }
-
+/* TO PREVENT HEIGHT OF THE BLOCK */
+div.demographics div.subcontent{
+    padding-bottom:48px;
+    padding-top:15px;
+}
 div.diagnostics select {
 
 }
@@ -298,9 +332,10 @@ div.diagnostics div#divDiagnoses {
 }
 
 span.icon {
+    float:left;
     outline: none;
-    padding: 5px;
-    padding-left: 30px;
+    padding: 0px 30px 0px 30px;
+    line-height: 30px;
     background: url( ../../_img/datacenter_icons.png ) no-repeat left center;
 }
 
@@ -352,9 +387,12 @@ span.edit {
     background-position: left -508px;
 }
 
+span.mortality {
+    background-position: left -535px;
+}
 div.container tr td {
     border-bottom: 1px solid #E7E7E7;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 17px;
 }
 
@@ -406,10 +444,6 @@ a.button span.title {
 a.link {
     text-decoration: none;
     line-height: 20px;
-}
-
-a.whitelink {
-	color: white;
 }
 
 table.data tr td {

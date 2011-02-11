@@ -14,11 +14,26 @@
 	height: 100%;
 	overflow: auto;
 }          */
+div#content{
+    width:99%;
+    padding-left:1%;
+}
 
+div.leftcontainer div.container{
+    width: 100%;
+    margin-right: 0;
+}
 
-#content {
+div.container h3 {
+   width:100%;
+}
+div.container div.subcontent{
     width:100%;
 }
+div.leftcontainer div.subcontent,div.leftcontainer h3{
+    width:99%;
+}
+
 div.landlist div.subcontent,div.landlist h3 {
     width:99.5%;
 }
@@ -28,6 +43,7 @@ div.container div.subcontent, div.container h3{
 div.smallcontainer div.subcontent, div.smallcontainer h3{
     width:99%;
 }
+
 div#footer-wrap {
     position: absolute;
     top:expression(body.scrollTop + document.body.clientHeight -60 + "px");
@@ -43,8 +59,8 @@ div#container {
 div.leftcontainer {
     margin-right:0;
 }
-div.smallcontainer {
-   width: 49.9%; 
+div.leftcontainer div.container {
+  
 }
 #footer-container,div#footer_logo{
    /* height:250px;*/
