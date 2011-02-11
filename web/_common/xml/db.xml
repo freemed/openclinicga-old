@@ -97,6 +97,55 @@
 	    	</index>
 	    </indexes>
 	</table>
+	<table name="DC_MORTALITYVALUES" db="stats" sync="NONE">
+		<columns>
+			<column name="DC_MORTALITYVALUE_SERVERID" dbtype="int" javatype="integer" />
+			<column name="DC_MORTALITYVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_MORTALITYVALUE_CODETYPE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_MORTALITYVALUE_CODE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_MORTALITYVALUE_YEAR" dbtype="int" javatype="integer"/>
+			<column name="DC_MORTALITYVALUE_MONTH" dbtype="int" javatype="integer"/>
+			<column name="DC_MORTALITYVALUE_COUNT" dbtype="int" javatype="integer"/>
+			<column name="DC_MORTALITYVALUE_DIAGNOSISCOUNT" dbtype="int" javatype="integer"/>
+	    </columns>
+	    <indexes>
+	    	<index name="DC_MORTALITYVALUE_OBJECTID">
+	    		<indexcolumn order="ASC" name="DC_MORTALITYVALUE_OBJECTID"/>
+	    	</index>
+	    	<index name="DC_MORTALITYVALUE_CODE">
+	    		<indexcolumn order="ASC" name="DC_MORTALITYVALUE_CODE"/>
+	    	</index>
+	    	<index name="DC_MORTALITYVALUE_YEARMONTH">
+	    		<indexcolumn order="ASC" name="DC_MORTALITYVALUE_YEAR"/>
+	    		<indexcolumn order="ASC" name="DC_MORTALITYVALUE_MONTH"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="DC_ACTIVITYVALUES" db="stats" sync="NONE">
+		<columns>
+			<column name="DC_ACTIVITYVALUE_SERVERID" dbtype="int" javatype="integer" />
+			<column name="DC_ACTIVITYVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_ACTIVITYVALUE_TYPE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_ACTIVITYVALUE_YEAR" dbtype="int" javatype="integer"/>
+			<column name="DC_ACTIVITYVALUE_MONTH" dbtype="int" javatype="integer"/>
+			<column name="DC_ACTIVITYVALUE_USERCOUNT" dbtype="int" javatype="integer"/>
+			<column name="DC_ACTIVITYVALUE_MEAN" dbtype="float" javatype="float"/>
+			<column name="DC_ACTIVITYVALUE_MEANDEVIATION" dbtype="float" javatype="float"/>
+			<column name="DC_ACTIVITYVALUE_MEDIAN" dbtype="float" javatype="float"/>
+	    </columns>
+	    <indexes>
+	    	<index name="DC_ACTIVITYVALUE_OBJECTID">
+	    		<indexcolumn order="ASC" name="DC_ACTIVITYVALUE_OBJECTID"/>
+	    	</index>
+	    	<index name="DC_ACTIVITYVALUE_TYPE">
+	    		<indexcolumn order="ASC" name="DC_ACTIVITYVALUE_TYPE"/>
+	    	</index>
+	    	<index name="DC_ACTIVITYVALUE_YEARMONTH">
+	    		<indexcolumn order="ASC" name="DC_ACTIVITYVALUE_YEAR"/>
+	    		<indexcolumn order="ASC" name="DC_ACTIVITYVALUE_MONTH"/>
+	    	</index>
+	    </indexes>
+	</table>
 	<table name="DC_SIMPLEVALUES" db="stats" sync="NONE">
 		<columns>
 			<column name="DC_SIMPLEVALUE_SERVERID" dbtype="int" javatype="integer" />

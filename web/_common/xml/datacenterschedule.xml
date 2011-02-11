@@ -65,7 +65,7 @@
 		<module class="be.openclinic.datacenter.ExporterMortality" param="mortality.1" interval="MONTHLY:15;0000"/>
 	</exporters>
 	<senders>
-		<module class="be.openclinic.datacenter.SMTPSender" interval="300000"/>
+		<module class="be.openclinic.datacenter.SMTPSender" interval="30000"/>
 	</senders>
 	<receivers>
 		<module class="be.openclinic.datacenter.IMAP4Receiver"/>
