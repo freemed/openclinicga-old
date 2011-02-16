@@ -36,7 +36,9 @@
 		        } else {
 		            debet.setCreateDateTime(getSQLTime());
 		        }
-		        sEditQuantity=checkString(request.getParameter("PPQ_"+sPrestationUid));
+		        if(request.getParameter("PPQ_"+sPrestationUid)!=null){
+		        	sEditQuantity=checkString(request.getParameter("PPQ_"+sPrestationUid));
+		        }
 		        if(sEditQuantity.length()==0){
 		            sEditQuantity="1";
 		        }
