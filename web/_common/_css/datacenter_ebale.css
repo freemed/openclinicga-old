@@ -1,0 +1,20 @@
+div#header-wrap {
+    background: url( "../../_img/background_body_ghb_ebale.gif" ) repeat-x top left white;
+    height: 150px;
+}
+#header-container {
+    background: url( "../../_img/background_ghb_ebale.jpg" ) no-repeat top left;
+    height: 150px;
+}
+
+div#footer_logo {
+    background: transparent url( "../../_img/background_footer_ghb_ebale.jpg" ) no-repeat left 10px;
+}
+div#footer-wrap img {
+   display:none;
+}
+div.landlist h3,div.container h3 {
+    background: #88AF48 url( "../../_img/background_title_ghb_ebale.gif" ) repeat-x top left;
+    border-left: 1px solid #88AF48;
+    border-right: 1px solid #88AF48;
+}
