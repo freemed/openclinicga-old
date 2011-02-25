@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 9999998;
+    	z-index: 99999;
     background-color: #000 !important;
 }
 
@@ -19,10 +19,11 @@
     border: 0 solid;
     text-align: left;
     z-index: 9999999;
+    width:100%;
 }
 
 #MB_window[id] {
-   /* position: fixed !important;*/
+    position: fixed !important;
     position:relative;
 	margin-left:auto;
 	margin-right:auto;
@@ -31,6 +32,8 @@
 	border: 0 solid;
 	text-align: left;
 	z-index: 10000;
+    z-index: 9999999;
+
 }
 
 #MB_frame {
