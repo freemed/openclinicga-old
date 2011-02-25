@@ -21,6 +21,14 @@
     <!--[if IE]>
     <%=sCSSDATACENTERIE%>
      <![endif]-->
+    <%
+        /**
+        * Insert project css if exists
+        **/
+        if(session.getAttribute("datacenteruser")!=null){
+            out.write("<link href='"+sCONTEXTPATH+"/_common/_css/datacenter_"+session.getAttribute("datacenteruser")+".css' rel='stylesheet' type='text/css'>");
+        }
+    %>
 </head>
 <%
     response.setHeader("Pragma","no-cache"); //HTTP 1.0
@@ -48,6 +56,7 @@
 			session.setAttribute("datacenteruser",request.getParameter("username"));
 		}
 	}
+
 %>
 <body>
         <div id="footer-wrap">
