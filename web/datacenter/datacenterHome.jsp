@@ -1,5 +1,16 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%
+	if(request.getParameter("logout")!=null){
+		session.removeAttribute("datacenteruser");
+	}
+	if(request.getParameter("username")!=null && request.getParameter("password")!=null){
+		if(MedwanQuery.getInstance().getConfigString("datacenterUserPassword."+request.getParameter("username"),"plmouidgsjejn,fjfk").equalsIgnoreCase(request.getParameter("password"))){
+			session.setAttribute("datacenteruser",request.getParameter("username"));
+		}
+	}
+
+%>
 <html>
 <head>
     <%=sJSTOGGLE%>
@@ -47,17 +58,7 @@
         <%
     }
 %>
-<%
-	if(request.getParameter("logout")!=null){
-		session.removeAttribute("datacenteruser");
-	}
-	if(request.getParameter("username")!=null && request.getParameter("password")!=null){
-		if(MedwanQuery.getInstance().getConfigString("datacenterUserPassword."+request.getParameter("username"),"plmouidgsjejn,fjfk").equalsIgnoreCase(request.getParameter("password"))){
-			session.setAttribute("datacenteruser",request.getParameter("username"));
-		}
-	}
 
-%>
 <body>
         <div id="footer-wrap">
            <div id="footer-container">
