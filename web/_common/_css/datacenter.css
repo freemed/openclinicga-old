@@ -28,6 +28,8 @@ div#header-wrap {
     height: 127px;
     font-size: 4em;
     z-index: 5;
+    
+
 }
 
 #header-container {
@@ -53,6 +55,7 @@ div#container {
 }
 
 div#footer-wrap {
+    
     margin: 0;
     width: 100%;
     height: 60px;
@@ -189,7 +192,7 @@ div.landlist h3 {
     -webkit-border-top-left-radius: 4px;
     -moz-border-radius-topleft : 4px;
     border-top-left-radius: 4px;
-
+  
 }
 
 div.landlist div.subcontent {
@@ -198,9 +201,9 @@ div.landlist div.subcontent {
     width: 98%;
     border: 1px solid #BCBBB7;
     background: #F7F7F7;
-    -webkit-box-shadow: 0px 3px 7px #888;
-    -moz-box-shadow: 0px 3px 7px #888;
-    box-shadow: 0px 3px 7px #888;
+    -webkit-box-shadow: 0px 0px 4px #888;
+    -moz-box-shadow: 0px 0px 4px #888;
+    box-shadow: 0px 0px 4px #888;
     -webkit-border-bottom-right-radius: 4px;
     -moz-border-radius-bottomright: 4px;
     border-bottom-right-radius: 4px;
@@ -279,9 +282,9 @@ div.container div.subcontent {
     float: left;
     width: 98%;
     background: #F7F7F7;
-    -webkit-box-shadow: 0px 3px 7px #888;
-    -moz-box-shadow: 0px 3px 7px #888;
-    box-shadow: 0px 3px 7px #888;
+    -webkit-box-shadow: 0px 0px 4px #888;
+    -moz-box-shadow: 0px 0px 4px #888;
+    box-shadow: 0px 0px 4px #888;
     -webkit-border-bottom-right-radius: 4px;
     -moz-border-radius-bottomright: 4px;
     border-bottom-right-radius: 4px;
