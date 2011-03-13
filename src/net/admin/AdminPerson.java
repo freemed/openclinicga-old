@@ -392,7 +392,10 @@ public class AdminPerson extends OC_Object{
             sMiddlename = ScreenHelper.checkSpecialCharacters(middlename);
             sSearchname = sLastname.toUpperCase().trim()+","+sFirstname.toUpperCase().trim();
             sSearchname = ScreenHelper.normalizeSpecialCharacters(sSearchname);
-
+            
+            firstname = firstname.replaceAll("'","´");
+            lastname = lastname.replaceAll("'","´");
+            
             //*** INSERT ***
             if ((bReturn)&&(sPersonID.trim().length()==0)) {
                 sPersonID = ScreenHelper.newCounter("PersonID",connection);
