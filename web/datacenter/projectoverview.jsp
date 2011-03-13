@@ -19,6 +19,9 @@
 				e.printStackTrace();
 			}
             //return "<a href='"+sCONTEXTPATH+"/datacenter/datacenterHome.jsp?p=/datacenter/simpleValueGraph.jsp&serverid="+server+"&parameterid="+parameterId+"&ts="+getTs()+"'>"+sVal+"</a>";
+            if(sVal!=null){
+            	sVal=new java.text.DecimalFormat("#,###").format(Integer.parseInt(sVal));
+            }
 			return "<a href='javascript:simpleValueGraph(\""+server+"\",\""+parameterId+"\")'>"+sVal+"</a>";
 		}
 		return sVal;
@@ -56,13 +59,13 @@
 			if(activeGroup.length()>0){
 				//Show totals for the group
 				out.print("<tr class='result'><td><td/>");
-				out.print("<td class='admin'>"+parameters.get("core.1")+"</td>");
-				out.print("<td class='admin'>"+parameters.get("core.2")+"</td>");
-				out.print("<td class='admin'>"+parameters.get("core.4.1")+"</td>");
-				out.print("<td class='admin'>"+parameters.get("core.4.2")+"</td>");
-				out.print("<td class='admin'>"+parameters.get("core.6")+"</td>");
-				out.print("<td class='admin'>"+parameters.get("core.8.1")+"</td>");
-				out.print("<td class='admin'>"+parameters.get("core.5")+"</td>");
+				out.print("<td class='admin'>"+(parameters.get("core.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.1")))+"</td>");
+				out.print("<td class='admin'>"+(parameters.get("core.2")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.2")))+"</td>");
+				out.print("<td class='admin'>"+(parameters.get("core.4.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.4.1")))+"</td>");
+				out.print("<td class='admin'>"+(parameters.get("core.4.2")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.4.2")))+"</td>");
+				out.print("<td class='admin'>"+(parameters.get("core.6")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.6")))+"</td>");
+				out.print("<td class='admin'>"+(parameters.get("core.8.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.8.1")))+"</td>");
+				out.print("<td class='admin'>"+(parameters.get("core.5")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.5")))+"</td>");
 				out.print("</tr>");
 			
 				parameters = new Hashtable();
@@ -108,13 +111,13 @@
 	if(activeGroup.length()>0){
 		//Show totals for the group
         out.print("<tr class='result'><td/><td/>");
-		out.print("<td class='admin'><b>"+parameters.get("core.1")+"</b></td>");
-		out.print("<td class='admin'>"+parameters.get("core.2")+"</td>");
-		out.print("<td class='admin'>"+parameters.get("core.4.1")+"</td>");
-		out.print("<td class='admin'>"+parameters.get("core.4.2")+"</td>");
-		out.print("<td class='admin'>"+parameters.get("core.6")+"</td>");
-		out.print("<td class='admin'>"+parameters.get("core.8.1")+"</td>");
-		out.print("<td class='admin'>"+parameters.get("core.5")+"</td>");
+		out.print("<td class='admin'>"+(parameters.get("core.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.1")))+"</td>");
+		out.print("<td class='admin'>"+(parameters.get("core.2")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.2")))+"</td>");
+		out.print("<td class='admin'>"+(parameters.get("core.4.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.4.1")))+"</td>");
+		out.print("<td class='admin'>"+(parameters.get("core.4.2")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.4.2")))+"</td>");
+		out.print("<td class='admin'>"+(parameters.get("core.6")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.6")))+"</td>");
+		out.print("<td class='admin'>"+(parameters.get("core.8.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.8.1")))+"</td>");
+		out.print("<td class='admin'>"+(parameters.get("core.5")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.5")))+"</td>");
 		out.print("</tr>");
 
     }
