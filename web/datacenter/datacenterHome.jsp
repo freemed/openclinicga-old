@@ -188,7 +188,7 @@
     function setGraph(array){
         var options = {
         lines: { show: true },
-        points: { show: true },
+        points: { show: false },
         xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
         selection: { mode: "x" }
         };
@@ -196,6 +196,20 @@
         new Proto.Chart($('barchart'),
         [
             {data: array, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"}
+        ],options);
+    }
+    function setGraph2(array,array2){
+        var options = {
+        lines: { show: true },
+        points: { show: false },
+        xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
+        selection: { mode: "x" }
+        };
+
+        new Proto.Chart($('barchart'),
+        [
+         {data: array, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"},
+         {data: array2, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"}
         ],options);
     }
     function entsub(event,ourform) {

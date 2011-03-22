@@ -415,6 +415,14 @@
         openPopupWindow("/datacenter/diagnosisGraph.jsp?serverid=<%=serverid%>&diagnosiscode="+code+"&ts=<%=getTs()%>");
     }
 
+    function mortalityGraph(code){
+        openPopupWindow("/datacenter/mortalityGraph.jsp?serverid=<%=serverid%>&diagnosiscode="+code+"&ts=<%=getTs()%>");
+    }
+
+    function occupancyGraph(code){
+        openPopupWindow("/datacenter/occupancyGraph.jsp?serverid=<%=serverid%>&servicecode="+code+"&ts=<%=getTs()%>");
+    }
+
     function financialGraph(code,period){
         url = "<c:url value="/" />/datacenter/financialGraph.jsp?serverid=<%=serverid%>&code="+code+"&period="+period+"&ts=<%=getTs()%>&graphwidth="+$("financial_chart_ajax").getWidth();
         new Ajax.Updater("financial_chart_ajax_operations",url,{evalScripts:true});

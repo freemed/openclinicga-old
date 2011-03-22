@@ -1,17 +1,17 @@
-<%@page import="be.openclinic.datacenter.DiagnosisGraph" %>
+<%@page import="be.openclinic.datacenter.BedOccupancyGraph" %>
 <%@ page import="be.mxs.common.util.system.HTMLEntities" %>
 <%@ page import="java.util.Date" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%
 	int serverId=Integer.parseInt(request.getParameter("serverid"));
-	String code=request.getParameter("diagnosiscode");
-	List lValues = DiagnosisGraph.getListValueGraph(serverId,code,sWebLanguage,activeUser.userid);
+	String code=request.getParameter("servicecode");
+	List lValues = BedOccupancyGraph.getListValueGraph(serverId,code.split(";")[0],sWebLanguage,activeUser.userid);
 
     String sJsArray = "[";
     for(Iterator it=lValues.iterator();it.hasNext();){
         Object[] o = (Object[])it.next();
         Date dDate = (Date)o[0];
-        Integer iValue = (Integer)o[1];
+        Double iValue = (Double)o[1];
         sJsArray+="["+dDate.getTime()+","+iValue+"],";
     }
     sJsArray+="]";
@@ -22,5 +22,5 @@
 </div>
 <script type="text/javascript">
     setGraph(<%=sJsArray%>);
-    Modalbox.setTitle("<%=HTMLEntities.htmlentities(getTran("datacenterserver", serverId + "", sWebLanguage)+"<br/>"+code+" "+MedwanQuery.getInstance().getCodeTran("ICD10Code"+code,sWebLanguage))%>");
+    Modalbox.setTitle("<%=HTMLEntities.htmlentities(getTran("datacenterserver", serverId + "", sWebLanguage)+"<br/>"+code.split(";")[0]+" - "+code.split(";")[1]+" (%"+getTranNoLink("web","occupancy",sWebLanguage)+")")%>");
 </script>

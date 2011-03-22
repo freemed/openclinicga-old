@@ -22,7 +22,7 @@
 		for(int n=0;n<services.size();n++){
 			String diag=(String)services.elementAt(n);
             double val = Double.parseDouble((diag.split(";")[3]).replaceAll(",","."));
-			out.print("<tr><td class='admin'>"+diag.split(";")[0].toUpperCase()+"</td><td class='admin'>"+diag.split(";")[1].toUpperCase()+"</td><td class='admin2'><a href='javascript:occupancyGraph(\""+diag.split(";")[0]+"\")'>"+diag.split(";")[2]+" ("+diag.split(";")[3]+"%)"+"</a></td><td>"+getBar(val)+"</td></tr>");
+			out.print("<tr><td class='admin'>"+diag.split(";")[0].toUpperCase()+"</td><td class='admin'>"+diag.split(";")[1].toUpperCase()+"</td><td class='admin2'><a href='javascript:occupancyGraph(\""+diag+"\")'>"+diag.split(";")[2]+" ("+diag.split(";")[3]+"%)"+"</a></td><td>"+getBar(val)+"</td></tr>");
 		}
 	}
 	catch(Exception e){
