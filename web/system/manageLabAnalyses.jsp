@@ -60,7 +60,9 @@
            sPrestationCode = "",
            sLabGroup = "",
            sAlertValue = "",
-           sPrestationType = "";
+           sPrestationType = "",
+           sEditor="",
+           sEditorParameters="";
     int nEditUnavailable=0;
 
     // supported languages
@@ -145,6 +147,8 @@
             sShortTimeValue = checkString(request.getParameter("EditShortTimeValue"));
             sPrestationCode = checkString(request.getParameter("EditPrestationcode"));
             sLabGroup = checkString(request.getParameter("EditLabGroup"));
+            sEditor=checkString(request.getParameter("EditLabEditor"));
+            sEditorParameters=checkString(request.getParameter("EditLabEditorParameters"));
             sPrestationType = "LABCODE." + sEditLabCode;
             if(request.getParameter("EditUnavailable")!=null){
                 nEditUnavailable=1;
@@ -204,6 +208,8 @@
                 labAnalysis.setShorttimevalue(sShortTimeValue);
                 labAnalysis.setUnit(sEditLabUnit);
                 labAnalysis.setUnavailable(nEditUnavailable);
+                labAnalysis.setEditor(sEditor);
+                labAnalysis.setEditorparameters(sEditorParameters);
 
                 if (bInsert) {
                     labAnalysis.insert();
@@ -269,7 +275,7 @@
                 <td width='25%'>&nbsp;<%=getTran("Web","description",sWebLanguage)%></td>
                 <td width='15%'>&nbsp;<%=getTran("Web.manage","labanalysis.cols.monster",sWebLanguage)%></td>
                 <td width='10%'>&nbsp;<%=getTran("Web.manage","labanalysis.cols.biomonitoring",sWebLanguage)%></td>
-                <td width='10%'>&nbsp;<%=getTran("Web.manage","labanalysis.cols.medidoccode",sWebLanguage)%></td>
+                <td width='10%'>&nbsp;<%=getTran("Web.manage","labanalysis.cols.loinccode",sWebLanguage)%></td>
                 <td width='*'>&nbsp;<%=getTran("Web.manage","labanalysis.cols.labgroup",sWebLanguage)%></td>
             </tr>
         <%
@@ -298,6 +304,8 @@
             sLabCodeOther  = labAnalysis.getLabcodeother();
             sLabGroup      = labAnalysis.getLabgroup();
             nEditUnavailable=labAnalysis.getUnavailable();
+            sEditor			=labAnalysis.getEditor();
+            sEditorParameters=labAnalysis.getEditorparameters();
 
             // translate labtype
                  if(sLabType.equals("1")) sLabType = getTran("Web.occup","labanalysis.type.blood",sWebLanguage);
@@ -398,6 +406,8 @@
                 sShortTimeValue = checkString(labAnalysis.getShorttimevalue());
                 sEditLabUnit    = checkString(labAnalysis.getUnit());
                 nEditUnavailable= labAnalysis.getUnavailable();
+                sEditor			=labAnalysis.getEditor();
+                sEditorParameters=labAnalysis.getEditorparameters();
             }
             // get prestation code is one exists
             if(sEditLabCode.length() > 0){
@@ -541,9 +551,35 @@
       document.getElementById("biomonOption2").style.display = "none";
     }
   </script>
+  <%-- EDITOR --%>
+  <tr>
+    <td class="admin"><%=getTran("Web.manage","labanalysis.cols.editor",sWebLanguage)%></td>
+    <td class="admin2">
+	    <table>
+	    	<tr>
+	    		<td>
+				      <select type="text" class="text" name="EditLabEditor" id="EditLabEditor" onchange="setEditorParameters()">
+				        <option value="text" <%="text".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","text",sWebLanguage)%></option>
+				        <option value="numeric" <%="numeric".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","numeric",sWebLanguage)%></option>
+				        <option value="listbox" <%="listbox".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","listbox",sWebLanguage)%></option>
+				        <option value="radiobutton" <%="radiobutton".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","radiobutton",sWebLanguage)%></option>
+				        <option value="antibiogram" <%="antibiogram".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogram",sWebLanguage)%></option>
+				      </select>
+				</td>
+				<td>
+					<table>
+						<div id="ep"/>
+					</table>
+				</td>
+			</tr>
+		</table>
+    </td>
+  </tr>
+  <%-- EDITORPARAMETERS --%>
+  <input type="hidden" name="EditLabEditorParameters" id="EditLabEditorParameters" value="<%=sEditorParameters %>"/>	
   <%-- MEDIDOC CODE --%>
   <tr>
-    <td class="admin"><%=getTran("Web.manage","labanalysis.cols.medidoccode",sWebLanguage)%></td>
+    <td class="admin"><%=getTran("Web.manage","labanalysis.cols.loinccode",sWebLanguage)%></td>
     <td class="admin2">
       <input type="text" name="EditMedidoccode" class="text" value="<%=sMedidoccode%>" size="50" onblur="validateText(this);limitLength(this);">
     </td>
@@ -587,6 +623,68 @@
 <%=ScreenHelper.alignButtonsStart()%>
   <input class="button" type="button" name="SaveButton" id="SaveButton" value="<%=getTran("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
   <script>
+  	function setEditorParameters(){
+  		var content="";
+  		var parameters="<%=sEditorParameters%>";
+  	  	if($("EditLabEditor").value=="text"){
+  	  		content="<tr><td class='admin2'><%=getTranNoLink("web","defaultvalue",sWebLanguage)%></td>"+
+			"<td class='admin2'>"+
+			"<input type='text' name='EPDefaultValue' id='EPDefaultValue' class='text' value='"+getParameter(parameters,"DV")+"' size='50'>"+
+			"</td></tr><tr><td class='admin2'><%=getTranNoLink("web","size",sWebLanguage)%></td>"+
+			"<td class='admin2'>"+
+			"<input type='text' name='EPSize' id='EPSize' class='text' value='"+getParameter(parameters,"SZ")+"' size='5'>"+
+			"</td></tr>";
+  	  	}
+  	  	else if($("EditLabEditor").value=="numeric"){
+  	  		content="<tr><td class='admin2'><%=getTranNoLink("web","defaultvalue",sWebLanguage)%></td>"+
+			"<td class='admin2'>"+
+			"<input type='text' name='EPDefaultValue' id='EPDefaultValue' class='text' value='"+getParameter(parameters,"DV")+"' size='50'>"+
+			"</td></tr><tr><td class='admin2'><%=getTranNoLink("web","size",sWebLanguage)%></td>"+
+			"<td class='admin2'>"+
+			"<input type='text' name='EPSize' id='EPSize' class='text' value='"+getParameter(parameters,"SZ")+"' size='5'>"+
+			"</td></tr>";
+	  	}
+  	  	else if($("EditLabEditor").value=="listbox"){
+  	  		content="<tr><td class='admin2'><%=getTranNoLink("web","options",sWebLanguage)%></td>"+
+			"<td class='admin2'>"+
+			"<input type='text' name='EPOptions' id='EPOptions' class='text' value='"+getParameter(parameters,"OP")+"' size='50'>"+
+			"</td></tr>";
+	  	}
+  	  	else if($("EditLabEditor").value=="radiobutton"){
+  	  		content="<tr><td class='admin2'><%=getTranNoLink("web","options",sWebLanguage)%></td>"+
+			"<td class='admin2'>"+
+			"<input type='text' name='EPOptions' id='EPOptions' class='text' value='"+getParameter(parameters,"OP")+"' size='50'>"+
+			"</td></tr>";
+	  	}
+  	  	document.getElementById("ep").innerHTML=content;
+  	}
+
+  	function setEditorParametersToSave(){
+		var parameters="";
+  	  	if(document.getElementById("EditLabEditor").value=="text"){
+  	  	  	parameters="DV:"+$("EPDefaultValue").value+";SZ:"+$("EPSize").value;
+  	  	}
+  	  	else if(document.getElementById("EditLabEditor").value=="numeric"){
+  	  	  	parameters="DV:"+$("EPDefaultValue").value+";SZ:"+$("EPSize").value;
+  	  	}
+  	  	else if(document.getElementById("EditLabEditor").value=="listbox"){
+  	  	  	parameters="OP:"+$("EPOptions").value;
+  	  	}
+  	  	else if(document.getElementById("EditLabEditor").value=="radiobutton"){
+  	  	  	parameters="OP:"+$("EPOptions").value;
+  	  	}
+  	  	$("EditLabEditorParameters").value=parameters;
+  	}
+
+  	function getParameter(parameters,parameter){
+  	  	var pars=parameters.split(";");
+  	  	for(n=0;n<pars.length;n++){
+  	  	  	if(pars[n].split(":")[0]==parameter){
+  	  	  	  	return pars[n].split(":")[1];
+  	  	  	}
+  	  	}
+  	  	return "";
+  	}
     function checkSave(){
       if(editForm.EditLabCode.value.length == 0 || editForm.LabType.selectedIndex == 0 || editForm.EditLabGroup.selectedIndex == 0
         <%
@@ -617,6 +715,8 @@
         %>
       }
       else{
+        //fix editorparameters
+        setEditorParametersToSave();  
         editForm.submit();
       }
     }
@@ -660,6 +760,8 @@
   function showAgeGenderTable(labcode){
     window.open("<c:url value="/popup.jsp"/>?Page=util/manageAgeGenderControl_view.jsp&ts=<%=getTs()%>&Type=LabAnalysis&ID="+labcode+"&PopupHeight=300&PopupWidth=600","<%=getTran("Web","Find",sWebLanguage)%>","toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=no, height=300, width=500");
   }
+
+  setEditorParameters();
 </script>
 </form>
         <%=writeJSButtons("editForm","SaveButton")%>
