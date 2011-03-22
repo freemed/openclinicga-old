@@ -35,8 +35,36 @@ public class LabAnalysis {
     private String limitvalue;
     private String shorttimevalue;
     private String unit;
+    private String editor;
+    private String editorparameters;
 
-    public int getUnavailable() {
+    public String getEditor() {
+		return editor;
+	}
+
+	public void setEditor(String editor) {
+		this.editor = editor;
+	}
+
+	public String getEditorparameters() {
+		return editorparameters;
+	}
+
+	public String getEditorparametersParameter(String parameter) {
+  	  	String[] pars=editorparameters.split(";");
+  	  	for(int n=0;n<pars.length;n++){
+  	  	  	if(pars[n].split(":")[0].equals(parameter)){
+  	  	  	  	return pars[n].split(":")[1];
+  	  	  	}
+  	  	}
+  	  	return "";
+	}
+
+	public void setEditorparameters(String editorparameters) {
+		this.editorparameters = editorparameters;
+	}
+
+	public int getUnavailable() {
         return unavailable;
     }
 
@@ -245,6 +273,8 @@ public class LabAnalysis {
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
                 objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("medidoccode")));
                 objLabAnalysis.setMonster(ScreenHelper.checkString(rs.getString("monster")));
+                objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
+                objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
 
                 hLabAnalysis.put(objLabAnalysis.getLabcode(),objLabAnalysis);
             }
@@ -273,7 +303,7 @@ public class LabAnalysis {
 
         String sLowerCode = ScreenHelper.getConfigParam("lowerCompare","labcode");
 
-        String sSelect = "SELECT a.unavailable,a.labID, a.labtype, a.labcode, a.labcodeother, OC_LABEL_VALUE AS name" +
+        String sSelect = "SELECT a.unavailable,a.labID, a.labtype, a.labcode, a.labcodeother, OC_LABEL_VALUE AS name,a.editor,a.editorparameters,a.medidoccode" +
                 " FROM LabAnalysis a, OC_LABELS l" +
                 " WHERE a.deletetime IS NULL" +
                 "  AND l.OC_LABEL_TYPE = 'labanalysis'" +
@@ -301,6 +331,8 @@ public class LabAnalysis {
                 objLabAnalysis.setLabcodeother(ScreenHelper.checkString(rs.getString("labcodeother")));
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
                 objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("medidoccode")));
+                objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
+                objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
 
                 hLabAnalysis.add(objLabAnalysis);
             }
@@ -329,7 +361,7 @@ public class LabAnalysis {
 
         Hashtable hLabAnalysis = new Hashtable();
 
-        String sSelect = " SELECT a.unavailable,a.labID, a.labtype, a.labcode, a.labcodeother, OC_LABEL_VALUE AS name" +
+        String sSelect = " SELECT a.unavailable,a.labID, a.labtype, a.labcode, a.labcodeother, OC_LABEL_VALUE AS name,a.editor,a.editorparameters" +
                          " FROM LabAnalysis a, OC_LABELS l" +
                          " WHERE a.deletetime IS NULL" +
                          "  AND l.OC_LABEL_TYPE = 'labanalysis'" +
@@ -356,6 +388,8 @@ public class LabAnalysis {
                 objLabAnalysis.setLabcode(ScreenHelper.checkString(rs.getString("labcode")));
                 objLabAnalysis.setLabcodeother(ScreenHelper.checkString(rs.getString("labcodeother")));
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
+                objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
+                objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
                 sName = ScreenHelper.checkString(rs.getString("name"));
                 hLabAnalysis.put(sName,objLabAnalysis);
             }
@@ -388,7 +422,7 @@ public class LabAnalysis {
 
         if(sSearchProfileID.equals("")){
             sQuery.append("SELECT a.unavailable,a.labID,a.labtype AS type,a.labcode AS code,OC_LABEL_VALUE AS name,");
-            sQuery.append(" a.labcodeother,'' AS comment,a.monster");
+            sQuery.append(" a.labcodeother,'' AS comment,a.monster,a.editor,a.editorparameters");
             sQuery.append(" FROM LabAnalysis a, OC_LABELS l ");
 
             // leave out allready selected labAnalyses
@@ -465,7 +499,9 @@ public class LabAnalysis {
                 objLabAnalysis.setComment(ScreenHelper.checkString(rs.getString("comment")));
                 objLabAnalysis.setMonster(ScreenHelper.checkString(rs.getString("monster")));
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
-                objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("name")));
+                objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("medidoccode")));
+                objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
+                objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
 
                 hLabAnalysis.add(objLabAnalysis);
             }
@@ -556,7 +592,7 @@ public class LabAnalysis {
         String lowerLabelType = ScreenHelper.getConfigParam("lowerCompare", "l.OC_LABEL_TYPE");
 
         sQuery.append("SELECT a.unavailable,a.labID,a.labtype AS type,a.labcode AS code,OC_LABEL_VALUE AS name,")
-                .append("  a.labcodeother,lpa.comment AS comment,a.monster")
+                .append("  a.labcodeother,lpa.comment AS comment,a.monster,a.editor,a.editorparameters")
                 .append(" FROM LabAnalysis a, OC_LABELS l, LabProfilesAnalysis lpa");
 
         // leave out allready selected labAnalyses
@@ -592,6 +628,8 @@ public class LabAnalysis {
                 objLabAnalysis.setComment(ScreenHelper.checkString(rs.getString("comment")));
                 objLabAnalysis.setMonster(ScreenHelper.checkString(rs.getString("monster")));
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
+                objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
+                objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
                 sName  = ScreenHelper.checkString(rs.getString("name"));
 
                 hLabAnalysis.add(objLabAnalysis);
@@ -695,8 +733,8 @@ public class LabAnalysis {
 
         String sInsert = " INSERT INTO LabAnalysis(labID,labcode,labtype,monster,biomonitoring," +
                          "  medidoccode,labgroup,comment,updateuserid,updatetime,deletetime,labcodeother," +
-                         "  limitvalue,shorttimevalue,unit,alertvalue,unavailable)" +
-                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         "  limitvalue,shorttimevalue,unit,alertvalue,unavailable,editor,editorparameters)" +
+                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -719,6 +757,8 @@ public class LabAnalysis {
             ps.setString(15, this.getUnit());
             ps.setString(16, this.getAlertvalue());
             ps.setInt(17,this.getUnavailable());
+            ps.setString(18, this.getEditor());
+            ps.setString(19, this.getEditorparameters());
 
             ps.executeUpdate();
             ps.close();
@@ -740,7 +780,7 @@ public class LabAnalysis {
         String sUpdate =" UPDATE LabAnalysis SET" +
                         "  labID=?, labcode=?, labtype=?, monster=?, biomonitoring=?, medidoccode=?," +
                         "  labgroup=?, comment=?, updateuserid=?, updatetime=?, deletetime=?, labcodeother=?," +
-                        "  limitvalue=?, shorttimevalue=?, unit=?, alertvalue=?, unavailable=?" +
+                        "  limitvalue=?, shorttimevalue=?, unit=?, alertvalue=?, unavailable=?,editor=?,editorparameters=?" +
                         " WHERE labID = ?  and deletetime is null";
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -764,7 +804,9 @@ public class LabAnalysis {
             ps.setString(15, this.getUnit());
             ps.setString(16, this.getAlertvalue());
             ps.setInt(17,this.getUnavailable());
-            ps.setInt(18,this.getLabId());
+            ps.setString(18, this.getEditor());
+            ps.setString(19, this.getEditorparameters());
+            ps.setInt(20,this.getLabId());
             ps.executeUpdate();
             ps.close();
         }catch(Exception e){
@@ -814,7 +856,7 @@ public class LabAnalysis {
         String lowerLabCode   = MedwanQuery.getInstance().getConfigParam("lowerCompare","labcode"),
                lowerLabelType = MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE");
 
-        String sSelect = "SELECT unavailable,labID,labtype,labcode,monster,biomonitoring,medidoccode,labcodeother,labgroup"+
+        String sSelect = "SELECT unavailable,labID,labtype,labcode,monster,biomonitoring,medidoccode,labcodeother,labgroup,editor,editorparameters"+
                   " FROM LabAnalysis a, OC_LABELS b"+
                   " WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","a.labID")+" = b.OC_LABEL_ID"+
                   "  AND "+lowerLabelType+" = '"+sLabLabelType+"'"+
@@ -844,6 +886,8 @@ public class LabAnalysis {
                 objLabAnalysis.setLabcodeother(ScreenHelper.checkString(rs.getString("labcodeother")));
                 objLabAnalysis.setLabgroup(ScreenHelper.checkString(rs.getString("labgroup")));
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
+                objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
+                objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
 
                 vAnalyses.addElement(objLabAnalysis);
             }
@@ -929,6 +973,8 @@ public class LabAnalysis {
                 objLabAnalysis.setShorttimevalue(ScreenHelper.checkString(rs.getString("shorttimevalue")));
                 objLabAnalysis.setUnit(ScreenHelper.checkString(rs.getString("unit")));
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
+                objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
+                objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
             }
             rs.close();
             ps.close();
@@ -977,6 +1023,8 @@ public class LabAnalysis {
                 objLabAnalysis.setShorttimevalue(ScreenHelper.checkString(rs.getString("shorttimevalue")));
                 objLabAnalysis.setUnit(ScreenHelper.checkString(rs.getString("unit")));
                 objLabAnalysis.setUnavailable(rs.getInt("unavailable"));
+                objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
+                objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
             }
             rs.close();
             ps.close();

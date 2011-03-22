@@ -103,6 +103,7 @@ public class ExporterMortality extends Exporter {
 								rs = ps.executeQuery();
 								if(rs.next()){
 									sb.append("<mortality deaths='"+rs.getInt("total")+"' month='"+i+"' year='"+n+"'/>");
+									bFound=true;
 								}
 								rs.close();
 								ps.close();

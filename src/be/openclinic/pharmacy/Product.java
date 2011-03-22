@@ -25,8 +25,19 @@ public class Product extends OC_Object implements Comparable {
     private int timeUnitCount = -1;
     private double unitsPerTimeUnit = -1;
     private String productGroup;
+    private String prescriptionInfo;
+    
+    
 
-    // non-db data
+    public String getPrescriptionInfo() {
+		return prescriptionInfo;
+	}
+
+	public void setPrescriptionInfo(String prescriptionInfo) {
+		this.prescriptionInfo = prescriptionInfo;
+	}
+
+	// non-db data
     private String supplierUid;
 
 
@@ -163,6 +174,8 @@ public class Product extends OC_Object implements Comparable {
                     product.setPackageUnits(rs.getInt("OC_PRODUCT_PACKAGEUNITS"));
                     product.setSupplierUid(rs.getString("OC_PRODUCT_SUPPLIERUID"));
                     product.setProductGroup(rs.getString("OC_PRODUCT_PRODUCTGROUP"));
+                    product.setPrescriptionInfo(rs.getString("OC_PRODUCT_PRESCRIPTIONINFO"));
+                    
 
                     // timeUnit
                     String tmpValue = rs.getString("OC_PRODUCT_TIMEUNIT");
@@ -285,6 +298,7 @@ public class Product extends OC_Object implements Comparable {
                 product.setUpdateDateTime(rs.getTimestamp("OC_PRODUCT_UPDATETIME"));
                 product.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_PRODUCT_UPDATEUID")));
                 product.setVersion(rs.getInt("OC_PRODUCT_VERSION"));
+                product.setPrescriptionInfo(rs.getString("OC_PRODUCT_PRESCRIPTIONINFO"));
             }
         }
         catch(Exception e){
@@ -362,8 +376,8 @@ public class Product extends OC_Object implements Comparable {
                       "  OC_PRODUCT_NAME,OC_PRODUCT_UNIT,OC_PRODUCT_UNITPRICE,OC_PRODUCT_PACKAGEUNITS,"+
                       "  OC_PRODUCT_MINORDERPACKAGES,OC_PRODUCT_SUPPLIERUID,OC_PRODUCT_TIMEUNIT,"+
                       "  OC_PRODUCT_TIMEUNITCOUNT,OC_PRODUCT_UNITSPERTIMEUNIT,OC_PRODUCT_PRODUCTGROUP,"+
-                      "  OC_PRODUCT_CREATETIME,OC_PRODUCT_UPDATETIME,OC_PRODUCT_UPDATEUID,OC_PRODUCT_VERSION)"+
-                      " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                      "  OC_PRODUCT_CREATETIME,OC_PRODUCT_UPDATETIME,OC_PRODUCT_UPDATEUID,OC_PRODUCT_VERSION,OC_PRODUCT_PRESCRIPTIONINFO)"+
+                      " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
@@ -397,6 +411,7 @@ public class Product extends OC_Object implements Comparable {
             ps.setTimestamp(14,new java.sql.Timestamp(new java.util.Date().getTime())); // now
             ps.setString(15,this.getUpdateUser());
             ps.setInt(16,newVersion);
+            ps.setString(17, this.getPrescriptionInfo());
 
             ps.executeUpdate();
         }

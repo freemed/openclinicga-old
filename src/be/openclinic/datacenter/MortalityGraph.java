@@ -34,7 +34,7 @@ import be.mxs.common.util.system.StatFunctions;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.PdfPCell;
-public class BedOccupancyGraph {
+public class MortalityGraph {
     /*
    USED TO CREATE A IMAGE OF GRAPH
     */
@@ -108,20 +108,61 @@ public class BedOccupancyGraph {
     METHOD TO USE
     Will create a Sorted List
     */
-    public static List getListValueGraph(int serverId, String serviceuid, String sLanguage, String userid) {
+    public static List getListValueGraph(int serverId, String code, String sLanguage, String userid) {
         Connection conn = null;
         PreparedStatement ps = null;
         List lArray = new LinkedList();
         try {
             TimeSeries series = new TimeSeries("data");
             conn = MedwanQuery.getInstance().getStatsConnection();
-            ps = conn.prepareStatement("select * from DC_BEDOCCUPANCYVALUES where DC_BEDOCCUPANCYVALUE_SERVERID=? and DC_BEDOCCUPANCYVALUE_SERVICEUID like ? order by DC_BEDOCCUPANCYVALUE_DATE");
+            ps = conn.prepareStatement("select * from DC_MORTALITYVALUES where DC_MORTALITYVALUE_SERVERID=? and DC_MORTALITYVALUE_CODETYPE='KPGS' and DC_MORTALITYVALUE_CODE=? and DC_MORTALITYVALUE_YEAR>? order by DC_MORTALITYVALUE_YEAR,DC_MORTALITYVALUE_MONTH");
             ps.setInt(1, serverId);
-            ps.setString(2, serviceuid+";%");
+            ps.setString(2, code);
+            ps.setInt(3, MedwanQuery.getInstance().getConfigInt("datacenterFirstGraphYear", 1900));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                java.util.Date dDate = new java.util.Date(rs.getTimestamp("DC_BEDOCCUPANCYVALUE_DATE").getTime());
-                Double iValue = Double.parseDouble(rs.getString("DC_BEDOCCUPANCYVALUE_OCCUPIEDBEDS"))*100/Double.parseDouble(rs.getString("DC_BEDOCCUPANCYVALUE_TOTALBEDS"));
+                Date dDate = new SimpleDateFormat("dd/MM/yyyy").parse("01/" +rs.getString("DC_MORTALITYVALUE_MONTH")+"/"+ rs.getString("DC_MORTALITYVALUE_YEAR"));
+                Double iValue = Double.parseDouble(rs.getString("DC_MORTALITYVALUE_COUNT"))*100/Double.parseDouble(rs.getString("DC_MORTALITYVALUE_DIAGNOSISCOUNT"));
+                lArray.add(new Object[]{dDate, iValue});
+            }
+            rs.close();
+        }
+        catch (Exception e) {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e2) {
+                // TODO Auto-generated catch block
+                e2.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return lArray;
+    }
+    public static List getListValueGraphYear(int serverId, String code, String sLanguage, String userid) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        List lArray = new LinkedList();
+        try {
+            TimeSeries series = new TimeSeries("data");
+            conn = MedwanQuery.getInstance().getStatsConnection();
+            ps = conn.prepareStatement("select SUM(DC_MORTALITYVALUE_COUNT) AS DC_MORTALITYVALUE_COUNT, SUM(DC_MORTALITYVALUE_DIAGNOSISCOUNT) AS DC_MORTALITYVALUE_DIAGNOSISCOUNT,DC_MORTALITYVALUE_YEAR from DC_MORTALITYVALUES where DC_MORTALITYVALUE_SERVERID=? and DC_MORTALITYVALUE_CODETYPE='KPGS' and DC_MORTALITYVALUE_CODE=? and DC_MORTALITYVALUE_YEAR>? group by DC_MORTALITYVALUE_YEAR order by DC_MORTALITYVALUE_YEAR");
+            ps.setInt(1, serverId);
+            ps.setString(2, code);
+            ps.setInt(3, MedwanQuery.getInstance().getConfigInt("datacenterFirstGraphYear", 1900));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Date dDate = new SimpleDateFormat("dd/MM/yyyy").parse("30/06/" + rs.getString("DC_MORTALITYVALUE_YEAR"));
+                Double iValue = Double.parseDouble(rs.getString("DC_MORTALITYVALUE_COUNT"))*100/Double.parseDouble(rs.getString("DC_MORTALITYVALUE_DIAGNOSISCOUNT"));
                 lArray.add(new Object[]{dDate, iValue});
             }
             rs.close();

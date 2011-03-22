@@ -48,6 +48,13 @@ public class DatacenterHelper {
 		}
 		return value;
 	}
+	public static String getLastSimpleValueFormatted(int serverid,String parameterid){
+		String value=getLastSimpleValue(serverid, parameterid);
+		if(value!=null && !value.equalsIgnoreCase("?")){
+			value=new java.text.DecimalFormat("#,###").format(Integer.parseInt(value));
+		}
+		return value;
+	}
 	
 	public static String getFinancialValue(int serverid,String parameterid,String period){
 		String value="?";
@@ -203,6 +210,7 @@ public class DatacenterHelper {
 		return v;
 	}
 	
+
 	public static Vector getMortalities(int serverid, int year, int month, String codetype){
 		Vector v = new Vector();
 		Connection conn=MedwanQuery.getInstance().getStatsConnection();
