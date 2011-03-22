@@ -84,9 +84,9 @@
                     Hashtable analysis = (Hashtable) profileAnalysis.elementAt(i);
                     RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis) labRequest.getAnalyses().get(analysis.get("labcode"));
                     if (requestedLabAnalysis != null) {
-                        out.print("<td><input class='textyellow' readonly type='text' size='5'></td>");
-                    } else {
                         out.print("<td>X</td>");
+                    } else {
+                        out.print("<td></td>");
                     }
                 }
                 out.print("<td><input class='checkbox' type='checkbox' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + ".worklisted'}'/></td>");
