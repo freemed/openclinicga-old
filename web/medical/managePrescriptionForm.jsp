@@ -36,7 +36,7 @@
                         <input type="hidden" name="productuid" id="productuid"/>
                     </td>
                     <td valign="top">
-                        <a href="javascript:copyfoundproduct(document.getElementById('productuid').value);"><img src="<c:url value='/_img/arrow_right.gif'/>" alt="<%=getTran("web","right",sWebLanguage)%>"/></a>
+                        <a href="javascript:copyfoundproduct();"><img src="<c:url value='/_img/arrow_right.gif'/>" alt="<%=getTran("web","right",sWebLanguage)%>"/></a>
                     </td>
                 </tr>
             </table>
@@ -115,29 +115,7 @@
     }
 
     function copyfoundproduct(productuid){
-        var url = "<c:url value="/"/>medical/ajax/findPrescriptionProductContent.jsp";
-        var params = "productuid="+productuid;
-        document.getElementById("productuid").value=productuid;
-
-        new Ajax.Request(url,{
-              method: "POST",
-              parameters: params,
-              onSuccess: function(resp){
-                  var prescriptioninfo = resp.responseText.split("$");
-                  if($('prescription').value.length>0){
-                      $('prescription').value+="\n";
-                  }
-                  if(prescriptioninfo[1].length>0){
-                    $('prescription').value += prescriptioninfo[1]+"\n";
-                  }
-                  else {
-                      $('prescription').value += prescriptioninfo[2]+"\n";
-                  }
-              },
-              onFailure: function(){
-              }
-          });
-          copycontent(productuid);
+        $('prescription').value += $('prescriptioninfo').value+"\n";
     }
 
     function copycontent(productuid){
