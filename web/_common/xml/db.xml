@@ -2117,6 +2117,8 @@
             <column name="labcodeother"   dbtype="varchar"  javatype="string"  size="1"/>
             <column name="limitvalue"     dbtype="varchar"  javatype="string"  size="255"/>
             <column name="shorttimevalue" dbtype="varchar"  javatype="string"  size="255"/>
+            <column name="editor" dbtype="varchar"  javatype="string"  size="50"/>
+            <column name="editorparameters" dbtype="varchar"  javatype="string"  size="255"/>
 		</columns>
 		<indexes>
 			<index name="labanalysis_labID">
