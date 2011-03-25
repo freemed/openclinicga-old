@@ -76,15 +76,23 @@ try{
                                             e.printStackTrace();
                                         }
 
-                                        String sClass, transactionType, sList = "", docType;
+                                        String sClass, transactionType, sList = "", docType, servicecode;
                                         TransactionVO transactionVO;
-                                        ItemVO itemVO, item;
+                                        ItemVO itemVO, item, encounteritem;
+                                        Encounter encounter;
                                         Encounter activeEncounter;
 
                                         while (transactions.hasNext()) {
                                             transactionVO = (TransactionVO) transactions.next();
                                             itemVO = transactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT");
-
+                                            encounteritem = transactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID");
+                                            servicecode="";
+                                            if(encounteritem!=null){
+                                            	encounter = Encounter.get(encounteritem.getValue());
+                                            	if(encounter!=null){
+                                            		servicecode= encounter.getServiceUID(transactionVO.getUpdateDateTime());
+                                            	}
+                                            }
                                             if (contextSelector == null || contextSelector.length() == 0 || (itemVO != null && itemVO.getValue()!=null && itemVO.getValue().equalsIgnoreCase(contextSelector))) {
                                                 activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
                                                 sClass = "disabled";
@@ -179,7 +187,7 @@ try{
                                                             %>
                                                         </td>
                                                         <td align="center"><%=transactionVO.getUser()!=null?transactionVO.getUser().getPersonVO().getFirstname():""%>,&nbsp;<%=transactionVO.getUser()!=null?transactionVO.getUser().getPersonVO().getLastname():""%></td>
-                                                        <td align="center"><%=getTran("service",itemVO!=null?itemVO.getValue():"",sWebLanguage)%></td>
+                                                        <td align="center"><%=servicecode.length()>0?servicecode+": "+getTran("service",servicecode,sWebLanguage):getTran("service",itemVO!=null?itemVO.getValue():"",sWebLanguage)%></td>
                                                     </tr>
                                                 <%
                                             }
