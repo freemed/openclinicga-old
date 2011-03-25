@@ -86,7 +86,7 @@ public class ExporterActivity extends Exporter {
 									measurements[q]=(Double)m.elementAt(q);
 								}
 								BasicStatistics basicStatistics = new BasicStatistics(measurements);
-								sb.append("<activity type='A' users='"+m.size()+"' mean='"+basicStatistics.geometricMean()+"' median='"+basicStatistics.median()+"' meanDeviation='"+basicStatistics.meanDeviation()+"' month='"+i+"' year='"+n+"'/>");
+								sb.append("<activity type='A' users='"+m.size()+"' mean='"+basicStatistics.arithmeticMean()+"' median='"+basicStatistics.median()+"' meanDeviation='"+basicStatistics.meanDeviation()+"' month='"+i+"' year='"+n+"'/>");
 							}
 							rs.close();
 							ps.close();
@@ -105,7 +105,7 @@ public class ExporterActivity extends Exporter {
 									measurements[q]=(Double)m.elementAt(q);
 								}
 								BasicStatistics basicStatistics = new BasicStatistics(measurements);
-								sb.append("<activity type='M' users='"+m.size()+"' mean='"+basicStatistics.geometricMean()+"' median='"+basicStatistics.median()+"' meanDeviation='"+basicStatistics.meanDeviation()+"' month='"+i+"' year='"+n+"'/>");
+								sb.append("<activity type='M' users='"+m.size()+"' mean='"+basicStatistics.arithmeticMean()+"' median='"+basicStatistics.median()+"' meanDeviation='"+basicStatistics.meanDeviation()+"' month='"+i+"' year='"+n+"'/>");
 							}
 							rs.close();
 							ps.close();
@@ -124,7 +124,7 @@ public class ExporterActivity extends Exporter {
 									measurements[q]=(Double)m.elementAt(q);
 								}
 								BasicStatistics basicStatistics = new BasicStatistics(measurements);
-								sb.append("<activity type='T' users='"+m.size()+"' mean='"+basicStatistics.geometricMean()+"' median='"+basicStatistics.median()+"' meanDeviation='"+basicStatistics.meanDeviation()+"' month='"+i+"' year='"+n+"'/>");
+								sb.append("<activity type='T' users='"+m.size()+"' mean='"+basicStatistics.arithmeticMean()+"' median='"+basicStatistics.median()+"' meanDeviation='"+basicStatistics.meanDeviation()+"' month='"+i+"' year='"+n+"'/>");
 							}
 							rs.close();
 							ps.close();

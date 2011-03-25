@@ -379,18 +379,25 @@ public class Importer {
 					ps.setInt(4,Integer.parseInt(activity.attributeValue("month")));
 					ps.execute();
 					ps.close();
-					ps = conn.prepareStatement("insert into DC_ACTIVITYVALUES(DC_ACTIVITYVALUE_SERVERID,DC_ACTIVITYVALUE_OBJECTID,DC_ACTIVITYVALUE_TYPE,DC_ACTIVITYVALUE_YEAR,DC_ACTIVITYVALUE_MONTH,DC_ACTIVITYVALUE_USERCOUNT,DC_ACTIVITYVALUE_MEAN,DC_ACTIVITYVALUE_MEDIAN,DC_ACTIVITYVALUE_MEANDEVIATION) values(?,?,?,?,?,?,?,?,?)");
-					ps.setInt(1, importMessage.getServerId());
-					ps.setInt(2, importMessage.getObjectId());
-					ps.setString(3, activity.attributeValue("type"));
-					ps.setInt(4,Integer.parseInt(activity.attributeValue("year")));
-					ps.setInt(5,Integer.parseInt(activity.attributeValue("month")));
-					ps.setInt(6,Integer.parseInt(activity.attributeValue("users")));
-					ps.setFloat(7,Float.parseFloat(activity.attributeValue("mean")));
-					ps.setFloat(8,Float.parseFloat(activity.attributeValue("median")));
-					ps.setFloat(9,Float.parseFloat(activity.attributeValue("meanDeviation")));
-					ps.execute();
-					ps.close();
+					try{
+						ps = conn.prepareStatement("insert into DC_ACTIVITYVALUES(DC_ACTIVITYVALUE_SERVERID,DC_ACTIVITYVALUE_OBJECTID,DC_ACTIVITYVALUE_TYPE,DC_ACTIVITYVALUE_YEAR,DC_ACTIVITYVALUE_MONTH,DC_ACTIVITYVALUE_USERCOUNT,DC_ACTIVITYVALUE_MEAN,DC_ACTIVITYVALUE_MEDIAN,DC_ACTIVITYVALUE_MEANDEVIATION) values(?,?,?,?,?,?,?,?,?)");
+						ps.setInt(1, importMessage.getServerId());
+						ps.setInt(2, importMessage.getObjectId());
+						ps.setString(3, activity.attributeValue("type"));
+						ps.setInt(4,Integer.parseInt(activity.attributeValue("year")));
+						ps.setInt(5,Integer.parseInt(activity.attributeValue("month")));
+						ps.setInt(6,Integer.parseInt(activity.attributeValue("users")));
+						ps.setFloat(7,Float.parseFloat(activity.attributeValue("mean").equalsIgnoreCase("infinity")?activity.attributeValue("median"):activity.attributeValue("mean")));
+						ps.setFloat(8,Float.parseFloat(activity.attributeValue("median")));
+						ps.setFloat(9,Float.parseFloat(activity.attributeValue("meanDeviation")));
+						ps.execute();
+						ps.close();
+					}
+					catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+						System.out.println(activity.asXML());
+					}
 				}
 				bSuccess=true;
 			}

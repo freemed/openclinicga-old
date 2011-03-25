@@ -1465,6 +1465,8 @@ public class Encounter extends OC_Object {
                 if (sTmp.length() > 0) {
                     eTmp.setSituation(sTmp);
                 }
+                
+                eTmp.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID")));
 
                 vEncounters.addElement(eTmp);
             }

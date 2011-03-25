@@ -2596,6 +2596,8 @@ public class MedwanQuery {
                 versionServerId = Occuprs.getInt("versionserverid");
                 timestamp = Occuprs.getDate("ts");
                 transactionVO = new TransactionVO(new Integer(transactionId), transactionType, creationDate, updateTime, status, null, new Vector(), serverId, version, versionServerId, timestamp);
+                transactionVO.setUpdateDateTime(updateTime);
+                transactionVO.setCreateDateTime(creationDate);
                 dateBegin = null;
                 dateEnd = null;
                 if (start != null)
@@ -2605,6 +2607,7 @@ public class MedwanQuery {
                 transactionVO.setUser(new UserVO(new Integer(userId), password, dateBegin, dateEnd, new PersonVO(natreg, immatOld, immatNew, candidate, lastname, firstname, gender, language, new Integer(personId))));
                 items = new Vector();
                 items.add(getItem(serverId, transactionId, IConstants.ITEM_TYPE_CONTEXT_CONTEXT));
+                items.add(getItem(serverId, transactionId, "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID"));
                 if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_VACCINATION)) {
                     items.add(getItem(serverId, transactionId, IConstants.ITEM_TYPE_VACCINATION_TYPE));
                 }

@@ -44,7 +44,7 @@ public class DiagnosisGraph {
         try {
             TimeSeries series = new TimeSeries("data");
             conn = MedwanQuery.getInstance().getStatsConnection();
-            ps = conn.prepareStatement("select * from DC_DIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE='KPGS' and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR>? order by DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH");
+            ps = conn.prepareStatement("select distinct * from DC_DIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE='KPGS' and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR>? order by DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH");
             ps.setInt(1, serverId);
             ps.setString(2, code);
             ps.setInt(3, MedwanQuery.getInstance().getConfigInt("datacenterFirstGraphYear", 1900));
@@ -115,7 +115,7 @@ public class DiagnosisGraph {
         try {
             TimeSeries series = new TimeSeries("data");
             conn = MedwanQuery.getInstance().getStatsConnection();
-            ps = conn.prepareStatement("select * from DC_DIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE='KPGS' and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR>? order by DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH");
+            ps = conn.prepareStatement("select distinct * from DC_DIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE='KPGS' and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR>? order by DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH");
             ps.setInt(1, serverId);
             ps.setString(2, code);
             ps.setInt(3, MedwanQuery.getInstance().getConfigInt("datacenterFirstGraphYear", 1900));

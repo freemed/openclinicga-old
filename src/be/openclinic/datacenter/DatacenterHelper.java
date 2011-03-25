@@ -185,7 +185,7 @@ public class DatacenterHelper {
 		Vector v = new Vector();
 		Connection conn=MedwanQuery.getInstance().getStatsConnection();
 		try{
-			String sQuery="select * from DC_DIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_YEAR=? and DC_DIAGNOSISVALUE_MONTH=? and DC_DIAGNOSISVALUE_CODETYPE=? order by DC_DIAGNOSISVALUE_CODE";
+			String sQuery="select distinct * from DC_DIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_YEAR=? and DC_DIAGNOSISVALUE_MONTH=? and DC_DIAGNOSISVALUE_CODETYPE=? order by DC_DIAGNOSISVALUE_CODE";
 			PreparedStatement ps = conn.prepareStatement(sQuery);
 			ps.setInt(1, serverid);
 			ps.setInt(2,year);
@@ -409,7 +409,7 @@ public class DatacenterHelper {
 		Vector v = new Vector();
 		Connection conn=MedwanQuery.getInstance().getStatsConnection();
 		try{
-			String sQuery="select * from DC_ENCOUNTERDIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_YEAR=? and DC_DIAGNOSISVALUE_MONTH=? and DC_DIAGNOSISVALUE_CODETYPE=? and DC_DIAGNOSISVALUE_ENCOUNTERTYPE like '"+encounterType+"%' order by DC_DIAGNOSISVALUE_CODE";
+			String sQuery="select distinct * from DC_ENCOUNTERDIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_YEAR=? and DC_DIAGNOSISVALUE_MONTH=? and DC_DIAGNOSISVALUE_CODETYPE=? and DC_DIAGNOSISVALUE_ENCOUNTERTYPE like '"+encounterType+"%' order by DC_DIAGNOSISVALUE_CODE";
 			PreparedStatement ps = conn.prepareStatement(sQuery);
 			ps.setInt(1, serverid);
 			ps.setInt(2,year);
