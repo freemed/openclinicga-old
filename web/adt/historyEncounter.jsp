@@ -25,6 +25,7 @@
     String sClass = "";
     String sInactive = "";
     String sInactiveSelect = "";
+    String sUpdateUser = "";
 
     String sBegin = "", sEnd = "", sManagerName = "", sBedName = "", sServiceUID = "";
     //Timestamp ts1,ts2;
@@ -69,7 +70,10 @@
         } else {
             sServiceUID = "";
         }
-
+		
+        if (eTmp.getUpdateUser()!=null){
+        	sUpdateUser = MedwanQuery.getInstance().getUserName(Integer.parseInt(eTmp.getUpdateUser()));
+        }
         if (bFinished) {
             sInactive = "Text";
             sInactiveSelect = "";
@@ -93,7 +97,8 @@
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sEnd + "</td>" +
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sManagerName + "</td>" +
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + getTran("Service", sServiceUID, sWebLanguage) + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sBedName + "</td>");
+                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sBedName + "</td>"+
+		        "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sUpdateUser + "</td>");
         if(activeUser.getAccessRight("problemlist.select")){
             sbResults.append("<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + ReasonForEncounter.getReasonsForEncounterAsHtml(eTmp.getUid(),sWebLanguage) + "</td>");
         }
@@ -124,6 +129,7 @@
         <td><%=getTran("Web","manager",sWebLanguage)%></td>
         <td><%=getTran("Web","service",sWebLanguage)%></td>
         <td><%=getTran("Web","bed",sWebLanguage)%></td>
+        <td><%=getTran("Web","updatedby",sWebLanguage)%></td>
         <%
             if(activeUser.getAccessRight("problemlist.select")){
         %>
