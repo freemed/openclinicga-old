@@ -2,7 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
     String sGender = "&nbsp;", sComment = "&nbsp;", sNativeCountry = "&nbsp;", sLanguage = "&nbsp;", sNatreg = "&nbsp;"
-            , sCivilStatus = "&nbsp;", sTracnetID = "&nbsp;", sTreatingPhysician = "&nbsp;", sComment3="";
+            , sCivilStatus = "&nbsp;", sTracnetID = "&nbsp;", sTreatingPhysician = "&nbsp;", sComment3="", sDeathCertificateTo="", sDeathCertificateOn="";
 
     // language
     sWebLanguage = activeUser.person.language;
@@ -22,6 +22,16 @@
     // sTracnetID
     if (checkString((String)activePatient.adminextends.get("tracnetid")).length()>0) {
         sTracnetID = checkString((String)activePatient.adminextends.get("tracnetid"));
+    }
+
+    // sDeathCertificateTo
+    if (checkString((String)activePatient.adminextends.get("deathcertificateto")).length()>0) {
+    	sDeathCertificateTo = checkString((String)activePatient.adminextends.get("deathcertificateto"));
+    }
+
+    // sDeathCertificateOn
+    if (checkString((String)activePatient.adminextends.get("deathcertificateon")).length()>0) {
+    	sDeathCertificateOn = checkString((String)activePatient.adminextends.get("deathcertificateon"));
     }
 
     // sTreatingPhysician
@@ -65,7 +75,9 @@
         +setRow("Web","treating-physician",sTreatingPhysician,sWebLanguage)
         +setRow("Web","civilstatus",sCivilStatus,sWebLanguage)
         +setRow("Web","comment3",sComment3,sWebLanguage)
-        +setRow("Web","comment",sComment,sWebLanguage))
+        +setRow("Web","comment",sComment,sWebLanguage)
+        +(activePatient.isDead()!=null?setRow("Web","deathcertificateon",sDeathCertificateOn,sWebLanguage)+setRow("Web","deathcertificateto",sDeathCertificateTo,sWebLanguage):"")
+        )
     %>
     <tr height='1'><td width='<%=sTDAdminWidth%>'/></tr>
 </table>

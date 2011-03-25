@@ -146,6 +146,7 @@
     </application>
     <application type="Web" id="executive">
         <permission type="web" id="bedoccupation">occup.bedoccupation</permission>
+        <permission type="web" id="executive">executive</permission>
     </application>
     <application type="Web" id="examenstechniques">
         <permission type="web" id="labos">labos</permission>

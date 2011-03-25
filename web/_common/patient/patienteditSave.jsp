@@ -26,7 +26,9 @@
                 sMiddleName = checkString(request.getParameter("MiddleName")),
                 sComment1 = checkString(request.getParameter("Comment1")),
                 sCivilStatus = checkString(request.getParameter("CivilStatus")),
-                sTracnetID = checkString(request.getParameter("TracnetID"));
+                sTracnetID = checkString(request.getParameter("TracnetID")),
+		        sDeathCertificateOn = checkString(request.getParameter("DeathCertificateOn")),
+		        sDeathCertificateTo = checkString(request.getParameter("DeathCertificateTo"));
 
         // private
         String sPBegin = checkString(request.getParameter("PBegin")),
@@ -108,6 +110,14 @@
             }
             if (sTracnetID.trim().length() > 0) {
                 activePatient.adminextends.put("tracnetid", sTracnetID);
+            }
+
+            if (sDeathCertificateOn.trim().length() > 0) {
+                activePatient.adminextends.put("deathcertificateon", sDeathCertificateOn);
+            }
+
+            if (sDeathCertificateTo.trim().length() > 0) {
+                activePatient.adminextends.put("deathcertificateto", sDeathCertificateTo);
             }
 
             activePatient.language = sLanguage.toUpperCase();

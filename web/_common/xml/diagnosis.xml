@@ -6,15 +6,15 @@
         <!--Diahrrée-->
         <flag codetype="icpc" start="D1100" end="D1199" flag="BHRXYZ"/>
         <!--Tuberculose-->
-        <flag codetype="icpc" start="A7000" end="A7099" flag="K"/>
-        <flag codetype="icd10" start="A15" end="A19.9" flag="K"/>
-        <flag codetype="icd10" start="B90" end="B90.9" flag="K"/>
+        <flag codetype="icpc" start="A7000" end="A7099" flag="KJ"/>
+        <flag codetype="icd10" start="A15" end="A19.9" flag="KJ"/>
+        <flag codetype="icd10" start="B90" end="B90.9" flag="KJ"/>
         <flag codetype="icd10" start="J65" end="J65" flag="K"/>
-        <flag codetype="icd10" start="M01.1" end="M01.1" flag="K"/>
-        <flag codetype="icd10" start="M49.0" end="M49.0" flag="K"/>
-        <flag codetype="icd10" start="M90.0" end="M90.0" flag="K"/>
-        <flag codetype="icd10" start="O98.0" end="O98.0" flag="K"/>
-        <flag codetype="icd10" start="P37.0" end="P37.0" flag="K"/>
+        <flag codetype="icd10" start="M01.1" end="M01.1" flag="KJ"/>
+        <flag codetype="icd10" start="M49.0" end="M49.0" flag="KJ"/>
+        <flag codetype="icd10" start="M90.0" end="M90.0" flag="KJ"/>
+        <flag codetype="icd10" start="O98.0" end="O98.0" flag="KJ"/>
+        <flag codetype="icd10" start="P37.0" end="P37.0" flag="KJ"/>
         <!--HIV-->
         <flag codetype="icd10" start="B20" end="B24.9" flag="L"/>
         <!--Fractures-->

@@ -197,18 +197,30 @@
             </tr>
         <%
             }
+            if(flags.indexOf("J")>-1){
+                %>
+                    <!-- tbresistance -->
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("medical.diagnosis","tbresistance",sWebLanguage)%> *</td>
+                        <td class="admin2">
+                            <input type="radio" name="tbresistance" id="tbresistance" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                            <input type="radio" name="tbresistance" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                        </td>
+                    </tr>
+                <%
+                    }
             if(flags.indexOf("K")>-1){
-        %>
-            <!-- bloody -->
-            <tr>
-                <td class="admin" nowrap><%=getTran("medical.diagnosis","bkplus",sWebLanguage)%> *</td>
-                <td class="admin2">
-                    <input type="radio" name="bkplus" id="bkplus" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
-                    <input type="radio" name="bkplus" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
-                </td>
-            </tr>
-        <%
-            }
+                %>
+                    <!-- bloody -->
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("medical.diagnosis","bkplus",sWebLanguage)%> *</td>
+                        <td class="admin2">
+                            <input type="radio" name="bkplus" id="bkplus" value="medwan.common.true"/><%=getTran("web","yes",sWebLanguage)%>
+                            <input type="radio" name="bkplus" value="medwan.common.false"/><%=getTran("web","no",sWebLanguage)%>
+                        </td>
+                    </tr>
+                <%
+                    }
             if(flags.indexOf("L")>-1){
         %>
             <!-- bloody -->
@@ -481,6 +493,14 @@
 	        }
 	        else {
 	            flags+="h";
+	        }
+        }
+        if(document.getElementById('tbresistance')){
+            if(document.getElementById('tbresistance').checked){
+	            flags+="J";
+	        }
+	        else {
+	            flags+="j";
 	        }
         }
         if(document.getElementById('bkplus')){

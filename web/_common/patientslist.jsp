@@ -102,18 +102,22 @@
         if (sRSIndex.length() > 0) {
             iOverallCounter = Integer.parseInt(sRSIndex);
         }
-        String sTmpServiceID, sInactive;
+        String sTmpServiceID, sInactive, sBed;
         AdminPerson tempPat;
         Encounter enc;
 
         while ((iOverallCounter + iCounter) < lResults.size() && iCounter < iMaxResultSet) {
             tempPat = (AdminPerson) lResults.get(iCounter + iOverallCounter);
             sTmpServiceID = "";
+            sBed="";
 
             enc = Encounter.getActiveEncounter(tempPat.personid);
             if (enc != null) {
                 sInactive = "";
                 sTmpServiceID = enc.getServiceUID();
+                if(enc.getBed()!=null){
+                	sBed=enc.getBed().getName();
+                }
             } else {
                 sInactive = "Text";
             }
@@ -126,7 +130,7 @@
                     if (duration > days || duration < 0) {
                         sHospDate = "<td style='color: red'>" + new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin()) + "</td>";
                     }
-                    sTmpServiceID = "<td>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td>"+sHospDate;
+                    sTmpServiceID = "<td>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td>"+sBed+"</td>"+sHospDate;
                 } else {
                     sTmpServiceID = "<td>&nbsp;</td><td>&nbsp;</td>";
                 }
@@ -198,17 +202,18 @@
             <table width='100%' cellspacing='0' class="sortable" id="searchresults">
                 <%-- header --%>
                 <tr height='20' class='admin'>
-                    <td width='20'><%=sPrevious%></td>
-                    <td width='107'><%=getTran("Web","immatnew",sWebLanguage)%></td>
-                    <td width='107'><%=getTran("Web","natreg.short",sWebLanguage)%></td>
-                    <td width='*'><%=getTran("Web","name",sWebLanguage)%></td>
-                    <td width='50'><%=getTran("Web","gender",sWebLanguage)%>&nbsp;</td>
-                    <td width='110'><%=getTran("Web","dateofbirth",sWebLanguage)%></td>
+                    <td><%=sPrevious%></td>
+                    <td><%=getTran("Web","immatnew",sWebLanguage)%></td>
+                    <td><%=getTran("Web","natreg.short",sWebLanguage)%></td>
+                    <td><%=getTran("Web","name",sWebLanguage)%></td>
+                    <td><%=getTran("Web","gender",sWebLanguage)%>&nbsp;</td>
+                    <td><%=getTran("Web","dateofbirth",sWebLanguage)%></td>
                     <%
                         if ("On".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("showServiceInPatientList"))){
                     %>
-                        <td width='100'><%=getTran("Web","service",sWebLanguage)%></td>
-                        <td width="80"><%=getTran("Web","date",sWebLanguage)%></td>
+                        <td><%=getTran("Web","service",sWebLanguage)%></td>
+                        <td><%=getTran("Web","bed",sWebLanguage)%></td>
+                        <td><%=getTran("Web","date",sWebLanguage)%></td>
                     <%
                         }
 
