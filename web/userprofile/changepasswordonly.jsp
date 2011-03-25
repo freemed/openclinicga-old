@@ -293,9 +293,6 @@
                     activeUser.updateParameter(pwdChangeParam,ad_conn);
                     ad_conn.close();
 
-                    // go to userprofile mainpage
-                    allErrors.append("<script>window.location.href='"+sCONTEXTPATH+"/main.do?Page=userprofile/changemedicalcenter.jsp");
-
                     // display how long the password remains valid
                     int availability;
                     try{ availability = Integer.parseInt(MedwanQuery.getInstance().getConfigString("PasswordAvailability")); }
