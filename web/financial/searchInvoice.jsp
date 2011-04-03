@@ -60,9 +60,9 @@
 
         if ((sFindInvoiceType.equalsIgnoreCase("patient")) || (sFindInvoiceType.equals(""))) {
             vPatients = PatientInvoice.searchInvoices(sFindDateBegin, sFindDateEnd, sFindInvoiceId, sFindAmountMin, sFindAmountMax);
-        }else if ((sFindInvoiceType.equalsIgnoreCase("insurar")) || (sFindInvoiceType.equals(""))) {
+        }else if (sFindInvoiceType.equalsIgnoreCase("insurar")) {
             vInsurars = InsurarInvoice.searchInvoices(sFindDateBegin, sFindDateEnd, sFindInvoiceId, sFindAmountMin, sFindAmountMax);
-        }else if ((sFindInvoiceType.equalsIgnoreCase("extrainsurar")) || (sFindInvoiceType.equals(""))) {
+        }else if (sFindInvoiceType.equalsIgnoreCase("extrainsurar")) {
             vExtraInsurars = ExtraInsurarInvoice.searchInvoices(sFindDateBegin, sFindDateEnd, sFindInvoiceId, sFindAmountMin, sFindAmountMax);
         }
         Hashtable hInvoices = new Hashtable();

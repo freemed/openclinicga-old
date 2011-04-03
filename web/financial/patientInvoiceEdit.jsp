@@ -116,7 +116,7 @@
 <%
     String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
     PatientInvoice patientInvoice;
-    String sPatientInvoiceID = "", sPatientId = "", sClosed ="";
+    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="";
 
     if (sFindPatientInvoiceUID.length() > 0) {
         patientInvoice = PatientInvoice.getViaInvoiceUID(sFindPatientInvoiceUID);
@@ -125,6 +125,7 @@
             sPatientInvoiceID = checkString(patientInvoice.getInvoiceUid());
             sPatientId = patientInvoice.getPatientUid();
             sClosed=patientInvoice.getStatus();
+            sInsurarReference=patientInvoice.getInsurarreference();
         }
         else{
             sPatientId = activePatient.personid;
@@ -234,6 +235,12 @@
                 		}
                 	}
                 %>
+            </td>
+        </tr>
+        <tr>
+            <td class="admin" nowrap><%=getTran("web.finance","insurarreference",sWebLanguage)%></td>
+            <td class="admin2">
+                <input type="text" size="40" class="text" id="EditInsurarReference" name="EditInsurarReference" value="<%=sInsurarReference%>">
             </td>
         </tr>
         <tr>
@@ -428,6 +435,7 @@
                           +'&EditStatus=' + EditForm.EditStatus.value
                           +'&EditCBs='+sCbs
                           +'&EditInvoiceSeries='+sInvoiceSeries
+                          +'&EditInsurarReference='+EditForm.EditInsurarReference.value
                           +'&EditBalance=' + EditForm.EditBalance.value,
                   onSuccess: function(resp){
                       var label = eval('('+resp.responseText+')');
@@ -435,6 +443,7 @@
                       $('EditPatientInvoiceUID').value=label.EditPatientInvoiceUID;
                       $('EditInvoiceUID').value=label.EditInvoiceUID;
                       $('EditInvoiceUIDText').value=label.EditInvoiceUID;
+                      $('EditInsurarReference').value=label.EditInsurarReference;
                       $('FindPatientInvoiceUID').value=label.EditInvoiceUID;
                       doFind();
                   },
