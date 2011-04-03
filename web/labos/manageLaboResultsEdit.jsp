@@ -161,6 +161,13 @@
 	                        else if(analysis.getEditor().equals("antibiogram")) {
 	                        	result = getComplexResult(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()), sWebLanguage,requestedLabAnalysis.getFinalvalidationdatetime());                        	//result = getComplexResult(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()), sWebLanguage);
 	                        }
+	                        else {
+								if(bEditable){
+									result="<input class='text' type='text' name='result." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "' value='" + checkString(requestedLabAnalysis.getResultValue()) + "'/>" + u;
+								} else {
+									result=requestedLabAnalysis.getResultValue();
+								}
+	                        }
                         }
                         boolean bAbnormal = (result.length() > 0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*" + checkString(requestedLabAnalysis.getResultModifier()).toLowerCase() + "*") > -1);
                         out.print("<td   class='color color" + i + "'>" + result + (bAbnormal ? " " + checkString(requestedLabAnalysis.getResultModifier().toUpperCase()) : "") + "</td>");
