@@ -59,7 +59,7 @@
             sLabID = Integer.toString(objLabAnalysis.getLabId());
             sLabType = objLabAnalysis.getLabtype();
             sLabCode = objLabAnalysis.getLabcode();
-            sLabLabel = objLabAnalysis.getMedidoccode();
+            sLabLabel = getTran("labanalysis",objLabAnalysis.getLabId()+"",sWebLanguage);
             sCodeOther = objLabAnalysis.getLabcodeother();
             sComment = objLabAnalysis.getComment();
             sMonster = getTranNoLink("labanalysis.monster",objLabAnalysis.getMonster(),sWebLanguage);

@@ -208,7 +208,6 @@ function checkDate(sobject) {
           sYear = "20"+sYear.substring(0,2);
         }
       }
-
       if (isDate(sDay,sMonth,sYear)) {
         sobject.value = sDay+"/"+sMonth+"/"+sYear;
         return true;

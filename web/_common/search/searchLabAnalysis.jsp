@@ -69,7 +69,7 @@
             sLabType = objLabAnalysis.getLabtype();
             sLabCode = objLabAnalysis.getLabcode();
             sCodeOther = objLabAnalysis.getLabcodeother();
-            sLabel = objLabAnalysis.getMedidoccode();
+            sLabel = getTran("labanalysis",objLabAnalysis.getLabId()+"",sWebLanguage);
 
             sOut.append(writeRow(sLabID, sLabType, sLabCode, sLabel, sWebLanguage));
         }
@@ -118,7 +118,7 @@
                 sLabType = objLabAnalysis.getLabtype();
                 sLabCode = objLabAnalysis.getLabcode();
                 sCodeOther = objLabAnalysis.getLabcodeother();
-                sLabel = objLabAnalysis.getMedidoccode();
+                sLabel = getTran("labanalysis",objLabAnalysis.getLabId()+"",sWebLanguage);
 
                 sOut.append(writeRow(sLabID, sLabType, sLabCode, sLabel, sWebLanguage));
             }
