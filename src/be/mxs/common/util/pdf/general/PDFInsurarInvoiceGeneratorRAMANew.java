@@ -242,7 +242,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             boolean displayPatientName=false,displayDate=false;
             SortedMap categories = new TreeMap(), totalcategories = new TreeMap();
             double total100pct=0,total85pct=0,generaltotal100pct=0,generaltotal85pct=0,daytotal100pct=0,daytotal85pct=0;
-            String invoiceid="",adherent="",recordnumber="";
+            String invoiceid="",adherent="",recordnumber="",insurarreference="";
             int linecounter=1;
             for(int i=0; i<debets.size(); i++){
                 debet = (Debet)debets.get(i);
@@ -253,7 +253,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
                 if(i>0 && (displayDate || displayPatientName)){
                     table = new PdfPTable(2000);
                     table.setWidthPercentage(pageWidth);
-                    printDebet2(table,categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct,tableParent);
+                    printDebet2(table,categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct,tableParent,insurarreference);
                 	if(linecounter==36 || (linecounter-36)%40==0){
                         // display debet total
                 		table.addCell(createEmptyCell(700));
@@ -374,12 +374,19 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
                 	invoiceid="";
                 	adherent="";
                 	recordnumber="";
+                	insurarreference="";
                 }
                 if(debet.getPatientInvoiceUid()!=null && debet.getPatientInvoiceUid().indexOf(".")>=0 && invoiceid.indexOf(debet.getPatientInvoiceUid().split("\\.")[1])<0){
                 	if(invoiceid.length()>0){
                 		invoiceid+="\n";
                 	}
                 	invoiceid+=debet.getPatientInvoiceUid().split("\\.")[1];
+                	if(insurarreference.equalsIgnoreCase("")){
+	                	PatientInvoice patientInvoice = PatientInvoice.get(debet.getPatientInvoiceUid());
+	                	if(patientInvoice!=null){
+	                		insurarreference=patientInvoice.getInsurarreference();
+	                	}
+                	}
                 }
                 if(debet.getInsuranceUid()!=null){
                 	Insurance insurance = Insurance.get(debet.getInsuranceUid());
@@ -445,7 +452,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             if(debets.size()>0 && linecounter!=36 && (linecounter-36)%40!=0){
                 table = new PdfPTable(2000);
                 table.setWidthPercentage(pageWidth);
-            	printDebet2(table,categories,true,prevdate,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct,tableParent);
+            	printDebet2(table,categories,true,prevdate,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct,tableParent,insurarreference);
             	// display debet total
                 table.addCell(createEmptyCell(700));
                 cell = createLabelCell(getTran("web","pagesubtotalprice"),300);
@@ -650,7 +657,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
     }
 
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
-    private void printDebet2(PdfPTable invoiceTable, SortedMap categories, boolean displayDate, Date date, String invoiceid,String adherent,String beneficiary,double total100pct,double total85pct,String recordnumber,int linecounter,double daytotal100pct,double daytotal85pct,PdfPTable tableParent){
+    private void printDebet2(PdfPTable invoiceTable, SortedMap categories, boolean displayDate, Date date, String invoiceid,String adherent,String beneficiary,double total100pct,double total85pct,String recordnumber,int linecounter,double daytotal100pct,double daytotal85pct,PdfPTable tableParent,String insurarreference){
     	cell = createLabelCell(linecounter+"",70,7);
         cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
         cell.setVerticalAlignment(Cell.ALIGN_TOP);
@@ -669,19 +676,13 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
         cell.setBorder(Cell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
-        cell = createLabelCell(recordnumber,180,7);
+        cell = createLabelCell(insurarreference,210,7);
         cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
         cell.setVerticalAlignment(Cell.ALIGN_TOP);
         cell.setBorder(Cell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
-        cell = createLabelCell(adherent,250,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
-        cell.setPaddingRight(5);
-        invoiceTable.addCell(cell);
-        cell = createLabelCell(beneficiary,280,7);
+        cell = createLabelCell(recordnumber+" / "+adherent+" / "+beneficiary,500,7);
         cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
         cell.setVerticalAlignment(Cell.ALIGN_TOP);
         cell.setBorder(Cell.BOX);
@@ -813,24 +814,17 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
         cell.setPaddingRight(2);
         table.addCell(cell);
 
-        cell = createUnderlinedCell(getTran("web","numero_affiliation")+"\n ",1,7);
+        cell = createUnderlinedCell(getTran("web","insurarreference")+"\n ",1,7);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),180,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),210,Cell.ALIGN_LEFT,Cell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
-        cell = createUnderlinedCell(getTran("web","adherent")+"\n ",1,7);
+        cell = createUnderlinedCell(getTran("web","numero_affiliation")+" / "+getTran("web","adherent")+" / "+getTran("web","beneficiary")+"\n ",1,7);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),250,Cell.ALIGN_LEFT,Cell.NO_BORDER);
-        cell.setPaddingRight(2);
-        table.addCell(cell);
-
-        cell = createUnderlinedCell(getTran("web","beneficiary")+"\n ",1,7);
-        singleCellHeaderTable = new PdfPTable(1);
-        singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),280,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),500,Cell.ALIGN_LEFT,Cell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 

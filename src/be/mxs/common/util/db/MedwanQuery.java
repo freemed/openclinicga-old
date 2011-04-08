@@ -2894,8 +2894,6 @@ public class MedwanQuery {
         Calendar end = new GregorianCalendar();
         start.setTime(startDate);
         end.setTime(endDate);
-        out("StartDate=" + start);
-        out("EndDate=" + end);
         long millis = end.getTimeInMillis() - start.getTimeInMillis();
         long days = millis / (1000 * 60 * 60 * 24) + 1;
         out("Days=" + days);

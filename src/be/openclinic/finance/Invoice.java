@@ -1,5 +1,6 @@
 package be.openclinic.finance;
 
+import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.common.OC_Object;
 
 import java.util.Vector;
@@ -13,12 +14,21 @@ public class Invoice extends OC_Object {
     protected Vector credits;
     protected String status;
     protected double balance;
+    protected String insurarreference;
 
     protected static SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
     protected static SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     
 
-    //--- SETTERS & GETTERS -----------------------------------------------------------------------
+    public String getInsurarreference() {
+		return ScreenHelper.checkString(insurarreference);
+	}
+
+	public void setInsurarreference(String insurarreference) {
+		this.insurarreference = insurarreference;
+	}
+
+	//--- SETTERS & GETTERS -----------------------------------------------------------------------
     public String getInvoiceUid() {
         return invoiceUid;
     }

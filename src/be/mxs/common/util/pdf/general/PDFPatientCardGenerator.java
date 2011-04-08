@@ -108,6 +108,7 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
             table = new PdfPTable(4);
             table.setWidthPercentage(pageWidth);
             //Logo
+            System.out.println("URL="+url+contextPath+projectDir+"/_img/logo_patientcard.gif");
             Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_patientcard.gif"));
             image.scaleToFit(72*200/254,72);
             cell = new PdfPCell(image);

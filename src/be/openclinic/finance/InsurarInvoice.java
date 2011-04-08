@@ -521,7 +521,7 @@ public class InsurarInvoice extends Invoice {
             }
 
             if(sInvoiceDateEnd.length() > 0){
-                sSql+= " OC_INSURARINVOICE_DATE >= ? AND";
+                sSql+= " OC_INSURARINVOICE_DATE <= ? AND";
             }
 
             if(sInvoiceNr.length() > 0){

@@ -53,7 +53,7 @@ public class LabAnalysis {
 	public String getEditorparametersParameter(String parameter) {
   	  	String[] pars=editorparameters.split(";");
   	  	for(int n=0;n<pars.length;n++){
-  	  	  	if(pars[n].split(":")[0].equals(parameter)){
+  	  	  	if(pars[n].split(":").length>1 && pars[n].split(":")[0].equals(parameter)){
   	  	  	  	return pars[n].split(":")[1];
   	  	  	}
   	  	}
@@ -422,7 +422,7 @@ public class LabAnalysis {
 
         if(sSearchProfileID.equals("")){
             sQuery.append("SELECT a.unavailable,a.labID,a.labtype AS type,a.labcode AS code,OC_LABEL_VALUE AS name,");
-            sQuery.append(" a.labcodeother,'' AS comment,a.monster,a.editor,a.editorparameters");
+            sQuery.append(" a.labcodeother,'' AS comment,a.monster,a.editor,a.editorparameters,a.medidoccode");
             sQuery.append(" FROM LabAnalysis a, OC_LABELS l ");
 
             // leave out allready selected labAnalyses
@@ -449,7 +449,7 @@ public class LabAnalysis {
 
         }
         else{
-            sQuery.append("SELECT DISTINCT(a.labID),a.labtype AS type,a.labcode AS code,OC_LABEL_VALUE AS name,")
+            sQuery.append("SELECT DISTINCT(a.labID),a.unavailable,a.medidoccode,,a.editor,a.editorparameters,a.labtype AS type,a.labcode AS code,OC_LABEL_VALUE AS name,")
                   .append(" a.labcodeother,lpa.comment AS comment,a.monster")
                   .append(" FROM LabAnalysis a, OC_LABELS l, LabProfilesAnalysis lpa ");
 
