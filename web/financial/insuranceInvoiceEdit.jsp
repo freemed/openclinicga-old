@@ -440,5 +440,5 @@ function changeInsurar() {
 
 FindForm.FindInsurarInvoiceUID.focus();
 loadOpenInsurarInvoices();
-window.setTimeout("changeInsurar()",200);
+window.setTimeout("changeInsurar();",1000);
 </script>
