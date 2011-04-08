@@ -52,10 +52,8 @@
     }
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     Date startOfWeek = sdf.parse(sDay + "/" + sMonth + "/" + sYear);
-    GregorianCalendar calendar = new java.util.GregorianCalendar();
-    calendar.setTime(startOfWeek);
-    calendar.add(Calendar.DATE, 7);
-    Date endOfWeek = calendar.getTime();
+    long week=604800000;
+    Date endOfWeek = new Date(startOfWeek.getTime()+week);
     // display all registered appointments for the active User
 
     Planning appointment;
@@ -76,15 +74,11 @@
         // margin left
         appointment.setMargin(0);
 
-        GregorianCalendar g = new GregorianCalendar();
-        g.setTime(appointment.getPlannedDate());
-
-        GregorianCalendar g2 = new GregorianCalendar();
-        g2.setTime(appointment.getPlannedEndDate());
-      
+        Date plannedStart=appointment.getPlannedDate();
+        Date plannedEnd=appointment.getPlannedEndDate();
         if(sDayToShow.length()>0){
           int iDayToShow = Integer.parseInt(sDayToShow);
-            if(iDayToShow!=g.get(Calendar.DAY_OF_WEEK)){
+            if(iDayToShow!=Integer.parseInt(new SimpleDateFormat("dd").format(plannedStart))){
                 bShow = false;
             }
         }

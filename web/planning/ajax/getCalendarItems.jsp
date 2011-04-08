@@ -38,10 +38,8 @@
     }
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     Date startOfWeek = sdf.parse(sDay + "/" + sMonth + "/" + sYear);
-    GregorianCalendar calendar = new java.util.GregorianCalendar();
-    calendar.setTime(startOfWeek);
-    calendar.add(Calendar.DATE, 7);
-    Date endOfWeek = calendar.getTime();
+    long week=604800000;
+    Date endOfWeek = new Date(startOfWeek.getTime()+week);
     // display all registered appointments for the active User
     StringBuffer sHtml = new StringBuffer();
     String appointmentDate, visitDate;
@@ -64,15 +62,13 @@
 
         //If hidden appointment
         String hidden = "";
-        GregorianCalendar g = new GregorianCalendar();
-        g.setTime(appointment.getPlannedDate());
-        GregorianCalendar g2 = new GregorianCalendar();
-        g2.setTime(appointment.getPlannedEndDate());
+        Date plannedStart=appointment.getPlannedDate();
+        Date plannedEnd=appointment.getPlannedEndDate();
 
         int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sBegin))).intValue();    // Start hour of week planner
 		
-        if (g.get(Calendar.HOUR_OF_DAY) < startHourOfWeekPlanner || (g2.get(Calendar.HOUR_OF_DAY) > (Float.parseFloat(sEnd) + 1) || ((g2.get(Calendar.HOUR_OF_DAY) == (Float.parseFloat(sEnd) + 1)) && g2.get(Calendar.MINUTE) > 0))) {
-            hidden = fullDateFormat.format(g.getTime()) + " -> " + fullDateFormat.format(g2.getTime());
+        if (Integer.parseInt(new SimpleDateFormat("HH").format(plannedStart)) < startHourOfWeekPlanner || (Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) > (Float.parseFloat(sEnd) + 1) || ((Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) == (Float.parseFloat(sEnd) + 1)) && Integer.parseInt(new SimpleDateFormat("mm").format(plannedEnd)) > 0))) {
+            hidden = fullDateFormat.format(plannedStart.getTime()) + " -> " + fullDateFormat.format(plannedEnd.getTime());
         }
 
         // user names

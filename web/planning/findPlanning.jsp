@@ -138,16 +138,6 @@ var clientMsg = new ClientMsg("");
     }
   <%
     String sTab = checkString(request.getParameter("Tab"));
-    // default tab : "missed appointments" if any, otherwise "user appointments"
-    /*  if(sTab.length()==0){
-      Vector vPatientMissedPlannings = Planning.getPatientMissedPlannings(activePatient.personid);
-        if(vPatientMissedPlannings.size()>0){
-            sTab = "missedAppointments";
-        }
-        else{
-            sTab = "user";
-        //}
-    }    */
     sTab = "user";
   %>
 
