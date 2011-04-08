@@ -363,6 +363,10 @@
         window.open("<c:url value='/'/>/util/setprinter.jsp?printer=cardprinter", "Popup" + new Date().getTime(), "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveBy(-1000, -1000);
         window.open("<c:url value='/adt/createPatientCardPdf.jsp'/>?ts=<%=getTs()%>", "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
     }
+    function printCNOMCard() {
+        window.open("<c:url value='/'/>/util/setprinter.jsp?printer=cardprinter", "Popup" + new Date().getTime(), "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveBy(-1000, -1000);
+        window.open("<c:url value='/adt/createCNOMCardPdf.jsp'/>?ts=<%=getTs()%>", "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
+    }
     function printPatientLabel() {
         window.open("<c:url value='/adt/createPatientLabelPdf.jsp'/>?ts=<%=getTs()%>", "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
     }
