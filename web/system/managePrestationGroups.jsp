@@ -28,7 +28,7 @@
 			ps.close();
 		}
 	}
-	else if(request.getParameter("addprestation")!=null){
+	else if(request.getParameter("addprestation")!=null && sEditPrestationGroup.length()>0 && sEditPrestationName.length()>0){
 		String sSql="select * from oc_prestationgroups_prestations where oc_prestationgroup_groupuid=? and oc_prestationgroup_prestationuid=?";
 		PreparedStatement ps=oc_conn.prepareStatement(sSql);
 		ps.setString(1,sEditPrestationGroup);
