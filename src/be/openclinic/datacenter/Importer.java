@@ -624,6 +624,12 @@ public class Importer {
 			else {
 				rs.close();
 				ps.close();
+				ps=conn.prepareStatement("DELETE FROM DC_SIMPLEVALUES where DC_SIMPLEVALUE_SERVERID=? and DC_SIMPLEVALUE_PARAMETERID=? and DC_SIMPLEVALUE_CREATEDATETIME=?");
+				ps.setInt(1,importMessage.getServerId());
+				ps.setString(2, importMessage.getMessageId());
+				ps.setTimestamp(3,importMessage.getCreateDateTime()==null?null:new java.sql.Timestamp(importMessage.getCreateDateTime().getTime()));
+				ps.executeUpdate();
+				ps.close();
 				ps=conn.prepareStatement("INSERT INTO DC_SIMPLEVALUES(DC_SIMPLEVALUE_SERVERID,DC_SIMPLEVALUE_OBJECTID,DC_SIMPLEVALUE_PARAMETERID," +
 						"DC_SIMPLEVALUE_CREATEDATETIME,DC_SIMPLEVALUE_SENTDATETIME," +
 						"DC_SIMPLEVALUE_RECEIVEDATETIME,DC_SIMPLEVALUE_IMPORTDATETIME,DC_SIMPLEVALUE_DATA) " +

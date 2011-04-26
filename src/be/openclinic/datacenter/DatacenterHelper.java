@@ -8,31 +8,57 @@ import java.sql.PreparedStatement;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import be.mxs.common.util.db.MedwanQuery;
 
 public class DatacenterHelper {
+	static Hashtable lastvalues;
+	
+	public static Hashtable getLastvalues() {
+		return lastvalues;
+	}
+	
+	public static void setLastvalues(Hashtable lastvalues) {
+		DatacenterHelper.lastvalues = lastvalues;
+	}
+	
+	public static Hashtable getLastSimpleValues(){
+		Hashtable h = new Hashtable();
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			PreparedStatement ps = conn.prepareStatement("select * from dc_simplevalues a," +
+					" (select max(dc_simplevalue_createdatetime) maxdate,dc_simplevalue_serverid,dc_simplevalue_parameterid from dc_simplevalues group by dc_simplevalue_serverid,dc_simplevalue_parameterid) b " +
+					" where a.dc_simplevalue_createdatetime=b.maxdate and a.dc_simplevalue_serverid=b.dc_simplevalue_serverid and a.dc_simplevalue_parameterid=b.dc_simplevalue_parameterid");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				h.put(rs.getString("DC_SIMPLEVALUE_SERVERID")+"."+rs.getString("DC_SIMPLEVALUE_PARAMETERID"),rs.getString("DC_SIMPLEVALUE_DATA"));
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return h;
+	}
 	public static String getLastSimpleValue(int serverid,String parameterid){
 		String value="?";
 		Connection conn=MedwanQuery.getInstance().getStatsConnection();
 		try{
-			PreparedStatement ps = conn.prepareStatement("select max(DC_SIMPLEVALUE_CREATEDATETIME) lastcreate from DC_SIMPLEVALUES where DC_SIMPLEVALUE_SERVERID=? and DC_SIMPLEVALUE_PARAMETERID=?");
+			PreparedStatement ps = conn.prepareStatement("select DC_SIMPLEVALUE_DATA from DC_SIMPLEVALUES where DC_SIMPLEVALUE_SERVERID=? and DC_SIMPLEVALUE_PARAMETERID=? order by DC_SIMPLEVALUE_CREATEDATETIME DESC");
 			ps.setInt(1, serverid);
 			ps.setString(2, parameterid);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
-				java.sql.Timestamp lastcreate= rs.getTimestamp("lastcreate");
-				rs.close();
-				ps.close();
-				ps = conn.prepareStatement("select DC_SIMPLEVALUE_DATA from DC_SIMPLEVALUES where DC_SIMPLEVALUE_SERVERID=? and DC_SIMPLEVALUE_PARAMETERID=? and DC_SIMPLEVALUE_CREATEDATETIME=?");
-				ps.setInt(1, serverid);
-				ps.setString(2, parameterid);
-				ps.setTimestamp(3, lastcreate);
-				rs = ps.executeQuery();
-				if(rs.next()){
-					value=rs.getString("DC_SIMPLEVALUE_DATA");
-				}
+				value=rs.getString("DC_SIMPLEVALUE_DATA");
 			}
 			rs.close();
 			ps.close();
@@ -48,8 +74,23 @@ public class DatacenterHelper {
 		}
 		return value;
 	}
+	public static String getLastSimpleValue(int serverid,String parameterid,Hashtable h){
+		String value="?";
+		if(h.get(serverid+"."+parameterid)!=null){
+			value=(String)h.get(serverid+"."+parameterid);
+		}
+		return value;
+	}
 	public static String getLastSimpleValueFormatted(int serverid,String parameterid){
 		String value=getLastSimpleValue(serverid, parameterid);
+		if(value!=null && !value.equalsIgnoreCase("?")){
+			value=new java.text.DecimalFormat("#,###").format(Integer.parseInt(value));
+		}
+		return value;
+	}
+	
+	public static String getLastSimpleValueFormatted(int serverid,String parameterid,Hashtable lastvalues){
+		String value=getLastSimpleValue(serverid, parameterid,lastvalues);
 		if(value!=null && !value.equalsIgnoreCase("?")){
 			value=new java.text.DecimalFormat("#,###").format(Integer.parseInt(value));
 		}
