@@ -4,8 +4,8 @@
 
 
 <%!
-	public String registerSimpleValue(String server, String parameterId, Hashtable parameters){
-		String sVal=DatacenterHelper.getLastSimpleValue(Integer.parseInt(server),parameterId);
+	public String registerSimpleValue(String server, String parameterId, Hashtable parameters,Hashtable lastvalues){
+		String sVal=DatacenterHelper.getLastSimpleValue(Integer.parseInt(server),parameterId,lastvalues);
 		int iVal;
 		if(!sVal.equalsIgnoreCase("?")){
 			if(parameters.get(parameterId)==null){
@@ -35,6 +35,10 @@
 %>
 <%
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	//boolean showcontent=checkString(request.getParameter("servergroups")).split(",").length<=1;
+	boolean showcontent=true;
+	Hashtable lastvalues=DatacenterHelper.getLastSimpleValues();
+	DatacenterHelper.setLastvalues(lastvalues);
 	String sQuery="select * from DC_SERVERGROUPS order by DC_SERVERGROUP_ID,DC_SERVERGROUP_SERVERID";
 	if(request.getParameter("servergroups")!=null && request.getParameter("servergroups").length()>0){
 		sQuery="select * from DC_SERVERGROUPS where DC_SERVERGROUP_ID in ("+request.getParameter("servergroups")+") order by DC_SERVERGROUP_ID,DC_SERVERGROUP_SERVERID";
@@ -70,9 +74,7 @@
 			
 				parameters = new Hashtable();
 			}
-            System.out.println("count "+counter+" landlist "+getTranNoLink("datacenterservergroup",group,sWebLanguage));
             if(counter>1){
-                System.out.println("</table>");
                 out.write("</table></div></div>");
             }
             out.print("<div class='landlist'><h3>"+getTranNoLink("datacenterservergroup",group,sWebLanguage)+"</h3><div class='subcontent'><table width=\"100%\" class=\"content\" cellpadding=\"0\" cellspacing=\"0\"><tr class='header'>"
@@ -89,24 +91,27 @@
 			activeGroup=group;
 			counter=1;
 		}
-		out.print("<tr><td class='admin2' width='30%'>"+sEdit+serverDetail(server,counter+". "+getTranNoLink("datacenterserver",server,sWebLanguage)+" ("+server+")"+""));
-		java.util.Date lastdate=DatacenterHelper.getLastDate(Integer.parseInt(server));
-		String color="color='green'";
-		if(lastdate!=null && new java.util.Date().getTime()-lastdate.getTime()>MedwanQuery.getInstance().getConfigInt("datacenterServerInactiveDaysRedAlert",7)*24*3600000){
-			color="color='red'";
-		}
-		else if(lastdate!=null && new java.util.Date().getTime()-lastdate.getTime()>MedwanQuery.getInstance().getConfigInt("datacenterServerInactiveDaysOrangeAlert",2)*24*3600000){
-			color="color='orange'";
-		}
-		out.print("<td class='admin2' width='150'>"+((lastdate==null?"&nbsp;":"<font "+color+">"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(lastdate))+"</font>")+"</td>");
-		out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.1",parameters)+"</td>");
-		out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.2",parameters)+"</td>");
-		out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.4.1",parameters)+"</td>");
-		out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.4.2",parameters)+"</td>");
-		out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.6",parameters)+"</td>");
-		out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.8.1",parameters)+"</td>");
-		out.print("<td class='admin2 last' width=''>"+registerSimpleValue(server,"core.5",parameters)+"</td>");
-		out.print("</tr>");
+        if(showcontent){
+			out.print("<tr><td class='admin2' width='30%'>"+sEdit+serverDetail(server,counter+". "+getTranNoLink("datacenterserver",server,sWebLanguage)+" ("+server+")"+""));
+			java.util.Date lastdate=DatacenterHelper.getLastDate(Integer.parseInt(server));
+			String color="color='green'";
+			if(lastdate!=null && new java.util.Date().getTime()-lastdate.getTime()>MedwanQuery.getInstance().getConfigInt("datacenterServerInactiveDaysRedAlert",7)*24*3600000){
+				color="color='red'";
+			}
+			else if(lastdate!=null && new java.util.Date().getTime()-lastdate.getTime()>MedwanQuery.getInstance().getConfigInt("datacenterServerInactiveDaysOrangeAlert",2)*24*3600000){
+				color="color='orange'";
+			}
+			out.print("<td class='admin2' width='150'>"+((lastdate==null?"&nbsp;":"<font "+color+">"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(lastdate))+"</font>")+"</td>");
+			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.1",parameters,lastvalues)+"</td>");
+			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.2",parameters,lastvalues)+"</td>");
+			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.4.1",parameters,lastvalues)+"</td>");
+			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.4.2",parameters,lastvalues)+"</td>");
+			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.6",parameters,lastvalues)+"</td>");
+			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.8.1",parameters,lastvalues)+"</td>");
+			out.print("<td class='admin2 last' width=''>"+registerSimpleValue(server,"core.5",parameters,lastvalues)+"</td>");
+			out.print("</tr>");
+        }
+
 	}
 	if(activeGroup.length()>0){
 		//Show totals for the group
