@@ -68,6 +68,7 @@
         }
         userAppointments = Planning.getPatientFuturePlannings(sPatientId, ScreenHelper.formatDate(startOfWeek));
     }
+    String sActiveDate="";
     for (int i = 0; i < userAppointments.size(); i++) {
         boolean bShow = true;
         appointment = (Planning) userAppointments.get(i);
@@ -78,17 +79,25 @@
         Date plannedEnd=appointment.getPlannedEndDate();
         if(sDayToShow.length()>0){
           int iDayToShow = Integer.parseInt(sDayToShow);
-            if(iDayToShow!=Integer.parseInt(new SimpleDateFormat("dd").format(plannedStart))){
+            if(iDayToShow!=plannedStart.getDay()+1){
                 bShow = false;
             }
         }
 
         if(bShow){
-            calendarGenerator.addDateRow(appointment);
+        	if(!sActiveDate.equals(new SimpleDateFormat("dd/MM/yyyy").format(plannedStart))){
+        		sActiveDate=new SimpleDateFormat("dd/MM/yyyy").format(plannedStart);
+        		if(isPatient){
+        			calendarGenerator.addDateRow(appointment);
+        		}
+        		else {
+        			calendarGenerator.addCleanDateRow(appointment);
+        		}
+        	}
             if(isPatient){
                 calendarGenerator.addAppointmentRow(activeUser);
             }else{
-                 calendarGenerator.addAppointmentRow(appointment);
+                 calendarGenerator.addTimedAppointmentRow(appointment);
             }
         }
     }

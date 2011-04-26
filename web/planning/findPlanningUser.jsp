@@ -31,7 +31,7 @@
             <td width="80" class="admin2"  id="FindUserUID_td"><%=getTran("planning", "user", sWebLanguage)%>
             </td>
             <td class="admin2" width="150">
-                <select class="text" id="FindUserUID" name="FindUserUID" onchange="displayWeek(makeDate($('beginDate').value));">
+                <select class="text" id="FindUserUID" name="FindUserUID" onchange="displayCountedWeek(makeDate($('beginDate').value),this.options[this.selectedIndex].value);">
                     <option value="-1"><%=getTran("web.occup", "medwan.common.all.users", sWebLanguage)%></option>
                     <%Hashtable hUsers = Planning.getPlanningPermissionUsers(activeUser.userid);
                         v = new Vector(hUsers.keySet());
@@ -209,7 +209,7 @@
 
         function refreshAppointments(_date){
             if(_date)$('beginDate').value=_date;
-            displayWeek(makeDate($('beginDate').value));
+            displayCountedWeek(makeDate($('beginDate').value),$("FindUserUID").options[$("FindUserUID").selectedIndex].value);
         }
         <%-- UPDATE APPOINTMENT DATE--%>
         function updateAppointment(params) {
@@ -224,6 +224,7 @@
                             $(div).update(request.responseText);
                         }
             });
+        	updateCountedHeaderDates(dateStartOfWeek,$("FindUserUID").options[$("FindUserUID").selectedIndex].value);
         }
         <%-- OPEN APPOINTMENT --%>
         function createAppointment(params) {
@@ -267,6 +268,7 @@
                                 }
                     });
             }
+        	updateCountedHeaderDates(dateStartOfWeek,$("FindUserUID").options[$("FindUserUID").selectedIndex].value);
         }
         <%-- BACK --%>
         function doClose() {
@@ -342,6 +344,7 @@
                     }
                 });
             }
+        	updateCountedHeaderDates(dateStartOfWeek,$("FindUserUID").options[$("FindUserUID").selectedIndex].value);
         }
         function doSelectUser(sUid) {
             window.location.href="<c:url value='/main.do'/>?Page=planning/editPlanning.jsp&FindPlanningUID="+sUid+"&FindUserUID="+formFindUser.FindUserUID.value+"&FindDate="+formFindUser.FindUserDate.value+"&Tab=user&ts="+new Date().getTime();
@@ -433,6 +436,7 @@
             }else{
                setMinuteSelect('appointmentDateEndMinutes');// set all minutes
             }
+        	updateCountedHeaderDates(dateStartOfWeek,$("FindUserUID").options[$("FindUserUID").selectedIndex].value);
         }
         function setMinuteSelect(field,minM,maxM){
             var i = 0;

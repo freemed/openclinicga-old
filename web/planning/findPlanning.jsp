@@ -128,7 +128,7 @@ var clientMsg = new ClientMsg("");
         if(sTab=="user"){
             $("FindUserUID").selectedIndex=1;
             $("PatientID").value = "";
-            if(!initialize) displayWeek(makeDate($('beginDate').value));
+            if(!initialize) displayCountedWeek(makeDate($('beginDate').value),$("FindUserUID").options[$("FindUserUID").selectedIndex].value);
             $("tableHeaderTitle").update("&nbsp;&nbsp;<%=getTran("planning","useropenplanning",sWebLanguage)%>")
             togglePrintButtons(sTab);
         }else if(sTab=="managePlanning"){
