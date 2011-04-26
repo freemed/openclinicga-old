@@ -611,7 +611,7 @@ public class Planning extends OC_Object {
         try {
             sSelect = "SELECT * FROM OC_PLANNING WHERE OC_PLANNING_USERUID = ? "
                     + " AND OC_PLANNING_PLANNEDDATE >= ? AND  OC_PLANNING_PLANNEDDATE<?"
-                    + " AND OC_PLANNING_CANCELATIONDATE IS NULL ";
+                    + " AND OC_PLANNING_CANCELATIONDATE IS NULL ORDER BY OC_PLANNING_PLANNEDDATE";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1, sUserUID);
             ps.setTimestamp(2, new java.sql.Timestamp(begin.getTime()));

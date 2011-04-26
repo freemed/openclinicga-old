@@ -27,7 +27,15 @@ public class PDFCalendarGenerator extends PDFBasic {
     protected final int cellPadding = 3;
     protected String url, contextPath, projectDir;
     protected Image img;
-    //--- CONSTRUCTOR -----------------------------------------------------------------------------
+    private int counter=0;
+    
+    public int getCounter() {
+		return counter;
+	}
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+	//--- CONSTRUCTOR -----------------------------------------------------------------------------
     public PDFCalendarGenerator(User user, String sProject, String sPrintLanguage) {
         this.user = user;
         this.sProject = sProject;
@@ -129,54 +137,111 @@ public class PDFCalendarGenerator extends PDFBasic {
         }
     }
     public void addDateRow(Planning appointment) {
-    try{
-            PdfPTable t = new PdfPTable(3);
+        try{
+                PdfPTable t = new PdfPTable(3);
+                t.setWidthPercentage(pageWidth);
+
+                // DATE
+                String sDate = getTran("web", "date") + " " + stdDateFormat.format(appointment.getPlannedDate()) + " " ;
+                String sTime = timeFormat.format(appointment.getPlannedDate()) + " => "+timeFormat.format(appointment.getPlannedEndDate()) ;
+                t.addCell(createGrayCell(sDate+" "+sTime, 1,8, Font.BOLD));
+
+                t.addCell(this.createGrayCell("",1));
+                //CONTEXT
+                String sContext = "";
+                if(appointment.getContextID().length()>0){
+                    sContext += getTran("web","context")+": "+getTran("Web.Occup", appointment.getContextID());
+                }
+                t.addCell(this.createGrayCell(sContext, 1,8, Font.BOLD));
+
+                table.addCell(t);
+            } catch (Exception e) {
+                //  Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
+                e.printStackTrace();
+            }
+        }
+    public void addCleanDateRow(Planning appointment) {
+        try{
+                PdfPTable t = new PdfPTable(3);
+                t.setWidthPercentage(pageWidth);
+
+                // DATE
+                String sDate = getTran("web", "date") + " " + stdDateFormat.format(appointment.getPlannedDate()) + " " ;
+                t.addCell(createGrayCell(sDate, 1,8, Font.BOLD));
+
+                t.addCell(this.createGrayCell("",1));
+                //CONTEXT
+                String sContext = "";
+                if(appointment.getContextID().length()>0){
+                    sContext += getTran("web","context")+": "+getTran("Web.Occup", appointment.getContextID());
+                }
+                t.addCell(this.createGrayCell(sContext, 1,8, Font.BOLD));
+
+                table.addCell(t);
+            } catch (Exception e) {
+                //  Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
+                e.printStackTrace();
+            }
+        }
+    public void addAppointmentRow(Planning appointment) {
+        try {
+            PdfPTable t = new PdfPTable(60);
+            //t.setSpacingAfter(new Float(3.5));
             t.setWidthPercentage(pageWidth);
 
-            // DATE
-            String sDate = getTran("web", "date") + " " + stdDateFormat.format(appointment.getPlannedDate()) + " " ;
-            String sTime = timeFormat.format(appointment.getPlannedDate()) + " => "+timeFormat.format(appointment.getPlannedEndDate()) ;
-            t.addCell(createGrayCell(sDate+" "+sTime, 1,8, Font.BOLD));
+            t.addCell(this.createBorderlessCell(++counter+"",5));
+            String sName =  appointment.getPatient().firstname+" "+appointment.getPatient().lastname;
+            t.addCell(this.createBorderlessCell(sName,20));
 
-            t.addCell(this.createGrayCell("",1));
-            //CONTEXT
-            String sContext = "";
-            if(appointment.getContextID().length()>0){
-                sContext += getTran("web","context")+": "+getTran("Web.Occup", appointment.getContextID());
+            String sGender = appointment.getPatient().gender;
+            t.addCell(this.createBorderlessCell(sGender,5));
+
+            String sBirthdate = appointment.getPatient().dateOfBirth;
+            t.addCell(this.createBorderlessCell(sBirthdate,10));
+
+            String sPersonId = appointment.getPatient().personid;
+            t.addCell(this.createBorderlessCell("ID: "+sPersonId,10));
+
+            if(appointment.getPatient().getActivePrivate()!=null){
+                t.addCell(this.createBorderlessCell("Tel: "+appointment.getPatient().getActivePrivate().telephone,10));
             }
-            t.addCell(this.createGrayCell(sContext, 1,8, Font.BOLD));
+            else {
+            	t.addCell(createEmptyCell(10));
+            }
 
             table.addCell(t);
+           
         } catch (Exception e) {
             //  Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
             e.printStackTrace();
         }
     }
-     public void addAppointmentRow(Planning appointment) {
+    public void addTimedAppointmentRow(Planning appointment) {
         try {
-            PdfPTable t = new PdfPTable(4);
-            t.setSpacingAfter(new Float(3.5));
+            PdfPTable t = new PdfPTable(60);
+            //t.setSpacingAfter(new Float(3.5));
             t.setWidthPercentage(pageWidth);
 
-            String sName = appointment.getPatient().firstname+" "+appointment.getPatient().lastname;
-            t.addCell(this.createBorderlessCell(sName,1));
+            t.addCell(this.createBorderlessCell(++counter+"",5));
+            t.addCell(this.createBorderlessCell(new SimpleDateFormat("HH:mm").format(appointment.getPlannedDate()),5));
+            String sName =  appointment.getPatient().firstname+" "+appointment.getPatient().lastname;
+            t.addCell(this.createBorderlessCell(sName,20));
 
             String sGender = appointment.getPatient().gender;
-            t.addCell(this.createBorderlessCell(sGender,1));
+            t.addCell(this.createBorderlessCell(sGender,5));
 
             String sBirthdate = appointment.getPatient().dateOfBirth;
-            t.addCell(this.createBorderlessCell(sBirthdate,1));
+            t.addCell(this.createBorderlessCell(sBirthdate,10));
 
             String sPersonId = appointment.getPatient().personid;
+            t.addCell(this.createBorderlessCell("ID: "+sPersonId,5));
 
-            PdfPTable tPrivateData = new PdfPTable(2);
             if(appointment.getPatient().getActivePrivate()!=null){
-
-                tPrivateData.addCell(this.createBorderlessCell("ID: "+sPersonId,1));
-                tPrivateData.addCell(this.createBorderlessCell("Tel: "+appointment.getPatient().getActivePrivate().telephone,1));
+                t.addCell(this.createBorderlessCell("Tel: "+appointment.getPatient().getActivePrivate().telephone,10));
             }
-            t.addCell(createContentCell(tPrivateData));
-
+            else {
+            	t.addCell(createEmptyCell(10));
+            }
 
             table.addCell(t);
            
