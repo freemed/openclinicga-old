@@ -814,7 +814,12 @@ function initWeekScheduler()
         tmpDate = new Date(tmpDate.getFullYear(), tmpDate.getMonth(), tmpDate.getDate() - offset);
     }
     dateStartOfWeek = new Date(tmpDate);
-    updateHeaderDates(dateStartOfWeek);
+    if($("truser").style.display=="none"){
+    	updateHeaderDates(dateStartOfWeek);
+    }
+    else {
+    	updateCountedHeaderDates(dateStartOfWeek,$("FindUserUID").options[$("FindUserUID").selectedIndex].value);
+    }
     if (externalSourceFile_items) {
         getItemsFromServer();
     }
@@ -859,6 +864,15 @@ function displayWeek(date) {
     updateHeaderDates(date);
     getItemsFromServer();
 }
+function displayCountedWeek(date,userid) {
+    var offset = (date.getDay() + 6) % 7;
+    var tmpDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - offset);
+    dateStartOfWeek = new Date();
+    dateStartOfWeek.setTime(tmpDate);
+    clearAppointments();
+    updateCountedHeaderDates(date,userid);
+    getItemsFromServer();
+}
 function displayPreviousWeek()
 {
     var tmpTime = dateStartOfWeek.getTime();
@@ -878,13 +892,19 @@ function updateHeaderDates(beginweek)
     var weekScheduler_dayRow = document.getElementById('weekScheduler_dayRow');
     var subDivs = weekScheduler_dayRow.getElementsByTagName('DIV');
     var tmpDate2 = new Date(dateStartOfWeek);
+    var sDates="";
     for (var no = 0; no < subDivs.length; no++) {
         var month = tmpDate2.getMonth() / 1 + 1;
         var date = tmpDate2.getDate();
+        var year= tmpDate2.getFullYear();
         var tmpHeaderFormat = " " + headerDateFormat;
         tmpHeaderFormat = tmpHeaderFormat.replace('d', date);
         tmpHeaderFormat = tmpHeaderFormat.replace('m', month);
-        subDivs[no].getElementsByTagName('SPAN')[0].innerHTML = tmpHeaderFormat;
+        subDivs[no].getElementsByTagName('SPAN')[0].innerHTML = tmpHeaderFormat+" <span id='day_"+year+"_"+month+"_"+date+"'> </span>";
+        if(sDates.length>0){
+        	sDates+=";";
+        }
+        sDates+="day_"+year+"_"+month+"_"+date;
         dayDateArray[no] = month + '|' + date;
         var time = tmpDate2.getTime();
         time = time + (1000 * 60 * 60 * 24);
@@ -901,6 +921,53 @@ function updateHeaderDates(beginweek)
             subDivs[no].className = "";
         }
     }
+}
+function updateCountedHeaderDates(beginweek,userid)
+{
+    var weekScheduler_dayRow = document.getElementById('weekScheduler_dayRow');
+    var subDivs = weekScheduler_dayRow.getElementsByTagName('DIV');
+    var tmpDate2 = new Date(dateStartOfWeek);
+    var sDates="";
+    for (var no = 0; no < subDivs.length; no++) {
+        var month = tmpDate2.getMonth() / 1 + 1;
+        var date = tmpDate2.getDate();
+        var year= tmpDate2.getFullYear();
+        var tmpHeaderFormat = " " + headerDateFormat;
+        tmpHeaderFormat = tmpHeaderFormat.replace('d', date);
+        tmpHeaderFormat = tmpHeaderFormat.replace('m', month);
+        subDivs[no].getElementsByTagName('SPAN')[0].innerHTML = tmpHeaderFormat+" <span id='day_"+year+"_"+month+"_"+date+"'> </span>";
+        if(sDates.length>0){
+        	sDates+=";";
+        }
+        sDates+="day_"+year+"_"+month+"_"+date;
+        dayDateArray[no] = month + '|' + date;
+        var time = tmpDate2.getTime();
+        time = time + (1000 * 60 * 60 * 24);
+        tmpDate2.setTime(time);
+        var endweek = new Date();
+        endweek.setDate(beginweek.getDate() + 7);
+        var today = new Date();
+        if ((today >= beginweek && today < endweek) && (today.getDate() == tmpDate2.getDate() - 1)) {
+            subDivs[no].className = "today";
+          // alert(today+'>'+beginweek+" || "+today+" < "+endweek);
+            var div = $("weekScheduler_appointments").getElementsByClassName("weekScheduler_appointments_day")[no].addClassName("today");
+        } else {
+            var div = $("weekScheduler_appointments").getElementsByClassName("weekScheduler_appointments_day")[no].className = "weekScheduler_appointments_day";
+            subDivs[no].className = "";
+        }
+    }
+    new Ajax.Request("planning/ajax/getTotalServerItems.jsp",
+            {   parameters:"sDates="+sDates+"&userid="+userid,
+                evalScripts: true,
+                onComplete:function(request) {
+    				var totals=request.responseText.trim().split(";");
+    				for(n=0;n<totals.length;n++){
+        				if(totals[n].split("=").length==2){
+        					$(totals[n].split("=")[0]).innerHTML="("+totals[n].split("=")[1]+")";
+        				}
+    				}
+                }
+            });
 }
 var Appointment = Class.create();
 Appointment.prototype = {
