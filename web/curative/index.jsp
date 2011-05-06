@@ -8,7 +8,7 @@
             ScreenHelper.setIncludePage(customerInclude(page),pageContext);
         }
     }
-    private String getLastAccess(String patientId,String sWebLanguage){
+    private String getLastAccess(String patientId,String sWebLanguage,HttpServletRequest request){
         SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy '"+getTranNoLink("web.occup"," - ",sWebLanguage)+"' HH:mm:ss");
         List l =  AccessLog.getLastAccess(patientId,2);
         String s = "";
@@ -17,7 +17,7 @@
             Timestamp t = (Timestamp)ss[0];
             Hashtable u = User.getUserName((String)ss[1]);
             s+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ dateformat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
-            s+=" | <a href='javascript:void(0)' onclick='getAccessHistory(20)' class='link history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
+            s+=" | <a href='javascript:void(0)' onclick='getAccessHistory(20)' class='link history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a><a href='javascript:void(0)' onclick='getAdminHistory(20)' class='link adminhistory' title='"+getTranNoLink("web","adminhistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
         }
         return s;
     }
@@ -28,7 +28,7 @@
 </script>
 <%-- ADMINISTRATIVE DATA --%>
 <table width="100%" class="list">
-    <tr><td colspan="10" class="titleadmin"><div style="float:left;"><%=getTran("web","administrative.data",sWebLanguage)%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage)%></td></tr>
+    <tr><td colspan="10" class="titleadmin"><div style="float:left;"><%=getTran("web","administrative.data",sWebLanguage)%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%></td></tr>
 <%
     boolean bPicture=Picture.exists(Integer.parseInt(activePatient.personid));
     if (bPicture) {
@@ -90,8 +90,12 @@
 <div id="responseByAjax">&nbsp;</div>
 <div id="weekSchedulerFormByAjax" style="display:none;position:absolute;background:white">&nbsp;</div>
 <script>
-    var getAccessHistory = function(nb){
-        var url = "<c:url value='/curative/ajax/getHistoryAccess.jsp'/>?nb="+nb+"&ts="+new Date().getTime();
-        Modalbox.show(url, {title: '<%=getTran("web", "history", sWebLanguage)%>', width: 420,height:370},{evalScripts: true} );
+	var getAccessHistory = function(nb){
+	    var url = "<c:url value='/curative/ajax/getHistoryAccess.jsp'/>?nb="+nb+"&ts="+new Date().getTime();
+	    Modalbox.show(url, {title: '<%=getTran("web", "history", sWebLanguage)%>', width: 420,height:370},{evalScripts: true} );
+	}
+    var getAdminHistory = function(nb){
+        var url = "<c:url value='/curative/ajax/getHistoryAdmin.jsp'/>?nb="+nb+"&ts="+new Date().getTime();
+        Modalbox.show(url, {title: '<%=getTran("web", "adminhistory", sWebLanguage)%>', width: 420,height:370},{evalScripts: true} );
     }
 </script>

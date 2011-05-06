@@ -21,7 +21,7 @@
            }
 if(iNb>0 && l.size()>20){
 %>
-<div style="width:100%;text-align:right;"><a href="javascript:void(0)" onclick="Modalbox.show('<c:url value='/curative/ajax/getHistoryAccess.jsp'/>?nb=0&ts='+new Date().getTime(), {title: '<%=getTran("web", "history", sWebLanguage)%>', width: 420,height:370},{evalScripts: true} );" class="link"><%=getTranNoLink("web","expand_all",sWebLanguage)%> » </a></div>
+<div style="width:100%;text-align:right;"><a href="javascript:void(0)" onclick="Modalbox.show('<c:url value='/curative/ajax/getHistoryAccess.jsp'/>?nb=0&ts='+new Date().getTime(), {title: '<%=getTran("web", "history", sWebLanguage)%>', width: 420,height:370},{evalScripts: true} );" class="link"><%=getTranNoLink("web","expand_all",sWebLanguage)%></a></div>
 
   <%
       }
