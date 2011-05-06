@@ -7,15 +7,12 @@
     //--- GET DATE HOUR ---------------------------------------------------------------------------
     public java.util.Date getDateHour(String sDate, String sHour) {
         String sTmpHour[] = sHour.split(":");
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ScreenHelper.getSQLDate(sDate));
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sTmpHour[0]));
-        calendar.set(Calendar.MINUTE, Integer.parseInt(sTmpHour[1]));
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        return calendar.getTime();
+        java.util.Date d=null;
+        try{
+        	d=new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(sDate+" "+sHour);
+        }
+        catch(Exception e){};
+		return d;
     }
 %>
 <%
