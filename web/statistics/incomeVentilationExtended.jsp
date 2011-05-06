@@ -21,7 +21,7 @@
 		<td class='admin'><%=getTran("web","extrainsurar.amount",sWebLanguage) %></td>
 	</tr>
 <%
-	java.util.Date start = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("start"))+" 23:59");
+	java.util.Date start = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("start"))+" 00:00");
 	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	String sQuery="select oc_debet_objectid,oc_prestation_invoicegroup,(select max(oc_encounter_serviceuid) from oc_encounter_services where oc_encounter_objectid=replace(oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')) oc_encounter_serviceuid,oc_debet_amount,oc_debet_insuraramount,oc_debet_extrainsuraramount"+

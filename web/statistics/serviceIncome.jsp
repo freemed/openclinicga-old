@@ -39,20 +39,20 @@
 <table>
 <%
     if(request.getParameter("find")!=null){
-        java.util.Date begin=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("begin"));
-        java.util.Date end=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("end"));
+    	java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("begin"))+" 00:00");
+    	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
         //We zoeken alle debets op van de betreffende periode en ventileren deze per dienst
 		
-        String sQuery="select count(*) number,sum(oc_debet_amount+oc_debet_insuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount) insurarincome, serviceuid, oc_prestation_description, oc_prestation_code" +
+        String sQuery="select count(*) number,sum(oc_debet_amount+oc_debet_insuraramount+oc_debet_extrainsuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount+oc_debet_extrainsuraramount) insurarincome, serviceuid, oc_prestation_description, oc_prestation_code" +
                         " from" +
-                        " (select oc_debet_amount,oc_debet_insuraramount,oc_debet_prestationuid," +
+                        " (select oc_debet_amount,oc_debet_insuraramount,oc_debet_extrainsuraramount,oc_debet_prestationuid," +
                         "   (" +
                         "       select max(oc_encounter_serviceuid) " +
                         "       from oc_encounters_view" +
                         "       where" +
                         "       oc_encounter_objectid=replace(oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
-                        "   ) serviceuid" +
-                        "   from oc_debets where oc_debet_date between ? and ?) a, oc_prestations b" +
+                        "   ) serviceuid" +	
+                        "   from oc_debets where (oc_debet_patientinvoiceuid is not null and oc_debet_patientinvoiceuid<>'') and oc_debet_date between ? and ?) a, oc_prestations b" +
                         " where" +
                         " oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
                         " and serviceuid in ("+Service.getChildIdsAsString(service)+")"+
