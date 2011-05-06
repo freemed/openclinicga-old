@@ -485,19 +485,7 @@
                if(isPatient){
                  params+="&ispatient="+isPatient;  
                }
-              window.location.href = url+params;
-           /* var params = "&Action=print&AppointmentID=" + actualAppointmentId;
-            if(page)params+="&Page="+page;
-                var div = "responseByAjax";
-                new Ajax.Request(url,
-                {
-                    evalScripts: true,
-                    parameters:params,
-                    onComplete:
-                            function(request) {
-                                $(div).update(request.responseText);
-                            }
-                });  */
+              window.open(url+params);
         }
         resizeSheduler(containerHeight,containerWidth);
         clientMsg.setDiv("weekScheduler_messages");

@@ -87,13 +87,12 @@
             sToDisplay+="<li><span class='info'>"+getTran("Web.Occup", appointment.getContextID(), sWebLanguage)+"</li>";
         }
         sToDisplay+="</ul>";
-        
         // appointment info
         sHtml.append("\n\n<item>");
         sHtml.append("\n<id>" + appointment.getUid() + "</id>");
         sHtml.append("\n<description>" + sToDisplay + "</description>");
-        sHtml.append("\n<eventStartDate>" + appointment.getPlannedDate().toGMTString() + "</eventStartDate>");
-        sHtml.append("\n<eventEndDate>" + appointment.getPlannedEndDate().toGMTString() + "</eventEndDate>");
+        sHtml.append("\n<eventStartDate>" + new SimpleDateFormat("MMM dd, yyyy HH:mm:ss").format(appointment.getPlannedDate()) + "</eventStartDate>");
+        sHtml.append("\n<eventEndDate>" + new SimpleDateFormat("MMM dd, yyyy HH:mm:ss").format(appointment.getPlannedEndDate()) + "</eventEndDate>");
         sHtml.append("\n<marginleft>" + testItemMargin(userAppointments, appointment) + "</marginleft>");
         sHtml.append("\n<hidden>" + hidden + "</hidden>");
         sHtml.append("\n<effective>" + ((appointment.getEffectiveDate()!=null)?"1":"") + "</effective>");
