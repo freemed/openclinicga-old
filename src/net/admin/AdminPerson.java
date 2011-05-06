@@ -119,6 +119,13 @@ public class AdminPerson extends OC_Object{
         return adminPerson;
     }
 
+    //--- GET ADMIN PERSON ------------------------------------------------------------------------
+    public static AdminPerson getAdminHistoryPerson (Connection connection, String sPersonID, java.util.Date updatetime){
+        AdminPerson adminPerson = new AdminPerson();
+        adminPerson.initializeHistory(connection,sPersonID,updatetime);
+        return adminPerson;
+    }
+
     public static AdminPerson getAdminPerson (String sPersonID){
     	AdminPerson adminPerson=null;
     	try {
@@ -170,6 +177,150 @@ public class AdminPerson extends OC_Object{
                     sID = ScreenHelper.checkString(rs.getString("archiveFileCode"));
                     if((sID!=null)&&(sID.trim().length()>0)&&(!sID.trim().toLowerCase().equals("null"))) {
                         ids.add(new AdminID("archiveFileCode",sID));
+                    }
+
+                    sID = ScreenHelper.checkString(rs.getString("candidate"));
+                    if((sID!=null)&&(sID.trim().length()>0)&&(!sID.trim().toLowerCase().equals("null"))) {
+                        ids.add(new AdminID("Candidate",sID));
+                    }
+
+                    // simple attributes
+                    lastname = ScreenHelper.checkString(rs.getString("lastname"));
+                    firstname = ScreenHelper.checkString(rs.getString("firstname"));
+                    gender = ScreenHelper.checkString(rs.getString("gender"));
+                    dateOfBirth = ScreenHelper.getSQLDate(rs.getDate("dateofbirth"));
+                    comment = ScreenHelper.checkString(rs.getString("comment"));
+                    sourceid = ScreenHelper.checkString(rs.getString("sourceid"));
+                    language = ScreenHelper.checkString(rs.getString("language"));
+
+                    // correct language // todo : may be removed when in production
+                    if(language.equalsIgnoreCase("N")) language = "nl";
+                    else if(language.equalsIgnoreCase("F")) language = "fr";
+
+                    pension = ScreenHelper.getSQLDate(rs.getDate("pension"));
+                    statute = ScreenHelper.checkString(rs.getString("statute"));
+                    engagement = ScreenHelper.getSQLDate(rs.getDate("engagement"));
+                    claimant = ScreenHelper.checkString(rs.getString("claimant"));
+                    claimantExpiration =ScreenHelper.getSQLDate(rs.getDate("claimant_expiration"));
+                    nativeCountry =ScreenHelper.checkString(rs.getString("native_country"));
+                    nativeTown = ScreenHelper.checkString(rs.getString("native_town"));
+                    personType = ScreenHelper.checkString(rs.getString("person_type"));
+                    motiveEndOfService =ScreenHelper.checkString(rs.getString("motive_end_of_service"));
+                    situationEndOfService =ScreenHelper.checkString(rs.getString("situation_end_of_service"));
+                    startdateInactivity =ScreenHelper.getSQLDate(rs.getDate("startdate_inactivity"));
+                    enddateInactivity =ScreenHelper.getSQLDate(rs.getDate("enddate_inactivity"));
+                    codeInactivity =ScreenHelper.checkString(rs.getString("code_inactivity"));
+                    updateStatus = ScreenHelper.checkString(rs.getString("update_status"));
+                    updateuserid = ScreenHelper.checkString(rs.getString("updateuserid"));
+                    comment1 = ScreenHelper.checkString(rs.getString("comment1"));
+                    comment2 = ScreenHelper.checkString(rs.getString("comment2"));
+                    comment3 = ScreenHelper.checkString(rs.getString("comment3"));
+                    comment4 = ScreenHelper.checkString(rs.getString("comment4"));
+                    comment5 = ScreenHelper.checkString(rs.getString("comment5"));
+                    middlename = ScreenHelper.checkString(rs.getString("middlename"));
+                    begin =ScreenHelper.getSQLDate(rs.getDate("begindate"));
+                    end =ScreenHelper.getSQLDate(rs.getDate("enddate"));
+
+            //private
+                    AdminPrivateContact apc;
+                    sSelect = "SELECT privateid FROM PrivateView WHERE personid = ? ";
+                    rs.close();
+                    ps.close();
+                    ps = connection.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(sPersonID));
+                    rs = ps.executeQuery();
+                    while (rs.next()) {
+                        apc = new AdminPrivateContact();
+                        apc.privateid = ScreenHelper.checkString(rs.getString("privateid"));
+                        apc.initialize(connection);
+                        privateContacts.add(apc);
+                    }
+
+            //socsec
+                    sSelect = "SELECT socsecid FROM AdminSocSec WHERE personid = ? ";
+                    rs.close();
+                    ps.close();
+                    ps = connection.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(sPersonID));
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                        socsec.socsecid = ScreenHelper.checkString(rs.getString("socsecid"));
+                        socsec.initialize(connection);
+                    }
+
+            //family relation
+                    AdminFamilyRelation afr;
+                    sSelect = "SELECT relationid FROM AdminFamilyRelation"+
+                              " WHERE (sourceid = ? OR destinationid = ?)";
+                    rs.close();
+                    ps.close();
+                    ps = connection.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(sPersonID));
+                    ps.setInt(2,Integer.parseInt(sPersonID));
+                    rs = ps.executeQuery();
+                    while(rs.next()){
+                        afr = new AdminFamilyRelation();
+                        afr.relationId = ScreenHelper.checkString(rs.getString("relationid"));
+                        afr.initialize(connection);
+                        familyRelations.add(afr);
+                    }
+
+             //extends
+                    String sLabelID, sExtendValue;
+                    sSelect = " SELECT labelid, extendvalue FROM AdminExtends WHERE personid = ? AND extendtype = 'A' ";
+                    rs.close();
+                    ps.close();
+                    ps = connection.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(sPersonID));
+                    rs = ps.executeQuery();
+                    while (rs.next()) {
+                        sLabelID = ScreenHelper.checkString(rs.getString("labelid"));
+                        sExtendValue = ScreenHelper.checkString(rs.getString("extendvalue"));
+                        adminextends.put(sLabelID.toLowerCase(),sExtendValue);
+                    }
+                    bReturn = true;
+                }
+                if(rs!=null) rs.close();
+                if (ps!=null)ps.close();
+            }
+            catch(SQLException e) {
+                e.printStackTrace();
+                if(Debug.enabled) Debug.println("AdminPerson initialize error: "+e.getMessage()+" "+sSelect);
+            }
+        }
+        return bReturn;
+    }
+
+    //--- INITIALIZE ------------------------------------------------------------------------------
+    public boolean initializeHistory (Connection connection, String sPersonID, java.util.Date updatetime) {
+        boolean bReturn = false;
+        if ((sPersonID!=null)&&(sPersonID.trim().length()>0)) {
+            String sSelect = "";
+            try {
+                PreparedStatement ps;
+                String sID;
+                this.personid = sPersonID;
+
+                sSelect = " SELECT * FROM AdminHistory WHERE personid = ? and updatetime=?";
+                ps = connection.prepareStatement(sSelect);
+                ps.setInt(1,Integer.parseInt(sPersonID));
+                ps.setTimestamp(2, new java.sql.Timestamp(updatetime.getTime()));
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    // IDs
+                    sID = ScreenHelper.checkString(rs.getString("natreg"));
+                    if((sID!=null)&&(sID.trim().length()>0)&&(!sID.trim().toLowerCase().equals("null"))) {
+                        ids.add(new AdminID("NatReg",sID));
+                    }
+
+                    sID = ScreenHelper.checkString(rs.getString("immatold"));
+                    if((sID!=null)&&(sID.trim().length()>0)&&(!sID.trim().toLowerCase().equals("null"))) {
+                        ids.add(new AdminID("ImmatOld",sID));
+                    }
+
+                    sID = ScreenHelper.checkString(rs.getString("immatnew"));
+                    if((sID!=null)&&(sID.trim().length()>0)&&(!sID.trim().toLowerCase().equals("null"))) {
+                        ids.add(new AdminID("ImmatNew",sID));
                     }
 
                     sID = ScreenHelper.checkString(rs.getString("candidate"));
@@ -515,6 +666,7 @@ public class AdminPerson extends OC_Object{
                             }
                             iIndex++;
                         }
+                    	copyActiveToHistoryNoDelete(this.personid);
 
                         ps.executeUpdate();
                         if (ps!=null)ps.close();
@@ -795,6 +947,7 @@ public class AdminPerson extends OC_Object{
                             }
                             iIndex++;
                         }
+                    	copyActiveToHistoryNoDelete(this.personid);
 
                         ps.executeUpdate();
                         if (ps!=null)ps.close();
@@ -1770,7 +1923,6 @@ public class AdminPerson extends OC_Object{
         ResultSet rs = null;
 
         boolean isFound = false;
-
         String sSelect = "SELECT personid, immatold, immatnew, candidate, lastname,firstname," +
                 " gender, dateofbirth, comment, sourceid, language, engagement, pension,statute, claimant, searchname, updatetime," +
                 " claimant_expiration, native_country,native_town, motive_end_of_service, startdate_inactivity, enddate_inactivity," +
@@ -1865,6 +2017,42 @@ public class AdminPerson extends OC_Object{
             }
         }
 
+        return isFound;
+    }
+
+    public static boolean copyActiveToHistoryNoDelete(String personid){
+        PreparedStatement ps2 = null;
+
+        boolean isFound = true;
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            // insert Admin in AdminHistory (note that the columns have a different order in both tables !)
+            StringBuffer sbQuery = new StringBuffer();
+            sbQuery.append("INSERT INTO AdminHistory(personid, immatold, immatnew, candidate, lastname,")
+                   .append("  firstname, gender, dateofbirth, comment, sourceid, language, engagement, pension,")
+                   .append("  statute, claimant, searchname, updatetime, claimant_expiration, native_country,")
+                   .append("  native_town, motive_end_of_service, startdate_inactivity, enddate_inactivity,")
+                   .append("  code_inactivity, update_status, person_type, situation_end_of_service, updateuserid,")
+                   .append("  comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid) ")
+                   .append("SELECT personid, immatold, immatnew, candidate, lastname,firstname,")
+			       .append(" gender, dateofbirth, comment, sourceid, language, engagement, pension,statute, claimant, searchname, updatetime,")
+			       .append(" claimant_expiration, native_country,native_town, motive_end_of_service, startdate_inactivity, enddate_inactivity,")
+			       .append(" code_inactivity, update_status, person_type, situation_end_of_service, updateuserid,")
+			       .append(" comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid")
+			       .append(" FROM Admin WHERE personid = ?");
+            ps2 = ad_conn.prepareStatement(sbQuery.toString());
+            ps2.setInt(1,Integer.parseInt(personid));
+            ps2.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(ps2!=null)ps2.close();
+                ad_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
         return isFound;
     }
 

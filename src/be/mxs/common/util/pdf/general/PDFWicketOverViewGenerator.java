@@ -135,12 +135,20 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             for(int n=0; n<prestations.size();n++){
                 //First ventilate income based on prestation family
                 Debet prestation = (Debet)prestations.elementAt(n);
-                if(prestation.getPrestation()!=null && prestation.getPrestation().getReferenceObject()!=null && prestation.getPrestation().getReferenceObject().getObjectType()!=null && prestation.getPrestation().getReferenceObject().getObjectType().length()>0){
+                if(MedwanQuery.getInstance().getConfigString("wicketIncomeVentilation","prestationFamily").equalsIgnoreCase("prestationFamily") && prestation.getPrestation()!=null && prestation.getPrestation().getReferenceObject()!=null && prestation.getPrestation().getReferenceObject().getObjectType()!=null && prestation.getPrestation().getReferenceObject().getObjectType().length()>0){
                     if(incomeVentilation.get(prestation.getPrestation().getReferenceObject().getObjectType())==null){
                         incomeVentilation.put(prestation.getPrestation().getReferenceObject().getObjectType(),new Double(prestation.getAmount()*correctionfactor));
                     }
                     else {
                         incomeVentilation.put(prestation.getPrestation().getReferenceObject().getObjectType(),new Double(((Double)incomeVentilation.get(prestation.getPrestation().getReferenceObject().getObjectType())).doubleValue()+prestation.getAmount()*correctionfactor));
+                    }
+                }
+                else if(MedwanQuery.getInstance().getConfigString("wicketIncomeVentilation","prestationFamily").equalsIgnoreCase("prestationGroup") && prestation.getPrestation()!=null && prestation.getPrestation().getInvoiceGroup()!=null && prestation.getPrestation().getInvoiceGroup().length()>0){
+                    if(incomeVentilation.get(prestation.getPrestation().getInvoiceGroup())==null){
+                        incomeVentilation.put(prestation.getPrestation().getInvoiceGroup(),new Double(prestation.getAmount()*correctionfactor));
+                    }
+                    else {
+                        incomeVentilation.put(prestation.getPrestation().getInvoiceGroup(),new Double(((Double)incomeVentilation.get(prestation.getPrestation().getInvoiceGroup())).doubleValue()+prestation.getAmount()*correctionfactor));
                     }
                 }
                 else {

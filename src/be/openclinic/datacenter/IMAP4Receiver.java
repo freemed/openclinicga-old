@@ -66,14 +66,11 @@ public class IMAP4Receiver extends Receiver {
 		            catch(MessagingException e){
 		            	Debug.println(e.getMessage());
 		            } catch (UnsupportedEncodingException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		} catch (DocumentException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		} catch (IOException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		}
 		    	}
 		    	else if (message[i].getSubject().startsWith("datacenter.ack")){
@@ -100,14 +97,11 @@ public class IMAP4Receiver extends Receiver {
 		            catch(MessagingException e){
 		            	Debug.println(e.getMessage());
 		            } catch (UnsupportedEncodingException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		} catch (DocumentException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		} catch (IOException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		}
 		    	}
 		    	else if (message[i].getSubject().startsWith("datacenter.importack")){
@@ -136,14 +130,11 @@ public class IMAP4Receiver extends Receiver {
 		            catch(MessagingException e){
 		            	Debug.println(e.getMessage());
 		            } catch (UnsupportedEncodingException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		} catch (DocumentException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		} catch (IOException e) {
-		    			// TODO Auto-generated catch block
-		    			e.printStackTrace();
+		            	Debug.println(e.getMessage());
 		    		}
 		    	}
 		    }
