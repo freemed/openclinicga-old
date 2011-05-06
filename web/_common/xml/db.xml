@@ -1319,6 +1319,11 @@
 			<index name="OC_DEBET_OBJECTID">
 				<indexcolumn order="ASC" name="OC_DEBET_OBJECTID"/>
 			</index>
+			<index name="OC_DEBET_DATE_UID">
+				<indexcolumn order="ASC" name="OC_DEBET_DATE"/>
+				<indexcolumn order="ASC" name="OC_DEBET_UPDATEUID"/>
+				<indexcolumn order="ASC" name="OC_DEBET_PRESTATIONUID"/>
+			</index>
 			<index name="OC_DEBET_DATE">
 				<indexcolumn order="ASC" name="OC_DEBET_DATE"/>
 			</index>

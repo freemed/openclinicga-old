@@ -1791,6 +1791,10 @@ a.history {
     background: url( ../../_img/icon_history2.gif ) no-repeat 3px center;
 }
 
+a.adminhistory {
+    background: url( ../../_img/icon_admin.png) no-repeat 3px center;
+}
+
 input.search {
     background-image: url( ../../_img/icon_search.png );
     background-repeat: no-repeat;
