@@ -121,6 +121,9 @@ public class Debet extends OC_Object implements Comparable {
         this.insuranceUid = insuranceUid;
     }
     public Insurance getInsurance() {
+    	if(this.insurance==null){
+    		insurance=Insurance.get(this.insuranceUid);
+    	}
         return insurance;
     }
     public void setInsurance(Insurance insurance) {

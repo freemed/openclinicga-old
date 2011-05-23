@@ -43,13 +43,13 @@ public class ExporterMedical extends Exporter {
 					}
 				}
 			}
-			else {
+			if(!firstMonth.equalsIgnoreCase("0")){
 				try {
 					boolean bFound=false;
 					Date lastDay=new Date(new SimpleDateFormat("yyyyMMdd").parse(new SimpleDateFormat("yyyyMM").format(new Date())+"01").getTime()-1);
 					Date firstDay=new SimpleDateFormat("yyyyMMdd").parse(firstMonth+"01");
-					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000"))){
-						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
+					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005"))){
+						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005");
 					}
 					int firstYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(firstDay));
 					int lastYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(lastDay));
@@ -68,8 +68,9 @@ public class ExporterMedical extends Exporter {
 							Date end = new SimpleDateFormat("dd/MM/yyyy").parse(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
 							Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							try {
-								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total,OC_DIAGNOSIS_CODE from OC_DIAGNOSES_VIEW where OC_DIAGNOSIS_DATE>=? and OC_DIAGNOSIS_DATE<? and OC_DIAGNOSIS_CODETYPE='icd10'" +
-										" GROUP BY OC_DIAGNOSIS_CODE");
+								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, oc_diagnosis_code from oc_encounters a, oc_diagnoses_view b where a.oc_encounter_objectid=replace(b.oc_diagnosis_encounteruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and"+
+										" oc_encounter_enddate >=? and oc_encounter_enddate <? and oc_diagnosis_codetype='icd10' group by oc_diagnosis_code order by count(*) desc");
+								
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								ResultSet rs = ps.executeQuery();
@@ -135,8 +136,8 @@ public class ExporterMedical extends Exporter {
 					boolean bFound=false;
 					Date lastDay=new Date(new SimpleDateFormat("yyyyMMdd").parse(new SimpleDateFormat("yyyyMM").format(new Date())+"01").getTime()-1);
 					Date firstDay=new SimpleDateFormat("yyyyMMdd").parse(firstMonth+"01");
-					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000"))){
-						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
+					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005"))){
+						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005");
 					}
 					int firstYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(firstDay));
 					int lastYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(lastDay));
@@ -155,8 +156,8 @@ public class ExporterMedical extends Exporter {
 							Date end = new SimpleDateFormat("dd/MM/yyyy").parse(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
 							Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							try {
-								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total,OC_DIAGNOSIS_CODE from OC_DIAGNOSES_VIEW, OC_ENCOUNTERS where OC_DIAGNOSIS_DATE>=? and OC_DIAGNOSIS_DATE<? and OC_DIAGNOSIS_CODETYPE='icd10' and replace(OC_DIAGNOSIS_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')=OC_ENCOUNTER_OBJECTID and OC_ENCOUNTER_TYPE in ("+admissiontype+")" +
-										" GROUP BY OC_DIAGNOSIS_CODE");
+								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, oc_diagnosis_code from oc_encounters a, oc_diagnoses_view b where a.oc_encounter_objectid=replace(b.oc_diagnosis_encounteruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and"+
+										" oc_encounter_enddate >=? and oc_encounter_enddate <? and oc_diagnosis_codetype='icd10' and oc_encounter_type in ("+admissiontype+") group by oc_diagnosis_code order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								ResultSet rs = ps.executeQuery();
@@ -192,7 +193,7 @@ public class ExporterMedical extends Exporter {
 		else if(getParam().equalsIgnoreCase("medical.1.2")){
 			//Export a summary of all ICD-10 based KPGS codes per month
 			//First find first month for which a summary must be provided
-			String visittype=MedwanQuery.getInstance().getConfigString("datacenterAdmissionTypes","'visit'");
+			String visittype=MedwanQuery.getInstance().getConfigString("datacenterVisitTypes","'visit'");
 			StringBuffer sb = new StringBuffer("<diags>");
 			String firstMonth = MedwanQuery.getInstance().getConfigString("datacenterFirstVisitKPGSSummaryMonth","0");
 			if(firstMonth.equalsIgnoreCase("0")){
@@ -222,8 +223,8 @@ public class ExporterMedical extends Exporter {
 					boolean bFound=false;
 					Date lastDay=new Date(new SimpleDateFormat("yyyyMMdd").parse(new SimpleDateFormat("yyyyMM").format(new Date())+"01").getTime()-1);
 					Date firstDay=new SimpleDateFormat("yyyyMMdd").parse(firstMonth+"01");
-					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000"))){
-						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
+					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005"))){
+						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005");
 					}
 					int firstYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(firstDay));
 					int lastYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(lastDay));
@@ -242,8 +243,8 @@ public class ExporterMedical extends Exporter {
 							Date end = new SimpleDateFormat("dd/MM/yyyy").parse(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
 							Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							try {
-								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total,OC_DIAGNOSIS_CODE from OC_DIAGNOSES_VIEW, OC_ENCOUNTERS where OC_DIAGNOSIS_DATE>=? and OC_DIAGNOSIS_DATE<? and OC_DIAGNOSIS_CODETYPE='icd10' and replace(OC_DIAGNOSIS_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')=OC_ENCOUNTER_OBJECTID and OC_ENCOUNTER_TYPE in ("+visittype+")" +
-										" GROUP BY OC_DIAGNOSIS_CODE");
+								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, oc_diagnosis_code from oc_encounters a, oc_diagnoses_view b where a.oc_encounter_objectid=replace(b.oc_diagnosis_encounteruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and"+
+										" oc_encounter_enddate >=? and oc_encounter_enddate <? and oc_diagnosis_codetype='icd10' and oc_encounter_type in ("+visittype+") group by oc_diagnosis_code order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								ResultSet rs = ps.executeQuery();

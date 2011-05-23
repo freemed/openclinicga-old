@@ -39,7 +39,6 @@ public class POP3Receiver extends Receiver {
 		    Message message[] = folder.getMessages();
 		    for (int i=0, n=message.length; i<n; i++) {
 		    	if(message[i].getSubject().startsWith("datacenter.content")){
-		    		System.out.println("datacenter.content");
 			    	//Store the message in the oc_imports database here and delete it if successful
 		            SAXReader reader = new SAXReader(false);
 		            try{

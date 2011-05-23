@@ -2,6 +2,7 @@ package be.openclinic.finance;
 
 import net.admin.AdminPerson;
 
+import java.util.Hashtable;
 import java.util.Vector;
 import java.util.Date;
 import java.sql.Connection;
@@ -66,6 +67,53 @@ public class PatientInvoice extends Invoice {
         }
         return patient;
     }
+    
+    public Hashtable getInsurarAmounts(){
+    	Hashtable amounts= new Hashtable();
+    	Vector debets=getDebets();
+    	for(int n=0;n<debets.size();n++){
+    		Debet debet = (Debet)debets.elementAt(n);
+    		if(debet.getInsurarAmount()>0){
+    			String insurar = "?";
+    			if(debet.getInsurance()!=null && debet.getInsurance().getInsurar()!=null){
+    				insurar=debet.getInsurance().getInsurar().getName();
+    			}
+    			if(amounts.get(insurar)!=null){
+    				amounts.put(insurar, new Double(((Double)amounts.get(insurar)).doubleValue()+debet.getInsurarAmount()));
+    			}
+    			else {
+    				amounts.put(insurar, new Double(debet.getInsurarAmount()));
+    			}
+    		}
+    		if(debet.getExtraInsurarAmount()>0){
+    			String insurar = "?";
+    			String extraInsurarUid=debet.getExtraInsurarUid();
+    			Insurar extraInsurar = Insurar.get(extraInsurarUid);
+    			if(extraInsurar!=null){
+    				insurar=extraInsurar.getName();
+    			}
+    			if(amounts.get(insurar)!=null){
+    				amounts.put(insurar, ((Double)amounts.get(insurar)).doubleValue()+debet.getExtraInsurarAmount());
+    			}
+    			else {
+    				amounts.put(insurar, debet.getExtraInsurarAmount());
+    			}
+    		}
+    	}
+    	return amounts;
+    }
+
+    public double getPatientAmount(){
+    	double amount=0;
+    	Vector debets=getDebets();
+    	if(debets!=null){
+	    	for(int n=0;n<debets.size();n++){
+	    		Debet debet = (Debet)debets.elementAt(n);
+	    		amount+=debet.getAmount();
+	    	}
+    	}
+    	return amount;
+    }
 
     public double getBalance(){
         double b=0;
@@ -106,7 +154,7 @@ public class PatientInvoice extends Invoice {
 
                     if(rs.next()){
                         patientInvoice.setUid(uid);
-                        patientInvoice.setDate(rs.getTimestamp("OC_PATIENTINVOICE_DATE"));
+                        patientInvoice.setDate(rs.getDate("OC_PATIENTINVOICE_DATE"));
                         patientInvoice.setInvoiceUid(rs.getInt("OC_PATIENTINVOICE_ID")+"");
                         patientInvoice.setPatientUid(rs.getString("OC_PATIENTINVOICE_PATIENTUID"));
                         patientInvoice.setCreateDateTime(rs.getTimestamp("OC_PATIENTINVOICE_CREATETIME"));
@@ -157,7 +205,7 @@ public class PatientInvoice extends Invoice {
             rs = ps.executeQuery();
             if(rs.next()){
                 patientInvoice.setUid(rs.getInt("OC_PATIENTINVOICE_SERVERID")+"."+rs.getInt("OC_PATIENTINVOICE_OBJECTID"));
-                patientInvoice.setDate(rs.getTimestamp("OC_PATIENTINVOICE_DATE"));
+                patientInvoice.setDate(rs.getDate("OC_PATIENTINVOICE_DATE"));
                 patientInvoice.setInvoiceUid(rs.getInt("OC_PATIENTINVOICE_ID")+"");
                 patientInvoice.setPatientUid(rs.getString("OC_PATIENTINVOICE_PATIENTUID"));
                 patientInvoice.setCreateDateTime(rs.getTimestamp("OC_PATIENTINVOICE_CREATETIME"));
@@ -277,7 +325,7 @@ public class PatientInvoice extends Invoice {
                 }
                 ps.setInt(1,Integer.parseInt(ids[0]));
                 ps.setInt(2,Integer.parseInt(ids[1]));
-                ps.setTimestamp(3,new Timestamp(this.getDate().getTime()));
+                ps.setDate(3,new java.sql.Date(this.getDate().getTime()));
                 ps.setInt(4,Integer.parseInt(this.getInvoiceUid()));
                 ps.setString(5,this.getPatientUid());
                 ps.setTimestamp(6,new Timestamp(this.getCreateDateTime().getTime()));
@@ -438,7 +486,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice = new PatientInvoice();
 
                 patientInvoice.setUid(rs.getInt("OC_PATIENTINVOICE_SERVERID")+"."+rs.getInt("OC_PATIENTINVOICE_OBJECTID"));
-                patientInvoice.setDate(rs.getTimestamp("OC_PATIENTINVOICE_DATE"));
+                patientInvoice.setDate(rs.getDate("OC_PATIENTINVOICE_DATE"));
                 patientInvoice.setInvoiceUid(rs.getInt("OC_PATIENTINVOICE_ID")+"");
                 patientInvoice.setPatientUid(rs.getString("OC_PATIENTINVOICE_PATIENTUID"));
                 patientInvoice.setCreateDateTime(rs.getTimestamp("OC_PATIENTINVOICE_CREATETIME"));
@@ -558,6 +606,71 @@ public class PatientInvoice extends Invoice {
         return invoices;
     }
 
+    public static Vector searchInvoicesByStatusAndBalance(String sInvoiceDateBegin, String sInvoiceDateEnd, String sInvoiceStatus, String sInvoiceBalanceMin){
+        Vector invoices = new Vector();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            // compose query
+            String sSql = "SELECT * FROM OC_PATIENTINVOICES WHERE";
+
+            if(sInvoiceDateBegin.length() > 0){
+                sSql+= " OC_PATIENTINVOICE_DATE >= ? AND";
+            }
+
+            if(sInvoiceDateEnd.length() > 0){
+                sSql+= " OC_PATIENTINVOICE_DATE <= ? AND";
+            }
+
+            if(sInvoiceStatus.length() > 0){
+                sSql+= " OC_PATIENTINVOICE_STATUS = ? AND";
+            }
+
+            // balance range
+            if(sInvoiceBalanceMin.length() > 0){
+                sSql+= " OC_PATIENTINVOICE_BALANCE >= ? AND";
+            }
+            // remove last AND
+            if(sSql.endsWith("AND")){
+                sSql = sSql.substring(0,sSql.length()-3);
+            }
+
+            sSql+= " ORDER BY OC_PATIENTINVOICE_UPDATEUID,OC_PATIENTINVOICE_DATE";
+
+            ps = oc_conn.prepareStatement(sSql);
+
+            // set question marks
+            int qmIdx = 1;
+            if(sInvoiceDateBegin.length() > 0) ps.setDate(qmIdx++,ScreenHelper.getSQLDate(sInvoiceDateBegin));
+            if(sInvoiceDateEnd.length() > 0) ps.setDate(qmIdx++,ScreenHelper.getSQLDate(sInvoiceDateEnd));
+            if(sInvoiceStatus.length() > 0) ps.setString(qmIdx++,sInvoiceStatus);
+            if(sInvoiceBalanceMin.length() > 0) ps.setDouble(qmIdx++,Double.parseDouble(sInvoiceBalanceMin));
+
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                invoices.add(PatientInvoice.get(rs.getInt("OC_PATIENTINVOICE_SERVERID")+"."+rs.getInt("OC_PATIENTINVOICE_OBJECTID")));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return invoices;
+    }
+
     //--- GET TOTAL BALANCE FOR PATIENT -----------------------------------------------------------
     public static double getTotalBalanceForPatient(String sInvoicePatientUid){
         return getTotalBalanceForPatient(sInvoicePatientUid,"","","");
@@ -650,7 +763,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice = new PatientInvoice();
 
                 patientInvoice.setUid(rs.getInt("OC_PATIENTINVOICE_SERVERID")+"."+rs.getInt("OC_PATIENTINVOICE_OBJECTID"));
-                patientInvoice.setDate(rs.getTimestamp("OC_PATIENTINVOICE_DATE"));
+                patientInvoice.setDate(rs.getDate("OC_PATIENTINVOICE_DATE"));
                 patientInvoice.setInvoiceUid(rs.getInt("OC_PATIENTINVOICE_ID")+"");
                 patientInvoice.setPatientUid(rs.getString("OC_PATIENTINVOICE_PATIENTUID"));
                 patientInvoice.setCreateDateTime(rs.getTimestamp("OC_PATIENTINVOICE_CREATETIME"));

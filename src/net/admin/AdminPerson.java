@@ -125,6 +125,10 @@ public class AdminPerson extends OC_Object{
         adminPerson.initializeHistory(connection,sPersonID,updatetime);
         return adminPerson;
     }
+    
+    public String getFullName(){
+    	return lastname.toUpperCase()+", "+firstname;
+    }
 
     public static AdminPerson getAdminPerson (String sPersonID){
     	AdminPerson adminPerson=null;

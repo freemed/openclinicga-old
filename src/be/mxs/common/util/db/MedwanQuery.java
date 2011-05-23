@@ -3058,12 +3058,21 @@ public class MedwanQuery {
             if (rs.next() && (rs.getString("archiveFileCode") == null || rs.getString("archiveFileCode").length() == 0)) {
                 rs.close();
                 ps.close();
-                ps = ad_conn.prepareStatement("update Admin set archiveFileCode=? where personid=? and not exists (select personid from Admin where archiveFileCode=?)");
+                ps = ad_conn.prepareStatement("select personid from Admin where archiveFileCode=?");
                 String sArchiveID = ScreenHelper.convertToAlfabeticalCode("" + MedwanQuery.getInstance().getOpenclinicCounter("ArchiveFileID"));
                 ps.setString(1, sArchiveID);
-                ps.setInt(2, personid);
-                ps.setString(3, sArchiveID);
-                ps.execute();
+                rs=ps.executeQuery();
+                if(!rs.next()){
+                	rs.close();
+                	ps.close();
+	                ps = ad_conn.prepareStatement("update Admin set archiveFileCode=? where personid=?");
+	                ps.setString(1, sArchiveID);
+	                ps.setInt(2, personid);
+	                ps.execute();
+                }
+                else {
+                	rs.close();
+                }
                 ps.close();
                 objectCache.removeObject("person", personid+"");
                 ad_conn.close();

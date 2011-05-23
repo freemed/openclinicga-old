@@ -305,12 +305,13 @@ public class Importer {
 				while(diagnoses.hasNext()){
 					Element diagnosis = (Element)diagnoses.next();
 					//First clear a possible existing value
-					ps = conn.prepareStatement("delete from DC_ENCOUNTERDIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE=? and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR=? and DC_DIAGNOSISVALUE_MONTH=?");
+					ps = conn.prepareStatement("delete from DC_ENCOUNTERDIAGNOSISVALUES where DC_DIAGNOSISVALUE_SERVERID=? and DC_DIAGNOSISVALUE_CODETYPE=? and DC_DIAGNOSISVALUE_CODE=? and DC_DIAGNOSISVALUE_YEAR=? and DC_DIAGNOSISVALUE_MONTH=? and DC_DIAGNOSISVALUE_ENCOUNTERTYPE=?");
 					ps.setInt(1, importMessage.getServerId());
 					ps.setString(2, "KPGS");
 					ps.setString(3, diagnosis.attributeValue("code"));
 					ps.setInt(4,Integer.parseInt(diagnosis.attributeValue("year")));
 					ps.setInt(5,Integer.parseInt(diagnosis.attributeValue("month")));
+					ps.setString(6, type);
 					ps.execute();
 					ps.close();
 					ps = conn.prepareStatement("insert into DC_ENCOUNTERDIAGNOSISVALUES(DC_DIAGNOSISVALUE_SERVERID,DC_DIAGNOSISVALUE_OBJECTID,DC_DIAGNOSISVALUE_CODETYPE,DC_DIAGNOSISVALUE_CODE,DC_DIAGNOSISVALUE_YEAR,DC_DIAGNOSISVALUE_MONTH,DC_DIAGNOSISVALUE_COUNT,DC_DIAGNOSISVALUE_ENCOUNTERTYPE) values(?,?,?,?,?,?,?,?)");
@@ -396,7 +397,6 @@ public class Importer {
 					catch (Exception e) {
 						// TODO: handle exception
 						e.printStackTrace();
-						System.out.println(activity.asXML());
 					}
 				}
 				bSuccess=true;

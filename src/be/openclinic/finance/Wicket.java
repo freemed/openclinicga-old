@@ -838,7 +838,7 @@ public class Wicket extends OC_Object{
     }
 
     public static Vector getCredits(String sWicketUid, String sDateFrom, String sDateTo){
-        return getCredits(sWicketUid,sDateFrom,sDateTo,"","");
+        return getCredits(sWicketUid,sDateFrom,sDateTo,"OC_WICKET_CREDIT_UPDATETIME","ASC");
     }
 
     public static Vector getCredits(String sWicketUid, String sDateFrom, String sDateTo, String sSortCol, String sSortDirection){

@@ -76,8 +76,8 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             printWicket(wicket,sWicketFromDate,sWicketToDate);
         }
 		catch(Exception e){
-			baosPDF.reset();
 			e.printStackTrace();
+			baosPDF.reset();
 		}
 		finally{
 			if(doc!=null) doc.close();
@@ -265,26 +265,26 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
 
             int cellPadding = 4;
 
-            PdfPTable table = new PdfPTable(15);
+            PdfPTable table = new PdfPTable(150);
             table.setWidthPercentage(pageWidth);
 
             // debets
-            table.addCell(createGrayCell(getTran("web.financial","out").toUpperCase(),15));
+            table.addCell(createGrayCell(getTran("web.financial","out").toUpperCase(),150));
             getDebets(wicket,sWicketFromDate,sWicketToDate,table);
-            table.addCell(createEmptyCell(15));
+            table.addCell(createEmptyCell(150));
 
             // credits
-            table.addCell(createGrayCell(getTran("web.financial","in").toUpperCase(),15));
+            table.addCell(createGrayCell(getTran("web.financial","in").toUpperCase(),150));
             getCredits(wicket,sWicketFromDate,sWicketToDate,table);
-            table.addCell(createEmptyCell(15));
+            table.addCell(createEmptyCell(150));
 
             // wicket situation (saldo and end-situation)
-            table.addCell(createGrayCell(getTran("Web.financial","wicketSituation").toUpperCase(),15));
+            table.addCell(createGrayCell(getTran("Web.financial","wicketSituation").toUpperCase(),150));
             getSaldo(wicket,sWicketFromDate,sWicketToDate,table);
-            table.addCell(createEmptyCell(15));
+            table.addCell(createEmptyCell(150));
 
             // "printed by" info
-            table.addCell(createCell(new PdfPCell(getPrintedByInfo()),15,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(getPrintedByInfo()),150,Cell.ALIGN_LEFT,Cell.NO_BORDER));
 
             doc.add(table);
         }
@@ -319,31 +319,31 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             double total = 0;
 
             // header
-            table.addCell(createUnderlinedCell(getTran("web","date"),2));
-            cell = createUnderlinedCell(getTran("wicket","amount"),2);
+            table.addCell(createUnderlinedCell(getTran("web","date"),20));
+            cell = createUnderlinedCell(getTran("wicket","amount"),20);
             cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
             table.addCell(cell);
-            table.addCell(createUnderlinedCell(getTran("wicket","type"),3));
-            table.addCell(createUnderlinedCell(getTran("wicket","user"),3));
-            table.addCell(createUnderlinedCell(getTran("wicket","comment"),5));
+            table.addCell(createUnderlinedCell(getTran("wicket","type"),30));
+            table.addCell(createUnderlinedCell(getTran("wicket","user"),30));
+            table.addCell(createUnderlinedCell(getTran("wicket","comment"),50));
 
             for(int i=0; i<vDebets.size(); i++){
                 total+= printDebet(table,(WicketDebet)vDebets.get(i));
             }
 
             // spacer
-            table.addCell(createEmptyCell(15));
+            table.addCell(createEmptyCell(150));
 
             // display debet total
-            table.addCell(createLabelCell(getTran("web","total"),2));
-            table.addCell(createTotalPriceCell(total,2));
-            table.addCell(createEmptyCell(11));
+            table.addCell(createLabelCell(getTran("web","total"),20));
+            table.addCell(createTotalPriceCell(total,20));
+            table.addCell(createEmptyCell(110));
 
             this.debetTotal = total;
         }
         else{
             // no data available
-            table.addCell(createValueCell(getTran("web","noDataAvailable"),15));
+            table.addCell(createValueCell(getTran("web","noDataAvailable"),150));
         }
 
         return table;
@@ -353,52 +353,58 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     private PdfPTable getCredits(Wicket wicket, String sWicketFromDate, String sWicketToDate,PdfPTable table){
 
         // get credits for specified wicket
-        Vector vCredits = Wicket.getCredits(wicket.getUid(),sWicketFromDate,sWicketToDate,"OC_WICKET_CREDIT_OPERATIONDATE","DESC");
+        Vector vCredits = Wicket.getCredits(wicket.getUid(),sWicketFromDate,sWicketToDate,"OC_WICKET_CREDIT_UPDATETIME","ASC");
         if(vCredits.size() > 0){
             double total = 0;
 
             // header
-            table.addCell(createUnderlinedCell(getTran("web","date"),2));
-            cell = createUnderlinedCell(getTran("wicket","amount"),2);
+            table.addCell(createUnderlinedCell("#",5));
+            table.addCell(createUnderlinedCell(getTran("web","date"),15));
+            cell = createUnderlinedCell(getTran("wicket","amount"),20);
             cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
             table.addCell(cell);
-            table.addCell(createUnderlinedCell(getTran("wicket","type"),3));
-            table.addCell(createUnderlinedCell(getTran("wicket","user"),3));
-            table.addCell(createUnderlinedCell(getTran("wicket","comment"),5));
+            table.addCell(createUnderlinedCell(getTran("wicket","type"),25));
+            table.addCell(createUnderlinedCell(getTran("wicket","insurers"),45));
+            table.addCell(createUnderlinedCell(getTran("wicket","comment"),40));
 
             Hashtable ventilatedIncome = new Hashtable();
             Hashtable ventilatedIncomePerService = new Hashtable();
+            double totalinsurars=0;
             for(int i=0; i<vCredits.size(); i++){
                 WicketCredit credit = (WicketCredit)vCredits.get(i);
-                total+= printCredit(table,credit);
+                double[] amounts= printCredit(table,credit,i+1);
+                total+= amounts[0];
+                totalinsurars+= amounts[1];
                 ventilateIncome(ventilatedIncome,ventilatedIncomePerService,credit);
             }
 
             // spacer
-            table.addCell(createEmptyCell(15));
+            table.addCell(createEmptyCell(150));
 
             // display credit total
-            table.addCell(createLabelCell(getTran("web","total"),2));
-            table.addCell(createTotalPriceCell(total,2));
-            table.addCell(createEmptyCell(11));
+            table.addCell(createLabelCell(getTran("web","total"),20));
+            table.addCell(createTotalPriceCell(total,20));
+            table.addCell(createEmptyCell(25));
+            table.addCell(createTotalPriceCell(totalinsurars,45));
+            table.addCell(createEmptyCell(40));
 
-            table.addCell(createEmptyCell(15));
-            table.addCell(createBoldLabelCell(getTran("web","credit.ventilation"),15));
+            table.addCell(createEmptyCell(150));
+            table.addCell(createBoldLabelCell(getTran("web","credit.ventilation"),150));
             Enumeration incomes = ventilatedIncome.keys();
             while(incomes.hasMoreElements()){
                 String category = (String)incomes.nextElement();
-                table.addCell(createLabelCell(category,1));
-                cell=createPriceCell(((Double)ventilatedIncome.get(category)).doubleValue(),2);
+                table.addCell(createLabelCell(category,10));
+                cell=createPriceCell(((Double)ventilatedIncome.get(category)).doubleValue(),20);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
             }
-            table.addCell(createEmptyCell(5-(ventilatedIncome.size() % 5)));
-            table.addCell(createEmptyCell(15));
+            table.addCell(createEmptyCell(10*(5-(ventilatedIncome.size() % 5))));
+            table.addCell(createEmptyCell(150));
 
             this.creditTotal = total;
 
-            table.addCell(createEmptyCell(15));
-            table.addCell(createBoldLabelCell(getTran("web","credit.ventilation.perservice"),15));
+            table.addCell(createEmptyCell(150));
+            table.addCell(createBoldLabelCell(getTran("web","credit.ventilation.perservice"),150));
             incomes = ventilatedIncomePerService.keys();
             Vector i = new Vector();
             while(incomes.hasMoreElements()){
@@ -407,17 +413,17 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             Collections.sort(i);
             for(int n=0;n<i.size();n++){
                 String category = (String)i.elementAt(n);
-                table.addCell(createLabelCell(category,3));
-                table.addCell(createLabelCell(MedwanQuery.getInstance().getLabel("service",category,sPrintLanguage),7));
-                cell=createPriceCell(((Double)ventilatedIncomePerService.get(category)).doubleValue(),3);
+                table.addCell(createLabelCell(category,30));
+                table.addCell(createLabelCell(MedwanQuery.getInstance().getLabel("service",category,sPrintLanguage),70));
+                cell=createPriceCell(((Double)ventilatedIncomePerService.get(category)).doubleValue(),30);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
-                table.addCell(createLabelCell(new DecimalFormat("#").format(Math.round(((Double)ventilatedIncomePerService.get(category)).doubleValue()*100/creditTotal))+"%",3));
+                table.addCell(createLabelCell(new DecimalFormat("#").format(Math.round(((Double)ventilatedIncomePerService.get(category)).doubleValue()*100/creditTotal))+"%",30));
             }
         }
         else{
             // no data available
-            table.addCell(createValueCell(getTran("web","noDataAvailable"),15));
+            table.addCell(createValueCell(getTran("web","noDataAvailable"),150));
         }
 
         return table;
@@ -444,51 +450,67 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         }
 
         // row
-        wicketTable.addCell(createValueCell(sDebetDate,2));
-        wicketTable.addCell(createPriceCell(debetAmount,2));
-        wicketTable.addCell(createValueCell(sDebetType,3));
-        wicketTable.addCell(createValueCell(sDebetUser,3));
-        wicketTable.addCell(createValueCell(sDebetComment,5));
+        wicketTable.addCell(createValueCell(sDebetDate,20));
+        wicketTable.addCell(createPriceCell(debetAmount,20));
+        wicketTable.addCell(createValueCell(sDebetType,30));
+        wicketTable.addCell(createValueCell(sDebetUser,30));
+        wicketTable.addCell(createValueCell(sDebetComment,50));
 
         return debetAmount;
     }
 
     //--- PRINT CREDIT (payment) ------------------------------------------------------------------
-    private double printCredit(PdfPTable wicketTable, WicketCredit credit){
-        String sCreditDate = fullDateFormat.format(credit.getOperationDate());
+    private double[] printCredit(PdfPTable wicketTable, WicketCredit credit,int counter){
+    	double ti=0;
+        String sCreditDate = stdDateFormat.format(credit.getOperationDate());
         double CreditAmount = credit.getAmount();
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         String sCreditType = ScreenHelper.getTranNoLink("credit.type",credit.getOperationType(),sPrintLanguage),
-               sCreditUser = ScreenHelper.getFullUserName(credit.getUpdateUser(),ad_conn);
-        try {
-			ad_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+               sCreditUser = "";
         // comment
         String sCreditComment = "";
         if(credit.getComment()!=null){
             sCreditComment = credit.getComment().toString();
+            if(sCreditComment.split(" - ").length>1){
+            	String sInvoiceUid = "1."+ScreenHelper.checkString(sCreditComment.split(" - ")[sCreditComment.split(" - ").length-1]).trim();
+            	PatientInvoice patientInvoice = PatientInvoice.get(sInvoiceUid);
+            	if(patientInvoice!=null){
+            		Hashtable insurarAmounts = patientInvoice.getInsurarAmounts();
+            		Enumeration e = insurarAmounts.keys();
+            		while(e.hasMoreElements()){
+            			String ins = (String)e.nextElement();
+	            		if(sCreditUser.length()>0){
+	            			sCreditUser+="\n";
+	            		}
+	            		sCreditUser+=ins+": "+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormatInsurar","#")).format(insurarAmounts.get(ins));
+	            		ti+=(Double)insurarAmounts.get(ins);
+            		}
+            		if(sCreditUser.length()==0){
+            			sCreditUser="-";
+            		}
+            	}
+            }
         }
 
         // row
-        wicketTable.addCell(createValueCell(sCreditDate,2));
-        wicketTable.addCell(createPriceCell(CreditAmount,2));
-        wicketTable.addCell(createValueCell(sCreditType,3));
-        wicketTable.addCell(createValueCell(sCreditUser,3));
-        wicketTable.addCell(createValueCell(sCreditComment,5));
-
-        return CreditAmount;
+        wicketTable.addCell(createValueCell(counter+"",5));
+        wicketTable.addCell(createValueCell(sCreditDate,15));
+        wicketTable.addCell(createPriceCell(CreditAmount,20));
+        wicketTable.addCell(createMiniValueCell(sCreditType,25));
+        wicketTable.addCell(createMiniValueCell(sCreditUser,45));
+        wicketTable.addCell(createMiniValueCell(sCreditComment,40));
+        double[] amounts =new double[2];
+        amounts[0]=CreditAmount;
+        amounts[1]=ti;
+        return amounts;
     }
 
     //--- GET SALDO -------------------------------------------------------------------------------
     private PdfPTable getSaldo(Wicket wicket, String sFromDate, String sToDate,PdfPTable table){
         //*** ROW 1 ***
         // debets
-        table.addCell(createLabelCell(getTran("web.financial","out"),2));
-        table.addCell(createPriceCell(this.debetTotal,2,(this.debetTotal>0?"-":"")));
-        table.addCell(createEmptyCell(2));
+        table.addCell(createLabelCell(getTran("web.financial","out"),20));
+        table.addCell(createPriceCell(this.debetTotal,20,(this.debetTotal>0?"-":"")));
+        table.addCell(createEmptyCell(20));
 
         // begin situation
         double beginBalance = 0;
@@ -497,30 +519,30 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        table.addCell(createLabelCell(getTran("web.financial","beginSituation"),2));
-        table.addCell(createPriceCell(beginBalance,2));
-        table.addCell(createEmptyCell(5));
+        table.addCell(createLabelCell(getTran("web.financial","beginSituation"),20));
+        table.addCell(createPriceCell(beginBalance,20));
+        table.addCell(createEmptyCell(50));
 
         //*** ROW 2 ***
         // credits
-        table.addCell(createLabelCell(getTran("web.financial","in"),2));
-        table.addCell(createPriceCell(this.creditTotal,2,(this.creditTotal>0?"+":"")));
-        table.addCell(createEmptyCell(2));
+        table.addCell(createLabelCell(getTran("web.financial","in"),20));
+        table.addCell(createPriceCell(this.creditTotal,20,(this.creditTotal>0?"+":"")));
+        table.addCell(createEmptyCell(20));
 
         // saldo
         double saldo = -this.debetTotal + this.creditTotal;
-        table.addCell(createLabelCell(getTran("web.financial","saldo"),2));
-        table.addCell(createPriceCell(saldo,2,(saldo>0?"+":"")));
-        table.addCell(createEmptyCell(5));
+        table.addCell(createLabelCell(getTran("web.financial","saldo"),20));
+        table.addCell(createPriceCell(saldo,20,(saldo>0?"+":"")));
+        table.addCell(createEmptyCell(50));
 
         // spacer
-        table.addCell(createEmptyCell(3,15));
+        table.addCell(createEmptyCell(3,150));
 
         //*** ROW 3 (totals) ***
         // saldo
-        table.addCell(createBoldLabelCell(getTran("web.financial","saldo").toUpperCase(),2));
-        table.addCell(createTotalPriceCell(saldo,2));
-        table.addCell(createEmptyCell(2));
+        table.addCell(createBoldLabelCell(getTran("web.financial","saldo").toUpperCase(),20));
+        table.addCell(createTotalPriceCell(saldo,20));
+        table.addCell(createEmptyCell(20));
 
         // end situation (balance)
         double endBalance=0;
@@ -532,9 +554,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        table.addCell(createBoldLabelCell(getTran("web.financial","endSituation").toUpperCase(),2));
-        table.addCell(createTotalPriceCell(endBalance,2));
-        table.addCell(createEmptyCell(5));
+        table.addCell(createBoldLabelCell(getTran("web.financial","endSituation").toUpperCase(),20));
+        table.addCell(createTotalPriceCell(endBalance,20));
+        table.addCell(createEmptyCell(50));
 
         return table;
     }
@@ -604,6 +626,16 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     //--- CREATE VALUE CELL -----------------------------------------------------------------------
     protected PdfPCell createValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createMiniValueCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(Cell.NO_BORDER);
         cell.setVerticalAlignment(Cell.ALIGN_TOP);
