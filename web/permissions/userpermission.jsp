@@ -98,6 +98,7 @@
     Iterator iter = vUsers.iterator();
 
     User user;
+    String sss=null;;
     while (iter.hasNext()) {
         user = (User) iter.next();
 
@@ -241,15 +242,11 @@
 
             sProfiles += "<option value='" + sTmpProfileID + "'";
             if (sMyProfile.equals(sTmpProfileID)) {
-                sProfiles += " selected";
+                sProfiles += " selected style='background-color:" + sBackgroundColor + "' ";
             }
 
-            if (thisUser.getParameter("userprofileid").equals(sTmpProfileID)) {
+            if (sMyProfile.equals(sTmpProfileID)) {
                 sMyProfileDescription = "(" + sTmpProfileName + ")";
-            }
-
-            if (sMyProfile.toLowerCase().indexOf(sTmpProfileID.toLowerCase()) > -1) {
-                sProfiles += " style='background-color:" + sBackgroundColor + "' ";
             }
 
             sProfiles += ">" + sTmpProfileName + "</option>";
@@ -278,7 +275,7 @@
                 sTmpProject = (String) it.next();
                 sProjects += "<option value='" + sTmpProject + "'";
 
-                if (sTmpProject.toLowerCase().equals(sSearchProject.toLowerCase())) {
+                if (sTmpProject.equalsIgnoreCase(sSearchProject)) {
                     sProjects += " selected";
                 }
 

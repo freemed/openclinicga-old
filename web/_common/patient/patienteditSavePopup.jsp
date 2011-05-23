@@ -27,16 +27,7 @@
                 sImmatNew = checkString(request.getParameter("ImmatNew")).toUpperCase(),
                 sNatReg = checkString(request.getParameter("NatReg")).toUpperCase();
 
-        /*
-        // DEBUG //////////////////////////////////////////////
-        System.out.println(" * sPersonID    = "+sPersonID);
-        System.out.println(" * sName        = "+sName);
-        System.out.println(" * sFirstname   = "+sFirstname);
-        System.out.println(" * sDateOfBirth = "+sDateOfBirth);
-        System.out.println(" * sImmatNew    = "+sImmatNew);
-        System.out.println(" * sNatReg      = "+sNatReg);
-        ///////////////////////////////////////////////////////
-        */
+
 
         //--- CHECK ON DOUBLES --------------------------------------------------------------------
         if (activePatient.sourceid.equals(sServiceSourceID)) {

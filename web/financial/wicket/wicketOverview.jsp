@@ -63,7 +63,7 @@
         WicketDebet debet;
         for(int i=0; i<vDebets.size(); i++) {
             debet = (WicketDebet)vDebets.elementAt(i);
-            hDebets.put(fullDateFormat.format(debet.getCreateDateTime())+"."+debet.getUid(),debet);
+            hDebets.put(fullDateFormat.format(debet.getUpdateDateTime())+"."+debet.getUid(),debet);
         }
 
         // get credits for specified wicket
@@ -71,7 +71,7 @@
         WicketCredit credit;
         for(int i=0; i<vCredits.size(); i++){
             credit = (WicketCredit)vCredits.elementAt(i);
-            hCredits.put(fullDateFormat.format(credit.getCreateDateTime())+"."+credit.getUid(),credit);
+            hCredits.put(fullDateFormat.format(credit.getUpdateDateTime())+"."+credit.getUid(),credit);
         }
 
         //*** DISPLAY RESULTS *************************************************************************
@@ -81,7 +81,6 @@
         // sort debets on date
         Vector keys = new Vector(hDebets.keySet());
         Collections.sort(keys);
-        Collections.reverse(keys);
         Iterator iter = keys.iterator();
 
         Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
@@ -110,7 +109,6 @@
         // sort credits on date
         keys = new Vector(hCredits.keySet());
         Collections.sort(keys);
-        Collections.reverse(keys);
         iter = keys.iterator();
 
         sClass = "";

@@ -78,9 +78,13 @@
             +(MedwanQuery.getInstance().getConfigInt("datacenterenabled",0)==1?writeTblChildWithCodeNoButton("javascript:downloadDatacenterStats(\"service.income.list\",\"stats\");",getTran("Web","statistics.download.serviceincomelist",sWebLanguage)):"")
             +ScreenHelper.writeTblFooter()+"<br>");
 
-         out.print(ScreenHelper.writeTblHeader(getTran("Web","financial",sWebLanguage),sCONTEXTPATH)+
-            writeTblChildNoButton("main.do?Page=statistics/toInvoiceLists.jsp",getTran("Web","statistics.toinvoicelists",sWebLanguage))+
-            ScreenHelper.writeTblFooter()+"<br>");
+         out.print(ScreenHelper.writeTblHeader(getTran("Web","financial",sWebLanguage),sCONTEXTPATH)
+            +writeTblChildNoButton("main.do?Page=statistics/toInvoiceLists.jsp",getTran("Web","statistics.toinvoicelists",sWebLanguage))
+            +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("beginfin","stats","01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("endfin","stats",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;</td></tr>"
+            +writeTblChildWithCode("javascript:getOpenInvoices()",getTran("Web","statistics.openinvoicelists",sWebLanguage))
+            +writeTblChildWithCode("javascript:getClosedNonZeroInvoices()",getTran("Web","statistics.closednonzeroinvoicelists",sWebLanguage))
+            +writeTblChildWithCode("javascript:getCanceledInvoices()",getTran("Web","statistics.canceledinvoicelists",sWebLanguage))
+            +ScreenHelper.writeTblFooter()+"<br>");
     }
 
     if(activeUser.getAccessRight("statistics.chin.select")){
@@ -130,6 +134,18 @@
     }
     function incomeVentilationExtended(){
 		var URL = "statistics/incomeVentilationExtended.jsp&start="+document.getElementById('begin3').value+"&end="+document.getElementById('end3').value+"&statserviceid="+document.getElementById('statserviceid').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
+    function getOpenInvoices(){
+		var URL = "statistics/openInvoiceLists.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
+    function getClosedNonZeroInvoices(){
+		var URL = "statistics/closedNonZeroInvoiceLists.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
+    function getCanceledInvoices(){
+		var URL = "statistics/canceledInvoiceLists.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
 		openPopup(URL,800,600,"OpenClinic");
     }
     function searchService(serviceUidField,serviceNameField){

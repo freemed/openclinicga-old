@@ -36,7 +36,8 @@
         sos.flush();
     }
     catch(DocumentException dex){
-        response.setContentType("text/html");
+        dex.printStackTrace();
+    	response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         writer.println(this.getClass().getName()+ " caught an exception: "+ dex.getClass().getName()+ "<br>");
         writer.println("<pre>");

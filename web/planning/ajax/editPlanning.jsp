@@ -111,7 +111,6 @@
             String sEditEstimatedtime = checkString(request.getParameter("EditEstimatedtime"));
             String sEditEffectiveDate = checkString(request.getParameter("EditEffectiveDate")) + " " + checkString(request.getParameter("EditEffectiveDateTime"));
             String sEditCancelationDate = checkString(request.getParameter("EditCancelationDate")) + " " + checkString(request.getParameter("EditCancelationDateTime"));
-            System.out.println("sEditCancelationDate"+sEditCancelationDate);
             String sEditUserUID = checkString(request.getParameter("EditUserUID"));
             String sEditPatientUID = checkString(request.getParameter("EditPatientUID"));
             String sEditTransactionUID = checkString(request.getParameter("EditTransactionUID"));
@@ -143,7 +142,6 @@
             orContact.setObjectUid(sEditContactUID);
             planning.setContact(orContact);
             planning.setDescription(sEditDescription);
-            System.out.println("cancelationdate="+planning.getCancelationDate());
             if(planning.store()){
                 if(sPage.length()==0){
                     out.write("<script>clientMsg.setValid('"+HTMLEntities.htmlentities(getTranNoLink("web.control","dataissaved",sWebLanguage))+"',null,500);doClose();</script>");

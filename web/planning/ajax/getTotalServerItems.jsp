@@ -7,8 +7,6 @@
 		ResultSet rs;
 		String sDates = checkString(request.getParameter("sDates"));
 		String userid=checkString(request.getParameter("userid"));
-		System.out.println("userid="+userid);
-		System.out.println("sDates="+sDates);
 		long day=24*3600*1000;
 		if(sDates.length()>0){
 			String dates[]=sDates.split(";");
@@ -28,7 +26,6 @@
 			}
 		}
 		conn.close();
-		System.out.println(sResults);
 		out.println(sResults);
 	}
 	catch(Exception e){

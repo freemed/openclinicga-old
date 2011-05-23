@@ -417,7 +417,7 @@
     }
 
     function mortalityGraph(code){
-        openPopupWindow("/datacenter/mortalityGraph.jsp?serverid=<%=serverid%>&diagnosiscode="+code+"&ts=<%=getTs()%>");
+        openPopupWindow("/datacenter/mortalityGraph.jsp?serverid=<%=serverid%>&diagnosiscode="+code+"&ts=<%=getTs()%>",700,750);
     }
 
     function occupancyGraph(code){

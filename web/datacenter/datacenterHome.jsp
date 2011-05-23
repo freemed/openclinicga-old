@@ -177,12 +177,15 @@
         if (width == undefined){
             width = 700;
         }
+        if (height == undefined){
+            height = 400;
+        }
         if (title == undefined) {
            title = "&nbsp;";
         }
         page = "<c:url value="/"/>"+page;
 
-        Modalbox.show(page, {title: title, width: width,height:'400'} );
+        Modalbox.show(page, {title: title, width: width,height: height} );
     }
 
     function setGraph(array){
@@ -212,6 +215,83 @@
          {data: array2, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"}
         ],options);
     }
+    function setGraph2Named(array,array2,name,legend1,legend2){
+        var options = {
+        legend: {
+			show: true,
+			noColumns: 1,
+			labelFormatter: function(str) { return ""+str+""},
+			labelBoxBorderColor: "#dedede",
+			position: "ne",
+			backgroundColor: "#eee",
+			backgroundOpacity: 0.3
+		},
+		grid: {
+			borderWidth: 2,
+			coloredAreas: [{y1: 5, y2:7}, {x1: 5, x2: 7.5}],
+			coloredAreasColor: "#FFF2F9",
+			drawXAxis: true,
+			drawYAxis: true,
+			clickable: true,
+		},
+        points: { show: false },
+        xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
+        selection: { mode: "x" }
+        };
+
+        new Proto.Chart($(name),
+        [
+         {data: array, label: legend1},
+         {data: array2, label: legend2, lines: {fill: true}}
+        ],options);
+    }
+    function setGraph3(array,array2,array3){
+        var options = {
+        lines: { show: true },
+        points: { show: false },
+        xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
+        selection: { mode: "x" }
+        };
+
+        new Proto.Chart($('barchart'),
+        [
+         {data: array, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"},
+         {data: array2, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"},
+         {data: array3, label: "<%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%>"}
+        ],options);
+    }
+    function setGraph4(array,array2,array3,array4,legend1,legend2,legend3,legend4){
+        var options = {
+        legend: {
+			show: true,
+			noColumns: 2,
+			labelFormatter: function(str) { return ""+str+""},
+			labelBoxBorderColor: "#dedede",
+			position: "ne",
+			backgroundColor: "#eee",
+			backgroundOpacity: 0.3
+		},
+		grid: {
+			borderWidth: 2,
+			coloredAreas: [{y1: 5, y2:7}, {x1: 5, x2: 7.5}],
+			coloredAreasColor: "#FFF2F9",
+			drawXAxis: true,
+			drawYAxis: true,
+			clickable: true,
+		},
+        xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
+        selection: { mode: "x" }
+        };
+
+        new Proto.Chart($('barchart'),
+        [
+         {data: array, label: legend1},
+         {data: array2, label: legend2},
+         {data: array3, label: legend3,lines: {fill: true}},
+         {data: array4, label: legend4,lines: {fill: true}}
+        ],options);
+    }
+    
     function entsub(event,ourform) {
         if (event && event.which == 13){
             $('transactionForm').submit();

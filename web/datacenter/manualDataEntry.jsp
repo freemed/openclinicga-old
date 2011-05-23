@@ -36,9 +36,7 @@
 		Enumeration parameters = request.getParameterNames();
 		while(parameters.hasMoreElements()){
 			String parameter = (String)parameters.nextElement();
-            System.out.println("test parametr "+parameter+" -> "+request.getParameter(parameter));
             if(parameter.startsWith("core.") && request.getParameter(parameter)!=null && request.getParameter(parameter).length()>0){
-               System.out.println("storeSimpleValue "+parameter);
                 storeSimpleValue(serverid,parameter,request.getParameter(parameter),request.getParameter("date.core"));
 			}
 		}

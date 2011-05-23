@@ -371,8 +371,12 @@
                         <input class="button" type="button" name="buttonPrint" value='PROFORMA' onclick="doPrintProformaPdf('<%=patientInvoice.getUid()%>');">
                         <%
                             if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
+                            	if(!patientInvoice.getStatus().equalsIgnoreCase("closed")||(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.cancelclosedinvoice.select")){
                         %>
-                                <input class="button" type="button" name="buttonCancellation" value='<%=getTranNoLink("Web.finance","cancellation",sWebLanguage)%>' onclick="doCancel('<%=patientInvoice.getUid()%>');">
+                                	<input class="button" type="button" name="buttonCancellation" value='<%=getTranNoLink("Web.finance","cancellation",sWebLanguage)%>' onclick="doCancel('<%=patientInvoice.getUid()%>');">
+                        <%
+                            	}
+                        %>
                                 <input class="button" type="button" name="buttonPayment" value='<%=getTranNoLink("Web.finance","payment",sWebLanguage)%>' onclick="doPayment('<%=patientInvoice.getUid()%>');">
                         <%
                             }
@@ -405,53 +409,73 @@
         else {
 			bInvoiceSeries=true;
         }
-        if ((EditForm.EditDate.value.length>0)&&(EditForm.EditStatus.selectedIndex>-1)&&bInvoiceSeries){
-            if ((EditForm.EditBalance.value*1==0)&&(EditForm.EditStatus.value!="closed")&&(EditForm.EditStatus.value!="canceled")){
-                var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.finance&labelID=closetheinvoice";
-                var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.finance","closetheinvoice",sWebLanguage)%>");
-
-                if(answer==1){
-                    EditForm.EditStatus.value = "closed";
-                }
+        if ((EditForm.EditDate.value.length>8)&&(EditForm.EditStatus.selectedIndex>-1)&&bInvoiceSeries){
+            var invoiceDate = new Date(EditForm.EditDate.value.substring(6)+"/"+EditForm.EditDate.value.substring(3,5)+"/"+EditForm.EditDate.value.substring(0,2));
+            if(invoiceDate> new Date()){
+                var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=dateinfuture";
+                var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+                (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","dateinfuture",sWebLanguage)%>");
             }
-
-            var sCbs = "";
-            for(i = 0; i < EditForm.elements.length; i++) {
-                elm = EditForm.elements[i];
-
-                if ((elm.type == 'checkbox')&&(elm.checked)) {
-                    sCbs += elm.name.split("=")[0]+",";
-                }
+        <%
+        	boolean canCloseUnpaidInvoice=(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.closeunpaidinvoice.select");
+        	if(!canCloseUnpaidInvoice){
+        %>
+            else if(EditForm.EditBalance.value*1>0 && EditForm.EditStatus.value=="closed"){
+                var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=cannotcloseunpaidinvoice";
+                var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+                (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","cannotcloseunpaidinvoice",sWebLanguage)%>");
             }
-            var today = new Date();
-            var url= '<c:url value="/financial/patientInvoiceSave.jsp"/>?ts='+today;
-            document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-            new Ajax.Request(url,{
-                  method: "POST",
-                  postBody: 'EditDate=' + EditForm.EditDate.value
-                          +'&EditPatientInvoiceUID=' + EditForm.EditPatientInvoiceUID.value
-                          +'&EditInvoiceUID=' + EditForm.EditInvoiceUID.value
-                          +'&EditStatus=' + EditForm.EditStatus.value
-                          +'&EditCBs='+sCbs
-                          +'&EditInvoiceSeries='+sInvoiceSeries
-                          +'&EditInsurarReference='+EditForm.EditInsurarReference.value
-                          +'&EditBalance=' + EditForm.EditBalance.value,
-                  onSuccess: function(resp){
-                      var label = eval('('+resp.responseText+')');
-                      $('divMessage').innerHTML=label.Message;
-                      $('EditPatientInvoiceUID').value=label.EditPatientInvoiceUID;
-                      $('EditInvoiceUID').value=label.EditInvoiceUID;
-                      $('EditInvoiceUIDText').value=label.EditInvoiceUID;
-                      $('EditInsurarReference').value=label.EditInsurarReference;
-                      $('FindPatientInvoiceUID').value=label.EditInvoiceUID;
-                      doFind();
-                  },
-                  onFailure: function(){
-                      $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
-                  }
-              }
-            );
+        <%
+        	}
+        %>
+            else {
+	            if ((EditForm.EditBalance.value*1==0)&&(EditForm.EditStatus.value!="closed")&&(EditForm.EditStatus.value!="canceled")){
+	                var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.finance&labelID=closetheinvoice";
+	                var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+	                var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.finance","closetheinvoice",sWebLanguage)%>");
+	
+	                if(answer==1){
+	                    EditForm.EditStatus.value = "closed";
+	                }
+	            }
+	
+	            var sCbs = "";
+	            for(i = 0; i < EditForm.elements.length; i++) {
+	                elm = EditForm.elements[i];
+	
+	                if ((elm.type == 'checkbox')&&(elm.checked)) {
+	                    sCbs += elm.name.split("=")[0]+",";
+	                }
+	            }
+	            var today = new Date();
+	            var url= '<c:url value="/financial/patientInvoiceSave.jsp"/>?ts='+today;
+	            document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	            new Ajax.Request(url,{
+	                  method: "POST",
+	                  postBody: 'EditDate=' + EditForm.EditDate.value
+	                          +'&EditPatientInvoiceUID=' + EditForm.EditPatientInvoiceUID.value
+	                          +'&EditInvoiceUID=' + EditForm.EditInvoiceUID.value
+	                          +'&EditStatus=' + EditForm.EditStatus.value
+	                          +'&EditCBs='+sCbs
+	                          +'&EditInvoiceSeries='+sInvoiceSeries
+	                          +'&EditInsurarReference='+EditForm.EditInsurarReference.value
+	                          +'&EditBalance=' + EditForm.EditBalance.value,
+	                  onSuccess: function(resp){
+	                      var label = eval('('+resp.responseText+')');
+	                      $('divMessage').innerHTML=label.Message;
+	                      $('EditPatientInvoiceUID').value=label.EditPatientInvoiceUID;
+	                      $('EditInvoiceUID').value=label.EditInvoiceUID;
+	                      $('EditInvoiceUIDText').value=label.EditInvoiceUID;
+	                      $('EditInsurarReference').value=label.EditInsurarReference;
+	                      $('FindPatientInvoiceUID').value=label.EditInvoiceUID;
+	                      doFind();
+	                  },
+	                  onFailure: function(){
+	                      $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
+	                  }
+	              }
+	            );
+	        }
         }
         else {
             var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
