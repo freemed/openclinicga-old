@@ -1,6 +1,6 @@
-<%@page import="be.openclinic.datacenter.TimeGraph" %>
+<%@page import="be.mxs.common.util.system.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-	String[] test ="a b - c-d".split(" - ");
-	out.println("test.length()="+test.length+ " / "+test[0]+"/"+test[1]);
+	UpdateSystem.updateDb();
+	UpdateSystem.updateLabels(session,sAPPFULLDIR);
 %>
