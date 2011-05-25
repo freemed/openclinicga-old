@@ -3,6 +3,7 @@
                 org.dom4j.Document,
                 org.dom4j.Element,
                 be.mxs.common.util.db.MedwanQuery,
+                be.mxs.common.util.system.*,
                 org.dom4j.DocumentException,
                 java.net.MalformedURLException,
                 java.sql.PreparedStatement,
@@ -28,6 +29,15 @@
         Element element = document.getRootElement().element("version");
         version = "v" + element.attribute("major").getValue() + "." + element.attribute("minor").getValue() + "." + element.attribute("bug").getValue() + " (" + element.attribute("date").getValue() + ")";
         session.setAttribute("ProjectVersion", version);
+        int thisversion=Integer.parseInt(element.attribute("major").getValue())*1000000+Integer.parseInt(element.attribute("minor").getValue())*1000+Integer.parseInt(element.attribute("bug").getValue());
+        if(thisversion>MedwanQuery.getInstance().getConfigInt("updateVersion",0)){
+    		%>
+    		<script>
+    			alert("Upgrade needed, this may take several minutes depending on your system's performance");
+    			window.location.href='<c:url value="/"/>util/updateSystem.jsp?updateVersion=<%=thisversion+""%>';
+    		</script>    		
+    		<%
+        }
     }
     catch (Exception e) {
         // nothing
