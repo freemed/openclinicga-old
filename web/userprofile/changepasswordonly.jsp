@@ -303,10 +303,15 @@
                         msg = msg.replaceFirst("#validDays#",availability+"");
 
                         // go to userprofile indexpage with a message
-                        allErrors.append("&msg=").append(msg);
+				        if(request.getRequestURL().indexOf("main")>-1){
+				        	allErrors.append("&msg=");
+				        }
+                        allErrors.append(msg);
                     }
 
-                    allErrors.append("'</script>");
+			        if(request.getRequestURL().indexOf("main")>-1){
+			        	allErrors.append("'</script>");
+			        }
                 }
             }
         }
@@ -314,7 +319,7 @@
         //--- back button ---
         StringBuffer backButton = new StringBuffer();
         backButton.append("<input type='button' class='button' value='").append(getTran("Web","back",sWebLanguage)).append("'")
-                  .append(" onclick='window.location.href=\""+sCONTEXTPATH+"/userprofile/changepasswordonly.jsp?popup=no\"'>");
+                  .append(" onclick='window.location.href=\""+sCONTEXTPATH+"/main.do\"'");
 
         //--- display errors ---
         // end table
@@ -327,7 +332,7 @@
                  .append(" </table>")
                  .append("</p>");
 
-        out.print(allErrors);
+        	out.print(allErrors);
     }
 %>
 </body>
