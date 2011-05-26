@@ -9,6 +9,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import net.admin.Label;
 
+import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
@@ -28,20 +30,33 @@ import be.openclinic.system.TransactionItem;
 
 public class UpdateSystem {
 
+	public static void update(String basedir){
+		updateDb();
+		updateLabels(basedir);
+		updateTransactionItems(basedir);
+        String sDoc = MedwanQuery.getInstance().getConfigString("templateSource") + "application.xml";
+        SAXReader reader = new SAXReader(false);
+        try{
+	        Document document = reader.read(new URL(sDoc));
+	        Element element = document.getRootElement().element("version");
+	        int thisversion=Integer.parseInt(element.attribute("major").getValue())*1000000+Integer.parseInt(element.attribute("minor").getValue())*1000+Integer.parseInt(element.attribute("bug").getValue());
+	        MedwanQuery.getInstance().setConfigString("updateVersion",thisversion+"");
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+	}
+	
 	public static void updateDb(){
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": start updatedb");
 		try {
 			String sDoc="";
 			Connection loc_conn = MedwanQuery.getInstance().getLongOpenclinicConnection();
 			Connection sta_conn = MedwanQuery.getInstance().getStatsConnection();
 			Connection lad_conn = MedwanQuery.getInstance().getLongAdminConnection();
-
 			String sLocalDbType="?";
-			String sLocalDbVersion = "?";
-
-			//Find out local database type & version
 			try {
 			    sLocalDbType = lad_conn.getMetaData().getDatabaseProductName();
-			    sLocalDbVersion = lad_conn.getMetaData().getDatabaseProductVersion();
 			}
 			catch(Exception e){
 			    //e.printStackTrace();
@@ -61,12 +76,14 @@ public class UpdateSystem {
 		    Element versionColumn = null;
 		    Connection connectionCheck = null;
 		    PreparedStatement psCheck = null;
-		    ResultSet rsCheck = null;
+		    ResultSet rsCheck = null,rsCheck2=null;
 		    Connection otherAdminConnection = null;
 		    Connection otherOccupConnection = null;
 		    Element model = document.getRootElement();
 		    Element column, index, view, proc, exec, sql;
 		    DatabaseMetaData databaseMetaData;
+		    Hashtable adminTables=new Hashtable(),adminColumns=new Hashtable(),adminIndexes=new Hashtable(),openclinicTables=new Hashtable(),openclinicColumns=new Hashtable(),openclinicIndexes=new Hashtable(),statsTables=new Hashtable(),statsColumns=new Hashtable(),statsIndexes=new Hashtable();
+		    Hashtable hTables=null,hColumns=null,hIndexes=null;
 		    Iterator columns, indexes, indexcolumns, views, sqlIterator, procs, execs;
 		    String sSelect, sVal, sQuery, sCountQuery, otherServerId, inSql, versioncompare, values, outSql, indexname;
 		    Connection source, destination;
@@ -82,27 +99,78 @@ public class UpdateSystem {
 		    Integer nVal;
 		    Vector params;
 
+			System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": update tables");
+			//First load databasemodels
+			String tableName,columnName,indexName;
+			databaseMetaData=lad_conn.getMetaData();
+			rsCheck=databaseMetaData.getColumns(null, null, null, null);
+			while(rsCheck.next()){
+				tableName=rsCheck.getString("TABLE_NAME");
+				columnName=rsCheck.getString("COLUMN_NAME");
+				if(adminTables.get(tableName)==null){
+					rsCheck2=databaseMetaData.getIndexInfo(null, null, tableName, false, true);
+					while(rsCheck2.next()){
+						indexName=rsCheck2.getString("INDEX_NAME");
+						adminIndexes.put((tableName+"$"+indexName).toLowerCase(),"");
+					}
+					adminTables.put(tableName.toLowerCase(),"");
+				}
+				adminColumns.put((tableName+"$"+columnName).toLowerCase(),"");
+			}
+			
+			databaseMetaData=loc_conn.getMetaData();
+			rsCheck=databaseMetaData.getColumns(null, null, null, null);
+			while(rsCheck.next()){
+				tableName=rsCheck.getString("TABLE_NAME");
+				columnName=rsCheck.getString("COLUMN_NAME");
+				if(openclinicTables.get(tableName)==null){
+					openclinicTables.put(tableName.toLowerCase(),"");
+					rsCheck2=databaseMetaData.getIndexInfo(null, null, tableName, false, true);
+					while(rsCheck2.next()){
+						indexName=rsCheck2.getString("INDEX_NAME");
+						openclinicIndexes.put((tableName+"$"+indexName).toLowerCase(),"");
+					}
+				}
+				openclinicColumns.put((tableName+"$"+columnName).toLowerCase(),"");
+			}
+
+			databaseMetaData=sta_conn.getMetaData();
+			rsCheck=databaseMetaData.getColumns(null, null, null, null);
+			while(rsCheck.next()){
+				tableName=rsCheck.getString("TABLE_NAME");
+				columnName=rsCheck.getString("COLUMN_NAME");
+				if(statsTables.get(tableName)==null){
+					statsTables.put(tableName.toLowerCase(),"");
+					rsCheck2=databaseMetaData.getIndexInfo(null, null, tableName, false, true);
+					while(rsCheck2.next()){
+						indexName=rsCheck2.getString("INDEX_NAME");
+						statsIndexes.put((tableName+"$"+indexName).toLowerCase(),"");
+					}
+				}
+				statsColumns.put((tableName+"$"+columnName).toLowerCase(),"");
+			}
+			
 		    tables = model.elementIterator("table");
 		    while (tables.hasNext()) {
 		        table = (Element) tables.next();
 		        if (table.attribute("db").getValue().equalsIgnoreCase("ocadmin")) {
 		            connectionCheck = lad_conn;
+		            hTables=adminTables;
+		            hColumns=adminColumns;
+		            hIndexes=adminIndexes;
 		        } else if (table.attribute("db").getValue().equalsIgnoreCase("openclinic")) {
 		            connectionCheck = loc_conn;
+		            hTables=openclinicTables;
+		            hColumns=openclinicColumns;
+		            hIndexes=openclinicIndexes;
 		        } else if (table.attribute("db").getValue().equalsIgnoreCase("stats")) {
 		            connectionCheck = sta_conn;
+		            hTables=statsTables;
+		            hColumns=statsColumns;
+		            hIndexes=statsIndexes;
 		        }
 
-		        //Now verify existence of table
-		        databaseMetaData = connectionCheck.getMetaData();
-		        rsCheck = databaseMetaData.getTables(null, null, table.attribute("name").getValue(), null);
-
-		        boolean tableExists=rsCheck.next();
-
-		        if (!tableExists){
-		            rsCheck=databaseMetaData.getTables(null, null, table.attribute("name").getValue().toLowerCase(), null);
-		            tableExists=rsCheck.next();
-		        }
+		        boolean tableExists=hTables.get(table.attribute("name").getValue().toLowerCase())!=null;
 
 		        if (tableExists) {
 		            //verify the table columns
@@ -115,15 +183,7 @@ public class UpdateSystem {
 		                        versionColumn = column;
 		                    }
 		                    rsCheck = databaseMetaData.getColumns(null, null, table.attribute("name").getValue(), column.attribute("name").getValue());
-		                    boolean columnExists=rsCheck.next();
-		                    if(!columnExists){
-		                        rsCheck = databaseMetaData.getColumns(null, null, table.attribute("name").getValue().toLowerCase(), column.attribute("name").getValue());
-		                        columnExists=rsCheck.next();
-		                    }
-		                    if(!columnExists){
-		                        rsCheck = databaseMetaData.getColumns(null, null, table.attribute("name").getValue().toLowerCase(), column.attribute("name").getValue().toLowerCase());
-		                        columnExists=rsCheck.next();
-		                    }
+		                    boolean columnExists=hColumns.get(table.attribute("name").getValue().toLowerCase()+"$"+column.attribute("name").getValue().toLowerCase())!=null;
 		                    if (!columnExists) {
 		                        sSelect = "alter table " + table.attribute("name").getValue() + " add " + column.attribute("name").getValue() + " ";
 		                        if (column.attribute("dbtype").getValue().equalsIgnoreCase("char") || column.attribute("dbtype").getValue().equalsIgnoreCase("varchar")) {
@@ -176,8 +236,8 @@ public class UpdateSystem {
 		                   psCheck.close();
 		               }
 		               catch (Exception e) {
-			e.printStackTrace();
-		}
+							e.printStackTrace();
+						}
 		        }
 
 		        //Now verify the indexes of the table
@@ -186,14 +246,7 @@ public class UpdateSystem {
 		            while (indexes.hasNext()) {
 		                try {
 		                    index = (Element) indexes.next();
-		                    rsCheck = databaseMetaData.getIndexInfo(null, null, table.attribute("name").getValue(), (index.attribute("unique") != null && index.attribute("unique").getValue().equalsIgnoreCase("1")), false);
-		                    indexFound = false;
-		                    while (rsCheck.next()) {
-		                        indexname = rsCheck.getString("INDEX_NAME");
-		                        if (indexname != null && indexname.equalsIgnoreCase(index.attribute("name").getValue())) {
-		                            indexFound = true;
-		                        }
-		                    }
+		                    indexFound = hIndexes.get(table.attribute("name").getValue().toLowerCase()+"$"+index.attribute("name").getValue().toLowerCase())!=null;
 		                    if (!indexFound) {
 		                        sSelect = "create ";
 		                        if (index.attribute("unique") != null && index.attribute("unique").getValue().equalsIgnoreCase("1")) {
@@ -227,6 +280,7 @@ public class UpdateSystem {
 		            }
 		        }
 		    }
+			System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": update views");
 		    views = model.elementIterator("view");
 		    while (views.hasNext()) {
 		        try {
@@ -244,16 +298,18 @@ public class UpdateSystem {
 		            if (s.trim().length() > 0) {
 		                if (view.attribute("db").getValue().equalsIgnoreCase("ocadmin")) {
 		                    connectionCheck = lad_conn;
+				            hTables=adminTables;
 		                } else if (view.attribute("db").getValue().equalsIgnoreCase("openclinic")) {
 		                    connectionCheck = loc_conn;
+				            hTables=openclinicTables;
 		                } else if (view.attribute("db").getValue().equalsIgnoreCase("stats")) {
 		                    connectionCheck = sta_conn;
+				            hTables=statsTables;
 		            	}
 		                //Now verify existence of view
-		                databaseMetaData = connectionCheck.getMetaData();
-		                rsCheck = databaseMetaData.getTables(null, null, view.attribute("name").getValue(), null);
+				        boolean viewExists=hTables.get(view.attribute("name").getValue().toLowerCase())!=null;
 		                bCreate = true;
-		                if (rsCheck.next()) {
+		                if (viewExists) {
 		                    if (view.attribute("drop") != null && view.attribute("drop").getValue().equalsIgnoreCase("1")) {
 		                        //drop the view
 		                        psCheck = connectionCheck.prepareStatement("drop view " + view.attribute("name").getValue());
@@ -289,26 +345,36 @@ public class UpdateSystem {
 		catch (Exception e) {
 		    e.printStackTrace();
 		}
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end updatedb");
 	}
-	public static void updateLabels(HttpSession session,String basedir){
+	public static void updateLabels(String basedir){
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": reload labels");
+        reloadSingleton();
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end reload labels");
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": start updateLabels");
         String paramName, paramValue;
         String[] identifiers;
         String[] languages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en,pt").split("\\,");
         for(int n=0;n<languages.length;n++){
+    		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": load Labels."+languages[n]+".ini");
 	        Properties iniProps = getPropertyFile(basedir+"/_common/xml/Labels."+languages[n]+".ini");
+    		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": Labels."+languages[n]+".ini loaded");
 	        Enumeration e = iniProps.keys();
+	        boolean exists;
+	        Hashtable langHashtable,typeHashtable,idHashtable;
+	        Label label;
 	        while(e.hasMoreElements()){
 	            paramName = (String)e.nextElement();
 	            paramValue = iniProps.getProperty(paramName);
 	            identifiers = paramName.split("\\$");
-	            boolean exists=false;
-	            Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
+	            exists=false;
+	            langHashtable = MedwanQuery.getInstance().getLabels();
 	            if(langHashtable!=null){
-	                Hashtable typeHashtable = (Hashtable) langHashtable.get(identifiers[2]);
+	                typeHashtable = (Hashtable) langHashtable.get(identifiers[2]);
 	                if(typeHashtable!=null){
-	                    Hashtable idHashtable = (Hashtable) typeHashtable.get(identifiers[0].toLowerCase());
+	                    idHashtable = (Hashtable) typeHashtable.get(identifiers[0].toLowerCase());
 	                    if(idHashtable!=null){
-	                        Label label = (Label) idHashtable.get(identifiers[1]);
+	                        label = (Label) idHashtable.get(identifiers[1]);
 	                        if(label!=null){
 	                        	exists=true;
 	                        }
@@ -320,20 +386,22 @@ public class UpdateSystem {
 	            }
 	        }
         }
-        reloadSingleton(session);
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": reload labels");
+        reloadSingleton();
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end updateLabels");
 	}
 	
 	public static void updateTransactionItems(String basedir){
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": start updatetransactionitems");
+		Hashtable transactionItems = MedwanQuery.getInstance().getAllTransactionItems();
         String paramName, paramValue;
-        String[] identifiers;
         TransactionItem objTI;
         Properties iniProps = getPropertyFile(basedir+"/_common/xml/TransactionItems.ini");
         Enumeration e = iniProps.keys();
         while(e.hasMoreElements()){
             paramName = (String)e.nextElement();
             paramValue = iniProps.getProperty(paramName);
-            identifiers = paramValue.split("\\$");
-            if (!TransactionItem.exists(paramName.split("\\$")[0], paramName.split("\\$")[1])) {
+            if (transactionItems.get(paramName)==null) {
             	objTI = new TransactionItem();
                 objTI.setTransactionTypeId(paramName.split("\\$")[0]);
                 objTI.setItemTypeId(paramName.split("\\$")[1]);
@@ -352,11 +420,12 @@ public class UpdateSystem {
                 }
                 TransactionItem.addTransactionItem(objTI);
             }
-        }
+    	}
+		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end updatetransactionitems");
 	}
 	
 
-    public static void reloadSingleton(HttpSession session) {
+    public static void reloadSingleton() {
         Hashtable labelLanguages = new Hashtable();
         Hashtable labelTypes = new Hashtable();
         Hashtable labelIds;

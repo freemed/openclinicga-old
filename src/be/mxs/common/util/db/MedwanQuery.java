@@ -5926,6 +5926,39 @@ public class MedwanQuery {
         }
         return itemTypes;
     }
+    public static Hashtable getAllTransactionItems() {
+        Hashtable itemTypes = new Hashtable();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sSelect;
+
+        // compose query
+        sSelect = "SELECT * FROM TransactionItems";
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            ps = oc_conn.prepareStatement(sSelect);
+            rs = ps.executeQuery();
+
+            // run thru found values
+            while (rs.next()) {
+                itemTypes.put(ScreenHelper.checkString(rs.getString("transactionTypeId"))+"$"+ScreenHelper.checkString(rs.getString("itemTypeId")),ScreenHelper.checkString(rs.getString("defaultValue"))+"$"+ScreenHelper.checkString(rs.getString("modifier")));
+            }
+        }
+        catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+        finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                oc_conn.close();
+            }
+            catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        return itemTypes;
+    }
     //--- GET ALL ITEMS TYPES BY LETTERS ----------------------------------------------------------------------------------------
     public static Vector getAllItemsTypesByLetters(String letters, int iMaxRows) {
         Vector itemTypes = new Vector();
