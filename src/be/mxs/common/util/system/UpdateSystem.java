@@ -24,6 +24,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.openclinic.system.TransactionItem;
 
 public class UpdateSystem {
 
@@ -292,7 +293,7 @@ public class UpdateSystem {
 	public static void updateLabels(HttpSession session,String basedir){
         String paramName, paramValue;
         String[] identifiers;
-        String[] languages = {"nl","fr","en"};
+        String[] languages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en,pt").split("\\,");
         for(int n=0;n<languages.length;n++){
 	        Properties iniProps = getPropertyFile(basedir+"/_common/xml/Labels."+languages[n]+".ini");
 	        Enumeration e = iniProps.keys();
@@ -321,8 +322,37 @@ public class UpdateSystem {
         }
         reloadSingleton(session);
 	}
-	public static void updateTransactionItems(){
-		
+	
+	public static void updateTransactionItems(String basedir){
+        String paramName, paramValue;
+        String[] identifiers;
+        TransactionItem objTI;
+        Properties iniProps = getPropertyFile(basedir+"/_common/xml/TransactionItems.ini");
+        Enumeration e = iniProps.keys();
+        while(e.hasMoreElements()){
+            paramName = (String)e.nextElement();
+            paramValue = iniProps.getProperty(paramName);
+            identifiers = paramValue.split("\\$");
+            if (!TransactionItem.exists(paramName.split("\\$")[0], paramName.split("\\$")[1])) {
+            	objTI = new TransactionItem();
+                objTI.setTransactionTypeId(paramName.split("\\$")[0]);
+                objTI.setItemTypeId(paramName.split("\\$")[1]);
+                if(paramValue.split("\\$")!=null && paramValue.split("\\$").length>0){
+                	objTI.setDefaultValue(paramValue.split("\\$")[0]);
+                    if(paramValue.split("\\$")!=null && paramValue.split("\\$").length>1){
+                        objTI.setModifier(paramValue.split("\\$")[1]);
+                    }
+                    else {
+                        objTI.setModifier("");
+                    }
+                }
+                else {
+                	objTI.setDefaultValue("");
+                    objTI.setModifier("");
+                }
+                TransactionItem.addTransactionItem(objTI);
+            }
+        }
 	}
 	
 
