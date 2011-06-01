@@ -245,6 +245,7 @@ public class Sage {
             PreparedStatement ps = loc_conn.prepareStatement("select * from SageFamilyReimbursements where cbModification>?  order by FA_CodeFamille");
             ps.setTimestamp(1,new Timestamp(lastSync.getTime()));
             ResultSet rs = ps.executeQuery();
+    		System.out.println("Launching query");
             while(rs.next()){
                 String familyCode=ScreenHelper.checkString(rs.getString("FA_CodeFamille")).replaceAll("'","");
         		System.out.println("Checking family code "+familyCode);
@@ -278,6 +279,7 @@ public class Sage {
             }
             rs.close();
             ps.close();
+    		System.out.println("Deleting removed reimbursements");
             ps=loc_conn.prepareStatement("delete from OC_PRESTATIONFAMILY_REIMBURSEMENTS where not exists (" +
                     "select * from SageFamilyReimbursements where FA_CodeFamille COLLATE DATABASE_DEFAULT=OC_PR_PRESTATIONTYPE COLLATE DATABASE_DEFAULT and " +
                     "CT_Num COLLATE DATABASE_DEFAULT=OC_PR_INSURARCODE COLLATE DATABASE_DEFAULT)");
@@ -289,6 +291,7 @@ public class Sage {
         catch(Exception e){
             e.printStackTrace();
         }
+		System.out.println("End of synchronizing familyreimbursements");
     }
 
     public static void synchronizePrestations(){

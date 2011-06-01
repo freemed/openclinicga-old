@@ -22,6 +22,6 @@ public class SyncSage {
         Sage.synchronizePrestations();
         Sage.synchronizeReimbursements();
         Sage.synchronizeFamilyReimbursements();
-        MedwanQuery.getInstance().stopScheduler();
+        System.exit(0);
     }
 }
