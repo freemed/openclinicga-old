@@ -1,6 +1,11 @@
 <%@page import="be.mxs.common.util.system.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-	UpdateSystem.update(sAPPFULLDIR);
+	UpdateSystem.updateDb();
+	UpdateSystem.updateLabels(sAPPFULLDIR);
+	UpdateSystem.updateTransactionItems(sAPPFULLDIR);
+	if(request.getParameter("updateVersion")!=null){
+		MedwanQuery.getInstance().setConfigString("updateVersion",request.getParameter("updateVersion"));
+	}
 %>
 <script>window.location.href='<c:url value="/login.jsp"/>'</script>
