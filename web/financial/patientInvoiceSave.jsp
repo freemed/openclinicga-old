@@ -82,7 +82,6 @@
             }
         }
     }
-
     double dBalance = Double.parseDouble(sEditBalance);
 // patient heeft te veel betaald => aanmaken van credit en saldo invoice = 0
     if (dBalance < 0) {
