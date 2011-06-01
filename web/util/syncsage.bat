@@ -1,2 +1,2 @@
-java -Xms64m -Xmx256m -classpath ../WEB-INF/classes;../WEB-INF/lib/log4j.jar;../WEB-INF/lib/dom4j-full.jar;../WEB-INF/lib/primrose.jar;../WEB-INF/lib/sqljdbc.jar be.chuk.SyncSage c:/tmp/db.cfg
+java -Xms64m -Xmx256m -classpath ../WEB-INF/classes;../WEB-INF/lib/log4j.jar;../WEB-INF/lib/dom4j-full.jar;../WEB-INF/lib/primrose.jar;../WEB-INF/lib/sqljdbc4.jar;../WEB-INF/lib/mail.jar be.chuk.SyncSage c:/projects/synchro/db.cfg
 REM exit
