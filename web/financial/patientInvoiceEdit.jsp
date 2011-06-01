@@ -420,7 +420,7 @@
         	boolean canCloseUnpaidInvoice=(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.closeunpaidinvoice.select");
         	if(!canCloseUnpaidInvoice){
         %>
-            else if(document.getElementById('EditBalance').value*1>0 && document.getElementById('invoiceStatus').value=="closed"){
+            else if(document.getElementById('EditBalance').value.replace('.','').replace('0','').length>0 && document.getElementById('invoiceStatus').value=="closed"){
                 var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=cannotcloseunpaidinvoice";
                 var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
                 (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","cannotcloseunpaidinvoice",sWebLanguage)%>");
