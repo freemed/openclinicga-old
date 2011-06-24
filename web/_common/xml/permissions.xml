@@ -165,6 +165,7 @@
         <permission type="web" id="biologicvalidationbyrequest">labos.biologicvalidationbyrequest</permission>
         <permission type="web" id="samplereception">labos.samplereception</permission>
         <permission type="web" id="printnewresults">labos.printnewresults</permission>
+        <permission type="web" id="limitedvisibility">labos.limitedvisibility</permission>
     </application>
     <application type="Web" id="xrays">
         <permission type="web" id="rx">rx</permission>

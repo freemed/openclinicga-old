@@ -2112,20 +2112,24 @@
     <table name="LabAnalysis" db="openclinic" sync="MASTER">
 		<columns>
 			<column name="labID"          dbtype="int"      javatype="integer" primary="1"/>
-			<column name="labcode"        dbtype="varchar"  javatype="string"  size="255"/>
-			<column name="labtype"        dbtype="varchar"  javatype="string"  size="255"/>
-			<column name="monster"        dbtype="varchar"  javatype="string"  size="255"/>
-            <column name="biomonitoring"  dbtype="varchar"  javatype="string"  size="255"/>
-            <column name="medidoccode"    dbtype="varchar"  javatype="string"  size="255"/>
+			<column name="labcode"        dbtype="varchar"  javatype="string"  size="50"/>
+			<column name="labtype"        dbtype="varchar"  javatype="string"  size="50"/>
+			<column name="monster"        dbtype="varchar"  javatype="string"  size="50"/>
+            <column name="biomonitoring"  dbtype="varchar"  javatype="string"  size="50"/>
+            <column name="medidoccode"    dbtype="varchar"  javatype="string"  size="50"/>
             <column name="comment"        dbtype="varchar"  javatype="string"  size="255"/>
             <column name="updateuserid"   dbtype="int"      javatype="integer"/>
             <column name="updatetime"     dbtype="datetime" javatype="date"    version="1"/>
             <column name="deletetime"     dbtype="datetime" javatype="date"    version="1"/>
             <column name="labcodeother"   dbtype="varchar"  javatype="string"  size="1"/>
-            <column name="limitvalue"     dbtype="varchar"  javatype="string"  size="255"/>
-            <column name="shorttimevalue" dbtype="varchar"  javatype="string"  size="255"/>
+            <column name="limitvalue"     dbtype="varchar"  javatype="string"  size="50"/>
+            <column name="alertvalue"     dbtype="varchar"  javatype="string"  size="50"/>
+            <column name="shorttimevalue" dbtype="varchar"  javatype="string"  size="50"/>
+            <column name="unit" dbtype="varchar"  javatype="string"  size="50"/>
             <column name="editor" dbtype="varchar"  javatype="string"  size="50"/>
             <column name="editorparameters" dbtype="varchar"  javatype="string"  size="255"/>
+            <column name="limitedvisibility" dbtype="int"  javatype="integer"/>
+            <column name="unavailable" dbtype="int"  javatype="integer"/>
 		</columns>
 		<indexes>
 			<index name="labanalysis_labID">

@@ -50,7 +50,7 @@
             <Menu labelid="insuranceInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/insuranceInvoiceEdit.jsp"/>
             <Menu labelid="extraInsuranceInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/extraInsuranceInvoiceEdit.jsp"/>
             <Menu labelid="searchInvoice" accessrights="financial.insuranceinvoice.select" url="/main.do?Page=financial/searchInvoice.jsp"/>
-            <Menu labelid="updateInvoice" accessrights="financial.insuranceinvoice.update" url="/main.do?Page=financial/updateInvoice.jsp"/>
+            <Menu labelid="updateInvoice" accessrights="financial.invoiceupdate.select" url="/main.do?Page=financial/updateInvoice.jsp"/>
         </Menu>
         <Menu labelid="wicket" accessrights="financial.wicket.select">
             <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
