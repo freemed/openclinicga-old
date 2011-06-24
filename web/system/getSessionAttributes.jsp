@@ -16,7 +16,7 @@
 					String name = (String)vars.nextElement();
 					Object value=s.getAttribute(name);
 					if(value.getClass().getName().indexOf("String")>-1){
-						out.println("<tr><td class='admin2'>"+name+"</td><td>"+(name.equalsIgnoreCase("password")?"******"+"<v>"+value+"</v>":value)+"</td></tr>");
+						out.println("<tr><td class='admin2'>"+name+"</td><td>"+(name.equalsIgnoreCase("password")?"******":value)+"</td></tr>");
 					}
 					else if(value.getClass().getName().indexOf("AdminPerson")>-1){
 						out.println("<tr><td class='admin2'>"+name+"</td><td>"+((AdminPerson)value).lastname+", "+((AdminPerson)value).firstname+"</td></tr>");

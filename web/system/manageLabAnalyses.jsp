@@ -64,6 +64,7 @@
            sEditor="",
            sEditorParameters="";
     int nEditUnavailable=0;
+    int nEditLimitedVisibility=0;
 
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
@@ -153,6 +154,9 @@
             if(request.getParameter("EditUnavailable")!=null){
                 nEditUnavailable=1;
             }
+            if(request.getParameter("EditLimitedVisibility")!=null){
+                nEditLimitedVisibility=1;
+            }
 
             //--- SAVE ANALYSIS -------------------------------------------------------------------
             // check if labcode exists
@@ -208,6 +212,7 @@
                 labAnalysis.setShorttimevalue(sShortTimeValue);
                 labAnalysis.setUnit(sEditLabUnit);
                 labAnalysis.setUnavailable(nEditUnavailable);
+                labAnalysis.setLimitedVisibility(nEditLimitedVisibility);
                 labAnalysis.setEditor(sEditor);
                 labAnalysis.setEditorparameters(sEditorParameters);
 
@@ -304,6 +309,7 @@
             sLabCodeOther  = labAnalysis.getLabcodeother();
             sLabGroup      = labAnalysis.getLabgroup();
             nEditUnavailable=labAnalysis.getUnavailable();
+            nEditLimitedVisibility=labAnalysis.getLimitedVisibility();
             sEditor			=labAnalysis.getEditor();
             sEditorParameters=labAnalysis.getEditorparameters();
 
@@ -406,6 +412,7 @@
                 sShortTimeValue = checkString(labAnalysis.getShorttimevalue());
                 sEditLabUnit    = checkString(labAnalysis.getUnit());
                 nEditUnavailable= labAnalysis.getUnavailable();
+                nEditLimitedVisibility=labAnalysis.getLimitedVisibility();
                 sEditor			=labAnalysis.getEditor();
                 sEditorParameters=labAnalysis.getEditorparameters();
             }
@@ -613,6 +620,13 @@
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.unavailable",sWebLanguage)%></td>
     <td class="admin2">
       <input type="checkbox" cols="80" rows="2" value="1" <%=nEditUnavailable==1?"checked":""%> name="EditUnavailable"/>
+    </td>
+  </tr>
+  <%-- LIMITED VISIBILITY --%>
+  <tr>
+    <td class="admin"><%=getTran("Web.manage","labanalysis.cols.limitedvisibility",sWebLanguage)%></td>
+    <td class="admin2">
+      <input type="checkbox" cols="80" rows="2" value="1" <%=nEditLimitedVisibility==1?"checked":""%> name="EditLimitedVisibility"/>
     </td>
   </tr>
 </table>
