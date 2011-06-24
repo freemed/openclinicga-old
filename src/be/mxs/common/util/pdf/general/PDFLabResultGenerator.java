@@ -268,7 +268,11 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                     min=requestedLabAnalysis.getResultRefMin();
                     max=requestedLabAnalysis.getResultRefMax();
                     if(requestedLabAnalysis.getFinalvalidationdatetime()!=null){
-                        result=requestedLabAnalysis.getResultValue();
+                    	if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getLimitedVisibility()>0 && !user.getAccessRight("labos.limitedvisibility.select")){
+                    		result=MedwanQuery.getInstance().getLabel("web","invisible",sPrintLanguage);                	}
+                    	else {
+                    		result=requestedLabAnalysis.getResultValue();
+                    	}
                         normal=requestedLabAnalysis.getResultModifier();
                         if(requestedLabAnalysis.getFinalvalidationdatetime().after(since)){
                             newresult="*";
@@ -297,55 +301,59 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                 	Map ab = RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode());
                 	result="";
                 	String result2="";
-                	if(ab.get("germ1")!=null && !(ab.get("germ1")+"").equalsIgnoreCase("")){
-                		result+=ab.get("germ1")+"\n";
-                		result2+="\n";
-                		String antibiotics = (String)ab.get("ANTIBIOGRAMME1");
-                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
-                			String[] tests = antibiotics.split(",");
-                			for(int n=0;n<tests.length;n++){
-                				if(tests[n].split("=").length==2){
-                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
-                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
-                				}
-                			}
-                		}
-                	}
-                	if(ab.get("germ2")!=null && !(ab.get("germ2")+"").equalsIgnoreCase("")){
-                		if(result.length()>0){
-                			result+="\n";
-                    		result2+="\n";
-                		}
-                		result2+="\n";
-                		result+=ab.get("germ2")+"\n";
-                		String antibiotics = (String)ab.get("ANTIBIOGRAMME2");
-                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
-                			String[] tests = antibiotics.split(",");
-                			for(int n=0;n<tests.length;n++){
-                				if(tests[n].split("=").length==2){
-                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
-                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
-                				}
-                			}
-                		}
-                	}
-                	if(ab.get("germ3")!=null && !(ab.get("3")+"").equalsIgnoreCase("")){
-                		if(result.length()>0){
-                			result+="\n";
-                    		result2+="\n";
-                		}
-                		result2+="\n";
-                		result+=ab.get("germ3")+"\n";
-                		String antibiotics = (String)ab.get("ANTIBIOGRAMME3");
-                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
-                			String[] tests = antibiotics.split(",");
-                			for(int n=0;n<tests.length;n++){
-                				if(tests[n].split("=").length==2){
-                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
-                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
-                				}
-                			}
-                		}
+                	if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getLimitedVisibility()>0 && !user.getAccessRight("labos.limitedvisibility.select")){
+                		result=MedwanQuery.getInstance().getLabel("web","invisible",sPrintLanguage);                	}
+                	else {
+	                	if(ab.get("germ1")!=null && !(ab.get("germ1")+"").equalsIgnoreCase("")){
+	                		result+=ab.get("germ1")+"\n";
+	                		result2+="\n";
+	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME1");
+	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+	                			String[] tests = antibiotics.split(",");
+	                			for(int n=0;n<tests.length;n++){
+	                				if(tests[n].split("=").length==2){
+	                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
+	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+	                				}
+	                			}
+	                		}
+	                	}
+	                	if(ab.get("germ2")!=null && !(ab.get("germ2")+"").equalsIgnoreCase("")){
+	                		if(result.length()>0){
+	                			result+="\n";
+	                    		result2+="\n";
+	                		}
+	                		result2+="\n";
+	                		result+=ab.get("germ2")+"\n";
+	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME2");
+	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+	                			String[] tests = antibiotics.split(",");
+	                			for(int n=0;n<tests.length;n++){
+	                				if(tests[n].split("=").length==2){
+	                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
+	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+	                				}
+	                			}
+	                		}
+	                	}
+	                	if(ab.get("germ3")!=null && !(ab.get("3")+"").equalsIgnoreCase("")){
+	                		if(result.length()>0){
+	                			result+="\n";
+	                    		result2+="\n";
+	                		}
+	                		result2+="\n";
+	                		result+=ab.get("germ3")+"\n";
+	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME3");
+	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+	                			String[] tests = antibiotics.split(",");
+	                			for(int n=0;n<tests.length;n++){
+	                				if(tests[n].split("=").length==2){
+	                					result+="\t"+getAntibiotic(tests[n].split("=")[0])+"\n";
+	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+	                				}
+	                			}
+	                		}
+	                	}
                 	}
                 	cell=createLabelCourier(result2,8,3,Font.BOLD);
 	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
