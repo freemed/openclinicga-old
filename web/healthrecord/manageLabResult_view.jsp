@@ -120,7 +120,10 @@ public String getComplexResult(String id, Map map, String sWebLanguage) {
                     String result="";
                     if(requestedLabAnalysis!=null){
                     	if(!requestedLabAnalysis.getLabgroup().equalsIgnoreCase("bacteriology")){
-	                    	if(requestedLabAnalysis.getFinalvalidation()>0){
+                    		if(analysis.getLimitedVisibility()>0 && !activeUser.getAccessRight("labos.limitedvisibility.select")){
+                    			result=getTran("web","invisible",sWebLanguage);	
+                    		}
+                    		else if(requestedLabAnalysis.getFinalvalidation()>0){
 	                    		result=requestedLabAnalysis.getResultValue();
 	                    	}
 	                    	else {
