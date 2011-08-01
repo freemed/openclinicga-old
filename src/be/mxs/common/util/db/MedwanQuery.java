@@ -2928,6 +2928,9 @@ public class MedwanQuery {
                 out("DateOfBirth=" + dateOfBirth);
                 float age = getNrYears(dateOfBirth, new java.util.Date());
                 out("Age=" + age);
+                Occuprs.close();
+                Occupstatement.close();
+                OccupdbConnection.close();
                 return age;
             }
             Occuprs.close();
@@ -2951,6 +2954,9 @@ public class MedwanQuery {
                 out("DateOfBirth=" + dateOfBirth);
                 int age = new Double(getNrYears(dateOfBirth, new java.util.Date())).intValue();
                 out("Age=" + age);
+                Occuprs.close();
+                Occupstatement.close();
+                OccupdbConnection.close();
                 return age;
             }
             Occuprs.close();
