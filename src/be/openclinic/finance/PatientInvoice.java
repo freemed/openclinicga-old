@@ -91,6 +91,9 @@ public class PatientInvoice extends Invoice {
     			Insurar extraInsurar = Insurar.get(extraInsurarUid);
     			if(extraInsurar!=null){
     				insurar=extraInsurar.getName();
+    				if(insurar==null){
+    					insurar="?";
+    				}
     			}
     			if(amounts.get(insurar)!=null){
     				amounts.put(insurar, ((Double)amounts.get(insurar)).doubleValue()+debet.getExtraInsurarAmount());
