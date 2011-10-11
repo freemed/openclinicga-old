@@ -100,6 +100,7 @@
         PatientCredit credit;
         String sCreditUid;
         double dTmpCredits = 0;
+        boolean paymentCovered=false;
 
         for (int i = 0; i < patientinvoice.getCredits().size(); i++) {
             sCreditUid = checkString((String) patientinvoice.getCredits().elementAt(i));
@@ -110,8 +111,14 @@
                 if (credit != null) {
                     dTmpCredits += credit.getAmount();
                     if (dTmpCredits > dTotalDebets) {
-                        credit.setAmount(new BigDecimal("" + (credit.getAmount() - (dTmpCredits - dTotalDebets))).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                        if(!paymentCovered){
+                        	credit.setAmount(new BigDecimal("" + (credit.getAmount() - (dTmpCredits - dTotalDebets))).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                        }
+                        else {
+                        	credit.setAmount(0);
+                        }
                         credit.store();
+                        paymentCovered=true;
                     }
                 }
             }
