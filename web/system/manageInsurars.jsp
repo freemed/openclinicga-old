@@ -345,14 +345,8 @@
                             <%
                                 String sEditInsurarLanguage = checkString(insurar.getLanguage());
 
-                                /*
-                                // userlanguage by default
-                                if(sEditInsurarLanguage.length()==0){
-                                    sEditInsurarLanguage = checkString(activeUser.person.language);
-                                }
-                                */
 
-                                String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("SupportedLanguages");
+                                String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
                                 if(sSupportedLanguages.length()==0){
                                     sSupportedLanguages = "nl,fr";
                                 }
