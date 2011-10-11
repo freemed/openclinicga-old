@@ -34,7 +34,6 @@ import org.smslib.InboundMessage.MessageClasses;
 import org.smslib.Library;
 import org.smslib.Message.MessageTypes;
 import org.smslib.Service;
-import org.smslib.crypto.AESKey;
 import org.smslib.modem.SerialModemGateway;
 
 public class ReceiveSMS {
