@@ -199,6 +199,8 @@ public class User extends OC_Object {
                      this.project = ScreenHelper.checkString(rs.getString("project"));
 
                      if (!checkPassword(aPassword))  {
+                    	 rs.close();
+                    	 ps.close();
                          return false;
                      }
                      sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND active = 1 ";

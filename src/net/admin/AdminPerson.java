@@ -2960,5 +2960,19 @@ public class AdminPerson extends OC_Object{
 
         return bReturn;
     }
+
+    public boolean store(){
+        boolean bResult=false;
+    	try {
+        	Connection connection=MedwanQuery.getInstance().getAdminConnection();
+            bResult=saveToDB(connection);
+    		connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bResult;
+    }
+
 }
 
