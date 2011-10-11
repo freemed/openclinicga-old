@@ -651,7 +651,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             for(int i=0; i<creditUids.size(); i++){
                 sCreditUid = (String)creditUids.get(i);
                 credit = PatientCredit.get(sCreditUid);
-                creditsHash.put(credit.getDate(),credit);
+                creditsHash.put(new SimpleDateFormat("yyyyMMddHHmmss").format(credit.getDate())+"."+credit.getUid(),credit);
             }
 
             // sort credits on date
@@ -659,9 +659,9 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             Collections.sort(creditDates);
             Collections.reverse(creditDates);
 
-            java.util.Date creditDate;
+            String creditDate;
             for(int i=0; i<creditDates.size(); i++){
-                creditDate = (java.util.Date)creditDates.get(i);
+                creditDate = (String)creditDates.get(i);
                 credit = (PatientCredit)creditsHash.get(creditDate);
                 total+= credit.getAmount();
                 printCredit(table,credit);
