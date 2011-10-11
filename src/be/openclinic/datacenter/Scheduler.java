@@ -99,7 +99,8 @@ public class Scheduler implements Runnable{
         try {
         	while(!isStopped()){
         		if(MedwanQuery.getInstance().getConfigInt("datacenterEnabled",0)==1){
-	        		runScheduler();
+	        		Debug.println("Running scheduler...");
+        			runScheduler();
         		}
         		thread.sleep(MedwanQuery.getInstance().getConfigInt("datacenterScheduleInterval",20000));
         	}

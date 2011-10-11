@@ -470,8 +470,8 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         String sCreditComment = "";
         if(credit.getComment()!=null){
             sCreditComment = credit.getComment().toString();
-            if(sCreditComment.split(" - ").length>1){
-            	String sInvoiceUid = "1."+ScreenHelper.checkString(sCreditComment.split(" - ")[sCreditComment.split(" - ").length-1]).trim();
+            if(sCreditComment.split("-").length>1){
+            	String sInvoiceUid = "1."+ScreenHelper.checkString(sCreditComment.split("-")[sCreditComment.split("-").length-1]).trim();
             	PatientInvoice patientInvoice = PatientInvoice.get(sInvoiceUid);
             	if(patientInvoice!=null){
             		Hashtable insurarAmounts = patientInvoice.getInsurarAmounts();

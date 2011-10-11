@@ -991,6 +991,7 @@ public class RequestedLabAnalysis {
                     labAnalysis.resultRefMin   = ScreenHelper.checkString(rs.getString("resultrefmin"));
                     labAnalysis.resultUserId   = ScreenHelper.checkString(rs.getString("resultuserid"));
                     labAnalysis.requestUserId   = ScreenHelper.checkString(rs.getString("userId"));
+                    labAnalysis.requestDate   = rs.getTimestamp("requestdatetime");
                     labAnalysis.resultProvisional   = ScreenHelper.checkString(rs.getString("resultprovisional"));
 
                     // result date

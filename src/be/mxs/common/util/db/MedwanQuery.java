@@ -5877,6 +5877,30 @@ public class MedwanQuery {
         return transactionList;
     }
 
+    public Vector getTransactionsAfter(int personId, Date date) {
+        Vector transactionList = new Vector();
+        Connection OccupdbConnection;
+        try {
+            OccupdbConnection = getOpenclinicConnection();
+            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement("SELECT a.* FROM Transactions a, Healthrecord b "
+                    + " WHERE a.healthRecordId=b.healthRecordId AND personId=? AND updatetime>=? ORDER BY updateTime DESC");
+            Occupstatement.setInt(1, personId);
+            Occupstatement.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
+            ResultSet Occuprs;
+            for (Occuprs = Occupstatement.executeQuery(); Occuprs.next();) {
+                transactionList.add(loadTransaction(Occuprs.getInt("serverid"), Occuprs.getInt("transactionId")));
+            }
+            Occuprs.close();
+            Occupstatement.close();
+            OccupdbConnection.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return transactionList;
+    }
+
     /*public Vector getTransactionsByType(HealthRecordVO healthRecord, String transactionType) {
 
         Vector transactionList = new Vector();

@@ -15,6 +15,7 @@ public class SMTPSender extends Sender {
 		
         try{
 			String lastSMTPSenderActivity = MedwanQuery.getInstance().getConfigString("lastDatacenterSMTPSenderActivity","0");
+			Debug.println("...: "+lastSMTPSenderActivity+" < "+getDeadline());
 			if(lastSMTPSenderActivity.equalsIgnoreCase("0") || new SimpleDateFormat("yyyyMMddHHmmss").parse(lastSMTPSenderActivity).before(getDeadline())){
 		 		loadMessages();
 		 		if(messages.size()>0){
@@ -54,6 +55,7 @@ public class SMTPSender extends Sender {
         }
         catch(MessagingException e){
         	Debug.println(e.getMessage());
+        	e.printStackTrace();
         } catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

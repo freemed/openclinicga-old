@@ -364,7 +364,15 @@ public class Wicket extends OC_Object{
 
             while(rs.next()){
                 sAuthorisedUserIds = ScreenHelper.checkString(rs.getString("OC_WICKET_AUTHORIZEDUSERS"));
-                if(sAuthorisedUserIds.indexOf(sUserUid) > -1 || (user!=null && user.getAccessRight("sa"))){
+                String[] au = sAuthorisedUserIds.split("\\$");
+                boolean bFound=false;
+                for(int n=0;n<au.length;n++){
+                	if(sUserUid.equals(au[n])){
+                		bFound=true;
+                		break;
+                	}
+                }
+                if(bFound || (user!=null && user.getAccessRight("sa"))){
                     wicket = new Wicket();
 
                     // set uid
