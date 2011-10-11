@@ -101,7 +101,13 @@ public class MedwanQuery {
 	public static void setSessions(Hashtable s) {
 		sessions = s;
 	}
-
+	
+	public void runScheduler(){
+		if(scheduler!=null){
+			scheduler.runScheduler();
+		}
+	}
+	
 	public void removeExamination(String id){
     	Enumeration e = examinations.keys();
     	while(e.hasMoreElements()){
