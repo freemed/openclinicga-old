@@ -96,4 +96,7 @@
 		updateuserid is not null and updatetime is not null and
 		not exists (select * from accesslogs where a.updateuserid=userid and accesscode='M.'||convert(personid,char))
   	</Query>
+	<Query id="QUERY.updateRwandaZipcodes.1" db="ocadmin" date="13/08/2011" dbserver="MySQL">
+	  	update rwandazipcodes set district='RULINDO'  where district='rurindo'
+  	</Query>
 </Queries>
