@@ -22,7 +22,6 @@ package be.openclinic.datacenter;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.crypto.spec.SecretKeySpec;
 import org.smslib.AGateway;
 import org.smslib.AGateway.GatewayStatuses;
 import org.smslib.AGateway.Protocols;
