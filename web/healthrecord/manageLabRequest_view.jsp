@@ -246,6 +246,22 @@
         </td>
     </tr>
 
+    <%-- SMS --%>
+    <tr>
+        <td class="admin"><%=getTran("Web","warnsms",sWebLanguage)%></td>
+        <td class="admin2">
+            <input type='text' id="prescriber" <%=setRightClick("ITEM_TYPE_LAB_SMS")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="value"/>"/>
+        </td>
+    </tr>
+
+    <%-- EMAIL --%>
+    <tr>
+        <td class="admin"><%=getTran("Web","warnemail",sWebLanguage)%></td>
+        <td class="admin2">
+            <input type='text' id="prescriber" <%=setRightClick("ITEM_TYPE_LAB_EMAIL")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="value"/>"/>
+        </td>
+    </tr>
+
     <%-- hidden fields --%>
     <input type="hidden" name="selectedLabCodes" value="">
 
