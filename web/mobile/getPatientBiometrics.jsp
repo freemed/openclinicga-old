@@ -1,7 +1,7 @@
 <%@include file="/mobile/validatePatient.jsp"%>
 
 <table width='100%'>
-	<tr><td colspan='2' bgcolor='peachpuff'><%=getTran("mobile","biometrics",activeUser) %></td></tr>
+	<tr><td colspan='2' bgcolor='peachpuff'><b><%=getTran("mobile","biometrics",activeUser) %></b></td></tr>
 <%
 	String bloodpressure = 	"L: "+MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(activePatient.personid),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_LEFT")+
 							"/"+MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(activePatient.personid),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_LEFT")+

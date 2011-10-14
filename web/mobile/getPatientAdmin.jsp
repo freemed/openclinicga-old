@@ -1,7 +1,7 @@
 <%@include file="/mobile/validatePatient.jsp"%>
 
 <table width='100%'>
-	<tr><td colspan='2' bgcolor='peachpuff'><%=getTran("mobile","demographics",activeUser) %></td></tr>
+	<tr><td colspan='2' bgcolor='peachpuff'><b><%=getTran("mobile","demographics",activeUser) %></b></td></tr>
 	<tr><td width='1' nowrap><%=getTran("web.admin","nationality",activeUser) %></td><td><%=getTran("country",activePatient.nativeCountry,activeUser) %></td></tr>
 	<tr><td nowrap><%=getTran("mobile","idcard",activeUser) %></td><td><%=activePatient.getID("natreg") %></td></tr>
 	<tr><td nowrap><%=getTran("web","language",activeUser) %></td><td><%=getTran("web.language",activePatient.language,activeUser) %></td></tr>
@@ -16,7 +16,7 @@
 
 <hr/>
 <table width='100%'>
-	<tr><td colspan='3' bgcolor='peachpuff'><%=getTran("web","adt",activeUser) %></td></tr>
+	<tr><td colspan='3' bgcolor='peachpuff'><b><%=getTran("web","adt",activeUser) %></b></td></tr>
 	<tr><td colspan='3' bgcolor='lightyellow'><%=getTran("web","active_encounter",activeUser) %></td></tr>
 	<%
 		Encounter activeContact = Encounter.getActiveEncounter(activePatient.personid);	
