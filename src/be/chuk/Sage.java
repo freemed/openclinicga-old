@@ -344,6 +344,7 @@ public class Sage {
                     //De prestatie bestaat reeds, we gaan ze updaten
                     prestation.setDescription(ScreenHelper.checkString(rs.getString("AR_Design")).replaceAll("'",""));
                     prestation.setPrice(prestationPrice);
+                    /*
                     prestation.setType(ScreenHelper.checkString(rs.getString("FA_CodeFamille")));
                     ObjectReference objectReference = new ObjectReference(ScreenHelper.checkString(rs.getString("FA_RacineRef")),"0");
                     prestation.setReferenceObject(objectReference);
@@ -352,6 +353,7 @@ public class Sage {
                         MedwanQuery.getInstance().storeLabel("prestation.type",prestation.getType(),"en",prestationTypeName,4);
                         MedwanQuery.getInstance().storeLabel("prestation.type",prestation.getType(),"nl",prestationTypeName,4);
                     }
+                    */
                     prestation.setUpdateDateTime(rs.getTimestamp("cbModification"));
                     if(prestation.getUpdateDateTime().after(maxDate)){
                         maxDate=prestation.getUpdateDateTime();
