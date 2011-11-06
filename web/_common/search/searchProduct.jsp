@@ -99,7 +99,7 @@
             <td nowrap>
                 <input type="hidden" name="SearchSupplierUid" id="SearchSupplierUid" value="<%=sSearchSupplierUid%>">
                 <input type="text" name="SearchSupplierName" class="text" value="<%=sSearchSupplierName%>" size="30"
-                       READONLY>
+                       READONLY onchange="delayedSearch();">
 
                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
                      alt="<%=getTran("Web","select",sWebLanguage)%>"
@@ -342,8 +342,13 @@ if(sReturnProductStockUidField.length() > 0){
 }
 
 <%-- popup : search supplier --%>
+//function searchSupplier(serviceUidField, serviceNameField) {
+//    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
+//}
+
+<%-- popup : search supplier --%>
 function searchSupplier(serviceUidField, serviceNameField) {
-    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
+    openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=" + serviceUidField + "&ReturnServiceStockNameField=" + serviceNameField);
 }
 
 <%-- popup : search userProduct --%>

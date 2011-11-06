@@ -1,3 +1,4 @@
+<%@page import="be.openclinic.pharmacy.ProductStock"%>
 <%@ page import="java.text.DecimalFormat,
                  be.openclinic.pharmacy.Product,
                  java.util.Vector,
@@ -47,7 +48,7 @@
     if (sSearchProductName.length() > 0 || sSearchSupplierUid.length() > 0 || sSearchProductGroup.length() > 0) {
         products = Product.find(sSearchProductName, "", "", "", "", "", sSearchSupplierUid, sSearchProductGroup, "OC_PRODUCT_NAME", "ASC");
     }
-
+	System.out.println("supplier="+sSearchSupplierUid);
     // run thru found products
     Product product;
     int iTotal = 0;
@@ -81,9 +82,15 @@
         if (sClass.equals("")) sClass = "1";
         else sClass = "";
 
-        boolean inStock = activePatient!=null && activePatient.getActiveDivision()!=null && product.isInStock(activePatient.getActiveDivision().code);
-        if(MedwanQuery.getInstance().getConfigInt("assumeStock",0)==1){
-        	inStock=true;
+        boolean inStock;
+        if(sSearchSupplierUid.length()==0){
+	        inStock= activePatient!=null && activePatient.getActiveDivision()!=null && product.isInStock(activePatient.getActiveDivision().code);
+	        if(MedwanQuery.getInstance().getConfigInt("assumeStock",0)==1){
+	        	inStock=true;
+	        }
+        }
+        else {
+     		inStock=product.isInStock(sSearchSupplierUid);
         }
 
         sProductName = checkString(product.getName());
@@ -91,11 +98,11 @@
 
         //*** display product in one row ***
         sHtml.append("<tr title='" + chooseTran + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" class='list" + sClass + "' onClick=\"selectProduct('" + product.getUid() + "','" + sProductName + "','" + product.getUnit() + "','" + sUnitsPerTimeUnit + "','" + sSupplierUid + "','" + sSupplierName + "','" + product.getPackageUnits() + "');\">")
-                .append(" <td nowrap " + (inStock ? "" : " class='strike'") + ">" + sProductName + "</td>")
-                .append(" <td" + (inStock ? "" : " class='strike'") + ">" + sUnitTran + "</td>")
-                .append(" <td align='right'" + (inStock ? "" : " class='strike'") + ">" + sUnitPrice + " " + sCurrency + " </td>")
-                .append(" <td" + (inStock ? "" : " class='strike'") + ">" + sSupplierName + "</td>")
-                .append(" <td" + (inStock ? "" : " class='strike'") + ">" + sProductGroup + "</td>")
+                .append(" <td nowrap " + (inStock ? "" : " class='strikeonly'") + ">" + sProductName + "</td>")
+                .append(" <td" + (inStock ? "" : " class='strikeonly'") + ">" + sUnitTran + "</td>")
+                .append(" <td align='right'" + (inStock ? "" : " class='strikeonly'") + ">" + sUnitPrice + " " + sCurrency + " </td>")
+                .append(" <td" + (inStock ? "" : " class='strikeonly'") + ">" + sSupplierName + "</td>")
+                .append(" <td" + (inStock ? "" : " class='strikeonly'") + ">" + sProductGroup + "</td>")
                 .append("</tr>");
 
         iTotal++;
