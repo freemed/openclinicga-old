@@ -638,7 +638,10 @@ public class Product extends OC_Object implements Comparable {
                 if(sFindProductGroup.length() > 0)     sSelect+= "OC_PRODUCT_PRODUCTGROUP = ? AND ";
 
                 if(sFindSupplierUid.length() > 0){
-                    // search all service and its child-services
+                    //Hier moet de stock komen die het product in voorraad moet hebben
+                	sSelect+="OC_PRODUCT_OBJECTID in (select replace(OC_STOCK_PRODUCTUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') from OC_PRODUCTSTOCKS where OC_STOCK_SERVICESTOCKUID='"+sFindSupplierUid+"') AND ";
+                	/*
+                	// search all service and its child-services
                     Vector childIds = Service.getChildIds(sFindSupplierUid);
                     String sChildIds = ScreenHelper.tokenizeVector(childIds,",","'");
                     if(sChildIds.length() > 0){
@@ -647,6 +650,7 @@ public class Product extends OC_Object implements Comparable {
                     else{
                         sSelect+= "OC_PRODUCT_SUPPLIERUID IN ('') AND ";
                     }
+                    */
                 }
 
                 // remove last AND if any
@@ -662,7 +666,7 @@ public class Product extends OC_Object implements Comparable {
 
             // set questionmark values
             int questionMarkIdx = 1;
-            if(sFindProductName.length() > 0)      ps.setString(questionMarkIdx++,sFindProductName.toLowerCase()+"%");
+            if(sFindProductName.length() > 0)      ps.setString(questionMarkIdx++,"%"+sFindProductName.toLowerCase()+"%");
             if(sFindUnit.length() > 0)             ps.setString(questionMarkIdx++,sFindUnit);
             if(sFindUnitPriceMin.length() > 0)     ps.setDouble(questionMarkIdx++,Double.parseDouble(sFindUnitPriceMin));
             if(sFindUnitPriceMax.length() > 0)     ps.setDouble(questionMarkIdx++,Double.parseDouble(sFindUnitPriceMax));
@@ -670,6 +674,7 @@ public class Product extends OC_Object implements Comparable {
             if(sFindMinOrderPackages.length() > 0) ps.setInt(questionMarkIdx++,Integer.parseInt(sFindMinOrderPackages));
             if(sFindProductGroup.length() > 0)     ps.setString(questionMarkIdx++,sFindProductGroup);
 
+            System.out.println(sSelect);
             // execute
             rs = ps.executeQuery();
 

@@ -127,6 +127,17 @@ public class ServiceStock extends OC_Object {
         }
         return false;
     }
+    public boolean isAuthorizedUserNotManager(String userid) {
+        if (authorizedUserIds != null && authorizedUserIds.length() > 0) {
+            StringTokenizer tokenizer = new StringTokenizer(authorizedUserIds, "$");
+            while (tokenizer.hasMoreTokens()) {
+                if (userid.equalsIgnoreCase(tokenizer.nextToken())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     //--- DEFAULT SUPPLIER ------------------------------------------------------------------------
     public Service getDefaultSupplier() {
         if (defaultSupplierUid != null && defaultSupplierUid.length() > 0) {
@@ -778,18 +789,19 @@ public class ServiceStock extends OC_Object {
         ResultSet rs = null;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            String sSelect = "SELECT * FROM OC_SERVICESTOCKS ";
+            String sSelect = "SELECT * FROM OC_SERVICESTOCKS b where exists (select * from OC_PRODUCTSTOCKS a where a.OC_STOCK_SERVICESTOCKUID="+MedwanQuery.getInstance().convert("varchar", "b.OC_STOCK_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "b.OC_STOCK_OBJECTID")+") order by OC_STOCK_NAME";
+            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
             // execute
             rs = ps.executeQuery();
             ServiceStock stock = null;
             while (rs.next()) {
-                if (rs.getString("OC_STOCK_STOCKMANAGERUID") != null && rs.getString("OC_STOCK_STOCKMANAGERUID").equals(sUserId)) {
+                /*if (rs.getString("OC_STOCK_STOCKMANAGERUID") != null && rs.getString("OC_STOCK_STOCKMANAGERUID").equals(sUserId)) {
                     stock = new ServiceStock();
                     stock.setUid(rs.getString("OC_STOCK_SERVERID") + "." + rs.getString("OC_STOCK_OBJECTID"));
                     stock.setName(rs.getString("OC_STOCK_NAME"));
                     foundObjects.add(stock);
-                } else {
+                } else {*/
                     if (rs.getString("OC_STOCK_AUTHORIZEDUSERS") != null) {
                         String[] s = rs.getString("OC_STOCK_AUTHORIZEDUSERS").split("\\$");
                         for (int i = 0; i < s.length; i++) {
@@ -803,7 +815,7 @@ public class ServiceStock extends OC_Object {
                             }
                         }
                     }
-                }
+                //}
             }
         }
         catch (Exception e) {
