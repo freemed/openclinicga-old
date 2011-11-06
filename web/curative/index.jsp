@@ -51,11 +51,20 @@
         }
     }
 %>
+<%
+	System.out.println(new java.util.Date()+" 1");
+%>
                 <tr><td colspan="2"><%conditionalInclude("curative/encounterStatus.jsp",pageContext,"adt.encounter.select",activeUser);%></td><tr>
+<%
+	System.out.println(new java.util.Date()+" 2");
+%>
                 <tr>
                     <td valign="top" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
                     <td><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
                 <tr>
+<%
+	System.out.println(new java.util.Date()+" 3");
+%>
                 <tr><td colspan="2"><%conditionalInclude("curative/planningStatus.jsp",pageContext,"planning.select",activeUser);%></td><tr>
 
         <%
