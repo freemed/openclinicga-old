@@ -295,7 +295,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                 cell.setVerticalAlignment(Cell.ALIGN_TOP);
                 subTable.addCell(cell);
                 //Hier moeten we evalueren of het om een antibiogram gaat
-                if(groupname.equalsIgnoreCase(MedwanQuery.getInstance().getLabel("labanalysis.group", "bacteriology", sPrintLanguage))){
+                if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("antibiogram")){
 	                //Stel het resultaat samen
                 	//Voor elk van de ingevulde kiemen geven we de sensibiliteits-gegevens
                 	Map ab = RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode());
