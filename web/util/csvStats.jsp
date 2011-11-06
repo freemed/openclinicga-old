@@ -1,5 +1,9 @@
 <%@ page import="be.openclinic.statistics.CsvStats" %><%@include file="/includes/validateUser.jsp"%><%@ page import="be.mxs.common.util.db.MedwanQuery" %><%@ page import="java.text.SimpleDateFormat" %><%@ page import="java.util.Date" %><%
     String query=null;
+	String label="labelfr";
+	if(sWebLanguage.equalsIgnoreCase("e")||sWebLanguage.equalsIgnoreCase("en")){
+		label="labelen";		
+	}
     if("service.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select upper(OC_LABEL_ID) as CODE,OC_LABEL_VALUE as NAME,b.serviceparentid as PARENT" +
                 " from OC_LABELS a,ServicesAddressView b " +
@@ -18,7 +22,7 @@
     }
     else if("global.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,district as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_DIAGNOSIS_AUTHORUID as CODE_USER, OC_DIAGNOSIS_CODETYPE as TYPE, OC_DIAGNOSIS_CODE as DIAGCODE,"
-        +"(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select labelfr from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select labelfr from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
+        +"(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select "+label+" from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
         " from OC_ENCOUNTERS_VIEW,AdminView a,PrivateView b,OC_DIAGNOSES c " +
         " where " +
         " OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
@@ -29,7 +33,7 @@
         " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
         " union "+
         " select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,null as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_DIAGNOSIS_AUTHORUID as CODE_USER, OC_DIAGNOSIS_CODETYPE as TYPE, OC_DIAGNOSIS_CODE as DIAGCODE,"
-        +"(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select labelfr from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select labelfr from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
+        +"(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select "+label+" from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
                 " from OC_ENCOUNTERS_VIEW,AdminView a,OC_DIAGNOSES c " +
                 " where " +
                 " OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
@@ -62,7 +66,7 @@
     }
     else if("globalrfe.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,district as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_RFE_UPDATEUID as CODE_USER, OC_RFE_CODETYPE as TYPE, OC_RFE_CODE as DIAGCODE,"
-        +"(CASE OC_RFE_CODETYPE WHEN 'icpc' THEN (select labelfr from icpc2 where code=OC_RFE_CODE) ELSE (select labelfr from icd10 where code=OC_RFE_CODE) END) as LABEL, OC_ENCOUNTER_UPDATEUID as ENCODER"+
+        +"(CASE OC_RFE_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_RFE_CODE) ELSE (select "+label+" from icd10 where code=OC_RFE_CODE) END) as LABEL, OC_ENCOUNTER_UPDATEUID as ENCODER"+
         " from OC_ENCOUNTERS_VIEW,AdminView a,PrivateView b,OC_RFE c " +
         " where " +
         " OC_RFE_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
@@ -73,7 +77,7 @@
         " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
         " union "+
         " select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,null as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_RFE_UPDATEUID as CODE_USER, OC_RFE_CODETYPE as TYPE, OC_RFE_CODE as DIAGCODE,"
-        +"(CASE OC_RFE_CODETYPE WHEN 'icpc' THEN (select labelfr from icpc2 where code=OC_RFE_CODE) ELSE (select labelfr from icd10 where code=OC_RFE_CODE) END) as LABEL, OC_ENCOUNTER_UPDATEUID as ENCODER"+
+        +"(CASE OC_RFE_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_RFE_CODE) ELSE (select "+label+" from icd10 where code=OC_RFE_CODE) END) as LABEL, OC_ENCOUNTER_UPDATEUID as ENCODER"+
                 " from OC_ENCOUNTERS_VIEW,AdminView a,OC_RFE c " +
                 " where " +
                 " OC_RFE_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
@@ -125,7 +129,7 @@
     }
     else if("diagnosis.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select replace(OC_DIAGNOSIS_ENCOUNTERUID,'.','_') as CODE_CONTACT, OC_DIAGNOSIS_AUTHORUID as CODE_USER, OC_DIAGNOSIS_CODETYPE as TYPE, OC_DIAGNOSIS_CODE as CODE,"+
-        "(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select labelfr from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select labelfr from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD" +
+        "(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select "+label+" from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD" +
                 " from OC_DIAGNOSES a,OC_ENCOUNTERS_VIEW " +
                 " where " +
                 " OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
@@ -135,7 +139,7 @@
     }
     else if("rfe.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select replace(OC_RFE_ENCOUNTERUID,'.','_') as CODE_CONTACT, OC_RFE_UPDATEUID as CODE_USER, OC_RFE_CODETYPE as TYPE, OC_RFE_CODE as CODE,"+
-        "(CASE OC_RFE_CODETYPE WHEN 'icpc' THEN (select labelfr from icpc2 where code=OC_RFE_CODE) ELSE (select labelfr from icd10 where code=OC_RFE_CODE) END) as LABEL,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD" +
+        "(CASE OC_RFE_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_RFE_CODE) ELSE (select "+label+" from icd10 where code=OC_RFE_CODE) END) as LABEL,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD" +
                 " from OC_RFE a,OC_ENCOUNTERS_VIEW " +
                 " where " +
                 " OC_RFE_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
