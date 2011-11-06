@@ -103,7 +103,7 @@
 
 <%
     String sDefaultSortCol = "OC_STOCK_NAME",
-           sDefaultSortDir = "DESC",
+           sDefaultSortDir = "ASC",
            centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode");
 
     String sAction = checkString(request.getParameter("Action"));
