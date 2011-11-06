@@ -36,6 +36,7 @@ public void reloadSingleton(HttpSession session) {
 
 %>
 <%
+	
 	String username = request.getParameter("username");
 	String password = request.getParameter("password");
 	
@@ -51,11 +52,14 @@ public void reloadSingleton(HttpSession session) {
 		}
 	}
 %>
-
+<body >
+<center><img width='75%' src='../_img/openclinic_mobile.jpg'/>
 <form name='loginForm' method='post'>
 	<table>
 		<tr><td>Login:</td><td><input name='username' value='' type='text' size='10'/></td></tr>
 		<tr><td>Password:</td><td><input name='password' value='' type='password' size='10'/></td></tr>
-		<tr><td colspan='2'><input type='submit' name='submit' value='login'/></td></tr>
+		<tr><td/><td><input type='submit' name='submit' value='login'/></td></tr>
 	</table>
 </form>
+</center>
+</body>

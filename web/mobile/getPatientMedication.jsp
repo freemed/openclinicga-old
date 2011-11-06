@@ -1,12 +1,8 @@
-<%@page import="be.openclinic.pharmacy.Product"%>
+<%@page import="be.openclinic.pharmacy.Product,java.sql.*"%>
 <%@include file="/mobile/validatePatient.jsp"%>
 
 <table width='100%'>
-	<tr><td colspan='3' bgcolor='gray'><b><u><%=getTran("mobile","Active medication",activeUser) %></u></b></td></tr>
-	<table width='100%'>	
-    <td><b><%=getTran("Web","begindate",activeUser)%></b></td><td><b><%=getTran("Web","productname",activeUser)%></b></td>
-	<td><b><%=getTran("Web","prescriptionrule",activeUser)%></b></td><td><b><%=getTran("Web","enddate",activeUser)%></b></td>
-	<td><b><%=getTran("pdfprescriptions","name.prescriber",activeUser)%></b></td>
+	<tr><td colspan='3' bgcolor='peachpuff'><b><%=getTran("mobile","activemedication",activeUser) %></b></td></tr>
 	<%
 	
 	    Vector vPrescriptions = Prescription.getActivePrescriptions(activePatient.personid);
@@ -14,14 +10,15 @@
 	    for (int n=0; n<vPrescriptions.size(); n++){
 	    	Prescription prescriPatient = (Prescription)vPrescriptions.elementAt(n);
 	    	Product product;
-	    	
+	    	if(n>0){
+	    		out.println("<hr/>");
+	    	}
 	    	AdminPerson mapersonne = AdminPerson.getAdminPerson(conn,prescriPatient.getPrescriberUid());
-	
-	    	out.print("<tr><td>"+new SimpleDateFormat("dd/MM/yyyy").format(prescriPatient.getBegin())+"</td>"+
-	    			      "<td>"+Product.get(prescriPatient.getProductUid()).getName()+"</td>"+
-	    			      "<td>"+prescriPatient.getUnitsPerTimeUnit()+"</td>"+
-	    			      "<td>"+new SimpleDateFormat("dd/MM/yyyy").format(prescriPatient.getEnd())+"</td>"+
-	    	              "<td>"+prescriPatient.getPrescriber().getFullName()+"</td></tr>");
+	    	out.print("<table width='100%'><tr><td>"+getTran("Web","begin",activeUser)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(prescriPatient.getBegin())+"</td></tr>"+
+  			      		  "<tr><td>"+getTran("Web","end",activeUser)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(prescriPatient.getEnd())+"</td></tr>"+
+	    			      "<tr><td>"+getTran("Web","name",activeUser)+"</td><td><b>"+Product.get(prescriPatient.getProductUid()).getName()+"</b></td></tr>"+
+	    			      "<tr><td>"+getTran("Web","dose",activeUser)+"</td><td>"+prescriPatient.getUnitsPerTimeUnit()+"/"+getTran("prescription.timeunit",prescriPatient.getTimeUnit(),activeUser)+"</td></tr>"+
+	    	              "<tr><td>"+getTran("mobile","prescriber",activeUser)+"</td><td>"+prescriPatient.getPrescriber().getFullName()+"</td></tr></table>");
 	    
 	    }
 	    conn.close();	

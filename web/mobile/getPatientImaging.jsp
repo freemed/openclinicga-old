@@ -1,7 +1,7 @@
 <%@include file="/mobile/validatePatient.jsp"%>
 
 <table width='100%'>
-	<tr><td colspan='3' bgcolor='peachpuff'><%=getTran("mobile","imagingdata",activeUser) %></td><td colspan='1' bgcolor='peachpuff'><%=getTran("web","protocol",activeUser) %></td><td colspan='1' bgcolor='peachpuff'><%=getTran("web","emergency",activeUser) %></td></tr>
+	<tr><td colspan='2' bgcolor='peachpuff'><b><%=getTran("mobile","imagingdata",activeUser) %></b></td><td colspan='1' bgcolor='peachpuff'><%=getTran("web","protocol",activeUser) %></td><td colspan='1' bgcolor='peachpuff'><%=getTran("web","emergency",activeUser) %></td></tr>
 <%
 	long week=7*24*3600*1000;
 	String sMinDate=new SimpleDateFormat("dd/MM/yyyy").format(new Date().getTime()-week);
@@ -36,7 +36,7 @@
 	Iterator iterator = requests.keySet().iterator();
 	while(iterator.hasNext()){
 		String key = (String)iterator.next();
-		out.println("<tr><td><a href='getPatientImagingResult.jsp?serverid="+key.split("\\|")[1]+"&transactionid="+key.split("\\|")[2]+"'>"+key.split("\\|")[0]+"</a></td><td>"+key.split("\\|")[4]+"</td><td>"+key.split("\\|")[3]+"</td><td>"+key.split("\\|")[5]+"</td><td>"+key.split("\\|")[6]+"</td></tr>");
+		out.println("<tr><td colspan='4'><a href='getPatientImagingResult.jsp?serverid="+key.split("\\|")[1]+"&transactionid="+key.split("\\|")[2]+"'>"+key.split("\\|")[0]+"</a></td></tr><tr><td colspan='2'>"+key.split("\\|")[4]+"<br/>("+key.split("\\|")[3]+")</td><td>"+key.split("\\|")[5]+"</td><td>"+key.split("\\|")[6]+"</td></tr>");
 	}
 
 %>

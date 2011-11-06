@@ -29,10 +29,10 @@
 	}
 %>
 <table width='100%'>
-	<tr><td colspan='2' bgcolor='peachpuff'><%=getTran("mobile","imagingResult",activeUser) %></td></tr>
+	<tr><td colspan='2' bgcolor='peachpuff'><b><%=getTran("mobile","imagingdata",activeUser) %></b></td></tr>
 	<tr>
 		<td><%=getTran("web","date",activeUser) %></td>
-		<td><%=orderdate %></td>
+		<td><b><%=orderdate %></b></td>
 	</tr>
 	<tr>
 		<td><%=getTran("web","healthprofessional",activeUser) %></td>

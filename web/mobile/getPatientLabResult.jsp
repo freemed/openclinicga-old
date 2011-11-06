@@ -1,18 +1,23 @@
 <%@include file="/mobile/validatePatient.jsp"%>
 
 <table width='100%'>
-	<tr><td colspan='5' bgcolor='peachpuff'><%=getTran("mobile","labResult",activeUser) %></td></tr>
+	<tr><td colspan='5' bgcolor='peachpuff'><b><%=getTran("mobile","labdata",activeUser) %></b></td></tr>
 	<%
 	TransactionVO transaction = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(request.getParameter("serverid")),Integer.parseInt(request.getParameter("transactionid")));
 	if(transaction!=null){
-		out.println("<tr><td>"+new SimpleDateFormat("dd/MM/yyyy").format(transaction.getUpdateTime())+"</td><td colspan='4'>ID: "+transaction.getUid()+"</td></tr>");
+		out.println("<tr><td><b>"+new SimpleDateFormat("dd/MM/yyyy").format(transaction.getUpdateTime())+"</b></td><td colspan='3'>ID: "+transaction.getUid()+"</td></tr>");
 		Hashtable labresult = RequestedLabAnalysis.getLabAnalysesForLabRequest(Integer.parseInt(request.getParameter("serverid")),Integer.parseInt(request.getParameter("transactionid")));
-	  
+		SortedSet set = new TreeSet();
 	   	Enumeration e = labresult.keys();
 	   	while(e.hasMoreElements()){
-		   	String analysisCode = (String)e.nextElement();
+	   		set.add(e.nextElement());
+	   	}		
+		
+	   	Iterator iterator=set.iterator();
+	   	while(iterator.hasNext()){
+		   	String analysisCode = (String)iterator.next();
 		   	RequestedLabAnalysis analysis = (RequestedLabAnalysis)labresult.get(analysisCode);
-		   	out.println("<tr><td>"+analysisCode+"</td><td>"+LabAnalysis.labelForCode(analysisCode,activeUser.person.language)+"</td><td>"+analysis.getResultValue()+"</td><td>"+analysis.getResultUnit()+"</td><td>"+analysis.getResultModifier()+"</td></tr>");
+		   	out.println("<tr><td>"+LabAnalysis.labelForCode(analysisCode,activeUser.person.language)+"</td><td>"+analysis.getResultValue()+"</td><td>"+analysis.getResultUnit()+"</td><td>"+analysis.getResultModifier()+"</td></tr>");
 	   	}
 	}
 	   
