@@ -257,7 +257,6 @@
     String sEditEnd = checkString(request.getParameter("EditEnd"));
     String sClass = "";
     InsurarInvoice insurarInvoice = null;
-
     if (sEditInsurarInvoiceUID.length() > 0) {
         insurarInvoice = InsurarInvoice.get(sEditInsurarInvoiceUID);
         Vector vDebets = insurarInvoice.getDebets();

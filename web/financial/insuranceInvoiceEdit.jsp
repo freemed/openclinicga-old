@@ -202,6 +202,7 @@
                             <option value="default" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
                             <option value="rama" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("rama")?"selected":""%>><%=getTranNoLink("web","ramamodel",sWebLanguage)%></option>
                             <option value="ramanew" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
+                            <option value="ramacsv" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
                         </select>
                             <%
                                 if(insurarInvoice.getStatus().equalsIgnoreCase("closed")){
@@ -345,8 +346,14 @@ function doBalance(oObject, bAdd) {
 
 <%-- PRINT PDF --%>
 function doPrintPdf(invoiceUid) {
-    var url = "<c:url value='/financial/createInsurarInvoicePdf.jsp'/>?InvoiceUid=" + invoiceUid + "&ts=<%=getTs()%>&PrintLanguage=" + EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    if(EditForm.PrintModel.value=='ramacsv'){
+		var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid=" + invoiceUid + "&ts=<%=getTs()%>&docid=invoice.rama";
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    }
+    else {
+		var url = "<c:url value='/financial/createInsurarInvoicePdf.jsp'/>?InvoiceUid=" + invoiceUid + "&ts=<%=getTs()%>&PrintLanguage=" + EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    }
 }
 
 function searchInsurar() {
