@@ -47,6 +47,10 @@ public class UpdateSystem {
         }
 	}
 	
+	public static void updateQueries(javax.servlet.ServletContext application){
+		UpdateQueries.updateQueries(application);
+	}
+	
 	public static void updateDb(){
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": start updatedb");
 		try {

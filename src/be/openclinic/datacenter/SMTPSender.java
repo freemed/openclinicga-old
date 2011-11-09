@@ -21,7 +21,7 @@ public class SMTPSender extends Sender {
 		 		if(messages.size()>0){
 			 		String host = MedwanQuery.getInstance().getConfigString("datacenterSMTPHost","localhost");
 			        String from = MedwanQuery.getInstance().getConfigString("datacenterSMTPFrom","");
-			        String to = MedwanQuery.getInstance().getConfigString("datacenterSMTPTo","server.mxs@globalhealthbarometer.org");
+			        String to = MedwanQuery.getInstance().getConfigString("datacenterSMTPTo","server.mxs@globalhealthbarometer.net");
 			        String datacenterServerId=MedwanQuery.getInstance().getConfigString("datacenterServerId","");
 			        String msgid=new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 			 		//Compose mail content

@@ -32,7 +32,8 @@ public class SendSMS {
 		System.out.println("  Battery Level: " + gateway.getBatteryLevel() + "%");
 		System.out.println();
 		// Send a message synchronously.
-		OutboundMessage msg = new OutboundMessage("+32495120442", "Hello from SMSLib!");
+		//OutboundMessage msg = new OutboundMessage("+32495120442", "Hello from SMSLib!");
+		OutboundMessage msg = new OutboundMessage("+32475621569", "Hello from SMSLib!");
 		Service.getInstance().sendMessage(msg);
 		System.out.println(msg);
 		//msg = new OutboundMessage("+309999999999", "Wrong number!");
