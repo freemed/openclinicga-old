@@ -35,11 +35,11 @@
 		</tr>
 		<tr>
 			<td class="admin">datacenterPOP3Host</td>
-			<td class="admin2"><input type="text" size="80" name="datacenterPOP3Host" value="<%=MedwanQuery.getInstance().getConfigString("datacenterPOP3Host","mail.globalhealthbarometer.org")%>"/></td>
+			<td class="admin2"><input type="text" size="80" name="datacenterPOP3Host" value="<%=MedwanQuery.getInstance().getConfigString("datacenterPOP3Host","mail.globalhealthbarometer.net")%>"/></td>
 		</tr>
 		<tr>
 			<td class="admin">datacenterPOP3Username</td>
-			<td class="admin2"><input type="text" size="80" name="datacenterPOP3Username" value="<%=MedwanQuery.getInstance().getConfigString("datacenterPOP3Username","@globalhealthbarometer.org")%>"/></td>
+			<td class="admin2"><input type="text" size="80" name="datacenterPOP3Username" value="<%=MedwanQuery.getInstance().getConfigString("datacenterPOP3Username","@globalhealthbarometer.net")%>"/></td>
 		</tr>
 		<tr>
 			<td class="admin">datacenterPOP3Password</td>
@@ -47,15 +47,15 @@
 		</tr>
 		<tr>
 			<td class="admin">datacenterSMTPHost</td>
-			<td class="admin2"><input type="text" size="80" name="datacenterSMTPHost" value="<%=MedwanQuery.getInstance().getConfigString("datacenterSMTPHost","mail.globalhealthbarometer.org")%>"/></td>
+			<td class="admin2"><input type="text" size="80" name="datacenterSMTPHost" value="<%=MedwanQuery.getInstance().getConfigString("datacenterSMTPHost","mail.globalhealthbarometer.net")%>"/></td>
 		</tr>
 		<tr>
 			<td class="admin">datacenterSMTPFrom</td>
-			<td class="admin2"><input type="text" size="80" name="datacenterSMTPFrom" value="<%=MedwanQuery.getInstance().getConfigString("datacenterSMTPFrom","@globalhealthbarometer.org")%>"/></td>
+			<td class="admin2"><input type="text" size="80" name="datacenterSMTPFrom" value="<%=MedwanQuery.getInstance().getConfigString("datacenterSMTPFrom","@globalhealthbarometer.net")%>"/></td>
 		</tr>
 		<tr>
 			<td class="admin">datacenterSMTPTo</td>
-			<td class="admin2"><input type="text" size="80" name="datacenterSMTPTo" value="<%=MedwanQuery.getInstance().getConfigString("datacenterSMTPTo","server.mxs@globalhealthbarometer.org")%>"/></td>
+			<td class="admin2"><input type="text" size="80" name="datacenterSMTPTo" value="<%=MedwanQuery.getInstance().getConfigString("datacenterSMTPTo","server.mxs@globalhealthbarometer.net")%>"/></td>
 		</tr>
 		<tr>
 			<td class="admin">datacenterTemplateSource</td>
