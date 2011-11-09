@@ -99,4 +99,10 @@
 	<Query id="QUERY.updateRwandaZipcodes.1" db="ocadmin" date="13/08/2011" dbserver="MySQL">
 	  	update rwandazipcodes set district='RULINDO'  where district='rurindo'
   	</Query>
+	<Query id="QUERY.updateDatacenterDomain.1" db="openclinic" date="9/11/2011" dbserver="Microsoft SQL Server">
+	  	update OC_CONFIG set OC_VALUE=replace(convert(varchar(255),OC_VALUE),'globalhealthbarometer.org','globalhealthbarometer.net') where OC_VALUE like '%globalhealthbarometer.org%'
+  	</Query>
+	<Query id="QUERY.updateDatacenterDomain.1" db="openclinic" date="9/11/2011" dbserver="MySQL">
+	  	update OC_CONFIG set OC_VALUE=replace(OC_VALUE,'globalhealthbarometer.org','globalhealthbarometer.net') where OC_VALUE like '%globalhealthbarometer.org%'
+  	</Query>
 </Queries>
