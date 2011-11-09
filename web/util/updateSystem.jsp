@@ -1,6 +1,7 @@
 <%@page import="be.mxs.common.util.system.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%
+	UpdateSystem.updateQueries(application);
 	UpdateSystem.updateDb();
 	UpdateSystem.updateLabels(sAPPFULLDIR);
 	UpdateSystem.updateTransactionItems(sAPPFULLDIR);
