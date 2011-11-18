@@ -8,7 +8,7 @@ import org.smslib.modem.*;
 
 public class SendSMS {
 
-	public void send(String portname,String port,int baud,String brand,String model,String pin) throws Exception
+	public void send(String portname,String port,int baud,String brand,String model,String pin,String destination,String message) throws Exception
 	{
 		OutboundNotification outboundNotification = new OutboundNotification();
 		System.out.println("Example: Send message from a serial gsm modem.");
@@ -32,8 +32,7 @@ public class SendSMS {
 		System.out.println("  Battery Level: " + gateway.getBatteryLevel() + "%");
 		System.out.println();
 		// Send a message synchronously.
-		//OutboundMessage msg = new OutboundMessage("+32495120442", "Hello from SMSLib!");
-		OutboundMessage msg = new OutboundMessage("+32475621569", "Hello from SMSLib!");
+		OutboundMessage msg = new OutboundMessage(destination, message);
 		Service.getInstance().sendMessage(msg);
 		System.out.println(msg);
 		//msg = new OutboundMessage("+309999999999", "Wrong number!");

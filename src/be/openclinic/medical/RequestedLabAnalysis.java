@@ -100,6 +100,7 @@ public class RequestedLabAnalysis {
 
     public void setFinalvalidationdatetime(java.util.Date finalvalidationdatetime) {
         this.finalvalidationdatetime = finalvalidationdatetime;
+        
     }//--- CONSTRUCTOR 1 ---------------------------------------------------------------------------
     public RequestedLabAnalysis(){
         serverId      = "";
@@ -143,6 +144,31 @@ public class RequestedLabAnalysis {
         this.resultUserId   = resultUserId;
         this.resultDate     = resultDate;
         this.resultProvisional = resultProvisional;
+    }
+
+    //--- CONSTRUCTOR 3 ---Includes: finalvalidationdatetime -------------------------------------------
+    public RequestedLabAnalysis(String serverId, String transactionId, String patientId, String analysisCode,
+                                String comment, String resultValue, String resultUnit, String resultModifier,
+                                String resultComment, String resultRefMax, String resultRefMin,
+                                String resultUserId, java.util.Date resultDate, String resultProvisional,java.util.Date finalvalidationdatetime){
+        // lab analysis..
+        this.serverId      = serverId;
+        this.transactionId = transactionId;
+        this.patientId     = patientId;
+        this.analysisCode  = analysisCode;
+        this.comment       = comment;
+
+        // lab result..
+        this.resultValue    = resultValue;
+        this.resultUnit     = resultUnit;
+        this.resultModifier = resultModifier;
+        this.resultComment  = resultComment;
+        this.resultRefMax   = resultRefMax;
+        this.resultRefMin   = resultRefMin;
+        this.resultUserId   = resultUserId;
+        this.resultDate     = resultDate;
+        this.resultProvisional = resultProvisional;
+        this.finalvalidationdatetime = finalvalidationdatetime;
     }
 
     public java.util.Date getRequestDate() {
@@ -1590,4 +1616,29 @@ public class RequestedLabAnalysis {
 
        return l;
     }
+      
+      public String getNotifyBySMS(){
+      //public static String getNotifyBySMS(){
+    	  //transactieitem ophalen dat SMS nummer zou kunnen bevatten
+    	  ItemVO itemVO = MedwanQuery.getInstance().getItem(Integer.parseInt(this.getServerId()), Integer.parseInt(this.getTransactionId()), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS");
+    	  //ItemVO itemVO = MedwanQuery.getInstance().getItem(Integer.parseInt(getServerId()), Integer.parseInt(getTransactionId()), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS");
+    	  if(itemVO!=null){
+    		  if(itemVO.getValue().trim().length()>0){
+    			  return itemVO.getValue();
+    		  }
+    	  }
+    	  return null;
+      }
+
+      public String getNotifyByEmail(){
+    	  //transactieitem ophalen dat Email adres zou kunnen bevatten
+    	  ItemVO itemVO = MedwanQuery.getInstance().getItem(Integer.parseInt(this.getServerId()), Integer.parseInt(this.getTransactionId()), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL");
+    	  if(itemVO!=null){
+    		  if(itemVO.getValue().indexOf("@")>-1){
+    			  return itemVO.getValue();
+    		  }
+    	  }
+    	  return null;
+      }
+      
 }

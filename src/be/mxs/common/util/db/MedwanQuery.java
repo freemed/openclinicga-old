@@ -8,6 +8,7 @@ import be.dpms.medwan.services.exceptions.InternalServiceException;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 import be.mxs.common.model.vo.IdentifierFactory;
 import be.mxs.common.model.vo.healthrecord.*;
+import be.mxs.common.util.broker.BrokerScheduler;
 import be.mxs.common.util.io.MessageReader;
 import be.mxs.common.util.io.MessageReaderMedidoc;
 import be.mxs.common.util.system.Debug;
@@ -84,6 +85,7 @@ public class MedwanQuery {
     private Hashtable serviceexaminations = new Hashtable();
     private Hashtable serviceexaminationsincludingparent = new Hashtable();
     private Scheduler scheduler;
+    private BrokerScheduler brokerScheduler;
     private Hashtable datacenterparametertypes=new Hashtable();
 
     public Hashtable getDatacenterparametertypes() {
@@ -491,6 +493,7 @@ public class MedwanQuery {
         }
 
         scheduler=new Scheduler();        
+        brokerScheduler=new BrokerScheduler();
     }
     
     public void stopScheduler(){

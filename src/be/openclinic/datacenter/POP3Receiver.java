@@ -92,8 +92,10 @@ public class POP3Receiver extends Receiver {
 					    	else {
 					    		//TODO: send warning to system administrator 
 					    		//ACK received addressed to other server!
-					    		String error="Server "+MedwanQuery.getInstance().getConfigInt("datacenterServerId",0)+" received SMTP ACK message intended for server "+msg.getServerId();
-					    		SMTPSender.sendSysadminMessage(error, msg);
+					    		if(MedwanQuery.getInstance().getConfigInt("datacenterServerId",0)>=0 && msg.getServerId()>0){
+						    		String error="Server "+MedwanQuery.getInstance().getConfigInt("datacenterServerId",0)+" received SMTP ACK message intended for server "+msg.getServerId();
+						    		SMTPSender.sendSysadminMessage(error, msg);
+					    		}
 					    	}
 						}
 				    	message[i].setFlag(Flags.Flag.DELETED, true);
@@ -128,8 +130,10 @@ public class POP3Receiver extends Receiver {
 					    	else {
 					    		//TODO: send warning to system administrator 
 					    		//Import ACK received addressed to other server!
-					    		String error="Server "+MedwanQuery.getInstance().getConfigInt("datacenterServerId",0)+" received SMTP Import ACK message intended for server "+msg.getServerId();
-					    		SMTPSender.sendSysadminMessage(error, msg);
+					    		if(MedwanQuery.getInstance().getConfigInt("datacenterServerId",0)>=0 && msg.getServerId()>0){
+						    		String error="Server "+MedwanQuery.getInstance().getConfigInt("datacenterServerId",0)+" received SMTP ACK message intended for server "+msg.getServerId();
+						    		SMTPSender.sendSysadminMessage(error, msg);
+					    		}
 					    	}
 						}
 				    	message[i].setFlag(Flags.Flag.DELETED, true);
