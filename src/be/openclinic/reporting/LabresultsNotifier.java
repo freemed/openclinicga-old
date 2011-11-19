@@ -672,7 +672,7 @@ public class LabresultsNotifier {
 				String sPinCode = MedwanQuery.getInstance().getConfigString("smsPincode","2147"); //prox pay n go
 				String sPort= MedwanQuery.getInstance().getConfigString("smsDevicePort","/dev/ttyS20");
 				int nBaudrate=MedwanQuery.getInstance().getConfigInt("smsBaudrate",115200);
-				System.setProperty("smslib.serial.polling", "true");
+				System.setProperty("smslib.serial.polling", MedwanQuery.getInstance().getConfigString("smsPolling","false"));
 				SendSMS sendSMS = new SendSMS();				
 				/*
 				sResult = sResult + "This is only a test text to complete more than 160 characters ffffffffffffffffffffffffffffffffffff fdfdf \n"+
