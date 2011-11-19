@@ -2,5 +2,5 @@
 <%
 	//CommTest.main(null);
 	SendSMS sendSMS = new SendSMS();
-	sendSMS.send("modem.com7", "COM7", 9600, "Nokia", "6100", "8821");
+	sendSMS.send("COM4", "COM4", 115200, "Nokia", "2690", "2147", "+32475621569", "test");
 %>
