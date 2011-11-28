@@ -128,9 +128,7 @@ public class CsvInvoiceRama {
 	                    }
 	                }                
 	                total100pct+=rTotal;
-	                System.out.println("total100pct="+total100pct);
 	                total85pct+=rInsurarAmount;
-	                System.out.println("total85pct="+total85pct);
 	                prevdate = date;
 	                sPrevPatientName = sPatientName;
 	            }

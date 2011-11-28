@@ -790,7 +790,6 @@ public class ServiceStock extends OC_Object {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String sSelect = "SELECT * FROM OC_SERVICESTOCKS b where exists (select * from OC_PRODUCTSTOCKS a where a.OC_STOCK_SERVICESTOCKUID="+MedwanQuery.getInstance().convert("varchar", "b.OC_STOCK_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "b.OC_STOCK_OBJECTID")+") order by OC_STOCK_NAME";
-            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
             // execute
             rs = ps.executeQuery();

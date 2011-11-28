@@ -102,6 +102,44 @@ public class UserParameter {
         }
     }
 
+    public static void saveUserParameter(String parameter, String value, int userid){
+        PreparedStatement ps = null,ps2 = null;
+
+        String sUpdate = "UPDATE UserParametersView SET active = 1"+
+                          " WHERE userid = ? AND parameter = ? AND myvalue = ?";
+
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sUpdate);
+            ps.setInt(1,userid);
+            ps.setString(2,parameter);
+            ps.setString(3,value);
+
+            if (ps.executeUpdate()==0) {
+                String sInsert = "INSERT INTO UserParameters VALUES (?,?,?,?,1)";
+                ps2 = ad_conn.prepareStatement(sInsert);
+                ps2.setInt(1,userid);
+                ps2.setString(2,parameter);
+                ps2.setString(3,value);
+                ps2.setTimestamp(4, ScreenHelper.getSQLTime());
+                ps2.executeUpdate();
+                ps2.close();
+            }
+            ps.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(ps!=null)ps.close();
+                if(ps2!=null)ps.close();
+                ad_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void updateParameter(String parameter, String value, String oldValue){
         PreparedStatement ps = null;
         
@@ -185,5 +223,39 @@ public class UserParameter {
             }
         }
         return vIds;
+    }
+    
+    public static String getParameter(String sUserId,String sParameter){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String value="";
+
+        String sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND parameter = ?";
+
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sSelect);
+            ps.setString(1,sUserId);
+            ps.setString(2,sParameter);
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                value=ScreenHelper.checkString(rs.getString("value"));
+            }
+            rs.close();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                ad_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return value;
     }
 }

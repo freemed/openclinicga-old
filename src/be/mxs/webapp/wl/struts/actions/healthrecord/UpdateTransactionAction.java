@@ -24,6 +24,7 @@ import be.openclinic.finance.Prestation;
 import be.openclinic.medical.Diagnosis;
 import net.admin.User;
 import net.admin.AdminPerson;
+import net.admin.UserParameter;
 import net.admin.system.AccessLog;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -360,6 +361,17 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                                 }
                             }
                         }
+                    }
+                    else if(returnedTransactionVO.getTransactionType().equals("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_LAB_REQUEST")){
+                    	//Bewaar SMS en e-mail in user profiel
+                    	item = returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS");
+                    	if(item!=null && ScreenHelper.checkString(item.getValue()).length()>0){
+                    		UserParameter.saveUserParameter("lastLabSMS", item.getValue(), returnedTransactionVO.getUser().userId);
+                    	}
+                    	item = returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL");
+                    	if(item!=null && ScreenHelper.checkString(item.getValue()).length()>0){
+                    		UserParameter.saveUserParameter("lastLabEmail", item.getValue(), returnedTransactionVO.getUser().userId);
+                    	}
                     }
 
                     //Delete diagnoses from OC_DIAGNOSES and ADD all+new again

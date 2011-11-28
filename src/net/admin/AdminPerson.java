@@ -11,6 +11,7 @@ import be.openclinic.medical.Prescription;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -2507,6 +2508,20 @@ public class AdminPerson extends OC_Object{
         return vResults;
     }
 
+    public double getAgeInMonths(){
+    	long millis =0;
+    	try {
+			millis= new java.util.Date().getTime()-new SimpleDateFormat("dd/MM/yyyy").parse(this.dateOfBirth).getTime();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	long month=(365/12)*24*3600;
+    	month*=1000;
+    	double age =millis/month;
+    	return age;
+    }
+    
     //--- GET AGE ------------------------------------------------------------------------------------
     public int getAge(){
         int age = -1;

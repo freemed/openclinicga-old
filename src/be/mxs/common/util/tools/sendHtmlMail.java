@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import javax.activation.*; // Needed for Email with Images // Attachments .DataSource
 
+import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 
 public class sendHtmlMail {
@@ -78,13 +79,13 @@ public class sendHtmlMail {
 	        props.setProperty("mail.host", smtpServer); //props.setProperty("mail.user", "myuser"); //props.setProperty("mail.password", "mypwd");
 	
 	        Session mailSession = Session.getDefaultInstance(props, null);
-	        mailSession.setDebug(true);
+	        mailSession.setDebug(MedwanQuery.getInstance().getConfigString("Debug").equalsIgnoreCase("On"));
 	        Transport transport = mailSession.getTransport();
 	
 	        MimeMessage message = new MimeMessage(mailSession);
 	        message.setSubject(sSubject);
 	        message.setFrom(new InternetAddress(sFrom));	  
-	        //message.setSentDate(new java.util.Date());
+	        message.setSentDate(new java.util.Date());
 	        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sTo,false));
 	
 	        // This HTML mail have to 2 part, the BODY and the embedded image       

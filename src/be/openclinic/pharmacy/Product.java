@@ -674,7 +674,6 @@ public class Product extends OC_Object implements Comparable {
             if(sFindMinOrderPackages.length() > 0) ps.setInt(questionMarkIdx++,Integer.parseInt(sFindMinOrderPackages));
             if(sFindProductGroup.length() > 0)     ps.setString(questionMarkIdx++,sFindProductGroup);
 
-            System.out.println(sSelect);
             // execute
             rs = ps.executeQuery();
 

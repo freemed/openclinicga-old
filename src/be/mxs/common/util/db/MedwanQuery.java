@@ -84,8 +84,8 @@ public class MedwanQuery {
     private Hashtable examinations = new Hashtable();
     private Hashtable serviceexaminations = new Hashtable();
     private Hashtable serviceexaminationsincludingparent = new Hashtable();
-    private Scheduler scheduler;
-    private BrokerScheduler brokerScheduler;
+    private static Scheduler scheduler;
+    private static BrokerScheduler brokerScheduler;
     private Hashtable datacenterparametertypes=new Hashtable();
 
     public Hashtable getDatacenterparametertypes() {
@@ -491,15 +491,25 @@ public class MedwanQuery {
         catch (Exception e) {
             if (Debug.enabled) Debug.println(e.getMessage());
         }
-
-        scheduler=new Scheduler();        
-        brokerScheduler=new BrokerScheduler();
+        if(scheduler==null){
+        	scheduler=new Scheduler();
+        }
+        if(brokerScheduler==null){
+        	brokerScheduler=new BrokerScheduler();
+        }
     }
     
     public void stopScheduler(){
     	if(scheduler!=null){
     		scheduler.setStopped(true);
     	}
+    }
+    
+    public void resetBrokerScheduler(){
+    	if(brokerScheduler!=null){
+    		brokerScheduler.setStopped(true);
+    	}
+		brokerScheduler=new BrokerScheduler();
     }
     
     public String getValue(String parameter) {
@@ -2934,9 +2944,7 @@ public class MedwanQuery {
             ResultSet Occuprs = Occupstatement.executeQuery();
             if (Occuprs.next()) {
                 Date dateOfBirth = Occuprs.getDate("dateofbirth");
-                out("DateOfBirth=" + dateOfBirth);
                 float age = getNrYears(dateOfBirth, new java.util.Date());
-                out("Age=" + age);
                 Occuprs.close();
                 Occupstatement.close();
                 OccupdbConnection.close();
@@ -2960,9 +2968,7 @@ public class MedwanQuery {
             ResultSet Occuprs = Occupstatement.executeQuery();
             if (Occuprs.next()) {
                 Date dateOfBirth = Occuprs.getDate("dateofbirth");
-                out("DateOfBirth=" + dateOfBirth);
                 int age = new Double(getNrYears(dateOfBirth, new java.util.Date())).intValue();
-                out("Age=" + age);
                 Occuprs.close();
                 Occupstatement.close();
                 OccupdbConnection.close();

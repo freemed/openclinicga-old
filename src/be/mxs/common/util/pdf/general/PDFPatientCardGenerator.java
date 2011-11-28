@@ -114,8 +114,8 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
             cell.setBorder(Cell.NO_BORDER);
             cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
             cell.setColspan(1);
-            cell.setPaddingLeft(10);
-            cell.setPaddingRight(10);
+            cell.setPaddingLeft(2);
+            cell.setPaddingRight(2);
             table.addCell(cell);
 
             //Barcode + archiving code
@@ -180,15 +180,11 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
             cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
             table.addCell(cell);
 
-            cell=createLabel(" ",6,4,Font.NORMAL);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-            table.addCell(cell);
-
             cell=createBorderlessCell(4);
-            cell.setBorder(PdfCell.BOTTOM);
             table.addCell(cell);
 
             cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardhospitalref",user.person.language),6,4,Font.NORMAL);
+            cell.setBorder(PdfCell.TOP);
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
             table.addCell(cell);
 
