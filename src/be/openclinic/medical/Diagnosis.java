@@ -479,7 +479,7 @@ public class Diagnosis extends OC_Object{
         PreparedStatement ps;
         ResultSet rs = null;
 
-        String sCondition = " a.OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","b.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.oc_encounter_objectid")+" and";
+        String sCondition = " b.oc_encounter_objectid=replace(a.OC_DIAGNOSIS_ENCOUNTERUID,'"+ MedwanQuery.getInstance().getConfigString("serverId")+".','') and";
         String sSelect = " SELECT distinct OC_DIAGNOSIS_SERVERID,OC_DIAGNOSIS_OBJECTID,OC_DIAGNOSIS_CODE,OC_DIAGNOSIS_DATE," +
                 "OC_DIAGNOSIS_ENDDATE,OC_DIAGNOSIS_CERTAINTY,OC_DIAGNOSIS_GRAVITY,"+ MedwanQuery.getInstance().convert("varchar(4000)","OC_DIAGNOSIS_LATERALISATION")+" as OC_DIAGNOSIS_LATERALISATION," +
                 "OC_DIAGNOSIS_ENCOUNTERUID,OC_DIAGNOSIS_AUTHORUID,OC_DIAGNOSIS_CODETYPE,OC_DIAGNOSIS_POA,OC_DIAGNOSIS_NC,OC_DIAGNOSIS_SERVICEUID,OC_DIAGNOSIS_FLAGS  FROM OC_DIAGNOSES a,OC_ENCOUNTERS_view b";
@@ -514,7 +514,7 @@ public class Diagnosis extends OC_Object{
         }
 
         sSelect += " ORDER BY " + findSortColumn;
-
+        
         Vector vDiagnoses = new Vector();
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
