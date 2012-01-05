@@ -14,7 +14,6 @@
        "and b.type = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID' "+
        "and b.value = concat((c.oc_encounter_serverid),'.',(c.oc_encounter_objectid))"+
        "and b.value ='"+request.getParameter("contactuid")+"'";
-	   System.out.println(sQuery);
 	   PreparedStatement ps = conn.prepareStatement(sQuery);   
 	   ResultSet rs = ps.executeQuery();
 	   while(rs.next()){
