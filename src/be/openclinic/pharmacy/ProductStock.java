@@ -598,7 +598,7 @@ public class ProductStock extends OC_Object implements Comparable {
             // bind the serviceStock table
             String convertServerId = MedwanQuery.getInstance().convert("varchar(16)", "p.OC_PRODUCT_SERVERID");
             String convertObjectId = MedwanQuery.getInstance().convert("varchar(16)", "p.OC_PRODUCT_OBJECTID");
-            sSelect += " ps.OC_STOCK_PRODUCTUID = (" + convertServerId + MedwanQuery.getInstance().concatSign() + "'.'" + MedwanQuery.getInstance().concatSign() + convertObjectId + ") ";
+            sSelect += " p.OC_PRODUCT_OBJECTID=replace(ps.OC_STOCK_PRODUCTUID,'" +  MedwanQuery.getInstance().getConfigInt("serverId") + ".','') ";
 
             // match search criteria
             if (sFindServiceStockUid.length() > 0 || sFindProductUid.length() > 0 || sFindLevel.length() > 0 ||
@@ -651,6 +651,7 @@ public class ProductStock extends OC_Object implements Comparable {
 
             // order by selected col or default col
             sSelect += "ORDER BY " + sSortCol + " " + sSortDir;
+            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
 
             // set questionmark values
