@@ -13,22 +13,33 @@
         List l =  AccessLog.getLastAccess(patientId,2);
         String s = "";
         if(l.size()>1){
+        	try{
             Object[] ss = (Object[])l.get(1);
+            System.out.println(2);
             Timestamp t = (Timestamp)ss[0];
+            System.out.println(3);
             Hashtable u = User.getUserName((String)ss[1]);
-            s+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ dateformat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
+            System.out.println(4);
+            s+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ (t==null?"?":dateformat.format(t))+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+(u==null?"?":u.get("firstname")+" "+u.get("lastname"))+"</b></span>";
+            System.out.println(5);
             s+=" | <a href='javascript:void(0)' onclick='getAccessHistory(20)' class='link history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a><a href='javascript:void(0)' onclick='getAdminHistory(20)' class='link adminhistory' title='"+getTranNoLink("web","adminhistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
+            System.out.println(6);
+        	}
+        	catch(Exception e){
+        		e.printStackTrace();
+        	}
         }
         return s;
     }
 %>
-
+<%System.out.println(activePatient.personid); %>
 <script type="text/javascript">
     window.document.title="<%=sWEBTITLE+" "+getWindowTitle(request, sWebLanguage)%>";
 </script>
 <%-- ADMINISTRATIVE DATA --%>
 <table width="100%" class="list">
     <tr><td colspan="10" class="titleadmin"><div style="float:left;"><%=getTran("web","administrative.data",sWebLanguage)%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%></td></tr>
+<%System.out.println(2); %>
 <%
     boolean bPicture=Picture.exists(Integer.parseInt(activePatient.personid));
     if (bPicture) {
@@ -39,6 +50,7 @@
             fileOutputStream.write(picture.getPicture());
             fileOutputStream.close();
 %>
+<%System.out.println(3); %>
         <tr >
             <td class="image" valign="top" width="143px"><img border='0'  src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
             <td valign="top">
@@ -51,20 +63,16 @@
         }
     }
 %>
-<%
-	System.out.println(new java.util.Date()+" 1");
-%>
+<%System.out.println(4); %>
                 <tr><td colspan="2"><%conditionalInclude("curative/encounterStatus.jsp",pageContext,"adt.encounter.select",activeUser);%></td><tr>
-<%
-	System.out.println(new java.util.Date()+" 2");
-%>
+<%System.out.println(5); %>
+
                 <tr>
                     <td valign="top" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
                     <td><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
                 <tr>
-<%
-	System.out.println(new java.util.Date()+" 3");
-%>
+<%System.out.println(6); %>
+
                 <tr><td colspan="2"><%conditionalInclude("curative/planningStatus.jsp",pageContext,"planning.select",activeUser);%></td><tr>
 
         <%
@@ -79,6 +87,7 @@
 </table>
 <div style="height:2px;"></div>
 <%-- MEDICAL DATA --%>
+<%System.out.println(7); %>
 <% if(activeUser.getAccessRight("medical.select")){%>
     <table width="100%" class="list">
         <tr><td colspan="6" class="titleadmin"><%=getTran("web","medical.data",sWebLanguage)%></td></tr>
@@ -96,6 +105,7 @@
 <%
     }
 %>
+<%System.out.println(8); %>
 <div id="responseByAjax">&nbsp;</div>
 <div id="weekSchedulerFormByAjax" style="display:none;position:absolute;background:white">&nbsp;</div>
 <script>

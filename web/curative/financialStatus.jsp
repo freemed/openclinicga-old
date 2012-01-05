@@ -4,12 +4,9 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
     Debug.println("financial start");
-	System.out.println(new java.util.Date()+" 1");
     Balance balance = Balance.getActiveBalance(activePatient.personid);
-	System.out.println(new java.util.Date()+" 2");
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
     double saldo = Balance.getPatientBalance(activePatient.personid);
-	System.out.println(new java.util.Date()+" 3");
 %>
 <table width="100%" cellpadding="0" cellspacing="0" class="list">
     <tr class="admin">
