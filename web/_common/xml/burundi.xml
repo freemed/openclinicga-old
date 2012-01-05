@@ -1,0 +1,6 @@
+<districts directory="burundi" country="burundi" iso="BI" countrymap="burundi.png">
+	<district id="1" province="kirundo" district="bugabira" zipcode="BI.KI.BG" map="1.png"/>
+	<district id="2" province="kirundo" district="busoni" zipcode="BI.KI.BS" map="2.png"/>
+	<district id="4" province="kirundo" district="ntega" zipcode="BI.KI.NT" map="4.png"/>
+	<district id="8" province="kirundo" district="vumbi" zipcode="BI.KI.VU" map="8.png"/>
+</districts>
