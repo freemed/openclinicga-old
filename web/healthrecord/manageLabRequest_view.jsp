@@ -249,16 +249,41 @@
     <%-- SMS --%>
     <tr>
         <td class="admin"><%=getTran("Web","warnsms",sWebLanguage)%></td>
-        <td class="admin2">
-            <input type='text' id="prescriber" <%=setRightClick("ITEM_TYPE_LAB_SMS")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="value"/>"/>
+        <td class="admin2" >
+            <input type='text' id="labsms" <%=setRightClick("ITEM_TYPE_LAB_SMS")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="value"/>"/>
+        <%
+        	if(tran.getTransactionId()<=0){
+        		String labSMS=UserParameter.getParameter(activeUser.userid,"lastLabSMS");
+        		if(checkString(labSMS).length()>0){
+        			%>
+        			<a href="javascript:set('labsms','<%=labSMS %>')"><img src='<c:url value="/_img/valid.gif"/>'/> <%= labSMS%></a>
+        			<%
+        		}
+        	}
+        %>
         </td>
     </tr>
+    <script>
+    	function set(fieldid,val){
+    		document.getElementById(fieldid).value=val
+    	}
+    </script>
 
     <%-- EMAIL --%>
     <tr>
         <td class="admin"><%=getTran("Web","warnemail",sWebLanguage)%></td>
         <td class="admin2">
-            <input type='text' id="prescriber" <%=setRightClick("ITEM_TYPE_LAB_EMAIL")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="value"/>"/>
+            <input type='text' id="labmail" <%=setRightClick("ITEM_TYPE_LAB_EMAIL")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="value"/>"/>
+        <%
+        	if(tran.getTransactionId()<=0){
+        		String labMail=UserParameter.getParameter(activeUser.userid,"lastLabEmail");
+        		if(checkString(labMail).length()>0){
+        			%>
+        			<a href="javascript:set('labmail','<%=labMail %>')"><img src='<c:url value="/_img/valid.gif"/>'/> <%= labMail%></a>
+        			<%
+        		}
+        	}
+        %>
         </td>
     </tr>
 

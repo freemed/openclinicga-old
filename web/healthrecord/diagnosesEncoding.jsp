@@ -10,6 +10,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%
+System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+1);
 	String activeEncounterUid="",sRfe="";
 	SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
     TransactionVO curTran = sessionContainerWO.getCurrentTransactionVO();
@@ -23,6 +24,7 @@
         	activeEncounterUid=activeEnc.getUid();
         }
     }
+    System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+2);
     if(activeEncounterUid.length()>0){
         sRfe= ReasonForEncounter.getReasonsForEncounterAsHtml(activeEncounterUid,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
 		%>
@@ -46,6 +48,7 @@
         <td id='icpccodes'>
 	        <table width='100%'>
 			        <%
+			        System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+3);
 			         Iterator items = curTran.getItems().iterator();
 			         ItemVO item;
 			
@@ -54,7 +57,8 @@
 			         Hashtable hDiagnoses = Diagnosis.getDiagnosesByReferenceUID(sReferenceUID, sReferenceType);
 			         Hashtable hDiagnosisInfo;
 			         String sCode, sGravity, sCertainty,POA,NC,serviceUid,flags;
-			
+			         System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+4);
+
 			         while (items.hasNext()) {
 			             item = (ItemVO) items.next();
 			             if (item.getType().indexOf("ICPCCode") == 0) {
@@ -108,6 +112,7 @@
 			                 <%
 			             }
 			         }
+			         System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+5);
 			        %>
 	        </table>
 	    </td>
@@ -126,8 +131,10 @@
 			
 			         sReferenceUID = curTran.getServerId() + "." + curTran.getTransactionId();
 			         sReferenceType = "Transaction";
+  	 			        System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+6);
 			         Vector d = Diagnosis.selectDiagnoses("","",activeEncounterUid,"","","","","","","","","","");
-		
+			         System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+7);
+
 			         for (int n=0;n<d.size();n++) {
 			        	 Diagnosis diag=(Diagnosis)d.elementAt(n);
 	                     sGravity = diag.getGravity()+"";
@@ -146,6 +153,7 @@
 			                 <%
 			             }
 			         }
+			         System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+8);
 		        }
 		        %>
 	        </table>
