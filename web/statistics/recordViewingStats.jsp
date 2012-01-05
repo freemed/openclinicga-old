@@ -72,8 +72,10 @@
     	ResultSet rs = ps.executeQuery();
     	Vector lines=new Vector();
     	double generaltotal=0;
+    	double total=0;
+    	double rows=0;
     	while(rs.next()){
-    		double total = rs.getInt("total");
+    		total = rs.getInt("total");
     		double contacts = total;
     		generaltotal+=total;
     		int userid = rs.getInt("userid");
@@ -125,6 +127,7 @@
 		ps.close();
 		oc_conn.close();
     	for(int n=0;n<lines.size();n++){
+    		rows++;
     		Line line = (Line)lines.elementAt(n);
     		int creations=0;
     		if(hModif.get(line.userid)!=null){
@@ -132,6 +135,7 @@
     		}
     		out.println("<tr><td class='admin2'>"+line.userid+"</td><td class='admin2'>"+line.name.toUpperCase()+"</td><td class='admin2'>"+line.profile+"</td><td class='admin2'>"+line.service+"</td><td class='admin2'><b>"+new DecimalFormat("#,###").format(line.contacts)+"</b></td><td class='admin2'><b>"+new DecimalFormat("#,###").format(creations)+"</b></td></tr>");
     	}
+		out.println("<tr><td class='admin2'>total</td><td class='admin2'>"+rows+"</td><td class='admin2'></td><td class='admin2'></td><td class='admin2'><b></b></td><td class='admin2'><b></b></td></tr>");
 
     }
 %>
