@@ -33,7 +33,7 @@
 			}
 			totalStock-=batch.getLevel();
 		}
-		if(totalStock>0){
+		if(totalActive>0){
 			out.println(getTran("web","active.batches",sWebLanguage)+":");
 			out.println("<table width='100%'><tr class='admin'><th>"+getTran("web","batchnumber",sWebLanguage)+"</th><th>"+getTran("web","level",sWebLanguage)+"</th><th>"+
 					getTran("web","expires",sWebLanguage)+"</th><th>"+getTran("web","comment",sWebLanguage)+"</th></tr>");

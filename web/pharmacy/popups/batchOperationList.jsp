@@ -24,7 +24,7 @@ String batchUid=checkString(request.getParameter("batchUid"));
 String productStockUid=checkString(request.getParameter("productStockUid"));
 	Batch batch = Batch.get(batchUid);
 	int endLevel = batch.getLevel();
-	Vector operations = Batch.getProductStockOperations(batchUid,productStockUid);
+	Vector operations = Batch.getBatchOperations(batchUid,productStockUid);
 	for(int n=0;n<operations.size();n++){
 		BatchOperation operation = (BatchOperation)operations.elementAt(n);
 		int unitsChanged=operation.getQuantity();
@@ -34,11 +34,16 @@ String productStockUid=checkString(request.getParameter("productStockUid"));
 		if(checkString(productStockOperation.getPrescriptionUid()).length()>0){
 			prescription=getTran("web","yes",sWebLanguage);;
 		}
+		String date=new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate());
+		String thirdparty=checkString(operation.getThirdParty());
 		if(operation.getType().equalsIgnoreCase("receipt")){
 			//Incoming 
-			out.println("<tr><td class='admin2'>&lt;- "+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td>");
+			if(productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("supplier") || productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")){
+				thirdparty=	productStockOperation.getSourceDestination().getObjectUid();
+			}
+			out.println("<tr><td class='admin2'>&lt;- "+getTran("productstockoperation.medicationreceipt",productStockOperation.getDescription(),sWebLanguage)+"</td>");
 			out.println("<td class='admin2'>"+date+"</td>");
-			out.println("<td class='admin2'>"+getTran("productstockoperation.sourcedestinationtype",operation.getSourceDestination().getObjectType(),sWebLanguage)+"</td>");
+			out.println("<td class='admin2'>"+getTran("productstockoperation.sourcedestinationtype",productStockOperation.getSourceDestination().getObjectType(),sWebLanguage)+"</td>");
 			out.println("<td class='admin2'>"+thirdparty+"</td>");
 			out.println("<td class='admin2'>"+(endLevel-unitsChanged)+"</td>");
 			out.println("<td class='admin2'>+"+unitsChanged+"</td>");
@@ -49,17 +54,21 @@ String productStockUid=checkString(request.getParameter("productStockUid"));
 		}
 		else {
 			//Outgoing 
-			if (operation.getSourceDestination().getObjectType().equalsIgnoreCase("patient")){
-				out.println("<tr><td class='admin2'>-&gt; "+getTran("productstockoperation.patientmedicationdelivery",operation.getDescription(),sWebLanguage)+"</td>");
+			if (productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("patient")){
+				AdminPerson person=AdminPerson.getAdminPerson(thirdparty);
+				if(person!=null){
+					thirdparty=person.lastname.toUpperCase()+", "+person.firstname.toUpperCase();
+				}
+				out.println("<tr><td class='admin2'>-&gt; "+getTran("productstockoperation.medicationdelivery",productStockOperation.getDescription(),sWebLanguage)+"</td>");
 			}
 			out.println("<td class='admin2'>"+date+"</td>");
-			out.println("<td class='admin2'>"+getTran("productstockoperation.sourcedestinationtype",operation.getSourceDestination().getObjectType(),sWebLanguage)+"</td>");
+			out.println("<td class='admin2'>"+getTran("productstockoperation.sourcedestinationtype",productStockOperation.getSourceDestination().getObjectType(),sWebLanguage)+"</td>");
 			out.println("<td class='admin2'>"+thirdparty+"</td>");
 			out.println("<td class='admin2'>"+(endLevel+unitsChanged)+"</td>");
 			out.println("<td class='admin2'>"+(-unitsChanged)+"</td>");
 			out.println("<td class='admin2'>"+endLevel+"</td>");
 			out.println("<td class='admin2'>"+user+"</td>");
-			out.println("<td class='admin2'>"+(operation.getSourceDestination().getObjectType().equalsIgnoreCase("patient")?prescription:"")+"</td>");
+			out.println("<td class='admin2'>"+(productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("patient")?prescription:"")+"</td>");
 			endLevel+=unitsChanged;			
 		}
 	}
