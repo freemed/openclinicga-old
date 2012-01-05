@@ -97,10 +97,15 @@
                     String analysisCode = (String) analysisEnumeration.next();
                     String c = analysisCode;
                     String u = "";
+                    String refs="";
                     LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(analysisCode);
                     if (analysis != null) {
                         c = analysis.getLabId() + "";
-                        u = " (" + analysis.getUnit() + ")";
+                        refs = analysis.getResultRefMin(activePatient.gender,new Double(activePatient.getAgeInMonths()).intValue())+" - "+analysis.getResultRefMax(activePatient.gender,new Double(activePatient.getAgeInMonths()).intValue());
+                        if(refs.equalsIgnoreCase(" - ")){
+                        	refs="";
+                        }
+                        u = " (" + refs+" "+analysis.getUnit() + ")";
                     }
                     out.print("<td class='color color" + i + "'>" + analysisCode + "</td><td class='color color" + i + "' width='*'><b>" + MedwanQuery.getInstance().getLabel("labanalysis", c, sWebLanguage) + " " + u + "</b></td>");
                     requestsIterator = requestList.keySet().iterator();
