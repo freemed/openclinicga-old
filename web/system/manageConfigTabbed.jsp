@@ -25,9 +25,9 @@
         StringBuffer out = new StringBuffer();
 
         out.append("<tr class='admin'>")
-           .append(" <td width='200' nowrap>"+getTran("web.manage.config","Key",sWebLanguage)+"</td>")
-           .append(" <td width='300'>"+getTran("web","value",sWebLanguage)+"</td>")
-           .append(" <td width='400'>"+getTran("web.manage.config","defaultvalue",sWebLanguage)+"</td>")
+           .append(" <td nowrap>"+getTran("web.manage.config","Key",sWebLanguage)+"</td>")
+           .append(" <td >"+getTran("web","value",sWebLanguage)+"</td>")
+           .append(" <td >"+getTran("web.manage.config","defaultvalue",sWebLanguage)+"</td>")
            .append("</tr>");
 
         return out.toString();
@@ -39,7 +39,6 @@
         String values[] = getValueFromDB(keyName);
         if(values != null){
             out.append("<tr>")
-               //.append(" <td class='admin'><a href=\"javascript:showDetails('"+keyName+"');\">"+keyName+"</a></td>")
                .append(" <td class='admin'>"+keyName+"&nbsp;</td>")
                .append(" <td class='admin2'>")
                .append("  <input type='text' class='text' name='value_"+keyName+"' size='80' onKeyUp='limitChars(this,255);' value='"+values[0]+"'>")
@@ -47,6 +46,25 @@
                .append(" <td class='admin2'>").append(values[1]).append("</td>")
                .append("</tr>");
         }
+        return out.toString();
+    }
+
+    //--- WRITE TEXTFIELD --------------------------------------------------------------------------
+    private String writeTextfield(String keyName, String defaultValue){
+        StringBuffer out = new StringBuffer();
+        String values[] = getValueFromDB(keyName);
+        if(values == null){
+        	values=new String[2];
+        	values[0]="";
+        	values[1]=defaultValue;
+        }
+        out.append("<tr>")
+           .append(" <td class='admin'>"+keyName+"&nbsp;</td>")
+           .append(" <td class='admin2'>")
+           .append("  <input type='text' class='text' name='value_"+keyName+"' size='80' onKeyUp='limitChars(this,255);' value='"+values[0]+"'>")
+           .append(" </td>")
+           .append(" <td class='admin2'>").append(values[1]).append("</td>")
+           .append("</tr>");
         return out.toString();
     }
 
@@ -147,20 +165,22 @@
         <%-- HEADER WITH TABS-LINKS --------------------------------------------------------------%>
         <table width="100%" cellspacing="0" cellpadding="0">
             <tr>
-                <td style='border-bottom:1px solid black;' width='5'>&nbsp;</td>
+                <td style='border-bottom:1px solid black;' width="1%">&nbsp;</td>
                 <td class='tabunselected' width="1%" onclick="activateTab('tab0')" id="tab0-selector" nowrap>&nbsp;<b><%=getTran("web.config","tab.miscelaneous",sWebLanguage)%></b>&nbsp;</td>
-                <td style='border-bottom:1px solid black;' width='5'>&nbsp;</td>
+                <td style='border-bottom:1px solid black;' width="1%">&nbsp;</td>
                 <td class='tabunselected' width="1%" onclick="activateTab('tab1')" id="tab1-selector" nowrap>&nbsp;<b><%=getTran("web.config","tab.devices",sWebLanguage)%></b>&nbsp;</td>
-                <td style='border-bottom:1px solid black;' width='5'>&nbsp;</td>
+                <td style='border-bottom:1px solid black;' width="1%">&nbsp;</td>
                 <td class='tabunselected' width="1%" onclick="activateTab('tab2')" id="tab2-selector" nowrap>&nbsp;<b><%=getTran("web.config","tab.email",sWebLanguage)%></b>&nbsp;</td>
-                <td style="border-bottom:1px solid black;" width="5">&nbsp;</td>
+                <td style="border-bottom:1px solid black;" width="1%">&nbsp;</td>
                 <td class='tabunselected' width="1%" onclick="activateTab('tab3')" id="tab3-selector" nowrap>&nbsp;<b><%=getTran("web.config","tab.pwd",sWebLanguage)%></b>&nbsp;</td>
-                <td style="border-bottom:1px solid black;" width="5">&nbsp;</td>
+                <td style="border-bottom:1px solid black;" width="1%">&nbsp;</td>
                 <td class='tabunselected' width="1%" onclick="activateTab('tab4')" id="tab4-selector" nowrap>&nbsp;<b><%=getTran("web.config","tab.fusion",sWebLanguage)%></b>&nbsp;</td>
-                <td style="border-bottom:1px solid black;" width="5">&nbsp;</td>
+                <td style="border-bottom:1px solid black;" width="1%">&nbsp;</td>
                 <td class='tabunselected' width="1%" onclick="activateTab('tab5')" id="tab5-selector" nowrap>&nbsp;<b><%=getTran("web.config","tab.intrusion",sWebLanguage)%></b>&nbsp;</td>
+                <td style="border-bottom:1px solid black;" width="1%">&nbsp;</td>
+                <td class='tabunselected' width="1%" onclick="activateTab('tab6')" id="tab6-selector" nowrap>&nbsp;<b><%=getTran("web.config","tab.notifier",sWebLanguage)%></b>&nbsp;</td>
                 <td style="border-bottom:1px solid black;" width="*">&nbsp;</td>
-                <% int numberOfTabs = 6; %>
+                <% int numberOfTabs = 7; %>
             </tr>
         </table>
 
@@ -322,6 +342,25 @@
                         <%=writeTextfield("Intrusion_BlockPage")%>
 
                         <% focusFields.add("IPIntrusion_MaxIntrusionsAllowedAtLevel1"); %>
+                    </table>
+                </td>
+            </tr>
+
+            <tr id="tab6-body" style="display:none">
+                <td>
+                    <%-- INTRUSION -----------------------------------------------%>
+                    <table width="100%" cellspacing="1" class="list">
+                        <%=writeHeader(sWebLanguage)%>
+
+                        <%=writeTextfield("lastNotifiedLabResult","")%>
+                        <%=writeTextfield("defaultBrokerLanguage",sWebLanguage)%>
+                        <%=writeTextfield("labNotifierEmailSender","frank.verbeke@mxs.be")%>
+                        <%=writeTextfield("smsPincode","0000")%>
+                        <%=writeTextfield("smsDevicePort","COM1")%>
+                        <%=writeTextfield("smsBaudrate","115200")%>
+                        <%=writeTextfield("smsPolling","false")%>
+
+                        <% focusFields.add("lastNotifiedLabResult"); %>
                     </table>
                 </td>
             </tr>

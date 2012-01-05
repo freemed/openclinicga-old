@@ -74,6 +74,7 @@
 
     // get all params starting with 'EditLabelValueXX', representing labels in different languages
     Hashtable labelValues = new Hashtable();
+    Hashtable shortLabelValues = new Hashtable();
     Enumeration paramEnum = request.getParameterNames();
     String tmpParamName, tmpParamValue, tmpLang;
 
@@ -85,13 +86,20 @@
                 tmpParamValue = request.getParameter(tmpParamName);
                 labelValues.put(tmpParamName.substring(14),tmpParamValue); // language, value
             }
+            else if(tmpParamName.startsWith("EditShortLabelValue")){
+                tmpParamValue = request.getParameter(tmpParamName);
+                shortLabelValues.put(tmpParamName.substring(19),tmpParamValue); // language, value
+            }
         }
     }
     else if(sAction.equals("details")){
         StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
         while(tokenizer.hasMoreTokens()){
             tmpLang = tokenizer.nextToken();
-            labelValues.put(tmpLang,getTranNoLink(sLabLabelType,sLabID,tmpLang));
+            String ll=getTranNoLink(sLabLabelType,sLabID,tmpLang);
+            labelValues.put(tmpLang,ll);
+            String sl =getTranNoLink("labanalysis.short",sLabID,tmpLang);
+            shortLabelValues.put(tmpLang,sl.equalsIgnoreCase(sLabID)?ll:sl);
         }
     }
 
@@ -238,6 +246,18 @@
 
                 MedwanQuery.getInstance().removeLabelFromCache(sLabLabelType, sEditLabCode, tmpLang);
                 MedwanQuery.getInstance().getLabel(sLabLabelType, sEditLabCode, tmpLang);
+                
+                label = new Label();
+                label.type = "labanalysis.short";
+                label.id = sLabID;
+                label.language = tmpLang;
+                label.showLink = "0";
+                label.updateUserId = activeUser.userid;
+                label.value = checkString((String) shortLabelValues.get(tmpLang));
+                label.saveToDB();
+
+                MedwanQuery.getInstance().removeLabelFromCache("labanalysis.short", sEditLabCode, tmpLang);
+                MedwanQuery.getInstance().getLabel("labanalysis.short", sEditLabCode, tmpLang);
             }
 
             reloadSingleton(session);
@@ -483,19 +503,32 @@
   <%-- LABEL --%>
   <%
       // display input field for each of the supported languages
-      StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
-      while(tokenizer.hasMoreTokens()){
-          tmpLang = tokenizer.nextToken();
+  StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+  while(tokenizer.hasMoreTokens()){
+      tmpLang = tokenizer.nextToken();
 
-          %>
-          <tr>
-              <td class="admin"> <%=getTran("Web","Description",sWebLanguage)%> <%=tmpLang%> *</td>
-              <td class="admin2">
-                  <input type="text" class="text" name="EditLabelValue<%=tmpLang%>" value="<%=checkString((String)labelValues.get(tmpLang))%>" size="<%=sTextWidth%>">
-              </td>
-          </tr>
-          <%
-      }
+      %>
+      <tr>
+          <td class="admin"> <%=getTran("Web","Description",sWebLanguage)%> <%=tmpLang%> *</td>
+          <td class="admin2">
+              <input type="text" class="text" name="EditLabelValue<%=tmpLang%>" value="<%=checkString((String)labelValues.get(tmpLang))%>" size="<%=sTextWidth%>">
+          </td>
+      </tr>
+      <%
+  }
+  tokenizer = new StringTokenizer(supportedLanguages,",");
+  while(tokenizer.hasMoreTokens()){
+      tmpLang = tokenizer.nextToken();
+	  String sl=checkString((String)shortLabelValues.get(tmpLang));
+      %>
+      <tr>
+          <td class="admin"> <%=getTran("Web","ShortDescription",sWebLanguage)%> <%=tmpLang%> *</td>
+          <td class="admin2">
+              <input size="8" maxlength="8" type="text" class="text" name="EditShortLabelValue<%=tmpLang%>" value="<%=sl.length()<8?sl:sl.substring(0,8)%>">
+          </td>
+      </tr>
+      <%
+  }
   %>
   <%-- LAB MONSTER --%>
   <tr>

@@ -7,6 +7,11 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <table width='100%'>
+<%
+
+if(request.getParameter("nousers")==null){ 
+
+%>
 <tr>
 	<td class='admin'><%=getTran("web","firstconnection",sWebLanguage)%></td>
 	<td class='admin'><%=getTran("web","lastconnection",sWebLanguage)%></td>
@@ -126,6 +131,7 @@
 	<td colspan='10'><hr/></td>
 </tr>
 </table>
+<%} %>
 <table width='100%'>
 <tr>
 	<td class='admin2' width='25%'><center><%=getTran("web","total_server_memory",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(Runtime.getRuntime().totalMemory()/1048576)%> Mb</center></td>
@@ -170,6 +176,14 @@
 	rs.close();
 	ps.close();
 	conn.close();
+	conn=MedwanQuery.getInstance().getAdminConnection();
+	ps=conn.prepareStatement("select count(*) total from admin where archivefilecode is not null and archivefilecode<>''");
+	rs=ps.executeQuery();
+	rs.next();
+	int totalarchivedpatients=rs.getInt("total");
+	rs.close();
+	ps.close();
+	conn.close();
 %>
 <table width='100%'>
 <tr>
@@ -177,6 +191,10 @@
 	<td class='admin2' width='25%'><center><%=getTran("web","total_encounters",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalencounters)%></center></td>
 	<td class='admin2' width='25%'><center><%=getTran("web","total_patientinvoices",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalpatientinvoices)%></center></td>
 	<td class='admin2' width='25%'><center><%=getTran("web","total_debets",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totaldebets)%></center></td>
+</tr>
+<tr>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_archived_patients",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalarchivedpatients)%></center></td>
+	<td class='admin2' colspan='3'></td>
 </tr>
 <tr>
 	<td colspan='10'><hr/></td>
