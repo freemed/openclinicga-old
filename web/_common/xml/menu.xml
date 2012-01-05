@@ -4,7 +4,6 @@
         <Menu labelid="new_patient" accessrights="patient.administration.add" url="/patientnew.do?PatientNew=true"/>
 		<Menu labelid="clear" accessrights="patient.administration.select" url="/start.do?PatientNew=true"/>
         <Menu labelid="printPatientCard" accessrights="patient.administration.select" url="javascript:printPatientCard();" patientselected="true"/>
-        <Menu labelid="printCNOMCard" accessrights="patient.administration.select" url="javascript:printCNOMCard();" patientselected="true"/>
         <Menu labelid="loadPicture" accessrights="patient.administration" url="javascript:storePicture();" patientselected="true"/>
         <Menu labelid="showPicture" accessrights="patient.administration.select" url="javascript:showPicture();" patientselected="true"/>
         <Menu labelid="enrollFingerPrint" accessrights="patient.administration" url="javascript:enrollFingerPrint();" patientselected="true"/>
@@ -78,6 +77,7 @@
             <Menu labelid="executive.bedoccupancy" accessrights="occup.bedoccupation.select" url="/main.do?Page=statistics/bedoccupancyStatus.jsp"/>
         </Menu>
         <Menu labelid="printlabel" accessrights="system.printlabel" patientselected="true" url="javascript:printPatientLabel();"/>
+        <Menu labelid="ministats" url="/main.do?Page=system/getConnectedUsers.jsp&amp;nousers=true"/>
     </Menu>
     <Menu labelid="documents" accessrights="printableDocuments.select" patientselected="true" url="/main.do?Page=medical/showPrintableDocuments.jsp"/>
 	<Menu labelid="system">

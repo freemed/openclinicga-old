@@ -160,10 +160,10 @@ function checkAfter(afterId, beforeObj) {
 
 <script>
     function initBarcode() {
-        document.all['barcode'].value = "";
-        document.all['barcode'].style.visibility = "visible";
-        document.all['barcode'].style.color = "black";
-        document.all['barcode'].focus();
+        document.getElementById("barcode").value = "";
+        document.getElementById("barcode").style.visibility = "visible";
+        document.getElementById("barcode").style.color = "black";
+        document.getElementById("barcode").focus();
     }
     shortcut("F9", function() {
         initBarcode();

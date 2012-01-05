@@ -176,7 +176,7 @@
                         } else {
                             String sMenuXML = MedwanQuery.getInstance().getConfigString("MenuXMLFile");
                             if (sMenuXML.length() == 0) sMenuXML = "menu.xml";
-                            String sMenuXMLUrl = "http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR + "/_common/xml/" + sMenuXML;
+                            String sMenuXMLUrl = "http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR + "/_common/xml/" + sMenuXML+"&ts="+getTs();
 
                             // Check if menu file exists, else use file at templateSource location.
                             try {
@@ -279,7 +279,7 @@
         openPopup("/_common/readBarcode.jsp&ts=<%=getTs()%>");
     }
     function readBarcode2(barcode) {
-        var transform = "à&é\"'(§è!ç";
+        var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
         var oldbarcode = barcode;
         barcode = "";
         for (var n = 0; n < oldbarcode.length; n++) {
@@ -310,7 +310,7 @@
         }
     }
     function readBarcode3(barcode) {
-        var transform = "à&é\"'(§è!ç";
+        var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
         var oldbarcode = barcode;
         barcode = "";
         for (var n = 0; n < oldbarcode.length; n++) {
