@@ -81,6 +81,19 @@
 
         return iReturn;
     }
+    public double stringValueToDouble(String sValue){
+        double iReturn = 0;
+        if (sValue.trim().length() > 0) {
+            try{
+                iReturn = Double.parseDouble(sValue);
+            }
+            catch (Exception e) {
+                iReturn = 0;
+            }
+        }
+
+        return iReturn;
+    }
 %>
 <body onload="window.resizeTo(650,300).moveTo((screen.width-650)/2,(screen.height-300)/2);"/>
 <%
@@ -93,10 +106,10 @@
 
     //--- ADD --------------------------------------------------------------------------------------
     if (checkString(request.getParameter("Action")).equals("Add")){
-         float iEditMaxAge = stringValueToFloat(checkString(request.getParameter("EditMaxAge"))),
-             iEditMinAge = stringValueToFloat(checkString(request.getParameter("EditMinAge")));
-         float iEditFreq   = stringValueToFloat(checkString(request.getParameter("EditFreq"))),
-             iEditTol    = stringValueToFloat(checkString(request.getParameter("EditTol")));
+         double iEditMaxAge = stringValueToDouble(checkString(request.getParameter("EditMaxAge"))),
+             iEditMinAge = stringValueToDouble(checkString(request.getParameter("EditMinAge")));
+         double iEditFreq   = stringValueToDouble(checkString(request.getParameter("EditFreq"))),
+             iEditTol    = stringValueToDouble(checkString(request.getParameter("EditTol")));
          String sEditGender = checkString(request.getParameter("EditGender"));
          String sRowID = getNewCounterValue("AgeGenderControlID", OccupdbConnection);
 
