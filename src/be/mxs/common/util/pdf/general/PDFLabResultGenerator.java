@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 public class PDFLabResultGenerator extends PDFOfficialBasic {
 
     // declarations
+    protected PdfWriter docWriter;
     private final int pageWidth = 100;
     private String type;
 
@@ -77,7 +78,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     //--- GENERATE PDF DOCUMENT BYTES -------------------------------------------------------------
     public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, Vector labrequestids,Date since) throws Exception {
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-		PdfWriter docWriter = PdfWriter.getInstance(doc,baosPDF);
+		docWriter = PdfWriter.getInstance(doc,baosPDF);
         //docWriter.setPageEvent(new EndPage2());
         this.req = req;
 
@@ -527,14 +528,57 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell.setColspan(25);
         cell.setPadding(10);
         table.addCell(cell);
-        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","title",user.person.language),14,45,Font.BOLD);
+        
+        PdfPTable table2 = new PdfPTable(1);
+        table2.setWidthPercentage(100);
+        //Label1
+        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title1",user.person.language),MedwanQuery.getInstance().getConfigInt("labtitle1size",14),1,Font.BOLD);
         cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        table2.addCell(cell);
+        //Label2
+        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title2",user.person.language),MedwanQuery.getInstance().getConfigInt("labtitle2size",10),1,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        table2.addCell(cell);
+        //Label3
+        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title3",user.person.language),MedwanQuery.getInstance().getConfigInt("labtitle3size",10),1,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        table2.addCell(cell);
+        //Titel
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","title",user.person.language),14,1,Font.BOLD);
+        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        table2.addCell(cell);
+        
+        cell=createBorderlessCell(45);
+        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.addElement(table2);
         table.addCell(cell);
-        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","encounter.id",user.person.language)+":\n"+MedwanQuery.getInstance().getLabel("labresult","request.id",user.person.language)+":",10,15,Font.NORMAL);
+        
+        table2 = new PdfPTable(1);
+        table2.setWidthPercentage(100);
+       //*** barcode ***
+        PdfContentByte cb = docWriter.getDirectContent();
+        Barcode39 barcode39 = new Barcode39();
+        barcode39.setCode("7"+labRequest.getTransactionid());
+        Image image = barcode39.createImageWithBarcode(cb,null,null);
+        cell = new PdfPCell(image);
         cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setBorder(Cell.NO_BORDER);
+        cell.setColspan(1);
+        table2.addCell(cell);
+
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","encounter.id",user.person.language)+": "+(encounter!=null?encounter.getUid():""),10,1,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        table2.addCell(cell);
+        cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","request.id",user.person.language)+": "+labRequest.getTransactionid(),10,1,Font.NORMAL);
+        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        table2.addCell(cell);
+
+        cell=createBorderlessCell(25);
+        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.addElement(table2);
         table.addCell(cell);
-        cell=createLabel((encounter!=null?encounter.getUid():"")+"\n"+labRequest.getTransactionid(),10,15,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+
+        cell=createBorderlessCell(5);
         table.addCell(cell);
 
         //Patient Header

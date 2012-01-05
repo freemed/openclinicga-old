@@ -194,6 +194,9 @@ public class User extends OC_Object {
                      this.userid = rs.getString("userid");
                      this.personid = rs.getString("personid");
                      this.password = rs.getBytes("encryptedpassword");
+                     System.out.println("password="+this.password);
+                     System.out.println("apassword="+aPassword);
+
                      this.start = ScreenHelper.getSQLDate(rs.getDate("start"));
                      this.stop = ScreenHelper.getSQLDate(rs.getDate("stop"));
                      this.project = ScreenHelper.checkString(rs.getString("project"));

@@ -14,7 +14,7 @@ public class EndPage extends PdfPageEventHelper {
     public void onEndPage(PdfWriter writer, Document document) {
         try{
             // load image
-            Image watermarkImg = Miscelaneous.getImage("chukwatermark.gif","");
+            Image watermarkImg = Miscelaneous.getImage("chukwatermark.gif",MedwanQuery.getInstance().getConfigString("defaultProject",""));
             watermarkImg.setRotationDegrees(30);
             int[] transparencyValues = {100,100};
             watermarkImg.setTransparency(transparencyValues);
