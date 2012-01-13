@@ -1098,6 +1098,7 @@
 		</indexes>
 	</table>
 
+	
     <table name="OC_SERVICESTOCKS" db="openclinic" sync="NONE">
 		<columns>
 			<column name="OC_STOCK_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
@@ -1110,6 +1111,7 @@
 			<column name="OC_STOCK_AUTHORIZEDUSERS" dbtype="varchar" javatype="string" size="255"/>
 			<column name="OC_STOCK_DEFAULTSUPPLIERUID" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_STOCK_ORDERPERIODINMONTHS" dbtype="int" javatype="integer"/>
+            <column name="OC_STOCK_NOSYNC" dbtype="int" javatype="integer"/>
 			<column name="OC_STOCK_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
 			<column name="OC_STOCK_UPDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
 			<column name="OC_STOCK_UPDATEUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
