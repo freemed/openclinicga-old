@@ -315,13 +315,17 @@
 	                    <tr height="23">
 	                        <td class="admin"><%=getTran("web","deliveredto",sWebLanguage)%>&nbsp;*</td>
 	                        <td class="admin2">
-	                            <select class="text" name="EditSrcDestType" onChange="displaySrcDestSelector();" style="vertical-align:-2;">
+	                            <select class="text" name="EditSrcDestType" id="EditSrcDestType" onChange="displaySrcDestSelector();" style="vertical-align:-2;">
 	                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
 	                                <%=ScreenHelper.writeSelectUnsorted("productstockoperation.sourcedestinationtype",sSelectedSrcDestType,sWebLanguage)%>
 	                            </select>
 	                            <%-- SOURCE DESTINATION SELECTOR --%>
 	                            <span id="SrcDestSelector" style="visibility:hidden;">
+<<<<<<< .mine
+	                                <input class="text" type="text" name="EditSrcDestName" id="EditSrcDestName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>" onchange="if(document.getElementById('EditSrcDestType')[document.getElementById('EditSrcDestType').selectedIndex].value=='servicestock'){showBatches();}">
+=======
 	                                <input class="text" type="text" name="EditSrcDestName" id="EditSrcDestName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>" onchange="showBatches();">
+>>>>>>> .r322
 	                                <span id="SearchSrcDestButtonDiv"><%-- filled by JS below --%></span>
 	                                <input type="hidden" name="EditSrcDestUid" id="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
 	                            </span>
