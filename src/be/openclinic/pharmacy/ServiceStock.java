@@ -19,11 +19,21 @@ public class ServiceStock extends OC_Object {
     private String authorizedUserIds;
     private Service defaultSupplier;
     private int orderPeriodInMonths = -1;
+    private int nosync=1;
+    
     // non-db data
     private String serviceUid;
     private String stockManagerUid;
     private String defaultSupplierUid;
-    //--- CONSTRUCTOR -----------------------------------------------------------------------------
+    
+    
+    public int getNosync() {
+		return nosync;
+	}
+	public void setNosync(int nosync) {
+		this.nosync = nosync;
+	}
+	//--- CONSTRUCTOR -----------------------------------------------------------------------------
     public ServiceStock() {
         this.authorizedUsers = new Vector();
     }
@@ -208,6 +218,7 @@ public class ServiceStock extends OC_Object {
                 if (tmpValue != null) {
                     stock.setOrderPeriodInMonths(Integer.parseInt(tmpValue));
                 }
+                stock.setNosync(rs.getInt("OC_STOCK_NOSYNC"));
 
                 // dates
                 stock.setBegin(rs.getDate("OC_STOCK_BEGIN"));
@@ -255,8 +266,8 @@ public class ServiceStock extends OC_Object {
                         "  OC_STOCK_NAME, OC_STOCK_SERVICEUID, OC_STOCK_BEGIN, OC_STOCK_END," +
                         "  OC_STOCK_STOCKMANAGERUID, OC_STOCK_AUTHORIZEDUSERS, OC_STOCK_DEFAULTSUPPLIERUID," +
                         "  OC_STOCK_ORDERPERIODINMONTHS," +
-                        "  OC_STOCK_CREATETIME, OC_STOCK_UPDATETIME, OC_STOCK_UPDATEUID, OC_STOCK_VERSION)" +
-                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+                        "  OC_STOCK_CREATETIME, OC_STOCK_UPDATETIME, OC_STOCK_UPDATEUID, OC_STOCK_VERSION,OC_STOCK_NOSYNC)" +
+                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1,?)";
                 ps = oc_conn.prepareStatement(sSelect);
 
                 // set new servicestockuid
@@ -302,6 +313,7 @@ public class ServiceStock extends OC_Object {
                 ps.setTimestamp(11, new java.sql.Timestamp(new java.util.Date().getTime())); // now
                 ps.setTimestamp(12, new java.sql.Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(13, this.getUpdateUser());
+                ps.setInt(14, this.getNosync());
                 ps.executeUpdate();
             } else {
                 //***** UPDATE *****
@@ -309,7 +321,7 @@ public class ServiceStock extends OC_Object {
                 sSelect = "UPDATE OC_SERVICESTOCKS SET OC_STOCK_NAME=?, OC_STOCK_SERVICEUID=?," +
                         "  OC_STOCK_BEGIN=?, OC_STOCK_END=?, OC_STOCK_STOCKMANAGERUID=?," +
                         "  OC_STOCK_AUTHORIZEDUSERS=?, OC_STOCK_DEFAULTSUPPLIERUID=?, OC_STOCK_ORDERPERIODINMONTHS=?," +
-                        "  OC_STOCK_UPDATETIME=?, OC_STOCK_UPDATEUID=?, OC_STOCK_VERSION=(OC_STOCK_VERSION+1)" +
+                        "  OC_STOCK_UPDATETIME=?, OC_STOCK_UPDATEUID=?, OC_STOCK_VERSION=(OC_STOCK_VERSION+1), OC_STOCK_NOSYNC=?" +
                         " WHERE OC_STOCK_SERVERID=? AND OC_STOCK_OBJECTID=?";
                 ps = oc_conn.prepareStatement(sSelect);
                 ps.setString(1, this.getName());
@@ -348,10 +360,10 @@ public class ServiceStock extends OC_Object {
                 // OBJECT variables
                 ps.setTimestamp(9, new java.sql.Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(10, this.getUpdateUser());
-
+                ps.setInt(11, this.getNosync());
                 // where
-                ps.setInt(11, Integer.parseInt(this.getUid().substring(0, this.getUid().indexOf("."))));
-                ps.setInt(12, Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".") + 1)));
+                ps.setInt(12, Integer.parseInt(this.getUid().substring(0, this.getUid().indexOf("."))));
+                ps.setInt(13, Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".") + 1)));
                 ps.executeUpdate();
             }
         }
@@ -430,7 +442,8 @@ public class ServiceStock extends OC_Object {
                     "  AND OC_STOCK_STOCKMANAGERUID=?" +
                     "  AND OC_STOCK_AUTHORIZEDUSERS=?" +
                     "  AND OC_STOCK_DEFAULTSUPPLIERUID=?" +
-                    "  AND OC_STOCK_ORDERPERIODINMONTHS=?";
+                    "  AND OC_STOCK_ORDERPERIODINMONTHS=?" +
+                    "  AND OC_STOCK_NOSYNC=?";
             ps = oc_conn.prepareStatement(sSelect);
             int questionmarkIdx = 1;
             ps.setString(questionmarkIdx++, this.getName()); // required
@@ -466,6 +479,11 @@ public class ServiceStock extends OC_Object {
             // orderPeriodInMonths
             if (this.getOrderPeriodInMonths() > -1) ps.setInt(questionmarkIdx++, this.getOrderPeriodInMonths());
             else ps.setNull(questionmarkIdx++, Types.INTEGER);
+            
+            // NoSync
+            if (this.getNosync() > -1) ps.setInt(questionmarkIdx++, this.getNosync());
+            else ps.setNull(questionmarkIdx++, Types.INTEGER);
+            
             rs = ps.executeQuery();
             if (rs.next()) changed = false;
         }

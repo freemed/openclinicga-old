@@ -36,8 +36,13 @@ public class LabresultsNotifier {
 			sDate = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date(new Date().getTime()-24*3600*1000));
 		}
 		
-		try { 
-			Date dDate = new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(sDate);
+		Date dDate=null;
+		try {
+			try { 
+				dDate = new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(sDate);
+			} catch (ParseException e) {
+				dDate = new SimpleDateFormat("yyyyMMddHHmmss").parse(sDate);
+			}		
 			return dDate;
 			
 		} catch (ParseException e) {
