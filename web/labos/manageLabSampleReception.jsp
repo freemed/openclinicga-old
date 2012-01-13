@@ -40,7 +40,7 @@
             try{
                 if(labrequestid.length() > 0){
                     if (labrequestid.indexOf(".") == -1) {
-                        labrequestid = "1." + labrequestid;
+                        labrequestid = MedwanQuery.getInstance().getConfigString("serverId")+"." + labrequestid;
                     }
                     serverid = Integer.parseInt(labrequestid.split("\\.")[0]);
                     transactionid = Integer.parseInt(labrequestid.split("\\.")[1]);
