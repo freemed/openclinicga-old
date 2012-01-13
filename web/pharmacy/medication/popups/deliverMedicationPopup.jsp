@@ -321,9 +321,9 @@
 	                            </select>
 	                            <%-- SOURCE DESTINATION SELECTOR --%>
 	                            <span id="SrcDestSelector" style="visibility:hidden;">
-	                                <input class="text" type="text" name="EditSrcDestName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>">
+	                                <input class="text" type="text" name="EditSrcDestName" id="EditSrcDestName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>" onchange="showBatches();">
 	                                <span id="SearchSrcDestButtonDiv"><%-- filled by JS below --%></span>
-	                                <input type="hidden" name="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
+	                                <input type="hidden" name="EditSrcDestUid" id="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
 	                            </span>
 	                        </td>
 	                    </tr>

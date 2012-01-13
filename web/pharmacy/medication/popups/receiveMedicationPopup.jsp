@@ -231,6 +231,11 @@
       }
     
 </script>
+<%
+	//eerst verifiëren of er voor dit product geen leveringen in de wacht staan
+	//indien ja, toon de wachtende leveringen (en zet displayEditFields=false)
+	//indien neen, toon een generiek ontvangstschermpje
+%>
 <form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/popup.jsp"/>?Page=pharmacy/medication/popups/receiveMedicationPopup.jsp&ts=<%=getTs()%>' onClick="clearMessage();">
     <%-- page title --%>
     <%=writeTableHeader("Web.manage","receiveproducts",sWebLanguage,"")%>
