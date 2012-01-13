@@ -74,11 +74,15 @@
             //*** display stock in one row ***
             html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>");
             if((serviceStock.isAuthorizedUser(activeUser.userid) || activeUser.getAccessRight("sa")) && activeUser.getAccessRight("pharmacy.manageservicestocks.delete")){
-                html.append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sServiceStockUid + "');\">");
+                html.append(" <td align='left'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sServiceStockUid + "');\"/>");
             }
             else {
-                html.append("<td/>");
+                html.append("<td>");
             }
+            if(serviceStock.getNosync()==0){
+                html.append("<img src='" + sCONTEXTPATH + "/_img/sync.jpg'/>");
+            }
+            html.append("</td>");
             html.append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + serviceStock.getName() + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sServiceName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sManagerName + "</td>")
@@ -119,8 +123,12 @@
            sEditEnd                = checkString(request.getParameter("EditEnd")),
            sEditManagerUid         = checkString(request.getParameter("EditManagerUid")),
            sEditDefaultSupplierUid = checkString(request.getParameter("EditDefaultSupplierUid")),
-           sEditOrderPeriod        = checkString(request.getParameter("EditOrderPeriodInMonths"));
-
+           sEditOrderPeriod        = checkString(request.getParameter("EditOrderPeriodInMonths")),
+    	   sEditNosync        	   = checkString(request.getParameter("EditNosync"));
+    	   if(sEditNosync.equalsIgnoreCase("")){
+    		   sEditNosync="0";
+    	   }
+	
     // afgeleide data
     String sEditServiceName         = checkString(request.getParameter("EditServiceName")),
            sEditManagerName         = checkString(request.getParameter("EditManagerName")),
@@ -148,7 +156,7 @@
            sSelectedServiceUid = "", sSelectedBegin = "", sSelectedEnd = "", sSelectedManagerUid = "",
            sSelectedServiceName = "", sSelectedManagerName = "", authorizedUserId = "",
            authorizedUserName = "", sFindDefaultSupplierUid = "", sFindDefaultSupplierName = "",
-           sSelectedDefaultSupplierUid = "", sSelectedDefaultSupplierName = "", sSelectedOrderPeriod = "";
+           sSelectedDefaultSupplierUid = "", sSelectedDefaultSupplierName = "", sSelectedOrderPeriod = "", sSelectedNosync="";
 
     StringBuffer stocksHtml = null;
     int foundStockCount = 0, authorisedUsersIdx = 1;
@@ -192,6 +200,7 @@
         if(sEditBegin.length() > 0)       stock.setBegin(stdDateFormat.parse(sEditBegin));
         if(sEditEnd.length() > 0)         stock.setEnd(stdDateFormat.parse(sEditEnd));
         if(sEditOrderPeriod.length() > 0) stock.setOrderPeriodInMonths(Integer.parseInt(sEditOrderPeriod));
+        if(sEditNosync.length() > 0) stock.setNosync(Integer.parseInt(sEditNosync));
         stock.setStockManagerUid(sEditManagerUid);
         stock.setDefaultSupplierUid(sEditDefaultSupplierUid);
 
@@ -315,6 +324,7 @@
                 sSelectedManagerUid         = checkString(serviceStock.getStockManagerUid());
                 sSelectedDefaultSupplierUid = checkString(serviceStock.getDefaultSupplierUid());
                 sSelectedOrderPeriod        = (serviceStock.getOrderPeriodInMonths()<0?"":serviceStock.getOrderPeriodInMonths()+"");
+				sSelectedNosync				= serviceStock.getNosync()+"";
 
                 // format dates
                 java.util.Date tmpDate = serviceStock.getBegin();
@@ -363,6 +373,7 @@
             sSelectedManagerUid         = sEditManagerUid;
             sSelectedDefaultSupplierUid = sEditDefaultSupplierUid;
             sSelectedOrderPeriod        = sEditOrderPeriod;
+            sSelectedNosync				= sEditNosync;
 
             // afgeleide data
             sSelectedServiceName         = sEditServiceName;
@@ -375,6 +386,9 @@
 
             // default orderPeriodInMonths
             if(sEditOrderPeriod.length()==0) sEditOrderPeriod = "12"; // todo : needed ?
+
+            // default Nosync
+            if(sEditNosync.length()==0) sEditNosync = "1"; // todo : needed ?
 
             // active user service as default service
             sSelectedServiceUid = activeUser.activeService.code;
@@ -526,12 +540,12 @@
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td width="22"/>
-                            <td width="22%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","name",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_NAME")?"</"+sSortDir+">":"")%></a></td>
-                            <td width="18%"><%=getTran("Web","service",sWebLanguage)%></td>
-                            <td width="25%"><%=getTran("Web","manager",sWebLanguage)%></td>
-                            <td width="10%"><%=getTran("Web.manage","productstockcount",sWebLanguage)%></td>
-                            <td width="*"/>
+                            <td/>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","name",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_NAME")?"</"+sSortDir+">":"")%></a></td>
+                            <td><%=getTran("Web","service",sWebLanguage)%></td>
+                            <td><%=getTran("Web","manager",sWebLanguage)%></td>
+                            <td><%=getTran("Web.manage","productstockcount",sWebLanguage)%></td>
+                            <td/>
                         </tr>
                         <tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
                             <%=stocksHtml%>
@@ -643,6 +657,13 @@
                         <td class="admin" nowrap><%=getTran("Web.manage","orderPeriodInMonths",sWebLanguage)%> *</td>
                         <td class="admin2">
                             <input class="text" type="text" name="EditOrderPeriodInMonths" size="5" maxLength="5" value="<%=sSelectedOrderPeriod%>" onKeyUp="isInteger(this);">
+                        </td>
+                    </tr>
+                    <%-- Nosync --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web.manage","nosync",sWebLanguage)%> *</td>
+                        <td class="admin2">
+                            <input class="text" type="checkbox" name="EditNosync" <%=sSelectedNosync!=null && sSelectedNosync.equalsIgnoreCase("1")?"checked":""%> value="1" onKeyUp="isInteger(this);">
                         </td>
                     </tr>
                     <%-- EDIT BUTTONS --%>
