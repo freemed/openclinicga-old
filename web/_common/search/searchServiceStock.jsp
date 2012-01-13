@@ -108,10 +108,9 @@
 
     <%-- select service stock --%>
     function selectServiceStock(serviceStockUid, serviceStockName, supplyingServiceUid, supplyingServiceName) {
-        window.opener.document.all['<%=sReturnServiceStockUidField%>'].value = serviceStockUid;
+    	window.opener.document.all['<%=sReturnServiceStockUidField%>'].value = serviceStockUid;
         window.opener.document.all['<%=sReturnServiceStockNameField%>'].value = serviceStockName;
         window.opener.document.all['<%=sReturnServiceStockNameField%>'].onchange();
-
     <%-- set SupplyingService --%>
         var suppServUidField = window.opener.document.all['EditSupplyingServiceUid'];
         var suppServNameField = window.opener.document.all['EditSupplyingServiceName'];
