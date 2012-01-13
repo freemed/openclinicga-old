@@ -49,7 +49,7 @@
             serviceStock = (ServiceStock) serviceStocks.get(i);
             if (!serviceStock.getUid().equalsIgnoreCase(sExcludeServiceStockUid)) {
 
-                sServiceName = getTran("Service", serviceStock.getServiceUid(), sWebLanguage);
+                sServiceName = getTranNoLink("Service", serviceStock.getServiceUid(), sWebLanguage);
                 sManagerName = serviceStock.getStockManager().lastname + " " + serviceStock.getStockManager().firstname;
 
                 // supplyingService
@@ -92,6 +92,7 @@
 
         sOut.append("</tbody>");
     }
+    System.out.println(sOut);
 
 %>
 
