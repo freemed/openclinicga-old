@@ -27,8 +27,35 @@ public class ProductStockOperation extends OC_Object{
     private String batchNumber;
     private Date batchEnd;
     private String batchComment;
+    private String receiveComment;
+    private int unitsReceived;
+    private String operationUID;
 
-    public String getBatchNumber() {
+    public String getReceiveComment() {
+		return receiveComment;
+	}
+
+	public void setReceiveComment(String receiveComment) {
+		this.receiveComment = receiveComment;
+	}
+
+	public int getUnitsReceived() {
+		return unitsReceived;
+	}
+
+	public void setUnitsReceived(int unitsReceived) {
+		this.unitsReceived = unitsReceived;
+	}
+
+	public String getOperationUID() {
+		return operationUID;
+	}
+
+	public void setOperationUID(String uID) {
+		operationUID = uID;
+	}
+
+	public String getBatchNumber() {
 		return batchNumber;
 	}
 
@@ -178,6 +205,9 @@ public class ProductStockOperation extends OC_Object{
                 operation.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_OPERATION_UPDATEUID")));
                 operation.setVersion(rs.getInt("OC_OPERATION_VERSION"));
                 operation.setBatchUid(rs.getString("OC_OPERATION_BATCHUID"));
+                operation.setOperationUID(rs.getString("OC_OPERATION_UID"));
+                operation.setReceiveComment(rs.getString("OC_OPERATION_RECEIVECOMMENT"));
+                operation.setUnitsReceived(rs.getInt("OC_OPERATION_UNITSRECEIVED"));
             }
             else{
                 throw new Exception("ERROR : PRODUCTSTOCKOPERATION "+operationUid+" NOT FOUND");
@@ -203,6 +233,11 @@ public class ProductStockOperation extends OC_Object{
         }
 
         return operation;
+    }
+    
+    public static Vector getWaitingDeliveries(String serviceStockUid,String productUid){
+    	Vector result = new Vector();
+    	return result;
     }
 
     //--- STORE -----------------------------------------------------------------------------------
@@ -250,8 +285,8 @@ public class ProductStockOperation extends OC_Object{
                 sSelect = "INSERT INTO OC_PRODUCTSTOCKOPERATIONS (OC_OPERATION_SERVERID, OC_OPERATION_OBJECTID,"+
                           "  OC_OPERATION_DESCRIPTION, OC_OPERATION_SRCDESTTYPE, OC_OPERATION_SRCDESTUID,"+
                           "  OC_OPERATION_DATE, OC_OPERATION_PRODUCTSTOCKUID, OC_OPERATION_UNITSCHANGED,"+
-                          "  OC_OPERATION_CREATETIME, OC_OPERATION_UPDATETIME, OC_OPERATION_UPDATEUID, OC_OPERATION_PRESCRIPTIONUID,OC_OPERATION_VERSION,OC_OPERATION_BATCHUID)"+
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,1,?)";
+                          "  OC_OPERATION_CREATETIME, OC_OPERATION_UPDATETIME, OC_OPERATION_UPDATEUID, OC_OPERATION_PRESCRIPTIONUID,OC_OPERATION_VERSION,OC_OPERATION_BATCHUID,OC_OPERATION_UID,OC_OPERATION_RECEIVECOMMENT,OC_OPERATION_UNITSRECEIVED)"+
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,1,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sSelect);
 
@@ -279,16 +314,22 @@ public class ProductStockOperation extends OC_Object{
                 ps.setString(11,this.getUpdateUser());
                 ps.setString(12,this.getPrescriptionUid());
                 ps.setString(13,this.getBatchUid());
+                //if the UID is not known at creation time, then create a new one based on serverid and objectid
+                ps.setString(14, this.getOperationUID()==null || this.getOperationUID().length()==0?serverId+"."+operationCounter:this.getOperationUID());
+                ps.setString(15, this.getReceiveComment());
+                ps.setInt(16, this.getUnitsReceived());
 
                 ps.executeUpdate();
             }
             else{
                 //***** UPDATE *****
+            	//Remark: OC_OPERATION_UID is never updated!!
                 if(Debug.enabled) Debug.println("@@@ PRODUCTSTOCK-OPERATION update @@@");
 
                 sSelect = "UPDATE OC_PRODUCTSTOCKOPERATIONS SET OC_OPERATION_DESCRIPTION=?, OC_OPERATION_SRCDESTTYPE=?,"+
                           "  OC_OPERATION_SRCDESTUID=?, OC_OPERATION_DATE=?, OC_OPERATION_PRODUCTSTOCKUID=?, OC_OPERATION_UNITSCHANGED=?,"+
-                          "  OC_OPERATION_UPDATETIME=?, OC_OPERATION_UPDATEUID=?, OC_OPERATION_PRESCRIPTIONUID=?,OC_OPERATION_VERSION=(OC_OPERATION_VERSION+1),OC_OPERATION_BATCHUID=?"+
+                          "  OC_OPERATION_UPDATETIME=?, OC_OPERATION_UPDATEUID=?, OC_OPERATION_PRESCRIPTIONUID=?,OC_OPERATION_VERSION=(OC_OPERATION_VERSION+1),OC_OPERATION_BATCHUID=?," +
+                          "  OC_OPERATION_RECEIVECOMMENT=?,OC_OPERATION_UNITSRECEIVED=?"+
                           " WHERE OC_OPERATION_SERVERID=? AND OC_OPERATION_OBJECTID=?";
 
                 ps = oc_conn.prepareStatement(sSelect);
@@ -308,9 +349,11 @@ public class ProductStockOperation extends OC_Object{
                 ps.setString(8,this.getUpdateUser());
                 ps.setString(9,this.getPrescriptionUid());
                 ps.setString(10,this.getBatchUid());
+                ps.setString(11, this.getReceiveComment());
+                ps.setInt(12, this.getUnitsReceived());
 
-                ps.setInt(11,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
-                ps.setInt(12,Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".")+1)));
+                ps.setInt(13,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
+                ps.setInt(14,Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".")+1)));
 
                 ps.executeUpdate();
             }
@@ -362,7 +405,9 @@ public class ProductStockOperation extends OC_Object{
             }
             productStock.store();
 
+            /*
             //*** update the source/destination productStock-level
+            
             if(this.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")){
         		if(this.getDescription().indexOf("delivery") > -1){
                     //find the destination servicestock
@@ -413,6 +458,7 @@ public class ProductStockOperation extends OC_Object{
                 	}
                 }
             }
+            */
             if(!sourceBatchUid.equalsIgnoreCase("?") || !destinationBatchUid.equalsIgnoreCase("?")){
             	BatchOperation.storeOperation(this.getUid(), sourceBatchUid, destinationBatchUid, this.getUnitsChanged(),new java.util.Date());
             }
