@@ -1084,6 +1084,7 @@
 			<column name="OC_OPERATION_UID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_OPERATION_UNITSRECEIVED" dbtype="int" javatype="integer"/>
 			<column name="OC_OPERATION_RECEIVECOMMENT" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_OPERATION_RECEIVEPRODUCTSTOCKUID" dbtype="varchar" javatype="string" size="255"/>
 		</columns>
 		<indexes>
 			<index name="OC_OPERATION_OBJECTID">
