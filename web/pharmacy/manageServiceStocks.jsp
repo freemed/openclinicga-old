@@ -82,6 +82,9 @@
             if(serviceStock.getNosync()==0){
                 html.append("<img src='" + sCONTEXTPATH + "/_img/sync.jpg'/>");
             }
+            if(serviceStock.hasOpenDeliveries()){
+                html.append("<img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/>");
+            }
             html.append("</td>");
             html.append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + serviceStock.getName() + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sServiceName + "</td>")
