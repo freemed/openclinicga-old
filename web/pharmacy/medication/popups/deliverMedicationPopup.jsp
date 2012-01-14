@@ -321,11 +321,7 @@
 	                            </select>
 	                            <%-- SOURCE DESTINATION SELECTOR --%>
 	                            <span id="SrcDestSelector" style="visibility:hidden;">
-<<<<<<< .mine
 	                                <input class="text" type="text" name="EditSrcDestName" id="EditSrcDestName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>" onchange="if(document.getElementById('EditSrcDestType')[document.getElementById('EditSrcDestType').selectedIndex].value=='servicestock'){showBatches();}">
-=======
-	                                <input class="text" type="text" name="EditSrcDestName" id="EditSrcDestName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>" onchange="showBatches();">
->>>>>>> .r322
 	                                <span id="SearchSrcDestButtonDiv"><%-- filled by JS below --%></span>
 	                                <input type="hidden" name="EditSrcDestUid" id="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
 	                            </span>
