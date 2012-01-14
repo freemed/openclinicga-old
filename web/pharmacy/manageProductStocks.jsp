@@ -135,6 +135,11 @@
             //*** display stock in one row ***
             html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
                     .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\">");
+            if(productStock.hasOpenDeliveries()){
+                html.append("<img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/>");
+            }
+
+            html.append("</td>");
 
             // non-existing productname in red
             if (sProductName.length() == 0) {
@@ -659,12 +664,12 @@
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td width="22"/>
-                            <td width="25%"><%=getTran("Web","servicestock",sWebLanguage)%></td>
-                            <td width="40%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
-                            <td width="10%" align="right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_LEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","level",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td width="10%" align="right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_ORDERLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","orderlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td width="15%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"</"+sSortDir+">":"")%></a></td>
+                            <td/>
+                            <td><%=getTran("Web","servicestock",sWebLanguage)%></td>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
+                            <td align="right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_LEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","level",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
+                            <td align="right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_ORDERLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","orderlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
+                            <td ><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"</"+sSortDir+">":"")%></a></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=stocksHtml%>
@@ -706,7 +711,7 @@
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td width="1%"/>
+                            <td/>
                             <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_LEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","level",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_COMMAND');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"<"+sSortDir+">":"")%><%=getTran("Web","openorders",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
@@ -715,7 +720,7 @@
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_ORDERLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","orderlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"</"+sSortDir+">":"")%></a></td>
                             <td><%=getTran("Web.manage","prescriptionCount",sWebLanguage)%></td>
-                            <td width="*"/>
+                            <td/>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=stocksHtml%>
