@@ -252,6 +252,13 @@ public class ServiceStock extends OC_Object {
         }
         return stock;
     }
+    public boolean hasOpenDeliveries(){
+    	return ProductStockOperation.getOpenServiceStockDeliveries(this.getUid()).size()>0;
+    }
+    
+   public Vector getOpenDeliveries(){
+   	return ProductStockOperation.getOpenServiceStockDeliveries(this.getUid());
+   }
     //--- STORE -----------------------------------------------------------------------------------
     public void store() {
         PreparedStatement ps = null;

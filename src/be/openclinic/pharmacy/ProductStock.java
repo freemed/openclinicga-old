@@ -54,6 +54,12 @@ public class ProductStock extends OC_Object implements Comparable {
     public void setProduct(Product product) {
         this.product = product;
     }
+    public boolean hasOpenDeliveries(){
+    	return ProductStockOperation.getOpenProductStockDeliveries(getServiceStockUid(), getProductUid()).size()>0;
+    }
+    public Vector getOpenDeliveries(){
+    	return ProductStockOperation.getOpenProductStockDeliveries(getServiceStockUid(), getProductUid());
+    }
     //--- LEVEL -----------------------------------------------------------------------------------
     public int getLevel() {
         return level;
