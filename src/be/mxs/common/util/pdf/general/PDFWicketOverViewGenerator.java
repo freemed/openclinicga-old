@@ -470,7 +470,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         String sCreditComment = "";
         if(credit.getComment()!=null){
             sCreditComment = credit.getComment().toString();
-            if(sCreditType.equalsIgnoreCase("patient.payment") && sCreditComment.split(" - ").length>1){
+            if(credit.getOperationType().equalsIgnoreCase("patient.payment") && sCreditComment.split(" - ").length>1){
             	String sInvoiceUid = MedwanQuery.getInstance().getConfigString("serverId")+"."+ScreenHelper.checkString(sCreditComment.split("-")[sCreditComment.split("-").length-1]).trim();
             	PatientInvoice patientInvoice = null;
             	try{
@@ -479,6 +479,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             	catch(Exception e){
             		e.printStackTrace();
             	}
+        		System.out.println("2: "+sInvoiceUid);
             	if(patientInvoice!=null && patientInvoice.getUid()!=null && patientInvoice.getUid().equals(sInvoiceUid)){
             		Hashtable insurarAmounts = patientInvoice.getInsurarAmounts();
             		Enumeration e = insurarAmounts.keys();

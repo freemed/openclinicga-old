@@ -26,10 +26,37 @@ public class Product extends OC_Object implements Comparable {
     private double unitsPerTimeUnit = -1;
     private String productGroup;
     private String prescriptionInfo;
+    private String barcode;
+    private String prestationcode;
+    private int prestationquantity;
     
     
 
-    public String getPrescriptionInfo() {
+    public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	public String getPrestationcode() {
+		return prestationcode;
+	}
+
+	public void setPrestationcode(String prestationcode) {
+		this.prestationcode = prestationcode;
+	}
+
+	public int getPrestationquantity() {
+		return prestationquantity;
+	}
+
+	public void setPrestationquantity(int prestationquantity) {
+		this.prestationquantity = prestationquantity;
+	}
+
+	public String getPrescriptionInfo() {
 		return prescriptionInfo;
 	}
 
@@ -175,6 +202,9 @@ public class Product extends OC_Object implements Comparable {
                     product.setSupplierUid(rs.getString("OC_PRODUCT_SUPPLIERUID"));
                     product.setProductGroup(rs.getString("OC_PRODUCT_PRODUCTGROUP"));
                     product.setPrescriptionInfo(rs.getString("OC_PRODUCT_PRESCRIPTIONINFO"));
+                    product.setBarcode(rs.getString("OC_PRODUCT_BARCODE"));
+                    product.setPrestationcode(rs.getString("OC_PRODUCT_PRESTATIONCODE"));
+                    product.setPrestationquantity(rs.getInt("OC_PRODUCT_PRESTATIONQUANTITY"));
                     
 
                     // timeUnit
@@ -257,6 +287,9 @@ public class Product extends OC_Object implements Comparable {
                 product.setUnit(rs.getString("OC_PRODUCT_UNIT"));
                 product.setUnitPrice(rs.getDouble("OC_PRODUCT_UNITPRICE"));
                 product.setPackageUnits(rs.getInt("OC_PRODUCT_PACKAGEUNITS"));
+                product.setBarcode(rs.getString("OC_PRODUCT_BARCODE"));
+                product.setPrestationcode(rs.getString("OC_PRODUCT_PRESTATIONCODE"));
+                product.setPrestationquantity(rs.getInt("OC_PRODUCT_PRESTATIONQUANTITY"));
 
                 // supplier
                 String supplierUid = rs.getString("OC_PRODUCT_SUPPLIERUID");
@@ -376,8 +409,9 @@ public class Product extends OC_Object implements Comparable {
                       "  OC_PRODUCT_NAME,OC_PRODUCT_UNIT,OC_PRODUCT_UNITPRICE,OC_PRODUCT_PACKAGEUNITS,"+
                       "  OC_PRODUCT_MINORDERPACKAGES,OC_PRODUCT_SUPPLIERUID,OC_PRODUCT_TIMEUNIT,"+
                       "  OC_PRODUCT_TIMEUNITCOUNT,OC_PRODUCT_UNITSPERTIMEUNIT,OC_PRODUCT_PRODUCTGROUP,"+
-                      "  OC_PRODUCT_CREATETIME,OC_PRODUCT_UPDATETIME,OC_PRODUCT_UPDATEUID,OC_PRODUCT_VERSION,OC_PRODUCT_PRESCRIPTIONINFO)"+
-                      " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                      "  OC_PRODUCT_CREATETIME,OC_PRODUCT_UPDATETIME,OC_PRODUCT_UPDATEUID,OC_PRODUCT_VERSION,OC_PRODUCT_PRESCRIPTIONINFO," +
+                      "  OC_PRODUCT_BARCODE,OC_PRODUCT_PRESTATIONCODE,OC_PRODUCT_PRESTATIONQUANTITY)"+
+                      " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
@@ -412,6 +446,9 @@ public class Product extends OC_Object implements Comparable {
             ps.setString(15,this.getUpdateUser());
             ps.setInt(16,newVersion);
             ps.setString(17, this.getPrescriptionInfo());
+            ps.setString(18, this.getBarcode());
+            ps.setString(19, this.getPrestationcode());
+            ps.setInt(20, this.getPrestationquantity());
 
             ps.executeUpdate();
         }
