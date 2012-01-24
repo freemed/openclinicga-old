@@ -30,7 +30,19 @@
 %>
 <div id="login" class="withoutfields">
     <div id="logo">
+       <% if ("datacenter".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+            session.setAttribute("edition", "datacenter");%>
+        <img src="projects/datacenter/_img/logo.jpg" border="0">
+        <% } else if ("openlab".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+            session.setAttribute("edition", "openlab");%>
+        <img src="projects/openlab/_img/logo.jpg" border="0">
+        <% } else if ("openpharmacy".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+            session.setAttribute("edition", "openlab");%>
+        <img src="_img/openpharmacy_logo.jpg" border="0">
+        <% } else {
+            session.setAttribute("edition", "openclinic");%>
         <img src="<%=sTmpAPPDIR%>_img/logo.jpg" border="0">
+        <% }%>
     </div>
     <div id="version">
         &nbsp;
