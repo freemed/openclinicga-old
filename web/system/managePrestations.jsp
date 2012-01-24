@@ -42,6 +42,12 @@
            sEditPrestationFamily  = checkString(request.getParameter("EditPrestationFamily")),
            sEditPrestationInvoiceGroup  = checkString(request.getParameter("EditPrestationInvoiceGroup")),
            sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice"));
+    	   try{
+    		   sEditPrestationPrice =""+Double.parseDouble(sEditPrestationPrice);
+    	   }
+    	   catch(Exception e){
+    		   sEditPrestationPrice="0";
+    	   }
 
     // DEBUG //////////////////////////////////////////////////////////////////
     if(Debug.enabled){

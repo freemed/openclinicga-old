@@ -96,6 +96,7 @@
                     hMenu.put(getTran("Web.Manage", "SynchronizeLabelsWithIni", sWebLanguage), "main.do?Page=system/syncLabelsWithIni.jsp");
                     hMenu.put(getTran("Web.Manage", "SynchronizeTransactionItemsWithIni", sWebLanguage), "main.do?Page=system/syncTransactionItemsWithIni.jsp");
                     hMenu.put(getTran("Web.Manage", "synchronization.of.counters", sWebLanguage), "main.do?Page=system/countersSync.jsp");
+                    hMenu.put(getTran("Web.Manage", "recalculate.stocklevels", sWebLanguage), "main.do?Page=system/recalculateStockLevels.jsp");
 
                     out.print(ScreenHelper.writeTblHeader(getTran("web.manage", "Synchronization", sWebLanguage), sCONTEXTPATH)
                             + sortMenu(hMenu)
@@ -154,6 +155,7 @@
                                 hMenu = new Hashtable();
                             hMenu.put(getTran("Web.manage", "diagnostics", sWebLanguage), "main.do?Page=system/diagnostics.jsp");
                             hMenu.put(getTran("Web.manage", "quicklist", sWebLanguage), "main.do?Page=system/manageQuickList.jsp");
+                            hMenu.put(getTran("Web.manage", "countarchivelabels", sWebLanguage), "main.do?Page=util/countArchiveLabels.jsp");
                             hMenu.put(getTran("Web.manage", "notifiermessages", sWebLanguage), "main.do?Page=system/manageNotifierMessages.jsp");
 
                                 out.print(ScreenHelper.writeTblHeader(getTran("web.occup", "medwan.common.other", sWebLanguage), sCONTEXTPATH)
