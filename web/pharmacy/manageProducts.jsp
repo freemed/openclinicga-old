@@ -81,6 +81,9 @@
             sEditTimeUnit = checkString(request.getParameter("EditTimeUnit")),
             sEditTimeUnitCount = checkString(request.getParameter("EditTimeUnitCount")),
             sEditUnitsPerTimeUnit = checkString(request.getParameter("EditUnitsPerTimeUnit")),
+            sEditBarcode = checkString(request.getParameter("EditBarcode")),
+            sEditPrestationCode = checkString(request.getParameter("EditPrestationCode")),
+            sEditPrestationQuantity = checkString(request.getParameter("EditPrestationQuantity")),
             sEditProductGroup = checkString(request.getParameter("EditProductGroup"));
 
     String  sTime1 = checkString(request.getParameter("time1")),
@@ -142,7 +145,8 @@
             sFindSupplierUid, sSelectedProductName = "", sSelectedUnit = "", sSelectedUnitPrice = "",
             sSelectedPackageUnits = "", sSelectedMinOrderPackages = "", sSelectedSupplierUid = "",
             sSelectedTimeUnit = "", sFindSupplierName, sSelectedTimeUnitCount = "",
-            sSelectedUnitsPerTimeUnit = "", sSelectedSupplierName = "", sSelectedProductGroup = "";
+            sSelectedUnitsPerTimeUnit = "", sSelectedSupplierName = "", sSelectedProductGroup = "", sSelectedBarcode="",
+            sSelectedPrestationCode="",sSelectedPrestationQuantity="";
 
     // get data from form
     sFindProductName = checkString(request.getParameter("FindProductName"));
@@ -189,9 +193,12 @@
         product.setTimeUnit(sEditTimeUnit);
         product.setUpdateUser(activeUser.userid);
         product.setProductGroup(sEditProductGroup);
+        product.setBarcode(sEditBarcode);
+        product.setPrestationcode(sEditPrestationCode);
         if (sEditUnitPrice.length() > 0) product.setUnitPrice(Double.parseDouble(sEditUnitPrice));
         if (sEditPackageUnits.length() > 0) product.setPackageUnits(Integer.parseInt(sEditPackageUnits));
         if (sEditMinOrderPackages.length() > 0) product.setMinimumOrderPackages(Integer.parseInt(sEditMinOrderPackages));
+        if (sEditPrestationQuantity.length() > 0) product.setPrestationquantity(Integer.parseInt(sEditPrestationQuantity));
         if (sEditTimeUnitCount.length() > 0) product.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
         if (sEditUnitsPerTimeUnit.length() > 0) product.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
 
@@ -239,12 +246,8 @@
                     productSchema.setProductuid(product.getUid());
                     productSchema.store();
 
-                    // nothing : just updating a record with its own data
-                    if (product.changed()) {
-                        product.store(false);
-
-                        msg = getTran("web", "dataissaved", sWebLanguage);
-                    }
+                    product.store(false);
+                    msg = getTran("web", "dataissaved", sWebLanguage);
 
                     sAction = "findShowOverview"; // showDetails
                 }
@@ -320,6 +323,9 @@
                 sSelectedUnitsPerTimeUnit = (product.getUnitsPerTimeUnit() < 0 ? "" : product.getUnitsPerTimeUnit() + "");
                 sSelectedProductGroup = checkString(product.getProductGroup());
                 sSelectedSupplierName = getTranNoLink("Service", sSelectedSupplierUid, sWebLanguage);
+                sSelectedBarcode = checkString(product.getBarcode());
+                sSelectedPrestationCode = checkString(product.getPrestationcode());
+                sSelectedPrestationQuantity = product.getPrestationquantity()+"";
             }
 
             productSchema = ProductSchema.getSingleProductSchema(product.getUid());
@@ -337,6 +343,9 @@
             sSelectedUnitsPerTimeUnit = sEditUnitsPerTimeUnit;
             sSelectedProductGroup = sEditProductGroup;
             sSelectedSupplierName = sEditSupplierName;
+            sSelectedBarcode = sEditBarcode;
+            sSelectedPrestationCode = sEditPrestationCode;
+            sSelectedPrestationQuantity = sEditPrestationQuantity;
         }
         else {
             // do not get data from DB, but show data that were allready in the search-form
@@ -349,6 +358,9 @@
             sSelectedTimeUnit = "";
             sSelectedTimeUnitCount = "";
             sSelectedUnitsPerTimeUnit = "";
+            sSelectedBarcode = "";
+            sSelectedPrestationCode = "";
+            sSelectedPrestationQuantity = "0";
 
             sSelectedProductGroup = sFindProductGroup;
             sSelectedSupplierName = sFindSupplierName;
@@ -617,6 +629,20 @@
                                     <td><input class="text" type="text" name="quantity6" value="<%=productSchema.getTimeQuantity(5).getValue()%>" size="2">#</td>
                                 </tr>
                             </table>
+                        </td>
+                    </tr>
+                    <%-- Barcode --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","barcode",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input class="text" type="text" name="EditBarcode" size="50" maxLength="50" value="<%=sSelectedBarcode%>" >
+                        </td>
+                    </tr>
+                    <%-- PrestationCode --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","prestation",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input class="text" type="text" name="EditPrestationCode" size="10" maxLength="50" value="<%=sSelectedPrestationCode%>" > x <input class="text" type="text" name="EditPrestationQuantity" size="3" maxLength="10" value="<%=sSelectedPrestationQuantity%>" >
                         </td>
                     </tr>
                     <%-- EDIT BUTTONS --%>

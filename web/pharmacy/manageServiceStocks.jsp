@@ -83,7 +83,7 @@
                 html.append("<img src='" + sCONTEXTPATH + "/_img/sync.jpg'/>");
             }
             if(serviceStock.hasOpenDeliveries()){
-                html.append("<img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/>");
+                html.append("<a href='javascript:bulkReceive(\""+serviceStock.getUid()+"\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a>");
             }
             html.append("</td>");
             html.append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + serviceStock.getName() + "</td>")
@@ -1175,6 +1175,10 @@
   <%-- DO BACK --%>
   function doBack(){
     window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=pharmacy/manageServiceStocks.jsp&DisplaySearchFields=true&ts=<%=getTs()%>";
+  }
+
+  function bulkReceive(serviceStockUid){
+	    openPopup("pharmacy/popups/bulkReceive.jsp&ServiceStockUid="+serviceStockUid+"&ts=<%=getTs()%>",700,400);
   }
 
   <%-- close "search in progress"-popup that might still be open --%>

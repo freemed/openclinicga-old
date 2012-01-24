@@ -162,8 +162,10 @@
         
 		<%@page import="be.openclinic.pharmacy.ServiceStock"%>
 		<script>
-          window.opener.location.reload();
-          window.close();
+			if(window.opener.document.getElementById('EditServiceStockUid') && window.opener.document.getElementById('ServiceId')){
+				window.opener.location.href='<c:url value="/"/>main.do?Page=pharmacy/manageProductStocks.jsp&Action=findShowOverview&EditServiceStockUid='+window.opener.document.getElementById('EditServiceStockUid').value+'&DisplaySearchFields=false&ServiceId='+window.opener.document.getElementById('ServiceId').value;
+			}
+	        window.close();
         </script>
         <%
         }
@@ -665,4 +667,5 @@ openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceS
     }
 
 	showBatches();
+	
 </script>

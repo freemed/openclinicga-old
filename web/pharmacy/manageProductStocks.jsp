@@ -90,7 +90,7 @@
     }
 
     //--- OBJECTS TO HTML (layout 2) --------------------------------------------------------------
-    private StringBuffer objectsToHtml2(Vector objects, String serviceUid, String sWebLanguage) {
+    private StringBuffer objectsToHtml2(Vector objects, String serviceUid, String sWebLanguage,User activeUser) {
         StringBuffer html = new StringBuffer();
         String sClass = "1", sStockUid = "", sProductUid = "", sProductName = "", sStockBegin = "";
         SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -134,9 +134,9 @@
 
             //*** display stock in one row ***
             html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\">");
+                    .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\">":""));
             if(productStock.hasOpenDeliveries()){
-                html.append("<img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/>");
+                html.append("<a href='javascript:receiveProduct(\"" + sStockUid + "\",\"" + sProductName + "\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a>");
             }
 
             html.append("</td>");
@@ -398,7 +398,7 @@
 
         // display other layout if stocks of only one service are shown
         if(sServiceId.length() == 0) stocksHtml = objectsToHtml1(productStocks,sWebLanguage);
-        else                         stocksHtml = objectsToHtml2(productStocks,sServiceId,sWebLanguage);
+        else                         stocksHtml = objectsToHtml2(productStocks,sServiceId,sWebLanguage,activeUser);
 
         foundStockCount = productStocks.size();
 
@@ -761,7 +761,18 @@
                 <%
             }
         }
-
+        // do not show service-stock-selector if serviceStock is yet specified
+        if(sEditServiceStockUid.length() == 0){
+        %>
+            <input type="hidden" name="EditServiceStockUid" id="EditServiceStockUid" value="<%=sSelectedServiceStockUid%>">
+            <input type="hidden" name="ServiceId" id="ServiceId" value="<%=sServiceId%>">
+        <%
+        } else {
+        %>
+            <input type="hidden" name="EditServiceStockUid" id="EditServiceStockUid" value="<%=sEditServiceStockUid%>">
+            <input type="hidden" name="ServiceId" id="ServiceId" value="<%=sServiceId%>">
+        <%
+        }
         //--- EDIT FIELDS -------------------------------------------------------------------------
         if(displayEditFields){
             %>
@@ -774,7 +785,6 @@
                         <tr>
                             <td class="admin" nowrap><%=getTran("Web","servicestock",sWebLanguage)%> *</td>
                             <td class="admin2">
-                                <input type="hidden" name="EditServiceStockUid" id="EditServiceStockUid" value="<%=sSelectedServiceStockUid%>">
                                 <input class="text" type="text" name="EditServiceStockName" readonly size="<%=sTextWidth%>" value="<%=sSelectedServiceStockName%>">
 
                                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditServiceStockUid','EditServiceStockName');">
@@ -786,7 +796,6 @@
                         else{
                         %>
                             <%-- hidden Service Stock --%>
-                            <input type="hidden" name="EditServiceStockUid" id="EditServiceStockUid" value="<%=sEditServiceStockUid%>">
                         <%
                         }
                     %>
