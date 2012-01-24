@@ -38,6 +38,7 @@ if(request.getParameter("startrecord")!=null && request.getParameter("numberOfRe
 </table>
 <hr/>
 <form name='calculateForm'>
+	<input type='hidden' name='Page' value='util/countArchiveLabels.jsp'/>
 	Startrecord: <input type='text' name='startrecord' value='<%=startrecord.toUpperCase()+""%>'/> (<%=ScreenHelper.convertFromAlfabeticalCode(startrecord.toLowerCase()) %>)<br/>
 	Number of records: <input type='text' name='numberOfRecords' value='<%=numberOfRecords+""%>'/><br/>
 	<input type='submit' name='submit' value='Calculate'/>
