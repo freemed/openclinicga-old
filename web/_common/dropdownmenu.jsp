@@ -274,6 +274,36 @@
 			}
 		%>
 	}
+	function newFastEncounter(init){
+		<%
+			activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
+			if (activeEncounter!=null && activeEncounter.getEnd()==null){
+		%>
+			alert('<%=getTranNoLink("web","close.active.encounter.first",sWebLanguage)%>');
+		<%
+			}
+			else{
+		%>
+		        var params = '';
+		        var today = new Date();
+		        var url = '<c:url value="/"/>/adt/newEncounter.jsp?ts=<%=getTs()%>&init='+init;
+		        new Ajax.Request(url, {
+		            method: "GET",
+		            parameters: params,
+		            onSuccess: function(resp) {
+						window.location.reload();
+		        	},
+		            onFailure: function() {
+		            }
+		        });
+		<%
+			}
+		%>
+	}
+	function newFastTransaction(transactionType){
+        window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
+	}
+	
     <%-- READ BARCODE --%>
     function readBarcode() {
         openPopup("/_common/readBarcode.jsp&ts=<%=getTs()%>");
@@ -335,7 +365,7 @@
     <%
     if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
     %>
-        openPopup("_common/readFingerPrint.jsp&ts=<%=getTs()%>&referringServer=<%=request.getRequestURL().toString().substring(0,request.getRequestURL().toString().indexOf("/openclinic"))+sCONTEXTPATH%>", 400, 300);
+        openPopup("_common/readFingerPrint.jsp&ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName()+"/"+sCONTEXTPATH%>", 400, 300);
     <%
     }
     else{
@@ -349,7 +379,7 @@
     <%
     if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
     %>
-        openPopup("_common/enrollFingerPrint.jsp&ts=<%=getTs()%>&referringServer=<%=request.getRequestURL().toString().substring(0,request.getRequestURL().toString().indexOf("/openclinic"))+sCONTEXTPATH%>");
+        openPopup("_common/enrollFingerPrint.jsp&ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName()+"/"+sCONTEXTPATH%>");
     <%
     }
     else{
@@ -528,8 +558,7 @@
             },
             onFailure: function() {
             }
-        }
-                );
+        });
     }
     window.setInterval('checkNationalBarcodeIdRedirect();', 2000);
     <%

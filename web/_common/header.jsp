@@ -50,7 +50,18 @@
   String sVersion = checkString((String)session.getAttribute("ProjectVersion"));
 
 %>
-<div class='logo' style="background-image:url('<c:url value='/'/><%=sAPPDIR%>_img/projectlogo.jpg');">&nbsp;</div>
+       <% String bgi=""; 
+       	if ("datacenter".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+        	bgi="projects/datacenter/_img/projectlogo.jpg";
+        } else if ("openlab".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+        	bgi="projects/openlab/_img/projectlogo.jpg";
+        } else if ("openpharmacy".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+        	bgi="_img/openpharmacyprojectlogo.jpg";
+        } else {
+			bgi=sAPPDIR+"_img/projectlogo.jpg";
+        }%>
+
+<div class='logo' style="background-image:url('<c:url value='/'/><%=bgi %>');"></div>
 <div class="version"><%=sVersion%></div>
 
 <div class="topicones">
