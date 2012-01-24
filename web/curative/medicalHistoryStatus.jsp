@@ -20,6 +20,21 @@ try{
             <td>
                 <%=getTran("curative","medicalhistory.status.title",sWebLanguage)%>&nbsp;
                 <a href="javascript:newExamination();"><img src="<c:url value='/_img/icon_new.gif'/>" class="link" alt="<%=getTran("web","manageexaminations",sWebLanguage)%>" style="vertical-align:-4px;"></a>
+				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction1."+activeUser.userid,"").length()>0){ %>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction1."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new1.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction1."+activeUser.userid),sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                <%} %>
+				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction2."+activeUser.userid,"").length()>0){ %>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction2."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new2.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction2."+activeUser.userid),sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                <%} %>
+				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction3."+activeUser.userid,"").length()>0){ %>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction3."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new3.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction3."+activeUser.userid),sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                <%} %>
+				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction4."+activeUser.userid,"").length()>0){ %>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction4."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new4.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction4."+activeUser.userid),sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                <%} %>
+				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction5."+activeUser.userid,"").length()>0){ %>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction5."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new5.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction5."+activeUser.userid),sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                <%} %>
             </td>
         </tr>
 
