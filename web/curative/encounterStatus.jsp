@@ -29,7 +29,7 @@
         <td>
             <table width="100%" class='list' cellspacing="0" border="0">
                 <tr class="admin">
-                    <td width="200">
+                    <td width="300">
                         <%=getTran("curative","encounter.status.title",sWebLanguage)%>&nbsp;
                         <a href="<c:url value='/main.do'/>?Page=adt/historyEncounter.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_history2.gif'/>" class="link" alt="<%=getTran("web","historyencounters",sWebLanguage)%>" style="vertical-align:-4px;"></a>
                         <a href="javascript:newEncounter();"><img src="<c:url value='/_img/icon_new.gif'/>" class="link" alt="<%=getTran("web","newencounter",sWebLanguage)%>" style="vertical-align:-4px;"></a>
@@ -38,6 +38,15 @@
 	                    <%} %>
 						<%if(MedwanQuery.getInstance().getConfigString("quickConsult2."+activeUser.userid,"").length()>0){ %>
 	                        <a href="javascript:newFastEncounter('<%=MedwanQuery.getInstance().getConfigString("quickConsult2."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new2.gif'/>" class="link" title="<%=getTranNoLink("web",MedwanQuery.getInstance().getConfigString("quickConsult2."+activeUser.userid).split(";")[0],sWebLanguage)+" "+getTranNoLink("service",MedwanQuery.getInstance().getConfigString("quickConsult2."+activeUser.userid).split(";")[2],sWebLanguage)%>" style="vertical-align:-4px;"></a>
+	                    <%} %>
+						<%if(MedwanQuery.getInstance().getConfigString("quickConsult3."+activeUser.userid,"").length()>0){ %>
+	                        <a href="javascript:newFastEncounter('<%=MedwanQuery.getInstance().getConfigString("quickConsult3."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new3.gif'/>" class="link" title="<%=getTranNoLink("web",MedwanQuery.getInstance().getConfigString("quickConsult3."+activeUser.userid).split(";")[0],sWebLanguage)+" "+getTranNoLink("service",MedwanQuery.getInstance().getConfigString("quickConsult3."+activeUser.userid).split(";")[2],sWebLanguage)%>" style="vertical-align:-4px;"></a>
+	                    <%} %>
+						<%if(MedwanQuery.getInstance().getConfigString("quickConsult4."+activeUser.userid,"").length()>0){ %>
+	                        <a href="javascript:newFastEncounter('<%=MedwanQuery.getInstance().getConfigString("quickConsult4."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new4.gif'/>" class="link" title="<%=getTranNoLink("web",MedwanQuery.getInstance().getConfigString("quickConsult4."+activeUser.userid).split(";")[0],sWebLanguage)+" "+getTranNoLink("service",MedwanQuery.getInstance().getConfigString("quickConsult4."+activeUser.userid).split(";")[2],sWebLanguage)%>" style="vertical-align:-4px;"></a>
+	                    <%} %>
+						<%if(MedwanQuery.getInstance().getConfigString("quickConsult5."+activeUser.userid,"").length()>0){ %>
+	                        <a href="javascript:newFastEncounter('<%=MedwanQuery.getInstance().getConfigString("quickConsult5."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new5.gif'/>" class="link" title="<%=getTranNoLink("web",MedwanQuery.getInstance().getConfigString("quickConsult5."+activeUser.userid).split(";")[0],sWebLanguage)+" "+getTranNoLink("service",MedwanQuery.getInstance().getConfigString("quickConsult5."+activeUser.userid).split(";")[2],sWebLanguage)%>" style="vertical-align:-4px;"></a>
 	                    <%} %>
                     </td>
                     <td width="250"><i><%=getTran("curative","encounter.last.hospitalisation",sWebLanguage)%>:
