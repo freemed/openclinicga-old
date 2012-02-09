@@ -175,6 +175,8 @@
     <application type="Web" id="system">
         <permission type="web" id="systemmanagement">system.management</permission>
         <permission type="web" id="centerinfo">system.centerinfo</permission>
+        <permission type="web.manage" id="managelocalrfecodes">system.managelocalrfecodes</permission>
+        <permission type="web.manage" id="managelocaldiagnosiscodes">system.managelocaldiagnosiscodes</permission>
         <permission type="web.manage" id="manageExaminations">system.manageexaminations</permission>
         <permission type="web.manage" id="manageserviceexaminations">system.manageserviceexaminations</permission>
         <permission type="web.manage" id="manageinsurars">system.manageinsurars</permission>

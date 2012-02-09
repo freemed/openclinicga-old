@@ -301,7 +301,12 @@
 		%>
 	}
 	function newFastTransaction(transactionType){
-        window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
+		if(<%=Encounter.selectEncounters("","","","","","","","",activePatient.personid,"").size()%>>0){
+	        window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
+		}
+		else{
+			alert("<%=getTranNoLink("web","create.encounter.first",sWebLanguage)%>");
+		}
 	}
 	
     <%-- READ BARCODE --%>

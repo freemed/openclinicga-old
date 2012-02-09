@@ -30,10 +30,16 @@
             <td class="admin2">
                 <%
                     String sFindCode=sCode;
-                    if(sType.equalsIgnoreCase("icpc")){
+                    if(sType.equalsIgnoreCase("icpc") && !sCode.startsWith("O") && sCode.length()>=3){
                         sFindCode=sCode.substring(0,3);
                     }
-                    Vector alternatives = MedwanQuery.getInstance().getAlternativeDiagnosisCodes(sType,sFindCode);
+                    Vector alternatives=null;
+                    if(sCode.startsWith("+")){
+                    	alternatives=new Vector();
+                    }
+                    else {
+                    	alternatives = MedwanQuery.getInstance().getAlternativeDiagnosisCodes(sType,sFindCode);
+                    }
                     if(alternatives.size()==1){
                         out.print(alternatives.elementAt(0)+" "+MedwanQuery.getInstance().getDiagnosisLabel(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(0),sWebLanguage));
                         flags=ReasonForEncounter.getFlags(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(0),flags);

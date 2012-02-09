@@ -2448,6 +2448,25 @@
 	<view name="AdminView" db="ocadmin" drop="1">
 		<sql>create view AdminView as select * from Admin</sql>
 	</view>
+	<view name="Labels" db="ocadmin" drop="1">
+		<sql>CREATE VIEW labels AS 
+			select 
+			a.OC_LABEL_TYPE AS labeltype,
+			a.OC_LABEL_ID AS labelid,
+			a.OC_LABEL_VALUE AS labelnl,
+			b.OC_LABEL_VALUE AS labelfr,
+			c.OC_LABEL_VALUE AS labelen 
+			from ((@openclinic@.oc_labels a join @openclinic@.oc_labels b) join @openclinic@.oc_labels c) 
+			where 
+			((a.OC_LABEL_TYPE = b.OC_LABEL_TYPE) and 
+			(a.OC_LABEL_TYPE = c.OC_LABEL_TYPE) and 
+			(a.OC_LABEL_ID = b.OC_LABEL_ID) and 
+			(a.OC_LABEL_ID = c.OC_LABEL_ID) and 
+			(a.OC_LABEL_LANGUAGE = 'nl') and 
+			(b.OC_LABEL_LANGUAGE = 'fr') and 
+			(c.OC_LABEL_LANGUAGE = 'en'))
+		</sql>
+	</view>
 	<view name="FunctionsView" db="ocadmin" drop="1">
 		<sql>
 			create view FunctionsView

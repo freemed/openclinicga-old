@@ -105,4 +105,7 @@
 	<Query id="QUERY.updateDatacenterDomain.1" db="openclinic" date="9/11/2011" dbserver="MySQL">
 	  	update OC_CONFIG set OC_VALUE=replace(OC_VALUE,'globalhealthbarometer.org','globalhealthbarometer.net') where OC_VALUE like '%globalhealthbarometer.org%'
   	</Query>
+	<Query id="QUERY.addOpenClinicDbNameKey" db="openclinic" date="31/01/2012" dbserver="MySQL">
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('openclinicdbName','openclinic_dbo',4,now())
+  	</Query>
 </Queries>
