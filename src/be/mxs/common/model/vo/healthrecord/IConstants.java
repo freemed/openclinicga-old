@@ -13,6 +13,7 @@ public interface IConstants {
 
     //----- Transaction -----------------------------------------------------------------------------------------------
 
+    public static final String TRANSACTION_TYPE_HC_CONTACT                          = IConstants_PREFIX + "TRANSACTION_TYPE_HC_CONTACT";
     public static final String TRANSACTION_TYPE_VACCINATION                          = IConstants_PREFIX + "TRANSACTION_TYPE_VACCINATION";
     public static final String TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION         = IConstants_PREFIX + "TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION";
     public static final String TRANSACTION_TYPE_ALERT                                = IConstants_PREFIX + "TRANSACTION_TYPE_ALERT";
