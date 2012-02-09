@@ -49,7 +49,7 @@ String sPatientUid=request.getParameter("patientuid");
 
                 // header
                 if (codes.size() > 0) {
-                    out.print("<tr class='admin'><td colspan='3'>" + getTran("Web.Occup", "ICPC-2", sWebLanguage) + "</td></tr>");
+                    out.print("<tr class='admin'><td colspan='3'>" + getTran("Web.Occup", "ICPC-2", sWebLanguage) + " (<a href='javascript:addnewlocalcode(\""+keywords+"\")'>"+getTran("web","managelocalcodes",sWebLanguage)+"</a>)</td></tr>");
                 }
 
         %><tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'><%
@@ -218,7 +218,7 @@ String sPatientUid=request.getParameter("patientuid");
                 // display 'no results' message
                 %>
                     <tr class="label2">
-                        <td colspan='3'><%=getTran("web","norecordsfound",sWebLanguage)%></td>
+                                <td colspan='3'><%=getTran("web","norecordsfound",sWebLanguage)%> (<a href='javascript:addnewlocalcode("<%=keywords%>")'><%=getTran("web","managelocalcodes",sWebLanguage) %></a>)</td>
                     </tr>
                 <%
             }
@@ -336,5 +336,10 @@ String sPatientUid=request.getParameter("patientuid");
         }
     %>
   }
+  
+  function addnewlocalcode(keywords){
+  	openPopup("/system/manageLocalCodes.jsp&ts=<%=getTs()%>&label<%=sWebLanguage.toLowerCase()%>="+keywords+"&action=edit&type=J&showlist=true",550,350);
+  }
+
   var focusfield=document.all['keywords'];
 </script>

@@ -22,6 +22,7 @@
 <%-- End Floating layer --------------------------------------------------------------------------%>
 <%
     String encounterUid=checkString(request.getParameter("encounterUid"));
+	boolean bManageLocalCodes=activeUser.getAccessRight("system.managelocalrfecodes.edit");
     if(encounterUid.length()==0){
         out.println("<script>window.close();</script>");
         out.flush();
@@ -49,7 +50,7 @@
 
                     // header
                     if (codes.size() > 0) {
-                        out.print("<tr class='admin'><td colspan='3'>" + getTran("Web.Occup", "ICPC-2", sWebLanguage) + "</td></tr>");
+                        out.print("<tr class='admin'><td colspan='3'>" + getTran("Web.Occup", "ICPC-2", sWebLanguage) + (bManageLocalCodes?" (<a href='javascript:addnewlocalcode(\""+keywords+"\")'>"+getTran("web","managelocalcodes",sWebLanguage)+"</a>)":"")+"</td></tr>");
                     }
 
                     %>
@@ -58,12 +59,14 @@
                     String oldcodelabel="";
                     for (int n=0; n<codes.size(); n++){
                         foundRecords++;
-
                         code = (ICPCCode)codes.elementAt(n);
+						System.out.println(code);
+						System.out.println(code.code);
+						System.out.println(code.label);
                         if(!oldcodelabel.equalsIgnoreCase(code.label)){
                             oldcodelabel=code.label;
-                            if (code.code.length()>=5){
-                                if (code.code.substring(3,5).equalsIgnoreCase("00")){
+                            if (code.code.length()>=5 || code.code.startsWith("I")){
+                                if (code.code.length()>=5 && code.code.substring(3,5).equalsIgnoreCase("00")){
                                     out.print("<tr class='label2'>");
                                 }
                                 else {
@@ -115,7 +118,14 @@
                         // display 'no results' message
                         %>
                             <tr class="label2">
-                                <td colspan='3'><%=getTran("web","norecordsfound",sWebLanguage)%></td>
+                                <td colspan='3'><%=getTran("web","norecordsfound",sWebLanguage)%> 
+                                <%
+                                if(bManageLocalCodes){
+                                %>
+                                (<a href='javascript:addnewlocalcode("<%=keywords%>")'><%=getTran("web","managelocalcodes",sWebLanguage) %></a>)</td>
+								<%
+                                }
+                                %>
                             </tr>
                         <%
                     }
@@ -145,7 +155,11 @@
     function addICD10(code,label){
         openPopup("/_common/search/RFEInfo.jsp&ts=<%=getTs()%>&field=<%=ScreenHelper.checkString(request.getParameter("field"))%>&trandate=<%=ScreenHelper.checkString(request.getParameter("trandate"))%>&encounterUid=<%=encounterUid%>&Type=ICD10&Code="+code+"&Label="+label,800,500);
     }
-
+    
+    function addnewlocalcode(keywords){
+    	openPopup("/system/manageLocalCodes.jsp&ts=<%=getTs()%>&label<%=sWebLanguage.toLowerCase()%>="+keywords+"&action=edit&type=I&showlist=true",550,350);
+    }
+    
 </script>
 
 
