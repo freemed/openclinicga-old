@@ -1704,7 +1704,7 @@
                     while (sqlIterator.hasNext()) {
                         sql = (Element) sqlIterator.next();
                         if (sql.attribute("db") == null || sql.attribute("db").getValue().equalsIgnoreCase(sLocalDbType)) {
-                            s = sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin"));
+                            s = sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin")).replaceAll("@openclinic@", MedwanQuery.getInstance().getConfigString("openclinicdbName","openclinic"));
                         }
                     }
                     if (s.trim().length() > 0) {
@@ -1741,7 +1741,7 @@
                                 sql = (Element) sqlIterator.next();
                                 if (sql.attribute("db") == null || sql.attribute("db").getValue().equalsIgnoreCase(sLocalDbType)) {
                                     st = connectionCheck.createStatement();
-                                    String sq = sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin"));
+                                    String sq = sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin")).replaceAll("@openclinic@", MedwanQuery.getInstance().getConfigString("openclinicdbName","openclinic"));
                                     sq = sq.replaceAll("\n", " ");
                                     sq = sq.replaceAll("\r", " ");
                                     st.addBatch(sq);
@@ -1770,7 +1770,7 @@
                     while (sqlIterator.hasNext()) {
                         sql = (Element) sqlIterator.next();
                         if (sql.attribute("db") == null || sql.attribute("db").getValue().equalsIgnoreCase(sLocalDbType)) {
-                            s = sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin"));
+                            s = sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin")).replaceAll("@openclinic@", MedwanQuery.getInstance().getConfigString("openclinicdbName","openclinic"));
                         }
                     }
                     if (s.trim().length() > 0) {
@@ -1806,7 +1806,7 @@
                                 sql = (Element) sqlIterator.next();
                                 if (sql.attribute("db") == null || sql.attribute("db").getValue().equalsIgnoreCase(sLocalDbType)) {
                                     st = connectionCheck.createStatement();
-                                    st.addBatch(sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin")));
+                                    st.addBatch(sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin")).replaceAll("@openclinic@", MedwanQuery.getInstance().getConfigString("openclinicdbName","openclinic")));
                                     st.executeBatch();
                                     st.close();
                                     comment(out, " Procedure <b>" + proc.attribute("name").getValue() + "</b> created", 0);
@@ -1842,7 +1842,7 @@
                                 sql = (Element) sqlIterator.next();
                                 if (sql.attribute("db") == null || sql.attribute("db").getValue().equalsIgnoreCase(sLocalDbType)) {
                                     st = connectionCheck.createStatement();
-                                    st.addBatch(sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin")).replaceAll(";", "\n"));
+                                    st.addBatch(sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin")).replaceAll("@openclinic@", MedwanQuery.getInstance().getConfigString("openclinicdbName","openclinic")).replaceAll(";", "\n"));
                                     st.executeBatch();
                                     st.close();
                                     comment(out, " sql executed", 0);

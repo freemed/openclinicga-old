@@ -78,7 +78,7 @@ if(request.getParameter("nousers")==null){
 									+s.getAttribute("mon_ipaddress")+";"
 									+browser+";"
 									+(new java.util.Date().getTime()-((java.util.Date)s.getAttribute("mon_start")).getTime())+";"
-									+sActivePatient+";"
+									+sActivePatient.replaceAll(";"," ")+";"
 									+(new java.util.Date().getTime()-new Long(s.getLastAccessedTime()).longValue())+";"
 									+profile+";";
 						sortedSessions.put(new Long(36000000-s.getLastAccessedTime()),line);
