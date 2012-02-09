@@ -532,15 +532,15 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         PdfPTable table2 = new PdfPTable(1);
         table2.setWidthPercentage(100);
         //Label1
-        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title1",user.person.language),MedwanQuery.getInstance().getConfigInt("labtitle1size",14),1,Font.BOLD);
+        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title1",user.person.language).replaceAll("title1", ""),MedwanQuery.getInstance().getConfigInt("labtitle1size",14),1,Font.BOLD);
         cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
         table2.addCell(cell);
         //Label2
-        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title2",user.person.language),MedwanQuery.getInstance().getConfigInt("labtitle2size",10),1,Font.BOLD);
+        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title2",user.person.language).replaceAll("title2", ""),MedwanQuery.getInstance().getConfigInt("labtitle2size",10),1,Font.BOLD);
         cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
         table2.addCell(cell);
         //Label3
-        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title3",user.person.language),MedwanQuery.getInstance().getConfigInt("labtitle3size",10),1,Font.BOLD);
+        cell=createLabel(ScreenHelper.getTranNoLink("labresult","title3",user.person.language).replaceAll("title3", ""),MedwanQuery.getInstance().getConfigInt("labtitle3size",10),1,Font.BOLD);
         cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
         table2.addCell(cell);
         //Titel

@@ -48,7 +48,8 @@ public class Imaging {
 		BufferedImage resultImage= toBufferedImage(Miscelaneous.getImage(cf));
 		for (int n=0; n<districts.length;n++){
 			if(districts[n]!=null){
-				BufferedImage im1=toBufferedImage(replaceColor(Miscelaneous.getImage(districts[n].getMap()),0xffff0000,getColor(totalcolors,min,max,districts[n].getScore())));
+				int color=getColor(totalcolors,min,max,districts[n].getScore());
+				BufferedImage im1=toBufferedImage(replaceColor(Miscelaneous.getImage(districts[n].getMap()),0xffff0000,color));
 		        resultImage = createComposite(resultImage, im1, 1f);
 			}
 		}
@@ -69,18 +70,21 @@ public class Imaging {
         }
 		BufferedImage resultImage= toBufferedImage(Miscelaneous.getImage(cf));
 		System.out.println("districts.length="+districts.length);
-		for (int n=0; n<districts.length;n++){
-			System.out.println("districts[n]="+districts[n]);
-			if(districts[n]!=null){
-				System.out.println("districts[n][0]="+districts[n][0]);
-				District district = District.getDistrictWithId(countryFile, new Double (districts[n][0]).intValue()+"");
-				System.out.println("district="+district);
-				if(district!=null){
-					BufferedImage im1=toBufferedImage(replaceColor(Miscelaneous.getImage(district.getMap()),0xffff0000,getColor(totalcolors,min,max,districts[n][1])));
-			        resultImage = createComposite(resultImage, im1, 1f);
+			for (int n=0; n<districts.length;n++){
+				System.out.println("districts[n]="+districts[n]);
+				if(districts[n]!=null){
+					District district = District.getDistrictWithId(countryFile, new Double (districts[n][0]).intValue()+"");
+					System.out.println("district="+district.getId());
+					System.out.println("districts[n][1]="+districts[n][1]);
+					if(district!=null){
+						int color=getColor(totalcolors,min,max,districts[n][1]);
+						System.out.println("color="+color);
+						System.out.println("map="+district.getMap());
+						BufferedImage im1=toBufferedImage(replaceColor(Miscelaneous.getImage(district.getMap()),0xffff0000,color));
+				        resultImage = createComposite(resultImage, im1, 1f);
+					}
 				}
 			}
-		}
 		return resultImage;
 	}
 	
@@ -98,30 +102,38 @@ public class Imaging {
         }
 		BufferedImage resultImage= toBufferedImage(Miscelaneous.getImage(cf));
 		System.out.println("districts.length="+districts.length);
-		for (int n=0; n<districts.length;n++){
-			System.out.println("districts[n]="+districts[n]);
-			if(districts[n]!=null){
-				System.out.println("districts[n][0]="+districts[n][0]);
-				District district = District.getDistrictWithZipcode(countryFile, districts[n][0]);
-				System.out.println("district="+district);
-				if(district!=null){
-					BufferedImage im1=toBufferedImage(replaceColor(Miscelaneous.getImage(district.getMap()),0xffff0000,getColor(totalcolors,min,max,Double.parseDouble(districts[n][1]))));
-			        resultImage = createComposite(resultImage, im1, 1f);
+			for (int n=0; n<districts.length;n++){
+				System.out.println("districts[n]="+districts[n]);
+				if(districts[n]!=null){
+					System.out.println("districts[n][0]="+districts[n][0]);
+					District district = District.getDistrictWithZipcode(countryFile, districts[n][0]);
+					System.out.println("district="+district);
+					if(district!=null){
+						BufferedImage im1=toBufferedImage(replaceColor(Miscelaneous.getImage(district.getMap()),0xffff0000,getColor(totalcolors,min,max,Double.parseDouble(districts[n][1]))));
+				        resultImage = createComposite(resultImage, im1, 1f);
+					}
 				}
 			}
-		}
 		return resultImage;
 	}
 	
 	public static int getColor(int totalcolors, double min, double max, double value){
 		double step = (max-min)/totalcolors;
 		int w_value=new Double((value-min)/step).intValue();
+		System.out.println("w_value="+w_value);	
+		int red,green,blue;
 		if(w_value<=totalcolors/2){
-			return new Double(0xffff0000 + 256 * (255 * (totalcolors/2-w_value) / (totalcolors/2)) + 255 * (totalcolors/2-w_value) / (totalcolors/2)).intValue();
+			red=255;
+			green=255 * (totalcolors/2-w_value) / (totalcolors/2);
+			blue=255 * (totalcolors/2-w_value) / (totalcolors/2);
 		}
 		else {
-			return new Double(0xff000000 + 256 * 256 * (255 * (totalcolors - w_value) / (totalcolors/2))).intValue();
+			red=255 * (totalcolors - w_value) / (totalcolors/2);
+			green=0;
+			blue=0;
 		}
+		System.out.println("RGB="+red+"/"+green+"/"+blue);
+		return new Double(0xff000000 + 256*256*red +256*green + blue).intValue();
 	}
 	
 	public static Image replaceColor(Image image, int sourcergb, int destinationrgb){
