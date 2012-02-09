@@ -154,6 +154,11 @@
         <a href="http://www.openit-burundi.net" target="_new"><b>Open-IT Burundi SARL</b></a>
         <BR/> Burundi Business Incubator - Bujumbura +257 78 837 342<br/>
         <a href="mailto:info@openit-burundi.net">info@openit-burundi.net</a>
+        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("ml")) { %>
+        <img src="_img/maliflag.jpg" height="15px" width="30px" alt="Mali"/>
+        <a href="http://www.sante.gov.ml/" target="_new"><b>ANTIM</b></a> et <a href="http://www.mxs.be" target="_new"><b>MXS</b></a>
+        <BR/> Hamdalaye ACI 2000, Rue 340, Porte 541, Bamako - Mali<br/>
+        <a href="mailto:info@openit-burundi.net">ousmanely@sante.gov.ml</a>
         <% } else { %>
         <img src="_img/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
         <a href="http://www.mxs.be" target="_new"><b>MXS SA/NV</b></a>
