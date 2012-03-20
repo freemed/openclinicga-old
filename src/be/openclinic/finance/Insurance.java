@@ -19,6 +19,9 @@ public class Insurance extends OC_Object {
     private String insurarUid;
     private String type;
     private String member;
+    private String memberImmat;
+    private String memberEmployer;
+    private String status;
     private Timestamp start;
     private Timestamp stop;
     private StringBuffer comment;
@@ -29,7 +32,31 @@ public class Insurance extends OC_Object {
     private Insurar insurar;
     private int patientShare;
 
-    public String getInsuranceCategoryLetter() {
+    public String getMemberImmat() {
+		return memberImmat;
+	}
+
+	public void setMemberImmat(String memberImmat) {
+		this.memberImmat = memberImmat;
+	}
+
+	public String getMemberEmployer() {
+		return memberEmployer;
+	}
+
+	public void setMemberEmployer(String memberEmployer) {
+		this.memberEmployer = memberEmployer;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getInsuranceCategoryLetter() {
         return insuranceCategoryLetter;
     }
 
@@ -176,6 +203,9 @@ public class Insurance extends OC_Object {
                         insurance.setInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURARUID")));
                         insurance.setType(ScreenHelper.checkString(rs.getString("OC_INSURANCE_TYPE")));
                         insurance.setMember(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER")));
+                        insurance.setMemberImmat(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_IMMAT")));
+                        insurance.setMemberEmployer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_EMPLOYER")));
+                        insurance.setStatus(ScreenHelper.checkString(rs.getString("OC_INSURANCE_STATUS")));
                         insurance.setStart(rs.getTimestamp("OC_INSURANCE_START"));
                         insurance.setStop(rs.getTimestamp("OC_INSURANCE_STOP"));
                         insurance.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_COMMENT"))));
@@ -261,6 +291,9 @@ public class Insurance extends OC_Object {
                                     " OC_INSURANCE_VERSION," +
                                     " OC_INSURANCE_PATIENTUID," +
                                     " OC_INSURANCE_INSURANCECATEGORYLETTER," +
+                                    " OC_INSURANCE_MEMBER_IMMAT," +
+                                    " OC_INSURANCE_MEMBER_EMPLOYER," +
+                                    " OC_INSURANCE_STATUS," +
                                     " OC_INSURANCE_MEMBER)" +
 
                                   " SELECT OC_INSURANCE_SERVERID," +
@@ -277,6 +310,9 @@ public class Insurance extends OC_Object {
                                          " OC_INSURANCE_VERSION," +
                                          " OC_INSURANCE_PATIENTUID," +
                                          " OC_INSURANCE_INSURANCECATEGORYLETTER," +
+                                         " OC_INSURANCE_MEMBER_IMMAT," +
+                                         " OC_INSURANCE_MEMBER_EMPLOYER," +
+                                         " OC_INSURANCE_STATUS," +
                                          " OC_INSURANCE_MEMBER" +
                                   " FROM OC_INSURANCES " +
                                   " WHERE OC_INSURANCE_SERVERID = ?" +
@@ -318,9 +354,12 @@ public class Insurance extends OC_Object {
                                       " OC_INSURANCE_VERSION," +
                                       " OC_INSURANCE_PATIENTUID," +
                                       " OC_INSURANCE_INSURANCECATEGORYLETTER," +
+                                      " OC_INSURANCE_MEMBER_IMMAT," +
+                                      " OC_INSURANCE_MEMBER_EMPLOYER," +
+                                      " OC_INSURANCE_STATUS," +
                                       " OC_INSURANCE_MEMBER" +
                                       ") " +
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1,Integer.parseInt(ids[0]));
@@ -343,7 +382,10 @@ public class Insurance extends OC_Object {
                     ps.setString(13,"");
                 }
                 ps.setString(14,this.getInsuranceCategoryLetter());
-                ps.setString(15,this.getMember());
+                ps.setString(15,this.getMemberImmat());
+                ps.setString(16,this.getMemberEmployer());
+                ps.setString(17,this.getStatus());
+                ps.setString(18,this.getMember());
                 ps.executeUpdate();
                 ps.close();
                 this.setUid(ids[0] + "." + ids[1]);
@@ -411,6 +453,9 @@ public class Insurance extends OC_Object {
                 insurance.setInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURARUID")));
                 insurance.setType(ScreenHelper.checkString(rs.getString("OC_INSURANCE_TYPE")));
                 insurance.setMember(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER")));
+                insurance.setMemberImmat(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_IMMAT")));
+                insurance.setMemberEmployer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_EMPLOYER")));
+                insurance.setStatus(ScreenHelper.checkString(rs.getString("OC_INSURANCE_STATUS")));
                 insurance.setStart(rs.getTimestamp("OC_INSURANCE_START"));
                 insurance.setStop(rs.getTimestamp("OC_INSURANCE_STOP"));
                 insurance.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_COMMENT"))));
@@ -513,6 +558,9 @@ public class Insurance extends OC_Object {
                 insurance.setInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURARUID")));
                 insurance.setType(ScreenHelper.checkString(rs.getString("OC_INSURANCE_TYPE")));
                 insurance.setMember(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER")));
+                insurance.setMemberImmat(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_IMMAT")));
+                insurance.setMemberEmployer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_EMPLOYER")));
+                insurance.setStatus(ScreenHelper.checkString(rs.getString("OC_INSURANCE_STATUS")));
                 insurance.setStart(rs.getTimestamp("OC_INSURANCE_START"));
                 insurance.setStop(rs.getTimestamp("OC_INSURANCE_STOP"));
                 insurance.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_COMMENT"))));
@@ -609,6 +657,9 @@ public class Insurance extends OC_Object {
                 insurance.setInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURARUID")));
                 insurance.setType(ScreenHelper.checkString(rs.getString("OC_INSURANCE_TYPE")));
                 insurance.setMember(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER")));
+                insurance.setMemberImmat(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_IMMAT")));
+                insurance.setMemberEmployer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_EMPLOYER")));
+                insurance.setStatus(ScreenHelper.checkString(rs.getString("OC_INSURANCE_STATUS")));
                 insurance.setStart(rs.getTimestamp("OC_INSURANCE_START"));
                 insurance.setStop(rs.getTimestamp("OC_INSURANCE_STOP"));
                 insurance.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_COMMENT"))));
@@ -668,6 +719,9 @@ public class Insurance extends OC_Object {
                 insurance.setInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURARUID")));
                 insurance.setType(ScreenHelper.checkString(rs.getString("OC_INSURANCE_TYPE")));
                 insurance.setMember(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER")));
+                insurance.setMemberImmat(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_IMMAT")));
+                insurance.setMemberEmployer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_EMPLOYER")));
+                insurance.setStatus(ScreenHelper.checkString(rs.getString("OC_INSURANCE_STATUS")));
                 insurance.setStart(rs.getTimestamp("OC_INSURANCE_START"));
                 insurance.setStop(rs.getTimestamp("OC_INSURANCE_STOP"));
                 insurance.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_COMMENT"))));

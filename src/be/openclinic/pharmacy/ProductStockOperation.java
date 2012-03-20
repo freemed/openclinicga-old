@@ -1,16 +1,20 @@
 package be.openclinic.pharmacy;
 
+import be.openclinic.adt.Encounter;
 import be.openclinic.common.OC_Object;
 import be.openclinic.common.ObjectReference;
 import be.openclinic.medical.Prescription;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
+import be.openclinic.finance.*;
 
 import java.util.Date;
 import java.util.Vector;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+
+import net.admin.AdminPerson;
 
 /**
  * User: Frank Verbeke, Stijn Smets
@@ -442,6 +446,65 @@ public class ProductStockOperation extends OC_Object{
 
             if(!sourceBatchUid.equalsIgnoreCase("?") || !destinationBatchUid.equalsIgnoreCase("?")){
             	BatchOperation.storeOperation(this.getUid(), sourceBatchUid, destinationBatchUid, this.getUnitsChanged(),new java.util.Date());
+            }
+            
+            //Generate prestation if indicated in product
+            Product product = getProductStock().getProduct();
+            System.out.println("getSourceDestination().getObjectType()="+getSourceDestination().getObjectType());
+            System.out.println("getSourceDestination().getObjectUid()="+getSourceDestination().getObjectUid());
+            System.out.println("product.getPrestationcode()="+product.getPrestationcode());
+            if(getSourceDestination().getObjectType().equalsIgnoreCase("patient") && getSourceDestination().getObjectUid().length()>0 && product.getPrestationcode()!=null && product.getPrestationcode().length()>0){
+            	Prestation prestation = Prestation.get(product.getPrestationcode());
+            	AdminPerson patient = AdminPerson.getAdminPerson(getSourceDestination().getObjectUid());
+            	Encounter activeEncounter = Encounter.getActiveEncounter(patient.personid);
+            	if(prestation!=null && patient!=null && activeEncounter!=null){
+            		Debet debet = new Debet();
+            		debet.setCreateDateTime(new java.util.Date());
+            		debet.setUpdateDateTime(new java.util.Date());
+            		debet.setUpdateUser(getUpdateUser());
+            		debet.setDate(new java.util.Date());
+            		debet.setEncounter(activeEncounter);
+            		debet.setPrestation(prestation);
+            		debet.setQuantity(product.getPrestationquantity()*getUnitsChanged());
+            		debet.setComment("");
+            		debet.setSupplierUid("");
+            		debet.setCredited(0);
+            		debet.setVersion(1);
+            		
+            		double patientamount = prestation.getPrice();
+            		
+            		//Insurance & insurar
+            		Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(patient.personid);
+            		double insuraramount=0;
+            		if(insurance!=null){
+            			patientamount = prestation.getPrice(insurance.getType());
+	            		debet.setInsurance(insurance);
+	            		//First find out if there is a fixed tariff for this prestation
+	            		insuraramount = prestation.getInsuranceTariff(insurance.getInsurarUid(), insurance.getInsuranceCategoryLetter());
+	            		System.out.println("insuraramount 1 = "+insuraramount);
+	            		if(insuraramount==-1){
+	            			//Calculate the insuranceamount based on reimbursementpercentage
+	            			insuraramount=patientamount*(100-insurance.getPatientShare())/100;
+		            		System.out.println("insuraramount 2 = "+insuraramount);
+	            		}
+            		}
+            		patientamount=patientamount-insuraramount;
+            		//Extrainsurar
+            		double extrainsuraramount=0;
+            		if(!MedwanQuery.getInstance().getConfigString("defaultExtraInsurar","-1").equalsIgnoreCase("-1")){
+            			Insurar extrainsurar = Insurar.get(MedwanQuery.getInstance().getConfigString("defaultExtraInsurar","-1"));
+            			if(extrainsurar!=null){
+            				extrainsuraramount=patientamount;
+            				patientamount=0;
+            				debet.setExtraInsurarUid(extrainsurar.getUid());
+            			}
+            		}
+            		debet.setAmount(patientamount*debet.getQuantity());
+            		debet.setInsurarAmount(insuraramount*debet.getQuantity());
+            		debet.setExtraInsurarAmount(extrainsuraramount*debet.getQuantity());
+            		debet.store();
+            		MedwanQuery.getInstance().getObjectCache().removeObject("debet", debet.getUid());
+            	}
             }
         }
         catch(Exception e){

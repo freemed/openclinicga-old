@@ -26,8 +26,17 @@ public class Prestation extends OC_Object{
     private String type; // (product/service)
     private String categories;
     private String invoicegroup;
+    private int mfpPercentage;
 
-    //--- GETTERS & SETTERS -----------------------------------------------------------------------
+    public int getMfpPercentage() {
+		return mfpPercentage;
+	}
+
+	public void setMfpPercentage(int mfpPercentage) {
+		this.mfpPercentage = mfpPercentage;
+	}
+
+	//--- GETTERS & SETTERS -----------------------------------------------------------------------
     public String getType(){
         return type;
     }
@@ -166,19 +175,21 @@ public class Prestation extends OC_Object{
     
     public double getPrice(String category){
         double price=getPrice();
-        String[] cats = categories.split(";");
-        for(int n=0;n<cats.length;n++){
-            if(cats[n].indexOf("=")>-1 && cats[n].split("=")[0].equalsIgnoreCase(category)){
-                try{
-                    price=Double.parseDouble(cats[n].split("=")[1]);
-                    if(price>0){
-                        return price;
-                    }
-                }
-                catch(Exception e){
-
-                }
-            }
+        if(categories!=null && categories.length()>0){
+	        String[] cats = categories.split(";");
+	        for(int n=0;n<cats.length;n++){
+	            if(cats[n].indexOf("=")>-1 && cats[n].split("=")[0].equalsIgnoreCase(category)){
+	                try{
+	                    price=Double.parseDouble(cats[n].split("=")[1]);
+	                    if(price>0){
+	                        return price;
+	                    }
+	                }
+	                catch(Exception e){
+	
+	                }
+	            }
+	        }
         }
         return getPrice();
     }
@@ -352,6 +363,7 @@ public class Prestation extends OC_Object{
                         prestation.setVersion(rs.getInt("OC_PRESTATION_VERSION"));
                         prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                         prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
+                        prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
                     }
                 }
             }
@@ -444,6 +456,7 @@ public class Prestation extends OC_Object{
                 prestation.setVersion(rs.getInt("OC_PRESTATION_VERSION"));
                 prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                 prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
+                prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
                 allPrestations.put(prestation.getCode(), prestation);
             }
         }
@@ -498,6 +511,7 @@ public class Prestation extends OC_Object{
                     prestation.setVersion(rs.getInt("OC_PRESTATION_VERSION"));
                     prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                     prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
+                    prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
                 }
             }
             catch(Exception e){
@@ -632,6 +646,7 @@ public class Prestation extends OC_Object{
                 prestation.setVersion(rs.getInt("OC_PRESTATION_VERSION"));
                 prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                 prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
+                prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
 
                 prestations.add(prestation);
             }
@@ -713,6 +728,7 @@ public class Prestation extends OC_Object{
                            "  OC_PRESTATION_VERSION = ?," +
                            "  OC_PRESTATION_TYPE = ?,"+
                            "  OC_PRESTATION_CATEGORIES = ?,"+
+                           "  OC_PRESTATION_MFPPERCENTAGE = ?,"+
                            "  OC_PRESTATION_INVOICEGROUP = ?"+
                            " WHERE OC_PRESTATION_SERVERID = ?"+
                            "  AND OC_PRESTATION_OBJECTID = ?";
@@ -727,9 +743,10 @@ public class Prestation extends OC_Object{
                     ps.setInt(8,this.getVersion());
                     ps.setString(9,this.getType());
                     ps.setString(10,this.getCategories());
-                    ps.setString(11,this.getInvoiceGroup());
-                    ps.setInt(12,Integer.parseInt(ids[0]));
-                    ps.setInt(13,Integer.parseInt(ids[1]));
+                    ps.setInt(11,this.getMfpPercentage());
+                    ps.setString(12,this.getInvoiceGroup());
+                    ps.setInt(13,Integer.parseInt(ids[0]));
+                    ps.setInt(14,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
                 }
@@ -749,8 +766,9 @@ public class Prestation extends OC_Object{
                            "  OC_PRESTATION_VERSION," +
                            "  OC_PRESTATION_TYPE," +
                            "  OC_PRESTATION_CATEGORIES," +
+                           "  OC_PRESTATION_MFPPERCENTAGE," +
                           "  OC_PRESTATION_INVOICEGROUP)"+
-                           " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                           " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     ps = oc_conn.prepareStatement(sSql);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -765,9 +783,29 @@ public class Prestation extends OC_Object{
                     ps.setInt(11,1); // first version
                     ps.setString(12,this.getType());
                     ps.setString(13,this.getCategories());
-                    ps.setString(14,this.getInvoiceGroup());
+                    ps.setInt(14,this.getMfpPercentage());
+                    ps.setString(15,this.getInvoiceGroup());
                     ps.executeUpdate();
                     ps.close();
+                    setUid(ids[0]+"."+ids[1]);
+                }
+                //If MfpPercentage provide, create tariff
+                if(getMfpPercentage()>0){
+                	System.out.println("getMfpPercentage()="+getMfpPercentage());
+                	Insurar insurar = Insurar.get(MedwanQuery.getInstance().getConfigString("MFP","-1"));
+                	System.out.println("insurar="+insurar);
+                	if(insurar!=null && insurar.getUid()!=null){
+                		double price = getPrice(insurar.getType());
+                    	System.out.println("price="+price);
+                    	System.out.println("price*getMfpPercentage()/100="+price*getMfpPercentage()/100);
+                    	System.out.println("getUid()="+getUid());
+                    	System.out.println("insurar.getUid()="+insurar.getUid());
+                    	Vector cats=insurar.getInsuraceCategories();
+                    	for(int n=0;n<cats.size();n++){
+                    		InsuranceCategory cat = (InsuranceCategory)cats.elementAt(n);
+                    		saveInsuranceTariff(getUid(), insurar.getUid(), cat.getCategory(), price*getMfpPercentage()/100);
+                    	}
+                	}
                 }
             }
             else{

@@ -367,7 +367,7 @@ public class PatientCredit extends OC_Object {
 
             //*** update invoice data if an invoice is selected for the this credit ***
             // (credits without an invoice can be attached to an invoice later))
-            if(this.getInvoiceUid().length() > 0){
+            if(this.getInvoiceUid()!=null && this.getInvoiceUid().length() > 0){
                 PatientInvoice invoice = PatientInvoice.get(this.getInvoiceUid());
                 invoice.setBalance(invoice.getBalance()-this.getAmount());
                 if(invoice.getBalance()==0){
