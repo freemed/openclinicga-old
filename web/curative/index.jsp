@@ -32,13 +32,19 @@
         return s;
     }
 %>
-<%System.out.println(activePatient.personid); %>
+<%
+	String sVip="";
+	if ("1".equalsIgnoreCase((String)activePatient.adminextends.get("vip"))) {
+	    sVip="<img border='0' src='_img/icon_vip.jpg' alt='"+getTranNoLink("web","vip",sWebLanguage)+"'/>";
+	}
+
+%>
 <script type="text/javascript">
     window.document.title="<%=sWEBTITLE+" "+getWindowTitle(request, sWebLanguage)%>";
 </script>
 <%-- ADMINISTRATIVE DATA --%>
 <table width="100%" class="list">
-    <tr><td colspan="10" class="titleadmin"><div style="float:left;"><%=getTran("web","administrative.data",sWebLanguage)%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%></td></tr>
+    <tr><td colspan="10" class="titleadmin"><div style="float:left;vertical-align: middle"><%=getTran("web","administrative.data",sWebLanguage)+" "+sVip%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%></td></tr>
 <%System.out.println(2); %>
 <%
     boolean bPicture=Picture.exists(Integer.parseInt(activePatient.personid));
