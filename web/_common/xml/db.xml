@@ -217,6 +217,13 @@
 	    	</index>
 	    </indexes>
 	</table>
+	<table name="OC_EXPORTREQUESTS" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_EXPORTREQUEST_TYPE" dbtype="varchar" size="50" javatype="string" />
+			<column name="OC_EXPORTREQUEST_ID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_EXPORTREQUEST_PROCESSED" dbtype="int" javatype="integer"/>
+	    </columns>
+	</table>
 	<table name="OC_IMPORTS" db="openclinic" sync="NONE">
 		<columns>
 			<column name="OC_IMPORT_UID" dbtype="int" javatype="integer" />
