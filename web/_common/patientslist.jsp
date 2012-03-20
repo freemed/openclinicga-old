@@ -132,13 +132,12 @@
                     }
                     sTmpServiceID = "<td>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td>"+sBed+"</td>"+sHospDate;
                 } else {
-                    sTmpServiceID = "<td>&nbsp;</td><td>&nbsp;</td>";
+                    sTmpServiceID = "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
                 }
             }
 
             if (sClass.equals("")) sClass = "1";
             else sClass = "";
-
             if (sPage.trim().length() > 0) {
                 sLink = sPage + checkString(tempPat.personid);
                 sResult += ("<tr onClick='window.location.href=\"" + sLink + "\";'");

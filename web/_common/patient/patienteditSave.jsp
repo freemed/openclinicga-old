@@ -27,6 +27,7 @@
                 sComment1 = checkString(request.getParameter("Comment1")),
                 sCivilStatus = checkString(request.getParameter("CivilStatus")),
                 sTracnetID = checkString(request.getParameter("TracnetID")),
+                sVip = checkString(request.getParameter("Vip")),
 		        sDeathCertificateOn = checkString(request.getParameter("DeathCertificateOn")),
 		        sDeathCertificateTo = checkString(request.getParameter("DeathCertificateTo"));
 
@@ -129,6 +130,7 @@
             activePatient.comment3 = sComment3;
             activePatient.comment4 = sComment4;
             activePatient.comment5 = sComment5;
+            activePatient.adminextends.put("vip",sVip);
             activePatient.middlename=sMiddleName;
 
             //*** PRIVATE ***

@@ -24,6 +24,7 @@
                 sClaimantExpiration = checkString(request.getParameter("ClaimantExpiration")),
                 sNativeCountry = checkString(request.getParameter("NativeCountry")),
                 sNativeTown = checkString(request.getParameter("NativeTown")),
+                sVip = checkString(request.getParameter("Vip")),
                 sComment = checkString(request.getParameter("Comment")),
                 sComment1 = checkString(request.getParameter("Comment1")),
                 sComment2 = checkString(request.getParameter("Comment2")),
@@ -31,6 +32,7 @@
                 sComment4 = checkString(request.getParameter("Comment4")),
                 sComment5 = checkString(request.getParameter("Comment5"));
 
+        System.out.println("VIP="+sVip);
 //SAVE
         String sPersonID = activePatient.personid;
         String sReturn = ("<font color=red>" + getTran("Web.PatientEdit", "DBError", sWebLanguage) + "</font><br><br>");
@@ -88,6 +90,7 @@
             activePatient.comment3 = sComment3;
             activePatient.comment4 = sComment4;
             activePatient.comment5 = sComment5;
+            activePatient.setID("vip",sVip);
 
             /*Enumeration eExtends = request.getParameterNames();
           String sParamName, sParamValue;

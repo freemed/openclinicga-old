@@ -15,6 +15,10 @@
     else{
         activePatient = new AdminPerson();
     }
+	if(activePatient!=null && "1".equalsIgnoreCase((String)activePatient.adminextends.get("vip")) && !activeUser.getAccessRight("vipaccess.select")){
+	}
+	else {
+
 %>
 
             <input type="text" id="barcode" name="barcode" size="8" class="text" style="{visibility: hidden;color: #FFFFFF;background: #EEEEEE; background-color: #EEEEEE;border-style: none;}" onKeyDown="if(enterEvent(event,13)){readBarcode2(this.value);}"/>
@@ -28,14 +32,14 @@
                                 boolean bPicture = Picture.exists(Integer.parseInt(sTmpPersonid));
                                 boolean bBarcode = Barcode.exists(Integer.parseInt(sTmpPersonid));
                                 if (!bFingerPrint) {
-                                    %> <img class="link" onclick="enrollFingerPrint();"  border='0' src="<c:url value='/_img/icon_fingerprint.png'/>" alt="<%=getTranNoLink("web","enrollFingerPrint",sWebLanguage)%>"/></a><%
+                                    %> <img class="link" onclick="enrollFingerPrint();"  border='0' src="<c:url value='/_img/icon_fingerprint.png'/>" alt="<%=getTranNoLink("web","enrollFingerPrint",sWebLanguage)%>"/><%
                                 }
                                 if (!bBarcode) {
-                                    %> <img class="link" onclick="printPatientCard();"  border='0' src="<c:url value='/_img/icon_barcode.gif'/>" alt="<%=getTranNoLink("web","printPatientCard",sWebLanguage)%>"/></a><%
+                                    %> <img class="link" onclick="printPatientCard();"  border='0' src="<c:url value='/_img/icon_barcode.gif'/>" alt="<%=getTranNoLink("web","printPatientCard",sWebLanguage)%>"/><%
                                 }
                                 //todo 1=1 to remove
                                 if(!bPicture || 1==1){
-                                    %> <img class="link" onclick="storePicture();"  border='0' src="<c:url value='/_img/icon_camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/></a><%
+                                    %> <img class="link" onclick="storePicture();"  border='0' src="<c:url value='/_img/icon_camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/><%
                                 }
                                 %><!--<img src="<c:url value='/'/><%=sAPPDIR%>_img/logo2.jpg" border='0' class="logo">--><%
                             }
@@ -69,6 +73,10 @@
                 }
             %>
 <img class="link" id="ddIconFingerprint" onclick="readFingerprint();" title="<%=getTranNoLink("Web","Read_fingerprint",sWebLanguage)%>"  src="<c:url value='/_img/icon_fingerprint.png'/>" />
+          
+<%
+	}
+%>
 <img class="link" id="ddIconLogoff" onclick="confirmLogout();" title="<%=getTranNoLink("Web","LogOff",sWebLanguage)%>"  src="<c:url value='/_img/icon_logout.png'/>" />
           &nbsp;
     

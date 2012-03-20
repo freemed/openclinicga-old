@@ -131,7 +131,8 @@
         session.removeAttribute("activePatient");
         activePatient = null;
         SessionContainerWO sessionContainerWO = (SessionContainerWO) session.getAttribute("be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER");
-        sessionContainerWO.setPersonVO(null);%>
+        sessionContainerWO.setPersonVO(null);
+       %>
 <script type="text/javascript">
     window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
@@ -151,9 +152,17 @@
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         activePatient = AdminPerson.getAdminPerson(ad_conn, sPersonID);
         ad_conn.close();
-        session.setAttribute("activePatient", activePatient);
     }
 }
+	//First check if user has access to the active patient
+	if(sPage.indexOf("novipaccess")<0 && activePatient!=null && "1".equalsIgnoreCase((String)activePatient.adminextends.get("vip")) && !activeUser.getAccessRight("vipaccess.select")){
+		//User has no access, redirect to warning screen
+		%>
+		<script>window.location.href='<c:url value="main.do?Page=novipaccess.jsp"/>';</script>
+		<%
+		out.flush();
+	}
+    session.setAttribute("activePatient", activePatient);
     boolean bMenu = false;
     if ((activePatient != null) && (activePatient.lastname != null) && (activePatient.personid.trim().length() > 0)) {
         if (!sPage.equals("patientslist.jsp")) {

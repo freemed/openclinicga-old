@@ -83,6 +83,7 @@ try{
                 else sClass = "";
 
                 sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestation('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "');\">")
+                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
                         .append(" <td>" + sCode + "</td>")
                         .append(" <td>" + sDescr + "</td>")
                         .append(" <td>" + sTypeTran + "</td>")
@@ -97,7 +98,9 @@ try{
            style="border:1px solid #cccccc;">
         <%-- header --%>
         <tr class="admin">
-            <td width="70"><%=HTMLEntities.htmlentities(getTran("web", "code", sWebLanguage))%>
+            <td><%=HTMLEntities.htmlentities(getTran("web", "id", sWebLanguage))%>
+            </td>
+            <td><%=HTMLEntities.htmlentities(getTran("web", "code", sWebLanguage))%>
             </td>
             <td><%=HTMLEntities.htmlentities(getTran("web", "description", sWebLanguage))%>
             </td>

@@ -28,6 +28,7 @@
         </Menu>
         <Menu labelid="urgencybedoverview" accessrights="adt.urgencybedoverview.select" url="/main.do?Page=adt/overviewUrgencyBeds.jsp"/>
         <Menu labelid="pharmacy" accessrights="pharmacy.select">
+            <Menu labelid="drugsout" patientselected="true" accessrights="medication.medicationdelivery" url="/main.do?Page=pharmacy/drugsOut.jsp"/>
             <Menu labelid="medication" patientselected="true" accessrights="medication.select">
                 <Menu labelid="medicationdelivery" accessrights="medication.medicationdelivery" patientselected="true" url="/main.do?Page=pharmacy/medication/deliverMedicationBySearch.jsp"/>
                 <Menu labelid="medicationreceipt" accessrights="medication.medicationreceipt" patientselected="true" url="/main.do?Page=pharmacy/medication/receiveMedication.jsp"/>

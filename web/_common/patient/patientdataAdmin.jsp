@@ -1,7 +1,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-    String sGender = "&nbsp;", sComment = "&nbsp;", sNativeCountry = "&nbsp;", sLanguage = "&nbsp;", sNatreg = "&nbsp;"
+    String sGender = "&nbsp;", sComment = "&nbsp;", sNativeCountry = "&nbsp;", sLanguage = "&nbsp;", sNatreg = "&nbsp;", sVip="0"
             , sCivilStatus = "&nbsp;", sTracnetID = "&nbsp;", sTreatingPhysician = "&nbsp;", sComment3="", sDeathCertificateTo="", sDeathCertificateOn="";
 
     // language
@@ -63,6 +63,14 @@
     if (checkString(activePatient.getID("natreg")).length()>0) {
         sNatreg = activePatient.getID("natreg");
     }
+
+    // VIP
+    if (checkString((String)activePatient.adminextends.get("vip")).length()>0) {
+        sVip = (String)activePatient.adminextends.get("vip");
+        if(sVip==null || sVip.length()==0){
+        	sVip="0";
+        }
+    }
 %>
 <%-- MAIN TABLE ----------------------------------------------------------------------------------%>
 <table width='100%' cellspacing="1" class="list">
@@ -76,6 +84,7 @@
         +setRow("Web","civilstatus",sCivilStatus,sWebLanguage)
         +setRow("Web","comment3",sComment3,sWebLanguage)
         +setRow("Web","comment",sComment,sWebLanguage)
+        +(MedwanQuery.getInstance().getConfigInt("enableVip",0)==1?setRow("Web","vip",getTran("vipstatus",sVip,sWebLanguage),sWebLanguage):"")
         +(activePatient.isDead()!=null?setRow("Web","deathcertificateon",sDeathCertificateOn,sWebLanguage)+setRow("Web","deathcertificateto",sDeathCertificateTo,sWebLanguage):"")
         )
     %>

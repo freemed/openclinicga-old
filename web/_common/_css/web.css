@@ -377,6 +377,7 @@ td.titleadmin {
     height: 30px;
     line-height: 30px;
     background: repeat-x #DDEDFF;
+    vertical-align: middle;
 }
 
 .strikelist {
@@ -828,6 +829,16 @@ INPUT.text {
     text-decoration: line-through;
 }
 
+INPUT.greytext {
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 10px;
+    height: 18px;
+    BACKGROUND: lightgrey;
+    COLOR: black;
+    FONT-FAMILY: Verdana, sans-serif; 
+
+}
+	
 INPUT.normal {
     FONT-WEIGHT: normal;
     FONT-SIZE: 10px;

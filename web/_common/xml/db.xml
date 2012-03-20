@@ -1477,6 +1477,9 @@
             <column name="OC_INSURANCE_PATIENTUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
             <column name="OC_INSURANCE_INSURANCECATEGORYLETTER" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_INSURANCE_MEMBER" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_INSURANCE_MEMBER_IMMAT" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_INSURANCE_MEMBER_EMPLOYER" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_INSURANCE_STATUS" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_INSURANCE_OBJECTID">
@@ -1508,6 +1511,9 @@
             <column name="OC_INSURANCE_PATIENTUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
             <column name="OC_INSURANCE_INSURANCECATEGORYLETTER" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_INSURANCE_MEMBER" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_INSURANCE_MEMBER_IMMAT" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_INSURANCE_MEMBER_EMPLOYER" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_INSURANCE_STATUS" dbtype="varchar" javatype="string" size="50"/>
         </columns>
     </table>
 
@@ -1810,6 +1816,7 @@
             <column name="OC_PRESTATION_VERSION" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_PRESTATION_CATEGORIES" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_PRESTATION_INVOICEGROUP" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PRESTATION_MFPPERCENTAGE" dbtype="int" javatype="integer"/>
         </columns>
 		<indexes>
 			<index name="OC_PRESTATION_OBJECTID">

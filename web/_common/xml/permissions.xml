@@ -71,6 +71,7 @@
     <application type="Web" id="patient">
         <permission type="Web" id="patient.administration">patient.administration</permission>
         <permission type="Web" id="patient.archive">patient.archive</permission>
+        <permission type="Web" id="vipaccess">vipaccess</permission>
     </application>
     <application type="Web" id="curative">
         <permission type="Web" id="curative">curative</permission>
