@@ -1,13 +1,12 @@
 <%@ page errorPage="/includes/error.jsp" %>
 <%@ include file="/includes/validateUser.jsp" %>
 <%
-    // prevent caching
+	// prevent caching
     response.setHeader("Content-Type", "text/html; charset=ISO-8859-1");
     response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
     response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
     response.addHeader("Cache-Control", "post-check=0, pre-check=0");
     response.setHeader("Pragma", "no-cache");
-
     // WorkTime-message
     String sWorkTimeMessage = "";
     boolean alertWorkTimeMsg = false;
