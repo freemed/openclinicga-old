@@ -23,12 +23,13 @@
 	        <tr>
 	            <td class='admin'><%=getTran("web","prestation",sWebLanguage)%></td>
 	            <td class='admin2'>
-	                <input type="hidden" name="tmpPrestationUID" value="<%=sPrestUid %>">
+	                <input type="hidden" name="tmpPrestationUID" id="tmpPrestationUID" value="<%=sPrestUid %>">
 	                <input type="hidden" name="tmpPrestationName">
 	
-	                <select class="text" name="EditPrestationName">
+	                <select class="text" name="EditPrestationName" onchange="document.getElementById('tmpPrestationUID').value=this.value">
 	                    <%
-							Prestation prest = Prestation.get(sPrestUid);
+							System.out.println("sPrestUid="+sPrestUid);
+	                    	Prestation prest = Prestation.get(sPrestUid);
 	                    	if (prest!=null){
 	                    		
 	                            out.print("<option selected value='"+checkString(prest.getUid())+"'>"+checkString(prest.getDescription())+"</option>");
@@ -104,11 +105,12 @@
 			",a.oc_tariff_insuraruid,a.oc_tariff_prestationuid,a.oc_tariff_insurancecategory,a.oc_tariff_price"+
 			" from oc_tariffs a,oc_insurars b,oc_prestations c"+
 			" where"+
-			" a.oc_tariff_insuraruid="+MedwanQuery.getInstance().convert("varchar(10)","b.OC_INSURAR_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.OC_INSURAR_OBJECTID")+" and "+
-			" a.oc_tariff_prestationuid="+MedwanQuery.getInstance().convert("varchar(10)","c.OC_PRESTATION_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","c.OC_PRESTATION_OBJECTID")+" and "+
+			" b.oc_insurar_objectid=replace(a.oc_tariff_insuraruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and "+
+			" c.oc_prestation_objectid=replace(a.oc_tariff_prestationuid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and "+
 			" a.oc_tariff_insuraruid like '"+sInsurarUid+"%' and "+
 			" a.oc_tariff_prestationuid like '"+sPrestUid+"%' and "+
-			" a.oc_tariff_insurancecategory like '"+sCategory+"'";
+			" a.oc_tariff_insurancecategory like '"+sCategory+"%'";
+		System.out.println(sSql);
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps = oc_conn.prepareStatement(sSql);
 		ResultSet rs = ps.executeQuery();
