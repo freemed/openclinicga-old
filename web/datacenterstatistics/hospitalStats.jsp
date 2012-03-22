@@ -110,7 +110,7 @@ else {
 <SCRIPT Language="JavaScript" src="<c:url value='/_common/_script/diagram2.js'/>"></SCRIPT>
 <SCRIPT Language="JavaScript">
 document.open();
-_BFont="font-family:Verdana;font-weight:bold;font-size:8pt;line-height:8pt;";
+_BFont="font-family:arial;font-weight:bold;font-size:8pt;line-height:8pt;";
 <%
     Correlation correlation = new Correlation();
     if (serviceStats.nonPeriodPatientsZero()) drawGraph(serviceStats.getPeriodPatients(),0,out,sWebLanguage,getTran("web","patients",sWebLanguage),getTran("web","weekly.evolution.of",sWebLanguage)+" # <b>"+getTran("web","patients",sWebLanguage)+"<b>",0,HospitalStats.getBedCapacity(),correlation.estimateY(serviceStats.getX(),serviceStats.getPeriodPatientsY(),0),correlation.estimateY(serviceStats.getX(),serviceStats.getPeriodPatientsY(),serviceStats.getX().length));

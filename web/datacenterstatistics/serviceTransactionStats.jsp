@@ -130,7 +130,7 @@ else {
         <SCRIPT Language="JavaScript" src="<c:url value='/_common/_script/diagram2.js'/>"></SCRIPT>
         <SCRIPT Language="JavaScript">
         document.open();
-        _BFont="font-family:Verdana;font-weight:bold;font-size:8pt;line-height:8pt;";
+        _BFont="font-family:arial;font-weight:bold;font-size:8pt;line-height:8pt;";
         window.moveTo(0,0);
         window.resizeTo(screen.width,screen.height);
         <%
