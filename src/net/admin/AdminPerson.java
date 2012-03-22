@@ -148,6 +148,68 @@ public class AdminPerson extends OC_Object{
     	return personid;
     }
     
+    public boolean hasPendingExportRequest(){
+		boolean hasRequest=false;
+    	try {
+	        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	        PreparedStatement ps = conn.prepareStatement("select * from OC_EXPORTREQUESTS where OC_EXPORTREQUEST_TYPE='patient' and OC_EXPORTREQUEST_ID=? and (OC_EXPORTREQUEST_PROCESSED is null or OC_EXPORTREQUEST_PROCESSED<2)");
+	        ps.setString(1, personid);
+	        ResultSet rs = ps.executeQuery();
+	        hasRequest=rs.next();
+	        rs.close();
+	        ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return hasRequest;
+    }
+    
+    public String getLastSentExportRequest(){
+		String lastDate="";
+    	try {
+	        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	        PreparedStatement ps = conn.prepareStatement("select max(OC_EXPORTREQUEST_UPDATETIME) as lastdate from OC_EXPORTREQUESTS where OC_EXPORTREQUEST_TYPE='patient' and OC_EXPORTREQUEST_ID=? and OC_EXPORTREQUEST_PROCESSED=2");
+	        ps.setString(1, personid);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next()){
+	        	java.sql.Timestamp ld = rs.getTimestamp("lastdate");
+	        	if(ld!=null){
+	        		lastDate=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(ld);
+	        	}
+	        }
+	        rs.close();
+	        ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return lastDate;
+    }
+    
+    public void setExportRequest(boolean bSet){
+    	try {
+	        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	        PreparedStatement ps = conn.prepareStatement("DELETE from OC_EXPORTREQUESTS where OC_EXPORTREQUEST_TYPE='patient' and (OC_EXPORTREQUEST_PROCESSED is null or OC_EXPORTREQUEST_PROCESSED<2) and OC_EXPORTREQUEST_ID=?");
+	        ps.setString(1, personid);
+	        ps.execute();
+	        ps.close();
+	        if(bSet){
+		        ps = conn.prepareStatement("INSERT INTO OC_EXPORTREQUESTS(OC_EXPORTREQUEST_TYPE,OC_EXPORTREQUEST_ID,OC_EXPORTREQUEST_PROCESSED,OC_EXPORTREQUEST_UPDATETIME) values('patient',?,0,?)");
+		        ps.setString(1, personid);
+				ps.setTimestamp(2, new java.sql.Timestamp(new java.util.Date().getTime()));
+		        ps.execute();
+		        ps.close();
+	        }
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
     //--- INITIALIZE ------------------------------------------------------------------------------
     public boolean initialize (Connection connection, String sPersonID) {
         boolean bReturn = false;

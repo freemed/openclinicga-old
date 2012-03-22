@@ -121,6 +121,16 @@ public class Importer {
 						importMessage.sendError();
 					}
 				}
+				else if(parametertype.equalsIgnoreCase("patient")){
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storePatient(importMessage)){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+				}
 			}
 			rs.close();
 			ps.close();
@@ -481,6 +491,71 @@ public class Importer {
 						ps.setInt(6,Integer.parseInt(mortality.attributeValue("month")));
 						ps.setInt(7,Integer.parseInt(mortality.attributeValue("deaths")));
 						ps.setInt(8,Integer.parseInt(mortality.attributeValue("all")));
+						ps.execute();
+						ps.close();
+					}
+				}
+				bSuccess=true;
+			}
+			
+		}
+		catch(SQLException e){
+			try {
+				if(ps!=null){
+					ps.close();
+				}
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bSuccess;
+	}
+	
+	public static boolean storePatient(ImportMessage importMessage){
+		boolean bSuccess=false;
+		importMessage.setError(-1);
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps=null;
+		try{
+            SAXReader reader = new SAXReader(false);
+			Document document = reader.read(new ByteArrayInputStream(importMessage.data.getBytes("UTF-8")));
+			Element root = document.getRootElement();
+			if(root.getName().equalsIgnoreCase("data") && root.attributeValue("parameterid").startsWith("people.patients")){
+				Element patients = root.element("patients");
+				Iterator ms = patients.elementIterator();
+				while (ms.hasNext()){
+					Element patient = (Element)ms.next();
+					if(patient.getName().equalsIgnoreCase("patient")){
+						//First clear a possible existing value
+						ps = conn.prepareStatement("delete from DC_PATIENTRECORDS where DC_PATIENTRECORD_SERVERID=? and DC_PATIENTRECORD_PERSONID=?");
+						ps.setInt(1, importMessage.getServerId());
+						ps.setInt(2,Integer.parseInt(patient.attributeValue("id")));
+						ps.execute();
+						ps.close();
+						ps = conn.prepareStatement("insert into DC_PATIENTRECORDS(DC_PATIENTRECORD_SERVERID,DC_PATIENTRECORD_PERSONID,DC_PATIENTRECORD_FIRSTNAME,DC_PATIENTRECORD_LASTNAME,DC_PATIENTRECORD_GENDER,DC_PATIENTRECORD_DATEOFBIRTH,DC_PATIENTRECORD_ARCHIVEFILE) values(?,?,?,?,?,?,?)");
+						ps.setInt(1, importMessage.getServerId());
+						ps.setInt(2, Integer.parseInt(patient.attributeValue("id")));
+						ps.setString(3, patient.element("firstname").getText());
+						ps.setString(4, patient.element("lastname").getText());
+						ps.setString(5, patient.element("gender").getText());
+						ps.setString(6, patient.element("dateofbirth").getText());
+						ps.setString(7, patient.element("archivefile").getText());
 						ps.execute();
 						ps.close();
 					}

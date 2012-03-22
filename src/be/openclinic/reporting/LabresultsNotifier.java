@@ -381,7 +381,7 @@ public class LabresultsNotifier {
 					try{
 						String sMailTitle = MedwanQuery.getInstance().getLabel("sendhtmlmail", "labrequestfortransaction", user.language);
 						String sImage = "<img src=\"cid:image_logo\">";
-						String sHeader = "<html><body style='font-family: Verdana, sans-serif;height:100%;background-color: #DCEDFF'>"+
+						String sHeader = "<html><body style='font-family: arial, sans-serif;height:100%;background-color: #DCEDFF'>"+
 						"<table border='0' width='100%'><tr><td>" + MedwanQuery.getInstance().getLabel("sendhtmlmail", "todoctor", user.language) + " " +  sUserFirstname + " " + user.lastname + ", </td> <td></td> <td ALIGN='right'> " + sImage + "</td> </tr></table> <br>" +			
 						MedwanQuery.getInstance().getLabel("sendhtmlmail", "newresults", user.language) + "<br><br>" +
 						"<center><h3>" + sMailTitle + " " + transactionId + " ("+new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+
@@ -409,7 +409,7 @@ public class LabresultsNotifier {
 					try{
 						String sMailTitle = MedwanQuery.getInstance().getLabel("sendhtmlmail", "labrequestfortransaction", user.language);
 						String sImage = "<img src=\"http://www.mxs.be/openclinic/_img/projectlogo.jpg\">";
-						String sHeader = "<html><body style='font-family: Verdana, sans-serif;height:100%;background-color: #DCEDFF'>"+
+						String sHeader = "<html><body style='font-family: arial, sans-serif;height:100%;background-color: #DCEDFF'>"+
 						"<table border='0' width='100%'><tr><td>" + MedwanQuery.getInstance().getLabel("sendhtmlmail", "todoctor", user.language) + " " +  sUserFirstname + " " + user.lastname + ", </td> <td></td> <td ALIGN='right'> " + sImage + "</td> </tr></table> <br>" +			
 						MedwanQuery.getInstance().getLabel("sendhtmlmail", "newresults", user.language) + "<br><br>" +
 						"<center><h3>" + sMailTitle + " " + transactionId + " ("+new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+
@@ -568,7 +568,7 @@ public class LabresultsNotifier {
 							sImage = "<img src=\"http://www.mxs.be/openclinic/_img/projectlogo.jpg\">";
 						}						
 				} 
-				String sHeader = "<html><body style='font-family: Verdana, sans-serif;height:100%;background-color: #DCEDFF'>"+
+				String sHeader = "<html><body style='font-family: arial, sans-serif;height:100%;background-color: #DCEDFF'>"+
 						"<table border='0' width='100%'><tr><td>" + MedwanQuery.getInstance().getLabel("sendhtmlmail", "todoctor", user.language) + " " +  sUserFirstname + " " + user.lastname + ", </td> <td></td> <td ALIGN='right'> " + sImage + "</td> </tr></table> <br>" +			
 						MedwanQuery.getInstance().getLabel("sendhtmlmail", "newresults", user.language) + "<br><br>" +
 						"<center><h3>" + sMailTitle + " " + sTransactionId + " ("+new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+

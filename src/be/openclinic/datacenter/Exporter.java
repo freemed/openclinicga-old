@@ -104,7 +104,8 @@ public abstract class Exporter {
 		return mustExport;
 	}
 
-	public void exportSingleValue(String sValue,String sExportId){
+	public boolean exportSingleValue(String sValue,String sExportId){
+		boolean bReturn=false;
 		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps;
 		try {
@@ -123,6 +124,7 @@ public abstract class Exporter {
 				ps.setString(4, sValue);
 				ps.execute();
 				ps.close();
+				bReturn=true;
 			}
 			else{
 				rs.close();
@@ -138,6 +140,34 @@ public abstract class Exporter {
 				e.printStackTrace();
 			}
 		}
+		return bReturn;
+	}
+	
+	public boolean exportValue(String sValue,String sExportId){
+		boolean bReturn=false;
+		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		PreparedStatement ps;
+		try {
+			String sQuery="INSERT INTO OC_EXPORTS(OC_EXPORT_OBJECTID,OC_EXPORT_ID,OC_EXPORT_CREATEDATETIME,OC_EXPORT_DATA) VALUES(?,?,?,?)";
+			ps=oc_conn.prepareStatement(sQuery);
+			ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("OC_EXPORT_OBJECTID"));
+			ps.setString(2, sExportId);
+			ps.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
+			ps.setString(4, sValue);
+			ps.execute();
+			ps.close();
+			bReturn=true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				oc_conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return bReturn;
 	}
 	
 	public void exportUniqueValue(String sValue, String sExportId){
