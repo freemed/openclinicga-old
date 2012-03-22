@@ -28,6 +28,7 @@
                 sCivilStatus = checkString(request.getParameter("CivilStatus")),
                 sTracnetID = checkString(request.getParameter("TracnetID")),
                 sVip = checkString(request.getParameter("Vip")),
+                sExport = checkString(request.getParameter("datacenterpatientexport")),
 		        sDeathCertificateOn = checkString(request.getParameter("DeathCertificateOn")),
 		        sDeathCertificateTo = checkString(request.getParameter("DeathCertificateTo"));
 
@@ -214,6 +215,7 @@
                     bReturn = false;
                 }
             }
+          	activePatient.setExportRequest(sExport.equalsIgnoreCase("1"));
             ad_conn.close();
         }
     }

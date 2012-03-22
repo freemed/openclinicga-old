@@ -10,7 +10,7 @@ body {
     background-repeat: repeat-x;
     margin: 0px;
     padding: 0px;
-    font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+    font-family: "lucida grande", tahoma, arial, arial, sans-serif;
     font-variant: normal;
     font-weight: normal;
     font-size: 1em;
@@ -61,7 +61,7 @@ p {
 div {
     margin: 0px;
     padding: 0px;
-    font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+    font-family: "lucida grande", tahoma, arial, arial, sans-serif;
     font-variant: normal;
     font-weight: normal;
     font-size: 1em;
@@ -75,7 +75,7 @@ div {
 
 h1, h2, h3, h4, h5, h6 {
 
-    font-family: Arial, Verdana, sans-serif;
+    font-family: Arial, arial, sans-serif;
     letter-spacing: -0.035em;
     line-height: 1.2;
     margin: 0 0 5px;
@@ -226,7 +226,7 @@ h6 {
 }
 
 pre {
-    font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+    font-family: "lucida grande", tahoma, arial, arial, sans-serif;
     font-variant: normal;
     letter-spacing: 1px;
     color: #505050;
@@ -998,7 +998,7 @@ div.video-node div.video-icon {
 }
 
 div.video-node div.video-icon a {
-    font-family: Arial, Verdana, sans-serif;
+    font-family: Arial, arial, sans-serif;
     background: #fff;
     text-align: left;
     height: 100%;
@@ -1100,7 +1100,7 @@ div.artista-node a:hover {
 
 /*
 div.artista-node a div.artista_title{
-font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+font-family:"lucida grande",tahoma,arial,arial,sans-serif;
 font-size:18px;
 color:black;
 font-weight:bold;
@@ -1112,7 +1112,7 @@ opacity : 0.6;
 filter : alpha(opacity=60);
 }
 div.artista-node a div.artista_title_shadow{
-font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+font-family:"lucida grande",tahoma,arial,arial,sans-serif;
 position:absolute;
 font-size:18px;
 color:#fff;
@@ -1206,7 +1206,7 @@ div.eventoright {
     background: #62B6F2;
     width: 350px;
     padding: 3px 1px 3px 6px;
-    font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+    font-family: "lucida grande", tahoma, arial, arial, sans-serif;
     font-size: 11px;
     line-height: 25px;
     color: white;

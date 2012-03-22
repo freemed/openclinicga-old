@@ -127,6 +127,7 @@
 		<parameter shortid="0c" param="financial.4" type="financial"/>
 		<parameter shortid="0d" param="activity.1" type="activity"/>
 		<parameter shortid="0e" param="mortality.1" type="mortality"/>
+		<parameter shortid="0f" param="people.patients" type="patient"/>
 	</parameters>
 	<errorcodes>
 		<error code="0" meaning="no errors"/>

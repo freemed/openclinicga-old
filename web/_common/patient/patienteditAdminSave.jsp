@@ -25,6 +25,7 @@
                 sNativeCountry = checkString(request.getParameter("NativeCountry")),
                 sNativeTown = checkString(request.getParameter("NativeTown")),
                 sVip = checkString(request.getParameter("Vip")),
+                sExport = checkString(request.getParameter("datacenterpatientexport")),
                 sComment = checkString(request.getParameter("Comment")),
                 sComment1 = checkString(request.getParameter("Comment1")),
                 sComment2 = checkString(request.getParameter("Comment2")),
@@ -32,7 +33,6 @@
                 sComment4 = checkString(request.getParameter("Comment4")),
                 sComment5 = checkString(request.getParameter("Comment5"));
 
-        System.out.println("VIP="+sVip);
 //SAVE
         String sPersonID = activePatient.personid;
         String sReturn = ("<font color=red>" + getTran("Web.PatientEdit", "DBError", sWebLanguage) + "</font><br><br>");
@@ -166,6 +166,7 @@
                                     awc.updateuserid = activeUser.userid;
                                     awc.saveToDB(activePatient.personid, ad_conn, checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")));
                                 }
+                              	activePatient.setExportRequest(sExport.equalsIgnoreCase("1"));
                                 out.print("<script>window.location.href='" + sCONTEXTPATH + "/patientdata.do?Tab=" + tab + "&personid=" + activePatient.personid + "&ts=" + getTs() + "'</script>");
                             } else {
                                 //error
@@ -222,6 +223,7 @@
                         }
                         activePatient = new AdminPerson();
                         activePatient.initialize(ad_conn, sPersonID);
+                      	activePatient.setExportRequest(sExport.equalsIgnoreCase("1"));
                         session.setAttribute("activePatient", activePatient);
                         out.print("<script>window.location.href='" + sCONTEXTPATH + "/patientdata.do?Tab=" + tab + "&personid=" + sPersonID + "&ts=" + getTs() + "'</script>");
                     } else {

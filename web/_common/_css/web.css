@@ -9,7 +9,7 @@ div.content {
     margin: 0;
     border: 0 solid black;
     padding: 0;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     overflow-x: auto;
     width: 100%;
     height: 100%;
@@ -289,7 +289,7 @@ table.list {
 }
 
 tr.admin {
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
 
     font-weight: bolder;
     text-align: left;
@@ -313,7 +313,7 @@ tr.admin a {
 }
 
 .clinical {
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: bolder;
     text-align: left;
@@ -327,7 +327,7 @@ tr.admin a {
 
 TD.admin {
     color: #505050;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: bolder;
     text-align: left;
@@ -342,7 +342,7 @@ TD.admin {
 
 td.admin2 {
     color: #505050;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -356,7 +356,7 @@ td.admin2 {
 
 td.admin2right {
     color: #505050;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: right;
@@ -370,7 +370,7 @@ td.admin2right {
 
 td.titleadmin {
     color: #505050;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 11px;
     font-weight: bold;
     text-align: left;
@@ -382,7 +382,7 @@ td.titleadmin {
 
 .strikelist {
     color: #5e5e5e;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -398,7 +398,7 @@ td.titleadmin {
 
 tr.list {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -413,7 +413,7 @@ tr.list {
 
 tr.listbold {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: bolder;
     text-align: left;
@@ -428,7 +428,7 @@ tr.listbold {
 
 tr.listbold1 {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: bolder;
     text-align: left;
@@ -444,7 +444,7 @@ tr.listbold1 {
 tr.listDisabled {
     font-style: italic;
     color: #5e5e5e;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -459,7 +459,7 @@ tr.listDisabled {
 
 tr.listText {
     color: Gray;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -475,7 +475,7 @@ tr.listText {
 
 tr.list_select {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -498,7 +498,7 @@ td.image {
 
 tr.list_selectbold {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: bolder;
     text-align: left;
@@ -513,7 +513,7 @@ tr.list_selectbold {
 
 tr.list_select2 {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: normal;
     text-align: left;
@@ -551,7 +551,7 @@ td.tabselected {
 
 A.menuItem:link {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-decoration: none;
@@ -562,7 +562,7 @@ A.menuItem:link {
 
 A.menuItem:visited {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-decoration: none;
@@ -573,7 +573,7 @@ A.menuItem:visited {
 
 A.menuItem:active {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-decoration: none;
@@ -584,7 +584,7 @@ A.menuItem:active {
 
 A.menuItem:hover {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     border: 1px solid #A6A6A6;
@@ -602,7 +602,7 @@ A.menuItem:hover {
 
 TD.menuItemGreen {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 11px;
     font-weight: normal;
     background-color: #99cc99;
@@ -632,7 +632,7 @@ TD.menuItemGreen {
 TR.red {
     background-color: #ff9999;
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -647,7 +647,7 @@ TR.red {
 TR.green {
     background-color: #9ECAA9;
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -662,7 +662,7 @@ TR.green {
 TR.gray {
 
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -682,7 +682,7 @@ TR.gray td {
 
 A.underlined:active {
     color: black;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: bold;
     text-decoration: underline;
@@ -690,7 +690,7 @@ A.underlined:active {
 
 A.underlined:visited {
     color: black;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: bold;
     text-decoration: underline;
@@ -698,7 +698,7 @@ A.underlined:visited {
 
 A.underlined:link {
     color: black;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: bold;
     text-decoration: underline;
@@ -707,7 +707,7 @@ A.underlined:link {
 
 A.underlined:hover {
     color: black;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: bold;
     text-decoration: none;
@@ -721,7 +721,7 @@ A.underlined:hover {
 body {
     margin: 0;
     color: #333333;
-    font-family: verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     background-color: #ffffff;
 }
@@ -733,7 +733,7 @@ hr {
 }
 
 td {
-    font-family: verdana, sans-serif; /*font-size: 10px;*/
+    font-family: arial, sans-serif; /*font-size: 10px;*/
 }
 
 /*hyperlinks*/
@@ -746,13 +746,13 @@ A {
 
 A:hover {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     text-decoration: none;
 }
 
 A.menu:link {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 11px;
     font-weight: normal;
     text-decoration: none;
@@ -761,7 +761,7 @@ A.menu:link {
 
 A.menu:visited {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 11px;
     font-weight: normal;
     text-decoration: none;
@@ -769,7 +769,7 @@ A.menu:visited {
 
 A.menu:active {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 11px;
     font-weight: normal;
     text-decoration: none;
@@ -777,7 +777,7 @@ A.menu:active {
 
 A.menu:hover {
     color: #000000;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 11px;
     font-weight: normal;
     text-decoration: underline;
@@ -816,7 +816,7 @@ INPUT.text {
     BACKGROUND: #ffffff;
     COLOR: black;
     background: url( "../../_img/back_input.png" ) no-repeat ;
-    FONT-FAMILY: Verdana, sans-serif; /*  border: 1px #505050 solid;      */
+    FONT-FAMILY: arial, sans-serif; /*  border: 1px #505050 solid;      */
 
 }
 
@@ -835,7 +835,7 @@ INPUT.greytext {
     height: 18px;
     BACKGROUND: lightgrey;
     COLOR: black;
-    FONT-FAMILY: Verdana, sans-serif; 
+    FONT-FAMILY: arial, sans-serif; 
 
 }
 	
@@ -845,7 +845,7 @@ INPUT.normal {
     BACKGROUND: #ffffff;
     COLOR: black;
     height: 18px;
-    FONT-FAMILY: Verdana, sans-serif; /*border: 1px #505050 solid;      */
+    FONT-FAMILY: arial, sans-serif; /*border: 1px #505050 solid;      */
     background: url( "../../_img/back_input.png" ) no-repeat;
 }
 
@@ -854,7 +854,7 @@ INPUT.checkbox {
     FONT-SIZE: 10px;
     BACKGROUND: #ffffff;
     COLOR: black;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     border-color: #89A0D1;
     border-left-width: 1px;
     border-top-width: 1px;
@@ -869,7 +869,7 @@ INPUT.textred {
     BACKGROUND: #ffffff;
     COLOR: black;
     height: 18px;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     background-color: #ff9999;
 }
 
@@ -879,7 +879,7 @@ INPUT.readonly {
     BACKGROUND: #eee;
     COLOR: black;
     height: 18px;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     background: url( "../../_img/back_input.png" ) no-repeat;
 }
 
@@ -889,7 +889,7 @@ INPUT.textyellow {
     BACKGROUND: #ffffff;
     COLOR: black;
     height: 18px;
-    FONT-FAMILY: Verdana, sans-serif; /*border: 1px #505050 solid;      */
+    FONT-FAMILY: arial, sans-serif; /*border: 1px #505050 solid;      */
     background: url( "../../_img/back_input_hover.png" ) no-repeat;
 }
 
@@ -899,7 +899,7 @@ INPUT.selected {
     COLOR: black;
     height: 18px;
     background: #FFFFCC;
-    FONT-FAMILY: Verdana, sans-serif; /*border: 1px #505050 solid;      */
+    FONT-FAMILY: arial, sans-serif; /*border: 1px #505050 solid;      */
     background: url( "../../_img/back_input_hover.png" ) no-repeat;
 }
 
@@ -909,7 +909,7 @@ INPUT.bold {
     BACKGROUND: #ffffff;
     COLOR: black;
     height: 18px;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     background: url( "../../_img/back_input.png" ) no-repeat;
 }
 
@@ -918,7 +918,7 @@ INPUT.selected_bold {
     FONT-SIZE: 9px;
     height: 18px;
     COLOR: black;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     background: url( "../../_img/back_input_hover.png" ) no-repeat;
 }
 
@@ -928,6 +928,7 @@ TEXTAREA.text {
     COLOR: black;
     FONT-FAMILY: arial, helvetica;
     background: url( "../../_img/back_input.png" ) no-repeat white;
+    resize:both;
 }
 
 TEXTAREA.selected {
@@ -936,6 +937,7 @@ TEXTAREA.selected {
     COLOR: black;
     FONT-FAMILY: arial, helvetica;
     background: url( "../../_img/back_input_hover.png" ) no-repeat white;
+    resize:both;
 }
 
 TEXTAREA.normal {
@@ -944,6 +946,7 @@ TEXTAREA.normal {
     COLOR: black;
     FONT-FAMILY: arial, helvetica;
     background: url( "../../_img/back_input.png" ) no-repeat white;
+    resize:both;
 }
 
 SELECT.text {
@@ -952,7 +955,7 @@ SELECT.text {
     COLOR: black;
     line-height: 20px;
     height: 18px;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     background: url( "../../_img/back_input.png" ) no-repeat ;
 }
 
@@ -962,13 +965,13 @@ SELECT.selected {
     COLOR: black;
     height: 18px;
     line-height: 20px;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     background: url( "../../_img/back_input_hover.png" ) no-repeat ;
 }
 
 button.button {
     padding-bottom: 3px;
-    font-family: verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     color: #505050;
@@ -1003,7 +1006,7 @@ INPUT {
 
 input.button {
     padding-bottom: 2px;
-    font-family: verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     color: #505050;
@@ -1064,7 +1067,7 @@ td.arrow {
 
 TR.list1 {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -1080,7 +1083,7 @@ TR.list1 {
 TR.listDisabled1 {
     font-style: italic;
     color: gray;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -1096,7 +1099,7 @@ TR.listDisabled1 {
 TR.listText1 {
     font-style: italic;
     color: Gray;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 10px;
     font-weight: normal;
     text-align: left;
@@ -1111,7 +1114,7 @@ TR.listText1 {
 
 TD.text {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: normal;
     text-align: left;
@@ -1125,7 +1128,7 @@ TD.text {
 
 TD.textRed {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: normal;
     text-align: left;
@@ -1139,7 +1142,7 @@ TD.textRed {
 
 TR.Label {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: bolder;
     text-align: left;
@@ -1156,7 +1159,7 @@ TR.Label {
 
 TR.Label2 {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: bold;
     text-align: left;
@@ -1172,7 +1175,7 @@ TR.Label2 {
 
 TR.White {
     color: #333333;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     font-size: 9px;
     font-weight: bold;
     text-align: left;
@@ -1198,7 +1201,7 @@ td#tableHeaderTitle {
 
 div.title {
     font-size: 11px;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     background-color: #ddd;
     padding: 3px;
 }
@@ -1214,7 +1217,7 @@ table.menu {
 div.search {
     border: 1px solid black;
     padding: 2px;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
     /*overflow:auto;
   min-height : 200px;
   height:300px;  */
@@ -1224,7 +1227,7 @@ div.search {
 div.searchResults {
     border: 1px solid #ccc;
     padding: 0;
-    font-family: 'Verdana', sans-serif;
+    font-family: 'arial', sans-serif;
     width: 99%;
     overflow: auto;
     min-height: 100px;
@@ -1269,7 +1272,7 @@ INPUT.modified {
     border-color: darkblue;
     COLOR: black;
     BORDER-TOP-STYLE: solid;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     BORDER-RIGHT-STYLE: solid;
     BORDER-LEFT-STYLE: solid;
     BORDER-BOTTOM-STYLE: solid;
@@ -1293,7 +1296,7 @@ SELECT.modified {
     BACKGROUND: darkblue;
     COLOR: yellow;
     BORDER-TOP-STYLE: groove;
-    FONT-FAMILY: Verdana, sans-serif;
+    FONT-FAMILY: arial, sans-serif;
     BORDER-RIGHT-STYLE: groove;
     BORDER-LEFT-STYLE: groove;
     BORDER-BOTTOM-STYLE: groove;
@@ -1423,7 +1426,7 @@ div#wait {
 ul#autocompletion .selected {
     background: #4874A6;
     color: white;
-    font-family: Verdana, sans-serif;
+    font-family: arial, sans-serif;
 }
 
 ul#autocompletion {

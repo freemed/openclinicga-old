@@ -218,7 +218,7 @@ function Bar(theLeft, theTop, theRight, theBottom, theDrawColor, theText, theTex
   this.Delete=_Delete;
   var toAddToDiv = "";
   if (_nvl(theText,"")!="") toAddToDiv +=("<div id='"+this.ID+"' onClick='"+_nvl(theAction,"")+"' style='"+_cursor(theAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft)+"px;height:"+eval(theBottom-theTop)+"px;background-color:"+theDrawColor+";color:"+theTextColor+";"+_BFont+"z-index:"+_zIndex+"'; title='"+_nvl(theTooltipText,"")+"' align=center>"+theText+"</div>");
-  else toAddToDiv +=("<div id='"+this.ID+"' onClick='"+_nvl(theAction,"")+"' style='"+_cursor(theAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft)+"px;height:"+eval(theBottom-theTop)+"px;background-color:"+theDrawColor+";font-size:1pt;line-height:1pt;font-family:Verdana;font-weight:normal;z-index:"+_zIndex+"'; title='"+_nvl(theTooltipText,"")+"'>&nbsp;</div>");
+  else toAddToDiv +=("<div id='"+this.ID+"' onClick='"+_nvl(theAction,"")+"' style='"+_cursor(theAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft)+"px;height:"+eval(theBottom-theTop)+"px;background-color:"+theDrawColor+";font-size:1pt;line-height:1pt;font-family:arial;font-weight:normal;z-index:"+_zIndex+"'; title='"+_nvl(theTooltipText,"")+"'>&nbsp;</div>");
     $(_DivDiagram).innerHTML = toAddToDiv+$(_DivDiagram).innerHTML;
     return(this);
 }
@@ -248,7 +248,7 @@ function Box(theLeft, theTop, theRight, theBottom, theDrawColor, theText, theTex
     bb="border-style:solid;border-width:"+theBorderWidth+"px;border-color:"+theBorderColor+";";
   if (_nvl(theText,"")!="")
        _DiagramTarget.document.writeln("<div id='"+this.ID+"' onClick='"+_nvl(theAction,"")+"' style='"+_cursor(theAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft+ww*_dSize)+"px;height:"+eval(theBottom-theTop+ww*_dSize)+"px;"+bb+"background-color:"+theDrawColor+";color:"+theTextColor+";"+_BFont+"z-index:"+_zIndex+"'; title='"+_nvl(theTooltipText,"")+"' align=center>"+theText+"</div>");
-  else _DiagramTarget.document.writeln("<div id='"+this.ID+"' onClick='"+_nvl(theAction,"")+"' style='"+_cursor(theAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft+ww*_dSize)+"px;height:"+eval(theBottom-theTop+ww*_dSize)+"px;"+bb+"background-color:"+theDrawColor+";font-size:1pt;line-height:1pt;font-family:Verdana;font-weight:normal;z-index:"+_zIndex+"'; title='"+_nvl(theTooltipText,"")+"'>&nbsp;</div>");
+  else _DiagramTarget.document.writeln("<div id='"+this.ID+"' onClick='"+_nvl(theAction,"")+"' style='"+_cursor(theAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft+ww*_dSize)+"px;height:"+eval(theBottom-theTop+ww*_dSize)+"px;"+bb+"background-color:"+theDrawColor+";font-size:1pt;line-height:1pt;font-family:arial;font-weight:normal;z-index:"+_zIndex+"'; title='"+_nvl(theTooltipText,"")+"'>&nbsp;</div>");
   return(this);
 }
 function _SetBarColor(theColor)

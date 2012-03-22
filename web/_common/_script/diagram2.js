@@ -16,7 +16,7 @@ if (_dSize==1)
 }
 var _nav4 = (document.layers) ? 1 : 0;
 var _DiagramTarget=window;
-var _BFont="font-family:Verdana;font-weight:bold;font-size:10pt;line-height:13pt;"
+var _BFont="font-family:arial;font-weight:bold;font-size:10pt;line-height:13pt;"
 var _PathToScript="";
 
 function Diagram()
@@ -27,7 +27,7 @@ function Diagram()
   this.YScale=1;
   this.XScalePosition="bottom";
   this.YScalePosition="left";
-  this.Font="font-family:Verdana;font-weight:normal;font-size:10pt;line-height:13pt;";
+  this.Font="font-family:arial;font-weight:normal;font-size:10pt;line-height:13pt;";
   this.ID="Dia"+_N_Dia; _N_Dia++; _zIndex++;
   this.zIndex=_zIndex;
   this.logsub=new Array(0.301, 0.477, 0.602, 0.699, 0.778, 0.845, 0.903, 0.954);
@@ -664,7 +664,7 @@ function Bar(theLeft, theTop, theRight, theBottom, theDrawColor, theText, theTex
   }
   else
   { var vv=(this.height>0) ? "" : ";visibility:hidden";
-    _DiagramTarget.document.writeln("<div id='"+this.ID+"' "+EventActions+"style='"+_cursor(theOnClickAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft)+"px;height:"+eval(theBottom-theTop)+"px;background-color:"+theDrawColor+";font-size:1pt;line-height:1pt;font-family:Verdana;font-weight:normal;z-index:"+_zIndex+vv+"'; title='"+_nvl(theTooltipText,"")+"'>&nbsp;</div>");
+    _DiagramTarget.document.writeln("<div id='"+this.ID+"' "+EventActions+"style='"+_cursor(theOnClickAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft)+"px;height:"+eval(theBottom-theTop)+"px;background-color:"+theDrawColor+";font-size:1pt;line-height:1pt;font-family:arial;font-weight:normal;z-index:"+_zIndex+vv+"'; title='"+_nvl(theTooltipText,"")+"'>&nbsp;</div>");
   }
   return(this);
 }
@@ -703,7 +703,7 @@ function Box(theLeft, theTop, theRight, theBottom, theDrawColor, theText, theTex
   }
   else
   { var vv=(this.height>=2*ww) ? "" : ";visibility:hidden";
-    _DiagramTarget.document.writeln("<div id='"+this.ID+"' "+EventActions+"style='"+_cursor(theOnClickAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft-ww+ww*_dSize)+"px;height:"+eval(theBottom-theTop-ww+ww*_dSize)+"px;"+bb+"background-color:"+theDrawColor+";font-size:1pt;line-height:1pt;font-family:Verdana;font-weight:normal;z-index:"+_zIndex+vv+"'; title='"+_nvl(theTooltipText,"")+"'>&nbsp;</div>");
+    _DiagramTarget.document.writeln("<div id='"+this.ID+"' "+EventActions+"style='"+_cursor(theOnClickAction)+"position:absolute;left:"+theLeft+"px;top:"+theTop+"px;width:"+eval(theRight-theLeft-ww+ww*_dSize)+"px;height:"+eval(theBottom-theTop-ww+ww*_dSize)+"px;"+bb+"background-color:"+theDrawColor+";font-size:1pt;line-height:1pt;font-family:arial;font-weight:normal;z-index:"+_zIndex+vv+"'; title='"+_nvl(theTooltipText,"")+"'>&nbsp;</div>");
   }
   return(this);
 }

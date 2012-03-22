@@ -2,11 +2,11 @@
 /* NOTE: Better use numbered color values instead of literal ones, because opera has problem with the latter in certain cases. */
 
 /* Calendar Day Header - the cells showing "Sunday", "Monday" .... */
-.CalHead {cursor:default; text-align:center; font:bold 7.5pt Tahoma, Verdana, sans-serif; color:white;}
+.CalHead {cursor:default; text-align:center; font:bold 7.5pt Tahoma, arial, sans-serif; color:white;}
 /* Day Cell - the calendar cell of each day */
 .CalCell {cursor:pointer; text-align:center;background:red;}
 /* Day Number Anchor style */
-.CellAnchor {text-decoration:none; font:9pt verdana;background:transparent;}
+.CellAnchor {text-decoration:none; font:9pt arial;background:transparent;}
 
 /* WeekNo Header - the top header cell of the week number column */
 .WeekHead {cursor:default; text-align:center; font:bold 10pt arial; color:white;}
@@ -17,7 +17,7 @@
 
 /* Month navigators - the "<" or ">" used to move to previous or next month */
 .MonthNav {
-    font-family: verdana;
+    font-family: arial;
 	font-size: 10px;
 	font-weight: normal;
 	color: white;
@@ -49,7 +49,7 @@ A.MonthNav:active {color:red}
 	BACKGROUND: #ffffff;
 	COLOR: #333399;
 	BORDER-TOP-STYLE: groove;
-	FONT-FAMILY: Verdana;
+	FONT-FAMILY: arial;
 	BORDER-RIGHT-STYLE: groove;
 	BORDER-LEFT-STYLE: groove;
 	BORDER-BOTTOM-STYLE: groove;
@@ -65,14 +65,14 @@ A.MonthNav:active {color:red}
 /*===== Above CSS styles are commonly used in the script engine =====*/
 
 /*====== Following are additional per-theme styles, e.g. the inner dropdown selectors and today etc. You may have your own defined. ======*/
-.Today {text-decoration:none; font:bold 9pt Tahoma, Verdana; color:white;}
+.Today {text-decoration:none; font:bold 9pt Tahoma, arial; color:white;}
 A.Today:hover {color:#ffcc00;}
 A.Today:active {color:red;}
 
 TR.Label
 {
 	color: black;
-	font-family: Verdana;
+	font-family: arial;
 	font-size: 9px;
 	font-weight: bolder;
 	text-align: center;

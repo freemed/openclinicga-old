@@ -184,6 +184,22 @@
 	    	</index>
 	    </indexes>
 	</table>
+	<table name="DC_PATIENTRECORDS" db="stats" sync="NONE">
+		<columns>
+			<column name="DC_PATIENTRECORD_SERVERID" dbtype="int" javatype="integer" />
+			<column name="DC_PATIENTRECORD_PERSONID" dbtype="int" javatype="integer" />
+			<column name="DC_PATIENTRECORD_FIRSTNAME" dbtype="varchar" javatype="string" size="255"/>
+			<column name="DC_PATIENTRECORD_LASTNAME" dbtype="varchar" javatype="string" size="255"/>
+			<column name="DC_PATIENTRECORD_GENDER" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_PATIENTRECORD_DATEOFBIRTH" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_PATIENTRECORD_ARCHIVEFILE" dbtype="varchar" javatype="string" size="50"/>
+	    </columns>
+	    <indexes>
+	    	<index name="DC_PATIENTRECORD_PERSONID">
+	    		<indexcolumn order="ASC" name="DC_PATIENTRECORD_PERSONID"/>
+	    	</index>
+	    </indexes>
+	</table>
 	<table name="DC_SERVERS" db="openclinic" sync="NONE">
 		<columns>
 			<column name="DC_SERVER_SERVERID" dbtype="int" javatype="integer"/>
@@ -222,6 +238,7 @@
 			<column name="OC_EXPORTREQUEST_TYPE" dbtype="varchar" size="50" javatype="string" />
 			<column name="OC_EXPORTREQUEST_ID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_EXPORTREQUEST_PROCESSED" dbtype="int" javatype="integer"/>
+			<column name="OC_EXPORTREQUEST_UPDATETIME" dbtype="datetime" javatype="date"/>
 	    </columns>
 	</table>
 	<table name="OC_IMPORTS" db="openclinic" sync="NONE">

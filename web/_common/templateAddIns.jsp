@@ -27,6 +27,16 @@
 <script>
       // *************************** GET CLICKED ELEMENT COMPATIBLE WITH FIREFOX *******//
 
+	String.prototype.trim = function() {
+	    return this.replace(/^\s+|\s+$/g,"");
+	}
+	String.prototype.ltrim = function() {
+	    return this.replace(/^\s+/,"");
+	}
+	String.prototype.rtrim = function() {
+	    return this.replace(/\s+$/,"");
+	}
+	
   var gk = window.Event?1:0;
   function getClickedElement(e) {
        //for compatibility FF IE

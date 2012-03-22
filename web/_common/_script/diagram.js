@@ -17,7 +17,7 @@ if (_dSize==1)
 var _nav4 = (document.layers) ? 1 : 0;
 var _DiagramTarget=window;
 var _DivDiagram = "";//added by ene
-var _BFont="font-family:Verdana;font-weight:bold;font-size:8pt;line-height:13pt;"
+var _BFont="font-family:arial;font-weight:bold;font-size:8pt;line-height:13pt;"
 //var _PathToScript="../_common/_script/";
 if (document.layers) document.write("<script language=\"JavaScript\" src=\""+_PathToScript+"diagram_nav.js\"></script>");
 else document.write("<script language=\"JavaScript\" src=\""+_PathToScript+"diagram_dom.js\"></script>");
@@ -28,7 +28,7 @@ function Diagram()
   this.title="";
   this.XScale=1;
   this.YScale=1;
-  this.Font="font-family:Verdana;font-weight:normal;font-size:8pt;line-height:13pt;";
+  this.Font="font-family:arial;font-weight:normal;font-size:8pt;line-height:13pt;";
   this.ID="Dia"+_N_Dia; _N_Dia++; _zIndex++;
   this.zIndex=_zIndex;
   this.SetFrame=_SetFrame;

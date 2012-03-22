@@ -2,7 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
     String sGender = "&nbsp;", sComment = "&nbsp;", sNativeCountry = "&nbsp;", sLanguage = "&nbsp;", sNatreg = "&nbsp;", sVip="0"
-            , sCivilStatus = "&nbsp;", sTracnetID = "&nbsp;", sTreatingPhysician = "&nbsp;", sComment3="", sDeathCertificateTo="", sDeathCertificateOn="";
+            , sCivilStatus = "&nbsp;", sTracnetID = "&nbsp;", sTreatingPhysician = "&nbsp;", sComment3="", sDeathCertificateTo="", sDeathCertificateOn="", sExport="0", sLastExport="0";
 
     // language
     sWebLanguage = activeUser.person.language;
@@ -65,11 +65,16 @@
     }
 
     // VIP
-    if (checkString((String)activePatient.adminextends.get("vip")).length()>0) {
+    if (MedwanQuery.getInstance().getConfigInt("enableVip",0)==1 && checkString((String)activePatient.adminextends.get("vip")).length()>0) {
         sVip = (String)activePatient.adminextends.get("vip");
         if(sVip==null || sVip.length()==0){
         	sVip="0";
         }
+    }
+
+    // ExportRequest
+    if (MedwanQuery.getInstance().getConfigInt("enableDatacenterPatientExport",0)==1 && activePatient.hasPendingExportRequest()) {
+		sExport="1";
     }
 %>
 <%-- MAIN TABLE ----------------------------------------------------------------------------------%>
@@ -85,6 +90,8 @@
         +setRow("Web","comment3",sComment3,sWebLanguage)
         +setRow("Web","comment",sComment,sWebLanguage)
         +(MedwanQuery.getInstance().getConfigInt("enableVip",0)==1?setRow("Web","vip",getTran("vipstatus",sVip,sWebLanguage),sWebLanguage):"")
+        +(MedwanQuery.getInstance().getConfigInt("enableDatacenterPatientExport",0)==1?setRow("Web","datacenterpatientexport",getTran("datacenterpatientexport",sExport,sWebLanguage),sWebLanguage):"")
+        +(MedwanQuery.getInstance().getConfigInt("enableDatacenterPatientExport",0)==1?setRow("Web","lastdatacenterpatientexport",activePatient.getLastSentExportRequest(),sWebLanguage):"")
         +(activePatient.isDead()!=null?setRow("Web","deathcertificateon",sDeathCertificateOn,sWebLanguage)+setRow("Web","deathcertificateto",sDeathCertificateTo,sWebLanguage):"")
         )
     %>

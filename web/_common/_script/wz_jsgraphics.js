@@ -1013,7 +1013,7 @@ text both horizontally (e.g. right) and vertically within that rectangle */
 	};
 
 	this.setStroke(1);
-	this.setFont("verdana,geneva,helvetica,sans-serif", "12px", Font.PLAIN);
+	this.setFont("arial,geneva,helvetica,sans-serif", "12px", Font.PLAIN);
 	this.color = "#000000";
 	this.htm = "";
 	this.wnd = wnd || window;
