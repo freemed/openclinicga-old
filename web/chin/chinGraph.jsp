@@ -10,7 +10,7 @@
 <SCRIPT Language="JavaScript">
 document.open();
 
-_BFont="font-family:Verdana;font-weight:bold;font-size:8pt;line-height:8pt;"; 
+_BFont="font-family:arial;font-weight:bold;font-size:8pt;line-height:8pt;"; 
 <%
     CHINAnalyser chinAnalyser = new CHINAnalyser();
     Vector indicators = chinAnalyser.getCHINIndicators();
