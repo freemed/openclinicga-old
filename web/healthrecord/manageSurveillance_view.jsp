@@ -1884,7 +1884,7 @@ function calculateTotal(){
 function setCellStyle(row){
     for(i =0;i<row.cells.length;i++){
         row.cells[i].style.color = "#333333";
-        row.cells[i].style.fontFamily = "Verdana";
+        row.cells[i].style.fontFamily = "arial";
         row.cells[i].style.fontSize = "10px";
         row.cells[i].style.fontWeight = "normal";
         row.cells[i].style.textAlign = "left";

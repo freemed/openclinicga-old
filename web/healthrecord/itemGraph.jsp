@@ -189,7 +189,7 @@ D.XSubGrids=1;
 D.YSubGrids=1;
 D.GetXGrid();
 D.XGridDelta=<%=maxDate-minDate%>/Math.min(8,Math.floor(<%=maxDate-minDate%>/interval));
-D.Font="font-family:Verdana;font-weight:normal;font-size:6pt;line-height:22pt;"
+D.Font="font-family:arial;font-weight:normal;font-size:6pt;line-height:22pt;"
 D.Draw("#FFFFFF", "#000000", false, "", "", "#DDDDFF","#CCCCCC");
     <%
         double oldval=0;

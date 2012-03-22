@@ -1863,7 +1863,7 @@ if (itemAgeDateEcho!=null){
     function setCellStyle(row) {
         for (var i = 0; i < row.cells.length; i++) {
             row.cells[i].style.color = "#333333";
-            row.cells[i].style.fontFamily = "Verdana";
+            row.cells[i].style.fontFamily = "arial";
             row.cells[i].style.fontSize = "10px";
             row.cells[i].style.fontWeight = "normal";
             row.cells[i].style.textAlign = "left";
@@ -1896,7 +1896,7 @@ if (itemAgeDateEcho!=null){
         return("<nobr>" + r + "</nobr>");
     }
     var D = new Diagram();
-    _BFont = "font-family:Verdana;font-size:8pt;line-height:9pt;";
+    _BFont = "font-family:arial;font-size:8pt;line-height:9pt;";
     D.SetFrame(0, 30, 720, 335);
     D.SetBorder(0, 24, 0, 10);
     D.SetGridColor("#808080", "#CCCCCC");
@@ -2051,7 +2051,7 @@ if (itemAgeDateEcho!=null){
     }
 
     function setTopUnits() {
-        _BFont = "font-family:Verdana;font-size:6pt;font-weight:bold;";
+        _BFont = "font-family:arial;font-size:6pt;font-weight:bold;";
         if (barTop!=undefined){
              barTop.each(function(obj){
                obj.Delete();
