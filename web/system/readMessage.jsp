@@ -166,7 +166,7 @@
                 String sTempFileName = (sTempDir+"/").replaceAll("//","/")+shortFileName;
                 FileWriter fileWriter = new FileWriter(sTempFileName);
                 BufferedWriter emailWriter = new BufferedWriter(fileWriter);
-                emailWriter.write("<table style='font-family: Verdana;font-size: 10px;'>");
+                emailWriter.write("<table style='font-family: arial;font-size: 10px;'>");
 
                 //Only data from identified persons will be stored
                 Iterator iterator = messageReader.documents.iterator();
