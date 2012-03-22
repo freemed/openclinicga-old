@@ -7,8 +7,8 @@
 
         if (vDebets != null) {
             Debet debet;
-            Encounter encounter;
-            Prestation prestation;
+            Encounter encounter=null;
+            Prestation prestation=null;
             String sEncounterName, sPrestationDescription, sDebetUID, sPatientName;
             String sCredited;
             Hashtable hSort = new Hashtable();
@@ -17,14 +17,17 @@
                 sDebetUID = checkString((String) vDebets.elementAt(i));
 
                 if (sDebetUID.length() > 0) {
+					System.out.println("sDebetUID="+sDebetUID+"*");
                     debet = Debet.get(sDebetUID);
 
                     if (debet != null) {
                         sEncounterName = "";
                         sPatientName = "";
+						System.out.println("debet.getEncounterUid()="+debet.getEncounterUid());
 
                         if (checkString(debet.getEncounterUid()).length() > 0) {
                             encounter = debet.getEncounter();
+    						System.out.println("encounter="+encounter);
 
                             if (encounter != null) {
                                 sEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
@@ -54,7 +57,18 @@
                         if (debet.getCredited() > 0) {
                             sCredited = getTran("web.occup", "medwan.common.yes", sWebLanguage);
                         }
-
+						System.out.println("1");
+						System.out.println("sPatientName.toUpperCase()="+sPatientName.toUpperCase());
+						System.out.println("debet.getDate().getTime()="+debet.getDate().getTime());
+						System.out.println("sEncounterName="+sEncounterName);
+						System.out.println("MedwanQuery.getInstance().getUser(debet.getUpdateUser())="+MedwanQuery.getInstance().getUser(debet.getUpdateUser()));
+						System.out.println("debet.getUpdateUser().getPersonVO().getFullName()="+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName());
+						System.out.println("debet.getQuantity()="+debet.getQuantity());
+						System.out.println("debet.getUid()="+debet.getUid());
+						System.out.println("prestation="+prestation);
+						System.out.println("HTMLEntities.htmlentities(sPrestationDescription)="+HTMLEntities.htmlentities(sPrestationDescription));
+						System.out.println("1");
+						System.out.println("1");
                         hSort.put(sPatientName.toUpperCase() + "=" + debet.getDate().getTime() + "=" + debet.getUid(), " onclick=\"setDebet('" + debet.getUid() + "');\">"
                                 + "<td>" + ScreenHelper.getSQLDate(debet.getDate()) + "</td>"
                                 + "<td>" + HTMLEntities.htmlentities(sEncounterName) + " ("+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName()+")</td>"
@@ -62,6 +76,7 @@
                                 + "<td "+(checkString(debet.getExtraInsurarUid()).length()>0?"style='text-decoration: line-through'":"")+">" + (debet.getAmount()+debet.getExtraInsurarAmount()) + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
                                 + "<td>" + sCredited + "</td>"
                                 + "</tr>");
+						System.out.println("2");
                     }
                 }
             }

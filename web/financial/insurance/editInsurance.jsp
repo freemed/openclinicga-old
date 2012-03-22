@@ -30,6 +30,9 @@
     String sEditInsuranceNr = checkString(request.getParameter("EditInsuranceNr"));
     String sEditInsuranceType = checkString(request.getParameter("EditInsuranceType"));
     String sEditInsuranceMember = checkString(request.getParameter("EditInsuranceMember"));
+    String sEditInsuranceMemberImmat = checkString(request.getParameter("EditInsuranceMemberImmat"));
+    String sEditInsuranceMemberEmployer = checkString(request.getParameter("EditInsuranceMemberEmployer"));
+    String sEditInsuranceStatus = checkString(request.getParameter("EditInsuranceStatus"));
     String sEditInsuranceStart = checkString(request.getParameter("EditInsuranceStart"));
     if(sEditInsuranceStart.length()==0){
         sEditInsuranceStart=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
@@ -60,6 +63,9 @@
         insurance.setInsuranceNr(sEditInsuranceNr);
         insurance.setType(sEditInsuranceType);
         insurance.setMember(sEditInsuranceMember);
+        insurance.setMemberImmat(sEditInsuranceMemberImmat);
+        insurance.setMemberEmployer(sEditInsuranceMemberEmployer);
+        insurance.setStatus(sEditInsuranceStatus);
         insurance.setInsuranceCategoryLetter(sEditInsuranceCategoryLetter);
         insurance.setComment(new StringBuffer(sEditInsuranceComment));
         insurance.setUpdateDateTime(getSQLTime());
@@ -77,6 +83,9 @@
         sEditInsuranceNr = insurance.getInsuranceNr();
         sEditInsuranceType = insurance.getType();
         sEditInsuranceMember = insurance.getMember();
+        sEditInsuranceMemberImmat = insurance.getMemberImmat();
+        sEditInsuranceMemberEmployer = insurance.getMemberEmployer();
+        sEditInsuranceStatus = insurance.getStatus();
         sEditInsuranceCategoryLetter = insurance.getInsuranceCategoryLetter();
         sEditInsurarUID = insurance.getInsurarUid();
         InsuranceCategory insuranceCategory = InsuranceCategory.get(insurance.getInsurarUid(),sEditInsuranceCategoryLetter);
@@ -114,10 +123,37 @@
             <%-- member --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">
+                <%=getTran("insurance","status",sWebLanguage)%>
+            </td>
+            <td class="admin2">
+                <select class="text" name="EditInsuranceStatus" id="EditInsuranceStatus" onchange="setStatus();">
+                    <option value=""></option>
+                    <%=ScreenHelper.writeSelectUnsorted("insurance.status",sEditInsuranceStatus,sWebLanguage)%>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="admin" width="<%=sTDAdminWidth%>">
                 <%=getTran("insurance","member",sWebLanguage)%>
             </td>
             <td class="admin2">
-                <input class="text" type="text" name="EditInsuranceMember" value="<%=sEditInsuranceMember%>" size="<%=sTextWidth%>"/>
+                <input class="text" type="text" name="EditInsuranceMember" id="EditInsuranceMember" value="<%=sEditInsuranceMember%>" size="<%=sTextWidth%>"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="admin" width="<%=sTDAdminWidth%>">
+                <%=getTran("insurance","memberimmat",sWebLanguage)%>
+            </td>
+            <td class="admin2">
+                <input class="text" type="text" name="EditInsuranceMemberImmat" id="EditInsuranceMemberImmat" value="<%=sEditInsuranceMemberImmat%>" size="<%=sTextWidth%>"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="admin" width="<%=sTDAdminWidth%>">
+                <%=getTran("insurance","memberemployer",sWebLanguage)%>
+            </td>
+            <td class="admin2">
+                <input class="text" type="text" name="EditInsuranceMemberEmployer" value="<%=sEditInsuranceMemberEmployer%>" size="<%=sTextWidth%>"/>
             </td>
         </tr>
         <%-- company --%>
@@ -185,3 +221,12 @@
     </table>
     <input type="hidden" name="Action" value="">
 </form>
+<script>
+	function setStatus(){
+    	if(document.getElementById("EditInsuranceStatus").value=="affiliate"){
+        	document.getElementById("EditInsuranceMember").value="<%=activePatient.firstname+" "+activePatient.lastname.toUpperCase()%>";
+        	document.getElementById("EditInsuranceMemberImmat").value="<%=activePatient.getID("immatnew")%>";
+    	}
+	}
+</script>
+
