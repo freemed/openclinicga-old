@@ -1,7 +1,7 @@
 <%@page import="be.openclinic.pharmacy.Product,
                 java.text.DecimalFormat,
                 be.openclinic.pharmacy.ProductSchema,
-                be.openclinic.common.KeyValue,
+                be.openclinic.common.KeyValue,be.openclinic.finance.*,
                 java.util.Vector"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
@@ -642,7 +642,17 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","prestation",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditPrestationCode" size="10" maxLength="50" value="<%=sSelectedPrestationCode%>" > x <input class="text" type="text" name="EditPrestationQuantity" size="3" maxLength="10" value="<%=sSelectedPrestationQuantity%>" >
+                            <input class="text" type="text" name="EditPrestationCode" id="EditPrestationCode" size="10" maxLength="50" value="<%=sSelectedPrestationCode%>" ><img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation();"> x <input class="text" type="text" name="EditPrestationQuantity" size="3" maxLength="10" value="<%=sSelectedPrestationQuantity%>" >
+                            <%
+                            	String sEditPrestationName="";
+                            	if(sSelectedPrestationCode.length()>0){
+                            		Prestation prestation = Prestation.get(sSelectedPrestationCode);
+                            		if(prestation!=null){
+                            			sEditPrestationName=checkString(prestation.getDescription());
+                            		}
+                            	}
+                            %>
+                            <input class="greytext" readonly disabled type="text" name="EditPrestationName" id="EditPrestationName" value="<%=sEditPrestationName%>" size="50"/>
                         </td>
                     </tr>
                     <%-- EDIT BUTTONS --%>
@@ -863,6 +873,11 @@
 
     transactionForm.FindSupplierUid.value = "";
     transactionForm.FindSupplierName.value = "";
+  }
+
+  function searchPrestation(){
+	  transactionForm.EditPrestationCode.value = "";
+      openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldUid=EditPrestationCode&ReturnFieldDescr=EditPrestationName");
   }
 
   <%-- CLEAR EDIT FIELDS --%>

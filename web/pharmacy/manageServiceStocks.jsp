@@ -586,6 +586,12 @@
                 <table class="list" width="100%" cellspacing="1">
                     <%-- Stock Name --%>
                     <tr>
+                        <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","ID",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <%=sEditStockUid%>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","Name",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
                             <input class="text" type="text" name="EditStockName" size="<%=sTextWidth%>" maxLength="255" value="<%=sSelectedStockName%>">

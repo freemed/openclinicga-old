@@ -201,7 +201,7 @@
 
 <%
     String sDefaultSortCol = "OC_PRODUCT_NAME",
-           sDefaultSortDir = "DESC";
+           sDefaultSortDir = "ASC";
 
     String sAction = checkString(request.getParameter("Action"));
 
@@ -250,7 +250,7 @@
            sFindMinimumLevel = "", sFindMaximumLevel = "", sFindOrderLevel = "", sFindBegin = "",
            sFindEnd = "", sFindDefaultImportance = "", sSelectedServiceStockUid = "", sSelectedProductUid = "",
            sSelectedLevel = "", sSelectedMinimumLevel = "", sSelectedMaximumLevel = "", sSelectedOrderLevel = "",
-           sSelectedBegin = "", sSelectedEnd = "", sSelectedDefaultImportance = "", sSelectedServiceStockName = "",
+           sSelectedBegin = "", sSelectedEnd = "", sSelectedDefaultImportance = MedwanQuery.getInstance().getConfigString("productStockDefaultImportance","type1native"), sSelectedServiceStockName = "",
            sSelectedProductName = "", sFindSupplierUid = "", sFindSupplierName = "",
            sSelectedSupplierUid = "", sSelectedSupplierName = "";
 
@@ -390,12 +390,32 @@
         else                              sFindSupplierName = "";
 
         // search all products for a specified productStock
-        if(sServiceId.length() > 0) sFindServiceStockUid = sEditServiceStockUid;
-
+        if(sServiceId.length() > 0) {
+        	sFindServiceStockUid = sEditServiceStockUid;
+        }
+        else if (sEditServiceStockUid.length()>0){
+        	ServiceStock serviceStock = ServiceStock.get(sEditServiceStockUid);
+        	if(serviceStock!=null){
+        		sServiceId=serviceStock.getServiceUid();
+            	sFindServiceStockUid = sEditServiceStockUid;
+        	}
+        }
+        System.out.println("serviceid="+sServiceId);
         Vector productStocks = ProductStock.find(sFindServiceStockUid,sFindProductUid,sFindLevel,sFindMinimumLevel,
                                                  sFindMaximumLevel,sFindOrderLevel,sFindBegin,sFindEnd,sFindDefaultImportance,
                                                  sFindSupplierUid,"",sSortCol,sSortDir);
 
+        System.out.println("sFindServiceStockUid="+sFindServiceStockUid);
+        System.out.println("sFindProductUid="+sFindProductUid);
+        System.out.println("sFindLevel="+sFindLevel);
+        System.out.println("sFindMinimumLevel="+sFindMinimumLevel);
+        System.out.println("sFindMaximumLevel="+sFindMaximumLevel);
+        System.out.println("sFindOrderLevel="+sFindOrderLevel);
+        System.out.println("sFindBegin="+sFindBegin);
+        System.out.println("sFindEnd="+sFindEnd);
+        System.out.println("sFindDefaultImportance="+sFindDefaultImportance);
+        System.out.println("sFindSupplierUid="+sFindSupplierUid);
+        System.out.println("sSortCol="+sSortCol);
         // display other layout if stocks of only one service are shown
         if(sServiceId.length() == 0) stocksHtml = objectsToHtml1(productStocks,sWebLanguage);
         else                         stocksHtml = objectsToHtml2(productStocks,sServiceId,sWebLanguage,activeUser);
