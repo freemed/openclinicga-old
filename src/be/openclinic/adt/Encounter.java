@@ -1357,125 +1357,125 @@ public class Encounter extends OC_Object {
         if (sConditions.length() > 0) {
             sSelect = sSelect + " AND  " + sConditions;
             sSelect = sSelect.substring(0, sSelect.length() - 3);
-        }
 
-        if (sortColumn.length() > 0) {
-            sSelect += " ORDER BY " + sortColumn;
-        }
-
-        int i = 1;
-
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            ps = oc_conn.prepareStatement(sSelect);
-
-            if (serverID.length() > 0) {
-                ps.setInt(i++, Integer.parseInt(serverID));
-            }
-            if (objectID.length() > 0) {
-                ps.setInt(i++, Integer.parseInt(objectID));
-            }
-            if (beginDate.length() > 0) {
-                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
-            }
-            if (endDate.length() > 0) {
-                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
-            }
-            if (type.length() > 0) {
-                ps.setString(i++, type);
-            }
-            if (managerID.length() > 0) {
-                ps.setString(i++, managerID);
-            }
-            if (serviceID.length() > 0) {
-                ps.setString(i++, serviceID);
-            }
-            if (bedID.length() > 0) {
-                ps.setString(i++, bedID);
-            }
-            if (patientID.length() > 0) {
-                ps.setString(i++, patientID);
-            }
-
-            rs = ps.executeQuery();
-
-            String sTmp, sTmp1;
-
-            Encounter eTmp;
-
-            while (rs.next()) {
-                eTmp = new Encounter();
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"));
-                sTmp1 = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
-
-                if (sTmp.length() > 0 && sTmp1.length() > 0) {
-                    eTmp.setUid(sTmp + "." + sTmp1);
-                }
-
-                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0) {
-                    eTmp.setBegin(rs.getTimestamp("OC_ENCOUNTER_BEGINDATE"));
-                }
-
-                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0) {
-                    eTmp.setEnd(rs.getTimestamp("OC_ENCOUNTER_ENDDATE"));
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_MANAGERUID"));
-                if (sTmp.length() > 0) {
-                    eTmp.managerUID = sTmp;
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVICEUID"));
-                if (sTmp.length() > 0) {
-                    eTmp.serviceUID = sTmp;
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
-                if (sTmp.length() > 0) {
-                    eTmp.destinationUID = sTmp;
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEDUID"));
-                if (sTmp.length() > 0) {
-                    eTmp.bedUID = sTmp;
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
-                if (sTmp.length() > 0) {
-                    eTmp.patientUID = sTmp;
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_TYPE"));
-                if (sTmp.length() > 0) {
-                    eTmp.setType(sTmp);
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME"));
-                if (sTmp.length() > 0) {
-                    eTmp.setOutcome(sTmp);
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN"));
-                if (sTmp.length() > 0) {
-                    eTmp.setOrigin(sTmp);
-                }
-
-                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION"));
-                if (sTmp.length() > 0) {
-                    eTmp.setSituation(sTmp);
-                }
-                
-                eTmp.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID")));
-
-                vEncounters.addElement(eTmp);
-            }
-
-            rs.close();
-            ps.close();
-            oc_conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+	        if (sortColumn.length() > 0) {
+	            sSelect += " ORDER BY " + sortColumn;
+	        }
+	
+	        int i = 1;
+	
+	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	        try {
+	            ps = oc_conn.prepareStatement(sSelect);
+	
+	            if (serverID.length() > 0) {
+	                ps.setInt(i++, Integer.parseInt(serverID));
+	            }
+	            if (objectID.length() > 0) {
+	                ps.setInt(i++, Integer.parseInt(objectID));
+	            }
+	            if (beginDate.length() > 0) {
+	                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
+	            }
+	            if (endDate.length() > 0) {
+	                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
+	            }
+	            if (type.length() > 0) {
+	                ps.setString(i++, type);
+	            }
+	            if (managerID.length() > 0) {
+	                ps.setString(i++, managerID);
+	            }
+	            if (serviceID.length() > 0) {
+	                ps.setString(i++, serviceID);
+	            }
+	            if (bedID.length() > 0) {
+	                ps.setString(i++, bedID);
+	            }
+	            if (patientID.length() > 0) {
+	                ps.setString(i++, patientID);
+	            }
+	
+	            rs = ps.executeQuery();
+	
+	            String sTmp, sTmp1;
+	
+	            Encounter eTmp;
+	
+	            while (rs.next()) {
+	                eTmp = new Encounter();
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"));
+	                sTmp1 = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+	
+	                if (sTmp.length() > 0 && sTmp1.length() > 0) {
+	                    eTmp.setUid(sTmp + "." + sTmp1);
+	                }
+	
+	                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0) {
+	                    eTmp.setBegin(rs.getTimestamp("OC_ENCOUNTER_BEGINDATE"));
+	                }
+	
+	                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0) {
+	                    eTmp.setEnd(rs.getTimestamp("OC_ENCOUNTER_ENDDATE"));
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_MANAGERUID"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.managerUID = sTmp;
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVICEUID"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.serviceUID = sTmp;
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.destinationUID = sTmp;
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEDUID"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.bedUID = sTmp;
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.patientUID = sTmp;
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_TYPE"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.setType(sTmp);
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.setOutcome(sTmp);
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.setOrigin(sTmp);
+	                }
+	
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.setSituation(sTmp);
+	                }
+	                
+	                eTmp.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID")));
+	
+	                vEncounters.addElement(eTmp);
+	            }
+	
+	            rs.close();
+	            ps.close();
+	            oc_conn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
         }
         return vEncounters;
     }

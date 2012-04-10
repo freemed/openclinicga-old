@@ -210,30 +210,45 @@ public class PDFMonthlyReportGeneratorDH extends PDFOfficialBasic {
 			            							modifier=positives[p].split(":")[0];
 			            							positiveresults=positives[p].split(":")[1].split(";");
 			            							if(modifier.equalsIgnoreCase("not-equals")){
-			            								isPositive=true;
-			            								for(int q=0;q<positiveresults.length && !done;q++){
-				            								if(result.getResultValue().equalsIgnoreCase(positiveresults[q])){
-				            									isPositive=false;
-				            									done=true;
-				            								}
-				            							}
+			            								if(result.getResultValue().trim().length()>0){
+				            								isPositive=true;
+				            								for(int q=0;q<positiveresults.length && !done;q++){
+					            								if(result.getResultValue().equalsIgnoreCase(positiveresults[q])){
+					            									isPositive=false;
+					            									done=true;
+					            								}
+					            							}
+			            								}
+			            								else {
+			            									isPositive=false;
+			            								}
 			            							}
 			            							else if(modifier.equalsIgnoreCase("not-contains")){
-			            								isPositive=true;
-			            								for(int q=0;q<positiveresults.length && !done;q++){
-				            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
-				            									isPositive=false;
-				            									done=true;
-				            								}
-				            							}
+			            								if(result.getResultValue().trim().length()>0){
+				            								isPositive=true;
+				            								for(int q=0;q<positiveresults.length && !done;q++){
+					            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
+					            									isPositive=false;
+					            									done=true;
+					            								}
+					            							}
+			            								}
+			            								else {
+			            									isPositive=false;
+			            								}
 			            							}
 			            							else if(modifier.equalsIgnoreCase("contains")){
-			            								isPositive=false;
-			            								for(int q=0;q<positiveresults.length && !done;q++){
-				            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
-				            									isPositive=true;
-				            								}
-				            							}
+			            								if(result.getResultValue().trim().length()>0){
+				            								isPositive=false;
+				            								for(int q=0;q<positiveresults.length && !done;q++){
+					            								if(result.getResultValue().toLowerCase().indexOf(positiveresults[q].toLowerCase())>-1){
+					            									isPositive=true;
+					            								}
+					            							}
+			            								}
+			            								else {
+			            									isPositive=false;
+			            								}
 			            								if(!isPositive){
 			            									done=true;
 			            								}

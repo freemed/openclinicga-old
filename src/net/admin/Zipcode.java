@@ -166,6 +166,71 @@ public class Zipcode {
         return vResults;
     }
 
+    public static Vector getRegions(String table) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Vector vResults = new Vector();
+        String sSelect = " SELECT distinct region FROM "+table+" ";
+
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try {
+            ps = ad_conn.prepareStatement(sSelect);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                vResults.addElement(ScreenHelper.checkString(rs.getString("region")));
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                ad_conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return vResults;
+    }
+
+    public static Vector getDistricts(String region,String table) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Vector vResults = new Vector();
+        String sSelect = " SELECT distinct district FROM "+table+" where region=?";
+        if (ScreenHelper.checkString(region).length()>0){
+	
+	    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+	        try {
+	            ps = ad_conn.prepareStatement(sSelect);
+	            ps.setString(1, region);
+	            rs = ps.executeQuery();
+	
+	            while (rs.next()) {
+	                vResults.addElement(ScreenHelper.checkString(rs.getString("district")));
+	            }
+	            rs.close();
+	            ps.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (rs != null) rs.close();
+	                if (ps != null) ps.close();
+	                ad_conn.close();
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+        }
+        return vResults;
+    }
+
     public static Vector getDistricts(String table) {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -197,7 +262,7 @@ public class Zipcode {
         return vResults;
     }
 
-    public static Vector getCities(String sDistrict) {
+    public static Vector getCities(String sDistrict, String table) {
 
         Vector vResults = new Vector();
 
@@ -205,7 +270,7 @@ public class Zipcode {
             PreparedStatement ps = null;
             ResultSet rs = null;
 
-            String sSelect = " SELECT distinct city FROM RwandaZipcodes WHERE district = ?";
+            String sSelect = " SELECT distinct city FROM "+table+" WHERE district = ?";
 
         	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             try {
@@ -233,24 +298,63 @@ public class Zipcode {
         return vResults;
     }
 
-    public static Vector getCities(String sDistrict, String table) {
+    public static Vector getCities(String region, String sDistrict, String table) {
 
         Vector vResults = new Vector();
 
-        if (ScreenHelper.checkString(sDistrict).length()>0){
+        if (ScreenHelper.checkString(region).length()>0 && ScreenHelper.checkString(sDistrict).length()>0){
             PreparedStatement ps = null;
             ResultSet rs = null;
 
-            String sSelect = " SELECT distinct city FROM "+table+" WHERE district = ?";
+            String sSelect = " SELECT distinct city FROM "+table+" WHERE district = ? and region=?";
 
         	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             try {
                 ps = ad_conn.prepareStatement(sSelect);
                 ps.setString(1,sDistrict);
+                ps.setString(2, region);
                 rs = ps.executeQuery();
 
                 while (rs.next()) {
                     vResults.addElement(ScreenHelper.checkString(rs.getString("city")));
+                }
+                rs.close();
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (ps != null) ps.close();
+                    ad_conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return vResults;
+    }
+
+    public static Vector getQuarters(String region, String sDistrict, String sCity, String table) {
+
+        Vector vResults = new Vector();
+
+        if (ScreenHelper.checkString(region).length()>0 && ScreenHelper.checkString(sDistrict).length()>0 && ScreenHelper.checkString(sCity).length()>0){
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            String sSelect = " SELECT distinct sector FROM "+table+" WHERE district = ? and region=? and city=?";
+
+        	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+            try {
+                ps = ad_conn.prepareStatement(sSelect);
+                ps.setString(1,sDistrict);
+                ps.setString(2, region);
+                ps.setString(3, sCity);
+                rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    vResults.addElement(ScreenHelper.checkString(rs.getString("sector")));
                 }
                 rs.close();
                 ps.close();
@@ -321,6 +425,44 @@ public class Zipcode {
                 ps = ad_conn.prepareStatement(sSelect);
                 ps.setString(1,sDistrict);
                 ps.setString(2,sCity);
+                rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    sZipcode = ScreenHelper.checkString(rs.getString("zipcode"));
+                }
+                rs.close();
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (ps != null) ps.close();
+                    ad_conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return sZipcode;
+    }
+    public static String getZipcode(String sRegion, String sDistrict, String sCity, String sQuarter,String table) {
+
+        String sZipcode = "";
+
+        if ((ScreenHelper.checkString(sDistrict).length()>0)&&(ScreenHelper.checkString(sCity).length()>0)&&(ScreenHelper.checkString(sRegion).length()>0)&&(ScreenHelper.checkString(sQuarter).length()>0)){
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            String sSelect = " SELECT zipcode FROM "+table+" WHERE district = ? AND city = ? and region=? and sector=?";
+
+        	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+            try {
+                ps = ad_conn.prepareStatement(sSelect);
+                ps.setString(1,sDistrict);
+                ps.setString(2,sCity);
+                ps.setString(3,sRegion);
+                ps.setString(4,sQuarter);
                 rs = ps.executeQuery();
 
                 if (rs.next()) {
