@@ -118,7 +118,7 @@ public class ProductSchema {
             if(productuid!=null && productuid.length()>0 && productuid.indexOf(".")>0){
                 if(schemauid==null || schemauid.length()==0 || schemauid.indexOf(".")<=0){
                     //Invalid schemauid, create a new one
-                    schemauid=Util.makeUID(Util.getServerid(productuid),MedwanQuery.getInstance().getCounter("SchemaID"));
+                    schemauid=Util.makeUID(Util.getServerid(productuid),MedwanQuery.getInstance().getOpenclinicCounter("SchemaID"));
                 }
                 Connection dbConnection = MedwanQuery.getInstance().getOpenclinicConnection();
                 PreparedStatement ps = dbConnection.prepareStatement("delete from OC_PRODUCT_SCHEMA where OC_SCHEMA_PRODUCTUID=?");

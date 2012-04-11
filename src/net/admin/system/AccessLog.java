@@ -133,7 +133,7 @@ public class AccessLog {
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
             ps = ad_conn.prepareStatement(sInsert);
-            ps.setInt(1,MedwanQuery.getInstance().getCounter("AccessLogs"));
+            ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("AccessLogs"));
             ps.setInt(2,objAL.getUserid());
             ps.setTimestamp(3,objAL.getAccesstime());
             ps.execute();
@@ -158,7 +158,7 @@ public class AccessLog {
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
             ps = ad_conn.prepareStatement(sInsert);
-            ps.setInt(1,MedwanQuery.getInstance().getCounter("AccessLogs"));
+            ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("AccessLogs"));
             ps.setInt(2,Integer.parseInt(sUserID));
             ps.setTimestamp(3,ScreenHelper.getSQLTime());
             ps.executeUpdate();
@@ -182,7 +182,7 @@ public class AccessLog {
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
             ps = ad_conn.prepareStatement(sInsert);
-            ps.setInt(1,MedwanQuery.getInstance().getCounter("AccessLogs"));
+            ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("AccessLogs"));
             ps.setInt(2,Integer.parseInt(sUserID));
             ps.setTimestamp(3,ScreenHelper.getSQLTime());
             ps.setString(4,accessCode);

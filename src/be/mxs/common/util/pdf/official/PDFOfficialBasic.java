@@ -82,6 +82,9 @@ public abstract class PDFOfficialBasic extends PDFBasic {
         if(sURL.indexOf("openclinic",10) > 0){
             sURL = sURL.substring(0,sURL.indexOf("openclinic", 10));
         }
+        if(sURL.indexOf("openinsurance",10) > 0){
+            sURL = sURL.substring(0,sURL.indexOf("openinsurance", 10));
+        }
 
         String sContextPath = req.getContextPath()+"/";
         HttpSession session = req.getSession();

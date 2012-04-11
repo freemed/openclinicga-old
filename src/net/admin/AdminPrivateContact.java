@@ -98,7 +98,7 @@ public class AdminPrivateContact{
                 updatePrivate(this.privateid,connection);
             }
             else {
-                this.privateid = ScreenHelper.newCounter("PrivateID",connection);
+                this.privateid = MedwanQuery.getInstance().getOpenclinicCounter("PrivateID")+"";
 
                 sSelect = " INSERT INTO AdminPrivate (privateid, personid, start, stop, address, "
                          +"  city, zipcode, country, telephone, fax, mobile, email, comment, updatetime, type, updateserverid, "

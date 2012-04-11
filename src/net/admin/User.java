@@ -469,7 +469,7 @@ public class User extends OC_Object {
 
             if ((userid==null)||(userid.trim().length()==0)) {
     //INSERT
-                this.userid = ScreenHelper.newCounter("UserID",connection);
+                this.userid = MedwanQuery.getInstance().getOpenclinicCounter("UserID")+"";
                 sSelect = " INSERT INTO Users (userid, personid, encryptedpassword, start, stop, updatetime, project) "
                     +" VALUES (?,?,?,?,?,?,?) ";
                 ps = connection.prepareStatement(sSelect);

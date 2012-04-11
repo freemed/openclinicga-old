@@ -5,6 +5,7 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import java.sql.*;
@@ -547,7 +548,7 @@ public class ProductOrder extends OC_Object{
                 sSelect+= "";
             }
             else if(searchDelivered){
-                sSelect+= " WHERE (OC_ORDER_DATEDELIVERED IS NOT NULL AND OC_ORDER_DATEDELIVERED > ?)";
+                sSelect+= " WHERE OC_ORDER_DATEDELIVERED > ?";
             }
             else if(searchUndelivered){
                 sSelect+= " WHERE OC_ORDER_DATEDELIVERED IS NULL ";
@@ -627,7 +628,7 @@ public class ProductOrder extends OC_Object{
 
             // order by selected col or default col
             sSelect+= "ORDER BY po."+sSortCol+" "+sSortDir;
-
+            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
 
             // set questionmark values
@@ -663,5 +664,158 @@ public class ProductOrder extends OC_Object{
 
         return foundObjects;
     }
+
+	//--- FIND ------------------------------------------------------------------------------------
+	public static Vector find(boolean searchDelivered, boolean searchUndelivered, String sFindDescription,
+	                          String sFindServiceUid, String sFindProductStockUid, String sFindPackagesOrdered,
+	                          String sFindDateDeliveryDue, String sFindDateOrdered, String sFindSupplierUid,
+	                          String sFindServiceStockUid, String sSortCol, String sSortDir,String sFindDateDeliveredSince){
+	    Vector foundObjects = new Vector();
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	
+	    Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	    try{
+	        // compose query
+	        String sSelect = "SELECT OC_ORDER_SERVERID, OC_ORDER_OBJECTID"+
+	                         " FROM OC_PRODUCTORDERS po";
+	
+	        if(sFindServiceUid.length()>0 || sFindServiceStockUid.length()>0 || sFindSupplierUid.length()>0){
+	            sSelect+= ", OC_PRODUCTSTOCKS ps ";
+	        }
+	
+	        // delivered, delivered or both types of orders ?
+	        if(searchDelivered && searchUndelivered){
+	            sSelect+= "";
+	        }
+	        else if(searchDelivered){
+	            sSelect+= " WHERE OC_ORDER_DATEDELIVERED > ?";
+	        }
+	        else if(searchUndelivered){
+	            sSelect+= " WHERE OC_ORDER_DATEDELIVERED IS NULL ";
+	        }
+	
+	        // match search criteria
+	        if(sFindDescription.length()>0 || sFindServiceUid.length()>0 || sFindProductStockUid.length()>0 ||
+	           sFindPackagesOrdered.length()>0 || sFindDateDeliveryDue.length()>0 || sFindDateOrdered.length()>0 ||
+	           sFindSupplierUid.length()>0){
+	            if(sSelect.indexOf("WHERE") > -1) sSelect+= " AND ";
+	            else                              sSelect+= " WHERE ";
+	
+	            if(sFindDescription.length() > 0){
+	                String sLowerOrderDescr = MedwanQuery.getInstance().getConfigParam("lowerCompare","po.OC_ORDER_DESCRIPTION");
+	                sSelect+= sLowerOrderDescr+" LIKE ? AND ";
+	            }
+	
+	            if(sFindSupplierUid.length() > 0){
+	                // search all service and its child-services
+	                Vector childIds = Service.getChildIds(sFindSupplierUid);
+	                childIds.add(sFindSupplierUid);
+	                String sChildIds = ScreenHelper.tokenizeVector(childIds,",","'");
+	                if(sChildIds.length() > 0){
+	                    sSelect+= "ps.OC_STOCK_SUPPLIERUID IN ("+sChildIds+") AND ";
+	                }
+	                else{
+	                    sSelect+= "ps.OC_STOCK_SUPPLIERUID = '' AND ";
+	                }
+	            }
+	
+	            if(sFindServiceStockUid.length() > 0){
+	                sSelect+= "ps.OC_STOCK_SERVICESTOCKUID = ? AND ";
+	            }
+	            else if(sFindServiceUid.length() > 0){
+	                Vector serviceStocks = Service.getServiceStocks(sFindServiceUid);
+	                String sServiceStockUids = "";
+	                for(int i=0; i<serviceStocks.size(); i++){
+	                    sServiceStockUids+= "'"+((ServiceStock)serviceStocks.get(i)).getUid()+"',";
+	                }
+	
+	                // remove last comma if one
+	                if(sServiceStockUids.indexOf(",") > -1){
+	                    sServiceStockUids = sServiceStockUids.substring(0,sServiceStockUids.lastIndexOf(","));
+	                }
+	
+	                // get productstocks with one or more productorders
+	                if(sServiceStockUids.length() > 0){
+	                    sSelect+= "ps.OC_STOCK_SERVICESTOCKUID IN ("+sServiceStockUids+") AND ";
+	                }
+	            }
+	
+	            // bind 2 tables
+	            if(sFindServiceUid.length()>0 || sFindServiceStockUid.length()>0 || sFindSupplierUid.length()>0){
+	                // remove last AND if any
+	                if(sSelect.indexOf("AND ")>0){
+	                    sSelect = sSelect.substring(0,sSelect.lastIndexOf("AND "));
+	                }
+	
+	                String[] params1 = {"varchar(16)","ps.OC_STOCK_SERVERID"};
+	                String convertServerId = ScreenHelper.getConfigParam("convert",params1);
+	                String[] params2 = {"varchar(16)","ps.OC_STOCK_OBJECTID"};
+	                String convertObjectId = ScreenHelper.getConfigParam("convert",params2);
+	
+	                sSelect+= " AND po.OC_ORDER_PRODUCTSTOCKUID = ("+convertServerId+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+convertObjectId+") AND ";
+	            }
+	
+	            if(sFindProductStockUid.length() > 0) sSelect+= "po.OC_ORDER_PRODUCTSTOCKUID = ? AND ";
+	            if(sFindPackagesOrdered.length() > 0) sSelect+= "po.OC_ORDER_PACKAGESORDERED = ? AND ";
+	            if(sFindDateOrdered.length() > 0)     sSelect+= "po.OC_ORDER_DATEORDERED >= ? AND ";
+	            if(sFindDateDeliveryDue.length() > 0) sSelect+= "po.OC_ORDER_DATEDELIVERYDUE >= ? AND ";
+	
+	            // remove last AND if any
+	            if(sSelect.indexOf("AND ")>0){
+	                sSelect = sSelect.substring(0,sSelect.lastIndexOf("AND "));
+	            }
+	        }
+	
+	        // order by selected col or default col
+	        sSelect+= "ORDER BY po."+sSortCol+" "+sSortDir;
+	        System.out.println(sSelect);
+	        ps = oc_conn.prepareStatement(sSelect);
+	
+	        // set questionmark values
+	        int questionMarkIdx = 1;
+	        if(searchDelivered){
+	        	java.util.Date referencedate=null;
+	        	if(sFindDateDeliveredSince!=null && sFindDateDeliveredSince.length()>0){
+	        		try{
+	        			referencedate=new SimpleDateFormat("dd/MM/yyyy").parse(sFindDateDeliveredSince);
+	        		}
+	        		catch(Exception e){};
+	        	}
+	        	if(referencedate==null){
+	        		referencedate= new java.util.Date(new java.util.Date().getTime()-7*24*3600*1000);
+	        	}
+	        	ps.setDate(questionMarkIdx++,new java.sql.Date(referencedate.getTime()));
+	        }
+	        if(sFindDescription.length() > 0)     ps.setString(questionMarkIdx++,sFindDescription.toLowerCase()+"%");
+	        if(sFindServiceStockUid.length() > 0) ps.setString(questionMarkIdx++,sFindServiceStockUid);
+	        if(sFindProductStockUid.length() > 0) ps.setString(questionMarkIdx++,sFindProductStockUid);
+	        if(sFindPackagesOrdered.length() > 0) ps.setString(questionMarkIdx++,sFindPackagesOrdered);
+	        if(sFindDateOrdered.length() > 0)     ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(sFindDateOrdered));
+	        if(sFindDateDeliveryDue.length() > 0) ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(sFindDateDeliveryDue));
+	
+	        // execute
+	        rs = ps.executeQuery();
+	
+	        while(rs.next()){
+	            foundObjects.add(get(rs.getString("OC_ORDER_SERVERID")+"."+rs.getString("OC_ORDER_OBJECTID")));
+	        }
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
+	    finally{
+	        try{
+	            if(rs!=null) rs.close();
+	            if(ps!=null) ps.close();
+	            oc_conn.close();
+	        }
+	        catch(SQLException se){
+	            se.printStackTrace();
+	        }
+	    }
+	
+	    return foundObjects;
+	}
 
 }

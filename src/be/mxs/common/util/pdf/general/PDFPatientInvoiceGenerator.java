@@ -102,7 +102,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
                 receiptTable.addCell(cell);
             }
             else {
-                img.scalePercent(50);
+                img.scaleToFit(90,90);
                 cell = new PdfPCell(img);
                 cell.setBorder(Cell.NO_BORDER);
                 cell.setColspan(10);
@@ -233,7 +233,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             //*** logo ***
             try{
                 Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-                img.scalePercent(50);
+                img.scaleToFit(90, 90);
                 cell = new PdfPCell(img);
                 cell.setBorder(Cell.NO_BORDER);
                 cell.setColspan(1);

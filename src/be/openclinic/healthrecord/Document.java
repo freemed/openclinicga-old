@@ -60,7 +60,7 @@ public class Document {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             int iServerId = MedwanQuery.getInstance().getConfigInt("serverId");
-            int iObjectId = MedwanQuery.getInstance().getCounter("DocumentID");
+            int iObjectId = MedwanQuery.getInstance().getOpenclinicCounter("DocumentID");
             String sSelect = "INSERT INTO OC_DOCUMENTS (OC_DOCUMENT_SERVERID, OC_DOCUMENT_OBJECTID, OC_DOCUMENT_NAME, OC_DOCUMENT_CREATETIME, OC_DOCUMENT_UPDATETIME"
                     +", OC_DOCUMENT_UPDATEUID, OC_DOCUMENT_VALUE) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement ps = oc_conn.prepareStatement(sSelect);

@@ -1978,66 +1978,6 @@ public class ScreenHelper {
         return new ItemVO(null, "", "", null, null);
     }
 /*************************/
-    static public String newCounter(String sCounterName, Connection connection){
-// gets a new countervalue
-/*************************/
-        try {
-            String sSelect = " SELECT counter FROM Counters WHERE name = ? ";
-            PreparedStatement ps = connection.prepareStatement(sSelect);
-            ps.setString(1,sCounterName);
-            ResultSet rs = ps.executeQuery();
-	        String sCounterValue;
-
-            if (rs.next()) {
-                sCounterValue = rs.getString("counter");
-                sSelect = " UPDATE Counters SET counter = counter + 1 WHERE name = ? ";
-                rs.close();
-                ps.close();
-                ps = connection.prepareStatement(sSelect);
-                ps.setString(1,sCounterName);
-                ps.executeUpdate();
-                ps.close();
-
-                sSelect = " SELECT counter -1 AS CounterValue FROM Counters WHERE name = ? ";
-                ps = connection.prepareStatement(sSelect);
-                ps.setString(1,sCounterName);
-                rs = ps.executeQuery();
-
-                if (rs.next()) {
-                    String sNewCounterValue = rs.getInt("CounterValue")+"";
-
-                    if (!sNewCounterValue.equals(sCounterValue)){
-                        try {
-                            Thread.sleep(new Random().nextInt(500));
-                        } catch (InterruptedException e) {
-                            writeMessage("Helper (newCounter 1) "+e.getMessage());
-                        }
-                        sCounterValue = newCounter(sCounterName,connection);
-                    }
-                }
-                rs.close();
-                ps.close();
-            }
-            else{
-                rs.close();
-                ps.close();
-                sSelect = " INSERT Counters (name, counter) VALUES (?,2) ";
-                sCounterValue = "1";
-                ps = connection.prepareStatement(sSelect);
-                ps.setString(1,sCounterName);
-   	            ps.executeUpdate();
-                ps.close();
-            }
-
-            return sCounterValue;
-        }
-        catch(SQLException e) {
-            writeMessage("Helper (newCounter) "+e.getMessage());
-        }
-	    return "";
-    }
-
-/*************************/
     static public void writeMessage(String sMessage){
 //  writes an errormessage to the screen and/or file
 /*************************/

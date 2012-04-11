@@ -5,10 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import org.apache.commons.codec.binary.Base64;
 
 import net.admin.AdminPerson;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Picture;
 
 public class ExporterPeople extends Exporter {
 
@@ -37,6 +39,10 @@ public class ExporterPeople extends Exporter {
 					sb.append("<dateofbirth>"+patient.dateOfBirth+"</dateofbirth>");
 					sb.append("<gender>"+patient.gender+"</gender>");
 					sb.append("<archivefile>"+patient.getID("archiveFileCode")+"</archivefile>");
+					if(Picture.exists(Integer.parseInt(patient.personid))){
+						Picture picture = new Picture(Integer.parseInt(patient.personid));
+						sb.append("<picture>"+Base64.encodeBase64Chunked(picture.getPicture())+"</picture>");
+					}
 					sb.append("</patient>");
 					
 					PreparedStatement ps2 = oc_conn.prepareStatement("update OC_EXPORTREQUESTS set OC_EXPORTREQUEST_PROCESSED=1 where OC_EXPORTREQUEST_TYPE='patient' and OC_EXPORTREQUEST_ID=?");

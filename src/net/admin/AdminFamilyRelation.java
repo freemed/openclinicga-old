@@ -87,7 +87,7 @@ public class AdminFamilyRelation {
             }
             else{
                 //*** INSERT ***
-                this.relationId = ScreenHelper.newCounter("FamilyRelationID",connection);
+                this.relationId = MedwanQuery.getInstance().getOpenclinicCounter("FamilyRelationID")+"";
 
                 sSelect = "INSERT INTO AdminFamilyRelation (relationid, sourceid, destinationid,"+
                           "  relationtype, updatetime ,updateserverid)"+

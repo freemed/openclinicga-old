@@ -616,7 +616,7 @@ public class AdminPerson extends OC_Object{
             
             //*** INSERT ***
             if ((bReturn)&&(sPersonID.trim().length()==0)) {
-                sPersonID = ScreenHelper.newCounter("PersonID",connection);
+                sPersonID = MedwanQuery.getInstance().getOpenclinicCounter("PersonID")+"";
                 if(this.getID("immatnew").length()==0){
                     this.setID("immatnew",sPersonID);
                 }
@@ -3010,7 +3010,7 @@ public class AdminPerson extends OC_Object{
             sSearchname = sLastname.toUpperCase().trim()+","+sFirstname.toUpperCase().trim();
             sSearchname = ScreenHelper.normalizeSpecialCharacters(sSearchname);
 
-            sPersonID = ScreenHelper.newCounter("PersonID",connection);
+            sPersonID = MedwanQuery.getInstance().getOpenclinicCounter("PersonID")+"";
 
             if (sPersonID.trim().length()>0) {
                 this.personid = sPersonID;

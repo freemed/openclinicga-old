@@ -36,6 +36,7 @@ public class Counter {
         this.counter = counter;
     }
 
+    /*
     public static void saveCounter(Counter objCounter, String sDB){
         PreparedStatement ps = null;
         Connection conn;
@@ -79,6 +80,7 @@ public class Counter {
             }
         }
     }
+    */
 
     public static Vector selectCounters(String sDB){
         PreparedStatement ps = null;

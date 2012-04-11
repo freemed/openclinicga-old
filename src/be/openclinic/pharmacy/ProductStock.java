@@ -51,6 +51,9 @@ public class ProductStock extends OC_Object implements Comparable {
         }
         return product;
     }
+    public Vector getAllProductStockOperations(){
+    	return ProductStockOperation.getAll(this.getUid());
+    }
     public void setProduct(Product product) {
         this.product = product;
     }

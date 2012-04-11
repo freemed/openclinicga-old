@@ -119,7 +119,7 @@ public abstract class MessageReader {
                         ps.close();
                     } else
                     {
-                        healthRecordId = MedwanQuery.getInstance().getCounter("HealthRecordID");
+                        healthRecordId = MedwanQuery.getInstance().getOpenclinicCounter("HealthRecordID");
                         rs.close();
                         ps.close();
 
@@ -168,7 +168,7 @@ public abstract class MessageReader {
                         if (transactionId==-1){
                             //Insert the transaction data
                             ps = occupConnection.prepareStatement("insert into Transactions(transactionId,creationDate,transactionType,updateTime,status,healthRecordId,userId,serverid,version,versionserverid,ts) values(?,?,?,?,?,?,?,?,?,?,?)");
-                            transactionId=MedwanQuery.getInstance().getCounter("TransactionID");
+                            transactionId=MedwanQuery.getInstance().getOpenclinicCounter("TransactionID");
                             ps.setInt(1, transactionId);
                             ps.setDate(2, new java.sql.Date(transaction.requestdate.getTime()));
                             ps.setString(3, TRANSACTION_TYPE_PREFIX+fileType);
@@ -188,7 +188,7 @@ public abstract class MessageReader {
                         String dateColumn = MedwanQuery.getInstance().getConfigString("dateColumn");
                         //First we need a numeric reference
                         ps = occupConnection.prepareStatement("insert into Items(itemId,type,"+valueColumn+","+dateColumn+",transactionId,serverid,version,versionserverid) values(?,?,?,?,?,?,?,?)");
-                        ps.setInt(1, MedwanQuery.getInstance().getCounter("ItemID"));
+                        ps.setInt(1, MedwanQuery.getInstance().getOpenclinicCounter("ItemID"));
                         ps.setString(2, ITEM_TYPE_PREFIX+ITEM_TYPE+ITEM_TYPE_REFNUM);
                         ps.setString(3, transaction.refnum);
                         ps.setDate(4, new java.sql.Date(transaction.requestdate.getTime()));
@@ -200,7 +200,7 @@ public abstract class MessageReader {
                         ps.close();
                         //We also want to know keep track of the sender
                         ps = occupConnection.prepareStatement("insert into Items(itemId,type,"+valueColumn+","+dateColumn+",transactionId,serverid,version,versionserverid) values(?,?,?,?,?,?,?,?)");
-                        ps.setInt(1, MedwanQuery.getInstance().getCounter("ItemID"));
+                        ps.setInt(1, MedwanQuery.getInstance().getOpenclinicCounter("ItemID"));
                         ps.setString(2, ITEM_TYPE_PREFIX+ITEM_TYPE+ITEM_TYPE_REFLAB);
                         String sLab=lab.name;
                         if (lab.address1.trim().length()>0) sLab+="<br/>"+lab.address1;
@@ -217,7 +217,7 @@ public abstract class MessageReader {
                         ps.close();
                         //We also want to know keep track of the format
                         ps = occupConnection.prepareStatement("insert into Items(itemId,type,"+valueColumn+","+dateColumn+",transactionId,serverid,version,versionserverid) values(?,?,?,?,?,?,?,?)");
-                        ps.setInt(1, MedwanQuery.getInstance().getCounter("ItemID"));
+                        ps.setInt(1, MedwanQuery.getInstance().getOpenclinicCounter("ItemID"));
                         ps.setString(2, ITEM_TYPE_PREFIX+ITEM_TYPE+ITEM_TYPE_FORMAT);
                         ps.setString(3, ITEM_TYPE);
                         ps.setDate(4, new java.sql.Date(transaction.requestdate.getTime()));
@@ -233,7 +233,7 @@ public abstract class MessageReader {
                         for (int n=0;n<transaction.items.size();n++){
                             item = (Item)transaction.items.get(n);
                             ps = occupConnection.prepareStatement("insert into Items(itemId,type,"+valueColumn+","+dateColumn+",transactionId,serverid,version,versionserverid,priority) values(?,?,?,?,?,?,?,?,?)");
-                            ps.setInt(1, MedwanQuery.getInstance().getCounter("ItemID"));
+                            ps.setInt(1, MedwanQuery.getInstance().getOpenclinicCounter("ItemID"));
                             ps.setString(2, ITEM_TYPE_PREFIX+ITEM_TYPE+item.id);
 
                             if (item.type.equals("C")||item.type.equals("T")){

@@ -194,7 +194,8 @@ public class HospitalStats {
     public ServiceStats getServiceStats() {
         return new ServiceStats("", begin, end);
     }
-    public void loadEncounters(String codetype) {
+    @SuppressWarnings("unchecked")
+	public void loadEncounters(String codetype) {
         String serverid=MedwanQuery.getInstance().getConfigString("serverId")+".";
         String sql="select OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID,OC_ENCOUNTER_PATIENTUID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_ENDDATE,"+
         			" OC_ENCOUNTER_OUTCOME,OC_ENCOUNTER_TYPE,OC_DIAGNOSIS_SERVICEUID as OC_ENCOUNTER_SERVICEUID,OC_DIAGNOSIS_CODE,OC_DIAGNOSIS_GRAVITY,OC_DIAGNOSIS_CERTAINTY"+
@@ -364,7 +365,7 @@ public class HospitalStats {
                             admissiondiagnosispatientfrequencies.put(code, new HashSet());
                         }
                         ((HashSet) admissiondiagnosispatientfrequencies.get(code)).add(encounter.getPatientUid());
-                        if (encounter.getOutcome().equalsIgnoreCase("dead")) {
+                        if (encounter!=null && encounter.getOutcome()!=null && encounter.getOutcome().equalsIgnoreCase("dead")) {
                             if (admissiondiagnosisdeaths.get(code) == null) {
                                 admissiondiagnosisdeaths.put(code, new HashSet());
                             }
@@ -395,7 +396,7 @@ public class HospitalStats {
                         ((HashSet) visitdiagnosispatientfrequencies.get(code)).add(encounter.getPatientUid());
                     }
                 }
-                if (encounter.getOutcome().equalsIgnoreCase("dead")) {
+                if (encounter!=null && encounter.getOutcome()!=null && encounter.getOutcome().equalsIgnoreCase("dead")) {
                     am.add(encounter.getPatientUid());
                     if(!encounter.isBegincorrected()){
                     	weeklyDeaths[week]++;

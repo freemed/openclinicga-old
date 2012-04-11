@@ -1921,7 +1921,7 @@ public class MedwanQuery {
             	rs.close();
             	ps.close();
                 ps = OccupdbConnection.prepareStatement("insert Documents(id,type,format,name,filename,userid,folder,updatetime,personid) values (?,?,?,?,?,?,?,?,?)");
-                ps.setInt(1, getCounter("DocumentID"));
+                ps.setInt(1, getOpenclinicCounter("DocumentID"));
                 ps.setString(2, type);
                 ps.setString(3, format);
                 ps.setString(4, name);
@@ -2167,34 +2167,14 @@ public class MedwanQuery {
         }
         return returncodes;
     }
-    /*    public void deleteEnterpriseVisit(int visitId, int serverId) {
-           PreparedStatement ps;
-           Connection OccupdbConnection;
-           try {
-               OccupdbConnection = getOpenclinicConnection();
-               ps = OccupdbConnection.prepareStatement("delete EnterpriseVisits where visitId=? and serverid=?");
-               ps.setInt(1, visitId);
-               ps.setInt(2, serverId);
-               ps.execute();
-               ps = OccupdbConnection.prepareStatement("delete EnterpriseVisitItems where visitId=? and serverId=?");
-               ps.setInt(1, visitId);
-               ps.setInt(2, serverId);
-               ps.execute();
-               ps.close();
-               deleteRow("EnterpriseVisits","serverid.visitId",serverId+"."+visitId);
-               deleteRow("EnterpriseVisitItems","serverid.visitId",serverId+"."+visitId);
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-       }
-    */
+ 
     public EnterpriseVisitVO saveEnterpriseVisit(EnterpriseVisitVO visit) {
         PreparedStatement ps;
         Connection OccupdbConnection;
         try {
             OccupdbConnection = getOpenclinicConnection();
             if (visit.visitId < 0) {
-                visit.visitId = getCounter("EnterpriseVisitID");
+                visit.visitId = getOpenclinicCounter("EnterpriseVisitID");
             }
             ps = OccupdbConnection.prepareStatement("delete from EnterpriseVisits where visitId=? and serverid=?");
             ps.setInt(1, visit.visitId);
@@ -2223,7 +2203,7 @@ public class MedwanQuery {
                 ps = OccupdbConnection.prepareStatement("insert EnterpriseVisitItems(visitId,itemId,itemType,itemValue,serverId) values(?,?,?,?,?)");
                 ps.setInt(1, visit.visitId);
                 if (item.itemId < 0) {
-                    item.itemId = getCounter("EnterpriseVisitItemID");
+                    item.itemId = getOpenclinicCounter("EnterpriseVisitItemID");
                 }
                 ps.setInt(1, visit.visitId);
                 ps.setInt(2, item.itemId);
@@ -3037,7 +3017,7 @@ public class MedwanQuery {
             return null;
         }
     */
-    public int getCounter(String name) {
+    /*public int getCounter(String name) {
         int newCounter = 0;
         Connection OccupdbConnection;
         try {
@@ -3070,6 +3050,7 @@ public class MedwanQuery {
         }
         return newCounter;
     }
+    */
     public boolean updateArchiveFile(int personid) {
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try {
@@ -3171,7 +3152,7 @@ public class MedwanQuery {
         }
         return result;
     }
-    public int getCounter(String name, Connection connection) {
+    /*public int getCounter(String name, Connection connection) {
         int newCounter = 0;
         Connection OccupdbConnection;
         try {
@@ -3194,6 +3175,7 @@ public class MedwanQuery {
         }
         return newCounter;
     }
+    */
     public ItemVO getItem(int serverId, int transactionId, String itemType) {
         ItemVO itemVO = null;
         Connection OccupdbConnection;
@@ -3933,7 +3915,7 @@ public class MedwanQuery {
             PreparedStatement Occupstatement;
             int newProfileId;
             if (sessionContainerWO.getRiskProfileVO().getProfileId() == null) {
-                newProfileId = getCounter("RiskProfileID");
+                newProfileId = getOpenclinicCounter("RiskProfileID");
                 Occupstatement = OccupdbConnection.prepareStatement("insert into RiskProfiles(profileId,dateBegin,dateEnd,personId,updatetime,comment,updateserverid) values(?,?,null,?,?,?," + MedwanQuery.getInstance().getConfigInt("serverId") + ")");
                 Occupstatement.setInt(1, newProfileId);
                 Occupstatement.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
@@ -3971,7 +3953,7 @@ public class MedwanQuery {
                 }
                 if (!exists) {
                     Occupstatement = OccupdbConnection.prepareStatement("insert into RiskProfileItems(profileItemId,itemType,itemId,status,comment,profileId,frequency,tolerance,ageGenderControl) values(?,'be.dpms.medwan.common.model.IConstants.PERSONAL_RISK',?,1,null,?,null,null,null)");
-                    Occupstatement.setInt(1, getCounter("RiskProfileItemID"));
+                    Occupstatement.setInt(1, getOpenclinicCounter("RiskProfileItemID"));
                     Occupstatement.setInt(2, riskProfileRiskCodeVO.getRiskCodeId().intValue());
                     Occupstatement.setInt(3, newProfileId);
                     Occupstatement.execute();
@@ -3992,7 +3974,7 @@ public class MedwanQuery {
                 }
                 if (removed) {
                     Occupstatement = OccupdbConnection.prepareStatement("insert into RiskProfileItems(profileItemId,itemType,itemId,status,comment,profileId,frequency,tolerance,ageGenderControl) values(?,'be.dpms.medwan.common.model.IConstants.SYSTEM_RISK',?,-1,null,?,null,null,null)");
-                    Occupstatement.setInt(1, getCounter("RiskProfileItemID"));
+                    Occupstatement.setInt(1, getOpenclinicCounter("RiskProfileItemID"));
                     Occupstatement.setInt(2, systemRiskCodeVO.getRiskCodeId().intValue());
                     Occupstatement.setInt(3, newProfileId);
                     Occupstatement.execute();
@@ -4015,7 +3997,7 @@ public class MedwanQuery {
             PreparedStatement Occupstatement;
             int newProfileId;
             if (sessionContainerWO.getRiskProfileVO().getProfileId() == null) {
-                newProfileId = getCounter("RiskProfileID");
+                newProfileId = getOpenclinicCounter("RiskProfileID");
                 Occupstatement = OccupdbConnection.prepareStatement("insert into RiskProfiles(profileId,dateBegin,dateEnd,personId,updatetime,comment,updateserverid) values(?,?,null,?,?,?," + MedwanQuery.getInstance().getConfigInt("serverId") + ")");
                 Occupstatement.setInt(1, newProfileId);
                 Occupstatement.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
@@ -4137,7 +4119,7 @@ public class MedwanQuery {
                 if (!exists) {
                     sQuery = "insert into RiskProfileItems(profileItemId,itemType,itemId,status,comment,profileId,frequency,tolerance,ageGenderControl) values(?,'be.dpms.medwan.common.model.IConstants.PERSONAL_EXAMINATION',?,1,null,?,?,?,null)";
                     Occupstatement = OccupdbConnection.prepareStatement(sQuery);
-                    Occupstatement.setInt(1, getCounter("RiskProfileItemID"));
+                    Occupstatement.setInt(1, getOpenclinicCounter("RiskProfileItemID"));
                     Occupstatement.setInt(2, riskProfileExaminationVO.getId().intValue());
                     Occupstatement.setInt(3, newProfileId);
                     Occupstatement.setDouble(4, frequency);
@@ -4148,7 +4130,7 @@ public class MedwanQuery {
                     sQuery = "insert into RiskProfileItems(profileItemId,itemType,itemId,status,comment,profileId,frequency,tolerance,ageGenderControl) values(?,'be.dpms.medwan.common.model.IConstants.SYSTEM_EXAMINATION',?,1,null,?,?,?,null)";
                     if (Debug.enabled) Debug.println(sQuery);
                     Occupstatement = OccupdbConnection.prepareStatement(sQuery);
-                    Occupstatement.setInt(1, getCounter("RiskProfileItemID"));
+                    Occupstatement.setInt(1, getOpenclinicCounter("RiskProfileItemID"));
                     Occupstatement.setInt(2, riskProfileExaminationVO.getId().intValue());
                     Occupstatement.setInt(3, newProfileId);
                     Occupstatement.setDouble(4, frequency);
@@ -4170,7 +4152,7 @@ public class MedwanQuery {
                 }
                 if (removed) {
                     Occupstatement = OccupdbConnection.prepareStatement("insert into RiskProfileItems(profileItemId,itemType,itemId,status,comment,profileId,frequency,tolerance,ageGenderControl) values(?,'be.dpms.medwan.common.model.IConstants.SYSTEM_EXAMINATION',?,-1,null,?,null,null,null)");
-                    Occupstatement.setInt(1, getCounter("RiskProfileItemID"));
+                    Occupstatement.setInt(1, getOpenclinicCounter("RiskProfileItemID"));
                     Occupstatement.setInt(2, systemExaminationVO.getId().intValue());
                     Occupstatement.setInt(3, newProfileId);
                     Occupstatement.execute();
@@ -4190,7 +4172,7 @@ public class MedwanQuery {
                 }
                 if (removed) {
                     Occupstatement = OccupdbConnection.prepareStatement("insert into RiskProfileItems(profileItemId,itemType,itemId,status,comment,profileId,frequency,tolerance,ageGenderControl) values(?,'be.dpms.medwan.common.model.IConstants.PERSONAL_EXAMINATION',?,-1,null,?,null,null,null)");
-                    Occupstatement.setInt(1, getCounter("RiskProfileItemID"));
+                    Occupstatement.setInt(1, getOpenclinicCounter("RiskProfileItemID"));
                     Occupstatement.setInt(2, systemExaminationVO.getId().intValue());
                     Occupstatement.setInt(3, newProfileId);
                     Occupstatement.execute();
@@ -5275,7 +5257,7 @@ public class MedwanQuery {
                 } else {
                     rs.close();
                     ps.close();
-                    healthRecordId = getCounter("HealthRecordID");
+                    healthRecordId = getOpenclinicCounter("HealthRecordID");
                     sSelect = "insert into Healthrecord(healthRecordId,dateBegin,dateEnd,personId," +
                             " serverid,version,versionserverid) values(?,?,null,?,?,1,?)";
                     ps = oc_conn.prepareStatement(sSelect);
@@ -5288,7 +5270,7 @@ public class MedwanQuery {
                     ps.close();
                 }
                 if (transactionVO.getTransactionId().intValue() < 0) {
-                    transactionVO.setTransactionId(new Integer(getCounter("TransactionID")));
+                    transactionVO.setTransactionId(new Integer(getOpenclinicCounter("TransactionID")));
                 }
                 ps = oc_conn.prepareStatement("update PermanentItems set transactionId=? where transactionId=? and serverid=?");
                 ps.setInt(1, transactionVO.getTransactionId().intValue());
@@ -5298,7 +5280,7 @@ public class MedwanQuery {
                 ps.close();
                 transactionVO.setVersion(0);
             } else {
-                Integer newTransactionId = new Integer(getCounter("TransactionID"));
+                Integer newTransactionId = new Integer(getOpenclinicCounter("TransactionID"));
                 transactionVO.setTransactionId(newTransactionId);
                 transactionVO.setVersion(0);
                 Iterator iterator = transactionVO.getItems().iterator();
@@ -5342,7 +5324,7 @@ public class MedwanQuery {
                             " values(?,?,?,?,?,?,?,?,?)";
                     ps = oc_conn.prepareStatement(sSelect);
                     if (itemVO.getItemId().intValue() < 0) {
-                        itemVO.setItemId(new Integer(getCounter("ItemID")));
+                        itemVO.setItemId(new Integer(getOpenclinicCounter("ItemID")));
                     }
                     ps.setInt(1, itemVO.getItemId().intValue());
                     ps.setString(2, itemVO.getType());
@@ -6106,7 +6088,7 @@ public class MedwanQuery {
                 ps.setString(2, value);
                 ps.setInt(3, user_id);
                 ps.setInt(4, counter);
-                ps.setInt(5, getCounter("AutoCompletionId"));
+                ps.setInt(5, getOpenclinicCounter("AutoCompletionId"));
                 ps.execute();
                 ps.close();
                 connection.close();
@@ -6382,10 +6364,13 @@ public class MedwanQuery {
             if (bd.equals("openclinic")) {
             	connection=getOpenclinicConnection();
                 ps = connection.prepareStatement(sSelect);
-            } else {
+            } else if (bd.equals("admin")) {
             	connection=getAdminConnection();
                 ps = connection.prepareStatement(sSelect);
-            }
+	        } else if (bd.equals("stats")) {
+	        	connection=getStatsConnection();
+	            ps = connection.prepareStatement(sSelect);
+	        }
             rs = ps.executeQuery();
             // get data from DB
             if (rs.next()) {

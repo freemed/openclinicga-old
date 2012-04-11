@@ -42,7 +42,7 @@ public class AdminSocSec {
                 updateSocSec(this.socsecid,connection);
             }
             else {
-                this.socsecid = ScreenHelper.newCounter("SocSecID",connection);
+                this.socsecid = MedwanQuery.getInstance().getOpenclinicCounter("SocSecID")+"";
 
                 sSelect = " DELETE FROM AdminSocSec WHERE personid = ?";
                 PreparedStatement ps = connection.prepareStatement(sSelect);

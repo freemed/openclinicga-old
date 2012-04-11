@@ -35,8 +35,21 @@ public class ProductStockOperation extends OC_Object{
     private int unitsReceived;
     private String operationUID;
     private String receiveProductStockUid;
+    private String documentUID;
 
-    public String getReceiveProductStockUid() {
+    public String getDocumentUID() {
+		return documentUID;
+	}
+
+	public void setDocumentUID(String documentUID) {
+		this.documentUID = documentUID;
+	}
+
+	public OperationDocument getDocument(){
+		return OperationDocument.get(documentUID);
+	}
+	
+	public String getReceiveProductStockUid() {
 		return receiveProductStockUid;
 	}
 
@@ -246,6 +259,7 @@ public class ProductStockOperation extends OC_Object{
                 operation.setReceiveComment(rs.getString("OC_OPERATION_RECEIVECOMMENT"));
                 operation.setUnitsReceived(rs.getInt("OC_OPERATION_UNITSRECEIVED"));
                 operation.setReceiveProductStockUid(rs.getString("OC_OPERATION_RECEIVEPRODUCTSTOCKUID"));
+                operation.setDocumentUID(rs.getString("OC_OPERATION_DOCUMENTUID"));
             }
             else{
                 throw new Exception("ERROR : PRODUCTSTOCKOPERATION "+operationUid+" NOT FOUND");
@@ -320,8 +334,8 @@ public class ProductStockOperation extends OC_Object{
                           "  OC_OPERATION_DESCRIPTION, OC_OPERATION_SRCDESTTYPE, OC_OPERATION_SRCDESTUID,"+
                           "  OC_OPERATION_DATE, OC_OPERATION_PRODUCTSTOCKUID, OC_OPERATION_UNITSCHANGED,"+
                           "  OC_OPERATION_CREATETIME, OC_OPERATION_UPDATETIME, OC_OPERATION_UPDATEUID, OC_OPERATION_PRESCRIPTIONUID,OC_OPERATION_VERSION,OC_OPERATION_BATCHUID,OC_OPERATION_UID,OC_OPERATION_RECEIVECOMMENT," +
-                          "  OC_OPERATION_UNITSRECEIVED,OC_OPERATION_RECEIVEPRODUCTSTOCKUID)"+
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,?)";
+                          "  OC_OPERATION_UNITSRECEIVED,OC_OPERATION_RECEIVEPRODUCTSTOCKUID,OC_OPERATION_DOCUMENTUID)"+
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sSelect);
 
@@ -354,6 +368,7 @@ public class ProductStockOperation extends OC_Object{
                 ps.setString(15, this.getReceiveComment());
                 ps.setInt(16, this.getUnitsReceived());
                 ps.setString(17, this.getReceiveProductStockUid());
+                ps.setString(18, this.getDocumentUID());
 
                 ps.executeUpdate();
             }
@@ -365,7 +380,7 @@ public class ProductStockOperation extends OC_Object{
                 sSelect = "UPDATE OC_PRODUCTSTOCKOPERATIONS SET OC_OPERATION_DESCRIPTION=?, OC_OPERATION_SRCDESTTYPE=?,"+
                           "  OC_OPERATION_SRCDESTUID=?, OC_OPERATION_DATE=?, OC_OPERATION_PRODUCTSTOCKUID=?, OC_OPERATION_UNITSCHANGED=?,"+
                           "  OC_OPERATION_UPDATETIME=?, OC_OPERATION_UPDATEUID=?, OC_OPERATION_PRESCRIPTIONUID=?,OC_OPERATION_VERSION=(OC_OPERATION_VERSION+1),OC_OPERATION_BATCHUID=?," +
-                          "  OC_OPERATION_RECEIVECOMMENT=?,OC_OPERATION_UNITSRECEIVED=?,OC_OPERATION_RECEIVEPRODUCTSTOCKUID=?"+
+                          "  OC_OPERATION_RECEIVECOMMENT=?,OC_OPERATION_UNITSRECEIVED=?,OC_OPERATION_RECEIVEPRODUCTSTOCKUID=?,OC_OPERATION_DOCUMENTUID=?"+
                           " WHERE OC_OPERATION_SERVERID=? AND OC_OPERATION_OBJECTID=?";
 
                 ps = oc_conn.prepareStatement(sSelect);
@@ -388,9 +403,10 @@ public class ProductStockOperation extends OC_Object{
                 ps.setString(11, this.getReceiveComment());
                 ps.setInt(12, this.getUnitsReceived());
                 ps.setString(13, this.getReceiveProductStockUid());
+                ps.setString(14, this.getDocumentUID());
 
-                ps.setInt(14,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
-                ps.setInt(15,Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".")+1)));
+                ps.setInt(15,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
+                ps.setInt(16,Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".")+1)));
 
                 ps.executeUpdate();
             }
@@ -552,6 +568,49 @@ public class ProductStockOperation extends OC_Object{
         }
     }
 
+    //--- DELETE ----------------------------------------------------------------------------------
+    public static void deleteWithProductStockUpdate(String operationUid){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ProductStockOperation operation = ProductStockOperation.get(operationUid);
+        if(operation!=null){
+        	//update the product stock that goes with the operation
+        	ProductStock productStock = operation.getProductStock();
+        	if(operation.getDescription().indexOf("medicationdelivery")>-1){
+            	productStock.setLevel(productStock.getLevel()+operation.getUnitsChanged());
+            	productStock.store();
+        	}
+        	if(operation.getDescription().indexOf("medicationreceipt")>-1){
+            	productStock.setLevel(productStock.getLevel()-operation.getUnitsChanged());
+            	productStock.store();
+        	}
+        }
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "DELETE FROM OC_PRODUCTSTOCKOPERATIONS"+
+                             " WHERE OC_OPERATION_SERVERID = ? AND OC_OPERATION_OBJECTID = ?";
+            ps = oc_conn.prepareStatement(sSelect);
+            ps.setInt(1,Integer.parseInt(operationUid.substring(0,operationUid.indexOf("."))));
+            ps.setInt(2,Integer.parseInt(operationUid.substring(operationUid.indexOf(".")+1)));
+            ps.executeUpdate();
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+    }
+
     //--- GET DELIVERED PACKAGES ------------------------------------------------------------------
     public static int getDeliveredPackages(java.util.Date since, String productStockUid){
         int deliveredPackages = 0;
@@ -650,6 +709,67 @@ public class ProductStockOperation extends OC_Object{
         return foundRecords;
     }
 
+    public static Vector getAll(String productStockUid){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector foundRecords = new Vector();
+        ProductStockOperation operation = null;
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT * FROM OC_PRODUCTSTOCKOPERATIONS"+
+                             " WHERE OC_OPERATION_PRODUCTSTOCKUID='"+productStockUid+"' ORDER BY OC_OPERATION_DATE";
+
+            // execute
+            ps=oc_conn.prepareStatement(sSelect);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                operation = new ProductStockOperation();
+                operation.setUid(productStockUid);
+
+                operation.setDescription(rs.getString("OC_OPERATION_DESCRIPTION"));
+                operation.setDate(rs.getDate("OC_OPERATION_DATE"));
+                operation.setUnitsChanged(rs.getInt("OC_OPERATION_UNITSCHANGED"));
+                operation.setProductStockUid(rs.getString("OC_OPERATION_PRODUCTSTOCKUID"));
+                operation.setPrescriptionUid(rs.getString("OC_OPERATION_PRESCRIPTIONUID"));
+
+                // sourceDestination (Patient|Med|Service)
+                ObjectReference sourceDestination = new ObjectReference();
+                sourceDestination.setObjectType(rs.getString("OC_OPERATION_SRCDESTTYPE"));
+                sourceDestination.setObjectUid(rs.getString("OC_OPERATION_SRCDESTUID"));
+                operation.setSourceDestination(sourceDestination);
+
+                // OBJECT variables
+                operation.setCreateDateTime(rs.getTimestamp("OC_OPERATION_CREATETIME"));
+                operation.setUpdateDateTime(rs.getTimestamp("OC_OPERATION_UPDATETIME"));
+                operation.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_OPERATION_UPDATEUID")));
+                operation.setVersion(rs.getInt("OC_OPERATION_VERSION"));
+                operation.setBatchUid(rs.getString("OC_OPERATION_BATCHUID"));
+                operation.setOperationUID(rs.getString("OC_OPERATION_UID"));
+                operation.setReceiveComment(rs.getString("OC_OPERATION_RECEIVECOMMENT"));
+                operation.setUnitsReceived(rs.getInt("OC_OPERATION_UNITSRECEIVED"));
+                operation.setReceiveProductStockUid(rs.getString("OC_OPERATION_RECEIVEPRODUCTSTOCKUID"));
+                operation.setDocumentUID(rs.getString("OC_OPERATION_DOCUMENTUID"));
+                foundRecords.add(operation);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+        return foundRecords;
+    }
+    
     public static Vector getDeliveries(String productStockUid, String sourceDestionationUid, java.util.Date dateFrom, java.util.Date dateUntil,
                                        String sSortCol, String sSortDir){
         PreparedStatement ps = null;
@@ -850,6 +970,7 @@ public class ProductStockOperation extends OC_Object{
                 operation.setBatchUid(rs.getString("OC_OPERATION_BATCHUID"));
                 operation.setUnitsReceived(rs.getInt("OC_OPERATION_UNITSRECEIVED"));
                 operation.setReceiveProductStockUid(rs.getString("OC_OPERATION_RECEIVEPRODUCTSTOCKUID"));
+                operation.setDocumentUID(rs.getString("OC_OPERATION_DOCUMENTUID"));
                 
                 operations.addElement(operation);
             }
@@ -910,7 +1031,8 @@ public class ProductStockOperation extends OC_Object{
                 operation.setBatchUid(rs.getString("OC_OPERATION_BATCHUID"));
                 operation.setUnitsReceived(rs.getInt("OC_OPERATION_UNITSRECEIVED"));
                 operation.setReceiveProductStockUid(rs.getString("OC_OPERATION_RECEIVEPRODUCTSTOCKUID"));
-                
+                operation.setDocumentUID(rs.getString("OC_OPERATION_DOCUMENTUID"));
+
                 operations.addElement(operation);
             }
         }
@@ -999,7 +1121,8 @@ public class ProductStockOperation extends OC_Object{
                 operation.setVersion(rs.getInt("OC_OPERATION_VERSION"));
                 operation.setBatchUid(rs.getString("OC_OPERATION_BATCHUID"));
                 operation.setReceiveProductStockUid(rs.getString("OC_OPERATION_RECEIVEPRODUCTSTOCKUID"));
-                
+                operation.setDocumentUID(rs.getString("OC_OPERATION_DOCUMENTUID"));
+
                 vProdStockOperations.addElement(operation);
             }
             rs.close();
