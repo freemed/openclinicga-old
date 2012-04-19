@@ -161,6 +161,56 @@
 	    	</index>
 	    </indexes>
 	</table>
+	<table name="OC_QUESTIONNAIRES" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_QUESTIONNAIRE_ID" dbtype="int" javatype="integer" />
+			<column name="OC_QUESTIONNAIRE_TITLE_NL" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTIONNAIRE_TITLE_FR" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTIONNAIRE_TITLE_DE" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTIONNAIRE_TITLE_EN" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTIONNAIRE_TITLE_ES" dbtype="varchar" javatype="string" size="255" />
+	    </columns>
+	    <indexes>
+	    	<index name="OC_QUESTIONNAIRE_ID">
+	    		<indexcolumn order="ASC" name="OC_QUESTIONNAIRE_ID"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="OC_QUESTIONS" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_QUESTION_ID" dbtype="int" javatype="integer" />
+			<column name="OC_QUESTION_QUESTIONNAIREID" dbtype="int" javatype="integer" />
+			<column name="OC_QUESTION_NL" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTION_FR" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTION_DE" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTION_EN" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTION_ES" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTION_ANSWERTYPE" dbtype="varchar" javatype="string" size="50" />
+			<column name="OC_QUESTION_ANSWERVALUES" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTION_ANSWERMANDATORY" dbtype="int" javatype="integer" />
+	    </columns>
+	    <indexes>
+	    	<index name="OC_QUESTIONNAIRE_ID">
+	    		<indexcolumn order="ASC" name="OC_QUESTIONNAIRE_ID"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="OC_ANSWERS" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_ANSWER_ID" dbtype="int" javatype="integer" />
+			<column name="OC_ANSWER_QUESTIONID" dbtype="int" javatype="integer" />
+			<column name="OC_ANSWER_VALUE" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_ANSWER_SESSIONID" dbtype="varchar" javatype="string" size="255" />
+		</columns>
+	    <indexes>
+	    	<index name="OC_ANSWER_ID">
+	    		<indexcolumn order="ASC" name="OC_ANSWER_ID"/>
+	    	</index>
+	    	<index name="OC_ANSWER_SESSIONID">
+	    		<indexcolumn order="ASC" name="OC_ANSWER_SESSIONID"/>
+	    	</index>
+	    </indexes>
+	</table>
 	<table name="DC_SIMPLEVALUES" db="stats" sync="NONE">
 		<columns>
 			<column name="DC_SIMPLEVALUE_SERVERID" dbtype="int" javatype="integer" />

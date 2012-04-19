@@ -108,4 +108,7 @@
 	<Query id="QUERY.addOpenClinicDbNameKey" db="openclinic" date="31/01/2012" dbserver="MySQL">
 	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('openclinicdbName','openclinic_dbo',4,now())
   	</Query>
+  	<Query id="QUERY.Zipcode.1" db="ocadmin" date="23/03/2012">
+		alter table AdminPrivate modify column zipcode varchar(25) 	
+  	</Query>
 </Queries>
