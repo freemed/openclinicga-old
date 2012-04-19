@@ -2730,6 +2730,39 @@ public class AdminPerson extends OC_Object{
         return sPersonid;
     }
 
+    public static String getPersonIdByCandidate(String s){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sSelect = "SELECT personid FROM Admin WHERE candidate = ?";
+
+        String sPersonid = null;
+
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sSelect);
+            ps.setString(1,s);
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                sPersonid = ScreenHelper.checkString(rs.getString("personid"));
+            }
+            rs.close();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                ad_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return sPersonid;
+    }
+
     public static String getPersonIdByNatReg(String sNatReg){
         PreparedStatement ps = null;
         ResultSet rs = null;
