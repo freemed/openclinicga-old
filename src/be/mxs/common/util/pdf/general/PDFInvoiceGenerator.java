@@ -66,8 +66,8 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         // number
         String sInvoiceUid = invoice.getUid();
         String sInvoiceNr = sInvoiceUid.substring(sInvoiceUid.indexOf(".")+1);
-        table.addCell(createLabelCell((invoice.getStatus().equalsIgnoreCase("closed")?getTran("web","invoiceNumber"):"")+":   ",2));
-        table.addCell(createValueCell(invoice.getStatus().equalsIgnoreCase("closed")?sInvoiceNr:"",5,7,Font.BOLD));
+        table.addCell(createLabelCell((invoice.getStatus().equalsIgnoreCase("closed")?getTran("web","invoiceNumber"):getTran("web","proforma"))+":   ",2));
+        table.addCell(createValueCell(sInvoiceNr,5,7,Font.BOLD));
 
         // date
         String sInvoiceDate = stdDateFormat.format(invoice.getDate());

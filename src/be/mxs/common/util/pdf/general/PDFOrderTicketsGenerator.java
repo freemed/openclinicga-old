@@ -341,7 +341,7 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
         	table2.addCell(cell);
         	Center center = Center.get(0, true);
-        	cell=createHeaderCell(center.getName(),1,12);
+        	cell=createHeaderCell(center!=null && center.getName()!=null?center.getName():"UNKNOWN CENTER",1,12);
             cell.setBackgroundColor(Color.WHITE);
         	cell.setBorderColor(Color.BLACK);
         	cell.setBorder(Cell.BOX);

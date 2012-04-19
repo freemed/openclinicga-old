@@ -275,6 +275,10 @@ public class MedwanQuery {
         String s = getConfigString("datediffFunction", "datediff($interval$,$begindate$,$enddate$)");
         return s.replaceAll("\\$interval\\$", interval).replaceAll("\\$begindate\\$", begindate).replaceAll("\\$enddate\\$", enddate);
     }
+    public String dateadd(String datecolumn,String interval, String quantity){
+        String s = getConfigString("dateaddFunction", "date_add($datecolumn$,INTERVAL $quantity$ $interval$)");
+        return s.replaceAll("\\$interval\\$", interval).replaceAll("\\$quantity\\$", quantity).replaceAll("\\$datecolumn\\$", datecolumn);
+    }
     public String convert(String datatype, String value) {
         //Now replace the datatypes when needed
         //For MySql: varchar --> char, float --> decimal, int --> signed

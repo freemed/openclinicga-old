@@ -379,6 +379,13 @@ public class Insurar extends OC_Object {
                     ps.close();
                 }
             }
+            //Update all insurances that have been linked to this insurer (categoryletter)
+            sQuery = "UPDATE OC_INSURANCES set OC_INSURANCE_TYPE=? where OC_INSURANCE_INSURARUID=? and OC_INSURANCE_TYPE<>?";
+            ps = oc_conn.prepareStatement(sQuery);
+            ps.setString(1, this.getType());
+            ps.setString(2, this.getUid());
+            ps.setString(3, this.getType());
+            ps.execute();
         }
         catch(Exception e){
             e.printStackTrace();

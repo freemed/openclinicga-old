@@ -7,12 +7,13 @@ import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.db.MedwanQuery;
 
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Vector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-public class Debet extends OC_Object implements Comparable {
+public class PrestationDebet extends OC_Object implements Comparable {
     private Date date;
     private double amount;
     private double insurarAmount;
@@ -78,15 +79,15 @@ public class Debet extends OC_Object implements Comparable {
     public int compareTo(Object o) {
         int comp;
         if (o.getClass().isInstance(this)) {
-            comp = this.date.compareTo(((Debet) o).date);
+            comp = this.date.compareTo(((PrestationDebet) o).date);
         } else {
             throw new ClassCastException();
         }
         return comp;
     }
-    public Debet() {
+    public PrestationDebet() {
     }
-    public Debet(Date date, double amount, String insuranceUid, String prestationUid, String encounterUid) {
+    public PrestationDebet(Date date, double amount, String insuranceUid, String prestationUid, String encounterUid) {
         this.date = date;
         this.amount = amount;
         this.insuranceUid = insuranceUid;
@@ -137,6 +138,27 @@ public class Debet extends OC_Object implements Comparable {
     }
     public void setInsuranceUid(String insuranceUid) {
         this.insuranceUid = insuranceUid;
+    }
+    public String getCoveragePlanUid(){
+    	String uid=null;
+    	if(getInsuranceUid()!=null && getInsuranceUid().split(";").length>0){
+    		uid=getInsuranceUid().split(";")[0];
+    	}
+    	return uid;
+    }
+    public Insurar getCoveragePlan(){
+    	Insurar plan = null;
+    	if(getCoveragePlanUid()!=null){
+    		plan = Insurar.get(getCoveragePlanUid());
+    	}
+    	return plan;
+    }
+    public String getCoverageCategoryLetter(){
+    	String letter="";
+    	if(getInsuranceUid()!=null && getInsuranceUid().split(";").length>1){
+    		letter=getInsuranceUid().split(";")[1];
+    	}    	
+    	return letter;
     }
     public Insurance getInsurance() {
     	if(this.insurance==null){
@@ -209,87 +231,18 @@ public class Debet extends OC_Object implements Comparable {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    public java.util.Date getContributionValidity(){
-    	java.util.Date validity = null;
-    	Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        PreparedStatement ps=null;
-        ResultSet rs = null;
-        try{
-        	String sSelect="select "+MedwanQuery.getInstance().dateadd("a.OC_DEBET_DATE","MONTH","c.OC_PRESTATION_RENEWALINTERVAL*a.OC_DEBET_QUANTITY")+" validity from OC_DEBETS a,OC_PRESTATIONS c where " +
-        			"c.OC_PRESTATION_OBJECTID=replace(a.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and " +
-        			"c.OC_PRESTATION_TYPE='con.openinsurance' and " +
-        			"a.OC_DEBET_SERVERID=? and "+
-        			"a.OC_DEBET_OBJECTID=?";
-        	ps=oc_conn.prepareStatement(sSelect);
-        	ps.setString(1, this.getUid().split("\\.")[0]);
-        	ps.setString(2, this.getUid().split("\\.")[1]);
-        	rs=ps.executeQuery();
-        	if(rs.next()){
-        		validity=rs.getTimestamp("validity");
-        	}
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return validity;
-    }
-    
-    public static java.util.Date getContributionValidity(String sPatientId){
-    	java.util.Date validity = null;
-    	Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        PreparedStatement ps=null;
-        ResultSet rs = null;
-        try{
-        	String sSelect="select max("+MedwanQuery.getInstance().dateadd("a.OC_DEBET_DATE","MONTH","c.OC_PRESTATION_RENEWALINTERVAL*a.OC_DEBET_QUANTITY")+") validity from OC_DEBETS a,OC_ENCOUNTERS b,OC_PRESTATIONS c where " +
-        			"b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and " +
-        			"c.OC_PRESTATION_OBJECTID=replace(a.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and " +
-        			"c.OC_PRESTATION_TYPE='con.openinsurance' and " +
-        			"b.OC_ENCOUNTER_PATIENTUID=?";
-        	ps=oc_conn.prepareStatement(sSelect);
-        	ps.setString(1, sPatientId);
-        	rs=ps.executeQuery();
-        	if(rs.next()){
-        		validity=rs.getTimestamp("validity");
-        	}
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return validity;
-    }
-    
-    public static Debet get(String uid) {
-        Debet debet = (Debet) MedwanQuery.getInstance().getObjectCache().getObject("debet", uid);
+    public static PrestationDebet get(String uid) {
+        PrestationDebet debet = (PrestationDebet) MedwanQuery.getInstance().getObjectCache().getObject("prestationdebet", uid);
         if (debet != null && debet.getUid().equalsIgnoreCase(uid)) {
             return debet;
         }
-        debet = new Debet();
+        debet = new PrestationDebet();
         if ((uid != null) && (uid.length() > 0)) {
             String[] ids = uid.split("\\.");
             if (ids.length == 2) {
                 PreparedStatement ps = null;
                 ResultSet rs = null;
-                String sSelect = "SELECT * FROM OC_DEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
+                String sSelect = "SELECT * FROM OC_PRESTATIONDEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
                 Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                 try {
                     ps = oc_conn.prepareStatement(sSelect);
@@ -322,7 +275,7 @@ public class Debet extends OC_Object implements Comparable {
                     }
                 }
                 catch (Exception e) {
-                    Debug.println("OpenClinic => Debet.java => get => " + e.getMessage());
+                    Debug.println("OpenClinic => PrestationDebet.java => get => " + e.getMessage());
                     e.printStackTrace();
                 }
                 finally {
@@ -337,9 +290,10 @@ public class Debet extends OC_Object implements Comparable {
                 }
             }
         }
-        MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+        MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
         return debet;
     }
+    
     public boolean store() {
         boolean bStored = true;
         String ids[];
@@ -352,7 +306,7 @@ public class Debet extends OC_Object implements Comparable {
             if (this.getUid() != null && this.getUid().length() > 0) {
                 ids = this.getUid().split("\\.");
                 if (ids.length == 2) {
-                    sSelect = "SELECT OC_DEBET_VERSION FROM OC_DEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
+                    sSelect = "SELECT OC_DEBET_VERSION FROM OC_PRESTATIONDEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1, Integer.parseInt(ids[0]));
                     ps.setInt(2, Integer.parseInt(ids[1]));
@@ -362,28 +316,28 @@ public class Debet extends OC_Object implements Comparable {
                     }
                     rs.close();
                     ps.close();
-                    sSelect = "INSERT INTO OC_DEBETS_HISTORY(OC_DEBET_SERVERID,OC_DEBET_OBJECTID,OC_DEBET_AMOUNT,OC_DEBET_BALANCEUID,OC_DEBET_DATE,OC_DEBET_DESCRIPTION,OC_DEBET_ENCOUNTERUID,OC_DEBET_PRESTATIONUID,OC_DEBET_SUPPLIERTYPE,OC_DEBET_SUPPLIERUID,OC_DEBET_REFTYPE,OC_DEBET_REFUID,OC_DEBET_CREATETIME,OC_DEBET_UPDATETIME,OC_DEBET_UPDATEUID,OC_DEBET_VERSION,OC_DEBET_CREDITED,OC_DEBET_INSURANCEUID,OC_DEBET_PATIENTINVOICEUID,OC_DEBET_INSURARINVOICEUID,OC_DEBET_COMMENT,OC_DEBET_EXTRAINSURARUID,OC_DEBET_EXTRAINSURARINVOICEUID,OC_DEBET_EXTRAINSURARAMOUNT,OC_DEBET_RENEWALINTERVAL,OC_DEBET_RENEWALDATE) SELECT OC_DEBET_SERVERID,OC_DEBET_OBJECTID,OC_DEBET_AMOUNT,OC_DEBET_BALANCEUID,OC_DEBET_DATE,OC_DEBET_DESCRIPTION,OC_DEBET_ENCOUNTERUID,OC_DEBET_PRESTATIONUID,OC_DEBET_SUPPLIERTYPE,OC_DEBET_SUPPLIERUID,OC_DEBET_REFTYPE,OC_DEBET_REFUID,OC_DEBET_CREATETIME,OC_DEBET_UPDATETIME,OC_DEBET_UPDATEUID,OC_DEBET_VERSION,OC_DEBET_CREDITED,OC_DEBET_INSURANCEUID,OC_DEBET_PATIENTINVOICEUID,OC_DEBET_INSURARINVOICEUID,OC_DEBET_COMMENT,OC_DEBET_EXTRAINSURARUID,OC_DEBET_EXTRAINSURARINVOICEUID,OC_DEBET_EXTRAINSURARAMOUNT,OC_DEBET_RENEWALINTERVAL,OC_DEBET_RENEWALDATE FROM OC_DEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
+                    sSelect = "INSERT INTO OC_PRESTATIONDEBETS_HISTORY(OC_DEBET_SERVERID,OC_DEBET_OBJECTID,OC_DEBET_AMOUNT,OC_DEBET_BALANCEUID,OC_DEBET_DATE,OC_DEBET_DESCRIPTION,OC_DEBET_ENCOUNTERUID,OC_DEBET_PRESTATIONUID,OC_DEBET_SUPPLIERTYPE,OC_DEBET_SUPPLIERUID,OC_DEBET_REFTYPE,OC_DEBET_REFUID,OC_DEBET_CREATETIME,OC_DEBET_UPDATETIME,OC_DEBET_UPDATEUID,OC_DEBET_VERSION,OC_DEBET_CREDITED,OC_DEBET_INSURANCEUID,OC_DEBET_PATIENTINVOICEUID,OC_DEBET_INSURARINVOICEUID,OC_DEBET_COMMENT,OC_DEBET_EXTRAINSURARUID,OC_DEBET_EXTRAINSURARINVOICEUID,OC_DEBET_EXTRAINSURARAMOUNT,OC_DEBET_RENEWALINTERVAL,OC_DEBET_RENEWALDATE) SELECT OC_DEBET_SERVERID,OC_DEBET_OBJECTID,OC_DEBET_AMOUNT,OC_DEBET_BALANCEUID,OC_DEBET_DATE,OC_DEBET_DESCRIPTION,OC_DEBET_ENCOUNTERUID,OC_DEBET_PRESTATIONUID,OC_DEBET_SUPPLIERTYPE,OC_DEBET_SUPPLIERUID,OC_DEBET_REFTYPE,OC_DEBET_REFUID,OC_DEBET_CREATETIME,OC_DEBET_UPDATETIME,OC_DEBET_UPDATEUID,OC_DEBET_VERSION,OC_DEBET_CREDITED,OC_DEBET_INSURANCEUID,OC_DEBET_PATIENTINVOICEUID,OC_DEBET_INSURARINVOICEUID,OC_DEBET_COMMENT,OC_DEBET_EXTRAINSURARUID,OC_DEBET_EXTRAINSURARINVOICEUID,OC_DEBET_EXTRAINSURARAMOUNT,OC_DEBET_RENEWALINTERVAL,OC_DEBET_RENEWALDATE FROM OC_PRESTATIONDEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1, Integer.parseInt(ids[0]));
                     ps.setInt(2, Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
-                    sSelect = " DELETE FROM OC_DEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
+                    sSelect = " DELETE FROM OC_PRESTATIONDEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1, Integer.parseInt(ids[0]));
                     ps.setInt(2, Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
                 } else {
-                    ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"), MedwanQuery.getInstance().getOpenclinicCounter("OC_DEBETS") + ""};
+                    ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"), MedwanQuery.getInstance().getOpenclinicCounter("OC_PRESTATIONDEBETS") + ""};
                     this.setUid(ids[0] + "." + ids[1]);
                 }
             } else {
-                ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"), MedwanQuery.getInstance().getOpenclinicCounter("OC_DEBETS") + ""};
+                ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"), MedwanQuery.getInstance().getOpenclinicCounter("OC_PRESTATIONDEBETS") + ""};
                 this.setUid(ids[0] + "." + ids[1]);
             }
             if (ids.length == 2) {
-                sSelect = " INSERT INTO OC_DEBETS (" +
+                sSelect = " INSERT INTO OC_PRESTATIONDEBETS (" +
                         " OC_DEBET_SERVERID," +
                         " OC_DEBET_OBJECTID," +
                         " OC_DEBET_DATE," +
@@ -410,8 +364,8 @@ public class Debet extends OC_Object implements Comparable {
                         ") " +
                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = oc_conn.prepareStatement(sSelect);
-                while (!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_DEBETS", "OC_DEBET_OBJECTID", ids[1])) {
-                    ids[1] = MedwanQuery.getInstance().getOpenclinicCounter("OC_DEBETS") + "";
+                while (!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_PRESTATIONDEBETS", "OC_DEBET_OBJECTID", ids[1])) {
+                    ids[1] = MedwanQuery.getInstance().getOpenclinicCounter("OC_PRESTATIONDEBETS") + "";
                 }
                 ps.setInt(1, Integer.parseInt(ids[0]));
                 ps.setInt(2, Integer.parseInt(ids[1]));
@@ -461,7 +415,7 @@ public class Debet extends OC_Object implements Comparable {
         catch (Exception e) {
             e.printStackTrace();
             bStored = false;
-            Debug.println("OpenClinic => Debet.java => store => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => store => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -473,7 +427,7 @@ public class Debet extends OC_Object implements Comparable {
                 e.printStackTrace();
             }
         }
-        MedwanQuery.getInstance().getObjectCache().putObject("debet", this);
+        MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", this);
         return bStored;
     }
     public static Vector getUnassignedPatientDebets(String sPatientId) {
@@ -484,7 +438,7 @@ public class Debet extends OC_Object implements Comparable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? AND d.OC_DEBET_CREDITED=0"
+            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_PRESTATIONDEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? AND d.OC_DEBET_CREDITED=0"
                     + " AND e.oc_encounter_objectid=" + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") 
                     + " AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ') order by OC_DEBET_DATE DESC";
             ps = loc_conn.prepareStatement(sSelect);
@@ -496,7 +450,7 @@ public class Debet extends OC_Object implements Comparable {
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getUnassignedPatientDebets => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getUnassignedPatientDebets => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -518,7 +472,7 @@ public class Debet extends OC_Object implements Comparable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT d.* FROM OC_ENCOUNTERS e, OC_DEBETS d, OC_PRESTATIONS p WHERE e.OC_ENCOUNTER_PATIENTUID = '" + sPatientId
+            sSelect = "SELECT d.* FROM OC_ENCOUNTERS e, OC_PRESTATIONDEBETS d, OC_PRESTATIONS p WHERE e.OC_ENCOUNTER_PATIENTUID = '" + sPatientId
                     + "' AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + " = e.oc_encounter_objectid"
                     + " AND d.OC_DEBET_PATIENTINVOICEUID = '" + sInvoiceUid +
                     "' AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_PRESTATIONUID,'" + serverid + "','')") + "=p.OC_PRESTATION_OBJECTID" +
@@ -526,7 +480,7 @@ public class Debet extends OC_Object implements Comparable {
             ps = loc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
                 debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
@@ -549,13 +503,73 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getPatientDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getPatientDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
+        }
+        finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                loc_conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return vDebets;
+    }
+    public static Vector getPatientDebetsViaInvoiceUid(String sPatientId, String sInvoiceUid, String serviceUid) {
+        String sSelect = "";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector vDebets = new Vector();
+        String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
+        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            sSelect = "SELECT d.* FROM OC_ENCOUNTERS_VIEW e, OC_PRESTATIONDEBETS d, OC_PRESTATIONS p WHERE e.OC_ENCOUNTER_PATIENTUID = '" + sPatientId
+                    + "' AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + " = e.oc_encounter_objectid"
+                    + " AND d.OC_DEBET_PATIENTINVOICEUID = '" + sInvoiceUid 
+                    + " AND e.OC_ENCOUNTER_SERVICEUID = '" + serviceUid +
+                    "' AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_PRESTATIONUID,'" + serverid + "','')") + "=p.OC_PRESTATION_OBJECTID" +
+                    " ORDER BY OC_PRESTATION_REFTYPE,OC_DEBET_DATE";
+            ps = loc_conn.prepareStatement(sSelect);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                PrestationDebet debet = new PrestationDebet();
+                debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
+                debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
+                debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
+                debet.setInsurarAmount(rs.getDouble("OC_DEBET_INSURARAMOUNT"));
+                debet.insuranceUid = rs.getString("OC_DEBET_INSURANCEUID");
+                debet.prestationUid = rs.getString("OC_DEBET_PRESTATIONUID");
+                debet.encounterUid = rs.getString("OC_DEBET_ENCOUNTERUID");
+                debet.supplierUid = rs.getString("OC_DEBET_SUPPLIERUID");
+                debet.patientInvoiceUid = rs.getString("OC_DEBET_PATIENTINVOICEUID");
+                debet.insurarInvoiceUid = rs.getString("OC_DEBET_INSURARINVOICEUID");
+                debet.comment = rs.getString("OC_DEBET_COMMENT");
+                debet.credited = rs.getInt("OC_DEBET_CREDITED");
+                debet.quantity = rs.getInt("OC_DEBET_QUANTITY");
+                debet.extraInsurarUid = rs.getString("OC_DEBET_EXTRAINSURARUID");
+                debet.extraInsurarInvoiceUid = rs.getString("OC_DEBET_EXTRAINSURARINVOICEUID");
+                debet.extraInsurarAmount = rs.getDouble("OC_DEBET_EXTRAINSURARAMOUNT");
+                debet.setCreateDateTime(rs.getTimestamp("OC_DEBET_CREATETIME"));
+                debet.setUpdateDateTime(rs.getTimestamp("OC_DEBET_UPDATETIME"));
+                debet.setUpdateUser(rs.getString("OC_DEBET_UPDATEUID"));
+                debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
+                debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
+                debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
+                vDebets.add(debet);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Debug.println("OpenClinic => PrestationDebet.java => getPatientDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -572,6 +586,48 @@ public class Debet extends OC_Object implements Comparable {
     public static Vector getUnassignedInsurarDebets(String sInsurarUid) {
         return getUnassignedInsurarDebets(sInsurarUid, new Date(0), new Date());
     }
+    public static Hashtable getUnassignedInsurarDebetsPerService(String sInsurarUid, Date begin, Date end){
+        String sSelect = "";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Hashtable vUnassignedDebets = new Hashtable();
+        String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
+        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+        	sSelect="select OC_ENCOUNTER_SERVICEUID,sum(OC_DEBET_INSURARAMOUNT) AS TOTAL from OC_PRESTATIONDEBETS a,OC_ENCOUNTERS_VIEW b"+
+        			" where"+
+        			" b.OC_ENCOUNTER_OBJECTID=replace(OC_DEBET_ENCOUNTERUID,'"+serverid+"','') AND"+
+                    " a.OC_DEBET_DATE>=? AND"+
+                    " a.OC_DEBET_DATE<=? AND"+
+        			" (a.OC_DEBET_INSURARINVOICEUID IS NULL OR a.OC_DEBET_INSURARINVOICEUID='') AND"+
+        			" a.OC_DEBET_INSURANCEUID like '"+sInsurarUid+";%'"+
+        			" GROUP BY OC_ENCOUNTER_SERVICEUID"+
+        			" ORDER BY OC_ENCOUNTER_SERVICEUID";
+        	ps=loc_conn.prepareStatement(sSelect);
+            ps.setTimestamp(1, new java.sql.Timestamp(begin.getTime()));
+            ps.setTimestamp(2, new java.sql.Timestamp(end.getTime()));
+            rs=ps.executeQuery();
+            while(rs.next()){
+            	vUnassignedDebets.put(rs.getString("OC_ENCOUNTER_SERVICEUID"),rs.getDouble("TOTAL"));
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Debug.println("OpenClinic => PrestationDebet.java => getUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
+        }
+        finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                loc_conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return vUnassignedDebets;
+    }
+    
     public static Vector getUnassignedInsurarDebets(String sInsurarUid, Date begin, Date end) {
         String sSelect = "";
         PreparedStatement ps = null;
@@ -580,25 +636,22 @@ public class Debet extends OC_Object implements Comparable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT d.*,e.*,p.*,a.* FROM OC_DEBETS d, OC_INSURANCES i, OC_ENCOUNTERS e, adminview a, OC_PRESTATIONS p"
-                    + " WHERE i.OC_INSURANCE_INSURARUID = ?"
+            sSelect = "SELECT d.*,e.*,p.*,a.* FROM OC_PRESTATIONDEBETS d, OC_ENCOUNTERS_VIEW e, adminview a, OC_PRESTATIONS p"
+                    + " WHERE d.OC_DEBET_INSURANCEUID  like ?"
                     + " AND d.OC_DEBET_CREDITED=0"
-                    + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_INSURANCEUID,'" + serverid + "','')") + " = i.oc_insurance_objectid"
                     + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + " = e.oc_encounter_objectid"
-                    + " AND (d.OC_DEBET_PATIENTINVOICEUID is not NULL and d.OC_DEBET_PATIENTINVOICEUID <> '')"
                     + " AND (d.OC_DEBET_INSURARINVOICEUID = ' ' or d.OC_DEBET_INSURARINVOICEUID is null)"
                     + " AND d.OC_DEBET_DATE>=?"
                     + " AND d.OC_DEBET_DATE<=?"
                     + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_PRESTATIONUID,'" + serverid + "','')") + "=p.OC_PRESTATION_OBJECTID"
                     + " AND " + MedwanQuery.getInstance().convert("int", "e.OC_ENCOUNTER_PATIENTUID") + "=a.personid";
-            System.out.println(sSelect);
             ps = loc_conn.prepareStatement(sSelect);
-            ps.setString(1, sInsurarUid);
+            ps.setString(1, sInsurarUid+";%");
             ps.setDate(2, new java.sql.Date(begin.getTime()));
             ps.setDate(3, new java.sql.Date(end.getTime()));
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
                 debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
@@ -639,6 +692,7 @@ public class Debet extends OC_Object implements Comparable {
                 encounter.setOutcome(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME")));
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
+                encounter.setServiceUID(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVICEUID")));
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -665,13 +719,13 @@ public class Debet extends OC_Object implements Comparable {
                 //add Patient name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("lastname")) + " " + ScreenHelper.checkString(rs.getString("firstname")));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vUnassignedDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -685,7 +739,8 @@ public class Debet extends OC_Object implements Comparable {
         }
         return vUnassignedDebets;
     }
-    public static Vector getUnassignedInsurarDebetsWithoutPatientInvoice(String sInsurarUid, Date begin, Date end) {
+    
+    public static Vector getServicesForCoveragePlanInvoice(String invoiceUid){
         String sSelect = "";
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -693,24 +748,60 @@ public class Debet extends OC_Object implements Comparable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT d.*,e.*,p.*,a.* FROM OC_DEBETS d, OC_INSURANCES i, OC_ENCOUNTERS e, adminview a, OC_PRESTATIONS p"
-                    + " WHERE i.OC_INSURANCE_INSURARUID = ?"
+        	sSelect="select DISTINCT OC_ENCOUNTER_SERVICEUID from OC_PRESTATIONDEBETS a,OC_ENCOUNTERS_VIEW b"+
+        			" where"+
+        			" b.OC_ENCOUNTER_OBJECTID=replace(OC_DEBET_ENCOUNTERUID,'"+serverid+"','') AND"+
+        			" a.OC_DEBET_INSURARINVOICEUID =?";
+        	ps=loc_conn.prepareStatement(sSelect);
+        	ps.setString(1, invoiceUid);
+            rs=ps.executeQuery();
+            while(rs.next()){
+            	vUnassignedDebets.add(rs.getString("OC_ENCOUNTER_SERVICEUID"));
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Debug.println("OpenClinic => PrestationDebet.java => getUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
+        }
+        finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                loc_conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return vUnassignedDebets;
+    }
+    
+    public static Vector getUnassignedInsurarDebets(String sInsurarUid, Date begin, Date end, String serviceUid) {
+        String sSelect = "";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector vUnassignedDebets = new Vector();
+        String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
+        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            sSelect = "SELECT d.*,e.*,p.*,a.* FROM OC_PRESTATIONDEBETS d, OC_ENCOUNTERS_VIEW e, adminview a, OC_PRESTATIONS p"
+                    + " WHERE d.OC_DEBET_INSURANCEUID  like ?"
                     + " AND d.OC_DEBET_CREDITED=0"
-                    + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_INSURANCEUID,'" + serverid + "','')") + " = i.oc_insurance_objectid"
                     + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + " = e.oc_encounter_objectid"
                     + " AND (d.OC_DEBET_INSURARINVOICEUID = ' ' or d.OC_DEBET_INSURARINVOICEUID is null)"
                     + " AND d.OC_DEBET_DATE>=?"
                     + " AND d.OC_DEBET_DATE<=?"
+                    + " AND e.OC_ENCOUNTER_SERVICEUID=?"
                     + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_PRESTATIONUID,'" + serverid + "','')") + "=p.OC_PRESTATION_OBJECTID"
                     + " AND " + MedwanQuery.getInstance().convert("int", "e.OC_ENCOUNTER_PATIENTUID") + "=a.personid";
-            System.out.println(sSelect);
             ps = loc_conn.prepareStatement(sSelect);
-            ps.setString(1, sInsurarUid);
+            ps.setString(1, sInsurarUid+";%");
             ps.setDate(2, new java.sql.Date(begin.getTime()));
             ps.setDate(3, new java.sql.Date(end.getTime()));
+            ps.setString(4, serviceUid);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
                 debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
@@ -751,6 +842,7 @@ public class Debet extends OC_Object implements Comparable {
                 encounter.setOutcome(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME")));
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
+                encounter.setServiceUID(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVICEUID")));
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -777,13 +869,13 @@ public class Debet extends OC_Object implements Comparable {
                 //add Patient name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("lastname")) + " " + ScreenHelper.checkString(rs.getString("firstname")));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vUnassignedDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -797,6 +889,7 @@ public class Debet extends OC_Object implements Comparable {
         }
         return vUnassignedDebets;
     }
+    
     public static Vector getUnassignedExtraInsurarDebets(String sInsurarUid) {
         return getUnassignedExtraInsurarDebets(sInsurarUid, new Date(0), new Date());
     }
@@ -808,7 +901,7 @@ public class Debet extends OC_Object implements Comparable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-        	sSelect = "SELECT * FROM OC_DEBETS d, OC_ENCOUNTERS e, adminview a, OC_PRESTATIONS p"
+        	sSelect = "SELECT * FROM OC_PRESTATIONDEBETS d, OC_ENCOUNTERS e, adminview a, OC_PRESTATIONS p"
                     + " WHERE d.OC_DEBET_CREDITED=0"
                     + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + " = e.oc_encounter_objectid"
                     + " AND (d.OC_DEBET_EXTRAINSURARINVOICEUID = '' or d.OC_DEBET_EXTRAINSURARINVOICEUID is null)"
@@ -824,7 +917,7 @@ public class Debet extends OC_Object implements Comparable {
             ps.setDate(3, new java.sql.Date(end.getTime()));
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
                 debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
@@ -890,13 +983,13 @@ public class Debet extends OC_Object implements Comparable {
                 //add Patient name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("lastname")) + " " + ScreenHelper.checkString(rs.getString("firstname")));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vUnassignedDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -917,12 +1010,12 @@ public class Debet extends OC_Object implements Comparable {
         Vector vDebets = new Vector();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT * FROM OC_DEBETS WHERE OC_DEBET_INSURARINVOICEUID = ?";
+            sSelect = "SELECT * FROM OC_PRESTATIONDEBETS WHERE OC_DEBET_INSURARINVOICEUID = ?";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1, sInvoiceUid);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
                 debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
@@ -945,13 +1038,13 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getInsurarDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getInsurarDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -973,7 +1066,7 @@ public class Debet extends OC_Object implements Comparable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT * FROM OC_DEBETS a,OC_ENCOUNTERS b,OC_PRESTATIONS c,AdminView d WHERE " +
+            sSelect = "SELECT * FROM OC_PRESTATIONDEBETS a,OC_ENCOUNTERS b,OC_PRESTATIONS c,AdminView d WHERE " +
                     " a.OC_DEBET_INSURARINVOICEUID = ? AND " +
                     MedwanQuery.getInstance().convert("int", "replace(a.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + "=b.oc_encounter_objectid AND " +
                     MedwanQuery.getInstance().convert("int", "replace(a.OC_DEBET_PRESTATIONUID,'" + serverid + "','')") + "=c.oc_prestation_objectid AND " +
@@ -982,7 +1075,7 @@ public class Debet extends OC_Object implements Comparable {
             ps.setString(1, sInvoiceUid);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
                 debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
@@ -1048,13 +1141,13 @@ public class Debet extends OC_Object implements Comparable {
                 //add Patient name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("lastname")) + " " + ScreenHelper.checkString(rs.getString("firstname")));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getInsurarDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getInsurarDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -1076,7 +1169,7 @@ public class Debet extends OC_Object implements Comparable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT * FROM OC_DEBETS a,OC_ENCOUNTERS b,OC_PRESTATIONS c,AdminView d WHERE " +
+            sSelect = "SELECT * FROM OC_PRESTATIONDEBETS a,OC_ENCOUNTERS b,OC_PRESTATIONS c,AdminView d WHERE " +
                     " a.OC_DEBET_EXTRAINSURARINVOICEUID = ? AND" +
                     " " + MedwanQuery.getInstance().convert("int", "replace(a.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + "=b.oc_encounter_objectid AND" +
                     " " + MedwanQuery.getInstance().convert("int", "replace(a.OC_DEBET_PRESTATIONUID,'" + serverid + "','')") + "=c.oc_prestation_objectid AND" +
@@ -1085,7 +1178,7 @@ public class Debet extends OC_Object implements Comparable {
             ps.setString(1, sInvoiceUid);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
                 debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
@@ -1151,13 +1244,13 @@ public class Debet extends OC_Object implements Comparable {
                 //add Patient name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("lastname")) + " " + ScreenHelper.checkString(rs.getString("firstname")));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getInsurarDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getInsurarDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -1178,12 +1271,12 @@ public class Debet extends OC_Object implements Comparable {
         Vector vDebets = new Vector();
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT * FROM OC_DEBETS WHERE OC_DEBET_EXTRAINSURARINVOICEUID = ?";
+            sSelect = "SELECT * FROM OC_PRESTATIONDEBETS WHERE OC_DEBET_EXTRAINSURARINVOICEUID = ?";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sInvoiceUid);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
                 debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
@@ -1206,13 +1299,13 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getInsurarDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getInsurarDebetsViaInvoiceUid => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -1233,51 +1326,17 @@ public class Debet extends OC_Object implements Comparable {
         PreparedStatement ps=null;
         ResultSet rs = null;
         try{
-        	String sSelect="select c.OC_PRESTATION_SERVERID,c.OC_PRESTATION_OBJECTID from OC_DEBETS a,OC_ENCOUNTERS b,OC_PRESTATIONS c where " +
+        	String sSelect="select c.OC_PRESTATION_SERVERID,c.OC_PRESTATION_OBJECTID from OC_PRESTATIONDEBETS a,OC_ENCOUNTERS b,OC_PRESTATIONS c where " +
         			"b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and " +
         			"c.OC_PRESTATION_OBJECTID=replace(a.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and " +
         			"c.OC_PRESTATION_TYPE='con.openinsurance' and " +
         			"b.OC_ENCOUNTER_PATIENTUID=? and " +
-        			MedwanQuery.getInstance().dateadd("a.OC_DEBET_DATE","MONTH","c.OC_PRESTATION_RENEWALINTERVAL*a.OC_DEBET_QUANTITY")+">=now()";
+        			MedwanQuery.getInstance().dateadd("a.OC_DEBET_DATE","MONTH","c.OC_PRESTATION_RENEWALINTERVAL")+">=now()";
         	ps=oc_conn.prepareStatement(sSelect);
         	ps.setString(1, sPatientId);
         	rs=ps.executeQuery();
         	while(rs.next()){
         		contributions.add(Prestation.get(rs.getString("OC_PRESTATION_SERVERID")+"."+rs.getString("OC_PRESTATION_OBJECTID")));
-        	}
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    	return contributions;
-    }
-    
-    public static Vector getContributions(String sPatientId){
-    	Vector contributions = new Vector();
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        PreparedStatement ps=null;
-        ResultSet rs = null;
-        try{
-        	String sSelect="select a.OC_DEBET_SERVERID,a.OC_DEBET_OBJECTID from OC_DEBETS a,OC_ENCOUNTERS b,OC_PRESTATIONS c where " +
-        			"b.OC_ENCOUNTER_OBJECTID=replace(a.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and " +
-        			"c.OC_PRESTATION_OBJECTID=replace(a.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and " +
-        			"c.OC_PRESTATION_TYPE='con.openinsurance' and " +
-        			"b.OC_ENCOUNTER_PATIENTUID=? order by a.OC_DEBET_DATE DESC";
-        	ps=oc_conn.prepareStatement(sSelect);
-        	ps.setString(1, sPatientId);
-        	rs=ps.executeQuery();
-        	while(rs.next()){
-        		contributions.add(Debet.get(rs.getString("OC_DEBET_SERVERID")+"."+rs.getString("OC_DEBET_OBJECTID")));
         	}
         }
         catch (Exception e) {
@@ -1303,7 +1362,7 @@ public class Debet extends OC_Object implements Comparable {
         Vector vUnassignedDebets = new Vector();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? "
+            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_PRESTATIONDEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? "
                     + " AND e.OC_ENCOUNTER_OBJECTID=replace(d.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') ";
             if (sDateBegin.length() > 0) {
                 sSelect += " AND d.OC_DEBET_DATE >= ?  ";
@@ -1342,7 +1401,7 @@ public class Debet extends OC_Object implements Comparable {
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getPatientDebets => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getPatientDebets => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -1364,25 +1423,25 @@ public class Debet extends OC_Object implements Comparable {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
-            sSelect = "SELECT SUM(d.OC_DEBET_AMOUNT) as somme,count(OC_DEBET_OBJECTID) as nb,a.lastname,a.firstname FROM  OC_DEBETS d,OC_ENCOUNTERS b,adminview a WHERE OC_DEBET_AMOUNT >0 AND (OC_DEBET_PATIENTINVOICEUID IS NULL OR OC_DEBET_PATIENTINVOICEUID = '0') AND " +
+            sSelect = "SELECT SUM(d.OC_DEBET_AMOUNT) as somme,count(OC_DEBET_OBJECTID) as nb,a.lastname,a.firstname FROM  OC_PRESTATIONDEBETS d,OC_ENCOUNTERS b,adminview a WHERE OC_DEBET_AMOUNT >0 AND (OC_DEBET_PATIENTINVOICEUID IS NULL OR OC_DEBET_PATIENTINVOICEUID = '0') AND " +
                     MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + "=b.OC_ENCOUNTER_OBJECTID AND " + MedwanQuery.getInstance().convert("int", "b.OC_ENCOUNTER_PATIENTUID") + "=a.personid GROUP BY a.lastname,a.firstname ORDER BY a.lastname,a.firstname";
             ps = oc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setAmount(rs.getDouble("somme"));
                 debet.setComment(rs.getInt("nb") + "");
                 //*********************
                 //add Patient name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("lastname")) + " " + ScreenHelper.checkString(rs.getString("firstname")));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getPatientDebetsToInvoice => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getPatientDebetsToInvoice => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -1404,25 +1463,25 @@ public class Debet extends OC_Object implements Comparable {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
-            sSelect = "SELECT SUM(d.OC_DEBET_INSURARAMOUNT) as somme,count(OC_DEBET_OBJECTID) as nb,a.OC_INSURAR_NAME FROM  OC_DEBETS d,OC_INSURANCES b,OC_INSURARS a WHERE OC_DEBET_INSURARAMOUNT >0 AND (OC_DEBET_INSURARINVOICEUID IS NULL OR OC_DEBET_INSURARINVOICEUID = '0') AND " +
+            sSelect = "SELECT SUM(d.OC_DEBET_INSURARAMOUNT) as somme,count(OC_DEBET_OBJECTID) as nb,a.OC_INSURAR_NAME FROM  OC_PRESTATIONDEBETS d,OC_INSURANCES b,OC_INSURARS a WHERE OC_DEBET_INSURARAMOUNT >0 AND (OC_DEBET_INSURARINVOICEUID IS NULL OR OC_DEBET_INSURARINVOICEUID = '0') AND " +
                     MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_INSURANCEUID,'" + serverid + "','')") + "=b.OC_INSURANCE_OBJECTID AND " + MedwanQuery.getInstance().convert("int", "replace(b.OC_INSURANCE_INSURARUID,'" + serverid + "','')") + "=a.OC_INSURAR_OBJECTID GROUP BY a.OC_INSURAR_NAME ORDER BY a.OC_INSURAR_NAME";
             ps = oc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setAmount(rs.getDouble("somme"));
                 debet.setComment(rs.getInt("nb") + "");
                 //*********************
                 //add Insurar name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("OC_INSURAR_NAME")));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getInsurarDebetsToInvoice => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getInsurarDebetsToInvoice => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -1444,25 +1503,25 @@ public class Debet extends OC_Object implements Comparable {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
-            sSelect = "SELECT SUM("+MedwanQuery.getInstance().convert("float", "d.OC_DEBET_EXTRAINSURARAMOUNT")+") as somme,count(OC_DEBET_OBJECTID) as nb,a.OC_INSURAR_NAME FROM  OC_DEBETS d,OC_INSURARS a WHERE "+MedwanQuery.getInstance().convert("float", "d.OC_DEBET_EXTRAINSURARAMOUNT")+" >0 AND (d.OC_DEBET_EXTRAINSURARINVOICEUID IS NULL OR d.OC_DEBET_EXTRAINSURARINVOICEUID = '0') AND " +
+            sSelect = "SELECT SUM("+MedwanQuery.getInstance().convert("float", "d.OC_DEBET_EXTRAINSURARAMOUNT")+") as somme,count(OC_DEBET_OBJECTID) as nb,a.OC_INSURAR_NAME FROM  OC_PRESTATIONDEBETS d,OC_INSURARS a WHERE "+MedwanQuery.getInstance().convert("float", "d.OC_DEBET_EXTRAINSURARAMOUNT")+" >0 AND (d.OC_DEBET_EXTRAINSURARINVOICEUID IS NULL OR d.OC_DEBET_EXTRAINSURARINVOICEUID = '0') AND " +
                     MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_EXTRAINSURARUID,'" + serverid + "','')") + "=a.OC_INSURAR_OBJECTID GROUP BY a.OC_INSURAR_NAME ORDER BY a.OC_INSURAR_NAME";
             ps = oc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Debet debet = new Debet();
+                PrestationDebet debet = new PrestationDebet();
                 debet.setAmount(rs.getDouble("somme"));
                 debet.setComment(rs.getInt("nb") + "");
                 //*********************
                 //add extrainsurance name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("OC_INSURAR_NAME")));
-                MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
+                MedwanQuery.getInstance().getObjectCache().putObject("prestationdebet", debet);
                 vDebets.add(debet);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Debug.println("OpenClinic => Debet.java => getExtraInsurarDebetsToInvoice => " + e.getMessage() + " = " + sSelect);
+            Debug.println("OpenClinic => PrestationDebet.java => getExtraInsurarDebetsToInvoice => " + e.getMessage() + " = " + sSelect);
         }
         finally {
             try {
@@ -1475,5 +1534,67 @@ public class Debet extends OC_Object implements Comparable {
             }
         }
         return vDebets;
+    }
+    
+    public static int renewExpiredContributions(java.util.Date date,String userid,boolean renew){
+    	int totalRenewed = 0;
+        String sSelect = "";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
+            sSelect = "select a.* from OC_DEBETS a, OC_INSURANCES b, OC_PRESTATIONS c where " +
+            		" c.OC_PRESTATION_OBJECTID=replace(a.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') AND " +
+            		" b.OC_INSURANCE_OBJECTID=replace(a.OC_DEBET_INSURANCEUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') AND " +
+            		" (OC_INSURANCE_STOP IS NULL OR OC_INSURANCE_STOP>=?) AND OC_PRESTATION_RENEWALINTERVAL > 0 AND OC_DEBET_RENEWALDATE IS NULL AND "+MedwanQuery.getInstance().dateadd("a.OC_DEBET_DATE","MONTH","c.OC_PRESTATION_RENEWALINTERVAL*a.OC_DEBET_QUANTITY")+"<?";
+            ps = oc_conn.prepareStatement(sSelect);
+            ps.setTimestamp(1, new java.sql.Timestamp(date.getTime()));
+            ps.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
+            rs=ps.executeQuery();
+            while(rs.next()){
+            	totalRenewed++;
+            	if(renew){
+	            	//Insert een nieuwe debet met als startdatum de vervaldatum
+	            	Debet debet = new Debet();
+	            	debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
+	            	debet.setComment(rs.getString("OC_DEBET_COMMENT"));
+	            	debet.setCreateDateTime(new java.util.Date());
+	            	debet.setCredited(0);
+	            	debet.setDate(date);
+	            	debet.setEncounterUid(rs.getString("OC_DEBET_ENCOUNTERUID"));
+	            	debet.setExtraInsurarAmount(rs.getDouble("OC_DEBET_EXTRAINSURARAMOUNT"));
+	            	debet.setExtraInsurarUid(rs.getString("OC_DEBET_EXTRAINSURARUID"));
+	            	debet.setInsuranceUid(rs.getString("OC_DEBET_INSURANCEUID"));
+	            	debet.setInsurarAmount(rs.getDouble("OC_DEBET_INSURARAMOUNT"));
+	            	debet.setPrestationUid(rs.getString("OC_DEBET_PRESTATIONUID"));
+	            	debet.setQuantity(rs.getInt("OC_DEBET_QUANTITY"));
+	            	debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
+	            	debet.setUpdateDateTime(new java.util.Date());
+	            	debet.setUpdateUser(userid);
+	            	debet.setVersion(1);
+	            	debet.store();
+	            	//Update de oude debet
+	            	debet = Debet.get(rs.getInt("OC_DEBET_SERVERID")+"."+rs.getInt("OC_DEBET_OBJECTID"));
+	            	debet.setRenewalDate(new java.util.Date());
+	            	debet.store();
+            	}
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Debug.println("OpenClinic => RenewExpiredContributions => " + e.getMessage() + " = " + sSelect);
+        }
+        finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                oc_conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return totalRenewed;
     }
 }

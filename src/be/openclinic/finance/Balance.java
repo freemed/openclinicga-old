@@ -452,12 +452,12 @@ public class Balance extends OC_Object implements Comparable{
                     " (" +
                     " select sum(oc_patientcredit_amount) total from oc_patientcredits a,oc_encounters b" +
                     " where" +
-                    " a.oc_patientcredit_encounteruid='"+ MedwanQuery.getInstance().getConfigString("serverId")+".'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "b.oc_encounter_objectid")+" and" +
+                    " b.oc_encounter_objectid=replace(a.oc_patientcredit_encounteruid,'"+ MedwanQuery.getInstance().getConfigString("serverId")+".','') and" +
                     " b.oc_encounter_patientuid=?" +
                     " union" +
                     " select -sum(oc_debet_amount) total from oc_debets a,oc_encounters b" +
                     " where" +
-                    " a.oc_debet_encounteruid='"+ MedwanQuery.getInstance().getConfigString("serverId")+".'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "b.oc_encounter_objectid")+" and" +
+                    " b.oc_encounter_objectid=replace(a.oc_debet_encounteruid,'"+ MedwanQuery.getInstance().getConfigString("serverId")+".','') and" +
                     " b.oc_encounter_patientuid=?" +
                     ") a";
             PreparedStatement ps = oc_conn.prepareStatement(sSelect);

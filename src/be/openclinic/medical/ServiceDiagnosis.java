@@ -49,7 +49,7 @@ public class ServiceDiagnosis {
 
         String sSelect = "SELECT * FROM OC_SERVICEDIAGNOSES";
         String sConditions = "";
-        if(serviceID.length() > 0)         { sConditions += " OC_SERVICEDIAGNOSIS_SERVICEUID = ? AND";}
+        if(serviceID.length() > 0)         { sConditions += " replace(?,OC_SERVICEDIAGNOSIS_SERVICEUID,'')<>? AND";}
         if(diagnoseCode.length() > 0)   { sConditions += " OC_SERVICEDIAGNOSIS_CODE = ? AND";}
         if(codeType.length() > 0)       { sConditions += " OC_SERVICEDIAGNOSIS_CODETYPE = ? AND";}
 
@@ -70,7 +70,7 @@ public class ServiceDiagnosis {
         try{
             ps = oc_conn.prepareStatement(sSelect);
 
-            if(serviceID.length() > 0)      { ps.setString(i++,serviceID);}
+            if(serviceID.length() > 0)      { ps.setString(i++,serviceID);ps.setString(i++,serviceID);}
             if(diagnoseCode.length() > 0){ ps.setString(i++,diagnoseCode);}
             if(codeType.length() > 0){ ps.setString(i++,codeType);}
 

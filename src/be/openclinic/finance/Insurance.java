@@ -64,6 +64,47 @@ public class Insurance extends OC_Object {
         this.insuranceCategoryLetter = insuranceCategoryLetter;
     }
 
+    public static Vector getActiveCoveragePlans(String sPatientId){
+    	Vector coverageplans=new Vector();
+    	Vector contributions = Debet.getActiveContributions(sPatientId);
+    	String coverageplan;
+    	for(int n=0;n<contributions.size();n++){
+    		Prestation contribution = (Prestation)contributions.elementAt(n);
+    		if(contribution.getCoveragePlan()!=null && contribution.getCoveragePlan().length()>0){
+    			Insurar insurar = Insurar.get(contribution.getCoveragePlan());
+    			if(insurar!=null && contribution.getCoveragePlanCategory()!=null && contribution.getCoveragePlanCategory().length()>0){
+    				coverageplan= contribution.getCoveragePlan()+";"+contribution.getCoveragePlanCategory();
+    				coverageplans.add(coverageplan);
+    			}
+    		}
+    	}
+    	return coverageplans;
+    }
+    
+    public static String getBestActiveCoveragePlan(String sPatientId){
+    	Vector contributions = Debet.getActiveContributions(sPatientId);
+    	double patientshare=100;
+    	String coverageplan=null;
+    	for(int n=0;n<contributions.size();n++){
+    		Prestation contribution = (Prestation)contributions.elementAt(n);
+    		if(contribution.getCoveragePlan()!=null && contribution.getCoveragePlan().length()>0){
+    			Insurar insurar = Insurar.get(contribution.getCoveragePlan());
+    			if(insurar!=null && contribution.getCoveragePlanCategory()!=null && contribution.getCoveragePlanCategory().length()>0){
+    				InsuranceCategory category=insurar.getInsuranceCategory(contribution.getCoveragePlanCategory());
+    				try{
+        				if(category!=null && Double.parseDouble(category.getPatientShare())<=patientshare){
+        					coverageplan= contribution.getCoveragePlan()+";"+contribution.getCoveragePlanCategory();
+        				}
+    				}
+    				catch(Exception e){
+    					
+    				}
+    			}
+    		}
+    	}
+    	return coverageplan;
+    }
+    
     public Insurar getInsurar(){
         if (insurar==null){
             if(ScreenHelper.checkString(insurarUid).length()>0){

@@ -517,10 +517,7 @@ public class ChronicMedication extends OC_Object {
                              " FROM OC_CHRONICMEDICATIONS cm, OC_PRODUCTS p "+
                              "  WHERE ";
 
-            // bind the serviceStock table
-            String convertServerId = MedwanQuery.getInstance().convert("varchar(16)","p.OC_PRODUCT_SERVERID");
-            String convertObjectId = MedwanQuery.getInstance().convert("varchar(16)","p.OC_PRODUCT_OBJECTID");;
-            sSelect+= " cm.OC_CHRONICMED_PRODUCTUID = ("+convertServerId+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+convertObjectId+") ";
+            sSelect+= " p.OC_PRODUCT_OBJECTID = replace(cm.OC_CHRONICMED_PRODUCTUID,'"+MedwanQuery.getInstance().getConfigString("serverId","-1")+".','') ";
 
             // match search criteria
 
@@ -541,7 +538,7 @@ public class ChronicMedication extends OC_Object {
 
             // order by selected col or default col
             sSelect+= "ORDER BY "+sSortCol+" "+sSortDir;
-
+            System.out.println(sSelect);
             // set questionmark values
             ps = oc_conn.prepareStatement(sSelect);
             int questionMarkIdx = 1;

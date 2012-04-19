@@ -136,6 +136,12 @@ public class ManageNextVaccinationAction extends org.apache.struts.action.Action
                                                                  "",
                                                                  new Date(),
                                                                  itemContextVO));
+                        itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
+                                "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PREGNANT",
+                                "",
+                                new Date(),
+                                itemContextVO));
+
 
                         itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
                                                                         IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_ACTION,
@@ -248,6 +254,12 @@ public class ManageNextVaccinationAction extends org.apache.struts.action.Action
                                                         "",
                                                         new Date(),
                                                         itemContextVO));
+                items.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
+                        "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PREGNANT",
+                        "",
+                        new Date(),
+                        itemContextVO));
+
 
                 items.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
                                                         IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION,

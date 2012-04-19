@@ -328,8 +328,11 @@ public class Sage {
                 else if(prestationCatTariff.equalsIgnoreCase("2")){
                     prestationCatTariff="B";
                 }
-                else {
+                else if(prestationCatTariff.equalsIgnoreCase("3")){
                     prestationCatTariff="C";
+                }
+                else {
+                    prestationCatTariff="D";
                 }
                 String prestationCategoryPrice=ScreenHelper.checkString(rs.getString("AC_PrixVen"));
                 try{
