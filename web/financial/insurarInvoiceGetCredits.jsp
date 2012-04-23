@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.InsurarCredit,java.util.Vector,be.mxs.common.util.system.HTMLEntities,be.openclinic.finance.InsurarInvoice" %>
+<%@ page import="be.openclinic.finance.InsurarCredit,java.util.Vector,be.mxs.common.util.system.HTMLEntities,be.openclinic.finance.CoveragePlanInvoice" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%!
@@ -27,7 +27,7 @@
                         }
 
                         sReturn += "<tr class='list" + sClass + "'>"
-                                + "<td><input type='checkbox' name='cbInsurarInvoice" + insurarcredit.getUid() + "=" + insurarcredit.getAmount() + "' onclick='doBalance(this, false)'" + sChecked + "></td>"
+                                + "<td><input type='checkbox' name='cbCoveragePlanInvoice" + insurarcredit.getUid() + "=" + insurarcredit.getAmount() + "' onclick='doBalance(this, false)'" + sChecked + "></td>"
                                 + "<td>" + ScreenHelper.getSQLDate(insurarcredit.getDate()) + "</td>"
                                 + "<td>" + HTMLEntities.htmlentities(getTran("credit.type", checkString(insurarcredit.getType()), sWebLanguage)) + "</td>"
                                 + "<td>" + insurarcredit.getAmount() + "</td>"
@@ -47,17 +47,17 @@
         <td><%=HTMLEntities.htmlentities(getTran("web", "amount", sWebLanguage))%></td>
     </tr>
 <%
-    String sEditInsurarInvoiceUID = checkString(request.getParameter("EditInsurarInvoiceUID"));
+    String sEditCoveragePlanInvoiceUID = checkString(request.getParameter("EditCoveragePlanInvoiceUID"));
     String sClass = "";
-    InsurarInvoice insurarInvoice = null;
+    CoveragePlanInvoice coveragePlanInvoice = null;
 
-    if (sEditInsurarInvoiceUID.length() > 0) {
-        insurarInvoice = InsurarInvoice.get(sEditInsurarInvoiceUID);
-        Vector vInsurarCredits = insurarInvoice.getCredits();
+    if (sEditCoveragePlanInvoiceUID.length() > 0) {
+        coveragePlanInvoice = CoveragePlanInvoice.get(sEditCoveragePlanInvoiceUID);
+        Vector vInsurarCredits = coveragePlanInvoice.getCredits();
         out.print(addCredits(vInsurarCredits, sClass, true, sWebLanguage));
     }
 
-    if ((insurarInvoice == null) || (!(checkString(insurarInvoice.getStatus()).equalsIgnoreCase("closed")||checkString(insurarInvoice.getStatus()).equalsIgnoreCase("canceled")))) {
+    if ((coveragePlanInvoice == null) || (!(checkString(coveragePlanInvoice.getStatus()).equalsIgnoreCase("closed")||checkString(coveragePlanInvoice.getStatus()).equalsIgnoreCase("canceled")))) {
         String sInsurarUid = checkString(request.getParameter("InsurarUid"));
         Vector vUnassignedCredits = InsurarCredit.getUnassignedInsurarCredits(sInsurarUid);
         out.print(addCredits(vUnassignedCredits, sClass, false, sWebLanguage));

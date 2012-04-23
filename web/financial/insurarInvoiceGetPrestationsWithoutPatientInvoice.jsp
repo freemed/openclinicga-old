@@ -276,11 +276,7 @@
             end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
         }
         catch(Exception e){}
-        System.out.println("sInsurarUid="+sInsurarUid);
-        System.out.println("begin="+begin);
-        System.out.println("end="+end);
-        Vector vUnassignedDebets = Debet.getUnassignedInsurarDebets(sInsurarUid,begin,end);
-        System.out.println("size="+vUnassignedDebets.size());
+        Vector vUnassignedDebets = Debet.getUnassignedInsurarDebetsWithoutPatientInvoice(sInsurarUid,begin,end);
         String s = addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,sEditBegin,sEditEnd);
         out.print(s);
     }

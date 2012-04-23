@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.Debet,java.util.*,be.openclinic.finance.Prestation,be.openclinic.adt.Encounter,be.mxs.common.util.system.HTMLEntities" %>
+<%@ page import="java.util.*,be.openclinic.finance.*,be.openclinic.adt.Encounter,be.mxs.common.util.system.HTMLEntities" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%!
@@ -6,7 +6,7 @@
         String sReturn = "";
 
         if (vDebets != null) {
-            Debet debet;
+            PrestationDebet debet;
             Encounter encounter=null;
             Prestation prestation=null;	
             String sEncounterName, sPrestationDescription, sDebetUID, sPatientName;
@@ -18,8 +18,7 @@
 
                 if (sDebetUID.length() > 0) {
 					System.out.println("sDebetUID="+sDebetUID+"*");
-                    debet = Debet.get(sDebetUID);
-					System.out.println("debet.getUid()="+debet.getUid()+"*");
+                    debet = PrestationDebet.get(sDebetUID);
 
                     if (debet != null) {
                         sEncounterName = "";
@@ -62,7 +61,8 @@
                                 + "<td>" + ScreenHelper.getSQLDate(debet.getDate()) + "</td>"
                                 + "<td>" + HTMLEntities.htmlentities(sEncounterName) + " ("+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName()+")</td>"
                                 + "<td nowrap>" + debet.getQuantity()+" x "+HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
-                                + "<td "+(checkString(debet.getExtraInsurarUid()).length()>0?"style='text-decoration: line-through'":"")+">" + (debet.getAmount()+debet.getExtraInsurarAmount()) + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td>" + debet.getTotalAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td>" + debet.getInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
                                 + "<td>" + sCredited + "</td>"
                                 + "</tr>");
                     }
@@ -92,7 +92,8 @@
         <td><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web.finance","encounter",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web","prestation",sWebLanguage))%></td>
-        <td><%=HTMLEntities.htmlentities(getTran("web","amount",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTran("web","totalamount",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTran("web","amounttoreimburse",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web","canceled",sWebLanguage))%></td>
     </tr>
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
@@ -104,10 +105,10 @@
 
     Vector vUnassignedDebets;
     if ((sFindDateBegin.length()==0)&&(sFindDateEnd.length()==0)&&(sFindAmountMin.length()==0)&&(sFindAmountMax.length()==0)){
-        vUnassignedDebets = Debet.getUnassignedPatientDebets(activePatient.personid);
+        vUnassignedDebets = PrestationDebet.getUnassignedPatientDebets(activePatient.personid);
     }
     else {
-        vUnassignedDebets = Debet.getPatientDebets(activePatient.personid,sFindDateBegin,sFindDateEnd,sFindAmountMin, sFindAmountMax);
+        vUnassignedDebets = PrestationDebet.getPatientDebets(activePatient.personid,sFindDateBegin,sFindDateEnd,sFindAmountMin, sFindAmountMax);
     }
 	String s=addDebets(vUnassignedDebets, "", sWebLanguage);
     out.print(s);
