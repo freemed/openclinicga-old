@@ -8,8 +8,9 @@
 <%@ page import="be.mxs.common.util.system.Picture" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/includes/validateUser.jsp" %>
+
 <%!private static void writeFile(byte[] tab, String fichier) throws IOException {
-    File file = new File(fichier);
+	File file = new File(fichier);
     BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
     bos.write(tab);
     bos.close();
@@ -27,6 +28,7 @@
     }
    %>
 <%
+System.out.println("activePatient 3="+activePatient);
     String sData = checkString(request.getParameter("imagedata"));
     try {
         if (sData.trim().length() > 0) {

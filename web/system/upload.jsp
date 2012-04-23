@@ -55,7 +55,7 @@
                     extension = ".doc";
                 }
 
-                file.setFileName(""+MedwanQuery.getInstance().getCounter("DocumentName")+extension);
+                file.setFileName(""+MedwanQuery.getInstance().getOpenclinicCounter("DocumentName")+extension);
                 upBean.setFolderstore(getFolder(MedwanQuery.getInstance().getConfigString("DocumentsFolder")));
                 upBean.store(mrequest, "uploadfile");
                 String docName = mrequest.getParameter("docName");

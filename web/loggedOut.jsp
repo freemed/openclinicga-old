@@ -1,8 +1,8 @@
 <%@include file="/includes/helper.jsp"%>
 <%
     // title
-    String sTmpAPPDIR   = ScreenHelper.getCookie("activeProjectDir",request);
-    String sTmpAPPTITLE = ScreenHelper.getCookie("activeProjectTitle",request);
+    String sTmpAPPDIR   = checkString(ScreenHelper.getCookie("activeProjectDir",request));
+    String sTmpAPPTITLE = checkString(ScreenHelper.getCookie("activeProjectTitle",request));
 
     if(sTmpAPPTITLE==null) sTmpAPPTITLE = "OpenClinic";
 %>
@@ -33,8 +33,19 @@
 </head>
 
 <body class="Geenscroll login" onkeydown="escBackSpace();if(enterEvent(event,13)){goToLogin();}" >
-<div id="login" class="withoutfields">
-  <div id="logo">
+<%
+	if("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+%>
+	<div id="loginopeninsurance" class="withoutfields">
+<%
+	}
+	else {
+%>
+	<div id="login" class="withoutfields">
+<%
+	}
+%>	
+	<div id="logo">
        <% if ("datacenter".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
             session.setAttribute("edition", "datacenter");%>
         <img src="projects/datacenter/_img/logo.jpg" border="0">
@@ -44,6 +55,9 @@
         <% } else if ("openpharmacy".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
             session.setAttribute("edition", "openlab");%>
         <img src="_img/openpharmacy_logo.jpg" border="0">
+        <% } else if ("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+            session.setAttribute("edition", "openinsurance");%>
+        <img src="_img/openinsurancelogo.jpg" border="0">
         <% } else {
             session.setAttribute("edition", "openclinic");%>
         <img src="<%=sTmpAPPDIR%>_img/logo.jpg" border="0">

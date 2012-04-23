@@ -45,7 +45,6 @@
 <%-- ADMINISTRATIVE DATA --%>
 <table width="100%" class="list">
     <tr><td colspan="10" class="titleadmin"><div style="float:left;vertical-align: middle"><%=getTran("web","administrative.data",sWebLanguage)+" "+sVip%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%></td></tr>
-<%System.out.println(2); %>
 <%
     boolean bPicture=Picture.exists(Integer.parseInt(activePatient.personid));
     if (bPicture) {
@@ -56,9 +55,8 @@
             fileOutputStream.write(picture.getPicture());
             fileOutputStream.close();
 %>
-<%System.out.println(3); %>
         <tr >
-            <td class="image" valign="top" width="143px"><img border='0'  src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
+            <td class="image" valign="top" width="143px"><img border='0'  width="100%" src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
             <td valign="top">
                 <table width="100%"  >
         <%

@@ -8,6 +8,7 @@
             sFindInsurarName = checkString(request.getParameter("FindInsurarName")),
             sFindInsurarContact = checkString(request.getParameter("FindInsurarContact"));
     String sFunction = checkString(request.getParameter("doFunction"));
+    String sExcludeCoverageplans = checkString(request.getParameter("ExcludeCoverageplans"));
     String sReturnFieldUid = checkString(request.getParameter("ReturnFieldInsurarUid")),
             sReturnFieldName = checkString(request.getParameter("ReturnFieldInsurarName")),
             sReturnFieldContact = checkString(request.getParameter("ReturnFieldInsurarContact"));
@@ -21,6 +22,7 @@
     <input type="hidden" name="FindInsurarUid" value="<%=sFindInsurarUid%>">
     <input type="hidden" name="FindInsurarContact" value="<%=sFindInsurarContact%>">
     <input type="hidden" name="doFunction" value="<%=sFunction%>">
+    <input type="hidden" name="ExcludeCoverageplans" value="<%=sExcludeCoverageplans%>">
     <%-- SEARCH FIELDS --%>
     <table width="100%" class="menu" cellspacing="0">
         <tr height="22">
@@ -70,11 +72,11 @@
             window.opener.document.all["<%=sReturnFieldContact%>"].value = contact;
         }
 
-    <%
-    if (sFunction.length()>0){
-        out.print("window.opener."+sFunction+";");
-    }
-    %>
+	    <%
+	    if (sFunction.length()>0){
+	        out.print("window.opener."+sFunction+";");
+	    }
+	    %>
 
         window.close();
     }

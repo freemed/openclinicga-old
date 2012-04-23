@@ -42,5 +42,21 @@
     <counter name="OC_INSURARINVOICES" table="OC_INSURARINVOICES" field="OC_INSURARINVOICE_OBJECTID" bd='openclinic'/>
     <counter name="OC_RFE" table="OC_RFE" field="OC_RFE_OBJECTID" bd='openclinic'/>
     <counter name="OC_PATIENTCREDITS" table="OC_PATIENTCREDITS" field="OC_PATIENTCREDIT_OBJECTID" bd='openclinic'/>
+    <counter name="DocumentID" table="Documents" field="documentid" bd='admin'/>
+    <counter name="EnterpriseVisitID" table="EnterpriseVisits" field="visitid" bd='openclinic'/>
+    <counter name="EnterpriseVisitItemID" table="EnterpriseVisitItems" field="itemid" bd='openclinic'/>
+    <counter name="RiskProfileID" table="RiskProfiles" field="profileid" bd='openclinic'/>
+    <counter name="RiskProfileItemID" table="RiskProfileItems" field="profileitemid" bd='openclinic'/>
+    <counter name="HealthRecordID" table="Healthrecord" field="healthRecordId" bd='openclinic'/>
+    <counter name="TransactionID" table="Transactions" field="transactionId" bd='openclinic'/>
+    <counter name="ItemID" table="Items" field="itemId" bd='openclinic'/>
+    <counter name="SchemaID" table="OC_PRODUCT_SCHEMA" field="OC_SCHEMA_OBJECTID" bd='openclinic'/>
+    <counter name="AccessLogs" table="AccessLogs" field="accessid" bd='admin'/>
+    <counter name="RiskProfileContextID" table="RiskprofileContexts" field="profilecontextid" bd='openclinic'/>
+    <counter name="PersonID" table="Admin" field="personid" bd='admin'/>
+    <counter name="FamilyRelationID" table="AdminFamilyRelation" field="relationid" bd='admin'/>
+    <counter name="PrivateID" table="AdminPrivate" field="privateid" bd='admin'/>
+    <counter name="SocSecID" table="AdminSocSec" field="socsecid" bd='admin'/>
+    <counter name="UserID" table="Users" field="userid" bd='admin'/>
 
 </counters>

@@ -296,14 +296,13 @@
                     ps.execute();
                     ps.close();
                 }
-                if (Debug.enabled) Debug.println("4");
                 if (bMoveProfile) {
                     //First verify if this person exists
                     ps = destination.prepareStatement("select * from AdminView where personid=?");
                     ps.setInt(1, personid);
                     rs = ps.executeQuery();
                     if (rs.next()) {
-                        profileId = MedwanQuery.getInstance().getCounter("RiskProfileID", destination);
+                        profileId = MedwanQuery.getInstance().getOpenclinicCounter("RiskProfileID");
 						rs.close();
 						ps.close();
                         ps = destination.prepareStatement("insert into RiskProfiles(profileId,dateBegin,dateEnd,personId,updatetime) values(?,?,null,?,?)");
@@ -321,7 +320,7 @@
                         PreparedStatement psSync;
                         while (rs.next()) {
                             psSync = destination.prepareStatement("insert into RiskProfileContexts(profileContextId,itemType,itemId,profileId) values(?,?,?,?)");
-                            psSync.setInt(1, MedwanQuery.getInstance().getCounter("RiskProfileContextID", destination));
+                            psSync.setInt(1, MedwanQuery.getInstance().getOpenclinicCounter("RiskProfileContextID"));
                             psSync.setString(2, rs.getString("itemType"));
                             psSync.setInt(3, rs.getInt("itemId"));
                             psSync.setInt(4, profileId);
@@ -337,7 +336,7 @@
                         rs = ps.executeQuery();
                         while (rs.next()) {
                             psSync = destination.prepareStatement("insert into RiskProfileItems(profileItemId,itemType,itemId,status,comment,profileId,frequency,tolerance,ageGenderControl) values(?,?,?,?,?,?,?,?,?)");
-                            psSync.setInt(1, MedwanQuery.getInstance().getCounter("RiskProfileItemID", destination));
+                            psSync.setInt(1, MedwanQuery.getInstance().getOpenclinicCounter("RiskProfileItemID"));
                             psSync.setString(2, rs.getString("itemType"));
                             psSync.setInt(3, rs.getInt("itemId"));
                             psSync.setInt(4, rs.getInt("status"));
@@ -463,7 +462,7 @@
                                     healthrecordid = rs.getInt("healthRecordId");
                                 } else {
                                     //The healthrecord does not exist on the destinationserver yet, create it
-                                    healthrecordid = MedwanQuery.getInstance().getCounter("HealthRecordID", destination);
+                                    healthrecordid = MedwanQuery.getInstance().getOpenclinicCounter("HealthRecordID");
             						rs.close();
             						ps.close();
                                     ps = destination.prepareStatement("insert into Healthrecord(healthRecordId,dateBegin,dateEnd,personId,serverid,version,versionserverid) values(?,?,null,?,?,1,?)");
@@ -1724,7 +1723,13 @@
                                 //drop the view
                                 if (request.getParameter("create") != null) {
                                     psCheck = connectionCheck.prepareStatement("drop view " + view.attribute("name").getValue());
-                                    psCheck.execute();
+                                    try{
+                                    	psCheck.execute();
+                                    }
+                                    catch(Exception v){
+                                    	psCheck = connectionCheck.prepareStatement("drop table " + view.attribute("name").getValue());
+                                    	psCheck.execute();
+                                    }
                                     comment(out, " View <b>" + view.attribute("name").getValue() + "</b> dropped", 0);
                                     psCheck.close();
                                 }

@@ -5,6 +5,7 @@
     public String writePermission(String sLabel, String sScreenID, int idx, int categoryIdx) {
         String sChecked = "";
 
+        System.out.println("verifying "+sScreenID+": "+Application.isDisabled(sScreenID));
         if (Application.isDisabled(sScreenID)){
             sChecked = " checked";
         }
@@ -50,7 +51,7 @@
         for (int i = 0; i < labels.size(); i++) {
             label = (String) labels.get(i);
             permissionName = (String) permissions.get(label);
-
+			
             out.append(writePermission(label, permissionName, counter++, categoryIdx));
         }
 
@@ -93,6 +94,7 @@
         else {
             sMessage = "<font color='red'>"+getTran("web.occup","medwan.transaction.delete.wrong-password",sWebLanguage)+"</font>";
         }
+        MedwanQuery.reload();
     }
 %>
 <script>

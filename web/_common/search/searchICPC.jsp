@@ -60,10 +60,10 @@
                         if(sCodeClass.equalsIgnoreCase("diagnosis") && "789".indexOf(sCode.substring(1,2))==-1){
                             continue;
                         }
-                        if(!bSubClasses && !sCode.substring(3,5).equalsIgnoreCase("00")){
+                        if(!bSubClasses && sCode.length()==5 && !sCode.substring(3,5).equalsIgnoreCase("00")){
                             continue;
                         }
-                        if (sCode.substring(3, 5).equalsIgnoreCase("00")) {
+                        if (sCode.length()==5 && sCode.substring(3, 5).equalsIgnoreCase("00")) {
                             sbResultsICPC2.append("<tr class='label2'>");
                         } else {
                             sbResultsICPC2.append("<tr>");
@@ -147,12 +147,12 @@
                     if(sCodeClass.equalsIgnoreCase("diagnosis") && "789".indexOf(code.code.substring(1,2))==-1){
                         continue;
                     }
-                    if(!bSubClasses && !code.code.substring(3,5).equalsIgnoreCase("00")){
+                    if(!bSubClasses && code.code.length()==5 && !code.code.substring(3,5).equalsIgnoreCase("00")){
                         continue;
                     }
 
                     // parent-codes end with xx00
-                    if (code.code.substring(3,5).equalsIgnoreCase("00")){
+                    if (code.code.length()==5 && code.code.substring(3,5).equalsIgnoreCase("00")){
                         out.print("<tr class='label2'>");
                     }
                     else {

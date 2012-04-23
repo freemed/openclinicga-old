@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.InsurarInvoice,
+<%@ page import="be.openclinic.finance.*,
                  java.util.Vector,
                  be.mxs.common.util.system.HTMLEntities,
                  java.text.DecimalFormat" %>
@@ -50,17 +50,17 @@
 <div class="search">
     <%
         if (sAction.equals("search")) {
-            Vector vInvoices = InsurarInvoice.searchInvoices(sFindInvoiceDate, sFindInvoiceNr, sFindInvoiceInsurarUID, sFindInvoiceStatus, sFindInvoiceBalanceMin, sFindInvoiceBalanceMax);
+            Vector vInvoices = CoveragePlanInvoice.searchInvoices(sFindInvoiceDate, sFindInvoiceNr, sFindInvoiceInsurarUID, sFindInvoiceStatus, sFindInvoiceBalanceMin, sFindInvoiceBalanceMax);
 
             boolean recsFound = false;
             StringBuffer sHtml = new StringBuffer();
             String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus, sInsurarUid, sInsurarName;
-            InsurarInvoice invoice;
+            CoveragePlanInvoice invoice;
 
             SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Iterator iter = vInvoices.iterator();
             while (iter.hasNext()) {
-                invoice = (InsurarInvoice) iter.next();
+                invoice = (CoveragePlanInvoice) iter.next();
                 sInvoiceUid = invoice.getUid();
                 recsFound = true;
 

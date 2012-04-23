@@ -200,6 +200,8 @@
         if (thisUser.personid == null || thisUser.personid.length() == 0) {
             thisUser.personid = activePatient.personid;
         }
+        activePatient.language=request.getParameter("ChangeLanguage");
+        activePatient.store();
 
         // SAVE TO DB
         if (thisUser.saveToDB(ad_conn)) {
@@ -425,6 +427,26 @@
                         <input TYPE="hidden" NAME="EditDefaultServiceid" VALUE="<%=thisUser.getParameter("defaultserviceid")%>">
                     </td>
                 </tr>
+                 <tr>
+                     <td class="admin" width='<%=sTDAdminWidth%>'><%=getTran("Web","language",sWebLanguage)%></td>
+                     <td class="admin2">
+                         <select name="ChangeLanguage" class="text">
+                             <%
+                                 // supported languages
+                                 String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
+                                 if (supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
+
+                                 String tmpLang;
+                                 StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
+                                 while (tokenizer.hasMoreTokens()) {
+                                     tmpLang = tokenizer.nextToken();
+
+                             %><option value="<%=tmpLang%>" <%=(activePatient.language.equals(tmpLang)?"selected":"")%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
+                                 }
+                             %>
+                         </select>
+                     </td>
+                    </tr>
                 <%=writeMyInput(getTran("Web.UserProfile","computerNumber",sWebLanguage),"Editcomputernumber", thisUser)%>
                 <%=writeMyCheckbox("Stop","EditStop", "stop", thisUser)%>
             </table>

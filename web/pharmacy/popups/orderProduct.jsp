@@ -51,7 +51,7 @@
         ProductStock productStock = ProductStock.get(sEditProductStockUid);
         if(productStock!=null){
             int currLevel = productStock.getLevel();
-            int reqLevel  = productStock.getOrderLevel();
+            int reqLevel  = productStock.getMaximumLevel()-ProductOrder.getOpenOrderedQuantity(productStock.getUid());
 
             if(currLevel < reqLevel){
                 int requiredQuantity = reqLevel-currLevel;
@@ -107,7 +107,8 @@
                 msg = "<font color='red'>"+getTran("web.manage","orderexists",sWebLanguage)+"</font>";
             }
         }
-
+		out.println("<script>window.opener.location.reload();window.close();</script>");
+		out.flush();
         sEditOrderUid = order.getUid();
     }
 

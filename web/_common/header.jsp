@@ -57,6 +57,8 @@
         	bgi="projects/openlab/_img/projectlogo.jpg";
         } else if ("openpharmacy".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
         	bgi="_img/openpharmacyprojectlogo.jpg";
+        } else if ("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+        	bgi="_img/openinsuranceprojectlogo.jpg";
         } else {
 			bgi=sAPPDIR+"_img/projectlogo.jpg";
         }%>

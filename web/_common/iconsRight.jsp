@@ -62,7 +62,13 @@
         <%                }
             %>
 <img class="link" onclick="searchMyHospitalized();" alt="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" title="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>"  src="<c:url value='/_img/icon_bed.png'/>" />
+<%
+	if(activeUser.getAccessRight("manage.meals.select")){
+%>
 <img class="link" onclick="window.location = '<c:url value="/main.do" />?Page=meals/manageMeals.jsp&ts='+new Date().getTime()" alt="<%=getTranNoLink("web","meals",sWebLanguage)%>" title="<%=getTranNoLink("web","meals",sWebLanguage)%>"  src="<c:url value='/_img/icon_meals.png'/>" />
+<%
+	}
+%>
 <img class="link" onclick="searchMyVisits();" title="<%=getTranNoLink("Web","my_on_visit_patients",sWebLanguage)%>"  src="<c:url value='/_img/icon_doctor.png'/>" />
 <img class="link" onclick="doPrint();" title="<%=getTranNoLink("Web","Print",sWebLanguage)%>" src="<c:url value='/_img/printer-print.png'/>" />
 <img class="link" id="ddIconAgenda" onclick="window.location='<c:url value='/main.do'/>?Page=planning/findPlanning.jsp&ts='+new Date().getTime()" title="<%=getTranNoLink("Web","Planning",sWebLanguage)%>"  src="<c:url value='/_img/icon_agenda.gif'/>" />

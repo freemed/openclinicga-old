@@ -115,6 +115,19 @@
                 </select>
             </td>
         </tr>
+         <%-- Pregnant --%>
+        <% 
+        	if(!activePatient.gender.equalsIgnoreCase("m") && activePatient.getAge()>8 && activePatient.getAge()<51){
+        %>
+        <tr id="pregnant" >
+            <td class='admin'><%=getTran("Web","pregnant",sWebLanguage)%>&nbsp;</td>
+            <td class='admin2'>
+                <input type="checkbox" id="pregnancy" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PREGNANT" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PREGNANT;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" >
+            </td>
+        </tr>
+        <% 
+        	}
+        %>
         <%-- ALS PRESTATIE HERNEMEN (action / product) --%>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.prestation_recapture",sWebLanguage)%></td>

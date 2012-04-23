@@ -8,6 +8,7 @@
             sFindInsurarName = checkString(request.getParameter("FindInsurarName")),
             sFindInsurarContact = checkString(request.getParameter("FindInsurarContact"));
     String sFunction = checkString(request.getParameter("doFunction"));
+    String sExcludeCoverageplans = checkString(request.getParameter("ExcludeCoverageplans"));
     String sReturnFieldUid = checkString(request.getParameter("ReturnFieldInsurarUid")),
             sReturnFieldName = checkString(request.getParameter("ReturnFieldInsurarName")),
             sReturnFieldContact = checkString(request.getParameter("ReturnFieldInsurarContact"));
@@ -56,6 +57,9 @@
                 insurar = (Insurar) foundInsurars.get(i);
                 if ("true".equalsIgnoreCase(request.getParameter("excludePatientSelfInsurarUID")) && insurar.getUid().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("patientSelfInsurarUID", "none"))) {
                     continue;
+                }
+                if(sExcludeCoverageplans.equalsIgnoreCase("true") && insurar.getContact().equalsIgnoreCase("plan.openinsurance")){
+                	continue;
                 }
                 insurarCount++;
 

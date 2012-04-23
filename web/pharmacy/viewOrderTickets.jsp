@@ -195,7 +195,7 @@
            sFindProductName = "", sFindSupplierName = "", sFindSupplierUid = "";
 
     // get find-data from form
-    sFindDescription     = checkString(request.getParameter("FindDescription"));
+    sFindDescription     = (checkString(request.getParameter("FindDescription"))+"%").replaceAll("%%", "%");
     sFindSupplierUid     = checkString(request.getParameter("FindSupplierUid"));
     sFindServiceUid      = checkString(request.getParameter("FindServiceUid"));
     sFindServiceStockUid = checkString(request.getParameter("FindServiceStockUid"));
@@ -222,15 +222,6 @@
     if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
     if(Debug.enabled) Debug.println("@@@ SortDir : "+sSortDir);
 
-    // service name
-    if(sAction.length()==0){
-        sFindServiceUid = activeUser.activeService.code;
-        sFindServiceName = getTran("service",sFindServiceUid,sWebLanguage);
-    }
-    else{
-        sFindServiceName = checkString(request.getParameter("FindServiceName"));
-    }
-
     // supplier name
     if(sFindSupplierUid.length() > 0){
        sFindSupplierName = getTranNoLink("service",sFindSupplierUid,sWebLanguage);
@@ -247,7 +238,7 @@
     }
 
     //--- FIND ------------------------------------------------------------------------------------
-    if(sAction.startsWith("find")){
+    if(sAction.length()==0 || sAction.startsWith("find")){
         displaySearchFields = true;
         displayFoundRecords = true;
 

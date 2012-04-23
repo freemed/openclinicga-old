@@ -14,10 +14,7 @@
         if (sMenu.length() > 0 && 1 > 1) {
             document = xmlReader.read(new StringReader(sMenu));
         } else {
-            String sMenuXML = MedwanQuery.getInstance().getConfigString("countersXMLFile");
-            if (sMenuXML.length() == 0) {
-                sMenuXML = "counters.xml";
-            }
+            String sMenuXML = MedwanQuery.getInstance().getConfigString("countersXMLFile","counters.xml");
             String sMenuXMLUrl = "http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/_common/xml/" + sMenuXML;
             // Check if menu file exists, else use file at templateSource location.
             try {
@@ -46,7 +43,7 @@
             sOut+=" ERROR : "+e.getMessage();
         }
         //Patients archiveFileCode
-        String s="select max(archivefilecode) as maxcode from adminview where len(archivefilecode)=(select max(len(archivefilecode)) from adminview)";
+        String s="select max(archivefilecode) as maxcode from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)=(select max("+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)) from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)<7)";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
         	PreparedStatement ps=oc_conn.prepareStatement(s);
@@ -61,6 +58,7 @@
 				ps.setString(2,"ArchiveFileId");
 				ps.executeUpdate();
 				ps.close();
+                sOut+=("<li>ArchiveFileId<ul><li>"+ScreenHelper.convertToAlfabeticalCode((ScreenHelper.convertFromAlfabeticalCode(maxcode)+1)+"")+"</li></ul></li>");
         	}
         	else{
 	        	rs.close();

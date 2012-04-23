@@ -19,7 +19,7 @@
                 <tr>
                     <td width="1%">
                         <%=getTran("web","chronicmedication",sWebLanguage)%>
-                        <div id="chronicproducts" style="width:340;height:50;border-style: solid;border-width: 1px;border-color: lightgray;">&nbsp;
+                        <div class="searchResults" id="chronicproducts" style="width:340;height:50;border-style: solid;border-width: 1px;border-color: lightgray;">&nbsp;
                             </div>
                     </td>
                 </tr>
@@ -60,7 +60,7 @@
     <tr>
         <td>
             &nbsp;<input type="button" class="button" name="updateprescriptioninfo" value="<%=getTranNoLink("web","update",sWebLanguage)%>" onclick="updatecontent();"/>
-            <input type="button" class="button" name="copytochronicmedication" value="<%=getTranNoLink("web","copytochronic",sWebLanguage)%>"/>
+            <input type="button" class="button" name="copytochronicmedication" value="<%=getTranNoLink("web","copytochronic",sWebLanguage)%>" onclick="copytochronic();"/>
             <input type="button" class="button" name="add" value="+ <%=getTranNoLink("web","list",sWebLanguage)%>" onclick="addcontent();"/>
         </td>
         <td>
@@ -70,7 +70,19 @@
 </table>
 
 <script type="text/javascript">
-    function findproduct(){
+	function copytochronic(){
+        var url = "<c:url value="/"/>medical/ajax/addChronicPrescription.jsp";
+        new Ajax.Request(url,{
+              method: "POST",
+              postBody: "productuid="+document.getElementById("productuid").value,
+              onSuccess: function(resp){
+            	  findchronicproducts();
+              },
+              onFailure: function(){
+              }
+          });
+	}
+	function findproduct(){
         var url = "<c:url value="/"/>medical/ajax/findPrescriptionProduct.jsp";
         var params = "productname="+document.getElementById("findproduct").value;
 

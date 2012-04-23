@@ -1,0 +1,43 @@
+<Menus>
+	<Menu labelid="person">
+		<Menu labelid="administration" accessrights="patient.administration.select" url="/patientdata.do" patientselected="true"/>
+        <Menu labelid="new_person" accessrights="patient.administration.add" url="/patientnew.do?PatientNew=true"/>
+		<Menu labelid="clear" accessrights="patient.administration.select" url="/start.do?PatientNew=true"/>
+        <Menu labelid="printInsuranceCard" accessrights="patient.administration.select" url="javascript:printInsuranceCard();" patientselected="true"/>
+        <Menu labelid="uploadPicture" accessrights="patient.administration" url="/main.do?Page=system/uploadPicture.jsp;" patientselected="true"/>
+        <Menu labelid="loadPicture" accessrights="patient.administration" url="javascript:storePicture();" patientselected="true"/>
+        <Menu labelid="showPicture" accessrights="patient.administration.select" url="javascript:showPicture();" patientselected="true"/>
+        <Menu labelid="enrollFingerPrint" accessrights="patient.administration" url="javascript:enrollFingerPrint();" patientselected="true"/>
+        <Menu labelid="Read_fingerprint" accessrights="patient.administration.select" url="javascript:readFingerprint();"/>
+        <Menu labelid="createArchiveFile" accessrights="patient.archive.select" url="javascript:createArchiveFile();" patientselected="true"/>
+    </Menu>
+    <Menu labelid="applications">
+		<Menu labelid="planning" accessrights="planning.select" url="/main.do?Page=planning/findPlanning.jsp"/>
+        <Menu labelid="printlabel" accessrights="system.printlabel" patientselected="true" url="javascript:printPatientLabel();"/>
+        <Menu labelid="financial" accessrights="financial.select">
+            <Menu labelid="contributionEdit" patientselected="true" accessrights="financial.debet.edit" url="/main.do?Page=financial/contributionEdit.jsp"/>
+            <Menu labelid="personInvoiceEdit" patientselected="true" accessrights="financial.patientinvoice.edit" url="/main.do?Page=financial/patientInvoiceEdit.jsp"/>
+            <Menu labelid="thirdPartyInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/insuranceInvoiceEdit.jsp"/>
+            <Menu labelid="extraInsuranceInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/extraInsuranceInvoiceEdit.jsp"/>
+            <Menu labelid="personCreditEdit" patientselected="true" accessrights="financial.patientcreditedit" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
+            <Menu labelid="thirdpartyCreditEdit" accessrights="financial.insurarcreditedit" url="/main.do?Page=financial/insurarCreditEdit.jsp"/>
+            <Menu labelid="horizontalrule" patientselected="true" accessrights="financial.debet.edit" url="#"/>
+            <Menu labelid="debetEdit" patientselected="true" accessrights="financial.debet.edit" url="/main.do?Page=financial/debetEdit.jsp"/>
+            <Menu labelid="horizontalrule" accessrights="financial.reimbursement.edit" url="#"/>
+            <Menu labelid="reimbursements" accessrights="financial.reimbursement.edit" url="/main.do?Page=financial/coveragePlanInvoiceEdit.jsp"/>
+            <Menu labelid="horizontalrule" url="#"/>
+            <Menu labelid="searchInvoice" accessrights="financial.insuranceinvoice.select" url="/main.do?Page=financial/searchInvoice.jsp"/>
+            <Menu labelid="updateInvoice" accessrights="financial.invoiceupdate.edit" url="/main.do?Page=financial/updateInvoice.jsp"/>
+            <Menu labelid="renewExpiredContributions" accessrights="financial.renewexpiredcontributions.edit" url="/main.do?Page=financial/renewExpiredContributions.jsp"/>
+        </Menu>
+    </Menu>
+    <Menu labelid="statistics" accessrights="statistics.select" url="/main.do?Page=statistics/index.jsp"/>
+	<Menu labelid="system">
+		<Menu labelid="myProfile" url="/main.do?Page=userprofile/index.jsp"/>
+        <Menu labelid="mergepersons" accessrights="system.mergepersons" url="/main.do?Page=system/mergePersons.jsp"/>
+        <Menu labelid="centerinfo" accessrights="system.centerinfo" url="/main.do?Page=center/index.jsp"/>
+		<Menu labelid="management" accessrights="system.management" url="/main.do?Page=system/menu.jsp"/>
+		<Menu labelid="permissions" accessrights="system.permissions" url="/main.do?Page=permissions/index.jsp"/>
+    </Menu>
+    <Menu labelid="help" url="javascript:showmanual();"/>
+</Menus>

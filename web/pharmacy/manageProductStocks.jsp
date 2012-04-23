@@ -105,6 +105,7 @@
                 outTran = getTranNoLink("Web.manage", "changeLevel.out", sWebLanguage),
                 orderThisProductTran = getTranNoLink("Web.manage", "orderthisproduct", sWebLanguage),
                 changeLevelInTran = getTranNoLink("Web.manage", "changeLevelIn", sWebLanguage),
+                ficheTran = getTranNoLink("Web", "productfiche", sWebLanguage),
                 changeLevelOutTran = getTranNoLink("Web.manage", "changeLevelOut", sWebLanguage);
 
         // run thru found productstocks
@@ -131,10 +132,11 @@
             // alternate row-style
             if (sClass.equals("")) sClass = "1";
             else sClass = "";
-
+            
             //*** display stock in one row ***
-            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
-                    .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\">":""));
+            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+                    .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\" title='" + deleteTran + "'><td/>":"<td/>"))
+		            .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches")?"<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sStockUid + "');\" title='" + ficheTran + "'><td/>":"<td/>"));
             if(productStock.hasOpenDeliveries()){
                 html.append("<a href='javascript:receiveProduct(\"" + sStockUid + "\",\"" + sProductName + "\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a>");
             }
@@ -732,6 +734,9 @@
                         <%-- clickable header --%>
                         <tr class="admin">
                             <td/>
+                            <td/>
+                            <td/>
+                            <td/>
                             <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_LEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","level",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_COMMAND');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"<"+sSortDir+">":"")%><%=getTran("Web","openorders",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
@@ -820,6 +825,9 @@
                         }
                     %>
                     <%-- Product --%>
+                    <tr>
+                        <td class="admin" colspan="2"><%=getTran("Web","productstuckid",sWebLanguage)%>: <%=sEditStockUid %></td>
+                    </tr>
                     <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","product",sWebLanguage)%> *</td>
                         <td class="admin2">
@@ -1228,9 +1236,14 @@
     openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&SearchExternalServices=true&VarCode="+serviceUidField+"&VarText="+serviceNameField);
   }
 
+  <%-- popup : search supplier --%>
+  function printFiche(productStockUid,productStockName){
+	openPopup("pharmacy/viewProductStockFiches.jsp&ts=<%=getTs()%>&Action=find&FindProductStockUid="+productStockUid+"&GetYear=<%=new SimpleDateFormat("yyyy").format(new java.util.Date())%>&FindServiceStockName=<%=sServiceStockName%>",700,500);
+  }
+
   <%-- popup : CALCULATE ORDER --%>
   function doCalculateOrder(serviceStockUid,serviceStockName){
-    openPopup("pharmacy/popups/calculateOrder.jsp&ServiceStockUid="+serviceStockUid+"&ServiceStockName="+serviceStockName+"&ts=<%=getTs()%>",980,700);
+    openPopup("pharmacy/popups/calculateOrder.jsp&ServiceStockUid="+serviceStockUid+"&ServiceStockName="+serviceStockName+"&ts=<%=getTs()%>",700,400);
   }
 
   <%-- CLEAR MESSAGE --%>

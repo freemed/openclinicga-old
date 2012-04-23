@@ -8,9 +8,10 @@
 	private String writeRow(String labtype,String labid){
 		String sOut="<tr class='admin2'>";
 		sOut+="<td valign='top'>"+labtype+"$"+labid+"</td><td><table width='100%'>";
-		sOut+="<tr><td><textarea onKeyup='resizeTextarea(this,10);' class='text' cols='100', rows='1' name='"+labtype+"$"+labid+"$fr'>"+getTranNoLink(labtype,labid,"fr")+"</textarea></td></tr>";
-		sOut+="<tr><td><textarea onKeyup='resizeTextarea(this,10);' class='text' cols='100', rows='1' name='"+labtype+"$"+labid+"$en'>"+getTranNoLink(labtype,labid,"en")+"</textarea></td></tr>";
-		sOut+="<tr><td><textarea onKeyup='resizeTextarea(this,10);' class='text' cols='100', rows='1' name='"+labtype+"$"+labid+"$nl'>"+getTranNoLink(labtype,labid,"nl")+"</textarea></td></tr>";
+		String supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","fr,en,nl");
+		for(int n=0;n<supportedlanguages.split(",").length;n++){
+			sOut+="<tr><td class='admin'>"+supportedlanguages.split(",")[n].toUpperCase()+" <textarea onKeyup='resizeTextarea(this,10);' class='text' cols='100', rows='1' name='"+labtype+"$"+labid+"$"+supportedlanguages.split(",")[n]+"'>"+getTranNoLink(labtype,labid,supportedlanguages.split(",")[n])+"</textarea></td></tr>";
+		}
 		sOut+="</table></td>";
 		sOut+="</tr>";
 		sOut+="<tr><td colspan='2'><hr/></td></tr>";
@@ -84,6 +85,10 @@
 	out.println(writeRow("web.occup","invoicefinancialmessagetitle2"));
 	out.println(writeRow("web","productionsystemwarning"));
 	out.println(writeRow("web","testsystemredirection"));
+	if(MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openinsurance")){
+		out.println(writeRow("web.occup","rbfinancialmessagetitle"));
+		out.println(writeRow("web.occup","rbmessagetitle2"));
+	}
 	out.println(writeConfigRow("footer."+checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase()));
 %>
   </table>

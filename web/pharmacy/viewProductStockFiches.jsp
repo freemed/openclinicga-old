@@ -13,7 +13,12 @@
     // get data from form
     String sFindServiceStockName = checkString(request.getParameter("FindServiceStockName")),
             sFindProductStockUid = checkString(request.getParameter("FindProductStockUid")),
-            sFindYear = checkString(request.getParameter("FindYear"));
+                    sGetYear = checkString(request.getParameter("GetYear")),
+                    sFindYear = checkString(request.getParameter("FindYear"));
+    
+    if(sFindYear.length()==0 && sGetYear.length()>0){
+    	sFindYear=sGetYear;
+    }
 
     // default year
     if (sFindYear.length() == 0) {
@@ -67,6 +72,9 @@
         if(displaySearchFields){
             // afgeleide data
             String sFindProductStockName = checkString(request.getParameter("FindProductStockName"));
+            if(sFindProductStockName.length()==0 && productStock!=null){
+            	sFindProductStockName=productStock.getProduct().getName();
+            }
 
             %>
                 <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch();}';" onKeyDown="if(enterEvent(event,13)){doSearch();}">
@@ -231,7 +239,6 @@
       transactionForm.clearButton.disabled = true;
 
       transactionForm.Action.value = "find";
-      openSearchInProgressPopup();
       transactionForm.submit();
     }
     else{

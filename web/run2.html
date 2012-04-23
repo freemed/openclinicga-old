@@ -1,0 +1,28 @@
+<html>
+<head>
+<title></title>
+<script type="text/javascript">
+
+fso = new ActiveXObject("Scripting.FileSystemObject");
+
+function RunProgram(Program_Path) {
+Default_Value = Program_Path.match(new RegExp("Default", "i"))
+if (Default_Value) {
+} else {
+new ActiveXObject("WScript.Shell").Run(Program_Path,3,false)
+}
+}
+
+</script>
+</head>
+<body>
+
+<select onchange="RunProgram(this.value)">
+<option value="Default" selected>Launch Program</option>
+<option value="C:\\temp\\HG.exe">HG</option>
+<option value="C:\\WINDOWS\\EXPLORER.EXE">Explorer</option>
+<option value="C:\\PROGRA~1\\MOZILLA.ORG\\MOZILLA\\MOZILLA.EXE">Mozilla 1.0</option>
+</select>
+
+</body>
+</html>

@@ -188,7 +188,7 @@
 <script>
   <%-- popup : SELECT EXAMINATIONS --%>
   function selectExaminations(){
-    openPopup("/_common/search/searchExaminationMultipleAdd.jsp&ts=<%=getTs()%>&displayAllExaminations=true&selectedExamIds="+transactionForm.selectedExamIds.value);
+    openPopup("/_common/search/searchExaminationMultipleAdd.jsp&ts=<%=getTs()%>&displayAllExaminations=true&selectedExamIds="+transactionForm.selectedExamIds.value,200,600);
   }
 
   <%-- DO EDIT SERVICE --%>

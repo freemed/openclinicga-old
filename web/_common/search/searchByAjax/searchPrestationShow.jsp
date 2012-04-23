@@ -62,34 +62,47 @@ try{
 
             while (prestationsIter.hasNext()) {
                 prestation = (Prestation) prestationsIter.next();
-                recsFound = true;
-
-                // names
-                sUid = prestation.getUid();
-                sCode = checkString(prestation.getCode());
-                sDescr = checkString(prestation.getDescription());
-
-                // type
-                sType = checkString(prestation.getType());
-                sTypeTran = getTran("prestation.type", sType, sWebLanguage);
-
-                // price
-                double price = prestation.getPrice();
-                if (price == 0) sPrice = "";
-                else sPrice = price + "";
-
-                // alternate row-style
-                if (sClass.equals("")) sClass = "1";
-                else sClass = "";
-
-                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestation('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "');\">")
-                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
-                        .append(" <td>" + sCode + "</td>")
-                        .append(" <td>" + sDescr + "</td>")
-                        .append(" <td>" + sTypeTran + "</td>")
-                        .append(" <td >" + prestation.getPriceFormatted(category) + "</td>")
-                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
-                        .append("</tr>");
+                if(!prestation.getType().equalsIgnoreCase("con.openinsurance")){
+	                recsFound = true;
+	
+	                // names
+	                sUid = prestation.getUid();
+	                sCode = checkString(prestation.getCode());
+	                sDescr = checkString(prestation.getDescription());
+	
+	                // type
+	                sType = checkString(prestation.getType());
+	                sTypeTran = getTran("prestation.type", sType, sWebLanguage);
+	
+	                // price
+	                double price = prestation.getPrice();
+	                if (price == 0) sPrice = "";
+	                else sPrice = price + "";
+	
+	                // alternate row-style
+	                if (sClass.equals("")) sClass = "1";
+	                else sClass = "";
+					if(prestation.getVariablePrice()==1){
+		                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestationVariable('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "');\">")
+		                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
+		                        .append(" <td>" + sCode + "</td>")
+		                        .append(" <td>" + sDescr + "</td>")
+		                        .append(" <td>" + sTypeTran + "</td>")
+		                        .append(" <td >" + prestation.getPriceFormatted(category) + "</td>")
+		                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
+		                        .append("</tr>");
+					}
+					else {
+		                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestation('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "');\">")
+		                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
+		                        .append(" <td>" + sCode + "</td>")
+		                        .append(" <td>" + sDescr + "</td>")
+		                        .append(" <td>" + sTypeTran + "</td>")
+		                        .append(" <td >" + prestation.getPriceFormatted(category) + "</td>")
+		                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
+		                        .append("</tr>");
+					}
+                }
             }
 
             if (recsFound) {

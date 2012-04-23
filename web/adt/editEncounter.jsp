@@ -31,6 +31,9 @@
     String sEditEncounterServiceName = checkString(request.getParameter("EditEncounterServiceName"));
 
     String sEditEncounterOrigin = checkString(request.getParameter("EditEncounterOrigin"));
+    if(sEditEncounterOrigin.length()==0){
+    	sEditEncounterOrigin=MedwanQuery.getInstance().getConfigString("defaultEncounterOrigin","");
+    }
     String sEditEncounterDestination = checkString(request.getParameter("EditEncounterDestination"));
     String sEditEncounterDestinationName = checkString(request.getParameter("EditEncounterDestinationName"));
 
@@ -334,7 +337,7 @@
             <td class='admin2'>
                 <select class='text' id='EditEncounterType' name='EditEncounterType' onchange="checkEncounterType();">
                     <%
-                        String encountertypes=MedwanQuery.getInstance().getConfigString("encountertypes","admission,visit");
+                        String encountertypes=MedwanQuery.getInstance().getConfigString("encountertypes","admission,visit,coverage");
                         String sOptions[] = encountertypes.split(",");
 
                         for(int i=0;i<sOptions.length;i++){

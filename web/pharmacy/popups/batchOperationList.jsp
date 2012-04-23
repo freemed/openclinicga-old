@@ -61,6 +61,16 @@ String productStockUid=checkString(request.getParameter("productStockUid"));
 				}
 				out.println("<tr><td class='admin2'>-&gt; "+getTran("productstockoperation.medicationdelivery",productStockOperation.getDescription(),sWebLanguage)+"</td>");
 			}
+			else if(productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")){
+				thirdparty=	productStockOperation.getSourceDestination().getObjectUid();
+				if(thirdparty!=null && thirdparty.length()>0){
+					ServiceStock service = ServiceStock.get(thirdparty);
+					if(service!=null){
+						thirdparty=service.getName();
+					}
+				}
+				out.println("<tr><td class='admin2'>-&gt; "+getTran("productstockoperation.medicationdelivery",productStockOperation.getDescription(),sWebLanguage)+"</td>");
+			}
 			out.println("<td class='admin2'>"+date+"</td>");
 			out.println("<td class='admin2'>"+getTran("productstockoperation.sourcedestinationtype",productStockOperation.getSourceDestination().getObjectType(),sWebLanguage)+"</td>");
 			out.println("<td class='admin2'>"+thirdparty+"</td>");

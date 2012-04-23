@@ -171,8 +171,13 @@
             sEditDateOrdered = checkString(request.getParameter("EditDateOrdered")),
             sEditDateDeliveryDue = checkString(request.getParameter("EditDateDeliveryDue")),
             sEditDateDelivered = checkString(request.getParameter("EditDateDelivered")),
+            sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
+            sEditProductStockDocumentUidText = "",
             sEditImportance = checkString(request.getParameter("EditImportance")); // (native|high|low)
 
+            if(sEditProductStockDocumentUid.length()>0){
+            	sEditProductStockDocumentUidText=getTran("operationdocumenttypes",OperationDocument.get(sEditProductStockDocumentUid).getType(),sWebLanguage);
+            }
     // afgeleide data
     String sEditProductName = checkString(request.getParameter("EditProductName"));
 
@@ -203,7 +208,7 @@
             sFindSupplierUid = "", sFindSupplierName = "", sFindDateDeliveredSince = "";
 
     // get find-data from form
-    sFindDescription = checkString(request.getParameter("FindDescription"));
+    sFindDescription = (checkString(request.getParameter("FindDescription"))+"%").replaceAll("%%", "%");
     sFindSupplierUid = checkString(request.getParameter("FindSupplierUid"));
     sFindServiceUid = checkString(request.getParameter("FindServiceUid"));
     sFindServiceStockUid = checkString(request.getParameter("FindServiceStockUid"));
@@ -243,27 +248,22 @@
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
     if (sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ displaySearchFields : " + displaySearchFields);
-
     String sDisplayDeliveredOrders = checkString(request.getParameter("DisplayDeliveredOrders"));
+	System.out.println("DisplayDeliveredOrders="+sDisplayDeliveredOrders);
     if (sDisplayDeliveredOrders.length() == 0) sDisplayDeliveredOrders = "false"; // default
     boolean displayDeliveredOrders = sDisplayDeliveredOrders.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ displayDeliveredOrders : " + displayDeliveredOrders);
 
     String sDisplayUndeliveredOrders = checkString(request.getParameter("DisplayUndeliveredOrders"));
     if (sDisplayUndeliveredOrders.length() == 0) sDisplayUndeliveredOrders = "true"; // default
     boolean displayUndeliveredOrders = sDisplayUndeliveredOrders.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ displayUndeliveredOrders : " + displayUndeliveredOrders);
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));
     if (sSortCol.length() == 0) sSortCol = sDefaultSortCol;
-    if (Debug.enabled) Debug.println("@@@ SortCol : " + sSortCol);
 
     // sortDir
     String sSortDir = checkString(request.getParameter("SortDir"));
     if (sSortDir.length() == 0) sSortDir = sDefaultSortDir;
-    if (Debug.enabled) Debug.println("@@@ SortDir : " + sSortDir);
 
     // default since-date is one week ago
     if (sFindDateDeliveredSince.length() == 0) {
@@ -275,14 +275,6 @@
             oneWeekAgo.add(Calendar.DATE, -7); // default one week
         }
         sFindDateDeliveredSince = new SimpleDateFormat("dd/MM/yyyy").format(oneWeekAgo.getTime());
-    }
-
-    // search service of user by default
-    if (sAction.length() == 0) {
-        sFindServiceUid = activeUser.activeService.code;
-        sFindServiceName = getTranNoLink("service", sFindServiceUid, sWebLanguage);
-    } else {
-        sFindServiceName = checkString(request.getParameter("FindServiceName"));
     }
 
     // supplier name
@@ -311,6 +303,10 @@
 
     //--- SAVE ------------------------------------------------------------------------------------
     if (sAction.equals("save") && sEditOrderUid.length() > 0) {
+        String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
+        if (!sPrevUsedDocument.equals(sEditProductStockDocumentUid)) {
+            session.setAttribute("PrevUsedDocument", sEditProductStockDocumentUid);
+        }
         // create order
         ProductOrder order = new ProductOrder();
         order.setUid(sEditOrderUid);
@@ -343,6 +339,7 @@
                 sd = new ObjectReference("servicestock",productStock.getSupplier().defaultServiceStockUid);
             }
             operation.setSourceDestination(sd);
+            operation.setDocumentUID(sEditProductStockDocumentUid);
             operation.setUnitsChanged(Integer.parseInt(sEditPackagesDelivered));
             operation.setUpdateDateTime(new java.util.Date());
             operation.setUpdateUser(activeUser.userid);
@@ -436,7 +433,7 @@
         Vector orders = ProductOrder.find(displayDeliveredOrders, displayUndeliveredOrders,
                 sFindDescription, sFindServiceUid, sFindProductStockUid,
                 sFindPackagesOrdered, sFindDateDeliveryDue, sFindDateOrdered,
-                sFindSupplierUid, sFindServiceStockUid, sSortCol, sSortDir);
+                sFindSupplierUid, sFindServiceStockUid, sSortCol, sSortDir,sFindDateDeliveredSince);
 
         if (displayDeliveredOrders) ordersHtml = ordersToHtml(orders, sWebLanguage);
         if (displayUndeliveredOrders) ordersHtml = undeliveredOrdersToHtml(orders, sWebLanguage);
@@ -447,6 +444,13 @@
     if (sAction.startsWith("showDetails")) {
         displayEditFields = true;
         displaySearchFields = false;
+        String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
+        if(sEditProductStockDocumentUid.length() == 0 && sPrevUsedDocument.length() > 0) {
+        	sEditProductStockDocumentUid = sPrevUsedDocument;
+        }
+        if(sEditProductStockDocumentUid.length()>0){
+        	sEditProductStockDocumentUidText=getTran("operationdocumenttypes",OperationDocument.get(sEditProductStockDocumentUid).getType(),sWebLanguage);
+        }
 
         // get specified record
         if (sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")) {
@@ -626,7 +630,6 @@
                             </span>
 
                             <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
-                            <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
                             <input type="button" class="button" name="searchComplementButton" value="<%=getTranNoLink("Web.manage",(displayDeliveredOrders?"undeliveredOrders":"deliveredOrders"),sWebLanguage)%>" onclick="doSearch(<%=!displayDeliveredOrders%>,'<%=sSortCol%>');">
 
                             <%-- since 2 --%>
@@ -863,6 +866,15 @@
                                 %>
                             </td>
                         </tr>
+	                    <tr id='documentline'>
+	                        <td class="admin"><%=getTran("Web","productstockoperationdocument",sWebLanguage)%></td>
+		                    <td class="admin2">
+		                    	<input type='text' class='text' name='EditProductStockDocumentUid' id='EditProductStockDocumentUid' size='10' value="<%=sEditProductStockDocumentUid %>" readonly/>
+		                    	<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick="searchDocument('EditProductStockDocumentUid','EditProductStockDocumentUidText');">&nbsp;
+		                    	<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="transactionForm.EditProductStockDocumentUid.value='';document.getElementById('EditProductStockDocumentUidText').innerHTML='';">
+		                    	<label class='text' name='EditProductStockDocumentUidText' id='EditProductStockDocumentUidText'><%=sEditProductStockDocumentUidText %></label>
+		                    </td>
+	                    </tr>
                         <%-- importance (dropdown : native|high|low) --%>
                         <tr>
                             <td class="admin"><%=getTran("Web","Importance",sWebLanguage)%>&nbsp;*</td>
@@ -1142,7 +1154,6 @@
 
     transactionForm.searchButton.disabled = true;
     transactionForm.clearButton.disabled = true;
-    transactionForm.newButton.disabled = true;
     if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
 
     transactionForm.Action.value = "showDetailsNew";
@@ -1153,7 +1164,6 @@
   function doShowDetails(orderUid){
     if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
     if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
-    if(transactionForm.newButton!=undefined) transactionForm.newButton.disabled = true;
     if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
 
     transactionForm.EditOrderUid.value = orderUid;
@@ -1224,12 +1234,10 @@
        !transactionForm.FindImportance.value.length==0){
       transactionForm.searchButton.disabled = true;
       transactionForm.clearButton.disabled = true;
-      transactionForm.newButton.disabled = true;
 
       transactionForm.searchButton.disabled = true;
       transactionForm.searchComplementButton.disabled = true;
       transactionForm.clearButton.disabled = true;
-      transactionForm.newButton.disabled = true;
 
       transactionForm.DisplayDeliveredOrders.value = deliverdOrUndelivered;
       transactionForm.DisplayUndeliveredOrders.value = !deliverdOrUndelivered;
@@ -1250,7 +1258,6 @@
   function doDefaultPageLoad(){
     transactionForm.searchButton.disabled = true;
     transactionForm.clearButton.disabled = true;
-    transactionForm.newButton.disabled = true;
     if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
 
     openSearchInProgressPopup();
@@ -1302,6 +1309,22 @@
       transactionForm.returnButton.disabled = true;
       transactionForm.submit();
     }
+  }
+  <%-- popup : search document --%>
+  function searchDocument(documentUidField,documentUidTextField){
+	<%
+	String sDocumentSource="";
+	String sDocumentSourceText="";
+	String sFindMinDate="";
+		ProductStock productStock = ProductStock.get(sEditProductStockUid);
+		if(productStock!=null && productStock.getServiceStockUid()!=null){
+			sDocumentSource=productStock.getServiceStockUid();
+			sDocumentSourceText=productStock.getServiceStock().getName();
+			sFindMinDate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date().getTime()-7*24*3600*1000);
+		}
+		
+	%>
+    openPopup("/_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>&documentuid="+document.getElementById("EditProductStockDocumentUid").value+"&finddocumentsource=<%=sDocumentSource%>&finddocumentmindate=<%=sFindMinDate%>&finddocumentsourcetext=<%=sDocumentSourceText%>&ReturnDocumentID="+documentUidField+"&ReturnDocumentName="+documentUidTextField);
   }
 
   <%-- DO BACK --%>

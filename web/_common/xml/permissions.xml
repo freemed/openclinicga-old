@@ -146,6 +146,8 @@
         <permission type="web" id="updateInvoice">financial.invoiceupdate</permission>
         <permission type="web" id="cancelclosedinvoice">financial.cancelclosedinvoice</permission>
         <permission type="web" id="closeunpaidinvoice">financial.closeunpaidinvoice</permission>
+        <permission type="web" id="reimbursements">financial.reimbursement</permission>
+        <permission type="web" id="renewexpiredcontributions">financial.renewexpiredcontributions</permission>
     </application>
     <application type="Web" id="executive">
         <permission type="web" id="bedoccupation">occup.bedoccupation</permission>
@@ -202,12 +204,16 @@
         <permission type="web" id="medication">medication</permission>
         <permission type="web" id="medicationdelivery">medication.medicationdelivery</permission>
         <permission type="web" id="medicationreceipt">medication.medicationreceipt</permission>
+        <permission type="web" id="export">pharmacy.export</permission>
+        <permission type="web" id="import">pharmacy.import</permission>
+        <permission type="web" id="manageProductStockDocuments">pharmacy.manageproductstockdocuments</permission>
         <permission type="Web.manage" id="manageUserProducts">pharmacy.manageuserproducts</permission>
         <permission type="Web.manage" id="manageProducts">pharmacy.manageproducts</permission>
         <permission type="Web.manage" id="editproductUnit">pharmacy.editproductunit</permission>
         <permission type="Web.manage" id="manageServiceStocks">pharmacy.manageservicestocks</permission>
         <permission type="Web.manage" id="orders">pharmacy.order</permission>
         <permission type="Web.manage" id="manageProductOrders">pharmacy.manageproductorders</permission>
+        <permission type="web" id="manageProductStockDocuments">pharmacy.manageproductstockdocuments</permission>
         <permission type="Web.manage" id="viewOrderTickets">pharmacy.viewordertickets</permission>
         <permission type="Web.manage" id="viewProductStockFiches">pharmacy.viewproductstockfiches</permission>
     </application>

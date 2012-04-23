@@ -108,6 +108,42 @@
 	<Query id="QUERY.addOpenClinicDbNameKey" db="openclinic" date="31/01/2012" dbserver="MySQL">
 	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('openclinicdbName','openclinic_dbo',4,now())
   	</Query>
+  	<Query id='QUERY.updaterwandazipcodes.districtandcity' db="ocadmin" date="31/03/2012" dbserver="MySQL">
+		alter table rwandazipcodes modify column district varchar(255),modify column city varchar(255)
+  	</Query>
+  	<Query id='QUERY.updaterwandazipcodes.district' db="ocadmin" date="31/03/2012" dbserver="Microsoft SQL Server">
+  		alter table rwandazipcodes alter column district varchar(255)
+  	</Query>
+  	<Query id='QUERY.updaterwandazipcodes.city' db="ocadmin" date="31/03/2012" dbserver="Microsoft SQL Server">
+  		alter table rwandazipcodes alter column city varchar(255)
+  	</Query>
+  	<Query id='QUERY.updatedrczipcodes.districtandcity' db="ocadmin" date="31/03/2012" dbserver="MySQL">
+		alter table drczipcodes modify column district varchar(255),modify column city varchar(255)
+  	</Query>
+  	<Query id='QUERY.updatedrczipcodes.district' db="ocadmin" date="31/03/2012" dbserver="Microsoft SQL Server">
+  		alter table drczipcodes alter column district varchar(255)
+  	</Query>
+  	<Query id='QUERY.updatedrczipcodes.city' db="ocadmin" date="31/03/2012" dbserver="Microsoft SQL Server">
+  		alter table drczipcodes alter column city varchar(255)
+  	</Query>
+  	<Query id='QUERY.updatemalizipcodes.districtandcity' db="ocadmin" date="31/03/2012" dbserver="MySQL">
+		alter table malizipcodes modify column district varchar(255),modify column city varchar(255)
+  	</Query>
+  	<Query id='QUERY.updatemalizipcodes.district' db="ocadmin" date="31/03/2012" dbserver="Microsoft SQL Server">
+  		alter table malizipcodes alter column district varchar(255)
+  	</Query>
+  	<Query id='QUERY.updatemalizipcodes.city' db="ocadmin" date="31/03/2012" dbserver="Microsoft SQL Server">
+  		alter table malizipcodes alter column city varchar(255)
+  	</Query>
+  	<Query id='QUERY.updateburundizipcodes.districtandcity' db="ocadmin" date="31/03/2012" dbserver="MySQL">
+		alter table burundizipcodes modify column district varchar(255),modify column city varchar(255)
+  	</Query>
+  	<Query id='QUERY.updateburundizipcodes.district' db="ocadmin" date="31/03/2012" dbserver="Microsoft SQL Server">
+  		alter table burundizipcodes alter column district varchar(255)
+  	</Query>
+  	<Query id='QUERY.updateburundizipcodes.city' db="ocadmin" date="31/03/2012" dbserver="Microsoft SQL Server">
+  		alter table burundizipcodes alter column city varchar(255)
+  	</Query>
   	<Query id="QUERY.Zipcode.1" db="ocadmin" date="23/03/2012">
 		alter table AdminPrivate modify column zipcode varchar(25) 	
   	</Query>

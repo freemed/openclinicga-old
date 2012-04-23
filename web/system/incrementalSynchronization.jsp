@@ -89,7 +89,7 @@
                     ps.setInt(1, personid);
                     rs = ps.executeQuery();
                     if (rs.next()) {
-                        profileId = MedwanQuery.getInstance().getCounter("RiskProfileID", destination);
+                        profileId = MedwanQuery.getInstance().getOpenclinicCounter("RiskProfileID");
                         rs.close();
                         ps.close();
                         ps = destination.prepareStatement("insert into RiskProfiles(profileId,dateBegin,dateEnd,personId,updatetime) values(?,?,null,?,?)");
@@ -108,7 +108,7 @@
 
                         while (rs.next()) {
                             psSync = destination.prepareStatement("insert into RiskProfileContexts(profileContextId,itemType,itemId,profileId) values(?,?,?,?)");
-                            psSync.setInt(1, MedwanQuery.getInstance().getCounter("RiskProfileContextID", destination));
+                            psSync.setInt(1, MedwanQuery.getInstance().getOpenclinicCounter("RiskProfileContextID"));
                             psSync.setString(2, rs.getString("itemType"));
                             psSync.setInt(3, rs.getInt("itemId"));
                             psSync.setInt(4, profileId);
@@ -124,7 +124,7 @@
 
                         while (rs.next()) {
                             psSync = destination.prepareStatement("insert into RiskProfileItems(profileItemId,itemType,itemId,status,comment,profileId,frequency,tolerance,ageGenderControl) values(?,?,?,?,?,?,?,?,?)");
-                            psSync.setInt(1, MedwanQuery.getInstance().getCounter("RiskProfileItemID", destination));
+                            psSync.setInt(1, MedwanQuery.getInstance().getOpenclinicCounter("RiskProfileItemID"));
                             psSync.setString(2, rs.getString("itemType"));
                             psSync.setInt(3, rs.getInt("itemId"));
                             psSync.setInt(4, rs.getInt("status"));
@@ -240,7 +240,7 @@
                                     ps.close();
                                 } else {
                                     //The healthrecord does not exist on the destinationserver yet, create it
-                                    healthrecordid = MedwanQuery.getInstance().getCounter("HealthRecordID", destination);
+                                    healthrecordid = MedwanQuery.getInstance().getOpenclinicCounter("HealthRecordID");
                                     rs.close();
                                     ps.close();
                                     ps = destination.prepareStatement("insert into Healthrecord(healthRecordId,dateBegin,dateEnd,personId,serverid,version,versionserverid) values(?,?,null,?,?,1,?)");

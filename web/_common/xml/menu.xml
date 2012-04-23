@@ -20,7 +20,7 @@
         </Menu>
         <Menu labelid="prescriptions" accessrights="prescription.select" patientselected="false">
             <Menu labelid="medications" accessrights="prescriptions.drugs.select" patientselected="true" url="javascript:openPopup('medical/managePrescriptionsPopup.jsp&amp;skipEmpty=1',900,400,'medication');"/>
-            <Menu labelid="medicationpaperprescription" accessrights="prescriptions.drugs.select" patientselected="true" url="javascript:openPopup('medical/managePrescriptionForm.jsp&amp;skipEmpty=1',650,430,'medication');"/>
+            <Menu labelid="medicationpaperprescription" accessrights="prescriptions.drugs.select" patientselected="true" url="javascript:openPopup('medical/managePrescriptionForm.jsp&amp;skipEmpty=1',750,470,'medication');"/>
             <Menu labelid="servicemedications" accessrights="prescriptions.drugs.select" patientselected="false" url="javascript:openPopup('medical/managePrescriptionsPopup.jsp&amp;ServicePrescriptions=true',900,400,'medication');"/>
             <Menu labelid="careprescriptions" accessrights="prescriptions.care.select" patientselected="true" url="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp&amp;skipEmpty=1',900,400,'care');"/>
             <Menu labelid="ManagePrescriptions" accessrights="prescription" patientselected="true" url="/main.do?Page=medical/managePrescriptions.jsp"/>
@@ -29,10 +29,6 @@
         <Menu labelid="urgencybedoverview" accessrights="adt.urgencybedoverview.select" url="/main.do?Page=adt/overviewUrgencyBeds.jsp"/>
         <Menu labelid="pharmacy" accessrights="pharmacy.select">
             <Menu labelid="drugsout" patientselected="true" accessrights="medication.medicationdelivery" url="/main.do?Page=pharmacy/drugsOut.jsp"/>
-            <Menu labelid="medication" patientselected="true" accessrights="medication.select">
-                <Menu labelid="medicationdelivery" accessrights="medication.medicationdelivery" patientselected="true" url="/main.do?Page=pharmacy/medication/deliverMedicationBySearch.jsp"/>
-                <Menu labelid="medicationreceipt" accessrights="medication.medicationreceipt" patientselected="true" url="/main.do?Page=pharmacy/medication/receiveMedication.jsp"/>
-            </Menu>
             <Menu labelid="manageUserProducts" accessrights="pharmacy.manageuserproducts.select" url="/main.do?Page=pharmacy/manageUserProducts.jsp"/>
             <Menu labelid="manageProducts" accessrights="pharmacy.manageproducts.select" url="/main.do?Page=pharmacy/manageProducts.jsp"/>
             <Menu labelid="manageServiceStocks" accessrights="pharmacy.manageservicestocks.select" url="/main.do?Page=pharmacy/manageServiceStocks.jsp"/>
@@ -40,7 +36,11 @@
                 <Menu labelid="manageProductOrders" accessrights="pharmacy.manageproductorders" url="/main.do?Page=pharmacy/manageProductOrders.jsp"/>
                 <Menu labelid="viewOrderTickets" accessrights="pharmacy.viewordertickets" url="/main.do?Page=pharmacy/viewOrderTickets.jsp"/>
             </Menu>
-            <Menu labelid="viewProductStockFiches" accessrights="pharmacy.viewproductstockfiches" url="/main.do?Page=pharmacy/viewProductStockFiches.jsp"/>
+            <Menu labelid="manageProductStockDocuments" accessrights="pharmacy.manageproductstockdocuments" url="/main.do?Page=pharmacy/manageProductStockDocuments.jsp"/>
+            <Menu labelid="synchronization" accessrights="pharmacy.select">
+	            <Menu labelid="export" accessrights="pharmacy.export" url="javascript:downloadPharmacyExport();"/>
+	            <Menu labelid="import" accessrights="pharmacy.import" url="/main.do?Page=pharmacy/importFile.jsp"/>
+	        </Menu>
         </Menu>
         <Menu labelid="financial" accessrights="financial.select">
             <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit" url="/main.do?Page=financial/patientCreditEdit.jsp"/>

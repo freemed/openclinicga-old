@@ -41,13 +41,21 @@
            sEditPrestationCategories  = checkString(request.getParameter("EditPrestationCategories")),
            sEditPrestationFamily  = checkString(request.getParameter("EditPrestationFamily")),
            sEditPrestationInvoiceGroup  = checkString(request.getParameter("EditPrestationInvoiceGroup")),
+           sEditPrestationMfpPercentage  = checkString(request.getParameter("EditPrestationMfpPercentage")),
            sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice"));
-    	   try{
-    		   sEditPrestationPrice =""+Double.parseDouble(sEditPrestationPrice);
-    	   }
-    	   catch(Exception e){
-    		   sEditPrestationPrice="0";
-    	   }
+	   try{
+		   sEditPrestationPrice =""+Double.parseDouble(sEditPrestationPrice);
+	   }
+	   catch(Exception e){
+		   sEditPrestationPrice="0";
+	   }
+
+	   try{
+		   sEditPrestationMfpPercentage =""+Integer.parseInt(sEditPrestationMfpPercentage);
+	   }
+	   catch(Exception e){
+		   sEditPrestationMfpPercentage="0";
+	   }
 
     // DEBUG //////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -94,6 +102,7 @@
         prestation.setPrice(Double.parseDouble(sEditPrestationPrice));
         prestation.setReferenceObject(new ObjectReference(sEditPrestationFamily,"0")); 
         prestation.setInvoiceGroup(sEditPrestationInvoiceGroup);
+        prestation.setMfpPercentage(Integer.parseInt(sEditPrestationMfpPercentage));
         prestation.store();
         //activeUser.addPrestation(prestation.getUid());
         sEditPrestationUid = prestation.getUid();
@@ -260,6 +269,18 @@
                             <input type="text" class="text" name="EditPrestationPrice" size="10" maxlength="8" value="<%=sPrice%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=sCurrency%>
                         </td>
                     </tr>
+                    <%
+                    	if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
+                    %>
+                    <tr>
+                        <td class="admin"><%=getTran("web","mfppercentage",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="text" class="text" name="EditPrestationMfpPercentage" size="4" maxlength="3" value="<%=prestation.getMfpPercentage()%>" onKeyup="if(!isNumber(this)){this.value='';}">%
+                        </td>
+                    </tr>
+                    <%
+                    	}
+                    %>
                     <tr>
                         <td class="admin"><%=getTran("web","categories",sWebLanguage)%></td>
                         <td class="admin2">
