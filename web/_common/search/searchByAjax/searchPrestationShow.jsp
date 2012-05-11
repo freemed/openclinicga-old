@@ -45,7 +45,7 @@ try{
 <div class="search">
     <%
         if (sAction.equals("search")) {
-            Vector foundPrestations = Prestation.searchPrestations(sFindPrestationCode, sFindPrestationDescr.replaceAll("e",MedwanQuery.getInstance().getConfigString("equivalentofe","[eéèê]")).replaceAll("a",MedwanQuery.getInstance().getConfigString("equivalentofa","[aàá]")),
+            Vector foundPrestations = Prestation.searchActivePrestations(sFindPrestationCode, sFindPrestationDescr.replaceAll("e",MedwanQuery.getInstance().getConfigString("equivalentofe","[eéèê]")).replaceAll("a",MedwanQuery.getInstance().getConfigString("equivalentofa","[aàá]")),
                     sFindPrestationType, sFindPrestationPrice,"",sFindPrestationSort);
             Iterator prestationsIter = foundPrestations.iterator();
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+	<country code="be">
+		<config key="currency" value="EUR"/>
+		<config key="currencyPdf" value="EUR"/>
+		<config key="countrycode" value="BE"/>
+		<config key="DefaultCountry" value="BE"/>
+		<config key="defaultSearchCountry" value="BELGIUM"/>
+		<config key="zipcodetable" value="BelgiumZipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,nl,de,en"/>
+		<config key="supportedLanguages" value="fr,en,nl"/>
+		<config key="mxsref" value="BE"/>
+		<config key="priceFormat" value="#,##0.00"/>
+		<config key="priceFormatInsurar" value="#,##0.00"/>
+	</country>
+	<country code="cd">
+		<config key="currency" value="CDF"/>
+		<config key="currencyPdf" value="CDF"/>
+		<config key="countrycode" value="CD"/>
+		<config key="DefaultCountry" value="CD"/>
+		<config key="defaultSearchCountry" value="RDC"/>
+		<config key="zipcodetable" value="CongoZipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="li,fr,en,de,nl,ki,sw,ts"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="CD"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+	</country>
+	<country code="rw">
+		<config key="currency" value="RWF"/>
+		<config key="currencyPdf" value="RWF"/>
+		<config key="countrycode" value="RW"/>
+		<config key="DefaultCountry" value="RW"/>
+		<config key="defaultSearchCountry" value="RWANDA"/>
+		<config key="zipcodetable" value="RwandaZipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,en,kr"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="RW"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+	</country>
+	<country code="bi">
+		<config key="currency" value="BIF"/>
+		<config key="currencyPdf" value="BIF"/>
+		<config key="countrycode" value="BI"/>
+		<config key="DefaultCountry" value="BI"/>
+		<config key="defaultSearchCountry" value="BURUNDI"/>
+		<config key="zipcodetable" value="BurundiZipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,en"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="BI"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+	</country>
+	<country code="ml">
+		<config key="currency" value="XOF"/>
+		<config key="currencyPdf" value="XOF"/>
+		<config key="countrycode" value="ML"/>
+		<config key="DefaultCountry" value="ML"/>
+		<config key="defaultSearchCountry" value="MALI"/>
+		<config key="zipcodetable" value="MaliZipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,en"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="ML"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+	</country>
+	<os code="windows">
+		<config key="DocumentsFolder" value="$setupdir$documents"/>
+		<config key="fingerprintBinDirectory" value="$setupdir$web-inf/lib"/>
+		<config key="imageDirectory" value="$setupdir$documents"/>
+		<config key="templateDirectory" value="$setupdir$_common/xml"/>
+		<config key="tmpDir" value="/temp"/>
+		<config key="tmpDirectory" value="/temp"/>
+		<config key="tempDirectory" value="/temp"/>
+	</os>
+	<os code="linux">
+		<config key="DocumentsFolder" value="$setupdir$documents"/>
+		<config key="fingerprintBinDirectory" value="$setupdir$web-inf/lib"/>
+		<config key="imageDirectory" value="$setupdir$documents"/>
+		<config key="templateDirectory" value="$setupdir$_common/xml"/>
+		<config key="tmpDir" value="/tmp"/>
+		<config key="tmpDirectory" value="/tmp"/>
+		<config key="tempDirectory" value="/tmp"/>
+	</os>
+	<database code="mysql">
+		<config key="admindbName" value="ocadmin_dbo"/>
+		<config key="openclinicdbName" value="openclinic_dbo"/>
+		<config key="charindexFunction" value="locate"/>
+		<config key="concatSign" value="||"/>
+		<config key="convertDataTypeFloat" value="decimal"/>
+		<config key="convertDataTypeVarchar" value="char"/>
+		<config key="convertDataTypeInt" value="signed"/>
+		<config key="convertDataTypeSmalldatetime" value="smalldatetime"/>
+		<config key="convertDateToStringFunction" value="date_format($date$,'%d/%m/%Y')"/>
+		<config key="convertFunction" value="convert($value$,$datatype$)"/>
+		<config key="convertStringToDateFunction" value="str_to_date($date$,'%d/%m/%Y')"/>
+		<config key="datediffFunction" value="datediff($enddate$,$begindate$)"/>
+		<config key="dateFunction" value="now()"/>
+		<config key="iifFunction" value="if($condition$,$iftrue$,$iffalse$)"/>
+		<config key="limitFunction" value="limit"/>
+		<config key="lowerCompare" value="lower(&lt;param&gt;)"/>
+		<config key="upperCompare" value="upper(&lt;param&gt;)"/>
+		<config key="stddevFunction" value="stddev"/>
+		<config key="topFunction" value="no"/>
+		<config key="lengthFunction" value="length"/>
+	</database>
+	<database code="sqlserver">
+		<config key="admindbName" value="ocadmin"/>
+		<config key="openclinicdbName" value="openclinic"/>
+		<config key="charindexFunction" value="charindex"/>
+		<config key="concatSign" value="+"/>
+		<config key="convertDataTypeFloat" value="float"/>
+		<config key="convertDataTypeVarchar" value="varchar"/>
+		<config key="convertDataTypeInt" value="int"/>
+		<config key="convertDataTypeSmalldatetime" value="smalldatetime"/>
+		<config key="convertDateToStringFunction" value="convert(char(10),$date$,103)"/>
+		<config key="convertFunction" value="convert($datatype$,$value$)"/>
+		<config key="convertStringToDateFunction" value="convert(datetime,$date$,103)"/>
+		<config key="datediffFunction" value="datediff($interval$,$begindate$,$enddate$)"/>
+		<config key="dateFunction" value="getdate()"/>
+		<config key="iifFunction" value="case when $condition$ then $iftrue$ else $iffalse$ end"/>
+		<config key="limitFunction" value=""/>
+		<config key="lowerCompare" value="lower(&lt;param&gt;)"/>
+		<config key="upperCompare" value="upper(&lt;param&gt;)"/>
+		<config key="stddevFunction" value="stdev"/>
+		<config key="topFunction" value="top"/>
+		<config key="lengthFunction" value="len"/>
+	</database>
+</sections>

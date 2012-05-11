@@ -43,7 +43,7 @@ function after(dateStr1,dateStr2){
       }
     }
   }
-
+  
   var date1 = makeDate(dateStr1);
   var date2 = makeDate(dateStr2);
 
@@ -80,11 +80,16 @@ function normaliseDate(dateStr){
 
 function makeDate(fulldateStr){
   fulldateStr = fulldateStr.replace("-","/");
+  alert('fulldatestr='+fulldateStr);
   var year = fulldateStr.substring(fulldateStr.lastIndexOf("/")+1);
+  alert('year='+year);
   var month = fulldateStr.substring(fulldateStr.indexOf("/")+1,fulldateStr.lastIndexOf("/"));
+  alert('month='+month);
   var day = fulldateStr.substring(0,fulldateStr.indexOf("/"));
+  alert('day='+day);
 
   if(isDate(day,month,year)){
+	  alert('yes, is date');
     return new Date(year,month-1,day,0,0,0);
   }
 }
@@ -286,18 +291,30 @@ function checkLongDate(sobject) {
 function y2k(number) { return (number < 1000) ? number + 1900 : number; }
 
 function isDate (day,month,year) {
-    var today = new Date();
-    year = ((!year) ? y2k(today.getYear()):year);
-    month = ((!month) ? today.getMonth():month-1);
-    if (!day) return false
-    var test = new Date(year,month,day);
-    if ( (y2k(test.getYear()) == year) &&
-         (month == test.getMonth()) &&
-         (day == test.getDate())
-       )
-        return true;
-    else
-        return false;
+	var datestatus = true;
+	if (month < 1 || month > 12)
+	{ 
+		datestatus=false;
+	}
+	if (day < 1 || day > 31)
+	{
+		datestatus=false;
+	}
+
+	if ((month==4 || month==6 || month==9 || month==11) && day==31)
+	{
+		datestatus=false;
+	}
+
+	if (month == 2)
+	{ // check for february 29th
+		var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+		if (day > 29 || (day==29 && !isleap))
+		{
+			datestatus=false;
+		}
+	}
+	return datestatus;
 }
 
 function getToday (sobject) {

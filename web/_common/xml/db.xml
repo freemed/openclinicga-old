@@ -190,8 +190,8 @@
 			<column name="OC_QUESTION_ANSWERMANDATORY" dbtype="int" javatype="integer" />
 	    </columns>
 	    <indexes>
-	    	<index name="OC_QUESTIONNAIRE_ID">
-	    		<indexcolumn order="ASC" name="OC_QUESTIONNAIRE_ID"/>
+	    	<index name="OC_QUESTION_ID">
+	    		<indexcolumn order="ASC" name="OC_QUESTION_ID"/>
 	    	</index>
 	    </indexes>
 	</table>
@@ -2095,6 +2095,7 @@
             <column name="OC_PRESTATION_COVERAGEPLAN" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PRESTATION_COVERAGEPLANCATEGORY" dbtype="varchar" javatype="string" size="10"/>
             <column name="OC_PRESTATION_VARIABLEPRICE" dbtype="int" javatype="integer"/>
+            <column name="OC_PRESTATION_INACTIVE" dbtype="int" javatype="integer"/>
         </columns>
 		<indexes>
 			<index name="OC_PRESTATION_OBJECTID">
@@ -2734,7 +2735,26 @@
 		<sql>create view AdminView as select * from Admin</sql>
 	</view>
 	<view name="Labels" db="ocadmin" drop="1">
-		<sql>CREATE VIEW labels AS 
+		<sql  db="Microsoft SQL Server">CREATE VIEW labels AS 
+			select 
+			a.OC_LABEL_TYPE AS labeltype,
+			a.OC_LABEL_ID AS labelid,
+			a.OC_LABEL_VALUE AS labelnl,
+			b.OC_LABEL_VALUE AS labelfr,
+			c.OC_LABEL_VALUE AS labelen 
+			from @openclinic@.dbo.oc_labels a join @openclinic@.dbo.oc_labels b 
+			on 
+			(a.OC_LABEL_TYPE = b.OC_LABEL_TYPE)  
+			join @openclinic@.dbo.oc_labels c 
+			on
+			(a.OC_LABEL_TYPE = c.OC_LABEL_TYPE) 
+			where 
+			(a.OC_LABEL_ID = b.OC_LABEL_ID) and 
+			(a.OC_LABEL_ID = c.OC_LABEL_ID) and 
+			(a.OC_LABEL_LANGUAGE = 'nl') and 
+			(b.OC_LABEL_LANGUAGE = 'fr') and 
+			(c.OC_LABEL_LANGUAGE = 'en')		</sql>
+		<sql  db="MySQL">CREATE VIEW labels AS 
 			select 
 			a.OC_LABEL_TYPE AS labeltype,
 			a.OC_LABEL_ID AS labelid,
@@ -2743,13 +2763,13 @@
 			c.OC_LABEL_VALUE AS labelen 
 			from ((@openclinic@.oc_labels a join @openclinic@.oc_labels b) join @openclinic@.oc_labels c) 
 			where 
-			((a.OC_LABEL_TYPE = b.OC_LABEL_TYPE) and 
+			(a.OC_LABEL_TYPE = b.OC_LABEL_TYPE) and 
 			(a.OC_LABEL_TYPE = c.OC_LABEL_TYPE) and 
 			(a.OC_LABEL_ID = b.OC_LABEL_ID) and 
 			(a.OC_LABEL_ID = c.OC_LABEL_ID) and 
 			(a.OC_LABEL_LANGUAGE = 'nl') and 
 			(b.OC_LABEL_LANGUAGE = 'fr') and 
-			(c.OC_LABEL_LANGUAGE = 'en'))
+			(c.OC_LABEL_LANGUAGE = 'en')
 		</sql>
 	</view>
 	<view name="FunctionsView" db="ocadmin" drop="1">

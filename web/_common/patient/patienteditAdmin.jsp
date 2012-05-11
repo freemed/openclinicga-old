@@ -52,7 +52,7 @@
           String sPatientLanguages = MedwanQuery.getInstance().getConfigString("PatientLanguages");
 
           if (sPatientLanguages.length()==0){
-              sPatientLanguages = MedwanQuery.getInstance().getConfigString("SupportedLanguages");
+              sPatientLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
 
               if (sPatientLanguages.length()==0){
                   sPatientLanguages = sWebLanguage;
