@@ -1,7 +1,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@page import="java.io.ByteArrayOutputStream,
-                com.lowagie.text.DocumentException,
+                com.itextpdf.text.DocumentException,
                 java.io.PrintWriter
                 ,java.util.*,
                 be.openclinic.medical.LabRequest,be.openclinic.medical.LabSample" %>

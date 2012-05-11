@@ -108,11 +108,7 @@ public String setTerminologyList() {
         sPrintLanguage = sWebLanguage;
     }
 
-    String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("SupportedLanguages");
-
-    if(sSupportedLanguages.length()==0){
-        sSupportedLanguages = "nl,fr";
-    }
+    String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
     %>
     <select class="text" name="PrintLanguage">
     <%

@@ -3,7 +3,7 @@
 <%@page import="java.io.ByteArrayOutputStream,
                 be.dpms.medwan.webapp.wo.common.system.SessionContainerWO,
                 be.mxs.webapp.wl.session.SessionContainerFactory,
-                com.lowagie.text.DocumentException,
+                com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,
                 be.mxs.common.util.pdf.official.OfficialPDFCreator,
                 be.mxs.common.util.pdf.PDFCreator"%>

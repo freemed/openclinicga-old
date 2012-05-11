@@ -2,7 +2,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@page import="java.io.ByteArrayOutputStream,
                 java.io.PrintWriter,
-                com.lowagie.text.*,
+                com.itextpdf.text.*,
                 be.mxs.common.util.pdf.general.GeneralPDFCreator,
                 be.mxs.common.util.pdf.PDFCreator"%>
 <%@page import="java.util.*" %>
@@ -656,10 +656,7 @@
                                 sPrintLanguage = sWebLanguage;
                             }
 
-                            String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("SupportedLanguages");
-                            if(sSupportedLanguages.length()==0){
-                                sSupportedLanguages = "nl,fr";
-                            }
+                            String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
 
                             %>
                                 <select class="text" name="PrintLanguage">
