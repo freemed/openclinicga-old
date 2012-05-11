@@ -74,9 +74,9 @@
     if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
 
     // excluded label types
-    String excludedLabelTypes = MedwanQuery.getInstance().getConfigString("excludedLabelTypes");
+    String excludedLabelTypes = MedwanQuery.getInstance().getConfigString("excludedLabelTypesNew");
     if(excludedLabelTypes.length() == 0){
-        excludedLabelTypes = "labanalysis,labprofiles,activitycodes,worktime,examination,patientsharecoverageinsurance"; // default
+        excludedLabelTypes = "labanalysis,labprofiles,activitycodes,worktime,patientsharecoverageinsurance"; // default
     }
     excludedLabelTypes = excludedLabelTypes.toLowerCase();
 %>
@@ -436,7 +436,7 @@
                             labelUniqueKey = (labelType+"$"+labelID+"$"+labelLang).toLowerCase();
 
                             // only display labels if not in ini, so check existence in ini.
-                            if(!containsKey(iniProps,labelUniqueKey)){
+                            if(!containsKey(iniProps,labelUniqueKey) && labelID.indexOf(" ")<0){
                                 // display labels, except excluded labeltypes
                                 checked = "checked";
 

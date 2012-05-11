@@ -57,7 +57,7 @@
         sFindNextValue = iTmp + "";
     }
 
-    String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
+    String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
     String[] aLanguages = sSupportedLanguages.split(",");
 %>
      <tr>

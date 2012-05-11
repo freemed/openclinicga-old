@@ -346,10 +346,7 @@
                                 String sEditInsurarLanguage = checkString(insurar.getLanguage());
 
 
-                                String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
-                                if(sSupportedLanguages.length()==0){
-                                    sSupportedLanguages = "nl,fr";
-                                }
+                                String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
                             %>
                             <select class="text" name="EditInsurarLanguage">
                                 <option><%=getTran("web","choose",sWebLanguage)%></option>

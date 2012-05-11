@@ -42,6 +42,7 @@
            sEditPrestationFamily  = checkString(request.getParameter("EditPrestationFamily")),
            sEditPrestationInvoiceGroup  = checkString(request.getParameter("EditPrestationInvoiceGroup")),
            sEditPrestationMfpPercentage  = checkString(request.getParameter("EditPrestationMfpPercentage")),
+           sEditPrestationInactive  = checkString(request.getParameter("EditPrestationInactive")),
            sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice"));
 	   try{
 		   sEditPrestationPrice =""+Double.parseDouble(sEditPrestationPrice);
@@ -50,6 +51,9 @@
 		   sEditPrestationPrice="0";
 	   }
 
+	   if(!sEditPrestationInactive.equals("1")){
+		   sEditPrestationInactive="0";
+	   }
 	   try{
 		   sEditPrestationMfpPercentage =""+Integer.parseInt(sEditPrestationMfpPercentage);
 	   }
@@ -103,6 +107,7 @@
         prestation.setReferenceObject(new ObjectReference(sEditPrestationFamily,"0")); 
         prestation.setInvoiceGroup(sEditPrestationInvoiceGroup);
         prestation.setMfpPercentage(Integer.parseInt(sEditPrestationMfpPercentage));
+        prestation.setInactive(Integer.parseInt(sEditPrestationInactive));
         prestation.store();
         //activeUser.addPrestation(prestation.getUid());
         sEditPrestationUid = prestation.getUid();
@@ -281,6 +286,12 @@
                     <%
                     	}
                     %>
+                    <tr>
+                        <td class="admin"><%=getTran("web","inactive",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditPrestationInactive" value="1" <%=prestation.getInactive()==1?"checked":"" %>/>
+                        </td>
+                    </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","categories",sWebLanguage)%></td>
                         <td class="admin2">

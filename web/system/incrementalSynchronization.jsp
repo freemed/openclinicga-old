@@ -327,7 +327,7 @@
     String syncUserName = MedwanQuery.getInstance().getConfigString("syncUserName");
     String syncPassword = MedwanQuery.getInstance().getConfigString("syncPassword");
     String syncDriver = MedwanQuery.getInstance().getConfigString("syncDriver");
-    String syncAdminDb = MedwanQuery.getInstance().getConfigString("adminDbName");
+    String syncAdminDb = MedwanQuery.getInstance().getConfigString("admindbName");
 
     if (syncIpAdmin.length()>0 && !syncIpAdmin.equals("")){
         ipadmin=syncIpAdmin;

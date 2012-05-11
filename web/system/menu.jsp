@@ -53,6 +53,7 @@
                     hMenu.put(getTran("Web.Manage", "ManageAutoCompletionValues", sWebLanguage), "main.do?Page=system/manageAutoCompletionItemsValues.jsp");
                     hMenu.put(getTran("Web.Manage", "ManagePrintableDocuments", sWebLanguage), "main.do?Page=system/managePrintableDocuments.jsp");
                     hMenu.put(getTran("Web.Manage", "ManageServiceDiagnoses", sWebLanguage), "main.do?Page=medical/manageServiceDiagnoses.jsp");
+                    hMenu.put(getTran("Web.Manage", "ManageActivatedVaccinations", sWebLanguage), "main.do?Page=system/activateVaccinations.jsp");
                     out.print(ScreenHelper.writeTblHeader(getTran("Web", "Manage", sWebLanguage), sCONTEXTPATH)
                             + sortMenu(hMenu)
                             + ScreenHelper.writeTblFooter());
@@ -97,6 +98,8 @@
                     hMenu.put(getTran("Web.Manage", "SynchronizeTransactionItemsWithIni", sWebLanguage), "main.do?Page=system/syncTransactionItemsWithIni.jsp");
                     hMenu.put(getTran("Web.Manage", "synchronization.of.counters", sWebLanguage), "main.do?Page=system/countersSync.jsp");
                     hMenu.put(getTran("Web.Manage", "recalculate.stocklevels", sWebLanguage), "main.do?Page=system/recalculateStockLevels.jsp");
+                    hMenu.put(getTran("Web.Manage", "update.all", sWebLanguage), "main.do?Page=util/updateSystem.jsp");
+                    hMenu.put(getTran("Web.Manage", "reset.defaults", sWebLanguage), "main.do?Page=system/resetDefaults.jsp");
 
                     out.print(ScreenHelper.writeTblHeader(getTran("web.manage", "Synchronization", sWebLanguage), sCONTEXTPATH)
                             + sortMenu(hMenu)

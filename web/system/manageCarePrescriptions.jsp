@@ -9,7 +9,7 @@
     String sEditCareTypeID = "",sEditUnitsPerTimeUnit = "",sEditTimeUnitCount = "",sEditTimeUnit = "",sTime1 = "",sTime2 = "",sTime3 = "",sTime4 = "",
             sTime5 = "",sTime6 = "",sQuantity1 = "",sQuantity2 = "",sQuantity3 = "",sQuantity4 = "",sQuantity5 = "",sQuantity6 = "";
 
-    String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages", "FR,NL");
+    String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages", "en,fr");
     String[] aLanguages = sSupportedLanguages.split(",");
 
     if (sAction.equalsIgnoreCase("save")) {
