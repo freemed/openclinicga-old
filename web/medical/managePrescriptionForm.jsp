@@ -126,8 +126,30 @@
           });
     }
 
-    function copyfoundproduct(productuid){
+    function copyfoundproduct(){
         $('prescription').value += $('prescriptioninfo').value+"\n";
+    }
+
+    function copyproduct(productuid){
+        var url = "<c:url value="/"/>medical/ajax/findPrescriptionProductContent.jsp";
+        var params = "productuid="+productuid;
+        document.getElementById("productuid").value=productuid;
+
+        new Ajax.Request(url,{
+              method: "POST",
+              parameters: params,
+              onSuccess: function(resp){
+                  var prescriptioninfo = resp.responseText.split("$");
+                  if(prescriptioninfo[1].length>0){
+                    $('prescription').value += prescriptioninfo[1]+"\n";
+                  }
+                  else {
+                      $('prescription').value += prescriptioninfo[2]+"\n";
+                  }
+              },
+              onFailure: function(){
+              }
+          });
     }
 
     function copycontent(productuid){

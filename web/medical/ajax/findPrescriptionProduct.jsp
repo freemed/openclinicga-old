@@ -15,7 +15,7 @@
             else{
                 l="";
             }
-            out.println("<tr class='list"+l+"'><td valign='middle'><a href='javascript:copyfoundproduct(\""+rs.getInt("OC_PRODUCT_SERVERID")+"."+rs.getInt("OC_PRODUCT_OBJECTID")+"\");'>");
+            out.println("<tr class='list"+l+"'><td valign='middle'><a href='javascript:copyproduct(\""+rs.getInt("OC_PRODUCT_SERVERID")+"."+rs.getInt("OC_PRODUCT_OBJECTID")+"\");'>");
             %>
             <img src='<c:url value="/_img/arrow_right.gif"/>' alt='<%=getTran("web","right",sWebLanguage)%>'/></a>&nbsp;
             <%

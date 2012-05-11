@@ -19,7 +19,7 @@
                 else{
                     l="";
                 }
-                out.println("<tr class='list"+l+"'><td valign='middle'><a href='javascript:copyfoundproduct(\""+product.getUid()+"\");'>");
+                out.println("<tr class='list"+l+"'><td valign='middle'><a href='javascript:copyproduct(\""+product.getUid()+"\");'>");
                 %>
                 <img src='<c:url value="/_img/arrow_right.gif"/>' alt='<%=getTran("web","right",sWebLanguage)%>'/></a>&nbsp;
                 <%
