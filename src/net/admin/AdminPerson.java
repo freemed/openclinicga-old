@@ -2472,6 +2472,7 @@ public class AdminPerson extends OC_Object{
         return vResults;
     }
 
+    
     public static Vector searchPatients(String sSelectLastname,String sSelectFirstname,String sFindGender,String sFindDOB,boolean bIsUser){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -2549,6 +2550,114 @@ public class AdminPerson extends OC_Object{
                     hInfo.put("lastname",ScreenHelper.checkString(rs.getString("lastname")));
                     hInfo.put("firstname",ScreenHelper.checkString(rs.getString("firstname")));
                     hInfo.put("immatnew",ScreenHelper.checkString(rs.getString("immatnew")));
+
+                    vResults.addElement(hInfo);
+                }
+                rs.close();
+                ps.close();
+                lad_conn.close();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return vResults;
+    }
+    public static Vector searchAffiliates(String sSelectLastname,String sSelectFirstname,String sFindGender,String sFindDOB,String sFindInsurarUID,String sFindInsuranceNr){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Vector vResults = new Vector();
+        Hashtable hInfo;
+
+        String sSelect = "";
+
+        try{
+            if ((sSelectLastname.trim().length()>0) && (sSelectFirstname.trim().length()>0)) {
+                sSelect+= " searchname LIKE '"+sSelectLastname.toUpperCase()+"%,"+sSelectFirstname.toUpperCase()+"%' AND";
+            }
+            else if (sSelectLastname.trim().length()>0) {
+                sSelect+= " searchname LIKE '"+sSelectLastname.toUpperCase()+"%,%' AND";
+            }
+            else if (sSelectFirstname.trim().length()>0) {
+                sSelect+= " searchname LIKE '%,"+sSelectFirstname.toUpperCase()+"%' AND";
+            }
+            if(sFindGender.trim().length() > 0){
+                sSelect+= " gender = '"+sFindGender+"' AND";
+            }
+
+            // check if sFindDOB has a valid date format
+            if(sFindDOB.length() > 0){
+                try{
+                    sFindDOB = sFindDOB.replaceAll("-","/");
+                    new SimpleDateFormat("dd/MM/yyyy").parse(sFindDOB);
+                    sSelect+= " dateofbirth = ? AND";
+                }
+                catch(Exception e){
+                    sFindDOB = "";
+                }
+            }
+            if(sFindInsurarUID.trim().length() > 0){
+                if(sFindInsuranceNr.trim().length() > 0){
+                    if(sFindInsuranceNr.indexOf("/")>-1){
+                    	sFindInsuranceNr=sFindInsuranceNr.substring(0,sFindInsuranceNr.indexOf("/"));
+                    }
+                    if(sFindInsuranceNr.indexOf(".")>-1){
+                    	sFindInsuranceNr=sFindInsuranceNr.substring(0,sFindInsuranceNr.indexOf("."));
+                    }
+                    if(sFindInsuranceNr.indexOf("-")>-1){
+                    	sFindInsuranceNr=sFindInsuranceNr.substring(0,sFindInsuranceNr.indexOf("-"));
+                    }
+                    if(sFindInsuranceNr.indexOf(" ")>-1){
+                    	sFindInsuranceNr=sFindInsuranceNr.substring(0,sFindInsuranceNr.indexOf(" "));
+                    }
+                    try{
+                    	sFindInsuranceNr=Integer.parseInt(sFindInsuranceNr)+"";
+                    }
+                    catch (Exception e){
+                    	sFindInsuranceNr="";
+                    }
+                }
+                sSelect+= " OC_INSURANCE_NR like '"+sFindInsuranceNr+"%' AND OC_INSURANCE_INSURARUID='"+sFindInsurarUID+"' AND";
+            }
+
+            // complete query
+            String sQuery;
+            if(sSelect.length()>0) {
+                if (sSelect.endsWith("AND")){
+                    sSelect = sSelect.substring(0,sSelect.length()-3);
+                }
+                sQuery = "SELECT personid, dateofbirth, gender, lastname, firstname, immatnew,b.OC_INSURANCE_NR,b.OC_INSURANCE_MEMBER_EMPLOYER"+
+                          " FROM AdminView a,OC_INSURANCES b"+
+                          "  WHERE b.OC_INSURANCE_PATIENTUID=a.personid AND b.OC_INSURANCE_STOP IS NULL AND "+sSelect+
+                          " ORDER BY searchname";
+
+            	Connection lad_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+                ps = lad_conn.prepareStatement(sQuery);
+                if(sFindDOB.trim().length()>0){
+                    ps.setString(1,ScreenHelper.getSQLDate(sFindDOB).toString());
+                }
+
+                rs = ps.executeQuery();
+
+                SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                while(rs.next()){
+                    hInfo = new Hashtable();
+                    hInfo.put("personid",ScreenHelper.checkString(rs.getString("personid")));
+                    hInfo.put("dateofbirth",ScreenHelper.checkString(ScreenHelper.getSQLDate(rs.getDate("dateofbirth"))));
+                    hInfo.put("gender",ScreenHelper.checkString(rs.getString("gender")));
+                    hInfo.put("lastname",ScreenHelper.checkString(rs.getString("lastname")));
+                    hInfo.put("firstname",ScreenHelper.checkString(rs.getString("firstname")));
+                    hInfo.put("immatnew",ScreenHelper.checkString(rs.getString("immatnew")));
+                    hInfo.put("insurancenr",ScreenHelper.checkString(rs.getString("OC_INSURANCE_NR")));
+                    hInfo.put("employer",ScreenHelper.checkString(rs.getString("OC_INSURANCE_MEMBER_EMPLOYER")));
 
                     vResults.addElement(hInfo);
                 }
