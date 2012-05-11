@@ -8,7 +8,7 @@
         if (vDebets != null) {
             Debet debet;
             Encounter encounter=null;
-            Prestation prestation=null;	
+            Prestation prestation=null;
             String sEncounterName, sPrestationDescription, sDebetUID, sPatientName;
             String sCredited;
             Hashtable hSort = new Hashtable();
@@ -19,7 +19,6 @@
                 if (sDebetUID.length() > 0) {
 					System.out.println("sDebetUID="+sDebetUID+"*");
                     debet = Debet.get(sDebetUID);
-					System.out.println("debet.getUid()="+debet.getUid()+"*");
 
                     if (debet != null) {
                         sEncounterName = "";
@@ -31,7 +30,7 @@
     						System.out.println("encounter="+encounter);
 
                             if (encounter != null) {
-                                sEncounterName = getTran("web","insurance.coverage",sWebLanguage);
+                                sEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
                             	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                                 sPatientName = ScreenHelper.getFullPersonName(encounter.getPatientUID(), ad_conn);
                                 try{
@@ -58,13 +57,26 @@
                         if (debet.getCredited() > 0) {
                             sCredited = getTran("web.occup", "medwan.common.yes", sWebLanguage);
                         }
+						System.out.println("1");
+						System.out.println("sPatientName.toUpperCase()="+sPatientName.toUpperCase());
+						System.out.println("debet.getDate().getTime()="+debet.getDate().getTime());
+						System.out.println("sEncounterName="+sEncounterName);
+						System.out.println("MedwanQuery.getInstance().getUser(debet.getUpdateUser())="+MedwanQuery.getInstance().getUser(debet.getUpdateUser()));
+						System.out.println("debet.getUpdateUser().getPersonVO().getFullName()="+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName());
+						System.out.println("debet.getQuantity()="+debet.getQuantity());
+						System.out.println("debet.getUid()="+debet.getUid());
+						System.out.println("prestation="+prestation);
+						System.out.println("HTMLEntities.htmlentities(sPrestationDescription)="+HTMLEntities.htmlentities(sPrestationDescription));
+						System.out.println("1");
+						System.out.println("1");
                         hSort.put(sPatientName.toUpperCase() + "=" + debet.getDate().getTime() + "=" + debet.getUid(), " onclick=\"setDebet('" + debet.getUid() + "');\">"
                                 + "<td>" + ScreenHelper.getSQLDate(debet.getDate()) + "</td>"
                                 + "<td>" + HTMLEntities.htmlentities(sEncounterName) + " ("+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName()+")</td>"
-                                + "<td nowrap>" + debet.getQuantity()+" x "+HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
+                                + "<td>" + debet.getQuantity()+" x "+HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
                                 + "<td "+(checkString(debet.getExtraInsurarUid()).length()>0?"style='text-decoration: line-through'":"")+">" + (debet.getAmount()+debet.getExtraInsurarAmount()) + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
                                 + "<td>" + sCredited + "</td>"
                                 + "</tr>");
+						System.out.println("2");
                     }
                 }
             }
@@ -89,11 +101,11 @@
 %>
 <table width="100%" cellspacing="0">
     <tr class="admin">
-        <td><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
+        <td width="80"><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web.finance","encounter",sWebLanguage))%></td>
-        <td><%=HTMLEntities.htmlentities(getTran("web","prestation",sWebLanguage))%></td>
-        <td><%=HTMLEntities.htmlentities(getTran("web","amount",sWebLanguage))%></td>
-        <td><%=HTMLEntities.htmlentities(getTran("web","canceled",sWebLanguage))%></td>
+        <td width="200"><%=HTMLEntities.htmlentities(getTran("web","prestation",sWebLanguage))%></td>
+        <td width="100"><%=HTMLEntities.htmlentities(getTran("web","amount",sWebLanguage))%></td>
+        <td width="50"><%=HTMLEntities.htmlentities(getTran("web","canceled",sWebLanguage))%></td>
     </tr>
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
 <%
@@ -109,8 +121,7 @@
     else {
         vUnassignedDebets = Debet.getPatientDebets(activePatient.personid,sFindDateBegin,sFindDateEnd,sFindAmountMin, sFindAmountMax);
     }
-	String s=addDebets(vUnassignedDebets, "", sWebLanguage);
-    out.print(s);
+    out.print(addDebets(vUnassignedDebets, "", sWebLanguage));
 %>
     </tbody>
 </table>

@@ -3,7 +3,7 @@
 <%@page import="be.mxs.common.util.pdf.general.PDFInsurarInvoiceGeneratorRAMANew"%><%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@page import="java.io.ByteArrayOutputStream,
-                com.lowagie.text.DocumentException,
+                com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,
                 be.mxs.common.util.pdf.general.PDFInsurarInvoiceGenerator,
                 be.mxs.common.util.pdf.general.PDFInsurarInvoiceGeneratorRAMA,

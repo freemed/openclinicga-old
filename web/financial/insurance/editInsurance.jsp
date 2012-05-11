@@ -140,6 +140,9 @@
                 <input class="text" type="text" name="EditInsuranceMember" id="EditInsuranceMember" value="<%=sEditInsuranceMember%>" size="<%=sTextWidth%>"/>
             </td>
         </tr>
+<%
+	if(MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openpharmacy")||MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openinsurance")){
+%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">
                 <%=getTran("insurance","memberimmat",sWebLanguage)%>
@@ -156,6 +159,9 @@
                 <input class="text" type="text" name="EditInsuranceMemberEmployer" value="<%=sEditInsuranceMemberEmployer%>" size="<%=sTextWidth%>"/>
             </td>
         </tr>
+ <%
+	}
+ %>
         <%-- company --%>
             <tr>
                 <td class="admin">

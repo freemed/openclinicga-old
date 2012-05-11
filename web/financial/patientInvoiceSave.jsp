@@ -83,26 +83,29 @@
         }
     }
     double dBalance = Double.parseDouble(sEditBalance);
-// patient heeft te veel betaald => aanmaken van credit en saldo invoice = 0
+	// patient heeft te veel betaald => aanmaken van credit en saldo invoice = 0
     if (dBalance < 0) {
-    	System.out.println("NEG BALANCE="+dBalance);
+		Encounter encounter = Encounter.getActiveEncounter(invoicePatient.personid);
+		if(encounter==null){
+			encounter = Encounter.getLastEncounter(invoicePatient.personid);
+		}
+
         double dCredit = dBalance;
         dBalance = 0;
-
         PatientCredit patientcredit = new PatientCredit();
         patientcredit.setAmount(dCredit * (-1));
-        patientcredit.setEncounterUid(Encounter.getActiveEncounter(invoicePatient.personid)==null?"":Encounter.getActiveEncounter(invoicePatient.personid).getUid());
+        patientcredit.setEncounterUid(encounter==null?"":encounter.getUid());
         patientcredit.setDate(ScreenHelper.getSQLDate(getDate()));
         patientcredit.setType("transfer.de.credit");
         patientcredit.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
         patientcredit.setUpdateUser(activeUser.userid);
         patientcredit.store();
-
+		
         PatientCredit credit;
         String sCreditUid;
         double dTmpCredits = 0;
         boolean paymentCovered=false;
-
+		
         for (int i = 0; i < patientinvoice.getCredits().size(); i++) {
             sCreditUid = checkString((String) patientinvoice.getCredits().elementAt(i));
 
