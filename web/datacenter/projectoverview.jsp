@@ -34,6 +34,7 @@
     }
 %>
 <%
+
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	//boolean showcontent=checkString(request.getParameter("servergroups")).split(",").length<=1;
 	boolean showcontent=true;
@@ -62,8 +63,8 @@
         if(!activeGroup.equalsIgnoreCase(group)){
 			if(activeGroup.length()>0){
 				//Show totals for the group
-				out.print("<tr class='result'><td><td/>");
-				out.print("<td class='admin'>"+(parameters.get("core.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.1")))+"</td>");
+				out.print("<tr class='result'><td/><td/>");
+				out.print("<td class='admin'>"+(parameters.get("core.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.1")))+"</td><td class='admin'/>");
 				out.print("<td class='admin'>"+(parameters.get("core.2")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.2")))+"</td>");
 				out.print("<td class='admin'>"+(parameters.get("core.4.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.4.1")))+"</td>");
 				out.print("<td class='admin'>"+(parameters.get("core.4.2")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.4.2")))+"</td>");
@@ -80,7 +81,7 @@
             out.print("<div class='landlist'><h3>"+getTranNoLink("datacenterservergroup",group,sWebLanguage)+"</h3><div class='subcontent'><table width=\"100%\" class=\"content\" cellpadding=\"0\" cellspacing=\"0\"><tr class='header'>"
 					+"<td class='admin'>&nbsp;</td>"
 					+"<td class='admin header'>"+getTranNoLink("web","lastupdate",sWebLanguage)+"</td>"
-					+"<td class='admin header'>"+getTranNoLink("web","patients",sWebLanguage)+"</td>"
+					+"<td class='admin header'>"+getTranNoLink("web","patients",sWebLanguage)+"</td><td class='admin header'/>"
 					+"<td class='admin header'>"+getTranNoLink("web","users",sWebLanguage)+"</td>"
 					+"<td class='admin header'>"+getTranNoLink("web","admissions",sWebLanguage)+"</td>"
 					+"<td class='admin header'>"+getTranNoLink("web","consultations",sWebLanguage)+"</td>"
@@ -102,7 +103,8 @@
 				color="color='orange'";
 			}
 			out.print("<td class='admin2' width='150'>"+((lastdate==null?"&nbsp;":"<font "+color+">"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(lastdate))+"</font>")+"</td>");
-			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.1",parameters,lastvalues)+"</td>");
+			int unprocessedPatientRecords = DatacenterHelper.getUnprocessedPatientRecordsCount(Integer.parseInt(server));
+			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.1",parameters,lastvalues)+"</td><td class='admin2'>"+(unprocessedPatientRecords>0?"<a href='javascript:processPatientRecords("+server+");'>"+unprocessedPatientRecords+" x <img src='../_img/idcards.png' style='vertical-align: middle' width='24px'/></a)":"&nbsp;")+"</td>");
 			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.2",parameters,lastvalues)+"</td>");
 			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.4.1",parameters,lastvalues)+"</td>");
 			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.4.2",parameters,lastvalues)+"</td>");
@@ -116,7 +118,7 @@
 	if(activeGroup.length()>0){
 		//Show totals for the group
         out.print("<tr class='result'><td/><td/>");
-		out.print("<td class='admin'>"+(parameters.get("core.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.1")))+"</td>");
+		out.print("<td class='admin'>"+(parameters.get("core.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.1")))+"</td><td class='admin'/>");
 		out.print("<td class='admin'>"+(parameters.get("core.2")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.2")))+"</td>");
 		out.print("<td class='admin'>"+(parameters.get("core.4.1")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.4.1")))+"</td>");
 		out.print("<td class='admin'>"+(parameters.get("core.4.2")==null?"?":new java.text.DecimalFormat("#,###").format(parameters.get("core.4.2")))+"</td>");
@@ -139,6 +141,26 @@
     function simpleValueGraph(serverid,parameterid){
         openPopupWindow("/datacenter/simpleValueGraph.jsp?serverid="+serverid+"&parameterid="+parameterid+"&ts=<%=getTs()%>");
     }
+	function processPatientRecords(serverid){
+        openPopup("/datacenter/processPatientRecords.jsp&serverid="+serverid+"&ts=<%=getTs()%>",500,400,"OpenClinic Datacenter");
+	}
+    <%-- OPEN POPUP --%>
+    function openPopup(page, width, height, title) {
+        var url = "<c:url value="/popup.jsp"/>?Page=" + page;
+        if (width != undefined) url += "&PopupWidth=" + width;
+        if (height != undefined) url += "&PopupHeight=" + height;
+        if (title == undefined) {
+            if (page.indexOf("&") < 0) {
+                title = page.replace("/", "_");
+                title = replaceAll(title, ".", "_");
+            }
+            else {
+                title = replaceAll(page.substring(1, page.indexOf("&")), "/", "_");
+                title = replaceAll(title, ".", "_");
+            }
+        }
+        var w = window.open(url, title, "toolbar=no, status=no, scrollbars=yes, resizable=no, width=1, height=1, menubar=no");
+        w.moveBy(2000, 2000);
+    }
 
-   
 </script>
