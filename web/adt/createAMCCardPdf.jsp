@@ -12,8 +12,8 @@
 
     try {
         // PDF generator
-        PDFOpeninsuranceCardGenerator pdfPatientCardGenerator = new PDFOpeninsuranceCardGenerator(activeUser, sProject);
-        baosPDF = pdfPatientCardGenerator.generatePDFDocumentBytes(request, activePatient);
+        PDFAMCPatientCardGenerator pdfAMCCardGenerator = new PDFAMCPatientCardGenerator(activeUser, sProject);
+        baosPDF = pdfAMCCardGenerator.generatePDFDocumentBytes(request, activePatient);
         StringBuffer sbFilename = new StringBuffer();
         sbFilename.append("filename_").append(System.currentTimeMillis()).append(".pdf");
 
