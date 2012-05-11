@@ -547,12 +547,34 @@ public class MedwanQuery {
         }
         return result;
     }
+    public Vector getAlternativeDiagnosisCodesDSM4(String sCodeType, String sCode) {
+        Vector result = new Vector();
+        try {
+            Connection oc_conn=getOpenclinicConnection();
+            String sQuery = "select distinct " + (sCodeType.equalsIgnoreCase("dsm4") ? "icd10" : "dsm4") + " as code from Classificationsdsm4 where " + sCodeType.toLowerCase() + " like '" + sCode + "%'";
+            PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString("code"));
+            }
+            rs.close();
+            ps.close();
+            oc_conn.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
     public String getDiagnosisLabel(String sCodeType, String sCode, String sLanguage) {
         String result = "";
         try {
             String sQuery = "select * from ICPC2 where code=?";
             if (sCodeType.equalsIgnoreCase("icd10")) {
                 sQuery = "select * from ICD10 where code=?";
+            }
+            else if (sCodeType.equalsIgnoreCase("dsm4")) {
+                sQuery = "select * from dsm4 where code=?";
             }
             Connection oc_conn=getOpenclinicConnection();
             PreparedStatement ps = oc_conn.prepareStatement(sQuery);
@@ -2105,6 +2127,89 @@ public class MedwanQuery {
         }
         return returncodes;
     }
+    public Vector findDSM4Codes(String keywords, String language) {
+        Vector codes = new Vector();
+        Hashtable counters = new Hashtable();
+        String label = "labelen";
+        if (language.equalsIgnoreCase("FR")) {
+            language = "F";
+        }
+        if (language.equalsIgnoreCase("EN")) {
+            language = "E";
+        }
+        if (language.equalsIgnoreCase("NL")) {
+            language = "N";
+        }
+        if (language.equalsIgnoreCase("F")) {
+            label = "labelfr";
+        }
+        if (language.equalsIgnoreCase("N")) {
+            label = "labelnl";
+        }
+        //First find all keywords
+        String[] keys = keywords.toUpperCase().split(" ");
+        String sQuery = "";
+        for (int n = 0; n < keys.length; n++) {
+            if (keys[n].length() > 0) {
+                sQuery = " select distinct code as code" +
+                        " from dsm4 where " + label + " like '%" + ScreenHelper.normalizeSpecialCharacters(keys[n].toLowerCase()).toUpperCase() + "%' or code like '" + ScreenHelper.normalizeSpecialCharacters(keys[n].toLowerCase()).toUpperCase() + "%'";
+                if (getConfigInt("cacheDB") == 1) {
+                    sQuery += " union" +
+                            " select distinct dsm4 as code" +
+                            " from dsm4concepts b,Keywords c" +
+                            " where c.language='" + language + "' and" +
+                            " b.dsm4 is not null and" +
+                            " b.concept=c.concept and" +
+                            " c.keyword like '" + ScreenHelper.normalizeSpecialCharacters(keys[n].toLowerCase()).toUpperCase() + "%'";
+                } else {
+                    sQuery += " union" +
+                            " select distinct dsm4 as code" +
+                            " from dsm4concepts b,Keywords c" +
+                            " where c.language='" + language + "' and" +
+                            " b.dsm4 is not null and" +
+                            " b.concept=c.concept and" +
+                            " c.keyword like '" + ScreenHelper.normalizeSpecialCharacters(keys[n].toLowerCase()).toUpperCase() + "%'";
+                }
+                sQuery += " order by code";
+                PreparedStatement ps;
+                Connection OccupdbConnection;
+                try {
+                    OccupdbConnection = getOpenclinicConnection();
+                    ps = OccupdbConnection.prepareStatement(sQuery);
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
+                        String c = rs.getString("code");
+                        if (c != null) {
+                            if (counters.get(c) == null) {
+                                counters.put(c, new Integer(1));
+                                codes.add(c);
+                            } else {
+                                counters.put(c, new Integer(((Integer) counters.get(c)).intValue() + 1));
+                            }
+                        }
+                    }
+                    rs.close();
+                    ps.close();
+                    OccupdbConnection.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Vector returncodes = new Vector();
+        Hashtable existing = new Hashtable();
+        for (int n = 0; n < codes.size(); n++) {
+            String code = (String) codes.elementAt(n);
+            if (((Integer) counters.get(code)).intValue() >= keys.length) {
+                ICPCCode icpc = new ICPCCode(code, label, "dsm4");
+                if (icpc.label.length() > 0 && existing.get(icpc.code) == null) {
+                    existing.put(icpc.code, "1");
+                    returncodes.add(icpc);
+                }
+            }
+        }
+        return returncodes;
+    }
     public Vector findICD10Codes(String keywords, String language) {
         Vector codes = new Vector();
         Hashtable counters = new Hashtable();
@@ -2494,6 +2599,15 @@ public class MedwanQuery {
             } else if (code.toLowerCase().indexOf("icd10code") == 0) {
                 ps = OccupdbConnection.prepareStatement("select " + label + " from ICD10 where code=?");
                 ps.setString(1, code.toLowerCase().trim().replaceAll("icd10code", "").toUpperCase());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    result = rs.getString(label);
+                }
+                rs.close();
+                ps.close();
+            } else if (code.toLowerCase().indexOf("dsm4code") == 0) {
+                ps = OccupdbConnection.prepareStatement("select " + label + " from dsm4 where code=?");
+                ps.setString(1, code.toLowerCase().trim().replaceAll("dsm4code", "").toUpperCase());
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     result = rs.getString(label);

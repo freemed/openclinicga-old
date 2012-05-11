@@ -146,7 +146,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
             ItemVO item, oldItem;
             Enumeration enumeration;
             ItemContextVO itemContextVO;
-            Hashtable ICD10Codes, ICPCCodes;
+            Hashtable ICD10Codes, ICPCCodes, DSM4Codes;
 
             while (iterator.hasNext()) {
                 df = new DummyTransactionFactory();
@@ -230,13 +230,13 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
 
                 if (request.getParameter("be.mxs.healthrecord.updateTransaction.actionForwardKey").indexOf("be.mxs.healthrecord.transaction_id=currentTransaction")<=0){
                 	df.cleanTransaction(oldTransaction);
-                    // Alle oude ICPCCodes en ICD10Codes wissen
+                    // Alle oude ICPCCodes en ICD10Codes en DSM4Codes wissen
                     newItems = new Vector();
                     ICPCItems = oldTransaction.getItems().iterator();
 
                     while (ICPCItems.hasNext()){
                         item = (ItemVO)ICPCItems.next();
-                        if (item.getType().indexOf("ICPCCode")==-1 && item.getType().indexOf("ICD10Code")==-1){
+                        if (item.getType().indexOf("ICPCCode")==-1 && item.getType().indexOf("ICD10Code")==-1 && item.getType().indexOf("DSM4Code")==-1){
                             newItems.add(item);
                         }
                     }
@@ -250,6 +250,16 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                         code=(String)enumeration.nextElement();
                         if (code.indexOf("ICPCCode")==0 || code.indexOf("GravityICPCCode")==0 || code.indexOf("CertaintyICPCCode")==0 || code.indexOf("POAICPCCode")==0 || code.indexOf("NCICPCCode")==0 || code.indexOf("ServiceICPCCode")==0 || code.indexOf("FlagsICPCCode")==0){
                             oldTransaction.getItems().add(new ItemVO(new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier()), code,(String)ICPCCodes.get(code),new Date(),itemContextVO));
+                        }
+                    }
+                    // DSM4Codes toevoegen
+                    DSM4Codes = RequestParameterParser.getInstance().parseRequestParameters(request, "DSM4Code");
+                    enumeration=DSM4Codes.keys();
+                    itemContextVO = new ItemContextVO(new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier()), "", "");
+                    while (enumeration.hasMoreElements()){
+                        code=(String)enumeration.nextElement();
+                        if (code.indexOf("DSM4Code")==0 || code.indexOf("GravityDSM4Code")==0 || code.indexOf("CertaintyDSM4Code")==0 || code.indexOf("POADSM4Code")==0 || code.indexOf("NCDSM4Code")==0 || code.indexOf("ServiceDSM4Code")==0 || code.indexOf("FlagsDSM4Code")==0){
+                            oldTransaction.getItems().add(new ItemVO(new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier()), code,(String)DSM4Codes.get(code),new Date(),itemContextVO));
                         }
                     }
                     // ICD10Codes toevoegen
@@ -380,7 +390,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                     if(encounterItem!=null){
                     	Encounter encounter = Encounter.get(encounterItem.getValue());
                     	if(encounter!=null){
-                    		saveDiagnosesToTable(RequestParameterParser.getInstance().parseRequestParameters(request, "ICPCCode"),RequestParameterParser.getInstance().parseRequestParameters(request, "ICD10Code"),returnedTransactionVO.getServerId()+"."+returnedTransactionVO.getTransactionId(),sessionContainerWO,encounter);
+                    		saveDiagnosesToTable(RequestParameterParser.getInstance().parseRequestParameters(request, "ICPCCode"),RequestParameterParser.getInstance().parseRequestParameters(request, "ICD10Code"),RequestParameterParser.getInstance().parseRequestParameters(request, "DSM4Code"),returnedTransactionVO.getServerId()+"."+returnedTransactionVO.getTransactionId(),sessionContainerWO,encounter);
                     	}
                     }
 
@@ -484,7 +494,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
         return actionForward;
     }
 
-    private void saveDiagnosesToTable(Hashtable ICPCCodes,Hashtable ICD10Codes,String sTransactionUID,SessionContainerWO sessionContainerWO,Encounter encounter){
+    private void saveDiagnosesToTable(Hashtable ICPCCodes,Hashtable ICD10Codes,Hashtable DSM4Codes,String sTransactionUID,SessionContainerWO sessionContainerWO,Encounter encounter){
 
         Enumeration enumeration;
         String code;
@@ -508,6 +518,30 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                                                       ScreenHelper.checkString((String)ICPCCodes.get("NC"+code)),
                                                       ScreenHelper.checkString((String)ICPCCodes.get("Service"+code)),
                                                       ScreenHelper.checkString((String)ICPCCodes.get("Flags"+code))
+                    );
+                }
+            }
+        }
+        enumeration=DSM4Codes.keys();
+        while (enumeration.hasMoreElements()){
+            code=(String)enumeration.nextElement();
+            if (code.indexOf("DSM4Code")==0){
+                if(ScreenHelper.checkString((String)DSM4Codes.get("Gravity"+code)).length() > 0 && ScreenHelper.checkString((String)DSM4Codes.get("Certainty"+code)).length() > 0){
+                    Diagnosis.saveTransactionDiagnosisWithServiceAndFlags(code,
+                                                      ScreenHelper.checkString((String)DSM4Codes.get(code)),
+                                                      ScreenHelper.checkString((String)DSM4Codes.get("Gravity"+code)),
+                                                      ScreenHelper.checkString((String)DSM4Codes.get("Certainty"+code)),
+                                                      sessionContainerWO.getPersonVO().personId.toString(),
+                                                      "DSM4Code",
+                                                      "dsm4",
+                                                      ScreenHelper.getSQLTime(),
+                                                      sTransactionUID,
+                                                      sessionContainerWO.getUserVO().getUserId().intValue(),
+                                                      encounter,
+                                                      ScreenHelper.checkString((String)DSM4Codes.get("POA"+code)),
+                                                      ScreenHelper.checkString((String)DSM4Codes.get("NC"+code)),
+                                                      ScreenHelper.checkString((String)DSM4Codes.get("Service"+code)),
+                                                      ScreenHelper.checkString((String)DSM4Codes.get("Flags"+code))
                     );
                 }
             }
