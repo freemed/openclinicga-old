@@ -67,15 +67,12 @@
         }
     }
 %>
-<%System.out.println(4); %>
                 <tr><td colspan="2"><%conditionalInclude("curative/encounterStatus.jsp",pageContext,"adt.encounter.select",activeUser);%></td><tr>
-<%System.out.println(5); %>
 
                 <tr>
                     <td valign="top" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
                     <td><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
                 <tr>
-<%System.out.println(6); %>
 
                 <tr><td colspan="2"><%conditionalInclude("curative/planningStatus.jsp",pageContext,"planning.select",activeUser);%></td><tr>
 
@@ -91,7 +88,6 @@
 </table>
 <div style="height:2px;"></div>
 <%-- MEDICAL DATA --%>
-<%System.out.println(7); %>
 <% if(activeUser.getAccessRight("medical.select")){%>
     <table width="100%" class="list">
         <tr><td colspan="6" class="titleadmin"><%=getTran("web","medical.data",sWebLanguage)%></td></tr>
@@ -109,7 +105,6 @@
 <%
     }
 %>
-<%System.out.println(8); %>
 <div id="responseByAjax">&nbsp;</div>
 <div id="weekSchedulerFormByAjax" style="display:none;position:absolute;background:white">&nbsp;</div>
 <script>
