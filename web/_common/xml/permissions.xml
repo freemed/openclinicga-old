@@ -57,6 +57,7 @@
         <permission type="Web.Occup" id="surveillance_anesthesie">occup.surveillance_anesthesie</permission>
         <permission type="Web.Occup" id="vitalsigns">occup.vitalsigns</permission>
         <permission type="Web.Occup" id="minimalclinicaldata">occup.minimalclinicaldata</permission>
+        <permission type="Web.Occup" id="external.documents">occup.externaldocuments</permission>
     </application>
     <application type="Web" id="newexaminations">
         <permission type="web" id="globalexaminations">examinations.global</permission>
