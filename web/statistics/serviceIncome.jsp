@@ -43,9 +43,9 @@
     	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
         //We zoeken alle debets op van de betreffende periode en ventileren deze per dienst
 		
-        String sQuery="select count(*) number,sum(oc_debet_amount+oc_debet_insuraramount+oc_debet_extrainsuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount+oc_debet_extrainsuraramount) insurarincome, serviceuid, oc_prestation_description, oc_prestation_code" +
+        String sQuery="select count(*) number,sum(oc_debet_quantity) quantity,sum(oc_debet_amount+oc_debet_insuraramount+oc_debet_extrainsuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount+oc_debet_extrainsuraramount) insurarincome, serviceuid, oc_prestation_description, oc_prestation_code" +
                         " from" +
-                        " (select oc_debet_amount,oc_debet_insuraramount,oc_debet_extrainsuraramount,oc_debet_prestationuid," +
+                        " (select oc_debet_amount,oc_debet_insuraramount,oc_debet_quantity,oc_debet_extrainsuraramount,oc_debet_prestationuid," +
                         "   (" +
                         "       select max(oc_encounter_serviceuid) " +
                         "       from oc_encounters_view" +
@@ -86,7 +86,7 @@
             int insurarincome = rs.getInt("insurarincome");
             totalserviceinsurarincome+=insurarincome;
             totalservicepatientincome+=patientincome;
-            out.println("<tr><td class='admin'>"+rs.getString("oc_prestation_code")+": "+rs.getString("oc_prestation_description")+"</td><td>"+rs.getInt("number")+"</td><td>"+(patientincome+insurarincome)+"</td><td>"+patientincome+"</td><td>"+insurarincome+"</td></tr>");
+            out.println("<tr><td class='admin'>"+rs.getString("oc_prestation_code")+": "+rs.getString("oc_prestation_description")+"</td><td>"+rs.getInt("quantity")+" ("+rs.getInt("number")+" "+getTran("web","invoices",sWebLanguage)+")</td><td>"+(patientincome+insurarincome)+"</td><td>"+patientincome+"</td><td>"+insurarincome+"</td></tr>");
         }
         if(activeservice!=null){
             out.println("<tr><td/><td colspan='4'><hr/></td></tr><tr><td colspan='2'/><td><b>"+(totalserviceinsurarincome+totalservicepatientincome)+"</b></td><td><b>"+totalservicepatientincome+"</b></td><td><b>"+totalserviceinsurarincome+"</b></td></tr>");
