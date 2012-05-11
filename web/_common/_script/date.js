@@ -80,16 +80,11 @@ function normaliseDate(dateStr){
 
 function makeDate(fulldateStr){
   fulldateStr = fulldateStr.replace("-","/");
-  alert('fulldatestr='+fulldateStr);
   var year = fulldateStr.substring(fulldateStr.lastIndexOf("/")+1);
-  alert('year='+year);
   var month = fulldateStr.substring(fulldateStr.indexOf("/")+1,fulldateStr.lastIndexOf("/"));
-  alert('month='+month);
   var day = fulldateStr.substring(0,fulldateStr.indexOf("/"));
-  alert('day='+day);
 
   if(isDate(day,month,year)){
-	  alert('yes, is date');
     return new Date(year,month-1,day,0,0,0);
   }
 }
