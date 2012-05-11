@@ -180,12 +180,12 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             }
         }
         else {
-            //First ventilate income based on prestation family
-            if(incomeVentilation.get("OTHER")==null){
-                incomeVentilation.put("OTHER",new Double(wicketCredit.getAmount()));
+        	//First ventilate income based on prestation family
+            if(incomeVentilation.get(ScreenHelper.getTranNoLink("credit.type.short",wicketCredit.getOperationType(),sPrintLanguage))==null){
+                incomeVentilation.put(ScreenHelper.getTranNoLink("credit.type.short",wicketCredit.getOperationType(),sPrintLanguage),new Double(wicketCredit.getAmount()));
             }
             else {
-                incomeVentilation.put("OTHER",new Double(((Double)incomeVentilation.get("OTHER")).doubleValue()+wicketCredit.getAmount()));
+                incomeVentilation.put(ScreenHelper.getTranNoLink("credit.type.short",wicketCredit.getOperationType(),sPrintLanguage),new Double(((Double)incomeVentilation.get(ScreenHelper.getTranNoLink("credit.type.short",wicketCredit.getOperationType(),sPrintLanguage))).doubleValue()+wicketCredit.getAmount()));
             }
             //Now ventilate income per service
             String ventilationService = "?";
