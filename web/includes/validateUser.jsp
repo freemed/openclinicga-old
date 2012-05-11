@@ -87,7 +87,6 @@
 
         activePatient = (AdminPerson) session.getAttribute("activePatient");
         AdminPerson lastPatient = (AdminPerson) session.getAttribute("lastPatient");
-System.out.println("activePatient 1="+activePatient);
           ///////////// CHANGE PATIENT ///////////
         if(lastPatient==null && activePatient!=null){
             session.setAttribute("lastPatient",activePatient);
@@ -98,7 +97,6 @@ System.out.println("activePatient 1="+activePatient);
                 AccessLog.insert(activeUser.userid,"A."+activePatient.personid);
             }
         }
-        System.out.println("activePatient 2="+activePatient);
         sProject ="/"+MedwanQuery.getInstance().getConfigString("projectname","openclinic");
 
         // weblanguage
