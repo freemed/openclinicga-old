@@ -5,9 +5,8 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.openclinic.adt.Encounter;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
@@ -99,13 +98,13 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         
         if(vitalSignsTable.size() > 0){
             table.addCell(createTitleCell(getTran("openclinic.chuk","vital.signs"),1));
-            table.addCell(createCell(new PdfPCell(vitalSignsTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(vitalSignsTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
 
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -199,13 +198,13 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
 
         if(vsRespTable.size() > 0){
             table.addCell(createTitleCell(getTran("openclinic.chuk","vital.resp.signs"),1));
-            table.addCell(createCell(new PdfPCell(vsRespTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(vsRespTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
 
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -291,13 +290,13 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
 
         if(conscTable.size() > 0){
             table.addCell(createTitleCell(getTran("openclinic.chuk","consciousness"),1));
-            table.addCell(createCell(new PdfPCell(conscTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(conscTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
 
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -369,13 +368,13 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
 
         if(biometrieTable.size() > 0){
             table.addCell(createTitleCell(getTran("openclinic.chuk","biometry"),1));
-            table.addCell(createCell(new PdfPCell(biometrieTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(biometrieTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
 
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -460,13 +459,13 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
 
         if(inputTable.size() > 0){
             table.addCell(createTitleCell(getTran("openclinic.chuk","input.summary"),1));
-            table.addCell(createCell(new PdfPCell(inputTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(inputTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
 
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -579,14 +578,14 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         if(itemCount%2==1){
             cell = new PdfPCell();
             cell.setColspan(5);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
         }
 
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -645,7 +644,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
 
         // spacer cell
         cell = createBorderlessCell("",9,3);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         leftBilanTable.addCell(cell);
 
         // bilan.input.total
@@ -681,7 +680,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
             date = (java.util.Date)dateIter.next();
 
             cell = createHeaderCell(new SimpleDateFormat("dd/MM/yyyy").format(date),1);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             rightBilanTable.addCell(cell);
         }
 
@@ -718,13 +717,13 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
 
         //*** add left and right table to table ***
         table.addCell(createTitleCell(getTran("openclinic.chuk","bilan.total"),10));
-        table.addCell(createCell(new PdfPCell(leftBilanTable),3,Cell.ALIGN_CENTER,Cell.BOX));
-        table.addCell(createCell(new PdfPCell(rightBilanTable),7,Cell.ALIGN_CENTER,Cell.BOX)); 
+        table.addCell(createCell(new PdfPCell(leftBilanTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+        table.addCell(createCell(new PdfPCell(rightBilanTable),7,PdfPCell.ALIGN_CENTER,PdfPCell.BOX)); 
 
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -773,7 +772,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
 
-                table.addCell(createCell(new PdfPCell(mealTable),4,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                table.addCell(createCell(new PdfPCell(mealTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
         }
         
@@ -787,7 +786,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
 
@@ -874,7 +873,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         // add table to transaction
         if(nutriTable.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(nutriTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(nutriTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -934,7 +933,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }          

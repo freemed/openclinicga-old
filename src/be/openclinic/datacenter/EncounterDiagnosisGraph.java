@@ -31,9 +31,8 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.StatFunctions;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Image;
-import com.lowagie.text.pdf.PdfPCell;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfPCell;
 public class EncounterDiagnosisGraph {
     /*
    USED TO CREATE A IMAGE OF GRAPH

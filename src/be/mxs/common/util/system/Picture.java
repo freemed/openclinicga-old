@@ -1,7 +1,7 @@
 package be.mxs.common.util.system;
 
 import be.mxs.common.util.db.MedwanQuery;
-import com.lowagie.text.Image;
+import com.itextpdf.text.Image;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

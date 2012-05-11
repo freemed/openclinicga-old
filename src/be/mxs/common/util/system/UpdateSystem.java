@@ -17,11 +17,13 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.admin.Label;
 
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
@@ -323,12 +325,14 @@ public class UpdateSystem {
 		                        bCreate = false;
 		                    }
 		                } 
+		                else {
+		                }
 		                sqlIterator = view.elementIterator("sql");
 		                while (sqlIterator.hasNext()) {
 		                    sql = (Element) sqlIterator.next();
 		                    if (sql.attribute("db") == null || sql.attribute("db").getValue().equalsIgnoreCase(sLocalDbType)) {
 		                        st = connectionCheck.createStatement();
-		                        String sq = sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin"));
+		                        String sq = sql.getText().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin")).replaceAll("@openclinic@", MedwanQuery.getInstance().getConfigString("openclinicdbName","openclinic"));
 		                        sq = sq.replaceAll("\n", " ");
 		                        sq = sq.replaceAll("\r", " ");
 		                        st.addBatch(sq);
@@ -495,6 +499,93 @@ public class UpdateSystem {
             if (Debug.enabled) Debug.println(e.getMessage());
         }
         return iniProps;
+    }
+
+    public static void updateSetup(String section, String code, HttpServletRequest request){
+    	MedwanQuery.getInstance().setConfigString("setup."+section, code);
+        try{
+	        SAXReader xmlReader = new SAXReader();
+	        Document document;
+	        String sMenuXML = MedwanQuery.getInstance().getConfigString("setupXMLFile","setup.xml");
+	        String sMenuXMLUrl = MedwanQuery.getInstance().getConfigString("templateSource") + sMenuXML;
+	        // Check if menu file exists, else use file at templateSource location.
+	        document = xmlReader.read(new URL(sMenuXMLUrl));
+	        if (document != null) {
+	            Element root = document.getRootElement();
+	            if (root != null) {
+	                Iterator elements = root.elementIterator(section);
+	                while (elements.hasNext()) {
+	                    Element e = (Element) elements.next();
+	                    if(e.attributeValue("code").equalsIgnoreCase(code)){
+	                    	Iterator configelements = e.elementIterator();
+	                    	while(configelements.hasNext()){
+	                    		Element configelement = (Element)configelements.next();
+	                    		if(configelement.getName().equalsIgnoreCase("config")){
+	                    			//This is an OC_CONFIG setting
+	                    			MedwanQuery.getInstance().setConfigString(configelement.attributeValue("key"), configelement.attributeValue("value").replaceAll("\\$setupdir\\$", request.getSession().getServletContext().getRealPath("/").replaceAll("\\\\","/")));
+	                    		}
+	                    	}
+	                    }
+	                }
+	            }
+	        }
+        }catch (Exception e){
+        	e.printStackTrace();
+        }
+    }
+    public static void updateCounters() {
+        try{
+	        SAXReader xmlReader = new SAXReader();
+	        Document document;
+	        String sMenuXML = MedwanQuery.getInstance().getConfigString("countersXMLFile","counters.xml");
+	        String sMenuXMLUrl = MedwanQuery.getInstance().getConfigString("templateSource") + sMenuXML;
+	        // Check if menu file exists, else use file at templateSource location.
+	        document = xmlReader.read(new URL(sMenuXMLUrl));
+	        if (document != null) {
+	            Element root = document.getRootElement();
+	            if (root != null) {
+	                Iterator elements = root.elementIterator("counter");
+	                while (elements.hasNext()) {
+	                    Element e = (Element) elements.next();
+	                    MedwanQuery.getInstance().setSynchroniseCounters(e.attributeValue("name"), e.attributeValue("table"), e.attributeValue("field"), e.attributeValue("bd"));
+	                }
+	            }
+	        }
+        }catch (Exception e){
+        	e.printStackTrace();
+        }
+        //Patients archiveFileCode
+        String s="select max(archivefilecode) as maxcode from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)=(select max("+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)) from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)<7)";
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+        	PreparedStatement ps=oc_conn.prepareStatement(s);
+        	ResultSet rs = ps.executeQuery();
+        	if(rs.next()){
+        		String maxcode=rs.getString("maxcode");
+            	rs.close();
+            	ps.close();
+				s="update OC_COUNTERS set OC_COUNTER_VALUE=? where OC_COUNTER_NAME=?";
+				ps=oc_conn.prepareStatement(s);
+				ps.setInt(1,ScreenHelper.convertFromAlfabeticalCode(maxcode)+1);
+				ps.setString(2,"ArchiveFileId");
+				ps.executeUpdate();
+				ps.close();
+        	}
+        	else{
+	        	rs.close();
+	        	ps.close();
+
+        	}
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+		}
+        try{
+        	oc_conn.close();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
     }
 
 }

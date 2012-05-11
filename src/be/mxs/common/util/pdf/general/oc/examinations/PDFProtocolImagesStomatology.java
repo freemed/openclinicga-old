@@ -1,9 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 /**
  * User: ssm
@@ -51,7 +50,7 @@ public class PDFProtocolImagesStomatology extends PDFGeneralBasic {
 
                 // add images table
                 if(imagesTable.size() > 0){
-                    table.addCell(createCell(new PdfPCell(imagesTable),5,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                    table.addCell(createCell(new PdfPCell(imagesTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 }
 
                 // conclusion
@@ -60,7 +59,7 @@ public class PDFProtocolImagesStomatology extends PDFGeneralBasic {
                     if(table.size() > 0){
                         // spacer
                         cell = createBorderlessCell(5);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         table.addCell(cell);
                     }
                     
@@ -70,7 +69,7 @@ public class PDFProtocolImagesStomatology extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 

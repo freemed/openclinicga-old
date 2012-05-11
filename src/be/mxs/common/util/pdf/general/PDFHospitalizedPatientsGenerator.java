@@ -13,12 +13,12 @@ import java.awt.*;
 import java.util.*;
 
 import net.admin.User;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,7 +52,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
 			doc.setPageSize(PageSize.A4);
-            addFooter();
+            addFooter(docWriter);
 
             doc.open();
 
@@ -84,9 +84,9 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
         // logo
         try{
             Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-            img.scalePercent(50);
+            img.scaleToFit(75, 75);
             cell = new PdfPCell(img);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(5);
             table.addCell(cell);
         }
@@ -116,7 +116,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
         }
 
         cell = createTitleCell(sTitle,sSubTitle,10,10);
-        table.addCell(createCell(cell,1,Cell.ALIGN_CENTER,Cell.BOX));
+        table.addCell(createCell(cell,1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
 
         doc.add(table);
         addBlankRow();
@@ -204,7 +204,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
                         outcomesTable.addCell(createHeaderCell(sLabelValue,1));
                     }
                     outcomesTable.addCell(createHeaderCell(getTran("web.statistics","subtotal"),1));
-                    serviceTable.addCell(createCell(new PdfPCell(outcomesTable),hOutcomes.size()+1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+                    serviceTable.addCell(createCell(new PdfPCell(outcomesTable),hOutcomes.size()+1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
                     serviceTable.addCell(createHeaderCell(getTran("web","carried.forward"),1));
 
@@ -276,20 +276,20 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
 
                             // only allow 56 rows on one page
                             if(rowsOnOnePage==56){
-                                table.addCell(createCell(new PdfPCell(serviceTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                                table.addCell(createCell(new PdfPCell(serviceTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                                 serviceTable = new PdfPTable(colsPerRow);
                                 rowsOnOnePage = 0;
                             }
                         }
                     }
 
-                    table.addCell(createCell(new PdfPCell(serviceTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                    table.addCell(createCell(new PdfPCell(serviceTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                     table.addCell(createEmptyCell(1));
                 }
             }
 
             // "printed by" info
-            table.addCell(createCell(new PdfPCell(getPrintedByInfo()),1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(getPrintedByInfo()),1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
             doc.add(table);
         }
@@ -299,19 +299,12 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
     }
 
     //--- ADD FOOTER ------------------------------------------------------------------------------
-    private void addFooter(){
+    private void addFooter(PdfWriter docWriter){
         String sFooter = getConfigString("footer."+sProject)+"<br>Page ";
         sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
 
-        Font font = FontFactory.getFont(FontFactory.HELVETICA,7);
-        font.setColor(Color.GRAY);
-
-        HeaderFooter footer = new HeaderFooter(new Phrase(sFooter,font),true);
-        footer.disableBorderSide(HeaderFooter.BOTTOM);
-        footer.setBorderColor(Color.GRAY);
-        footer.setAlignment(HeaderFooter.ALIGN_CENTER);
-
-        doc.setFooter(footer);
+        PDFFooter footer = new PDFFooter(sFooter);
+        docWriter.setPageEvent(footer);
     }
 
     //### PRIVATE METHODS #########################################################################
@@ -337,11 +330,11 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
     protected PdfPCell createGrayCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorderColor(innerBorderColor);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingTop(3);
         cell.setPaddingBottom(3);
 
@@ -359,9 +352,9 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
 
         cell = new PdfPCell(paragraph);
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setPadding(padding);
 
         return cell;
@@ -369,28 +362,28 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
 
     //--- CREATE BOLD VALUE CELL ------------------------------------------------------------------
     protected PdfPCell createBoldValueCell(int value, int colspan){
-        return createValueCell(Integer.toString(value),colspan,Cell.ALIGN_RIGHT,Font.BOLD);
+        return createValueCell(Integer.toString(value),colspan,PdfPCell.ALIGN_RIGHT,Font.BOLD);
     }
 
     //--- CREATE VALUE CELL -----------------------------------------------------------------------
     protected PdfPCell createValueCell(int value, int colspan){
-        return createValueCell(Integer.toString(value),colspan,Cell.ALIGN_RIGHT,Font.NORMAL); // default int alignment = right
+        return createValueCell(Integer.toString(value),colspan,PdfPCell.ALIGN_RIGHT,Font.NORMAL); // default int alignment = right
     }
 
     protected PdfPCell createValueCell(String value, int colspan){
-        return createValueCell(value,colspan,Cell.ALIGN_LEFT,Font.NORMAL);
+        return createValueCell(value,colspan,PdfPCell.ALIGN_LEFT,Font.NORMAL);
     }
 
     protected PdfPCell createValueCell(String value, int colspan, int fontWeight){
-        return createValueCell(value,colspan,Cell.ALIGN_LEFT,fontWeight);
+        return createValueCell(value,colspan,PdfPCell.ALIGN_LEFT,fontWeight);
     }
 
     protected PdfPCell createValueCell(String value, int colspan, int alignment, int fontWeight){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,fontWeight)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setHorizontalAlignment(alignment);
 
         return cell;
@@ -400,9 +393,9 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
     protected PdfPCell createBorderLessCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -417,7 +410,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
         cell = new PdfPCell(new Paragraph("",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setPaddingTop(height);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }

@@ -1,8 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 
 
@@ -66,7 +66,7 @@ public class PDFBiometry extends PDFGeneralBasic {
                 if(biometryTable.size() > 0){
                     cell = new PdfPCell(biometryTable);
                     cell.setPadding(3);
-                    cell.setBorder(Cell.BOX);
+                    cell.setBorder(PdfPCell.BOX);
                     
                     tranTable.addCell(cell);
                 }

@@ -1,7 +1,7 @@
 package be.mxs.common.util.pdf.official;
 
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.util.db.MedwanQuery;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;

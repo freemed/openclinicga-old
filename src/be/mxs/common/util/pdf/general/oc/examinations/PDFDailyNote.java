@@ -1,9 +1,9 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+
 
 /**
  * User: ssm
@@ -77,14 +77,14 @@ public class PDFDailyNote extends PDFGeneralBasic {
         if(itemCount%2==1){
             cell = new PdfPCell();
             cell.setColspan(5);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
         }
 
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -180,14 +180,14 @@ public class PDFDailyNote extends PDFGeneralBasic {
         if(itemCount%2==1){
             cell = new PdfPCell();
             cell.setColspan(5);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
         }
 
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -234,7 +234,7 @@ public class PDFDailyNote extends PDFGeneralBasic {
         if(itemCount%2==1){
             cell = new PdfPCell();
             cell.setColspan(5);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
         }
 
@@ -250,7 +250,7 @@ public class PDFDailyNote extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -325,14 +325,14 @@ public class PDFDailyNote extends PDFGeneralBasic {
         if(itemCount%2==1){
             cell = new PdfPCell();
             cell.setColspan(5);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
         }
 
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -401,14 +401,14 @@ public class PDFDailyNote extends PDFGeneralBasic {
         if(itemCount%2==1){
             cell = new PdfPCell();
             cell.setColspan(5);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
         }
 
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -443,7 +443,7 @@ public class PDFDailyNote extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -497,7 +497,7 @@ public class PDFDailyNote extends PDFGeneralBasic {
         if(itemCount%2==1){
             cell = new PdfPCell();
             cell.setColspan(5);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
         }
 
@@ -513,7 +513,7 @@ public class PDFDailyNote extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -531,7 +531,7 @@ public class PDFDailyNote extends PDFGeneralBasic {
     private PdfPCell createSpacerCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         return cell;
     }
 

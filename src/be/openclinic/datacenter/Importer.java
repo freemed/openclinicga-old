@@ -548,7 +548,7 @@ public class Importer {
 						ps.setInt(2,Integer.parseInt(patient.attributeValue("id")));
 						ps.execute();
 						ps.close();
-						ps = conn.prepareStatement("insert into DC_PATIENTRECORDS(DC_PATIENTRECORD_SERVERID,DC_PATIENTRECORD_PERSONID,DC_PATIENTRECORD_FIRSTNAME,DC_PATIENTRECORD_LASTNAME,DC_PATIENTRECORD_GENDER,DC_PATIENTRECORD_DATEOFBIRTH,DC_PATIENTRECORD_ARCHIVEFILE) values(?,?,?,?,?,?,?)");
+						ps = conn.prepareStatement("insert into DC_PATIENTRECORDS(DC_PATIENTRECORD_SERVERID,DC_PATIENTRECORD_PERSONID,DC_PATIENTRECORD_FIRSTNAME,DC_PATIENTRECORD_LASTNAME,DC_PATIENTRECORD_GENDER,DC_PATIENTRECORD_DATEOFBIRTH,DC_PATIENTRECORD_ARCHIVEFILE,DC_PATIENTRECORD_PICTURE,DC_PATIENTRECORD_CREATEDATETIME) values(?,?,?,?,?,?,?,?,?)");
 						ps.setInt(1, importMessage.getServerId());
 						ps.setInt(2, Integer.parseInt(patient.attributeValue("id")));
 						ps.setString(3, patient.element("firstname").getText());
@@ -556,6 +556,8 @@ public class Importer {
 						ps.setString(5, patient.element("gender").getText());
 						ps.setString(6, patient.element("dateofbirth").getText());
 						ps.setString(7, patient.element("archivefile").getText());
+						ps.setBytes(8, javax.mail.internet.MimeUtility.decodeText(patient.elementText("picture")).getBytes("iso-8859-1"));
+						ps.setTimestamp(9, new java.sql.Timestamp(importMessage.getCreateDateTime().getTime()));
 						ps.execute();
 						ps.close();
 					}
@@ -705,21 +707,28 @@ public class Importer {
 				ps.setTimestamp(3,importMessage.getCreateDateTime()==null?null:new java.sql.Timestamp(importMessage.getCreateDateTime().getTime()));
 				ps.executeUpdate();
 				ps.close();
-				ps=conn.prepareStatement("INSERT INTO DC_SIMPLEVALUES(DC_SIMPLEVALUE_SERVERID,DC_SIMPLEVALUE_OBJECTID,DC_SIMPLEVALUE_PARAMETERID," +
-						"DC_SIMPLEVALUE_CREATEDATETIME,DC_SIMPLEVALUE_SENTDATETIME," +
-						"DC_SIMPLEVALUE_RECEIVEDATETIME,DC_SIMPLEVALUE_IMPORTDATETIME,DC_SIMPLEVALUE_DATA) " +
-						"values (?,?,?,?,?,?,?,?)");
-				ps.setInt(1,importMessage.getServerId());
-				ps.setInt(2, importMessage.getObjectId());
-				ps.setString(3, importMessage.getMessageId());
-				ps.setTimestamp(4,importMessage.getCreateDateTime()==null?null:new java.sql.Timestamp(importMessage.getCreateDateTime().getTime()));
-				ps.setTimestamp(5,importMessage.getSentDateTime()==null?null:new java.sql.Timestamp(importMessage.getSentDateTime().getTime()));
-				ps.setTimestamp(6,importMessage.getReceiveDateTime()==null?null:new java.sql.Timestamp(importMessage.getReceiveDateTime().getTime()));
-				ps.setTimestamp(7,importMessage.getImportDateTime()==null?null:new java.sql.Timestamp(importMessage.getImportDateTime().getTime()));
-				ps.setString(8, importMessage.getData());
-				ps.executeUpdate();
-				importMessage.updateErrorCode(0);
-				bSuccess=true;
+				if(importMessage.getData().length()>255){
+					importMessage.setError(50);
+					importMessage.sendError();
+				}
+				else {
+					ps=conn.prepareStatement("INSERT INTO DC_SIMPLEVALUES(DC_SIMPLEVALUE_SERVERID,DC_SIMPLEVALUE_OBJECTID,DC_SIMPLEVALUE_PARAMETERID," +
+							"DC_SIMPLEVALUE_CREATEDATETIME,DC_SIMPLEVALUE_SENTDATETIME," +
+							"DC_SIMPLEVALUE_RECEIVEDATETIME,DC_SIMPLEVALUE_IMPORTDATETIME,DC_SIMPLEVALUE_DATA) " +
+							"values (?,?,?,?,?,?,?,?)");
+					ps.setInt(1,importMessage.getServerId());
+					ps.setInt(2, importMessage.getObjectId());
+					ps.setString(3, importMessage.getMessageId());
+					ps.setTimestamp(4,importMessage.getCreateDateTime()==null?null:new java.sql.Timestamp(importMessage.getCreateDateTime().getTime()));
+					ps.setTimestamp(5,importMessage.getSentDateTime()==null?null:new java.sql.Timestamp(importMessage.getSentDateTime().getTime()));
+					ps.setTimestamp(6,importMessage.getReceiveDateTime()==null?null:new java.sql.Timestamp(importMessage.getReceiveDateTime().getTime()));
+					ps.setTimestamp(7,importMessage.getImportDateTime()==null?null:new java.sql.Timestamp(importMessage.getImportDateTime().getTime()));
+					ps.setString(8, importMessage.getData());
+	
+					ps.executeUpdate();
+					importMessage.updateErrorCode(0);
+					bSuccess=true;
+				}
 			}
 		}
 		catch(Exception e){

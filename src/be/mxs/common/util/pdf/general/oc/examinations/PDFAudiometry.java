@@ -1,10 +1,10 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
@@ -43,14 +43,14 @@ public class PDFAudiometry extends PDFGeneralBasic {
         PdfPTable graphsTable = new PdfPTable(1);
 
         // graph
-        cell = createCell(new PdfPCell(getGraphTable()),1,Cell.ALIGN_CENTER,Cell.BOX);
+        cell = createCell(new PdfPCell(getGraphTable()),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
         cell.setPadding(3);
         graphsTable.addCell(cell);
 
         // add table
         if(graphsTable.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(graphsTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(graphsTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
 
@@ -174,21 +174,21 @@ public class PDFAudiometry extends PDFGeneralBasic {
         // add image to table
         cell = new PdfPCell();
         cell.setImage(Image.getInstance(os.toByteArray()));
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         cell.setPaddingLeft(110);
         cell.setPaddingRight(125);
         graphTable.addCell(cell);
 
         // legend
-        Phrase phrase = new Phrase(rightAirTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,Color.RED));
-               phrase.add(new Chunk(leftAirTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,Color.BLUE)));
-               phrase.add(new Chunk(normalTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,new Color(34,139,34)))); // green
-               phrase.add(new Chunk(rightBonyTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,Color.BLACK)));
-               phrase.add(new Chunk(leftBonyTran,FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,new Color(153,50,204)))); // purple
+        Phrase phrase = new Phrase(rightAirTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.RED));
+               phrase.add(new Chunk(leftAirTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLUE)));
+               phrase.add(new Chunk(normalTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,new BaseColor(34,139,34)))); // green
+               phrase.add(new Chunk(rightBonyTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLACK)));
+               phrase.add(new Chunk(leftBonyTran,FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,new BaseColor(153,50,204)))); // purple
         cell = new PdfPCell(phrase);
         cell.setPaddingBottom(10);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         graphTable.addCell(cell);
 
         return graphTable;
@@ -214,7 +214,7 @@ public class PDFAudiometry extends PDFGeneralBasic {
         // add table
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
 

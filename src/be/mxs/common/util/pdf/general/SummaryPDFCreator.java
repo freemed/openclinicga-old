@@ -1,11 +1,11 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
@@ -63,15 +63,8 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
             doc.setPageSize(PageSize.A4);
 
             //*** FOOTER ***************************************************************************
-            HeaderFooter footer = new HeaderFooter(
-                new Phrase("OpenClinic pdf engine (c)2007, MXS nv                        ",FontFactory.getFont(FontFactory.HELVETICA,6)),
-                new Phrase("                      "+MedwanQuery.getInstance().getLabel("web.occup","medwan.common.patientrecord",sPrintLanguage)+" "+patient.firstname+" "+patient.lastname+"\n\n",FontFactory.getFont(FontFactory.HELVETICA,6))
-            );
-
-            footer.disableBorderSide(HeaderFooter.BOTTOM);
-            footer.setAlignment(HeaderFooter.ALIGN_CENTER);
-
-			doc.setFooter(footer);
+            PDFFooter footer = new PDFFooter("OpenClinic pdf engine (c)2007, MXS nv\n"+MedwanQuery.getInstance().getLabel("web.occup","medwan.common.patientrecord",sPrintLanguage)+" "+patient.firstname+" "+patient.lastname+"\n\n");
+			docWriter.setPageEvent(footer);
             doc.open();
 
             //*** HEADER ***************************************************************************
@@ -321,7 +314,7 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
                 rangeAxis.setAutoTickUnitSelection(true,false);
 
                 // graph to image
-                chart.setBackgroundPaint(Color.WHITE);
+                chart.setBackgroundPaint(java.awt.Color.WHITE);
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 ChartUtilities.writeChartAsPNG(os,chart,(drawWideGraph?800:400),300);
                 PdfPTable graphTable = new PdfPTable(1);
@@ -329,7 +322,7 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
                 // image
                 PdfPCell cell = new PdfPCell();
                 cell.setImage(Image.getInstance(os.toByteArray()));
-                cell.setBorder(Cell.NO_BORDER);
+                cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setPaddingTop(15);
                 cell.setPaddingBottom(-10);
                 cell.setPaddingLeft(10);
@@ -337,12 +330,12 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
                 graphTable.addCell(cell);
 
                 // legend
-                Phrase phrase = new Phrase("-"+sSBPTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,Color.RED));
-                phrase.add(new Chunk("-"+sDBPTran,FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,Color.BLUE)));
+                Phrase phrase = new Phrase("-"+sSBPTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.RED));
+                phrase.add(new Chunk("-"+sDBPTran,FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLUE)));
                 cell = new PdfPCell(phrase);
                 cell.setPaddingBottom(10);
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 graphTable.addCell(cell);
 
                 //*** BLOODPRESSURE TABLE ***
@@ -362,34 +355,34 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
 
                 cell = new PdfPCell(new Paragraph(dateFormat.format(new java.util.Date()),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
                 cell.setColspan(1);
-                cell.setBorder(Cell.BOX);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(Color.LIGHT_GRAY);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 tParent.addCell(cell);
 
                 // transaction type
                 cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.blood-pressure").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
                 cell.setColspan(5);
-                cell.setBorder(Cell.BOX);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(Color.LIGHT_GRAY);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 tParent.addCell(cell);
 
                 // transaction context
                 cell = new PdfPCell();
                 cell.setColspan(4);
-                cell.setBorder(Cell.BOX);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(Color.LIGHT_GRAY);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 tParent.addCell(cell);
 
                 // add graph + empty cell
                 if(drawWideGraph){
-                    tParent.addCell(createCell(new PdfPCell(graphTable),10,Cell.ALIGN_CENTER,Cell.BOX));
+                    tParent.addCell(createCell(new PdfPCell(graphTable),10,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
                 else{
-                    tParent.addCell(createCell(new PdfPCell(graphTable),5,Cell.ALIGN_CENTER,Cell.BOX));
-                    tParent.addCell(createCell(new PdfPCell(),5,Cell.ALIGN_CENTER,Cell.BOX));
+                    tParent.addCell(createCell(new PdfPCell(graphTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                    tParent.addCell(createCell(new PdfPCell(),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
 
                 doc.add(new Paragraph(" "));
@@ -413,7 +406,7 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
             outerTable.setWidthPercentage(100);
 
             PdfPCell cell = new PdfPCell(table);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
 
             outerTable.addCell(cell);
             doc.add(outerTable);
@@ -428,7 +421,7 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
         childCell.setColspan(colspan);
         childCell.setBorder(border);
         childCell.setHorizontalAlignment(alignment);
-        childCell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        childCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
 
         return childCell;
     }

@@ -1,9 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 /**
  * User: ssm
@@ -52,7 +51,7 @@ public class PDFThyroidEchographyProtocol extends PDFGeneralBasic {
                 // add right lobe table
                 if(rightLobeTable.size() > 0){
                     table.addCell(createItemNameCell(getTran("openclinic.chuk","right_lobe"),1));
-                    table.addCell(createCell(new PdfPCell(rightLobeTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                    table.addCell(createCell(new PdfPCell(rightLobeTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
 
                 // todo : left lobe
@@ -83,7 +82,7 @@ public class PDFThyroidEchographyProtocol extends PDFGeneralBasic {
                 // add left lobe table
                 if(leftLobeTable.size() > 0){
                     table.addCell(createItemNameCell(getTran("openclinic.chuk","left_lobe"),1));
-                    table.addCell(createCell(new PdfPCell(leftLobeTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                    table.addCell(createCell(new PdfPCell(leftLobeTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
 
                 // isthmus
@@ -107,7 +106,7 @@ public class PDFThyroidEchographyProtocol extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 

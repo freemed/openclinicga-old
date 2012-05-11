@@ -11,24 +11,24 @@ import java.util.Vector;
 import java.util.Collections;
 import java.util.Enumeration;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
 
 /**
  * User: ssm
  * Date: 25-jul-2007
  */
 public class PDFDentist extends PDFGeneralBasic {
-    private final Color aqua    = new Color(0,191,255),
-                        blue    = new Color(0,0,205),
-                        fuchsia = new Color(218,112,214),
-                        gray    = new Color(166,166,166),
-                        lime    = new Color(50,205,50),
-                        maroon  = new Color(139,58,58),
-                        gold    = new Color(255,215,0),
-                        red     = new Color(238,44,44),
-                        green   = new Color(34,139,34);
+    private final BaseColor aqua    = new BaseColor(0,191,255),
+                        blue    = new BaseColor(0,0,205),
+                        fuchsia = new BaseColor(218,112,214),
+                        gray    = new BaseColor(166,166,166),
+                        lime    = new BaseColor(50,205,50),
+                        maroon  = new BaseColor(139,58,58),
+                        gold    = new BaseColor(255,215,0),
+                        red     = new BaseColor(238,44,44),
+                        green   = new BaseColor(34,139,34);
 
     //--- INNER CLASS TOOTH -----------------------------------------------------------------------
     private class Tooth{
@@ -148,37 +148,37 @@ public class PDFDentist extends PDFGeneralBasic {
 
                     // add image
                     cell = new PdfPCell();
-                    cell.setImage(com.lowagie.text.Image.getInstance(gebitImg,null));
-                    cell.setHorizontalAlignment(Cell.ALIGN_MIDDLE);
+                    cell.setImage(com.itextpdf.text.Image.getInstance(gebitImg,null));
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_MIDDLE);
                     cell.setPadding(10);
                     cell.setColspan(2);
-                    cell.setBorder(Cell.LEFT+Cell.TOP+Cell.BOTTOM); // no right
+                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right
                     cell.setBorderColor(innerBorderColor);
                     table.addCell(cell);
 
                     // legend at right
-                    Phrase phrase = new Phrase(getTran("openclinic.chuk","tooth.absent")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,aqua));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.fill")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,blue)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.unnerve")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,fuchsia)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.unnerve_fill")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,gray)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.fracturée")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,lime)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.impactée")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,maroon)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.incluse")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,gold)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.ectopique")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,red)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.surnuméraire")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,green)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.caries")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,Color.black)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.other")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.lowagie.text.Font.NORMAL,Color.orange)));
+                    Phrase phrase = new Phrase(getTran("openclinic.chuk","tooth.absent")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,aqua));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.fill")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,blue)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.unnerve")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,fuchsia)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.unnerve_fill")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,gray)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.fracturée")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,lime)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.impactée")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,maroon)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.incluse")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,gold)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.ectopique")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,red)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.surnuméraire")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,green)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.caries")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,BaseColor.BLACK)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.other")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,BaseColor.ORANGE)));
               
                     cell = new PdfPCell(phrase);
-                    cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                    cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                    cell.setBorder(Cell.RIGHT+Cell.TOP+Cell.BOTTOM); // no left
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left
                     cell.setBorderColor(innerBorderColor);
                     table.addCell(cell);
 
                     // add table
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 
@@ -189,7 +189,7 @@ public class PDFDentist extends PDFGeneralBasic {
                 if(teethTable.size() > 0){
                     cell = new PdfPCell(teethTable);
                     cell.setPadding(3);
-                    cell.setBorder(Cell.BOX);
+                    cell.setBorder(PdfPCell.BOX);
 
                     tranTable.addCell(cell);
                 }
@@ -229,13 +229,13 @@ public class PDFDentist extends PDFGeneralBasic {
     }
 
     //--- DRAW DOT --------------------------------------------------------------------------------
-    private void drawDot(Graphics2D graphics, double x, double y, Color color, int size){
-        graphics.setColor(color);
+    private void drawDot(Graphics2D graphics, double x, double y, BaseColor color, int size){
+        graphics.setColor(new java.awt.Color(color.getRGB()));
         graphics.fillOval(new Double(x).intValue(),new Double(y).intValue(),size,size);
     }
 
     //--- GET TOOTH COLOR -------------------------------------------------------------------------
-    private Color getToothColor(String toothStatus){
+    private BaseColor getToothColor(String toothStatus){
         if(toothStatus.length() > 0){
                  if(toothStatus.equals("tooth.absent"))       return aqua;
             else if(toothStatus.equals("tooth.fill"))         return blue;
@@ -246,11 +246,11 @@ public class PDFDentist extends PDFGeneralBasic {
             else if(toothStatus.equals("tooth.incluse"))      return gold;
             else if(toothStatus.equals("tooth.ectopique"))    return red;
             else if(toothStatus.equals("tooth.surnuméraire")) return green;
-            else if(toothStatus.equals("tooth.caries")) 	  return Color.black;
-            else if(toothStatus.equals("tooth.other")) 		  return Color.orange;
+            else if(toothStatus.equals("tooth.caries")) 	  return BaseColor.BLACK;
+            else if(toothStatus.equals("tooth.other")) 		  return BaseColor.ORANGE;
         }
         
-        return Color.WHITE;
+        return BaseColor.WHITE;
     }
 
     //--- GET TOOTH COORDS ------------------------------------------------------------------------

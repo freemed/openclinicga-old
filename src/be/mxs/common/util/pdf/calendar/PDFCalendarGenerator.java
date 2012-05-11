@@ -1,14 +1,17 @@
 package be.mxs.common.util.pdf.calendar;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.*;
 
 import java.text.SimpleDateFormat;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 import be.mxs.common.util.pdf.PDFBasic;
+import be.mxs.common.util.pdf.general.PDFFooter;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.Miscelaneous;
@@ -100,7 +103,7 @@ public class PDFCalendarGenerator extends PDFBasic {
 
                 cell.addElement(img);
             }
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             t.addCell(cell);
             
             t.addCell(createValueCell(sHeader,4,10,Font.BOLD));
@@ -113,15 +116,11 @@ public class PDFCalendarGenerator extends PDFBasic {
         }
     }
     //--- ADD FOOTER ------------------------------------------------------------------------------
-    public void addFooter() {
-        String sFooter = getConfigString("footer." + sProject);
-        sFooter = sFooter.replaceAll("<br>", "\n").replaceAll("<BR>", "\n");
-        Font font = FontFactory.getFont(FontFactory.HELVETICA, 7);
-        HeaderFooter footer = new HeaderFooter(new Phrase(sFooter + "\n", font), true);
-        footer.disableBorderSide(HeaderFooter.BOTTOM);
-        footer.setAlignment(HeaderFooter.ALIGN_CENTER);
-        doc.setFooter(footer);
+    public void addFooter(PdfWriter writer) {
+        PDFFooter footer = new PDFFooter(String.format("page %d", writer.getPageNumber()));
+        docWriter.setPageEvent(footer);
     }
+   
     public void addPrintedRow() {
         try {
             PdfPTable t = new PdfPTable(1);
@@ -277,11 +276,11 @@ public class PDFCalendarGenerator extends PDFBasic {
     protected PdfPCell createGrayCell(String value, int colspan, int fontSize, int fontWeight) {
         cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA, fontSize, fontWeight)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorderColor(innerBorderColor);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingTop(3);
         cell.setPaddingBottom(3);
         return cell;
@@ -299,9 +298,9 @@ public class PDFCalendarGenerator extends PDFBasic {
         }
         cell = new PdfPCell(paragraph);
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         if (height > 0) {
             cell.setPadding(height / 2);
         }
@@ -311,10 +310,10 @@ public class PDFCalendarGenerator extends PDFBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan) {
         cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOTTOM);
+        cell.setBorder(PdfPCell.BOTTOM);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPadding(5);
         return cell;
     }
@@ -322,10 +321,10 @@ public class PDFCalendarGenerator extends PDFBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan, int size) {
         cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA, size, Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOTTOM);
+        cell.setBorder(PdfPCell.BOTTOM);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPadding(1);
         return cell;
     }
@@ -336,26 +335,26 @@ public class PDFCalendarGenerator extends PDFBasic {
     protected PdfPCell createValueCell(String value, int colspan, int fontSize, int fontWeight) {
         cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA, fontSize, fontWeight)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         return cell;
     }
     //--- CREATE LABEL CELL (left align) ----------------------------------------------------------
     protected PdfPCell createLabelCell(String label, int colspan) {
         cell = new PdfPCell(new Paragraph(label, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         return cell;
     }
     protected PdfPCell createLabelCell(String label, int colspan, int size) {
         cell = new PdfPCell(new Paragraph(label, FontFactory.getFont(FontFactory.HELVETICA, size, Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPadding(1);
         return cell;
     }
@@ -363,9 +362,9 @@ public class PDFCalendarGenerator extends PDFBasic {
     protected PdfPCell createBoldLabelCell(String label, int colspan) {
         cell = new PdfPCell(new Paragraph(label, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         return cell;
     }
     //--- CREATE EMPTY CELL -------------------------------------------------------------------------
@@ -377,7 +376,7 @@ public class PDFCalendarGenerator extends PDFBasic {
         cell = new PdfPCell(new Paragraph("", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setPaddingTop(height);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         return cell;
     }
 }

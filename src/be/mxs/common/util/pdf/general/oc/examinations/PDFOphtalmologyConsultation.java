@@ -1,9 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 import java.util.Vector;
 
 /**
@@ -50,7 +49,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -119,15 +118,15 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 currentGlassesTable.addCell(cell);
 
-                currentGlassesTable.addCell(createCell(new PdfPCell(odogTable),9,Cell.ALIGN_CENTER,Cell.BOX));
+                currentGlassesTable.addCell(createCell(new PdfPCell(odogTable),9,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
 
                 // add
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_AUTOREFRACTOR_ADD");
                 cell = createValueCell("Add+ "+itemValue+" D",4); 
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 currentGlassesTable.addCell(cell);
 
-                visionTable.addCell(createCell(new PdfPCell(currentGlassesTable),1,Cell.ALIGN_CENTER,Cell.BOX));
+                visionTable.addCell(createCell(new PdfPCell(currentGlassesTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
         }
 
@@ -187,15 +186,15 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 refactorTable.addCell(cell);
 
-                refactorTable.addCell(createCell(new PdfPCell(odogTable),9,Cell.ALIGN_CENTER,Cell.BOX));
+                refactorTable.addCell(createCell(new PdfPCell(odogTable),9,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
 
                 // add
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_AUTOREFRACTOR_ADD");
                 cell = createValueCell("Add+ "+itemValue+" D",4);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 refactorTable.addCell(cell);
 
-                visionTable.addCell(createCell(new PdfPCell(refactorTable),1,Cell.ALIGN_CENTER,Cell.BOX));
+                visionTable.addCell(createCell(new PdfPCell(refactorTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
         }
 
@@ -255,15 +254,15 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 blurTable.addCell(cell);
 
-                blurTable.addCell(createCell(new PdfPCell(odogTable),9,Cell.ALIGN_CENTER,Cell.BOX));
+                blurTable.addCell(createCell(new PdfPCell(odogTable),9,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
 
                 // add
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_BLURTEST_ADD");
                 cell = createValueCell("Add+ "+itemValue+" D",4);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 blurTable.addCell(cell);
 
-                visionTable.addCell(createCell(new PdfPCell(blurTable),1,Cell.ALIGN_CENTER,Cell.BOX));
+                visionTable.addCell(createCell(new PdfPCell(blurTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
         }
 
@@ -274,7 +273,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             table.addCell(cell);
             
-            table.addCell(createCell(new PdfPCell(visionTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+            table.addCell(createCell(new PdfPCell(visionTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
         }            
 
         // pupil
@@ -286,7 +285,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -346,7 +345,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
 
-                table.addCell(createCell(new PdfPCell(microscopyTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                table.addCell(createCell(new PdfPCell(microscopyTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
         }
 
@@ -387,14 +386,14 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
                 
-                table.addCell(createCell(new PdfPCell(tensionTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                table.addCell(createCell(new PdfPCell(tensionTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
         }
 
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -454,7 +453,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
                 
-                table.addCell(createCell(new PdfPCell(retinaTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                table.addCell(createCell(new PdfPCell(retinaTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
         }
 
@@ -490,7 +489,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
 
                 treatmentTable2.addCell(createValueCell(itemValue,3));
 
-                treatmentTable.addCell(createCell(new PdfPCell(treatmentTable2),1,Cell.ALIGN_CENTER,Cell.BOX));
+                treatmentTable.addCell(createCell(new PdfPCell(treatmentTable2),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
 
             PdfPTable odogTable = new PdfPTable(9);
@@ -538,15 +537,15 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 newGlassesTable.addCell(cell);
 
-                newGlassesTable.addCell(createCell(new PdfPCell(odogTable),9,Cell.ALIGN_CENTER,Cell.BOX));
+                newGlassesTable.addCell(createCell(new PdfPCell(odogTable),9,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
 
                 // add
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_NEW_GLASSES_ADD");
                 cell = createValueCell("Add+ "+itemValue+" D",4);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 newGlassesTable.addCell(cell);
 
-                treatmentTable.addCell(createCell(new PdfPCell(newGlassesTable),1,Cell.ALIGN_CENTER,Cell.BOX));
+                treatmentTable.addCell(createCell(new PdfPCell(newGlassesTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
 
             // add treatment table
@@ -556,7 +555,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
 
-                table.addCell(createCell(new PdfPCell(treatmentTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                table.addCell(createCell(new PdfPCell(treatmentTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             }
         }
 
@@ -569,7 +568,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }

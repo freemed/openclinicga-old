@@ -1,8 +1,7 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 import java.sql.SQLException;
 import java.util.Hashtable;
@@ -29,7 +28,7 @@ public class PDFLabRequest extends PDFGeneralBasic {
             // CHOSEN LABANALYSES
             PdfPTable chosenLabs = getChosenLabAnalyses();
             if(chosenLabs.size() > 0){
-                contentTable.addCell(createCell(new PdfPCell(chosenLabs),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(chosenLabs),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
 
             table = new PdfPTable(5);
@@ -60,7 +59,7 @@ public class PDFLabRequest extends PDFGeneralBasic {
             // add table
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 tranTable.addCell(createContentCell(contentTable));
             }
 

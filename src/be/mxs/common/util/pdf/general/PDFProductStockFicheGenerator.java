@@ -5,11 +5,11 @@ import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.pharmacy.ProductStock;
 import be.openclinic.pharmacy.Product;
 import net.admin.User;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
@@ -98,25 +98,25 @@ public class PDFProductStockFicheGenerator extends PDFBasic {
 
             // service stock
             cell = createValueCell(ScreenHelper.getTranNoLink("web","serviceStock",sPrintLanguage),1); 
-            cell.setBackgroundColor(new Color(245,245,245)); // light grey
+            cell.setBackgroundColor(new BaseColor(245,245,245)); // light grey
             table.addCell(cell);
             table.addCell(createValueCell(sServiceStockName,3));
 
             // product stock
             cell = createValueCell(ScreenHelper.getTranNoLink("web","productStock",sPrintLanguage),1);
-            cell.setBackgroundColor(new Color(245,245,245)); // light grey
+            cell.setBackgroundColor(new BaseColor(245,245,245)); // light grey
             table.addCell(cell);
             table.addCell(createValueCell(sProductStockName,3));
 
             // year
             cell = createValueCell(ScreenHelper.getTranNoLink("web","year",sPrintLanguage),1);          
-            cell.setBackgroundColor(new Color(245,245,245)); // light grey
+            cell.setBackgroundColor(new BaseColor(245,245,245)); // light grey
             table.addCell(cell);
             table.addCell(createValueCell(sFicheYear,3));
 
             // print date
             cell = createValueCell(ScreenHelper.getTranNoLink("web","printdate",sPrintLanguage),1);
-            cell.setBackgroundColor(new Color(245,245,245)); // light grey
+            cell.setBackgroundColor(new BaseColor(245,245,245)); // light grey
             table.addCell(cell);
             table.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new java.util.Date()),3));
 
@@ -161,27 +161,27 @@ public class PDFProductStockFicheGenerator extends PDFBasic {
                 //*** one month (one row) ***     
                 // month name
                 cell = createHeaderCell(ScreenHelper.getTranNoLink("web","month"+(i+1),sPrintLanguage),1);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 ficheTable.addCell(cell);
 
                 // units in
                 cell = createValueCell(unitsIn+"",1);
-                cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 ficheTable.addCell(cell);
 
                 // units out
                 cell = createValueCell(unitsOut+"",1);
-                cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 ficheTable.addCell(cell);
 
                 // unitsDiff
                 cell = createValueCell((unitsDiff<0?unitsDiff+"":(unitsDiff==0?unitsDiff+"":"+"+unitsDiff)),1);
-                cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 ficheTable.addCell(cell);
 
                 // level
                 cell = createValueCell(productStock.getLevel(calendar.getTime())+"",1);
-                cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 ficheTable.addCell(cell);
             }
 
@@ -196,17 +196,17 @@ public class PDFProductStockFicheGenerator extends PDFBasic {
 
             // units in total
             cell = createHeaderCell(unitsIn+"",1);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             ficheTable.addCell(cell);
 
             // units out total
             cell = createHeaderCell(unitsOut+"",1);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             ficheTable.addCell(cell);
 
             // unitsDiff
             cell = createHeaderCell((unitsDiff<0?unitsDiff+"":(unitsDiff==0?unitsDiff+"":"+"+unitsDiff)),1);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             ficheTable.addCell(cell);
 
             // empty cell (no total possible for level)
@@ -226,9 +226,9 @@ public class PDFProductStockFicheGenerator extends PDFBasic {
     protected PdfPCell createTitle(String msg, int colspan){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setPaddingBottom(20);
 
         return cell;
@@ -239,9 +239,9 @@ public class PDFProductStockFicheGenerator extends PDFBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setPaddingTop(height); //
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -253,7 +253,7 @@ public class PDFProductStockFicheGenerator extends PDFBasic {
     protected PdfPCell createBorderlessCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }

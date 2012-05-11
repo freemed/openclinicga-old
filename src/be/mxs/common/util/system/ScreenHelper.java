@@ -1453,6 +1453,11 @@ public class ScreenHelper {
         return s;
     }
 
+    //--- GET CONFIG STRING -----------------------------------------------------------------------
+    public static String getConfigString(String key, String defaultValue) {
+        return MedwanQuery.getInstance().getConfigString(key, defaultValue);
+    }
+
     //--- GET CONFIG STRING DB --------------------------------------------------------------------
     public static String getConfigStringDB(String key, Connection ConfigdbConnection) {
         String cs = "";

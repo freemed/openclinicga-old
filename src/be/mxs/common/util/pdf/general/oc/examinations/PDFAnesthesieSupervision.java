@@ -1,9 +1,9 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+
 
 /**
  * User: ssm
@@ -80,7 +80,7 @@ public class PDFAnesthesieSupervision extends PDFGeneralBasic {
                 // add table to transaction
                 if(superVisionsTable.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(superVisionsTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                    contentTable.addCell(createCell(new PdfPCell(superVisionsTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 

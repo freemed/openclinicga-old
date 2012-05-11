@@ -5,9 +5,9 @@ import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.medical.Prescription;
 import be.openclinic.pharmacy.Product;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+
 
 import java.util.Vector;
 import java.util.Iterator;
@@ -52,7 +52,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                     cell.setBackgroundColor(BGCOLOR_LIGHT);
                     table.addCell(cell);
 
-                    table.addCell(createCell(new PdfPCell(hoursTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                    table.addCell(createCell(new PdfPCell(hoursTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
 
                 //*** INTERVENTION ********************************************
@@ -79,7 +79,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                     cell.setBackgroundColor(BGCOLOR_LIGHT);
                     table.addCell(cell);
 
-                    table.addCell(createCell(new PdfPCell(hoursTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                    table.addCell(createCell(new PdfPCell(hoursTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
                 
                 // diagnostic comment
@@ -130,7 +130,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                     cell.setBackgroundColor(BGCOLOR_LIGHT);
                     table.addCell(cell);
 
-                    table.addCell(createCell(new PdfPCell(teamTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                    table.addCell(createCell(new PdfPCell(teamTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }    
 
                 // description
@@ -158,13 +158,13 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                     cell.setBackgroundColor(BGCOLOR_LIGHT);
                     table.addCell(cell);
 
-                    table.addCell(createCell(new PdfPCell(incidentsTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                    table.addCell(createCell(new PdfPCell(incidentsTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
                 
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
                 
@@ -282,7 +282,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 
@@ -307,7 +307,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 
@@ -325,7 +325,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                     itemValue = prescriptions.toString();
                     if(itemValue.length() > 0){
                         cell = createValueCell(getTran("openclinic.chuk","administer_medicines"),1);
-                        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         vigilanceTable.addCell(cell);
 
                         vigilanceTable.addCell(createValueCell(itemValue,3));
@@ -335,7 +335,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                     itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANESTHESIA_REPORT_PHARMACO_ALLERGIES");
                     if(itemValue.length() > 0){
                         cell = createValueCell(getTran("openclinic.chuk","allergies"),1);
-                        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         vigilanceTable.addCell(cell);
 
                         vigilanceTable.addCell(createValueCell(itemValue,3));
@@ -345,7 +345,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                     itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANESTHESIA_REPORT_PHARMACO_OTHERS");
                     if(itemValue.length() > 0){
                         cell = createValueCell(getTran("openclinic.chuk","others"),1);  
-                        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         vigilanceTable.addCell(cell);
 
                         vigilanceTable.addCell(createValueCell(itemValue,3));
@@ -358,7 +358,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                         cell.setBackgroundColor(BGCOLOR_LIGHT);
                         table.addCell(cell);
 
-                        table.addCell(createCell(new PdfPCell(vigilanceTable),4,Cell.ALIGN_CENTER,Cell.BOX));
+                        table.addCell(createCell(new PdfPCell(vigilanceTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     }
                 }
                 /*
@@ -376,7 +376,7 @@ public class PDFAnesthesiaReport extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 

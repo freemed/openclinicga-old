@@ -1,11 +1,11 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 
 import java.util.*;
 import java.io.ByteArrayOutputStream;
@@ -65,7 +65,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
 			doc.setPageSize(PageSize.A4);
-            addFooter();
+            addFooter(docWriter);
 
             doc.open();
 
@@ -217,9 +217,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         // logo
         try{
             Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-            img.scalePercent(50);
+            img.scaleToFit(75, 75);
             cell = new PdfPCell(img);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(5);
             table.addCell(cell);
         }
@@ -253,7 +253,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         }
 
         cell = createTitleCell(sTitle,sSubTitle,10,10);
-        table.addCell(createCell(cell,1,Cell.ALIGN_CENTER,Cell.BOX));
+        table.addCell(createCell(cell,1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
 
         doc.add(table);
         addBlankRow();
@@ -284,7 +284,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             table.addCell(createEmptyCell(150));
 
             // "printed by" info
-            table.addCell(createCell(new PdfPCell(getPrintedByInfo()),150,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(getPrintedByInfo()),150,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
             doc.add(table);
         }
@@ -294,18 +294,12 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     }
 
     //--- ADD FOOTER ------------------------------------------------------------------------------
-    private void addFooter(){
+    private void addFooter(PdfWriter docWriter){
         String sFooter = getConfigString("footer."+sProject);
         sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
 
-        Font font = FontFactory.getFont(FontFactory.HELVETICA,7);
-        font.setColor(Color.GRAY);
-        HeaderFooter footer = new HeaderFooter(new Phrase(sFooter,font),false);
-        footer.disableBorderSide(HeaderFooter.BOTTOM);
-        footer.setBorderColor(Color.GRAY);
-        footer.setAlignment(HeaderFooter.ALIGN_CENTER);
-
-        doc.setFooter(footer);
+        PDFFooter footer = new PDFFooter(sFooter);
+        docWriter.setPageEvent(footer);
     }
 
     //### PRIVATE METHODS #########################################################################
@@ -321,7 +315,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             // header
             table.addCell(createUnderlinedCell(getTran("web","date"),20));
             cell = createUnderlinedCell(getTran("wicket","amount"),20);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             table.addCell(cell);
             table.addCell(createUnderlinedCell(getTran("wicket","type"),30));
             table.addCell(createUnderlinedCell(getTran("wicket","user"),30));
@@ -361,7 +355,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             table.addCell(createUnderlinedCell("#",5));
             table.addCell(createUnderlinedCell(getTran("web","date"),15));
             cell = createUnderlinedCell(getTran("wicket","amount"),20);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             table.addCell(cell);
             table.addCell(createUnderlinedCell(getTran("wicket","type"),25));
             table.addCell(createUnderlinedCell(getTran("wicket","insurers"),45));
@@ -439,7 +433,6 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         try {
 			ad_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -588,9 +581,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingBottom(5);
 
         return cell;
@@ -600,11 +593,11 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     protected PdfPCell createGrayCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorderColor(innerBorderColor);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingTop(3);
         cell.setPaddingBottom(3);
 
@@ -622,9 +615,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
 
         cell = new PdfPCell(paragraph);
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setPadding(padding);
 
         return cell;
@@ -634,9 +627,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     protected PdfPCell createValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -644,9 +637,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     protected PdfPCell createMiniValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -664,9 +657,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
 
         cell = new PdfPCell(new Paragraph(sValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }
@@ -684,9 +677,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
 
         cell = new PdfPCell(new Paragraph(sValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.TOP);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setBorder(PdfPCell.TOP);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }
@@ -695,9 +688,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     protected PdfPCell createLabelCell(String label, int colspan){
         cell = new PdfPCell(new Paragraph(label,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -706,9 +699,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     protected PdfPCell createBoldLabelCell(String label, int colspan){
         cell = new PdfPCell(new Paragraph(label,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -723,7 +716,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         cell = new PdfPCell(new Paragraph("",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setPaddingTop(height);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }

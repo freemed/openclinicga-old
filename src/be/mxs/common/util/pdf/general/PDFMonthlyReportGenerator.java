@@ -7,11 +7,11 @@ import be.mxs.common.util.pdf.official.PDFOfficialBasic;
 import be.mxs.common.util.system.Picture;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.adt.Encounter;
-import com.lowagie.text.*;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.*;
 import net.admin.AdminPerson;
 import net.admin.User;
 
@@ -122,7 +122,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table = new PdfPTable(7);
             table.setWidthPercentage(pageWidth);
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","delivery.title",user.person.language),14,7,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,7));
             table.addCell(createBorderlessCell("",5,2));
@@ -180,7 +180,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table.addCell(createBorderlessCell("",5,8));
             table.setWidthPercentage(pageWidth);
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","delivery.births",user.person.language),10,8,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,8));
             table.addCell(createBorderlessCell("",2));
@@ -224,7 +224,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table = new PdfPTable(10);
             table.setWidthPercentage(pageWidth);
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","prenatal.title",user.person.language),14,10,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,10));
             table.addCell(createBorderCell("",8,4));
@@ -291,7 +291,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table = new PdfPTable(8);
             table.setWidthPercentage(pageWidth);
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","pmtct.title",user.person.language),14,10,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,8));
             table.addCell(createBorderCell("",8,4));
@@ -399,11 +399,11 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table = new PdfPTable(24);
             table.setWidthPercentage(pageWidth);
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","pvv.title",user.person.language),14,24,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,24));
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","pvv.title.depistage",user.person.language),8,24,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,24));
             table.addCell(createBorderCellBold(MedwanQuery.getInstance().getLabel("report.monthly","pvv.categories",user.person.language),8,10));
@@ -454,10 +454,10 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             //Suivi
             table = new PdfPTable(12);
             table.setWidthPercentage(pageWidth/2);
-            table.setHorizontalAlignment(Table.ALIGN_LEFT);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_LEFT);
             table.addCell(createBorderlessCell("",5,12));
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","pvv.title.followup",user.person.language),8,12,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,12));
             table.addCell(createBorderCellBold(MedwanQuery.getInstance().getLabel("report.monthly","pvv.followup",user.person.language),8,6));
@@ -493,7 +493,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table.setWidthPercentage(pageWidth);
             table.addCell(createBorderlessCell("",5,36));
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","pvv.title.care",user.person.language),8,36,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,36));
             table.addCell(createBorderCellBold(MedwanQuery.getInstance().getLabel("report.monthly","pvv.patient.categories",user.person.language),8,6));
@@ -746,7 +746,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table = new PdfPTable(24);
             table.setWidthPercentage(pageWidth);
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","consultation.title",user.person.language),14,24,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,24));
             table.addCell(createBorderCellBold(MedwanQuery.getInstance().getLabel("report.monthly","consultation.newcases",user.person.language),8,8));
@@ -809,7 +809,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
                         String gender = c.attributeValue("gender");
                         int count = report_rfe.count(codes,gender,minage,maxage,flags);
                         if(count==0){
-                            cell=createBorderCell(count+"",8,1,Color.lightGray);
+                            cell=createBorderCell(count+"",8,1,BaseColor.LIGHT_GRAY);
                         }
                         else {
                             cell=createBorderCellBold(count+"",8,1);
@@ -861,7 +861,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
                             String gender = c.attributeValue("gender");
                             int count = report_rfe.count(uncountedRfe.getCodeType()+":"+uncountedRfe.getCode(),gender,minage,maxage,"N");
                             if(count==0){
-                                cell=createBorderCell(count+"",8,1,Color.lightGray);
+                                cell=createBorderCell(count+"",8,1,BaseColor.LIGHT_GRAY);
                             }
                             else {
                                 cell=createBorderCellBold(count+"",8,1);
@@ -886,7 +886,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
                     String gender = c.attributeValue("gender");
                     int count = report_rfe.count("ICPC:A-Z9999;ICD10:A-Z99.9",gender,minage,maxage,"N");
                     if(count==0){
-                        cell=createBorderCell(count+"",8,1,Color.gray);
+                        cell=createBorderCell(count+"",8,1,BaseColor.GRAY);
                     }
                     else {
                         cell=createBorderCellBold(count+"",8,1);
@@ -901,7 +901,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table = new PdfPTable(16);
             table.setWidthPercentage(pageWidth);
             cell=createLabel("\n"+MedwanQuery.getInstance().getLabel("report.monthly","consultation.synthetictable",user.person.language)+"\n",8,16,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell(MedwanQuery.getInstance().getLabel("report.monthly","consultation.consultations",user.person.language),2));
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","consultation.zone",user.person.language),8,2));
@@ -973,7 +973,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table = new PdfPTable(46);
             table.setWidthPercentage(pageWidth);
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","admission.title",user.person.language),14,46,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,46));
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","admission.numberofbeds",user.person.language),8,6));
@@ -1145,7 +1145,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
                             count = report_rfe.count(codes,gender,minage,maxage,flags+("yes".equalsIgnoreCase(c.attributeValue("pregnant"))?"E":""));
                         }
                         if(count==0){
-                            cell=createBorderCell(count+"",7,(ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1),Color.lightGray);
+                            cell=createBorderCell(count+"",7,(ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1),BaseColor.LIGHT_GRAY);
                         }
                         else {
                             cell=createBorderCellBold(count+"",7,(ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1));
@@ -1222,7 +1222,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
                                 count = report_rfe.count(uncountedRfe.getCodeType()+":"+uncountedRfe.getCode(),gender,minage,maxage,"N");
                             }
                             if(count==0){
-                                cell=createBorderCell(count+"",8,ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1,Color.lightGray);
+                                cell=createBorderCell(count+"",8,ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1,BaseColor.LIGHT_GRAY);
                             }
                             else {
                                 cell=createBorderCellBold(count+"",8,ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1);
@@ -1253,7 +1253,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
                         count = report_rfe.count("ICPC:A-Z9999;ICD10:A-Z99.9",gender,minage,maxage,"N");
                     }
                     if(count==0){
-                        cell=createBorderCell(count+"",8,ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1,Color.gray);
+                        cell=createBorderCell(count+"",8,ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1,BaseColor.GRAY);
                     }
                     else {
                         cell=createBorderCellBold(count+"",8,ScreenHelper.checkString(c.attributeValue("colspan")).length()>0?Integer.parseInt(c.attributeValue("colspan")):1);
@@ -1279,7 +1279,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table.addCell(createLabel(MedwanQuery.getInstance().getLabel("report.monthly","title",user.person.language),14,16,Font.BOLD));
             table.addCell(createBorderlessCell("",5,16));
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","identification.title",user.person.language),14,16,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderlessCell("",5,16));
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","year",user.person.language),8,2));
@@ -1300,7 +1300,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table.addCell(createBorderCell(report_identification.getItem("OC_HC_CELL"),8,6));
             table.addCell(emptyCell(16));
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","identification.remarks",user.person.language),8,16,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","epidemiology",user.person.language),8,4));
             table.addCell(createBorderCell(report_identification.getItem("OC_HC_REM_EPIDEMIOLOGIE"),8,12));
@@ -1338,7 +1338,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table = new PdfPTable(12);
             table.setWidthPercentage(pageWidth);
             cell=createLabel(MedwanQuery.getInstance().getLabel("report.monthly","title.population",user.person.language),8,12,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","population.total.zone",user.person.language),8,2));
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","population.total.insured",user.person.language),8,2));
@@ -1375,9 +1375,9 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE))); // underlined
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -1399,9 +1399,9 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createTitle(String msg, int colspan){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -1410,9 +1410,9 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createLabel(String msg, int fontsize, int colspan,int style){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontsize,style)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -1422,19 +1422,19 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setPaddingTop(height); //
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
 
-    protected PdfPCell createBorderCell(String value, int fontsize, int colspan, Color color){
+    protected PdfPCell createBorderCell(String value, int fontsize, int colspan, BaseColor color){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontsize,Font.NORMAL,color)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -1442,9 +1442,9 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createBorderCell(String value, int fontsize, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontsize,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -1452,9 +1452,9 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createBorderCellBold(String value, int fontsize, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontsize,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -1466,7 +1466,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createBorderlessCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }
@@ -1475,10 +1475,10 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createItemNameCell(String itemName, int colspan){
         cell = new PdfPCell(new Paragraph(itemName,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -1487,10 +1487,10 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createPaddedValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingRight(5); // difference
 
         return cell;
@@ -1500,10 +1500,10 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
     protected PdfPCell createNumberCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }

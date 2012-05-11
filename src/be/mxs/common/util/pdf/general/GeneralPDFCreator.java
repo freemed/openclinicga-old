@@ -12,11 +12,14 @@ import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.medical.ChronicMedication;
 import be.openclinic.medical.Prescription;
 import be.openclinic.medical.Problem;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
+import com.itextpdf.text.pdf.PdfWriter;
 import net.admin.AdminPerson;
 import net.admin.AdminPrivateContact;
 import net.admin.User;
@@ -45,7 +48,7 @@ public class GeneralPDFCreator extends PDFCreator {
     private boolean respGraphsArePrinted, diabetesGraphsArePrinted;
     private PdfPCell cell;
     private PdfPTable table;
-    protected final Color BGCOLOR_LIGHT = new Color(240,240,240); // light gray
+    protected final BaseColor BGCOLOR_LIGHT = new BaseColor(240,240,240); // light gray
 
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
@@ -84,16 +87,9 @@ public class GeneralPDFCreator extends PDFCreator {
 			doc.addKeywords(patient.firstname+", "+patient.lastname);
 			doc.setPageSize(PageSize.A4);
 
-            //*** FOOTER **************************************************************************
-            HeaderFooter footer = new HeaderFooter(
-                new Phrase("OpenClinic pdf engine (c)2007, MXS nv                        ",FontFactory.getFont(FontFactory.HELVETICA,6)),
-                new Phrase("                      "+MedwanQuery.getInstance().getLabel("web.occup","medwan.common.patientrecord",sPrintLanguage)+" "+patient.getID("immatnew")+" "+patient.firstname+" "+patient.lastname+"\n\n",FontFactory.getFont(FontFactory.HELVETICA,6))
-            );
-
-            footer.disableBorderSide(HeaderFooter.BOTTOM);
-            footer.setAlignment(HeaderFooter.ALIGN_CENTER);
-
-			doc.setFooter(footer);
+			//*** FOOTER **************************************************************************
+			PDFFooter footer = new PDFFooter("OpenClinic pdf engine (c)2007, MXS nv\n"+MedwanQuery.getInstance().getLabel("web.occup","medwan.common.patientrecord",sPrintLanguage)+" "+patient.getID("immatnew")+" "+patient.firstname+" "+patient.lastname);
+			docWriter.setPageEvent(footer);
             doc.open();
 
             //*** HEADER **************************************************************************
@@ -325,13 +321,13 @@ public class GeneralPDFCreator extends PDFCreator {
 	    	table = new PdfPTable(2);
 	        table.setWidthPercentage(100);
 	        cell=new PdfPCell();
-	        cell.setBorder(Cell.NO_BORDER);
+	        cell.setBorder(PdfPCell.NO_BORDER);
 	        table.addCell(cell);
 	        cell = new PdfPCell(new Paragraph(getTran("report.monthly","signature").toUpperCase()+"\n\n\n\n\n\n\n\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
 	        cell.setColspan(1);
-	        cell.setBorder(Cell.BOX);
-	        cell.setBorderColor(Color.LIGHT_GRAY);
-	        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	        cell.setBorder(PdfPCell.BOX);
+	        cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	        table.addCell(cell);
 	        doc.add(table);
     	}
@@ -353,10 +349,10 @@ public class GeneralPDFCreator extends PDFCreator {
                 // title
                 cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.problemlist").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
                 cell.setColspan(1);
-                cell.setBorder(Cell.BOX);
-                cell.setBorderColor(Color.LIGHT_GRAY);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(Color.LIGHT_GRAY);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 table.addCell(cell);
 
                 // run thru diagnoses
@@ -369,9 +365,9 @@ public class GeneralPDFCreator extends PDFCreator {
                     cell = new PdfPCell(new Paragraph(value+" ("+getTran("Web","since")+" "+dateFormat.format(activeProblem.getBegin())+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
 
                     cell.setColspan(1);
-                    cell.setBorder(Cell.BOX);
-                    cell.setBorderColor(Color.LIGHT_GRAY);
-                    cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                    cell.setBorder(PdfPCell.BOX);
+                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                     table.addCell(cell);
                 }
 
@@ -398,10 +394,10 @@ public class GeneralPDFCreator extends PDFCreator {
                     // title
                     cell = new PdfPCell(new Paragraph(getTran("curative","warning.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
                     cell.setColspan(4);
-                    cell.setBorder(Cell.BOX);
-                    cell.setBorderColor(Color.LIGHT_GRAY);
-                    cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                    cell.setBackgroundColor(Color.LIGHT_GRAY);
+                    cell.setBorder(PdfPCell.BOX);
+                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                     table.addCell(cell);
 
                     // list alerts
@@ -423,9 +419,9 @@ public class GeneralPDFCreator extends PDFCreator {
 
                         cell = new PdfPCell(new Paragraph(sLabel,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
                         cell.setColspan(1);
-                        cell.setBorder(Cell.LEFT+Cell.TOP+Cell.BOTTOM); // no right border
-                        cell.setBorderColor(Color.LIGHT_GRAY);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
+                        cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                         table.addCell(cell);
 
                         // comment
@@ -437,9 +433,9 @@ public class GeneralPDFCreator extends PDFCreator {
 
                         cell = new PdfPCell(new Paragraph(sComment,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
                         cell.setColspan(4);
-                        cell.setBorder(Cell.RIGHT+Cell.TOP+Cell.BOTTOM); // no left border
-                        cell.setBorderColor(Color.LIGHT_GRAY);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
+                        cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                         table.addCell(cell);
                     }
 
@@ -462,10 +458,10 @@ public class GeneralPDFCreator extends PDFCreator {
             // main title
             cell = new PdfPCell(new Paragraph(getTran("curative","medication.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
             cell.setColspan(2);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-            cell.setBackgroundColor(Color.LIGHT_GRAY);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             table.addCell(cell);
 
             Vector chronicMedications  = ChronicMedication.find(patient.personid,"","","","OC_CHRONICMED_BEGIN","ASC"), 
@@ -478,9 +474,9 @@ public class GeneralPDFCreator extends PDFCreator {
                 // sub title
                 cell = new PdfPCell(new Paragraph(getTran("curative","medication.chronic"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
                 cell.setColspan(2);
-                cell.setBorder(Cell.BOX);
-                cell.setBorderColor(Color.LIGHT_GRAY);
-                cell.setVerticalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 medicationTable.addCell(cell);
 
@@ -517,15 +513,15 @@ public class GeneralPDFCreator extends PDFCreator {
                     // product name
                     cell = new PdfPCell(new Paragraph(medication.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
                     cell.setColspan(1);
-                    cell.setBorder(Cell.LEFT+Cell.TOP+Cell.BOTTOM); // no right border
-                    cell.setBorderColor(Color.LIGHT_GRAY);
+                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
+                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
                     medicationTable.addCell(cell);
 
                     // prescription rule
                     cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
                     cell.setColspan(1);
-                    cell.setBorder(Cell.RIGHT+Cell.TOP+Cell.BOTTOM); // no left border
-                    cell.setBorderColor(Color.LIGHT_GRAY);
+                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
+                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
                     medicationTable.addCell(cell);
                 }
 
@@ -535,15 +531,15 @@ public class GeneralPDFCreator extends PDFCreator {
                     for(int i=0; i<missingCellCount; i++){
                         cell = new PdfPCell();
                         cell.setColspan(2);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         medicationTable.addCell(cell);
                     }
                 }
 
                 // add chronicmedicationtables to medicationtable
                 cell = new PdfPCell(medicationTable);
-                cell.setBorder(Cell.BOX);
-                cell.setBorderColor(Color.LIGHT_GRAY);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setBorderColor(BaseColor.LIGHT_GRAY);
                 cell.setPadding(3);
                 table.addCell(cell);
             }
@@ -555,9 +551,9 @@ public class GeneralPDFCreator extends PDFCreator {
                 // sub title
                 cell = new PdfPCell(new Paragraph(getTran("curative","medication.prescription"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
                 cell.setColspan(2);
-                cell.setBorder(Cell.BOX);
-                cell.setBorderColor(Color.LIGHT_GRAY);
-                cell.setVerticalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 medicationTable.addCell(cell);
 
@@ -595,15 +591,15 @@ public class GeneralPDFCreator extends PDFCreator {
                     // product name
                     cell = new PdfPCell(new Paragraph(prescription.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
                     cell.setColspan(1);
-                    cell.setBorder(Cell.LEFT+Cell.TOP+Cell.BOTTOM); // no right border
-                    cell.setBorderColor(Color.LIGHT_GRAY);
+                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
+                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
                     medicationTable.addCell(cell);
 
                     // prescription rule
                     cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
                     cell.setColspan(1);
-                    cell.setBorder(Cell.RIGHT+Cell.TOP+Cell.BOTTOM); // no left border
-                    cell.setBorderColor(Color.LIGHT_GRAY);
+                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
+                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
                     medicationTable.addCell(cell);
                 }
 
@@ -613,15 +609,15 @@ public class GeneralPDFCreator extends PDFCreator {
                     for(int i=0; i<missingCellCount; i++){
                         cell = new PdfPCell();
                         cell.setColspan(2);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         medicationTable.addCell(cell);
                     }
                 }
 
                 // add presciptionssstable to medicationtable
                 cell = new PdfPCell(medicationTable);
-                cell.setBorder(Cell.BOX);
-                cell.setBorderColor(Color.LIGHT_GRAY);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setBorderColor(BaseColor.LIGHT_GRAY);
                 cell.setPadding(3);
                 table.addCell(cell);
                 
@@ -643,10 +639,10 @@ public class GeneralPDFCreator extends PDFCreator {
             // kernel-data
             cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.kernel-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
             cell.setColspan(15);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-            cell.setBackgroundColor(Color.LIGHT_GRAY);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             table.addCell(cell);
 
             // row 1 : last-periodical-examination
@@ -661,9 +657,9 @@ public class GeneralPDFCreator extends PDFCreator {
             }
             cell = new PdfPCell(par);
             cell.setColspan(5);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
             // row 1 : next-periodical-examination
@@ -673,9 +669,9 @@ public class GeneralPDFCreator extends PDFCreator {
             }
             cell = new PdfPCell(par);
             cell.setColspan(5);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
             // row 1 : next-driver-examination / Volgend onderzoek medische schifting
@@ -699,9 +695,9 @@ public class GeneralPDFCreator extends PDFCreator {
 
             cell = new PdfPCell(par);
             cell.setColspan(5);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
             // row 2 : Biometrie
@@ -738,9 +734,9 @@ public class GeneralPDFCreator extends PDFCreator {
 
             cell = new PdfPCell(par);
             cell.setColspan(3);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
             // row 2 : Urineonderzoek
@@ -763,9 +759,9 @@ public class GeneralPDFCreator extends PDFCreator {
 
             cell = new PdfPCell(par);
             cell.setColspan(3);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
             // row 2 : Audiometrie
@@ -784,9 +780,9 @@ public class GeneralPDFCreator extends PDFCreator {
             }
             cell = new PdfPCell(par);
             cell.setColspan(3);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
             // row 2 : Visus
@@ -833,9 +829,9 @@ public class GeneralPDFCreator extends PDFCreator {
             }
             cell = new PdfPCell(par);
             cell.setColspan(3);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
             // row 2 : Bloeddruk
@@ -875,9 +871,9 @@ public class GeneralPDFCreator extends PDFCreator {
 
             cell = new PdfPCell(par);
             cell.setColspan(3);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
             doc.add(table);
@@ -897,34 +893,34 @@ public class GeneralPDFCreator extends PDFCreator {
             // title
             cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.administrative-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
             cell.setColspan(4);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-            cell.setBackgroundColor(Color.LIGHT_GRAY);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             table.addCell(cell);
 
             // firstname
             cell = new PdfPCell(new Paragraph(activePerson.firstname+" "+activePerson.lastname,FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
             cell.setColspan(2);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // dateOfBirth
             cell = new PdfPCell(new Paragraph("°"+activePerson.dateOfBirth,FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
             cell.setColspan(1);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // gender
             cell = new PdfPCell(new Paragraph(activePerson.gender+"",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
             cell.setColspan(1);
-            cell.setBorder(Cell.BOX);
-            cell.setBorderColor(Color.LIGHT_GRAY);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(BaseColor.LIGHT_GRAY);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // address
@@ -932,9 +928,9 @@ public class GeneralPDFCreator extends PDFCreator {
             if (contact!=null){
                 cell = new PdfPCell(new Paragraph(contact.address+" "+getTran("Web.Occup","medwan.common.at")+" "+contact.zipcode+" "+contact.city,FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
                 cell.setColspan(4);
-                cell.setBorder(Cell.BOX);
-                cell.setBorderColor(Color.LIGHT_GRAY);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 table.addCell(cell);
             }
 

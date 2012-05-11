@@ -3,13 +3,12 @@ package be.mxs.common.util.pdf.general.oc.examinations;
 import java.util.Vector;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Font;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Image;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.mxs.common.util.system.Miscelaneous;
 
@@ -132,7 +131,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
 
         // add content
         if(table.size() > 1){
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
 
@@ -198,7 +197,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
 
         // add content
         if(table.size() > 1){
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
 
@@ -262,7 +261,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
 
             // add content
             if(table.size() > 1){
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
 
@@ -540,11 +539,11 @@ public class PDFOpthalmology extends PDFGeneralBasic {
 
             // [row 1] numbers
             cell = createHeaderCell(getTran("medwan.common.right")+": "+sRechts,1);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             imgsTable.addCell(cell);
 
             cell = createHeaderCell(getTran("medwan.common.left")+": "+sLinks,1);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             imgsTable.addCell(cell);
 
             // [row 2] add images
@@ -552,19 +551,19 @@ public class PDFOpthalmology extends PDFGeneralBasic {
             cell.setImage(Image.getInstance(rightImg,null));
             cell.setColspan(1);
             cell.setPaddingLeft(15);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             imgsTable.addCell(cell);
 
             cell = new PdfPCell();
             cell.setImage(Image.getInstance(leftImg,null));
             cell.setColspan(1);
             cell.setPaddingRight(15);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             imgsTable.addCell(cell);
 
-            table.addCell(createCell(new PdfPCell(imgsTable),3,Cell.ALIGN_MIDDLE,Cell.BOX)); // 3=2+emptyCell
+            table.addCell(createCell(new PdfPCell(imgsTable),3,PdfPCell.ALIGN_MIDDLE,PdfPCell.BOX)); // 3=2+emptyCell
 
             // correction
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_CORRECTION");
@@ -580,7 +579,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
 
             // add content
             if(table.size() > 1){
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
 
@@ -657,7 +656,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
 
         // add content
         if(table.size() > 1){
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
 
@@ -895,7 +894,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
             cell.setColspan(1);
             cell.setPaddingTop(2);
             cell.setBorderColor(innerBorderColor);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             astigmaTable.addCell(cell);
 
             //--- Linker oog -----------------------------------------------------------------------
@@ -958,7 +957,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
             cell.setColspan(1);
             cell.setPaddingTop(2);
             cell.setBorderColor(innerBorderColor);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             astigmaTable.addCell(cell);
 
             //--- equal or black R -----------------------------------------------------------------
@@ -992,7 +991,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
             astigmaTable.addCell(createContentCell((sEqual+sBlack).toLowerCase()));
 
             // add astigmatisme table
-            table.addCell(createCell(new PdfPCell(astigmaTable),3,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(astigmaTable),3,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
         }
 
         //### VISUS BINOCULAR ######################################################################
@@ -1186,13 +1185,13 @@ public class PDFOpthalmology extends PDFGeneralBasic {
             else                       contrastTable.addCell(createBorderlessCell(1));
 
             // add contrast table
-            table.addCell(createCell(new PdfPCell(contrastTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(contrastTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
 
             // spacer cell
             table.addCell(emptyCell(1));
 
             // spacer cell
-            cell.setBorder(Cell.RIGHT);
+            cell.setBorder(PdfPCell.RIGHT);
             table.addCell(cell);
         }
 
@@ -1210,7 +1209,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
 
         // add content
         if(table.size() > 1){
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
 
@@ -1259,10 +1258,10 @@ public class PDFOpthalmology extends PDFGeneralBasic {
     protected PdfPCell createContentCell(String value, int colSpan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colSpan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // difference
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER); // difference
 
         return cell;
     }

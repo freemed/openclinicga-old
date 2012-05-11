@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import net.admin.AdminPerson;
+
 import be.mxs.common.util.db.MedwanQuery;
 
 public class DatacenterHelper {
@@ -778,5 +780,143 @@ public class DatacenterHelper {
 			}
 		}
 		return location;
+	}
+	
+	public static int getUnprocessedPatientRecordsCount(int serverid){
+		int records=0;
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			PreparedStatement ps = conn.prepareStatement("select count(*) total from DC_PATIENTRECORDS where DC_PATIENTRECORD_SERVERID=? and DC_PATIENTRECORD_PROCESSED is NULL");
+			ps.setInt(1, serverid);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				records=rs.getInt("total");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return records;
+	}
+	
+	public static Vector getUnprocessedPatientRecords(int serverid){
+		Vector records=new Vector();
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			PreparedStatement ps = conn.prepareStatement("select * from DC_PATIENTRECORDS where DC_PATIENTRECORD_SERVERID=? and DC_PATIENTRECORD_PROCESSED is NULL order by DC_PATIENTRECORD_LASTNAME,DC_PATIENTRECORD_FIRSTNAME");
+			ps.setInt(1, serverid);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				AdminPerson person = new AdminPerson();
+				person.personid=rs.getString("DC_PATIENTRECORD_PERSONID");
+				person.setUid(serverid+"."+person.personid);
+				person.firstname=rs.getString("DC_PATIENTRECORD_FIRSTNAME");
+				person.lastname=rs.getString("DC_PATIENTRECORD_LASTNAME");
+				person.gender=rs.getString("DC_PATIENTRECORD_GENDER");
+				person.dateOfBirth=rs.getString("DC_PATIENTRECORD_DATEOFBIRTH");
+				person.setID("archiveFileCode",rs.getString("DC_PATIENTRECORD_ARCHIVEFILE"));
+				records.add(person);
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return records;
+	}
+	
+	public static AdminPerson getPatientRecord(String patientuid){
+		AdminPerson person = null;
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			PreparedStatement ps = conn.prepareStatement("select * from DC_PATIENTRECORDS where DC_PATIENTRECORD_SERVERID=? and DC_PATIENTRECORD_PERSONID=? ORDER BY DC_PATIENTRECORD_CREATEDATETIME DESC");
+			ps.setInt(1, Integer.parseInt(patientuid.split("\\.")[0]));
+			ps.setInt(2, Integer.parseInt(patientuid.split("\\.")[1]));
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				person = new AdminPerson();
+				person.personid=rs.getString("DC_PATIENTRECORD_PERSONID");
+				person.comment=patientuid;
+				person.firstname=rs.getString("DC_PATIENTRECORD_FIRSTNAME");
+				person.lastname=rs.getString("DC_PATIENTRECORD_LASTNAME");
+				person.gender=rs.getString("DC_PATIENTRECORD_GENDER");
+				person.dateOfBirth=rs.getString("DC_PATIENTRECORD_DATEOFBIRTH");
+				person.setID("archiveFileCode",rs.getString("DC_PATIENTRECORD_ARCHIVEFILE"));
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return person;
+	}
+	
+	public static void setPatientRecordProcessed(String patientuid){
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			PreparedStatement ps = conn.prepareStatement("UPDATE DC_PATIENTRECORDS set DC_PATIENTRECORD_PROCESSED=? where DC_PATIENTRECORD_SERVERID=? and DC_PATIENTRECORD_PERSONID=?");
+			ps.setTimestamp(1, new java.sql.Timestamp(new java.util.Date().getTime()));
+			ps.setInt(2, Integer.parseInt(patientuid.split("\\.")[0]));
+			ps.setInt(3, Integer.parseInt(patientuid.split("\\.")[1]));
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static byte[] getPatientPicture(String patientuid){
+		byte[] picture = null;
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			PreparedStatement ps = conn.prepareStatement("select DC_PATIENTRECORD_PICTURE from DC_PATIENTRECORDS where DC_PATIENTRECORD_SERVERID=? and DC_PATIENTRECORD_PERSONID=? ORDER BY DC_PATIENTRECORD_CREATEDATETIME DESC");
+			ps.setInt(1, Integer.parseInt(patientuid.split("\\.")[0]));
+			ps.setInt(2, Integer.parseInt(patientuid.split("\\.")[1]));
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				picture=rs.getBytes("DC_PATIENTRECORD_PICTURE");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return picture;
 	}
 }

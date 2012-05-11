@@ -4,10 +4,9 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.official.PDFOfficialBasic;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.medical.RequestedLabAnalysis;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import net.admin.AdminPrivateContact;
 
 import java.sql.Connection;
@@ -45,12 +44,12 @@ public class chukPDFOfficialLabRequest extends PDFOfficialBasic {
 
             // ROW 1 - cell 1,2 : left part of title
             cell = createTitle(getTran("web","labresults"),Font.BOLD,10,2);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             headerTable.addCell(cell);
 
             // ROW 1 - cell 3,4 : right part of title
             cell = createTitle(getTran("web","immatnew")+" "+checkString(patient.getID("immatnew")),Font.BOLD,10,2);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             headerTable.addCell(cell);
 
             table = new PdfPTable(5);
@@ -71,25 +70,25 @@ public class chukPDFOfficialLabRequest extends PDFOfficialBasic {
             table.addCell(createValueCell(getTran("web","dateofbirth"),Font.NORMAL,8,1,false));
             table.addCell(createValueCell(patient.dateOfBirth,Font.NORMAL,8,3,false));
 
-            headerTable.addCell(createCell(new PdfPCell(table),4,Cell.ALIGN_LEFT,Cell.BOX));
+            headerTable.addCell(createCell(new PdfPCell(table),4,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
 
             // ROW 3 : werkgever nr
             table = new PdfPTable(5);
             table.addCell(createValueCell(getTran("web","service"),Font.NORMAL,8,2,false));
             table.addCell(createValueCell(sUnitCode,Font.NORMAL,8,3,false));
-            headerTable.addCell(createCell(new PdfPCell(table),4,Cell.ALIGN_LEFT,Cell.BOX));
+            headerTable.addCell(createCell(new PdfPCell(table),4,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
 
             // ROW 4 : naam en adres werkgever
             table = new PdfPTable(5);
             table.addCell(createValueCell(getTran("web","serviceaddress"),Font.NORMAL,8,2,false));
             table.addCell(createValueCell(sUnit,Font.NORMAL,8,3,false));
-            headerTable.addCell(createCell(new PdfPCell(table),4,Cell.ALIGN_LEFT,Cell.BOX));
+            headerTable.addCell(createCell(new PdfPCell(table),4,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
 
             // ROW 5 : omschrijving functie werkpost of activiteit
             table = new PdfPTable(5);
             table.addCell(createValueCell(getTran("web","function"),Font.NORMAL,8,2,false));
             table.addCell(createValueCell(sFunction,Font.NORMAL,8,3,false));
-            headerTable.addCell(createCell(new PdfPCell(table),4,Cell.ALIGN_LEFT,Cell.BOX));
+            headerTable.addCell(createCell(new PdfPCell(table),4,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
 
             // spacer below page-header
             headerTable.addCell(createBorderlessCell("",10,4));
@@ -113,7 +112,7 @@ public class chukPDFOfficialLabRequest extends PDFOfficialBasic {
             // CHOSEN LABANALYSES
             PdfPTable chosenLabs = getChosenLabAnalyses();
             if(chosenLabs.size() > 0){
-                contentTable.addCell(createCell(new PdfPCell(chosenLabs),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(chosenLabs),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
 
             // TrANSACTION DATA

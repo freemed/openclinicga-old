@@ -41,7 +41,9 @@ public class ExporterPeople extends Exporter {
 					sb.append("<archivefile>"+patient.getID("archiveFileCode")+"</archivefile>");
 					if(Picture.exists(Integer.parseInt(patient.personid))){
 						Picture picture = new Picture(Integer.parseInt(patient.personid));
-						sb.append("<picture>"+Base64.encodeBase64Chunked(picture.getPicture())+"</picture>");
+						if(picture!=null){
+							sb.append("<picture><![CDATA["+javax.mail.internet.MimeUtility.encodeText(new String(picture.getPicture(),"iso-8859-1"),"iso-8859-1",null)+"]]></picture>");
+						}
 					}
 					sb.append("</patient>");
 					
@@ -61,7 +63,7 @@ public class ExporterPeople extends Exporter {
 						ps.close();
 					}
 				}
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			finally {

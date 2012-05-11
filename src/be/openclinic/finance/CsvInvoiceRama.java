@@ -10,8 +10,7 @@ import java.util.Vector;
 
 import be.mxs.common.util.db.MedwanQuery;
 
-import com.lowagie.text.Cell;
-import com.lowagie.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPTable;
 
 public class CsvInvoiceRama {
     static DecimalFormat priceFormatInsurar = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormatInsurar","#,##0.00"));

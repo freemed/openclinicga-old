@@ -5,10 +5,7 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
+
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.Date;
@@ -17,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.awt.*;
 import java.text.SimpleDateFormat;
 
 import net.admin.AdminPerson;
@@ -25,6 +21,15 @@ import net.admin.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContext;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 
 
 
@@ -41,8 +46,8 @@ public abstract class PDFBasic {
     // declarations
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     protected final String IConstants_PREFIX = "be.mxs.common.model.vo.healthrecord.IConstants.";
-    protected final Color innerBorderColor = Color.LIGHT_GRAY;
-    protected final Color BGCOLOR_LIGHT = new Color(240,240,240); // light gray
+    protected final BaseColor innerBorderColor = BaseColor.LIGHT_GRAY;
+    protected final BaseColor BGCOLOR_LIGHT = new BaseColor(240,240,240); // light gray
 
     protected String sPrintLanguage;
     protected SessionContainerWO sessionContainerWO;
@@ -70,33 +75,33 @@ public abstract class PDFBasic {
             // transaction date
             cell = new PdfPCell(new Paragraph(dateFormat.format(transactionVO.getUpdateTime()), FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
             cell.setColspan(1);
-            cell.setBorder(Cell.BOX);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-            cell.setBackgroundColor(Color.LIGHT_GRAY);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             headerTable.addCell(cell);
 
             // transaction type
             cell = new PdfPCell(new Paragraph(getTran("Web.Occup",transactionVO.getTransactionType()).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
             cell.setColspan(5);
-            cell.setBorder(Cell.BOX);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-            cell.setBackgroundColor(Color.LIGHT_GRAY);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             headerTable.addCell(cell);
 
             // transaction context
             ItemVO item = transactionVO.getItem(IConstants_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT");
             cell = new PdfPCell(new Paragraph(item!=null?getTran("Web.Occup",item.getValue()):"",FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
             cell.setColspan(4);
-            cell.setBorder(Cell.BOX);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-            cell.setBackgroundColor(Color.LIGHT_GRAY);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             headerTable.addCell(cell);
 
             // new row : name of user who registered the transaction
             cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.user").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
             cell.setColspan(4);
-            cell.setBorder(Cell.BOX);
-            cell.setVerticalAlignment(Cell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
             headerTable.addCell(cell);
 
             User registeringUser = new User();
@@ -104,8 +109,8 @@ public abstract class PDFBasic {
             String username = registeringUser.person.lastname+" "+registeringUser.person.firstname;
             cell = new PdfPCell(new Paragraph(username,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
             cell.setColspan(6);
-            cell.setBorder(Cell.BOX);
-            cell.setVerticalAlignment(Cell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOX);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
             headerTable.addCell(cell);
         }
         catch(Exception e){
@@ -271,7 +276,7 @@ public abstract class PDFBasic {
             PdfPTable table = new PdfPTable(1);
             table.setTotalWidth(100);
             cell = new PdfPCell(new Phrase());
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setPaddingTop(height); //
             table.addCell(cell);
             doc.add(table);
@@ -292,7 +297,7 @@ public abstract class PDFBasic {
     protected PdfPCell emptyCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
 
         return cell;
@@ -300,7 +305,7 @@ public abstract class PDFBasic {
 
     protected PdfPCell emptyCell(){
         cell = new PdfPCell();
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }
@@ -311,7 +316,7 @@ public abstract class PDFBasic {
         childCell.setHorizontalAlignment(alignment);
         childCell.setBorder(border);
         childCell.setBorderColor(innerBorderColor);
-        childCell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        childCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
 
         return childCell;
     }
@@ -320,9 +325,9 @@ public abstract class PDFBasic {
     protected PdfPCell createContentCell(PdfPTable contentTable){
         cell = new PdfPCell(contentTable);
         cell.setPadding(3);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }
@@ -331,10 +336,10 @@ public abstract class PDFBasic {
     protected PdfPCell createItemNameCell(String itemName, int colspan){
         cell = new PdfPCell(new Paragraph(itemName.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -347,10 +352,10 @@ public abstract class PDFBasic {
     protected PdfPCell createHeaderCell(String msg, int colspan){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
 
         return cell;
@@ -360,10 +365,10 @@ public abstract class PDFBasic {
     protected PdfPCell createHeaderCell(String msg, int colspan, int fontSize){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontSize,Font.ITALIC)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
 
         return cell;
@@ -373,11 +378,11 @@ public abstract class PDFBasic {
     protected PdfPCell createTitleCell(String msg, int colspan){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLDITALIC)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-        cell.setBackgroundColor(new Color(220,220,220)); // grey
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBackgroundColor(new BaseColor(220,220,220)); // grey
 
         return cell;
     }
@@ -386,10 +391,10 @@ public abstract class PDFBasic {
     protected PdfPCell createValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -403,10 +408,10 @@ public abstract class PDFBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setPaddingTop(height);
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -416,10 +421,10 @@ public abstract class PDFBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,Font.NORMAL)));
         cell.setPaddingTop(height);
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -431,7 +436,7 @@ public abstract class PDFBasic {
     protected PdfPCell createBorderlessCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         cell.setBorderColor(innerBorderColor);
 
         return cell;
@@ -444,11 +449,11 @@ public abstract class PDFBasic {
     protected PdfPCell createGreenCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(1);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-        cell.setBackgroundColor(new Color(60,220,60)); // light green
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBackgroundColor(new BaseColor(60,220,60)); // light green
 
         return cell;
     }
@@ -461,11 +466,11 @@ public abstract class PDFBasic {
     protected PdfPCell createRedCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(1);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-        cell.setBackgroundColor(new Color(230,50,50)); // light red
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBackgroundColor(new BaseColor(230,50,50)); // light red
 
         return cell;
     }
@@ -478,10 +483,10 @@ public abstract class PDFBasic {
     protected PdfPCell createGreyCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-        cell.setBackgroundColor(new Color(150,150,150)); // light gray
+        cell.setBorder(PdfPCell.BOX);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBackgroundColor(new BaseColor(150,150,150)); // light gray
 
         return cell;
     }
@@ -556,8 +561,8 @@ public abstract class PDFBasic {
                 outerTable.setWidthPercentage(100);
 
                 cell = new PdfPCell(tranTable);
-                cell.setVerticalAlignment(Cell.TOP);
-                cell.setBorderColor(Color.BLACK);
+                cell.setVerticalAlignment(PdfPCell.TOP);
+                cell.setBorderColor(BaseColor.BLACK);
 
                 outerTable.addCell(cell);
                 doc.add(outerTable);

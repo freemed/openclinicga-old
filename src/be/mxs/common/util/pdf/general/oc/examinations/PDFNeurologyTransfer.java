@@ -1,9 +1,9 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+
 
 import java.util.Vector;
 
@@ -61,7 +61,7 @@ public class PDFNeurologyTransfer extends PDFGeneralBasic {
                     // add table
                     if(table.size() > 0){
                         if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                        contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                        contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                         tranTable.addCell(createContentCell(contentTable));
                         addTransactionToDoc();
                     }

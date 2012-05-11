@@ -15,14 +15,13 @@ import be.openclinic.system.Center;
 import net.admin.User;
 import net.admin.Service;
 import net.admin.AdminPerson;
-import com.lowagie.text.*;
-import com.lowagie.text.html.HtmlTags;
-import com.lowagie.text.pdf.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.html.HtmlTags;
+import com.itextpdf.text.pdf.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -121,9 +120,9 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
             Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_insurancecard.gif"));
             image.scaleToFit(72*240/254,72);
             cell = new PdfPCell(image);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(20);
             cell.setPadding(3);
             table.addCell(cell);
@@ -131,14 +130,14 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
             PdfPTable subTable = new PdfPTable(1);
             subTable.setWidthPercentage(100);
             cell = createTitle(Center.get(0, true).getName().replace("<br>","\n"),1);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             subTable.addCell(cell);
             cell = createRedTitle(ScreenHelper.getTranNoLink("jubilee","medicalcard",sPrintLanguage),1);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             subTable.addCell(cell);
             
             cell=new PdfPCell(subTable);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(50);
             table.addCell(cell);
             
@@ -152,9 +151,9 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
                 cell = new PdfPCell();
             }
             cell = new PdfPCell(image);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(20);
             cell.setPaddingLeft(4);
             table.addCell(cell);
@@ -234,19 +233,19 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
             subTable.addCell(cell);
             
             cell=new PdfPCell(subTable);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setColspan(50);
             table.addCell(cell);
             
             cell=createBorderlessCell(" ",70);
             table.addCell(cell);
             cell=createBorderlessCellWithStyle(ScreenHelper.getTranNoLink("jubilee","emergencynumbers",sPrintLanguage)+": ", 35, Font.BOLD, 7);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPadding(1);
             table.addCell(cell);
-            cell=createBorderlessCellWithStyle(patient.comment3, 35, FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD,Color.RED), 7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell=createBorderlessCellWithStyle(patient.comment3, 35, FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD,BaseColor.RED), 7);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             cell.setPadding(1);
             table.addCell(cell);
             doc.add(table);
@@ -262,9 +261,9 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
                 cell = new PdfPCell();
             }
             cell = new PdfPCell(image);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(70);
             cell.setPadding(0);
             table.addCell(cell);
@@ -282,9 +281,9 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE))); // underlined
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -306,18 +305,18 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
     protected PdfPCell createTitle(String msg, int colspan){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
 
     //--- CREATE TITLE ----------------------------------------------------------------------------
     protected PdfPCell createRedTitle(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,12,Font.BOLD,Color.RED)));
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,12,Font.BOLD,BaseColor.RED)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -326,9 +325,9 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
     protected PdfPCell createLabel(String msg, int fontsize, int colspan,int style){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontsize,style)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -338,9 +337,9 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setPaddingTop(height); //
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -350,9 +349,9 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,size,style)));
         cell.setPaddingTop(3); //
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -362,9 +361,9 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(value,font));
         cell.setPaddingTop(3); //
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -376,7 +375,7 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
     protected PdfPCell createBorderlessCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }
@@ -385,10 +384,10 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
     protected PdfPCell createItemNameCell(String itemName, int colspan){
         cell = new PdfPCell(new Paragraph(itemName,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -397,10 +396,10 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
     protected PdfPCell createPaddedValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingRight(5); // difference
 
         return cell;
@@ -410,10 +409,10 @@ public class PDFOpeninsuranceCardGenerator extends PDFOfficialBasic {
     protected PdfPCell createNumberCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }

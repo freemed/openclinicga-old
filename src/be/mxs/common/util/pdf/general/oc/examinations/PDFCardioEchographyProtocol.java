@@ -1,9 +1,9 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+
 
 /**
  * User: ssm
@@ -182,7 +182,7 @@ public class PDFCardioEchographyProtocol extends PDFGeneralBasic {
                 if(itemCount%2==1){
                     cell = new PdfPCell();
                     cell.setColspan(5);
-                    cell.setBorder(Cell.NO_BORDER);
+                    cell.setBorder(PdfPCell.NO_BORDER);
                     table.addCell(cell);
                 }
                 

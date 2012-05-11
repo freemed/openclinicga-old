@@ -1,9 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 import java.util.Vector;
 
 /**
@@ -81,11 +80,11 @@ public class PDFDelivery extends PDFGeneralBasic {
                         cell.setBackgroundColor(BGCOLOR_LIGHT);
                         leftTable.addCell(cell);
 
-                        leftTable.addCell(createCell(new PdfPCell(ageTable),3,Cell.ALIGN_CENTER,Cell.BOX));
+                        leftTable.addCell(createCell(new PdfPCell(ageTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     }
 
                     // add left table to table
-                    cell = createCell(new PdfPCell(leftTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+                    cell = createCell(new PdfPCell(leftTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
                     cell.setPadding(0);
                     table.addCell(cell);
 
@@ -155,7 +154,7 @@ public class PDFDelivery extends PDFGeneralBasic {
 
                             // add dystocicTable to rightTable
                             if(dystocicTable.size() > 0){
-                                cell = createCell(new PdfPCell(dystocicTable),5,Cell.ALIGN_CENTER,Cell.BOX);
+                                cell = createCell(new PdfPCell(dystocicTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
                                 cell.setPadding(3);
                                 rightTable.addCell(cell);
                             }
@@ -190,7 +189,7 @@ public class PDFDelivery extends PDFGeneralBasic {
 
                             // add caeserianTable to rightTable
                             if(caeserianTable.size() > 0){
-                                cell = createCell(new PdfPCell(caeserianTable),5,Cell.ALIGN_CENTER,Cell.BOX);
+                                cell = createCell(new PdfPCell(caeserianTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
                                 cell.setPadding(3);
                                 rightTable.addCell(cell);
                             }
@@ -198,14 +197,14 @@ public class PDFDelivery extends PDFGeneralBasic {
                     }
 
                     // add right table to table
-                    cell = createCell(new PdfPCell(rightTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+                    cell = createCell(new PdfPCell(rightTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
                     cell.setPadding(0);
                     table.addCell(cell);
 
                     // add table to doc
                     if(table.size() > 0){
                         if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                        contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                        contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                         tranTable.addCell(createContentCell(contentTable));
                         addTransactionToDoc();
                     }
@@ -309,14 +308,14 @@ public class PDFDelivery extends PDFGeneralBasic {
                     if(itemCount%2==1){
                         cell = new PdfPCell();
                         cell.setColspan(5);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         table.addCell(cell);
                     }
 
                     // add table to doc
                     if(table.size() > 0){
                         if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                        contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                        contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                         tranTable.addCell(createContentCell(contentTable));
                         addTransactionToDoc();
                     }
@@ -372,7 +371,7 @@ public class PDFDelivery extends PDFGeneralBasic {
                     if(itemCount%2==1){
                         cell = new PdfPCell();
                         cell.setColspan(5);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         table.addCell(cell);
                     }
 
@@ -490,7 +489,7 @@ public class PDFDelivery extends PDFGeneralBasic {
                                 apgarTable.addCell(createValueCell(itemValue,1));
 
                                 // add table
-                                cell = createCell(new PdfPCell(apgarTable),2,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+                                cell = createCell(new PdfPCell(apgarTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
                                 cell.setPadding(3);
                                 bornaliveTable.addCell(cell);
                             }
@@ -565,14 +564,14 @@ public class PDFDelivery extends PDFGeneralBasic {
                                 }
 
                                 // add table
-                                cell = createCell(new PdfPCell(infoTable),3,Cell.ALIGN_CENTER,Cell.BOX);
+                                cell = createCell(new PdfPCell(infoTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
                                 cell.setPadding(3);
                                 bornaliveTable.addCell(cell);
                             }
 
                             if(bornaliveTable.size() > 0){
                                 deathOrAliveTable.addCell(emptyCell(1));
-                                deathOrAliveTable.addCell(createCell(new PdfPCell(bornaliveTable),9,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                                deathOrAliveTable.addCell(createCell(new PdfPCell(bornaliveTable),9,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                             }
                         }
 
@@ -580,14 +579,14 @@ public class PDFDelivery extends PDFGeneralBasic {
                         cell.setBackgroundColor(BGCOLOR_LIGHT);
                         table.addCell(cell);
 
-                        table.addCell(createCell(new PdfPCell(deathOrAliveTable),8,Cell.ALIGN_CENTER,Cell.BOX));
+                        table.addCell(createCell(new PdfPCell(deathOrAliveTable),8,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     }
                 }
                 
                 // add transaction to doc
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 

@@ -12,14 +12,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Image;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Font;
-import com.lowagie.text.Chunk;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Chunk;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
@@ -91,19 +91,19 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
             }
 
             // left graph
-            cell = createCell(new PdfPCell(getFEV1Graph(yearOfBirth)),1,Cell.ALIGN_LEFT,Cell.BOX);
+            cell = createCell(new PdfPCell(getFEV1Graph(yearOfBirth)),1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX);
             cell.setPadding(3);
             table.addCell(cell);
 
             // right graph
-            cell = createCell(new PdfPCell(getFVCGraph()),1,Cell.ALIGN_LEFT,Cell.BOX);
+            cell = createCell(new PdfPCell(getFVCGraph()),1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX);
             cell.setPadding(3);
             table.addCell(cell);
 
             // add content to document
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -208,7 +208,7 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
         // add content to document
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -299,20 +299,20 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
             cell.setPaddingLeft(10);
             cell.setPaddingRight(20);
             cell.setPaddingBottom(0);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-            cell.setVerticalAlignment(Cell.ALIGN_BOTTOM);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
             fevTable.addCell(cell);
 
             // custom legend
-            Phrase phrase = new Phrase("     "+r2Tran+"     ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,Color.BLUE));
-            phrase.add(new Chunk("("+r1Tran+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,Color.RED)));
+            Phrase phrase = new Phrase("     "+r2Tran+"     ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,BaseColor.BLUE));
+            phrase.add(new Chunk("("+r1Tran+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,BaseColor.RED)));
             cell = new PdfPCell(phrase);
             cell.setColspan(1);
             cell.setPaddingBottom(5);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             fevTable.addCell(cell);
         }
         catch(Exception e){
@@ -408,20 +408,20 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
             cell.setPaddingLeft(10);
             cell.setPaddingRight(20);
             cell.setPaddingBottom(0);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-            cell.setVerticalAlignment(Cell.ALIGN_BOTTOM);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
             fvcTable.addCell(cell);
 
             // custom legend
-            Phrase phrase = new Phrase("     "+r2Tran+"     ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,Color.BLUE));
-            phrase.add(new Chunk("("+r1Tran+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,Color.RED)));
+            Phrase phrase = new Phrase("     "+r2Tran+"     ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,BaseColor.BLUE));
+            phrase.add(new Chunk("("+r1Tran+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,BaseColor.RED)));
             cell = new PdfPCell(phrase);
             cell.setColspan(1);
             cell.setPaddingBottom(5);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             fvcTable.addCell(cell);
         }
         catch(Exception e){

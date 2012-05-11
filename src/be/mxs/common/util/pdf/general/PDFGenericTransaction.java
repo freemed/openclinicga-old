@@ -1,12 +1,12 @@
 package be.mxs.common.util.pdf.general;
 
 import be.mxs.common.model.vo.healthrecord.ItemVO;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Font;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Font;
 import java.util.Iterator;
 import java.awt.*;
 
@@ -36,24 +36,24 @@ public class PDFGenericTransaction extends PDFGeneralBasic {
                     // itemType
                     cell = new PdfPCell(new Phrase(getTran("web.occup",item.getType()).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
                     cell.setColspan(2);
-                    cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                    cell.setBorder(Cell.BOX);
-                    cell.setBorderColor(Color.LIGHT_GRAY);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setBorder(PdfPCell.BOX);
+                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
                     table.addCell(cell);
 
                     // itemValue
                     cell = new PdfPCell(new Phrase(getTran("web.occup",item.getValue()),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
                     cell.setColspan(13);
-                    cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                    cell.setBorder(Cell.BOX);
-                    cell.setBorderColor(Color.LIGHT_GRAY);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setBorder(PdfPCell.BOX);
+                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
                     table.addCell(cell);
                 }
             }
 
             // add table
             if(table.size() > 1){
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
 

@@ -1,8 +1,8 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
 
 import javax.servlet.http.HttpServletRequest;
 import be.mxs.common.util.system.ScreenHelper;
@@ -26,8 +26,8 @@ public class PDFHeader {
         sURL = sURL.substring(0,sURL.indexOf("openclinic",10));
         try{
             cell = new PdfPCell(Miscelaneous.getImage("logo_chuk.gif",""));
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             table.addCell(cell);
         }
         catch(Exception e){
@@ -52,7 +52,7 @@ public class PDFHeader {
         }
 
         cell = new PdfPCell(par);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         return table;
@@ -69,10 +69,10 @@ public class PDFHeader {
         sURL = sURL.substring(0,sURL.indexOf("openclinic",10));
         try{
             Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-            img.scalePercent(50);
+            img.scaleToFit(75, 75);
             cell = new PdfPCell(img);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             table.addCell(cell);
         }
         catch(Exception e){
@@ -97,7 +97,7 @@ public class PDFHeader {
         }
 
         cell = new PdfPCell(par);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         return table;

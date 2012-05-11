@@ -1,9 +1,9 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
@@ -37,25 +37,16 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected void addFooter(){
         String sFooter = getConfigString("footer."+sProject);
         sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
-
-        Font font = FontFactory.getFont(FontFactory.HELVETICA,7);
-        HeaderFooter footer = new HeaderFooter(new Phrase(sFooter+"\n",font),true);
-        footer.disableBorderSide(HeaderFooter.BOTTOM);
-        footer.setAlignment(HeaderFooter.ALIGN_CENTER);
-
-        doc.setFooter(footer);
+        System.out.println("sFooter="+sFooter);
+        PDFFooter footer = new PDFFooter(sFooter+"\n");
+        docWriter.setPageEvent(footer);
     }
 
     protected void addFooter(String sInvoiceUid){
         String sFooter = getConfigString("footer."+sProject);
         sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
-
-        Font font = FontFactory.getFont(FontFactory.HELVETICA,7);
-        HeaderFooter footer = new HeaderFooter(new Phrase(sFooter+"\n"+sInvoiceUid+" - ",font),true);
-        footer.disableBorderSide(HeaderFooter.BOTTOM);
-        footer.setAlignment(HeaderFooter.ALIGN_CENTER);
-
-        doc.setFooter(footer);
+        PDFFooter footer = new PDFFooter(sFooter+"\n"+sInvoiceUid);
+        docWriter.setPageEvent(footer);
     }
 
     //--- GET INVOICE ID --------------------------------------------------------------------------
@@ -123,11 +114,11 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected PdfPCell createGrayCell(String value, int colspan, int fontSize, int fontWeight){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,fontWeight)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorderColor(innerBorderColor);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingTop(3);
         cell.setPaddingBottom(3);
 
@@ -149,9 +140,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
 
         cell = new PdfPCell(paragraph);
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         if(height > 0){
             cell.setPadding(height/2);
@@ -164,10 +155,10 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOTTOM);
+        cell.setBorder(PdfPCell.BOTTOM);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPadding(5);
 
         return cell;
@@ -177,10 +168,10 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan, int size){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,size,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOTTOM);
+        cell.setBorder(PdfPCell.BOTTOM);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPadding(1);
 
         return cell;
@@ -194,9 +185,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected PdfPCell createValueCell(String value, int colspan, int fontSize, int fontWeight){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,fontWeight)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -218,9 +209,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
 
         cell = new PdfPCell(new Paragraph(sValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }
@@ -233,9 +224,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
 
         cell = new PdfPCell(new Paragraph(sValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }
@@ -257,9 +248,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
 
         cell = new PdfPCell(new Paragraph(sValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.TOP);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setBorder(PdfPCell.TOP);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }
@@ -272,9 +263,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
 
         cell = new PdfPCell(new Paragraph(sValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.TOP);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setBorder(PdfPCell.TOP);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }
@@ -283,9 +274,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected PdfPCell createLabelCell(String label, int colspan){
         cell = new PdfPCell(new Paragraph(label,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -293,9 +284,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected PdfPCell createLabelCell(String label, int colspan, int size){
         cell = new PdfPCell(new Paragraph(label,FontFactory.getFont(FontFactory.HELVETICA,size,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPadding(1);
 
         return cell;
@@ -305,9 +296,9 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected PdfPCell createBoldLabelCell(String label, int colspan){
         cell = new PdfPCell(new Paragraph(label,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -322,7 +313,7 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         cell = new PdfPCell(new Paragraph("",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setPaddingTop(height);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }

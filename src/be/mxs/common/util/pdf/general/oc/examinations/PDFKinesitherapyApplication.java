@@ -1,9 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 import java.util.Vector;
 
@@ -71,7 +70,7 @@ public class PDFKinesitherapyApplication extends PDFGeneralBasic {
 
                     if(freqTable.size() > 0){
                         table.addCell(createItemNameCell(getTran("openclinic.chuk","frequency"),2));
-                        table.addCell(createCell(new PdfPCell(freqTable),3,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                        table.addCell(createCell(new PdfPCell(freqTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                     }
 
                     // remarks
@@ -83,7 +82,7 @@ public class PDFKinesitherapyApplication extends PDFGeneralBasic {
                     // add transaction to doc
                     if(table.size() > 0){
                         if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                        contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                        contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                         tranTable.addCell(createContentCell(contentTable));
                         addTransactionToDoc();
                     }

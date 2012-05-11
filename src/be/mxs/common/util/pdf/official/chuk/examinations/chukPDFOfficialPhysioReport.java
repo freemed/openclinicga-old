@@ -2,12 +2,11 @@ package be.mxs.common.util.pdf.official.chuk.examinations;
 
 import be.mxs.common.util.pdf.official.PDFOfficialBasic;
 import be.mxs.common.util.system.ScreenHelper;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import net.admin.AdminPrivateContact;
 
 import java.text.SimpleDateFormat;
@@ -34,13 +33,13 @@ public class chukPDFOfficialPhysioReport extends PDFOfficialBasic {
             cell = createTitle("PHYSIOTHERAPY DPT",Font.UNDERLINE,10,1);
             cell.setNoWrap(true);
             addressTable.addCell(cell);
-            headerTable.addCell(createCell(new PdfPCell(addressTable),1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            headerTable.addCell(createCell(new PdfPCell(addressTable),1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
             // date
             SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             cell = createValueCell(getTran("web","date")+": "+stdDateFormat.format(new java.util.Date()),Font.NORMAL,9,4,false);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             headerTable.addCell(cell);
 
             // add headertable to document
@@ -114,7 +113,7 @@ public class chukPDFOfficialPhysioReport extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_PHYSIO_REP_REPORT"),1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(220);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // spacer
@@ -125,7 +124,7 @@ public class chukPDFOfficialPhysioReport extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_PHYSIO_REP_CONCLUSION"),1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(220);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             doc.add(table);
@@ -155,9 +154,9 @@ public class chukPDFOfficialPhysioReport extends PDFOfficialBasic {
     private PdfPCell subTitleCell(String title, int colspan){
         cell = new PdfPCell(new Paragraph(title,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -166,9 +165,9 @@ public class chukPDFOfficialPhysioReport extends PDFOfficialBasic {
     private PdfPCell textCell(String text, int colspan){
         cell = new PdfPCell(new Paragraph(text,FontFactory.getFont(FontFactory.HELVETICA,9,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }

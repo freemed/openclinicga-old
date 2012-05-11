@@ -4,9 +4,7 @@ import be.mxs.common.util.pdf.PDFBasic;
 import be.mxs.common.util.system.Miscelaneous;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
+
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -17,6 +15,15 @@ import net.admin.User;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.ServletContext;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 
 
 /**
@@ -126,9 +133,9 @@ public abstract class PDFOfficialBasic extends PDFBasic {
 
         img.scaleAbsolute(8,8);
         cell = new PdfPCell(img);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
         cell.setColspan(1);
 
         return cell;
@@ -138,7 +145,7 @@ public abstract class PDFOfficialBasic extends PDFBasic {
     protected PdfPCell emptyCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }
@@ -165,9 +172,9 @@ public abstract class PDFOfficialBasic extends PDFBasic {
         }
 
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -183,9 +190,9 @@ public abstract class PDFOfficialBasic extends PDFBasic {
         }
 
         cell.setColspan(colspan);
-        cell.setBorder(border?Cell.BOX:Cell.NO_BORDER);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setBorder(border?PdfPCell.BOX:PdfPCell.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
 
         return cell;
     }
@@ -195,9 +202,9 @@ public abstract class PDFOfficialBasic extends PDFBasic {
         cell = new PdfPCell(phrase);
 
         cell.setColspan(colspan);
-        cell.setBorder(border?Cell.BOX:Cell.NO_BORDER);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setBorder(border?PdfPCell.BOX:PdfPCell.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
 
         return cell;
     }
@@ -216,7 +223,7 @@ public abstract class PDFOfficialBasic extends PDFBasic {
             PdfPTable table = new PdfPTable(1);
             table.setTotalWidth(100);
             cell = new PdfPCell(new Phrase());
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingTop(height); //
             table.addCell(cell);
             doc.add(table);

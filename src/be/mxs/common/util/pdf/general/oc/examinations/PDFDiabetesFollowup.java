@@ -4,10 +4,10 @@ import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.mxs.common.util.pdf.util.CustomXYLabelGenerator;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
-import com.lowagie.text.Image;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Image;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
@@ -112,7 +112,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             // add glucometer table
             if(glucometerTable.size() > 0){
                 table.addCell(createItemNameCell(getTran("diabetes","glucometer"),2));
-                table.addCell(createCell(new PdfPCell(glucometerTable),3,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                table.addCell(createCell(new PdfPCell(glucometerTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
 
             //*** remark ***
@@ -124,7 +124,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             // add table to transaction
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
                 addTransactionToDoc();
             }
@@ -171,7 +171,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             // add glucosurie table
             if(glucosurieTable.size() > 0){
                 table.addCell(createItemNameCell(getTran("diabetes","glucosurie"),2));
-                table.addCell(createCell(new PdfPCell(glucosurieTable),3,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                table.addCell(createCell(new PdfPCell(glucosurieTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
 
             // hba 1c
@@ -183,7 +183,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             // add table to transaction
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -262,7 +262,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             // add table to transaction
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
                 addTransactionToDoc();
             }
@@ -290,13 +290,13 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
 
             // 07h00 : repas
             cell = createItemNameCell("07h00",1);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.lowagie.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
             dietTable.addCell(cell);
 
@@ -304,13 +304,13 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
 
             // 10h00 : collation
             cell = createItemNameCell("10h00",1);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","collation"), FontFactory.getFont(FontFactory.HELVETICA,7,com.lowagie.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","collation"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
             dietTable.addCell(cell);
 
@@ -318,13 +318,13 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
 
             // 12h00 : repas
             cell = createItemNameCell("12h00",1);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.lowagie.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
             dietTable.addCell(cell);
 
@@ -332,13 +332,13 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
 
             // 15h00 : collation
             cell = createItemNameCell("15h00",1);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","collation"), FontFactory.getFont(FontFactory.HELVETICA,7,com.lowagie.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","collation"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
             dietTable.addCell(cell);
 
@@ -346,13 +346,13 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
 
             // 17h00 : collation
             cell = createItemNameCell("17h00",1);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.lowagie.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
             dietTable.addCell(cell);
 
@@ -373,7 +373,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             // add table to transaction
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
                 addTransactionToDoc();
             }
@@ -424,12 +424,12 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     table.addCell(createHeaderCell(getTran("web.occup","glycemy"),5));
 
                     // graph
-                    cell = createCell(new PdfPCell(getGraph(glyDatesAndValues,sGlycemyUnit)),5,Cell.ALIGN_CENTER,Cell.BOX);
+                    cell = createCell(new PdfPCell(getGraph(glyDatesAndValues,sGlycemyUnit)),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
                     table.addCell(cell);
 
                     // add table
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
 
                     // add transaction to doc
@@ -461,12 +461,12 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     table.addCell(createHeaderCell(getTran("web.occup","insuline")+" "+getTran("web","rapid"),5));
 
                     // graph
-                    cell = createCell(new PdfPCell(getGraph(insDatesAndValues,sInsulineUnit)),5,Cell.ALIGN_CENTER,Cell.BOX);
+                    cell = createCell(new PdfPCell(getGraph(insDatesAndValues,sInsulineUnit)),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
                     table.addCell(cell);
 
                     // add table
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
 
                     // add transaction to doc
@@ -498,12 +498,12 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     table.addCell(createHeaderCell(getTran("web.occup","insuline")+" "+getTran("web","semirapid"),5));
 
                     // graph
-                    cell = createCell(new PdfPCell(getGraph(insDatesAndValues,sInsulineUnit)),5,Cell.ALIGN_CENTER,Cell.BOX);
+                    cell = createCell(new PdfPCell(getGraph(insDatesAndValues,sInsulineUnit)),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
                     table.addCell(cell);
 
                     // add table
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
 
                     // add transaction to doc
@@ -533,12 +533,12 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     table.addCell(createHeaderCell(getTran("web.occup","insuline")+" "+getTran("web","slow"),5));
 
                     // graph
-                    cell = createCell(new PdfPCell(getGraph(insDatesAndValues,sInsulineUnit)),5,Cell.ALIGN_CENTER,Cell.BOX);
+                    cell = createCell(new PdfPCell(getGraph(insDatesAndValues,sInsulineUnit)),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
                     table.addCell(cell);
 
                     // add table
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
 
                     // add transaction to doc
@@ -642,7 +642,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             ChartUtilities.writeChartAsPNG(os,chart,420,336);
 
             // put image of chart in cell
-            cell = createCell(new PdfPCell(),1,Cell.ALIGN_CENTER,Cell.BOX);
+            cell = createCell(new PdfPCell(),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
             cell.setImage(Image.getInstance(os.toByteArray()));
             cell.setPaddingTop(10);
             cell.setPaddingLeft(110);

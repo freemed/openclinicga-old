@@ -256,9 +256,7 @@ public abstract class MessageReader {
                             ps.close();
                             //We also have to check the existence of the labels
                             //First check the id
-                            String sSupportedLanguages = ScreenHelper.getConfigString("supportedLanguages");
-                            if(sSupportedLanguages.length() == 0) sSupportedLanguages = "nl,fr";
-
+                            String sSupportedLanguages = ScreenHelper.getConfigString("supportedLanguages","en,fr");
                             StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages,",");
                             String sLang;
                             while(tokenizer.hasMoreTokens()){

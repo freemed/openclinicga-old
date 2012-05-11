@@ -17,9 +17,9 @@ import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import java.sql.SQLException;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
 
 
 public class PDFClinicalExamination extends PDFGeneralBasic {
@@ -119,39 +119,39 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
                 PdfPTable bioTable = new PdfPTable(6);
 
                 cell = createHeaderCell(getTran("Web.Occup","medwan.healthrecord.clinical-examination.systeme-cardiovasculaire.TA")+" ("+sUpdateTime+")",1);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 bioTable.addCell(cell);
 
                 cell = new PdfPCell(new Paragraph(sSystolicRight+" / "+sSystolicLeft+" mmHg",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
                 cell.setColspan(1);
-                cell.setBorder(Cell.BOX);
+                cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(innerBorderColor);
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 bioTable.addCell(cell);
 
                 cell = new PdfPCell(new Paragraph(sDiastolicRight+" / "+sDiastolicLeft+" mmHg",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
                 cell.setColspan(1);
-                cell.setBorder(Cell.BOX);
+                cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(innerBorderColor);
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 bioTable.addCell(cell);
 
                 cell = createHeaderCell(getTran("Web.Occup","medwan.healthrecord.biometry.weight")+" : "+sWeight,1);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 bioTable.addCell(cell);
 
                 cell = createHeaderCell(getTran("Web.Occup","medwan.healthrecord.biometry.length")+" : "+sHeight,1);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 bioTable.addCell(cell);
 
                 cell = createHeaderCell(getTran("Web.Occup","medwan.healthrecord.biometry.bmi")+" : "+sBMI,1);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 bioTable.addCell(cell);
 
                 // add table
                 if(bioTable.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(bioTable),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(bioTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
             }
@@ -245,9 +245,9 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
         if(bloodpressureTable.size() > 0){
             containerTable.addCell(createItemNameCell(getTran("Web.Occup","medwan.healthrecord.cardial.pression-arterielle"),3));
-            containerTable.addCell(createCell(new PdfPCell(bloodpressureTable),7,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            containerTable.addCell(createCell(new PdfPCell(bloodpressureTable),7,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
 
-            table.addCell(createCell(new PdfPCell(containerTable),5,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(containerTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
         
         //*** temperature *****************************************************
@@ -315,7 +315,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
         // add summary table
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -354,7 +354,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
             // add icpc codes table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -392,10 +392,10 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
                 cell = new PdfPCell(par);
                 cell.setColspan(2);
-                cell.setBorder(Cell.BOX);
+                cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(innerBorderColor);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 problemsTable.addCell(cell);
 
                 // date
@@ -406,7 +406,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -440,14 +440,14 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
                 // add prescriptions table
                 if(prescrTable.size() > 0){
-                    table.addCell(createCell(new PdfPCell(table),4,Cell.ALIGN_CENTER,Cell.BOX));
+                    table.addCell(createCell(new PdfPCell(table),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
             }
 
             // add transaction to doc
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -571,7 +571,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
             // title
             cell = createTitleCell(getTran("medical_antecedents"),8);
-            cell.setHorizontalAlignment(Cell.LEFT);
+            cell.setHorizontalAlignment(PdfPCell.LEFT);
             table.addCell(cell);
 
             // header
@@ -621,7 +621,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
             // title
             cell = createTitleCell(getTran("heelkundige_antecedenten"),8);
-            cell.setHorizontalAlignment(Cell.LEFT);
+            cell.setHorizontalAlignment(PdfPCell.LEFT);
             table.addCell(cell);
 
             // header
@@ -671,7 +671,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
             // title
             cell = createTitleCell(getTran("lesions_with_%_pi"),8);
-            cell.setHorizontalAlignment(Cell.LEFT);
+            cell.setHorizontalAlignment(PdfPCell.LEFT);
             table.addCell(cell);
 
             // header
@@ -715,7 +715,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
         // add PersoonlijkeAntecedenten table
         if(table.size() > 1){
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -755,7 +755,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
             // title
             cell = createTitleCell(getTran("children"),8);
-            cell.setHorizontalAlignment(Cell.LEFT);
+            cell.setHorizontalAlignment(PdfPCell.LEFT);
             table.addCell(cell);
 
             // header
@@ -809,7 +809,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
             // title
             cell = createTitleCell(getTran("familial_antecedents"),8);
-            cell.setHorizontalAlignment(Cell.LEFT);
+            cell.setHorizontalAlignment(PdfPCell.LEFT);
             table.addCell(cell);
 
             // header
@@ -863,7 +863,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
 
         // add FamilialeAntecedenten table
         if(table.size() > 1){
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }

@@ -3,9 +3,10 @@ package be.mxs.common.util.pdf.general.oc.examinations;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 import java.awt.*;
 import java.sql.Connection;
@@ -53,7 +54,7 @@ public class PDFOphtalmologyOperationProtocol extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 
@@ -64,8 +65,8 @@ public class PDFOphtalmologyOperationProtocol extends PDFGeneralBasic {
 
                 // header
                 cell = createBorderlessCell("",1);
-                cell.setBorder(Cell.BOX);
-                cell.setBorderColor(Color.WHITE);
+                cell.setBorder(PdfPCell.BOX);
+                cell.setBorderColor(BaseColor.WHITE);
                 eyesTable.addCell(cell);
                 eyesTable.addCell(createTitleCell(getTran("openclinic.chuk","right.eye"),3));
                 eyesTable.addCell(createTitleCell(getTran("openclinic.chuk","left.eye"),3));
@@ -136,7 +137,7 @@ public class PDFOphtalmologyOperationProtocol extends PDFGeneralBasic {
                 // add eyes table
                 if(eyesTable.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(eyesTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                    contentTable.addCell(createCell(new PdfPCell(eyesTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 

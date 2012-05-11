@@ -1,10 +1,9 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.*;
 
 import java.util.*;
-import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 
@@ -222,14 +221,14 @@ public class PDFStockOperationDocumentGenerator extends PDFOfficialBasic {
     	}
     	PdfPTable table2 = new PdfPTable(1);
     	cell=createBorderlessCell(ScreenHelper.getTranNoLink("mdnac","justification",sPrintLanguage),1);
-    	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+    	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
     	table2.addCell(cell);
     	cell=createBorderlessCell(document.getComment()+"\n ",1);
-    	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+    	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
     	table2.addCell(cell);
     	cell=new PdfPCell(table2);
     	cell.setColspan(100);
-    	cell.setBorder(Cell.BOX);
+    	cell.setBorder(PdfPCell.BOX);
     	table.addCell(cell);
     	
     	
@@ -248,13 +247,13 @@ public class PDFStockOperationDocumentGenerator extends PDFOfficialBasic {
         	table.addCell(cell);
         	PdfPTable table2 = new PdfPTable(1);
         	cell=createBorderlessCell(ScreenHelper.getTranNoLink("mdnac","requestor",sPrintLanguage),1);
-        	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
         	cell=createHeaderCell(document.getDestination().getName(),1,12);
-            cell.setBackgroundColor(Color.WHITE);
-        	cell.setBorderColor(Color.BLACK);
-        	cell.setBorder(Cell.BOX);
-        	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBackgroundColor(BaseColor.WHITE);
+        	cell.setBorderColor(BaseColor.BLACK);
+        	cell.setBorder(PdfPCell.BOX);
+        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
         	cell=new PdfPCell(table2);
         	cell.setColspan(50);
@@ -263,7 +262,7 @@ public class PDFStockOperationDocumentGenerator extends PDFOfficialBasic {
         	PdfPTable table3  = new PdfPTable(1);
         	cell=createValueCell(ScreenHelper.getTranNoLink("mdnac","ordernumber",sPrintLanguage)+": "+document.getUid());
         	cell.setColspan(1);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
         	table3.addCell(cell);
             //Barcode + archiving code
             PdfPTable wrapperTable = new PdfPTable(1);
@@ -276,14 +275,14 @@ public class PDFStockOperationDocumentGenerator extends PDFOfficialBasic {
             Image image = barcode39.createImageWithBarcode(cb, null, null);
             image.scaleToFit(100,30);
             cell = new PdfPCell(image);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(1);
             cell.setPadding(0);
             wrapperTable.addCell(cell);
             cell=new PdfPCell(wrapperTable);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(1);
             table3.addCell(cell);
         	
@@ -315,13 +314,13 @@ public class PDFStockOperationDocumentGenerator extends PDFOfficialBasic {
         	
         	table2 = new PdfPTable(1);
         	cell=createBorderlessCell(ScreenHelper.getTranNoLink("mdnac","distributor",sPrintLanguage),1);
-        	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
         	cell=createHeaderCell(document.getSource().getName(),1,12);
-            cell.setBackgroundColor(Color.WHITE);
-        	cell.setBorderColor(Color.BLACK);
-        	cell.setBorder(Cell.BOX);
-        	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBackgroundColor(BaseColor.WHITE);
+        	cell.setBorderColor(BaseColor.BLACK);
+        	cell.setBorder(PdfPCell.BOX);
+        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
         	cell=new PdfPCell(table2);
         	cell.setColspan(50);

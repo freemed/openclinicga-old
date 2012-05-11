@@ -12,8 +12,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.io.ByteArrayOutputStream;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import net.admin.User;
 import net.admin.AdminPerson;
 import javax.servlet.http.HttpServletRequest;

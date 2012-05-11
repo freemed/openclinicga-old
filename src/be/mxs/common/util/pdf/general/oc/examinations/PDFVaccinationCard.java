@@ -1,9 +1,9 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
 import java.awt.*;
 import java.util.Iterator;
 import java.util.Date;
@@ -62,8 +62,8 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
 
                 // title
                 cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.vaccination-card").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
-                cell.setBackgroundColor(Color.LIGHT_GRAY);
-                cell.setBorder(Cell.BOX);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                cell.setBorder(PdfPCell.BOX);
                 tranTable.addCell(cell);
 
                 boolean headerAdded = false;
@@ -85,14 +85,14 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
 
                     // type
                     if(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE).toUpperCase().indexOf("INTRADERMO")==-1){
-                        border = Cell.NO_BORDER;
+                        border = PdfPCell.NO_BORDER;
                         bShowNext = false;
 
                         if(!activeVaccination.equalsIgnoreCase(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE))){
                             // Set new vaccination title
                             cell = new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE)).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
                             activeVaccination = getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE);
-                            border = Cell.TOP;
+                            border = PdfPCell.TOP;
                             bShowNext = true;
                         }
                         else{
@@ -100,26 +100,26 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
                         }
 
                         if(!transactions.hasNext()){
-                            border+= Cell.BOTTOM;
+                            border+= PdfPCell.BOTTOM;
                         }
 
-                        cell.setBorder(border+Cell.LEFT);
+                        cell.setBorder(border+PdfPCell.LEFT);
                         cell.setColspan(1);
-                        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                        cell.setBorderColor(Color.LIGHT_GRAY);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                        cell.setBorderColor(BaseColor.LIGHT_GRAY);
                         table.addCell(cell);
 
                         // VACCINATION_DATE / VACCINATION_STATUS / COMMENT
-                        table.addCell(createCell(new PdfPCell(new Paragraph(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_DATE),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,Cell.ALIGN_MIDDLE,border));
-                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_STATUS)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,Cell.ALIGN_MIDDLE,border));
-                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_COMMENT)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,Cell.ALIGN_MIDDLE,border));
+                        table.addCell(createCell(new PdfPCell(new Paragraph(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_DATE),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
+                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_STATUS)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
+                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_COMMENT)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
 
                         // NEXT DATE
                         if(bShowNext){
                             par = new Paragraph(getTran("Web.Occup","be.mxs.healthrecord.vaccination.next").toUpperCase()+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
                             try{
                                 if(new SimpleDateFormat("dd/MM/yyyy").parse(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)).before(new Date())){
-                                    par.add(new Chunk(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD,Color.RED)));
+                                    par.add(new Chunk(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD,BaseColor.RED)));
                                 }
                                 else{
                                     par.add(new Chunk(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
@@ -136,9 +136,9 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
                         }
 
                         cell.setColspan(1);
-                        cell.setBorder(border+Cell.RIGHT);
-                        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                        cell.setBorderColor(Color.LIGHT_GRAY);
+                        cell.setBorder(border+PdfPCell.RIGHT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                        cell.setBorderColor(BaseColor.LIGHT_GRAY);
                         table.addCell(cell);
                     }
                 }

@@ -7,30 +7,43 @@ import be.mxs.common.util.system.Miscelaneous;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.db.MedwanQuery;
+import be.openclinic.datacenter.DatacenterHelper;
 import be.openclinic.pharmacy.ProductOrder;
 import be.openclinic.pharmacy.Product;
 import net.admin.User;
 import net.admin.Service;
 import net.admin.AdminPerson;
-import com.itextpdf.text.*;
-import com.itextpdf.text.html.HtmlTags;
-import com.itextpdf.text.pdf.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.Barcode39;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.StringTokenizer;
 import java.util.Enumeration;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.net.URL;
 
 /**
  * User: stijn smets
  * Date: 21-nov-2006
  */
-public class PDFPatientCardGenerator extends PDFOfficialBasic {
+public class PDFAMCPatientCardsGenerator extends PDFOfficialBasic {
 
     // declarations
     private final int pageWidth = 100;
@@ -42,7 +55,7 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
 
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
-    public PDFPatientCardGenerator(User user, String sProject){
+    public PDFAMCPatientCardsGenerator(User user, String sProject){
         this.user = user;
         this.sProject = sProject;
 
@@ -50,10 +63,11 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
     }
 
     //--- GENERATE PDF DOCUMENT BYTES -------------------------------------------------------------
-    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, AdminPerson person) throws Exception {
+    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, StringBuffer patientids, String printlanguage) throws Exception {
+    	sPrintLanguage=printlanguage;
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
 		docWriter = PdfWriter.getInstance(doc,baosPDF);
-        docWriter.setPageEvent(new EndPage());
+        docWriter.setPageEvent(new AMCEndPage());
         this.req = req;
 
         String sURL = req.getRequestURL().toString();
@@ -81,7 +95,14 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
             doc.open();
 
             // add content to document
-            printPatientCard(person);
+            String[] persons = patientids.toString().split(";");
+            for(int n=0;n<persons.length;n++){
+            	AdminPerson person=DatacenterHelper.getPatientRecord(persons[n]);
+            	if(person!=null){
+            		printPatientCard(person);
+            		doc.newPage();
+            	}
+            }
 		}
 		catch(Exception e){
 			baosPDF.reset();
@@ -105,91 +126,189 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
 
     protected void printPatientCard(AdminPerson person){
         try {
-            table = new PdfPTable(4);
-            table.setWidthPercentage(pageWidth);
-            //Logo
-            Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_patientcard.gif"));
-            image.scaleToFit(72*200/254,72);
-            cell = new PdfPCell(image);
+            table = new PdfPTable(1000);
+            table.setWidthPercentage(100);
+            PdfPTable table2 = new PdfPTable(1000);
+            table.setWidthPercentage(100);
+
+            //Professional card
+            cell=createLabel(" ",32,1,Font.BOLD);
+            cell.setColspan(1000);
             cell.setBorder(PdfPCell.NO_BORDER);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(1);
-            cell.setPaddingLeft(2);
-            cell.setPaddingRight(2);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setPadding(0);
+            table2.addCell(cell);
+
+            cell = new PdfPCell(table2);
+            cell.setColspan(1000);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
+            cell = createValueCell(" ");
+            cell.setColspan(1000);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPadding(0);
+            table.addCell(cell);
+            
+            table2 = new PdfPTable(1000);
+            //Name
+            cell=createLabel(ScreenHelper.getTranNoLink("web","lastname",sPrintLanguage)+":",6,1,Font.ITALIC);
+            cell.setColspan(300);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPadding(1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
+            cell=createLabel(person.lastname,8,1,Font.BOLD);
+            cell.setColspan(700);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPadding(1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
+            
+            //FirstName
+            cell=createLabel(ScreenHelper.getTranNoLink("web","firstname",sPrintLanguage)+":",6,1,Font.ITALIC);
+            cell.setColspan(300);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPadding(1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
+            cell=createLabel(person.firstname,8,1,Font.BOLD);
+            cell.setColspan(700);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPadding(1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
 
-            //Barcode + archiving code
-            PdfPTable wrapperTable = new PdfPTable(3);
-            wrapperTable.setWidthPercentage(100);
+            //Date of birth
+            cell=createLabel(ScreenHelper.getTranNoLink("web","dateofbirth",sPrintLanguage)+":",6,1,Font.ITALIC);
+            cell.setColspan(300);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPadding(1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
+            String dateofbirth="";
+            try {
+            	dateofbirth=new SimpleDateFormat("dd/MM/yyyy").format(person.dateOfBirth);
+            }
+            catch(Exception e){}
+            cell=createLabel(dateofbirth,8,1,Font.BOLD);
+            cell.setColspan(700);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPadding(1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
 
+            //Registration number
+            cell=createLabel(ScreenHelper.getTranNoLink("web","idcode",sPrintLanguage)+":",6,1,Font.ITALIC);
+            cell.setColspan(300);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setPadding(1);
+            table2.addCell(cell);
+            cell=createLabel(person.comment,8,1,Font.BOLD);
+            cell.setColspan(700);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPadding(1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
+            
+            
+            //Barcode
             PdfContentByte cb = docWriter.getDirectContent();
             Barcode39 barcode39 = new Barcode39();
-            barcode39.setCode("0"+person.personid);
-            image = barcode39.createImageWithBarcode(cb, null, null);
+            barcode39.setCode("A"+person.comment);
+            barcode39.setAltText("");
+            barcode39.setSize(1);
+            barcode39.setBaseline(0);
+            barcode39.setBarHeight(20);
+            Image image = barcode39.createImageWithBarcode(cb, null, null);
             cell = new PdfPCell(image);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            cell.setColspan(2);
-            cell.setPadding(0);
-            wrapperTable.addCell(cell);
-
-            PdfPTable subTable = new PdfPTable(1);
-            subTable.setWidthPercentage(100);
-            cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardarchivecode",user.person.language),6,1,Font.ITALIC);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            cell.setPadding(0);
-            subTable.addCell(cell);
-            cell=createLabel(person.getID("archiveFileCode").toUpperCase(),10,1,Font.BOLD);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            cell.setPadding(0);
-            subTable.addCell(cell);
-            cell = createBorderlessCell(1);
-            cell.addElement(subTable);
-            cell.setPadding(0);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            wrapperTable.addCell(cell);
-
-            cell = createBorderlessCell(3);
-            cell.addElement(wrapperTable);
-            cell.setPadding(0);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            table.addCell(cell);
-
-            //Name
-            cell=createLabel(" ",6,4,Font.NORMAL);
-            table.addCell(cell);
-            cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardname",user.person.language),6,4,Font.ITALIC);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setColspan(1000);
+            cell.setPadding(0);
+            table2.addCell(cell);
+            
+            cell = new PdfPCell(table2);
+            cell.setColspan(700);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
-            cell=createLabel(person.firstname+" "+person.lastname,10,4,Font.BOLD);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            table.addCell(cell);
-
-            //Date of birth & gender
-            cell=createLabel(MedwanQuery.getInstance().getLabel("web","carddateofbirth",user.person.language),6,2,Font.ITALIC);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            table.addCell(cell);
-            cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardgender",user.person.language),6,2,Font.ITALIC);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            table.addCell(cell);
-            cell=createLabel(person.dateOfBirth,10,2,Font.BOLD);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            table.addCell(cell);
-            cell=createLabel(person.gender,10,2,Font.BOLD);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            table.addCell(cell);
-
-            cell=createBorderlessCell(4);
-            table.addCell(cell);
-
-            cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardhospitalref",user.person.language),6,4,Font.NORMAL);
-            cell.setBorder(PdfPCell.TOP);
+            
+            //Photo
+            image=null;
+            try{
+            	image =Image.getInstance(DatacenterHelper.getPatientPicture(person.comment));
+            }
+            catch(Exception e1){
+            	e1.printStackTrace();
+            }
+            if(image!=null){
+	            image.scaleToFit(130,72);
+	            cell = new PdfPCell(image);
+            }
+            else {
+            	cell = new PdfPCell();
+            }
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setColspan(300);
+            cell.setPadding(0);
+            table.addCell(cell);
+            
+            //Horizontal line
+            cell = new PdfPCell();
+            cell.setBorder(PdfPCell.BOTTOM);
+            cell.setColspan(1000);
             table.addCell(cell);
 
+            table2 = new PdfPTable(2000);
+            cell=createLabel(ScreenHelper.getTranNoLink("web","deliverydate",sPrintLanguage),6,1,Font.ITALIC);
+            cell.setColspan(550);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPaddingRight(5);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            table2.addCell(cell);
+            cell=createLabel(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),6,1,Font.BOLD);
+            cell.setColspan(450);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setPadding(0);
+            table2.addCell(cell);
+
+            //Expiry data
+            cell=createLabel(ScreenHelper.getTranNoLink("web","expirydate",sPrintLanguage),6,1,Font.ITALIC);
+            cell.setColspan(550);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setPaddingRight(5);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            table2.addCell(cell);
+            long day = 24*3600*1000;
+            long year = 365*day;
+            long period = MedwanQuery.getInstance().getConfigInt("cardvalidityperiod", 5) * year - day;
+            cell=createLabel(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(new java.util.Date().getTime()+period)),6,1,Font.BOLD);
+            cell.setColspan(450);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setPadding(0);
+            table2.addCell(cell);
+
+            cell=new PdfPCell(table2);
+            cell.setColspan(1000);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setPadding(1);
+            table.addCell(cell);
+
+            cell=createLabel(ScreenHelper.getTranNoLink("web","cardfooter2",sPrintLanguage),6,1,Font.ITALIC);
+            cell.setColspan(1000);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setPadding(0);
+            table.addCell(cell);
+            
             doc.add(table);
-            doc.setJavaScript_onLoad(MedwanQuery.getInstance().getConfigString("cardJavaScriptOnLoad","document.print();"));
+            
         }
         catch(Exception e){
             e.printStackTrace();

@@ -1,9 +1,9 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+
 
 /**
  * User: ssm
@@ -54,7 +54,7 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -139,7 +139,7 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -181,9 +181,9 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
 
         if(bloodpressureTable.size() > 0){
             containerTable.addCell(createItemNameCell(getTran("Web.Occup","medwan.healthrecord.cardial.pression-arterielle"),3));
-            containerTable.addCell(createCell(new PdfPCell(bloodpressureTable),7,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            containerTable.addCell(createCell(new PdfPCell(bloodpressureTable),7,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
 
-            table.addCell(createCell(new PdfPCell(containerTable),5,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(containerTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
 
         // conjunctiva
@@ -207,7 +207,7 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -242,7 +242,7 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
         componentsTable.addCell(emptyCell(2));
 
         // add to components table
-        cell = createCell(new PdfPCell(componentsTable),5,Cell.ALIGN_CENTER,Cell.BOX);
+        cell = createCell(new PdfPCell(componentsTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
         cell.setPadding(3);
         cell.setColspan(5);
         table.addCell(cell);
@@ -268,7 +268,7 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }  
@@ -291,7 +291,7 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -340,7 +340,7 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
         // add table to transaction
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }

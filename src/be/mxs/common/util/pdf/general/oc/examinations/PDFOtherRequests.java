@@ -1,6 +1,6 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
-import com.lowagie.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPTable;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 
 

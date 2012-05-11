@@ -14,8 +14,8 @@ import be.openclinic.medical.RequestedLabAnalysis;
 import be.openclinic.medical.LabAnalysis;
 import net.admin.User;
 import net.admin.AdminPerson;
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -62,17 +62,13 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         try {
 			ad_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         String sFooter=adminPerson.lastname.toUpperCase()+", "+adminPerson.firstname.toUpperCase()+" - "+sId+" - ";
         String sFooter2=ScreenHelper.getTran("labresult", "footer", adminPerson.language);
         Font font = FontFactory.getFont(FontFactory.HELVETICA,7);
-        HeaderFooter footer = new HeaderFooter(new Phrase(sFooter+"\n"+sFooter2+"\n",font),true);
-        footer.disableBorderSide(HeaderFooter.BOTTOM);
-        footer.setAlignment(HeaderFooter.ALIGN_CENTER);
-
-        doc.setFooter(footer);
+        PDFFooter footer = new PDFFooter(sFooter+"\n"+sFooter2+"\n");
+        docWriter.setPageEvent(footer);
     }
 
     //--- GENERATE PDF DOCUMENT BYTES -------------------------------------------------------------
@@ -158,28 +154,28 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         table.setWidthPercentage(100);
 
         cell=createLabelCourier(" ",10,5,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
         cell=createLabelCourier("*",10,5,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);
         cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","resultnewerthan",user.person.language)+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(since),8,90,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
         // Show legenda when bacteriology results available
         if(labRequest.hasBacteriology()){
 	        cell=createLabelCourier(" ",10,10,Font.NORMAL);
-	        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
 	        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","legenda",user.person.language),8,90,Font.NORMAL);
-	        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
         }
         cell=createLabelCourier(" ",10,10,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
         cell=createLabelCourier(" \n"+MedwanQuery.getInstance().getLabel("labresult","validatedby",user.person.language),10,90,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
         Enumeration enumeration = labRequest.getAnalyses().elements();
         Hashtable validators=new Hashtable();
@@ -188,10 +184,10 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
             if(validators.get(requestedLabAnalysis.getFinalvalidation()+"")==null){
                 validators.put(requestedLabAnalysis.getFinalvalidation()+"","1");
                 cell=createLabelCourier(" ",10,10,Font.NORMAL);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
                 cell=createLabelCourier(MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getFinalvalidation()),10,90,Font.BOLD);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
             }
         }
@@ -219,38 +215,38 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         while(groupsIterator.hasNext()){
             String groupname=(String)groupsIterator.next();
             cell=createLabelCourier(" ",12,100,Font.NORMAL);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             subTable.addCell(cell);
             cell=createLabelCourier(groupname,12,45,Font.BOLD);
-            cell.setBorder(Cell.BOTTOM);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             subTable.addCell(cell);
             cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","value",user.person.language),10,15,Font.BOLD);
-            cell.setBorder(Cell.BOTTOM);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             subTable.addCell(cell);
             if(groupname.equalsIgnoreCase(MedwanQuery.getInstance().getLabel("labanalysis.group", "bacteriology", sPrintLanguage))){
 	            cell=createLabelCourier("",10,40,Font.BOLD);
-	            cell.setBorder(Cell.BOTTOM);
-	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            cell.setBorder(PdfPCell.BOTTOM);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
             }
             else {
 	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","unit",user.person.language),10,10,Font.BOLD);
-	            cell.setBorder(Cell.BOTTOM);
-	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            cell.setBorder(PdfPCell.BOTTOM);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
 	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","min",user.person.language),10,10,Font.BOLD);
-	            cell.setBorder(Cell.BOTTOM);
-	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            cell.setBorder(PdfPCell.BOTTOM);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
 	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","max",user.person.language),10,10,Font.BOLD);
-	            cell.setBorder(Cell.BOTTOM);
-	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            cell.setBorder(PdfPCell.BOTTOM);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
 	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","normal",user.person.language),10,10,Font.BOLD);
-	            cell.setBorder(Cell.BOTTOM);
-	            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+	            cell.setBorder(PdfPCell.BOTTOM);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
             }
             TreeMap analysisList = (TreeMap)groups.get(groupname);
@@ -285,16 +281,16 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                     }
                 }
                 cell=createLabelCourier(newresult,8,5,fonttype);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 subTable.addCell(cell);
                 cell=createLabelCourier(analysisCode,8,10,fonttype);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 subTable.addCell(cell);
                 cell=createLabelCourier(LabAnalysis.labelForCode(analysisCode,user.person.language),8,30,fonttype);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 subTable.addCell(cell);
                 //Hier moeten we evalueren of het om een antibiogram gaat
                 if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("antibiogram")){
@@ -358,30 +354,30 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                	}
                 	}
                 	cell=createLabelCourier(result2,8,3,Font.BOLD);
-	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
                 	cell=createLabelCourier(result,8,52,Font.NORMAL);
-	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
                 }
                 else {
 	                cell=createLabelCourier(result,8,15,Font.BOLD);
-	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
 	                cell=createLabelCourier(unit,8,10,fonttype);
-	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
 	                cell=createLabelCourier(min,8,10,fonttype);
-	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
 	                cell=createLabelCourier(max,8,10,fonttype);
-	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
                     if(normal.length()==0){
                     	//We proberen na te gaan of de waarde buiten de grenzen valt
@@ -421,8 +417,8 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                     	}
                     }
 	                cell=createLabelCourier(normal,8,10,fonttype);
-	                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-	                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
                 }
             }
@@ -430,7 +426,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell=createBorderlessCell(5);
         table.addCell(cell);
         cell=createBorderlessCell(90);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.addElement(subTable);
         table.addCell(cell);
         cell=createBorderlessCell(5);
@@ -522,9 +518,9 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         catch(Exception e){
         	cell=emptyCell();
         }
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         cell.setColspan(25);
         cell.setPadding(10);
         table.addCell(cell);
@@ -533,23 +529,23 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         table2.setWidthPercentage(100);
         //Label1
         cell=createLabel(ScreenHelper.getTranNoLink("labresult","title1",user.person.language).replaceAll("title1", ""),MedwanQuery.getInstance().getConfigInt("labtitle1size",14),1,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table2.addCell(cell);
         //Label2
         cell=createLabel(ScreenHelper.getTranNoLink("labresult","title2",user.person.language).replaceAll("title2", ""),MedwanQuery.getInstance().getConfigInt("labtitle2size",10),1,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table2.addCell(cell);
         //Label3
         cell=createLabel(ScreenHelper.getTranNoLink("labresult","title3",user.person.language).replaceAll("title3", ""),MedwanQuery.getInstance().getConfigInt("labtitle3size",10),1,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table2.addCell(cell);
         //Titel
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","title",user.person.language),14,1,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table2.addCell(cell);
         
         cell=createBorderlessCell(45);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.addElement(table2);
         table.addCell(cell);
         
@@ -561,20 +557,20 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         barcode39.setCode("7"+labRequest.getTransactionid());
         Image image = barcode39.createImageWithBarcode(cb,null,null);
         cell = new PdfPCell(image);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        cell.setBorder(PdfPCell.NO_BORDER);
         cell.setColspan(1);
         table2.addCell(cell);
 
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","encounter.id",user.person.language)+": "+(encounter!=null?encounter.getUid():""),10,1,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         table2.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","request.id",user.person.language)+": "+labRequest.getTransactionid(),10,1,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         table2.addCell(cell);
 
         cell=createBorderlessCell(25);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.addElement(table2);
         table.addCell(cell);
 
@@ -585,49 +581,49 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         PdfPTable subTable = new PdfPTable(100);
         subTable.setWidthPercentage(100);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","patient",user.person.language),10,100,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","name",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(adminPerson.firstname+" "+adminPerson.lastname,10,55,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","dateofbirth",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(adminPerson.dateOfBirth,10,25,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","gender",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(adminPerson.gender,10,5,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","personid",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(adminPerson.personid,10,15,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","archiveid",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(adminPerson.getID("archiveFileCode"),10,15,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","nationalid",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(adminPerson.adminextends.get("natreg")!=null?(String)user.person.adminextends.get("natreg"):"",10,25,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
 
         cell=createBorderlessCell(5);
         table.addCell(cell);
         cell=createBorderlessCell(90);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.addElement(subTable);
         table.addCell(cell);
         cell=createBorderlessCell(5);
@@ -637,10 +633,10 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         subTable = new PdfPTable(100);
         subTable.setWidthPercentage(100);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","request",user.person.language),10,100,Font.NORMAL);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","prescriber",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         TransactionVO tran = MedwanQuery.getInstance().loadTransaction(labRequest.getServerid(), labRequest.getTransactionid());
         String sPrescriber="";
@@ -651,31 +647,31 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         	}
         }
         cell=createLabel(sPrescriber,10,55,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","requestdate",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate()),10,25,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","service",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(labRequest.getServicename(),10,55,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","reportdate",user.person.language),8,10,Font.ITALIC);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date()),10,25,Font.BOLD);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
 
         cell=createBorderlessCell(5);
         table.addCell(cell);
         cell=createBorderlessCell(90);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.addElement(subTable);
         table.addCell(cell);
         cell=createBorderlessCell(5);
@@ -694,9 +690,9 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE))); // underlined
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -718,9 +714,9 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     protected PdfPCell createTitle(String msg, int colspan){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -729,9 +725,9 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     protected PdfPCell createLabel(String msg, int fontsize, int colspan,int style){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontsize,style)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -740,9 +736,9 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     protected PdfPCell createLabelCourier(String msg, int fontsize, int colspan,int style){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.COURIER,fontsize,style)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -752,9 +748,9 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setPaddingTop(height); //
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -766,7 +762,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     protected PdfPCell createBorderlessCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }
@@ -775,10 +771,10 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     protected PdfPCell createItemNameCell(String itemName, int colspan){
         cell = new PdfPCell(new Paragraph(itemName,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -787,10 +783,10 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     protected PdfPCell createPaddedValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingRight(5); // difference
 
         return cell;
@@ -800,10 +796,10 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     protected PdfPCell createNumberCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }

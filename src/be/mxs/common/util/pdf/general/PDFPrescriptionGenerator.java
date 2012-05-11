@@ -7,8 +7,8 @@ import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.adt.Encounter;
 import net.admin.User;
 import net.admin.AdminPerson;
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -98,7 +98,7 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 table = new PdfPTable(10);
                 table.setWidthPercentage(pageWidth);
                 cell = new PdfPCell();
-                cell.setBorder(Cell.BOTTOM);
+                cell.setBorder(PdfPCell.BOTTOM);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(0);
                 cell.setFixedHeight(100*72/254);
@@ -111,9 +111,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 barcode39.setCode(ScreenHelper.checkString(user.getParameter("organisationid")));
                 Image image = barcode39.createImageWithBarcode(cb, null, null);
                 cell = new PdfPCell(image);
-                cell.setBorder(Cell.BOTTOM+Cell.RIGHT);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setBorder(PdfPCell.BOTTOM+PdfPCell.RIGHT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 cell.setColspan(5);
                 cell.setPadding(0);
                 cell.setFixedHeight(230*72/254);
@@ -121,68 +121,68 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 // - name prescriber
                 PdfPTable wrappertable = new PdfPTable(1);
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","name.prescriber"),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(new Paragraph(user.person.lastname.toUpperCase()+" "+user.person.firstname.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,9,Font.BOLD)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(wrappertable);
-                cell.setBorder(Cell.BOTTOM);
+                cell.setBorder(PdfPCell.BOTTOM);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(0);
                 cell.setFixedHeight(230*72/254);
                 cell.setColspan(5);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 table.addCell(cell);
                 //Identification of patient
                 wrappertable = new PdfPTable(10);
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","inserted.by.prescriber").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(10);
                 cell.setColspan(10);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","name.lastname")+" "+getTran("pdfprescriptions","name.lastname.claimant"),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(10);
                 cell.setColspan(3);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(new Paragraph(person.lastname.toUpperCase()+" "+person.firstname.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,9,Font.BOLD)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(10);
                 cell.setColspan(7);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(wrappertable);
-                cell.setBorder(Cell.BOTTOM);
+                cell.setBorder(PdfPCell.BOTTOM);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(0);
                 cell.setFixedHeight(175*72/254);
                 cell.setColspan(10);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 table.addCell(cell);
                 //Prescription content
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","vignette"),FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
-                cell.setBorder(Cell.RIGHT+Cell.BOTTOM);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.RIGHT+PdfPCell.BOTTOM);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(10);
                 cell.setColspan(3);
                 cell.setFixedHeight(930*72/254);
                 table.addCell(cell);
                 cell=new PdfPCell(formatPresctiption(prescription));
-                cell.setBorder(Cell.BOTTOM);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.BOTTOM);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 cell.setColspan(7);
@@ -207,9 +207,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 chunk = new Chunk(ScreenHelper.checkString("# "+user.getParameter("organisationid")),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
                 paragraph.add(chunk);
                 cell=new PdfPCell(paragraph);
-                cell.setBorder(Cell.BOTTOM+Cell.RIGHT);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setBorder(PdfPCell.BOTTOM+PdfPCell.RIGHT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 cell.setColspan(5);
@@ -221,17 +221,17 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 chunk = new Chunk(prescriptiondate+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
                 paragraph.add(chunk);
                 cell=new PdfPCell(paragraph);
-                cell.setBorder(Cell.BOTTOM);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setBorder(PdfPCell.BOTTOM);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 cell.setColspan(5);
                 cell.setFixedHeight(320*72/254);
                 table.addCell(cell);
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","medicine.prescription").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 cell.setColspan(10);
@@ -244,7 +244,7 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 table = new PdfPTable(10);
                 table.setWidthPercentage(pageWidth);
                 cell = new PdfPCell();
-                cell.setBorder(Cell.BOTTOM);
+                cell.setBorder(PdfPCell.BOTTOM);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(0);
                 cell.setFixedHeight(100*72/254);
@@ -257,9 +257,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 barcode39.setCode(ScreenHelper.checkString(user.getParameter("organisationid")));
                 Image image = barcode39.createImageWithBarcode(cb, null, null);
                 cell = new PdfPCell(image);
-                cell.setBorder(Cell.BOTTOM+Cell.RIGHT);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setBorder(PdfPCell.BOTTOM+PdfPCell.RIGHT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 cell.setColspan(5);
                 cell.setPadding(0);
                 cell.setFixedHeight(230*72/254);
@@ -267,68 +267,68 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 // - name prescriber
                 PdfPTable wrappertable = new PdfPTable(1);
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","name.prescriber"),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(new Paragraph(user.person.lastname.toUpperCase()+" "+user.person.firstname.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,9,Font.BOLD)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(wrappertable);
-                cell.setBorder(Cell.BOTTOM);
+                cell.setBorder(PdfPCell.BOTTOM);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(0);
                 cell.setFixedHeight(230*72/254);
                 cell.setColspan(5);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 table.addCell(cell);
                 //Identification of patient
                 wrappertable = new PdfPTable(10);
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","inserted.by.prescriber").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(10);
                 cell.setColspan(10);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","name.lastname")+" "+getTran("pdfprescriptions","name.lastname.claimant"),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(10);
                 cell.setColspan(3);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(new Paragraph(person.lastname.toUpperCase()+" "+person.firstname.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,9,Font.BOLD)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(10);
                 cell.setColspan(7);
                 wrappertable.addCell(cell);
                 cell=new PdfPCell(wrappertable);
-                cell.setBorder(Cell.BOTTOM);
+                cell.setBorder(PdfPCell.BOTTOM);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(0);
                 cell.setFixedHeight(175*72/254);
                 cell.setColspan(10);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 table.addCell(cell);
                 //Prescription content
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","vignette"),FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
-                cell.setBorder(Cell.RIGHT+Cell.BOTTOM);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.RIGHT+PdfPCell.BOTTOM);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(0);
                 cell.setPaddingRight(10);
                 cell.setColspan(3);
                 cell.setFixedHeight(930*72/254);
                 table.addCell(cell);
                 cell=new PdfPCell(formatPresctiption(prescription));
-                cell.setBorder(Cell.BOTTOM);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setBorder(PdfPCell.BOTTOM);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 cell.setColspan(7);
@@ -353,9 +353,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 chunk = new Chunk(ScreenHelper.checkString("# "+user.getParameter("organisationid")),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
                 paragraph.add(chunk);
                 cell=new PdfPCell(paragraph);
-                cell.setBorder(Cell.BOTTOM+Cell.RIGHT);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setBorder(PdfPCell.BOTTOM+PdfPCell.RIGHT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 cell.setColspan(5);
@@ -367,17 +367,17 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 chunk = new Chunk(prescriptiondate+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
                 paragraph.add(chunk);
                 cell=new PdfPCell(paragraph);
-                cell.setBorder(Cell.BOTTOM);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
+                cell.setBorder(PdfPCell.BOTTOM);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 cell.setColspan(5);
                 cell.setFixedHeight(320*72/254);
                 table.addCell(cell);
                 cell=new PdfPCell(new Paragraph(getTran("pdfprescriptions","medicine.prescription").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-                cell.setBorder(Cell.NO_BORDER);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 cell.setPaddingLeft(10);
                 cell.setPaddingRight(10);
                 cell.setColspan(10);
@@ -402,16 +402,16 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
                 paragraph.add(chunk1);
                 paragraph.add(chunk2);
                 cell = new PdfPCell(paragraph);
-                cell.setBorder(Cell.BOX);
+                cell.setBorder(PdfPCell.BOX);
                 cell.setPaddingLeft(5);
                 cell.setPaddingRight(5);
             }
             else {
                 cell=createLabel("",6,1,Font.NORMAL);
-                cell.setBorder(Cell.NO_BORDER);
+                cell.setBorder(PdfPCell.NO_BORDER);
             }
-            cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             table.addCell(cell);
 
             //Barcode + archiving code
@@ -423,9 +423,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
             barcode39.setCode("0"+person.personid);
             Image image = barcode39.createImageWithBarcode(cb, null, null);
             cell = new PdfPCell(image);
-            cell.setBorder(Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setColspan(2);
             cell.setPadding(0);
             wrapperTable.addCell(cell);
@@ -433,55 +433,55 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
             PdfPTable subTable = new PdfPTable(1);
             subTable.setWidthPercentage(100);
             cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardarchivecode",user.person.language),6,1,Font.ITALIC);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPadding(0);
             subTable.addCell(cell);
             cell=createLabel(person.getID("archiveFileCode").toUpperCase(),10,1,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPadding(0);
             subTable.addCell(cell);
             cell = createBorderlessCell(1);
             cell.addElement(subTable);
             cell.setPadding(0);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             wrapperTable.addCell(cell);
 
             cell = createBorderlessCell(3);
             cell.addElement(wrapperTable);
             cell.setPadding(0);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             table.addCell(cell);
 
             //Name
             cell=createLabel(person.firstname+" "+person.lastname,10,4,Font.BOLD);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
 
 
             if(type.equalsIgnoreCase("1") && encounter!=null){
                 //Date of birth & gender
                 cell=createLabel(person.dateOfBirth,7,2,Font.NORMAL);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
                 cell=createLabel(person.gender,7,2,Font.NORMAL);
-                cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 table.addCell(cell);
                 //Service & Bed
                 cell=createLabel(encounter.getService()!=null?encounter.getService().getLabel(user.person.language)+(encounter.getBed()!=null?" ("+encounter.getBed().getName()+")":""):"",7,4,Font.NORMAL);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
                 cell=createLabel(encounter.getManager()!=null?User.getUserName(encounter.getManagerUID()).get("firstname")+" "+User.getUserName(encounter.getManagerUID()).get("lastname"):"",7,4,Font.NORMAL);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
             }
             else {
                 //Date of birth & gender
                 cell=createLabel(person.dateOfBirth+" "+person.gender,7,1,Font.NORMAL);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
                 //Service & Bed
                 cell=createLabel(encounter!=null && encounter.getService()!=null?encounter.getService().getLabel(user.person.language)+(encounter.getBed()!=null?" ("+encounter.getBed().getName()+")":""):"",7,3,Font.NORMAL);
-                cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 table.addCell(cell);
             }
 
@@ -502,9 +502,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE))); // underlined
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -542,9 +542,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
     protected PdfPCell createTitle(String msg, int colspan){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -553,9 +553,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
     protected PdfPCell createLabel(String msg, int fontsize, int colspan,int style){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontsize,style)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -565,9 +565,9 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setPaddingTop(height); //
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -579,7 +579,7 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
     protected PdfPCell createBorderlessCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }
@@ -588,10 +588,10 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
     protected PdfPCell createItemNameCell(String itemName, int colspan){
         cell = new PdfPCell(new Paragraph(itemName,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -600,10 +600,10 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
     protected PdfPCell createPaddedValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingRight(5); // difference
 
         return cell;
@@ -613,10 +613,10 @@ public class PDFPrescriptionGenerator extends PDFOfficialBasic {
     protected PdfPCell createNumberCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }

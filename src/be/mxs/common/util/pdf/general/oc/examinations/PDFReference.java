@@ -1,12 +1,11 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Font;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Font;
 
 import java.util.Vector;
 
@@ -78,14 +77,14 @@ public class PDFReference extends PDFGeneralBasic {
                     if(itemCounter%2==1){
                         cell = new PdfPCell();
                         cell.setColspan(10);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         table.addCell(cell);
                     }
 
                     // add table
                     if(table.size() > 0){
                         if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                        contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                        contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     }
                 }
                 
@@ -146,7 +145,7 @@ public class PDFReference extends PDFGeneralBasic {
                     if(itemCounter%2==1){
                         cell = new PdfPCell();
                         cell.setColspan(10);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         table.addCell(cell);
                     }
                     
@@ -154,10 +153,10 @@ public class PDFReference extends PDFGeneralBasic {
                     // add table
                     if(table.size() > 0){
                         cell = createBorderlessCell("",1);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         if(contentTable.size() > 0) contentTable.addCell(cell);
 
-                        contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+                        contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                         tranTable.addCell(createContentCell(contentTable));
                     }
                 }
@@ -186,10 +185,10 @@ public class PDFReference extends PDFGeneralBasic {
     protected PdfPCell createContentCell(String value){
         cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(1);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // difference
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER); // difference
 
         return cell;
     }

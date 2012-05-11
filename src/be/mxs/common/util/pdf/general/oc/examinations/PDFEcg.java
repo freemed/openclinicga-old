@@ -1,8 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 
 
@@ -43,10 +43,10 @@ public class PDFEcg extends PDFGeneralBasic {
                     if(resultsTable.size() > 0){
                         // result title
                         cell = createItemNameCell(getTran("medwan.common.result"));
-                        cell.setBorder(Cell.BOX);
+                        cell.setBorder(PdfPCell.BOX);
                         table.addCell(cell);
 
-                        table.addCell(createCell(new PdfPCell(resultsTable),3,Cell.ALIGN_CENTER,Cell.BOX));
+                        table.addCell(createCell(new PdfPCell(resultsTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     }
 
                     //*** REMARK ***

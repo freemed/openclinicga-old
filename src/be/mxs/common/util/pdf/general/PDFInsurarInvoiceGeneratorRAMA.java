@@ -1,7 +1,7 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.*;
 
 import java.util.*;
 import java.io.ByteArrayOutputStream;
@@ -83,9 +83,9 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
         table = new PdfPTable(3);
         table.setWidthPercentage(pageWidth);
         cell = createValueCell(getTran("invoiceFinancialMessageTitle")+getTran("invoiceFinancialMessageTitle2"),3);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         table.addCell(cell);
-        table.addCell(createCell(new PdfPCell(getPrintedByInfo()),2,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+        table.addCell(createCell(new PdfPCell(getPrintedByInfo()),2,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
         cell = createBoldLabelCell(getTran("invoiceDirector"),1);
         table.addCell(cell);
         doc.add(table);
@@ -99,9 +99,9 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
             //*** logo ***
             try{
                 Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-                img.scalePercent(50);
+                img.scaleToFit(75, 75);
                 cell = new PdfPCell(img);
-                cell.setBorder(Cell.NO_BORDER);
+                cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setColspan(2);
                 table.addCell(cell);
             }
@@ -116,8 +116,8 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
             barcode39.setCode("6"+invoice.getInvoiceUid());
             Image image = barcode39.createImageWithBarcode(cb,null,null);
             cell = new PdfPCell(image);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(2);
             table.addCell(cell);
 
@@ -157,7 +157,7 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
             table2.addCell(cell);
             
             cell=new PdfPCell(table2);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(6);
             
             table.addCell(cell);
@@ -205,8 +205,8 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
             payToTable.addCell(createGrayCell(getTran("web","payToInfo").toUpperCase(),1));
             cell = new PdfPCell(getPayToInfo());
             cell.setPadding(cellPadding);
-            payToTable.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.BOX));
-            table.addCell(createCell(new PdfPCell(payToTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            payToTable.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
+            table.addCell(createCell(new PdfPCell(payToTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             table.addCell(createEmptyCell(10,1));
 
             doc.add(table);
@@ -230,69 +230,69 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
             cell = createUnderlinedCell("#",1);
             PdfPTable singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),7,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),7,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             cell.setPaddingRight(2);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","date"),1);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),13,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),13,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             cell.setPaddingRight(2);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","fac"),1);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),15,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),15,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             cell.setPaddingRight(2);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","numero_affiliation"),1);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),15,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),15,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             cell.setPaddingRight(2);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","adherent"),1);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),30,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),30,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             cell.setPaddingRight(2);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","beneficiary"),1);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),30,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),30,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             cell.setPaddingRight(2);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","prestations_100pct"),1);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),50,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),50,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","total_100pct"),1);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),20,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),20,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","total_85pct"),1);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),20,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),20,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
             table.addCell(cell);
 
             cell=new PdfPCell(table);
             cell.setPadding(cellPadding);
-            tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
             // print debets
             Debet debet;
@@ -315,7 +315,7 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
                     printDebet2(table,categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName,total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct);
                     cell=new PdfPCell(table);
                     cell.setPadding(0);
-                    tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+                    tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
                 	categories = new TreeMap();
                 	total100pct=0;
                 	total85pct=0;
@@ -393,17 +393,17 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
                 printDebet2(table,categories,true,prevdate,invoiceid,adherent,sPrevPatientName,total100pct,total85pct,recordnumber,linecounter++,daytotal100pct,daytotal85pct);
                 cell=new PdfPCell(table);
                 cell.setPadding(0);
-                tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+                tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
             }
 
             table = new PdfPTable(2000);
             cell = createLabelCell("",2000);
-            cell.setBorder(Cell.BOTTOM);
+            cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
             // display debet total
             table.addCell(createEmptyCell(800));
             cell = createLabelCell(getTran("web","subtotalprice"),300);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingRight(5);
             table.addCell(cell);
             PdfPTable categoryTable = new PdfPTable(4);
@@ -417,7 +417,7 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
             	counter++;
             	String category = (String)iterator.next();
                 cell = createLabelCell(category+": "+priceFormatInsurar.format(totalcategories.get(category)),1);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setPaddingRight(5);
                 categoryTable.addCell(cell);
             }
@@ -427,30 +427,30 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
             }
             cell=new PdfPCell(categoryTable);
             cell.setColspan(500);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
             table.addCell(createEmptyCell(400));
             //Nu de totalen toevoegen
             table.addCell(createEmptyCell(800));
             cell = createLabelCell(getTran("web","totalprice"),300);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingRight(5);
             table.addCell(cell);
             table.addCell(createEmptyCell(500));
             cell = createLabelCell(priceFormatInsurar.format(generaltotal100pct)+" RWF",200);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
             cell = createLabelCell(priceFormatInsurar.format(generaltotal85pct)+" RWF",200);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell=new PdfPCell(table);
             cell.setPadding(0);
-            tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
         }
     }
@@ -458,33 +458,33 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
     private void printDebet2(PdfPTable invoiceTable, SortedMap categories, boolean displayDate, Date date, String invoiceid,String adherent,String beneficiary,double total100pct,double total85pct,String recordnumber,int linecounter,double daytotal100pct,double daytotal85pct){
     	cell = createLabelCell(linecounter+"",70);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(date),130);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(invoiceid,150);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(recordnumber,150);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(adherent,300);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(beneficiary,300);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         PdfPTable debetTable = new PdfPTable(4);
@@ -498,9 +498,9 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
         	counter++;
         	String category = (String)iterator.next();
             cell = createLabelCell(category+": "+ priceFormatInsurar.format(categories.get(category)),1);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             debetTable.addCell(cell);
         }
@@ -509,17 +509,17 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
         }
         cell = new PdfPCell(debetTable);
         cell.setColspan(500);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.NO_BORDER);
         invoiceTable.addCell(cell);
         cell = createLabelCell(priceFormatInsurar.format(total100pct),200);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(priceFormatInsurar.format(total85pct),200);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
     	if(displayDate){
@@ -527,15 +527,15 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
             //Nu de totalen toevoegen
     		invoiceTable.addCell(createEmptyCell(1400));
             cell = createUnderlinedCell(getTran("web","totalprice")+" "+new SimpleDateFormat("dd/MM/yyyy").format(date),200);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingRight(5);
             invoiceTable.addCell(cell);
             cell = createUnderlinedCell(priceFormatInsurar.format(daytotal100pct)+" RWF",200);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             cell.setPaddingRight(5);
             invoiceTable.addCell(cell);
             cell = createUnderlinedCell(priceFormatInsurar.format(daytotal85pct)+" RWF",200);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             cell.setPaddingRight(5);
             invoiceTable.addCell(cell);
     	}

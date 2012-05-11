@@ -363,6 +363,7 @@ public class PatientCredit extends OC_Object {
                 ps.setString(11,this.getUpdateUser());
                 ps.execute();
                 ps.close();
+                this.setUid(Integer.parseInt(ids[0])+"."+Integer.parseInt(ids[1]));
             }
 
             //*** update invoice data if an invoice is selected for the this credit ***

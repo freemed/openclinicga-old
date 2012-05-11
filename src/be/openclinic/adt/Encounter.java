@@ -1865,6 +1865,34 @@ public class Encounter extends OC_Object {
         return vEncounters;
     }
     
+    public static Encounter getLastEncounter(String personid){
+    	Encounter encounter=null;
+    	PreparedStatement ps;
+        ResultSet rs;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+        	String sSelect = "select * from OC_ENCOUNTERS where OC_ENCOUNTER_PATIENTUID=? order by OC_ENCOUNTER_BEGINDATE DESC";
+        	ps=oc_conn.prepareStatement(sSelect);
+        	ps.setString(1, personid);
+        	rs=ps.executeQuery();
+        	if(rs.next()){
+        		encounter=Encounter.get(rs.getString("OC_ENCOUNTER_SERVERID")+"."+rs.getString("OC_ENCOUNTER_OBJECTID"));
+        	}
+        	rs.close();
+        	ps.close();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+    	try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return encounter;
+    }
+    
     public static Vector selectLastEncounters(String patientUid){
         PreparedStatement ps,ps2;
         ResultSet rs,rs2;

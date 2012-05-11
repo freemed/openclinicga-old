@@ -1,9 +1,9 @@
 package be.mxs.common.util.pdf.official.oc.examinations;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.chart.JFreeChart;
@@ -36,8 +36,8 @@ public class PDFOfficialGrowthGraph1To5Year extends PDFOfficialGrowthGraph {
 
         // put image in cell
         cell = new PdfPCell();
-        cell.setImage(com.lowagie.text.Image.getInstance(osHeight.toByteArray()));
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setImage(com.itextpdf.text.Image.getInstance(osHeight.toByteArray()));
+        cell.setBorder(PdfPCell.NO_BORDER);
         cell.setPaddingRight(10);
         growthTable.addCell(cell);
 
@@ -50,8 +50,8 @@ public class PDFOfficialGrowthGraph1To5Year extends PDFOfficialGrowthGraph {
 
         // put image in cell
         cell = new PdfPCell();
-        cell.setImage(com.lowagie.text.Image.getInstance(osWeight.toByteArray()));
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setImage(com.itextpdf.text.Image.getInstance(osWeight.toByteArray()));
+        cell.setBorder(PdfPCell.NO_BORDER);
         cell.setPaddingRight(10);
         growthTable.addCell(cell);
 

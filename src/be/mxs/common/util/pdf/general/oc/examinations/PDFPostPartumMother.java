@@ -1,9 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 import java.util.Vector;
 
@@ -100,7 +99,7 @@ public class PDFPostPartumMother extends PDFGeneralBasic {
                     if(itemCount%2==1){
                         cell = new PdfPCell();
                         cell.setColspan(5);
-                        cell.setBorder(Cell.NO_BORDER);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         table.addCell(cell);
                     }
 
@@ -144,13 +143,13 @@ public class PDFPostPartumMother extends PDFGeneralBasic {
                         cell.setBackgroundColor(BGCOLOR_LIGHT);
                         table.addCell(cell);
 
-                        table.addCell(createCell(new PdfPCell(lochiesTable),8,Cell.ALIGN_CENTER,Cell.BOX));
+                        table.addCell(createCell(new PdfPCell(lochiesTable),8,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     }
 
                     // add table
                     if(table.size() > 0){
                         if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                        contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                        contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                         tranTable.addCell(createContentCell(contentTable));
                     }
 

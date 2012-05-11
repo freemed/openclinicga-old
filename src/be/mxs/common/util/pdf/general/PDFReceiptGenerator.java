@@ -1,7 +1,7 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.*;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 
@@ -80,9 +80,9 @@ public class PDFReceiptGenerator extends PDFInvoiceGenerator {
             //*** logo ***
             try{
                 Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-                img.scalePercent(50);
+                img.scaleToFit(75, 75);
                 cell = new PdfPCell(img);
-                cell.setBorder(Cell.NO_BORDER);
+                cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setColspan(1);
                 table.addCell(cell);
             }
@@ -132,8 +132,8 @@ public class PDFReceiptGenerator extends PDFInvoiceGenerator {
 
             leftTable.addCell(createValueCell(sContactData,3));
 
-            cell = createCell(new PdfPCell(leftTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell = createCell(new PdfPCell(leftTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             patientTable.addCell(cell);
 
             //--- RIGHT SUB TABLE ---------------------------------------------
@@ -160,14 +160,14 @@ public class PDFReceiptGenerator extends PDFInvoiceGenerator {
                 rightTable.addCell(createValueCell(":   "+sData,7));
             }
 
-            cell = createCell(new PdfPCell(rightTable),2,Cell.ALIGN_CENTER,Cell.NO_BORDER);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell = createCell(new PdfPCell(rightTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             patientTable.addCell(cell);
 
             // title = patient name
             String sPatientName = patient.lastname+" "+patient.firstname;
             table.addCell(createGrayCell(getTran("web","patient")+": "+sPatientName.toUpperCase(),1,9,Font.BOLD));
-            cell = createCell(new PdfPCell(patientTable),1,Cell.ALIGN_CENTER,Cell.BOX);
+            cell = createCell(new PdfPCell(patientTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
             cell.setPadding(cellPadding);
             table.addCell(cell);
 
@@ -194,8 +194,8 @@ public class PDFReceiptGenerator extends PDFInvoiceGenerator {
                         insuranceTable.addCell(createGrayCell(getTran("web","insurancyData").toUpperCase(),1));
                         cell = new PdfPCell(getInsuranceData(insurance));
                         cell.setPadding(cellPadding);
-                        insuranceTable.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.BOX));
-                        table.addCell(createCell(new PdfPCell(insuranceTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                        insuranceTable.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
+                        table.addCell(createCell(new PdfPCell(insuranceTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                         table.addCell(createEmptyCell(1));
 
                         doc.add(table);
@@ -219,12 +219,12 @@ public class PDFReceiptGenerator extends PDFInvoiceGenerator {
             creditTable.addCell(createGrayCell(getTran("web","invoiceCredits").toUpperCase(),1));
             cell = new PdfPCell(getCredits(credit));
             cell.setPadding(cellPadding);
-            creditTable.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.BOX));
-            table.addCell(createCell(new PdfPCell(creditTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            creditTable.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
+            table.addCell(createCell(new PdfPCell(creditTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             table.addCell(createEmptyCell(1));
 
             // "printed by" info
-            table.addCell(createCell(new PdfPCell(getPrintedByInfo()),1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(getPrintedByInfo()),1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
             doc.add(table);
         }
@@ -279,44 +279,44 @@ public class PDFReceiptGenerator extends PDFInvoiceGenerator {
         cell = createUnderlinedCell(getTran("web","date"),1);
         PdfPTable singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),2,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(getTran("web","type"),1);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),3,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(getTran("web","contact"),1);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),4,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(getTran("web","comment"),1);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),5,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(getTran("web","patient"),1);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),3,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(" ",1);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),3,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 

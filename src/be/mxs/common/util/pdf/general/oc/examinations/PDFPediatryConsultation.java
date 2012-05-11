@@ -8,10 +8,10 @@ import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.openclinic.medical.Prescription;
 import be.openclinic.medical.Problem;
 import be.openclinic.pharmacy.Product;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
 
 import java.util.Vector;
 import java.util.Iterator;
@@ -139,7 +139,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
                 // add transaction to doc
                 if(bioTable.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(bioTable),1,Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(bioTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
             }
@@ -226,9 +226,9 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
         if(bloodpressureTable.size() > 0){
             containerTable.addCell(createItemNameCell(getTran("Web.Occup","medwan.healthrecord.cardial.pression-arterielle"),3));
-            containerTable.addCell(createCell(new PdfPCell(bloodpressureTable),7,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            containerTable.addCell(createCell(new PdfPCell(bloodpressureTable),7,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
 
-            table.addCell(createCell(new PdfPCell(containerTable),5,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(containerTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
 
         // temperature
@@ -264,7 +264,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -305,13 +305,13 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
         // add diagnostics table
         if(diagnosticsTable.size() > 0){
             table.addCell(createTitleCell(getTran("openclinic.chuk","diagnostic")+" "+getTran("Web.Occup","ICPC-2")+" / "+getTran("Web.Occup","ICD-10"),5));
-            table.addCell(createCell(new PdfPCell(diagnosticsTable),5,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            table.addCell(createCell(new PdfPCell(diagnosticsTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
         }
 
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -349,10 +349,10 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
                 cell = new PdfPCell(par);
                 cell.setColspan(2);
-                cell.setBorder(Cell.BOX);
+                cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(innerBorderColor);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 problemsTable.addCell(cell);
 
                 // date
@@ -363,7 +363,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
         // add table
         if(table.size() > 1){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
     }
@@ -397,14 +397,14 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
                 // add prescriptions table
                 if(prescrTable.size() > 0){
-                    table.addCell(createCell(new PdfPCell(table),4,Cell.ALIGN_CENTER,Cell.BOX));
+                    table.addCell(createCell(new PdfPCell(table),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
             }
 
             // add transaction to doc
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 tranTable.addCell(createContentCell(contentTable));
                 addTransactionToDoc();
             }
@@ -537,7 +537,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
             if(famiTable.size() > 0){
                 table.addCell(createTitleCell(getTran("Web.Occup","Familial_Antecedents"),5));
-                table.addCell(createCell(new PdfPCell(famiTable),5,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                table.addCell(createCell(new PdfPCell(famiTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
         }
 
@@ -555,7 +555,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.BOX));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -601,7 +601,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
             // title
             cell = createTitleCell(getTran("medical_antecedents"),8);
-            cell.setHorizontalAlignment(Cell.LEFT);
+            cell.setHorizontalAlignment(PdfPCell.LEFT);
             table.addCell(cell);
 
             // header
@@ -651,7 +651,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
             // title
             cell = createTitleCell(getTran("heelkundige_antecedenten"),8);
-            cell.setHorizontalAlignment(Cell.LEFT);
+            cell.setHorizontalAlignment(PdfPCell.LEFT);
             table.addCell(cell);
 
             // header
@@ -701,7 +701,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
             // title
             cell = createTitleCell(getTran("lesions_with_%_pi"),8);
-            cell.setHorizontalAlignment(Cell.LEFT);
+            cell.setHorizontalAlignment(PdfPCell.LEFT);
             table.addCell(cell);
 
             // header
@@ -746,7 +746,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
         // add PersoonlijkeAntecedenten table
         if(table.size() > 1){
-            contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
         }
 

@@ -1,11 +1,10 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Font;
-import com.lowagie.text.Cell;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Phrase;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Phrase;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 
 
@@ -66,7 +65,7 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
                 if(prevExamDate.length() > 0 || examinatorName.length() > 0){
                     // sub title
                     cell = createHeaderCell(getTran("medwan.common.driving-license-declaration.candidate-questionnaire.if-applicable"),5);
-                    cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
                     if(prevExamDate.length() > 0){
@@ -80,7 +79,7 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
 
                 // add content to doc
                 if(table.size() > 0){
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 
@@ -102,7 +101,7 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
 
                     // add content to doc
                     if(table.size() > 0){
-                        contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                        contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                         tranTable.addCell(createContentCell(contentTable));
                         addTransactionToDoc();
                     }
@@ -140,14 +139,14 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
 
             cell = new PdfPCell(new Phrase(commPart1+commPart2,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
             cell.setColspan(40);
-            cell.setBorder(Cell.BOX);
+            cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             questions.addCell(cell);
 
             // add content to document
             if(questions.size() > 0){
-                contentTable.addCell(createCell(new PdfPCell(questions),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(questions),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -169,25 +168,25 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
         // cel 1 : nr
         cell = new PdfPCell(new Phrase(id+"",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(1);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         table.addCell(cell);
 
         // cel 2-38 : question
         cell = new PdfPCell(new Phrase(question,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(37);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         table.addCell(cell);
 
         // cel 39 and 40 : answer
         cell = new PdfPCell(new Phrase(getTran(getItemValue(answer)),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(2);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         table.addCell(cell);
 
         return table;

@@ -18,7 +18,6 @@ import java.text.ParseException;
 import java.net.URL;
 import java.awt.*;
 
-import com.lowagie.text.Image;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,13 +43,13 @@ public class Miscelaneous {
         }
     }
 
-    public static com.lowagie.text.Image getImage(String name,String project){
-        Image image = null;
+    public static com.itextpdf.text.Image getImage(String name,String project){
+    	com.itextpdf.text.Image image = null;
         //Try to find the image in the config cache
         String imageSource = MedwanQuery.getInstance().getConfigString("PDFIMG."+name+"."+project);
         if(imageSource!=null && imageSource.length()>0){
             try {
-                image = Image.getInstance(new URL(imageSource));
+                image = com.itextpdf.text.Image.getInstance(new URL(imageSource));
                 if(image!=null){
                     return image;
                 }
@@ -60,7 +59,7 @@ public class Miscelaneous {
         imageSource=MedwanQuery.getInstance().getConfigString("imageSource","http://localhost/openclinic");
         //Try to find the image in the project image directory
         try{
-            image = Image.getInstance(new URL(imageSource+"/projects/"+project+"/_img/"+name));
+            image = com.itextpdf.text.Image.getInstance(new URL(imageSource+"/projects/"+project+"/_img/"+name));
             if(image!=null){
                 MedwanQuery.getInstance().setConfigString("PDFIMG."+name+"."+project,imageSource+"/projects/"+project+"/_img/"+name);
                 return image;
@@ -69,7 +68,7 @@ public class Miscelaneous {
         catch (Exception e){}
         //Try to find the image in the default image directory
         try{
-            image = Image.getInstance(new URL(imageSource+"/_img/"+name));
+            image = com.itextpdf.text.Image.getInstance(new URL(imageSource+"/_img/"+name));
             if(image!=null){
                 MedwanQuery.getInstance().setConfigString("PDFIMG."+name+"."+project,imageSource+"/_img/"+name);
                 return image;

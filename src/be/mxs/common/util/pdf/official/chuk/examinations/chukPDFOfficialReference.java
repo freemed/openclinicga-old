@@ -2,10 +2,10 @@ package be.mxs.common.util.pdf.official.chuk.examinations;
 
 import be.mxs.common.util.pdf.official.PDFOfficialBasic;
 import be.mxs.common.util.system.ScreenHelper;
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import net.admin.AdminPrivateContact;
 
 import java.awt.*;
@@ -26,14 +26,14 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
 
             // page title
             cell = createTitle(getTran("ficheDeReference")+" / "+getTran("medwan.common.contre_reference"),Font.BOLD,12,1);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             cell.setPaddingBottom(10);
             titleTable.addCell(cell);
 
             // document number / year
             SimpleDateFormat stdDateFormat = new SimpleDateFormat("yyyy");
             cell = createValueCell("/"+stdDateFormat.format(new java.util.Date()),Font.NORMAL,10,1,false);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingBottom(10);
             titleTable.addCell(cell);
 
@@ -118,8 +118,8 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             // one large enclosing bordered cell
             PdfPTable borderTable = new PdfPTable(1);
             borderTable.setWidthPercentage(pageWidth);
-            cell = createCell(new PdfPCell(patientTable),1,Cell.ALIGN_LEFT,Cell.BOX);
-            cell.setBorderColor(new Color(0,0,0)); // black
+            cell = createCell(new PdfPCell(patientTable),1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX);
+            cell.setBorderColor(new BaseColor(0,0,0)); // black
             cell.setPadding(3);
             borderTable.addCell(cell);
             doc.add(borderTable);
@@ -127,7 +127,7 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             // spacer between bordered tables
             table = new PdfPTable(1);
             cell = new PdfPCell(new Phrase());
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setPaddingTop(10);
             table.addCell(cell);
             doc.add(table);
@@ -147,7 +147,7 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_REFERENCE_ANAMNESE")+": ",1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(130);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // COMPLEMENTARY EXAMINATION
@@ -155,7 +155,7 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_REFERENCE_EXAM_COMPL")+": ",1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(130);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // RECEIVED TREATEMENT
@@ -163,14 +163,14 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_REFERENCE_TRAIT_RECU")+": ",1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(130);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // one large enclosing bordered cell
             borderTable = new PdfPTable(1);
             borderTable.setWidthPercentage(pageWidth);
-            cell = createCell(new PdfPCell(table),1,Cell.ALIGN_LEFT,Cell.BOX);
-            cell.setBorderColor(new Color(0,0,0)); // black
+            cell = createCell(new PdfPCell(table),1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX);
+            cell.setBorderColor(new BaseColor(0,0,0)); // black
             cell.setPadding(3);
             borderTable.addCell(cell);
             doc.add(borderTable);
@@ -225,7 +225,7 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_REFERENCE_RESULTS_SIGNIF")+": ",1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(125);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // SIGNIFICANT DIAGNOSIS
@@ -233,7 +233,7 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_REFERENCE_DIAGN")+": ",1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(125);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // RECEIVED TREATEMENT
@@ -241,7 +241,7 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_REFERENCE_TRAIT_RECU_INTERV")+": ",1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(125);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // RECOMMENDATIONS AND TREATMENT TO SUBJECT TO
@@ -249,14 +249,14 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
             table.addCell(subTitleCell(getTran(IConstants_PREFIX+"ITEM_TYPE_REFERENCE_RECOM_TRAIT_SUIVRE")+": ",1));
             cell = textCell(itemValue,1);
             cell.setFixedHeight(125);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             table.addCell(cell);
 
             // one large enclosing bordered cell
             PdfPTable borderTable = new PdfPTable(1);
             borderTable.setWidthPercentage(pageWidth);
-            cell = createCell(new PdfPCell(table),1,Cell.ALIGN_LEFT,Cell.BOX);
-            cell.setBorderColor(new Color(0,0,0)); // black
+            cell = createCell(new PdfPCell(table),1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX);
+            cell.setBorderColor(new BaseColor(0,0,0)); // black
             cell.setPadding(3);
             borderTable.addCell(cell);
             doc.add(borderTable);
@@ -284,9 +284,9 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(msg, FontFactory.getFont(FontFactory.HELVETICA,13,Font.BOLD)));
         cell.setColspan(colspan);
         cell.setPaddingBottom(5);
-        cell.setBorder(Cell.BOX);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -296,9 +296,9 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(title,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
         cell.setColspan(colspan);
         cell.setPaddingBottom(5);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -308,9 +308,9 @@ public class chukPDFOfficialReference extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(text,FontFactory.getFont(FontFactory.HELVETICA,9,Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setPaddingBottom(5);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }

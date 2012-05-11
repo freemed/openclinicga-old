@@ -485,7 +485,7 @@ public class Debet extends OC_Object implements Comparable {
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? AND d.OC_DEBET_CREDITED=0"
-                    + " AND e.oc_encounter_objectid=" + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") 
+                    + " AND d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid") 
                     + " AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ') order by OC_DEBET_DATE DESC";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sPatientId);
@@ -1304,7 +1304,7 @@ public class Debet extends OC_Object implements Comparable {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? "
-                    + " AND e.OC_ENCOUNTER_OBJECTID=replace(d.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') ";
+                    + " AND d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid");
             if (sDateBegin.length() > 0) {
                 sSelect += " AND d.OC_DEBET_DATE >= ?  ";
             }

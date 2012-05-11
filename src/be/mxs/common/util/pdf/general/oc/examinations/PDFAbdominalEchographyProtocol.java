@@ -1,9 +1,8 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
 
 /**
  * User: ssm
@@ -149,14 +148,14 @@ public class PDFAbdominalEchographyProtocol extends PDFGeneralBasic {
                 if(itemCounter%2==1){
                     cell = new PdfPCell();
                     cell.setColspan(5);
-                    cell.setBorder(Cell.NO_BORDER);
+                    cell.setBorder(PdfPCell.NO_BORDER);
                     table.addCell(cell);
                 }
                 
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
 

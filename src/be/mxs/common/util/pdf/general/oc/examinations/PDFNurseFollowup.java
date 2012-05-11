@@ -3,9 +3,9 @@ package be.mxs.common.util.pdf.general.oc.examinations;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.medical.Problem;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
 
 import java.util.Vector;
 import java.text.DecimalFormat;
@@ -115,7 +115,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -154,10 +154,10 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
 
                     cell = new PdfPCell(par);
                     cell.setColspan(2);
-                    cell.setBorder(Cell.BOX);
+                    cell.setBorder(PdfPCell.BOX);
                     cell.setBorderColor(innerBorderColor);
-                    cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                    cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     problemsTable.addCell(cell);
 
                     // date
@@ -168,7 +168,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -226,14 +226,14 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             if(itemCount%2==1){
                 cell = new PdfPCell();
                 cell.setColspan(5);
-                cell.setBorder(Cell.NO_BORDER);
+                cell.setBorder(PdfPCell.NO_BORDER);
                 table.addCell(cell);
             }
 
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -290,7 +290,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -343,7 +343,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -419,14 +419,14 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             if(itemCount%2==1){
                 cell = new PdfPCell();
                 cell.setColspan(5);
-                cell.setBorder(Cell.NO_BORDER);
+                cell.setBorder(PdfPCell.NO_BORDER);
                 table.addCell(cell);
             }
 
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }
@@ -436,10 +436,10 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
     protected PdfPCell createContentCell(String value){
         cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA,7, Font.NORMAL)));
         cell.setColspan(1);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // difference
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER); // difference
 
         return cell;
     }

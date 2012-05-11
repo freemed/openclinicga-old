@@ -2,10 +2,10 @@ package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.mxs.common.util.system.Miscelaneous;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.*;
-import com.lowagie.text.Image;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Image;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -45,7 +45,7 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 // add transaction to doc
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                     addTransactionToDoc();
                 }
@@ -98,7 +98,7 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 // add transaction to doc
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                     addTransactionToDoc();
                 }
@@ -140,9 +140,9 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
 
                 // back title
                 cell = createValueCell(getTran("openclinic.chuk","back"),2);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-                cell.setVerticalAlignment(Cell.ALIGN_BOTTOM);
-                cell.setBorder(Cell.LEFT+Cell.RIGHT+Cell.TOP); // no bottom
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+                cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT+PdfPCell.TOP); // no bottom
                 anuscopyTable.addCell(cell);
 
                 // right back textarea
@@ -152,9 +152,9 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 //*** image ***
                 // left
                 cell = createValueCell(getTran("web.occup","medwan.common.left"),3);
-                cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setBorder(Cell.LEFT+Cell.TOP+Cell.BOTTOM); // no right
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right
                 anuscopyTable.addCell(cell);
 
                 MediaTracker mediaTracker = new MediaTracker(new Container());
@@ -184,17 +184,17 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 // add image
                 cell = new PdfPCell();
                 cell.setImage(Image.getInstance(locationImg,null));
-                cell.setHorizontalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setBorder(Cell.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setPadding(8);
                 cell.setColspan(2);
                 anuscopyTable.addCell(cell);
 
                 // right
                 cell = createValueCell(getTran("web.occup","medwan.common.right"),3);
-                cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-                cell.setBorder(Cell.RIGHT+Cell.TOP+Cell.BOTTOM); // no left
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left
                 anuscopyTable.addCell(cell);
 
                 // right back textarea
@@ -203,9 +203,9 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
 
                 // belly title
                 cell = createValueCell(getTran("openclinic.chuk","belly"),2);
-                cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
-                cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                cell.setBorder(Cell.LEFT+Cell.RIGHT+Cell.BOTTOM); // no top
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT+PdfPCell.BOTTOM); // no top
                 anuscopyTable.addCell(cell);
 
                 // right belly textarea
@@ -222,7 +222,7 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 // add transaction to doc
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, Cell.ALIGN_CENTER,Cell.BOX));
+                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                     addTransactionToDoc();
                 }         

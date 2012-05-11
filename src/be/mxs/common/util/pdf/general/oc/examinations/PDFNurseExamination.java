@@ -3,12 +3,11 @@ package be.mxs.common.util.pdf.general.oc.examinations;
 import java.util.Vector;
 import java.text.DecimalFormat;
 
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Font;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Font;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 
 
@@ -144,13 +143,13 @@ public class PDFNurseExamination extends PDFGeneralBasic {
                     zichtTable.addCell(createContentCell(getItemValue(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_P_WITH_GLASSES")));
                 }
 
-                table.addCell(createCell(new PdfPCell(zichtTable),5,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+                table.addCell(createCell(new PdfPCell(zichtTable),5,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
             }
 
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
         }
     }
@@ -203,7 +202,7 @@ public class PDFNurseExamination extends PDFGeneralBasic {
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
         }
     }
@@ -250,7 +249,7 @@ public class PDFNurseExamination extends PDFGeneralBasic {
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
         }
     }
@@ -296,7 +295,7 @@ public class PDFNurseExamination extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 1){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 }
             }
         }
@@ -306,10 +305,10 @@ public class PDFNurseExamination extends PDFGeneralBasic {
     protected PdfPCell createContentCell(String value){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(1);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // difference
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER); // difference
 
         return cell;
     }

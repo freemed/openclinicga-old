@@ -1,7 +1,7 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.*;
 
 import java.util.*;
 import java.io.ByteArrayOutputStream;
@@ -85,9 +85,9 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
         table = new PdfPTable(3);
         table.setWidthPercentage(pageWidth);
         cell = createValueCell(getTran("invoiceFinancialMessageTitle")+getTran("invoiceFinancialMessageTitle2"),3);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         table.addCell(cell);
-        table.addCell(createCell(new PdfPCell(getPrintedByInfo()),2,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+        table.addCell(createCell(new PdfPCell(getPrintedByInfo()),2,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
         cell = createBoldLabelCell(getTran("invoiceDirector"),1);
         table.addCell(cell);
         doc.add(table);
@@ -101,9 +101,9 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             //*** logo ***
             try{
                 Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-                img.scalePercent(50);
+                img.scaleToFit(75, 75);
                 cell = new PdfPCell(img);
-                cell.setBorder(Cell.NO_BORDER);
+                cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setColspan(2);
                 table.addCell(cell);
             }
@@ -118,8 +118,8 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             barcode39.setCode("6"+invoice.getInvoiceUid());
             Image image = barcode39.createImageWithBarcode(cb,null,null);
             cell = new PdfPCell(image);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(2);
             table.addCell(cell);
 
@@ -159,7 +159,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             table2.addCell(cell);
             
             cell=new PdfPCell(table2);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(6);
             
             table.addCell(cell);
@@ -209,8 +209,8 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             payToTable.addCell(createGrayCell(getTran("web","payToInfo").toUpperCase(),1));
             cell = new PdfPCell(getPayToInfo());
             cell.setPadding(cellPadding);
-            payToTable.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.BOX));
-            table.addCell(createCell(new PdfPCell(payToTable),1,Cell.ALIGN_CENTER,Cell.NO_BORDER));
+            payToTable.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
+            table.addCell(createCell(new PdfPCell(payToTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             table.addCell(createEmptyCell(10,1));
 			
             doc.add(table);
@@ -233,7 +233,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
         if(debets.size() > 0){
             cell=new PdfPCell(getTableHeader(invoice.getInsurar()));
             cell.setPadding(cellPadding);
-            tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
             // print debets
             Debet debet;
@@ -258,63 +258,63 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
                         // display debet total
                 		table.addCell(createEmptyCell(700));
                         cell = createLabelCell(getTran("web","pagesubtotalprice"),300);
-                        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
                         cell = createLabelCell(priceFormatInsurar.format(pageConsultationAmount),100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
                         cell = createLabelCell(priceFormatInsurar.format(pageLabAmount),100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
                         cell = createLabelCell(priceFormatInsurar.format(pageImagingAmount),100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
                         cell = createLabelCell(priceFormatInsurar.format(pageAdmissionAmount),100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
                         cell = createLabelCell(priceFormatInsurar.format(pageActsAmount),100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
                         cell = createLabelCell(priceFormatInsurar.format(pageConsumablesAmount),100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
                         cell = createLabelCell(priceFormatInsurar.format(pageOtherAmount),100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
                         cell = createLabelCell(priceFormatInsurar.format(pageDrugsAmount),100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
                         table.addCell(createEmptyCell(200));
@@ -323,18 +323,18 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
                         //Nu de totalen toevoegen
                         table.addCell(createEmptyCell(700));
                         cell = createLabelCell(getTran("web","pagetotalprice"),300);
-                        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
                         table.addCell(createEmptyCell(800));
                         cell = createLabelCell(priceFormatInsurar.format(pageTotalAmount100)+" RWF",100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
                         cell = createLabelCell(priceFormatInsurar.format(pageTotalAmount85)+" RWF",100,7);
-                        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-                        cell.setBorder(Cell.BOX);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setBorder(PdfPCell.BOX);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
                         
@@ -351,7 +351,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
                 	}
                     cell=new PdfPCell(table);
                     cell.setPadding(0);
-                    tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+                    tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
                 	if(linecounter==36 || (linecounter-36)%40==0){
                         doc.add(tableParent);
                     	doc.newPage();
@@ -359,7 +359,7 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
                         tableParent.setWidthPercentage(pageWidth);
                         cell=new PdfPCell(getTableHeader(invoice.getInsurar()));
                         cell.setPadding(cellPadding);
-                        tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+                        tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
                         table = new PdfPTable(2000);
                         table.setWidthPercentage(pageWidth);
                 	}
@@ -455,63 +455,63 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
         	// display debet total
             table.addCell(createEmptyCell(700));
             cell = createLabelCell(getTran("web","pagesubtotalprice"),300);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell = createLabelCell(priceFormatInsurar.format(pageConsultationAmount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell = createLabelCell(priceFormatInsurar.format(pageLabAmount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell = createLabelCell(priceFormatInsurar.format(pageImagingAmount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell = createLabelCell(priceFormatInsurar.format(pageAdmissionAmount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell = createLabelCell(priceFormatInsurar.format(pageActsAmount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell = createLabelCell(priceFormatInsurar.format(pageConsumablesAmount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell = createLabelCell(priceFormatInsurar.format(pageOtherAmount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell = createLabelCell(priceFormatInsurar.format(pageDrugsAmount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
             table.addCell(createEmptyCell(200));
@@ -520,81 +520,81 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             //Nu de totalen toevoegen
             table.addCell(createEmptyCell(700));
             cell = createLabelCell(getTran("web","pagetotalprice"),300);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingRight(5);
             table.addCell(cell);
             table.addCell(createEmptyCell(800));
             cell = createLabelCell(priceFormatInsurar.format(pageTotalAmount100)+" RWF",100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
             cell = createLabelCell(priceFormatInsurar.format(pageTotalAmount85)+" RWF",100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
             cell=new PdfPCell(table);
             cell.setPadding(0);
-            tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
             table = new PdfPTable(2000);
             cell = createLabelCell("",2000);
-            cell.setBorder(Cell.BOTTOM);
+            cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
             
             // display debet total
             table.addCell(createEmptyCell(700));
             cell = createLabelCell(getTran("web","subtotalprice"),300);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             Double amount = (Double)totalcategories.get(MedwanQuery.getInstance().getConfigString("RAMAconsultationCategory","Co"));
             cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             amount = (Double)totalcategories.get(MedwanQuery.getInstance().getConfigString("RAMAlabCategory","L"));
             cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             amount = (Double)totalcategories.get(MedwanQuery.getInstance().getConfigString("RAMAimagingCategory","R"));
             cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             amount = (Double)totalcategories.get(MedwanQuery.getInstance().getConfigString("RAMAadmissionCategory","S"));
             cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             amount = (Double)totalcategories.get(MedwanQuery.getInstance().getConfigString("RAMAactsCategory","A"));
             cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             amount = (Double)totalcategories.get(MedwanQuery.getInstance().getConfigString("RAMAconsumablesCategory","C"));
             cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
@@ -614,17 +614,17 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             	}
             }
             cell = createLabelCell(otherprice==0?"":priceFormatInsurar.format(otherprice),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             amount = (Double)totalcategories.get(MedwanQuery.getInstance().getConfigString("RAMAdrugsCategory","M"));
             cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setVerticalAlignment(Cell.ALIGN_TOP);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
             table.addCell(createEmptyCell(200));
@@ -633,24 +633,24 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
             //Nu de totalen toevoegen
             table.addCell(createEmptyCell(700));
             cell = createLabelCell(getTran("web","totalprice"),300);
-            cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingRight(5);
             table.addCell(cell);
             table.addCell(createEmptyCell(800));
             cell = createLabelCell(priceFormatInsurar.format(generaltotal100pct)+" RWF",100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
             cell = createLabelCell(priceFormatInsurar.format(generaltotal85pct)+" RWF",100,7);
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-            cell.setBorder(Cell.BOX);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(PdfPCell.BOX);
             cell.setPaddingRight(5);
             table.addCell(cell);
 
             cell=new PdfPCell(table);
             cell.setPadding(0);
-            tableParent.addCell(createCell(cell,1,Cell.ALIGN_LEFT,Cell.NO_BORDER));
+            tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
             doc.add(tableParent);
         }
     }
@@ -658,87 +658,87 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
     private void printDebet2(PdfPTable invoiceTable, SortedMap categories, boolean displayDate, Date date, String invoiceid,String adherent,String beneficiary,double total100pct,double total85pct,String recordnumber,int linecounter,double daytotal100pct,double daytotal85pct,PdfPTable tableParent,String insurarreference){
     	cell = createLabelCell(linecounter+"",70,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(date),120,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(invoiceid,100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(insurarreference,210,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(recordnumber+" / "+adherent+" / "+beneficiary,500,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
         Double amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAconsultationCategory","Co"));
         pageConsultationAmount+=amount==null?0:amount.doubleValue();
         cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
         amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAlabCategory","L"));
         pageLabAmount+=amount==null?0:amount.doubleValue();
         cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
         amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAimagingCategory","R"));
         pageImagingAmount+=amount==null?0:amount.doubleValue();
         cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
         amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAadmissionCategory","S"));
         pageAdmissionAmount+=amount==null?0:amount.doubleValue();
         cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
         amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAactsCategory","A"));
         pageActsAmount+=amount==null?0:amount.doubleValue();
         cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
         amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAconsumablesCategory","C"));
         pageConsumablesAmount+=amount==null?0:amount.doubleValue();
         cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
@@ -759,31 +759,31 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
         }
         pageOtherAmount+=otherprice;
         cell = createLabelCell(otherprice==0?"":priceFormatInsurar.format(otherprice),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
         amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAdrugsCategory","M"));
         pageDrugsAmount+=amount==null?0:amount.doubleValue();
         cell = createLabelCell(amount==null?"":priceFormatInsurar.format(amount),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
 
         cell = createLabelCell(priceFormatInsurar.format(total100pct),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
         cell = createLabelCell(priceFormatInsurar.format(total85pct),100,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setBorder(Cell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
     }
@@ -795,99 +795,99 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
         cell = createUnderlinedCell("#\n ",1,7);
         PdfPTable singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),70,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),70,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(getTran("web","date")+"\n ",1,7);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),120,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),120,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(getTran("web","fac")+"\n ",1,7);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(getTran("web","insurarreference")+"\n ",1,7);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),210,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),210,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell(getTran("web","numero_affiliation")+" / "+getTran("web","adherent")+" / "+getTran("web","beneficiary")+"\n ",1,7);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),500,Cell.ALIGN_LEFT,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),500,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER);
         cell.setPaddingRight(2);
         table.addCell(cell);
 
         cell = createUnderlinedCell("CONS\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         cell = createUnderlinedCell("LAB\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         cell = createUnderlinedCell("IMA\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         cell = createUnderlinedCell("HOS\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         cell = createUnderlinedCell("ACT\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         cell = createUnderlinedCell("MAT\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         cell = createUnderlinedCell("AUTR\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         cell = createUnderlinedCell("MED\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         cell = createUnderlinedCell("TOT\n100%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         int coverage=85;
@@ -900,10 +900,10 @@ public class PDFInsurarInvoiceGeneratorRAMANew extends PDFInvoiceGenerator {
         	}
         }
         cell = createUnderlinedCell("TOT\n"+coverage+"%",1,7);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);
-        cell = createCell(new PdfPCell(singleCellHeaderTable),100,Cell.ALIGN_CENTER,Cell.NO_BORDER);
+        cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
         return table;

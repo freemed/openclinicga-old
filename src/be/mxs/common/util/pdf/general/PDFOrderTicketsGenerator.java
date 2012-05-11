@@ -1,14 +1,13 @@
 package be.mxs.common.util.pdf.general;
 
-import com.lowagie.text.pdf.Barcode39;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.*;
+import com.itextpdf.text.pdf.Barcode39;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
 
 import java.util.*;
-import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -90,10 +89,10 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         table.setWidthPercentage(pageWidth);
 
         Image img = Miscelaneous.getImage("orderTicketsHeader.gif","openclinic");
-        img.scalePercent(50);
+        img.scaleToFit(75, 75);
         cell = new PdfPCell(img);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);
 
         doc.add(table);
@@ -104,8 +103,8 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         table.setWidthPercentage(pageWidth);
 
         cell = createValueCell(ScreenHelper.getTranNoLink("web","orders",sPrintLanguage).toUpperCase(),1);
-        cell.setBorder(Cell.BOX);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setPadding(10);
         table.addCell(cell);
 
@@ -312,14 +311,14 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     	}
     	PdfPTable table2 = new PdfPTable(1);
     	cell=createBorderlessCell("\n ",1);
-    	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+    	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
     	table2.addCell(cell);
     	cell=createBorderlessCell("\n ",1);
-    	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+    	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
     	table2.addCell(cell);
     	cell=new PdfPCell(table2);
     	cell.setColspan(100);
-    	cell.setBorder(Cell.BOX);
+    	cell.setBorder(PdfPCell.BOX);
     	table.addCell(cell);
     	
     	
@@ -338,28 +337,28 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         	table.addCell(cell);
         	PdfPTable table2 = new PdfPTable(1);
         	cell=createBorderlessCell(ScreenHelper.getTranNoLink("mdnac","requestor",sPrintLanguage),1);
-        	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
         	Center center = Center.get(0, true);
         	cell=createHeaderCell(center!=null && center.getName()!=null?center.getName():"UNKNOWN CENTER",1,12);
-            cell.setBackgroundColor(Color.WHITE);
-        	cell.setBorderColor(Color.BLACK);
-        	cell.setBorder(Cell.BOX);
-        	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+            cell.setBackgroundColor(BaseColor.WHITE);
+        	cell.setBorderColor(BaseColor.BLACK);
+        	cell.setBorder(PdfPCell.BOX);
+        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
         	cell=new PdfPCell(table2);
-        	cell.setBorderColor(Color.BLACK);
-        	cell.setBorder(Cell.BOX);
+        	cell.setBorderColor(BaseColor.BLACK);
+        	cell.setBorder(PdfPCell.BOX);
         	cell.setColspan(50);
         	table.addCell(cell);
         	table2 = new PdfPTable(50);
         	PdfPTable table3  = new PdfPTable(1);
         	cell=createValueCell(ScreenHelper.getTranNoLink("mdnac","ordernumber",sPrintLanguage)+"\n ");
         	cell.setColspan(1);
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
         	table3.addCell(cell);
             cell=createValueCell("\n ");
-            cell.setBorder(Cell.NO_BORDER);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table3.addCell(cell);
         	
         	cell=new PdfPCell(table3);
@@ -390,7 +389,7 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         	
         	table2 = new PdfPTable(1);
         	cell=createBorderlessCell(ScreenHelper.getTranNoLink("mdnac","distributor",sPrintLanguage),1);
-        	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
         	String serviceName="";
         	Service service = Service.getService(companyuid);
@@ -398,14 +397,14 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         		serviceName=service.getLabel(sPrintLanguage);
         	}
         	cell=createHeaderCell(serviceName,1,12);
-        	cell.setBorderColor(Color.BLACK);
-        	cell.setBorder(Cell.BOX);
-            cell.setBackgroundColor(Color.WHITE);
-        	cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        	cell.setBorderColor(BaseColor.BLACK);
+        	cell.setBorder(PdfPCell.BOX);
+            cell.setBackgroundColor(BaseColor.WHITE);
+        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
         	cell=new PdfPCell(table2);
-        	cell.setBorder(Cell.BOX);
-        	cell.setBorderColor(Color.BLACK);
+        	cell.setBorder(PdfPCell.BOX);
+        	cell.setBorderColor(BaseColor.BLACK);
         	cell.setColspan(50);
         	table.addCell(cell);
         	
@@ -454,9 +453,9 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     protected PdfPCell createUnderlinedCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE))); // underlined
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -478,9 +477,9 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     protected PdfPCell createTitle(String msg, int colspan){
         cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
         return cell;
     }
@@ -490,9 +489,9 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setPaddingTop(height); //
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -504,7 +503,7 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     protected PdfPCell createBorderlessCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(Cell.NO_BORDER);
+        cell.setBorder(PdfPCell.NO_BORDER);
 
         return cell;
     }
@@ -513,10 +512,10 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     protected PdfPCell createItemNameCell(String itemName, int colspan){
         cell = new PdfPCell(new Paragraph(itemName,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }
@@ -525,10 +524,10 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     protected PdfPCell createPaddedValueCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setPaddingRight(5); // difference
 
         return cell;
@@ -538,23 +537,21 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     protected PdfPCell createNumberCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(colspan);
-        cell.setBorder(Cell.BOX);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(Cell.ALIGN_TOP);
-        cell.setHorizontalAlignment(Cell.ALIGN_RIGHT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 
         return cell;
     }
 
 	@Override
 	protected void addHeader() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void addContent() {
-		// TODO Auto-generated method stub
 		
 	}
 
