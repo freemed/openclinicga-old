@@ -47,12 +47,16 @@ public class PDFOesoPhagoGastroDuoDenoScopyProtocol extends PDFGeneralBasic {
                     tranTable.addCell(createContentCell(contentTable));
                 }
 
-                // todo : CARDIO
                 //--- CARDIO ----------------------------------------------------------------------
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(10);
 
-                table.addCell(createTitleCell(getTran("openclinic.chuk","cardio"),10));
+
+                // cardia
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_CARDIA");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","cardia"),itemValue);
+                }
 
                 // stomach
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_STOMACH");
@@ -159,6 +163,7 @@ public class PDFOesoPhagoGastroDuoDenoScopyProtocol extends PDFGeneralBasic {
     protected void addItemRow(PdfPTable table, String itemName, String itemValue){
         cell = createItemNameCell(itemName);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
+        cell.setFixedHeight(40);
         table.addCell(cell);
         table.addCell(createValueCell(itemValue));
     }

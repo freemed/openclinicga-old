@@ -1176,6 +1176,41 @@ public class Service {
         return count;
     }
 
+    public double getAverageOccupiedBedCount(double days){
+        double count=0;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        java.util.Date date = new java.util.Date();
+        long seconds=0;
+        try{
+        	for(int n=0;n<days;n++){
+        		seconds+=24*3600*1000;
+        		date.setTime(date.getTime()-seconds);
+	        	String sQuery="select count(*) total from OC_ENCOUNTERS_VIEW where OC_ENCOUNTER_SERVICEUID=? and OC_ENCOUNTER_BEGINDATE<=? AND (OC_ENCOUNTER_ENDDATE IS NULL OR OC_ENCOUNTER_ENDDATE>?)";
+	            PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+	            ps.setString(1,this.code);
+	            ps.setDate(2,new java.sql.Date(date.getTime()));
+	            ps.setDate(3,new java.sql.Date(date.getTime()));
+	            ResultSet rs = ps.executeQuery();
+	            if (rs.next()){
+	                count+=rs.getInt("total");
+	            }
+	            rs.close();
+	            ps.close();
+        	}
+        	count=count/days;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return count;
+    }
+
     public int getTotalBedCount(){
         int count=0;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();

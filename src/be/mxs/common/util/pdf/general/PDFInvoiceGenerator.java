@@ -45,7 +45,7 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected void addFooter(String sInvoiceUid){
         String sFooter = getConfigString("footer."+sProject);
         sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
-        PDFFooter footer = new PDFFooter(sFooter+"\n"+sInvoiceUid);
+        PDFFooter footer = new PDFFooter(sFooter+(sFooter.trim().length()>0?" - ":"")+getTran("web","invoice")+" "+sInvoiceUid);
         docWriter.setPageEvent(footer);
     }
 

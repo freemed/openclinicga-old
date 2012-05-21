@@ -423,23 +423,39 @@ public class ScreenHelper {
         if (checkString(apc.province).trim().length()>0) {
             sProvince = getTran("province",apc.province,sLanguage);
         }
-        return(
-            setRow("Web.admin","addresschangesince",apc.begin,sLanguage)+
-            setRow("Web","address",apc.address,sLanguage)+
-            setRow("Web","zipcode",apc.zipcode,sLanguage)+
-            setRow("Web","country",sCountry,sLanguage)+
-            setRow("Web","email",apc.email,sLanguage)+
-            setRow("Web","telephone",apc.telephone,sLanguage)+
-            setRow("Web","mobile",apc.mobile,sLanguage)+
-            setRow("Web","province",sProvince,sLanguage)+
-            setRow("Web","district",apc.district,sLanguage)+
-            setRow("Web","sector",apc.sector,sLanguage)+
-            setRow("Web","cell",apc.cell,sLanguage)+
-            setRow("Web","city",apc.city,sLanguage)+
-            setRow("Web","function",apc.businessfunction,sLanguage)+
-            setRow("Web","business",apc.business,sLanguage)+
-            setRow("Web","comment",apc.comment,sLanguage)
-        );
+        if(MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1){
+	        return(
+		            setRow("Web.admin","addresschangesince",apc.begin,sLanguage)+
+		            setRow("Web","country",sCountry,sLanguage)+
+		            setRow("Web","district",apc.district,sLanguage)+
+		            setRow("Web","zipcode",apc.zipcode,sLanguage)+
+		            setRow("Web","province",sProvince,sLanguage)+
+		            setRow("Web","city",apc.city,sLanguage)+
+		            setRow("Web","email",apc.email,sLanguage)+
+		            setRow("Web","telephone",apc.telephone,sLanguage)+
+		            setRow("Web","mobile",apc.mobile,sLanguage)+
+		            setRow("Web","comment",apc.comment,sLanguage)
+	        );
+        }
+        else {
+	        return(
+	            setRow("Web.admin","addresschangesince",apc.begin,sLanguage)+
+	            setRow("Web","address",apc.address,sLanguage)+
+	            setRow("Web","zipcode",apc.zipcode,sLanguage)+
+	            setRow("Web","country",sCountry,sLanguage)+
+	            setRow("Web","email",apc.email,sLanguage)+
+	            setRow("Web","telephone",apc.telephone,sLanguage)+
+	            setRow("Web","mobile",apc.mobile,sLanguage)+
+	            setRow("Web","province",sProvince,sLanguage)+
+	            setRow("Web","district",apc.district,sLanguage)+
+	            setRow("Web","sector",apc.sector,sLanguage)+
+	            setRow("Web","cell",apc.cell,sLanguage)+
+	            setRow("Web","city",apc.city,sLanguage)+
+	            setRow("Web","function",apc.businessfunction,sLanguage)+
+	            setRow("Web","business",apc.business,sLanguage)+
+	            setRow("Web","comment",apc.comment,sLanguage)
+  	        );
+        }
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------

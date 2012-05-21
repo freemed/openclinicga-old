@@ -954,13 +954,13 @@ public class User extends OC_Object {
                 hInfo.put("firstname",ScreenHelper.checkString(rs.getString("firstname")));
                 hInfo.put("immatnew",ScreenHelper.checkString(rs.getString("immatnew")));
 
-                sQuery = "SELECT serviceid FROM UserServices WHERE userid = ? AND activeservice = 1";
+                sQuery = "SELECT value FROM UserParameters WHERE userid = ? AND parameter = 'defaultserviceid' and active=1";
                 psChild = lad_conn.prepareStatement(sQuery);
                 psChild.setInt(1,Integer.parseInt(sUserID));
                 rsChild = psChild.executeQuery();
 
                 if (rsChild.next()){
-                    hInfo.put("serviceid",ScreenHelper.checkString(rsChild.getString("serviceid")));    
+                    hInfo.put("serviceid",ScreenHelper.checkString(rsChild.getString("value")));    
                 }
                 rsChild.close();
                 psChild.close();

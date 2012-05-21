@@ -1,4 +1,4 @@
-package be.mxs.common.util.pdf.general;
+package be.mxs.common.util.pdf.general.chuk;
 
 import java.net.URL;
 
@@ -22,7 +22,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class PDFFooter extends PdfPageEventHelper {
 	String sFooterText="";
-	int pagecount=0;
 	
 	public PDFFooter(String sFooterText){
 		this.sFooterText=sFooterText;
@@ -32,13 +31,9 @@ public class PDFFooter extends PdfPageEventHelper {
     // add "duplicata" in background of each page of the PDF document.
     //---------------------------------------------------------------------------------------------
     public void onEndPage (PdfWriter writer, Document document) {
-    	pagecount++;
         Rectangle rect = document.getPageSize();
         ColumnText.showTextAligned(writer.getDirectContent(),
                 Element.ALIGN_CENTER, new Phrase(sFooterText,FontFactory.getFont(FontFactory.HELVETICA,6)),
-                (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() + 26, 0);
-        ColumnText.showTextAligned(writer.getDirectContent(),
-                Element.ALIGN_CENTER, new Phrase(pagecount+"",FontFactory.getFont(FontFactory.HELVETICA,6)),
                 (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() + 18, 0);
     }
 

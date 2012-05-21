@@ -1,4 +1,4 @@
-package be.mxs.common.util.pdf.general;
+package be.mxs.common.util.pdf.general.chuk;
 
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 import be.mxs.common.model.vo.healthrecord.ItemContextVO;
@@ -926,7 +926,7 @@ public class GeneralPDFCreator extends PDFCreator {
             // address
             AdminPrivateContact contact = activePerson.getActivePrivate();
             if (contact!=null){
-                cell = new PdfPCell(new Paragraph(contact.district+" - "+ScreenHelper.getTranNoLink("province",contact.province,sPrintLanguage),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+                cell = new PdfPCell(new Paragraph(contact.district+" - "+ScreenHelper.getTran("province",contact.province,sPrintLanguage),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
                 cell.setColspan(4);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(BaseColor.LIGHT_GRAY);
