@@ -28,9 +28,28 @@
                 sCivilStatus = checkString(request.getParameter("CivilStatus")),
                 sTracnetID = checkString(request.getParameter("TracnetID")),
                 sVip = checkString(request.getParameter("Vip")),
+                sFatherName = checkString(request.getParameter("FatherName")),
+                sFatherProfession = checkString(request.getParameter("FatherProfession")),
+                sFatherEmployer = checkString(request.getParameter("FatherEmployer")),
+           		sMotherName = checkString(request.getParameter("MotherName")),
+  				sMotherProfession = checkString(request.getParameter("MotherProfession")),
+  				sMotherEmployer = checkString(request.getParameter("MotherEmployer")), 				
+          		sSpouseName = checkString(request.getParameter("SpouseName")),
+ 				sSpouseProfession = checkString(request.getParameter("SpouseProfession")),
+ 				sSpouseEmployer = checkString(request.getParameter("SpouseEmployer")), 				
                 sExport = checkString(request.getParameter("datacenterpatientexport")),
 		        sDeathCertificateOn = checkString(request.getParameter("DeathCertificateOn")),
 		        sDeathCertificateTo = checkString(request.getParameter("DeathCertificateTo"));
+        String sCenterreasons="";
+       String[] reasons = request.getParameterValues("centerreason");
+       if(reasons!=null){
+	       for(int n=0;n<reasons.length;n++){
+	    	   if(n>0){
+	    		   sCenterreasons+=";";
+	    	   }
+	    	   sCenterreasons+=reasons[n];
+	       }
+       }
 
         // private
         String sPBegin = checkString(request.getParameter("PBegin")),
@@ -133,6 +152,36 @@
             activePatient.comment5 = sComment5;
             activePatient.adminextends.put("vip",sVip);
             activePatient.middlename=sMiddleName;
+            if (sFatherName.trim().length() > 0) {
+                activePatient.adminextends.put("fathername", sFatherName);
+            }
+            if (sFatherProfession.trim().length() > 0) {
+                activePatient.adminextends.put("fatherprofession", sFatherProfession);
+            }
+            if (sFatherEmployer.trim().length() > 0) {
+                activePatient.adminextends.put("fatheremployer", sFatherEmployer);
+            }
+            if (sMotherName.trim().length() > 0) {
+                activePatient.adminextends.put("mothername", sMotherName);
+            }
+            if (sMotherProfession.trim().length() > 0) {
+                activePatient.adminextends.put("motherprofession", sMotherProfession);
+            }
+            if (sMotherEmployer.trim().length() > 0) {
+                activePatient.adminextends.put("motheremployer", sMotherEmployer);
+            }
+            if (sSpouseName.trim().length() > 0) {
+                activePatient.adminextends.put("spousename", sSpouseName);
+            }
+            if (sSpouseProfession.trim().length() > 0) {
+                activePatient.adminextends.put("spouseprofession", sSpouseProfession);
+            }
+            if (sSpouseEmployer.trim().length() > 0) {
+                activePatient.adminextends.put("spouseemployer", sSpouseEmployer);
+            }
+            if (sCenterreasons.trim().length() > 0) {
+                activePatient.adminextends.put("centerreasons", sCenterreasons);
+            }
 
             //*** PRIVATE ***
             AdminPrivateContact apcNew = new AdminPrivateContact();

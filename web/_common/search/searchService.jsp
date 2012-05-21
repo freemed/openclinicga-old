@@ -14,6 +14,7 @@
     String sVarCode = checkString(request.getParameter("VarCode")),
             sVarText = checkString(request.getParameter("VarText")),
             sFindText = checkString(request.getParameter("FindText")).toUpperCase();
+    String sStartID=checkString(request.getParameter("FindCode"));
 %>
 <body onblur="window.focus()">
 <form name="SearchForm" method="POST" onSubmit="doFind();return false;" onkeydown="if(enterEvent(event,13)){doFind();}">
@@ -110,7 +111,7 @@
     }
 
     function doFind() {
-        SearchForm.FindCode.value = "";
+        SearchForm.FindCode.value = "<%=sStartID%>";
         SearchForm.ViewCode.value = "";
         SearchForm.showinactive.value="<%=showinactive?"1":"0"%>";
         ajaxChangeSearchResults('_common/search/searchByAjax/searchServiceShow.jsp', SearchForm);

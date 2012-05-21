@@ -58,7 +58,6 @@
   <%-- CHECK SUBMIT --%>
   function checkSubmit(){
     maySubmit = true;
-
     if(maySubmit){ maySubmit = checkSubmitAdmin(); }
     if(maySubmit){ maySubmit = checkSubmitAdminPrivate(); }
     if(maySubmit){ maySubmit = checkSubmitAdminFamilyRelation(); }

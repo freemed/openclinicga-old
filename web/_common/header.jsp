@@ -31,13 +31,13 @@
             <% if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){ %>
                 <tr onmousedown="checkDropdown(event);">
                     <td class="menu_bar" valign="top"  colspan="3">
-                        <%ScreenHelper.setIncludePage("/_common/dropdownmenu.jsp", pageContext);%>
+                        <%ScreenHelper.setIncludePage(customerInclude("/_common/dropdownmenu.jsp"), pageContext);%>
                     </td>
 
                 </tr>
                 <tr>
                     <td align="left" >
-                        <%ScreenHelper.setIncludePage("/_common/searchPatient.jsp", pageContext);%>
+                        <%ScreenHelper.setIncludePage(customerInclude("/_common/searchPatient.jsp"), pageContext);%>
                     </td>
 
                 </tr>

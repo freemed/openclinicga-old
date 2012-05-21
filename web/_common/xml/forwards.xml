@@ -30,6 +30,7 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DIABETES_FOLLOWUP"                    path="/main.do?Page=/healthrecord/medIntDiabetesFollowup.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_URGENCE_CONSULTATION"                 path="/main.do?Page=/healthrecord/urgenceConsultation.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT" path="/main.do?Page=/healthrecord/kinesitherapyConsultationTreatment.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ORTHOPROSTESIS_CONSULTATION_TREATMENT" path="/main.do?Page=/healthrecord/orthoprostesisConsultationTreatment.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_AUDIOMETRY"                           path="/main.do?Page=/healthrecord/orlAudiometricExamination.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ORL_CONSULTATION"                     path="/main.do?Page=/healthrecord/orlConsultation.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_KINESITHERAPY_APPLICATION"            path="/main.do?Page=/healthrecord/surgeryKinesitherapyApplication.jsp"/>
@@ -45,7 +46,8 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GYNAE_CONSULTATION"                   path="/main.do?Page=/healthrecord/gynConsultation.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DAILY_NOTE"                           path="/main.do?Page=/healthrecord/intensiveCareDailyNote.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DERMATOLOGY_CONSULTATION"             path="/main.do?Page=/healthrecord/dermatologyConsultation.jsp"/>
-    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MEDICALCARE"                          path="/main.do?Page=/healthrecord/manageMedicalCare.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MEDICALCARE"                          path="/main.do?Page=/healthrecord/manageMedicalCare_view.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SOCIALASSISTANT"                      path="/main.do?Page=/healthrecord/manageSocialAssistant_view.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CARDIOVASCULAR_RISK"                  path="/main.do?Page=/healthrecord/manageCardioVascularRisk.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NURSE_EXAMINATION"                    path="/main.do?Page=/healthrecord/manageNurseExamination_view.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NURSE_FOLLOWUP"                       path="/main.do?Page=/healthrecord/manageNurseFollowup_view.jsp"/>

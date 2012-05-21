@@ -142,8 +142,14 @@
         user.put("serviceId", sServiceID);
 
         // add user to correct division-vector
-        if (xmlServiceIds.contains(sServiceID)) ((Vector) (usersPerDiv.get(sServiceID))).add(user);
-        else ((Vector) (usersPerDiv.get("varia"))).add(user);
+        boolean bFound=false;
+        for(int n=0;n<xmlServiceIds.size();n++){
+        	if(sServiceID.startsWith((String)xmlServiceIds.elementAt(n))){
+        		((Vector) (usersPerDiv.get(sServiceID))).add(user);
+        		bFound=true;
+        	}
+        }
+        if(!bFound) ((Vector) (usersPerDiv.get("varia"))).add(user);
     }
 
     // default selected tab is the one with the most found records in

@@ -3,11 +3,35 @@
 <%
     if(activePatient!=null && activePatient.personid.length()>0){
         AdminPrivateContact apc = ScreenHelper.getActivePrivate(activePatient);
+        String sCountry = "&nbsp;";
+        if (checkString(apc.country).trim().length()>0) {
+            sCountry = getTran("Country",apc.country,sWebLanguage);
+        }
+
+        String sProvince = "&nbsp;";
+        if (checkString(apc.province).trim().length()>0) {
+            sProvince = getTran("province",apc.province,sWebLanguage);
+        }
 
         if (apc!=null){
             %>
                 <table width="100%" cellspacing="1" class="list">
-                    <%=ScreenHelper.setAdminPrivateContact(apc,sWebLanguage)%>
+                    <%=		setRow("Web.admin","addresschangesince",apc.begin,sWebLanguage)+
+        		            setRow("Web","country",sCountry,sWebLanguage)+
+        		            setRow("Web","district",apc.district,sWebLanguage)+
+        		            setRow("Web","zipcode",apc.zipcode,sWebLanguage)+
+        		            setRow("Web","province",sProvince,sWebLanguage)+
+        		            setRow("Web","city",apc.city,sWebLanguage)+
+        		            setRow("Web","sector",apc.sector,sWebLanguage)+
+        		            setRow("Web","cell",apc.cell,sWebLanguage)+
+        		            setRow("Web","address",apc.address,sWebLanguage)+
+        		            setRow("Web","email",apc.email,sWebLanguage)+
+        		            setRow("Web","telephone",apc.telephone,sWebLanguage)+
+        		            setRow("Web","mobile",apc.mobile,sWebLanguage)+
+        		            setRow("Web","function",apc.businessfunction,sWebLanguage)+
+        		            setRow("Web","business",apc.business,sWebLanguage)+
+        		            setRow("Web","comment",apc.comment,sWebLanguage)
+					%>
                     <tr height='1'><td width='<%=sTDAdminWidth%>'/></tr>
                 </table>
             <%
