@@ -16,7 +16,7 @@
     </tr>
 <%
     Vector services = Service.getServicesWithBeds();
-    double allbeds=0,alloccupiedbeds=0, totalBeds,occupiedBeds;
+    double allbeds=0,alloccupiedbeds=0, totalBeds,occupiedBeds,alloccup=0;
     Service service;
     for (int n = 0; n < services.size(); n++) {
         service = (Service) services.elementAt(n);
@@ -24,20 +24,22 @@
         occupiedBeds= service.getOccupiedBedCount();
         allbeds+=totalBeds;
         alloccupiedbeds+=occupiedBeds;
+        double occup=service.getAverageOccupiedBedCount(30);
+        alloccup+=occup;
         out.print("<tr class='list'><td>" + (service.code.indexOf(".") > -1 ? getTran("service", service.code.split("\\.")[0], sWebLanguage) + " &gt; " : "")
                 + "<a href='javascript:selectMyService(\""+service.code+"\");'>"+getTran("service", service.code, sWebLanguage) + "</a></td>" +
                 "<td>" + totalBeds + "</td>" +
-                "<td>" + occupiedBeds + "</td>" +
+                "<td>" + occupiedBeds + " ("+new DecimalFormat("#.00").format(occup)+") </td>" +
                 "<td><b>" + (totalBeds-occupiedBeds) + "</b></td>" +
-                "<td>" + new DecimalFormat("##.#").format(100*occupiedBeds/totalBeds)+"%</td>"+
+                "<td>" + new DecimalFormat("##.#").format(100*occupiedBeds/totalBeds)+"% ("+new DecimalFormat("##.#").format(100*occup/totalBeds)+"%)</td>"+
         "</tr>");
     }
     out.print("</table><table width='100%' cellspacing='1' cellpadding='0'><tr class='gray'>"
             +"<td>"+getTran("web", "total", sWebLanguage) + "</td>" +
-            "<td width='150'>" + allbeds + "</td>" +
-            "<td width='150'>" + alloccupiedbeds + "</td>" +
+            "<td width='150'>" + allbeds +"</td>" +
+            "<td width='150'>" + alloccupiedbeds + " ("+new DecimalFormat("#.00").format(alloccup)+")</td>" +
             "<td width='150'><b>" + (allbeds-alloccupiedbeds) + "</b></td>" +
-            "<td width='150'>" + new DecimalFormat("##.#").format(100*alloccupiedbeds/allbeds)+"%</td>"+
+            "<td width='150'>" + new DecimalFormat("##.#").format(100*alloccupiedbeds/allbeds)+"% ("+new DecimalFormat("##.#").format(100*alloccup/allbeds)+"%)</td>"+
     "</tr></table>");
     }
     else {
@@ -66,10 +68,10 @@
             if(encounter!=null){
                 patient = encounter.getPatient();
             }
-            out.print("<tr class='list'><td"+(patient.personid.length()>0 && !patient.personid.equalsIgnoreCase("-1")?" class='textred' ":"")
+            out.print("<tr class='list'><td"+(patient!=null && patient.personid!=null && patient.personid.length()>0 && !patient.personid.equalsIgnoreCase("-1")?" class='textred' ":"")
                 +"><a href='javascript:selectMyBed(\""+bed.getUid()+"\",\""+bed.getName()+"\");'>"+bed.getName()+"</a></td>");
 
-            if(patient.personid.length()>0 && !patient.personid.equalsIgnoreCase("-1")){
+            if(patient!=null && patient.personid!=null && patient.personid.length()>0 && !patient.personid.equalsIgnoreCase("-1")){
                 out.print("<td class='textred'><a href='javascript:selectMyPatient(\""+patient.personid+"\");'>" + patient.firstname +" "+patient.lastname + "</a></td>");
             }
             else {
