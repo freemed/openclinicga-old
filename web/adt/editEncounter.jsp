@@ -337,7 +337,7 @@
             <td class='admin2'>
                 <select class='text' id='EditEncounterType' name='EditEncounterType' onchange="checkEncounterType();">
                     <%
-                        String encountertypes=MedwanQuery.getInstance().getConfigString("encountertypes","admission,visit,coverage");
+                        String encountertypes=MedwanQuery.getInstance().getConfigString("encountertypes","admission,visit");
                         String sOptions[] = encountertypes.split(",");
 
                         for(int i=0;i<sOptions.length;i++){
