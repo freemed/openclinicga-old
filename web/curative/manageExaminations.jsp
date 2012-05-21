@@ -26,6 +26,9 @@
     }
 %>
 <table width="100%" cellspacing="0" cellpadding="2" class="menu">
+<%
+	if(activeUser.getAccessRight("occup.externaldocuments")){
+%>
     <tr class="admin">
         <td colspan="5">&nbsp;<%=getTran("web","documents",sWebLanguage)%></td>
     </tr>
@@ -37,6 +40,7 @@
     </tr>
     <%-- HEADER --%>
     <%
+	}
         int counter = 0;
 
        SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
@@ -143,7 +147,7 @@
      if(activeUser.getAccessRight("occup.medicalimagingrequest.select")) out.print(writeExamination(activeUser,counter++,sTranMir,sMirDate,sTTMir,sMirTranId,sMirServerId,sWebLanguage, sCONTEXTPATH));
      if(activeUser.getAccessRight("occup.anatomopathology.select")) out.print(writeExamination(activeUser,counter++,sTranAna,sAnaDate,sTTAna,sAnaTranId,sAnaServerId,sWebLanguage, sCONTEXTPATH));
      if(activeUser.getAccessRight("occup.reference.select")) out.print(writeExamination(activeUser,counter++,sTranReference,sReferenceDate,sTTReference,sReferenceTranId,sReferenceServerId,sWebLanguage, sCONTEXTPATH));
-
+     if(activeUser.getAccessRight("occup.reference.select")){
      //REFERENCES
  %>
     <tr onmouseover="this.className='list_select2';" onmouseout="this.className='';">
@@ -167,6 +171,7 @@
         <td/><td/><td/><td/>
     </tr>
     <%
+     }
         if(activeUser.getAccessRight("prescriptions.care.select")){
     %>
     <tr onmouseover="this.className='list_select2';" onmouseout="this.className='';">
