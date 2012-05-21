@@ -409,8 +409,8 @@
                     <tr>
                         <td class="admin2" nowrap><%=getTran("Web","UnitPrice",sWebLanguage)%>&nbsp;</td>
                         <td class="admin2">
-                            <%=getTran("web","from",sWebLanguage)%>&nbsp;<input class="text" type="text" name="FindUnitPriceMin" size="5" maxLength="5" value="<%=sFindUnitPriceMin%>" onKeyUp="isNumber(this);">
-                            <%=getTran("web","till",sWebLanguage)%>&nbsp;<input class="text" type="text" name="FindUnitPriceMax" size="5" maxLength="5" value="<%=sFindUnitPriceMax%>" onKeyUp="isNumber(this);">
+                            <%=getTran("web","from",sWebLanguage)%>&nbsp;<input class="text" type="text" name="FindUnitPriceMin" size="15" maxLength="15" value="<%=sFindUnitPriceMin%>" onKeyUp="isNumber(this);">
+                            <%=getTran("web","till",sWebLanguage)%>&nbsp;<input class="text" type="text" name="FindUnitPriceMax" size="15" maxLength="15" value="<%=sFindUnitPriceMax%>" onKeyUp="isNumber(this);">
                             <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
                         </td>
                     </tr>
@@ -551,7 +551,7 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","UnitPrice",sWebLanguage)%> *</td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditUnitPrice" size="5" maxLength="5" value="<%=sSelectedUnitPrice%>" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
+                            <input class="text" type="text" name="EditUnitPrice" size="15" maxLength="15" value="<%=sSelectedUnitPrice%>" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
                         </td>
                     </tr>
                     <%-- PackageUnits --%>
