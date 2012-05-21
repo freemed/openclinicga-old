@@ -260,22 +260,13 @@
         <div id="ITEM_TYPE_BRONCHOSCOPY_PROTOCOL_REMARKS_update" style="display:none;border:1px solid black;background-color:white;"></div>
     </td>
 </tr>
-<tr>
-    <td class="admin" width="<%=sTDAdminWidth%>">&nbsp;</td>
-    <td class="admin2" colspan="3">
         <%-- BUTTONS --%>
-        <%
-            if (activeUser.getAccessRight("occup.protocol.bronchoscopy.add") || activeUser.getAccessRight("occup.protocol.bronchoscopy.edit")) {
-        %>
-        <INPUT class="button" type="button" name="save"
-               value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
-        <%
-            }
-        %>
-        <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>"
-               onclick="if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
-    </td>
-</tr>
+        <tr>
+            <td class="admin"/>
+            <td class="admin2" colspan="3">
+                <%=getButtonsHtml(request,activeUser,activePatient,"occup.protocol.bronchoscopy",sWebLanguage)%>                
+            </td>
+        </tr>
 </table>
 <%=ScreenHelper.contextFooter(request)%>
 </form>
@@ -317,18 +308,18 @@
         });
     }
 
-    function doSubmit() {
+    function submitForm(){
         if(document.getElementById('encounteruid').value==''){
     		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
     		searchEncounter();
     	}	
         else {
-	
-	        document.transactionForm.save.disabled = true;
-	        document.transactionForm.submit();
-	        getAutocompletionValues();
+    	    document.transactionForm.saveButton.style.visibility = "hidden";
+    	    var temp = Form.findFirstElement(transactionForm);// for ff compatibility
+    	    document.transactionForm.submit();
         }
-    }
+      }
+
     function searchEncounter(){
         openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
     }
