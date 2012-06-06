@@ -146,9 +146,9 @@
 	ps=conn.prepareStatement("select sum(oc_debet_amount) patientamount,sum(oc_debet_insuraramount) insuraramount,sum(oc_debet_extrainsuraramount) extrainsuraramount from oc_debets");
 	rs=ps.executeQuery();
 	rs.next();
-	int totalpatientamount=rs.getInt("patientamount");
-	int totalinsuraramount=rs.getInt("insuraramount");
-	int totalextrainsuraramount=rs.getInt("extrainsuraramount");
+	double totalpatientamount=rs.getDouble("patientamount");
+	double totalinsuraramount=rs.getDouble("insuraramount");
+	double totalextrainsuraramount=rs.getDouble("extrainsuraramount");
 	rs.close();
 	ps.close();
 	conn.close();
