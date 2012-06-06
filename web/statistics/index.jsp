@@ -43,6 +43,7 @@ if(true){
                 +writeTblChildWithCode("javascript:insuranceReport()",getTran("Web","statistics.insurancestats.distribution",sWebLanguage))
 	            +writeTblChildWithCode("javascript:incomeVentilation()",getTran("Web","statistics.incomeVentilationPerFamily",sWebLanguage))
 	            +writeTblChildWithCode("javascript:incomeVentilationExtended()",getTran("Web","statistics.incomeVentilationPerCategoryAndService",sWebLanguage))
+	            +writeTblChildWithCode("javascript:incomeVentilationPerformers()",getTran("Web","statistics.incomeVentilationPerPerformer",sWebLanguage))
 	        +ScreenHelper.writeTblFooter()+"<br>");
         String service =activeUser.activeService.code;
         String serviceName = activeUser.activeService.getLabel(sWebLanguage);
@@ -144,6 +145,10 @@ if(true){
     }
     function incomeVentilationExtended(){
 		var URL = "statistics/incomeVentilationExtended.jsp&start="+document.getElementById('begin3').value+"&end="+document.getElementById('end3').value+"&statserviceid="+document.getElementById('statserviceid').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
+    function incomeVentilationPerformers(){
+		var URL = "statistics/incomeVentilationPerformers.jsp&start="+document.getElementById('begin3').value+"&end="+document.getElementById('end3').value+"&statserviceid="+document.getElementById('statserviceid').value+"&ts=<%=getTs()%>";
 		openPopup(URL,800,600,"OpenClinic");
     }
     function getOpenInvoices(){
