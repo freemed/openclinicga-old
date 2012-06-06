@@ -68,7 +68,6 @@
     for (int n=0; n<userServiceExams.size(); n++) {
         verifiedExaminationVO = (VerifiedExaminationVO) userServiceExams.get(n);
         examName = getTran("examination", verifiedExaminationVO.examinationId + "", sWebLanguage);
-
         exams.put(examName, verifiedExaminationVO);
     }
 
@@ -292,7 +291,7 @@
                 Hashtable otherExams = new Hashtable();
                 for(int n=0; n<otherServiceExams.size(); n++){
                     verifiedExaminationVO = (VerifiedExaminationVO)otherServiceExams.get(n);
-                    if(MedwanQuery.getInstance().getConfigString("noShowExaminationsGender"+activePatient.gender,"").indexOf(verifiedExaminationVO.getTransactionType())<0){
+                    if(MedwanQuery.getInstance().getConfigString("noShowExaminationsGender"+activePatient.gender,"").indexOf(verifiedExaminationVO.getTransactionType()+";")<0){
 	                    examName = getTran("examination",verifiedExaminationVO.examinationId+"",sWebLanguage);
 	                    otherExams.put(examName,verifiedExaminationVO);
                     }
