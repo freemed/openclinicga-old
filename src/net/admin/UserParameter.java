@@ -197,7 +197,7 @@ public class UserParameter {
 
         Vector vIds = new Vector();
 
-        String sSelect = "SELECT userid FROM UserParameters WHERE parameter = ? AND value = ?";
+        String sSelect = "SELECT userid FROM UserParameters WHERE parameter = ? AND value = ? and active=1";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{

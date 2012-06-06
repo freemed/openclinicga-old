@@ -82,6 +82,7 @@ public class Insurance extends OC_Object {
     }
     
     public static String getBestActiveCoveragePlan(String sPatientId){
+    	System.out.println("sPatientId="+sPatientId);
     	Vector contributions = Debet.getActiveContributions(sPatientId);
     	double patientshare=100;
     	String coverageplan=null;

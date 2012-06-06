@@ -55,6 +55,7 @@ public class Service {
     public Date updatetime;
     public String updateuserid;
     public String costcenter;
+    public String performeruid;
     
     public String acceptsVisits="0";
 
@@ -231,6 +232,7 @@ public class Service {
                     if(this.acceptsVisits.trim().length()>0) hSelect.put(" acceptsVisits = ? ",this.acceptsVisits);
 
                     if(this.costcenter.trim().length()>0) hSelect.put(" costcenter = ? ",this.costcenter);
+                    if(this.performeruid.trim().length()>0) hSelect.put(" performeruid = ? ",this.performeruid);
 
                     if (hSelect.size()>0) {
                         sSelect = "UPDATE Services SET ";
@@ -291,8 +293,8 @@ public class Service {
                               "  inscode, contract, contracttype, contactperson, contractdate,"+
                               "  contactaddress, contactzipcode, contactcity, contactcountry,"+
                               "  contacttelephone, contactfax, contactemail, portal_email, wicket, defaultcontext,"+
-                              "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,acceptsVisits)"+
-                              " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                              "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,performeruid,acceptsVisits)"+
+                              " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                     rs.close();
                     ps.close();
@@ -336,7 +338,8 @@ public class Service {
                     ps.setInt(35,this.totalbeds);
                     ps.setString(36,this.inactive);
                     ps.setString(37,this.costcenter);
-                    ps.setString(38,this.acceptsVisits);
+                    ps.setString(38,this.performeruid);
+                    ps.setString(39,this.acceptsVisits);
                     ps.executeUpdate();
                     if(ps!=null) ps.close();
                 }
@@ -411,6 +414,7 @@ public class Service {
                     service.updateuserid = rs.getString("updateuserid");
                     service.totalbeds=rs.getInt("totalbeds");
                     service.costcenter=rs.getString("costcenter");
+                    service.performeruid=rs.getString("performeruid");
                     service.acceptsVisits=rs.getString("acceptsVisits");
                 }
                 rs.close();
@@ -962,8 +966,8 @@ public class Service {
                          " fax, comment, updatetime, email, serviceparentid, inscode, serviceorder," +
                          " servicelanguage, updateuserid, contract, contracttype, contactperson, contractdate," +
                          " defaultcontext, defaultservicestockuid, contactaddress, contactzipcode, contactcity," +
-                         " contactcountry, contacttelephone, contactfax, contactemail, code3, code5,wicket,totalbeds,inactive,costcenter,acceptsVisits)" +
-                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         " contactcountry, contacttelephone, contactfax, contactemail, code3, code5,wicket,totalbeds,inactive,costcenter,performeruid,acceptsVisits)" +
+                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
@@ -1005,7 +1009,8 @@ public class Service {
             ps.setInt(32,((Integer)hService.get("totalbeds")).intValue());
             ps.setInt(33,((Integer)hService.get("inactive")).intValue());
             ps.setString(34,hService.get("costcenter").toString());
-            ps.setString(35,hService.get("acceptsVisits").toString());
+            ps.setString(35,hService.get("performeruid").toString());
+            ps.setString(36,hService.get("acceptsVisits").toString());
 
             ps.executeUpdate();
             ps.close();
@@ -1031,7 +1036,7 @@ public class Service {
                          "  servicelanguage = ?, updateuserid = ?, contract = ?, contracttype = ?, contactperson = ?," +
                          "  contractdate = ?, defaultcontext = ?, defaultservicestockuid = ?, contactaddress = ?," +
                          "  contactzipcode = ?, contactcity = ?, contactcountry = ?, contacttelephone = ?," +
-                         "  contactfax = ?, contactemail = ?, code3 = ?, code5 = ?, wicket = ?, totalbeds = ?, inactive = ?, costcenter= ?, acceptsVisits=?" +
+                         "  contactfax = ?, contactemail = ?, code3 = ?, code5 = ?, wicket = ?, totalbeds = ?, inactive = ?, costcenter= ?, performeruid=?,acceptsVisits=?" +
                          " WHERE serviceid = ?";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
@@ -1074,9 +1079,10 @@ public class Service {
             ps.setInt(32, Integer.parseInt(hService.get("totalbeds").toString()));
             ps.setInt(33, Integer.parseInt(hService.get("inactive").toString()));
             ps.setString(34, hService.get("costcenter").toString());
-            ps.setString(35, hService.get("acceptsVisits").toString());
+            ps.setString(35, hService.get("performeruid").toString());
+            ps.setString(36, hService.get("acceptsVisits").toString());
 
-            ps.setString(36, hService.get("oldserviceid").toString());
+            ps.setString(37, hService.get("oldserviceid").toString());
 
             ps.executeUpdate();
             ps.close();

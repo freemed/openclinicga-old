@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import net.admin.Service;
+
 public class Prestation extends OC_Object{
     private String description;
     private String code;
@@ -32,8 +34,17 @@ public class Prestation extends OC_Object{
     private String coveragePlanCategory;
     private int variablePrice;
     private int inactive;
+    private String performerUid;
     
-    public int getInactive() {
+    public String getPerformerUid() {
+		return performerUid;
+	}
+
+	public void setPerformerUid(String performerUid) {
+		this.performerUid = performerUid;
+	}
+
+	public int getInactive() {
 		return inactive;
 	}
 
@@ -490,6 +501,7 @@ public class Prestation extends OC_Object{
                         prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
                         prestation.setVariablePrice(rs.getInt("OC_PRESTATION_VARIABLEPRICE"));
                         prestation.setInactive(rs.getInt("OC_PRESTATION_INACTIVE"));
+                        prestation.setPerformerUid(rs.getString("OC_PRESTATION_PERFORMERUID"));
                     }
                 }
             }
@@ -588,6 +600,7 @@ public class Prestation extends OC_Object{
                 prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
                 prestation.setVariablePrice(rs.getInt("OC_PRESTATION_VARIABLEPRICE"));
                 prestation.setInactive(rs.getInt("OC_PRESTATION_INACTIVE"));
+                prestation.setPerformerUid(rs.getString("OC_PRESTATION_PERFORMERUID"));
                 allPrestations.put(prestation.getCode(), prestation);
             }
         }
@@ -648,6 +661,7 @@ public class Prestation extends OC_Object{
                     prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
                     prestation.setInactive(rs.getInt("OC_PRESTATION_INACTIVE"));
                     prestation.setVariablePrice(rs.getInt("OC_PRESTATION_VARIABLEPRICE"));
+                    prestation.setPerformerUid(rs.getString("OC_PRESTATION_PERFORMERUID"));
                 }
             }
             catch(Exception e){
@@ -708,6 +722,14 @@ public class Prestation extends OC_Object{
         String sPrestationPrice, String sPrestationRefUid){
     	return searchActivePrestations(sPrestationCode,sPrestationDescr,sPrestationType,sPrestationPrice,sPrestationRefUid,"OC_PRESTATION_DESCRIPTION,OC_PRESTATION_CODE");
     }
+    public static String getDefaultPerformer(Prestation prestation,Service service){
+    	String sPerformerUid="";
+    	if(prestation.getPerformerUid()!=null && prestation.getPerformerUid().length()>0){
+    		sPerformerUid=prestation.getPerformerUid();
+    	}
+    	return sPerformerUid;
+    }
+    
     public static Vector searchPrestations(String sPrestationCode, String sPrestationDescr, String sPrestationType,
         String sPrestationPrice, String sPrestationRefUid, String sPrestationSort){
         Vector prestations = new Vector();
@@ -796,6 +818,7 @@ public class Prestation extends OC_Object{
                 prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
                 prestation.setVariablePrice(rs.getInt("OC_PRESTATION_VARIABLEPRICE"));
                 prestation.setInactive(rs.getInt("OC_PRESTATION_INACTIVE"));
+                prestation.setPerformerUid(rs.getString("OC_PRESTATION_PERFORMERUID"));
 
                 prestations.add(prestation);
             }
@@ -901,6 +924,7 @@ public class Prestation extends OC_Object{
                 prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
                 prestation.setVariablePrice(rs.getInt("OC_PRESTATION_VARIABLEPRICE"));
                 prestation.setInactive(rs.getInt("OC_PRESTATION_INACTIVE"));
+                prestation.setPerformerUid(rs.getString("OC_PRESTATION_PERFORMERUID"));
 
                 prestations.add(prestation);
             }
@@ -988,7 +1012,8 @@ public class Prestation extends OC_Object{
                            "  OC_PRESTATION_COVERAGEPLAN=?," +
                            "  OC_PRESTATION_COVERAGEPLANCATEGORY=?," +
                            "  OC_PRESTATION_VARIABLEPRICE=?," +
-                           "  OC_PRESTATION_INACTIVE=?" +
+                           "  OC_PRESTATION_INACTIVE=?," +
+                           "  OC_PRESTATION_PERFORMERUID=?" +
                            " WHERE OC_PRESTATION_SERVERID = ?"+
                            "  AND OC_PRESTATION_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSql);
@@ -1009,8 +1034,9 @@ public class Prestation extends OC_Object{
                     ps.setString(15, this.getCoveragePlanCategory());
                     ps.setInt(16, this.getVariablePrice());
                     ps.setInt(17, this.getInactive());
-                    ps.setInt(18,Integer.parseInt(ids[0]));
-                    ps.setInt(19,Integer.parseInt(ids[1]));
+                    ps.setString(18, this.getPerformerUid());
+                    ps.setInt(19,Integer.parseInt(ids[0]));
+                    ps.setInt(20,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
                 }
@@ -1036,8 +1062,9 @@ public class Prestation extends OC_Object{
                            "  OC_PRESTATION_COVERAGEPLAN," +
                            "  OC_PRESTATION_COVERAGEPLANCATEGORY," +
                            "  OC_PRESTATION_VARIABLEPRICE," +
-                           "  OC_PRESTATION_INACTIVE)"+
-                           " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                           "  OC_PRESTATION_INACTIVE," +
+                           "  OC_PRESTATION_PERFORMERUID)"+
+                           " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     ps = oc_conn.prepareStatement(sSql);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -1059,6 +1086,7 @@ public class Prestation extends OC_Object{
                     ps.setString(18, this.getCoveragePlanCategory());
                     ps.setInt(19,this.getVariablePrice());
                     ps.setInt(20, this.getInactive());
+                    ps.setString(21, this.getPerformerUid());
                     ps.executeUpdate();
                     ps.close();
                     setUid(ids[0]+"."+ids[1]);

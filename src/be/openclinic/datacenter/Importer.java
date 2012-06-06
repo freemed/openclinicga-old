@@ -556,7 +556,7 @@ public class Importer {
 						ps.setString(5, patient.element("gender").getText());
 						ps.setString(6, patient.element("dateofbirth").getText());
 						ps.setString(7, patient.element("archivefile").getText());
-						ps.setBytes(8, javax.mail.internet.MimeUtility.decodeText(patient.elementText("picture")).getBytes("iso-8859-1"));
+						ps.setBytes(8, patient.elementText("picture")!=null?javax.mail.internet.MimeUtility.decodeText(patient.elementText("picture")).getBytes("iso-8859-1"):null);
 						ps.setTimestamp(9, new java.sql.Timestamp(importMessage.getCreateDateTime().getTime()));
 						ps.execute();
 						ps.close();

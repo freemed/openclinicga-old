@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-public class Debet extends OC_Object implements Comparable {
+public class Debet extends OC_Object implements Comparable,Cloneable {
     private Date date;
     private double amount;
     private double insurarAmount;
@@ -34,8 +34,15 @@ public class Debet extends OC_Object implements Comparable {
     private double extraInsurarAmount;
     private int renewalInterval;
     private java.util.Date renewalDate;
+    private String performeruid;
     
-    public double getTotalAmount(){
+    public String getPerformeruid() {
+		return performeruid;
+	}
+	public void setPerformeruid(String performeruid) {
+		this.performeruid = performeruid;
+	}
+	public double getTotalAmount(){
     	return getAmount()+getInsurarAmount()+getExtraInsurarAmount();
     }
     public double getExtraInsurarAmount() {
@@ -319,6 +326,7 @@ public class Debet extends OC_Object implements Comparable {
                         debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                         debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                         debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                        debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
                     }
                 }
                 catch (Exception e) {
@@ -362,7 +370,7 @@ public class Debet extends OC_Object implements Comparable {
                     }
                     rs.close();
                     ps.close();
-                    sSelect = "INSERT INTO OC_DEBETS_HISTORY(OC_DEBET_SERVERID,OC_DEBET_OBJECTID,OC_DEBET_AMOUNT,OC_DEBET_BALANCEUID,OC_DEBET_DATE,OC_DEBET_DESCRIPTION,OC_DEBET_ENCOUNTERUID,OC_DEBET_PRESTATIONUID,OC_DEBET_SUPPLIERTYPE,OC_DEBET_SUPPLIERUID,OC_DEBET_REFTYPE,OC_DEBET_REFUID,OC_DEBET_CREATETIME,OC_DEBET_UPDATETIME,OC_DEBET_UPDATEUID,OC_DEBET_VERSION,OC_DEBET_CREDITED,OC_DEBET_INSURANCEUID,OC_DEBET_PATIENTINVOICEUID,OC_DEBET_INSURARINVOICEUID,OC_DEBET_COMMENT,OC_DEBET_EXTRAINSURARUID,OC_DEBET_EXTRAINSURARINVOICEUID,OC_DEBET_EXTRAINSURARAMOUNT,OC_DEBET_RENEWALINTERVAL,OC_DEBET_RENEWALDATE) SELECT OC_DEBET_SERVERID,OC_DEBET_OBJECTID,OC_DEBET_AMOUNT,OC_DEBET_BALANCEUID,OC_DEBET_DATE,OC_DEBET_DESCRIPTION,OC_DEBET_ENCOUNTERUID,OC_DEBET_PRESTATIONUID,OC_DEBET_SUPPLIERTYPE,OC_DEBET_SUPPLIERUID,OC_DEBET_REFTYPE,OC_DEBET_REFUID,OC_DEBET_CREATETIME,OC_DEBET_UPDATETIME,OC_DEBET_UPDATEUID,OC_DEBET_VERSION,OC_DEBET_CREDITED,OC_DEBET_INSURANCEUID,OC_DEBET_PATIENTINVOICEUID,OC_DEBET_INSURARINVOICEUID,OC_DEBET_COMMENT,OC_DEBET_EXTRAINSURARUID,OC_DEBET_EXTRAINSURARINVOICEUID,OC_DEBET_EXTRAINSURARAMOUNT,OC_DEBET_RENEWALINTERVAL,OC_DEBET_RENEWALDATE FROM OC_DEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
+                    sSelect = "INSERT INTO OC_DEBETS_HISTORY(OC_DEBET_SERVERID,OC_DEBET_OBJECTID,OC_DEBET_AMOUNT,OC_DEBET_BALANCEUID,OC_DEBET_DATE,OC_DEBET_DESCRIPTION,OC_DEBET_ENCOUNTERUID,OC_DEBET_PRESTATIONUID,OC_DEBET_SUPPLIERTYPE,OC_DEBET_SUPPLIERUID,OC_DEBET_REFTYPE,OC_DEBET_REFUID,OC_DEBET_CREATETIME,OC_DEBET_UPDATETIME,OC_DEBET_UPDATEUID,OC_DEBET_VERSION,OC_DEBET_CREDITED,OC_DEBET_INSURANCEUID,OC_DEBET_PATIENTINVOICEUID,OC_DEBET_INSURARINVOICEUID,OC_DEBET_COMMENT,OC_DEBET_EXTRAINSURARUID,OC_DEBET_EXTRAINSURARINVOICEUID,OC_DEBET_EXTRAINSURARAMOUNT,OC_DEBET_RENEWALINTERVAL,OC_DEBET_RENEWALDATE,OC_DEBET_PERFORMERUID) SELECT OC_DEBET_SERVERID,OC_DEBET_OBJECTID,OC_DEBET_AMOUNT,OC_DEBET_BALANCEUID,OC_DEBET_DATE,OC_DEBET_DESCRIPTION,OC_DEBET_ENCOUNTERUID,OC_DEBET_PRESTATIONUID,OC_DEBET_SUPPLIERTYPE,OC_DEBET_SUPPLIERUID,OC_DEBET_REFTYPE,OC_DEBET_REFUID,OC_DEBET_CREATETIME,OC_DEBET_UPDATETIME,OC_DEBET_UPDATEUID,OC_DEBET_VERSION,OC_DEBET_CREDITED,OC_DEBET_INSURANCEUID,OC_DEBET_PATIENTINVOICEUID,OC_DEBET_INSURARINVOICEUID,OC_DEBET_COMMENT,OC_DEBET_EXTRAINSURARUID,OC_DEBET_EXTRAINSURARINVOICEUID,OC_DEBET_EXTRAINSURARAMOUNT,OC_DEBET_RENEWALINTERVAL,OC_DEBET_RENEWALDATE,OC_DEBET_PERFORMERUID FROM OC_DEBETS WHERE OC_DEBET_SERVERID = ? AND OC_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1, Integer.parseInt(ids[0]));
                     ps.setInt(2, Integer.parseInt(ids[1]));
@@ -372,6 +380,11 @@ public class Debet extends OC_Object implements Comparable {
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1, Integer.parseInt(ids[0]));
                     ps.setInt(2, Integer.parseInt(ids[1]));
+                    ps.executeUpdate();
+                    ps.close();
+                    sSelect = " DELETE FROM OC_DEBETFEES WHERE OC_DEBETFEE_DEBETUID = ?";
+                    ps = oc_conn.prepareStatement(sSelect);
+                    ps.setString(1, this.getUid());
                     ps.executeUpdate();
                     ps.close();
                 } else {
@@ -406,9 +419,10 @@ public class Debet extends OC_Object implements Comparable {
                         " OC_DEBET_EXTRAINSURARINVOICEUID," +
                         " OC_DEBET_EXTRAINSURARAMOUNT," +
                         " OC_DEBET_RENEWALINTERVAL," +
-                        " OC_DEBET_RENEWALDATE" +
+                        " OC_DEBET_RENEWALDATE," +
+                        " OC_DEBET_PERFORMERUID" +
                         ") " +
-                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = oc_conn.prepareStatement(sSelect);
                 while (!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_DEBETS", "OC_DEBET_OBJECTID", ids[1])) {
                     ids[1] = MedwanQuery.getInstance().getOpenclinicCounter("OC_DEBETS") + "";
@@ -454,8 +468,41 @@ public class Debet extends OC_Object implements Comparable {
                 ps.setDouble(21, this.getExtraInsurarAmount());
                 ps.setInt(22, this.getRenewalInterval());
                 ps.setTimestamp(23, this.getRenewalDate()==null?null:new java.sql.Timestamp(this.getRenewalDate().getTime()));
+                ps.setString(24, this.getPerformeruid());
                 ps.executeUpdate();
                 ps.close();
+                if(this.getPerformeruid()!=null && this.getPerformeruid().length()>0){
+                    //Now save the fees
+                	String[] performeruids = this.getPerformeruid().split(";");
+                	for(int n=0;n<performeruids.length;n++){
+                		if(performeruids[n].length()>0){
+                			Fee fee = new Fee();
+                			fee.calculateFee(this);
+	                		ps=oc_conn.prepareStatement("insert into OC_DEBETFEES(OC_DEBETFEE_DEBETUID,OC_DEBETFEE_AMOUNT,OC_DEBETFEE_CALCULATION,OC_DEBETFEE_REASON,OC_DEBETFEE_PERFORMERUID) values(?,?,?,?,?)");
+	                		ps.setString(1,this.getUid());
+	                		ps.setFloat(2, fee.amount);
+	                		ps.setString(3, fee.calculation);
+	                		ps.setString(4, fee.reason);
+	                		ps.setString(5, this.getPerformeruid());
+	                		ps.execute();
+	                		ps.close();
+	                		if(fee.reason.startsWith("0;")){
+	                			//bewaar de fee voor de gebruiker aan wie deze prestatie voorbehouden is
+	                			Debet debet = (Debet)this.clone();
+	                			debet.setPerformeruid(this.getPrestation().getPerformerUid());
+	                			fee.calculateFee(debet);
+		                		ps=oc_conn.prepareStatement("insert into OC_DEBETFEES(OC_DEBETFEE_DEBETUID,OC_DEBETFEE_AMOUNT,OC_DEBETFEE_CALCULATION,OC_DEBETFEE_REASON,OC_DEBETFEE_PERFORMERUID) values(?,?,?,?,?)");
+		                		ps.setString(1,debet.getUid());
+		                		ps.setFloat(2, fee.amount);
+		                		ps.setString(3, fee.calculation);
+		                		ps.setString(4, fee.reason+";"+this.getPerformeruid());
+		                		ps.setString(5, debet.getPerformeruid());
+		                		ps.execute();
+		                		ps.close();
+	                		}
+                		}
+                	}
+                }
             }
         }
         catch (Exception e) {
@@ -476,6 +523,95 @@ public class Debet extends OC_Object implements Comparable {
         MedwanQuery.getInstance().getObjectCache().putObject("debet", this);
         return bStored;
     }
+    
+    public class Fee {
+    	float amount=0;
+    	String calculation="";
+    	String reason="";
+    	
+    	public void calculateFee(Debet debet) throws Exception{
+    		//Nu voeren we de berekeningen uit voor de fee
+    		//1. controleren of deze prestatie niet voor iemand anders is gereserveerd
+    		if(ScreenHelper.checkString(debet.getPrestation().getPerformerUid()).length()>0 && !ScreenHelper.checkString(debet.getPrestation().getPerformerUid()).equalsIgnoreCase(debet.getPerformeruid())){
+    			amount=0;
+    			calculation="";
+    			reason="0;"+debet.getPrestation().getPerformerUid(); //prestation not allowed for this user
+    		}
+    		else {
+    			Vector rules=new Vector();
+    			Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+    			//We laden eerst alle configuraties voor deze gebruiker zodat we maar 1 keer de query moeten uitvoeren
+    			PreparedStatement ps=oc_conn.prepareStatement("select * from OC_CAREPROVIDERFEES where OC_CAREPROVIDERFEE_USERID=?");
+    			ps.setString(1, debet.getPerformeruid());
+    			ResultSet rs = ps.executeQuery();
+    			while(rs.next()){
+    				String r=rs.getString("OC_CAREPROVIDERFEE_TYPE")+";"+rs.getString("OC_CAREPROVIDERFEE_ID")+";"+rs.getString("OC_CAREPROVIDERFEE_AMOUNT");
+    				rules.add(r);
+    			}
+    			rs.close();
+    			ps.close();
+    			boolean bDone=false;
+        		//2. controleren of er een bedrag voor deze prestatie werd geconfigureerd voor deze gebruiker
+    			for(int i=0;i<rules.size();i++){
+    				String[] rule = ((String)rules.elementAt(i)).split(";");
+    				if(rule[0].equalsIgnoreCase("prestation") && rule[1].equalsIgnoreCase(debet.getPrestationUid())){
+    					amount=Float.parseFloat(rule[2]);
+    					calculation=rule[2]+" "+MedwanQuery.getInstance().getConfigString("currency","");
+    					reason="1"; //prestation based fee defined for user
+    					bDone=true;
+    					break;
+    				}
+    			}
+    			if(!bDone){
+            		//3. controleren of er een fee werd geconfigureerd voor het prestatietype
+        			for(int i=0;i<rules.size();i++){
+        				String[] rule = ((String)rules.elementAt(i)).split(";");
+        				if(rule[0].equalsIgnoreCase("prestationtype") && rule[1].equalsIgnoreCase(debet.getPrestation().getType())){
+        					amount=(float)(debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())*Float.parseFloat(rule[2])/100;
+        					calculation=rule[2]+"%";
+        					reason="2;"+rule[1]; //prestation type based percentage defined for user
+        					bDone=true;
+        					break;
+        				}
+        			}
+    			}
+    			if(!bDone){
+            		//4. controleren of er een fee werd geconfigureerd voor de facturatiegroep
+        			for(int i=0;i<rules.size();i++){
+        				String[] rule = ((String)rules.elementAt(i)).split(";");
+        				if(rule[0].equalsIgnoreCase("invoicegroup") && rule[1].equalsIgnoreCase(debet.getPrestation().getInvoicegroup())){
+        					amount=(float)(debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())*Float.parseFloat(rule[2])/100;
+        					calculation=rule[2]+"%";
+        					reason="3;"+rule[1]; //prestation invoicegroup based percentage defined for user
+        					bDone=true;
+        					break;
+        				}
+        			}
+    			}
+    			if(!bDone){
+            		//5. controleren of er een default fee werd geconfigureerd 
+        			for(int i=0;i<rules.size();i++){
+        				String[] rule = ((String)rules.elementAt(i)).split(";");
+        				if(rule[0].equalsIgnoreCase("default")){
+        					amount=(float)(debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())*Float.parseFloat(rule[2])/100;
+        					calculation=rule[2]+"%";
+        					reason="4"; //default percentage defined for user
+        					bDone=true;
+        					break;
+        				}
+        			}
+    			}
+    			if(!bDone){
+            		//6. geen fee regels geconfigureerd 
+					amount=0;
+					calculation="0";
+					reason="5"; //geen fee regels geconfigureerd 
+    			}
+    			
+    		}
+    	}
+    }
+    
     public static Vector getUnassignedPatientDebets(String sPatientId) {
         String sSelect = "";
         PreparedStatement ps = null;
@@ -549,6 +685,7 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
                 MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
                 vDebets.add(debet);
             }
@@ -621,6 +758,7 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
 
                 //*********************
                 //add Encounter object
@@ -733,6 +871,7 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
 
                 //*********************
                 //add Encounter object
@@ -847,6 +986,8 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
+
                 //*********************
                 //add Encounter object
                 //*********************
@@ -945,6 +1086,7 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
                 MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
                 vDebets.add(debet);
             }
@@ -1005,6 +1147,8 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
+
                 //*********************
                 //add Encounter object
                 //*********************
@@ -1108,6 +1252,8 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
+
                 //*********************
                 //add Encounter object
                 //*********************
@@ -1206,6 +1352,7 @@ public class Debet extends OC_Object implements Comparable {
                 debet.setVersion(rs.getInt("OC_DEBET_VERSION"));
                 debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
                 debet.setRenewalDate(rs.getTimestamp("OC_DEBET_RENEWALDATE"));
+                debet.setPerformeruid(rs.getString("OC_DEBET_PERFORMERUID"));
                 MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
                 vDebets.add(debet);
             }
@@ -1239,6 +1386,7 @@ public class Debet extends OC_Object implements Comparable {
         			"c.OC_PRESTATION_TYPE='con.openinsurance' and " +
         			"b.OC_ENCOUNTER_PATIENTUID=? and " +
         			MedwanQuery.getInstance().dateadd("a.OC_DEBET_DATE","MONTH","c.OC_PRESTATION_RENEWALINTERVAL*a.OC_DEBET_QUANTITY")+">=now()";
+        	System.out.println(sSelect);
         	ps=oc_conn.prepareStatement(sSelect);
         	ps.setString(1, sPatientId);
         	rs=ps.executeQuery();

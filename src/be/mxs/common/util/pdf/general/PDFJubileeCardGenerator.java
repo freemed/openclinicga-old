@@ -151,7 +151,6 @@ public class PDFJubileeCardGenerator extends PDFOfficialBasic {
             else {
                 cell = new PdfPCell();
             }
-            cell = new PdfPCell(image);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);

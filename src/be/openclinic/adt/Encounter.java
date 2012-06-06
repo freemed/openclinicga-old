@@ -1989,7 +1989,8 @@ public class Encounter extends OC_Object {
 
         String sSelect = "SELECT A.*" +
                 " FROM OC_ENCOUNTERS_VIEW A, (select max(OC_ENCOUNTER_BEGINDATE) OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID" +
-                " from OC_ENCOUNTERS_VIEW" +
+                " from OC_ENCOUNTERS_VIEW WHERE 1=1";
+        String sSelect2=
                 " group by OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID) B" +
                 " WHERE" +
                 " A.OC_ENCOUNTER_BEGINDATE=B.OC_ENCOUNTER_BEGINDATE AND" +
@@ -1999,38 +2000,72 @@ public class Encounter extends OC_Object {
         String sConditions = "";
 
         if (serverID.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_SERVERID = ? AND";
+            sConditions += " OC_ENCOUNTER_SERVERID = ? AND";
         }
         if (objectID.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_OBJECTID = ? AND";
+            sConditions += " OC_ENCOUNTER_OBJECTID = ? AND";
         }
         if (beginDate.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_BEGINDATE > ? AND";
+            sConditions += " OC_ENCOUNTER_BEGINDATE > ? AND";
         }
         if (endDate.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_ENDDATE < ? AND";
+            sConditions += " OC_ENCOUNTER_ENDDATE < ? AND";
         }
         if (type.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_TYPE = ? AND";
+            sConditions += " OC_ENCOUNTER_TYPE = ? AND";
         }
         if (managerID.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_MANAGERUID = ? AND";
+            sConditions += " OC_ENCOUNTER_MANAGERUID = ? AND";
         }
         if (serviceID.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_SERVICEUID = ? AND";
+            sConditions += " OC_ENCOUNTER_SERVICEUID = ? AND";
         }
         if (bedID.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_BEDUID = ? AND";
+            sConditions += " OC_ENCOUNTER_BEDUID = ? AND";
         }
         if (patientID.length() > 0) {
-            sConditions += " A.OC_ENCOUNTER_PATIENTUID = ? AND";
+            sConditions += " OC_ENCOUNTER_PATIENTUID = ? AND";
+        }
+        
+        String sConditions2 = "";
+
+        if (serverID.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_SERVERID = ? AND";
+        }
+        if (objectID.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_OBJECTID = ? AND";
+        }
+        if (beginDate.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_BEGINDATE > ? AND";
+        }
+        if (endDate.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_ENDDATE < ? AND";
+        }
+        if (type.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_TYPE = ? AND";
+        }
+        if (managerID.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_MANAGERUID = ? AND";
+        }
+        if (serviceID.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_SERVICEUID = ? AND";
+        }
+        if (bedID.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_BEDUID = ? AND";
+        }
+        if (patientID.length() > 0) {
+        	sConditions2 += " A.OC_ENCOUNTER_PATIENTUID = ? AND";
         }
 
         if (sConditions.length() > 0) {
             sSelect = sSelect + " AND  " + sConditions;
             sSelect = sSelect.substring(0, sSelect.length() - 3);
         }
-
+        if (sConditions2.length() > 0) {
+            sSelect2 = sSelect2 + " AND  " + sConditions2;
+            sSelect2 = sSelect2.substring(0, sSelect2.length() - 3);
+        }
+        sSelect = sSelect+" "+sSelect2;
         if (sortColumn.length() > 0) {
             sSelect += " ORDER BY " + sortColumn;
         }
@@ -2041,34 +2076,35 @@ public class Encounter extends OC_Object {
         try {
             ps = oc_conn.prepareStatement(sSelect);
 
-            if (serverID.length() > 0) {
-                ps.setInt(i++, Integer.parseInt(serverID));
+            for(int n=0;n<2;n++){
+	            if (serverID.length() > 0) {
+	                ps.setInt(i++, Integer.parseInt(serverID));
+	            }
+	            if (objectID.length() > 0) {
+	                ps.setInt(i++, Integer.parseInt(objectID));
+	            }
+	            if (beginDate.length() > 0) {
+	                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
+	            }
+	            if (endDate.length() > 0) {
+	                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
+	            }
+	            if (type.length() > 0) {
+	                ps.setString(i++, type);
+	            }
+	            if (managerID.length() > 0) {
+	                ps.setString(i++, managerID);
+	            }
+	            if (serviceID.length() > 0) {
+	                ps.setString(i++, serviceID);
+	            }
+	            if (bedID.length() > 0) {
+	                ps.setString(i++, bedID);
+	            }
+	            if (patientID.length() > 0) {
+	                ps.setString(i++, patientID);
+	            }
             }
-            if (objectID.length() > 0) {
-                ps.setInt(i++, Integer.parseInt(objectID));
-            }
-            if (beginDate.length() > 0) {
-                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
-            }
-            if (endDate.length() > 0) {
-                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
-            }
-            if (type.length() > 0) {
-                ps.setString(i++, type);
-            }
-            if (managerID.length() > 0) {
-                ps.setString(i++, managerID);
-            }
-            if (serviceID.length() > 0) {
-                ps.setString(i++, serviceID);
-            }
-            if (bedID.length() > 0) {
-                ps.setString(i++, bedID);
-            }
-            if (patientID.length() > 0) {
-                ps.setString(i++, patientID);
-            }
-
             rs = ps.executeQuery();
 
             String sTmp, sTmp1;

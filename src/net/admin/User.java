@@ -315,6 +315,13 @@ public class User extends OC_Object {
          }
          return bReturn;
      }
+    
+    public static User get(int userid){
+    	User user = new User();
+    	user.initialize(userid);
+    	user.person = AdminPerson.getAdminPerson(user.personid);
+    	return user;
+    }
 
     public boolean initialize (int userid){
          boolean bReturn = false;
