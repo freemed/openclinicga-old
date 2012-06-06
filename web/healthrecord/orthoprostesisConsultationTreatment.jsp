@@ -5,65 +5,6 @@
 
 <%=checkPermission("occup.kinesitherapy.consultation.treatment","select",activeUser)%>
 
-<%!
-    //--- GET ITEM TYPE ---------------------------------------------------------------------------
-    private StringBuffer addSeance(int iTotal,String sDate,String sHour,String sTreatment1, String sTreatment2, String sTreatment3, String sDelivery1, String sDelivery2, String sWebLanguage){
-        StringBuffer sTmp = new StringBuffer();
-        String sDeliveryLabel1="",sDeliveryOldNew1="",sDeliveryLabel2="",sDeliveryOldNew2="";
-
-        if (sTreatment1.length()>0){
-            sTreatment1 = getTran("physiotherapy.act",sTreatment1,sWebLanguage);
-        }
-
-        if (sTreatment2.length()>0){
-            sTreatment2 = getTran("physiotherapy.act",sTreatment2,sWebLanguage);
-        }
-
-        if (sTreatment3.length()>0){
-            sTreatment3 = getTran("physiotherapy.act",sTreatment3,sWebLanguage);
-        }
-
-        if (sDelivery1.length()>0){
-        	sDeliveryLabel1 = getTran("ortho.delivery",sDelivery1.split(";")[0],sWebLanguage);
-        }
-
-        if (sDelivery1.length()>0 && sDelivery1.split(";").length>1){
-            sDeliveryOldNew1 = getTran("ortho.delivery.oldnew",sDelivery1.split(";")[1],sWebLanguage);
-        }
-
-        if (sDelivery2.length()>0){
-        	sDeliveryLabel2 = getTran("ortho.delivery",sDelivery2.split(";")[0],sWebLanguage);
-        }
-
-        if (sDelivery2.length()>0 && sDelivery2.split(";").length>1){
-            sDeliveryOldNew2 = getTran("ortho.delivery.oldnew",sDelivery2.split(";")[1],sWebLanguage);
-        }
-
-
-        sTmp.append(
-            "<tr id='rowSeance"+iTotal+"' class='list'>" +
-                "<td>" +
-                "   <a href='javascript:deleteSeance(rowSeance"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
-                "   <a href='javascript:editSeance(rowSeance"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
-                "</td>" +
-                "<td>&nbsp;" + sDate + "</td>" +
-                "<td>&nbsp;" + sHour + "</td>" +
-                "<td>&nbsp;" + sTreatment1 + "</td>" +
-                "<td>&nbsp;" + sTreatment2 + "</td>" +
-                "<td>&nbsp;" + sTreatment3 + "</td>" +
-                "<td>&nbsp;" + sDeliveryLabel1 + "</td>" +
-                "<td>&nbsp;" + sDeliveryOldNew1 + "</td>" +
-                "<td>&nbsp;" + sDeliveryLabel2 + "</td>" +
-                "<td>&nbsp;" + sDeliveryOldNew2 + "</td>" +
-                "<td>" +
-                "</td>" +
-            "</tr>"
-        );
-
-        return sTmp;
-    }
-%>
-
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 
@@ -81,87 +22,15 @@
     <%
         StringBuffer sDivSeances = new StringBuffer(),
                      sSeances    = new StringBuffer();
-        String[] sAct = new String[9];
         String sActAutre, sStartDate, sEndDate;
 
         TransactionVO tran = (TransactionVO)transaction;
-        sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE1"));
-        sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE2"));
-        sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE3"));
-        sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE4"));
-        sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE5"));
-        sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE6"));
-        sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE7"));
-
-        sAct[0] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT1");
-        sAct[1] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT2");
-        sAct[2] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT3");
-        sAct[3] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT4");
-        sAct[4] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT5");
-        sAct[5] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT6");
-        sAct[6] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT7");
-        sAct[7] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT8");
-        sAct[8] = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT9");
 
         sActAutre = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ACT_AUTRE");
         sStartDate = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_STARTDATE");
         sEndDate   = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ENDDATE");
 
-        int iSeancesTotal = 1;
-        if (sSeances.indexOf("£")>-1){
-            StringBuffer sTmpSeances = sSeances;
-            String sTmpDate,sTmpHeure, sTmpTreatment1, sTmpTreatment2, sTmpTreatment3,sTmpDelivery1,sTmpDelivery2;
-            sSeances = new StringBuffer();
 
-            while (sTmpSeances.toString().toLowerCase().indexOf("$")>-1) {
-                sTmpDate  = "";
-                sTmpHeure = "";
-                sTmpTreatment1 = "";
-                sTmpTreatment2 = "";
-                sTmpTreatment3 = "";
-                sTmpDelivery1 = "";
-                sTmpDelivery2 = "";
-
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
-                    sTmpDate = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
-                    sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
-                }
-
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
-                    sTmpHeure = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
-                    sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
-                }
-
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
-                    sTmpTreatment1 = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
-                    sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
-                }
-
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
-                    sTmpTreatment2 = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
-                    sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
-                }
-
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
-                    sTmpTreatment3 = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
-                    sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
-                }
-
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
-                    sTmpDelivery1 = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
-                    sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
-                }
-
-                if (sTmpSeances.toString().toLowerCase().indexOf("$")>-1){
-                    sTmpDelivery2 = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("$"));
-                    sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("$")+1));
-                }
-
-                sSeances.append("rowSeance"+iSeancesTotal+"="+sTmpDate+"£"+sTmpHeure+"£"+sTmpTreatment1+"£"+sTmpTreatment2+"£"+sTmpTreatment3+"£"+sTmpDelivery1+"£"+sTmpDelivery2+"$");
-                sDivSeances.append(addSeance(iSeancesTotal, sTmpDate, sTmpHeure, sTmpTreatment1,sTmpTreatment2,sTmpTreatment3,sTmpDelivery1,sTmpDelivery2,sWebLanguage));
-                iSeancesTotal++;
-            }
-        }
     %>
     <table class="list" cellspacing="1" cellpadding="0" width="100%">
         <%-- DATE --%>
@@ -180,7 +49,14 @@
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","medical.history",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY")%> class="text" cols="50" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY" property="value"/></textarea>
+            	<%
+            	String history = tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY");
+            	if(tran.getTransactionId()==null || tran.getTransactionId()<=0){
+            		history=MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY");
+            	}
+            	
+            	%>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY")%> class="text" cols="50" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY" property="itemId"/>]>.value"><%=history %></textarea>
             </td>
         </tr>
 
@@ -256,117 +132,129 @@
                 <input type="text" class="text" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_NR_OF_MEETINGS")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_NR_OF_MEETINGS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_NR_OF_MEETINGS" property="value"/>" onBlur="isNumber(this);" size="5"/>
             </td>
         </tr>
-
-        <%-- START DATE --%>
+		<%-- SCEANCES --%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","startdate",sWebLanguage)%></td>
+            <td class="admin"><%=getTran("openclinic.chuk","orthesis.acts",sWebLanguage)%></td>
             <td class="admin2">
-                <input <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_STARTDATE")%> type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_STARTDATE" property="itemId"/>]>.value" value="<%=sStartDate%>" id="startdate" OnBlur='checkDate(this)'>
-                <script type="text/javascript">writeMyDate("startdate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
-            </td>
-        </tr>
-
-        <%-- SEANCES --%>
-        <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","date.seances",sWebLanguage)%></td>
-            <td class="admin2">
-                <table class="list" cellspacing="1" cellpadding="0" width="100%" id="tblSeances">
-                    <%-- HEADER --%>
-                    <tr>
-                        <td class="admin" nowrap/>
-                        <td class="admin" nowrap><%=getTran("Web.occup","medwan.common.date",sWebLanguage)%></td>
-                        <td class="admin" nowrap><%=getTran("Web.occup","medwan.common.hour",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.cnar","delivery",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.cnar","new.old.repair",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.cnar","delivery",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.cnar","new.old.repair",sWebLanguage)%></td>
-                        <td class="admin"></td>
-                        <td/>
-                    </tr>
-
-                    <%-- ADD ROW --%>
-                    <tr>
-                        <td class="admin2"/>
-                        <td class="admin2">
-                            <input type="text" class="text" size="12" maxLength="10" id="seanceDate" name="seanceDate" OnBlur='checkDate(this)'>
-                            <script type="text/javascript">writeMyDate("seanceDate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
-                        </td>
-                        <td class="admin2">
-                            <input type="text" class="text" size="5" name="seanceHour" onblur="checkTime(this);"onkeypress="keypressTime(this)">
-                        </td>
-                        <td class="admin2">
-                            <select class="text" name="seancetreatment1">
-                                <option/>
-                                <%=ScreenHelper.writeSelect("physiotherapy.act","",sWebLanguage)%>
-                            </select>
-                        </td>
-                        <td class="admin2">
-                            <select class="text" name="seancetreatment2">
-                                <option/>
-                                <%=ScreenHelper.writeSelect("physiotherapy.act","",sWebLanguage)%>
-                            </select>
-                        </td>
-                        <td class="admin2">
-                            <select class="text" name="seancetreatment3">
-                                <option/>
-                                <%=ScreenHelper.writeSelect("physiotherapy.act","",sWebLanguage)%>
-                            </select>
-                        </td>
-                        <td class="admin2">
-                            <select class="text" name="seancedelivery1">
-                                <option/>
-                                <%=ScreenHelper.writeSelect("ortho.delivery","",sWebLanguage)%>
-                            </select>
-                        </td>
-                        <td class="admin2">
-                            <select class="text" name="seancedeliveryoldnew1">
-                                <option/>
-                                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew","",sWebLanguage)%>
-                            </select>
-                        </td>
-                        <td class="admin2">
-                            <select class="text" name="seancedelivery2">
-                                <option/>
-                                <%=ScreenHelper.writeSelect("ortho.delivery","",sWebLanguage)%>
-                            </select>
-                        </td>
-                        <td class="admin2">
-                            <select class="text" name="seancedeliveryoldnew2">
-                                <option/>
-                                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew","",sWebLanguage)%>
-                            </select>
-                        </td>
-
-                        <%-- ADD/EDIT BUTTONS --%>
-                        <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddSeance" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSeance();">
-                            <input type="button" class="button" name="ButtonUpdateSeance" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateSeance();">
-                        </td>
-                    </tr>
-
-                    <%=sDivSeances%>
-                </table>
-
-                <%-- hidden fields --%>
-                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE1" property="itemId"/>]>.value">
-                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE2" property="itemId"/>]>.value">
-                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE3" property="itemId"/>]>.value">
-                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE4" property="itemId"/>]>.value">
-                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE5" property="itemId"/>]>.value">
-                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE6" property="itemId"/>]>.value">
-                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE7" property="itemId"/>]>.value">
-            </td>
-        </tr>
-
-        <%-- END DATE --%>
-        <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","enddate",sWebLanguage)%></td>
-            <td class="admin2">
-                <input <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ENDDATE")%> type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ENDDATE" property="itemId"/>]>.value" value="<%=sEndDate%>" id="enddate" OnBlur='checkDate(this)'>
-                <script type="text/javascript">writeMyDate("enddate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+            	<table>
+            		<tr>
+            			<td/>
+            			<td><%=getTran("web","type",sWebLanguage) %></td>
+            			<td><%=getTran("web","detail",sWebLanguage) %></td>
+            			<td><%=getTran("openclinic.cnar","new.old.repair",sWebLanguage) %></td>
+            			<td><%=getTran("web","quantity",sWebLanguage) %></td>
+            		</tr>
+            		<tr>
+            			<td>1:</td>
+            			<td>
+			            	<select id='orthesis.type.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE1" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.1',document.getElementById('orthesis.type.1').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1")%>');">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE1"), sWebLanguage) %>
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.detail.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1" property="itemId"/>]>.value" class="text">
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.delivery.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY1" property="itemId"/>]>.value" class="text">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY1"), sWebLanguage) %>
+				            </select>
+				        </td>
+				        <td>
+                			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY1")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY1" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY1" property="value"/>" onBlur="isNumber(this);" size="5"/>
+				        </td>
+		            </tr>
+            		<tr>
+            			<td>2:</td>
+            			<td>
+			            	<select id='orthesis.type.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE2" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.2',document.getElementById('orthesis.type.2').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL2")%>');">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE2"), sWebLanguage) %>
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.detail.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL2" property="itemId"/>]>.value" class="text">
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.delivery.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY2" property="itemId"/>]>.value" class="text">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY2"), sWebLanguage) %>
+				            </select>
+				        </td>
+				        <td>
+                			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY2")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY2" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY2" property="value"/>" onBlur="isNumber(this);" size="5"/>
+				        </td>
+		            </tr>
+            		<tr>
+            			<td>3:</td>
+            			<td>
+			            	<select id='orthesis.type.3' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE3" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.3',document.getElementById('orthesis.type.3').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL3")%>');">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE3"), sWebLanguage) %>
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.detail.3' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL3" property="itemId"/>]>.value" class="text">
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.delivery.3' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY3" property="itemId"/>]>.value" class="text">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY3"), sWebLanguage) %>
+				            </select>
+				        </td>
+				        <td>
+                			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY3")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY3" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY3" property="value"/>" onBlur="isNumber(this);" size="5"/>
+				        </td>
+		            </tr>
+            		<tr>
+            			<td>4:</td>
+            			<td>
+			            	<select id='orthesis.type.4' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE4" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.4',document.getElementById('orthesis.type.4').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL4")%>');">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE4"), sWebLanguage) %>
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.detail.4' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL4" property="itemId"/>]>.value" class="text">
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.delivery.4' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY4" property="itemId"/>]>.value" class="text">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY4"), sWebLanguage) %>
+				            </select>
+				        </td>
+				        <td>
+                			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY4")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY4" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY4" property="value"/>" onBlur="isNumber(this);" size="5"/>
+				        </td>
+		            </tr>
+            		<tr>
+            			<td>5:</td>
+            			<td>
+			            	<select id='orthesis.type.5' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE5" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.5',document.getElementById('orthesis.type.5').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL5")%>');">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE5"), sWebLanguage) %>
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.detail.5' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL5" property="itemId"/>]>.value" class="text">
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.delivery.5' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY5" property="itemId"/>]>.value" class="text">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY5"), sWebLanguage) %>
+				            </select>
+				        </td>
+				        <td>
+                			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY5")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY5" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY5" property="value"/>" onBlur="isNumber(this);" size="5"/>
+				        </td>
+		            </tr>
+	            </table>
             </td>
         </tr>
 
@@ -410,230 +298,37 @@
 </form>
 
 <script>
-  var iSeancesIndex = <%=iSeancesTotal%>;
-  var sSeances = "<%=sSeances%>";
-  var editSeancesRowid = "";
 
-  <%
-      for(int i=0; i<9; i++){
-          %>
-            if("<%=sAct[i]%>" == "medwan.true"){
-              transactionForm.acte<%=i+1%>.checked = true;
-            }
-          <%
-      }
-  %>
-
-<%-- SEANCES ----------------------------------------------------------------------------------%>
-function addSeance(){
-  if(isAtLeastOneSeanceFieldFilled()){
-      iSeancesIndex++;
-      if(transactionForm.seanceHour.value == ""){
-        getTime(transactionForm.seanceHour);
-      }
-
-      sSeances+="rowSeance"+iSeancesIndex+"="+transactionForm.seanceDate.value+"£"
-                                             +transactionForm.seanceHour.value+"£"
-                                             +transactionForm.seancetreatment1.value+"£"
-                                             +transactionForm.seancetreatment2.value+"£"
-                                             +transactionForm.seancetreatment3.value+"£"
-                                             +transactionForm.seancedelivery1.value+";"+transactionForm.seancedeliveryoldnew1.value+"£"
-                                             +transactionForm.seancedelivery2.value+";"+transactionForm.seancedeliveryoldnew2.value+"$";
-      
-      var tr;
-      tr = tblSeances.insertRow(tblSeances.rows.length);
-      tr.id = "rowSeance"+iSeancesIndex;
-
-      var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-      tr.appendChild(td);
-
-      td = tr.insertCell(1);
-      td.innerHTML = "&nbsp;"+transactionForm.seanceDate.value;
-      tr.appendChild(td);
-
-      td = tr.insertCell(2);
-      td.innerHTML = "&nbsp;"+transactionForm.seanceHour.value;
-      tr.appendChild(td);
-
-      td = tr.insertCell(3);
-      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment1.value);
-      tr.appendChild(td);
-
-      td = tr.insertCell(4);
-      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment2.value);
-      tr.appendChild(td);
-
-      td = tr.insertCell(5);
-      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment3.value);
-      tr.appendChild(td);
-
-      td = tr.insertCell(6);
-      td.innerHTML = "&nbsp;"+translateDelivery(transactionForm.seancedelivery1.value);
-      tr.appendChild(td);
-
-      td = tr.insertCell(7);
-      td.innerHTML = "&nbsp;"+translateDeliveryOldNew(transactionForm.seancedeliveryoldnew1.value);
-      tr.appendChild(td);
-
-      td = tr.insertCell(8);
-      td.innerHTML = "&nbsp;"+translateDelivery(transactionForm.seancedelivery2.value);
-      tr.appendChild(td);
-
-      td = tr.insertCell(9);
-      td.innerHTML = "&nbsp;"+translateDeliveryOldNew(transactionForm.seancedeliveryoldnew2.value);
-      tr.appendChild(td);
-
-      td = tr.insertCell(10);
-      td.innerHTML = "&nbsp;";
-      tr.appendChild(td);
-
-      setCellStyle(tr);
-      clearSeanceFields()
-      transactionForm.ButtonUpdateSeance.disabled = true;
-  }
-
-  return true;
-}
-
-function updateSeance(){
-  if(isAtLeastOneSeanceFieldFilled()){
-    <%-- update arrayString --%>
-    var newRow, row;
-    if(transactionForm.seanceHour.value == ""){
-      getTime(transactionForm.seanceHour);
-    }
-
-    newRow = editSeancesRowid.id+"="+transactionForm.seanceDate.value+"£"
-								    +transactionForm.seanceHour.value+"£"
-								    +transactionForm.seancetreatment1.value+"£"
-								    +transactionForm.seancetreatment2.value+"£"
-								    +transactionForm.seancetreatment3.value+"£"
-								    +transactionForm.seancedelivery1.value+";"+transactionForm.seancedeliveryoldnew1.value+"£"
-								    +transactionForm.seancedelivery2.value+";"+transactionForm.seancedeliveryoldnew2.value+"$";
-
-    sSeances = replaceRowInArrayString(sSeances,newRow,editSeancesRowid.id);
-
-    <%-- update table object --%>
-    row = tblSeances.rows[editSeancesRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-
-    row.cells[1].innerHTML = "&nbsp;"+transactionForm.seanceDate.value;
-    row.cells[2].innerHTML = "&nbsp;"+transactionForm.seanceHour.value;
-    row.cells[3].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment1.value);
-    row.cells[4].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment2.value);
-    row.cells[5].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment3.value);
-    row.cells[6].innerHTML = "&nbsp;"+translateDelivery(transactionForm.seancedelivery1.value);
-    row.cells[7].innerHTML = "&nbsp;"+translateDeliveryOldNew(transactionForm.seancedeliveryoldnew1.value);
-    row.cells[8].innerHTML = "&nbsp;"+translateDelivery(transactionForm.seancedelivery2.value);
-    row.cells[9].innerHTML = "&nbsp;"+translateDeliveryOldNew(transactionForm.seancedeliveryoldnew2.value);
-
-    setCellStyle(row);
-    clearSeanceFields();
-    transactionForm.ButtonUpdateSeance.disabled = true;
-  }
-}
-
-function isAtLeastOneSeanceFieldFilled(){
-  if(transactionForm.seanceDate.value != "") return true;
-  if(transactionForm.seanceHour.value != "") return true;
-  if(transactionForm.seancetreatment1.selectedIndex>-1) return true;
-  if(transactionForm.seancetreatment2.selectedIndex>-1) return true;
-  if(transactionForm.seancetreatment3.selectedIndex>-1) return true;
-  if(transactionForm.seancedelivery1.selectedIndex>-1) return true;
-  if(transactionForm.seancedelivery2.selectedIndex>-1) return true;
-  if(transactionForm.seancedeliveryoldnew1.selectedIndex>-1) return true;
-  if(transactionForm.seancedeliveryoldnew2.selectedIndex>-1) return true;
-  return false;
-}
-
-function clearSeanceFields(){
-  transactionForm.seanceDate.value = "";
-  transactionForm.seanceHour.value = "";
-  transactionForm.seancetreatment1.selectedIndex = -1;
-  transactionForm.seancetreatment2.selectedIndex = -1;
-  transactionForm.seancetreatment3.selectedIndex = -1;
-  transactionForm.seancedelivery1.selectedIndex = -1;
-  transactionForm.seancedelivery2.selectedIndex = -1;
-  transactionForm.seancedeliveryoldnew1.selectedIndex = -1;
-  transactionForm.seancedeliveryoldnew2.selectedIndex = -1;
-}
-
-function deleteSeance(rowid){
-  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var answer;
-    
-  if(window.showModalDialog){
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-  }
-  else{
-    answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
-    sSeances = deleteRowFromArrayString(sSeances,rowid.id);
-    tblSeances.deleteRow(rowid.rowIndex);
-    clearSeanceFields();
-  }
-}
-
-function editSeance(rowid){
-  var row = getRowFromArrayString(sSeances,rowid.id);
-  transactionForm.seanceDate.value = getCelFromRowString(row,0);
-  transactionForm.seanceHour.value = getCelFromRowString(row,1);
-  transactionForm.seancetreatment1.value = getCelFromRowString(row,2);
-  transactionForm.seancetreatment2.value = getCelFromRowString(row,3);
-  transactionForm.seancetreatment3.value = getCelFromRowString(row,4);
-  transactionForm.seancedelivery1.value = getCelFromRowString(row,5).split(";")[0];
-  transactionForm.seancedeliveryoldnew1.value = getCelFromRowString(row,5).split(";").length<2?"":getCelFromRowString(row,5).split(";")[1];
-  transactionForm.seancedelivery2.value = getCelFromRowString(row,6).split(";")[0];
-  transactionForm.seancedeliveryoldnew2.value = getCelFromRowString(row,6).split(";").length<2?"":getCelFromRowString(row,6).split(";")[1];;
-
-  editSeancesRowid = rowid;
-  transactionForm.ButtonUpdateSeance.disabled = false;
-}
-
-<%-- GENERAL FUNCTIONS --------------------------------------------------------------------------%>
-  function deleteRowFromArrayString(sArray,rowid){
-    var array = sArray.split("$");
-    for(var i=0; i<array.length; i++){
-      if(array[i].indexOf(rowid) > -1){
-        array.splice(i,1);
-      }
-    }
-    return array.join("$");
-  }
-
-  function getRowFromArrayString(sArray, rowid) {
-    var array = sArray.split("$");
-    var row = "";
-    for (var i=0; i<array.length; i++) {
-      if (array[i].indexOf(rowid) > -1) {
-        row = array[i].substring(array[i].indexOf("=") + 1);
-        break;
-      }
-    }
-    return row;
-  }
-
-  function getCelFromRowString(sRow, celid) {
-    var row = sRow.split("£");
-    return row[celid];
-  }
-
-  function replaceRowInArrayString(sArray, newRow, rowid) {
-    var array = sArray.split("$");
-    for (var i=0; i<array.length; i++) {
-      if (array[i].indexOf(rowid) > -1) {
-        array.splice(i, 1, newRow);
-        break;
-      }
-    }
-    return array.join("$");
-  }
+	function fillDetail(selectname,type,selectedvalue){
+		document.getElementById(selectname).options.length=0;
+		<%
+			Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
+			if(labelTypes!=null){
+				Hashtable labelIds = (Hashtable)labelTypes.get("orthesis.type");
+				if(labelIds!=null){
+					Enumeration e = labelIds.keys();
+					while (e.hasMoreElements()){
+						String type = (String)e.nextElement();
+						out.println("if(type=='"+type+"'){");
+						//Voor dit type gaan we nu de opties zetten
+						Hashtable options = (Hashtable)labelTypes.get("orthesis.detail."+type.toLowerCase());
+						if(options!=null){
+							Enumeration oe = options.elements();
+							int counter=0;
+							while(oe.hasMoreElements()){
+								String optionkey=((Label)oe.nextElement()).id.replace("'", "´");
+								String optionvalue=((Label)options.get(optionkey)).value.replace("'", "´");
+								out.println("document.getElementById(selectname).options["+counter+"] = new Option('"+optionvalue+"','"+optionkey+"',false,selectedvalue=='"+optionkey+"');");
+								counter++;
+							}
+						}
+						out.println("Array.prototype.sort.call(document.getElementById(selectname).options,function(a,b){return a.text < b.text ? -1 : a.text > b.text ? 1 : 0;});");
+						out.println("}");
+					}
+				}
+			}
+		%>
+	}
 
   <%-- SUBMIT FORM --%>
   function submitForm() {
@@ -645,20 +340,6 @@ function editSeance(rowid){
 	    var maySubmit = true;
 	    var sTmpBegin;
 	    var sTmpEnd;
-	
-	    while (sSeances.indexOf("rowSeance") > -1) {
-	      sTmpBegin = sSeances.substring(sSeances.indexOf("rowSeance"));
-	      sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
-	      sSeances = sSeances.substring(0, sSeances.indexOf("rowSeance")) + sTmpEnd;
-	    }
-	
-	    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE1" property="itemId"/>]>.value"].value = sSeances.substring(0,254);
-	    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE2" property="itemId"/>]>.value"].value = sSeances.substring(254,508);
-	    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE3" property="itemId"/>]>.value"].value = sSeances.substring(508,762);
-	    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE4" property="itemId"/>]>.value"].value = sSeances.substring(762,1016);
-	    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE5" property="itemId"/>]>.value"].value = sSeances.substring(1016, 1270);
-	    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE6" property="itemId"/>]>.value"].value = sSeances.substring(1270, 1524);
-	    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE7" property="itemId"/>]>.value"].value = sSeances.substring(1524, 1778);
 	
 	    if(maySubmit){
 	      document.transactionForm.saveButton.style.visibility = "hidden";
@@ -678,94 +359,18 @@ function editSeance(rowid){
 	searchEncounter();
   }	
 
-  <%-- SET CELL STYLE --%>
-  function setCellStyle(row){
-    for(var i=0; i<row.cells.length; i++){
-      row.cells[i].style.color = "#333333";
-      row.cells[i].style.fontFamily = "arial";
-      row.cells[i].style.fontSize = "10px";
-      row.cells[i].style.fontWeight = "normal";
-      row.cells[i].style.textAlign = "left";
-      row.cells[i].style.paddingLeft = "5px";
-      row.cells[i].style.paddingRight = "1px";
-      row.cells[i].style.paddingTop = "1px";
-      row.cells[i].style.paddingBottom = "1px";
-      row.cells[i].style.backgroundColor = "#E0EBF2";
-    }
-  }
 
   <%-- SEARCH ICPC --%>
   function searchICPC(code,codelabel,codetype){
     openPopup("/_common/search/searchICPC.jsp&ts=<%=getTs()%>&returnField=" + code + "&returnField2=" + codelabel + "&returnField3=" + codetype + "&ListChoice=FALSE");
   }
 
-	<%
-	Hashtable treatments = (Hashtable)((Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase())).get("physiotherapy.act");
-	Enumeration t = treatments.keys();
-	String s="";
-	while(t.hasMoreElements()){
-		String key = (String)t.nextElement();
-		if(s.length()>0){
-			s+="$";
-		}
-		s+=key+";"+((net.admin.Label)treatments.get(key)).value;
-	}
-	%>
-	var treatments='<%=s%>'.split('$');
-	<%
-	Hashtable deliveries = (Hashtable)((Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase())).get("ortho.delivery");
-	t = deliveries.keys();
-	s="";
-	while(t.hasMoreElements()){
-		String key = (String)t.nextElement();
-		if(s.length()>0){
-			s+="$";
-		}
-		s+=key+";"+((net.admin.Label)deliveries.get(key)).value;
-	}
-	%>
-	var deliveries='<%=s%>'.split('$');
-	<%
-	Hashtable deliveriesoldnew = (Hashtable)((Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase())).get("ortho.delivery.oldnew");
-	t = deliveriesoldnew.keys();
-	s="";
-	while(t.hasMoreElements()){
-		String key = (String)t.nextElement();
-		if(s.length()>0){
-			s+="$";
-		}
-		s+=key+";"+((net.admin.Label)deliveriesoldnew.get(key)).value;
-	}
-	%>
-	var deliveriesoldnew='<%=s%>'.split('$');
-	
-	  <%-- TRANSLATE TREATMENT --%>
-	  function translateTreatment(tmpLabel){
-		 for(n=0;n<treatments.length;n++){
-			 if(treatments[n].split(';')[0]==tmpLabel){
-				 return treatments[n].split(';')[1];
-			 }
-		 }
-	    return "";
-	  }
-	  <%-- TRANSLATE DELIVERYOLDNEW --%>
-	  function translateDeliveryOldNew(tmpLabel){
-		 for(n=0;n<deliveriesoldnew.length;n++){
-			 if(deliveriesoldnew[n].split(';')[0]==tmpLabel){
-				 return deliveriesoldnew[n].split(';')[1];
-			 }
-		 }
-	    return "";
-	  }
-	  <%-- TRANSLATE DELIVERY --%>
-	  function translateDelivery(tmpLabel){
-		 for(n=0;n<deliveries.length;n++){
-			 if(deliveries[n].split(';')[0]==tmpLabel){
-				 return deliveries[n].split(';')[1];
-			 }
-		 }
-	    return "";
-	  }
+  fillDetail('orthesis.detail.1',document.getElementById('orthesis.type.1').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1")%>');				            
+  fillDetail('orthesis.detail.2',document.getElementById('orthesis.type.2').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL2")%>');				            
+  fillDetail('orthesis.detail.3',document.getElementById('orthesis.type.3').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL3")%>');				            
+  fillDetail('orthesis.detail.4',document.getElementById('orthesis.type.4').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL4")%>');				            
+  fillDetail('orthesis.detail.5',document.getElementById('orthesis.type.5').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL5")%>');				            
+
 </script>
 
 <%=writeJSButtons("transactionForm","saveButton")%>

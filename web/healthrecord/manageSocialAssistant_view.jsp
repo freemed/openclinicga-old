@@ -18,6 +18,13 @@
             out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
         %>
       }
+      
+      function searchManager(managerUidField,managerNameField){
+          openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+managerUidField+"&ReturnName="+managerNameField+"&displayImmatNew=no&FindServiceID=<%=MedwanQuery.getInstance().getConfigString("socialServiceID","CNAR.SOC")%>");
+          EditEncounterForm.EditEncounterManagerName.focus();
+      }
+
+      
     </script>
     <%=writeHistoryFunctions(((TransactionVO)transaction).getTransactionType(),sWebLanguage)%>
     <%=contextHeader(request,sWebLanguage)%>
@@ -36,10 +43,21 @@
 
         <%-- DESCRIPTION --%>
         <tr>
+            <%
+	            TransactionVO tran = (TransactionVO)transaction;
+				String sSocialAssistantName=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SOCIALASSISTANT_NAME");
+				if(sSocialAssistantName.length()==0 && (tran.getTransactionId()==0 || tran.getTransactionId()<=0)){
+					sSocialAssistantName=activeUser.person.lastname.toUpperCase()+" "+activeUser.person.firstname;
+				}
+            %>
             <td class="admin"><%=getTran("Web.Occup","namesocialassistant",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <input type=text' <%=setRightClick("ITEM_TYPE_SOCIALASSISTANT_NAME")%> class="text" size="100" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SOCIALASSISTANT_NAME" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SOCIALASSISTANT_NAME" property="value"/>"/>
+                <input type="hidden" name="SocialAssistantId" value="">
+                <input class="text" type="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SOCIALASSISTANT_NAME" property="itemId"/>]>.value" size="<%=sTextWidth%>" value="<%=sSocialAssistantName%>">
+                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchManager('SocialAssistantId','currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SOCIALASSISTANT_NAME" property="itemId"/>]>.value');">
+                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SOCIALASSISTANT_NAME" property="itemId"/>]>.value'].value='';">
             </td>
+
         </tr>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","actssocialassistant",sWebLanguage)%>&nbsp;</td>
