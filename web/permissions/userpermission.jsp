@@ -144,6 +144,7 @@
                 || (parameter.parameter.equalsIgnoreCase("stop"))
                 || (parameter.parameter.equalsIgnoreCase("sa"))
                 || (parameter.parameter.equalsIgnoreCase("clearpassword"))
+                || (parameter.parameter.equalsIgnoreCase("invoicingcareprovider"))
                 || (parameter.parameter.equalsIgnoreCase("computernumber"))) {
                 // nothing
             }
@@ -448,6 +449,7 @@
                      </td>
                     </tr>
                 <%=writeMyInput(getTran("Web.UserProfile","computerNumber",sWebLanguage),"Editcomputernumber", thisUser)%>
+                <%=writeMyCheckbox(getTran("web","isinvoicingcareprovider",sWebLanguage),"EditInvoicingCareProvider", "invoicingcareprovider", thisUser)%>
                 <%=writeMyCheckbox("Stop","EditStop", "stop", thisUser)%>
             </table>
 
