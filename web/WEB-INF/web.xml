@@ -5,6 +5,14 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+    <mime-mapping>
+        <extension>dcm</extension>
+        <mime-type>application/dicom</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>ecg</extension>
+        <mime-type>application/ecg</mime-type>
+    </mime-mapping>
 
     <!-- ========== SERVLET FILTERS CONFIGURATIONS ============================ -->
 
