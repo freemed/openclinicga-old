@@ -18,6 +18,7 @@
         String sEditCredit = checkString(request.getParameter("EditCredit"));
         String sEditQuantity = checkString(request.getParameter("EditQuantity"));
         String sEditExtraInsurarUID = checkString(request.getParameter("EditExtraInsurarUID"));
+        String sEditCareProvider = checkString(request.getParameter("EditCareProvider"));
 		boolean bSuccess=true;
         Enumeration e = request.getParameterNames();
         while(e.hasMoreElements()){
@@ -56,6 +57,7 @@
 		        debet.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
 		        debet.setUpdateUser(activeUser.userid);
 		        debet.setExtraInsurarUid(sEditExtraInsurarUID);
+		        debet.setPerformeruid(sEditCareProvider);
 		        if (sEditExtraInsurarUID.length()>0){
 		            debet.setAmount(0);
 		            debet.setExtraInsurarAmount(Double.parseDouble(sPatientAmount.replaceAll(",",".")));
