@@ -77,6 +77,7 @@
                 sEditServiceWicket = checkString(request.getParameter("EditServiceWicket")),
                 sEditServiceCostcenter = checkString(request.getParameter("EditServiceCostcenter")),
                 sEditServiceAcceptsVisits = checkString(request.getParameter("EditServiceAcceptsVisits")),
+                sEditCareProvider = checkString(request.getParameter("EditCareProvider")),
                 sEditServiceInactive =checkString(request.getParameter("EditServiceInactive"));
 
         // codes
@@ -130,6 +131,7 @@
             hServiceInfo.put("contactfax",sEditContactFax);
             hServiceInfo.put("contactemail",sEditContactEmail);
             hServiceInfo.put("costcenter",sEditServiceCostcenter);
+            hServiceInfo.put("performeruid",sEditCareProvider);
             try{
                 hServiceInfo.put("totalbeds",new Integer(sEditTotalBeds));
             }
@@ -215,6 +217,7 @@
             hServiceInfo.put("contactemail",sEditContactEmail);
             hServiceInfo.put("totalbeds",sEditTotalBeds);
             hServiceInfo.put("costcenter",sEditServiceCostcenter);
+            hServiceInfo.put("performeruid",sEditCareProvider);
 
             hServiceInfo.put("code3",sEditServiceCode3);// NACE
             hServiceInfo.put("code5",sEditServiceCode5);// MED CENTRE
@@ -590,6 +593,30 @@
                         <input type="text" class="text" name="EditServiceCode5" value="<%=service.code5%>" size="<%=sTextWidth%>">
                     </td>
                 </tr>
+                
+	            <tr>
+		            <td class='admin'><%=getTran("web","invoicingcareprovider",sWebLanguage)%></td>
+		            <td class='admin2'>
+		            	<select class='text' name='EditCareProvider' id='EditCareProvider'>
+		            		<option value=''></option>
+				            <%
+				            	Vector users = UserParameter.getUserIds("invoicingcareprovider", "on");
+				            	SortedMap usernames = new TreeMap();
+				            	for(int n=0;n<users.size();n++){
+				            		User user = User.get(Integer.parseInt((String)users.elementAt(n)));
+				            		usernames.put(user.person.lastname.toUpperCase()+", "+user.person.firstname,user.userid);
+				            	}
+			            		String sSelectedValue=checkString(service.performeruid);
+				            	Iterator i = usernames.keySet().iterator();
+				            	while(i.hasNext()){
+				            		String username=(String)i.next();
+				            		out.println("<option value='"+usernames.get(username)+"'"+(sSelectedValue.equals(usernames.get(username))?" selected":"")+">"+username+"</option>");
+				            	}
+				            %>
+		            	</select>
+		            </td>
+		        </tr>
+                
                 <%-- Costcenter --%>
                 <tr>
                     <td class="admin"> <%=getTran("Web","costcenter",sWebLanguage)%></td>

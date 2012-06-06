@@ -43,7 +43,8 @@
            sEditPrestationInvoiceGroup  = checkString(request.getParameter("EditPrestationInvoiceGroup")),
            sEditPrestationMfpPercentage  = checkString(request.getParameter("EditPrestationMfpPercentage")),
            sEditPrestationInactive  = checkString(request.getParameter("EditPrestationInactive")),
-           sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice"));
+           sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice")),
+		   sEditCareProvider = checkString(request.getParameter("EditCareProvider"));
 	   try{
 		   sEditPrestationPrice =""+Double.parseDouble(sEditPrestationPrice);
 	   }
@@ -108,6 +109,7 @@
         prestation.setInvoiceGroup(sEditPrestationInvoiceGroup);
         prestation.setMfpPercentage(Integer.parseInt(sEditPrestationMfpPercentage));
         prestation.setInactive(Integer.parseInt(sEditPrestationInactive));
+        prestation.setPerformerUid(sEditCareProvider);
         prestation.store();
         //activeUser.addPrestation(prestation.getUid());
         sEditPrestationUid = prestation.getUid();
@@ -286,6 +288,29 @@
                     <%
                     	}
                     %>
+                    <tr>
+			            <td class='admin'><%=getTran("web","invoicingcareprovider",sWebLanguage)%></td>
+			            <td class='admin2'>
+			            	<select class='text' name='EditCareProvider' id='EditCareProvider'>
+			            		<option value=''></option>
+					            <%
+					            	Vector users = UserParameter.getUserIds("invoicingcareprovider", "on");
+					            	SortedMap usernames = new TreeMap();
+					            	for(int n=0;n<users.size();n++){
+					            		User user = User.get(Integer.parseInt((String)users.elementAt(n)));
+					            		usernames.put(user.person.lastname.toUpperCase()+", "+user.person.firstname,user.userid);
+					            	}
+				            		String sSelectedValue=checkString(prestation.getPerformerUid());
+					            	Iterator i = usernames.keySet().iterator();
+					            	while(i.hasNext()){
+					            		String username=(String)i.next();
+					            		out.println("<option value='"+usernames.get(username)+"'"+(sSelectedValue.equals(usernames.get(username))?" selected":"")+">"+username+"</option>");
+					            	}
+					            %>
+			            	</select>
+			            </td>
+			        </tr>
+                    
                     <tr>
                         <td class="admin"><%=getTran("web","inactive",sWebLanguage)%></td>
                         <td class="admin2">

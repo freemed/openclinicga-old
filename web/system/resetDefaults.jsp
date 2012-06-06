@@ -30,6 +30,7 @@
 					<option value='bi' <%="bi".equals(country)?"selected":""%>><%=getTran("country","bi",sWebLanguage).toUpperCase() %></option>
 					<option value='ml' <%="ml".equals(country)?"selected":""%>><%=getTran("country","ml",sWebLanguage).toUpperCase() %></option>
 					<option value='cd' <%="cd".equals(country)?"selected":""%>><%=getTran("country","cd",sWebLanguage).toUpperCase() %></option>
+					<option value='ci' <%="ci".equals(country)?"selected":""%>><%=getTran("country","ci",sWebLanguage).toUpperCase() %></option>
 				</select>
 			</td>
 		</tr>

@@ -54,6 +54,7 @@
                     hMenu.put(getTran("Web.Manage", "ManagePrintableDocuments", sWebLanguage), "main.do?Page=system/managePrintableDocuments.jsp");
                     hMenu.put(getTran("Web.Manage", "ManageServiceDiagnoses", sWebLanguage), "main.do?Page=medical/manageServiceDiagnoses.jsp");
                     hMenu.put(getTran("Web.Manage", "ManageActivatedVaccinations", sWebLanguage), "main.do?Page=system/activateVaccinations.jsp");
+                    hMenu.put(getTran("Web.Manage", "ManageCareProviderFees", sWebLanguage), "main.do?Page=system/manageCareProviderFees.jsp");
                     out.print(ScreenHelper.writeTblHeader(getTran("Web", "Manage", sWebLanguage), sCONTEXTPATH)
                             + sortMenu(hMenu)
                             + ScreenHelper.writeTblFooter());
