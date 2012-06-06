@@ -27,7 +27,7 @@
 <%@ page import="java.util.*" %>
 <%!
     String sAPPTITLE = "Openclinic";
-    String sWEBTITLE = "MXS - Openclinic";
+    String sWEBTITLE = "MXS - "+MedwanQuery.getInstance().getConfigString("edition").toUpperCase();
     String sAPPDIR = "";
     String sAPPFULLDIR = "";
     String sBackgroundColor = "CEFFCE;";
