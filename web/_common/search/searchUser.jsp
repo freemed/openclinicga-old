@@ -90,7 +90,8 @@
     <input type="hidden" name="ReturnUserID" value="<%=sReturnUserID%>">
     <input type="hidden" name="ReturnName" value="<%=sReturnName%>">
     <input type="hidden" name="SetGreenField" value="<%=sSetGreenField%>">
-    <input type="hidden" name="displayImmatNew" value="<%=checkString(request.getParameter("displayImmatNew"))%>"/>
+    <input type="hidden" name="displayImmatNew" value="<%=checkString(request.getParameter("displayImmatNew"))%>">
+    <input type="hidden" name="displayImmatNew2" value="">
 </form>
 <script>
     window.resizeTo(600, 480);
@@ -106,7 +107,6 @@
 
     <%-- DO FIND --%>
     function doFind() {
-
         ajaxChangeSearchResults('_common/search/searchByAjax/searchUserShow.jsp', SearchForm);
     }
 

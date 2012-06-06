@@ -83,6 +83,7 @@
             sReturnName = checkString(request.getParameter("ReturnName")),
             sSetGreenField = checkString(request.getParameter("SetGreenField"));
     // options
+    System.out.println("request.getParameter('displayImmatNew')="+request.getParameter("displayImmatNew")+"*");
     boolean displayImmatNew = !checkString(request.getParameter("displayImmatNew")).equalsIgnoreCase("no");
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
@@ -108,6 +109,7 @@
     Vector vResults;
     Hashtable hInfo;
     vResults = User.searchUsers(sSelectLastname, sSelectFirstname);
+    System.out.println("vResults.size="+vResults.size());
     Iterator iter = vResults.iterator();
 
     Hashtable usersPerDiv = new Hashtable();
@@ -145,7 +147,7 @@
         boolean bFound=false;
         for(int n=0;n<xmlServiceIds.size();n++){
         	if(sServiceID.startsWith((String)xmlServiceIds.elementAt(n))){
-        		((Vector) (usersPerDiv.get(sServiceID))).add(user);
+        		((Vector) (usersPerDiv.get(xmlServiceIds.elementAt(n)))).add(user);
         		bFound=true;
         	}
         }
