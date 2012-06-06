@@ -181,6 +181,14 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         return null;
     }
 
+    public String getItemValue(String itemType){
+    	ItemVO item = getItem(itemType); 
+    	if(item!=null){
+    		return item.getValue();
+    	}
+    	return "";
+    }
+
     public void setUser(UserVO user) {
         this.user = user;
     }

@@ -215,6 +215,7 @@ public class PDFBronchoscopyProtocol extends PDFGeneralBasic {
     protected void addItemRow(PdfPTable table, String itemName, String itemValue){
         cell = createItemNameCell(itemName);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
+        cell.setFixedHeight(40);
         table.addCell(cell);
         table.addCell(createValueCell(itemValue));
     }

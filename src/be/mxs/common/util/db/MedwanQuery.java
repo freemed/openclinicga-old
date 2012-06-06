@@ -495,7 +495,7 @@ public class MedwanQuery {
         catch (Exception e) {
             if (Debug.enabled) Debug.println(e.getMessage());
         }
-        if(scheduler==null){
+        if(scheduler==null || !scheduler.isActive()){
         	scheduler=new Scheduler();
         }
         if(brokerScheduler==null){

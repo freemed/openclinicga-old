@@ -16,6 +16,7 @@ import be.mxs.common.util.system.Debug;
 
 public class Scheduler implements Runnable{
 	Thread thread;
+	long startTime=new java.util.Date().getTime();
 	boolean stopped=false;
 	
 	public boolean isStopped() {
@@ -29,6 +30,13 @@ public class Scheduler implements Runnable{
 	public Scheduler(){
 		thread = new Thread(this);
 		thread.start();
+	}
+	
+	public boolean isActive(){
+		boolean isActive=!isStopped();
+		long day=24*3600*1000;
+		isActive=isActive && (new java.util.Date().getTime()-startTime)<day;
+		return isActive;
 	}
 	
 	public static void runScheduler(){
