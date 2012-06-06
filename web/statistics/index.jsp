@@ -2,6 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <form name="stats">
 <%
+
 if(true){
     String firstdayPreviousMonth="01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
     String lastdayPreviousMonth=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
@@ -9,6 +10,7 @@ if(true){
             +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("begincnar","stats",firstdayPreviousMonth,sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("endcnar","stats",lastdayPreviousMonth,sWebLanguage)+"&nbsp;</td></tr>"
             +writeTblChildWithCode("javascript:oldandnewcases()",getTran("Web","statistics.oldandnewcases",sWebLanguage))
             +writeTblChildWithCode("javascript:newpatients()",getTran("Web","statistics.newpatients",sWebLanguage))
+            +writeTblChildWithCode("javascript:agedistribution()",getTran("Web","statistics.agedistribution",sWebLanguage))
             +ScreenHelper.writeTblFooter()+"<br>");
 	
 }
@@ -174,6 +176,10 @@ if(true){
     function newpatients(){
 		var URL = "statistics/newPatients.jsp&start="+document.getElementById('begincnar').value+"&end="+document.getElementById('endcnar').value+"&ts=<%=getTs()%>";
 		openPopup(URL,200,200,"OpenClinic");
+    }
+    function agedistribution(){
+		var URL = "statistics/ageDistribution.jsp&start="+document.getElementById('begincnar').value+"&end="+document.getElementById('endcnar').value+"&ts=<%=getTs()%>";
+		openPopup(URL,200,650,"OpenClinic");
     }
     
 </script>
