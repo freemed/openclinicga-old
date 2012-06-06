@@ -70,6 +70,20 @@
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
 	</country>
+	<country code="ci">
+		<config key="currency" value="XOF"/>
+		<config key="currencyPdf" value="XOF"/>
+		<config key="countrycode" value="CI"/>
+		<config key="DefaultCountry" value="CI"/>
+		<config key="defaultSearchCountry" value="CÔTE"/>
+		<config key="zipcodetable" value="IvoryCoastZipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,en"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="CI"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+	</country>
 	<os code="windows">
 		<config key="DocumentsFolder" value="$setupdir$documents"/>
 		<config key="fingerprintBinDirectory" value="$setupdir$web-inf/lib"/>

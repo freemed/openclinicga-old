@@ -253,7 +253,7 @@ function checkAfter(afterId, beforeObj) {
 
     <%=getUserInterval(session,activeUser)%>
 
-    window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request, sWebLanguage)%>";
+    window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request, sWebLanguage).toUpperCase()%>";
 </script>
 
 <iframe width=174 height=189 name="gToday:normal1:agenda.js:gfPop1" id="gToday:normal1:agenda.js:gfPop1"

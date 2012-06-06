@@ -466,11 +466,11 @@
     <parameter name="calculatableContexts"></parameter>
     <parameter name="getVaccinationQuery">select a.*,b.value,convert(datetime,(select c.value from Items c where b.transactionId=c.transactionId and b.serverid=c.serverid and c.type='be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE'),103) mydate from Transactions a,Items b  where b.transactionId=a.transactionId and healthRecordId=? and b.serverid=a.serverid and b.type='be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE' and transactionType='be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION' order by b.value,mydate DESC</parameter>
     <parameter name="noShowExaminationsGenderM">
-    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DELIVERY
-    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPERATION_PROTOCOL_GYN
-    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_POST_PARTUM_MOTHER
-    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GYNAE_CONSULTATION
-    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OBREPORT
-    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_ACCOUCHEMENT
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DELIVERY;
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPERATION_PROTOCOL_GYN;
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_POST_PARTUM_MOTHER;
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GYNAE_CONSULTATION;
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OBREPORT;
+    	be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_ACCOUCHEMENT;
     </parameter>
 </config>

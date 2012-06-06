@@ -44,6 +44,19 @@
 	    	</index>
 	    </indexes>
 	</table>
+	<table name="OC_CAREPROVIDERFEES" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_CAREPROVIDERFEE_USERID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_CAREPROVIDERFEE_TYPE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_CAREPROVIDERFEE_ID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_CAREPROVIDERFEE_AMOUNT" dbtype="float" javatype="float"/>
+		</columns>
+		<indexes>
+			<index name="OC_CAREPROVIDERFEE_USERID">
+				<indexcolumn order="ASC" name="OC_CAREPROVIDERFEE_USERID"/>
+			</index>
+		</indexes>
+	</table>
 	<table name="DC_BEDOCCUPANCYVALUES" db="stats" sync="NONE">
 		<columns>
 			<column name="DC_BEDOCCUPANCYVALUE_SERVERID" dbtype="int" javatype="integer" />
@@ -1434,29 +1447,42 @@
 			<column name="OC_CREDIT_VERSION" dbtype="int" javatype="integer" nulls="0"/>
 		</columns>
 	</table>
-
+	<table name="OC_DEBETFEES" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_DEBETFEE_DEBETUID" dbtype="varchar" size="50" javatype="string"/>
+			<column name="OC_DEBETFEE_AMOUNT" dbtype="float" javatype="float"/>
+			<column name="OC_DEBETFEE_CALCULATION" dbtype="varchar" size="50" javatype="string"/>
+			<column name="OC_DEBETFEE_REASON" dbtype="varchar" size="50" javatype="string"/>
+			<column name="OC_DEBETFEE_PERFORMERUID" dbtype="varchar" size="50" javatype="string"/>
+		</columns>
+		<indexes>
+			<index name="OC_DEBETFEE_DEBETUID">
+				<indexcolumn order="ASC" name="OC_DEBETFEE_DEBETUID"/>
+			</index>
+		</indexes>
+	</table>
     <table name="OC_DEBETS" db="openclinic" sync="NONE">
 		<columns>
 			<column name="OC_DEBET_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
 			<column name="OC_DEBET_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
 			<column name="OC_DEBET_AMOUNT" dbtype="float" javatype="float"/>
             <column name="OC_DEBET_INSURARAMOUNT" dbtype="float" javatype="float"/>
-            <column name="OC_DEBET_BALANCEUID" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_DEBET_BALANCEUID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_DEBET_DATE" dbtype="datetime" javatype="date"/>
-            <column name="OC_DEBET_DESCRIPTION" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_ENCOUNTERUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_PRESTATIONUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_SUPPLIERTYPE" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_SUPPLIERUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_REFTYPE" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_DEBET_DESCRIPTION" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_ENCOUNTERUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_PRESTATIONUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_SUPPLIERTYPE" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_SUPPLIERUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_REFTYPE" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_DEBET_REFUID" dbtype="varchar" javatype="string" size="255"/>
 			<column name="OC_DEBET_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
             <column name="OC_DEBET_UPDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
-			<column name="OC_DEBET_UPDATEUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
+			<column name="OC_DEBET_UPDATEUID" dbtype="varchar" javatype="string" size="50" nulls="0"/>
 			<column name="OC_DEBET_VERSION" dbtype="int" javatype="integer" nulls="0"/>
-            <column name="OC_DEBET_INSURANCEUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_PATIENTINVOICEUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_INSURARINVOICEUID" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_DEBET_INSURANCEUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_PATIENTINVOICEUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_INSURARINVOICEUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_DEBET_COMMENT" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_DEBET_EXTRAINSURARUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_DEBET_EXTRAINSURARINVOICEUID" dbtype="varchar" javatype="string" size="50"/>
@@ -1465,6 +1491,7 @@
 			<column name="OC_DEBET_QUANTITY" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_RENEWALINTERVAL" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_RENEWALDATE" dbtype="datetime" javatype="date"/>
+            <column name="OC_DEBET_PERFORMERUID" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_DEBET_OBJECTID">
@@ -1514,22 +1541,22 @@
 			<column name="OC_DEBET_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
 			<column name="OC_DEBET_AMOUNT" dbtype="float" javatype="float"/>
             <column name="OC_DEBET_INSURARAMOUNT" dbtype="float" javatype="float"/>
-            <column name="OC_DEBET_BALANCEUID" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_DEBET_BALANCEUID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_DEBET_DATE" dbtype="datetime" javatype="date"/>
-            <column name="OC_DEBET_DESCRIPTION" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_ENCOUNTERUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_PRESTATIONUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_SUPPLIERTYPE" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_SUPPLIERUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_REFTYPE" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_DEBET_DESCRIPTION" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_ENCOUNTERUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_PRESTATIONUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_SUPPLIERTYPE" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_SUPPLIERUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_REFTYPE" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_DEBET_REFUID" dbtype="varchar" javatype="string" size="255"/>
 			<column name="OC_DEBET_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
             <column name="OC_DEBET_UPDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
-			<column name="OC_DEBET_UPDATEUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
+			<column name="OC_DEBET_UPDATEUID" dbtype="varchar" javatype="string" size="50" nulls="0"/>
 			<column name="OC_DEBET_VERSION" dbtype="int" javatype="integer" nulls="0"/>
-            <column name="OC_DEBET_INSURANCEUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_PATIENTINVOICEUID" dbtype="varchar" javatype="string" size="255"/>
-            <column name="OC_DEBET_INSURARINVOICEUID" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_DEBET_INSURANCEUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_PATIENTINVOICEUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_INSURARINVOICEUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_DEBET_COMMENT" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_DEBET_EXTRAINSURARUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_DEBET_EXTRAINSURARINVOICEUID" dbtype="varchar" javatype="string" size="50"/>
@@ -1538,6 +1565,7 @@
 			<column name="OC_DEBET_QUANTITY" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_RENEWALINTERVAL" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_RENEWALDATE" dbtype="datetime" javatype="date"/>
+            <column name="OC_DEBET_PERFORMERUID" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 	</table>
 
@@ -2096,6 +2124,7 @@
             <column name="OC_PRESTATION_COVERAGEPLANCATEGORY" dbtype="varchar" javatype="string" size="10"/>
             <column name="OC_PRESTATION_VARIABLEPRICE" dbtype="int" javatype="integer"/>
             <column name="OC_PRESTATION_INACTIVE" dbtype="int" javatype="integer"/>
+            <column name="OC_PRESTATION_PERFORMERUID" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_PRESTATION_OBJECTID">
@@ -2525,6 +2554,7 @@
             <column name="inactive" dbtype="int" javatype="integer" />
             <column name="costcenter" dbtype="varchar" javatype="string" size="50"/>
             <column name="acceptsVisits" dbtype="int" javatype="integer" />
+            <column name="performeruid" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="services_serviceid">
