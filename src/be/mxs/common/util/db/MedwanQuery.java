@@ -3251,6 +3251,21 @@ public class MedwanQuery {
         usedCounters.put(name, new Integer(newCounter));
         return newCounter;
     }
+    public void setOpenclinicCounter(String name,int value) {
+        try {
+            Connection oc_conn=getOpenclinicConnection();
+            PreparedStatement ps = oc_conn.prepareStatement("update OC_COUNTERS set OC_COUNTER_VALUE=? where OC_COUNTER_NAME=?");
+            ps.setInt(1, value + 1);
+            ps.setString(2, name);
+            ps.execute();
+            ps.close();
+            oc_conn.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        usedCounters.put(name, value);
+    }
     public boolean validateNewOpenclinicCounter(String table, String column, String counter) {
         boolean result = true;
         try {

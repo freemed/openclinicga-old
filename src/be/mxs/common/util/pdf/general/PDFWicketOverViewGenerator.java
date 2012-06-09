@@ -120,9 +120,11 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
                 String ventilationService = "?";
                 if(wicketCredit.getReferenceObject()!=null && wicketCredit.getReferenceObject().getObjectType()!=null && wicketCredit.getReferenceObject().getObjectType().equalsIgnoreCase("patientcredit")){
                     PatientCredit patientCredit = PatientCredit.get(wicketCredit.getReferenceObject().getObjectUid());
-                    String su=patientCredit.getEncounter().getServiceUID(patientCredit.getDate());
-                    if(patientCredit!=null && patientCredit.getEncounter()!=null && su!=null && su.length()>0){
-                        ventilationService=su;
+                    if(patientCredit!=null && patientCredit.getEncounter()!=null && patientCredit.getDate()!=null){
+	                    String su=patientCredit.getEncounter().getServiceUID(patientCredit.getDate());
+	                    if(patientCredit!=null && patientCredit.getEncounter()!=null && su!=null && su.length()>0){
+	                        ventilationService=su;
+	                    }
                     }
                 }
                 if(incomeVentilation2.get(ventilationService)==null){

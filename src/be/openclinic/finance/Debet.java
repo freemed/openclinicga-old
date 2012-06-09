@@ -395,7 +395,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"), MedwanQuery.getInstance().getOpenclinicCounter("OC_DEBETS") + ""};
                 this.setUid(ids[0] + "." + ids[1]);
             }
-            if (ids.length == 2) {
+            if (ids.length == 2 && this.getQuantity()!=0) {
                 sSelect = " INSERT INTO OC_DEBETS (" +
                         " OC_DEBET_SERVERID," +
                         " OC_DEBET_OBJECTID," +

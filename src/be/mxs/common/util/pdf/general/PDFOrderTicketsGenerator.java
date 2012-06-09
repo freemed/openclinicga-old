@@ -149,9 +149,7 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
             Service company;
             for(int i=0; i<companyUids.size(); i++){
                 companyUid = (String)companyUids.get(i);
-                System.out.println("checking companyuid "+companyUid);
                 company = Service.getService(companyUid);
-                System.out.println("company= "+company);
                 if(company!=null){
                     this.sPrintLanguage = company.language;
                     ProductOrder order=null;

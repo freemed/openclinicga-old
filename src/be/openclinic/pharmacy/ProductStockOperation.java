@@ -709,6 +709,62 @@ public class ProductStockOperation extends OC_Object{
         return foundRecords;
     }
 
+    //--- GET DELIVERIES --------------------------------------------------------------------------
+    public static Vector getPatientDeliveries(String personid, java.util.Date dateFrom, java.util.Date dateUntil,
+                                       String sSortCol, String sSortDir){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector foundRecords = new Vector();
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT OC_OPERATION_SERVERID,OC_OPERATION_OBJECTID"+
+                             "  FROM OC_PRODUCTSTOCKOPERATIONS"+
+                             " WHERE OC_OPERATION_DESCRIPTION LIKE 'medicationdelivery.%' and OC_OPERATION_SRCDESTTYPE='"+MedwanQuery.getInstance().getConfigString("patientSourceDestinationType","patient")+"'";
+
+            if(personid.length() > 0){
+                sSelect+= " AND OC_OPERATION_SRCDESTUID = ?";
+            }
+
+            // dates
+            if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
+            if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE <= ?";
+
+            // order by selected col or default col
+            sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
+
+            System.out.println(sSelect);
+            ps = oc_conn.prepareStatement(sSelect);
+
+            // set questionmark-values
+            int questionMarkIdx = 1;
+            if(personid.length() > 0) ps.setString(questionMarkIdx++,personid);
+            if(dateFrom!=null)                     ps.setDate(questionMarkIdx++,new java.sql.Date(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setDate(questionMarkIdx++,new java.sql.Date(dateUntil.getTime()));
+
+            // execute
+            rs = ps.executeQuery();
+            while(rs.next()){
+                foundRecords.add(get(rs.getString("OC_OPERATION_SERVERID")+"."+rs.getString("OC_OPERATION_OBJECTID")));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+        return foundRecords;
+    }
+
     public static Vector getAll(String productStockUid){
         PreparedStatement ps = null;
         ResultSet rs = null;
