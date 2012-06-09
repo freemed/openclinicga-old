@@ -302,7 +302,16 @@
     //*********************************************************************************************
 
     //--- SAVE ------------------------------------------------------------------------------------
-    if (sAction.equals("save") && sEditOrderUid.length() > 0) {
+   	 int nPackagesDelivered=0;
+   	 try{
+   		nPackagesDelivered=Integer.parseInt(sEditPackagesDelivered);
+   	 }
+   	 catch(Exception e){}
+	 if(nPackagesDelivered==0){
+		 sAction="showDetails";
+	 }
+	 
+   	 if (sAction.equals("save") && sEditOrderUid.length() > 0) {
         String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
         if (!sPrevUsedDocument.equals(sEditProductStockDocumentUid)) {
             session.setAttribute("PrevUsedDocument", sEditProductStockDocumentUid);
@@ -323,7 +332,7 @@
         String existingOrderUid = order.exists();
         boolean orderExists = existingOrderUid.length() > 0;
 
-
+	   	
         // only update product-stock if order is not allready delivered
         if (!(sEditOrderUid.equals("-1") && orderExists) && !(!sEditOrderUid.equals("-1") && orderExists && !sEditOrderUid.equals(existingOrderUid)) && dPrevDateDelivered == null) {
             //Create a productstockoperation that does the work for you
@@ -340,7 +349,7 @@
             }
             operation.setSourceDestination(sd);
             operation.setDocumentUID(sEditProductStockDocumentUid);
-            operation.setUnitsChanged(Integer.parseInt(sEditPackagesDelivered));
+            if(sEditPackagesDelivered.length()>0) { operation.setUnitsChanged(Integer.parseInt(sEditPackagesDelivered));}
             operation.setUpdateDateTime(new java.util.Date());
             operation.setUpdateUser(activeUser.userid);
             // add number of packages that were actualy delivered

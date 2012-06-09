@@ -8,7 +8,7 @@
 		if(param.startsWith("receive.")){
 			String deliveryOperationUid=param.split("\\.")[1]+"."+param.split("\\.")[2];
 			ProductStockOperation deliveryOperation = ProductStockOperation.get(deliveryOperationUid);
-			if(deliveryOperation!=null){
+			if(deliveryOperation!=null && deliveryOperation.getProductStock()!=null){
 				//Identify detsination product stock
 				ProductStock productStock = ProductStock.get(deliveryOperation.getProductStock().getProductUid(),request.getParameter("ServiceStockUid"));
 				if(productStock == null){
@@ -66,11 +66,18 @@
 		Vector operations = ProductStockOperation.getOpenServiceStockDeliveries(request.getParameter("ServiceStockUid"));
 		for(int n=0;n<operations.size();n++){
 			ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
+			String servicename="?",productname="?";
+			if(operation.getProductStock()!=null && operation.getProductStock().getServiceStock()!=null){
+				servicename=operation.getProductStock().getServiceStock().getName();
+			}
+			if(operation.getProductStock()!=null && operation.getProductStock().getProduct()!=null){
+				productname=operation.getProductStock().getProduct().getName();
+			}
 			out.println("<tr class='admin2'>");
 			out.println("<td>"+operation.getUid()+"</td>");
 			out.println("<td>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td>");
-			out.println("<td>"+operation.getProductStock().getServiceStock().getName()+"</td>");
-			out.println("<td>"+operation.getProductStock().getProduct().getName()+"</td>");
+			out.println("<td>"+servicename+"</td>");
+			out.println("<td>"+productname+"</td>");
 			out.println("<td>"+operation.getUnitsChanged()+"</td>");
 			out.println("<td>"+operation.getUnitsReceived()+"</td>");
 			out.println("<td><input type='text' class='text' size='5' onchange='validatemax("+(operation.getUnitsChanged()-operation.getUnitsReceived())+",this.value);' name='receive."+operation.getUid()+"' value='"+(operation.getUnitsChanged()-operation.getUnitsReceived())+"'></td>");

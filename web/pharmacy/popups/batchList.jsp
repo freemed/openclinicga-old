@@ -19,19 +19,21 @@
 		int totalExpired=0;
 		for(int n=0;n<batches.size();n++){
 			Batch batch = (Batch)batches.elementAt(n);
-			if(batch.getLevel()>0 && (batch.getEnd()==null || !batch.getEnd().before(new java.util.Date()))){
-				sActiveBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations(\""+batch.getUid()+"\");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
-				totalActive+=batch.getLevel();
+			if(batch!=null){
+				if(batch.getLevel()>0 && (batch.getEnd()==null || !batch.getEnd().before(new java.util.Date()))){
+					sActiveBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations(\""+batch.getUid()+"\");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
+					totalActive+=batch.getLevel();
+				}
+				else if(batch.getLevel()<=0){
+					sUsedBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations("+batch.getUid()+");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
+					totalUsed+=batch.getLevel();
+				}
+				else {
+					sExpiredBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations("+batch.getUid()+");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
+					totalExpired+=batch.getLevel();
+				}
+				totalStock-=batch.getLevel();
 			}
-			else if(batch.getLevel()<=0){
-				sUsedBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations("+batch.getUid()+");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
-				totalUsed+=batch.getLevel();
-			}
-			else {
-				sExpiredBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations("+batch.getUid()+");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
-				totalExpired+=batch.getLevel();
-			}
-			totalStock-=batch.getLevel();
 		}
 		if(totalActive>0){
 			out.println(getTran("web","active.batches",sWebLanguage)+":");

@@ -842,28 +842,28 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","Level",sWebLanguage)%> *</td>
                         <td class="admin2">
-                            <input class="text" type="text" <%=(sAction.equals("showDetailsNew")?"":"style='color:#999;'")%> name="EditLevel" <%=(sAction.equals("showDetailsNew")?"":"readonly")%> size="5" maxLength="5" value="<%=sSelectedLevel%>" <%=(sAction.equals("showDetailsNew")?"onKeyUp='isNumber(this);'":"")%>>
+                            <input class="text" type="text" <%=(sAction.equals("showDetailsNew")?"":"style='color:#999;'")%> name="EditLevel" <%=(sAction.equals("showDetailsNew")?"":"readonly")%> size="10" maxLength="10" value="<%=sSelectedLevel%>" <%=(sAction.equals("showDetailsNew")?"onKeyUp='isNumber(this);'":"")%>>
                         </td>
                     </tr>
                     <%-- MinimumLevel (required) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","MinimumLevel",sWebLanguage)%> *</td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditMinimumLevel" size="5" maxLength="5" value="<%=sSelectedMinimumLevel%>" onKeyUp="isNumber(this);">
+                            <input class="text" type="text" name="EditMinimumLevel" size="10" maxLength="10" value="<%=sSelectedMinimumLevel%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
                     <%-- MaximumLevel (implied) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","MaximumLevel",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditMaximumLevel" size="5" maxLength="5" value="<%=sSelectedMaximumLevel%>" onKeyUp="isNumber(this);">
+                            <input class="text" type="text" name="EditMaximumLevel" size="10" maxLength="10" value="<%=sSelectedMaximumLevel%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
                     <%-- OrderLevel (required) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","OrderLevel",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditOrderLevel" size="5" maxLength="5" value="<%=sSelectedOrderLevel%>" onKeyUp="isNumber(this);">
+                            <input class="text" type="text" name="EditOrderLevel" size="10" maxLength="10" value="<%=sSelectedOrderLevel%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
                     <%-- Begin --%>
