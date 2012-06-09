@@ -114,10 +114,10 @@
     }
 %>
 <%
-   System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+1);
 
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
-    PatientInvoice patientInvoice;
+
+	PatientInvoice patientInvoice;
     String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="";
 
     if (sFindPatientInvoiceUID.length() > 0) {
@@ -126,6 +126,19 @@
         if (patientInvoice!=null){
             sPatientInvoiceID = checkString(patientInvoice.getInvoiceUid());
             sPatientId = patientInvoice.getPatientUid();
+            if(request.getParameter("LoadPatientId")!=null && (activePatient==null || !sPatientId.equalsIgnoreCase(activePatient.personid))){
+            	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+            	if(activePatient==null){
+            		activePatient=new AdminPerson();
+            		session.setAttribute("activePatient",activePatient);
+            	}
+            	activePatient.initialize(conn,sPatientId);
+            	conn.close();
+            	%>
+            	<script>window.location.href='<c:url value='/main.do'/>?Page=financial/patientInvoiceEdit.jsp&ts=<%=ScreenHelper.getTs()%>&FindPatientInvoiceUID=<%=sFindPatientInvoiceUID%>';</script>
+            	<%
+            	out.flush();
+            }
             sClosed=patientInvoice.getStatus();
             sInsurarReference=patientInvoice.getInsurarreference();
         }
@@ -138,7 +151,6 @@
         patientInvoice.setStatus(MedwanQuery.getInstance().getConfigString("defaultInvoiceStatus","open"));
         sPatientId = activePatient.personid;
     }
-    System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+2);
 
     double dBalance = 0;
     Vector vDebets = patientInvoice.getDebetStrings();
@@ -157,7 +169,6 @@
             }
         }
     }
-    System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+3);
 
     Vector vPatientCredits = PatientCredit.getPatientCreditsViaInvoiceUID(patientInvoice.getUid());
 
@@ -177,7 +188,6 @@
             }
         }
     }
-   System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+4);
 %>
 <form name='FindForm' id="FindForm" method='POST'>
     <%=writeTableHeader("web","patientInvoiceEdit",sWebLanguage,"")%>
@@ -229,7 +239,6 @@
                 <input type="hidden" id="EditInvoiceUID" name="EditInvoiceUID" value="<%=checkString(patientInvoice.getInvoiceUid())%>">
                 <input type="text" class="text" readonly id="EditInvoiceUIDText" name="EditInvoiceUIDText" value="<%=sPatientInvoiceID%>">
                 <%
-                System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+5);
                 	if(checkString(patientInvoice.getNumber()).length()>0 && !patientInvoice.getInvoiceUid().equalsIgnoreCase(patientInvoice.getInvoiceNumber())){
                 		out.print("("+patientInvoice.getInvoiceNumber()+")");
                 	}
@@ -240,7 +249,6 @@
                     		out.println("<input type='radio' class='text' name='invoiceseries' value='"+invoiceSeries[n]+"'/>"+invoiceSeries[n]);
                 		}
                 	}
-                	   System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+6);
 
                 %>
             </td>
@@ -264,14 +272,12 @@
                 <select id="invoiceStatus" class="text" name="EditStatus" onchange="doStatus()"  <%=patientInvoice.getStatus().equalsIgnoreCase("closed") || patientInvoice.getStatus().equalsIgnoreCase("canceled")?"disabled":""%>>
                     <%
 
-                    System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+7);
                         if(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled")){
                             out.print("<option value='canceled'>"+getTran("finance.patientinvoice.status","canceled",sWebLanguage)+"</option>");
                         }
                         else {
                             out.print("<option/>"+ScreenHelper.writeSelectExclude("finance.patientinvoice.status",checkString(patientInvoice.getStatus()),sWebLanguage,false,false,"canceled"));
                         }
-                        System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+8);
                     %>
                 </select>
             </td>
@@ -298,7 +304,6 @@
                             <td><%=getTran("web","insuranceinvoiceid",sWebLanguage)%></td>
                         </tr>
                     <%
-                    System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+9);
                         String sClass = "";
                         out.print(addDebets(vDebets,sClass,sWebLanguage, true));
 
@@ -306,7 +311,6 @@
                             Vector vUnassignedDebets = Debet.getUnassignedPatientDebets(sPatientId);
                             out.print(addDebets(vUnassignedDebets,sClass,sWebLanguage, false));
                         }
-                        System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+10);
                     %>
                     </table>
                 </div>
@@ -327,13 +331,11 @@
                         </tr>
                     <%
                         out.print(addCredits(vPatientCredits,sClass,true,sWebLanguage));
-                    System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+11);
 
                         if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed")||checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
                             Vector vUnassignedCredits = PatientCredit.getUnassignedPatientCredits(sPatientId);
                             out.print(addCredits(vUnassignedCredits,sClass,false,sWebLanguage));
                         }
-                        System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+12);
                     %>
                     </table>
                 </div>
@@ -380,6 +382,13 @@
 
                         <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf('<%=patientInvoice.getUid()%>');">
                         <input class="button" type="button" name="buttonPrint" value='PROFORMA' onclick="doPrintProformaPdf('<%=patientInvoice.getUid()%>');">
+                        <%
+                        	if(MedwanQuery.getInstance().getConfigInt("javaPOSenabled",0)==1){
+                        %>
+                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientReceipt('<%=patientInvoice.getUid()%>');">
+                        <%
+                        	}
+                        %>
                         <%
                             if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
                             	if(!patientInvoice.getStatus().equalsIgnoreCase("closed")||(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.cancelclosedinvoice.select")){
@@ -551,6 +560,25 @@
         FindForm.submit();
     }
 
+    function doPrintPatientReceipt(invoiceUid){
+        var params = '';
+        var today = new Date();
+        var url= '<c:url value="/financial/printPatientReceipt.jsp"/>?invoiceuid='+invoiceUid+'&ts='+today;
+        new Ajax.Request(url,{
+				method: "GET",
+                parameters: params,
+                onSuccess: function(resp){
+                	var label = eval('('+resp.responseText+')');
+                	if(label.message.length>0){
+                    	alert(label.message);
+                    };
+                },
+				onFailure: function(){
+                }
+            }
+		);
+    }
+    
     function loadOpenPatientInvoices(){
         var params = '';
         var today = new Date();
