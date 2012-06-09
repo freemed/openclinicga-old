@@ -92,8 +92,30 @@
     <table width="100%" class="list">
         <tr><td colspan="6" class="titleadmin"><%=getTran("web","medical.data",sWebLanguage)%></td></tr>
         <tr>
-            <td colspan="3" valign="top" height="100%" width="50%"><%conditionalInclude("curative/medicationStatus.jsp",pageContext,"medication.medicationschema.select",activeUser);%></td>
-            <td colspan="3"  valign="top" height="100%"><%conditionalInclude("curative/vaccinationStatus.jsp",pageContext,"occup.vaccinations.select",activeUser);%></td>
+        	<%
+        		if(activeUser.getAccessRight("medication.medicationschema.select")){
+        	%>
+            	<td colspan="3" valign="top" height="100%" width="50%"><%conditionalInclude("curative/medicationStatus.jsp",pageContext,"medication.medicationschema.select",activeUser);%></td>
+            <%
+        		}
+        		else {
+            %>
+            	<td colspan="3" valign="top" height="100%" width="50%"><table width='100%'><tr class='admin'><td>&nbsp;</td></tr></table></td>
+            <%
+        		}
+            %>
+        	<%
+        		if(activeUser.getAccessRight("occup.vaccinations.select")){
+        	%>
+	            <td colspan="3"  valign="top" height="100%"><%conditionalInclude("curative/vaccinationStatus.jsp",pageContext,"occup.vaccinations.select",activeUser);%></td>
+            <%
+        		}
+        		else {
+            %>
+            	<td colspan="3" valign="top" height="100%" width="50%"><table width='100%'><tr class='admin'><td>&nbsp;</td></tr></table></td>
+            <%
+        		}
+            %>
         <tr>
         <tr>
             <td colspan="2"  valign="top" height="100%" width="30%"><%conditionalInclude("curative/warningStatus.jsp",pageContext,"occup.warning.select",activeUser);%></td>

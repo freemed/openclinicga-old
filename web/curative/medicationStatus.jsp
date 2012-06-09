@@ -2,6 +2,7 @@
 <%@ page import="be.openclinic.medical.ChronicMedication" %>
 <%@ page import="java.util.Vector" %>
 <%@ page import="be.openclinic.medical.PaperPrescription" %>
+<%@ page import="be.openclinic.pharmacy.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <div id="patientmedicationsummary"/>
@@ -53,7 +54,7 @@
         	Timestamp ts = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()-latencydays);
 
     %>
-        <td width="1"><table><tr><td><%=getTran("curative","medication.prescription",sWebLanguage)%> (<%=getTran("web","after",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy").format(ts) %>)</td></tr></table></td>
+        <td width="1"><table><tr><td><b><%=getTran("curative","medication.prescription",sWebLanguage)%> (<%=getTran("web","after",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy").format(ts) %>)</b></td></tr></table></td>
         <td><table>
     <%
         Prescription prescription;
@@ -99,7 +100,7 @@
     if(paperprescriptions.size()>0){
 %>
         <tr>
-            <td valign="top"><%=getTran("curative","medication.paperprescriptions",sWebLanguage)%><br/> &lt;3 <%=getTran("web","months",sWebLanguage).toLowerCase()%></td>
+            <td valign="top"><b><%=getTran("curative","medication.paperprescriptions",sWebLanguage)%><br/> &lt;3 <%=getTran("web","months",sWebLanguage).toLowerCase()%></b></td>
             <td colspan="3">
                 <table width="100%">
                     <%
@@ -139,7 +140,34 @@
             out.println("<tr><td width='1%' valign='top' align='right'><img src='_img/plus.png' onclick='togglehiddenprescriptions();'/></td><td colspan='3'><div id='hiddenprescriptions' style='display: none'><table width='100%'>"+hiddenprescriptions+"</table></div></td></tr>");
         }
     }
+	//Nu gaan we kijken of er geneesmiddelen geleverd zijn geworden in de laatste x dagen
+	long day=24*3600*1000;
+	Vector medicationHistory = ProductStockOperation.getPatientDeliveries(activePatient.personid, new java.util.Date(new java.util.Date().getTime()-MedwanQuery.getInstance().getConfigInt("patientMedicationDeliveryHistoryDuration",14)*day), new java.util.Date(), "OC_OPERATION_DATE", "DESC");
+	System.out.println("medicationHistory.size="+medicationHistory.size());
+	if(medicationHistory.size()>0){
+		%>
+        <tr>
+            <td valign="top"><b><%=getTran("curative","medication.deliveries",sWebLanguage)%><br/> &lt;<%= MedwanQuery.getInstance().getConfigInt("patientMedicationDeliveryHistoryDuration",14)%> <%=getTran("web","days",sWebLanguage).toLowerCase()%></b></td>
+            <td colspan="3">
+                <table width="100%">
+                    <%
+						for(int n=0;n<medicationHistory.size();n++){
+							ProductStockOperation operation = (ProductStockOperation)medicationHistory.elementAt(n);
+							String product="";
+							if(operation.getProductStock()!=null && operation.getProductStock().getProduct()!=null){
+								product=operation.getProductStock().getProduct().getName();
+							}
+							out.println("<tr><td>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td><td>"+operation.getUnitsChanged()+" X "+product+"</td></tr>");		                    
+						}
+                    %>
+                </table>
+            </td>
+        </tr>
+	    <%
+	}
+
 %>
+
         <tr height="99%"><td/></tr>
     </tr>
 </table>
