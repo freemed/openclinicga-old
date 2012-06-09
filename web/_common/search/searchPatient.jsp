@@ -7,6 +7,7 @@
            sFindDOB = checkString(request.getParameter("FindDOB")),
            sFindGender = checkString(request.getParameter("FindGender")),
            sReturnPersonID = checkString(request.getParameter("ReturnPersonID")),
+           sPersonID = checkString(request.getParameter("PersonID")),
            sSetGreenField = checkString(request.getParameter("SetGreenField"));
 
     if (sReturnPersonID.length() == 0) {
@@ -47,6 +48,12 @@
                     <option value="M"<%=(sFindGender.equalsIgnoreCase("m") ? " selected" : "")%>>M</option>
                     <option value="F"<%=(sFindGender.equalsIgnoreCase("f") ? " selected" : "")%>>F</option>
                 </select>&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td height="25" nowrap>&nbsp;<%=getTran("Web", "personid", sWebLanguage)%>&nbsp;&nbsp;</td>
+            <td nowrap>
+                <input type="text" name="PersonID" class="text" value="<%=sPersonID%>"/>
             </td>
         </tr>
         <%

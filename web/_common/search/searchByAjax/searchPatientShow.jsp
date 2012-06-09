@@ -8,7 +8,9 @@
            sFindFirstname = checkString(request.getParameter("FindFirstname")),
            sFindDOB = checkString(request.getParameter("FindDOB")),
            sFindGender = checkString(request.getParameter("FindGender")),
-           sReturnPersonID = checkString(request.getParameter("ReturnPersonID"));
+           sReturnPersonID = checkString(request.getParameter("ReturnPersonID")),
+           sPersonID = checkString(request.getParameter("PersonID"))
+           ;
 
     if (sReturnPersonID.length() == 0) {
         sReturnPersonID = checkString(request.getParameter("ReturnField"));
@@ -22,11 +24,28 @@
 %>
 <table width="100%" cellspacing="0" cellpadding="0">
     <%
-        Vector vPersons = AdminPerson.searchPatients(sSelectLastname, sSelectFirstname, sFindGender, sFindDOB, bIsUser);
+        Vector vPersons = new Vector();
+    	if(!bIsUser && sPersonID.length()>0){
+    		AdminPerson person = AdminPerson.getAdminPerson(sPersonID);
+    		if(person!=null && person.lastname!=null && person.lastname.length()>0){
+                Hashtable hInfo = new Hashtable();
+                hInfo.put("personid",ScreenHelper.checkString(sPersonID));
+                hInfo.put("dateofbirth",ScreenHelper.checkString(person.dateOfBirth));
+                hInfo.put("gender",ScreenHelper.checkString(person.gender));
+                hInfo.put("lastname",ScreenHelper.checkString(person.lastname));
+                hInfo.put("firstname",ScreenHelper.checkString(person.firstname));
+                hInfo.put("immatnew",ScreenHelper.checkString(person.getID("immatnew")));
+
+                vPersons.addElement(hInfo);
+    		}
+    	}
+    	else {
+    		vPersons=AdminPerson.searchPatients(sSelectLastname, sSelectFirstname, sFindGender, sFindDOB, bIsUser);
+    	}
         Iterator personIter = vPersons.iterator();
 
         Hashtable hPersonInfo;
-        if ((sSelectLastname.length() > 0 || sSelectFirstname.length() > 0 || sFindGender.length() > 0 || sFindDOB.length() > 0) || bIsUser) {
+        if ((sSelectLastname.length() > 0 || sSelectFirstname.length() > 0 || sFindGender.length() > 0 || sFindDOB.length() > 0) || bIsUser || sPersonID.length()>0) {
             String sClass = "", sLastname, sFirstname;
             boolean recsFound = false;
             StringBuffer results = new StringBuffer();
@@ -51,12 +70,14 @@
                 // one row
                 if (bIsUser) {
                     results.append("<tr class='list" + sClass + "' onclick=\"setPerson(" + hPersonInfo.get("userid") + ", '" + sLastname + " " + sFirstname + "');\">")
+                            .append(" <td>" + hPersonInfo.get("userid")+"</td>")
                             .append(" <td>" + sLastname + " " + sFirstname + " (" + hPersonInfo.get("userid") + ")</td>")
                             .append(" <td>" + ((String) hPersonInfo.get("gender")).toUpperCase() + "</td>")
                             .append(" <td colspan='2'>" + hPersonInfo.get("dateofbirth") + "</td>")
                             .append("</tr>");
                 } else {
                     results.append("<tr class='list" + sClass + "' onclick=\"setPerson(" + hPersonInfo.get("personid") + ", '" + sLastname + " " + sFirstname + "');\">")
+                            .append(" <td>" + hPersonInfo.get("personid") + "</td>")
                             .append(" <td>" + sLastname + " " + sFirstname + "</td>")
                             .append(" <td>" + ((String) hPersonInfo.get("gender")).toUpperCase() + "</td>")
                             .append(" <td colspan='2'>" + hPersonInfo.get("dateofbirth") + "</td>")
@@ -68,6 +89,7 @@
     %>
     <%-- header --%>
     <tr class="admin">
+        <td nowrap><%=HTMLEntities.htmlentities(getTran("Web", "personid", sWebLanguage))%></td>
         <td nowrap><%=HTMLEntities.htmlentities(getTran("Web", "name", sWebLanguage))%></td>
         <td width="50" nowrap><%=HTMLEntities.htmlentities(getTran("Web", "gender", sWebLanguage))%></td>
         <td width="110" nowrap><%=HTMLEntities.htmlentities(getTran("Web", "dateofbirth", sWebLanguage))%></td>

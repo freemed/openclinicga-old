@@ -352,6 +352,10 @@
         else if (barcode.substring(0, 1) == "4" || barcode.substring(0, 1) == "5") {
             window.open("<c:url value='/popup.jsp'/>?Page=_common/readBarcode.jsp&ts=<%=ScreenHelper.getTs()%>&barcode=" + barcode, "barcode", "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no");
         }
+        else if (barcode.substring(0, 1) == "7") {
+            url = "<c:url value='/main.do'/>?Page=financial/patientInvoiceEdit.jsp&ts=<%=ScreenHelper.getTs()%>&LoadPatientId=true&FindPatientInvoiceUID=" + barcode.substring(1);
+        	window.location.href = url;
+        }
     }
     function readBarcode3(barcode) {
         var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
