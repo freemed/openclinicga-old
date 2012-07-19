@@ -142,6 +142,8 @@
                 out.print(setCb(i++,"AdminPrivate","PZipcode","zipcode",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PCity","city",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PCountry","country",sWebLanguage,"web"));
+                out.print(setCb(i++,"AdminPrivate","PProvince","province",sWebLanguage,"web"));
+                out.print(setCb(i++,"AdminPrivate","PDistrict","district",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PEmail","email",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PTelephone","telephone",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PFax","fax",sWebLanguage,"web"));
