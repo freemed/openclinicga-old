@@ -45,6 +45,17 @@
             </td>
         </tr>
 
+        <tr>
+            <td class="admin"><%=getTran("Web","ortho.manager",sWebLanguage)%></td>
+            <td class="admin2">
+                <select class='text' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CNAR_CONSULTATION_ORTHO" property="itemId"/>]>.value">
+                    <option/>
+                    <%
+                        out.print(ScreenHelper.writeSelect("encounter.ortho.manager",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CNAR_CONSULTATION_ORTHO"),sWebLanguage));
+                    %>
+                </select>
+            </td>
+        </tr>
         <%-- MEDICAL HISTORY --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","medical.history",sWebLanguage)%></td>
@@ -141,6 +152,7 @@
             			<td/>
             			<td><%=getTran("web","type",sWebLanguage) %></td>
             			<td><%=getTran("web","detail",sWebLanguage) %></td>
+            			<td><%=getTran("web","precision",sWebLanguage) %></td>
             			<td><%=getTran("openclinic.cnar","new.old.repair",sWebLanguage) %></td>
             			<td><%=getTran("web","quantity",sWebLanguage) %></td>
             		</tr>
@@ -153,8 +165,15 @@
 				            </select>
 				        </td>
             			<td>
-			            	<select id='orthesis.detail.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1" property="itemId"/>]>.value" class="text">
+			            	<select id='orthesis.detail.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1" property="itemId"/>]>.value" class="text"  onchange="loadSelect('cnar.detail.'+document.getElementById('orthesis.type.1').value+'.'+this.options[this.selectedIndex].value,document.getElementById('orthesis.precision.1'))>
 				            </select>
+				        </td>
+            			<td>
+			                <select class='text' name='currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_PRECISION1" property="itemId"/>]>.value' id='orthesis.precision.1'>
+			                    <%
+			                        out.print(ScreenHelper.writeSelect("cnar.detail."+tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE1")+"."+tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1"),tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_PRECISION1"),sWebLanguage));
+			                    %>
+			                </select>
 				        </td>
             			<td>
 			            	<select id='orthesis.delivery.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY1" property="itemId"/>]>.value" class="text">
@@ -178,6 +197,7 @@
 			            	<select id='orthesis.detail.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL2" property="itemId"/>]>.value" class="text">
 				            </select>
 				        </td>
+				        <td/>
             			<td>
 			            	<select id='orthesis.delivery.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY2" property="itemId"/>]>.value" class="text">
 				                <option/>
@@ -200,6 +220,7 @@
 			            	<select id='orthesis.detail.3' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL3" property="itemId"/>]>.value" class="text">
 				            </select>
 				        </td>
+				        <td/>
             			<td>
 			            	<select id='orthesis.delivery.3' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY3" property="itemId"/>]>.value" class="text">
 				                <option/>
@@ -222,6 +243,7 @@
 			            	<select id='orthesis.detail.4' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL4" property="itemId"/>]>.value" class="text">
 				            </select>
 				        </td>
+				        <td/>
             			<td>
 			            	<select id='orthesis.delivery.4' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY4" property="itemId"/>]>.value" class="text">
 				                <option/>
@@ -244,6 +266,7 @@
 			            	<select id='orthesis.detail.5' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL5" property="itemId"/>]>.value" class="text">
 				            </select>
 				        </td>
+				        <td/>
             			<td>
 			            	<select id='orthesis.delivery.5' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY5" property="itemId"/>]>.value" class="text">
 				                <option/>
@@ -263,17 +286,6 @@
             <td class="admin"><%=getTran("openclinic.chuk","conclusion",sWebLanguage)%></td>
             <td class="admin2">
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_CONCLUSION")%> class="text" cols="50" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_CONCLUSION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_CONCLUSION" property="value"/></textarea>
-            </td>
-        </tr>
-
-        <%-- REFERENCE --%>
-        <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","reference",sWebLanguage)%></td>
-            <td class="admin2">
-                <input id="rbrefyes" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_REFERENCE")%>  onDblClick="uncheckRadio(this);" type="radio" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_REFERENCE" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_REFERENCE;value=medwan.common.yes" property="value" outputString="checked"/> value="medwan.common.yes"/>
-                &nbsp;<%=getLabel("web.occup","medwan.common.yes",sWebLanguage,"rbrefyes")%>
-                &nbsp;<input id="rbrefno" type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_REFERENCE" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_REFERENCE;value=medwan.common.no" property="value" outputString="checked"/> value="medwan.common.no"/>
-                &nbsp;<%=getLabel("web.occup","medwan.common.no",sWebLanguage,"rbrefno")%>
             </td>
         </tr>
 
@@ -370,6 +382,32 @@
   fillDetail('orthesis.detail.3',document.getElementById('orthesis.type.3').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL3")%>');				            
   fillDetail('orthesis.detail.4',document.getElementById('orthesis.type.4').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL4")%>');				            
   fillDetail('orthesis.detail.5',document.getElementById('orthesis.type.5').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL5")%>');				            
+
+  function loadSelect(labeltype,select){
+      var today = new Date();
+      var url='<c:url value="/"/>/_common/search/searchByAjax/loadSelect.jsp?ts=' + today;
+      new Ajax.Request(url,{
+              method: "POST",
+              postBody: 'labeltype=' + labeltype,
+              onSuccess: function(resp){
+                  var sOptions = resp.responseText;
+                  if (sOptions.length>0){
+                      var aOptions = sOptions.split("$");
+                      select.options.length=0;
+                      for(var i=0; i<aOptions.length; i++){
+                      	aOptions[i] = aOptions[i].replace(/^\s+/,'');
+                      	aOptions[i] = aOptions[i].replace(/\s+$/,'');
+                          if ((aOptions[i].length>0)&&(aOptions[i]!=" ")){
+                          	select.options[i] = new Option(aOptions[i].split("£")[1], aOptions[i].split("£")[0]);
+                          }
+                      }
+                  }
+              },
+              onFailure: function(){
+              }
+          }
+      );
+  }
 
 </script>
 
