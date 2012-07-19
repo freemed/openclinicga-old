@@ -79,4 +79,6 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_PLANNING_FAMILIAL"                 path="/main.do?Page=/healthrecord/csPlanningFamilial.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_CONSULTATION"                      path="/main.do?Page=/healthrecord/csConsultation.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MCD"                       		   path="/main.do?Page=/healthrecord/manageMinimalClinicalData_view.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_CONSULTATION"                    path="/main.do?Page=/healthrecord/CNARConsultation.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_KINECONSULTATION"                path="/main.do?Page=/healthrecord/CNARkinesitherapyConsultationTreatment.jsp"/>
 </mappings>
