@@ -292,8 +292,11 @@ public class ProductStockOperation extends OC_Object{
     	return result;
     }
 
-    //--- STORE -----------------------------------------------------------------------------------
     public String store(){
+    	return store(true);
+    }
+    //--- STORE -----------------------------------------------------------------------------------
+    public String store(boolean bStorePrestation){
         //First we will check if this operation is acceptable
     	boolean isnew=false;
         ProductStock productStock = this.getProductStock();
@@ -466,10 +469,7 @@ public class ProductStockOperation extends OC_Object{
             
             //Generate prestation if indicated in product
             Product product = getProductStock().getProduct();
-            System.out.println("getSourceDestination().getObjectType()="+getSourceDestination().getObjectType());
-            System.out.println("getSourceDestination().getObjectUid()="+getSourceDestination().getObjectUid());
-            System.out.println("product.getPrestationcode()="+product.getPrestationcode());
-            if(getSourceDestination().getObjectType().equalsIgnoreCase("patient") && getSourceDestination().getObjectUid().length()>0 && product.getPrestationcode()!=null && product.getPrestationcode().length()>0){
+            if(bStorePrestation && getSourceDestination().getObjectType().equalsIgnoreCase("patient") && getSourceDestination().getObjectUid().length()>0 && product.getPrestationcode()!=null && product.getPrestationcode().length()>0){
             	Prestation prestation = Prestation.get(product.getPrestationcode());
             	AdminPerson patient = AdminPerson.getAdminPerson(getSourceDestination().getObjectUid());
             	Encounter activeEncounter = Encounter.getActiveEncounter(patient.personid);

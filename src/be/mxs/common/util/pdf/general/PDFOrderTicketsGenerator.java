@@ -120,30 +120,33 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
             Hashtable orderUidsPerCompany = new Hashtable();
             Vector orderUidsOfOneCompany;
             Vector companyUids = new Vector();
-
+            System.out.println(orderUids);
             StringTokenizer tokenizer = new StringTokenizer(orderUids,"$");
             while(tokenizer.hasMoreTokens()){
                 orderIdentifier = tokenizer.nextToken();
-                orderUid   = orderIdentifier.split("£")[0];
-                companyUid = orderIdentifier.split("£")[1];
-
-                orderUidsOfOneCompany = (Vector)orderUidsPerCompany.get(companyUid);
-                if(orderUidsOfOneCompany==null){
-                    orderUidsOfOneCompany = new Vector();
-                    orderUidsPerCompany.put(companyUid,orderUidsOfOneCompany);
-                }
-                orderUidsOfOneCompany.add(orderUid);
-
-                if(!companyUid.equals(prevCompanyUid)){
-                    if(!companyUids.contains(companyUid)){
-                        companyUids.add(companyUid);
-                        prevCompanyUid = companyUid;
-                    }
+                if(orderIdentifier.split("£").length==2){
+	                orderUid   = orderIdentifier.split("£")[0];
+	                companyUid = orderIdentifier.split("£")[1];
+	
+	                orderUidsOfOneCompany = (Vector)orderUidsPerCompany.get(companyUid);
+	                if(orderUidsOfOneCompany==null){
+	                    orderUidsOfOneCompany = new Vector();
+	                    orderUidsPerCompany.put(companyUid,orderUidsOfOneCompany);
+	                }
+	                orderUidsOfOneCompany.add(orderUid);
+	
+	                if(!companyUid.equals(prevCompanyUid)){
+	                    if(!companyUids.contains(companyUid)){
+	                        companyUids.add(companyUid);
+	                        prevCompanyUid = companyUid;
+	                    }
+	                }
                 }
             }
             if(!companyUids.contains(companyUid)){
                 companyUids.add(companyUid);
             }
+            System.out.println("# companies: "+companyUids.size());
 
             // run thru all different companies
             Service company;
@@ -151,6 +154,7 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
                 companyUid = (String)companyUids.get(i);
                 company = Service.getService(companyUid);
                 if(company!=null){
+                    System.out.println("company: "+companyUid);
                     this.sPrintLanguage = company.language;
                     ProductOrder order=null;
                     String orderedProductUid="";
@@ -159,6 +163,7 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
                     addOperations(orderUidsOfOneCompany);
                     addFooter();
                     doc.newPage(); // each company on a different page
+                    System.out.println("printed");
                 }
                 else{
                     Debug.println("*** PDFTicketsGenerator : Service '"+companyUid+"' not found");

@@ -487,6 +487,29 @@ public class ScreenHelper {
         );
     }
 
+    //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
+    static public String setAdminPrivateContactCDO(AdminPrivateContact apc, String sLanguage) {
+        String sCountry = "&nbsp;";
+        if (checkString(apc.country).trim().length()>0) {
+            sCountry = getTran("Country",apc.country,sLanguage);
+        }
+
+        String sProvince = "&nbsp;";
+        if (checkString(apc.province).trim().length()>0) {
+            sProvince = getTran("province",apc.province,sLanguage);
+        }
+        return(
+            setRow("Web","address",apc.address,sLanguage)+
+            setRow("Web","country",sCountry,sLanguage)+
+            setRow("Web","telephone",apc.telephone,sLanguage)+
+            setRow("Web","mobile",apc.mobile,sLanguage)+
+            setRow("Web","province",apc.district,sLanguage)+
+            setRow("Web","community",apc.sector,sLanguage)+
+            setRow("Web","function",apc.businessfunction,sLanguage)+
+            setRow("Web","business",apc.business,sLanguage)
+        );
+    }
+
     //--- WRITE LOOSE DATE FIELD YEAR -------------------------------------------------------------
     static public String writeLooseDateFieldYear(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR) {
         String gfPopType = "1"; // default

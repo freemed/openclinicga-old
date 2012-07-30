@@ -845,6 +845,31 @@ public class ProductStock extends OC_Object implements Comparable {
         if (getProduct() == null || otherProductStock.getProduct() == null) return 1;
         return this.getProduct().compareTo(otherProductStock.getProduct());
     }
+    
+    public static ProductStock getByBarcode(String barcodeid,String servicestockuid){
+        ProductStock productstock = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT * FROM OC_PRODUCTSTOCKS a,OC_PRODUCTS b WHERE b.OC_PRODUCT_BARCODE = ? and b.OC_PRODUCT_OBJECTID=replace(a.OC_STOCK_PRODUCTUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and a.OC_STOCK_SERVICESTOCKUID=?";
+            ps=oc_conn.prepareStatement(sSelect);
+            ps.setString(1, barcodeid);
+            ps.setString(2, servicestockuid);
+            rs=ps.executeQuery();
+            if(rs.next()){
+            	productstock = ProductStock.get(rs.getString("OC_STOCK_SERVERID")+"."+rs.getString("OC_STOCK_OBJECTID"));
+            }
+            rs.close();
+            ps.close();
+            oc_conn.close();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+        return productstock;
+    }
+
     public static Vector getProducts(String stockId, String sFindProductName) {
         Vector foundObjects = new Vector();
         PreparedStatement ps = null;

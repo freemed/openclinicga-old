@@ -621,8 +621,9 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? AND d.OC_DEBET_CREDITED=0"
-                    + " AND d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid") 
+                    + " AND (d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid")+")" 
                     + " AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ') order by OC_DEBET_DATE DESC";
+            System.out.println(sSelect);
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sPatientId);
             rs = ps.executeQuery();
