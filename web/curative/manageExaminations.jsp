@@ -5,7 +5,7 @@
 <%=checkPermission("curative","select",activeUser)%>
  <%!
     private String writeExamination(User activeUser, int counter, String sTranTitle,String sTranDate,String sTranType, String sTranId, String sTranServerId, String sWebLanguage, String sCONTEXTPATH){
-        return "<tr onmouseover=\"this.className='list_select2';\" onmouseout=\"this.className='';\">"
+        return "<tr >"
         +"<td>"
             +"<img src='"+sCONTEXTPATH+"/_img/pijl.gif'>"
             +"<button accesskey='"+counter+"' class='buttoninvisible' onclick=\"window.location.href='"+sCONTEXTPATH+"/healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType="+sTranType+"&be.mxs.healthrecord.createTransaction.context="+activeUser.activeService.defaultContext+"&ts="+getTs()+"'\"></button>"
@@ -32,7 +32,7 @@
     <tr class="admin">
         <td colspan="5">&nbsp;<%=getTran("web","documents",sWebLanguage)%></td>
     </tr>
-    <tr onmouseover="this.className='list_select2';" onmouseout="this.className='';">
+    <tr >
         <td colspan="5">
             <img src="<c:url value="/_img/pijl.gif"/>">&nbsp;
             <a onmouseover="window.status='';return true;" href="<c:url value='/healthrecord/createTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EXTERNAL_DOCUMENT&be.mxs.healthrecord.createTransaction.context=<%=activeUser.activeService.defaultContext%>&ts=<%=getTs()%>"><%=getTran("Web","add.new.document",sWebLanguage)%></a>
@@ -149,7 +149,7 @@
      if(activeUser.getAccessRight("occup.reference.select")){
      //REFERENCES
  %>
-    <tr onmouseover="this.className='list_select2';" onmouseout="this.className='';">
+    <tr >
         <%-- examination name --%>
         <td>
             <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/globalReferenceEdit.jsp&ts=<%=getTs()%>'"></button><u><%=counter++%></u> <%=getTran("web","internal_references",sWebLanguage)%>
@@ -162,7 +162,7 @@
         </td>
         <td/><td/><td/>
     </tr>
-    <tr onmouseover="this.className='list_select2';" onmouseout="this.className='';">
+    <tr >
         <%-- examination name --%>
         <td>
             <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/globalReferenceSummary.jsp&ts=<%=getTs()%>'"></button><u><%=counter++%></u> <a href="<c:url value='/main.do'/>?Page=healthrecord/globalReferenceSummary.jsp&ts=<%=getTs()%>"><%=getTran("web","internal_references_summary",sWebLanguage)%></a>
@@ -173,7 +173,7 @@
      }
         if(activeUser.getAccessRight("prescriptions.care.select")){
     %>
-    <tr onmouseover="this.className='list_select2';" onmouseout="this.className='';">
+    <tr >
         <%-- examination name --%>
         <td>
             <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/globalReferenceSummary.jsp&ts=<%=getTs()%>'"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp',700,400);"><%=getTran("web","careprescriptions",sWebLanguage)%></a>
@@ -184,7 +184,7 @@
         }
         if(activeUser.getAccessRight("prescriptions.drugs.select")){
     %>
-    <tr onmouseover="this.className='list_select2';" onmouseout="this.className='';">
+    <tr >
         <%-- examination name --%>
         <td>
             <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/globalReferenceSummary.jsp&ts=<%=getTs()%>'"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/managePrescriptionsPopup.jsp',700,400);"><%=getTran("web","medications",sWebLanguage)%></a>
@@ -214,7 +214,7 @@
             verifiedExaminationVO = (VerifiedExaminationVO) exams.get(examName);
             if(MedwanQuery.getInstance().getConfigString("noShowExaminationsGender"+activePatient.gender,"").indexOf(verifiedExaminationVO.getTransactionType())<0){
             %>
-            <tr class="<%=(verifiedExaminationVO.getPlannedExaminationDue().equalsIgnoreCase("medwan.common.true")?"menuItemRed":"")%>" onmouseover="this.className='list_select2';" onmouseout="this.className='<%=(verifiedExaminationVO.getPlannedExaminationDue().equalsIgnoreCase("medwan.common.true")?"menuItemRed":"")%>';">
+            <tr class="<%=(verifiedExaminationVO.getPlannedExaminationDue().equalsIgnoreCase("medwan.common.true")?"menuItemRed":"")%>" >
                 <%-- examination name --%>
                 <td><img src="<c:url value="/_img/pijl.gif"/>"><button class='buttoninvisible'></button>  <%=examName%></td>
                 <%-- create --%>
@@ -330,7 +330,7 @@
                                         examName = (String)examNames.get(n);
                                         verifiedExaminationVO = (VerifiedExaminationVO)otherExams.get(examName);
                                 %>
-                                <tr onmouseover="this.className='list_select2';" onmouseout="this.className='';">
+                                <tr >
                                     <%-- examination name --%>
                                     <td><img src="<c:url value="/_img/pijl.gif"/>"><button class='buttoninvisible'></button> <%=examName%></td>
                                     <%-- create --%>

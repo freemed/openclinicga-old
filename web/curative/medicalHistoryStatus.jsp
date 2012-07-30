@@ -125,7 +125,7 @@ try{
                                                 if (sList.equals("")) sList = "1";
                                                 else sList = "";
                                     %>
-                                                    <tr id="<%=sClass%>" class="list<%=sClass+sList%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass+sList%>';">
+                                                    <tr id="<%=sClass%>" class="list<%=sClass+sList%>" >
                                                         <td class="modal" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="deltran(<%=transactionVO.getTransactionId()%>,<%=transactionVO.getServerId()%>,<%=transactionVO.getUser().getUserId()%>)">
                                                             <img class='hand' src="<c:url value='/_img/icon_delete.gif'/>" alt="<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>" border="0">
                                                         </td>

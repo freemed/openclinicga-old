@@ -39,8 +39,8 @@
                     sClass = "";
                 }
     %>
-                <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';this.className='list_select';"
-                                            onmouseout="this.style.cursor='default';this.className='list<%=sClass%>';"
+                <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';"
+                                            onmouseout="this.style.cursor='default';"
                                             onclick="doSelect('<%=currentInsurance.getUid()%>');">
                     <td><%=ScreenHelper.checkString(currentInsurance.getInsuranceNr())%></td>
                     <td><%=ScreenHelper.checkString(currentInsurance.getInsuranceCategoryLetter()).length()>0 && currentInsurance.getInsuranceCategory().getLabel().length()>0?ScreenHelper.checkString(currentInsurance.getInsuranceCategory().getInsurar().getName())+ " ("+currentInsurance.getInsuranceCategory().getCategory()+": "+currentInsurance.getInsuranceCategory().getPatientShare()+"/"+(100-Integer.parseInt(currentInsurance.getInsuranceCategory().getPatientShare()))+")":""%></td>

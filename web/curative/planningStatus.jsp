@@ -78,7 +78,7 @@
                             }
 
                             %>
-                                <tr onclick="openAppointment('<%=planning.getUid()%>')" class="list<%=sClass%>" style="cursor:pointer" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';">
+                                <tr onclick="openAppointment('<%=planning.getUid()%>')" class="list<%=sClass%>" style="cursor:pointer" >
                                     <td><%=ScreenHelper.getSQLDate(planning.getPlannedDate())%></td>
                                     <td><%=hhmmDateFormat.format(planning.getPlannedDate())%></td>
                                     <td><%=hhmmDateFormat.format(calPlanningStop.getTime())%></td>
