@@ -71,7 +71,7 @@
 					sInsurar=(String)insurars.get(sInsurarUid);
 				}
 			}
-			sOut.append("<tr  onClick='window.location.href=\"main.do?Page=curative/index.jsp&ts=").append(getTs()).append("&PersonID=").append(rs.getString("personid")).append("\";' class='list1' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list1';\"><td>#"+i).append("</td><td>"+rs.getString("lastname")).append(" ").append(rs.getString("firstname")).append("</td><td>").append((d==null?"":new SimpleDateFormat("dd/MM/yyyy").format(d))).append("</td><td>")
+			sOut.append("<tr  onClick='window.location.href=\"main.do?Page=curative/index.jsp&ts=").append(getTs()).append("&PersonID=").append(rs.getString("personid")).append("\";' class='list1' ><td>#"+i).append("</td><td>"+rs.getString("lastname")).append(" ").append(rs.getString("firstname")).append("</td><td>").append((d==null?"":new SimpleDateFormat("dd/MM/yyyy").format(d))).append("</td><td>")
 			.append((d2==null?"":new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("oc_encounter_begindate")))).append("</td><td>"+getTranNoLink("service",s,sWebLanguage)).append("</td><td>"+sInsurar).append("</td></tr>");
 		}
 		service=s;
