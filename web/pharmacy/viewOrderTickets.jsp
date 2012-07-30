@@ -138,7 +138,7 @@
                 else sClass = "";
 
                 //*** display order in one row ***
-                html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + selectTran + "'>")
+                html.append("<tr class='list" + sClass + "'  title='" + selectTran + "'>")
                         .append(" <td align='center'><input type='checkbox' name='order_" + sSupplierUid + "$" + j + "' value='" + orderData.get("orderUid") + "£" + orderData.get("supplierUid") + "' checked>")
                         .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("description") + "</td>")
                         .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("serviceStockName") + "</td>")
@@ -382,6 +382,7 @@
                     %>
                     <%-- PRINT BUTTON --%>
                     <%=ScreenHelper.alignButtonsStart()%>
+                        <input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete();">
                         <input type="button" class="button" name="printButton" value="<%=getTranNoLink("Web","print",sWebLanguage)%>" onclick="doPrintPdf();">
                     <%=ScreenHelper.alignButtonsStop()%>
                     <br>
@@ -534,30 +535,60 @@
 
   <%-- PRINT PDF --%>
   function doPrintPdf(){
-    if(atLeastOneOrderChecked()){
-      <%-- concatenate all selected orderIds --%>
-      var orderUids = "";
-      var inputs = document.getElementsByTagName('input');
-      for(var i=0; i<inputs.length; i++){
-        if(inputs[i].type=="checkbox"){
-          if(inputs[i].name.indexOf("order_")>-1){
-            if(inputs[i].checked){
-              orderUids+= inputs[i].value+"$";
-            }
-          }
-        }
-      }
+	    if(atLeastOneOrderChecked()){
+	      <%-- concatenate all selected orderIds --%>
+	      var orderUids = "";
+	      var inputs = document.getElementsByTagName('input');
+	      for(var i=0; i<inputs.length; i++){
+	        if(inputs[i].type=="checkbox"){
+	          if(inputs[i].name.indexOf("order_")>-1){
+	            if(inputs[i].checked){
+	              orderUids+= inputs[i].value+"$";
+	            }
+	          }
+	        }
+	      }
+	      <%-- popup to display pdf in --%>
+	      var url = "<c:url value='/pharmacy/createOrderTicketsPdf.jsp'/>?OrderUids="+orderUids+"&ts=<%=getTs()%>";
+	      window.open(url,"OrderTicketsPDF<%=new java.util.Date().getTime()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
+	    }
+	    else{
+	      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectatleastoneorder";
+	      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+	      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","selectatleastoneorder",sWebLanguage)%>");
+	    }
+	  }
 
-      <%-- popup to display pdf in --%>
-      var url = "<c:url value='/pharmacy/createOrderTicketsPdf.jsp'/>?OrderUids="+orderUids+"&ts=<%=getTs()%>";
-      window.open(url,"OrderTicketsPDF<%=new java.util.Date().getTime()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
-    }
-    else{
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectatleastoneorder";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","selectatleastoneorder",sWebLanguage)%>");
-    }
-  }
+  function doDelete(){
+	    if(atLeastOneOrderChecked()){
+	        var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
+	        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+	        var answer = window.confirm('<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>');
+
+	        if(answer==1){
+		      <%-- concatenate all selected orderIds --%>
+		      var orderUids = "";
+		      var inputs = document.getElementsByTagName('input');
+		      for(var i=0; i<inputs.length; i++){
+		        if(inputs[i].type=="checkbox"){
+		          if(inputs[i].name.indexOf("order_")>-1){
+		            if(inputs[i].checked){
+		              orderUids+= inputs[i].value+"$";
+		            }
+		          }
+		        }
+		      }
+		      <%-- popup to display pdf in --%>
+		      var url = "<c:url value='/pharmacy/deleteOrderTickets.jsp'/>?OrderUids="+orderUids+"&ts=<%=getTs()%>";
+		      window.open(url,"DeleteOrderTickets<%=new java.util.Date().getTime()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
+	        }
+	    }
+	    else{
+	      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectatleastoneorder";
+	      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+	      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","selectatleastoneorder",sWebLanguage)%>");
+	    }
+	  }
 
   <%-- SELECT ORDER --%>
   function selectOrder(orderIdx){

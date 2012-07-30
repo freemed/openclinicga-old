@@ -49,7 +49,7 @@
             else sClass = "";
 
             //*** display product in one row ***
-            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
                     .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDeleteProduct('" + sProductUid + "');\">")
                     .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + product.getName() + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sUnit + "</td>")

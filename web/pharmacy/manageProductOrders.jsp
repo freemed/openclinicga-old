@@ -55,7 +55,7 @@
             else sClass = "";
 
             //*** display order in one row ***
-            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
                     .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + order.getUid() + "');\">")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + checkString(order.getDescription()) + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sServiceStockName + "</td>")
@@ -139,7 +139,7 @@
             else sClass = "";
 
             //*** display order in one row ***
-            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
                     .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + order.getUid() + "');\">")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + checkString(order.getDescription()) + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sServiceStockName + "</td>")
@@ -249,7 +249,6 @@
     if (sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
     String sDisplayDeliveredOrders = checkString(request.getParameter("DisplayDeliveredOrders"));
-	System.out.println("DisplayDeliveredOrders="+sDisplayDeliveredOrders);
     if (sDisplayDeliveredOrders.length() == 0) sDisplayDeliveredOrders = "false"; // default
     boolean displayDeliveredOrders = sDisplayDeliveredOrders.equalsIgnoreCase("true");
 
@@ -462,7 +461,7 @@
         }
 
         // get specified record
-        if (sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")) {
+        if ((sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")) && sEditOrderUid.length()>0) {
             ProductOrder order = ProductOrder.get(sEditOrderUid);
 
             sSelectedProductStockUid = order.getProductStockUid();

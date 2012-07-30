@@ -175,7 +175,7 @@
         if(sEditUnitsChanged.length() > 0) operation.setUnitsChanged(Integer.parseInt(sEditUnitsChanged));
         operation.setUpdateUser(activeUser.userid);
 
-        String sResult=operation.store();
+        String sResult=operation.store(false);
         if(sResult==null){
         	//In case this is a receipt operation linked to a delivery operation, update the delivery operation
         	if(sEditReferenceOperationUid.length()>0){
@@ -184,7 +184,7 @@
         	        if(sEditUnitsChanged.length() > 0) operation.setUnitsReceived(operation.getUnitsReceived()+Integer.parseInt(sEditUnitsChanged));
         	        operation.setReceiveProductStockUid(sEditProductStockUid);
         	        operation.setReceiveComment(sEditReceiveComment);
-        	        System.out.println(operation.store());
+        	        operation.store();
         		}
         	}
 

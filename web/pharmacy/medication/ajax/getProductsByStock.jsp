@@ -30,7 +30,7 @@
             if(p.getLevel()==0){
             sClass = "strikelist";
 }
-            out.write("<tr onmouseover=\"this.className='list_select hand';\" onmouseout=\"this.className='" + sClass + "';\" class='"+sClass+"' onClick=\"deliverProduct('"+p.getUid()+"','"+HTMLEntities.htmlentities(p.getProduct().getName())+"','"+p.getLevel()+"');\"><td width='22' align='center'>"+p.getLevel()+"</td><td width='100%'>"+ HTMLEntities.htmlentities(p.getProduct().getName())+"</td></tr>");
+            out.write("<tr  class='"+sClass+"' onClick=\"deliverProduct('"+p.getUid()+"','"+HTMLEntities.htmlentities(p.getProduct().getName())+"','"+p.getLevel()+"');\"><td width='22' align='center'>"+p.getLevel()+"</td><td width='100%'>"+ HTMLEntities.htmlentities(p.getProduct().getName())+"</td></tr>");
             i++;
         }
     out.write("</table>");

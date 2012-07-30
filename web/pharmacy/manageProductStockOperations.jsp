@@ -67,7 +67,7 @@
             else sClass = "";
 
             //*** display operation in one row ***
-            operations.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+            operations.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
                     .append(" <td onclick=\"doShowDetails('" + sOperationUid + "');\" align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sOperationUid + "');\">")
                     .append(" <td onclick=\"doShowDetails('" + sOperationUid + "');\">" + sOperationDescr + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sOperationUid + "');\">" + (productStock != null ? productStock.getProduct().getName() : "") + "</td>")

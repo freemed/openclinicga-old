@@ -60,7 +60,7 @@
             else sClass = "";
 
             // display stock in one row
-            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
                     .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\" align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\">")
                     .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sServiceStockName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sProductName + "</td>");
@@ -134,7 +134,7 @@
             else sClass = "";
             
             //*** display stock in one row ***
-            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+            html.append("<tr class='list" + sClass + "' >")
                     .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\" title='" + deleteTran + "'><td/>":"<td/>"))
 		            .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches")?"<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sStockUid + "');\" title='" + ficheTran + "'><td/>":"<td/>"));
             if(productStock.hasOpenDeliveries()){

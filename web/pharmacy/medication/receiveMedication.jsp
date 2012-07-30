@@ -81,7 +81,7 @@
                 else sClass = "";
 
                 //*** display operation in one row ***
-                html.append("<tr class='list" + sClass + "' onclick=\"doShowDetailsReceipt('" + sOperationUid + "');\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+                html.append("<tr class='list" + sClass + "' onclick=\"doShowDetailsReceipt('" + sOperationUid + "');\"  title='" + detailsTran + "'>")
                         .append(" <td>" + sDescription + "</td>")
                         .append(" <td>" + (operation.getDate() == null ? "" : stdDateFormat.format(operation.getDate())) + "</td>")
                         .append(" <td>" + sProductName + "</td>")

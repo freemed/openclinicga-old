@@ -54,6 +54,7 @@
 	<input type='hidden' name='ServiceStockUid' id='ServiceStockUid' values='<%=request.getParameter("ServiceStockUid") %>'/>
 	<table width='100%'>
 		<tr class='admin'>
+			<td></td>
 			<td>ID</td>
 			<td><%=getTran("web","date",sWebLanguage) %></td>
 			<td><%=getTran("web","source",sWebLanguage) %></td>
@@ -74,6 +75,7 @@
 				productname=operation.getProductStock().getProduct().getName();
 			}
 			out.println("<tr class='admin2'>");
+			out.println("<td><a href='javascript:doDelete(\""+operation.getUid()+"\");'><img src='_img/icon_delete.gif'/></a></td>");
 			out.println("<td>"+operation.getUid()+"</td>");
 			out.println("<td>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td>");
 			out.println("<td>"+servicename+"</td>");
@@ -107,4 +109,21 @@
 			return false;
 		}
 	}
+	
+	function doDelete(operationuid){
+        var params = '';
+        var today = new Date();
+        var url= '<c:url value="/pharmacy/closeProductStockOperation.jsp"/>?operationuid='+operationuid+'&ts='+today;
+        new Ajax.Request(url,{
+			method: "GET",
+            parameters: params,
+            onSuccess: function(resp){
+				window.location.reload();
+            },
+			onFailure: function(){
+            }
+        }
+    	);
+	}
+
 </script>

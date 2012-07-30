@@ -87,7 +87,7 @@
             Prescription prescription = operation.getPrescription();
 
             //*** display operation in one row ***
-            html.append("<tr class='list" + sClass + "' onclick=\"doShowDetailsDelivery('" + operation.getUid() + "');\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+            html.append("<tr class='list" + sClass + "' onclick=\"doShowDetailsDelivery('" + operation.getUid() + "');\"  title='" + detailsTran + "'>")
                     .append(" <td>" + sDescription + (prescription!=null?" ("+prescription.getPrescriber().firstname+" "+prescription.getPrescriber().lastname+")":"")+"</td>")
                     .append(" <td>" + (operation.getDate() == null ? "" : stdDateFormat.format(operation.getDate())) + "</td>")
                     .append(" <td>" + operation.getProductStock().getServiceStock().getName() + "</td>")
