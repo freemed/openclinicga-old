@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Enumeration;
@@ -475,7 +476,21 @@ public class UpdateSystem {
 
         MedwanQuery.getInstance().putLabels(labelLanguages);
     }
-
+    
+    public static void updateProject(String sProject){
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement("update Users set project=?");
+	    	ps.setString(1, sProject);
+	    	ps.execute();
+	    	ps.close();
+	    	conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     private static Properties getPropertyFile(String sFilename) {
         FileInputStream iniIs;
         Properties iniProps = new Properties();
