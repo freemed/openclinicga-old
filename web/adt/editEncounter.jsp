@@ -270,7 +270,7 @@
             sEditEncounterBedName     = "";
         }else{
             sEditEncounterBed         = checkString(tmpEncounter.getBed().getUid());
-            sEditEncounterBedName     = checkString(tmpEncounter.getBed().getName());
+            sEditEncounterBedName     = (tmpEncounter.getServiceUID()==null?"":tmpEncounter.getServiceUID()+": ")+checkString(tmpEncounter.getBed().getName());
         }
 
         sEditEncounterPatient         = checkString(tmpEncounter.getPatient().personid);
