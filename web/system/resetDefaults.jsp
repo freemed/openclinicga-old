@@ -12,8 +12,15 @@
 		UpdateSystem.updateSetup("country",country,request);
 		UpdateSystem.updateSetup("os",os,request);
 		UpdateSystem.updateSetup("database",database,request);
-		UpdateSystem.updateDb();
-		UpdateSystem.updateLabels(sAPPFULLDIR);
+		if(request.getParameter("updatedb")!=null){
+			UpdateSystem.updateDb();
+		}
+		if(request.getParameter("updatelabels")!=null){
+			UpdateSystem.updateLabels(sAPPFULLDIR);
+		}
+		if(checkString(request.getParameter("project")).length()>0){
+			UpdateSystem.updateProject(request.getParameter("project"));
+		}
 		MedwanQuery.reload();
 	}
 %>
@@ -54,6 +61,24 @@
 					<option value='mysql' <%="mysql".equals(database)?"selected":""%>><%=getTran("web","mysql",sWebLanguage).toUpperCase() %></option>
 					<option value='sqlserver' <%="sqlserver".equals(database)?"selected":""%>><%=getTran("web","sqlserver",sWebLanguage).toUpperCase() %></option>
 				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class='admin'><%=getTran("web","project",sWebLanguage) %>&nbsp</td>
+			<td class='admin2'>
+				<input class='text' type='text' name='project' id='project' value='<%=sAPPTITLE%>'/>
+			</td>
+		</tr>
+		<tr>
+			<td class='admin'><%=getTran("web","updatelabels",sWebLanguage) %>&nbsp</td>
+			<td class='admin2'>
+				<input class='text' type='checkbox' name='updatelabels' id='undatelabels'/>
+			</td>
+		</tr>
+		<tr>
+			<td class='admin'><%=getTran("web","updatedatabase",sWebLanguage) %>&nbsp</td>
+			<td class='admin2'>
+				<input class='text' type='checkbox' name='updatedb' id='undatedb'/>
 			</td>
 		</tr>
 	</table>
