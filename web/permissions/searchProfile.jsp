@@ -154,7 +154,7 @@
                                     else                   sClass = "";
 
                                     %>
-                                        <tr class="list<%=sClass%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';" onClick="window.location.href = '<%=sCONTEXTPATH%>/main.do?Page=/permissions/userpermission.jsp&PersonID=<%=sPersonID%>&ts=<%=getTs()%>';">
+                                        <tr class="list<%=sClass%>"  onClick="window.location.href = '<%=sCONTEXTPATH%>/main.do?Page=/permissions/userpermission.jsp&PersonID=<%=sPersonID%>&ts=<%=getTs()%>';">
                                             <td><%=sLastname%></td>
                                             <td><%=sLogin%></td>
                                         </tr>
