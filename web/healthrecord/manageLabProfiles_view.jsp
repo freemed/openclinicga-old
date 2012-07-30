@@ -399,7 +399,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 	        else              sClass = "";
 
             %>
-                <tr class="list<%=sClass%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';" onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');">
+                <tr class="list<%=sClass%>"  onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');">
                   <td>&nbsp;<%=sEditProfileCode%></td>
                   <td>&nbsp;<%=getTran(sLabeltype,sProfileID,sWebLanguage)%></td>
                   <td>&nbsp;<%=sComment%></td>

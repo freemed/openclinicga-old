@@ -116,7 +116,7 @@
                     sClass = "";
                 }
         %>
-                <tr class='list<%=sClass%>' onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';">
+                <tr class='list<%=sClass%>' >
                     <td>
                         <img src="<c:url value='/_img/icon_edit.gif'/>" alt="<%=getTran("web","edit",sWebLanguage)%>" onclick="doOpen('<%=reference.getUid()+"','"+sPatientID%>')"/>
                     </td>
@@ -188,7 +188,7 @@
                     sClass = "";
                 }
         %>
-                <tr class='list<%=sClass%>' onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';">
+                <tr class='list<%=sClass%>' >
                      <td>
                         <img src="<c:url value='/_img/icon_edit.gif'/>" alt="<%=getTran("web","edit",sWebLanguage)%>" onclick="doOpen('<%=reference.getUid()+"','"+sPatientID%>')"/>
                         <img src="<c:url value='/_img/icon_agenda.gif'/>" alt="<%=getTran("web","planning",sWebLanguage)%>" onclick="doAgenda('<%=ScreenHelper.getSQLDate(reference.getRequestDate())+"','"+sPatientID%>')"/>

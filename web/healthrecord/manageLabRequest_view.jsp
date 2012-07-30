@@ -37,7 +37,7 @@
 
         String detailsTran = getTran("web","showDetails",sWebLanguage);
         StringBuffer buf = new StringBuffer();
-        buf.append("<tr id='rowLA"+iTotal+"' class='"+sClass+"' title='"+detailsTran+"' onmouseover=\"this.style.cursor='hand';this.className='list_select';\" onmouseout=\"this.style.cursor='default';this.className='"+sClass+"';\">")
+        buf.append("<tr id='rowLA"+iTotal+"' class='"+sClass+"' title='"+detailsTran+"' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\">")
            .append(" <td align='center'>")
            .append("  <a href='#' onclick=\"deleteLA(rowLA"+iTotal+",'"+sMonster+"');\">")
            .append("   <img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")

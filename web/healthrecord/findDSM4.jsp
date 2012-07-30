@@ -49,7 +49,7 @@ String sPatientUid=request.getParameter("patientuid");
 
                 // header
                 if (codes.size() > 0) {
-                    out.print("<tr class='admin'><td colspan='3'>" + getTran("Web.Occup", "DSM4", sWebLanguage) + " (<a href='javascript:addnewlocalcode(\""+keywords+"\")'>"+getTran("web","managelocalcodes",sWebLanguage)+"</a>)</td></tr>");
+                    out.print("<tr class='admin'><td colspan='2'>" + getTran("Web.Occup", "DSM4", sWebLanguage) + " (<a href='javascript:addnewlocalcode(\""+keywords+"\")'>"+getTran("web","managelocalcodes",sWebLanguage)+"</a>)</td><td colspan='1'><a href='javascript:addnewkeyword()'>"+getTran("web","addDSM4code",sWebLanguage)+"</a></td></tr>");
                 }
 
         %><tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'><%
@@ -210,6 +210,7 @@ String sPatientUid=request.getParameter("patientuid");
                 %>
                     <tr class="label2">
                                 <td colspan='3'><%=getTran("web","norecordsfound",sWebLanguage)%> (<a href='javascript:addnewlocalcode("<%=keywords%>")'><%=getTran("web","managelocalcodes",sWebLanguage) %></a>)</td>
+                                <td colspan='3'><a href='javascript:addnewkeyword()'><%=getTran("web","addDSM4code",sWebLanguage) %></a></td>
                     </tr>
                 <%
             }
@@ -329,8 +330,12 @@ String sPatientUid=request.getParameter("patientuid");
   }
   
   function addnewlocalcode(keywords){
-  	openPopup("/system/manageLocalCodes.jsp&ts=<%=getTs()%>&label<%=sWebLanguage.toLowerCase()%>="+keywords+"&action=edit&type=J&showlist=true",550,350);
-  }
+	  	openPopup("/system/manageLocalCodes.jsp&ts=<%=getTs()%>&label<%=sWebLanguage.toLowerCase()%>="+keywords+"&action=edit&type=J&showlist=true",550,350);
+	  }
+
+  function addnewkeyword(){
+	  	openPopup("/healthrecord/addDsm4Keyword.jsp&ts=<%=getTs()%>",850,350);
+	  }
 
   var focusfield=document.all['keywords'];
 </script>

@@ -175,7 +175,7 @@
                                 if (sClass.equals("")) sClass = "1";
                                 else sClass = "";
 
-                                sOut.append("<tr class=\"list" + sClass + "\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+                                sOut.append("<tr class=\"list" + sClass + "\" >")
                                     .append(" <td align='center'>")
                                     .append("  <input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
                                     .append(" </td>")
@@ -193,7 +193,7 @@
                                     if (sClass.equals("")) sClass = "1";
                                     else sClass = "";
 
-                                    sOut.append("<tr class=\"list" + sClass + "\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+                                    sOut.append("<tr class=\"list" + sClass + "\" >")
                                         .append(" <td align='center'>")
                                         .append("  <input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
                                         .append(" </td>")
@@ -211,7 +211,7 @@
                                 if (sClass.equals("")) sClass = "1";
                                 else sClass = "";
 
-                                sOut.append("<tr class=\"list" + sClass + "\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+                                sOut.append("<tr class=\"list" + sClass + "\" >")
                                     .append(" <td align='center'>")
                                     .append("  <input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
                                     .append(" </td>")
@@ -296,7 +296,7 @@
                                 if (sClass.equals("")) sClass = "1";
                                 else sClass = "";
 
-                                sOut.append("<tr class=\"list" + sClass + "\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+                                sOut.append("<tr class=\"list" + sClass + "\" >")
                                     .append(" <td align='center'>")
                                     .append("  <input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
                                     .append(" </td>")
@@ -312,7 +312,7 @@
                                     if (sClass.equals("")) sClass = "1";
                                     else sClass = "";
 
-                                    sOut.append("<tr class=\"list" + sClass + "\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+                                    sOut.append("<tr class=\"list" + sClass + "\" >")
                                         .append(" <td align='center'>")
                                         .append("  <input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
                                         .append(" </td>")
@@ -328,7 +328,7 @@
                                 if (sClass.equals("")) sClass = "1";
                                 else sClass = "";
 
-                                sOut.append("<tr class=\"list" + sClass + "\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+                                sOut.append("<tr class=\"list" + sClass + "\" >")
                                     .append(" <td align='center'>")
                                     .append("  <input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
                                     .append(" </td>")
@@ -412,7 +412,7 @@
                             if (sClass.equals("")) sClass = "1";
                             else sClass = "";
 
-                            sOut.append("<tr class=\"list" + sClass + "\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">")
+                            sOut.append("<tr class=\"list" + sClass + "\" >")
                                 .append(" <td align='center'>")
                                 .append("  <input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
                                 .append(" </td>")

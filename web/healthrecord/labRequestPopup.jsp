@@ -24,7 +24,7 @@
 
         String detailsTran = getTran("web","showDetails",sWebLanguage);
         StringBuffer buf = new StringBuffer();
-        buf.append("<tr id='rowLA"+iTotal+"' class='"+sClass+"' title='"+detailsTran+"' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='"+sClass+"';\">")
+        buf.append("<tr id='rowLA"+iTotal+"' class='"+sClass+"' title='"+detailsTran+"' >")
            .append(" <td>&nbsp;"+sCode+"</td>")
            .append(" <td>&nbsp;"+sType+"</td>")
            .append(" <td>&nbsp;"+sLabel+"</td>")
