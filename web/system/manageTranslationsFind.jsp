@@ -40,7 +40,7 @@
         else sClass = "";
 
         // display label in row
-        foundLabels.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" >")
+        foundLabels.append("<tr class='list" + sClass + "'  >")
                 .append(" <td class='hand' onclick=\"setLabel('" + sLabelType + "','" + sLabelID+ "');\">" + sLabelType + "</td>")
                 .append(" <td class='hand' onclick=\"setLabel('" + sLabelType + "','" + sLabelID+ "');\">" + HTMLEntities.htmlentities(sLabelID) + "</td>")
                 .append(" <td class='hand' onclick=\"setLabel('" + sLabelType + "','" + sLabelID+ "');\">" + HTMLEntities.htmlentities(getTran("web.language", sLabelLang, sWebLanguage)) + "</td>")

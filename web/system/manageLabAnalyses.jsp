@@ -358,7 +358,7 @@
 	        else              sClass = "";
 
             %>
-                <tr class="list<%=sClass%>"  onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';" onClick="showDetails('<%=sEditLabCode%>','<%=sLabID%>');">
+                <tr class="list<%=sClass%>"   onClick="showDetails('<%=sEditLabCode%>','<%=sLabID%>');">
                     <td><%=sEditLabCode%></td>
                     <td><%=sLabCodeOther%></td>
                     <td><%=sLabType%></td>

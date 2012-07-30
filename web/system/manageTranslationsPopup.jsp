@@ -295,7 +295,7 @@
             if(sClass.equals("")) sClass = "1";
             else                  sClass = "";
 
-            foundLabels.append("<tr class='list"+sClass+"' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\" onclick=\"setLabel('"+sLabelType+"','"+sLabelID+"','"+sLabelLang+"');\">")
+            foundLabels.append("<tr class='list"+sClass+"'  onclick=\"setLabel('"+sLabelType+"','"+sLabelID+"','"+sLabelLang+"');\">")
                        .append(" <td colspan='2'>"+sLabelType+"</td>")
                        .append(" <td>"+sLabelID+"</td>")
                        .append(" <td>"+getTran("web.language",sLabelLang,sWebLanguage)+"</td>")

@@ -184,7 +184,7 @@
                 sCode = objMC.getCode();
 
                 // display center in row
-                centers.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" onclick=\"doShowDetails('" + sCode + "');\" title='" + detailsTran + "'>")
+                centers.append("<tr class='list" + sClass + "'  onclick=\"doShowDetails('" + sCode + "');\" title='" + detailsTran + "'>")
                         .append(" <td>" + sCode + "</td>")
                         .append(" <td>" + objMC.getName() + "</td>")
                         .append(" <td>" + objMC.getAddress() + "</td>")

@@ -49,7 +49,7 @@
             }
             rs2.close();
             ps2.close();
-            sResult+="<tr class='list'  onmouseover=\"this.style.cursor='hand';this.className='list_select';\" onmouseout=\"this.style.cursor='default';this.className='list';\" onclick='selectTran(\""+rs.getInt("serverid")+"\",\""+rs.getInt("transactionId")+"\")'><td>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("updateTime"))+"</td><td>"+sType+"</td><td>"+checkString(rs.getString("firstname"))+" "+checkString(rs.getString("lastname"))+"</td></tr>";
+            sResult+="<tr class='list'  onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick='selectTran(\""+rs.getInt("serverid")+"\",\""+rs.getInt("transactionId")+"\")'><td>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("updateTime"))+"</td><td>"+sType+"</td><td>"+checkString(rs.getString("firstname"))+" "+checkString(rs.getString("lastname"))+"</td></tr>";
         }
         rs.close();
         ps.close();

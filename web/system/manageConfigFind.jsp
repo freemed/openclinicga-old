@@ -25,7 +25,7 @@
         if (objConfig.getDeletetime() != null) styleRed = "style='color:red'";
         else styleRed = "";
 
-        sOut.append("<tr class=\"list" + sClass + "\" " + styleRed + " onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" onclick=\"doShow('" + objConfig.getOc_key() + "');\">")
+        sOut.append("<tr class=\"list" + sClass + "\" " + styleRed + "  onclick=\"doShow('" + objConfig.getOc_key() + "');\">")
             .append(" <td>" + HTMLEntities.htmlentities(objConfig.getOc_key()) + "</td>")
             .append(" <td>" + HTMLEntities.htmlentities(objConfig.getOc_value().toString()) + "</td>")
             .append(" <td>" + (objConfig.getUpdatetime() == null ? "" : dateFormat.format(objConfig.getUpdatetime())) + "</td>")

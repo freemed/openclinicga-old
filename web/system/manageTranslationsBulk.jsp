@@ -173,7 +173,7 @@
                             }
 
                             if ((sFindOnlyEmptyValues.length() == 0) || ((sFindOnlyEmptyValues.length() > 0) && (sLabel.length() == 0))) {
-                                hSorted.put(sKey, "<tr class='list' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list';\"><td>" + sKey + "</td><td>" + getTran(label.type, label.id, label.language) + "</td>"
+                                hSorted.put(sKey, "<tr class='list' ><td>" + sKey + "</td><td>" + getTran(label.type, label.id, label.language) + "</td>"
                                         + "<td><textarea class='normal' rows=\"2\" cols=\"80\" name='Edit" + sKey + "'>" + sLabel + "</textarea></td></tr>");
                             }
                         }

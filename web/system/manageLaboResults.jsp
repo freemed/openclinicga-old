@@ -68,7 +68,7 @@
             }
 
             //*** display product in one row ***
-            html.append("<tr class='" + sClass + "' onmouseover=\"this.className='list_select';this.style.cursor='hand'\" onmouseout=\"this.className='" + sClass + "';this.style.cursor='default'\" title='" + detailsTran + "'>")
+            html.append("<tr class='" + sClass + "' onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\" title='" + detailsTran + "'>")
                     .append(" <td>&nbsp;</td><td><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDelete('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">")
                     .append(" <td><img src='" + sCONTEXTPATH + "/_img/icon_view.gif' class='link' title='" + labrequestTran + "' onclick=\"showLabRequest('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "');\">")
                     .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getAnalysisCode() + "</td>")
@@ -133,7 +133,7 @@
             }
 
             //*** display product in one row ***
-            html.append("<tr class='" + sClass + "' onmouseover=\"this.className='list_select';this.style.cursor='hand'\" onmouseout=\"this.className='" + sClass + "';this.style.cursor='default'\" title='" + detailsTran + "'>")
+            html.append("<tr class='" + sClass + "' onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\" title='" + detailsTran + "'>")
                     .append(" <td>&nbsp;</td><td><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDelete('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">")
                     .append(" <td><img src='" + sCONTEXTPATH + "/_img/icon_view.gif' class='link' title='" + labrequestTran + "' onclick=\"showLabRequest('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "');\">")
                     .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getAnalysisCode() + "</td>")

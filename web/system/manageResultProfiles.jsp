@@ -287,7 +287,7 @@
 	        else              sClass = "";
 
             %>
-                <tr style="cursor:pointer" class="list<%=sClass%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';" onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');">
+                <tr style="cursor:pointer" class="list<%=sClass%>"  onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');">
                   <td><%=sEditProfileCode%></td>
                   <td><%=getTran(sLabelType,sProfileID,sWebLanguage)%></td>
                   <td><%=sComment%></td>

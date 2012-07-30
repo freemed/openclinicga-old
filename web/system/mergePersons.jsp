@@ -455,7 +455,7 @@
                             doubleCounter++;
 
                             %>
-                                <tr class="list<%=sClass%>" onClick="showDetails('<%=pid1%>','<%=pid2%>');" onMouseOver="this.className='list_select';" onMouseOut="this.className='list<%=sClass%>';">
+                                <tr class="list<%=sClass%>" onClick="showDetails('<%=pid1%>','<%=pid2%>');" >
                                     <td>&nbsp;<%=sLastname%></td>
                                     <td>&nbsp;<%=checkString((String)doubleData.get(4))%></td>
                                     <td>&nbsp;<%=checkString((String)doubleData.get(5))%></td>

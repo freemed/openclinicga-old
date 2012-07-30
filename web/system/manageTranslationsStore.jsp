@@ -34,10 +34,7 @@
 
     if (sAction.equals("Save")) {
         // invalid key chars
-        String invalidLabelKeyChars = MedwanQuery.getInstance().getConfigString("invalidLabelKeyChars");
-        if (invalidLabelKeyChars.length() == 0) {
-            invalidLabelKeyChars = " /:"; // default
-        }
+        String invalidLabelKeyChars = MedwanQuery.getInstance().getConfigString("invalidLabelKeyChars","/:");
 
         // check label type and id for invalid chars
         invalidCharFound = false;

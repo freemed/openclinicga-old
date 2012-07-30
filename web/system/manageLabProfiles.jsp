@@ -284,7 +284,7 @@
 	        else              sClass = "";
 
             %>
-                <tr class="list<%=sClass%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';" >
+                <tr class="list<%=sClass%>"  >
                   <td class="hand" onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');"><%=sEditProfileCode%></td>
                   <td class="hand" onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');"><%=getTran(sLabelType,sProfileID,sWebLanguage)%></td>
                   <td class="hand" onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');" ><%=sComment%></td>

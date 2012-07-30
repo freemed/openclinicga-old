@@ -136,8 +136,8 @@
                 sDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(wicket.getCreateDateTime()));
             }
             sbResults.append("<tr class=\"list" + sClass + "\"" +
-                    " onmouseover=\"this.style.cursor='hand';this.className='list_select';\"" +
-                    " onmouseout=\"this.style.cursor='default';this.className='list" + sClass + "';\">" +
+                    " onmouseover=\"this.style.cursor='hand';\"" +
+                    " onmouseout=\"this.style.cursor='default';\">" +
                     "   <td><a href='#' onclick='deleteWicket(\"" + wicket.getUid() + "\")'>" +
                     "       <img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' class='link'>" +
                     "       </a>" +

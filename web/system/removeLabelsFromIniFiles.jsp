@@ -265,7 +265,7 @@
                                 }
 
                                 %>
-                                    <tr <%=style%> onMouseOver="this.className='list_select';" onMouseOut="this.className='<%=(validLabelCount%2==0?"":"list")%>';">
+                                    <tr <%=style%> >
                                         <td>
                                             <input type="checkbox" id="cb<%=labelCount%>" name="checkbox$<%=labelUniqueKey%>" <%=checked%>>
                                         </td>
@@ -303,7 +303,7 @@
 
                         // display label row : checked by default
                         %>
-                            <tr <%=style%> onMouseOver="this.className='list_select';" onMouseOut="this.className='<%=(labelCount%2==0?"":"list")%>';">
+                            <tr <%=style%> >
                                 <td>
                                     <input type="checkbox" id="cb<%=labelCount%>" name="checkbox$<%=labelUniqueKey%>" CHECKED>
                                 </td>

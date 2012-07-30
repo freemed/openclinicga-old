@@ -245,7 +245,7 @@
                                     else                  sClass = "";
 
                                     %>
-                                        <tr class="list<%=sClass%>" onmouseover="this.className='list_select';this.style.cursor='hand';" onmouseout="this.className='list<%=sClass%>';this.style.cursor='default';">
+                                        <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
                                             <td>
                                                 <a href="#" onclick="deleteInsurar('<%=insurar.getUid()%>');"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
                                             </td>

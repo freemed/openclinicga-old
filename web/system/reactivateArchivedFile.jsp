@@ -39,7 +39,7 @@
             if (sClass.equals("")) sClass = "1";
             else sClass = "";
 
-            sResult += "<tr onClick=\"doReactivate('" + objAH.getPersonid() + "');\" title='" + altTitle + "' class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">" +
+            sResult += "<tr onClick=\"doReactivate('" + objAH.getPersonid() + "');\" title='" + altTitle + "' class='list" + sClass + "' >" +
                     " <td>&nbsp;" + objAH.getImmatnew() + "</td>" +
                     " <td>" + objAH.getNatreg() + "</td>" +
                     " <td>" + objAH.getLastname() + " " + objAH.getFirstname() + "</td>" +

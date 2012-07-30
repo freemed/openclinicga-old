@@ -461,7 +461,7 @@
                                     }
 
                                     %>
-                                        <tr<%=style%> onMouseOver="this.className='list_select';" onMouseOut="this.className='<%=(labelCount%2==0?"":"list")%>';">
+                                        <tr<%=style%> >
                                             <td>
                                                 <input type="checkbox" id="cb<%=labelCount%>" name="checkbox$<%=labelUniqueKey%>" <%=checked%>>
                                             </td>
@@ -524,7 +524,7 @@
                                                         style = (labelCount % 2 == 0 ? "1" : "");
 
                                     %>
-                                            <tr class="list<%=style%>" onMouseOver="this.className='list_select';" onMouseOut="this.className='<%=(labelCount%2==0?"":"list")%>';">
+                                            <tr class="list<%=style%>" >
                                                 <td><input type="checkbox" id="cb<%=labelCount%>" name="checkbox$<%=sLabelUniqueKey%>"></td>
                                                 <td onclick="setCB('cb<%=labelCount%>');">
                                                     TYPE&nbsp;<br>

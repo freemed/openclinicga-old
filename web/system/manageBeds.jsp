@@ -154,8 +154,8 @@
                 }
 
                 sbResults.append("<tr class='list" + sClass + "' " +
-                        " onmouseover=\"this.style.cursor='hand';this.className='list_select';\" " +
-                        " onmouseout=\"this.style.cursor='default';this.className='list" + sClass + "';\" " +
+                        " onmouseover=\"this.style.cursor='hand';\" " +
+                        " onmouseout=\"this.style.cursor='default';\" " +
                         " onclick=\"doSelect('" + checkString(bTmp.getUid()) + "');\">" +
                         "<td>" + checkString(bTmp.getName()) + "</td>" +
                         "<td>" + sServiceName + "</td>" +
