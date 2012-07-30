@@ -89,8 +89,8 @@
                     %>
                     <td><%=getTran("web","manager",sWebLanguage)%></td>
                 </tr>
-                <tr class='list' onmouseover="this.style.cursor='hand';this.className='list_select';"
-                                 onmouseout="this.style.cursor='default';this.className='list';"
+                <tr class='list' onmouseover="this.style.cursor='hand';"
+                                 onmouseout="this.style.cursor='default';"
                                  onclick="goEdit('<%=activeEncounter.getUid()%>');">
                     <td>
                         <b><%=checkString(activeEncounter.getUid())%></b>
