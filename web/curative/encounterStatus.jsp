@@ -74,16 +74,16 @@
         <td>
             <table width='100%' cellspacing='0' cellpadding="0" class='list'>
                 <tr class='admin'>
-                    <td width="200">
+                    <td>
                         <%=getTran("web","id",sWebLanguage)%>
                     </td>
-                    <td width="200"><%=getTran("web","type",sWebLanguage)%></td>
-                    <td width="100"><%=getTran("web","begindate",sWebLanguage)%></td>
+                    <td><%=getTran("web","type",sWebLanguage)%></td>
+                    <td><%=getTran("web","begindate",sWebLanguage)%></td>
                     <td><%=getTran("web","service",sWebLanguage)%></td>
                     <%
                         if(!checkString(activeEncounter.getType()).equalsIgnoreCase("visit")){
                     %>
-                        <td width="100"><%=getTran("web","bed",sWebLanguage)%></td>
+                        <td><%=getTran("web","bed",sWebLanguage)%></td>
                     <%
                         }
                     %>
@@ -117,17 +117,17 @@
                         String sService = "";
 
                         if (activeEncounter.getService()!=null){
-                            sService = activeEncounter.getService().code+" "+getTran("Service",activeEncounter.getService().code,sWebLanguage);
+                            sService = "<i>"+activeEncounter.getService().code+": </i><b>"+getTran("Service",activeEncounter.getService().code,sWebLanguage)+"</b>";
                         }
                     %>
-                    <td><b><%=sService%></b>
+                    <td><%=sService%>
                         <%
                         if(!checkString(activeEncounter.getType()).equalsIgnoreCase("visit")){
                         %>
                         </td><td>
                         <%
                             if(activeEncounter.getBed()!=null){
-                                out.print(activeEncounter.getBed().getName());
+                                out.print("<i>"+activeEncounter.getBed().getServiceUID()+": </i><b>"+activeEncounter.getBed().getName()+"<b>");
                             }
                         %>
                     </td>
