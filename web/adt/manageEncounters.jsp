@@ -292,9 +292,8 @@
                 sServiceUID = checkString(rs.getString("OC_ENCOUNTER_SERVICEUID"));
                 sbResults.append("<tr class='list");
                 sbResults.append(sClass);
-                sbResults.append("' onmouseover=\"this.style.cursor='hand';this.className='list_select';\" " + " onmouseout=\"this.style.cursor='default';this.className='list");
-                sbResults.append(sClass);
-                sbResults.append("';\" onclick=\"doSelect('");
+                sbResults.append("' onmouseover=\"this.style.cursor='hand';\" " + " onmouseout=\"this.style.cursor='default'");
+                sbResults.append(";\" onclick=\"doSelect('");
                 sbResults.append(checkString(rs.getString("OC_ENCOUNTER_SERVERID") + "." + checkString(rs.getString("OC_ENCOUNTER_OBJECTID"))));
                 sbResults.append("');\"><td>");
                 sbResults.append(checkString(rs.getString("OC_ENCOUNTER_TYPE")));

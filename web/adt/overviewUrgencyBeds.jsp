@@ -123,7 +123,7 @@
 
                         if (((Boolean)hOccupiedInfo.get("status")).booleanValue()) {
                             %>
-                            <tr style="height:16px;" onmouseover="this.className='list_select2';" onmouseout="this.className='list<%=sClass%>';" class="list<%=sClass%>">
+                            <tr style="height:16px;"  class="list<%=sClass%>">
                                 <td><%=bed.getName()%></td>
                                 <td>
                                     <a href="<c:url value="/main.do"/>?Page=curative/index.jsp&PersonID=<%=sPatientUID%>">

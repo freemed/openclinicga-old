@@ -88,8 +88,8 @@
             sClass = "";
         }
         sbResults.append("<tr id='"+(bFinished?"finished":"")+"' class='list" + sInactive + sClass + "' " +
-                " onmouseover=\"this.style.cursor='pointer';this.className='list_select" + sInactiveSelect + "';\" " +
-                " onmouseout=\"this.style.cursor='default';this.className='list" + sInactive + sClass + "';\" >" +
+                " onmouseover=\"this.style.cursor='pointer';\" " +
+                " onmouseout=\"this.style.cursor='default';\" >" +
                 "<td id='"+eTmp.getUid()+"' width='20x'  onclick=\"delRow('" + eTmp.getUid() + "');\" ><img class='hand' src='/openclinic/_img/icon_delete.gif' alt='"+getTran("Web.Occup","medwan.common.delete",sWebLanguage)+"' border=\"0\"></td>" +
                 "<td height='20' onclick=\"doSelect('" + eTmp.getUid() + "');\" >" + getTran("web", checkString(eTmp.getType()), sWebLanguage) + "</td>" +
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + eTmp.getUid() + "</td>" +
