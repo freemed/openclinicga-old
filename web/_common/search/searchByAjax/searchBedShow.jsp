@@ -73,7 +73,9 @@
     <%
         String sortColumn = " OC_BED_NAME";
         Vector vBeds = new Vector();
-        vBeds = Bed.selectBeds("", "", sSelectBedName, sServiceUID, "", "", sortColumn);
+        if(sSelectBedName.length()>0||sServiceUID.length()>0){
+        	vBeds = Bed.selectBeds("", "", sSelectBedName, sServiceUID, "", "", sortColumn);
+        }
 
         Iterator iter = vBeds.iterator();
 

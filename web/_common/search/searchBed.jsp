@@ -11,15 +11,26 @@
 <form name='SearchForm' method="POST" onSubmit="doFind();" onkeydown="if(enterEvent(event,13)){doFind();}">
     <input type="hidden" name="VarCode" value="<%=sVarCode%>">
     <input type="hidden" name="VarText" value="<%=sVarText%>">
-    <input type="hidden" name="ServiceUID" value="<%=sServiceUID%>">
     <table width='100%' border='0' cellspacing='0' cellpadding='0' class='menu'>
         <%-- search fields row 1 --%>
         <tr height='25'>
             <td nowrap>
-                &nbsp;<%=getTran("web", "bed", sWebLanguage)%>&nbsp;&nbsp;
+                <%=getTran("web", "service", sWebLanguage)%>
+                <br/><%=getTran("web", "bed", sWebLanguage)%>&nbsp;&nbsp;
             </td>
             <td nowrap>
-                <input type="text" name='FindBedName' class="text" value="<%=sFindBedName%>"
+                <select class='text' name='ServiceUID' id='ServiceUid' onchange='doFind();'>
+                	<option/>
+                	<%
+                		//We maken een lijst van alle diensten met hospitalisatie
+                		Vector services = Service.getServicesWithBeds();
+	                	for(int n=0;n<services.size();n++){
+							Service service = (Service)services.elementAt(n);
+	                		out.println("<option value='"+service.code+"'"+(service.code.equalsIgnoreCase(sServiceUID)?" selected ":"")+">"+service.code+": "+service.getLabel(sWebLanguage)+"</option>");								                		
+	                	}
+                	%>
+                </select>
+                <br/><input type="text" name='FindBedName' class="text" value="<%=sFindBedName%>"
                        onblur='validateText(this);limitLength(this);' size="50">
             </td>
             <td style='text-align:right'>
@@ -67,7 +78,7 @@
             window.opener.document.all['<%=sVarCode%>'].value = sBedUID;
 
             if ('<%=sVarText%>' != '') {
-                window.opener.document.all['<%=sVarText%>'].value = sBedName;
+                window.opener.document.all['<%=sVarText%>'].value = document.getElementById('ServiceUid').value+': '+sBedName;
             }
 
             window.close();
