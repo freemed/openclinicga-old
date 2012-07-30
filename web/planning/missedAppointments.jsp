@@ -94,7 +94,7 @@ if (activePatient!=null){
                         else                   sClass = "";
 
                         %>
-                            <tr class="list<%=sClass%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';">
+                            <tr class="list<%=sClass%>" >
                                 <td><a href="#" onClick="actualAppointmentId='<%=planning.getUid()%>';deleteAppointment2('missedappointements');"><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>"></a></td>
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=ScreenHelper.getSQLDate(planning.getPlannedDate())%></a></td>
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(planning.getPlannedDate())%></a></td>
