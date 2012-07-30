@@ -38,7 +38,7 @@
                                                sRelationType        = getTran("admin.familyrelation",afr.relationType,sWebLanguage);
                                         ad_conn.close();
                                     %>
-                                    <tr class="list<%=sClass%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';">
+                                    <tr class="list<%=sClass%>" >
                                         <td>&nbsp;</td>
 
                                         <%

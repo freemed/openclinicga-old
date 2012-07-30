@@ -41,8 +41,14 @@
                                 if(!bPicture || 1==1){
                                     %> <img class="link" onclick="storePicture();"  border='0' src="<c:url value='/_img/icon_camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/><%
                                 }
-                                %><!--<img src="<c:url value='/'/><%=sAPPDIR%>_img/logo2.jpg" border='0' class="logo">--><%
+                                %>
+                                <!--<img src="<c:url value='/'/><%=sAPPDIR%>_img/logo2.jpg" border='0' class="logo">--><%
                             }
+                if(activePatient!=null && activePatient.personid!=null && activePatient.personid.length()>0 && MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openpharmacy")){
+                	%>
+                       <img class="link" onclick="showdrugsoutbarcode();"  border='0' src="<c:url value='/_img/icon_pharma.png'/>" alt="<%=getTranNoLink("web","drugsoutbarcode",sWebLanguage)%>"/>
+                	<%
+                }
 
 
 

@@ -752,11 +752,6 @@ A {
     font-weight: normal;
 }
 
-A:hover {
-    color: #000000;
-    font-family: arial, sans-serif;
-    text-decoration: none;
-}
 
 A.menu:link {
     color: #000000;
@@ -997,7 +992,7 @@ button.button:focus {
     outline: none;
 }
 
-button.button:hover {
+button.button: {
     border: solid 1px black;
     outline: none;
 }
@@ -1320,14 +1315,6 @@ img.link {
     display: inline;
 }
 
-img.link:hover {
-    padding: 1px;
-    border: 1px solid black;
-    background-image: url( "../../_img/icon_bg.png" );
-    background-repeat:repeat;
- /*   background-color: white;*/
-    -moz-opacity: 1.0;
-}
 
 a.previousButton {
     width: 16px;

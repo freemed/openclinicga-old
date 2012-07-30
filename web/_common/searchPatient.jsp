@@ -86,7 +86,7 @@
                     value="<%=sDateOfBirth%>" size='17' OnBlur='checkDate(this)' maxlength='10'></td>
             <td width="1%" nowrap>
             	<%	
-            	if(activePatient!=null){
+            	if(activePatient!=null && activePatient.personid!=null && activePatient.personid.length()>0){
 	            	java.util.Date death=activePatient.isDead();	
 	            	if(death!=null){
 						out.print("<img src='_img/warning.gif'/> <font style='{font-size: 12px; font-weight: bold; vertical-align: top}'>"+getTran("web","died",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy").format(death)+"</font>");

@@ -71,8 +71,8 @@
                 else sClass = "";
 
         %>
-        <tr class="list<%=sClass%>" onmouseover="this.className='list_select';this.style.cursor='hand';"
-            onmouseout="this.className='list<%=sClass%>';this.style.cursor='default';">
+        <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';"
+            onmouseout="this.style.cursor='default';">
             <td onClick="selectInsurar('<%=insurar.getUid()%>','<%=HTMLEntities.htmlentities(insurar.getName())%>');"><%=
                 HTMLEntities.htmlentities(checkString(insurar.getName()))%>
             </td>

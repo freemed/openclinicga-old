@@ -85,7 +85,7 @@
                 if (sClass.equals("")) sClass = "1";
                 else sClass = "";
 
-                sHtml.append("<tr class='list" + sClass + "' " + " onmouseover=\"this.style.cursor='hand';this.className='list_select';\" " + " onmouseout=\"this.style.cursor='default';this.className='list" + sClass + "';\" ")
+                sHtml.append("<tr class='list" + sClass + "' " + " onmouseover=\"this.style.cursor='hand';\" " + " onmouseout=\"this.style.cursor='default';\" ")
                         .append(" onclick=\"selectInvoice('" + sInvoiceUid + "','" + sInvoiceDate + "','" + sInvoiceNr + "','" + invoice.getBalance() + "','" + sInvoiceStatus + "','" + sInsurarUid + "','" + sInsurarName + "');\">")
                         .append(" <td>" + sInsurarName + "</td>")
                         .append(" <td>" + sInvoiceDate + "</td>")

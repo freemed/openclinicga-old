@@ -158,8 +158,7 @@
                     sNatReg = tempAdminID.value;
                 }
             }
-
-            sResult += (" class=list" + sInactive + sClass + " onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sInactive + sClass + "';\">"
+            sResult += (" class=list" + sInactive + sClass + " >"
                     + "<td><img src='" + sCONTEXTPATH + "/_img/icon_view.gif' alt='" + getTran("Web", "view", sWebLanguage) + "'></td>"
                     + "<td>" + checkString(sImmatNew) + "</td>"
                     + "<td>" + checkString(sNatReg) + "</td>"

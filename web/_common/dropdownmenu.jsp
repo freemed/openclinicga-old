@@ -535,6 +535,9 @@
         popup.focus();
     }
     <%-- show admin popup --%>
+    function showdrugsoutbarcode(){
+    	openPopup("pharmacy/drugsOutBarcode.jsp&ts=<%=getTs()%>",700,500);
+    }
     function showAdminPopup() {
         openPopup("/_common/patient/patientdataPopup.jsp&ts=<%=getTs()%>");
     }

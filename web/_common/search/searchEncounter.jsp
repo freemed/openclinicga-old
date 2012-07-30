@@ -104,8 +104,8 @@ java.util.Vector" %>
                                         sTRSelectClass = "bold";
                                     }
                                     results.append("<tr class='" + sTRClass + "' " +
-                                            " onmouseover=\"this.style.cursor='hand';this.className='list_select" + sTRSelectClass + "';\" " +
-                                            " onmouseout=\"this.style.cursor='default';this.className='" + sTRClass + "';\" " +
+                                            " onmouseover=\"this.style.cursor='hand';\" " +
+                                            " onmouseout=\"this.style.cursor='default';\" " +
                                             " onclick=\"setEncounter('" + sEncounterUID + "', '" + sService + ", " + sStart + " -> " + sEnd + ", " + sType + "');\">")
                                             .append(" <td>" + sEncounterUID + "</td>")
                                             .append(" <td>" + sStart + "</td>")

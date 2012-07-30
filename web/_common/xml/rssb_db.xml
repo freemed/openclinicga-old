@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Frank Verbeke (Post Factum bvba) -->
+<!DOCTYPE model SYSTEM "openwork.dtd">
+<model name="RSSB" date="15/6/2012" version="0.0.1">
+    <!-- ###################################  RSSB TABLES ################################### -->
+	<table name="HEALTH_INSURER" db="rssb" sync="NONE">
+		<columns>
+			<column name="HEALTH_INSURER_ID" dbtype="varchar" javatype="string" size="10" />
+			<column name="HEALTH_INSURER_NAME" dbtype="varchar" javatype="string" size="40"/>
+	    </columns>
+	    <indexes>
+	    	<index name="HEALTH_INSURER_ID">
+	    		<indexcolumn order="ASC" name="HEALTH_INSURER_ID"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="ADHERENT_MEDICAUX" db="rssb" sync="NONE">
+		<columns>
+			<column name="NUM_ASSU" dbtype="varchar" javatype="string" size="9" />
+			<column name="NOM_ADH" dbtype="varchar" javatype="string" size="40"/>
+			<column name="PRE_ADH" dbtype="varchar" javatype="string" size="40"/>
+			<column name="DAT_NAIS" dbtype="datetime" javatype="date"/>
+			<column name="PHO_ADH" dbtype="image" javatype="bytes"/>
+			<column name="COD_POS_ADH" dbtype="varchar" javatype="string" size="2"/>
+			<column name="HEALTH_INSURER_ID" dbtype="varchar" javatype="string" size="10"/>
+	    </columns>
+	    <indexes>
+	    	<index name="NUM_ASSU">
+	    		<indexcolumn order="ASC" name="NUM_ASSU"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="BENEFICIAIRE_ADHERENT" db="rssb" sync="NONE">
+		<columns>
+			<column name="NUM_ASSU" dbtype="varchar" javatype="string" size="9" />
+			<column name="NOM_ADH" dbtype="varchar" javatype="string" size="40"/>
+			<column name="PRE_ADH" dbtype="varchar" javatype="string" size="40"/>
+			<column name="DAT_NAIS" dbtype="datetime" javatype="date"/>
+			<column name="PHO_ADH" dbtype="image" javatype="bytes"/>
+			<column name="COD_POS_ADH" dbtype="varchar" javatype="string" size="2"/>
+			<column name="HEALTH_INSURER_ID" dbtype="varchar" javatype="string" size="10"/>
+	    </columns>
+	    <indexes>
+	    	<index name="NUM_ASSU">
+	    		<indexcolumn order="ASC" name="NUM_ASSU"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="OC_NOTIFIER" db="rssb" sync="NONE">
+		<columns>
+			<column name="OC_NOTIFIER_TRANSACTIONID" dbtype="int" javatype="integer" />
+			<column name="OC_NOTIFIER_TRANSPORT" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_NOTIFIER_RESULTS" dbtype="text" javatype="string"/>
+			<column name="OC_NOTIFIER_CREATEDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_NOTIFIER_SENTDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_NOTIFIER_SENTTO" dbtype="varchar" javatype="string" size="255"/>
+	    </columns>
+	    <indexes>
+	    	<index name="OC_NOTIFIER_TRANSACTIONID">
+	    		<indexcolumn order="ASC" name="OC_NOTIFIER_TRANSACTIONID"/>
+	    	</index>
+	    </indexes>
+	</table>
+    <!-- ###################################  OpenClinic TABLES ################################### -->
+</model>

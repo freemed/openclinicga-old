@@ -133,7 +133,7 @@
             else sClass = "";
 
             //*** display product in one row ***
-            html.append("<tr title='" + chooseTran + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" class='list" + sClass + "' onClick=\"selectProduct('" + product.getUid() + "','" + product.getName() + "','" + product.getUnit() + "','" + sUnitsPerTimeUnit + "','" + supplyingServiceUid + "','" + supplyingServiceName + "','" + sSupplierUid + "','" + sSupplierName + "','" + product.getPackageUnits() + "','" + sProductStockUid + "','" + serviceStockUid + "','" + serviceStockName + "');\">")
+            html.append("<tr title='" + chooseTran + "'  class='list" + sClass + "' onClick=\"selectProduct('" + product.getUid() + "','" + product.getName() + "','" + product.getUnit() + "','" + sUnitsPerTimeUnit + "','" + supplyingServiceUid + "','" + supplyingServiceName + "','" + sSupplierUid + "','" + sSupplierName + "','" + product.getPackageUnits() + "','" + sProductStockUid + "','" + serviceStockUid + "','" + serviceStockName + "');\">")
                     .append(" <td>" + product.getName() + "</td>")
                     .append(" <td>" + sUnit + "</td>")
                     .append(" <td style='text-align:right;'>" + sUnitPrice + "&nbsp;" + sCurrency + "&nbsp;</td>")

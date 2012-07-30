@@ -153,7 +153,7 @@
             //*** display stock in one row ***
             if (stockEnabled) {
                 String onClick = "onClick=\"selectProductStock('" + productStock.getUid() + "','" + (sProductName.length() == 0 ? getTran("web", "nonexistingproduct", sWebLanguage) : sProductName) + "','" + sServiceStockUid + "','" + sServiceStockName + "','" + stockLevel + "');\"";
-                sOut.append("<tr onmouseover=\"this.className='list_select';this.style.cursor='hand';\" onmouseout=\"this.className='" + sClass + "';this.style.cursor='default';\" title='" + chooseTran + "' class='" + sClass + "' " + onClick + ">");
+                sOut.append("<tr onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" title='" + chooseTran + "' class='" + sClass + "' " + onClick + ">");
             } else {
                 sOut.append("<tr title='" + chooseTran + "' class='" + sClass + "' height='20'>");
             }

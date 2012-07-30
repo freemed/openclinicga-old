@@ -87,7 +87,7 @@
         sProductName = sProductName.replaceAll("'","");
 
         //*** display product in one row ***
-        sHtml.append("<tr title='"+chooseTran+"' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\" class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+sProductName+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+sSupplierUid+"','"+sSupplierName+"','"+product.getPackageUnits()+"');\">")
+        sHtml.append("<tr title='"+chooseTran+"'  class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+sProductName+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+sSupplierUid+"','"+sSupplierName+"','"+product.getPackageUnits()+"');\">")
              .append(" <td nowrap "+(inStock?"":" class='strike'")+">"+sProductName+"</td>")
              .append(" <td"+(inStock?"":" class='strike'")+">"+sUnitTran+"</td>")
              .append(" <td align='right'"+(inStock?"":" class='strike'")+">"+sUnitPrice+"&nbsp;"+sCurrency+"&nbsp;</td>")

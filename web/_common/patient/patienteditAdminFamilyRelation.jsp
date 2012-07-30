@@ -23,7 +23,7 @@
 
         String detailsTran = getTran("web","showdetails",sWebLanguage);
         StringBuffer buf = new StringBuffer();
-        buf.append("<tr id='rowFR"+iTotal+"' class='"+sClass+"' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='"+sClass+"';\">")
+        buf.append("<tr id='rowFR"+iTotal+"' class='"+sClass+"' >")
            .append(" <td align='center'>")
            .append("  <a href='#' onclick=\"deleteFR(rowFR"+iTotal+");\">")
            .append("   <img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")

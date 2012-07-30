@@ -78,7 +78,7 @@
                         }
 
                         //*** display stock in one row ***
-                        sOut.append("<tr title='" + chooseTran + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" class='list" + sClass + "' onClick=\"selectServiceStock('" + serviceStock.getUid() + "','" + serviceStock.getName() + "','" + sSupplyingServiceUid + "','" + sSupplyingServiceName + "');\">")
+                        sOut.append("<tr title='" + chooseTran + "'  class='list" + sClass + "' onClick=\"selectServiceStock('" + serviceStock.getUid() + "','" + serviceStock.getName() + "','" + sSupplyingServiceUid + "','" + sSupplyingServiceName + "');\">")
                                 .append(" <td" + cellClass + "><b>" + serviceStock.getName() + level + "</b></td>")
                                 .append(" <td" + cellClass + ">" + sServiceName + "</td>")
                                 .append(" <td" + cellClass + ">" + sManagerName + "</td>")

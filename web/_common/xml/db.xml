@@ -1183,6 +1183,22 @@
 		</indexes>
 	</table>
 
+	<table name="OC_DRUGSOUTLIST" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_LIST_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="OC_LIST_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="OC_LIST_PATIENTUID" dbtype="varchar" size="25" javatype="string"/>
+			<column name="OC_LIST_PRODUCTSTOCKUID" dbtype="varchar" size="25" javatype="string"/>
+			<column name="OC_LIST_QUANTITY" dbtype="int" javatype="integer"/>
+			<column name="OC_LIST_BATCHUID" dbtype="varchar" size="25" javatype="string"/>
+		</columns>
+		<indexes>
+			<index name="OC_LIST_PATIENTUID">
+				<indexcolumn order="ASC" name="OC_LIST_PATIENTUID"/>
+			</index>
+		</indexes>
+	</table>
+	
     <table name="OC_PRODUCTSTOCKOPERATIONS" db="openclinic" sync="NONE">
 		<columns>
 			<column name="OC_OPERATION_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
