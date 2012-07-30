@@ -66,7 +66,7 @@
                 if(sClass.equals("")) sClass = "1";
                 else                  sClass = "";
 
-                sHtml+= "<tr class='list"+sClass+"' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\"" +
+                sHtml+= "<tr class='list"+sClass+"' " +
                           hSort.get(iter.next());
             }
         }

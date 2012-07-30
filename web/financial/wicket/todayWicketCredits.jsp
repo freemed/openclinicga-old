@@ -20,7 +20,7 @@
                     }
                     sReturn += "<tr class='list" + sClass+"'"
                             + ""
-                            +(wicketOps.getOperationType().equalsIgnoreCase("patient.payment")?"":" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" onclick=\"setWicket('" + wicketOps.getUid() + "');\"")+">"
+                            +(wicketOps.getOperationType().equalsIgnoreCase("patient.payment")?"":"  onclick=\"setWicket('" + wicketOps.getUid() + "');\"")+">"
                             + "<td>" +new SimpleDateFormat("dd/MM/yyyy").format(wicketOps.getOperationDate())+ "</td>"
                             + "<td>" +wicketOps.getUid()+ "</td>"
                             + "<td>" +HTMLEntities.htmlentities(getTran("service",Wicket.get(wicketOps.getWicketUID()).getServiceUID(),sWeblanguage))+ "</td>"

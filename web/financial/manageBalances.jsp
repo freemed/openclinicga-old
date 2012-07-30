@@ -217,9 +217,8 @@
             }
             sbResults.append("<tr  class='list");
             sbResults.append(sClass);
-            sbResults.append("' " + " onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list");
-            sbResults.append(sClass);
-            sbResults.append("';\"> " + "<td onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"doSelect('");
+            sbResults.append("' " + " ");
+            sbResults.append("> " + "<td onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"doSelect('");
             sbResults.append(sBalanceUID);
             sbResults.append("');\"><img src='");
             sbResults.append(request.getContextPath());

@@ -156,7 +156,7 @@
                         e2.printStackTrace();
                     }
             %>
-                    <tr class="list<%=sClass%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';" onclick="openInvoice('<%=iInvoiceId.toString()%>','<%=sRowType%>')">
+                    <tr class="list<%=sClass%>"  onclick="openInvoice('<%=iInvoiceId.toString()%>','<%=sRowType%>')">
                         <td><%=iInvoiceId.toString()%></td>
                         <td><%=sRowDate%></td>
                         <td><%=sRowDestination%></td>

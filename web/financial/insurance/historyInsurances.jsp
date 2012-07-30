@@ -71,8 +71,8 @@
         }
 
         sbResults.append("<tr " + (bFinished ? "" : "id='active'") + " class='list" + sInactive + sClass + "' " +
-                " onmouseover=\"this.style.cursor='hand';this.className='list_select" + sInactiveSelect + "';\" " +
-                " onmouseout=\"this.style.cursor='default';this.className='list" + sInactive + sClass + "';\" " +
+                " onmouseover=\"this.style.cursor='hand';\" " +
+                " onmouseout=\"this.style.cursor='default';\" " +
                 " onclick=\"doSelect('" + insurance.getUid() + "');\">" +
                 "<td height='20'>" + sStart + "</td>" +
                 "<td>" + sStop + "</td>" +

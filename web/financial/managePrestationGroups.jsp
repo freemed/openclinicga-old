@@ -198,7 +198,7 @@
                             }
                             sKey = (String) enum.nextElement();
                             pPrestation = (Prestation) hPrestationsInGroup.get(sKey);
-                            out.print("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\">" +
+                            out.print("<tr class='list" + sClass + "' >" +
                                     "<td align='center' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"deletePrestation('" + pPrestation.getUid() + "');\"><img src='" + request.getContextPath() + "/_img/icon_delete.gif' alt='delete'></td>" +
                                     "<td>" + pPrestation.getDescription() + "</td>" +
                                     "<td>" + pPrestation.getPrice() + "</td>" +

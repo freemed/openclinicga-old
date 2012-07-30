@@ -98,8 +98,8 @@
         }
         sbResults.append(
                 "<tr class=\"list" + sClass + "\"" +
-                        " onmouseover=\"this.style.cursor='hand';this.className='list_select';\"" +
-                        " onmouseout=\"this.style.cursor='default';this.className='list" + sClass + "';\"" +
+                        " onmouseover=\"this.style.cursor='hand';\"" +
+                        " onmouseout=\"this.style.cursor='default';\"" +
                         " onclick=\"doSelect('" + insurance.getUid() + "');\">" +
                         "   <td>" + checkString(insurance.getType()) + "</td>" +
                         "   <td>" + sStartDate + "</td>" +

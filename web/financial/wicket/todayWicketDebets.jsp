@@ -18,7 +18,7 @@
                         sClass = "";
                     }
                     sReturn += "<tr class='list" + sClass
-                            + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\""
+                            + "' "
                             +" onclick=\"setWicket('" + wicketOps.getUid() + "');\">"
                             + "<td>" +new SimpleDateFormat("dd/MM/yyyy").format(wicketOps.getOperationDate())+ "</td>"
                             + "<td>" +wicketOps.getUid()+ "</td>"

@@ -81,7 +81,7 @@
                     sClass = "";
                 }
                 sReturn += "<tr class='list" + sClass
-                        + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\"" + hSort.get((String) it.next());
+                        + "' " + hSort.get((String) it.next());
             }
         }
         return sReturn;

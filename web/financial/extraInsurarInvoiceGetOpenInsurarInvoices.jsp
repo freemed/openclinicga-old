@@ -45,7 +45,7 @@
             sClass = "";
         }
         sReturn += "<tr class='list" + sClass
-                + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\"" + hSort.get(it.next());
+                + "' " + hSort.get(it.next());
     }
 %>
 <table width="100%" cellspacing="0">
