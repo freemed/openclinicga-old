@@ -20,11 +20,11 @@
         while (it.hasNext()) {
             c = (Center) it.next(); %>
     <tr  <%if (c.isActual()) {
-        out.write("class='green' onmouseout=\"this.className='green';\" onmouseover=\"this.className='list_select';\"");
+        out.write("class='green' ");
     } else if ((i % 2) == 0) {
-        out.write("class='list' onmouseout=\"this.className='list';\" onmouseover=\"this.className='list_select';\"");
+        out.write("class='list' ");
     } else {
-        out.write("class='list1' onmouseout=\"this.className='list1';\" onmouseover=\"this.className='list_select';\"");
+        out.write("class='list1' ");
     }%> onclick="window.location='<c:url value="/main.do"/>?Page=center/manage.jsp&action=set&version=<%=c.getVersion()%>'">
         <td><%=c.getVersion()%></td>
         <td><%=ScreenHelper.getSQLDate(c.getUpdateDateTime())%></td>
