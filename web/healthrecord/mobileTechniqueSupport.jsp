@@ -3,7 +3,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
-<%=checkPermission("occup.kinesitherapy.consultation.treatment","select",activeUser)%>
+<%=checkPermission("mobile.service.support","select",activeUser)%>
 
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
@@ -46,38 +46,19 @@
         </tr>
 
         <tr>
-            <td class="admin"><%=getTran("Web","ortho.manager",sWebLanguage)%></td>
-            <td class="admin2">
-                <select class='text' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CNAR_CONSULTATION_ORTHO_MANAGER" property="itemId"/>]>.value">
-                    <option/>
-                    <%
-                        out.print(ScreenHelper.writeSelect("encounter.ortho.manager",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CNAR_CONSULTATION_ORTHO_MANAGER"),sWebLanguage));
-                    %>
-                </select>
-            </td>
-        </tr>
-        <%-- MEDICAL HISTORY --%>
-        <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","medical.history",sWebLanguage)%></td>
+            <td class="admin"><%=getTran("openclinic.chuk","anamnesis",sWebLanguage)%></td>
             <td class="admin2">
             	<%
-            	String history = tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY");
+            	String history = tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANAMNESIS");
             	if(tran.getTransactionId()==null || tran.getTransactionId()<=0){
-            		history=MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY");
+            		history=MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANAMNESIS");
             	}
             	
             	%>
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY")%> class="text" cols="50" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_MEDICAL_HISTORY" property="itemId"/>]>.value"><%=history %></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANAMNESIS")%> class="text" cols="50" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="ITEM_TYPE_ANAMNESIS" property="itemId"/>]>.value"><%=history %></textarea>
             </td>
         </tr>
 
-        <%-- PHYSIO THERAPY --%>
-        <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","ortho.therapy",sWebLanguage)%></td>
-            <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_PHYSIO_THERAPY")%> class="text" cols="50" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_PHYSIO_THERAPY" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_PHYSIO_THERAPY" property="value"/></textarea>
-            </td>
-        </tr>
 
         <%-- ICPC / ICD10 --%>
         <tr>
@@ -136,13 +117,6 @@
             </td>
         </tr>
 
-        <%-- NUMBER OF MEETINGS --%>
-        <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","nr.of.meetings",sWebLanguage)%></td>
-            <td class="admin2">
-                <input type="text" class="text" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_NR_OF_MEETINGS")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_NR_OF_MEETINGS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_NR_OF_MEETINGS" property="value"/>" onBlur="isNumber(this);" size="5"/>
-            </td>
-        </tr>
 		<%-- SCEANCES --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","orthesis.acts",sWebLanguage)%></td>
@@ -151,7 +125,6 @@
             		<tr>
             			<td/>
             			<td><%=getTran("web","type",sWebLanguage) %></td>
-            			<td><%=getTran("web","detail",sWebLanguage) %></td>
             			<td><%=getTran("web","precision",sWebLanguage) %></td>
             			<td><%=getTran("openclinic.cnar","production",sWebLanguage) %></td>
             			<td><%=getTran("openclinic.cnar","action",sWebLanguage) %></td>
@@ -160,21 +133,16 @@
             		<tr>
             			<td>1:</td>
             			<td>
-			            	<select id='orthesis.type.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE1" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.1',document.getElementById('orthesis.type.1').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1")%>');">
+			            	<select id='mobile.type.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE1" property="itemId"/>]>.value" class="text" >
 				                <option/>
-				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE1"), sWebLanguage) %>
+				                <%=ScreenHelper.writeSelect("mobile.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE1"), sWebLanguage) %>
 				            </select>
 				        </td>
             			<td>
-			            	<select id='orthesis.detail.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1" property="itemId"/>]>.value" class="text"  onchange="loadSelect('cnar.detail.'+document.getElementById('orthesis.type.1').value+'.'+this.options[this.selectedIndex].value,document.getElementById('orthesis.precision.1'))">
+			            	<select id='mobile.detail.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1" property="itemId"/>]>.value" class="text">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("mobile.detail", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1"), sWebLanguage) %>
 				            </select>
-				        </td>
-            			<td>
-			                <select id='orthesis.precision.1' class='text' name='currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_PRECISION1" property="itemId"/>]>.value' >
-			                    <%
-			                        out.print(ScreenHelper.writeSelect("cnar.detail."+tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE1")+"."+tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL1"),tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_PRECISION1"),sWebLanguage));
-			                    %>
-			                </select>
 				        </td>
             			<td>
 			            	<select id='orthesis.production.1' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_PRODUCTION1" property="itemId"/>]>.value" class="text">
@@ -195,95 +163,34 @@
             		<tr>
             			<td>2:</td>
             			<td>
-			            	<select id='orthesis.type.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE2" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.2',document.getElementById('orthesis.type.2').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL2")%>');">
+			            	<select id='mobile.type.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE2" property="itemId"/>]>.value" class="text" >
 				                <option/>
-				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE2"), sWebLanguage) %>
+				                <%=ScreenHelper.writeSelect("mobile.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE2"), sWebLanguage) %>
 				            </select>
 				        </td>
             			<td>
-			            	<select id='orthesis.detail.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL2" property="itemId"/>]>.value" class="text">
+			            	<select id='mobile.detail.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL2" property="itemId"/>]>.value" class="text">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("mobile.detail", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL2"), sWebLanguage) %>
 				            </select>
 				        </td>
-				        <td/>
             			<td>
-			            	<select id='orthesis.delivery.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY2" property="itemId"/>]>.value" class="text">
+			            	<select id='orthesis.production.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_PRODUCTION2" property="itemId"/>]>.value" class="text">
 				                <option/>
-				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY2"), sWebLanguage) %>
+				                <%=ScreenHelper.writeSelect("ortho.production", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_PRODUCTION2"), sWebLanguage) %>
+				            </select>
+				        </td>
+            			<td>
+			            	<select id='orthesis.action.2' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_ACTION2" property="itemId"/>]>.value" class="text">
+				                <option/>
+				                <%=ScreenHelper.writeSelect("ortho.action", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_ACTION2"), sWebLanguage) %>
 				            </select>
 				        </td>
 				        <td>
                 			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY2")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY2" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY2" property="value"/>" onBlur="isNumber(this);" size="5"/>
 				        </td>
 		            </tr>
-            		<tr>
-            			<td>3:</td>
-            			<td>
-			            	<select id='orthesis.type.3' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE3" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.3',document.getElementById('orthesis.type.3').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL3")%>');">
-				                <option/>
-				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE3"), sWebLanguage) %>
-				            </select>
-				        </td>
-            			<td>
-			            	<select id='orthesis.detail.3' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL3" property="itemId"/>]>.value" class="text">
-				            </select>
-				        </td>
-				        <td/>
-            			<td>
-			            	<select id='orthesis.delivery.3' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY3" property="itemId"/>]>.value" class="text">
-				                <option/>
-				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY3"), sWebLanguage) %>
-				            </select>
-				        </td>
-				        <td>
-                			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY3")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY3" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY3" property="value"/>" onBlur="isNumber(this);" size="5"/>
-				        </td>
-		            </tr>
-            		<tr>
-            			<td>4:</td>
-            			<td>
-			            	<select id='orthesis.type.4' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE4" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.4',document.getElementById('orthesis.type.4').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL4")%>');">
-				                <option/>
-				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE4"), sWebLanguage) %>
-				            </select>
-				        </td>
-            			<td>
-			            	<select id='orthesis.detail.4' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL4" property="itemId"/>]>.value" class="text">
-				            </select>
-				        </td>
-				        <td/>
-            			<td>
-			            	<select id='orthesis.delivery.4' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY4" property="itemId"/>]>.value" class="text">
-				                <option/>
-				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY4"), sWebLanguage) %>
-				            </select>
-				        </td>
-				        <td>
-                			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY4")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY4" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY4" property="value"/>" onBlur="isNumber(this);" size="5"/>
-				        </td>
-		            </tr>
-            		<tr>
-            			<td>5:</td>
-            			<td>
-			            	<select id='orthesis.type.5' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE5" property="itemId"/>]>.value" class="text" onchange="fillDetail('orthesis.detail.5',document.getElementById('orthesis.type.5').value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL5")%>');">
-				                <option/>
-				                <%=ScreenHelper.writeSelect("orthesis.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_TYPE5"), sWebLanguage) %>
-				            </select>
-				        </td>
-            			<td>
-			            	<select id='orthesis.detail.5' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DETAIL5" property="itemId"/>]>.value" class="text">
-				            </select>
-				        </td>
-				        <td/>
-            			<td>
-			            	<select id='orthesis.delivery.5' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY5" property="itemId"/>]>.value" class="text">
-				                <option/>
-				                <%=ScreenHelper.writeSelect("ortho.delivery.oldnew", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_DELIVERY5"), sWebLanguage) %>
-				            </select>
-				        </td>
-				        <td>
-                			<input type="text" class="text" <%=setRightClick("ITEM_TYPE_ORTHESIS_QUANTITY5")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY5" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHESIS_QUANTITY5" property="value"/>" onBlur="isNumber(this);" size="5"/>
-				        </td>
-		            </tr>
+
 	            </table>
             </td>
         </tr>
