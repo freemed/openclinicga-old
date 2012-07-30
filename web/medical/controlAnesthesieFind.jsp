@@ -77,7 +77,7 @@
                     sClass = "";
                 }
         %>
-                <tr class='list<%=sClass%>' onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';" onclick="doOpen('<%=ac.getUid()%>')">
+                <tr class='list<%=sClass%>'  onclick="doOpen('<%=ac.getUid()%>')">
                     <td><%=sDate%></td><td><%=sControlName%></td></tr>
             <%
         }

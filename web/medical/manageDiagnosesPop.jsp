@@ -423,8 +423,8 @@
             }
 
             sbResuslts.append("<tr class=\"list" + sClass + "\"" +
-                    " onmouseover=\"this.style.cursor='hand';this.className='list_select';\"" +
-                    " onmouseout=\"this.style.cursor='default';this.className='list" + sClass + "';\"" +
+                    " onmouseover=\"this.style.cursor='hand';\"" +
+                    " onmouseout=\"this.style.cursor='default';\"" +
                     " onclick=\"doSelect('" + dTmp.getUid() + "','" + dTmp.getEncounter().getPatientUID() + "');\">" +
                     "   <td nowrap><b>" + sPatientName + "</b></td>" +
                     "   <td>" + checkString(new SimpleDateFormat("dd/MM/yyyy").format(dTmp.getDate())) + "</td>" +

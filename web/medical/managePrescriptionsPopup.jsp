@@ -118,7 +118,7 @@
             }
 
             //*** display prescription in one row ***
-            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
                     .append(" <td align='center'>" + (((prescr == null || (prescr != null && prescr.getDeliveredQuantity() == 0))) && (activeUser.getAccessRight("prescriptions.drugs.delete")) ? "<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + prescr.getUid() + "');\">" : "") + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\"><b>" + sProductName + "</b></td>")
                     .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateBeginFormatted + "</td>")

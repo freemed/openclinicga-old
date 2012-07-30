@@ -83,7 +83,7 @@
             else                   sClass = "";
 
            %>
-                <tr class="list<%=sClass%>" onmouseover="this.className='list_select';" onmouseout="this.className='list<%=sClass%>';">
+                <tr class="list<%=sClass%>" >
                     <td>
                         <a target="refdocument" href="<c:url value='/medical/loadPDF.jsp?'/>file=base/<%=document.documentName%>&ts=<%=getTs()%>&module=xx_<%=document.documentModule%>"><%=sDocumentLabel%></a>
                     </td>

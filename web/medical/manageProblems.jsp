@@ -273,8 +273,8 @@
             }
             if (activeUser.getAccessRight("occup.restricteddiagnosis.select") || !MedwanQuery.getInstance().isRestrictedDiagnosis(tmpProblem.getCodeType(), tmpProblem.getCode())) {
                 sOutput = "<tr class=\"list" + sClass + "\"" +
-                        " onmouseover=\"this.style.cursor='hand';this.className='list_select';\"" +
-                        " onmouseout=\"this.style.cursor='default';this.className='list" + sClass + "';\">" +
+                        " onmouseover=\"this.style.cursor='hand';\"" +
+                        " onmouseout=\"this.style.cursor='default';\">" +
                         "<td>&nbsp;<img src='http://" + request.getServerName() + request.getContextPath() + "/_img/icon_delete.gif' alt='" + getTranNoLink("web", "delete", sWebLanguage) + "' border='0' onclick='doDelete(\"" + tmpProblem.getUid() + "\");'>&nbsp;</td>" +
 
                         "<td onclick=\"doSelect('" + tmpProblem.getUid() + "');\"><b>" + checkString(tmpProblem.getCode()) + "</b></td>" +

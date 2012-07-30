@@ -94,7 +94,7 @@
             else sClass = "";
 
             //*** display medication in one row ***
-            html.append("<tr class='list" + sClass + "' onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list" + sClass + "';\" title='" + detailsTran + "'>")
+            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
                     .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sMedicationUid + "');\">")
                     .append(" <td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sPrescriberFullName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sProductName + "</td>")

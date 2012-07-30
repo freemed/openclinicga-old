@@ -408,8 +408,8 @@
                         sEnddate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(dTmp.getEndDate()));
                     }
                     sbResuslts.append("<tr class=\"list" + sClass + "\"" +
-                            " onmouseover=\"this.style.cursor='hand';this.className='list_select';\"" +
-                            " onmouseout=\"this.style.cursor='default';this.className='list" + sClass + "';\"" +
+                            " onmouseover=\"this.style.cursor='hand';\"" +
+                            " onmouseout=\"this.style.cursor='default';\"" +
                             " onclick=\"doSelect('" + dTmp.getUid() + "');\">" +
                             //        "   <td nowrap>" + sPatientName + "</td>" +
                             "   <td>" + checkString(new SimpleDateFormat("dd/MM/yyyy").format(dTmp.getDate())) + "</td>" +
