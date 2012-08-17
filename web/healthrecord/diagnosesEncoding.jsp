@@ -57,7 +57,6 @@ System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date()
 			         Hashtable hDiagnoses = Diagnosis.getDiagnosesByReferenceUID(sReferenceUID, sReferenceType);
 			         Hashtable hDiagnosisInfo;
 			         String sCode, sGravity, sCertainty,POA,NC,serviceUid,flags;
-			         System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+4);
 
 			         while (items.hasNext()) {
 			             item = (ItemVO) items.next();

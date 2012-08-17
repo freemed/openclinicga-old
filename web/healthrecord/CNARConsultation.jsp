@@ -42,7 +42,7 @@ TransactionVO tran = (TransactionVO)transaction;
 			            </td>
 			        </tr>
 			        <tr>
-			            <td class="admin"><%=getTran("Web","socialservice.manager",sWebLanguage)%></td>
+			            <td class="admin"><%=getTran("Web","consultation.by",sWebLanguage)%></td>
 			            <td class="admin2">
 			                <select class='text' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CNAR_CONSULTATION_SOCIALASSISTANT" property="itemId"/>]>.value" id='socialassistant'>
 			                    <option/>

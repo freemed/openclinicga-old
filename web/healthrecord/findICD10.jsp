@@ -42,7 +42,7 @@
                     foundRecords++;
                     code = (ICPCCode)codes.elementAt(n);
 
-                    if (code.code.substring(3,5).equalsIgnoreCase("00")){
+                    if (code.code.length()==5 && code.code.substring(3,5).equalsIgnoreCase("00")){
                         out.print("<tr class='label2'");
                     }
                     else {

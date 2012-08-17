@@ -191,33 +191,31 @@
                             if (hDiagnosisInfo != null) {
                                 sGravity = (String) hDiagnosisInfo.get("Gravity");
                                 sCertainty = (String) hDiagnosisInfo.get("Certainty");
-                            }
-                            else {
-                                sGravity = "";
-                                sCertainty = "";
-                            }
 
                             %>
                               <span id="ICPCCode<%=item.getItemId()%>">
-                                    <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="window.ICPCCode<%=item.getItemId()%>.innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
-                                    <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>
+                                    <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
+                                    <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%> G:<%=sGravity %>/C:<%=sCertainty %>
                                     <br/>
                               </span>
                             <%
+                            }
                         }
                         else if (item.getType().indexOf("ICD10Code")==0){
                             sCode = item.getType().substring("ICD10Code".length(),item.getType().length());
                             hDiagnosisInfo = (Hashtable)hDiagnoses.get(sCode);
-                            sGravity = (String)hDiagnosisInfo.get("Gravity");
-                            sCertainty = (String)hDiagnosisInfo.get("Certainty");
+                            if (hDiagnosisInfo != null) {
+                                sGravity = (String) hDiagnosisInfo.get("Gravity");
+                                sCertainty = (String) hDiagnosisInfo.get("Certainty");
 
                             %>
                                 <span id='ICD10Code<%=item.getItemId()%>'>
-                                    <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="window.ICD10Code<%=item.getItemId()%>.innerHTML='';"/><input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
-                                    <%=item.getType().replaceAll("ICD10Code","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>
+                                    <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="document.getElementById('ICD10Code<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
+                                    <%=item.getType().replaceAll("ICD10Code","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%> G:<%=sGravity %>/C:<%=sCertainty %>
                                     <br/>
                                 </span>
                             <%
+                            }
                         }
                     }
                 %>

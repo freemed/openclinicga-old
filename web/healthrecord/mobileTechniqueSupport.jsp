@@ -62,58 +62,8 @@
 
         <%-- ICPC / ICD10 --%>
         <tr>
-            <td class="admin"><a href="javascript:openPopup('healthrecord/findICPC.jsp&ts=<%=getTs()%>&patientuid=<%=activePatient.personid %>')"><%=getTran("openclinic.chuk","diagnostic",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></a></td>
-            <td id='icpccodes' class="admin2">
-                <%
-                    SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
-                    TransactionVO curTran = sessionContainerWO.getCurrentTransactionVO();
-                    Iterator items = curTran.getItems().iterator();
-                    ItemVO item;
-
-                    String sReferenceUID = curTran.getServerId() + "." + curTran.getTransactionId();
-                    String sReferenceType = "Transaction";
-                    Hashtable hDiagnoses = Diagnosis.getDiagnosesByReferenceUID(sReferenceUID, sReferenceType);
-                    Hashtable hDiagnosisInfo;
-                    String sCode, sGravity, sCertainty;
-
-                    while (items.hasNext()) {
-                        item = (ItemVO) items.next();
-                        if (item.getType().indexOf("ICPCCode") == 0) {
-                            sCode = item.getType().substring("ICPCCode".length(), item.getType().length());
-                            hDiagnosisInfo = (Hashtable) hDiagnoses.get(sCode);
-                            if (hDiagnosisInfo != null) {
-                                sGravity = (String) hDiagnosisInfo.get("Gravity");
-                                sCertainty = (String) hDiagnosisInfo.get("Certainty");
-                            }
-                            else {
-                                sGravity = "";
-                                sCertainty = "";
-                            }
-
-                            %>
-                              <span id="ICPCCode<%=item.getItemId()%>">
-                                    <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="window.ICPCCode<%=item.getItemId()%>.innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
-                                    <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>
-                                    <br/>
-                              </span>
-                            <%
-                        }
-                        else if (item.getType().indexOf("ICD10Code")==0){
-                            sCode = item.getType().substring("ICD10Code".length(),item.getType().length());
-                            hDiagnosisInfo = (Hashtable)hDiagnoses.get(sCode);
-                            sGravity = (String)hDiagnosisInfo.get("Gravity");
-                            sCertainty = (String)hDiagnosisInfo.get("Certainty");
-
-                            %>
-                                <span id='ICD10Code<%=item.getItemId()%>'>
-                                    <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="window.ICD10Code<%=item.getItemId()%>.innerHTML='';"/><input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
-                                    <%=item.getType().replaceAll("ICD10Code","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>
-                                    <br/>
-                                </span>
-                            <%
-                        }
-                    }
-                %>
+            <td class="admin2" colspan="2">
+                 <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
             </td>
         </tr>
 
@@ -271,7 +221,7 @@
 	      document.transactionForm.saveButton.style.visibility = "hidden";
 	      var temp = Form.findFirstElement(transactionForm);
 	      <%
-	          sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
+	      	  SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
 	          out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
 	      %>
 	    }
