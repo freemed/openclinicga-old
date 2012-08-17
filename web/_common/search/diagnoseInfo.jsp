@@ -386,7 +386,7 @@
 	                	Vector encounters=Encounter.selectEncounters("","","","","","","","",sPatientUid,"");
 	                	for (int n=0;n<encounters.size();n++){
 	                		Encounter encounter = (Encounter)encounters.elementAt(n);
-		                	if(encounter.getServiceUID()!=null && encounter.getServiceUID().length()>0 && hServices.get(encounter.getServiceUID())==null){
+		                	if(encounter.getServiceUID()!=null && encounter.getServiceUID().length()>0 && encounter.getService()!=null && hServices.get(encounter.getServiceUID())==null){
 			            		services.add(encounter.getServiceUID()+";"+encounter.getService().getLabel(sWebLanguage));
 			            		hServices.put(encounter.getServiceUID(),"1");
 		                	}
