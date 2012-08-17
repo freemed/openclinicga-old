@@ -40,16 +40,20 @@ public class ServiceDiagnosis {
     public static Vector selectServiceDiagnoses(String serviceID,String diagnoseCode,String codeType, String sortColumn){
 
         Vector vServiceDiagnoses = new Vector();
-        if (serviceID.length()==0){
-        	return vServiceDiagnoses;
-        }
 
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         String sSelect = "SELECT * FROM OC_SERVICEDIAGNOSES";
         String sConditions = "";
-        if(serviceID.length() > 0)         { sConditions += " replace(?,OC_SERVICEDIAGNOSIS_SERVICEUID,'')<>? AND";}
+        if(serviceID.length() > 0){
+        	sConditions += " (OC_SERVICEDIAGNOSIS_SERVICEUID='' OR replace(?,OC_SERVICEDIAGNOSIS_SERVICEUID,'')<>?) AND";
+        }
+        else {
+        	sConditions += " OC_SERVICEDIAGNOSIS_SERVICEUID='' AND";
+        }
+        
+        
         if(diagnoseCode.length() > 0)   { sConditions += " OC_SERVICEDIAGNOSIS_CODE = ? AND";}
         if(codeType.length() > 0)       { sConditions += " OC_SERVICEDIAGNOSIS_CODETYPE = ? AND";}
 

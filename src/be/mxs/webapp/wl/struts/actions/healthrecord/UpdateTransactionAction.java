@@ -494,7 +494,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
         return actionForward;
     }
 
-    private void saveDiagnosesToTable(Hashtable ICPCCodes,Hashtable ICD10Codes,Hashtable DSM4Codes,String sTransactionUID,SessionContainerWO sessionContainerWO,Encounter encounter){
+    public static void saveDiagnosesToTable(Hashtable ICPCCodes,Hashtable ICD10Codes,Hashtable DSM4Codes,String sTransactionUID,SessionContainerWO sessionContainerWO,Encounter encounter){
 
         Enumeration enumeration;
         String code;

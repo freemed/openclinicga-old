@@ -235,6 +235,26 @@ public class Diagnosis extends OC_Object{
 		}
     }
 
+    public static void deleteForUid(String uid){
+        PreparedStatement ps;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            ps=oc_conn.prepareStatement("delete from OC_DIAGNOSES where OC_DIAGNOSIS_SERVERID=? and OC_DIAGNOSIS_OBJECTID=?");
+            ps.setInt(1,Integer.parseInt(uid.split("\\.")[0]));
+            ps.setInt(2,Integer.parseInt(uid.split("\\.")[1]));
+            ps.execute();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
     public void store(){
         PreparedStatement ps;
         ResultSet rs;
