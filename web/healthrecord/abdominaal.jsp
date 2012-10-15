@@ -32,13 +32,13 @@
       function setTrue(itemType){
         var fieldName;
         fieldName = "currentTransactionVO.items.<ItemVO[hashCode="+itemType+"]>.value";
-        document.all[fieldName].value = "medwan.common.true";
+        document.getElementsByName(fieldName)[0].value = "medwan.common.true";
       }
 
       function setFalse(itemType){
         var fieldName;
         fieldName = "currentTransactionVO.items.<ItemVO[hashCode="+itemType+"]>.value";
-        document.all[fieldName].value = "medwan.common.false";
+        document.getElementsByName(fieldName)[0].value = "medwan.common.false";
       }
     </script>
 
@@ -225,4 +225,4 @@
     %>
   }
 </script>
-<%=writeJSButtons("transactionForm", "document.all['save']")%>
+<%=writeJSButtons("transactionForm", "document.getElementsByName('save')[0]")%>

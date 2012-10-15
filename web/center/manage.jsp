@@ -391,14 +391,14 @@
         for (var i = 0; i < aTabs.length; i++) {
             sTmp = aTabs[i];
             if (sTmp.length > 0) {
-                document.all["tr" + sTmp].style.display = "none";
-                document.all["tab" + sTmp].className = "tabunselected";
+                document.getElementsByName("tr" + sTmp)[0].style.display = "none";
+                document.getElementsByName("tab" + sTmp)[0].className = "tabunselected";
             }
         }
 
       //activeTab = sTab;
-        document.all["tr" + sTab].style.display = "";
-        document.all["tab" + sTab].className = "tabselected";
+        document.getElementsByName("tr" + sTab)[0].style.display = "";
+        document.getElementsByName("tab" + sTab)[0].className = "tabselected";
     }
     var checkSubmit = function() {
         $("centerForm").submit();

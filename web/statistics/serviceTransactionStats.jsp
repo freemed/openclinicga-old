@@ -112,7 +112,7 @@
     <script type="text/javascript">
         function searchService(serviceUidField,serviceNameField){
             openPopup("_common/search/searchService.jsp&ts=<%=getTs()%>&showinactive=1&VarCode="+serviceUidField+"&VarText="+serviceNameField);
-            document.all[serviceNameField].focus();
+            document.getElementsByName(serviceNameField)[0].focus();
         }
         function doBack(){
             window.location.href = "<c:url value='/main.do'/>?Page=statistics/index.jsp";

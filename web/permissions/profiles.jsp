@@ -356,18 +356,18 @@
         }
     }
     function checkRow(categoryIdx, screenID, setChecked) {
-        eval("document.all['cat" + categoryIdx + "$" + screenID + ".Select']").checked = setChecked;
-        eval("document.all['cat" + categoryIdx + "$" + screenID + ".Add']").checked = setChecked;
-        eval("document.all['cat" + categoryIdx + "$" + screenID + ".Edit']").checked = setChecked;
-        eval("document.all['cat" + categoryIdx + "$" + screenID + ".Delete']").checked = setChecked;
+        eval("document.getElementsByName('cat" + categoryIdx + "$" + screenID + ".Select')[0]").checked = setChecked;
+        eval("document.getElementsByName('cat" + categoryIdx + "$" + screenID + ".Add')[0]").checked = setChecked;
+        eval("document.getElementsByName('cat" + categoryIdx + "$" + screenID + ".Edit')[0]").checked = setChecked;
+        eval("document.getElementsByName('cat" + categoryIdx + "$" + screenID + ".Delete')[0]").checked = setChecked;
     }
     function uncheckRowSelector(categoryIdx, screenID) {
-        eval("document.all['cat" + categoryIdx + "$" + screenID + "']").checked = false;
+        eval("document.getElementsByName('cat" + categoryIdx + "$" + screenID + "')[0]").checked = false;
     }
     function togglePermissions(headerIdx) {
-        var isChecked = (document.all['cat' + headerIdx + '_selected'].value == 1);
-        if (isChecked) document.all['cat' + headerIdx + '_selected'].value = 0;
-        else          document.all['cat' + headerIdx + '_selected'].value = 1;
+        var isChecked = (document.getElementsByName('cat' + headerIdx + '_selected')[0].value == 1);
+        if (isChecked) document.getElementsByName('cat' + headerIdx + '_selected')[0].value = 0;
+        else          document.getElementsByName('cat' + headerIdx + '_selected')[0].value = 1;
         for (var i = 0; i < profileForm.elements.length; i++) {
             if (profileForm.elements[i].type == "checkbox") {
                 if (profileForm.elements[i].name.indexOf("cat" + headerIdx + "$") == 0) {
@@ -379,14 +379,14 @@
     <%-- APPLY checkboxes POLICY 1 (if no 'select', any) --%>
     function applyPolicy1(checkBox, categoryIdx, screenId) {
         if (!checkBox.checked) {
-            document.all["cat" + categoryIdx + "$" + screenId + ".Add"].checked = false;
-            document.all["cat" + categoryIdx + "$" + screenId + ".Edit"].checked = false;
-            document.all["cat" + categoryIdx + "$" + screenId + ".Delete"].checked = false;
+            document.getElementsByName("cat" + categoryIdx + "$" + screenId + ".Add")[0].checked = false;
+            document.getElementsByName("cat" + categoryIdx + "$" + screenId + ".Edit")[0].checked = false;
+            document.getElementsByName("cat" + categoryIdx + "$" + screenId + ".Delete")[0].checked = false;
         }
     }
     <%-- APPLY checkboxes POLICY 2 (if 'add', 'edit' or 'delete', also 'select') --%>
     function applyPolicy2(checkBox, categoryIdx, screenId) {
-        var selectCB = document.all["cat" + categoryIdx + "$" + screenId + ".Select"];
+        var selectCB = document.getElementsByName("cat" + categoryIdx + "$" + screenId + ".Select")[0];
         if (checkBox.checked) selectCB.checked = true;
     }
     <%------------------------- DELETE USER PROFILE ----------------------%>

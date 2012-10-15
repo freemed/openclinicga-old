@@ -398,77 +398,77 @@ var R125, R25, R50, R1, R2, R4, L125, L25, L50, L1, L2, L4, L8
 , dR125, dR25, dR50, dR1, dR2, dR4, dR8, dL125, dL25, dL50, dL1, dL2, dL4, dL8, A125, A25, A50, A1, A2, A4, A8;
 
 function setTable(oObject){
-  if (document.all['DVisible'].checked) {
+  if (document.getElementsByName('DVisible')[0].checked) {
     sTable = oObject.id.substring(0,1);
 
     if (sTable == "R") {
       if (oObject.id == "R125") {
-        R125.ResizeTo(D.ScreenX(0), D.ScreenY(document.all['R125'].value), D.ScreenX(1), D.ScreenY(document.all['R25'].value));
-        dR125.MoveTo(D.ScreenX(0), D.ScreenY(document.all['R125'].value));
+        R125.ResizeTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('R125')[0].value), D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value));
+        dR125.MoveTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('R125')[0].value));
       }
       else if (oObject.id == "R25") {
-        R125.ResizeTo(D.ScreenX(0), D.ScreenY(document.all['R125'].value), D.ScreenX(1), D.ScreenY(document.all['R25'].value));
-        R25.ResizeTo(D.ScreenX(1), D.ScreenY(document.all['R25'].value), D.ScreenX(2), D.ScreenY(document.all['R50'].value));
-        dR25.MoveTo(D.ScreenX(1), D.ScreenY(document.all['R25'].value));
+        R125.ResizeTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('R125')[0].value), D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value));
+        R25.ResizeTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value), D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value));
+        dR25.MoveTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value));
       }
       else if (oObject.id == "R50") {
-        R25.ResizeTo(D.ScreenX(1), D.ScreenY(document.all['R25'].value), D.ScreenX(2), D.ScreenY(document.all['R50'].value));
-        R50.ResizeTo(D.ScreenX(2), D.ScreenY(document.all['R50'].value), D.ScreenX(3), D.ScreenY(document.all['R1'].value));
-        dR50.MoveTo(D.ScreenX(2), D.ScreenY(document.all['R50'].value));
+        R25.ResizeTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value), D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value));
+        R50.ResizeTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value), D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value));
+        dR50.MoveTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value));
       }
       else if (oObject.id == "R1") {
-        R50.ResizeTo(D.ScreenX(2), D.ScreenY(document.all['R50'].value), D.ScreenX(3), D.ScreenY(document.all['R1'].value));
-        R1.ResizeTo(D.ScreenX(3), D.ScreenY(document.all['R1'].value), D.ScreenX(4), D.ScreenY(document.all['R2'].value));
-        dR1.MoveTo(D.ScreenX(3), D.ScreenY(document.all['R1'].value));
+        R50.ResizeTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value), D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value));
+        R1.ResizeTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value), D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value));
+        dR1.MoveTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value));
       }
       else if (oObject.id == "R2") {
-        R1.ResizeTo(D.ScreenX(3), D.ScreenY(document.all['R1'].value), D.ScreenX(4), D.ScreenY(document.all['R2'].value));
-        R2.ResizeTo(D.ScreenX(4), D.ScreenY(document.all['R2'].value), D.ScreenX(5), D.ScreenY(document.all['R4'].value));
-        dR2.MoveTo(D.ScreenX(4), D.ScreenY(document.all['R2'].value));
+        R1.ResizeTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value), D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value));
+        R2.ResizeTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value), D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value));
+        dR2.MoveTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value));
       }
       else if (oObject.id == "R4") {
-        R2.ResizeTo(D.ScreenX(4), D.ScreenY(document.all['R2'].value), D.ScreenX(5), D.ScreenY(document.all['R4'].value));
-        R4.ResizeTo(D.ScreenX(5), D.ScreenY(document.all['R4'].value), D.ScreenX(6), D.ScreenY(document.all['R8'].value));
-        dR4.MoveTo(D.ScreenX(5), D.ScreenY(document.all['R4'].value));
+        R2.ResizeTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value), D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value));
+        R4.ResizeTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value), D.ScreenX(6), D.ScreenY(document.getElementsByName('R8')[0].value));
+        dR4.MoveTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value));
       }
       else if (oObject.id == "R8") {
-        R4.ResizeTo(D.ScreenX(5), D.ScreenY(document.all['R4'].value), D.ScreenX(6), D.ScreenY(document.all['R8'].value));
-        dR8.MoveTo(D.ScreenX(6), D.ScreenY(document.all['R8'].value));
+        R4.ResizeTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value), D.ScreenX(6), D.ScreenY(document.getElementsByName('R8')[0].value));
+        dR8.MoveTo(D.ScreenX(6), D.ScreenY(document.getElementsByName('R8')[0].value));
       }
     }
     else {
       if (oObject.id == "L125") {
-        L125.ResizeTo(D.ScreenX(0), D.ScreenY(document.all['L125'].value), D.ScreenX(1), D.ScreenY(document.all['L25'].value));
-        dL125.MoveTo(D.ScreenX(0), D.ScreenY(document.all['L125'].value));
+        L125.ResizeTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('L125')[0].value), D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value));
+        dL125.MoveTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('L125')[0].value));
       }
       else if (oObject.id == "L25") {
-        L125.ResizeTo(D.ScreenX(0), D.ScreenY(document.all['L125'].value), D.ScreenX(1), D.ScreenY(document.all['L25'].value));
-        L25.ResizeTo(D.ScreenX(1), D.ScreenY(document.all['L25'].value), D.ScreenX(2), D.ScreenY(document.all['L50'].value));
-        dL25.MoveTo(D.ScreenX(1), D.ScreenY(document.all['L25'].value));
+        L125.ResizeTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('L125')[0].value), D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value));
+        L25.ResizeTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value), D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value));
+        dL25.MoveTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value));
       }
       else if (oObject.id == "L50") {
-        L25.ResizeTo(D.ScreenX(1), D.ScreenY(document.all['L25'].value), D.ScreenX(2), D.ScreenY(document.all['L50'].value));
-        L50.ResizeTo(D.ScreenX(2), D.ScreenY(document.all['L50'].value), D.ScreenX(3), D.ScreenY(document.all['L1'].value));
-        dL50.MoveTo(D.ScreenX(2), D.ScreenY(document.all['L50'].value));
+        L25.ResizeTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value), D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value));
+        L50.ResizeTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value), D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value));
+        dL50.MoveTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value));
       }
       else if (oObject.id == "L1") {
-        L50.ResizeTo(D.ScreenX(2), D.ScreenY(document.all['L50'].value), D.ScreenX(3), D.ScreenY(document.all['L1'].value));
-        L1.ResizeTo(D.ScreenX(3), D.ScreenY(document.all['L1'].value), D.ScreenX(4), D.ScreenY(document.all['L2'].value));
-        dL1.MoveTo(D.ScreenX(3), D.ScreenY(document.all['L1'].value));
+        L50.ResizeTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value), D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value));
+        L1.ResizeTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value), D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value));
+        dL1.MoveTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value));
       }
       else if (oObject.id == "L2") {
-        L1.ResizeTo(D.ScreenX(3), D.ScreenY(document.all['L1'].value), D.ScreenX(4), D.ScreenY(document.all['L2'].value));
-        L2.ResizeTo(D.ScreenX(4), D.ScreenY(document.all['L2'].value), D.ScreenX(5), D.ScreenY(document.all['L4'].value));
-        dL2.MoveTo(D.ScreenX(4), D.ScreenY(document.all['L2'].value));
+        L1.ResizeTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value), D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value));
+        L2.ResizeTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value), D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value));
+        dL2.MoveTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value));
       }
       else if (oObject.id == "L4") {
-        L2.ResizeTo(D.ScreenX(4), D.ScreenY(document.all['L2'].value), D.ScreenX(5), D.ScreenY(document.all['L4'].value));
-        L4.ResizeTo(D.ScreenX(5), D.ScreenY(document.all['L4'].value), D.ScreenX(6), D.ScreenY(document.all['L8'].value));
-        dL4.MoveTo(D.ScreenX(5), D.ScreenY(document.all['L4'].value));
+        L2.ResizeTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value), D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value));
+        L4.ResizeTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value), D.ScreenX(6), D.ScreenY(document.getElementsByName('L8')[0].value));
+        dL4.MoveTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value));
       }
       else if (oObject.id == "L8") {
-        L4.ResizeTo(D.ScreenX(5), D.ScreenY(document.all['L4'].value), D.ScreenX(6), D.ScreenY(document.all['L8'].value));
-        dL8.MoveTo(D.ScreenX(6), D.ScreenY(document.all['L8'].value));
+        L4.ResizeTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value), D.ScreenX(6), D.ScreenY(document.getElementsByName('L8')[0].value));
+        dL8.MoveTo(D.ScreenX(6), D.ScreenY(document.getElementsByName('L8')[0].value));
       }
     }
   }
@@ -488,35 +488,35 @@ function setTable(oObject){
         <%
     }
 %>
-R125 = new Line(D.ScreenX(0), D.ScreenY(document.all['R125'].value), D.ScreenX(1), D.ScreenY(document.all['R25'].value), "ff0000", 2, "");
-R25 = new Line(D.ScreenX(1), D.ScreenY(document.all['R25'].value), D.ScreenX(2), D.ScreenY(document.all['R50'].value), "ff0000", 2, "");
-R50 = new Line(D.ScreenX(2), D.ScreenY(document.all['R50'].value), D.ScreenX(3), D.ScreenY(document.all['R1'].value), "ff0000", 2, "");
-R1 = new Line(D.ScreenX(3), D.ScreenY(document.all['R1'].value), D.ScreenX(4), D.ScreenY(document.all['R2'].value), "ff0000", 2, "");
-R2 = new Line(D.ScreenX(4), D.ScreenY(document.all['R2'].value), D.ScreenX(5), D.ScreenY(document.all['R4'].value), "ff0000", 2, "");
-R4 = new Line(D.ScreenX(5), D.ScreenY(document.all['R4'].value), D.ScreenX(6), D.ScreenY(document.all['R8'].value), "ff0000", 2, "");
+R125 = new Line(D.ScreenX(0), D.ScreenY(document.getElementsByName('R125')[0].value), D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value), "ff0000", 2, "");
+R25 = new Line(D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value), D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value), "ff0000", 2, "");
+R50 = new Line(D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value), D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value), "ff0000", 2, "");
+R1 = new Line(D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value), D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value), "ff0000", 2, "");
+R2 = new Line(D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value), D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value), "ff0000", 2, "");
+R4 = new Line(D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value), D.ScreenX(6), D.ScreenY(document.getElementsByName('R8')[0].value), "ff0000", 2, "");
 
-dR125 = new Dot(D.ScreenX(0), D.ScreenY(document.all['R125'].value), 12, 6, "ff0000","");
-dR25 = new Dot(D.ScreenX(1), D.ScreenY(document.all['R25'].value), 12, 6, "ff0000","");
-dR50 = new Dot(D.ScreenX(2), D.ScreenY(document.all['R50'].value), 12, 6, "ff0000","");
-dR1 = new Dot(D.ScreenX(3), D.ScreenY(document.all['R1'].value), 12, 6, "ff0000","");
-dR2 = new Dot(D.ScreenX(4), D.ScreenY(document.all['R2'].value), 12, 6, "ff0000","");
-dR4 = new Dot(D.ScreenX(5), D.ScreenY(document.all['R4'].value), 12, 6, "ff0000","");
-dR8 = new Dot(D.ScreenX(6), D.ScreenY(document.all['R8'].value), 12, 6, "ff0000","");
+dR125 = new Dot(D.ScreenX(0), D.ScreenY(document.getElementsByName('R125')[0].value), 12, 6, "ff0000","");
+dR25 = new Dot(D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value), 12, 6, "ff0000","");
+dR50 = new Dot(D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value), 12, 6, "ff0000","");
+dR1 = new Dot(D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value), 12, 6, "ff0000","");
+dR2 = new Dot(D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value), 12, 6, "ff0000","");
+dR4 = new Dot(D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value), 12, 6, "ff0000","");
+dR8 = new Dot(D.ScreenX(6), D.ScreenY(document.getElementsByName('R8')[0].value), 12, 6, "ff0000","");
 
-L125 = new Line(D.ScreenX(0), D.ScreenY(document.all['L125'].value), D.ScreenX(1), D.ScreenY(document.all['L25'].value), "0000ff", 2, "");
-L25 = new Line(D.ScreenX(1), D.ScreenY(document.all['L25'].value), D.ScreenX(2), D.ScreenY(document.all['L50'].value), "0000ff", 2, "");
-L50 = new Line(D.ScreenX(2), D.ScreenY(document.all['L50'].value), D.ScreenX(3), D.ScreenY(document.all['L1'].value), "0000ff", 2, "");
-L1 = new Line(D.ScreenX(3), D.ScreenY(document.all['L1'].value), D.ScreenX(4), D.ScreenY(document.all['L2'].value), "0000ff", 2, "");
-L2 = new Line(D.ScreenX(4), D.ScreenY(document.all['L2'].value), D.ScreenX(5), D.ScreenY(document.all['L4'].value), "0000ff", 2, "");
-L4 = new Line(D.ScreenX(5), D.ScreenY(document.all['L4'].value), D.ScreenX(6), D.ScreenY(document.all['L8'].value), "0000ff", 2, "");
+L125 = new Line(D.ScreenX(0), D.ScreenY(document.getElementsByName('L125')[0].value), D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value), "0000ff", 2, "");
+L25 = new Line(D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value), D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value), "0000ff", 2, "");
+L50 = new Line(D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value), D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value), "0000ff", 2, "");
+L1 = new Line(D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value), D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value), "0000ff", 2, "");
+L2 = new Line(D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value), D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value), "0000ff", 2, "");
+L4 = new Line(D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value), D.ScreenX(6), D.ScreenY(document.getElementsByName('L8')[0].value), "0000ff", 2, "");
 
-dL125 = new Dot(D.ScreenX(0), D.ScreenY(document.all['L125'].value), 12, 1, "0000ff","");
-dL25 = new Dot(D.ScreenX(1), D.ScreenY(document.all['L25'].value), 12, 1, "0000ff","");
-dL50 = new Dot(D.ScreenX(2), D.ScreenY(document.all['L50'].value), 12, 1, "0000ff","");
-dL1 = new Dot(D.ScreenX(3), D.ScreenY(document.all['L1'].value), 12, 1, "0000ff","");
-dL2 = new Dot(D.ScreenX(4), D.ScreenY(document.all['L2'].value), 12, 1, "0000ff","");
-dL4 = new Dot(D.ScreenX(5), D.ScreenY(document.all['L4'].value), 12, 1, "0000ff","");
-dL8 = new Dot(D.ScreenX(6), D.ScreenY(document.all['L8'].value), 12, 1, "0000ff","");
+dL125 = new Dot(D.ScreenX(0), D.ScreenY(document.getElementsByName('L125')[0].value), 12, 1, "0000ff","");
+dL25 = new Dot(D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value), 12, 1, "0000ff","");
+dL50 = new Dot(D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value), 12, 1, "0000ff","");
+dL1 = new Dot(D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value), 12, 1, "0000ff","");
+dL2 = new Dot(D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value), 12, 1, "0000ff","");
+dL4 = new Dot(D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value), 12, 1, "0000ff","");
+dL8 = new Dot(D.ScreenX(6), D.ScreenY(document.getElementsByName('L8')[0].value), 12, 1, "0000ff","");
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -531,7 +531,7 @@ var HLR125, HLR25, HLR50, HLR1, HLR2, HLR4, HLL125, HLL25, HLL50, HLL1, HLL2, HL
 , HdR125, HdR25, HdR50, HdR1, HdR2, HdR4, HdR8, HdL125, HdL25, HdL50, HdL1, HdL2, HdL4, HdL8;
 
 function changeHistory(){
-  sOption = document.all['History'].value;
+  sOption = document.getElementsByName('History')[0].value;
 
   HLR125.ResizeTo(H.ScreenX(0), H.ScreenY(getH("RIGHT_0125")), H.ScreenX(1), H.ScreenY(getH("RIGHT_025")));
   HdR125.MoveTo(H.ScreenX(0), H.ScreenY(getH("RIGHT_0125")));
@@ -635,41 +635,41 @@ function setVisibility(bVisible){
   A4.SetVisibility(bVisible);
 
   if (bVisible) {
-    document.all['freqs'].style.display='block';
-    R125.ResizeTo(D.ScreenX(0), D.ScreenY(document.all['R125'].value), D.ScreenX(1), D.ScreenY(document.all['R25'].value));
-    dR125.MoveTo(D.ScreenX(0), D.ScreenY(document.all['R125'].value));
-    R25.ResizeTo(D.ScreenX(1), D.ScreenY(document.all['R25'].value), D.ScreenX(2), D.ScreenY(document.all['R50'].value));
-    dR25.MoveTo(D.ScreenX(1), D.ScreenY(document.all['R25'].value));
-    R50.ResizeTo(D.ScreenX(2), D.ScreenY(document.all['R50'].value), D.ScreenX(3), D.ScreenY(document.all['R1'].value));
-    dR50.MoveTo(D.ScreenX(2), D.ScreenY(document.all['R50'].value));
-    R1.ResizeTo(D.ScreenX(3), D.ScreenY(document.all['R1'].value), D.ScreenX(4), D.ScreenY(document.all['R2'].value));
-    dR1.MoveTo(D.ScreenX(3), D.ScreenY(document.all['R1'].value));
-    R2.ResizeTo(D.ScreenX(4), D.ScreenY(document.all['R2'].value), D.ScreenX(5), D.ScreenY(document.all['R4'].value));
-    dR2.MoveTo(D.ScreenX(4), D.ScreenY(document.all['R2'].value));
-    R4.ResizeTo(D.ScreenX(5), D.ScreenY(document.all['R4'].value), D.ScreenX(6), D.ScreenY(document.all['R8'].value));
-    dR4.MoveTo(D.ScreenX(5), D.ScreenY(document.all['R4'].value));
-    dR8.MoveTo(D.ScreenX(6), D.ScreenY(document.all['R8'].value));
+    document.getElementsByName('freqs')[0].style.display='block';
+    R125.ResizeTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('R125')[0].value), D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value));
+    dR125.MoveTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('R125')[0].value));
+    R25.ResizeTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value), D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value));
+    dR25.MoveTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('R25')[0].value));
+    R50.ResizeTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value), D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value));
+    dR50.MoveTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('R50')[0].value));
+    R1.ResizeTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value), D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value));
+    dR1.MoveTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('R1')[0].value));
+    R2.ResizeTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value), D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value));
+    dR2.MoveTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('R2')[0].value));
+    R4.ResizeTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value), D.ScreenX(6), D.ScreenY(document.getElementsByName('R8')[0].value));
+    dR4.MoveTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('R4')[0].value));
+    dR8.MoveTo(D.ScreenX(6), D.ScreenY(document.getElementsByName('R8')[0].value));
 
-    L125.ResizeTo(D.ScreenX(0), D.ScreenY(document.all['L125'].value), D.ScreenX(1), D.ScreenY(document.all['L25'].value));
-    dL125.MoveTo(D.ScreenX(0), D.ScreenY(document.all['L125'].value));
-    L25.ResizeTo(D.ScreenX(1), D.ScreenY(document.all['L25'].value), D.ScreenX(2), D.ScreenY(document.all['L50'].value));
-    dL25.MoveTo(D.ScreenX(1), D.ScreenY(document.all['L25'].value));
-    L50.ResizeTo(D.ScreenX(2), D.ScreenY(document.all['L50'].value), D.ScreenX(3), D.ScreenY(document.all['L1'].value));
-    dL50.MoveTo(D.ScreenX(2), D.ScreenY(document.all['L50'].value));
-    L1.ResizeTo(D.ScreenX(3), D.ScreenY(document.all['L1'].value), D.ScreenX(4), D.ScreenY(document.all['L2'].value));
-    dL1.MoveTo(D.ScreenX(3), D.ScreenY(document.all['L1'].value));
-    L2.ResizeTo(D.ScreenX(4), D.ScreenY(document.all['L2'].value), D.ScreenX(5), D.ScreenY(document.all['L4'].value));
-    dL2.MoveTo(D.ScreenX(4), D.ScreenY(document.all['L2'].value));
-    L4.ResizeTo(D.ScreenX(5), D.ScreenY(document.all['L4'].value), D.ScreenX(6), D.ScreenY(document.all['L8'].value));
-    dL4.MoveTo(D.ScreenX(5), D.ScreenY(document.all['L4'].value));
-    dL8.MoveTo(D.ScreenX(6), D.ScreenY(document.all['L8'].value));
+    L125.ResizeTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('L125')[0].value), D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value));
+    dL125.MoveTo(D.ScreenX(0), D.ScreenY(document.getElementsByName('L125')[0].value));
+    L25.ResizeTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value), D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value));
+    dL25.MoveTo(D.ScreenX(1), D.ScreenY(document.getElementsByName('L25')[0].value));
+    L50.ResizeTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value), D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value));
+    dL50.MoveTo(D.ScreenX(2), D.ScreenY(document.getElementsByName('L50')[0].value));
+    L1.ResizeTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value), D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value));
+    dL1.MoveTo(D.ScreenX(3), D.ScreenY(document.getElementsByName('L1')[0].value));
+    L2.ResizeTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value), D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value));
+    dL2.MoveTo(D.ScreenX(4), D.ScreenY(document.getElementsByName('L2')[0].value));
+    L4.ResizeTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value), D.ScreenX(6), D.ScreenY(document.getElementsByName('L8')[0].value));
+    dL4.MoveTo(D.ScreenX(5), D.ScreenY(document.getElementsByName('L4')[0].value));
+    dL8.MoveTo(D.ScreenX(6), D.ScreenY(document.getElementsByName('L8')[0].value));
   }
   else {
-    document.all['freqs'].style.display='none';
+    document.getElementsByName('freqs')[0].style.display='none';
   }
 }
 
-if (document.all['transactionId'].value.substring(0,1)=="-"){
+if (document.getElementsByName('transactionId')[0].value.substring(0,1)=="-"){
     document.getElementById("R125").options.selectedIndex = 1;
     document.getElementById("R25").options.selectedIndex = 1;
     document.getElementById("R50").options.selectedIndex = 1;

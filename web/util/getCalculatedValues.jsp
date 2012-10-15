@@ -22,6 +22,6 @@
 %>
 <!-- Let's return the calculated value here -->
 <script>
-  window.opener.document.all['<%=sourceField%>'].value='<%=returnValue%>';
+  window.opener.document.getElementsByName('<%=sourceField%>')[0].value='<%=returnValue%>';
   window.close();
 </script>

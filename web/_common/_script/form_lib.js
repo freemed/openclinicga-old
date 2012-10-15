@@ -10,7 +10,7 @@ function submit_form(_form, _action) {
 
 function setValue(element, newValue) {
 
-    document.all[element].value = newValue;
+    document.getElementsByName(element)[0].value = newValue;
 }
 
 

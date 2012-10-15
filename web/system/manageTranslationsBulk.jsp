@@ -214,13 +214,13 @@
 <script>
     function doFind(){
          if (EditForm.FindSourceLanguage.selectedIndex!= EditForm.FindDestinationLanguage.selectedIndex){
-            document.all['ButtonSearch'].disabled = true;
+            document.getElementsByName('ButtonSearch')[0].disabled = true;
             EditForm.submit();
         }
     }
 
     function doSave(){
-        document.all['ButtonSave'].disabled = true;
+        document.getElementsByName('ButtonSave')[0].disabled = true;
         EditForm.ActionField.value = "Save";
         EditForm.submit();
     }

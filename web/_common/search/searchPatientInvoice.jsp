@@ -168,25 +168,25 @@
     <%-- SELECT INVOICE --%>
     function selectInvoice(sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceBalance, sInvoiceStatus) {
         if ("<%=sReturnFieldInvoiceUid%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldInvoiceUid%>"].value = sInvoiceUid;
+            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceUid%>")[0].value = sInvoiceUid;
         }
 
         if ("<%=sReturnFieldInvoiceNr%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldInvoiceNr%>"].value = sInvoiceNr;
+            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceNr%>")[0].value = sInvoiceNr;
         }
 
         if ("<%=sReturnFieldInvoiceBalance%>".length > 0) {
-            if (window.opener.document.all["<%=sReturnFieldInvoiceBalance%>"].value.length == 0) {
-                window.opener.document.all["<%=sReturnFieldInvoiceBalance%>"].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+            if (window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value.length == 0) {
+                window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
             }
         }
 
         if ("<%=sReturnFieldInvoiceMaxBalance%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldInvoiceMaxBalance%>"].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceMaxBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
         }
 
         if ("<%=sReturnFieldInvoiceStatus%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldInvoiceStatus%>"].value = sInvoiceStatus;
+            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceStatus%>")[0].value = sInvoiceStatus;
         }
 
     <%

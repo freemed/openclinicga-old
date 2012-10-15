@@ -257,9 +257,9 @@
                             <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeBiometry">
                                 <div id="BMI"></div>
                                 <script>
-                                  if (document.all['lastHeight'].value.length > 0 && document.all['lastWeight'].value.length>0){
-                                    var _BMI = (document.all['lastWeight'].value * 10000) / (document.all['lastHeight'].value * document.all['lastHeight'].value);
-                                    document.all['BMI'].innerHTML = Math.round(_BMI*10)/10;
+                                  if (document.getElementsByName('lastHeight')[0].value.length > 0 && document.getElementsByName('lastWeight')[0].value.length>0){
+                                    var _BMI = (document.getElementsByName('lastWeight')[0].value * 10000) / (document.getElementsByName('lastHeight')[0].value * document.getElementsByName('lastHeight')[0].value);
+                                    document.getElementsByName('BMI')[0].innerHTML = Math.round(_BMI*10)/10;
                                   }
                                 </script>
                             </logic:present>
@@ -400,7 +400,7 @@
                 <tr>
                     <td class="admin2">
                         <img src='<c:url value="/_img/pijl.gif"/>'>
-                        <a class="menuItem" href="javascript:document.all['sum_r2a'].checked=true;document.all['sum_r2b'].checked=false;subScreen('/main.do?Page=healthrecord/ausculatie.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Ausculatie_hart_longen",sWebLanguage)%></a>
+                        <a class="menuItem" href="javascript:document.getElementsByName('sum_r2a')[0].checked=true;document.getElementsByName('sum_r2b')[0].checked=false;subScreen('/main.do?Page=healthrecord/ausculatie.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Ausculatie_hart_longen",sWebLanguage)%></a>
                     </td>
                     <td align="right" class="admin2"> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
                         <input <%=setRightClick("ITEM_TYPE_CARDIAL_COMPLAINTS")%> id='sum_r2a' type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_COMPLAINTS" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_COMPLAINTS;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"><label for="sum_r2a">+</label>
@@ -410,7 +410,7 @@
                 <tr>
                     <td class="admin2">
                         <img src='<c:url value="/_img/pijl.gif"/>'>
-                        <a class="menuItem" href="javascript:document.all['sum_r3a'].checked=true;document.all['sum_r3b'].checked=false;subScreen('/main.do?Page=healthrecord/orl_endocrino.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","medwan.healthrecord.ORL",sWebLanguage)%> - Endocrino</a>
+                        <a class="menuItem" href="javascript:document.getElementsByName('sum_r3a')[0].checked=true;document.getElementsByName('sum_r3b')[0].checked=false;subScreen('/main.do?Page=healthrecord/orl_endocrino.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","medwan.healthrecord.ORL",sWebLanguage)%> - Endocrino</a>
                     </td>
                     <td align="right" class="admin2" width="10%" nowrap> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
                         <input <%=setRightClick("ITEM_TYPE_ORL_COMPLAINTS")%> id='sum_r3a' type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORL_COMPLAINTS" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORL_COMPLAINTS;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"><label for="sum_r3a">+</label>
@@ -420,7 +420,7 @@
                 <tr>
                     <td class="admin2">
                         <img src='<c:url value="/_img/pijl.gif"/>'>
-                        <a class="menuItem" href="javascript:document.all['sum_r4a'].checked=true;document.all['sum_r4b'].checked=false;subScreen('/main.do?Page=healthrecord/abdominaal.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Abdominaal_onderzoek",sWebLanguage)%></a>
+                        <a class="menuItem" href="javascript:document.getElementsByName('sum_r4a')[0].checked=true;document.getElementsByName('sum_r4b')[0].checked=false;subScreen('/main.do?Page=healthrecord/abdominaal.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Abdominaal_onderzoek",sWebLanguage)%></a>
                     </td>
                     <td align="right" class="admin2"> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
                         <input <%=setRightClick("ITEM_TYPE_ABDOMINAL_COMPLAINTS")%> id='sum_r4a' type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABDOMINAL_COMPLAINTS" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABDOMINAL_COMPLAINTS;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"><label for="sum_r4a">+</label>
@@ -430,7 +430,7 @@
                 <tr>
                     <td class="admin2">
                         <img src='<c:url value="/_img/pijl.gif"/>'>
-                        <a class="menuItem" href="javascript:document.all['sum_r5a'].checked=true;document.all['sum_r5b'].checked=false;subScreen('/main.do?Page=healthrecord/locomotorisch_stelsel.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Locomotorisch_stelsel",sWebLanguage)%></a>
+                        <a class="menuItem" href="javascript:document.getElementsByName('sum_r5a')[0].checked=true;document.getElementsByName('sum_r5b')[0].checked=false;subScreen('/main.do?Page=healthrecord/locomotorisch_stelsel.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Locomotorisch_stelsel",sWebLanguage)%></a>
                     </td>
                     <td align="right" class="admin2"> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
                         <input <%=setRightClick("ITEM_TYPE_ORTHO_COMPLAINTS")%> id='sum_r5a' type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHO_COMPLAINTS" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHO_COMPLAINTS;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"><label for="sum_r5a">+</label>
@@ -440,7 +440,7 @@
                 <tr>
                     <td class="admin2">
                         <img src='<c:url value="/_img/pijl.gif"/>'>
-                        <a class="menuItem" href="javascript:document.all['sum_r6a'].checked=true;document.all['sum_r6b'].checked=false;subScreen('/main.do?Page=healthrecord/neuro.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Neuropsychiatrie",sWebLanguage)%></a>
+                        <a class="menuItem" href="javascript:document.getElementsByName('sum_r6a')[0].checked=true;document.getElementsByName('sum_r6b')[0].checked=false;subScreen('/main.do?Page=healthrecord/neuro.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Neuropsychiatrie",sWebLanguage)%></a>
                     </td>
                     <td align="right" class="admin2"> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
                         <input <%=setRightClick("ITEM_TYPE_NEURO_COMPLAINTS")%> id='sum_r6a' type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEURO_COMPLAINTS" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEURO_COMPLAINTS;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"><label for="sum_r6a">+</label>
@@ -549,8 +549,8 @@
           window.showModalDialog(popupUrl,'',modalities);
         }
         else if ((sbp.length>0)&&(dbp.length>0)){
-          isbp = document.all[sbp].value*1;
-          idbp = document.all[dbp].value*1;
+          isbp = document.getElementsByName(sbp)[0].value*1;
+          idbp = document.getElementsByName(dbp)[0].value*1;
           if (idbp>isbp){
             var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=999999999&labelType=Web.occup&labelID=error.dbp_greather_than_sbp";
             var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";

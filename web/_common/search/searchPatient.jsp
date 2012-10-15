@@ -121,14 +121,14 @@
 
     <%-- SET PERSON --%>
     function setPerson(sPersonID, sName) {
-        window.opener.document.all["<%=sReturnPersonID%>"].value = sPersonID;
+        window.opener.document.getElementsByName("<%=sReturnPersonID%>")[0].value = sPersonID;
 
         if ("<%=sSetGreenField%>" != "") {
-            window.opener.document.all["<%=sSetGreenField%>"].className = "green";
+            window.opener.document.getElementsByName("<%=sSetGreenField%>")[0].className = "green";
         }
 
         if ("<%=sReturnName%>" != "") {
-            window.opener.document.all["<%=sReturnName%>"].value = sName;
+            window.opener.document.getElementsByName("<%=sReturnName%>")[0].value = sName;
         }
 
         window.close();

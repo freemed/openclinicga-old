@@ -130,19 +130,19 @@
 
     function setPrestation(uid, code, descr, type, price) {
         if ("<%=sReturnFieldUid%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldUid%>"].value = uid;
+            window.opener.document.getElementsByName("<%=sReturnFieldUid%>")[0].value = uid;
         }
         if ("<%=sReturnFieldCode%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldCode%>"].value = code;
+            window.opener.document.getElementsByName("<%=sReturnFieldCode%>")[0].value = code;
         }
         if ("<%=sReturnFieldDescr%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldDescr%>"].value = descr;
+            window.opener.document.getElementsByName("<%=sReturnFieldDescr%>")[0].value = descr;
         }
         if ("<%=sReturnFieldType%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldType%>"].value = type;
+            window.opener.document.getElementsByName("<%=sReturnFieldType%>")[0].value = type;
         }
         if ("<%=sReturnFieldPrice%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldPrice%>"].value = price;
+            window.opener.document.getElementsByName("<%=sReturnFieldPrice%>")[0].value = price;
         }
 
     <%
@@ -153,5 +153,5 @@
 
         window.close();
     }
-    window.setTimeout("document.all['FindPrestationDescr'].focus();")
+    window.setTimeout("document.getElementsByName('FindPrestationDescr')[0].focus();")
 </script>

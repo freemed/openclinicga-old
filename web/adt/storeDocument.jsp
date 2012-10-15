@@ -34,6 +34,6 @@
 %>
 <script>
     window.resizeTo(1,1);
-    window.opener.document.all['<%=sReturnField%>'].value='<%=sFileName%>';
+    window.opener.document.getElementsByName('<%=sReturnField%>')[0].value='<%=sFileName%>';
     window.close();
 </script>

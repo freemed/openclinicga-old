@@ -240,4 +240,4 @@
 </script>
 
 <%=ScreenHelper.contextFooter(request)%>
-<%=writeJSButtons("transactionForm","document.all['saveButton']")%>
+<%=writeJSButtons("transactionForm","document.getElementsByName('saveButton')[0]")%>

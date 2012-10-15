@@ -655,7 +655,7 @@
             excludeServiceUid=productStock.getServiceStockUid();
         }
       %>
-    openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+serviceUidField+"&ReturnServiceStockNameField="+serviceNameField+"&SearchProductUid=<%=productuid%>&SearchProductLevel="+document.all['EditUnitsChanged'].value+"&ExcludeServiceStockUid=<%=excludeServiceUid%>");
+    openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+serviceUidField+"&ReturnServiceStockNameField="+serviceNameField+"&SearchProductUid=<%=productuid%>&SearchProductLevel="+document.getElementsByName('EditUnitsChanged')[0].value+"&ExcludeServiceStockUid=<%=excludeServiceUid%>");
   }
 
   <%-- popup : search patient --%>

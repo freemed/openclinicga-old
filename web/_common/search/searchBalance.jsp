@@ -133,10 +133,10 @@
 
           <%-- SET BALANCE --%>
           function setBalance(sBalanceUID, sBalanceName) {
-            window.opener.document.all['<%=sVarCode%>'].value = sBalanceUID;
+            window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sBalanceUID;
 
             if ('<%=sVarText%>'!=''){
-                window.opener.document.all['<%=sVarText%>'].value = sBalanceName;
+                window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sBalanceName;
             }
 
             window.close();

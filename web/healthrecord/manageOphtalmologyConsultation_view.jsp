@@ -332,9 +332,9 @@
     <%=ScreenHelper.contextFooter(request)%>
 <script type="text/javascript">
     if("<%=sTranOphtalmologyConsContext%>" == "0"){
-        document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_CONTEXT" property="itemId"/>]>.value'][0].checked = true;
+        document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_CONTEXT" property="itemId"/>]>.value')[0].checked = true;
     }else if("<%=sTranOphtalmologyConsContext%>" == "1"){
-        document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_CONTEXT" property="itemId"/>]>.value'][1].checked = true;
+        document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_CONTEXT" property="itemId"/>]>.value')[1].checked = true;
     }
     function doSubmit(){
         document.transactionForm.save.disabled = true;

@@ -261,7 +261,7 @@
 
   <%-- DO PRINT PDF --%>
   function doPrintPDF(){
-    window.open('<c:url value="/healthrecord/loadPDF.jsp"/>?file=base/<%=sWebLanguage%>4M.pdf&module=N4M&modulepar1='+document.all['examination'].options[document.all['examination'].selectedIndex].text+'&modulepar2='+document.all['protocol'].value+'&modulepar3='+document.all['rxid'].value+'&modulepar4=<%=checkString((String)session.getAttribute("activeMD"))+"$"+checkString((String)session.getAttribute("activePara"))+"$"+checkString((String)session.getAttribute("activeMedicalCenter"))%>&ts=<%=ScreenHelper.getTs()%>','Print','toolbar=yes, status=yes, scrollbars=yes, resizable=yes, width=700, height=500,menubar=yes');
+    window.open('<c:url value="/healthrecord/loadPDF.jsp"/>?file=base/<%=sWebLanguage%>4M.pdf&module=N4M&modulepar1='+document.getElementsByName('examination')[0].options[document.getElementsByName('examination')[0].selectedIndex].text+'&modulepar2='+document.getElementsByName('protocol')[0].value+'&modulepar3='+document.getElementsByName('rxid')[0].value+'&modulepar4=<%=checkString((String)session.getAttribute("activeMD"))+"$"+checkString((String)session.getAttribute("activePara"))+"$"+checkString((String)session.getAttribute("activeMedicalCenter"))%>&ts=<%=ScreenHelper.getTs()%>','Print','toolbar=yes, status=yes, scrollbars=yes, resizable=yes, width=700, height=500,menubar=yes');
   }
 </script>
 <%=writeJSButtons("transactionForm","ButtonSave")%>

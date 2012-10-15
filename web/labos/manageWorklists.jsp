@@ -148,7 +148,7 @@ be.openclinic.medical.RequestedLabAnalysis,java.util.Date,be.openclinic.medical.
                         }
                     }
                 }
-                out.print("<td><input type='hidden' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + ".technicalvalidation' value='" + (bTechnicallyValidated ? "1" : "0") + "'><input class='checkbox' type='checkbox' " + (bTechnicallyValidated ? "checked onclick='return false;'" : "onchange='if(this.checked){document.all[\"store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + ".technicalvalidation\"].value=\"1\"}else{document.all[\"store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + ".technicalvalidation\"].value=\"0\"}'")+"/></td>");
+                out.print("<td><input type='hidden' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + ".technicalvalidation' value='" + (bTechnicallyValidated ? "1" : "0") + "'><input class='checkbox' type='checkbox' " + (bTechnicallyValidated ? "checked onclick='return false;'" : "onchange='if(this.checked){document.getElementsByName(\"store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + ".technicalvalidation\")[0].value=\"1\"}else{document.getElementsByName(\"store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + ".technicalvalidation\")[0].value=\"0\"}'")+"/></td>");
                 out.print("<td><input class='text' type='text' size='20' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + ".comment'/></td>");
                 out.print("</tr>");
             }
@@ -167,8 +167,8 @@ be.openclinic.medical.RequestedLabAnalysis,java.util.Date,be.openclinic.medical.
     }
 
     function validateAlert(o,analysis){
-        if(document.all['alert.'+analysis]!=undefined){
-            if(o.value>document.all['alert.'+analysis].value*1){
+        if(document.getElementsByName('alert.'+analysis)[0]!=undefined){
+            if(o.value>document.getElementsByName('alert.'+analysis)[0].value*1){
                 o.style.backgroundColor='#ff9999';
             }
             else {

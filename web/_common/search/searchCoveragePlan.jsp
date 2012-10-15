@@ -79,25 +79,25 @@
         <%-- SET BALANCE --%>
         function setInsuranceCategory(sInsuranceCategoryLetter, sInsurarUID, sInsurarName, sInsuranceCategoryName, sInsuranceType, sInsuranceTypeName) {
             if ('<%=sVarCode%>' != '') {
-                window.opener.document.all['<%=sVarCode%>'].value = sInsuranceCategoryLetter;
+                window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sInsuranceCategoryLetter;
             }
 
             if ('<%=sVarText%>' != '') {
-                window.opener.document.all['<%=sVarText%>'].value = sInsurarName;
+                window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sInsurarName;
             }
 
             if ('<%=sVarCompUID%>' != '') {
-                window.opener.document.all['<%=sVarCompUID%>'].value = sInsurarUID;
+                window.opener.document.getElementsByName('<%=sVarCompUID%>')[0].value = sInsurarUID;
             }
 
             if ('<%=sVarCat%>' != '') {
-                window.opener.document.all['<%=sVarCat%>'].value = sInsuranceCategoryName;
+                window.opener.document.getElementsByName('<%=sVarCat%>')[0].value = sInsuranceCategoryName;
             }
             if ('<%=sVarTyp%>' != '') {
-                window.opener.document.all['<%=sVarTyp%>'].value = sInsuranceType;
+                window.opener.document.getElementsByName('<%=sVarTyp%>')[0].value = sInsuranceType;
             }
             if ('<%=sVarTypName%>' != '') {
-                window.opener.document.all['<%=sVarTypName%>'].value = sInsuranceTypeName;
+                window.opener.document.getElementsByName('<%=sVarTypName%>')[0].value = sInsuranceTypeName;
             }
 
     	    <%
@@ -108,7 +108,7 @@
 
             window.close();
         }
-        window.setTimeout("document.all['FindInsurarName'].focus();document.all['FindInsurarName'].select();", 100);
+        window.setTimeout("document.getElementsByName('FindInsurarName')[0].focus();document.getElementsByName('FindInsurarName')[0].select();", 100);
 		doFind();
     </script>
 </form>

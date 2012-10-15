@@ -200,22 +200,22 @@
 
     <%-- select labanalysis --%>
     function selectLabAnalysis(sID,sType,sCode,sText){
-      window.opener.document.all['<%=sVarID%>'].value = sID;
-      window.opener.document.all['<%=sVarType%>'].value = sType;
-      window.opener.document.all['<%=sVarCode%>'].value = sCode;
-      window.opener.document.all['<%=sVarText%>'].value = sText;
-      window.opener.document.all['<%=sVarText%>'].title = sText;
+      window.opener.document.getElementsByName('<%=sVarID%>')[0].value = sID;
+      window.opener.document.getElementsByName('<%=sVarType%>')[0].value = sType;
+      window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sCode;
+      window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sText;
+      window.opener.document.getElementsByName('<%=sVarText%>')[0].title = sText;
 
       <%
           if(sCodeOther.equals("1")){
               %>
-                window.opener.document.all['LabComment'].readOnly = false;
-                window.opener.document.all['LabComment'].focus();
-                window.opener.document.all['LabCodeOther'].value = "1";
+                window.opener.document.getElementsByName('LabComment')[0].readOnly = false;
+                window.opener.document.getElementsByName('LabComment')[0].focus();
+                window.opener.document.getElementsByName('LabCodeOther')[0].value = "1";
               <%
           }
           else{
-              %>window.opener.document.all['LabComment'].readOnly = true;<%
+              %>window.opener.document.getElementsByName('LabComment')[0].readOnly = true;<%
           }
       %>
 

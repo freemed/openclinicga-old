@@ -95,16 +95,16 @@
     <%-- SET PERSON --%>
     function setPerson(sPersonID, sName,sEmployer,sImmat) {
         if ("<%=sFindInsuranceMember%>" != "") {
-            window.opener.document.all["<%=sFindInsuranceMember%>"].value = sPersonID;
+            window.opener.document.getElementsByName("<%=sFindInsuranceMember%>")[0].value = sPersonID;
         }
         if ("<%=sFindInsuranceMemberName%>" != "") {
-            window.opener.document.all["<%=sFindInsuranceMemberName%>"].value = sName;
+            window.opener.document.getElementsByName("<%=sFindInsuranceMemberName%>")[0].value = sName;
         }
         if ("<%=sFindInsuranceMemberEmployer%>" != "") {
-            window.opener.document.all["<%=sFindInsuranceMemberEmployer%>"].value = sEmployer;
+            window.opener.document.getElementsByName("<%=sFindInsuranceMemberEmployer%>")[0].value = sEmployer;
         }
         if ("<%=sFindInsuranceMemberImmat%>" != "") {
-            window.opener.document.all["<%=sFindInsuranceMemberImmat%>"].value = sImmat;
+            window.opener.document.getElementsByName("<%=sFindInsuranceMemberImmat%>")[0].value = sImmat;
         }
 
         window.close();

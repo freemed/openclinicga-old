@@ -1191,8 +1191,8 @@
 
   <%-- LOAD SCHEMA --%>
   function loadSchema(){
-    if(document.all["EditProductUid"]!=null){
-      openPopup("/_common/search/updatePrescriptionSchema.jsp&productuid="+document.all["EditProductUid"].value);
+    if(document.getElementsByName("EditProductUid")[0]!=null){
+      openPopup("/_common/search/updatePrescriptionSchema.jsp&productuid="+document.getElementsByName("EditProductUid")[0].value);
     }
   }
 

@@ -152,7 +152,7 @@
 
 <script type="text/javascript">
     function newpat() {
-        window.open("<c:url value='/statistics/'/>verifyPatient.jsp?lastname=" + document.all['patientLastname'].value + "&firstname=" + document.all['patientFirstname'].value + "&dateofbirth=" + document.all['patientDateOfBirth'].value, "verifypatient", "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveTo(-1000, -1000);
+        window.open("<c:url value='/statistics/'/>verifyPatient.jsp?lastname=" + document.getElementsByName('patientLastname')[0].value + "&firstname=" + document.getElementsByName('patientFirstname')[0].value + "&dateofbirth=" + document.getElementsByName('patientDateOfBirth')[0].value, "verifypatient", "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveTo(-1000, -1000);
     }
 </script>
 <%
@@ -440,24 +440,24 @@
 
 <script type="text/javascript">
     function doSubmit() {
-        var begin = createDate(document.all["EditEncounterBegin"].value);
-        var end = createDate(document.all["EditEncounterEnd"].value);
-        if (document.all["EditEncounterEnd"].value.length>0 && end < begin) {
+        var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
+        var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
+        if (document.getElementsByName("EditEncounterEnd")[0].value.length>0 && end < begin) {
             alert('<%=getTran("web","beginandendinverted",sWebLanguage)%>');
         }
         else if (end > new Date()) {
             alert('<%=getTran("web","endinfuture",sWebLanguage)%>');
         }
         else {
-            document.all["saveEncounter"].value = "true";
+            document.getElementsByName("saveEncounter")[0].value = "true";
             document.getElementById("EditPatientForm").submit();
         }
     }
 
     function validatePeriod() {
-        if (document.all["EditEncounterBegin"].value.length > 0 && document.all["EditEncounterEnd"].value.length > 0) {
-            var begin = createDate(document.all["EditEncounterBegin"].value);
-            var end = createDate(document.all["EditEncounterEnd"].value);
+        if (document.getElementsByName("EditEncounterBegin")[0].value.length > 0 && document.getElementsByName("EditEncounterEnd")[0].value.length > 0) {
+            var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
+            var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
             if (end.getTime() - begin.getTime() > 180 * 24 * 60 * 60000) {
                 alert('<%=getTran("web","longadmission",sWebLanguage)%>');
             }
@@ -480,7 +480,7 @@
 
     function searchService(serviceUidField, serviceNameField) {
         openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
-        if (document.all[serviceNameField])document.all[serviceNameField].focus();
+        if (document.getElementsByName(serviceNameField)[0])document.getElementsByName(serviceNameField)[0].focus();
     }
 
     window.setTimeout("EditPatientForm.patientLastname.focus()",100);

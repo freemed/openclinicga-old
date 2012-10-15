@@ -82,5 +82,5 @@
     window.opener.icpccodes.innerHTML = window.opener.icpccodes.innerHTML+"<span id='"+code+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='window."+code+".innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+code+"' value='medwan.common.true'/>"+code+"&nbsp;"+label+"<br/></span>";
   }
 
-  document.all['keywords'].focus();
+  document.getElementsByName('keywords')[0].focus();
 </script>

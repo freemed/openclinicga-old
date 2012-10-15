@@ -672,7 +672,7 @@
                               }
 
                               function recalculate(age){
-                                document.all["age"].value = age;
+                                document.getElementsByName("age")[0].value = age;
                                 cardioRiskForm.submit();
                               }
 

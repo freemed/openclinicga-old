@@ -456,11 +456,11 @@ function setCellStyle(row){
         sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
         sBio = sBio.substring(0, sBio.indexOf("rowBio")) + sTmpEnd;
     }
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER1" property="itemId"/>]>.value"].value = sBio.substring(0,254);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER2" property="itemId"/>]>.value"].value = sBio.substring(254,508);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER3" property="itemId"/>]>.value"].value = sBio.substring(508,762);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER4" property="itemId"/>]>.value"].value = sBio.substring(762,1016);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER5" property="itemId"/>]>.value"].value = sBio.substring(1016,1270);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER1" property="itemId"/>]>.value")[0].value = sBio.substring(0,254);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER2" property="itemId"/>]>.value")[0].value = sBio.substring(254,508);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER3" property="itemId"/>]>.value")[0].value = sBio.substring(508,762);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER4" property="itemId"/>]>.value")[0].value = sBio.substring(762,1016);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER5" property="itemId"/>]>.value")[0].value = sBio.substring(1016,1270);
 
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());

@@ -63,13 +63,13 @@
 
     function selectInsurar(uid, name, contact) {
         if ("<%=sReturnFieldUid%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldUid%>"].value = uid;
+            window.opener.document.getElementsByName("<%=sReturnFieldUid%>")[0].value = uid;
         }
         if ("<%=sReturnFieldName%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldName%>"].value = name;
+            window.opener.document.getElementsByName("<%=sReturnFieldName%>")[0].value = name;
         }
         if ("<%=sReturnFieldContact%>".length > 0) {
-            window.opener.document.all["<%=sReturnFieldContact%>"].value = contact;
+            window.opener.document.getElementsByName("<%=sReturnFieldContact%>")[0].value = contact;
         }
 
 	    <%

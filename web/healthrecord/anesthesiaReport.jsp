@@ -228,7 +228,7 @@
             <td class="admin"><%=getTran("openclinic.chuk","anesthesist",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="hidden" id="EditAnesthesistID" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_REPORT_ANESTHESIST" property="itemId"/>]>.value" value="<%=sAnesthesistID%>">
-                <input class="text" type="text" name="EditAnesthesistName" readonly size="<%=sTextWidth%>" value="<%=sAnesthesisitName%>">
+                <input class="text" type="text" id="EditAnesthesistName" name="EditAnesthesistName" readonly size="<%=sTextWidth%>" value="<%=sAnesthesisitName%>">
                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditAnesthesistID','EditAnesthesistName');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditAnesthesistID').value='';transactionForm.EditAnesthesistName.value='';">
             </td>
@@ -237,7 +237,7 @@
             <td class="admin"><%=getTran("openclinic.chuk","surgeon",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="hidden" id="EditSurgeonID" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_REPORT_SURGEON" property="itemId"/>]>.value" value="<%=sSurgeonID%>">
-                <input class="text" type="text" name="EditSurgeonName" readonly size="<%=sTextWidth%>" value="<%=sSurgeonName%>">
+                <input class="text" type="text" id="EditSurgeonName" name="EditSurgeonName" readonly size="<%=sTextWidth%>" value="<%=sSurgeonName%>">
                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditSurgeonID','EditSurgeonName');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditSurgeonID').value='';transactionForm.EditSurgeonName.value='';">
             </td>
@@ -246,7 +246,7 @@
             <td class="admin"><%=getTran("openclinic.chuk","nurse",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="hidden" id="EditNurseID" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_REPORT_NURSE" property="itemId"/>]>.value" value="<%=sNurseID%>">
-                <input class="text" type="text" name="EditNurseName" readonly size="<%=sTextWidth%>" value="<%=sNurseName%>">
+                <input class="text" type="text" id="EditNurseName" name="EditNurseName" readonly size="<%=sTextWidth%>" value="<%=sNurseName%>">
                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditNurseID','EditNurseName');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditNurseID').value='';transactionForm.EditAnesthesistName.value='';">
             </td>

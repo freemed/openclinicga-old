@@ -197,9 +197,9 @@
           SearchForm.FindText.focus();
 
           function selectRecord(value,text){
-            window.opener.document.all['<%=sVarCode%>'].value = value;
-            window.opener.document.all['<%=sVarText%>'].value = text;
-            window.opener.document.all['<%=sVarText%>'].title = text;
+            window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = value;
+            window.opener.document.getElementsByName('<%=sVarText%>')[0].value = text;
+            window.opener.document.getElementsByName('<%=sVarText%>')[0].title = text;
             window.close();
           }
 

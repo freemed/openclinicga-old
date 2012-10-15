@@ -129,10 +129,10 @@
 
           <%-- SET BALANCE --%>
           function setWicket(sWicketUID, sWicketName) {
-            window.opener.document.all['<%=sVarCode%>'].value = sWicketUID;
+            window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sWicketUID;
 
             if ('<%=sVarText%>'!=''){
-                window.opener.document.all['<%=sVarText%>'].value = sWicketName;
+                window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sWicketName;
             }
 
             window.close();

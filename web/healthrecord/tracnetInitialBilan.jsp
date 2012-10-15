@@ -223,11 +223,11 @@
       sOther = sOther.substring(0, sOther.indexOf("rowOther")) + sTmpEnd;
     }
 
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER1" property="itemId"/>]>.value"].value = sOther.substring(0,254);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER2" property="itemId"/>]>.value"].value = sOther.substring(254,508);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER3" property="itemId"/>]>.value"].value = sOther.substring(508,762);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER4" property="itemId"/>]>.value"].value = sOther.substring(762,1016);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER5" property="itemId"/>]>.value"].value = sOther.substring(1016,1270);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER1" property="itemId"/>]>.value")[0].value = sOther.substring(0,254);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER2" property="itemId"/>]>.value")[0].value = sOther.substring(254,508);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER3" property="itemId"/>]>.value")[0].value = sOther.substring(508,762);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER4" property="itemId"/>]>.value")[0].value = sOther.substring(762,1016);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_INITIAL_BILAN_OTHER5" property="itemId"/>]>.value")[0].value = sOther.substring(1016,1270);
 
     if(maySubmit){
         document.transactionForm.saveButton.style.visibility = "hidden";

@@ -6,16 +6,16 @@
 <script type="text/javascript">
     <%-- ACTIVATE TAB --%>
     function activateTab(iTab) {
-        document.all['tr1-view'].style.display = 'none';
-        document.all['tr3-view'].style.display = 'none';
+        document.getElementById('tr1-view').style.display = 'none';
+        document.getElementById('tr3-view').style.display = 'none';
         $("td1").className = "tabunselected";
         $("td3").className = "tabunselected";
         if (iTab == 1) {
-            document.all['tr1-view'].style.display = '';
+            document.getElementById('tr1-view').style.display = '';
             $("td1").className = "tabselected";
         }
         else if (iTab == 3) {
-            document.all['tr3-view'].style.display = '';
+            document.getElementById('tr3-view').style.display = '';
             $("td3").className = "tabselected";
         }
     }

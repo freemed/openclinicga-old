@@ -229,10 +229,10 @@
                 <script type="text/javascript">
                     function setRefCheck(){
                         if('<%=sEditCheckTransaction.length()%>'.length>0){
-                            document.all['EditReftransaction'].checked=true;
+                            document.getElementsByName('EditReftransaction')[0].checked=true;
                         }
                         else {
-                            document.all['EditRefprescription'].checked=true;
+                            document.getElementsByName('EditRefprescription')[0].checked=true;
                         }
                     }
                 </script>

@@ -103,7 +103,7 @@
 								<td class="admin" width="1%" nowrap><%=getTran("web","source",sWebLanguage) %></td>
 								<td class="admin2">
 					                <input class='text' TYPE="text" NAME="finddocumentsourcetext" id="finddocumentsourcetext" readonly size="50" TITLE="" VALUE="<%=sFindSourceText %>" onchange="">
-					                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentsource&ReturnServiceStockNameField=finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.all['finddocumentsource'].value='';document.all['finddocumentsourcetext'].value='';">
+					                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentsource&ReturnServiceStockNameField=finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
 					                <input TYPE="hidden" NAME="finddocumentsource" id="finddocumentsource" VALUE="">
 								</td>
 							</tr>
@@ -111,7 +111,7 @@
 								<td class="admin" width="1%" nowrap><%=getTran("web","destination",sWebLanguage) %></td>
 								<td class="admin2">
 					                <input class='text' TYPE="text" NAME="finddocumentdestinationtext" id="finddocumentdestinationtext" readonly size="50" TITLE="" VALUE="<%=sFindDestinationText %>" onchange="">
-					                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentdestination&ReturnServiceStockNameField=finddocumentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.all['finddocumentdestination'].value='';document.all['finddocumentdestinationtext'].value='';">
+					                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentdestination&ReturnServiceStockNameField=finddocumentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentdestination')[0].value='';document.getElementsByName('finddocumentdestinationtext')[0].value='';">
 					                <input TYPE="hidden" NAME="finddocumentdestination" id="finddocumentdestination" VALUE="">
 								</td>
 							</tr>
@@ -220,7 +220,7 @@
 					<td class="admin"><%=getTran("web","source",sWebLanguage) %> *</td>
 					<td class="admin2">
 		                <input class='text' TYPE="text" NAME="documentsourcetext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getSourceuid().length()>0?operationDocument.getSource().getName():"" %>" onchange="">
-		                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentsource&ReturnServiceStockNameField=documentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.all['documentsource'].value='';document.all['documentsourcetext'].value='';">
+		                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentsource&ReturnServiceStockNameField=documentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentsource')[0].value='';document.getElementsByName('documentsourcetext')[0].value='';">
 		                <input TYPE="hidden" NAME="documentsource" id="documentsource" VALUE="<%=operationDocument.getSourceuid()%>">
 					</td>
 				</tr>
@@ -228,7 +228,7 @@
 					<td class="admin"><%=getTran("web","destination",sWebLanguage) %> *</td>
 					<td class="admin2">
 		                <input class='text' TYPE="text" NAME="documentdestinationtext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getDestinationuid().length()>0?operationDocument.getDestination().getName():"" %>" onchange="">
-		                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentdestination&ReturnServiceStockNameField=documentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.all['documentdestination'].value='';document.all['documentdestinationtext'].value='';">
+		                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentdestination&ReturnServiceStockNameField=documentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentdestination')[0].value='';document.getElementsByName('documentdestinationtext')[0].value='';">
 		                <input TYPE="hidden" NAME="documentdestination" id="documentdestination" VALUE="<%=operationDocument.getDestinationuid()%>">
 					</td>
 				</tr>

@@ -410,7 +410,7 @@
         </tr>
         <script type="text/javascript">
             function setTime(field){
-                document.all[field].value=new Date().getHours()+":"+new Date().getMinutes();
+                document.getElementsByName(field)[0].value=new Date().getHours()+":"+new Date().getMinutes();
             }
         </script>
         <tr>
@@ -846,7 +846,7 @@
                         document.getElementById("d2").innerHTML=Math.round(accounted*100/days);
                     }
                     if(days!=accounted && Math.ceil(days-accounted)!=0){
-                        document.all["AccountAccomodationDays"].value=Math.ceil(days-accounted);
+                        document.getElementsByName("AccountAccomodationDays")[0].value=Math.ceil(days-accounted);
                         if(EditEncounterForm.EditEncounterType.value == "admission") {
                             show("notAccountedAccomodation");
                         }
@@ -885,7 +885,7 @@
 //            setBedButton();
             //document.getElementById("Service").style.display = "none";
 //            hide("Bed");
-            document.all['DoAccountAccomodationDays'].checked=false;
+            document.getElementsByName('DoAccountAccomodationDays')[0].checked=false;
             hide("notAccountedAccomodation");
             hide("alreadyAccountedAccomodation");
             show("internaltransfers");

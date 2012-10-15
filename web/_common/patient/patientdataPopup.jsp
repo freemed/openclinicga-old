@@ -65,24 +65,24 @@
 
     <script>
     function activateTab(sTab){
-      document.all['tr0-view'].style.display = 'none';
-      document.all['tr1-view'].style.display = 'none';
-      document.all['tr3-view'].style.display = 'none';
+      document.getElementById('tr0-view').style.display = 'none';
+      document.getElementById('tr1-view').style.display = 'none';
+      document.getElementById('tr3-view').style.display = 'none';
 
       td0.className="tabunselected";
       td1.className="tabunselected";
       td3.className="tabunselected";
 
       if (sTab=='Admin'){
-        document.all['tr0-view'].style.display = '';
+        document.getElementById('tr0-view').style.display = '';
         td0.className="tabselected";
       }
       else if (sTab=='AdminPrivate'){
-        document.all['tr1-view'].style.display = '';
+        document.getElementById('tr1-view').style.display = '';
         td1.className="tabselected";
       }
       else if (sTab=='AdminFamilyRelation'){
-        document.all['tr3-view'].style.display = '';
+        document.getElementById('tr3-view').style.display = '';
         td3.className="tabselected";
       }
     }

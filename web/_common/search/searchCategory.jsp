@@ -50,13 +50,13 @@
     SearchForm.FindText.focus();
 
     function selectParentCategory(sCode, sText) {
-        window.opener.document.all['<%=sVarCode%>'].value = sCode;
-        window.opener.document.all['<%=sVarText%>'].value = sText;
-        window.opener.document.all['<%=sVarText%>'].title = sText;
+        window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sCode;
+        window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sText;
+        window.opener.document.getElementsByName('<%=sVarText%>')[0].title = sText;
 
-        if (window.opener.document.all['<%=sVarCode%>'] != null) {
-            if (window.opener.document.all['<%=sVarCode%>'].onchange != null) {
-                window.opener.document.all['<%=sVarCode%>'].onchange();
+        if (window.opener.document.getElementsByName('<%=sVarCode%>')[0] != null) {
+            if (window.opener.document.getElementsByName('<%=sVarCode%>')[0].onchange != null) {
+                window.opener.document.getElementsByName('<%=sVarCode%>')[0].onchange();
             }
         }
 

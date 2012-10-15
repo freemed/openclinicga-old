@@ -340,8 +340,8 @@
         alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');
       }
       else if ((sbp.length>0)&&(dbp.length>0)){
-        isbp = document.all[sbp].value*1;
-        idbp = document.all[dbp].value*1;
+        isbp = document.getElementsByName(sbp)[0].value*1;
+        idbp = document.getElementsByName(dbp)[0].value*1;
         if (idbp>isbp){
           alert('<%=getTran("Web.Occup","error.dbp_greather_than_sbp",sWebLanguage)%>');
         }

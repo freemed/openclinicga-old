@@ -41,7 +41,7 @@
 
           <%-- SELECT MACRO --%>
           function selectMacro(sLabel){
-            window.opener.document.all['<%=request.getParameter("target")%>'].value = sLabel;
+            window.opener.document.getElementsByName('<%=request.getParameter("target")%>')[0].value = sLabel;
             window.close();
           }
         </script>

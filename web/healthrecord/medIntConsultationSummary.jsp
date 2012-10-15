@@ -289,9 +289,9 @@
                             %>
                                 <div id="BMI"></div>
                                 <script>
-                                  if (document.all['lastHeight'].value.length > 0 && document.all['lastWeight'].value.length>0){
-                                    var _BMI = (document.all['lastWeight'].value * 10000) / (document.all['lastHeight'].value * document.all['lastHeight'].value);
-                                    document.all['BMI'].innerHTML = "<b>"+Math.round(_BMI*10)/10+"</b>";
+                                  if (document.getElementsByName('lastHeight')[0].value.length > 0 && document.getElementsByName('lastWeight')[0].value.length>0){
+                                    var _BMI = (document.getElementsByName('lastWeight')[0].value * 10000) / (document.getElementsByName('lastHeight')[0].value * document.getElementsByName('lastHeight')[0].value);
+                                    document.getElementsByName('BMI')[0].innerHTML = "<b>"+Math.round(_BMI*10)/10+"</b>";
                                   }
                                 </script>
                             <%
@@ -573,8 +573,8 @@
           (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
         }
         else if ((sbp.length>0)&&(dbp.length>0)){
-          isbp = document.all[sbp].value*1;
-          idbp = document.all[dbp].value*1;
+          isbp = document.getElementsByName(sbp)[0].value*1;
+          idbp = document.getElementsByName(dbp)[0].value*1;
           if (idbp>isbp){
             var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=error.dbp_greather_than_sbp";
             var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";

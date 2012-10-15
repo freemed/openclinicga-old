@@ -205,7 +205,7 @@
                         <%
                             // if new order : set today as default value for dateOrdered
                             if(sAction.equals("showDetailsNew")){
-                                %><script>getToday(document.all['EditDateOrdered']);</script><%
+                                %><script>getToday(document.getElementsByName('EditDateOrdered')[0]);</script><%
                             }
                         %>
                     </tr>

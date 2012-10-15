@@ -637,7 +637,7 @@ function setCellStyle(row){
   function doSave(printDocument){
     if(tblBio.rows.length > 1){
       if(printDocument==true){
-        document.all['be.mxs.healthrecord.updateTransaction.actionForwardKey'].value = "/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts=<%=getTs()%>&PrintLanguage="+transactionForm.PrintLanguage.value;
+        document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = "/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts=<%=getTs()%>&PrintLanguage="+transactionForm.PrintLanguage.value;
         window.open("","newwindow","height=600, width=850, toolbar=yes, status=yes, scrollbars=yes, resizable=yes, menubar=yes");
         document.transactionForm.target = "newwindow";
       }
@@ -674,16 +674,16 @@ function setCellStyle(row){
       sBio = sBio.substring(0, sBio.indexOf("rowBio")) + sTmpEnd;
     }
 
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER1" property="itemId"/>]>.value"].value = sBio.substring(0,254);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER2" property="itemId"/>]>.value"].value = sBio.substring(254,508);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER3" property="itemId"/>]>.value"].value = sBio.substring(508,762);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER4" property="itemId"/>]>.value"].value = sBio.substring(762,1016);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER5" property="itemId"/>]>.value"].value = sBio.substring(1016,1270);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER6" property="itemId"/>]>.value"].value = sBio.substring(1270,1524);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER7" property="itemId"/>]>.value"].value = sBio.substring(1524,1778);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER8" property="itemId"/>]>.value"].value = sBio.substring(1778,2032);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER9" property="itemId"/>]>.value"].value = sBio.substring(2032,2286);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER10" property="itemId"/>]>.value"].value = sBio.substring(2286,2540);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER1" property="itemId"/>]>.value")[0].value = sBio.substring(0,254);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER2" property="itemId"/>]>.value")[0].value = sBio.substring(254,508);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER3" property="itemId"/>]>.value")[0].value = sBio.substring(508,762);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER4" property="itemId"/>]>.value")[0].value = sBio.substring(762,1016);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER5" property="itemId"/>]>.value")[0].value = sBio.substring(1016,1270);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER6" property="itemId"/>]>.value")[0].value = sBio.substring(1270,1524);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER7" property="itemId"/>]>.value")[0].value = sBio.substring(1524,1778);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER8" property="itemId"/>]>.value")[0].value = sBio.substring(1778,2032);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER9" property="itemId"/>]>.value")[0].value = sBio.substring(2032,2286);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER10" property="itemId"/>]>.value")[0].value = sBio.substring(2286,2540);
 
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());

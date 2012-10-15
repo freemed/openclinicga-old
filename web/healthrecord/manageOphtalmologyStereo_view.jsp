@@ -1,10 +1,9 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%
-    
-%>
-<form name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton();" onkeyup="setSaveButton();">
-    <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
+<%%>
+
+<form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>'>
+    <bean:define id="transaction" name="WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 
     <input id="transactionId" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input id="serverId" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
@@ -18,11 +17,11 @@
 
 <table width="100%" class="list" cellspacing="0">
     <tr class="admin">
-        <td><%=getTran("Web.Occup","medwan.healthrecord.ophtalmology.stereoscopie",sWebLanguage)%></td>
+        <td><%=getTran("web.occup","medwan.healthrecord.ophtalmology.stereoscopie",sWebLanguage)%></td>
         <td align="right" width="20%">
-            <%=getLabel("Web.Occup","medwan.common.not-executed",sWebLanguage,"mos_c1")%>&nbsp;<input name="visus-ras" type="checkbox" id="mos_c1" value="medwan.common.true" onclick="if (this.checked == true) {hide('visus-details');setTrue('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_STEREO_RAS" property="itemId"/>'); } else {show('visus-details');setFalse('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_STEREO_RAS" property="itemId"/>'); }">
+            <%=getLabel("web.occup","medwan.common.not-executed",sWebLanguage,"mos_c1")%>&nbsp;<input name="visus-ras" type="checkbox" id="mos_c1" value="medwan.common.true" onclick="if(this.checked == true){hide('visus-details');setTrue('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_STEREO_RAS" property="itemId"/>'); } else{show('visus-details');setFalse('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_STEREO_RAS" property="itemId"/>'); }">
         </td>
-        <td align="right" width ="1%"><a href="#topp" class="topbutton">&nbsp;</a></td>
+        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/top.jpg"/>'></a></td>
     </tr>
 
     <tr id="visus-details" style="display:none" width="100%">
@@ -33,13 +32,13 @@
                         TEST
                     </td>
                     <td class="admin" width="5%">
-                        <%=getTran("Web.Occup","medwan.healthrecord.ophtalmology.No",sWebLanguage)%>
+                        <%=getTran("web.occup","medwan.healthrecord.ophtalmology.No",sWebLanguage)%>
                     </td>
                     <td class="admin"colspan="2"></td>
                 </tr>
                 <tr>
                     <td class="admin">
-                        <%=getTran("Web.Occup","medwan.healthrecord.ophtalmology.stereoscopie",sWebLanguage)%>
+                        <%=getTran("web.occup","medwan.healthrecord.ophtalmology.stereoscopie",sWebLanguage)%>
                     </td>
                     <td class="admin">6</td>
                     <td class="admin2" colspan="2">
@@ -49,10 +48,10 @@
                                     <table>
                                         <tr>
                                             <td>
-                                               <%=getTran("Web.Occup","medwan.healthrecord.ophtalmology.plus-pres",sWebLanguage)%>
+                                               <%=getTran("web.occup","medwan.healthrecord.ophtalmology.plus-pres",sWebLanguage)%>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0)" class="topbutton">&nbsp;</a>
+                                                <img class="link" src='<c:url value="/_img/top.jpg"/>'>
                                             </td>
                                         </tr>
                                         <tr>
@@ -66,10 +65,10 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <%=getTran("Web.Occup","medwan.healthrecord.ophtalmology.plus-loin",sWebLanguage)%>
+                                                <%=getTran("web.occup","medwan.healthrecord.ophtalmology.plus-loin",sWebLanguage)%>
                                             </td>
                                             <td>
-                                                <img border="0" src='<c:url value="/_img/bottom.jpg"/>'>
+                                                <img class="link" src='<c:url value="/_img/bottom.jpg"/>'>
                                             </td>
                                         </tr>
                                     </table>
@@ -120,10 +119,10 @@
                                 <td>
                                     <table>
                                         <tr>
-                                            <td><input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL")%> id="stereoNormal" type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL;value=medwan.healthrecord.ophtalmology.Normal" property="value" outputString="checked"/> value="medwan.healthrecord.ophtalmology.Normal"><%=getLabel("Web.Occup","medwan.healthrecord.ophtalmology.Normal",sWebLanguage,"stereoNormal")%>&nbsp;</td>
+                                            <td><input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL")%> id="stereoNormal" type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL;value=medwan.healthrecord.ophtalmology.Normal" property="value" outputString="checked"/> value="medwan.healthrecord.ophtalmology.Normal"><%=getLabel("web.occup","medwan.healthrecord.ophtalmology.Normal",sWebLanguage,"stereoNormal")%>&nbsp;</td>
                                         </tr>
                                         <tr>
-                                            <td><input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL")%> id="stereoAbnormal" type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL;value=medwan.healthrecord.ophtalmology.Abnormal" property="value" outputString="checked"/> value="medwan.healthrecord.ophtalmology.Abnormal"><%=getLabel("Web.Occup","medwan.healthrecord.ophtalmology.Abnormal",sWebLanguage,"stereoAbnormal")%>&nbsp;</td>
+                                            <td><input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL")%> id="stereoAbnormal" type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_NORMAL;value=medwan.healthrecord.ophtalmology.Abnormal" property="value" outputString="checked"/> value="medwan.healthrecord.ophtalmology.Abnormal"><%=getLabel("web.occup","medwan.healthrecord.ophtalmology.Abnormal",sWebLanguage,"stereoAbnormal")%>&nbsp;</td>
                                         </tr>
                                     </table>
                                 </td>
@@ -133,16 +132,16 @@
                 </tr>
 
                 <tr>
-                    <td class='admin'><%=getTran("Web.Occup","medwan.healthrecord.ophtalmology.correction",sWebLanguage)%>&nbsp;</td>
+                    <td class='admin'><%=getTran("web.occup","medwan.healthrecord.ophtalmology.correction",sWebLanguage)%>&nbsp;</td>
                     <td class="admin"></td>
                     <td colspan="2" class='admin2'>
-                        <input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION")%> type="radio" onDblClick="uncheckRadio(this);" id="mos_r1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION;value=medwan.healthrecord.ophtalmology.avec-correction" property="value" outputString="checked"/> value="medwan.healthrecord.ophtalmology.avec-correction"><%=getLabel("Web.Occup","medwan.healthrecord.ophtalmology.avec-correction",sWebLanguage,"mos_r1")%>
-                        <input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION")%> type="radio" onDblClick="uncheckRadio(this);" id="mos_r2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION;value=medwan.healthrecord.ophtalmology.sans-correction" property="value" outputString="checked"/> value="medwan.healthrecord.ophtalmology.sans-correction"><%=getLabel("Web.Occup","medwan.healthrecord.ophtalmology.sans-correction",sWebLanguage,"mos_r2")%>
+                        <input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION")%> type="radio" onDblClick="uncheckRadio(this);" id="mos_r1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION;value=medwan.healthrecord.ophtalmology.avec-correction" property="value" outputString="checked"/> value="medwan.healthrecord.ophtalmology.avec-correction"><%=getLabel("web.occup","medwan.healthrecord.ophtalmology.avec-correction",sWebLanguage,"mos_r1")%>
+                        <input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION")%> type="radio" onDblClick="uncheckRadio(this);" id="mos_r2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_CORRECTION;value=medwan.healthrecord.ophtalmology.sans-correction" property="value" outputString="checked"/> value="medwan.healthrecord.ophtalmology.sans-correction"><%=getLabel("web.occup","medwan.healthrecord.ophtalmology.sans-correction",sWebLanguage,"mos_r2")%>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class='admin'><%=getTran("Web.Occup","medwan.common.remark",sWebLanguage)%>&nbsp;</td>
+                    <td class='admin'><%=getTran("web.occup","medwan.common.remark",sWebLanguage)%>&nbsp;</td>
                     <td class="admin"></td>
                     <td colspan="2" class='admin2'>
                         <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_REMARK")%> class="text" cols="70" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_REMARK" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_STEREOSCOPY_REMARK" property="value"/></textarea>
@@ -154,29 +153,41 @@
 </table>
 
 <%-- BUTTONS --%>
-<%=ScreenHelper.alignButtonsStart()%>
-    <INPUT class="button" type="button" name="save" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
-    <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'}">
-    <%=writeResetButton("transactionForm",sWebLanguage)%>
-<%=ScreenHelper.alignButtonsStop()%>
+<p align="right">
+    <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onClick="doSubmit();">
+    <input class="button" type="button" name="backButton" value="<%=getTranNoLink("web","Back",sWebLanguage)%>" onclick="doBack();">
+    <%=writeResetButton("transactionForm",sWebLanguage,activeUser)%>
+</p>
 
-<%-- JAVASCRIPTS --%>
 <script>
-  function verifyStereo() {
-    if ((document.all["r15"].checked==true) && (document.all["r23"].checked==true) && (document.all["r32"].checked==true) && (document.all["r44"].checked==true) && (document.all["r51"].checked==true)) {
+  <%-- DO BACK --%>
+  function doBack(){
+    if(checkSaveButton()){
+      window.location.href = "<c:url value='/healthrecord/editTransaction.do'/>"+
+                             "?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>"+
+                             "&be.mxs.healthrecord.transaction_id=currentTransaction"+
+                             "&ts=<%=getTs()%>";
+    }
+  }
+
+  <%-- VERIFY STEREO --%>
+  function verifyStereo(){
+    if((document.all["r15"].checked==true) && (document.all["r23"].checked==true) && (document.all["r32"].checked==true) &&
+        (document.all["r44"].checked==true) && (document.all["r51"].checked==true)){
       document.all['stereoNormal'].checked=true;
     }
-    else {
+    else{
       document.all['stereoAbnormal'].checked=true;
     }
   }
 
+  <%-- TOGGLE COLOR --%>
   function toggleColor(row, col){
-    if (document.all['line-' + row + '.col-'+col].className!="admin2"){
+    if(document.all['line-' + row + '.col-'+col].className!="admin2"){
         document.all['r'+row+col].checked = false;
         document.all['line-' + row + '.col-'+col].className="admin2";
     }
-    else {
+    else{
         document.all['line-' + row + '.col-1'].className="admin2";
         document.all['line-' + row + '.col-2'].className="admin2";
         document.all['line-' + row + '.col-3'].className="admin2";
@@ -185,7 +196,7 @@
 
         element_activated = 'line-' + row + '.col-' + col;
     //    document.all[element_activated].className="menuItemGreen";
-        if (((row=='1')&&(col=='5'))
+        if(((row=='1')&&(col=='5'))
         ||((row=='2')&&(col=='3'))
         ||((row=='3')&&(col=='2'))
         ||((row=='4')&&(col=='4'))
@@ -193,7 +204,7 @@
         ){
             document.all['line-'+row+'.col-'+col].className='menuItemGreen';
         }
-        else {
+        else{
             document.all['line-'+row+'.col-'+col].className='menuItemRed';
         }
     }
@@ -201,38 +212,37 @@
   }
 
   function setTrue(itemType){
-    var fieldName;
-    fieldName = "currentTransactionVO.items.<ItemVO[hashCode="+itemType+"]>.value";
+    var fieldName = "currentTransactionVO.items.<ItemVO[hashCode="+itemType+"]>.value";
     document.all[fieldName].value = "medwan.common.true";
   }
 
   function setFalse(itemType){
-    var fieldName;
-    fieldName = "currentTransactionVO.items.<ItemVO[hashCode="+itemType+"]>.value";
+    var fieldName = "currentTransactionVO.items.<ItemVO[hashCode="+itemType+"]>.value";
     document.all[fieldName].value = "medwan.common.false";
   }
 
-  for(i=1; i<6; i++){
+  for(var i=1; i<6; i++){
     document.all['line-'+i+'.col-1'].className="admin2";
     document.all['line-'+i+'.col-2'].className="admin2";
     document.all['line-'+i+'.col-3'].className="admin2";
     document.all['line-'+i+'.col-4'].className="admin2";
     document.all['line-'+i+'.col-5'].className="admin2";
 
-    if (document.all["r"+i+"1"].checked == true) { toggleColor(i,'1'); }
-    else if (document.all["r"+i+"2"].checked == true) { toggleColor(i,'2'); }
-    else if (document.all["r"+i+"3"].checked == true) { toggleColor(i,'3'); }
-    else if (document.all["r"+i+"4"].checked == true) { toggleColor(i,'4'); }
-    else if (document.all["r"+i+"5"].checked == true) { toggleColor(i,'5'); }
+         if(document.all["r"+i+"1"].checked == true){ toggleColor(i,'1'); }
+    else if(document.all["r"+i+"2"].checked == true){ toggleColor(i,'2'); }
+    else if(document.all["r"+i+"3"].checked == true){ toggleColor(i,'3'); }
+    else if(document.all["r"+i+"4"].checked == true){ toggleColor(i,'4'); }
+    else if(document.all["r"+i+"5"].checked == true){ toggleColor(i,'5'); }
   }
 
+  <%-- DO SUBMIT --%>
   function doSubmit(){
-    document.transactionForm.save.disabled = true;
-    document.transactionForm.submit();
+    transactionForm.saveButton.disabled = true;
+    transactionForm.submit();
   }
 
-  document.all['visus-ras'].onclick();
+  document.all["visus-ras"].onclick();
 </script>
-
 </form>
-<%=writeJSButtons("transactionForm", "document.all['save']")%>
+
+<%=writeJSButtons("transactionForm", "document.all['saveButton']")%>

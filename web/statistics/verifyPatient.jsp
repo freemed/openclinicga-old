@@ -29,15 +29,15 @@
 	            var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","statistics.patientexists",sWebLanguage)%>");
 	
 	            if(answer==1){
-	                window.opener.document.all['newPatient'].value='1';
-	                window.opener.document.all['EditPatientForm'].submit();
+	                window.opener.document.getElementsByName('newPatient')[0].value='1';
+	                window.opener.document.getElementsByName('EditPatientForm')[0].submit();
 	            }
 	            window.close();
 	        </script>
 	        <%
 	    }
 	    else {
-	        out.println("<script>window.opener.document.all['newPatient'].value='1';window.opener.document.all['EditPatientForm'].submit();window.close();</script>");
+	        out.println("<script>window.opener.document.getElementsByName('newPatient')[0].value='1';window.opener.document.getElementsByName('EditPatientForm')[0].submit();window.close();</script>");
 	    }
     }
 	rs.close();

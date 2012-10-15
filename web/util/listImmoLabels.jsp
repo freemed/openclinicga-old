@@ -204,7 +204,7 @@ oc_conn.close();
 <script>
 	function searchService(serviceUidField,serviceNameField){
 	    openPopup("_common/search/searchService.jsp&ts=<%=getTs()%>&showinactive=0&VarCode="+serviceUidField+"&VarText="+serviceNameField);
-	    document.all[serviceNameField].focus();
+	    document.getElementsByName(serviceNameField)[0].focus();
 	}
 
 	function clearFields(){

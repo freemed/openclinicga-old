@@ -34,8 +34,8 @@
     }
 %>
 <script>
-    window.opener.document.all['divDocuments'].innerHTML += '<br><a href="#" onclick="openDocument(\'<%=sDocumentId%>\')"><%=sDocumentId+"_"+sFileName%></a>';
-    window.opener.document.all['EditDocument'].value += ';<%=sDocumentId%>';
+    window.opener.document.getElementsByName('divDocuments')[0].innerHTML += '<br><a href="#" onclick="openDocument(\'<%=sDocumentId%>\')"><%=sDocumentId+"_"+sFileName%></a>';
+    window.opener.document.getElementsByName('EditDocument')[0].value += ';<%=sDocumentId%>';
 
 /*    window.open('','_self','');
     window.close();*/

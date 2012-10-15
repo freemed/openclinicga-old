@@ -1137,7 +1137,7 @@ transactionForm.EditPrescriberFullName.focus();
 %>
 
 function loadSchema() {
-    openPopup("/_common/search/updatePrescriptionSchema.jsp&productuid=" + document.all["EditProductUid"].value);
+    openPopup("/_common/search/updatePrescriptionSchema.jsp&productuid=" + document.getElementsByName("EditProductUid")[0].value);
 }
 
 <%-- DO ADD --%>

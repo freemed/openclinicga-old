@@ -51,8 +51,8 @@
     if (sCity.length() > 0) {
 %>
             <script>
-              window.opener.document.all['<%=sCityName%>'].value = "<%=sCity%>";
-              window.opener.document.all['<%=sCityName%>'].title = "<%=sCity%>";
+              window.opener.document.getElementsByName('<%=sCityName%>')[0].value = "<%=sCity%>";
+              window.opener.document.getElementsByName('<%=sCityName%>')[0].title = "<%=sCity%>";
               window.close();
             </script>
         <%
@@ -61,7 +61,7 @@
         %>
             <script>
               if('<%=sVarButton%>'.length > 0){
-                window.opener.document.all['<%=sVarButton%>'].click();
+                window.opener.document.getElementsByName('<%=sVarButton%>')[0].click();
               }
 
               window.close();

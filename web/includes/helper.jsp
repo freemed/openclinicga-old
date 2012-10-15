@@ -281,7 +281,7 @@
 
             // context selector
             result  +="<td>"+getLastTransactionAccess("T."+transactionVO.getServerId()+"."+transactionVO.getTransactionId(),language,request)+"</td>";
-            result += "<td align='right' style='padding-top:2px;'>" + "<select id='ctxt' class='text' onchange=\"document.all['currentTransactionVO.items.<ItemVO[hashCode=" + itemVO.getItemId() + "]>.value'].value=this.value;show('content-details');if($('confirm'))hide('confirm');\">";
+            result += "<td align='right' style='padding-top:2px;'>" + "<select id='ctxt' class='text' onchange=\"document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=" + itemVO.getItemId() + "]>.value')[0].value=this.value;show('content-details');if($('confirm'))hide('confirm');\">";
             UserVO user = sessionContainerWO.getUserVO();
             User activeUser = new User();
             activeUser.initialize(user.getUserId().intValue());
@@ -691,7 +691,7 @@
                 .append(" var printLang;")
                 .append(" if(printDocument){")
                 .append("  printLang = transactionForm.PrintLanguage.value;\n")
-                .append("  document.all['be.mxs.healthrecord.updateTransaction.actionForwardKey'].value = '/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts=" + getTs() + "&PrintLanguage='+printLang;\n")
+                .append("  document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = '/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts=" + getTs() + "&PrintLanguage='+printLang;\n")
                 .append("  window.open('','newwindow','height=600,width=850,toolbar=yes,status=yes,scrollbars=yes,resizable=yes,menubar=yes');\n")
                 .append("  document.transactionForm.target = 'newwindow';\n")
                 .append(" }")

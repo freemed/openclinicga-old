@@ -104,7 +104,7 @@
         }*/
 
         sBeginDate+=(" size='12' onblur='checkBegin(this,"+sStartDate.trim()+")'>&nbsp;"
-            +"<img class='link' name='popcal' onclick='gfPop1.fPopCalendar(document.all[\"PBegin\"]);return false;' src='"+sCONTEXTPATH+"/_img/icon_agenda.gif' ALT='"+getTran("Web","Select",sWebLanguage)+"'>"
+            +"<img class='link' name='popcal' onclick='gfPop1.fPopCalendar(document.getElementsByName(\"PBegin\")[0]);return false;' src='"+sCONTEXTPATH+"/_img/icon_agenda.gif' ALT='"+getTran("Web","Select",sWebLanguage)+"'>"
             +"&nbsp;<img class='link' src='"+sCONTEXTPATH+"/_img/icon_compose.gif' ALT='"+getTran("Web","PutToday",sWebLanguage)+"' onclick='getToday(PBegin);'>");
 
         if (!bNew){
@@ -188,24 +188,24 @@
     retVal = makeMsgBox("?","<%=getTran("Web.admin","recuperation_old_data",sWebLanguage)%>",32,3,0,4096);
 
     if (retVal==7){
-      document.all["PAddress"].value = "";
-      document.all["PZipcode"].value = "";
-      document.all["PCountry"].value = "<%=sDefaultCountry%>";
-      document.all["PEmail"].value = "";
-      document.all["PTelephone"].value = "";
-      document.all["PMobile"].value = "";
-      document.all["PProvince"].value = "";
+      document.getElementsByName("PAddress")[0].value = "";
+      document.getElementsByName("PZipcode")[0].value = "";
+      document.getElementsByName("PCountry")[0].value = "<%=sDefaultCountry%>";
+      document.getElementsByName("PEmail")[0].value = "";
+      document.getElementsByName("PTelephone")[0].value = "";
+      document.getElementsByName("PMobile")[0].value = "";
+      document.getElementsByName("PProvince")[0].value = "";
       document.getElementById("PDistrict").value = "";
       document.getElementById("PSector").value = "";
-      document.all["PCell"].value = "";
-      document.all["PCity"].value = "";
-      document.all["PFunction"].value = "";
-      document.all["PBusiness"].value = "";
-      document.all["PComment"].value = "";
+      document.getElementsByName("PCell")[0].value = "";
+      document.getElementsByName("PCity")[0].value = "";
+      document.getElementsByName("PFunction")[0].value = "";
+      document.getElementsByName("PBusiness")[0].value = "";
+      document.getElementsByName("PComment")[0].value = "";
     }
 
-    getToday(document.all["PBegin"]);
-    document.all["PBegin"].focus();
+    getToday(document.getElementsByName("PBegin")[0]);
+    document.getElementsByName("PBegin")[0].focus();
   }
 
   <%-- check submit admin private --%>

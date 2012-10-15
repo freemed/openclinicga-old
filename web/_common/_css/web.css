@@ -2047,30 +2047,32 @@ div#login #pwd_field input.text {
 
 div#login #submit_button {
     float: left;
-    width: 220px;
-    margin-top:5px;
-    height:35px;
+    width: 200px;
+    padding-left: 20px;
+    height:42px;
     overflow:hidden;
+
 }
 
 div#login #submit_button input.button {
+    margin-top:10px;
     background: none;
-    width: 130px;
-    height: 28px;
+    width: 145px;
+    height: 30px;
     float: left;
     border: none;
-    margin-left:25px;
 }
 
 div#login #finger_button {
     float: left;
-    margin-left:20px;
-}
+    margin-left:10px;
+    padding-top:20px;
 
+}
 div#login #finger_button a{
     float: left;
-    width:40px;
-    height:28px;
+    width:35px;
+    height:25px;
     text-decoration:none;
 }
 

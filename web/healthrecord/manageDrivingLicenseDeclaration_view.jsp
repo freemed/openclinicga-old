@@ -16,12 +16,12 @@
   function setAllNegative(doSet){
     if(doSet){
       for(var i=1; i<=20; i++){
-        document.all['dld-r'+i+'2'].checked = true;
+        document.getElementsByName('dld-r'+i+'2')[0].checked = true;
       }
     }
     else{
       for(var i=1; i<=20; i++){
-        document.all['dld-r'+i+'1'].checked = true;
+        document.getElementsByName('dld-r'+i+'1')[0].checked = true;
       }
     }
   }

@@ -221,7 +221,7 @@ function doFind(){
 
 <%-- SET Terminology --%>
 function setTerminology(sTerminoloyPhrase) {
-    window.opener.document.all['<%=sVarText%>'].value = window.opener.document.all['<%=sVarText%>'].value + sTerminoloyPhrase;
+    window.opener.document.getElementsByName('<%=sVarText%>')[0].value = window.opener.document.getElementsByName('<%=sVarText%>')[0].value + sTerminoloyPhrase;
     window.close();
 }
 

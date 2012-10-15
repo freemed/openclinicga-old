@@ -348,15 +348,15 @@ function writeToday () {
 }
 
 function showD(element, imgS, imgH) {
-	document.all[element].style.display='';
-	document.all[imgH].style.display='';
-	document.all[imgS].style.display='none';
+	document.getElementsByName(element)[0].style.display='';
+	document.getElementsByName(imgH)[0].style.display='';
+	document.getElementsByName(imgS)[0].style.display='none';
 }
 
 function hideD(element, imgS, imgH) {
-	document.all[element].style.display='none';
-	document.all[imgH].style.display='none';
-	document.all[imgS].style.display='';
+	document.getElementsByName(element)[0].style.display='none';
+	document.getElementsByName(imgH)[0].style.display='none';
+	document.getElementsByName(imgS)[0].style.display='';
 }
 
 function addDays(sdate1,sbetween) {

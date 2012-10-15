@@ -6,11 +6,11 @@
 <script>
   <%-- ACTIVATE TAB --%>
   function activateTab(iTab){
-    document.all['tr1-view'].style.display = 'none';
-    document.all['tr2-view'].style.display = 'none';
-    document.all['tr3-view'].style.display = 'none';
-    document.all['tr4-view'].style.display = 'none';
-    document.all['tr5-view'].style.display = 'none';
+    document.getElementById('tr1-view').style.display = 'none';
+    document.getElementById('tr2-view').style.display = 'none';
+    document.getElementById('tr3-view').style.display = 'none';
+    document.getElementById('tr4-view').style.display = 'none';
+    document.getElementById('tr5-view').style.display = 'none';
 
     td1.className = "tabunselected";
     td2.className = "tabunselected";
@@ -19,23 +19,23 @@
     td5.className = "tabunselected";
 
     if (iTab==1){
-      document.all['tr1-view'].style.display = '';
+      document.getElementById('tr1-view').style.display = '';
       td1.className="tabselected";
     }
     else if (iTab==2){
-      document.all['tr2-view'].style.display = '';
+      document.getElementById('tr2-view').style.display = '';
       td2.className="tabselected";
     }
     else if (iTab==3){
-      document.all['tr3-view'].style.display = '';
+      document.getElementById('tr3-view').style.display = '';
       td3.className="tabselected";
     }
     else if (iTab==4){
-      document.all['tr4-view'].style.display = '';
+      document.getElementById('tr4-view').style.display = '';
       td4.className="tabselected";
     }
     else if (iTab==5){
-      document.all['tr5-view'].style.display = '';
+      document.getElementById('tr5-view').style.display = '';
       td5.className="tabselected";
     }
   }

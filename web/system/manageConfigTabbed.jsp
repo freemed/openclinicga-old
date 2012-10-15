@@ -378,15 +378,15 @@
           function activateTab(sTab){
             for(var i=0; i<<%=numberOfTabs%>; i++){
               if(sTab==('tab'+i)){
-                eval("document.all['tab"+i+"-body'].style.display = '';");
-                eval("document.all['tab"+i+"-selector'].className = 'tabselected';");
+                eval("document.getElementById('tab"+i+"-body').style.display = '';");
+                eval("document.getElementById('tab"+i+"-selector').className = 'tabselected';");
 
                 configForm.ActiveTab.value = sTab;
-                eval("document.all['"+firstFieldPerTabArray[sTab.substring(sTab.length-1,sTab.length)]+"'].focus();");
+                eval("document.getElementById('"+firstFieldPerTabArray[sTab.substring(sTab.length-1,sTab.length)]+"')[0].focus();");
               }
               else{
-                eval("document.all['tab"+i+"-body'].style.display = 'none';");
-                eval("document.all['tab"+i+"-selector'].className = 'tabunselected';");
+                eval("document.getElementById('tab"+i+"-body').style.display = 'none';");
+                eval("document.getElementById('tab"+i+"-selector').className = 'tabunselected';");
               }
             }
           }

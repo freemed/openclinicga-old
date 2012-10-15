@@ -108,7 +108,7 @@
         <tr>
             <td class="admin"><%= getTran("Web.Occup","medwan.common.folder",sWebLanguage) %></td>
             <td class="admin2"><input type="text" name="docFolder" size="80" class="text">
-                <select name ="sel" class="text" onchange="document.all['docFolder'].value=this.value;">
+                <select name ="sel" class="text" onchange="document.getElementsByName('docFolder')[0].value=this.value;">
                     <option value="">
                     <option value="VARIA">VARIA
                     <option value="LAB">LAB
@@ -129,6 +129,6 @@
 </form>
 <%
     if (request.getParameter("type")!=null){
-        out.print("<script>document.all['docType'].value='"+request.getParameter("type")+"';</script>");
+        out.print("<script>document.getElementsByName('docType')[0].value='"+request.getParameter("type")+"';</script>");
     }
 %>

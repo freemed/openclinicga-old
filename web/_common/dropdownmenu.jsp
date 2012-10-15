@@ -334,7 +334,7 @@
                 barcode = barcode + oldbarcode.substring(n, n + 1);
             }
         }
-        document.all['barcode'].style.visibility = "hidden";
+        document.getElementsByName('barcode')[0].style.visibility = "hidden";
         if (barcode.substring(0, 1) == "0") {
             window.location.href = "<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=ScreenHelper.getTs()%>&PersonID=" + barcode.substring(1);
         }
@@ -344,8 +344,8 @@
         }
         else if (barcode.substring(0, 1) == "2") {
             //Registration of sample-entry
-            if (document.all['sampleReceiver'] != undefined) {
-                document.all['sampleReceiver'].innerHTML = "<input type='hidden' name='receive." + barcode.substring(1, 3) + "." + barcode.substring(3, 11) + "." + (barcode.length > 11 ? barcode.substring(11) : "?") + "' value='1'/>";
+            if (document.getElementsByName('sampleReceiver')[0] != undefined) {
+                document.getElementsByName('sampleReceiver')[0].innerHTML = "<input type='hidden' name='receive." + barcode.substring(1, 3) + "." + barcode.substring(3, 11) + "." + (barcode.length > 11 ? barcode.substring(11) : "?") + "' value='1'/>";
                 frmSampleReception.submit();
             }
         }
@@ -369,7 +369,7 @@
                 barcode = barcode + oldbarcode.substring(n, n + 1);
             }
         }
-        document.all['barcode'].style.visibility = "hidden";
+        document.getElementsByName('barcode')[0].style.visibility = "hidden";
         if (barcode.substring(0, 1) == "0") {
             //Patientidentification
             window.open("<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=ScreenHelper.getTs()%>&PersonID=" + barcode.substring(1), "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no").moveTo((screen.width - 800) / 2, (screen.height - 600) / 2);

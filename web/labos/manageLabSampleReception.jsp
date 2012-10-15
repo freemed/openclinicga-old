@@ -97,7 +97,7 @@
     <div id="sampleReceiver"/>
 </form>
 <script type="text/javascript">
-    document.all['labrequestid'].focus();
+    document.getElementsByName('labrequestid')[0].focus();
     function selectRequest(serverid,transactionid){
         window.location.href="<c:url value="/main.do"/>?Page=labos/manageLabSampleReception.jsp&find=1&labrequestid="+serverid+"."+transactionid;
     }

@@ -614,7 +614,7 @@
                             <%
                                 // if new order : set today as default value for begindate
                                 if(sAction.equals("showDetailsNew")){
-                                    %><script>getToday(document.all['EditBegin']);</script><%
+                                    %><script>getToday(document.getElementsByName('EditBegin')[0]);</script><%
                                 }
                             %>
                         </td>

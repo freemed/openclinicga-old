@@ -218,7 +218,7 @@
           
   <%-- TOGGLE EXAM CHECK --%>
   function toggleExamCheck(checkBoxName){
-    document.all[checkBoxName].checked = !document.all[checkBoxName].checked;
+    document.getElementsByName(checkBoxName)[0].checked = !document.getElementsByName(checkBoxName)[0].checked;
   }
 
   <%-- ADD SELECTED EXAMINATIONS --%>

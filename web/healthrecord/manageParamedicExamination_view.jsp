@@ -15,13 +15,13 @@
   function setTrue(itemType){
     var fieldName;
     fieldName = "currentTransactionVO.items.<ItemVO[hashCode="+itemType+"]>.value";
-    document.all[fieldName].value = "medwan.common.true";
+    document.getElementsByName(fieldName)[0].value = "medwan.common.true";
   }
 
   function setFalse(itemType){
     var fieldName;
     fieldName = "currentTransactionVO.items.<ItemVO[hashCode="+itemType+"]>.value";
-    document.all[fieldName].value = "medwan.common.false";
+    document.getElementsByName(fieldName)[0].value = "medwan.common.false";
   }
 
   <%-- VALIDATE WEIGHT --%>
@@ -72,16 +72,16 @@
   <%-- CALCULATE BMI --%>
   function calculateBMI(){
     var _BMI = 0;
-    var heightInput = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_HEIGHT" property="itemId"/>]>.value'];
-    var weightInput = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_WEIGHT" property="itemId"/>]>.value'];
+    var heightInput = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_HEIGHT" property="itemId"/>]>.value')[0];
+    var weightInput = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_WEIGHT" property="itemId"/>]>.value')[0];
 
     if (heightInput.value > 0){
       _BMI = (weightInput.value * 10000) / (heightInput.value * heightInput.value);
       if (_BMI > 100 || _BMI < 5){
-        document.all['BMI'].value = "";
+        document.getElementsByName('BMI')[0].value = "";
       }
       else {
-        document.all['BMI'].value = Math.round(_BMI*10)/10;
+        document.getElementsByName('BMI')[0].value = Math.round(_BMI*10)/10;
       }
     }
   }

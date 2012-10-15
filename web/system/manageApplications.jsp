@@ -206,9 +206,9 @@
   }
 
   function togglePermissions(headerIdx){
-    var isChecked = (document.all['cat'+headerIdx+'_selected'].value==1);
-    if(isChecked) document.all['cat'+headerIdx+'_selected'].value = 0;
-    else          document.all['cat'+headerIdx+'_selected'].value = 1;
+    var isChecked = (document.getElementsByName('cat'+headerIdx+'_selected')[0].value==1);
+    if(isChecked) document.getElementsByName('cat'+headerIdx+'_selected')[0].value = 0;
+    else          document.getElementsByName('cat'+headerIdx+'_selected')[0].value = 1;
 
     for(var i=0; i<profileForm.elements.length; i++){
       if(profileForm.elements[i].type=="checkbox"){

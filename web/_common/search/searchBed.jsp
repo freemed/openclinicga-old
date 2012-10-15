@@ -75,10 +75,10 @@
 
         <%-- SET BED --%>
         function setBed(sBedUID, sBedName) {
-            window.opener.document.all['<%=sVarCode%>'].value = sBedUID;
+            window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sBedUID;
 
             if ('<%=sVarText%>' != '') {
-                window.opener.document.all['<%=sVarText%>'].value = document.getElementById('ServiceUid').value+': '+sBedName;
+                window.opener.document.getElementsByName('<%=sVarText%>')[0].value = document.getElementById('ServiceUid').value+': '+sBedName;
             }
 
             window.close();

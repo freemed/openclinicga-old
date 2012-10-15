@@ -16,11 +16,11 @@
 
     <script>
       function submitForm(){
-        if (document.all['vaccination-type'].value=='be.mxs.healthrecord.vaccination.Intradermo'){
-          document.all['vaccination-remarktext'].value = document.all['posneg'].value;
+        if (document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Intradermo'){
+          document.getElementsByName('vaccination-remarktext')[0].value = document.getElementsByName('posneg')[0].value;
         }
 
-        document.all['currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime'].value=document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value'].value;
+        document.getElementsByName('currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime')[0].value=document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value')[0].value;
         document.transactionForm.save.disabled = true;
         <%
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
@@ -92,10 +92,10 @@
         <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/showVaccinationSummary.do"/>?ts=<%=getTs()%>'">
     <%=ScreenHelper.alignButtonsStop()%>
     <script>
-      if (document.all['vaccination-type'].value=='be.mxs.healthrecord.vaccination.Other'){
+      if (document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Other'){
         show('vaccination-name');
       }
-      if (document.all['vaccination-type'].value=='be.mxs.healthrecord.vaccination.Intradermo'){
+      if (document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Intradermo'){
         show('vaccination-positive-negative');
       }
       else{
@@ -103,9 +103,9 @@
       }
 
       function calculateNextDate(){
-        vaccinationType = document.all['vaccination-type'].value;
-        vaccinationSubType= document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="itemId"/>]>.value'].value;
-        vaccinationDate = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value'].value;
+        vaccinationType = document.getElementsByName('vaccination-type')[0].value;
+        vaccinationSubType= document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="itemId"/>]>.value')[0].value;
+        vaccinationDate = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value')[0].value;
         sourceField = 'currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE" property="itemId"/>]>.value';
         openPopup("/util/getCalculatedValues.jsp&valueType=nextVaccinationDate&vaccinationType="+vaccinationType+"&vaccinationSubType="+vaccinationSubType+"&vaccinationDate="+vaccinationDate+"&sourceField="+sourceField);
       }

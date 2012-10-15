@@ -31,7 +31,7 @@
 
 <script>
   function submitForm(){
-    document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRANSACTION_RESULT" property="itemId"/>]>.value'].value="FEV1:"+document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1" property="itemId"/>]>.value'].value+"L/"+document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value'].value+"%  FVC:"+document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC" property="itemId"/>]>.value'].value+"L/"+document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value'].value+"%";
+    document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRANSACTION_RESULT" property="itemId"/>]>.value')[0].value="FEV1:"+document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1" property="itemId"/>]>.value')[0].value+"L/"+document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value')[0].value+"%  FVC:"+document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC" property="itemId"/>]>.value')[0].value+"L/"+document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value')[0].value+"%";
     document.transactionForm.save.disabled = true;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
@@ -41,83 +41,83 @@
 
   <%-- CALCULATE PEF -----------------------------------------------------------------------------%>
   function calculatePEFPercent(){
-    if (isNaN(parseFloat(document.all['height'].value)) || document.all['height'].value==0) {
+    if (isNaN(parseFloat(document.getElementsByName('height')[0].value)) || document.getElementsByName('height')[0].value==0) {
       return;
     }
 
     var PEFRef;
-    var PEF = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF" property="itemId"/>]>.value'].value.replace(',','.');
-    if((document.all['height'].value * document.all['age'].value)>0){
-      if (document.all['gender'].value == 'M' || document.all['gender'].value == 'm'){
-        PEFRef = 0.97*(0.068*document.all['height'].value-0.036*document.all['age'].value)*60;
+    var PEF = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF" property="itemId"/>]>.value')[0].value.replace(',','.');
+    if((document.getElementsByName('height')[0].value * document.getElementsByName('age')[0].value)>0){
+      if (document.getElementsByName('gender')[0].value == 'M' || document.getElementsByName('gender')[0].value == 'm'){
+        PEFRef = 0.97*(0.068*document.getElementsByName('height')[0].value-0.036*document.getElementsByName('age')[0].value)*60;
       }
       else {
-        PEFRef = 0.97*(0.052*document.all['height'].value-0.034*document.all['age'].value)*60;
+        PEFRef = 0.97*(0.052*document.getElementsByName('height')[0].value-0.034*document.getElementsByName('age')[0].value)*60;
       }
 
       var PEFPCT = PEF*100/PEFRef;
       if (PEFPCT > 0){
         if (PEFPCT < 10) {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF_A" property="itemId"/>]>.value'].value = PEFPCT.toString().substring(0,1)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF_A" property="itemId"/>]>.value')[0].value = PEFPCT.toString().substring(0,1)
         }
         else if (PEFPCT < 100) {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF_A" property="itemId"/>]>.value'].value = PEFPCT.toString().substring(0,2)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF_A" property="itemId"/>]>.value')[0].value = PEFPCT.toString().substring(0,2)
         }
         else {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF_A" property="itemId"/>]>.value'].value = PEFPCT.toString().substring(0,3)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF_A" property="itemId"/>]>.value')[0].value = PEFPCT.toString().substring(0,3)
         }
       }
       else {
-        document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF_A" property="itemId"/>]>.value'].value = "";
+        document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_PEF_A" property="itemId"/>]>.value')[0].value = "";
       }
     }
   }
 
   <%-- CALCULATE TIFFENEAU -----------------------------------------------------------------------%>
   function calculateTiffeneau(){
-    var FEV1 = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1" property="itemId"/>]>.value'].value.replace(',','.');
-    var VC   = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC" property="itemId"/>]>.value'].value.replace(',','.');
+    var FEV1 = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1" property="itemId"/>]>.value')[0].value.replace(',','.');
+    var VC   = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC" property="itemId"/>]>.value')[0].value.replace(',','.');
 
     if (FEV1.length==0 || isNaN(FEV1) || VC.length==0 || isNaN(VC) || VC==0){
-        document.all['Tiffeneau'].value = '';
+        document.getElementsByName('Tiffeneau')[0].value = '';
         return;
     }
 
-    document.all['Tiffeneau'].value=FEV1/VC;
-    document.all['Tiffeneau'].value=document.all['Tiffeneau'].value.substr(0,4);
+    document.getElementsByName('Tiffeneau')[0].value=FEV1/VC;
+    document.getElementsByName('Tiffeneau')[0].value=document.getElementsByName('Tiffeneau')[0].value.substr(0,4);
   }
 
   <%-- CALCULATE VC ------------------------------------------------------------------------------%>
   function calculateVCPercent(){
     calculateTiffeneau();
-    if (isNaN(parseFloat(document.all['height'].value)) || document.all['height'].value==0){
+    if (isNaN(parseFloat(document.getElementsByName('height')[0].value)) || document.getElementsByName('height')[0].value==0){
       return;
     }
 
     var VCRef;
-    var VC = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC" property="itemId"/>]>.value'].value.replace(',','.');
-    if((document.all['height'].value * document.all['age'].value)>0){
-      if (document.all['gender'].value == 'M' || document.all['gender'].value == 'm'){
-        VCRef = 0.1626*0.39*document.all['height'].value-0.031*document.all['age'].value-5.335;
+    var VC = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC" property="itemId"/>]>.value')[0].value.replace(',','.');
+    if((document.getElementsByName('height')[0].value * document.getElementsByName('age')[0].value)>0){
+      if (document.getElementsByName('gender')[0].value == 'M' || document.getElementsByName('gender')[0].value == 'm'){
+        VCRef = 0.1626*0.39*document.getElementsByName('height')[0].value-0.031*document.getElementsByName('age')[0].value-5.335;
       }
       else {
-        VCRef = 0.1321*0.39*document.all['height'].value-0.018*document.all['age'].value-4.360;
+        VCRef = 0.1321*0.39*document.getElementsByName('height')[0].value-0.018*document.getElementsByName('age')[0].value-4.360;
       }
 
       var VCPCT = VC*100/VCRef;
       if (VCPCT > 0){
         if (VCPCT < 10) {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC_A" property="itemId"/>]>.value'].value = VCPCT.toString().substring(0,1)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC_A" property="itemId"/>]>.value')[0].value = VCPCT.toString().substring(0,1)
         }
         else if (VCPCT < 100) {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC_A" property="itemId"/>]>.value'].value = VCPCT.toString().substring(0,2)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC_A" property="itemId"/>]>.value')[0].value = VCPCT.toString().substring(0,2)
         }
         else {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC_A" property="itemId"/>]>.value'].value = VCPCT.toString().substring(0,3)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC_A" property="itemId"/>]>.value')[0].value = VCPCT.toString().substring(0,3)
         }
       }
       else {
-        document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC_A" property="itemId"/>]>.value'].value = "";
+        document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_VC_A" property="itemId"/>]>.value')[0].value = "";
       }
     }
   }
@@ -125,68 +125,68 @@
   <%-- CALCULATE FEV1 ----------------------------------------------------------------------------%>
   function calculateFEV1Percent(){
     calculateTiffeneau();
-    if (isNaN(parseFloat(document.all['height'].value)) || document.all['height'].value==0) {
+    if (isNaN(parseFloat(document.getElementsByName('height')[0].value)) || document.getElementsByName('height')[0].value==0) {
       return;
     }
 
     var FEV1Ref;
-    var FEV1 = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1" property="itemId"/>]>.value'].value.replace(',','.');
-    if((document.all['height'].value * document.all['age'].value)>0){
-      if (document.all['gender'].value == 'M' || document.all['gender'].value == 'm'){
-        FEV1Ref = 1.08*(0.0443*document.all['height'].value-0.026*document.all['age'].value-2.89);
+    var FEV1 = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1" property="itemId"/>]>.value')[0].value.replace(',','.');
+    if((document.getElementsByName('height')[0].value * document.getElementsByName('age')[0].value)>0){
+      if (document.getElementsByName('gender')[0].value == 'M' || document.getElementsByName('gender')[0].value == 'm'){
+        FEV1Ref = 1.08*(0.0443*document.getElementsByName('height')[0].value-0.026*document.getElementsByName('age')[0].value-2.89);
       }
       else {
-        FEV1Ref = 1.08*(0.0395*document.all['height'].value-0.025*document.all['age'].value-2.60);
+        FEV1Ref = 1.08*(0.0395*document.getElementsByName('height')[0].value-0.025*document.getElementsByName('age')[0].value-2.60);
       }
 
       var FEV1PCT = FEV1*100/FEV1Ref;
       if (FEV1PCT > 0){
         if (FEV1PCT < 10) {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value'].value = FEV1PCT.toString().substring(0,1)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value')[0].value = FEV1PCT.toString().substring(0,1)
         }
         else if (FEV1PCT < 100) {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value'].value = FEV1PCT.toString().substring(0,2)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value')[0].value = FEV1PCT.toString().substring(0,2)
         }
         else {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value'].value = FEV1PCT.toString().substring(0,3)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value')[0].value = FEV1PCT.toString().substring(0,3)
         }
       }
       else {
-        document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value'].value = "";
+        document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value')[0].value = "";
       }
     }
   }
 
   <%-- CALCULATE FVC -----------------------------------------------------------------------------%>
   function calculateFVCPercent(){
-    if (isNaN(parseFloat(document.all['height'].value)) || document.all['height'].value==0){
+    if (isNaN(parseFloat(document.getElementsByName('height')[0].value)) || document.getElementsByName('height')[0].value==0){
       return;
     }
 
     var FVCRef;
-    var FVC = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC" property="itemId"/>]>.value'].value.replace(',','.');
-    if((document.all['height'].value * document.all['age'].value)>0){
-      if (document.all['gender'].value == 'M'){
-        FVCRef = 1.10*(0.0576*document.all['height'].value-0.026*document.all['age'].value-4.34);
+    var FVC = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC" property="itemId"/>]>.value')[0].value.replace(',','.');
+    if((document.getElementsByName('height')[0].value * document.getElementsByName('age')[0].value)>0){
+      if (document.getElementsByName('gender')[0].value == 'M'){
+        FVCRef = 1.10*(0.0576*document.getElementsByName('height')[0].value-0.026*document.getElementsByName('age')[0].value-4.34);
       }
       else {
-        FVCRef = 1.15*(0.0443*document.all['height'].value-0.026*document.all['age'].value-2.89);
+        FVCRef = 1.15*(0.0443*document.getElementsByName('height')[0].value-0.026*document.getElementsByName('age')[0].value-2.89);
       }
 
       var FVCPCT = FVC*100/FVCRef;
       if (FVCPCT > 0){
         if (FVCPCT < 10) {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value'].value = FVCPCT.toString().substring(0,1)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value')[0].value = FVCPCT.toString().substring(0,1)
         }
         else if (FVCPCT < 100) {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value'].value = FVCPCT.toString().substring(0,2)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value')[0].value = FVCPCT.toString().substring(0,2)
         }
         else {
-          document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value'].value = FVCPCT.toString().substring(0,3)
+          document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value')[0].value = FVCPCT.toString().substring(0,3)
         }
       }
       else {
-        document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value'].value = "";
+        document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value')[0].value = "";
       }
     }
   }
@@ -519,7 +519,7 @@
         }
       }
     }
-    dFEV1Today = new Dot(DFEV1.ScreenX(Date.UTC(today.getYear(), today.getMonth()+1, today.getDate(),0,0,0,0)), DFEV1.ScreenY(document.all['MyFEV1'].value), 9, 5, "32CD32",document.all['MyFEV1'].value);
+    dFEV1Today = new Dot(DFEV1.ScreenX(Date.UTC(today.getYear(), today.getMonth()+1, today.getDate(),0,0,0,0)), DFEV1.ScreenY(document.getElementsByName('MyFEV1')[0].value), 9, 5, "32CD32",document.getElementsByName('MyFEV1')[0].value);
   }
 
   <%-- DRAW FVC GRAPH --%>
@@ -555,16 +555,16 @@
         }
       }
     }
-    dFVCToday = new Dot(DFVC.ScreenX(Date.UTC(today.getYear(), today.getMonth()+1, today.getDate(),0,0,0,0)), DFVC.ScreenY(document.all['MyFVC'].value), 9, 5, "32CD32",document.all['MyFVC'].value);
+    dFVCToday = new Dot(DFVC.ScreenX(Date.UTC(today.getYear(), today.getMonth()+1, today.getDate(),0,0,0,0)), DFVC.ScreenY(document.getElementsByName('MyFVC')[0].value), 9, 5, "32CD32",document.getElementsByName('MyFVC')[0].value);
   }
 
   <%-- CALCULATE TODAY --%>
   function calculateToday(){
-    var sDate = document.all['trandate'].value;
+    var sDate = document.getElementsByName('trandate')[0].value;
 
     if (aFEV1Value.length>0) {
-      document.all['MyFEV1'].value = document.all['MyFEV1'].value.replace(",",".");
-      var iFEVValue = document.all['MyFEV1'].value * 1;
+      document.getElementsByName('MyFEV1')[0].value = document.getElementsByName('MyFEV1')[0].value.replace(",",".");
+      var iFEVValue = document.getElementsByName('MyFEV1')[0].value * 1;
       aY = DFEV1.GetYGrid();
 
       if (iFEVValue > (aY[aY.length - 1]) ) {
@@ -579,8 +579,8 @@
     }
 
     if (aFVCValue.length>0) {
-      document.all['MyFVC'].value = document.all['MyFVC'].value.replace(",",".");
-      var iFVCValue = document.all['MyFVC'].value * 1;
+      document.getElementsByName('MyFVC')[0].value = document.getElementsByName('MyFVC')[0].value.replace(",",".");
+      var iFVCValue = document.getElementsByName('MyFVC')[0].value * 1;
       aY = DFVC.GetYGrid();
 
       if (iFVCValue > (aY[aY.length - 1]) ) {

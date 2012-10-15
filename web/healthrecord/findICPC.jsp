@@ -252,14 +252,14 @@ String sPatientUid=request.getParameter("patientuid");
 
     function addICPC(code,label){
         if (window.opener.document.getElementById('<%=sReturnField%>').innerHTML.search("ICPCCode"+code)==-1){
-            if (document.all["ICPCComment"+code].value.length==0){
-                document.all["ICPCComment"+code].value="-";
+            if (document.getElementsByName("ICPCComment"+code)[0].value.length==0){
+                document.getElementsByName("ICPCComment"+code)[0].value="-";
             }
 
             if (window.opener.document.getElementById('<%=sReturnField%>').type=="text" || window.opener.document.getElementById('<%=sReturnField%>').type=="textarea"){
                 if (window.opener.document.getElementById('<%=sReturnField%>').value.indexOf(code) == -1){
-                    if(document.all["ICPCComment"+code].value != "-"){
-                        window.opener.document.getElementById('<%=sReturnField%>').value+= (code+" "+label+" ("+document.all["ICPCComment"+code].value+") ");
+                    if(document.getElementsByName("ICPCComment"+code)[0].value != "-"){
+                        window.opener.document.getElementById('<%=sReturnField%>').value+= (code+" "+label+" ("+document.getElementsByName("ICPCComment"+code)[0].value+") ");
                     }
                     else{
                         window.opener.document.getElementById('<%=sReturnField%>').value+= (code+" "+label+" ");
@@ -267,7 +267,7 @@ String sPatientUid=request.getParameter("patientuid");
                 }
             }
             else{
-                openPopup("/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICPC&Code="+code+"&Value="+document.all['ICPCComment'+code].value+"&Label="+label+"&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>",800,600);
+                openPopup("/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICPC&Code="+code+"&Value="+document.getElementsByName('ICPCComment'+code)[0].value+"&Label="+label+"&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>",800,600);
             }
         }
         else {
@@ -278,8 +278,8 @@ String sPatientUid=request.getParameter("patientuid");
         if (sReturnField2.trim().length()!=0){
             %>
               if (window.opener.document.getElementById('<%=sReturnField2%>').innerHTML.search("ICPCCode"+code)==-1){
-                if (document.all["ICPCComment"+code].value.length==0){
-                  document.all["ICPCComment"+code].value="-";
+                if (document.getElementsByName("ICPCComment"+code)[0].value.length==0){
+                  document.getElementsByName("ICPCComment"+code)[0].value="-";
                 }
 
                 if ((window.opener.document.getElementById('<%=sReturnField2%>').type=="text")||(window.opener.document.getElementById('<%=sReturnField2%>').type=="textarea")){
@@ -288,7 +288,7 @@ String sPatientUid=request.getParameter("patientuid");
                   }
                 }
                 else {
-                  window.opener.document.getElementById('<%=sReturnField2%>').innerHTML += "<span id='ICPC"+code+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC"+code+"\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode"+code+"' value='"+document.all["ICPCComment"+code].value+"'/>"+code+"&nbsp;"+label+"&nbsp;["+document.all["ICPCComment"+code].value+"]<br/></span>";
+                  window.opener.document.getElementById('<%=sReturnField2%>').innerHTML += "<span id='ICPC"+code+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICPC"+code+"\").innerHTML=\"\";'/> <input type='hidden' name='ICPCCode"+code+"' value='"+document.getElementsByName("ICPCComment"+code)[0].value+"'/>"+code+"&nbsp;"+label+"&nbsp;["+document.getElementsByName("ICPCComment"+code)[0].value+"]<br/></span>";
                 }
               }
             <%
@@ -298,8 +298,8 @@ String sPatientUid=request.getParameter("patientuid");
 
   function addICD10(code,label){
     if (window.opener.document.getElementById('<%=sReturnField%>').innerHTML.search("ICD10Code"+code)==-1){
-      if (document.all["ICD10Comment"+code].value.length==0){
-        document.all["ICD10Comment"+code].value="-";
+      if (document.getElementsByName("ICD10Comment"+code)[0].value.length==0){
+        document.getElementsByName("ICD10Comment"+code)[0].value="-";
       }
 
       if ((window.opener.document.getElementById('<%=sReturnField%>').type=="text")||(window.opener.document.getElementById('<%=sReturnField%>').type=="textarea")){
@@ -308,7 +308,7 @@ String sPatientUid=request.getParameter("patientuid");
         }
       }
       else {
-        openPopup('/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICD10&Code='+code+'&Value='+document.all["ICD10Comment"+code].value+'&Label='+label+'&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>',800,600);
+        openPopup('/_common/search/diagnoseInfo.jsp&ts=<%=getTs()%>&showpatientencounters=<%=sShowPatientEncounters%>&Type=ICD10&Code='+code+'&Value='+document.getElementsByName("ICD10Comment"+code)[0].value+'&Label='+label+'&returnField=<%=sReturnField%>&returnField2=<%=sReturnField2%>&patientuid=<%=sPatientUid%>',800,600);
       }
     }
     else {
@@ -319,8 +319,8 @@ String sPatientUid=request.getParameter("patientuid");
         if (sReturnField2.trim().length()!=0){
             %>
               if (window.opener.document.getElementById('<%=sReturnField2%>').innerHTML.search("ICD10Code"+code)==-1){
-                if (document.all["ICD10Comment"+code].value.length==0){
-                  document.all["ICD10Comment"+code].value="-";
+                if (document.getElementsByName("ICD10Comment"+code)[0].value.length==0){
+                  document.getElementsByName("ICD10Comment"+code)[0].value="-";
                 }
 
                 if ((window.opener.document.getElementById('<%=sReturnField2%>').type=="text")||(window.opener.document.getElementById('<%=sReturnField2%>').type=="textarea")){
@@ -329,7 +329,7 @@ String sPatientUid=request.getParameter("patientuid");
                   }
                 }
                 else {
-                  window.opener.document.getElementById('<%=sReturnField2%>').innerHTML += "<span id='ICD10"+code+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10"+code+"\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+code+"' value='"+document.all["ICD10Comment"+code].value+"'/>"+code+"&nbsp;"+label+"&nbsp;["+document.all["ICD10Comment"+code].value+"]<br/></span>";
+                  window.opener.document.getElementById('<%=sReturnField2%>').innerHTML += "<span id='ICD10"+code+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='document.getElementById(\"ICD10"+code+"\").innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+code+"' value='"+document.getElementsByName("ICD10Comment"+code)[0].value+"'/>"+code+"&nbsp;"+label+"&nbsp;["+document.getElementsByName("ICD10Comment"+code)[0].value+"]<br/></span>";
                 }
               }
             <%
@@ -341,5 +341,5 @@ String sPatientUid=request.getParameter("patientuid");
   	openPopup("/system/manageLocalCodes.jsp&ts=<%=getTs()%>&label<%=sWebLanguage.toLowerCase()%>="+keywords+"&action=edit&type=J&showlist=true",550,350);
   }
 
-  var focusfield=document.all['keywords'];
+  var focusfield=document.getElementsByName('keywords')[0];
 </script>

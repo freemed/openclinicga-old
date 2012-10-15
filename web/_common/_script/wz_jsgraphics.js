@@ -1024,7 +1024,7 @@ text both horizontally (e.g. right) and vertically within that rectangle */
 		if(cnv)
 		{
 			if(typeof(cnv) == "string")
-				this.cont = document.all? (this.wnd.document.all[cnv] || null)
+				this.cont = document.all? (this.wnd.document.getElementsByName(cnv)[0] || null)
 					: document.getElementById? (this.wnd.document.getElementById(cnv) || null)
 					: null;
 			else if(cnv == window.document)

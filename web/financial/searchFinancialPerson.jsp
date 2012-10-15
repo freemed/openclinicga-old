@@ -151,16 +151,16 @@
       <%-- SET PERSON --%>
       function setPerson(sPersonID,sName){
         if('<%=sReturnPersonID%>'.length>0){
-          window.opener.document.all['<%=sReturnPersonID%>'].value = sPersonID;
+          window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].value = sPersonID;
         }
 
         if('<%=sReturnName%>'.length>0){
-          window.opener.document.all['<%=sReturnName%>'].value = sName;
+          window.opener.document.getElementsByName('<%=sReturnName%>')[0].value = sName;
         }
 
-        if(window.opener.document.all['<%=sReturnPersonID%>'] != null){
-          if(window.opener.document.all['<%=sReturnPersonID%>'].onchange!=null){
-            window.opener.document.all['<%=sReturnPersonID%>'].onchange();
+        if(window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0] != null){
+          if(window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].onchange!=null){
+            window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].onchange();
           }
         }
 

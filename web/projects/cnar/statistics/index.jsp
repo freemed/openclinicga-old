@@ -113,10 +113,10 @@
 </form>
 <script type="text/javascript">
 	function downloadStats(query,db){
-	    var w=window.open("<c:url value='/util/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.all['begin'].value+"&end="+document.all['end'].value);
+	    var w=window.open("<c:url value='/util/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.getElementsByName('begin')[0].value+"&end="+document.getElementsByName('end')[0].value);
 	}
 	function downloadDatacenterStats(query,db){
-	    var w=window.open("<c:url value='/datacenterstatistics/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.all['begin'].value+"&end="+document.all['end'].value);
+	    var w=window.open("<c:url value='/datacenterstatistics/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.getElementsByName('begin')[0].value+"&end="+document.getElementsByName('end')[0].value);
 	}
     function minisanteReport(){
         var w=window.open("<c:url value='/statistics/createMonthlyReportPdf.jsp?'/>start="+document.getElementById('begin2').value+"&end="+document.getElementById('end2').value+"&ts=<%=getTs()%>");
@@ -172,7 +172,7 @@
     }
     function searchService(serviceUidField,serviceNameField){
         openPopup("_common/search/searchService.jsp&ts=<%=getTs()%>&showinactive=1&VarCode="+serviceUidField+"&VarText="+serviceNameField);
-        document.all[serviceNameField].focus();
+        document.getElementsByName(serviceNameField)[0].focus();
     }
     
 </script>

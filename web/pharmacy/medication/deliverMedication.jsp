@@ -740,7 +740,7 @@
   <%-- popup : search product stock --%>
   function searchProductStock(productStockUidField,productStockNameField,productStockLevelField){
     var url = "/_common/search/searchProductStock.jsp&ts=<%=getTs()%>&ReturnProductStockUidField="+productStockUidField+
-              "&ReturnProductStockNameField="+productStockNameField+"&DisplayProductStocksOfActiveUserService=true&ReturnProductStockLevelField="+productStockLevelField+"&SearchProductLevel="+document.all['EditUnitsChanged'].value;
+              "&ReturnProductStockNameField="+productStockNameField+"&DisplayProductStocksOfActiveUserService=true&ReturnProductStockLevelField="+productStockLevelField+"&SearchProductLevel="+document.getElementsByName('EditUnitsChanged')[0].value;
     openPopup(url,900,400);
   }
 

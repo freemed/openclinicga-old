@@ -275,7 +275,7 @@
     %>
     window.close();
   }
-  document.all['keywords'].focus();
+  document.getElementsByName('keywords')[0].focus();
 </script>
 
 </body>

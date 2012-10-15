@@ -66,4 +66,4 @@
 <%=ScreenHelper.contextFooter(request)%>
 
 </form>
-<%=writeJSButtons("transactionForm", "document.all['save']")%>
+<%=writeJSButtons("transactionForm", "document.getElementsByName('save')[0]")%>

@@ -57,11 +57,11 @@
 
     <script>
     function activateTab(sTab){
-      document.all['tr0-view'].style.display = 'none';
+      document.getElementsByName('tr0-view')[0].style.display = 'none';
 
 
       if (sTab=='Admin'){
-        document.all['tr0-view'].style.display = '';
+        document.getElementsByName('tr0-view')[0].style.display = '';
         td0.className="tabselected";
       }
     }

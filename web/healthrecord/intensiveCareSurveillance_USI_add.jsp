@@ -610,8 +610,8 @@ try{
             </td>
         <tr>
         <script type="text/javascript">
-            if(document.all["<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType()%>"].value == ""){
-                document.all["<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType()%>"].value = "<%=ScreenHelper.formatSQLDate(ScreenHelper.getSQLTime(),"HH:mm")%>";
+            if(document.getElementsByName("<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType()%>")[0].value == ""){
+                document.getElementsByName("<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType()%>")[0].value = "<%=ScreenHelper.formatSQLDate(ScreenHelper.getSQLTime(),"HH:mm")%>";
             }
             function doSubmit(){
 

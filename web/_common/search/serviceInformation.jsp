@@ -62,5 +62,5 @@
 </center>
 
 <script>
-    window.resizeTo(550, ((parseInt(document.all['tblInformation'].rows.length) - 1) * 27) + 100);
+    window.resizeTo(550, ((parseInt(document.getElementsByName('tblInformation')[0].rows.length) - 1) * 27) + 100);
 </script>

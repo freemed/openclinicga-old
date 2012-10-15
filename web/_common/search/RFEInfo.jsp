@@ -47,7 +47,7 @@
                         out.print("<input type='hidden' name='alternativeCodeLabel' value='"+MedwanQuery.getInstance().getDiagnosisLabel(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(0),sWebLanguage)+"'/>");
                     }
                     else if (alternatives.size()>1){
-                        out.print("<select class='text' name='alternativeCode' id='alternativeCode' onclick=\"document.all['alternativeCodeLabel'].value=document.all['alternativeCode'].options[document.all['alternativeCode'].selectedIndex].text.substring(document.all['alternativeCode'].options[document.all['alternativeCode'].selectedIndex].text.indexOf(' ')+1);\">");
+                        out.print("<select class='text' name='alternativeCode' id='alternativeCode' onclick=\"document.getElementsByName('alternativeCodeLabel')[0].value=document.getElementsByName('alternativeCode')[0].options[document.getElementsByName('alternativeCode')[0].selectedIndex].text.substring(document.getElementsByName('alternativeCode')[0].options[document.getElementsByName('alternativeCode')[0].selectedIndex].text.indexOf(' ')+1);\">");
                         for(int n=0;n<alternatives.size();n++){
                             out.print("<option value='"+alternatives.elementAt(n)+"'>"+alternatives.elementAt(n)+" "+MedwanQuery.getInstance().getDiagnosisLabel(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(n),sWebLanguage)+"</option>");
                             flags=ReasonForEncounter.getFlags(sType.equalsIgnoreCase("icpc")?"ICD10":"ICPC",(String)alternatives.elementAt(n),flags);

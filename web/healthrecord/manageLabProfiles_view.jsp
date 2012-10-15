@@ -775,7 +775,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 </form>
 <%--END EDIT FROM -------------------------------------------------------------------------------%>
 
-        <%=writeJSButtons("editForm","document.all['SaveButton']")%>
+        <%=writeJSButtons("editForm","document.getElementsByName('SaveButton')[0]")%>
         <%
     }
     oc_conn.close();

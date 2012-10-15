@@ -33,7 +33,7 @@
 
         sBeginDate+=(" size='12' onblur='checkBegin(this, "+sStartDate+")'>"
             +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTPATH+"/_img/icon_agenda.gif' ALT='"
-            +getTran("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document.all[\"WBegin\"]);return false;'>"
+            +getTran("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document.getElementsByName(\"WBegin\")[0]);return false;'>"
             +"&nbsp;<img class='link'src='"+sCONTEXTPATH+"/_img/icon_compose.gif' ALT='"+getTran("Web","PutToday",sWebLanguage)+"' OnClick=\"getToday(WBegin);\">");
 
         if (!bNew){
@@ -157,26 +157,26 @@
   var iFunctions = <%=iFunctions%>;
 
   function newAWC(){
-    getToday(document.all["WBegin"]);
-    document.all["WRank"].value = "";
-    document.all["WRankDescription"].value = "";
-    document.all["WEmail"].value = "";
-    document.all["WTelephone"].value = "";
-    document.all["WFax"].value = "";
-    document.all["NewFunctionCode"].value = "";
-    document.all["NewFunctionType"].selectedIndex = -1;
-    document.all["divFunction"].innerHTML = "";
-    document.all["WStatus"].value = "";
-    document.all["WStatusSituation"].value = "";
-    document.all["WCompanyBegin"].value = "";
-    document.all["WCompanyEnd"].value = "";
-    document.all["WCompanyEndReason"].value = "";
-    document.all["WCategory"].selectedIndex = -1;
-    document.all["WUnit"].value = "";
-    document.all["WUnitDescription"].value = "";
-    document.all["WComment"].value = "";
+    getToday(document.getElementsByName("WBegin")[0]);
+    document.getElementsByName("WRank")[0].value = "";
+    document.getElementsByName("WRankDescription")[0].value = "";
+    document.getElementsByName("WEmail")[0].value = "";
+    document.getElementsByName("WTelephone")[0].value = "";
+    document.getElementsByName("WFax")[0].value = "";
+    document.getElementsByName("NewFunctionCode")[0].value = "";
+    document.getElementsByName("NewFunctionType")[0].selectedIndex = -1;
+    document.getElementsByName("divFunction")[0].innerHTML = "";
+    document.getElementsByName("WStatus")[0].value = "";
+    document.getElementsByName("WStatusSituation")[0].value = "";
+    document.getElementsByName("WCompanyBegin")[0].value = "";
+    document.getElementsByName("WCompanyEnd")[0].value = "";
+    document.getElementsByName("WCompanyEndReason")[0].value = "";
+    document.getElementsByName("WCategory")[0].selectedIndex = -1;
+    document.getElementsByName("WUnit")[0].value = "";
+    document.getElementsByName("WUnitDescription")[0].value = "";
+    document.getElementsByName("WComment")[0].value = "";
 
-    document.all["WBegin"].focus();
+    document.getElementsByName("WBegin")[0].focus();
   }
 
   function checkSubmitAdminWork() {

@@ -121,7 +121,7 @@
   <%-- DO SAVE --%>
   function doSave(printDocument){
     if(printDocument){
-      document.all['be.mxs.healthrecord.updateTransaction.actionForwardKey'].value = "/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&PrintLanguage="+transactionForm.PrintLanguage.value+"&ts=<%=getTs()%>";
+      document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = "/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&PrintLanguage="+transactionForm.PrintLanguage.value+"&ts=<%=getTs()%>";
       window.open("","newwindow","height=600, width=850, toolbar=yes, status=yes, scrollbars=yes, resizable=yes, menubar=yes");
       document.transactionForm.target = 'newwindow';
     }

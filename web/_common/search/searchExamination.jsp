@@ -143,10 +143,10 @@
 
       <%-- set examination --%>
       function setExamination(sID,sName) {
-        window.opener.document.all["<%=sVarCode%>"].value = sID;
+        window.opener.document.getElementsByName("<%=sVarCode%>")[0].value = sID;
 
         if ("<%=sVarText%>".length > 0){
-          window.opener.document.all["<%=sVarText%>"].value = sName;
+          window.opener.document.getElementsByName("<%=sVarText%>")[0].value = sName;
         }
 
         window.close();

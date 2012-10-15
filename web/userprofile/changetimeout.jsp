@@ -55,7 +55,7 @@
             %>
             <script>
               function checkTimeOut(){
-                if(!isNumberLimited(document.all['EditTimeout'],<%=iMinimumTimeout%>,<%=iMaximumTimeout%>)){
+                if(!isNumberLimited(document.getElementsByName('EditTimeout')[0],<%=iMinimumTimeout%>,<%=iMaximumTimeout%>)){
                   var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Occup&labelID=out-of-bounds-value";
                   var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
                   (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Occup","out-of-bounds-value",sWebLanguage)%>");

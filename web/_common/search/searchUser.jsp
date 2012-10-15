@@ -113,35 +113,59 @@
     <%-- SET PERSON --%>
     function setPerson(sPersonID, sUserID, sName) {
         if ('<%=sReturnPersonID%>'.length > 0) {
-            window.opener.document.all['<%=sReturnPersonID%>'].value = sPersonID;
-            if (window.opener.document.all['<%=sReturnPersonID%>'].onchange != null) {
-                window.opener.document.all['<%=sReturnPersonID%>'].onchange();
+            window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].value = sPersonID;
+            if (window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].onchange != null) {
+                window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].onchange();
             }
         }
 
         if ('<%=sReturnUserID%>'.length > 0) {
-            window.opener.document.all['<%=sReturnUserID%>'].value = sUserID;
-            if (window.opener.document.all['<%=sReturnUserID%>'].onchange != null) {
-                window.opener.document.all['<%=sReturnUserID%>'].onchange();
-            }
+        	if(window.opener.document.getElementsByName('<%=sReturnUserID%>').length>0){
+	            window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].value = sUserID;
+	            if (window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange != null) {
+	                window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange();
+	            }
+        	}
+        	else {
+	            window.opener.document.getElementById('<%=sReturnUserID%>').value = sUserID;
+	            if (window.opener.document.getElementById('<%=sReturnUserID%>').onchange != null) {
+	                window.opener.document.getElementById('<%=sReturnUserID%>').onchange();
+	            }
+        	}
         }
 
         if ('<%=sReturnName%>'.length > 0) {
-            window.opener.document.all['<%=sReturnName%>'].value = sName;
-            if (window.opener.document.all['<%=sReturnName%>'].onchange != null) {
-                window.opener.document.all['<%=sReturnName%>'].onchange();
-            }
+        	if(window.opener.document.getElementsByName('<%=sReturnName%>').length>0){
+	            window.opener.document.getElementsByName('<%=sReturnName%>')[0].value = sName;
+	            if (window.opener.document.getElementsByName('<%=sReturnName%>')[0].onchange != null) {
+	                window.opener.document.getElementsByName('<%=sReturnName%>')[0].onchange();
+	            }
+        	}
+        	else {
+	            window.opener.document.getElementById('<%=sReturnName%>').value = sName;
+	            if (window.opener.document.getElementById('<%=sReturnName%>').onchange != null) {
+	                window.opener.document.getElementById('<%=sReturnName%>').onchange();
+	            }
+        	}
         }
 
         if ('<%=sSetGreenField%>'.length > 0) {
-            window.opener.document.all['<%=sReturnName%>'].className = 'green';
+            window.opener.document.getElementsByName('<%=sReturnName%>')[0].className = 'green';
         }
-
-        if (window.opener.document.all['<%=sReturnUserID%>'] != null) {
-            if (window.opener.document.all['<%=sReturnUserID%>'].onchange != null) {
-                window.opener.document.all['<%=sReturnUserID%>'].onchange();
-            }
-        }
+		if(window.opener.document.getElementsByName('<%=sReturnUserID%>').length>0){
+	        if (window.opener.document.getElementsByName('<%=sReturnUserID%>')[0] != null) {
+	            if (window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange != null) {
+	                window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange();
+	            }
+	        }
+		}
+		else {
+	        if (window.opener.document.getElementById('<%=sReturnUserID%>') != null) {
+	            if (window.opener.document.getElementById('<%=sReturnUserID%>').onchange != null) {
+	                window.opener.document.getElementById('<%=sReturnUserID%>').onchange();
+	            }
+	        }
+		}
 
         window.close();
     }
@@ -157,25 +181,25 @@
 // hide all TRs
     for(int i=0; i<xmlServiceIds.size(); i++){
     %>
-        document.all['tr_tab<%=i%>'].style.display = 'none';
-        document.all['td<%=i%>'].className = "tabunselected";
+        document.getElementById('tr_tab<%=i%>').style.display = 'none';
+        document.getElementById('td<%=i%>').className = "tabunselected";
 
         if (sTab == 'tab_<%=xmlServiceIds.get(i)%>') {
-            document.all['tr_tab<%=i%>'].style.display = '';
-            document.all['td<%=i%>'].className = "tabselected";
+            document.getElementById('tr_tab<%=i%>').style.display = '';
+            document.getElementById('td<%=i%>').className = "tabselected";
         }
     <%
         }
     %>
 
     <%-- varia tab --%>
-        document.all['tr_tabvaria'].style.display = 'none';
-        document.all['td<%=xmlServiceIds.size()%>'].className = "tabunselected";
+        document.getElementById('tr_tabvaria').style.display = 'none';
+        document.getElementById('td<%=xmlServiceIds.size()%>').className = "tabunselected";
 
         if (sTab == 'tab_varia') {
 
-            document.all['tr_tabvaria'].style.display = '';
-            document.all['td<%=xmlServiceIds.size()%>'].className = "tabselected";
+            document.getElementById('tr_tabvaria').style.display = '';
+            document.getElementById('td<%=xmlServiceIds.size()%>').className = "tabselected";
         }
     }
     doFind();

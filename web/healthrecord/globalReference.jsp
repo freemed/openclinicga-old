@@ -196,7 +196,7 @@
            if(tranSubType == "reference")       printLang = transactionForm.PrintLanguageRef.value;
       else if(tranSubType == "contrareference") printLang = transactionForm.PrintLanguageContraRef.value;
 
-      document.all['be.mxs.healthrecord.updateTransaction.actionForwardKey'].value = "/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts=<%=getTs()%>&PrintLanguage="+printLang+"&tranSubType="+tranSubType;
+      document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = "/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts=<%=getTs()%>&PrintLanguage="+printLang+"&tranSubType="+tranSubType;
       window.open("","newwindow","height=600, width=850, toolbar=yes, status=yes, scrollbars=yes, resizable=yes, menubar=yes");
       document.transactionForm.target = 'newwindow';
     }

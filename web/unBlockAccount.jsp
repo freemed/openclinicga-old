@@ -142,7 +142,7 @@
         %>
 
         <script>
-          document.all['login'].focus();
+          document.getElementsByName('login')[0].focus();
 
           function doUnblock(){
             if((unblockForm.login.value.length>0 || unblockForm.ip.value.length>0) &&

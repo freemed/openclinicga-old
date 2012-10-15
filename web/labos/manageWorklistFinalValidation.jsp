@@ -141,7 +141,7 @@
                 <%
                     String[] analysis=worklistAnalyses.split(",");
                     for(int n=0;n<analysis.length;n++){
-                        out.println("if(document.all['store.'+lineId+'."+analysis[n].replaceAll("'","")+".validated']!=undefined){document.all['store.'+lineId+'."+analysis[n].replaceAll("'","")+".validated'].checked=bValue};");
+                        out.println("if(document.getElementsByName('store.'+lineId+'."+analysis[n].replaceAll("'","")+".validated')[0]!=undefined){document.getElementsByName('store.'+lineId+'."+analysis[n].replaceAll("'","")+".validated')[0].checked=bValue};");
                     }
                 %>
             }

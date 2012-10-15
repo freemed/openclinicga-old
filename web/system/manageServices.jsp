@@ -907,12 +907,12 @@
               }
 
               <%-- display city in saved service language --%>
-              if(document.all['EditServiceCity'].value.length==0){
-                findZipcodeLanguageSpecified(document.all['EditServiceZipcode'],document.all['EditServiceCity'],'buttonServiceZipcode','<%=service.language%>');
+              if(document.getElementsByName('EditServiceCity')[0].value.length==0){
+                findZipcodeLanguageSpecified(document.getElementsByName('EditServiceZipcode')[0],document.getElementsByName('EditServiceCity')[0],'buttonServiceZipcode','<%=service.language%>');
               }
 
-              if(document.all['EditContactCity'].value.length==0){
-                findZipcodeLanguageSpecified(document.all['EditContactZipcode'],document.all['EditContactCity'],'buttonContactZipcode','<%=service.language%>');
+              if(document.getElementsByName('EditContactCity')[0].value.length==0){
+                findZipcodeLanguageSpecified(document.getElementsByName('EditContactZipcode')[0],document.getElementsByName('EditContactCity')[0],'buttonContactZipcode','<%=service.language%>');
               }
             </script>
         <%

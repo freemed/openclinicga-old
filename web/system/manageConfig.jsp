@@ -331,8 +331,8 @@
 
   function doSearch(){
     var today = new Date();
-    var params = 'FindKey=' + document.all['FindKey'].value
-            +"&FindValue="+ document.all['FindValue'].value;
+    var params = 'FindKey=' + document.getElementsByName('FindKey')[0].value
+            +"&FindValue="+ document.getElementsByName('FindValue')[0].value;
     var url= '<c:url value="/system/manageConfigFind.jsp"/>?ts=' + today;
     new Ajax.Request(url,{
             method: "GET",

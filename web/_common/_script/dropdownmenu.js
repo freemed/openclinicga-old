@@ -125,7 +125,7 @@ function limitChars(textFieldObj, maxCharsAllowed) {
 function uncheckRadio(radioObj) {
     // uncheck all radios in the same group.
     // used with onDblClick.
-    var radioes = document.all[radioObj.name];
+    var radioes = document.getElementsByName(radioObj.name);
     for (i = 0; i < radioes.length; i++) {
         if (radioes[i].checked) {
             radioes[i].checked = false;

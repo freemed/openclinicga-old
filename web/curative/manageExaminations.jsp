@@ -146,37 +146,12 @@
      if(activeUser.getAccessRight("occup.medicalimagingrequest.select")) out.print(writeExamination(activeUser,counter++,sTranMir,sMirDate,sTTMir,sMirTranId,sMirServerId,sWebLanguage, sCONTEXTPATH));
      if(activeUser.getAccessRight("occup.anatomopathology.select")) out.print(writeExamination(activeUser,counter++,sTranAna,sAnaDate,sTTAna,sAnaTranId,sAnaServerId,sWebLanguage, sCONTEXTPATH));
      if(activeUser.getAccessRight("occup.reference.select")) out.print(writeExamination(activeUser,counter++,sTranReference,sReferenceDate,sTTReference,sReferenceTranId,sReferenceServerId,sWebLanguage, sCONTEXTPATH));
-     if(activeUser.getAccessRight("occup.reference.select")){
-     //REFERENCES
- %>
-    <tr >
-        <%-- examination name --%>
-        <td>
-            <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/globalReferenceEdit.jsp&ts=<%=getTs()%>'"></button><u><%=counter++%></u> <%=getTran("web","internal_references",sWebLanguage)%>
-        </td>
-        <%-- create --%>
-        <td align="center">
-            <a onmouseover="window.status='';return true;" href="<c:url value='/main.do'/>?Page=healthrecord/globalReferenceEdit.jsp&ts=<%=getTs()%>">
-                <%=getTran("Web.Occup","medwan.common.new",sWebLanguage)%>
-            </a>
-        </td>
-        <td/><td/><td/>
-    </tr>
-    <tr >
-        <%-- examination name --%>
-        <td>
-            <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/globalReferenceSummary.jsp&ts=<%=getTs()%>'"></button><u><%=counter++%></u> <a href="<c:url value='/main.do'/>?Page=healthrecord/globalReferenceSummary.jsp&ts=<%=getTs()%>"><%=getTran("web","internal_references_summary",sWebLanguage)%></a>
-        </td>
-        <td/><td/><td/><td/>
-    </tr>
-    <%
-     }
-        if(activeUser.getAccessRight("prescriptions.care.select")){
+     if(activeUser.getAccessRight("prescriptions.care.select")){
     %>
     <tr >
         <%-- examination name --%>
         <td>
-            <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/globalReferenceSummary.jsp&ts=<%=getTs()%>'"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp',700,400);"><%=getTran("web","careprescriptions",sWebLanguage)%></a>
+            <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp',700,400);"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp',700,400);"><%=getTran("web","careprescriptions",sWebLanguage)%></a>
         </td>
         <td/><td/><td/><td/>
     </tr>
@@ -187,7 +162,7 @@
     <tr >
         <%-- examination name --%>
         <td>
-            <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/globalReferenceSummary.jsp&ts=<%=getTs()%>'"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/managePrescriptionsPopup.jsp',700,400);"><%=getTran("web","medications",sWebLanguage)%></a>
+            <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="javascript:openPopup('medical/managePrescriptionsPopup.jsp',700,400);"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/managePrescriptionsPopup.jsp',700,400);"><%=getTran("web","medications",sWebLanguage)%></a>
         </td>
         <td/><td/><td/><td/>
     </tr>

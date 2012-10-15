@@ -108,16 +108,16 @@
 
     <%-- select service stock --%>
     function selectServiceStock(serviceStockUid, serviceStockName, supplyingServiceUid, supplyingServiceName) {
-    	window.opener.document.all['<%=sReturnServiceStockUidField%>'].value = serviceStockUid;
-        window.opener.document.all['<%=sReturnServiceStockNameField%>'].value = serviceStockName;
-        window.opener.document.all['<%=sReturnServiceStockNameField%>'].onchange();
+    	window.opener.document.getElementsByName('<%=sReturnServiceStockUidField%>')[0].value = serviceStockUid;
+        window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0].value = serviceStockName;
+        window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0].onchange();
     <%-- set SupplyingService --%>
-        var suppServUidField = window.opener.document.all['EditSupplyingServiceUid'];
-        var suppServNameField = window.opener.document.all['EditSupplyingServiceName'];
+        var suppServUidField = window.opener.document.getElementsByName('EditSupplyingServiceUid')[0];
+        var suppServNameField = window.opener.document.getElementsByName('EditSupplyingServiceName')[0];
 
         if (suppServUidField != undefined && suppServNameField != undefined) {
-            window.opener.document.all['EditSupplyingServiceUid'].value = supplyingServiceUid;
-            window.opener.document.all['EditSupplyingServiceName'].value = supplyingServiceName;
+            window.opener.document.getElementsByName('EditSupplyingServiceUid')[0].value = supplyingServiceUid;
+            window.opener.document.getElementsByName('EditSupplyingServiceName')[0].value = supplyingServiceName;
         }
 
         window.close();

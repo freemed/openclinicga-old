@@ -12,6 +12,6 @@
 </form>
 <script type="text/javascript">
     function downloadStats(query,db){
-        var w=window.open("<c:url value='/util/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.all['begin'].value+"&end="+document.all['end'].value);
+        var w=window.open("<c:url value='/util/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.getElementsByName('begin')[0].value+"&end="+document.getElementsByName('end')[0].value);
     }
 </script>

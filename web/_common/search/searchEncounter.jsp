@@ -21,10 +21,10 @@ java.util.Vector" %>
 <script type="text/javascript">
     <%-- SET encounter --%>
     function setEncounter(sEncounterUID,sEncounterName) {
-      window.opener.document.all['<%=sVarCode%>'].value = sEncounterUID;
+      window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sEncounterUID;
 
         if ('<%=sVarText%>'!=''){
-            window.opener.document.all['<%=sVarText%>'].value = sEncounterName;
+            window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sEncounterName;
         }
 
         <%

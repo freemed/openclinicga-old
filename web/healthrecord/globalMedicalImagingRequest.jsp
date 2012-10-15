@@ -596,7 +596,7 @@
 
   <%-- PRINT LABELS --%>
   function printLabels(){
-    var url = "<c:url value="/healthrecord/createImagingLabelPdf.jsp"/>?imageid="+document.all["rxid"].value+"&trandate="+document.all["trandate"].value+"&examination="+document.getElementById("examination").options[document.getElementById("examination").selectedIndex].text+"&ts=<%=getTs()%>";
+    var url = "<c:url value="/healthrecord/createImagingLabelPdf.jsp"/>?imageid="+document.getElementsByName("rxid")[0].value+"&trandate="+document.getElementsByName("trandate")[0].value+"&examination="+document.getElementById("examination").options[document.getElementById("examination").selectedIndex].text+"&ts=<%=getTs()%>";
     window.open(url,"Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width-400)/2,(screen.height-300)/2);
   }
 
@@ -611,9 +611,9 @@
   <%-- DO PRINT PDF --%>
   function doPrintPDF(){
     var url = "<c:url value="/healthrecord/loadPDF.jsp"/>?file=base/<%=sWebLanguage%>4M.pdf&module=N4M"+
-              "&modulepar1="+document.all["examination"].options[document.all["examination"].selectedIndex].text+
-              "&modulepar2="+document.all["protocol"].value+
-              "&modulepar3="+document.all["rxid"].value+
+              "&modulepar1="+document.getElementsByName("examination")[0].options[document.getElementsByName("examination")[0].selectedIndex].text+
+              "&modulepar2="+document.getElementsByName("protocol")[0].value+
+              "&modulepar3="+document.getElementsByName("rxid")[0].value+
               "&modulepar4=<%=checkString((String)session.getAttribute("activeMD"))+"$"+checkString((String)session.getAttribute("activePara"))+"$"+checkString((String)session.getAttribute("activeMedicalCenter"))%>"+
               "&ts=<%=ScreenHelper.getTs()%>";
     openpopup(url,700,500,"Print");

@@ -316,7 +316,7 @@ if (infosoftglobal.FusionCharts.doPrepUnload) {
 	}
 }
 /* Add document.getElementById if needed (mobile IE < 5) */
-if (!document.getElementById && document.all) { document.getElementById = function(id) { return document.all[id]; }}
+if (!document.getElementById && document.all) { document.getElementById = function(id) { return document.getElementsByName(id)[0]; }}
 /* Add Array.push if needed (ie5) */
 if (Array.prototype.push == null) { Array.prototype.push = function(item) { this[this.length] = item; return this.length; }}
 

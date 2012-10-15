@@ -74,28 +74,28 @@
 
   <%-- ACTIVATE TAB --%>
   function activateTab(sTab){
-    document.all["tr0-view"].style.display = "none";
+    document.getElementById("tr0-view").style.display = "none";
     td0.className = "tabunselected";
     if(sTab=="Admin"){
-      document.all["tr0-view"].style.display = "";
+      document.getElementById("tr0-view").style.display = "";
       td0.className = "tabselected";
       PatientEditForm.Lastname.focus();
       document.getElementById("saveMsg").style.display = "block";
     }
 
-    document.all["tr1-view"].style.display = "none";
+    document.getElementById("tr1-view").style.display = "none";
     td1.className = "tabunselected";
     if(sTab=="AdminPrivate"){
-      document.all["tr1-view"].style.display = "";
+      document.getElementById("tr1-view").style.display = "";
       td1.className = "tabselected";
       PatientEditForm.PBegin.focus();
       document.getElementById("saveMsg").style.display = "block";
     }
 
-    document.all["tr3-view"].style.display = "none";
+    document.getElementById("tr3-view").style.display = "none";
     td3.className="tabunselected";
     if(sTab=="AdminFamilyRelation"){
-      document.all["tr3-view"].style.display = "";
+      document.getElementById("tr3-view").style.display = "";
       td3.className = "tabselected";
       document.getElementById("saveMsg").style.display = "none";
     }

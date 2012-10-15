@@ -57,7 +57,7 @@
 </jsp:useBean>
 <script>
   function setGreen(theItem,theButton){
-    document.all[theItem].className = 'green';
+    document.getElementsByName(theItem)[0].className = 'green';
     theButton.className = 'buttonhidden';
   }
 
@@ -329,7 +329,7 @@
                         alternatePatient = (MessageReader.Patient)patient.alternatePatients.elementAt(i);
                         alternatePerson = new AdminPerson();
                         alternatePerson.initialize(ad_conn, Integer.toString(alternatePatient.personid));
-                        out.print("<tr class='red' onmouseover='this.style.cursor=\"hand\"' onmouseout='this.style.cursor=\"default\"' onclick='document.all[\"patient"+n+"\"].value="+alternatePatient.personid+";setGreen(\"idPatient"+n+"\",bPatient"+n+");'><td class='menuItem'>&nbsp;</td><td><img src='"+sCONTEXTPATH+"/_img/arrow_right.gif'/> "+alternatePatient.firstname+" "+alternatePatient.lastname+" "+checkString(alternatePerson.getID("immatnew"))+"</td><td>"+stdDateFormat.format(alternatePatient.dateofbirth)+"</td><td>"+alternatePatient.gender+"</td></tr>");
+                        out.print("<tr class='red' onmouseover='this.style.cursor=\"hand\"' onmouseout='this.style.cursor=\"default\"' onclick='document.getElementsByName(\"patient"+n+"\")[0].value="+alternatePatient.personid+";setGreen(\"idPatient"+n+"\",bPatient"+n+");'><td class='menuItem'>&nbsp;</td><td><img src='"+sCONTEXTPATH+"/_img/arrow_right.gif'/> "+alternatePatient.firstname+" "+alternatePatient.lastname+" "+checkString(alternatePerson.getID("immatnew"))+"</td><td>"+stdDateFormat.format(alternatePatient.dateofbirth)+"</td><td>"+alternatePatient.gender+"</td></tr>");
                     }
                 }
                 else {

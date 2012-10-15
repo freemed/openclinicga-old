@@ -1,5 +1,6 @@
 <mappings>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_HC_CONTACT"                		   path="/main.do?Page=/healthrecord/manageHealthcenterContact.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TEST_OPENIT"                		   path="/main.do?Page=/healthrecord/manageOpenITTest.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SURVEILLANCE_PROTOCOL"                path="/main.do?Page=/healthrecord/globalSurveillance.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_LAB_REQUEST"                          path="/main.do?Page=/healthrecord/manageLabRequest_view.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR2"                                 path="/main.do?Page=/healthrecord/globalMedicalImagingRequest.jsp"/>
@@ -9,6 +10,7 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_BIOMETRY"                             path="/main.do?Page=/healthrecord/pediatryBiometry.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PEDIATRY_DELIVERY"                    path="/main.do?Page=/healthrecord/pediatryDelivery.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PEDIATRY_CONSULTATION"                path="/main.do?Page=/healthrecord/pediatryConsultation.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_DSW"                     path="/main.do?Page=/healthrecord/manageOphtalmologyErgovision.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_CONSULTATION"            path="/main.do?Page=/healthrecord/ophtalmologyConsultation.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_OPERATION_PROTOCOL"      path="/main.do?Page=/healthrecord/ophtalmologyOperationProtocol.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION"         path="/main.do?Page=/healthrecord/medIntConsultation.jsp"/>

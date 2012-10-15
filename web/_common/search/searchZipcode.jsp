@@ -90,7 +90,7 @@
 
                                         // clear city if zipcode not found.
                                         out.print("<script>");
-                                        out.print("  window.opener.document.all['"+sVarText+"'].value = '';");
+                                        out.print("  window.opener.document.getElementsByName('"+sVarText+"')[0].value = '';");
                                         out.print("</script>");
                                         out.flush();
                                     }
@@ -124,9 +124,9 @@
 
           <%-- SELECT UNIT --%>
           function selectUnit(code,city){
-            window.opener.document.all['<%=sVarCode%>'].value = code;
-            window.opener.document.all['<%=sVarText%>'].title = city;
-            window.opener.document.all['<%=sVarText%>'].value = city;
+            window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = code;
+            window.opener.document.getElementsByName('<%=sVarText%>')[0].title = city;
+            window.opener.document.getElementsByName('<%=sVarText%>')[0].value = city;
             window.close();
           }
 

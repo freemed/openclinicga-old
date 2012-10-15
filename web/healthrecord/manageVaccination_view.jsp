@@ -47,7 +47,7 @@
                         }
 
                         if (sVaccination.trim().length()>0){
-                            out.print("<input type='radio' onDblClick='uncheckRadio(this);document.all[\"vname\"].value=\"\";' id='mv_r"+counter+"' name='vacnam' onclick='document.all[\"vname\"].value=\""+sVaccination+"\";' />");
+                            out.print("<input type='radio' onDblClick='uncheckRadio(this);document.getElementsByName(\"vname\")[0].value=\"\";' id='mv_r"+counter+"' name='vacnam' onclick='document.getElementsByName(\"vname\")[0].value=\""+sVaccination+"\";' />");
                             out.print("<label for='mv_r"+counter+"'>"+sVaccination+"</label>");
                         }
                     }
@@ -161,28 +161,28 @@
 
       <%-- check action & product unless type is 'immune' --%>
       function setRetakeOptions(){
-        if(document.all['status'].value == 'be.mxs.healthrecord.vaccination.subtype.immune'){
-          document.all['recaptureAction'].checked = false;
-          document.all['recaptureAction'].disabled = true;
+        if(document.getElementsByName('status')[0].value == 'be.mxs.healthrecord.vaccination.subtype.immune'){
+          document.getElementsByName('recaptureAction')[0].checked = false;
+          document.getElementsByName('recaptureAction')[0].disabled = true;
 
-          document.all['recaptureProduct'].checked = false;
-          document.all['recaptureProduct'].disabled = true;
+          document.getElementsByName('recaptureProduct')[0].checked = false;
+          document.getElementsByName('recaptureProduct')[0].disabled = true;
         }
         else {
-          document.all['recaptureAction'].disabled = false;
-          document.all['recaptureProduct'].disabled = false;
+          document.getElementsByName('recaptureAction')[0].disabled = false;
+          document.getElementsByName('recaptureProduct')[0].disabled = false;
 
-          document.all['recaptureAction'].checked = true;
-          document.all['recaptureProduct'].checked = true;
+          document.getElementsByName('recaptureAction')[0].checked = true;
+          document.getElementsByName('recaptureProduct')[0].checked = true;
         }
       }
 
 
-      if (document.all['vaccination-type'].value=='be.mxs.healthrecord.vaccination.Other'){
+      if (document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Other'){
         show('vaccination-name');
       }
 
-      if (document.all['vaccination-type'].value=='be.mxs.healthrecord.vaccination.Intradermo'){
+      if (document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Intradermo'){
         show('vaccination-positive-negative');
       }
       else{
@@ -190,16 +190,16 @@
       }
 
       function calculateNextDate(){
-        vaccinationType = document.all['vaccination-type'].value;
-        vaccinationSubType= document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="itemId"/>]>.value'].value;
-        vaccinationDate = document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value'].value;
+        vaccinationType = document.getElementsByName('vaccination-type')[0].value;
+        vaccinationSubType= document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="itemId"/>]>.value')[0].value;
+        vaccinationDate = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value')[0].value;
         sourceField = 'currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE" property="itemId"/>]>.value';
 
         window.open("<c:url value="/util/getCalculatedValues.jsp"/>?valueType=nextVaccinationDate&vaccinationType="+vaccinationType+"&vaccinationSubType="+vaccinationSubType+"&vaccinationDate="+vaccinationDate+"&sourceField="+sourceField,"Select","toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no");
       }
 
       function submitForm(){
-        document.all['currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime'].value=document.all['currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value'].value;
+        document.getElementsByName('currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime')[0].value=document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value')[0].value;
         document.transactionForm.save.disabled = true;
         <%
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
@@ -211,7 +211,7 @@
         window.location.href = '<c:url value="/healthrecord/showVaccinationSummary.do"/>?ts=<%=getTs()%>';
       }
 
-      if(document.all['transactionId'].value*1 < 0){
+      if(document.getElementsByName('transactionId')[0].value*1 < 0){
         setRetakeOptions();
       }
     </script>

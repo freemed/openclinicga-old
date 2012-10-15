@@ -147,4 +147,7 @@
   	<Query id="QUERY.Zipcode.1" db="ocadmin" date="23/03/2012">
 		alter table AdminPrivate modify column zipcode varchar(25) 	
   	</Query>
+  	<Query id="QUERY.Examinations.1" db="openclinic" date="20/09/2012">
+		delete from Examinations where transactionType in ('be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DOSIMETRY','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MEDICAL_DECONTAMINATION','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_INTERNAL_EXPOSITION','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DRIVING_LICENCE_DECLARATION','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR_MOBILE_UNIT','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PRESCRIPTION') 	
+  	</Query>
 </Queries>

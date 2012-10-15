@@ -108,7 +108,7 @@
 <script>
   <%-- PRINT LABELS --%>
   function printLabels(){
-    var url = "<c:url value="/healthrecord/createAnatomopathologyLabelPdf.jsp"/>?imageid="+document.all["rxid"].value+"&trandate="+document.all["trandate"].value+"&ts=<%=getTs()%>";
+    var url = "<c:url value="/healthrecord/createAnatomopathologyLabelPdf.jsp"/>?imageid="+document.getElementsByName("rxid")[0].value+"&trandate="+document.getElementsByName("trandate")[0].value+"&ts=<%=getTs()%>";
     window.open(url,"Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width-400)/2,(screen.height-300)/2);
   }
 

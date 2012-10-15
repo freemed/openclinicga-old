@@ -110,31 +110,31 @@
 
     <%-- select product stock --%>
     function selectProductStock(productStockUid, productStockName, serviceStockUid, serviceStockName, productStockLevel) {
-        window.opener.document.all['<%=sReturnProductStockUidField%>'].value = productStockUid;
-        window.opener.document.all['<%=sReturnProductStockNameField%>'].value = productStockName;
+        window.opener.document.getElementsByName('<%=sReturnProductStockUidField%>')[0].value = productStockUid;
+        window.opener.document.getElementsByName('<%=sReturnProductStockNameField%>')[0].value = productStockName;
 
     <%-- set ServiceStock --%>
-        var serviceStockUidField = window.opener.document.all['<%=sReturnServiceStockUidField%>'];
+        var serviceStockUidField = window.opener.document.getElementsByName('<%=sReturnServiceStockUidField%>')[0];
         if (serviceStockUidField != undefined) {
-            window.opener.document.all['<%=sReturnServiceStockUidField%>'].value = serviceStockUid;
+            window.opener.document.getElementsByName('<%=sReturnServiceStockUidField%>')[0].value = serviceStockUid;
         }
 
-        var serviceStockNameField = window.opener.document.all['<%=sReturnServiceStockNameField%>'];
+        var serviceStockNameField = window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0];
         if (serviceStockNameField != undefined) {
-            window.opener.document.all['<%=sReturnServiceStockNameField%>'].value = serviceStockName;
+            window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0].value = serviceStockName;
         }
 
     <%-- set level --%>
         if ('<%=sReturnProductStockLevelField%>'.length > 0) {
-            window.opener.document.all['<%=sReturnProductStockLevelField%>'].value = productStockLevel;
+            window.opener.document.getElementsByName('<%=sReturnProductStockLevelField%>')[0].value = productStockLevel;
         }
 
         if (window.opener.deselectAllPrescriptions != null) {
             window.opener.deselectAllPrescriptions();
         }
 
-        if (window.opener.document.all['displayDeliveriesButton'] != undefined) {
-            window.opener.document.all['displayDeliveriesButton'].style.visibility = 'visible';
+        if (window.opener.document.getElementsByName('displayDeliveriesButton')[0] != undefined) {
+            window.opener.document.getElementsByName('displayDeliveriesButton')[0].style.visibility = 'visible';
         }
 
         window.close();

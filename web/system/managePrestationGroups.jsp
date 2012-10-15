@@ -164,21 +164,21 @@
     }
 
     function changeTmpPrestation(){
-        if (document.all['tmpPrestationUID'].value.length>0){
-            EditForm.EditPrestationName.options[0].text = document.all['tmpPrestationName'].value;
-            EditForm.EditPrestationName.options[0].value = document.all['tmpPrestationUID'].value;
+        if (document.getElementsByName('tmpPrestationUID')[0].value.length>0){
+            EditForm.EditPrestationName.options[0].text = document.getElementsByName('tmpPrestationName')[0].value;
+            EditForm.EditPrestationName.options[0].value = document.getElementsByName('tmpPrestationUID')[0].value;
             EditForm.EditPrestationName.options[0].selected = true;
         }
     }
 
     function deleteprestation(prestationuid){
-		document.all['deleteprestationuid'].value=prestationuid;
+		document.getElementsByName('deleteprestationuid')[0].value=prestationuid;
 		EditForm.submit();
     }
 
     function deletegroup(){
-        if(document.all['EditPrestationGroup'].value.length>0){
-			document.all['deletegroupuid'].value=document.all['EditPrestationGroup'].value;
+        if(document.getElementsByName('EditPrestationGroup')[0].value.length>0){
+			document.getElementsByName('deletegroupuid')[0].value=document.getElementsByName('EditPrestationGroup')[0].value;
 			EditForm.submit();
         }
     }

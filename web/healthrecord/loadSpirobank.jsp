@@ -21,15 +21,15 @@
         if (MedwanQuery.getInstance().getConfigString("spiroBankOut").length() > 0){
             Imed.Spirometry spirometry = Imed.readSpiro(MedwanQuery.getInstance().getConfigString("spiroBankOut"),activePatient);
             if (spirometry.initialized){
-                out.print("<script>window.opener.document.all['trandate'].value='"+new SimpleDateFormat("dd/MM/yyyy").format(spirometry.date)+"';</script>");
-                out.print("<script>window.opener.document.all['MyFEV1'].value='"+spirometry.fev1+"';</script>");
-                out.print("<script>window.opener.document.all['MyFEV1pct'].value='"+spirometry.fev1pct+"';</script>");
-                out.print("<script>window.opener.document.all['MyFVC'].value='"+spirometry.fvc+"';</script>");
-                out.print("<script>window.opener.document.all['MyFVCpct'].value='"+spirometry.fvcpct+"';</script>");
-                out.print("<script>window.opener.document.all['MyPEF'].value='"+spirometry.pef+"';</script>");
-                out.print("<script>window.opener.document.all['MyPEFpct'].value='"+spirometry.pefpct+"';</script>");
-                out.print("<script>window.opener.document.all['MyVC'].value='"+spirometry.vc+"';</script>");
-                out.print("<script>window.opener.document.all['MyVCpct'].value='"+spirometry.vcpct+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('trandate')[0].value='"+new SimpleDateFormat("dd/MM/yyyy").format(spirometry.date)+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('MyFEV1')[0].value='"+spirometry.fev1+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('MyFEV1pct')[0].value='"+spirometry.fev1pct+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('MyFVC')[0].value='"+spirometry.fvc+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('MyFVCpct')[0].value='"+spirometry.fvcpct+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('MyPEF')[0].value='"+spirometry.pef+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('MyPEFpct')[0].value='"+spirometry.pefpct+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('MyVC')[0].value='"+spirometry.vc+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('MyVCpct')[0].value='"+spirometry.vcpct+"';</script>");
                 out.print("<script>window.opener.calculateTiffeneau();</script>");
                 out.print("<script>window.close();</script>");
                 out.flush();
@@ -44,7 +44,7 @@
 
 <%-- Try to find the response of the winspiro program as long as the calling window remains alive --%>
 <script>
-  if (window.opener.document.all['alive'] == undefined){
+  if (window.opener.document.getElementsByName('alive')[0] == undefined){
     window.close();
   }
 

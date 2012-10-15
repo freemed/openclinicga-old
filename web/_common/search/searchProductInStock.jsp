@@ -316,14 +316,14 @@
   function selectProduct(productUid,productName,productUnit,unitsPerTimeUnit,supplyingServiceUid,supplyingServiceName,productSupplierUid,productSupplierName,unitsPerPackage,productStockUid,serviceStockUid,serviceStockName){
     var closeWindow = true;
       
-    window.opener.document.all['<%=sReturnProductUidField%>'].value = productUid;
-    window.opener.document.all['<%=sReturnProductNameField%>'].value = productName;
+    window.opener.document.getElementsByName('<%=sReturnProductUidField%>')[0].value = productUid;
+    window.opener.document.getElementsByName('<%=sReturnProductNameField%>')[0].value = productName;
     <%
         // set ProductUnit
         if(sReturnProductUnitField.length() > 0){
             %>
               if(productUnit.length > 0){
-                window.opener.document.all["<%=sReturnProductUnitField%>"].value = productUnit;
+                window.opener.document.getElementsByName("<%=sReturnProductUnitField%>")[0].value = productUnit;
                 if(window.opener.setEditUnitsPerTimeUnitLabel!=null){
                   window.opener.setEditUnitsPerTimeUnitLabel(productUid);
                 }
@@ -337,23 +337,23 @@
 
         // set ServiceStock
         %>
-          var serviceStockUidField  = window.opener.document.all['EditServiceStockUid'];
-          var serviceStockNameField = window.opener.document.all['EditServiceStockName'];
+          var serviceStockUidField  = window.opener.document.getElementsByName('EditServiceStockUid')[0];
+          var serviceStockNameField = window.opener.document.getElementsByName('EditServiceStockName')[0];
 
           if(serviceStockUidField!=undefined && serviceStockNameField!=undefined){
-            window.opener.document.all['EditServiceStockUid'].value = serviceStockUid;
-            window.opener.document.all['EditServiceStockName'].value = serviceStockName;
+            window.opener.document.getElementsByName('EditServiceStockUid')[0].value = serviceStockUid;
+            window.opener.document.getElementsByName('EditServiceStockName')[0].value = serviceStockName;
           }
         <%
 
         // set SupplyingService
         %>
-          var suppServUidField  = window.opener.document.all['EditSupplyingServiceUid'];
-          var suppServNameField = window.opener.document.all['EditSupplyingServiceName'];
+          var suppServUidField  = window.opener.document.getElementsByName('EditSupplyingServiceUid')[0];
+          var suppServNameField = window.opener.document.getElementsByName('EditSupplyingServiceName')[0];
 
           if(suppServUidField!=undefined && suppServNameField!=undefined){
-            window.opener.document.all['EditSupplyingServiceUid'].value = supplyingServiceUid;
-            window.opener.document.all['EditSupplyingServiceName'].value = supplyingServiceName;
+            window.opener.document.getElementsByName('EditSupplyingServiceUid')[0].value = supplyingServiceUid;
+            window.opener.document.getElementsByName('EditSupplyingServiceName')[0].value = supplyingServiceName;
           }
         <%
 
@@ -365,8 +365,8 @@
                 productSupplierName = "<%=centralPharmacyName%>";
               }
 
-              window.opener.document.all['<%=sReturnSupplierUidField%>'].value = productSupplierUid;
-              window.opener.document.all['<%=sReturnSupplierNameField%>'].value = productSupplierName;
+              window.opener.document.getElementsByName('<%=sReturnSupplierUidField%>')[0].value = productSupplierUid;
+              window.opener.document.getElementsByName('<%=sReturnSupplierNameField%>')[0].value = productSupplierName;
             <%
         }
 
@@ -374,11 +374,11 @@
         if(sReturnUnitsPerTimeUnitField.length() > 0){
             %>
               if(unitsPerTimeUnit < 0){
-                window.opener.document.all['<%=sReturnUnitsPerTimeUnitField%>'].value = "";
+                window.opener.document.getElementsByName('<%=sReturnUnitsPerTimeUnitField%>')[0].value = "";
               }
               else{
-                window.opener.document.all['<%=sReturnUnitsPerTimeUnitField%>'].value = unitsPerTimeUnit;
-                isNumber(window.opener.document.all['<%=sReturnUnitsPerTimeUnitField%>']);
+                window.opener.document.getElementsByName('<%=sReturnUnitsPerTimeUnitField%>')[0].value = unitsPerTimeUnit;
+                isNumber(window.opener.document.getElementsByName('<%=sReturnUnitsPerTimeUnitField%>')[0]);
               }
             <%
         }
@@ -388,8 +388,8 @@
             %>
               if(unitsPerPackage==0) unitsPerPackage = 1;
       
-              window.opener.document.all['<%=sReturnUnitsPerPackageField%>'].value = unitsPerPackage;
-              isNumber(window.opener.document.all['<%=sReturnUnitsPerTimeUnitField%>']);
+              window.opener.document.getElementsByName('<%=sReturnUnitsPerPackageField%>')[0].value = unitsPerPackage;
+              isNumber(window.opener.document.getElementsByName('<%=sReturnUnitsPerTimeUnitField%>')[0]);
 
               if(window.opener.calculatePackagesNeeded!=null){
                 window.opener.calculatePackagesNeeded();
@@ -404,10 +404,10 @@
         if(sReturnProductStockUidField.length() > 0){
             %>
               if(productStockUid!=undefined && productStockUid.length > 0){
-                window.opener.document.all['<%=sReturnProductStockUidField%>'].value = productStockUid;
+                window.opener.document.getElementsByName('<%=sReturnProductStockUidField%>')[0].value = productStockUid;
               }
               else{
-                window.opener.document.all['<%=sReturnProductStockUidField%>'].value = "";
+                window.opener.document.getElementsByName('<%=sReturnProductStockUidField%>')[0].value = "";
               }
             <%
         }

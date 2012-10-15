@@ -385,7 +385,7 @@
   function doSave(printDocument){
     if(tblLA.rows.length > 1){
       if(printDocument==true){
-        document.all['exitmessage'].value='printlabels';
+        document.getElementsByName('exitmessage')[0].value='printlabels';
       }
 
       doSubmit();
@@ -447,11 +447,11 @@
     <%-- set the forward key --%>
     if(sLASaved != sLA){
       <%-- when some labanalyses were removed or added, update the transaction and reload this page in order to save the labanalyses --%>
-      document.all['be.mxs.healthrecord.updateTransaction.actionForwardKey'].value = "<c:url value='../healthrecord/saveLabAnalyses.do'/>?ForwardUpdateTransactionId&labAnalysesToSave="+sLA+"&savedLabAnalyses="+sLASaved+"&patientId=<%=activePatient.personid%>&ts=<%=getTs()%>";
+      document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = "<c:url value='../healthrecord/saveLabAnalyses.do'/>?ForwardUpdateTransactionId&labAnalysesToSave="+sLA+"&savedLabAnalyses="+sLASaved+"&patientId=<%=activePatient.personid%>&ts=<%=getTs()%>";
     }
     else{
       <%-- when no labanalyses were removed or added, update the transaction and go to the consultation-overview --%>
-      document.all['be.mxs.healthrecord.updateTransaction.actionForwardKey'].value = "<c:url value="../main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>";
+      document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = "<c:url value="../main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>";
     }
 
     <%

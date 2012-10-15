@@ -27,7 +27,7 @@
             </td>
         </tr>
         <script type="text/javascript">
-            document.all['keywords'].focus();
+            document.getElementsByName('keywords')[0].focus();
       </script>
 
         <tr><td class="navigation_line" height="1" colspan="3"></td></tr>
@@ -284,5 +284,5 @@
     %>
     window.close();
   }
-  window.setTimeout("document.all['keywords'].focus()",200);
+  window.setTimeout("document.getElementsByName('keywords')[0].focus()",200);
 </script>

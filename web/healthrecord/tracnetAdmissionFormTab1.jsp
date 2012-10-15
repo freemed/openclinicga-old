@@ -461,11 +461,11 @@ if (sAntecedents.indexOf("£")>-1){
       sChildren = sChildren.substring(0, sChildren.indexOf("rowChildren")) + sTmpEnd;
     }
 
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN1" property="itemId"/>]>.value"].value = sChildren.substring(0,254);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN2" property="itemId"/>]>.value"].value = sChildren.substring(254,508);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN3" property="itemId"/>]>.value"].value = sChildren.substring(508,762);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN4" property="itemId"/>]>.value"].value = sChildren.substring(762,1016);
-    document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN5" property="itemId"/>]>.value"].value = sChildren.substring(1016,1270);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN1" property="itemId"/>]>.value")[0].value = sChildren.substring(0,254);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN2" property="itemId"/>]>.value")[0].value = sChildren.substring(254,508);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN3" property="itemId"/>]>.value")[0].value = sChildren.substring(508,762);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN4" property="itemId"/>]>.value")[0].value = sChildren.substring(762,1016);
+    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_CHILDREN5" property="itemId"/>]>.value")[0].value = sChildren.substring(1016,1270);
 
     if (isAtLeastOneARVFieldFilled()) {
         if (maySubmit) {
@@ -481,11 +481,11 @@ if (sAntecedents.indexOf("£")>-1){
         sARV = sARV.substring(0, sARV.indexOf("rowARV")) + sTmpEnd;
       }
 
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV1" property="itemId"/>]>.value"].value = sARV.substring(0,254);
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV2" property="itemId"/>]>.value"].value = sARV.substring(254,508);
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV3" property="itemId"/>]>.value"].value = sARV.substring(508,762);
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV4" property="itemId"/>]>.value"].value = sARV.substring(762,1016);
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV5" property="itemId"/>]>.value"].value = sARV.substring(1016,1270);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV1" property="itemId"/>]>.value")[0].value = sARV.substring(0,254);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV2" property="itemId"/>]>.value")[0].value = sARV.substring(254,508);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV3" property="itemId"/>]>.value")[0].value = sARV.substring(508,762);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV4" property="itemId"/>]>.value")[0].value = sARV.substring(762,1016);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_WICH_ARV5" property="itemId"/>]>.value")[0].value = sARV.substring(1016,1270);
 
       if (isAtLeastOneAntecedentsFieldFilled()) {
         if (maySubmit) {
@@ -501,11 +501,11 @@ if (sAntecedents.indexOf("£")>-1){
         sAntecedents = sAntecedents.substring(0, sAntecedents.indexOf("rowAntecedents")) + sTmpEnd;
       }
 
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER1" property="itemId"/>]>.value"].value = sAntecedents.substring(0,254);
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER2" property="itemId"/>]>.value"].value = sAntecedents.substring(254,508);
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER3" property="itemId"/>]>.value"].value = sAntecedents.substring(508,762);
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER4" property="itemId"/>]>.value"].value = sAntecedents.substring(762,1016);
-      document.all["currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER5" property="itemId"/>]>.value"].value = sAntecedents.substring(1016,1270);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER1" property="itemId"/>]>.value")[0].value = sAntecedents.substring(0,254);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER2" property="itemId"/>]>.value")[0].value = sAntecedents.substring(254,508);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER3" property="itemId"/>]>.value")[0].value = sAntecedents.substring(508,762);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER4" property="itemId"/>]>.value")[0].value = sAntecedents.substring(762,1016);
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANTECEDENT_OTHER5" property="itemId"/>]>.value")[0].value = sAntecedents.substring(1016,1270);
   }
 
   function addChildren(){

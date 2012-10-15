@@ -6,7 +6,6 @@
 <%=checkPermission("system.manageservices", "all",
 							activeUser)%>
 <%!public String updateCounters(HttpSession session,HttpServletRequest request) {
-		MedwanQuery.getInstance().setUsedCounters(new Hashtable());
         String sOut= "";
         try{
         SAXReader xmlReader = new SAXReader();
