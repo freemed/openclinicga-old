@@ -3260,6 +3260,7 @@ public class MedwanQuery {
             ps.execute();
             ps.close();
             oc_conn.close();
+            usedCounters.put(name, new Integer(value));
         }
         catch (Exception e) {
             e.printStackTrace();
