@@ -29,7 +29,8 @@ public interface IConstants {
     public static final String TRANSACTION_TYPE_RESP_FUNC_EX                         = IConstants_PREFIX + "TRANSACTION_TYPE_RESP_FUNC_EX";
     public static final String TRANSACTION_TYPE_MER                                  = IConstants_PREFIX + "TRANSACTION_TYPE_MER";
     public static final String TRANSACTION_TYPE_OPHTALMOLOGY                         = IConstants_PREFIX + "TRANSACTION_TYPE_OPHTALMOLOGY";
-    public static final String TRANSACTION_TYPE_MIR                                 = IConstants_PREFIX + "TRANSACTION_TYPE_MIR";
+    public static final String TRANSACTION_TYPE_OPHTALMOLOGY_DSW                     = IConstants_PREFIX + "TRANSACTION_TYPE_OPHTALMOLOGY_DSW";
+    public static final String TRANSACTION_TYPE_MIR                                  = IConstants_PREFIX + "TRANSACTION_TYPE_MIR";
     public static final String TRANSACTION_TYPE_MIR2                                 = IConstants_PREFIX + "TRANSACTION_TYPE_MIR2";
     public static final String TRANSACTION_TYPE_PROF_DISEASE                         = IConstants_PREFIX + "TRANSACTION_TYPE_PROF_DISEASE";
     public static final String TRANSACTION_TYPE_ANTECEDENTS                          = IConstants_PREFIX + "TRANSACTION_TYPE_ANTECEDENTS";

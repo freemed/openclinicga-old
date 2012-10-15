@@ -644,7 +644,7 @@ public class ScreenHelper {
                                             boolean onlySelectContractWithDivision, String sWebLanguage, String sCONTEXTDIR) {
         return  "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTran("Web","select",sWebLanguage)+"'"
               +"onclick='openPopup(\"_common/search/searchService.jsp&VarCode="+sVarCode+"&VarText="+sVarText+"&onlySelectContractWithDivision="+onlySelectContractWithDivision+"\");'>"
-              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTran("Web","clear",sWebLanguage)+"' onclick=\"document.all['"+sVarCode+"'].value='';document.all['"+sVarText+"'].value='';\">";
+              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTran("Web","clear",sWebLanguage)+"' onclick=\"document.getElementsByName('"+sVarCode+"')[0].value='';document.getElementsByName('"+sVarText+"')[0].value='';\">";
     }
 
     //--- WRITE SELECT (SORTED) -------------------------------------------------------------------
@@ -1022,12 +1022,12 @@ public class ScreenHelper {
         String defaults = ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemDefaultsHTML();
         defaults += "<script>function loadDefaults(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if (document.all['DefaultValue_'+document.all[n].name]!=null) {"
-                    +"if (document.all[n].type=='text') {document.all[n].value=document.all['DefaultValue_'+document.all[n].name].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.all['DefaultValue_'+document.all[n].name].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='radio' && document.all[n].value==document.all['DefaultValue_'+document.all[n].name].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.all['DefaultValue_'+document.all[n].name].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.all['DefaultValue_'+document.all[n].name].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"if (document.getElementsByName('DefaultValue_'+document.all[n].name)[0]!=null) {"
+                    +"if (document.all[n].type=='text') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"}</script>";
@@ -1036,12 +1036,12 @@ public class ScreenHelper {
         defaults += ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemPreviousHTML();
         defaults += "<script>function loadPrevious(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if (document.all['PreviousValue_'+document.all[n].name]!=null) {"
-                    +"if (document.all[n].type=='text') {document.all[n].value=document.all['PreviousValue_'+document.all[n].name].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.all['PreviousValue_'+document.all[n].name].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='radio' && document.all[n].value==document.all['PreviousValue_'+document.all[n].name].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.all['PreviousValue_'+document.all[n].name].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.all['PreviousValue_'+document.all[n].name].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"if (document.getElementsByName('PreviousValue_'+document.all[n].name]!=null) {"
+                    +"if (document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"}</script>";
@@ -1050,12 +1050,12 @@ public class ScreenHelper {
         defaults += ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemPreviousContextHTML();
         defaults += "<script>function loadPreviousContext(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if (document.all['PreviousContextValue_'+document.all[n].name]!=null) {"
-                    +"if (document.all[n].type=='text') {document.all[n].value=document.all['PreviousContextValue_'+document.all[n].name].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.all['PreviousContextValue_'+document.all[n].name].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='radio' && document.all[n].value==document.all['PreviousContextValue_'+document.all[n].name].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.all['PreviousContextValue_'+document.all[n].name].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.all['PreviousContextValue_'+document.all[n].name].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"if (document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0]!=null) {"
+                    +"if (document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"}</script>";
