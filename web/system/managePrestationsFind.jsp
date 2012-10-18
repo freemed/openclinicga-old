@@ -64,7 +64,7 @@
                     <td class="hand" onClick="editPrestation('<%=prestation.getUid()%>');"><%=HTMLEntities.htmlentities(checkString(prestation.getCode()))%></td>
                     <td class="hand" onClick="editPrestation('<%=prestation.getUid()%>');"><%=HTMLEntities.htmlentities(checkString(prestation.getDescription()))%></td>
                     <td class="hand" onClick="editPrestation('<%=prestation.getUid()%>');"><%=HTMLEntities.htmlentities(sType)%></td>
-                    <td class="hand" onClick="editPrestation('<%=prestation.getUid()%>');" align="left"><%=prestation.getPriceFormatted(category)%>&nbsp;</td>
+                    <td class="hand" onClick="editPrestation('<%=prestation.getUid()%>');" align="left" nowrap><%=prestation.getPriceFormatted(category)%>&nbsp;</td>
                     <td class="hand" onClick="editPrestation('<%=prestation.getUid()%>');"><%=prestation.getCategoriesFormatted(category)%></td>
                     <td>&nbsp;</td>
                 </tr>

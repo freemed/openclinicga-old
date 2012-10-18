@@ -42,6 +42,7 @@
            sEditPrestationFamily  = checkString(request.getParameter("EditPrestationFamily")),
            sEditPrestationInvoiceGroup  = checkString(request.getParameter("EditPrestationInvoiceGroup")),
            sEditPrestationMfpPercentage  = checkString(request.getParameter("EditPrestationMfpPercentage")),
+           sEditPrestationSupplement  = checkString(request.getParameter("EditPrestationSupplement")),
            sEditPrestationInactive  = checkString(request.getParameter("EditPrestationInactive")),
            sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice")),
 		   sEditCareProvider = checkString(request.getParameter("EditCareProvider"));
@@ -50,6 +51,13 @@
 	   }
 	   catch(Exception e){
 		   sEditPrestationPrice="0";
+	   }
+
+	   try{
+		   sEditPrestationSupplement =""+Double.parseDouble(sEditPrestationSupplement);
+	   }
+	   catch(Exception e){
+		   sEditPrestationSupplement="0";
 	   }
 
 	   if(!sEditPrestationInactive.equals("1")){
@@ -108,6 +116,7 @@
         prestation.setReferenceObject(new ObjectReference(sEditPrestationFamily,"0")); 
         prestation.setInvoiceGroup(sEditPrestationInvoiceGroup);
         prestation.setMfpPercentage(Integer.parseInt(sEditPrestationMfpPercentage));
+        prestation.setSupplement(Double.parseDouble(sEditPrestationSupplement));
         prestation.setInactive(Integer.parseInt(sEditPrestationInactive));
         prestation.setPerformerUid(sEditCareProvider);
         prestation.store();
@@ -273,7 +282,7 @@
                     <tr>
                         <td class="admin"><%=getTran("web","defaultprice",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="text" class="text" name="EditPrestationPrice" size="10" maxlength="8" value="<%=sPrice%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=sCurrency%>
+                            <input type="text" class="text" name="EditPrestationPrice" size="10" maxlength="10" value="<%=sPrice%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=sCurrency%>
                         </td>
                     </tr>
                     <%
@@ -288,6 +297,12 @@
                     <%
                     	}
                     %>
+                    <tr>
+                        <td class="admin"><%=getTran("web","supplement",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="text" class="text" name="EditPrestationSupplement" size="10" maxlength="10" value="<%=prestation.getSupplement()%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=sCurrency%>
+                        </td>
+                    </tr>
                     <tr>
 			            <td class='admin'><%=getTran("web","invoicingcareprovider",sWebLanguage)%></td>
 			            <td class='admin2'>
