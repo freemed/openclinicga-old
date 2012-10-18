@@ -23,6 +23,7 @@ public class Prestation extends OC_Object{
     private String description;
     private String code;
     private double price;
+    private double supplement;
     private ObjectReference referenceObject; // Product, Examination
     private String automationCode;
     private String type; // (product/service)
@@ -170,11 +171,12 @@ public class Prestation extends OC_Object{
     }
 
     public String getPriceFormatted(String category){
-        if (price==getPrice(category)){
-            return "<b>"+price+"</b>";
+    	String s = (getSupplement()!=0?"<b>(+"+getSupplement()+")</b>":"");
+    	if (price==getPrice(category)){
+            return "<b>"+price+"</b> "+s;
         }
         else {
-            return price+"";
+            return price+s;
         }
     }
 
@@ -496,6 +498,7 @@ public class Prestation extends OC_Object{
                         prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                         prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
                         prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
+                        prestation.setSupplement(rs.getDouble("OC_PRESTATION_SUPPLEMENT"));
                         prestation.setRenewalInterval(rs.getInt("OC_PRESTATION_RENEWALINTERVAL"));
                         prestation.setCoveragePlan(rs.getString("OC_PRESTATION_COVERAGEPLAN"));
                         prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
@@ -595,6 +598,7 @@ public class Prestation extends OC_Object{
                 prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                 prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
                 prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
+                prestation.setSupplement(rs.getDouble("OC_PRESTATION_SUPPLEMENT"));
                 prestation.setRenewalInterval(rs.getInt("OC_PRESTATION_RENEWALINTERVAL"));
                 prestation.setCoveragePlan(rs.getString("OC_PRESTATION_COVERAGEPLAN"));
                 prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
@@ -656,6 +660,7 @@ public class Prestation extends OC_Object{
                     prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                     prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
                     prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
+                    prestation.setSupplement(rs.getDouble("OC_PRESTATION_SUPPLEMENT"));
                     prestation.setRenewalInterval(rs.getInt("OC_PRESTATION_RENEWALINTERVAL"));
                     prestation.setCoveragePlan(rs.getString("OC_PRESTATION_COVERAGEPLAN"));
                     prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
@@ -813,6 +818,7 @@ public class Prestation extends OC_Object{
                 prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                 prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
                 prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
+                prestation.setSupplement(rs.getDouble("OC_PRESTATION_SUPPLEMENT"));
                 prestation.setRenewalInterval(rs.getInt("OC_PRESTATION_RENEWALINTERVAL"));
                 prestation.setCoveragePlan(rs.getString("OC_PRESTATION_COVERAGEPLAN"));
                 prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
@@ -919,6 +925,7 @@ public class Prestation extends OC_Object{
                 prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                 prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
                 prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
+                prestation.setSupplement(rs.getDouble("OC_PRESTATION_SUPPLEMENT"));
                 prestation.setRenewalInterval(rs.getInt("OC_PRESTATION_RENEWALINTERVAL"));
                 prestation.setCoveragePlan(rs.getString("OC_PRESTATION_COVERAGEPLAN"));
                 prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
@@ -1013,7 +1020,8 @@ public class Prestation extends OC_Object{
                            "  OC_PRESTATION_COVERAGEPLANCATEGORY=?," +
                            "  OC_PRESTATION_VARIABLEPRICE=?," +
                            "  OC_PRESTATION_INACTIVE=?," +
-                           "  OC_PRESTATION_PERFORMERUID=?" +
+                           "  OC_PRESTATION_PERFORMERUID=?," +
+                           "  OC_PRESTATION_SUPPLEMENT=?" +
                            " WHERE OC_PRESTATION_SERVERID = ?"+
                            "  AND OC_PRESTATION_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSql);
@@ -1035,8 +1043,9 @@ public class Prestation extends OC_Object{
                     ps.setInt(16, this.getVariablePrice());
                     ps.setInt(17, this.getInactive());
                     ps.setString(18, this.getPerformerUid());
-                    ps.setInt(19,Integer.parseInt(ids[0]));
-                    ps.setInt(20,Integer.parseInt(ids[1]));
+                    ps.setDouble(19, this.getSupplement());
+                    ps.setInt(20,Integer.parseInt(ids[0]));
+                    ps.setInt(21,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
                 }
@@ -1063,8 +1072,9 @@ public class Prestation extends OC_Object{
                            "  OC_PRESTATION_COVERAGEPLANCATEGORY," +
                            "  OC_PRESTATION_VARIABLEPRICE," +
                            "  OC_PRESTATION_INACTIVE," +
-                           "  OC_PRESTATION_PERFORMERUID)"+
-                           " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                           "  OC_PRESTATION_PERFORMERUID," +
+                           "  OC_PRESTATION_SUPPLEMENT)"+
+                           " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     ps = oc_conn.prepareStatement(sSql);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -1087,11 +1097,12 @@ public class Prestation extends OC_Object{
                     ps.setInt(19,this.getVariablePrice());
                     ps.setInt(20, this.getInactive());
                     ps.setString(21, this.getPerformerUid());
+                    ps.setDouble(22,this.getSupplement());
                     ps.executeUpdate();
                     ps.close();
                     setUid(ids[0]+"."+ids[1]);
                 }
-                //If MfpPercentage provide, create tariff
+                //If MfpPercentage provided, create tariff
                 if(getMfpPercentage()>0){
                 	System.out.println("getMfpPercentage()="+getMfpPercentage());
                 	Insurar insurar = Insurar.get(MedwanQuery.getInstance().getConfigString("MFP","-1"));
@@ -1277,4 +1288,12 @@ public class Prestation extends OC_Object{
         }
         return vPrestations;
     }
+
+	public double getSupplement() {
+		return supplement;
+	}
+
+	public void setSupplement(double supplement) {
+		this.supplement = supplement;
+	}
 }
