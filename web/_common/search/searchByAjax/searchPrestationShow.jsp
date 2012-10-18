@@ -49,7 +49,7 @@ try{
                     sFindPrestationType, sFindPrestationPrice,"",sFindPrestationSort);
             Iterator prestationsIter = foundPrestations.iterator();
 
-            String sClass = "", sUid, sCode, sDescr, sType, sTypeTran, sPrice;
+            String sClass = "", sUid, sCode, sDescr, sType, sTypeTran, sPrice, sSupplement;
             String sSelectTran = getTranNoLink("web", "select", sWebLanguage);
             boolean recsFound = false;
             StringBuffer sHtml = new StringBuffer();
@@ -79,26 +79,31 @@ try{
 	                if (price == 0) sPrice = "";
 	                else sPrice = price + "";
 	
+	                // supplement
+	                double supplement = prestation.getSupplement();
+	                if (supplement == 0) sSupplement = "";
+	                else sSupplement = supplement + "";
+	
 	                // alternate row-style
 	                if (sClass.equals("")) sClass = "1";
 	                else sClass = "";
 					if(prestation.getVariablePrice()==1){
-		                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestationVariable('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "');\">")
+		                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestationVariable('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "','"+sSupplement+"');\">")
 		                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
 		                        .append(" <td>" + sCode + "</td>")
 		                        .append(" <td>" + sDescr + "</td>")
 		                        .append(" <td>" + sTypeTran + "</td>")
-		                        .append(" <td >" + prestation.getPriceFormatted(category) + "</td>")
+		                        .append(" <td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
 		                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
 		                        .append("</tr>");
 					}
 					else {
-		                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestation('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "');\">")
+		                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestation('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "','"+sSupplement+"');\">")
 		                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
 		                        .append(" <td>" + sCode + "</td>")
 		                        .append(" <td>" + sDescr + "</td>")
 		                        .append(" <td>" + sTypeTran + "</td>")
-		                        .append(" <td >" + prestation.getPriceFormatted(category) + "</td>")
+		                        .append(" <td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
 		                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
 		                        .append("</tr>");
 					}

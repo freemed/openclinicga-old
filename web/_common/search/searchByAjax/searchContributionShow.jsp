@@ -88,7 +88,7 @@ try{
 	                        .append(" <td>" + sCode + "</td>")
 	                        .append(" <td>" + sDescr + "</td>")
 	                        .append(" <td>" + sTypeTran + "</td>")
-	                        .append(" <td >" + prestation.getPriceFormatted(category) + "</td>")
+	                        .append(" <td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
 	                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
 	                        .append("</tr>");
                 }
