@@ -513,9 +513,9 @@
     function changeTmpPrestation(){
         if (EditForm.tmpPrestationUID.value.length>0){
             EditForm.EditPrestationUID.value = EditForm.tmpPrestationUID.value;
-            EditForm.EditPrestationName.options[0].text = EditForm.tmpPrestationName.value;
-            EditForm.EditPrestationName.options[0].value = EditForm.tmpPrestationUID.value;
-            EditForm.EditPrestationName.options[0].selected = true;
+            EditForm.EditPrestationName.options[EditForm.EditPrestationName.options.length-1].text = EditForm.tmpPrestationName.value;
+            EditForm.EditPrestationName.options[EditForm.EditPrestationName.options.length-1].value = EditForm.tmpPrestationUID.value;
+            EditForm.EditPrestationName.options[EditForm.EditPrestationName.options.length-1].selected = true;
             changePrestation(false);
             findPerformer();
         }

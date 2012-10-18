@@ -50,17 +50,18 @@
 	                    	dInsurarAmount2=quantity * dInsuranceMaxPrice;
 	                   		dPatientAmount2=quantity * dPrice - dInsurarAmount2;
 	                    }
+	                    dPatientAmount2+=quantity*prestation.getSupplement();
 	                    dPatientAmount+=dPatientAmount2;
 	                    dInsurarAmount+=dInsurarAmount2;
 	                }
 	            }
 	        }
 	        else {
-	            dPatientAmount+=quantity * prestation.getPrice("C");
-	            dPatientAmount2=quantity * prestation.getPrice("C");
-	            dInsurarAmount+= 0;
+	            dPatientAmount2=quantity * (prestation.getPrice("C")+prestation.getSupplement());
+                dPatientAmount+=dPatientAmount2;
 	            dInsurarAmount2= 0;
 	        }
+	        dPatientAmount2+=prestation.getSupplement();
 	      	pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount2);
 	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount2);
 	        prestationcontent+="<tr>";
@@ -97,11 +98,12 @@
                     	dInsurarAmount=quantity * dInsuranceMaxPrice;
                    		dPatientAmount=quantity * dPrice - dInsurarAmount;
                     }
+                    dPatientAmount+=quantity * prestation.getSupplement();
                 }
             }
         }
         else {
-            dPatientAmount=quantity * prestation.getPrice("C");
+            dPatientAmount=quantity * (prestation.getPrice("C")+prestation.getSupplement());
             dInsurarAmount = 0;
         }
       	pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount);
@@ -152,15 +154,15 @@
 	                    	dInsurarAmount2=quantity * dInsuranceMaxPrice;
 	                   		dPatientAmount2=quantity * dPrice - dInsurarAmount2;
 	                    }
+	                    dPatientAmount2+=quantity*prestation.getSupplement();
 	                    dPatientAmount+=dPatientAmount2;
 	                    dInsurarAmount+=dInsurarAmount2;
 	                }
 	            }
 	        }
 	        else {
-	            dPatientAmount+=quantity * prestation.getPrice("C");
-	            dPatientAmount2=quantity * prestation.getPrice("C");
-	            dInsurarAmount+= 0;
+	            dPatientAmount2=quantity * (prestation.getPrice("C")+prestation.getSupplement());
+                dPatientAmount+=dPatientAmount2;
 	            dInsurarAmount2= 0;
 	        }
 	      	pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount2);
