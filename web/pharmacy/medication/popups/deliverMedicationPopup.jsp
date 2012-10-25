@@ -289,7 +289,9 @@
 									productStockBatches+=productStock.getUid();
                             		for(int n=0;n<batches.size();n++){
                             			Batch batch = (Batch)batches.elementAt(n);
-                            			productStockBatches+="$"+batch.getUid()+";"+batch.getBatchNumber()+";"+batch.getLevel()+";"+new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())+";"+batch.getComment();
+                            			if(!batch.getEnd().before(new java.util.Date()) || MedwanQuery.getInstance().getConfigInt("enableExpiredProductsDistribution",0)>0){
+                            				productStockBatches+="$"+batch.getUid()+";"+batch.getBatchNumber()+";"+batch.getLevel()+";"+new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())+";"+batch.getComment();
+                            			}
                             		}
                             	}
                             	out.println("<script>var batches='"+productStockBatches+"';</script>");
@@ -425,18 +427,20 @@
                         var srcDestType, emptyEditSrcDest, srcDestUid, srcDestName;
 						document.getElementById('prescriptionline').style.visibility="hidden";
 						//For specific EditOperationDescr values, an EditSrcDestType value may be forced
-						if('<%=MedwanQuery.getInstance().getConfigString("forceservicestockforproductstockoperations","")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+						if('<%=MedwanQuery.getInstance().getConfigString("forceservicestockforproductstockoperations","medicationdelivery.2")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							transactionForm.EditSrcDestType.value='servicestock';
 						}
-						if('<%=MedwanQuery.getInstance().getConfigString("forcepatientforproductstockoperations","")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+						if('<%=MedwanQuery.getInstance().getConfigString("forcepatientforproductstockoperations","medicationdelivery.1")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							transactionForm.EditSrcDestType.value='patient';
 						}
-						if('<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+						if('<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3;medicationdelivery.4;medicationdelivery.5;medicationdelivery.99;")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							document.getElementById('destinationline').style.visibility="hidden";
 							document.getElementById('documentline').style.visibility="hidden";
 							document.getElementById('EditProductStockDocumentUid').value='';
 							document.getElementById('EditProductStockDocumentUidText').innerHTML='';
 							transactionForm.EditSrcDestType.value="";
+							transactionForm.EditSrcDestUid.value="";
+							transactionForm.EditSrcDestName.value="";
 						}
 						else {
 							document.getElementById('destinationline').style.visibility="visible";
