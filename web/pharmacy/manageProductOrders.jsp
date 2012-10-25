@@ -171,6 +171,8 @@
             sEditDateOrdered = checkString(request.getParameter("EditDateOrdered")),
             sEditDateDeliveryDue = checkString(request.getParameter("EditDateDeliveryDue")),
             sEditDateDelivered = checkString(request.getParameter("EditDateDelivered")),
+            sEditBatchUid = checkString(request.getParameter("EditBatchUid")),
+            sEditBatchExpire = checkString(request.getParameter("EditBatchExpire")),
             sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
             sEditProductStockDocumentUidText = "",
             sEditImportance = checkString(request.getParameter("EditImportance")); // (native|high|low)
@@ -306,9 +308,6 @@
    		nPackagesDelivered=Integer.parseInt(sEditPackagesDelivered);
    	 }
    	 catch(Exception e){}
-	 if(nPackagesDelivered==0){
-		 sAction="showDetails";
-	 }
 	 
    	 if (sAction.equals("save") && sEditOrderUid.length() > 0) {
         String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
@@ -327,96 +326,103 @@
         if (sEditDateOrdered.length() > 0) order.setDateOrdered(stdDateFormat.parse(sEditDateOrdered));
         if (sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(stdDateFormat.parse(sEditDateDeliveryDue));
         if (sEditDateDelivered.length() > 0) order.setDateDelivered(stdDateFormat.parse(sEditDateDelivered));
-
-        String existingOrderUid = order.exists();
-        boolean orderExists = existingOrderUid.length() > 0;
-
-	   	
-        // only update product-stock if order is not allready delivered
-        if (!(sEditOrderUid.equals("-1") && orderExists) && !(!sEditOrderUid.equals("-1") && orderExists && !sEditOrderUid.equals(existingOrderUid)) && dPrevDateDelivered == null) {
-            //Create a productstockoperation that does the work for you
-            ProductStockOperation operation = new ProductStockOperation();
-            operation.setUid("-1");
-            operation.setCreateDateTime(new java.util.Date());
-            operation.setDate(new java.util.Date());
-            operation.setDescription("medicationreceipt.typea1");
-            operation.setProductStockUid(sEditProductStockUid);
-            ProductStock productStock = ProductStock.get(sEditProductStockUid);
-            ObjectReference sd=new ObjectReference("servicestock","");
-            if (productStock.getSupplier() != null && productStock.getSupplier().defaultServiceStockUid != null && productStock.getSupplier().defaultServiceStockUid.length() > 0) {
-                sd = new ObjectReference("servicestock",productStock.getSupplier().defaultServiceStockUid);
-            }
-            operation.setSourceDestination(sd);
-            operation.setDocumentUID(sEditProductStockDocumentUid);
-            if(sEditPackagesDelivered.length()>0) { operation.setUnitsChanged(Integer.parseInt(sEditPackagesDelivered));}
-            operation.setUpdateDateTime(new java.util.Date());
-            operation.setUpdateUser(activeUser.userid);
-            // add number of packages that were actualy delivered
-            String sResult=operation.store();
-            if(sResult==null){
-                if (sEditOrderUid.equals("-1")) {
-                    //***** insert new order *****
-                    if (!orderExists) {
-                        order.store(false);
-
-                        // show saved data
-                        sAction = "find"; // showDetails
-                        msg = getTran("web", "dataissaved", sWebLanguage);
-                    }
-                    //***** reject new addition *****
-                    else {
-                        // show rejected data
-                        sAction = "showDetailsAfterAddReject";
-                        msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
-                    }
-                } else {
-                    //***** update existing record *****
-                    if (!orderExists) {
-                        // store the edited data
-                        order.store(false);
-
-                        // show saved data
-                        sAction = "find"; // showDetails
-                        msg = getTran("web", "dataissaved", sWebLanguage);
-                    }
-                    //***** reject double record thru update *****
-                    else {
-                        if (sEditOrderUid.equals(existingOrderUid)) {
-                            // nothing : just updating a record with its own data
-                            if (order.changed()) {
-                                order.store(false);
-                                msg = getTran("web", "dataissaved", sWebLanguage);
-                            }
-                            sAction = "find"; // showDetails
-                        } else {
-                            // tried to update one order with exact the same data as an other order
-                            // show rejected data
-                            sAction = "showDetailsAfterUpdateReject";
-                            msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
-                        }
-                    }
-                }
-                orderIsClosed = true;
-                // reload opener to see the change in level
-                displayUndeliveredOrders=true;
-                displayDeliveredOrders=false;
-            }
-            else {
-                %>
-                <script>
-                    alert('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
-                </script>
-                <%
-                displayUndeliveredOrders=false;
-                displayDeliveredOrders=false;
-                sAction = "showDetailsAfterUpdateReject";
-                msg = "<font color='red'>" + getTranNoLink("web",sResult,sWebLanguage) + "</font>";
-            }
-        }
-        else {
-                sAction = "showDetailsAfterUpdateReject";
-                msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
-        }
+		if(order.getPackagesOrdered()>=order.getPackagesDelivered()){
+			order.setPackagesOrdered(order.getPackagesOrdered()-order.getPackagesDelivered());
+	        String existingOrderUid = order.exists();
+	        boolean orderExists = existingOrderUid.length() > 0;
+	
+		   	
+	        // only update product-stock if order is not allready delivered
+	        //if (!(sEditOrderUid.equals("-1") && orderExists) && !(!sEditOrderUid.equals("-1") && orderExists && !sEditOrderUid.equals(existingOrderUid)) && dPrevDateDelivered == null) {
+	            //Create a productstockoperation that does the work for you
+	            ProductStockOperation operation = new ProductStockOperation();
+	            operation.setUid("-1");
+	            operation.setCreateDateTime(new java.util.Date());
+	            operation.setDate(new java.util.Date());
+	            operation.setDescription(MedwanQuery.getInstance().getConfigString("pharmacyOrderReceptionDescription","medicationreceipt.4"));
+	            operation.setProductStockUid(sEditProductStockUid);
+	            operation.setBatchNumber(sEditBatchUid);
+	            try{
+	            	operation.setBatchEnd(new SimpleDateFormat("dd/MM/yyyy").parse(sEditBatchExpire));
+	            }
+	            catch(Exception e){}
+	            ProductStock productStock = ProductStock.get(sEditProductStockUid);
+	            ObjectReference sd=new ObjectReference("servicestock","");
+	            if (productStock.getSupplier() != null && productStock.getSupplier().defaultServiceStockUid != null && productStock.getSupplier().defaultServiceStockUid.length() > 0) {
+	                sd = new ObjectReference("servicestock",productStock.getSupplier().defaultServiceStockUid);
+	            }
+	            operation.setSourceDestination(sd);
+	            operation.setDocumentUID(sEditProductStockDocumentUid);
+	            if(sEditPackagesDelivered.length()>0) { operation.setUnitsChanged(Integer.parseInt(sEditPackagesDelivered));}
+	            operation.setUpdateDateTime(new java.util.Date());
+	            operation.setUpdateUser(activeUser.userid);
+	            // add number of packages that were actualy delivered
+	            String sResult=operation.store();
+	            if(sResult==null){
+	                if (sEditOrderUid.equals("-1")) {
+	                    //***** insert new order *****
+	                    if (!orderExists) {
+	                        order.store(false);
+	
+	                        // show saved data
+	                        sAction = "find"; // showDetails
+	                        msg = getTran("web", "dataissaved", sWebLanguage);
+	                    }
+	                    //***** reject new addition *****
+	                    else {
+	                        // show rejected data
+	                        sAction = "showDetailsAfterAddReject";
+	                        msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
+	                    }
+	                } else {
+	                    //***** update existing record *****
+	                    if (!orderExists) {
+	                        // store the edited data
+	                        order.store(false);
+	
+	                        // show saved data
+	                        sAction = "find"; // showDetails
+	                        msg = getTran("web", "dataissaved", sWebLanguage);
+	                    }
+	                    //***** reject double record thru update *****
+	                    else {
+	                        if (sEditOrderUid.equals(existingOrderUid)) {
+	                            // nothing : just updating a record with its own data
+	                            if (order.changed()) {
+	                                order.store(false);
+	                                msg = getTran("web", "dataissaved", sWebLanguage);
+	                            }
+	                            sAction = "find"; // showDetails
+	                        } else {
+	                            // tried to update one order with exact the same data as an other order
+	                            // show rejected data
+	                            sAction = "showDetailsAfterUpdateReject";
+	                            msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
+	                        }
+	                    }
+	                }
+	                orderIsClosed = true;
+	                // reload opener to see the change in level
+	                displayUndeliveredOrders=true;
+	                displayDeliveredOrders=false;
+	            }
+	            else {
+	                %>
+	                <script>
+	                    alert('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
+	                </script>
+	                <%
+	                displayUndeliveredOrders=false;
+	                displayDeliveredOrders=false;
+	                sAction = "showDetailsAfterUpdateReject";
+	                msg = "<font color='red'>" + getTranNoLink("web",sResult,sWebLanguage) + "</font>";
+	            }
+	        //}
+	        //else {
+	        //        sAction = "showDetailsAfterUpdateReject";
+	        //        msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
+	        //}
+		}
         if (Debug.enabled) Debug.println("*** orderIsClosed : " + orderIsClosed);
 
         sEditOrderUid = order.getUid();
@@ -840,7 +846,7 @@
 
                                         // if new order : set today as default value for date-ordered
                                         if(sAction.equals("showDetailsNew")){
-                                            %><script>getToday(document.getElementsByName('EditDateOrdered')[0]);</script><%
+                                            %><script>getToday(document.all['EditDateOrdered']);</script><%
                                         }
                                     }
                                 %>
