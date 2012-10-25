@@ -192,8 +192,9 @@
                             %>
                         </select>
                         <select class="text" name="PrintType">
-                            <option value="sortbydate" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbydate")?"selected":""%>><%=getTran("web","sortbydate",sWebLanguage)%></option>
-                            <option value="sortbypatient" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbypatient")?"selected":""%>><%=getTran("web","sortbypatient",sWebLanguage)%></option>
+                            <option value="sortbydate" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbydate")?"selected":""%>><%=getTranNoLink("web","sortbydate",sWebLanguage)%></option>
+                            <option value="sortbypatient" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbypatient")?"selected":""%>><%=getTranNoLink("web","sortbypatient",sWebLanguage)%></option>
+                            <option value="sortbyservice" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbyservice")?"selected":""%>><%=getTranNoLink("web","sortbyservice",sWebLanguage)%></option>
                         </select>
                         <select class="text" name="PrintModel">
                             <option value="default" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
