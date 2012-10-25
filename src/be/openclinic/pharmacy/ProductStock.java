@@ -179,6 +179,9 @@ public class ProductStock extends OC_Object implements Comparable {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        if(stockUid.split("\\.").length!=2 || stockUid.split("\\.")[1].length()==0) {
+        	return null;
+        }
         try {
             String sSelect = "SELECT * FROM OC_PRODUCTSTOCKS" +
                     " WHERE OC_STOCK_SERVERID = ? AND OC_STOCK_OBJECTID = ?";

@@ -293,6 +293,108 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                 table.addCell(createValueCell(getTran("web","noDataAvailable"),20));
             }
         }
+        else if(PrintType.equalsIgnoreCase("sortbyservice")){
+        	SortedMap services = InsurarInvoice.getDebetsForInvoiceSortByService(invoice.getUid());
+        	Iterator iServices = services.keySet().iterator();
+        	while(iServices.hasNext()){
+        		String serviceuid = (String)iServices.next();
+        		//todo: First write header for this service
+                tableParent.addCell(createEmptyCell(1));
+                tableParent.addCell(createGrayCell(serviceuid.toUpperCase()+": "+ScreenHelper.getTranNoLink("service",serviceuid,sPrintLanguage).toUpperCase(),1,12));
+        		//Now write debets for this service
+        		Vector debets = (Vector)services.get(serviceuid);
+        		if(debets.size()>0){
+                    PdfPTable table = new PdfPTable(200);
+                    table.setWidthPercentage(pageWidth);
+                    // header
+                    cell = createUnderlinedCell(getTran("web","patientordate"),1);
+                    PdfPTable singleCellHeaderTable = new PdfPTable(1);
+                    singleCellHeaderTable.addCell(cell);
+                    cell = createCell(new PdfPCell(singleCellHeaderTable),30,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                    cell.setPaddingRight(2);
+                    table.addCell(cell);
+
+                    cell = createUnderlinedCell(getTran("web","encounter"),1);
+                    singleCellHeaderTable = new PdfPTable(1);
+                    singleCellHeaderTable.addCell(cell);
+                    cell = createCell(new PdfPCell(singleCellHeaderTable),35,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                    cell.setPaddingRight(2);
+                    table.addCell(cell);
+
+                    cell = createUnderlinedCell(getTran("web","fac"),1);
+                    singleCellHeaderTable = new PdfPTable(1);
+                    singleCellHeaderTable.addCell(cell);
+                    cell = createCell(new PdfPCell(singleCellHeaderTable),15,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                    cell.setPaddingRight(2);
+                    table.addCell(cell);
+
+                    cell = createUnderlinedCell(getTran("web","prestation"),1);
+                    singleCellHeaderTable = new PdfPTable(1);
+                    singleCellHeaderTable.addCell(cell);
+                    cell = createCell(new PdfPCell(singleCellHeaderTable),95,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                    cell.setPaddingRight(2);
+                    table.addCell(cell);
+
+                    cell = createUnderlinedCell(getTran("web","amount"),1);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                    singleCellHeaderTable = new PdfPTable(1);
+                    singleCellHeaderTable.addCell(cell);
+                    cell = createCell(new PdfPCell(singleCellHeaderTable),25,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
+                    cell=new PdfPCell(table);
+                    cell.setPadding(cellPadding);
+                    tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
+
+                    // print debets
+                    double total = 0;
+                    Debet debet;
+                    String sPatientName, sPrevPatientName = "";
+                    Date date=null,prevdate=null;
+                    boolean displayPatientName,displayDate;
+                    int counter=0;
+                    for(int i=0; i<debets.size(); i++){
+                        table = new PdfPTable(200);
+                        table.setWidthPercentage(pageWidth);
+                        debet = (Debet)debets.get(i);
+                        date = debet.getDate();
+                        displayDate = !date.equals(prevdate);
+                        sPatientName = debet.getPatientName();
+                        displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName);
+                        if(displayPatientName){
+                        	counter++;
+                        }
+                        total+= debet.getInsurarAmount();
+                        printDebet2(table,debet,displayDate,displayPatientName,counter);
+                        prevdate = date;
+                        sPrevPatientName = sPatientName;
+                        cell=new PdfPCell(table);
+                        cell.setPadding(0);
+                        tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
+                    }
+
+                    table = new PdfPTable(20);
+                    // spacer
+                    table.addCell(createEmptyCell(20));
+
+                    // display debet total
+                    table.addCell(createEmptyCell(12));
+                    cell = createLabelCell(getTran("web","subtotalprice"),5);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                    cell.setPaddingRight(5);
+                    table.addCell(cell);
+                    table.addCell(createTotalPriceCellInsurar(total,3));
+                    cell=new PdfPCell(table);
+                    cell.setPadding(0);
+                    tableParent.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
+
+                    this.insurarDebetTotal = total;
+                }
+                else{
+                    table.addCell(createValueCell(getTran("web","noDataAvailable"),20));
+                }
+        	}
+        }
         else if(PrintType.equalsIgnoreCase("sortbydate")){
             Vector debets = InsurarInvoice.getDebetsForInvoiceSortByDate(invoice.getUid());
             if(debets.size() > 0){

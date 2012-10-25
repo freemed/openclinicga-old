@@ -6,6 +6,9 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.adt.Encounter;
 import be.openclinic.common.ObjectReference;
 
+import java.util.Hashtable;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Vector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -874,6 +877,32 @@ public class InsurarInvoice extends Invoice {
             }
         }
 
+        return debets;
+    }
+    
+    //--- GET DEBETS FOR INVOICE ------------------------------------------------------------------
+    public static SortedMap getDebetsForInvoiceSortByService(String sInvoiceUid){
+    	Vector debs = getDebetsForInvoiceSortByDate(sInvoiceUid);
+    	SortedMap debets = new TreeMap();
+    	String service;
+    	for(int n=0;n<debs.size();n++){
+    		Debet debet = (Debet)debs.elementAt(n);
+    		service = debet.getEncounter().getServiceUID(debet.getDate());
+    		if(service==null || service.length()==0){
+    			service =debet.getEncounter().getServiceUID(debet.getEncounter().getBegin());
+    		}
+    		if(service==null || service.length()==0){
+    			service="?";
+    		}
+    		//Nu kijken of de service al bestaat
+    		Vector vService = (Vector)debets.get(service);
+    		if(vService==null){
+    			vService= new Vector();
+    			debets.put(service, vService);
+    		}
+    		//nu het debet aan de vector toevoegen
+    		vService.add(debet);
+    	}
         return debets;
     }
 

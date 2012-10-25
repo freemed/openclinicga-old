@@ -153,9 +153,9 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
             for(int i=0; i<companyUids.size(); i++){
                 companyUid = (String)companyUids.get(i);
                 company = Service.getService(companyUid);
-                if(company!=null){
+                if(true || company!=null){
                     System.out.println("company: "+companyUid);
-                    this.sPrintLanguage = company.language;
+                    this.sPrintLanguage = company!=null?company.language:user.person.language;
                     ProductOrder order=null;
                     String orderedProductUid="";
                     orderUidsOfOneCompany = (Vector)orderUidsPerCompany.get(companyUid);
@@ -166,6 +166,12 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
                     System.out.println("printed");
                 }
                 else{
+                	PdfPTable table = new PdfPTable(1);
+                	PdfPCell cell = createBorderlessCell("unknown company: "+companyUid, 1);
+                	table.addCell(cell);
+                	doc.add(table);
+                    doc.newPage(); // each company on a different page
+                    System.out.println("unknown company: "+companyUid);
                     Debug.println("*** PDFTicketsGenerator : Service '"+companyUid+"' not found");
                 }
             }
@@ -259,13 +265,15 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     	Hashtable mergedOrders = new Hashtable();
     	for (int n=0;n<productOrders.size();n++){
     		ProductOrder order = ProductOrder.get((String)productOrders.elementAt(n));
-    		if(mergedOrders.get(order.getProductStock().getProduct().getUid())!=null){
-    			//Productorder already exists, merge
-    			ProductOrder existingOrder = (ProductOrder)mergedOrders.get(order.getProductStock().getProduct().getUid());
-    			existingOrder.setPackagesOrdered(existingOrder.getPackagesOrdered()+order.getPackagesOrdered());
-    		}
-    		else {
-    			mergedOrders.put(order.getProductStock().getProduct().getUid(), order);
+    		if(order!=null && order.getProductStock()!=null && order.getProductStock().getProduct()!=null){
+	    		if(mergedOrders.get(order.getProductStock().getProduct().getUid())!=null){
+	    			//Productorder already exists, merge
+	    			ProductOrder existingOrder = (ProductOrder)mergedOrders.get(order.getProductStock().getProduct().getUid());
+	    			existingOrder.setPackagesOrdered(existingOrder.getPackagesOrdered()+order.getPackagesOrdered());
+	    		}
+	    		else {
+	    			mergedOrders.put(order.getProductStock().getProduct().getUid(), order);
+	    		}
     		}
     	}
     	Enumeration mo = mergedOrders.keys();
@@ -398,6 +406,9 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         	Service service = Service.getService(companyuid);
         	if(service!=null && service.getLabel(sPrintLanguage)!=null){
         		serviceName=service.getLabel(sPrintLanguage);
+        	}
+        	else{
+        		serviceName=ScreenHelper.getTranNoLink("service",companyuid,sPrintLanguage);
         	}
         	cell=createHeaderCell(serviceName,1,12);
         	cell.setBorderColor(BaseColor.BLACK);
