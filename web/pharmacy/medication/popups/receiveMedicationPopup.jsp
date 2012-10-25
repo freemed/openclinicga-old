@@ -367,7 +367,7 @@
                     <tr>
                         <td class="admin"><%=getTran("Web","unitschanged",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditUnitsChanged" id="EditUnitsChanged" size="5" maxLength="5" value="<%=sSelectedUnitsChanged%>" onKeyUp="if(this.value=='0'){this.value='';}isNumber(this);setMaxQuantityValue(setMaxQuantity);" <%=(sAction.equals("showDetails")?"READONLY":"")%>><span id="maxquantity"></span>
+                            <input class="text" type="text" name="EditUnitsChanged" id="EditUnitsChanged" size="10" maxLength="10" value="<%=sSelectedUnitsChanged%>" onKeyUp="if(this.value=='0'){this.value='';}isNumber(this);setMaxQuantityValue(setMaxQuantity);" <%=(sAction.equals("showDetails")?"READONLY":"")%>><span id="maxquantity"></span>
                         </td>
                     </tr>
                     <%-- SourceDestination type --%>
@@ -655,7 +655,7 @@
             excludeServiceUid=productStock.getServiceStockUid();
         }
       %>
-    openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+serviceUidField+"&ReturnServiceStockNameField="+serviceNameField+"&SearchProductUid=<%=productuid%>&SearchProductLevel="+document.getElementsByName('EditUnitsChanged')[0].value+"&ExcludeServiceStockUid=<%=excludeServiceUid%>");
+    openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+serviceUidField+"&ReturnServiceStockNameField="+serviceNameField+"&SearchProductUid=<%=productuid%>&SearchProductLevel="+document.all['EditUnitsChanged'].value+"&ExcludeServiceStockUid=<%=excludeServiceUid%>");
   }
 
   <%-- popup : search patient --%>
@@ -701,7 +701,7 @@
 		}
 		else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="supplier"){
 			document.getElementById("batch").innerHTML="<table><tr><td><%=getTran("web","batch.number",sWebLanguage)%></td><td><input type='text' name='EditBatchNumber' value='' size='40'/></td></tr>"+
-			"<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%></td><td><input type='text' name='EditBatchEnd' value='' size='10'/></td></tr>"+
+			"<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%></td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
 			"<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' value='' size='80'/></td></tr></table>";
 			setMaxQuantityValue(999999);
 		}		
