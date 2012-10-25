@@ -48,17 +48,20 @@
 
             // only search product-name when different productstock-UID
             sProductStockUid = order.getProductStockUid();
-            if (!sProductStockUid.equals(sPreviousProductStockUid)) {
+            if (sProductStockUid!=null && !sProductStockUid.equals(sPreviousProductStockUid)) {
                 sPreviousProductStockUid = sProductStockUid;
                 productStock = ProductStock.get(sProductStockUid);
 
-                if (productStock != null) {
+                if (productStock != null && productStock.getProduct()!=null &&  productStock.getServiceStock()!=null) {
                     sProductName = productStock.getProduct().getName();
                     sServiceStockName = productStock.getServiceStock().getName();
                     sSupplierUid = checkString(productStock.getProduct().getSupplierUid());
                     if (sSupplierUid.length() == 0) {
                         sSupplierUid = checkString(productStock.getSupplierUid());
                     }
+                }
+                else {
+                	continue;
                 }
             }
 
@@ -102,11 +105,16 @@
         for (int i = 0; i < supplierUids.size(); i++) {
             sSupplierUid = (String) supplierUids.get(i);
             ordersOfOneSupplier = (Vector) ordersPerSupplier.get(sSupplierUid);
+            Service company = Service.getService(sSupplierUid);
+            String warning ="";
+            if(company==null){
+            	warning=" <font color='red'>"+getTran("web","unknownsupplier",sWebLanguage)+"</font>";
+            }
 
             // Supplier sub-title
             html.append("<tr id='headerOfSupplier_" + i + "' title='" + showOrdersTran + "'>")
                     .append(" <td class='titleadmin' width='22' onClick=\"toggleOrdersDiv('" + i + "');\" style='text-align:center;'>&nbsp;<img id='img_" + i + "' src='" + sCONTEXTPATH + "/_img/plus.png' class='link'></td>")
-                    .append(" <td class='titleadmin' width='80%' onClick=\"toggleOrdersDiv('" + i + "');\">&nbsp;&nbsp;" + getTran("service", sSupplierUid, sWebLanguage) + " (" + ordersOfOneSupplier.size() + " " + ordersTran + ")</td>")
+                    .append(" <td class='titleadmin' width='80%' onClick=\"toggleOrdersDiv('" + i + "');\">&nbsp;&nbsp;" + getTran("service", sSupplierUid, sWebLanguage) + " (" + ordersOfOneSupplier.size() + " " + ordersTran + ")"+warning+"</td>")
                     .append(" <td class='titleadmin' width='20%' onClick='' style='font-weight:normal;'>")
                     .append("   <a href=\"javascript:checkAll('" + sSupplierUid + "',true);\">" + getTran("web.manage.checkdb", "CheckAll", sWebLanguage) + "</a>")
                     .append("   <a href=\"javascript:checkAll('" + sSupplierUid + "',false);\">" + getTran("web.manage.checkdb", "UncheckAll", sWebLanguage) + "</a>")
