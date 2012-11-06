@@ -57,18 +57,6 @@
                         if (debet.getCredited() > 0) {
                             sCredited = getTran("web.occup", "medwan.common.yes", sWebLanguage);
                         }
-						System.out.println("1");
-						System.out.println("sPatientName.toUpperCase()="+sPatientName.toUpperCase());
-						System.out.println("debet.getDate().getTime()="+debet.getDate().getTime());
-						System.out.println("sEncounterName="+sEncounterName);
-						System.out.println("MedwanQuery.getInstance().getUser(debet.getUpdateUser())="+MedwanQuery.getInstance().getUser(debet.getUpdateUser()));
-						System.out.println("debet.getUpdateUser().getPersonVO().getFullName()="+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName());
-						System.out.println("debet.getQuantity()="+debet.getQuantity());
-						System.out.println("debet.getUid()="+debet.getUid());
-						System.out.println("prestation="+prestation);
-						System.out.println("HTMLEntities.htmlentities(sPrestationDescription)="+HTMLEntities.htmlentities(sPrestationDescription));
-						System.out.println("1");
-						System.out.println("1");
                         hSort.put(sPatientName.toUpperCase() + "=" + debet.getDate().getTime() + "=" + debet.getUid(), " onclick=\"setDebet('" + debet.getUid() + "');\">"
                                 + "<td>" + ScreenHelper.getSQLDate(debet.getDate()) + "</td>"
                                 + "<td>" + HTMLEntities.htmlentities(sEncounterName) + " ("+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName()+")</td>"

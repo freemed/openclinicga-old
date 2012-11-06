@@ -1,5 +1,4 @@
-<%@ page import="be.openclinic.finance.Debet,be.openclinic.adt.Encounter
-,be.openclinic.finance.Insurance,be.openclinic.finance.Prestation,java.util.*" %>
+<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.util.*" %>
 <%@ page import="java.util.Date" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
@@ -297,7 +296,20 @@
         <tr>
             <td class="admin"/>
             <td class="admin2">
+            <%
+            	boolean canSave=true;
+            	if(debet!=null && debet.getPatientInvoiceUid()!=null){
+            		PatientInvoice invoice = PatientInvoice.get(debet.getPatientInvoiceUid());
+            		if(invoice==null || invoice.getStatus()==null || !invoice.getStatus().equalsIgnoreCase("open")){
+            			canSave=false;
+            		}
+            	}
+            	if(canSave){
+            %>
                 <input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+            <%
+            	}
+            %>
             </td>
         </tr>
     </table>
