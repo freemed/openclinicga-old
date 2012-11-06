@@ -1,4 +1,4 @@
-z<zpackage be.mxs.common.util.io;
+package be.mxs.common.util.io;
 
 import java.net.URL;
 
