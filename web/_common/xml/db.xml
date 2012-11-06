@@ -1225,6 +1225,7 @@
 			<column name="OC_OPERATION_RECEIVECOMMENT" dbtype="varchar" javatype="string" size="255"/>
 			<column name="OC_OPERATION_RECEIVEPRODUCTSTOCKUID" dbtype="varchar" javatype="string" size="255"/>
 			<column name="OC_OPERATION_DOCUMENTUID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_OPERATION_ENCOUNTERUID" dbtype="varchar" javatype="string" size="50"/>
 		</columns>
 		<indexes>
 			<index name="OC_OPERATION_OBJECTID">

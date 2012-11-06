@@ -29,7 +29,7 @@
         <Menu labelid="urgencybedoverview" accessrights="adt.urgencybedoverview.select" url="/main.do?Page=adt/overviewUrgencyBeds.jsp"/>
         <Menu labelid="pharmacy" accessrights="pharmacy.select">
             <Menu labelid="drugsout" patientselected="true" accessrights="medication.medicationdelivery" url="/main.do?Page=pharmacy/drugsOut.jsp"/>
-            <Menu labelid="drugsoutbarcode" patientselected="true" accessrights="medication.medicationdelivery" url="javascript:showdrugsoutbarcode();"/>
+            <Menu labelid="drugsoutbarcode" patientselected="true" activeencounter="true" accessrights="medication.medicationdelivery" url="javascript:showdrugsoutbarcode();"/>
             <Menu labelid="manageUserProducts" accessrights="pharmacy.manageuserproducts.select" url="/main.do?Page=pharmacy/manageUserProducts.jsp"/>
             <Menu labelid="manageProducts" accessrights="pharmacy.manageproducts.select" url="/main.do?Page=pharmacy/manageProducts.jsp"/>
             <Menu labelid="manageServiceStocks" accessrights="pharmacy.manageservicestocks.select" url="/main.do?Page=pharmacy/manageServiceStocks.jsp"/>
