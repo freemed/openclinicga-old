@@ -57,16 +57,17 @@
     </tr>
 </table>
 <br>
+<center>
 <%-- HEADER ---------------------------------------------------------------------------------%>
-<div class="search" style="width:100%;height:300px;">
+<div class="search" style="width:98%">
     <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
         <%-- HEADER --%>
         <tr class="admin">
-            <td width="100"></td>
-            <td width="100" style="text-align:right;">&nbsp;<%=getTran("web","in",sWebLanguage)%></td>
-            <td width="100" style="text-align:right;">&nbsp;<%=getTran("web","out",sWebLanguage)%></td>
-            <td width="100" style="text-align:right;">&nbsp;<%=getTran("web","netto",sWebLanguage)%></td>
-            <td width="*"   style="text-align:right;">&nbsp;<%=getTran("web","level",sWebLanguage)%></td>
+            <td></td>
+            <td style="text-align:right;">&nbsp;<%=getTran("web","in",sWebLanguage)%></td>
+            <td style="text-align:right;">&nbsp;<%=getTran("web","out",sWebLanguage)%></td>
+            <td style="text-align:right;">&nbsp;<%=getTran("web","netto",sWebLanguage)%></td>
+            <td style="text-align:right;">&nbsp;<%=getTran("web","level",sWebLanguage)%></td>
         </tr>
         <%-- DISPLAY MONTHS --%>
         <tbody>
@@ -101,8 +102,11 @@
                     }
 
                     // count units
+                    System.out.println("----------"+calendar.getTime());
                     unitsIn = productStock.getTotalUnitsInForDate(calendar.getTime());
                     unitsOut = productStock.getTotalUnitsOutForDate(calendar.getTime());
+                    System.out.println("----------"+unitsIn);
+                    System.out.println("----------"+unitsOut);
                     unitsDiff = unitsIn - unitsOut;
 
                     // alternate row-style
@@ -135,19 +139,15 @@
             unitsDiff = unitsIn - unitsOut;
         %>
         <tr class="admin">
-            <td width="100">&nbsp;<%=getTran("web","total",sWebLanguage)%></td>
-            <td width="100" style="text-align:right;"><%=unitsIn%>&nbsp;</td>
-            <td width="100" style="text-align:right;"><%=unitsOut%>&nbsp;</td>
-            <td width="100" style="text-align:right;"><%=(unitsDiff<0?unitsDiff+"":(unitsDiff==0?unitsDiff+"":"+"+unitsDiff))%>&nbsp;</td>
-            <td width="*">&nbsp;</td>
+            <td>&nbsp;<%=getTran("web","total",sWebLanguage)%></td>
+            <td style="text-align:right;"><%=unitsIn%>&nbsp;</td>
+            <td style="text-align:right;"><%=unitsOut%>&nbsp;</td>
+            <td style="text-align:right;"><%=(unitsDiff<0?unitsDiff+"":(unitsDiff==0?unitsDiff+"":"+"+unitsDiff))%>&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
     </table>
 </div>
-<%-- CLOSE BUTTON --%>
-<%=ScreenHelper.alignButtonsStart()%>
-    <input type="button" class="button" name="closeButton" value='<%=getTran("Web","close",sWebLanguage)%>' onclick='window.close();'>
-<%=ScreenHelper.alignButtonsStop()%>
-
+</center>
 <script type="text/javascript">
     <%-- SHOW UNITS FOR DAY --%>
     function showUnitsForDay(date,productStockUid){

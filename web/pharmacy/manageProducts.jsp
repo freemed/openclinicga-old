@@ -41,7 +41,7 @@
             // productGroup
             sProductGroup = checkString(product.getProductGroup());
             if (sProductGroup.length() > 0) {
-                sProductGroup = getTran("product.productgroup", sProductGroup, sWebLanguage);
+                sProductGroup = getTranNoLink("product.productgroup", sProductGroup, sWebLanguage);
             }
 
             // alternate row-style
@@ -84,6 +84,9 @@
             sEditBarcode = checkString(request.getParameter("EditBarcode")),
             sEditPrestationCode = checkString(request.getParameter("EditPrestationCode")),
             sEditPrestationQuantity = checkString(request.getParameter("EditPrestationQuantity")),
+            sEditMargin = checkString(request.getParameter("EditMargin")),
+            sEditApplyLowerPrices = checkString(request.getParameter("EditApplyLowerPrices")),
+            sEditAutomaticInvoicing = checkString(request.getParameter("EditAutomaticInvoicing")),
             sEditProductGroup = checkString(request.getParameter("EditProductGroup"));
 
     String  sTime1 = checkString(request.getParameter("time1")),
@@ -146,7 +149,7 @@
             sSelectedPackageUnits = "", sSelectedMinOrderPackages = "", sSelectedSupplierUid = "",
             sSelectedTimeUnit = "", sFindSupplierName, sSelectedTimeUnitCount = "",
             sSelectedUnitsPerTimeUnit = "", sSelectedSupplierName = "", sSelectedProductGroup = "", sSelectedBarcode="",
-            sSelectedPrestationCode="",sSelectedPrestationQuantity="";
+            sSelectedPrestationCode="",sSelectedPrestationQuantity="", sSelectedMargin =MedwanQuery.getInstance().getConfigString("defaultProductsMargin",""), sSelectedApplyLowerPrices="",sSelectedAutomaticInvoicing="";
 
     // get data from form
     sFindProductName = checkString(request.getParameter("FindProductName"));
@@ -201,7 +204,9 @@
         if (sEditPrestationQuantity.length() > 0) product.setPrestationquantity(Integer.parseInt(sEditPrestationQuantity));
         if (sEditTimeUnitCount.length() > 0) product.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
         if (sEditUnitsPerTimeUnit.length() > 0) product.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
-
+        if (sEditMargin.length() > 0) product.setMargin(Double.parseDouble(sEditMargin));
+		if (sEditApplyLowerPrices.length()>0) product.setApplyLowerPrices(Integer.parseInt(sEditApplyLowerPrices)==1);
+		if (sEditAutomaticInvoicing.length()>0) product.setAutomaticInvoicing(Integer.parseInt(sEditAutomaticInvoicing)==1);
         // does product exist ?
         String existingProductUid = product.exists();
         boolean productExists = existingProductUid.length() > 0;
@@ -326,6 +331,9 @@
                 sSelectedBarcode = checkString(product.getBarcode());
                 sSelectedPrestationCode = checkString(product.getPrestationcode());
                 sSelectedPrestationQuantity = product.getPrestationquantity()+"";
+                sSelectedMargin=product.getMargin()+"";
+                sSelectedApplyLowerPrices=product.isApplyLowerPrices()?"1":"0";
+                sSelectedAutomaticInvoicing=product.isAutomaticInvoicing()?"1":"0";
             }
 
             productSchema = ProductSchema.getSingleProductSchema(product.getUid());
@@ -346,6 +354,9 @@
             sSelectedBarcode = sEditBarcode;
             sSelectedPrestationCode = sEditPrestationCode;
             sSelectedPrestationQuantity = sEditPrestationQuantity;
+            sSelectedMargin =sEditMargin;
+            sSelectedApplyLowerPrices=sEditApplyLowerPrices;
+            sSelectedAutomaticInvoicing=sEditAutomaticInvoicing;
         }
         else {
             // do not get data from DB, but show data that were allready in the search-form
@@ -361,6 +372,9 @@
             sSelectedBarcode = "";
             sSelectedPrestationCode = "";
             sSelectedPrestationQuantity = "0";
+            sSelectedMargin=MedwanQuery.getInstance().getConfigString("defaultProductsMargin","");
+            sSelectedApplyLowerPrices="0";
+            sSelectedAutomaticInvoicing="0";
 
             sSelectedProductGroup = sFindProductGroup;
             sSelectedSupplierName = sFindSupplierName;
@@ -653,6 +667,24 @@
                             	}
                             %>
                             <input class="greytext" readonly disabled type="text" name="EditPrestationName" id="EditPrestationName" value="<%=sEditPrestationName%>" size="50"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","automatic.invoicing",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input class="text" type="checkbox" name="EditAutomaticInvoicing"  value="1" <%=sSelectedAutomaticInvoicing.equalsIgnoreCase("1")?"checked":"" %>>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","margin",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input class="text" type="text" name="EditMargin" size="15" maxLength="15" value="<%=sSelectedMargin%>" onKeyUp="isNumber(this);">% <%=getTran("web","zero.is.nocalculation",sWebLanguage) %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","apply.lower.prices",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input class="text" type="checkbox" name="EditApplyLowerPrices"  value="1" <%=sSelectedApplyLowerPrices.equalsIgnoreCase("1")?"checked":"" %>>
                         </td>
                     </tr>
                     <%-- EDIT BUTTONS --%>

@@ -75,6 +75,7 @@
             html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>");
             if((serviceStock.isAuthorizedUser(activeUser.userid) || activeUser.getAccessRight("sa")) && activeUser.getAccessRight("pharmacy.manageservicestocks.delete")){
                 html.append(" <td align='left'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sServiceStockUid + "');\"/>");
+                html.append("<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sServiceStockUid+"','"+serviceStock.getName() + "');\" title='" + getTranNoLink("web","stockfiche",sWebLanguage) + "'/>");
             }
             else {
                 html.append("<td>");
@@ -1186,6 +1187,11 @@
   function bulkReceive(serviceStockUid){
 	    openPopup("pharmacy/popups/bulkReceive.jsp&ServiceStockUid="+serviceStockUid+"&ts=<%=getTs()%>",700,400);
   }
+
+  function printFiche(serviceStockUid,serviceStockName){
+		openPopup("pharmacy/viewServiceStockFiches.jsp&ts=<%=getTs()%>&Action=find&FindServiceStockUid="+serviceStockUid+"&GetYear=<%=new SimpleDateFormat("yyyy").format(new java.util.Date())%>&FindServiceStockName="+serviceStockName,800,500);
+	  }
+
 
   <%-- close "search in progress"-popup that might still be open --%>
   var popup = window.open("","Searching","width=1,height=1");

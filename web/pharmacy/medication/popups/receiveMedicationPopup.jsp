@@ -419,7 +419,7 @@
                         		}
 							%>
                     <tr>
-                        <td class="admin"><%=getTran("Web","batch",sWebLanguage)%>&nbsp;*</td>
+                        <td class="admin"><%=getTran("Web","batch",sWebLanguage)%></td>
                         <td class="admin2"><div id="batch" name="batch"/></td>
                     </tr>
                     <%
@@ -455,16 +455,16 @@
                         transactionForm.EditSrcDestUid.value='';
                         transactionForm.EditSrcDestName.value='';
 						//For specific EditOperationDescr values, an EditSrcDestType value may be forced
-						if('<%=MedwanQuery.getInstance().getConfigString("forceservicestockforproductstockoperations","")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+						if('<%=MedwanQuery.getInstance().getConfigString("forceservicestockforproductstockoperations","medicationreceipt.1")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							transactionForm.EditSrcDestType.value='servicestock';
 						}
-						if('<%=MedwanQuery.getInstance().getConfigString("forcepatientforproductstockoperations","")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+						if('<%=MedwanQuery.getInstance().getConfigString("forcepatientforproductstockoperations","medicationreceipt.2")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							transactionForm.EditSrcDestType.value='patient';
 						}
-						if('<%=MedwanQuery.getInstance().getConfigString("forceproviderforproductstockoperations","")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+						if('<%=MedwanQuery.getInstance().getConfigString("forceproviderforproductstockoperations","medicationreceipt.4")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							transactionForm.EditSrcDestType.value='supplier';
 						}
-						if('<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutsource","")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+						if('<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutsource","medicationreceipt.3*medicationreceipt.99")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							document.getElementById('sourceline').style.visibility="hidden";
 							document.getElementById('documentline').style.visibility="hidden";
 							document.getElementById('EditProductStockDocumentUid').value='';
@@ -489,6 +489,7 @@
 	   	                            document.getElementById('EditSrcDestName').readOnly=true;
 	   	                        <%
 								}
+								System.out.println("0.1");
 	   	                        %>
 								document.getElementById('documentline').style.visibility="visible";
 
@@ -504,11 +505,13 @@
 	                        else if(srcDestType.indexOf('supplier') > -1){
 								document.getElementById('documentline').style.visibility="visible";
     							<%
-								if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)!=1){
+System.out.println("1");
+    							if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)!=1){
 								%>
 		                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";
 	   	                        <%
 								}
+    							System.out.println("2");
 	   	                        %>
 
 	                            document.getElementById('EditSrcDestName').readOnly=false;
@@ -521,6 +524,8 @@
 									transactionForm.EditSrcDestName.value = "";
 								}
 	                        }
+	                        <%
+	                        %>
 	                        else if(srcDestType.indexOf('patient') > -1){
 								document.getElementById('documentline').style.visibility="hidden";
                             	document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
@@ -532,12 +537,18 @@
 									transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
 								}
 								else{
-									transactionForm.EditSrcDestUid.value = "";
-									transactionForm.EditSrcDestName.value = "";
+									if(<%=activePatient!=null?"true":"false"%> && transactionForm.EditSrcDestUid.value==''){
+										transactionForm.EditSrcDestUid.value='<%=activePatient==null?"":activePatient.personid%>';
+										transactionForm.EditSrcDestName.value='<%=activePatient==null?"":activePatient.lastname.toUpperCase()+", "+activePatient.firstname.toUpperCase()%>';
+									}
+									else {
+										transactionForm.EditSrcDestUid.value = "";
+										transactionForm.EditSrcDestName.value = "";
+									}
+
 								}
 	                        }
                         }
-
                         prevSrcDestType = srcDestType;
                         showBatchInfo();
                       }
@@ -575,7 +586,6 @@
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   window.resizeTo(700,270);
-
   <%
       // default focus field
       if(displayEditFields){
@@ -676,7 +686,6 @@
         }
     %>
   }
-
 	function showBatchInfo(){
 		if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="servicestock"){
 			if(transactionForm.EditSrcDestUid.value.length>0){
@@ -705,6 +714,15 @@
 			"<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' value='' size='80'/></td></tr></table>";
 			setMaxQuantityValue(999999);
 		}		
+		else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="patient"){
+			document.getElementById("batch").innerHTML="<table><tr><td><%=getTran("web","batch.number",sWebLanguage)%></td><td><input type='text' name='EditBatchNumber' value='' size='40'/></td></tr>"+
+			"<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' value='' size='80'/></td></tr></table>";
+			setMaxQuantityValue(999999);
+		}	
+		else {
+			document.getElementById("batch").innerHTML="";
+			setMaxQuantityValue(999999);
+		}
 	}
 
     function setMaxQuantityValue(mq){

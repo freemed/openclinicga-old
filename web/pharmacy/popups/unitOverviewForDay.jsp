@@ -47,7 +47,7 @@
     for (int n = 0; n < operations.size(); n++) {
         ProductStockOperation operation = (ProductStockOperation) operations.elementAt(n);
         ObjectReference sourceDestination = operation.getSourceDestination();
-        String sd = "",username="";
+        String sd = "",username="",sOperation="";
         UserVO user=MedwanQuery.getInstance().getUser(operation.getUpdateUser());
         if(user!=null){
             username=user.getPersonVO().getFullName();
@@ -58,44 +58,55 @@
                 AdminPerson patient = AdminPerson.getAdminPerson(ad_conn, sourceDestination.getObjectUid());
                 ad_conn.close();
                 sd = patient.personid + ": " + patient.firstname + " " + patient.lastname;
-            } else if (sourceDestination.getObjectType().equalsIgnoreCase("servicestock")) {
+            } else if (sourceDestination.getObjectType().equalsIgnoreCase("servicestock") || sourceDestination.getObjectType().equalsIgnoreCase("service")) {
                 ServiceStock serviceStock = ServiceStock.get(sourceDestination.getObjectUid());
-                sd = serviceStock.getName();
-            }
+                if(serviceStock!=null){
+                	sd = serviceStock.getName();
+                }
+	        } else if (sourceDestination.getObjectType().equalsIgnoreCase("supplier")) {
+	            sd = sourceDestination.getObjectUid();
+	        }
         }
+
         String movement = "", sClass = "";
         if (operation.getSourceDestination() != null && operation.getSourceDestination().getObjectType().equalsIgnoreCase("patient")) {
             if (operation.getDescription().indexOf("receipt") > -1) {
                 movement = "+";
                 sClass = "list";
+                sOperation=getTran("productstockoperation.medicationreceipt", operation.getDescription(), sWebLanguage);
             } else if (operation.getDescription().indexOf("delivery") > -1) {
                 movement = "-";
                 sClass = "list1";
+                sOperation=getTran("productstockoperation.medicationdelivery", operation.getDescription(), sWebLanguage);
             }
-        } else
-        if (operation.getSourceDestination() != null && operation.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")) {
+        } 
+        else if (operation.getSourceDestination() != null && operation.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")) {
             if (operation.getDescription().indexOf("receipt") > -1 || operation.getDescription().indexOf("correctionin") > -1) {
                 movement = "+";
                 sClass = "list";
+                sOperation=getTran("productstockoperation.medicationreceipt", operation.getDescription(), sWebLanguage);
             } else
             if (operation.getDescription().indexOf("delivery") > -1 || operation.getDescription().indexOf("correctionout") > -1) {
                 movement = "-";
                 sClass = "list1";
+                sOperation=getTran("productstockoperation.medicationdelivery", operation.getDescription(), sWebLanguage);
             }
         }
         else {
             if (operation.getDescription().indexOf("receipt") > -1 || operation.getDescription().indexOf("correctionin") > -1) {
                 movement = "+";
                 sClass = "list";
+                sOperation=getTran("productstockoperation.medicationreceipt", operation.getDescription(), sWebLanguage);
             } else
             if (operation.getDescription().indexOf("delivery") > -1 || operation.getDescription().indexOf("correctionout") > -1) {
                 movement = "-";
                 sClass = "list1";
+                sOperation=getTran("productstockoperation.medicationdelivery", operation.getDescription(), sWebLanguage);
             }
         }
 %>
     <tr class="<%=sClass%>">
-        <td><%=getTran("web", operation.getDescription(), sWebLanguage)%></td>
+        <td><%=sOperation%></td>
         <td><%=movement+operation.getUnitsChanged()%></td>
         <td><b><%=sd%></b></td>
         <td><%=username%></td>
@@ -105,10 +116,6 @@
 %>
 </table>
     </div>
-<%-- CLOSE BUTTON --%>
-<%=ScreenHelper.alignButtonsStart()%>
-    <input type="button" class="button" name="closeButton" value='<%=getTran("Web","close",sWebLanguage)%>' onclick='window.close();'>
-<%=ScreenHelper.alignButtonsStop()%>
 
 <script type="text/javascript">
     <%-- SHOW UNITS FOR DAY --%>
