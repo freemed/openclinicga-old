@@ -7,6 +7,7 @@
            sFindDOB = checkString(request.getParameter("FindDOB")),
            sFindGender = checkString(request.getParameter("FindGender")),
            sReturnPersonID = checkString(request.getParameter("ReturnPersonID")),
+           sReturnFunction = checkString(request.getParameter("ReturnFunction")),
            sPersonID = checkString(request.getParameter("PersonID")),
            sSetGreenField = checkString(request.getParameter("SetGreenField"));
 
@@ -130,6 +131,14 @@
         if ("<%=sReturnName%>" != "") {
             window.opener.document.getElementsByName("<%=sReturnName%>")[0].value = sName;
         }
+
+		<%
+			if(sReturnFunction.length()>0){
+		%>
+            window.opener.<%=sReturnFunction%>;
+		<%
+			}
+		%>
 
         window.close();
     }
