@@ -11,6 +11,7 @@
         public String accessrights;
         public String url;
         public String patientselected;
+        public String activeencounter;
         public Vector menus;
         public String target;
         //--- CONSTRUCTOR -------------------------------------------------------------------------
@@ -27,6 +28,7 @@
             this.accessrights = checkString(eMenu.attributeValue("accessrights")).toLowerCase();
             this.labelid = checkString(eMenu.attributeValue("labelid")).toLowerCase();
             this.patientselected = checkString(eMenu.attributeValue("patientselected"));
+            this.activeencounter = checkString(eMenu.attributeValue("activeencounter"));
             this.target = checkString(eMenu.attributeValue("target"));
 
             // replace ; by & if url is no javascript
@@ -46,7 +48,7 @@
             }
         }
         //--- MAKE MENU ---------------------------------------------------------------------------
-        public String makeMenu(boolean bMenu, String sWebLanguage, String sParentMenu, User user, boolean last) {
+        public String makeMenu(boolean bMenu, String sWebLanguage, String sParentMenu, User user, boolean last,AdminPerson activePatient) {
             String sReturn = "";
             try {
                 if (this.accessrights.length() > 0) {
@@ -73,6 +75,11 @@
                     }
                     //                 }
                 }
+                if(this.activeencounter.equalsIgnoreCase("true")){
+                	if(activePatient==null || Encounter.getActiveEncounter(activePatient.personid)==null){
+                		return "";
+                	}
+                }
                 if ((patientselected.equalsIgnoreCase("true")) && !bMenu) {
                     return "";
                 }
@@ -95,7 +102,7 @@
                     Menu subMenu;
                     for (int y = 0; y < this.menus.size(); y++) {
                         subMenu = (Menu) this.menus.elementAt(y);
-                        subsubMenu += subMenu.makeMenu(bMenu, sWebLanguage, this.labelid, user, (y == this.menus.size() - 1));
+                        subsubMenu += subMenu.makeMenu(bMenu, sWebLanguage, this.labelid, user, (y == this.menus.size() - 1),activePatient);
                     }
                     if (this.target.length() > 0) {
                         sReturn += "<li><a href='javascript:void(0); class='subparent''>" + sTranslation + "</a>";
@@ -221,7 +228,7 @@
                             if (menu.menus.size() > 0) {
                                 for (int y = 0; y < menu.menus.size(); y++) {
                                     subMenu = (Menu) menu.menus.elementAt(y);
-                                    subs += subMenu.makeMenu(bMenu, sWebLanguage, menu.labelid, activeUser, (y == menu.menus.size() - 1));
+                                    subs += subMenu.makeMenu(bMenu, sWebLanguage, menu.labelid, activeUser, (y == menu.menus.size() - 1),activePatient);
                                 }
                                 out.write("<li class='menu_"+menu.labelid+"'>");
                                 out.write("<a href='javascript:void(0)' class='parent'>" + getTranNoLink("Web", menu.labelid, sWebLanguage) + "</a>");
