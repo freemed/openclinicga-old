@@ -2,6 +2,7 @@ package be.openclinic.pharmacy;
 
 import net.admin.Service;
 import be.openclinic.common.OC_Object;
+import be.openclinic.finance.Prestation;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
@@ -29,10 +30,36 @@ public class Product extends OC_Object implements Comparable {
     private String barcode;
     private String prestationcode;
     private int prestationquantity;
-    
+    private double margin;
+    private boolean applyLowerPrices;
+    private boolean automaticInvoicing;
     
 
-    public String getBarcode() {
+    public boolean isAutomaticInvoicing() {
+		return automaticInvoicing;
+	}
+
+	public void setAutomaticInvoicing(boolean automaticInvoicing) {
+		this.automaticInvoicing = automaticInvoicing;
+	}
+
+	public double getMargin() {
+		return margin;
+	}
+
+	public void setMargin(double margin) {
+		this.margin = margin;
+	}
+
+	public boolean isApplyLowerPrices() {
+		return applyLowerPrices;
+	}
+
+	public void setApplyLowerPrices(boolean applyLowerPrices) {
+		this.applyLowerPrices = applyLowerPrices;
+	}
+
+	public String getBarcode() {
 		return barcode;
 	}
 
@@ -205,6 +232,9 @@ public class Product extends OC_Object implements Comparable {
                     product.setBarcode(rs.getString("OC_PRODUCT_BARCODE"));
                     product.setPrestationcode(rs.getString("OC_PRODUCT_PRESTATIONCODE"));
                     product.setPrestationquantity(rs.getInt("OC_PRODUCT_PRESTATIONQUANTITY"));
+                    product.setMargin(rs.getDouble("OC_PRODUCT_MARGIN"));
+                    product.setApplyLowerPrices(rs.getInt("OC_PRODUCT_APPLYLOWERPRICES")==1);
+                    product.setAutomaticInvoicing(rs.getInt("OC_PRODUCT_AUTOMATICINVOICING")==1);
                     
 
                     // timeUnit
@@ -290,6 +320,9 @@ public class Product extends OC_Object implements Comparable {
                 product.setBarcode(rs.getString("OC_PRODUCT_BARCODE"));
                 product.setPrestationcode(rs.getString("OC_PRODUCT_PRESTATIONCODE"));
                 product.setPrestationquantity(rs.getInt("OC_PRODUCT_PRESTATIONQUANTITY"));
+                product.setMargin(rs.getDouble("OC_PRODUCT_MARGIN"));
+                product.setApplyLowerPrices(rs.getInt("OC_PRODUCT_APPLYLOWERPRICES")==1);
+                product.setAutomaticInvoicing(rs.getInt("OC_PRODUCT_AUTOMATICINVOICING")==1);
 
                 // supplier
                 String supplierUid = rs.getString("OC_PRODUCT_SUPPLIERUID");
@@ -410,8 +443,9 @@ public class Product extends OC_Object implements Comparable {
                       "  OC_PRODUCT_MINORDERPACKAGES,OC_PRODUCT_SUPPLIERUID,OC_PRODUCT_TIMEUNIT,"+
                       "  OC_PRODUCT_TIMEUNITCOUNT,OC_PRODUCT_UNITSPERTIMEUNIT,OC_PRODUCT_PRODUCTGROUP,"+
                       "  OC_PRODUCT_CREATETIME,OC_PRODUCT_UPDATETIME,OC_PRODUCT_UPDATEUID,OC_PRODUCT_VERSION,OC_PRODUCT_PRESCRIPTIONINFO," +
-                      "  OC_PRODUCT_BARCODE,OC_PRODUCT_PRESTATIONCODE,OC_PRODUCT_PRESTATIONQUANTITY)"+
-                      " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                      "  OC_PRODUCT_BARCODE,OC_PRODUCT_PRESTATIONCODE,OC_PRODUCT_PRESTATIONQUANTITY,OC_PRODUCT_MARGIN,OC_PRODUCT_APPLYLOWERPRICES," +
+                      "  OC_PRODUCT_AUTOMATICINVOICING)"+
+                      " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
@@ -449,8 +483,23 @@ public class Product extends OC_Object implements Comparable {
             ps.setString(18, this.getBarcode());
             ps.setString(19, this.getPrestationcode());
             ps.setInt(20, this.getPrestationquantity());
+            ps.setDouble(21, this.getMargin());
+            ps.setInt(22, isApplyLowerPrices()?1:0);
+            ps.setInt(23, isAutomaticInvoicing()?1:0);
 
             ps.executeUpdate();
+            
+            //If a health service and a margin were provided, automatically update the health service price
+            if(this.getPrestationcode()!=null && this.getPrestationcode().length()>0 && this.getMargin()!=0 && this.getPrestationquantity()>0){
+            	Prestation prestation = Prestation.get(this.getPrestationcode());
+            	if(prestation!=null){
+            		double newPrice=this.getUnitPrice()*(100+this.getMargin())/(100*(this.getPrestationquantity()));
+            		if(isApplyLowerPrices()||newPrice>prestation.getPrice()){
+	            		prestation.setPrice(newPrice);
+	            		prestation.store();
+            		}
+            	}
+            }
         }
         catch(Exception e){
             e.printStackTrace();
@@ -654,7 +703,7 @@ public class Product extends OC_Object implements Comparable {
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "SELECT "+MedwanQuery.getInstance().topFunction("100")+" OC_PRODUCT_SERVERID,OC_PRODUCT_OBJECTID"+
+            String sSelect = "SELECT "+MedwanQuery.getInstance().topFunction(MedwanQuery.getInstance().getConfigString("maxProductsToShow","100"))+" OC_PRODUCT_SERVERID,OC_PRODUCT_OBJECTID"+
                              " FROM OC_PRODUCTS ";
 
             if(sFindProductName.length()>0 || sFindUnit.length()>0 || sFindUnitPriceMin.length()>0 ||
@@ -697,7 +746,7 @@ public class Product extends OC_Object implements Comparable {
             }
 
             // order
-            sSelect+= "ORDER BY "+sSortCol+" "+sSortDir+MedwanQuery.getInstance().limitFunction("100");
+            sSelect+= "ORDER BY "+sSortCol+" "+sSortDir+MedwanQuery.getInstance().limitFunction(MedwanQuery.getInstance().getConfigString("maxProductsToShow","100"));
 
             ps = oc_conn.prepareStatement(sSelect);
 

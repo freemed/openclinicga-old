@@ -670,8 +670,8 @@ public class ServiceStock extends OC_Object {
         ResultSet rs = null;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            String sSelect = "SELECT COUNT(*) AS pstockcount FROM OC_PRODUCTSTOCKS" +
-                    " WHERE OC_STOCK_SERVICESTOCKUID = ?";
+            String sSelect = "SELECT COUNT(*) AS pstockcount FROM OC_PRODUCTSTOCKS a,OC_PRODUCTS b" +
+                    " WHERE OC_PRODUCT_OBJECTID=replace(OC_STOCK_PRODUCTUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and OC_STOCK_SERVICESTOCKUID = ?";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1, serviceStockUid);
             rs = ps.executeQuery();

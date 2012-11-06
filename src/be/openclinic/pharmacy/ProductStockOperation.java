@@ -295,6 +295,141 @@ public class ProductStockOperation extends OC_Object{
     public String store(){
     	return store(true);
     }
+    
+    public String storeNoProductStockUpdate(){
+        //First we will check if this operation is acceptable
+    	boolean isnew=false;
+        ProductStock productStock = this.getProductStock();
+        if(productStock==null){
+            return "productstockoperation.undefined.productstock";
+        }
+        else if(this.getUid().split(".").length>1 && this.getDescription().indexOf("delivery") > -1){
+            if(productStock.getLevel()<this.getUnitsChanged()){
+                return "productstockoperation.insufficient.stock";
+            }
+        }
+        else if(this.getDescription().indexOf("receipt") > -1){
+            if(this.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")){
+                if(this.getSourceDestination().getObjectUid()!=null && this.getSourceDestination().getObjectUid().length()>0){
+                    ServiceStock serviceStock = ServiceStock.get(this.getSourceDestination().getObjectUid());
+                    if(serviceStock == null){
+                        return "productstockoperation.undefined.sourceservicestock";
+                    }
+                    ProductStock productStockNew=serviceStock.getProductStock(this.getProductStock().getProductUid());
+                    if(productStockNew == null){
+                        return "productstockoperation.undefined.sourceproductstock";
+                    }
+                }
+            }
+        }
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sSelect;
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            if(this.getUid().equals("-1")){
+            	isnew=true;
+                //***** INSERT *****
+                if(Debug.enabled) Debug.println("@@@ PRODUCTSTOCK-OPERATION insert @@@");
+
+                sSelect = "INSERT INTO OC_PRODUCTSTOCKOPERATIONS (OC_OPERATION_SERVERID, OC_OPERATION_OBJECTID,"+
+                          "  OC_OPERATION_DESCRIPTION, OC_OPERATION_SRCDESTTYPE, OC_OPERATION_SRCDESTUID,"+
+                          "  OC_OPERATION_DATE, OC_OPERATION_PRODUCTSTOCKUID, OC_OPERATION_UNITSCHANGED,"+
+                          "  OC_OPERATION_CREATETIME, OC_OPERATION_UPDATETIME, OC_OPERATION_UPDATEUID, OC_OPERATION_PRESCRIPTIONUID,OC_OPERATION_VERSION,OC_OPERATION_BATCHUID,OC_OPERATION_UID,OC_OPERATION_RECEIVECOMMENT," +
+                          "  OC_OPERATION_UNITSRECEIVED,OC_OPERATION_RECEIVEPRODUCTSTOCKUID,OC_OPERATION_DOCUMENTUID)"+
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,?,?)";
+
+                ps = oc_conn.prepareStatement(sSelect);
+
+                // set new uid
+                int serverId = MedwanQuery.getInstance().getConfigInt("serverId");
+                int operationCounter = MedwanQuery.getInstance().getOpenclinicCounter("OC_PRODUCTSTOCKOPERATIONS");
+                ps.setInt(1,serverId);
+                ps.setInt(2,operationCounter);
+                this.setUid(serverId+"."+operationCounter);
+
+                ps.setString(3,this.getDescription());
+                ps.setString(4,this.getSourceDestination().getObjectType());
+                ps.setString(5,this.getSourceDestination().getObjectUid());
+
+                // date
+                if(this.date!=null) ps.setTimestamp(6,new java.sql.Timestamp(this.date.getTime()));
+                else                ps.setNull(6,Types.TIMESTAMP);
+
+                ps.setString(7,this.getProductStockUid());
+                ps.setInt(8,this.getUnitsChanged());
+
+                // OBJECT variables
+                ps.setTimestamp(9,new java.sql.Timestamp(new java.util.Date().getTime())); // now
+                ps.setTimestamp(10,new java.sql.Timestamp(new java.util.Date().getTime())); // now
+                ps.setString(11,this.getUpdateUser());
+                ps.setString(12,this.getPrescriptionUid());
+                ps.setString(13,this.getBatchUid());
+                //if the UID is not known at creation time, then create a new one based on serverid and objectid
+                ps.setString(14, this.getOperationUID()==null || this.getOperationUID().length()==0?serverId+"."+operationCounter:this.getOperationUID());
+                ps.setString(15, this.getReceiveComment());
+                ps.setInt(16, this.getUnitsReceived());
+                ps.setString(17, this.getReceiveProductStockUid());
+                ps.setString(18, this.getDocumentUID());
+
+                ps.executeUpdate();
+            }
+            else{
+                //***** UPDATE *****
+            	//Remark: OC_OPERATION_UID is never updated!!
+                if(Debug.enabled) Debug.println("@@@ PRODUCTSTOCK-OPERATION update @@@");
+
+                sSelect = "UPDATE OC_PRODUCTSTOCKOPERATIONS SET OC_OPERATION_DESCRIPTION=?, OC_OPERATION_SRCDESTTYPE=?,"+
+                          "  OC_OPERATION_SRCDESTUID=?, OC_OPERATION_DATE=?, OC_OPERATION_PRODUCTSTOCKUID=?, OC_OPERATION_UNITSCHANGED=?,"+
+                          "  OC_OPERATION_UPDATETIME=?, OC_OPERATION_UPDATEUID=?, OC_OPERATION_PRESCRIPTIONUID=?,OC_OPERATION_VERSION=(OC_OPERATION_VERSION+1),OC_OPERATION_BATCHUID=?," +
+                          "  OC_OPERATION_RECEIVECOMMENT=?,OC_OPERATION_UNITSRECEIVED=?,OC_OPERATION_RECEIVEPRODUCTSTOCKUID=?,OC_OPERATION_DOCUMENTUID=?"+
+                          " WHERE OC_OPERATION_SERVERID=? AND OC_OPERATION_OBJECTID=?";
+
+                ps = oc_conn.prepareStatement(sSelect);
+                ps.setString(1,this.getDescription());
+                ps.setString(2,this.getSourceDestination().getObjectType());
+                ps.setString(3,this.getSourceDestination().getObjectUid());
+
+                // date begin
+                if(this.date!=null) ps.setTimestamp(4,new java.sql.Timestamp(this.date.getTime()));
+                else                ps.setNull(4,Types.TIMESTAMP);
+
+                ps.setString(5,this.getProductStockUid());
+                ps.setInt(6,this.getUnitsChanged());
+
+                // OBJECT variables
+                ps.setTimestamp(7,new java.sql.Timestamp(new java.util.Date().getTime())); // now
+                ps.setString(8,this.getUpdateUser());
+                ps.setString(9,this.getPrescriptionUid());
+                ps.setString(10,this.getBatchUid());
+                ps.setString(11, this.getReceiveComment());
+                ps.setInt(12, this.getUnitsReceived());
+                ps.setString(13, this.getReceiveProductStockUid());
+                ps.setString(14, this.getDocumentUID());
+
+                ps.setInt(15,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
+                ps.setInt(16,Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".")+1)));
+
+                ps.executeUpdate();
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return null;
+
+    }
     //--- STORE -----------------------------------------------------------------------------------
     public String store(boolean bStorePrestation){
         //First we will check if this operation is acceptable
@@ -459,8 +594,6 @@ public class ProductStockOperation extends OC_Object{
             if(productStock.getSupplierUid()==null){
                 productStock.setSupplierUid("");
             }
-            System.out.println("isnew="+isnew);
-            System.out.println("productStockUid="+productStock.getUid());
             productStock.store();
 
             if(!sourceBatchUid.equalsIgnoreCase("?") || !destinationBatchUid.equalsIgnoreCase("?")){
@@ -469,7 +602,7 @@ public class ProductStockOperation extends OC_Object{
             
             //Generate prestation if indicated in product
             Product product = getProductStock().getProduct();
-            if(bStorePrestation && getSourceDestination().getObjectType().equalsIgnoreCase("patient") && getSourceDestination().getObjectUid().length()>0 && product.getPrestationcode()!=null && product.getPrestationcode().length()>0){
+            if(bStorePrestation && getSourceDestination().getObjectType().equalsIgnoreCase("patient") && getSourceDestination().getObjectUid().length()>0 && product.getPrestationcode()!=null && product.getPrestationcode().length()>0 && product.isAutomaticInvoicing()){
             	Prestation prestation = Prestation.get(product.getPrestationcode());
             	AdminPerson patient = AdminPerson.getAdminPerson(getSourceDestination().getObjectUid());
             	Encounter activeEncounter = Encounter.getActiveEncounter(patient.personid);
@@ -497,11 +630,9 @@ public class ProductStockOperation extends OC_Object{
 	            		debet.setInsurance(insurance);
 	            		//First find out if there is a fixed tariff for this prestation
 	            		insuraramount = prestation.getInsuranceTariff(insurance.getInsurarUid(), insurance.getInsuranceCategoryLetter());
-	            		System.out.println("insuraramount 1 = "+insuraramount);
 	            		if(insuraramount==-1){
 	            			//Calculate the insuranceamount based on reimbursementpercentage
 	            			insuraramount=patientamount*(100-insurance.getPatientShare())/100;
-		            		System.out.println("insuraramount 2 = "+insuraramount);
 	            		}
             		}
             		patientamount=patientamount-insuraramount;
@@ -683,8 +814,8 @@ public class ProductStockOperation extends OC_Object{
             // set questionmark-values
             int questionMarkIdx = 1;
             if(sourceDestionationUid.length() > 0) ps.setString(questionMarkIdx++,sourceDestionationUid);
-            if(dateFrom!=null)                     ps.setDate(questionMarkIdx++,new java.sql.Date(dateFrom.getTime()));
-            if(dateUntil!=null)                    ps.setDate(questionMarkIdx++,new java.sql.Date(dateUntil.getTime()));
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
 
             // execute
             rs = ps.executeQuery();
@@ -733,14 +864,13 @@ public class ProductStockOperation extends OC_Object{
             // order by selected col or default col
             sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
 
-            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
 
             // set questionmark-values
             int questionMarkIdx = 1;
             if(personid.length() > 0) ps.setString(questionMarkIdx++,personid);
-            if(dateFrom!=null)                     ps.setDate(questionMarkIdx++,new java.sql.Date(dateFrom.getTime()));
-            if(dateUntil!=null)                    ps.setDate(questionMarkIdx++,new java.sql.Date(dateUntil.getTime()));
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
 
             // execute
             rs = ps.executeQuery();
@@ -855,8 +985,8 @@ public class ProductStockOperation extends OC_Object{
             // set questionmark-values
             int questionMarkIdx = 1;
             if(sourceDestionationUid.length() > 0) ps.setString(questionMarkIdx++,sourceDestionationUid);
-            if(dateFrom!=null)                     ps.setDate(questionMarkIdx++,new java.sql.Date(dateFrom.getTime()));
-            if(dateUntil!=null)                    ps.setDate(questionMarkIdx++,new java.sql.Date(dateUntil.getTime()));
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
 
             // execute
             rs = ps.executeQuery();
@@ -880,6 +1010,62 @@ public class ProductStockOperation extends OC_Object{
 
         return foundRecords;
     }
+
+    public static Vector getPatientDeliveries(String productStockUid, String sourceDestionationUid, String encounterType, java.util.Date dateFrom, java.util.Date dateUntil,
+            String sSortCol, String sSortDir){
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector foundRecords = new Vector();
+		
+		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		try{
+			String sSelect = "SELECT OC_OPERATION_SERVERID,OC_OPERATION_OBJECTID"+
+			  "  FROM OC_PRODUCTSTOCKOPERATIONS"+
+			  " WHERE OC_OPERATION_DESCRIPTION LIKE 'medicationdelivery.%'" +
+			" and OC_OPERATION_PRODUCTSTOCKUID='"+productStockUid+"'" +
+					" and OC_OPERATION_SRCDESTTYPE='patient'" +
+					" and " +
+					"(exists(select * from oc_encounters where oc_encounter_type='"+encounterType+"' and oc_encounter_objectid=replace(OC_OPERATION_ENCOUNTERUID,'" +MedwanQuery.getInstance().getConfigString("serverId")+".','')) OR "+
+					"exists(select * from oc_encounters_view where oc_encounter_type='"+encounterType+"' and (oc_encounter_objectid=replace(OC_OPERATION_ENCOUNTERUID,'" +MedwanQuery.getInstance().getConfigString("serverId")+".','') OR (oc_encounter_patientuid=OC_OPERATION_SRCDESTUID and oc_operation_date >= oc_encounter_begindate and oc_operation_date <= oc_encounter_enddate)))";
+
+			if(sourceDestionationUid.length()>0){
+				sSelect+=" AND OC_OPERATION_SRCDESTUID = '" + sourceDestionationUid + "'";
+			}
+			// dates
+			if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
+			if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
+			
+			// order by selected col or default col
+			ps = oc_conn.prepareStatement(sSelect);
+			
+			// set questionmark-values
+			int questionMarkIdx = 1;
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
+			
+			// execute
+			rs = ps.executeQuery();
+			while(rs.next()){
+				foundRecords.add(get(rs.getString("OC_OPERATION_SERVERID")+"."+rs.getString("OC_OPERATION_OBJECTID")));
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				oc_conn.close();
+			}
+			catch(SQLException se){
+				se.printStackTrace();
+			}
+		}
+		
+		return foundRecords;
+	}
+
 
     //--- GET RECEIPTS ----------------------------------------------------------------------------
     public static Vector getReceipts(String sourceDestionationUid, java.util.Date dateFrom, java.util.Date dateUntil,
@@ -910,8 +1096,8 @@ public class ProductStockOperation extends OC_Object{
             // set questionmark-values
             int questionMarkIdx = 1;
             if(sourceDestionationUid.length() > 0) ps.setString(questionMarkIdx++,sourceDestionationUid);
-            if(dateFrom!=null)                     ps.setDate(questionMarkIdx++,new java.sql.Date(dateFrom.getTime()));
-            if(dateUntil!=null)                    ps.setDate(questionMarkIdx++,new java.sql.Date(dateUntil.getTime()));
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
 
             // execute
             rs = ps.executeQuery();
@@ -956,17 +1142,17 @@ public class ProductStockOperation extends OC_Object{
             // dates
             if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
             if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
-
+            System.out.println("dateFrom="+dateFrom);
+            System.out.println("dateUntil="+dateUntil);
             // order by selected col or default col
             sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
-
             ps = oc_conn.prepareStatement(sSelect);
-
+            System.out.println(sSelect);
             // set questionmark-values
             int questionMarkIdx = 1;
             if(sourceDestionationUid.length() > 0) ps.setString(questionMarkIdx++,sourceDestionationUid);
-            if(dateFrom!=null)                     ps.setDate(questionMarkIdx++,new java.sql.Date(dateFrom.getTime()));
-            if(dateUntil!=null)                    ps.setDate(questionMarkIdx++,new java.sql.Date(dateUntil.getTime()));
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
 
             // execute
             rs = ps.executeQuery();
