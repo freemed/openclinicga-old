@@ -27,6 +27,10 @@
 <script>
       // *************************** GET CLICKED ELEMENT COMPATIBLE WITH FIREFOX *******//
 
+    function dateError(field){
+    	alert('<%=getTran("Web.Occup","date.error",sWebLanguage)%>');
+    	setTimeout('document.getElementById("'+field.id+'").focus();',100);
+    }  
 	String.prototype.trim = function() {
 	    return this.replace(/^\s+|\s+$/g,"");
 	}

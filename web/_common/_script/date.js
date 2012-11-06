@@ -178,9 +178,6 @@ function checkDate(sobject) {
         if (sDay.length < 2) {
           sDay = "0"+sDay;
         }
-        if (sDay>31) {
-          sDay = "31";
-        }
         sMonth = sdate.substring(sdate.indexOf("/")+1, sdate.lastIndexOf("/"));
         if (sMonth.length < 2) {
           sMonth = "0"+sMonth;
@@ -209,12 +206,10 @@ function checkDate(sobject) {
         }
       }
       if (isDate(sDay,sMonth,sYear)) {
-        sobject.value = sDay+"/"+sMonth+"/"+sYear;
+    	  sobject.value = sDay+"/"+sMonth+"/"+sYear;
         return true;
       }
       else {
-        //sobject.value = "";
-        sobject.select();
         return false;
       }
     }

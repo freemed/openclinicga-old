@@ -126,7 +126,7 @@
         <%
 	        if(flags.indexOf("A")>-1){
         %>
-            <!-- digestif -->
+            <!-- anémie -->
             <tr>
                 <td class="admin" nowrap><%=getTran("medical.diagnosis","anemia",sWebLanguage)%> *</td>
                 <td class="admin2">

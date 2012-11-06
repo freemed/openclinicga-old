@@ -42,6 +42,10 @@
 	            <Menu labelid="export" accessrights="pharmacy.export" url="javascript:downloadPharmacyExport();"/>
 	            <Menu labelid="import" accessrights="pharmacy.import" url="/main.do?Page=pharmacy/importFile.jsp"/>
 	        </Menu>
+            <Menu labelid="pharmacy.reports" accessrights="pharmacy.select">
+	            <Menu labelid="pharmacy.report.expiring.lots" accessrights="pharmacy.select" url="/main.do?Page=pharmacy/expiredLots.jsp"/>
+	            <Menu labelid="pharmacy.report.patientdeliveries" accessrights="pharmacy.select" url="/main.do?Page=pharmacy/patientDeliveries.jsp" patientselected="true"/>
+	        </Menu>
         </Menu>
         <Menu labelid="financial" accessrights="financial.select">
             <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit" url="/main.do?Page=financial/patientCreditEdit.jsp"/>

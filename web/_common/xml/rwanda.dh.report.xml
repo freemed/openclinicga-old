@@ -1,0 +1,1216 @@
+<report>
+<title>II. Outpatient Consultations</title>
+<title>A) Outpatient Morbidity summary table</title>
+	<cases>
+		<case flags="N" type="new" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" type="new" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" type="new" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" type="new" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" type="new" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" type="new" gender="f" agemin="240" agemax="999999"/>
+	</cases>
+	<cases>
+		<case flags="N" type="old" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" type="old" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" type="old" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" type="old" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" type="old" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" type="old" gender="f" agemin="240" agemax="999999"/>
+	</cases>
+	<title>B) Health insurance status of new cases</title>
+	<insurance title="Insured" type="insured"/>
+	<insurance title="Non paying new cases" type="unpaid"/>
+	<title>C) Referrals</title>
+	<referral type="tohospital"/>
+	<referral type="fromhospital"/>
+	<title>D) Special causes of OPD visits</title>
+	<visit type="roadaccidents"/>
+	<title>E) New cases of priority health problems in General OPD</title>
+	<visit title="Diarrhea with dehydration " type="diagnosis" codes="ICD10:A09,K52.9,K59.1;ICPC:D1100" flags="HN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Diarrhea no dehydration" type="diagnosis" codes="ICD10:A09,K52.9,K59.1;ICPC:D1100" flags="hN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Diarrhea bloody (dysentery)" type="diagnosis" codes="ICD10:A09,K52.9,K59.1;ICPC:D1100" flags="BN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Food poisoning" type="diagnosis" codes="ICD10:A05" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Ear infections" type="diagnosis" codes="ICD10:H60.0-H60.9,H62.0-H62.4,H62.8,H66.0,H66.4,H66.9,H67.0,H67.1,H70.0,H73.0,H65.0-H65.4,H65.9;ICPC:H7000,H7100,H7200" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Intestinal parasites" type="diagnosis" codes="ICD10:B82-B82.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Malaria confirmed simple (not pregnant)" type="diagnosis" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="deN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Malaria confirmed simple (in pregnancy)" type="diagnosis" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="dEN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Malaria confirmed with minor digestive symptoms (not pregnant)" type="diagnosis" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="DeN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Malaria confirmed with minor digestive symptoms (in pregnancy)" type="diagnosis" codes="ICD10:B50.0-B54.9;ICPC:A7300" flags="DEN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Malaria presumptive" type="diagnosis" codes="ICD10:B54" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Herpes simplex infections" type="diagnosis" codes="ICD10:B00-B00.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Meningitis" type="diagnosis" codes="ICD10:A20.3,A32.1,A39.0,B45-B45.9,G00-G01,G03-G03.99;ICPC:N7101" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Eye problem Trachoma" type="diagnosis" codes="ICD10:A71-A71.9,B94.0;ICPC:F8600" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Eye problem Trichiasis" type="diagnosis" codes="ICD10:H02-H02.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Eye problem other" type="diagnosis" codes="ICD10:H00-H01.99;H03-H59.99" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Pneumonia" type="diagnosis" codes="ICD10:A48.1,J10.0,J11.0,J12-J12.9,J13,J14,J15-J15.9,J16.0,J16.8,J17.0-J17.3,J17.8,J18.0-J18.2,J18.8,J18.9;ICPC:R8100" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Respiratory infections acute (ARI) other" type="diagnosis" codes="ICD10:A36-A36.9,A48.1,B44.7,B44.9,J03.8,J03.9,J05.1,J06.9,J10.0,J11.0,J12-J12.9,J13,J14,J15-J15.9,J16.0,J16.8,J17.0-J17.3,J17.8,J18.0-J18.2,J18.8,J18.9,J22,J31.0-J31.2,J36,J37.0,J37.1,J85.0-J85.3,J86.0,J86.9;ICPC:R8300" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Teeth and gum Infections" type="diagnosis" codes="ICD10:K05-K08.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Gastritis and duodenitis" type="diagnosis" codes="ICD10:R10.1,K25-K29.9;ICPC:D0200,D8500,D8600-D8601" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Abscesses" type="diagnosis" codes="ICD10:L02-L02.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Ulcers of skin" type="diagnosis" codes="ICD10:L89" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Skin Infection Scabies" type="diagnosis" codes="ICD10:B86" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Skin Infection Fungal (mycoses) superficial" type="diagnosis" codes="ICD10:B36-B36.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Skin Infections Other" type="diagnosis" codes="ICD10:L00-L99.99" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Urinary Tract Infections" type="diagnosis" codes="ICD10:N30-N30.3,N30.8-N30.9,N32.8,N33-N34.9,N36.9,N37-N39.0,N39.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Anemia (confirmed)" type="diagnosis" codes="ICD10:D61-D64.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<title>F) New cases of HIV/AIDS/STI/TB and Non-Communicable diseases </title>
+	<visit title="Heart Disease Acute" type="diagnosis" codes="ICD10:I00-I01.9,I20-I22.9,I30-I30.9,I33-I33.9,I40-I40.9,I46-I46.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Fractures" type="diagnosis" codes="ICD10:M80-M80.9,M81,M84.0-M84.4,M90.7,M96.6,P13.0,P13.4,S02-S02.9,S12-S12.9,S22-S22.9,S32-S32.8,S42-S42.9,S52-S52.9,S62-S62.9,S72-S72.9,S82-S82.9,S92-S92.9,T02-T02.9,T08,T10,T12,T14.2,T90,T91.1,T91.2,T92.1,T92.2,T93.1,T93.2;ICPC:L72-L7699" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Physical traumas, other than fractures" type="diagnosis" codes="ICD10:H26.1,H40.3,I62-I62.9,I69.2,K06.2,M12.5,M16.4,M16.5,M17.2,M17.3,M18.2,M18.3,M19.1,M48.3,M61.0,M87.2,N35.0,O71-O71.9,P10-P15.9,S06.1,S06.5,S06.6,S08-S08.9,S09.2,S13.0,S18,S23.0,S27-S27.2,S28,S28.1,S33.0,S33.4,S38-S38.3,S48-S48.9,S53.2,S53.3,S58-S58.9,S63.3,S63.4,S68-S68.9,S78-S78.9,S88-S88.9,S98-S98.4,T05-T05.9,T09.6,T11.6,T13.6,T14.7,T70.0,T70.1,T79-T79.9,T92.6,T93.6,T98.2;ICPC:A80-A8299,B7600,H8500,L7901,L9702,N80-N8099,S1100" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Bone and Joint disorder, other than fractures" type="diagnosis" codes="ICD10:M00-M54.9" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Discharge, Urethral Male" type="diagnosis" codes="ICD10:R36" flags="N">
+		<empty/>
+		<empty/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<empty/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<empty/>
+	</visit>
+	<visit title="Discharge, Vaginal" type="diagnosis" codes="ICD10:N89.8" flags="N">
+		<empty/>
+		<empty/>
+		<empty/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<empty/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Genital ulcers" type="diagnosis" codes="ICD10:N48.5" flags="N">
+		<empty/>
+		<empty/>
+		<empty/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<empty/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Bubo / scrotal swelling" type="diagnosis" codes="ICD10:K40-K40.9" flags="N">
+		<empty/>
+		<empty/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<empty/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<empty/>
+	</visit>
+	<visit title="Gynecological problems" type="diagnosis" codes="ICD10:C50-C58.9,N61-099.9;ICPC:W-W9999,X-X9999" flags="N">
+		<empty/>
+		<empty/>
+		<empty/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<empty/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Tuberculosis AFB sputum+" type="diagnosis" codes="ICD10:A15-A15.99" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Cough Chronic (>15 days)" type="diagnosis" codes="ICD10:R05" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="AIDS clinical" type="diagnosis" codes="ICD10:B20-B24.99" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Skin Infection opportunistic" type="diagnosis" codes="ICD10:B23.0" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Herpes Zoster (Zona / shingles,)" type="diagnosis" codes="ICD10:B02-B02.99" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Candidiasis oral" type="diagnosis" codes="ICD10:B37.0,B20.4" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Fever Chronic (> 1 month)" type="diagnosis" codes="ICD10:R50-R50.9;ICPC:A0300-A0399" flags="RN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Diarrhoea Chronic opportunistic infections" type="diagnosis" codes="ICD10:A54-A56.8,A59-A59.9,A63-A64.9,K52.9;ICPC:X7000,Y7000" flags="RN">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<visit title="Needle stick-injuries (or other health worker HIV exposure)" type="diagnosis" codes="ICD10:Z20.6" flags="N">
+		<case flags="N" gender="m" agemin="0" agemax="60"/>
+		<case flags="N" gender="f" agemin="0" agemax="60"/>
+		<case flags="N" gender="m" agemin="60" agemax="240"/>
+		<case flags="N" gender="f" agemin="60" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="999999"/>
+		<case flags="N" gender="f" agemin="240" agemax="999999"/>
+	</visit>
+	<title>III. Chronic Diseases and Mental Health</title>
+	<visit title="Post-traumatic stress disorder" type="diagnosis" codes="ICD10:F43.1">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Schizophrenia and other psychoses" type="diagnosis" codes="ICD10:F20-F29.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Neurological problems" type="diagnosis" codes="ICD10:F48-F48.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Psychosomatic problems" type="diagnosis" codes="ICD10:F45-F45.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Behavior disorders (not due to alcohol/drugs)" type="diagnosis" codes="ICD10:F07-F07.99,F53-F54.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Depression" type="diagnosis" codes="ICD10:F32-F33.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Behavior disorders due to use of alcohol/drugs" type="diagnosis" codes="ICD10:F10-F19.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Other Psychological problems" type="diagnosis" codes="">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Epilepsy" type="diagnosis" codes="ICD10:G40-G41.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Diabetes" type="diagnosis" codes="ICD10:E10-E14.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Hypertension" type="diagnosis" codes="ICD10:I10-I11,I11.1-I15.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Hypertension" type="diagnosis" codes="ICD10:I11.0">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Cardio vascular disease other" type="diagnosis" codes="ICD10:I00-I09.99,I16-I99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Leprosy (MB + PB)" type="diagnosis" codes="ICD10:A30-A30.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<visit title="Asthma" type="diagnosis" codes="ICD10:J45-J46.99">
+		<case flags="N" gender="m" agemin="0" agemax="240"/>
+		<case flags="N" gender="f" agemin="0" agemax="240"/>
+		<case flags="N" gender="m" agemin="240" agemax="99999"/>
+		<case flags="N" gender="f" agemin="240" agemax="99999"/>
+		<case flags="n" gender="m" agemin="0" agemax="240"/>
+		<case flags="n" gender="f" agemin="0" agemax="240"/>
+		<case flags="n" gender="m" agemin="240" agemax="99999"/>
+		<case flags="n" gender="f" agemin="240" agemax="99999"/>
+	</visit>
+	<title>IV.	Hospitalizations</title>
+	<title>A) Summary statistics</title>
+	<beds title="Number of beds (a)">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</beds>
+	<patients title="Present at the beginning of the month" type="start">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="Admissions during the month of which:" type="admission">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="     Referred from the Health Centre" type="admission" origin="healthcenter">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="     Non-referred patients" type="admission" origin="home">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="Discharges during the month (b) of which" type="discharge">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="     Authorized/Cured" type="discharge" outcome="cured">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="     Abandoned" type="discharge" outcome="abandoned">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="     Deaths" type="discharge" outcome="dead">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="     Referred" type="discharge" outcome="referral">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="     Counter-referred" type="discharge" outcome="counterreferral">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<patients title="Present at the end of the month" type="end">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</patients>
+	<admissiondays title="Total hospitalization days for discharged patients (c)" type="discharged">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</admissiondays>
+	<admissiondays title="Actual hospitalization days (d)">
+		<department id="int"/>
+		<department id="ped"/>
+		<department id="sur"/>
+		<department id="gyn"/>
+		<department id="nut"/>
+		<department id="icu"/>
+		<department id="neo"/>
+	</admissiondays>
+	<title>B) Payment  for Hospitalization</title>
+	<discharges title="Insured Discharges (Mutuelle etc)" type="insured"/>
+	<discharges title="Non-paying discharges" type="unpaid"/>
+	<discharges title="Non-Paying Indigents discharged" type="free"/>
+	<title>C) Special causes of admissions and deaths</title>
+	<admission title="Road traffic accidents" code="ICD10:V00-V99.99">
+		<count/>
+		<count outcome="dead"/>
+	</admission>
+	<admission title="Natural or man-made disasters (epidemic, earthquake, etc)" code="ICD10:Z65.5">
+		<count/>
+		<count outcome="dead"/>
+	</admission>
+	<title>D) Causes of Hospitalization and death at discharge</title>
+	<admission title="Malaria simple confirmed" code="ICD10:B50.0-B54.9;ICPC:A7300" flags="s">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Malaria simple confirmed" code="ICD10:B50.0-B54.9;ICPC:A7300" flags="S">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Malaria presumptive" code="ICD10:B54">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Borreliosis" code="ICD10:A69.2">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Pneumonia" code="ICD10:A48.1,J10.0,J11.0,J12-J12.9,J13,J14,J15-J15.9,J16.0,J16.8,J17.0-J17.3,J17.8,J18.0-J18.2,J18.8,J18.9;ICPC:R8100">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Pleurisy (non-Tuberculosis)" code="ICD10:R09.1">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Respiratory Infection Acute (ARI) Other" code="ICD10:A36-A36.9,A48.1,B44.7,B44.9,J03.8,J03.9,J05.1,J06.9,J10.0,J11.0,J12-J12.9,J13,J14,J15-J15.9,J16.0,J16.8,J17.0-J17.3,J17.8,J18.0-J18.2,J18.8,J18.9,J22,J31.0-J31.2,J36,J37.0,J37.1,J85.0-J85.3,J86.0,J86.9;ICPC:R8300">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Asthma" code="ICD10:J45-J46.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Diarrhea bloody (Dysentery)" code="ICD10:A09,K52.9,K59.1;ICPC:D1100" flags="B">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Diarrhea with dehydration" code="ICD10:A09,K52.9,K59.1;ICPC:D1100" flags="H">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Diarrhea NO dehydration" code="ICD10:A09,K52.9,K59.1;ICPC:D1100" flags="h">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Cholera" code="ICD10:A00-A00.9">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Typhoid fever (salmonellosis)" code="ICD10:A01-A01.9">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Meningitis" code="ICD10:A20.3,A32.1,A39.0,B45-B45.9,G00-G01,G03-G03.99;ICPC:N7101">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Measles" code="ICD10:B05-B05.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="TB pulmonary Sputum positive" code="ICD10:A15-A15.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="TB extra pulmonary" code="ICD10:A17-A19.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Fever Chronic (> 1 month)" code="ICD10:R50-R50.9;ICPC:A0300-A0399" flags="R">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Pneumopathies" code="ICD10:B01.2,B05.2,B20.6,B22.1,B25.0">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Encephalitis" code="ICD10:A32.1,A81.1,A83-A86.99,B00.4,B01.1,B02.0,B05.0,B22.0,B26.2,B58.2,B94.1,G04-G05.99,G36.1">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Meningitis Cryptococal" code="ICD10:B45.1,G02.1">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Skin infections" code="ICD10:B36,B86-B86.99,L00-L99.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Diarrhea Chronic opportunistic infection" code="ICD10:A54-A56.8,A59-A59.9,A63-A64.9,K52.9;ICPC:X7000,Y7000" flags="R">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="HIV Opportunistic Infections Other" code="ICD10:B36,B86-B86.99,L00-L99.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Trauma Head" code="ICD10:S00-S09.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Ruptured spleen" code="ICD10:S36.0">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Fractures, open" code="ICD10:M80-M80.9,M81,M84.0-M84.4,M90.7,M96.6,P13.0,P13.4,S02-S02.9,S12-S12.9,S22-S22.9,S32-S32.8,S42-S42.9,S52-S52.9,S62-S62.9,S72-S72.9,S82-S82.9,S92-S92.9,T02-T02.9,T08,T10,T12,T14.2,T90,T91.1,T91.2,T92.1,T92.2,T93.1,T93.2;ICPC:L72-L7699" flags="O">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Fractures, internal" code="ICD10:M80-M80.9,M81,M84.0-M84.4,M90.7,M96.6,P13.0,P13.4,S02-S02.9,S12-S12.9,S22-S22.9,S32-S32.8,S42-S42.9,S52-S52.9,S62-S62.9,S72-S72.9,S82-S82.9,S92-S92.9,T02-T02.9,T08,T10,T12,T14.2,T90,T91.1,T91.2,T92.1,T92.2,T93.1,T93.2;ICPC:L72-L7699" flags="o">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Trauma Other" code="ICD10:H26.1,H40.3,I62-I62.9,I69.2,K06.2,M12.5,M16.4,M16.5,M17.2,M17.3,M18.2,M18.3,M19.1,M48.3,M61.0,M87.2,N35.0,O71-O71.9,P10-P15.9,S06.1,S06.5,S06.6,S08-S08.9,S09.2,S13.0,S18,S23.0,S27-S27.2,S28,S28.1,S33.0,S33.4,S38-S38.3,S48-S48.9,S53.2,S53.3,S58-S58.9,S63.3,S63.4,S68-S68.9,S78-S78.9,S88-S88.9,S98-S98.4,T05-T05.9,T09.6,T11.6,T13.6,T14.7,T70.0,T70.1,T79-T79.9,T92.6,T93.6,T98.2;ICPC:A80-A8299,B7600,H8500,L7901,L9702,N80-N8099,S1100">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Burns" code="ICD10:T20-T31.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Cancer Uterine" code="ICD10:C53-C55.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Cancer breast" code="ICD10:C50-C50.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Kaposi's sarcoma" code="ICD10:B21.0,C46-C46.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Cancer Liver" code="ICD10:C22-C22.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Cancer Prostate" code="ICD10:C61">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Tumors Other malignant" code="ICD10:C00-C21.99,C23-C45.99,C47-C49.99,C51-C52,99,C56-C99.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Tumors Other non malignant" code="ICD10:D00-D99.99">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	<admission title="Hepatitis" code="ICD10:B15-B19.99,B25.1,B58.1,K70.1,K71.2-K71.6,K73-K73.99,K75.2-K75.4">
+		<count gender="m" agemin="0" agemax="60"/>
+		<count gender="f" agemin="0" agemax="60"/>
+		<count gender="m" agemin="60" agemax="240"/>
+		<count gender="f" agemin="60" agemax="240"/>
+		<count gender="m" agemin="240" agemax="999999"/>
+		<count gender="f" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="m" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="f" agemin="0" agemax="60"/>
+		<count outcome="dead" gender="m" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="f" agemin="60" agemax="240"/>
+		<count outcome="dead" gender="m" agemin="240" agemax="999999"/>
+		<count outcome="dead" gender="f" agemin="240" agemax="999999"/>
+	</admission>
+	
+</report>
