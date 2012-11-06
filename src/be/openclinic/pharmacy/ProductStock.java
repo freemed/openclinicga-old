@@ -1,5 +1,6 @@
 package be.openclinic.pharmacy;
 import be.openclinic.common.OC_Object;
+import be.openclinic.common.ObjectReference;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
@@ -179,10 +180,10 @@ public class ProductStock extends OC_Object implements Comparable {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        if(stockUid.split("\\.").length!=2 || stockUid.split("\\.")[1].length()==0) {
-        	return null;
-        }
         try {
+        	if(stockUid.split("\\.").length<2){
+        		return null;
+        	}
             String sSelect = "SELECT * FROM OC_PRODUCTSTOCKS" +
                     " WHERE OC_STOCK_SERVERID = ? AND OC_STOCK_OBJECTID = ?";
             ps = oc_conn.prepareStatement(sSelect);
@@ -346,6 +347,24 @@ public class ProductStock extends OC_Object implements Comparable {
                 ps.setTimestamp(questionMarkIdx++, new java.sql.Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(questionMarkIdx++, this.getUpdateUser());
                 ps.executeUpdate();
+                if(this.getLevel()!=0){
+                    //An initial productstockoperation must be created for generating the first stock level
+                	ProductStockOperation operation = new ProductStockOperation();
+                	operation.setUid("-1");
+                	operation.setCreateDateTime(new java.util.Date());
+                	operation.setDate(this.begin);
+                	operation.setDescription("medicationreceipt.99");
+                	operation.setProductStockUid(this.getUid());
+                	operation.setReceiveComment("initial stock");
+                	operation.setUnitsChanged(this.getLevel());
+                	operation.setUpdateDateTime(new java.util.Date());
+                	operation.setUpdateUser(this.getUpdateUser());
+                	operation.setVersion(1);
+                	ObjectReference sourceDestination=new ObjectReference("supplier","?");
+                	operation.setSourceDestination(sourceDestination);
+                	operation.storeNoProductStockUpdate();
+                }
+                
             } else {
                 //***** UPDATE *****
                 if (Debug.enabled) Debug.println("@@@ PRODUCTSTOCK UPDATE @@@");
@@ -734,12 +753,14 @@ public class ProductStock extends OC_Object implements Comparable {
     //--- GET TOTAL UNITS IN FOR MONTH ------------------------------------------------------------
     public int getTotalUnitsInForMonth(java.util.Date dateFrom) {
         int units = 0;
-
+        System.out.println("1.dateFrom="+dateFrom);
         // date from : begin of specified month
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(dateFrom);
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 0, 0, 0, 0);
+        System.out.println("2.dateFrom="+dateFrom);
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1, 0, 0, 0);
         dateFrom = calendar.getTime();
+        System.out.println("3.dateFrom="+dateFrom);
 
         // date untill : end of specified month
         calendar.add(Calendar.MONTH, 1);
@@ -759,13 +780,54 @@ public class ProductStock extends OC_Object implements Comparable {
         // date from : begin of specified month
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(dateFrom);
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 0, 0, 0, 0);
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1, 0, 0, 0);
         dateFrom = calendar.getTime();
 
         // date untill : end of specified month
         calendar.add(Calendar.MONTH, 1);
         java.util.Date dateUntill = calendar.getTime();
         Vector deliveries = ProductStockOperation.getDeliveries(getUid(), "", dateFrom, dateUntill, "OC_OPERATION_DATE", "ASC");
+        ProductStockOperation receipt;
+        for (int i = 0; i < deliveries.size(); i++) {
+            receipt = (ProductStockOperation) deliveries.get(i);
+            units += receipt.getUnitsChanged();
+        }
+        return units;
+    }
+    //--- GET TOTAL UNITS OUT FOR MONTH -----------------------------------------------------------
+    public int getTotalVisitUnitsOutForMonth(java.util.Date dateFrom) {
+        int units = 0;
+
+        // date from : begin of specified month
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(dateFrom);
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1, 0, 0, 0);
+        dateFrom = calendar.getTime();
+
+        // date untill : end of specified month
+        calendar.add(Calendar.MONTH, 1);
+        java.util.Date dateUntill = calendar.getTime();
+        Vector deliveries = ProductStockOperation.getPatientDeliveries(getUid(), "","visit", dateFrom, dateUntill, "OC_OPERATION_DATE", "ASC");
+        ProductStockOperation receipt;
+        for (int i = 0; i < deliveries.size(); i++) {
+            receipt = (ProductStockOperation) deliveries.get(i);
+            units += receipt.getUnitsChanged();
+        }
+        return units;
+    }
+    public int getTotalAdmissionUnitsOutForMonth(java.util.Date dateFrom) {
+        int units = 0;
+
+        // date from : begin of specified month
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(dateFrom);
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1, 0, 0, 0);
+        dateFrom = calendar.getTime();
+
+        // date untill : end of specified month
+        calendar.add(Calendar.MONTH, 1);
+        java.util.Date dateUntill = calendar.getTime();
+        Vector deliveries = ProductStockOperation.getPatientDeliveries(getUid(), "","admission", dateFrom, dateUntill, "OC_OPERATION_DATE", "ASC");
         ProductStockOperation receipt;
         for (int i = 0; i < deliveries.size(); i++) {
             receipt = (ProductStockOperation) deliveries.get(i);
@@ -780,7 +842,7 @@ public class ProductStock extends OC_Object implements Comparable {
         // date from : begin of specified month
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(dateFrom);
-        calendar.set(calendar.get(Calendar.YEAR), 0, 0, 0, 0, 0);
+        calendar.set(calendar.get(Calendar.YEAR), 0, 1, 0, 0, 0);
         dateFrom = calendar.getTime();
 
         // date untill : end of specified month
@@ -801,7 +863,7 @@ public class ProductStock extends OC_Object implements Comparable {
         // date from : begin of specified month
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(dateFrom);
-        calendar.set(calendar.get(Calendar.YEAR), 0, 0, 0, 0, 0);
+        calendar.set(calendar.get(Calendar.YEAR), 0, 1, 0, 0, 0);
         dateFrom = calendar.getTime();
 
         // date untill : end of specified month
@@ -821,8 +883,7 @@ public class ProductStock extends OC_Object implements Comparable {
     //---------------------------------------------------------------------------------------------
     public int getLevel(java.util.Date dateUntill) {
         java.util.Date dateFrom = new java.util.Date(0); // begin of time
-        dateUntill = new java.util.Date(dateUntill.getTime() + (24 * 3600 * 1000));
-
+        System.out.println("1.dateUntill="+dateUntill);
         // IN
         int unitsIn = 0;
         Vector receipts = ProductStockOperation.getReceipts(getUid(), "", dateFrom, dateUntill, "OC_OPERATION_DATE", "ASC");
@@ -831,6 +892,7 @@ public class ProductStock extends OC_Object implements Comparable {
             receipt = (ProductStockOperation) receipts.get(i);
             unitsIn += receipt.getUnitsChanged();
         }
+        System.out.println("2.dateUntill="+dateUntill);
 
         // OUT
         int unitsOut = 0;
@@ -840,6 +902,7 @@ public class ProductStock extends OC_Object implements Comparable {
             delivery = (ProductStockOperation) deliveries.get(i);
             unitsOut += delivery.getUnitsChanged();
         }
+        System.out.println("3.dateUntill="+dateUntill);
         return unitsIn - unitsOut;
     }
     //--- COMPARE TO ------------------------------------------------------------------------------
