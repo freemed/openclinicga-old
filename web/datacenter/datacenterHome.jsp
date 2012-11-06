@@ -4,11 +4,15 @@
 	if(request.getParameter("logout")!=null){
 		session.removeAttribute("datacenteruser");
 	}
+System.out.println("0");
 	if(request.getParameter("username")!=null && request.getParameter("password")!=null){
+		System.out.println("0.1");
 		if(MedwanQuery.getInstance().getConfigString("datacenterUserPassword."+request.getParameter("username"),"plmouidgsjejn,fjfk").equalsIgnoreCase(request.getParameter("password"))){
 			session.setAttribute("datacenteruser",request.getParameter("username"));
+			System.out.println("1");
 		}
 	}
+	System.out.println("2");
 
 %>
 <html>
@@ -89,11 +93,15 @@
 
                  <%
                      if(session.getAttribute("datacenteruser")!=null){
+             			System.out.println("4:"+session.getAttribute("datacenteruser"));
                         if(sPage.length()>0){
+                 			System.out.println("4.1");
                             ScreenHelper.setIncludePage(sPage,pageContext);
 
                         }else{
-                            ScreenHelper.setIncludePage("/datacenter/projectoverview.jsp&servergroups="+MedwanQuery.getInstance().getConfigString("datacenterUserServerGroups."+session.getAttribute("datacenteruser")),pageContext);
+							String pg="/datacenter/projectoverview.jsp&servergroups="+MedwanQuery.getInstance().getConfigString("datacenterUserServerGroups."+session.getAttribute("datacenteruser"));
+                 			System.out.println("4.2:"+pg);
+                 			ScreenHelper.setIncludePage(pg,pageContext);
                         }
                        %>
                      <script type="text/javascript">
