@@ -99,9 +99,9 @@ var clientMsg = new ClientMsg("");
     <%=writeTabBegin("user")%>
     <%ScreenHelper.setIncludePage(customerInclude("planning/findPlanningUser.jsp?FindUserDate=" + sFindDate), pageContext);%>
     <%=writeTabEnd()%>
-      <%=(activePatient!=null)?writeTabBegin("patient"):""%>
+    <%=(activePatient!=null)?writeTabBegin("patient"):""%>
     <%=(activePatient!=null)?writeTabEnd():""%>
-   <%=writeTabBegin("service")%>
+    <%=writeTabBegin("service")%>
     <%//ScreenHelper.setIncludePage(customerInclude("healthrecord/globalReferenceSummary.jsp"), pageContext);%>
     <%=writeTabEnd()%>
     <%=writeTabBegin("missedAppointments")%>

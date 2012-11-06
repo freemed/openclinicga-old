@@ -70,7 +70,6 @@
         if (Integer.parseInt(new SimpleDateFormat("HH").format(plannedStart)) < startHourOfWeekPlanner || (Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) > (Float.parseFloat(sEnd) + 1) || ((Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) == (Float.parseFloat(sEnd) + 1)) && Integer.parseInt(new SimpleDateFormat("mm").format(plannedEnd)) > 0))) {
             hidden = fullDateFormat.format(plannedStart.getTime()) + " -> " + fullDateFormat.format(plannedEnd.getTime());
         }
-
         // user names
         sUserName = appointment.getUserUID();
         if (appointment.getUserUID().length() > 0) {
@@ -91,8 +90,8 @@
         sHtml.append("\n\n<item>");
         sHtml.append("\n<id>" + appointment.getUid() + "</id>");
         sHtml.append("\n<description>" + sToDisplay + "</description>");
-        sHtml.append("\n<eventStartDate>" + new SimpleDateFormat("MMM dd, yyyy HH:mm:ss").format(appointment.getPlannedDate()) + "</eventStartDate>");
-        sHtml.append("\n<eventEndDate>" + new SimpleDateFormat("MMM dd, yyyy HH:mm:ss").format(appointment.getPlannedEndDate()) + "</eventEndDate>");
+        sHtml.append("\n<eventStartDate>" + new SimpleDateFormat("MMM dd, yyyy HH:mm:ss",new java.util.Locale("en","US")).format(appointment.getPlannedDate()) + "</eventStartDate>");
+        sHtml.append("\n<eventEndDate>" + new SimpleDateFormat("MMM dd, yyyy HH:mm:ss",new java.util.Locale("en","US")).format(appointment.getPlannedEndDate()) + "</eventEndDate>");
         sHtml.append("\n<marginleft>" + testItemMargin(userAppointments, appointment) + "</marginleft>");
         sHtml.append("\n<hidden>" + hidden + "</hidden>");
         sHtml.append("\n<effective>" + ((appointment.getEffectiveDate()!=null)?"1":"") + "</effective>");
