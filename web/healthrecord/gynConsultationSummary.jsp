@@ -365,8 +365,8 @@
                 <tr>
                     <td class="admin">
                         <%=getTran("web","breast-examination",sWebLanguage)%>
-                        <img id="trBreastsS" src="<c:url value='/_img/plus.png'/>" onclick="showD('divBreasts','trBreastsS','trBreastsH');">
-                        <img id="trBreastsH" src="<c:url value='/_img/minus.png'/>" onclick="hideD('divBreasts','trBreastsS','trBreastsH');" style="display:none">
+                        <img id="trBreastsS" name="trBreastsS" src="<c:url value='/_img/plus.png'/>" onclick="showD('divBreasts','trBreastsS','trBreastsH');">
+                        <img id="trBreastsH" name="trBreastsH" src="<c:url value='/_img/minus.png'/>" onclick="hideD('divBreasts','trBreastsS','trBreastsH');" style="display:none">
                     </td>
                     <td colspan="3" class="admin2">
                         <textarea rows="1" onKeyup="resizeTextarea(this,10);" <%=setRightClick("ITEM_TYPE_BREAST_EXAMINATION")%> class="text" cols="75" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION1" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION2" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION3" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION4" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION5" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION6" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION7" property="value"/></textarea>
@@ -379,7 +379,7 @@
                         <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION7" property="itemId"/>]>.value">
 
                         <input type="hidden" id="EditCoordinates" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION_COORDINATES" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION_COORDINATES" property="value"/>">
-                        <div id="divBreasts" style="display:none">
+                        <div id="divBreasts" name="divBreasts" style="display:none">
                             <table style="background-image:url('<c:url value='/_img/mammae.gif'/>')" cellspacing="0" cellpadding="0" onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
                                 <%
                                     for (int i=1; i<21;i++){
