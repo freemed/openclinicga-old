@@ -1,4 +1,4 @@
-package be.mxs.common.util.io;
+z<zpackage be.mxs.common.util.io;
 
 import java.net.URL;
 
@@ -79,10 +79,13 @@ public class JavaPOSPrinter implements OutputCompleteListener, StatusUpdateListe
 					try {
 				        String imageSource=MedwanQuery.getInstance().getConfigString("baseDirectory","c:/projects/openclinic");
 				        //Try to find the image in the project image directory
-						printer.printBitmap(POSPrinterConst.PTR_S_RECEIPT, imageSource+"/projects/"+project+"/_img/JavaPOSImage1.gif", POSPrinterConst.PTR_BM_ASIS, POSPrinterConst.PTR_BM_CENTER);
+				        String sLogo=imageSource+"/projects/"+project+"/_img/JavaPOSImage1.gif";
+				        System.out.println(sLogo);
+				        printer.printBitmap(POSPrinterConst.PTR_S_RECEIPT, sLogo, POSPrinterConst.PTR_BM_ASIS, POSPrinterConst.PTR_BM_CENTER);
 					} catch (JposException e) {
+						System.out.println(e.getStackTrace());
 						if (e.getErrorCode() != JposConst.JPOS_E_NOEXIST) {
-							error=ScreenHelper.getTranNoLink("web","javapos.imagedoesnotexist",sLanguage);
+							error=e.getErrorCode()+": "+ScreenHelper.getTranNoLink("web","javapos.imagedoesnotexist",sLanguage);
 							break;
 						}
 					}
