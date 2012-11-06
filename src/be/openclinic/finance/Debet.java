@@ -452,9 +452,9 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 } else {
                     ps.setString(7, "");
                 }
-                ps.setString(8, this.getSupplierUid());
-                ps.setString(9, this.getPatientInvoiceUid());
-                ps.setString(10, this.getInsurarInvoiceUid());
+                ps.setString(8, ScreenHelper.checkString(this.getSupplierUid()));
+                ps.setString(9, ScreenHelper.checkString(this.getPatientInvoiceUid()));
+                ps.setString(10, ScreenHelper.checkString(this.getInsurarInvoiceUid()));
                 ps.setString(11, this.getComment());
                 ps.setInt(12, this.getCredited());
                 ps.setTimestamp(13, new Timestamp(this.getCreateDateTime().getTime()));
@@ -463,12 +463,12 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 ps.setInt(16, iVersion);
                 ps.setDouble(17, this.getInsurarAmount());
                 ps.setInt(18, this.getQuantity());
-                ps.setString(19, this.getExtraInsurarUid());
-                ps.setString(20, this.getExtraInsurarInvoiceUid());
+                ps.setString(19, ScreenHelper.checkString(this.getExtraInsurarUid()));
+                ps.setString(20, ScreenHelper.checkString(this.getExtraInsurarInvoiceUid()));
                 ps.setDouble(21, this.getExtraInsurarAmount());
                 ps.setInt(22, this.getRenewalInterval());
                 ps.setTimestamp(23, this.getRenewalDate()==null?null:new java.sql.Timestamp(this.getRenewalDate().getTime()));
-                ps.setString(24, this.getPerformeruid());
+                ps.setString(24, ScreenHelper.checkString(this.getPerformeruid()));
                 ps.executeUpdate();
                 ps.close();
                 if(this.getPerformeruid()!=null && this.getPerformeruid().length()>0){
@@ -496,7 +496,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
 		                		ps.setFloat(2, fee.amount);
 		                		ps.setString(3, fee.calculation);
 		                		ps.setString(4, fee.reason+";"+this.getPerformeruid());
-		                		ps.setString(5, debet.getPerformeruid());
+		                		ps.setString(5, ScreenHelper.checkString(debet.getPerformeruid()));
 		                		ps.execute();
 		                		ps.close();
 	                		}
