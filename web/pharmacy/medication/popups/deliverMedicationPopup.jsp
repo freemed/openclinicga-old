@@ -29,6 +29,7 @@
             sEditOperationDate = checkString(request.getParameter("EditOperationDate")),
             sEditProductStockUid = checkString(request.getParameter("EditProductStockUid")),
             sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
+            sEditEncounterUid = checkString(request.getParameter("EditEncounterUID")),
             sEditProductStockDocumentUidText = "",
             sEditBatchUid = checkString(request.getParameter("EditBatchUid")),
             sEditServiceStockUid = "",
@@ -145,6 +146,7 @@
         operation.setDescription(sEditOperationDescr);
         operation.setBatchUid(sEditBatchUid);
         operation.setDocumentUID(sEditProductStockDocumentUid);
+        operation.setEncounterUID(sEditEncounterUid);
 
         // sourceDestination
         ObjectReference sourceDestination = new ObjectReference();
@@ -349,6 +351,23 @@
 	                            </span>
 	                        </td>
 	                    </tr>
+				        <tr id='encounterline'>
+				            <td class='admin'><%=getTran("web","encounter",sWebLanguage)%> *</td>
+				            <td class='admin2'>
+				                <input type="hidden" name="EditEncounterUID" id="EditEncounterUID" value="<%=sEditEncounterUid%>">
+				                <%
+					                Encounter encounter = Encounter.get(sEditEncounterUid);
+									String sEditEncounterName="";
+					                if (encounter != null && encounter.getEncounterDisplayName(sWebLanguage)!=null && encounter.getEncounterDisplayName(sWebLanguage).indexOf("null")==-1 ){
+					                    sEditEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
+					                }
+
+				                %>
+				                <input class="text" type="text" name="EditEncounterName" id="EditEncounterName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterName%>">
+				                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditEncounterUID','EditEncounterName');">
+				                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditEncounterUID').value='';document.getElementById('EditForm.EditEncounterName').value='';">
+				            </td>
+				        </tr>
 	                    <%-- operation date --%>
 	                    <tr>
 	                        <td class="admin"><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
@@ -374,10 +393,10 @@
 						}
 						else {
 	                %>
-                           <input type="hidden" name="EditSrcDestType" value="<%=sSelectedSrcDestType%>">
-                           <input type="hidden" name="EditSrcDestName" value="<%=sSelectedSrcDestName%>">
-                           <input type="hidden" name="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
-                           <input type="hidden" name="EditPrescriptionUid" value="<%=sEditPrescriptionUid%>">
+                           <input type="hidden" name="EditSrcDestType" id="EditSrcDestType" value="<%=sSelectedSrcDestType%>">
+                           <input type="hidden" name="EditSrcDestName" id="EditSrcDestName" value="<%=sSelectedSrcDestName%>">
+                           <input type="hidden" name="EditSrcDestUid" id="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
+                           <input type="hidden" name="EditPrescriptionUid" id="EditPrescriptionUid" value="<%=sEditPrescriptionUid%>">
 	                <%
 						}
 	                %>
@@ -445,7 +464,8 @@
 						else {
 							document.getElementById('destinationline').style.visibility="visible";
 						}
-
+						//End forced EditSrcDestType
+						
                         srcDestType = transactionForm.EditSrcDestType.value;
                         if(srcDestType.length > 0){
                             document.getElementById('SrcDestSelector').style.visibility = 'visible';
@@ -458,6 +478,8 @@
 							document.getElementById('documentline').style.visibility="hidden";
 							document.getElementById('EditProductStockDocumentUid').value='';
 							document.getElementById('EditProductStockDocumentUidText').innerHTML='';
+							document.getElementById('encounterline').style.visibility="hidden";
+							document.getElementById('EditProductStockEncounterUid').value='';
 
                             if('<%=sPrevUsedSrcDestUid%>'.length > 0){
                               transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
@@ -476,6 +498,7 @@
 							document.getElementById('documentline').style.visibility="hidden";
 							document.getElementById('EditProductStockDocumentUid').value='';
 							document.getElementById('EditProductStockDocumentUidText').innerHTML='';
+							document.getElementById('encounterline').style.visibility="visible";
 
                             if('<%=sEditSrcDestName%>'.length == 0 && '<%=sPrevUsedSrcDestUid%>'.length > 0){
                               transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
@@ -497,10 +520,13 @@
                                   }
                               %>
                             }
+							//Here we have to set the patient encounter when it is active
+							setPatientEncounter();
                           }
                           <%-- service --%>
                           else if(srcDestType.indexOf('servicestock') > -1 && '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","")%>'.indexOf(document.getElementById('EditOperationDescr').value)==-1){
 								document.getElementById('documentline').style.visibility="visible";
+								document.getElementById('encounterline').style.visibility="hidden";
 							<%
 								if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)!=1){
 							%>
@@ -552,6 +578,7 @@
                         }
                         else{
                           transactionForm.EditSrcDestType.value = "<%=sDefaultSrcDestType%>";
+							document.getElementById('encounterline').style.visibility="hidden";
                           document.getElementById('SrcDestSelector').style.visibility = 'hidden';
                         }
 
@@ -620,8 +647,11 @@
         transactionForm.EditSrcDestName.focus();
       }
       else if(transactionForm.EditOperationDate.value.length==0){
-        transactionForm.EditOperationDate.focus();
-      }
+          transactionForm.EditOperationDate.focus();
+        }
+      else if(transactionForm.EditEncounterName.value.length==0){
+          transactionForm.EditEncounterName.focus();
+        }
     }
   }
 
@@ -637,6 +667,7 @@
     }
     if(!transactionForm.EditOperationDescr.value.length>0 ||
        !transactionForm.EditUnitsChanged.value.length>0 ||
+       !(transactionForm.EditSrcDestType.value.indexOf("patient")<0 || transactionForm.EditEncounterName.value.length>0) ||
        !(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
        !(transactionForm.EditSrcDestName.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
        !transactionForm.EditOperationDate.value.length>0 ||
@@ -677,7 +708,7 @@ openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceS
 
   <%-- popup : search patient --%>
   function searchPatient(patientUidField,patientNameField){
-    openPopup("/_common/search/searchPatient.jsp&ts=<%=getTs()%>&ReturnPersonID="+patientUidField+"&ReturnName="+patientNameField+"&displayImmatNew=no&isUser=no");
+    openPopup("/_common/search/searchPatient.jsp&ts=<%=getTs()%>&ReturnPersonID="+patientUidField+"&ReturnName="+patientNameField+"&ReturnFunction=setPatientEncounter()&displayImmatNew=no&isUser=no");
   }
 
   <%-- popup : search doctor --%>
@@ -770,6 +801,30 @@ openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceS
         	document.getElementById("maxquantity").innerHTML="";
         }
     }
+    
+    function setPatientEncounter(){
+    	if(document.getElementById("EditSrcDestUid").value.length>0){
+	        var params = 'personid=' + document.getElementById("EditSrcDestUid").value;
+	        var today = new Date();
+	        var url= '<c:url value="/pharmacy/getActivePatientEncounter.jsp"/>?ts='+today;
+	   		new Ajax.Request(url,{
+	   				method: "GET",
+	                   parameters: params,
+	                   onSuccess: function(resp){
+	                       var label = eval('('+resp.responseText+')');
+	                       $('EditEncounterUID').value=label.EncounterUid;
+	                       $('EditEncounterName').value=label.EncounterName;
+	                   },
+	   				onFailure: function(){
+	                   }
+	   			}
+	   		);
+    	}
+    }
+
+    function searchEncounter(encounterUidField,encounterNameField){
+	    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode="+encounterUidField+"&VarText="+encounterNameField+"&FindEncounterPatient="+document.getElementById("EditSrcDestUid").value);
+	}
 
 	showBatches();
 	
