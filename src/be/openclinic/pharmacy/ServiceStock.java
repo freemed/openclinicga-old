@@ -608,11 +608,23 @@ public class ServiceStock extends OC_Object {
     public Vector getProductStocks() throws SQLException {
         Vector stockIds = getProductStockIds();
         Vector stocks = new Vector();
+        SortedMap map = new TreeMap();
         ProductStock productStock;
         for (int i = 0; i < stockIds.size(); i++) {
             productStock = ProductStock.get((String) stockIds.get(i));
-            stocks.add(productStock);
+            if(productStock!=null && productStock.getProduct()!=null){
+	            System.out.println("Adding to map: "+productStock.getProduct().getName()+"."+productStock.getUid());
+	            map.put(productStock.getProduct().getName().toUpperCase()+"."+productStock.getUid(), productStock);
+            }
         }
+        Iterator i = map.keySet().iterator();
+        String sKey;
+        while(i.hasNext()){
+            sKey=(String)i.next();
+            System.out.println(sKey);
+        	stocks.add(map.get(sKey));
+        }
+        
         return stocks;
     }
     public ProductStock getProductStock(String productUid) {

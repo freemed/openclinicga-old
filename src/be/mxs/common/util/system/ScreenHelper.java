@@ -537,8 +537,11 @@ public class ScreenHelper {
           if(allowFutureDates){ gfPopType = "3"; }
           else if(allowPastDates) { gfPopType = "2"; }
         }
-
-        return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)){dateError(this);}'>"
+        String sExtra="";
+        if(!allowFutureDates){
+        	sExtra=" || isFutureDate(this.value)";
+        }
+        return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)"+sExtra+"){dateError(this);}'>"
               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTran("Web","Select",sWebLanguage)+"' onclick='gfPop"+gfPopType+".fPopCalendar(document."+sForm+"."+sName+");return false;'>"
               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTran("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
     }

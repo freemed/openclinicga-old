@@ -395,6 +395,23 @@ public class UpdateSystem {
 	            }
 	        }
         }
+        String sDeliveries=MedwanQuery.getInstance().getConfigString("autorizedProductStockOperationDeliveries","'medicationdelivery.1','medicationdelivery.2','medicationdelivery.3','medicationdelivery.4','medicationdelivery.5','medicationdelivery.99'");
+        String sReceipts=MedwanQuery.getInstance().getConfigString("autorizedProductStockOperationReceipts","'medicationreceipt.1','medicationreceipt.2','medicationreceipt.3','medicationreceipt.4','medicationreceipt.99'");
+        String sOutcomes=MedwanQuery.getInstance().getConfigString("autorizedEncounterOutcomes","'better','contrareference','dead','deterioration','escape','other','recovered','reference'");
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+        	PreparedStatement ps = conn.prepareStatement("delete from OC_LABELS where OC_LABEL_TYPE='productstockoperation.medicationdelivery' and OC_LABEL_ID not in ("+sDeliveries+")");
+        	ps.execute();
+        	ps = conn.prepareStatement("delete from OC_LABELS where OC_LABEL_TYPE='productstockoperation.medicationreceipt' and OC_LABEL_ID not in ("+sReceipts+")");
+        	ps.execute();
+        	ps = conn.prepareStatement("delete from OC_LABELS where OC_LABEL_TYPE='encounter.outcome' and OC_LABEL_ID not in ("+sOutcomes+")");
+        	ps.execute();
+        	ps.close();
+        	conn.close();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": reload labels");
         reloadSingleton();
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end updateLabels");
