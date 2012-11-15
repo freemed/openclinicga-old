@@ -618,7 +618,7 @@ public class ProductStockOperation extends OC_Object{
             
             //Generate prestation if indicated in product
             Product product = getProductStock().getProduct();
-            if(bStorePrestation && getSourceDestination().getObjectType().equalsIgnoreCase("patient") && getSourceDestination().getObjectUid().length()>0 && product.getPrestationcode()!=null && product.getPrestationcode().length()>0){
+            if(bStorePrestation && getSourceDestination().getObjectType().equalsIgnoreCase("patient") && getSourceDestination().getObjectUid().length()>0 && product!=null && product.isAutomaticInvoicing() && product.getPrestationcode()!=null && product.getPrestationcode().length()>0){
             	Prestation prestation = Prestation.get(product.getPrestationcode());
             	AdminPerson patient = AdminPerson.getAdminPerson(getSourceDestination().getObjectUid());
             	Encounter activeEncounter = Encounter.getActiveEncounter(patient.personid);
