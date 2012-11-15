@@ -74,7 +74,7 @@
     <table class='list' border='0' width='100%' cellspacing='1'>
         <tr>
             <td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("Web","date",sWebLanguage)%> *</td>
-            <td class='admin2'><%=writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(debet.getDate()),sWebLanguage)%></td>
+            <td class='admin2'><%=ScreenHelper.writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(debet.getDate()),true,false,sWebLanguage,sCONTEXTPATH)%></td>
         </tr>
         <tr>
             <td class='admin'><%=getTran("Web","insurance",sWebLanguage)%> *</td>
@@ -300,7 +300,7 @@
             	boolean canSave=true;
             	if(debet!=null && debet.getPatientInvoiceUid()!=null){
             		PatientInvoice invoice = PatientInvoice.get(debet.getPatientInvoiceUid());
-            		if(invoice==null || invoice.getStatus()==null || !invoice.getStatus().equalsIgnoreCase("open")){
+            		if(invoice!=null && invoice.getStatus()!=null && !invoice.getStatus().equalsIgnoreCase("open")){
             			canSave=false;
             		}
             	}
