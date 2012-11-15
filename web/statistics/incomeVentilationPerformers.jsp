@@ -1,3 +1,4 @@
+<%@page import="org.jnp.interfaces.java.javaURLContextFactory"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
@@ -44,6 +45,8 @@
 	String s,reason,activeuser="",u;
 	String[] r;
 	double useramount=0,a=0;
+	java.sql.Date debetDate,dateofbirth;
+	String feeReason;
 	while(rs.next()){
 		u=rs.getString("OC_DEBETFEE_PERFORMERUID");
 		if(activeuser.length()>0 && !u.equalsIgnoreCase(activeuser)){
@@ -53,15 +56,17 @@
 			useramount=0;
 		}
 		activeuser=u;
-		s="<tr><td class='admin'>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("OC_DEBET_DATE"))+"</td>";
+		debetDate=rs.getDate("OC_DEBET_DATE");
+		s="<tr><td class='admin'>"+(debetDate==null?"":new SimpleDateFormat("dd/MM/yyyy").format(debetDate))+"</td>";
 		s+="<td class='admin2'>"+rs.getString("lastname").toUpperCase()+", "+rs.getString("firstname")+"</td>";
-		s+="<td class='admin2'>°"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("dateofbirth"))+"</td>";
+		dateofbirth=rs.getDate("dateofbirth");
+		s+="<td class='admin2'>°"+(dateofbirth==null?"":new SimpleDateFormat("dd/MM/yyyy").format(dateofbirth))+"</td>";
 		s+="<td class='admin2'>"+rs.getString("OC_PRESTATION_DESCRIPTION")+"</td>";
 		s+="<td class='admin2'>"+new java.text.DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(rs.getFloat("total"))+"</td>";
 		a=rs.getFloat("OC_DEBETFEE_AMOUNT");
 		useramount+=a;
 		s+="<td class='admin2'>"+new java.text.DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(a)+" "+MedwanQuery.getInstance().getConfigString("currency","")+"</td>";
-		r=rs.getString("OC_DEBETFEE_REASON").split(";");
+		r=checkString(rs.getString("OC_DEBETFEE_REASON")).split(";");
 		reason="";
 		if(r[0].equalsIgnoreCase("0")){
 			reason=getTran("careproviderfee.reasons",r[0],sWebLanguage);

@@ -29,6 +29,7 @@ if(true){
             +ScreenHelper.writeTblFooter()+"<br>");
     }
 
+   
     if(activeUser.getAccessRight("statistics.select")) {
         out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.activitystats",sWebLanguage),sCONTEXTPATH)
                 +writeTblChildNoButton("main.do?Page=statistics/databaseStatistics.jsp",getTran("Web","statistics.activitystats.database",sWebLanguage))
