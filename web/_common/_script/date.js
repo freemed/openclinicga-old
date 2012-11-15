@@ -1,3 +1,8 @@
+function isFutureDate(d){
+	var dateParts=d.split("/");
+	var date = new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
+	return date>new Date();
+}
 
 function before(dateStr1,dateStr2){
   if(dateStr1.length == 4){
