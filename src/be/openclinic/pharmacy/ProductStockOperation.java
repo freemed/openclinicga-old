@@ -1045,7 +1045,7 @@ public class ProductStockOperation extends OC_Object{
 					" and OC_OPERATION_SRCDESTTYPE='patient'" +
 					" and " +
 					"(exists(select * from oc_encounters where oc_encounter_type='"+encounterType+"' and oc_encounter_objectid=replace(OC_OPERATION_ENCOUNTERUID,'" +MedwanQuery.getInstance().getConfigString("serverId")+".','')) OR "+
-					"exists(select * from oc_encounters_view where oc_encounter_type='"+encounterType+"' and (oc_encounter_objectid=replace(OC_OPERATION_ENCOUNTERUID,'" +MedwanQuery.getInstance().getConfigString("serverId")+".','') OR (oc_encounter_patientuid=OC_OPERATION_SRCDESTUID and oc_operation_date >= oc_encounter_begindate and oc_operation_date <= oc_encounter_enddate)))";
+					"exists(select * from oc_encounters_view where oc_encounter_type='"+encounterType+"' and (oc_encounter_patientuid=OC_OPERATION_SRCDESTUID and oc_operation_date >= oc_encounter_begindate and oc_operation_date <= oc_encounter_enddate)))";
 
 			if(sourceDestionationUid.length()>0){
 				sSelect+=" AND OC_OPERATION_SRCDESTUID = '" + sourceDestionationUid + "'";
@@ -1053,7 +1053,7 @@ public class ProductStockOperation extends OC_Object{
 			// dates
 			if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
 			if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
-			
+			System.out.println(sSelect);
 			// order by selected col or default col
 			ps = oc_conn.prepareStatement(sSelect);
 			
