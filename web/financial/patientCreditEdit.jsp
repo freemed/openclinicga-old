@@ -381,6 +381,14 @@
                     </select>
 
                     <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf(document.getElementById('EditCreditUid').value);">
+                    <%
+                    	if(MedwanQuery.getInstance().getConfigInt("javaPOSenabled",0)==1){
+                    %>
+                    <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientPaymentReceipt();">
+                    <%
+                    	}
+                    %>
+                    
                 </div>
             </td>
         </tr>
@@ -399,6 +407,26 @@
     %>
   }
 
+  function doPrintPatientPaymentReceipt(){
+      var params = '';
+      var today = new Date();
+      var url= '<c:url value="/financial/printPaymentReceipt.jsp"/>?credituid='+document.getElementById('EditCreditUid').value+'&ts='+today;
+      new Ajax.Request(url,{
+				method: "GET",
+              parameters: params,
+              onSuccess: function(resp){
+              	var label = eval('('+resp.responseText+')');
+              	if(label.message.length>0){
+                  	alert(label.message);
+                  };
+              },
+				onFailure: function(){
+					alert("Error printing receipt");
+              }
+          }
+		);
+  }
+  
   function checkForMaxAmount(amountField){
     if(EditForm.EditCreditMaxAmount.value.length > 0){
       if(EditForm.EditCreditAmount.value > EditForm.EditCreditMaxAmount.value){
