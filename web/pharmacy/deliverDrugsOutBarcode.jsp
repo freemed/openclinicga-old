@@ -23,6 +23,12 @@
 		operation.setUpdateDateTime(new java.util.Date());
 		operation.setUpdateUser(activeUser.userid);
 		operation.setVersion(1);
+		String sEncounterUid="";
+		Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
+		if(encounter!=null){
+			sEncounterUid=encounter.getUid();
+		}
+		operation.setEncounterUID(sEncounterUid);
 		operation.store();
 		//Delete list
 		PreparedStatement ps2 = conn.prepareStatement("delete from OC_DRUGSOUTLIST where OC_LIST_SERVERID=? and OC_LIST_OBJECTID=?");

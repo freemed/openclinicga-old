@@ -422,7 +422,6 @@
                     %>
                     <script>
                       var prevSrcDestType;
-                      displaySrcDestSelector();
 
                       function validateMaxFocus(o){
                           if(o.value*1>setMaxQuantity){
@@ -667,7 +666,7 @@
     }
     if(!transactionForm.EditOperationDescr.value.length>0 ||
        !transactionForm.EditUnitsChanged.value.length>0 ||
-       !(transactionForm.EditSrcDestType.value.indexOf("patient")<0 || transactionForm.EditEncounterName.value.length>0) ||
+       !(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.indexOf("patient")<0 || transactionForm.EditEncounterName.value.length>0) ||
        !(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
        !(transactionForm.EditSrcDestName.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
        !transactionForm.EditOperationDate.value.length>0 ||
@@ -826,6 +825,7 @@ openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceS
 	    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode="+encounterUidField+"&VarText="+encounterNameField+"&FindEncounterPatient="+document.getElementById("EditSrcDestUid").value);
 	}
 
+    displaySrcDestSelector();
 	showBatches();
 	
 </script>
