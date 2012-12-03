@@ -200,6 +200,7 @@
                             <option value="default" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
                             <option value="rama" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("rama")?"selected":""%>><%=getTranNoLink("web","ramamodel",sWebLanguage)%></option>
                             <option value="ramanew" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
+                            <option value="ctams" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
                             <option value="ramacsv" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
                         </select>
                             <%

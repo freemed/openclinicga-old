@@ -1,5 +1,5 @@
 
-<%@page import="be.mxs.common.util.pdf.general.PDFInsurarInvoiceGeneratorRAMANew"%><%@include file="/includes/validateUser.jsp"%>
+<%@page import="be.mxs.common.util.pdf.general.*"%><%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@page import="java.io.ByteArrayOutputStream,
                 com.itextpdf.text.DocumentException,
@@ -24,6 +24,9 @@
         }
         else if(sPrintModel.equalsIgnoreCase("ramanew")){
         	pdfGenerator = new PDFInsurarInvoiceGeneratorRAMANew(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
+        else if(sPrintModel.equalsIgnoreCase("ctams")){
+        	pdfGenerator = new PDFInsurarInvoiceGeneratorCTAMS(activeUser,sProject,sPrintLanguage,sPrintType);
         }
         else{
         	pdfGenerator = new PDFInsurarInvoiceGenerator(activeUser,sProject,sPrintLanguage,sPrintType);
