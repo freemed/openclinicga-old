@@ -50,16 +50,21 @@ public class JavaPOSPrinter implements OutputCompleteListener, StatusUpdateListe
 
 	public String printReceipt(String project,String sLanguage, String content,String barcode){
 		String error="";
-		System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_URL_PROP_NAME, MedwanQuery.getInstance().getConfigString("templateSource","http://localhost/openclinic/_common_xml/")+"jpos.xml");
+		System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_URL_PROP_NAME, MedwanQuery.getInstance().getConfigString("templateSource","http://localhost/openclinic/_common/xml/")+"jpos.xml");
+		System.out.println("AA: "+System.getProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_URL_PROP_NAME));
 		POSPrinter printer = new POSPrinter();
 		try {
 			printer.addOutputCompleteListener(this);
 			printer.addStatusUpdateListener(this);
 			printer.addErrorListener(this);
 			printer.open(MedwanQuery.getInstance().getConfigString("JavaPOSPrinter","Star TSP100 Cutter (TSP143)_1"));
+			System.out.println(MedwanQuery.getInstance().getConfigString("JavaPOSPrinter","Star TSP100 Cutter (TSP143)_1"));
 			printer.claim(1);
+			System.out.println("1");
 			printer.setDeviceEnabled(true);
+			System.out.println("2");
 			printer.setAsyncMode(true);
+			System.out.println("3");
 			printer.setMapMode(POSPrinterConst.PTR_MM_METRIC); // unit = 1/100 mm - i.e. 1 cm = 10 mm = 10 * 100 units
 			do {
 				if (printer.getCoverOpen() == true) {
