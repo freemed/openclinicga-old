@@ -182,6 +182,12 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         return createValueCell(value,colspan,7,Font.NORMAL);
     }
 
+    protected PdfPCell createValueCellPadded(String value, int colspan){
+        PdfPCell cell = createValueCell(value,colspan,7,Font.NORMAL);
+        cell.setPadding(5);
+    	return cell;
+    }
+
     protected PdfPCell createValueCell(String value, int colspan, int fontSize, int fontWeight){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,fontWeight)));
         cell.setColspan(colspan);

@@ -231,10 +231,17 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                 cell.setPaddingRight(2);
                 table.addCell(cell);
 
+                cell = createUnderlinedCell(getTran("web","invoice"),1);
+                singleCellHeaderTable = new PdfPTable(1);
+                singleCellHeaderTable.addCell(cell);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell.setPaddingRight(2);
+                table.addCell(cell);
+
                 cell = createUnderlinedCell(getTran("web","prestation"),1);
                 singleCellHeaderTable = new PdfPTable(1);
                 singleCellHeaderTable.addCell(cell);
-                cell = createCell(new PdfPCell(singleCellHeaderTable),10,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),8,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
                 cell.setPaddingRight(2);
                 table.addCell(cell);
 
@@ -614,7 +621,8 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
         invoiceTable.addCell(createEmptyCell(1));
         invoiceTable.addCell(createValueCell(sDebetDate,2));
         invoiceTable.addCell(createValueCell(sEncounterName,4));
-        invoiceTable.addCell(createValueCell(sPrestationCode+debet.getQuantity()+" x "+sPrestationDescr,10));
+        invoiceTable.addCell(createValueCell(debet.getPatientInvoiceUid().replaceAll("1.", ""),2));
+        invoiceTable.addCell(createValueCell(sPrestationCode+debet.getQuantity()+" x "+sPrestationDescr,8));
         invoiceTable.addCell(createPriceCellInsurar(debetAmount,3));
     }
 
