@@ -676,6 +676,8 @@
     		<column  name="OC_INSURAR_CONTACTPERSON" dbtype="varchar" javatype="string" size="255"/>
     		<column  name="OC_INSURAR_OFFICIAL_NAME" dbtype="varchar" javatype="string" size="255"/>
     		<column  name="OC_INSURAR_TYPE" dbtype="varchar" javatype="string" size="25"/>
+    		<column  name="OC_INSURAR_DEFAULTINSURARINVOICEMODEL" dbtype="varchar" javatype="string" size="25"/>
+    		<column  name="OC_INSURAR_DEFAULTPATIENTINVOICEMODEL" dbtype="varchar" javatype="string" size="25"/>
 		</columns>
 		<indexes>
 			<index name="OC_INSURAR_OBJECTID">
