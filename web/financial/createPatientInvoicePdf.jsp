@@ -3,13 +3,13 @@
 <%@page import="java.io.ByteArrayOutputStream,
                 com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,
-                be.mxs.common.util.pdf.general.PDFPatientInvoiceGenerator,
-                be.mxs.common.util.pdf.general.PDFInvoiceGenerator"%>
+                be.mxs.common.util.pdf.general.*"%>
 <%@ page import="be.openclinic.finance.Invoice" %>
 <%@ page import="be.openclinic.finance.PatientInvoice" %>
 <%
     String sInvoiceUid    = checkString(request.getParameter("InvoiceUid")),
            sPrintLanguage = checkString(request.getParameter("PrintLanguage")),
+           sPrintModel = checkString(request.getParameter("PrintModel")),
            sProforma      = checkString(request.getParameter("Proforma"));
     ByteArrayOutputStream baosPDF = null;
 
@@ -17,7 +17,13 @@
         // PDF generator
         PatientInvoice invoice = PatientInvoice.get(sInvoiceUid);
         sProject = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
-        PDFInvoiceGenerator pdfGenerator = new PDFPatientInvoiceGenerator(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
+        PDFInvoiceGenerator pdfGenerator;
+        if(sPrintModel.equalsIgnoreCase("ctams")){
+        	pdfGenerator = new PDFPatientInvoiceGeneratorCTAMS(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
+        }
+        else {
+        	pdfGenerator = new PDFPatientInvoiceGenerator(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
+        }
         baosPDF = pdfGenerator.generatePDFDocumentBytes(request,sInvoiceUid);
 
         StringBuffer sbFilename = new StringBuffer();

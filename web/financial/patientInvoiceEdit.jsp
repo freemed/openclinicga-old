@@ -1,5 +1,4 @@
-<%@ page import="be.openclinic.finance.PatientInvoice,java.util.Vector,be.openclinic.finance.Debet
-,be.openclinic.adt.Encounter,be.openclinic.finance.Prestation,be.openclinic.finance.PatientCredit" %>
+<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.patientinvoice.edit","edit",activeUser)%>
@@ -379,6 +378,17 @@
 	                                }
 	                            %>
 	                        </select>
+	                        <%
+	                        	String defaultmodel="default";
+	                        	Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(activePatient.personid);
+	                        	if(insurance!=null && insurance.getInsurar().getDefaultPatientInvoiceModel()!=null){
+	                        		defaultmodel=insurance.getInsurar().getDefaultPatientInvoiceModel();
+	                        	}
+	                        %>
+	                        <select class="text" name="PrintModel" id="PrintModel">
+	                            <option value="default" <%=defaultmodel.equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
+	                            <option value="ctams" <%=defaultmodel.equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
+	                        </select>
 	
 	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf('<%=patientInvoice.getUid()%>');">
 	                        <input class="button" type="button" name="buttonPrint" value='PROFORMA' onclick="doPrintProformaPdf('<%=patientInvoice.getUid()%>');">
@@ -545,13 +555,13 @@
 	            alert("<%=getTranNoLink("web","closetheinvoicefirst",sWebLanguage)%>");
 	        }
 	        else {
-	              var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=no&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
+	              var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=no&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintModel="+EditForm.PrintModel.value;
 	              window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
 	          }
 	    }
 	
 	    function doPrintProformaPdf(invoiceUid){
-	      var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=yes&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
+	      var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=yes&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintModel="+EditForm.PrintModel.value;
 	      window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
 	    }
 	

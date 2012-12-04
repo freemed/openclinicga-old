@@ -196,12 +196,18 @@
                             <option value="sortbypatient" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbypatient")?"selected":""%>><%=getTranNoLink("web","sortbypatient",sWebLanguage)%></option>
                             <option value="sortbyservice" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbyservice")?"selected":""%>><%=getTranNoLink("web","sortbyservice",sWebLanguage)%></option>
                         </select>
+                        <%
+                        	String defaultmodel=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default");
+                        	if(insurarInvoice.getInsurar()!=null && insurarInvoice.getInsurar().getDefaultInsurarInvoiceModel()!=null){
+                        		defaultmodel=insurarInvoice.getInsurar().getDefaultInsurarInvoiceModel();
+                        	}
+                        %>
                         <select class="text" name="PrintModel">
-                            <option value="default" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
-                            <option value="rama" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("rama")?"selected":""%>><%=getTranNoLink("web","ramamodel",sWebLanguage)%></option>
-                            <option value="ramanew" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
-                            <option value="ctams" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
-                            <option value="ramacsv" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default").equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
+                            <option value="default" <%=defaultmodel.equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
+                            <option value="rama" <%=defaultmodel.equalsIgnoreCase("rama")?"selected":""%>><%=getTranNoLink("web","ramamodel",sWebLanguage)%></option>
+                            <option value="ramanew" <%=defaultmodel.equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
+                            <option value="ctams" <%=defaultmodel.equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
+                            <option value="ramacsv" <%=defaultmodel.equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
                         </select>
                             <%
                                 if(insurarInvoice.getStatus().equalsIgnoreCase("closed")){
