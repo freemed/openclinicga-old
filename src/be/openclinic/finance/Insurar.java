@@ -20,9 +20,27 @@ public class Insurar extends OC_Object {
     private Vector insuranceCategories;
     private String type;
     private int userid;
+    private String defaultPatientInvoiceModel;
+    private String defaultInsurarInvoiceModel;
 
 
-    //--- CONSTRUCTOR ---
+    public String getDefaultPatientInvoiceModel() {
+		return defaultPatientInvoiceModel;
+	}
+
+	public void setDefaultPatientInvoiceModel(String defaultPatientInvoiceModel) {
+		this.defaultPatientInvoiceModel = defaultPatientInvoiceModel;
+	}
+
+	public String getDefaultInsurarInvoiceModel() {
+		return defaultInsurarInvoiceModel;
+	}
+
+	public void setDefaultInsurarInvoiceModel(String defaultInsurarInvoiceModel) {
+		this.defaultInsurarInvoiceModel = defaultInsurarInvoiceModel;
+	}
+
+	//--- CONSTRUCTOR ---
     public Insurar(){
         this.insuranceCategories = new Vector();
     }
@@ -182,6 +200,8 @@ public class Insurar extends OC_Object {
                 insurar.setUpdateUser(rs.getString("OC_INSURAR_UPDATEUID"));
                 insurar.setVersion(rs.getInt("OC_INSURAR_VERSION"));
                 insurar.setType(rs.getString("OC_INSURAR_TYPE"));
+                insurar.setDefaultInsurarInvoiceModel(rs.getString("OC_INSURAR_DEFAULTINSURARINVOICEMODEL"));
+                insurar.setDefaultPatientInvoiceModel(rs.getString("OC_INSURAR_DEFAULTPATIENTINVOICEMODEL"));
                 rs.close();
                 ps.close();
 
@@ -252,7 +272,9 @@ public class Insurar extends OC_Object {
                          "  OC_INSURAR_CONTACT=?,"+
                          "  OC_INSURAR_OFFICIAL_NAME=?,"+
                          "  OC_INSURAR_CONTACTPERSON=?,"+
-                         "  OC_INSURAR_TYPE=?"+
+                         "  OC_INSURAR_TYPE=?,"+
+                         "  OC_INSURAR_DEFAULTINSURARINVOICEMODEL=?,"+
+                         "  OC_INSURAR_DEFAULTPATIENTINVOICEMODEL=?"+
                          " WHERE OC_INSURAR_SERVERID=? AND OC_INSURAR_OBJECTID=?";
                 rs.close();
                 ps.close();
@@ -265,8 +287,10 @@ public class Insurar extends OC_Object {
                 ps.setString(6,getOfficialName());
                 ps.setString(7,getContactPerson());
                 ps.setString(8,getType());
-                ps.setInt(9,Integer.parseInt(getUid().split("\\.")[0]));
-                ps.setInt(10,Integer.parseInt(getUid().split("\\.")[1]));
+                ps.setString(9,getDefaultInsurarInvoiceModel());
+                ps.setString(10,getDefaultPatientInvoiceModel());
+                ps.setInt(11,Integer.parseInt(getUid().split("\\.")[0]));
+                ps.setInt(12,Integer.parseInt(getUid().split("\\.")[1]));
                 ps.execute();
                 ps.close();
 
@@ -326,9 +350,11 @@ public class Insurar extends OC_Object {
                          "  OC_INSURAR_LANGUAGE,"+
                          "  OC_INSURAR_CONTACT,"+
                          "  OC_INSURAR_OFFICIAL_NAME,"+
-                         "  OC_INSURAR_TYPE,"+
+                         "  OC_INSURAR_TYPE," +
+                         "  OC_INSURAR_DEFAULTINSURARINVOICEMODEL," +
+                         "  OC_INSURAR_DEFAULTPATIENTINVOICEMODEL,"+
                          "  OC_INSURAR_CONTACTPERSON)"+
-                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = oc_conn.prepareStatement(sQuery);
                 ps.setDate(1, new java.sql.Date(new Date().getTime()));
                 ps.setDate(2, new java.sql.Date(new Date().getTime()));
@@ -341,7 +367,9 @@ public class Insurar extends OC_Object {
                 ps.setString(9,getContact());
                 ps.setString(10,getOfficialName());
                 ps.setString(11,getType());
-                ps.setString(12,getContactPerson());
+                ps.setString(12,getDefaultInsurarInvoiceModel());
+                ps.setString(13,getDefaultPatientInvoiceModel());
+                ps.setString(14,getContactPerson());
                 ps.execute();
                 ps.close();
 
