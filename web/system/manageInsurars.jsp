@@ -51,6 +51,8 @@
            sFindInsurarLanguage = checkString(request.getParameter("FindInsurarLanguage")),
            sFindInsurarContact  = checkString(request.getParameter("FindInsurarContact")),
            sEditInsurarId       = checkString(request.getParameter("EditInsurarId")),
+           sEditInsurarDefaultInsurarInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultInsurarInvoiceModel")),
+       	   sEditInsurarDefaultPatientInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
            sEditInsurarType       = checkString(request.getParameter("EditInsurarType"));
 
     // DEBUG //////////////////////////////////////////////////////////////////
@@ -125,6 +127,8 @@
         insurar.setOfficialName(checkString(request.getParameter("EditInsurarOfficialName")));
         insurar.setContactPerson(checkString(request.getParameter("EditInsurarContactPerson")));
         insurar.setType(checkString(request.getParameter("EditInsurarType")));
+        insurar.setDefaultInsurarInvoiceModel(request.getParameter("EditInsurarDefaultInsurarInvoiceModel"));
+        insurar.setDefaultPatientInvoiceModel(request.getParameter("EditInsurarDefaultPatientInvoiceModel"));
 
         //*** save categories ***
         if(sCategoriesToSave.length() > 0){
@@ -384,6 +388,27 @@
                         </td>
                     </tr>
                     <%-- INSURAR EXTRA COVERAGE --%>
+                    <tr>
+                        <td class="admin"><%=getTran("system.manage","insurarDefaultPatientInvoiceModel",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <select name='EditInsurarDefaultPatientInvoiceModel' id='EditInsurarDefaultPatientInvoiceModel'>
+                            	<option value='default' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
+                            	<option value='ctams' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("system.manage","insurarDefaultInsurarInvoiceModel",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <select name='EditInsurarDefaultInsurarInvoiceModel' id='EditInsurarDefaultInsurarInvoiceModel'>
+                            <option value="default" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
+                            <option value="rama" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("rama")?"selected":""%>><%=getTranNoLink("web","ramamodel",sWebLanguage)%></option>
+                            <option value="ramanew" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
+                            <option value="ctams" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
+                            <option value="ramacsv" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
+                            </select>
+                        </td>
+                    </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","complementarycoverage",sWebLanguage)%></td>
                         <%
