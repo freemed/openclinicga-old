@@ -16,11 +16,11 @@
     public String writeTab(String sId, String sFocusField, String sLanguage) {
         return "<script>sTabs+= '," + sId + "';</script>" +
                 "<td style='border-bottom:1px solid #000;width:10px'>&nbsp;</td>" +
-                "<td class='tabunselected' width='1%' style='padding:2px 4px;text-align:center;' onclick='activateTab(\"" + sId + "\")' id='tab" + sId + "' nowrap><b>" + getTran("centerinfo", sId, sLanguage) + "</b></td>";
+                "<td class='tabunselected' width='1%' style='padding:2px 4px;text-align:center;' onclick='activateTab(\"" + sId + "\")' id='tab" + sId + "' name='tab" + sId + "' nowrap><b>" + getTran("centerinfo", sId, sLanguage) + "</b></td>";
     }
     //--- WRITE TAB BEGIN -------------------------------------------------------------------------
     public String writeTabBegin(String sId) {
-        return "<tr id='tr" + sId + "' style='display:none'><td>";
+        return "<tr id='tr" + sId + "' name='tr" + sId + "' style='display:none'><td>";
     }
     //--- WRITE TAB END ---------------------------------------------------------------------------
     public String writeTabEnd() {
