@@ -333,7 +333,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	        	Enumeration eEncounters = encounters.elements();
 	        	while(eEncounters.hasMoreElements()){
 	        		Encounter encounter = (Encounter)eEncounters.nextElement();
-	        		if(encounter.getBed()!=null && beds.indexOf(encounter.getBed().getName())<0){
+	        		if(encounter!=null && encounter.getBed()!=null && encounter.getBed().getName()!=null && beds.indexOf(encounter.getBed().getName())<0){
 	        			if(beds.length()>0){
 	        				beds+=", ";
 	        			}
@@ -348,7 +348,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	        	eEncounters = encounters.elements();
 	        	while(eEncounters.hasMoreElements()){
 	        		Encounter encounter = (Encounter)eEncounters.nextElement();
-	        		if(encounter.getService()!=null && services.indexOf(encounter.getService().getLabel(user.person.language))<0){
+	        		if(encounter!=null && encounter.getService()!=null && encounter.getService().getLabel(user.person.language)!=null && services.indexOf(encounter.getService().getLabel(user.person.language))<0){
 	        			if(services.length()>0){
 	        				services+=", ";
 	        			}
@@ -366,13 +366,13 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	        	eEncounters = encounters.elements();
 	        	while(eEncounters.hasMoreElements()){
 	        		Encounter encounter = (Encounter)eEncounters.nextElement();
-	        		if(encounter.getBegin()!=null && entry.indexOf(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()))<0){
+	        		if(encounter!=null && encounter.getBegin()!=null && entry.indexOf(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()))<0){
 	        			if(entry.length()>0){
 	        				entry+=", ";
 	        			}
 	        			entry+=new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin());
 	        		}
-	        		if(encounter.getEnd()!=null && exit.indexOf(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd()))<0){
+	        		if(encounter!=null && encounter.getEnd()!=null && exit.indexOf(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd()))<0){
 	        			if(exit.length()>0){
 	        				exit+=", ";
 	        			}
@@ -392,7 +392,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	        	String ambulatory=getTran("web","no");
 	        	while(eEncounters.hasMoreElements()){
 	        		Encounter encounter = (Encounter)eEncounters.nextElement();
-	        		if(encounter.getType().equalsIgnoreCase("visit")){
+	        		if(encounter!=null && encounter.getType().equalsIgnoreCase("visit")){
 	        			ambulatory=getTran("web","yes");
 	        			break;
 	        		}
@@ -556,7 +556,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSconsultationCategory","Co"))){
+            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSconsultationCategory","Co"))){
             			printDebet(debet,table);
             			printedDebets.put(debet.getUid(), "1");
             			bPrinted=true;
@@ -599,7 +599,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && (debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSlabCategory","L")) || debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSimagingCategory","R")))){
+            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null  && (debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSlabCategory","L")) || debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSimagingCategory","R")))){
             			printDebet(debet,table);
             			printedDebets.put(debet.getUid(), "1");
             			bPrinted=true;
@@ -642,7 +642,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSactsCategory","A"))){
+            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null  && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSactsCategory","A"))){
             			printDebet(debet,table);
             			printedDebets.put(debet.getUid(), "1");
             			bPrinted=true;
@@ -685,7 +685,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSconsumablesCategory","C"))){
+            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null  && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSconsumablesCategory","C"))){
             			printDebet(debet,table);
             			printedDebets.put(debet.getUid(), "1");
             			bPrinted=true;
@@ -728,7 +728,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSdrugsCategory","M"))){
+            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null  && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSdrugsCategory","M"))){
             			printedDebets.put(debet.getUid(), "1");
             		}
             	}
@@ -837,7 +837,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSdrugsCategory","M"))){
+            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSdrugsCategory","M"))){
             			printDebet(debet,table);
             			printedDebets.put(debet.getUid(), "1");
             			bPrinted=true;
