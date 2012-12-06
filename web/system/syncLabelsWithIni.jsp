@@ -76,7 +76,7 @@
     // excluded label types
     String excludedLabelTypes = MedwanQuery.getInstance().getConfigString("excludedLabelTypesNew");
     if(excludedLabelTypes.length() == 0){
-        excludedLabelTypes = "labanalysis,labprofiles,activitycodes,worktime,patientsharecoverageinsurance,urgency.origin,encountertype"; // default
+        excludedLabelTypes = "labanalysis,labprofiles,activitycodes,worktime,patientsharecoverageinsurance,urgency.origin,encountertype,prestation.type,product.productgroup,insurance.types,labanalysis.group"; // default
     }
     excludedLabelTypes = excludedLabelTypes.toLowerCase();
 %>
@@ -436,7 +436,7 @@
                             labelUniqueKey = (labelType+"$"+labelID+"$"+labelLang).toLowerCase();
 
                             // only display labels if not in ini, so check existence in ini.
-                            if(!containsKey(iniProps,labelUniqueKey) && labelID.indexOf(" ")<0){
+                            if(excludedLabelTypes.indexOf(labelType.toLowerCase())<0 && !containsKey(iniProps,labelUniqueKey) && labelID.indexOf(" ")<0){
                                 // display labels, except excluded labeltypes
                                 checked = "checked";
 
@@ -510,8 +510,8 @@
 
                                                 // only check existence in DB of those labels that do not occur in the label hash
                                                 // check at 3 levels of hashes
-                                                if (labels.get(sLabelLang) == null || ((Hashtable) labels.get(sLabelLang)).get(sLabelType) == null ||
-                                                        ((Hashtable) ((Hashtable) labels.get(sLabelLang)).get(sLabelType)).get(sLabelID) == null) {
+                                                if (excludedLabelTypes.indexOf(sLabelType.toLowerCase())<0 && (labels.get(sLabelLang) == null || ((Hashtable) labels.get(sLabelLang)).get(sLabelType) == null ||
+                                                        ((Hashtable) ((Hashtable) labels.get(sLabelLang)).get(sLabelType)).get(sLabelID) == null)) {
                                                     // only list record if not in DB, so check existence in DB
                                                     ps.setString(1, sLabelType);
                                                     ps.setString(2, sLabelID);
