@@ -52,7 +52,8 @@
            sFindInsurarContact  = checkString(request.getParameter("FindInsurarContact")),
            sEditInsurarId       = checkString(request.getParameter("EditInsurarId")),
            sEditInsurarDefaultInsurarInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultInsurarInvoiceModel")),
-       	   sEditInsurarDefaultPatientInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
+      	   sEditInsurarDefaultPatientInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
+     	   sEditInsurarAllowedReductions       = checkString(request.getParameter("EditInsurarAllowedReductions")),
            sEditInsurarType       = checkString(request.getParameter("EditInsurarType"));
 
     // DEBUG //////////////////////////////////////////////////////////////////
@@ -129,6 +130,7 @@
         insurar.setType(checkString(request.getParameter("EditInsurarType")));
         insurar.setDefaultInsurarInvoiceModel(request.getParameter("EditInsurarDefaultInsurarInvoiceModel"));
         insurar.setDefaultPatientInvoiceModel(request.getParameter("EditInsurarDefaultPatientInvoiceModel"));
+        insurar.setAllowedReductions(request.getParameter("EditInsurarAllowedReductions"));
 
         //*** save categories ***
         if(sCategoriesToSave.length() > 0){
@@ -407,6 +409,12 @@
                             <option value="ctams" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
                             <option value="ramacsv" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("system.manage","allowedreductions",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="text" class="text" name="EditInsurarAllowedReductions" size="50" maxChars="255" value="<%=checkString(insurar.getAllowedReductions())%>">%
                         </td>
                     </tr>
                     <tr>
