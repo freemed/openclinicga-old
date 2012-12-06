@@ -678,6 +678,7 @@
     		<column  name="OC_INSURAR_TYPE" dbtype="varchar" javatype="string" size="25"/>
     		<column  name="OC_INSURAR_DEFAULTINSURARINVOICEMODEL" dbtype="varchar" javatype="string" size="25"/>
     		<column  name="OC_INSURAR_DEFAULTPATIENTINVOICEMODEL" dbtype="varchar" javatype="string" size="25"/>
+    		<column  name="OC_INSURAR_ALLOWEDREDUCTIONS" dbtype="varchar" javatype="string" size="255"/>
 		</columns>
 		<indexes>
 			<index name="OC_INSURAR_OBJECTID">
