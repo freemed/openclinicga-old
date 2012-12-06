@@ -11,7 +11,7 @@
     String sEditCBs = checkString(request.getParameter("EditCBs"));
     String sEditInvoiceSeries = checkString(request.getParameter("EditInvoiceSeries"));
     String sEditInsurarReference = checkString(request.getParameter("EditInsurarReference"));
-   
+    String sEditReduction = checkString(request.getParameter("EditReduction"));
 
     PatientInvoice patientinvoice = new PatientInvoice();
     AdminPerson invoicePatient=activePatient;
@@ -132,6 +132,25 @@
 
     String sMessage;
     if (patientinvoice.store()) {
+    	//Nu zetten we de reducties op orde
+    	//Eerst verwijderen we de bestaande reducties
+    	if(sEditReduction.length()>0){
+        	PatientCredit.deletePatientInvoiceReductions(patientinvoice.getUid());
+	    	//Bereken de korting
+	    	double reduction = Double.parseDouble(sEditReduction);
+	    	if(reduction>0){
+		    	PatientCredit credit = new PatientCredit();
+		    	credit.setAmount(reduction*patientinvoice.getPatientAmount()/100);
+		    	credit.setDate(new java.util.Date());
+		    	credit.setInvoiceUid(patientinvoice.getUid());
+		    	credit.setPatientUid(patientinvoice.getPatientUid());
+		    	credit.setType("reduction");
+		    	credit.setUpdateDateTime(new java.util.Date());
+		    	credit.setUpdateUser(patientinvoice.getUpdateUser());
+		    	credit.setVersion(1);
+		    	credit.store();
+	    	}
+    	}
         sMessage = getTran("web", "dataissaved", sWebLanguage);
     } else {
         sMessage = getTran("web.control", "dberror", sWebLanguage);
