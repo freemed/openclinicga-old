@@ -392,6 +392,28 @@ public class PatientCredit extends OC_Object {
         }
     }
 
+    public static void deletePatientInvoiceReductions(String patientInvoiceUid){
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        PreparedStatement ps=null;
+        try{
+        	ps = oc_conn.prepareStatement("delete from OC_PATIENTCREDITS where OC_PATIENTCREDIT_INVOICEUID=? and OC_PATIENTCREDIT_TYPE='reduction'");
+        	ps.setString(1, patientInvoiceUid);
+        	ps.execute();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+        finally{
+            try{
+                if(ps!=null)ps.close();
+                oc_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
     public static Vector getPatientCredits(String sPatientUid, String sDateBegin, String sDateEnd, String sAmountMin, String sAmountMax){
         String sSelect = "";
         PreparedStatement ps = null;

@@ -117,6 +117,16 @@ public class PatientInvoice extends Invoice {
     	}
     	return amount;
     }
+    
+    public PatientCredit getReduction(){
+    	for(int n=0;n<getCredits().size();n++){
+    		PatientCredit credit = PatientCredit.get((String)getCredits().elementAt(n));
+    		if(credit!=null && credit.getType().equals("reduction")){
+    			return credit;
+    		}
+    	}
+    	return null;
+    }
 
     public double getBalance(){
         double b=0;
