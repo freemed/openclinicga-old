@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter" %>
+<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.text.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.patientinvoice.edit","edit",activeUser)%>
@@ -58,7 +58,7 @@
                         }
 
                         sReturn.append( "<tr class='list"+sClass+"'>"
-                            +"<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+debet.getAmount()+"' onclick='doBalance(this, true)'"+sChecked+"></td>"
+                            +"<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+debet.getAmount()+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"
                             +"<td>"+ScreenHelper.getSQLDate(debet.getDate())+"</td>"
                             +"<td>"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(debet.getCreateDateTime())+"</td>"
                             +"<td>"+sEncounterName+"</td>"
@@ -284,7 +284,7 @@
 	        <tr>
 	            <td class='admin' nowrap><%=getTran("web.finance","balance",sWebLanguage)%></td>
 	            <td class='admin2'>
-	                <input class='text' readonly type='text' name='EditBalance' id='EditBalance' value='<%if (checkString(Double.toString(patientInvoice.getBalance())).length()>0){out.print(Double.toString(dBalance));}%>' size='20'> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
+	                <input class='text' readonly type='text' name='EditBalance' id='EditBalance' value='<%=checkString(Double.toString(patientInvoice.getBalance())).length()>0?new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat")).format(dBalance):""%>' size='20'> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
 	                &nbsp;<%=getTran("web","total",sWebLanguage) %>: <label id='invoiceValue'></label> <%=MedwanQuery.getInstance().getConfigString("currency","EUR") %>
 	                &nbsp;<%=getTran("web","paid",sWebLanguage) %>: <label id='invoicePaid'></label> <%=MedwanQuery.getInstance().getConfigString("currency","EUR") %>
 	            </td>
@@ -292,7 +292,7 @@
             <%
   				boolean bReduction=false;
             	Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(activePatient.personid);
-            	if(insurance!=null && insurance.getInsurar()!=null && insurance.getInsurar().getAllowedReductions()!=null && insurance.getInsurar().getAllowedReductions().length()>0){
+            	if(patientInvoice.getStatus().equals("open") && insurance!=null && insurance.getInsurar()!=null && insurance.getInsurar().getAllowedReductions()!=null && insurance.getInsurar().getAllowedReductions().length()>0){
 					out.println("<tr><td class='admin'>"+getTran("web","acceptable.reductions",sWebLanguage)+"</td><td class='admin2'>");
             		String options[]=insurance.getInsurar().getAllowedReductions().split(";");
             		int reductionLevel=0;
@@ -308,6 +308,7 @@
              	if(!bReduction){
              		out.println("<input type='hidden' name='reduction' id='reduction' value='0'/>");
              	}
+             	
              %>
 	        <tr>
 	            <td class='admin' nowrap><%=getTran("web.finance","prestations",sWebLanguage)%></td>
@@ -343,7 +344,7 @@
 	            <td class='admin' nowrap><%=getTran("web.finance","credits",sWebLanguage)%></td>
 	            <td class='admin2'>
 	                <div style="height:120px;"class="searchResults">
-	                    <table width="100%" class="list" cellspacing="1">
+	                    <table id='creditsTable' width="100%" class="list" cellspacing="1">
 	                        <tr class="gray">
 	                            <td width="20"/>
 	                            <td width="80"><%=getTran("web","date",sWebLanguage)%></td>
@@ -497,7 +498,7 @@
 		                    sCbs += elm.name.split("=")[0]+",";
 		                }
 		            }
-					reduction=0;
+					reduction=-1;
 			    	var reductions=document.getElementsByName('reduction');
 					if(reductions[0].type=='radio'){
 						for(var n=0;n<reductions.length;n++){
@@ -505,6 +506,13 @@
 								reduction=reductions[n].value*1;
 							}
 				    	}
+					}
+					else {
+						reduction=0;
+					}
+					red="";
+					if(reduction!=-1){
+						red=reduction;
 					}
 		            var today = new Date();
 		            var url= '<c:url value="/financial/patientInvoiceSave.jsp"/>?ts='+today;
@@ -518,7 +526,7 @@
 		                          +'&EditCBs='+sCbs
 		                          +'&EditInvoiceSeries='+sInvoiceSeries
 		                          +'&EditInsurarReference='+EditForm.EditInsurarReference.value
-		                          +'&EditReduction='+reduction
+		                          +'&EditReduction='+red
 		                          +'&EditBalance=' + document.getElementById('EditBalance').value,
 		                  onSuccess: function(resp){
 		                      var label = eval('('+resp.responseText+')');
@@ -559,9 +567,12 @@
 	    }
 	
 	    function doBalance(){
-	    	total=0.0;
-	    	paid=0.0;
-	    	reduction=0.0;
+	    	total=0.01;
+	    	total=0;
+	    	paid=0.01;
+	    	paid=0;
+	    	reduction=0.1;
+	    	reduction=0;
 	    	var elements = document.getElementsByTagName("input");
 	    	for(var n=0;n<elements.length;n++){
 	    		if(elements[n].name.indexOf("cbDebet")==0 && elements[n].checked){
@@ -581,7 +592,7 @@
 					}
 		    	}
 			}
-	    	document.getElementById('EditBalance').value = format_number(total-paid-(total*reduction/100),<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+	    	document.getElementById('EditBalance').value = (total-paid-(total*reduction/100)).toFixed(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 	    }
 	
 	    function doPrintPdf(invoiceUid){
@@ -643,7 +654,30 @@
 	    function doStatus(){
 	    }
 	    
+	    function activateReductions(){
+	    	var elements = document.getElementsByName("reduction");
+			if(elements[0].type=='radio'){
+				elements[0].checked=true;
+			}
+	    }
+	    
 	    function removeReductions(){
+	    	table=document.getElementById('creditsTable');
+            var rowCount = table.rows.length;
+            
+            for(var i=1; i<rowCount; i++) {
+                var row = table.rows[i];
+                var chkbox = row.cells[0].childNodes[0];
+                if(null != chkbox && chkbox.id.indexOf('reduction')==0) {
+                    table.deleteRow(i);
+                    rowCount--;
+                    i--;
+                }
+            }
+			activateReductions();
+	    }
+	    
+	    function removeReductions2(){
 	    	var elements = document.getElementsByTagName("input");
 	    	for(var n=0;n<elements.length;n++){
 	    		if(elements[n].name.indexOf("cbPatientInvoice")==0 && elements[n].checked && elements[n].id.indexOf("reduction")==0){
@@ -662,13 +696,13 @@
 	    }
 	
 	    function doPayment (invoiceUid){
-	        openPopup("/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+"&ScreenType=doPayment");
+	        openPopup("/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+"&ScreenType=doPayment&EditBalance="+document.getElementById('EditBalance').value);
 	    }
 	
 	    FindForm.FindPatientInvoiceUID.focus();
 	    loadOpenPatientInvoices();
 	    doBalance();
-	    document.getElementById('EditBalance').value = format_number(document.getElementById('EditBalance').value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+	    document.getElementById('EditBalance').value = (document.getElementById('EditBalance').value).fixedTo(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 	</script>
 <%
 	}
