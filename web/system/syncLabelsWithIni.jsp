@@ -76,7 +76,7 @@
     // excluded label types
     String excludedLabelTypes = MedwanQuery.getInstance().getConfigString("excludedLabelTypesNew");
     if(excludedLabelTypes.length() == 0){
-        excludedLabelTypes = "labanalysis,labprofiles,activitycodes,worktime,patientsharecoverageinsurance,urgency.origin,encountertype,prestation.type,product.productgroup,insurance.types,labanalysis.group"; // default
+        excludedLabelTypes = "labanalysis,labanalysis.short,labprofiles,activitycodes,worktime,patientsharecoverageinsurance,urgency.origin,encountertype,prestation.type,product.productgroup,insurance.types,labanalysis.group"; // default
     }
     excludedLabelTypes = excludedLabelTypes.toLowerCase();
 %>
