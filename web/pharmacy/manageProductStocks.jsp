@@ -555,7 +555,12 @@
                         <%
                         }
                     %>
+                        <tr>
+                            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","productstock",sWebLanguage)%>&nbsp;</td>
+                            <td class="admin2"><input type='text' class='text' name='filter' id='filter' onkeyup='showSearchResults(this.value)' value='' size='10'/></td>
+                        </tr>
                 </table>
+                
                 <%-- display message --%>
                 <%
                     if(sAction.equals("findShowOverview")){
@@ -737,7 +742,7 @@
                             <td/>
                             <td/>
                             <td/>
-                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a> </td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_LEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","level",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_COMMAND');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"<"+sSortDir+">":"")%><%=getTran("Web","openorders",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_MINIMUMLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MINIMUMLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","minimumlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MINIMUMLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
@@ -1265,6 +1270,19 @@
     }
   }
 
+  function showSearchResults(s){
+	  table =document.getElementById("searchresults");
+	  rows=table.rows;
+	  for(var n=1;n<rows.length;n++){
+		  cell=rows[n].cells[4];
+		  if(cell.firstChild.nodeValue.toLowerCase().indexOf(s.toLowerCase())>=0){
+			 rows[n].style.display='';
+		  }
+		  else{
+			 rows[n].style.display='none';
+		  }
+	  }
+  }
   <%-- DO BACK TO PREVIOUS MODULE --%>
   function doBackToPrevModule(){
     window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=pharmacy/manageServiceStocks.jsp&DisplaySearchFields=true&ts=<%=getTs()%>";
@@ -1278,4 +1296,7 @@
   <%-- close "search in progress"-popup that might still be open --%>
   var popup = window.open("","Searching","width=1,height=1");
   popup.close();
+  if(document.getElementById("filter")){
+	  window.setTimeout("document.getElementById('filter').focus()",500);
+  }
 </script>
