@@ -937,6 +937,16 @@ public class Service {
         return vServiceids;
     }
 
+    public String getFullyQualifiedName(String language){
+    	String name=getLabel(language);
+    	if(parentcode!=null && parentcode.length()>0){
+    		Service parentService = Service.getService(parentcode);
+    		if(parentService!=null){
+    			name=parentService.getFullyQualifiedName(language)+" - "+name;
+    		}
+    	}
+    	return name;
+    }
     //--- GET SERVICE LABELS ----------------------------------------------------------------------
     // return vector with the labels (diff. lang) for the service
     public Vector getServiceLabels(){

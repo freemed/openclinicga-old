@@ -38,8 +38,17 @@ public class Encounter extends OC_Object {
     private String origin;
     private Date transferDate;
     private String situation;
+    private String categories;
 
-    public String getSituation() {
+    public String getCategories() {
+		return categories;
+	}
+
+	public void setCategories(String categories) {
+		this.categories = categories;
+	}
+
+	public String getSituation() {
         return situation;
     }
 
@@ -878,6 +887,8 @@ public class Encounter extends OC_Object {
                         encounter.setOutcome(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME")));
                         encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                         encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
+                        encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                        
 
                         //Now find the most recent service for this encounter
                         EncounterService encounterService = encounter.getLastEncounterService();
@@ -989,7 +1000,8 @@ public class Encounter extends OC_Object {
                             "OC_ENCOUNTER_OUTCOME," +
                             "OC_ENCOUNTER_DESTINATIONUID," +
                             "OC_ENCOUNTER_ORIGIN," +
-                            "OC_ENCOUNTER_SITUATION) " +
+                            "OC_ENCOUNTER_SITUATION," +
+                            "OC_ENCOUNTER_CATEGORIES) " +
                             " SELECT OC_ENCOUNTER_SERVERID," +
                             " OC_ENCOUNTER_OBJECTID," +
                             " OC_ENCOUNTER_TYPE," +
@@ -1003,7 +1015,8 @@ public class Encounter extends OC_Object {
                             " OC_ENCOUNTER_OUTCOME," +
                             " OC_ENCOUNTER_DESTINATIONUID," +
                             " OC_ENCOUNTER_ORIGIN," +
-                            " OC_ENCOUNTER_SITUATION" +
+                            " OC_ENCOUNTER_SITUATION," +
+                            " OC_ENCOUNTER_CATEGORIES" +
                             " FROM OC_ENCOUNTERS " +
                             " WHERE OC_ENCOUNTER_SERVERID = ?" +
                             " AND OC_ENCOUNTER_OBJECTID = ?";
@@ -1042,9 +1055,10 @@ public class Encounter extends OC_Object {
                         " OC_ENCOUNTER_OUTCOME," +
                         " OC_ENCOUNTER_DESTINATIONUID," +
                         " OC_ENCOUNTER_ORIGIN," +
-                        " OC_ENCOUNTER_SITUATION" +
+                        " OC_ENCOUNTER_SITUATION," +
+                        " OC_ENCOUNTER_CATEGORIES" +
                         ") " +
-                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1, Integer.parseInt(ids[0]));
@@ -1076,6 +1090,7 @@ public class Encounter extends OC_Object {
                 }
                 ps.setString(13, this.getOrigin());
                 ps.setString(14, this.getSituation());
+                ps.setString(15, this.getCategories());
                 ps.executeUpdate();
                 ps.close();
                 this.setUid(ids[0] + "." + ids[1]);
@@ -1245,7 +1260,8 @@ public class Encounter extends OC_Object {
                             "OC_ENCOUNTER_OUTCOME," +
                             "OC_ENCOUNTER_DESTINATIONUID," +
                             "OC_ENCOUNTER_ORIGIN," +
-                            "OC_ENCOUNTER_SITUATION) " +
+                            "OC_ENCOUNTER_SITUATION," +
+                            "OC_ENCOUNTER_CATEGORIES) " +
                             " SELECT OC_ENCOUNTER_SERVERID," +
                             " OC_ENCOUNTER_OBJECTID," +
                             " OC_ENCOUNTER_TYPE," +
@@ -1259,7 +1275,8 @@ public class Encounter extends OC_Object {
                             " OC_ENCOUNTER_OUTCOME," +
                             " OC_ENCOUNTER_DESTINATIONUID," +
                             " OC_ENCOUNTER_ORIGIN," +
-                            " OC_ENCOUNTER_SITUATION" +
+                            " OC_ENCOUNTER_SITUATION," +
+                            " OC_ENCOUNTER_CATEGORIES" +
                             " FROM OC_ENCOUNTERS " +
                             " WHERE OC_ENCOUNTER_SERVERID = ?" +
                             " AND OC_ENCOUNTER_OBJECTID = ?";
@@ -1298,9 +1315,10 @@ public class Encounter extends OC_Object {
                         " OC_ENCOUNTER_OUTCOME," +
                         " OC_ENCOUNTER_DESTINATIONUID," +
                         " OC_ENCOUNTER_ORIGIN," +
-                        " OC_ENCOUNTER_SITUATION" +
+                        " OC_ENCOUNTER_SITUATION," +
+                        " OC_ENCOUNTER_CATEGORIES" +
                         ") " +
-                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1, Integer.parseInt(ids[0]));
@@ -1332,6 +1350,7 @@ public class Encounter extends OC_Object {
                 }
                 ps.setString(13, this.getOrigin());
                 ps.setString(14, this.getSituation());
+                ps.setString(15, this.getCategories());
                 ps.executeUpdate();
                 ps.close();
                 this.setUid(ids[0] + "." + ids[1]);
@@ -1491,6 +1510,7 @@ public class Encounter extends OC_Object {
                     encounter.setDestinationUID(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID")));
                     encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                     encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
+                    encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
                     //Now find the most recent service for this encounter
                     EncounterService encounterService = encounter.getLastEncounterService();
                     if (encounterService != null) {
@@ -1719,6 +1739,11 @@ public class Encounter extends OC_Object {
 	                    eTmp.setSituation(sTmp);
 	                }
 	                
+	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
+	                if (sTmp.length() > 0) {
+	                    eTmp.setCategories(sTmp);
+	                }
+	                
 	                eTmp.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID")));
 	
 	                vEncounters.addElement(eTmp);
@@ -1855,6 +1880,11 @@ public class Encounter extends OC_Object {
                     eTmp.setSituation(sTmp);
                 }
 
+                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
+                if (sTmp.length() > 0) {
+                    eTmp.setCategories(sTmp);
+                }
+                
                 vEncounters.addElement(eTmp);
             }
 
@@ -1933,6 +1963,11 @@ public class Encounter extends OC_Object {
                 if (sTmp.length() > 0) {
                     eTmp.setSituation(sTmp);
                 }
+                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
+                if (sTmp.length() > 0) {
+                    eTmp.setCategories(sTmp);
+                }
+                
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
                 if (sTmp.length() > 0) {
                     eTmp.destinationUID = sTmp;
@@ -2176,6 +2211,11 @@ public class Encounter extends OC_Object {
                     eTmp.setSituation(sTmp);
                 }
 
+                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
+                if (sTmp.length() > 0) {
+                    eTmp.setCategories(sTmp);
+                }
+                
                 vEncounters.addElement(eTmp);
             }
 

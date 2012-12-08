@@ -270,7 +270,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
                 //*** barcode ***
                 PdfContentByte cb = docWriter.getDirectContent();
                 Barcode39 barcode39 = new Barcode39();
-                barcode39.setCode("5"+invoice.getInvoiceUid());
+                barcode39.setCode("7"+invoice.getInvoiceUid());
                 Image image = barcode39.createImageWithBarcode(cb,null,null);
                 cell = new PdfPCell(image);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);

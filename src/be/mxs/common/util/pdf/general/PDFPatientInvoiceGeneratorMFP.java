@@ -21,11 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hnrw.report.Report_Identification;
 
-public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
+public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
     String sProforma = "no";
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
-    public PDFPatientInvoiceGeneratorCTAMS(User user, AdminPerson patient, String sProject, String sPrintLanguage, String proforma){
+    public PDFPatientInvoiceGeneratorMFP(User user, AdminPerson patient, String sProject, String sPrintLanguage, String proforma){
         this.user = user;
         this.patient = patient;
         this.sProject = sProject;
@@ -58,11 +58,43 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 
             // get specified invoice
             PatientInvoice invoice = PatientInvoice.get(sInvoiceUid);
-
-            addReceipt(invoice);
-            addHeading(invoice);
-            addPatientData(invoice);
-            printInvoice(invoice);
+        	//Find encounters
+        	Hashtable encounters = new Hashtable();
+        	Vector debets = invoice.getDebets();
+        	for(int n=0;n<debets.size();n++){
+        		Debet debet = (Debet)debets.elementAt(n);
+        		if(encounters.get(debet.getEncounterUid())==null){
+        			encounters.put(debet.getEncounterUid(), debet.getEncounter());
+        		}
+        	}
+        	boolean bAdmission=false,bVisit=false;;
+        	Enumeration eEncounters = encounters.elements();
+        	while(eEncounters.hasMoreElements()){
+        		Encounter encounter = (Encounter)eEncounters.nextElement();
+        		if(encounter.getType().equalsIgnoreCase("admission")){
+        			bAdmission=true;
+        		}
+        		else {
+        			bVisit=true;
+        		}
+        	}
+        	if(bVisit){
+                addReceipt(invoice);
+                addHeading(invoice);
+                addPatientDataVisit(invoice);
+                printInvoiceVisit(invoice);
+        	}
+        	if(bAdmission){
+        		if(bVisit){
+        			doc.newPage();
+        		}
+        		else {
+        			addReceipt(invoice);
+        		}
+                addHeading(invoice);
+                addPatientDataAdmission(invoice);
+                printInvoiceAdmission(invoice);
+        	}
         }
 		catch(Exception e){
 			baosPDF.reset();
@@ -226,7 +258,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 
         try {
             //*** logo ***
-            try{
+        	try{
                 Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
                 img.scaleToFit(75, 75);
                 cell = new PdfPCell(img);
@@ -239,46 +271,53 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
                 e.printStackTrace();
             }
 
+        	PdfPTable table2 = new PdfPTable(30);
+            table2.setWidthPercentage(pageWidth);
             Report_Identification report_identification = new Report_Identification(invoice.getDate());
-            String sHealthFacilityIdentification=getTran("web","ctams.hfident.1")+"\n";
-            sHealthFacilityIdentification+=getTran("web","ctams.hfident.2")+"\n";
-            sHealthFacilityIdentification+=getTran("web","ctams.hfident.3")+"\n";
-            sHealthFacilityIdentification+=getTran("web","ctams.hfident.4")+"\n";
-            sHealthFacilityIdentification+=getTran("web","ctams.hfident.5")+"\n";
-            sHealthFacilityIdentification+=getTran("web","ctams.hfident.6");
-            cell=createValueCell(sHealthFacilityIdentification,3,8,Font.BOLD);
+            cell=createValueCell(getTran("web","mfp.ident.1.1"),10,8,Font.BOLD);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            table.addCell(cell);
-            
+            table2.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.ident.1.2"),10,8,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
+            cell=createValueCell(getTran("web","recordnumber")+": "+invoice.getUid(),10,8,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            table2.addCell(cell);
 
+            cell=createValueCell(getTran("web","mfp.ident.2.1"),10,8,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
+            cell=createValueCell(getTran("web","health.facility")+":",5,8,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
+            cell=createValueCell(report_identification.getItem("OC_HC_FOSA"),10,8,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            table2.addCell(cell);
             if(!sProforma.equalsIgnoreCase("yes")){
                 //*** barcode ***
                 PdfContentByte cb = docWriter.getDirectContent();
                 Barcode39 barcode39 = new Barcode39();
                 barcode39.setCode("7"+invoice.getInvoiceUid());
                 Image image = barcode39.createImageWithBarcode(cb,null,null);
+                image.scaleAbsoluteWidth(75);
                 cell = new PdfPCell(image);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 cell.setBorder(PdfPCell.NO_BORDER);
-                cell.setColspan(1);
+                cell.setPadding(0);
+                cell.setColspan(5);
             }
             else {
-                cell = createEmptyCell(1);
+                cell = createEmptyCell(5);
             }
+            table2.addCell(cell);
+
+            cell=new PdfPCell(table2);
+            cell.setColspan(4);
+            cell.setBorder(PdfPCell.NO_BORDER);
             table.addCell(cell);
             doc.add(table);
             addBlankRow();
 
-            table = new PdfPTable(5);
-            table.setWidthPercentage(pageWidth);
-
-            //*** title ***
-            table.addCell(createTitleCell(getTran("web","ctams.invoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceUid())+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),"",5));
-
-
-            doc.add(table);
-            addBlankRow();
-            addBlankRow();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -286,7 +325,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
     }
 
     //--- ADD PATIENT DATA ------------------------------------------------------------------------
-    private void addPatientData(PatientInvoice invoice){
+    private void addPatientDataVisit(PatientInvoice invoice){
         PdfPTable table = new PdfPTable(100);
         table.setWidthPercentage(pageWidth);
         try{
@@ -295,179 +334,301 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
         	if(insurance==null){
         		insurance=new Insurance();
         	}
-        	//Find encounters
-        	Hashtable encounters = new Hashtable();
-        	Vector debets = invoice.getDebets();
-        	for(int n=0;n<debets.size();n++){
-        		Debet debet = (Debet)debets.elementAt(n);
-        		if(encounters.get(debet.getEncounterUid())==null){
-        			encounters.put(debet.getEncounterUid(), debet.getEncounter());
+        	if(person!=null){
+        		Encounter encounter=null;
+        		Vector debets=invoice.getDebets();
+        		for(int n=0;n<debets.size();n++){
+        			Debet debet = (Debet)debets.elementAt(n);
+        			if(debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit") && (encounter==null || encounter.getBegin().before(debet.getEncounter().getBegin()))){
+        				encounter=debet.getEncounter();
+        			}
         		}
+        		
+        		String natreg="";
+        		if(person.getAdminID("natreg")!=null){
+        			natreg=person.getAdminID("natreg").value+"";
+        		}
+	        	cell=createLabelCell(getTran("web","mfp.immat")+":",20);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(natreg,20);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","mfp.disease.sheet")+": "+(invoice.getUid().split("\\.").length>1?invoice.getUid().split("\\.")[1]:""),60,12);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	table.addCell(cell);
+	        	
+	        	cell=createLabelCell(getTran("web","mfp.cardnumber"),20);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getInsuranceNr(),80);
+	        	table.addCell(cell);
+	        	
+	        	cell=createLabelCell(getTran("web","mfp.affiliate"),20);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getMember(),50);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","mfp.disease.natural"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("A")?"X":"\n",9);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	
+	        	String community="";
+	        	AdminPrivateContact priv = person.getActivePrivate();
+	        	if(priv!=null){
+	        		community=priv.sector;
+	        	}
+	        	
+	        	cell=createLabelCell(getTran("web","mfp.community"),20);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(community,50);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","mfp.disease.professional"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("B")?"X":"\n",9);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	
+	        	cell=createLabelCell(getTran("web","employer"),20);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getMemberEmployer(),50);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","mfp.disease.work"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("C")?"X":"\n",9);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	
+	        	cell=createLabelCell(getTran("web","beneficiary"),70);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","mfp.disease.traffic"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("D")?"X":"\n",9);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	
+	        	cell=createLabelCell("",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","himself"),15);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getStatus().equalsIgnoreCase("affiliate")?"X":"",3);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",47);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","mfp.disease.other"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("E")?"X":"\n",9);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	
+	        	cell=createLabelCell("",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","partner"),15);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getStatus().equalsIgnoreCase("partner")?"X":"",3);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",2);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","name")+":",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(insurance.getStatus().equalsIgnoreCase("partner")?person.lastname.toUpperCase()+", "+person.firstname:"",70);
+	        	table.addCell(cell);
+	        	
+	        	cell=createLabelCell("",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","child"),15);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getStatus().equalsIgnoreCase("child")?"X":"",3);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",2);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","name")+":",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(insurance.getStatus().equalsIgnoreCase("child")?person.lastname.toUpperCase()+", "+person.firstname:"",70);
+	        	table.addCell(cell);
+	        	doc.add(table);
+	        	
+	        	addBlankRow();
+        	}
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //--- ADD PATIENT DATA ------------------------------------------------------------------------
+    private void addPatientDataAdmission(PatientInvoice invoice){
+        PdfPTable table = new PdfPTable(100);
+        table.setWidthPercentage(pageWidth);
+        try{
+        	AdminPerson person = invoice.getPatient();
+        	Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(person.personid);
+        	if(insurance==null){
+        		insurance=new Insurance();
         	}
         	if(person!=null){
-	        	cell=createLabelCell(getTran("web","ctams.cardnumber"),15);
+        		Encounter encounter=null;
+        		Vector debets=invoice.getDebets();
+        		for(int n=0;n<debets.size();n++){
+        			Debet debet = (Debet)debets.elementAt(n);
+        			if(debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("admission") && (encounter==null || encounter.getBegin().before(debet.getEncounter().getBegin()))){
+        				encounter=debet.getEncounter();
+        			}
+        		}
+        		String natreg="";
+        		if(person.getAdminID("natreg")!=null){
+        			natreg=person.getAdminID("natreg").value+"";
+        		}
+	        	cell=createLabelCell(getTran("web","mfp.immat")+":",20);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(insurance.getInsuranceNr(),15);
+	        	cell=createBoldLabelCell(natreg,20);
 	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.beneficiary"),20);
-	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(person.lastname.toUpperCase()+", "+person.firstname,50);
+	        	cell=createLabelCell(getTran("web","mfp.admission.sheet")+": "+(invoice.getUid().split("\\.").length>1?invoice.getUid().split("\\.")[1]:""),60,12);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 	        	table.addCell(cell);
 	        	
-	        	cell=createLabelCell(getTran("web","ctams.dateofbirth"),15);
+	        	cell=createLabelCell(getTran("web","mfp.cardnumber"),20);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(person.dateOfBirth,15);
-	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.gender"),20);
-	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(person.gender,50);
+	        	cell=createBoldLabelCell(insurance.getInsuranceNr(),80);
 	        	table.addCell(cell);
 	        	
-	        	cell=createLabelCell(getTran("web","ctams.recordnumber"),15);
+	        	cell=createLabelCell(getTran("web","mfp.affiliate"),20);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(person.personid,15);
+	        	cell=createBoldLabelCell(insurance.getMember(),50);
 	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.bed"),20);
+	        	cell=createLabelCell(getTran("web","mfp.disease.natural"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 	        	table.addCell(cell);
-	        	String beds="";
-	        	Enumeration eEncounters = encounters.elements();
-	        	while(eEncounters.hasMoreElements()){
-	        		Encounter encounter = (Encounter)eEncounters.nextElement();
-	        		if(encounter!=null && encounter.getBed()!=null && encounter.getBed().getName()!=null && beds.indexOf(encounter.getBed().getName())<0){
-	        			if(beds.length()>0){
-	        				beds+=", ";
-	        			}
-	        			beds+=encounter.getBed().getName();
-	        		}
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("A")?"X":"\n",9);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	
+	        	String community="";
+	        	AdminPrivateContact priv = person.getActivePrivate();
+	        	if(priv!=null){
+	        		community=priv.sector;
 	        	}
-	        	cell=createBoldLabelCell(beds,15);
+	        	
+	        	cell=createLabelCell(getTran("web","mfp.community"),20);
 	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.service"),15);
+	        	cell=createBoldLabelCell(community,50);
 	        	table.addCell(cell);
-	        	String services="";
-	        	eEncounters = encounters.elements();
-	        	while(eEncounters.hasMoreElements()){
-	        		Encounter encounter = (Encounter)eEncounters.nextElement();
-	        		if(encounter!=null && encounter.getService()!=null && encounter.getService().getLabel(user.person.language)!=null && services.indexOf(encounter.getService().getLabel(user.person.language))<0){
-	        			if(services.length()>0){
-	        				services+=", ";
-	        			}
-	        			services+=encounter.getService().getLabel(user.person.language);
-	        		}
-	        	}
-	        	cell=createBoldLabelCell(services,20);
+	        	cell=createLabelCell(getTran("web","mfp.disease.professional"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("B")?"X":"\n",9);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
 	        	table.addCell(cell);
 	        	
-	        	cell=createLabelCell(getTran("web","ctams.transferred.by"),30);
+	        	cell=createLabelCell(getTran("web","employer"),20);
 	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.entry"),20);
+	        	cell=createBoldLabelCell(insurance.getMemberEmployer(),50);
 	        	table.addCell(cell);
-	        	String entry="", exit="";
-	        	eEncounters = encounters.elements();
-	        	while(eEncounters.hasMoreElements()){
-	        		Encounter encounter = (Encounter)eEncounters.nextElement();
-	        		if(encounter!=null && encounter.getBegin()!=null && entry.indexOf(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()))<0){
-	        			if(entry.length()>0){
-	        				entry+=", ";
-	        			}
-	        			entry+=new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin());
-	        		}
-	        		if(encounter!=null && encounter.getEnd()!=null && exit.indexOf(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd()))<0){
-	        			if(exit.length()>0){
-	        				exit+=", ";
-	        			}
-	        			exit+=new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd());
-	        		}
-	        	}
-	        	cell=createBoldLabelCell(entry,15);
+	        	cell=createLabelCell(getTran("web","mfp.disease.work"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.exit"),15);
+	        	cell=createLabelCell("",1);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(exit,20);
-	        	table.addCell(cell);
-
-	        	cell=createLabelCell(getTran("web","ctams.ambulatory"),15);
-	        	table.addCell(cell);
-	        	eEncounters = encounters.elements();
-	        	String ambulatory=getTran("web","no");
-	        	String categories="";
-	        	while(eEncounters.hasMoreElements()){
-	        		Encounter encounter = (Encounter)eEncounters.nextElement();
-	        		if(encounter.getCategories()!=null && categories.indexOf(encounter.getCategories())<0){
-	        			categories+=encounter.getCategories();
-	        		}
-	        		if(encounter.getType().equalsIgnoreCase("visit")){
-	        		if(encounter!=null && encounter.getType().equalsIgnoreCase("visit")){
-	        			ambulatory=getTran("web","yes");
-	        			break;
-	        		}
-	        	}
-	        	cell=createBoldLabelCell(ambulatory,85);
-	        	table.addCell(cell);
-
-	        	cell=createLabelCell(getTran("web","ctams.diseasetype"),15);
-	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.disease.natural"),17);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("C")?"X":"\n",9);
 	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.disease.professional"),17);
-	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.disease.traffic"),17);
-	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.disease.occupational"),17);
-	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-	        	table.addCell(cell);
-	        	cell=createLabelCell(getTran("web","ctams.disease.other"),17);
-	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
 	        	table.addCell(cell);
 	        	
-	        	cell=createLabelCell("",15);
+	        	cell=createLabelCell(getTran("web","beneficiary"),70);
 	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
+	        	cell=createLabelCell(getTran("web","mfp.disease.traffic"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(categories.indexOf("A")<0?"\n":"X",13);
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("D")?"X":"\n",9);
 	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 	        	cell.setBorder(PdfPCell.BOX);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
-	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(categories.indexOf("B")<0?"\n":"X",13);
-	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-	        	cell.setBorder(PdfPCell.BOX);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
-	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(categories.indexOf("D")<0?"\n":"X",13);
-	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-	        	cell.setBorder(PdfPCell.BOX);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
-	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(categories.indexOf("C")<0?"\n":"X",13);
-	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-	        	cell.setBorder(PdfPCell.BOX);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
-	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(categories.indexOf("E")<0?"\n":"X",13);
-	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-	        	cell.setBorder(PdfPCell.BOX);
-	        	table.addCell(cell);
-	        	cell=createLabelCell("",2);
 	        	table.addCell(cell);
 	        	
+	        	cell=createLabelCell("",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","himself"),15);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getStatus().equalsIgnoreCase("affiliate")?"X":"",3);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",47);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","mfp.disease.other"),20);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",1);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(encounter.getCategories().equalsIgnoreCase("E")?"X":"\n",9);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
 	        	
+	        	cell=createLabelCell("",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","partner"),15);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getStatus().equalsIgnoreCase("partner")?"X":"",3);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",2);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","name")+":",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(insurance.getStatus().equalsIgnoreCase("partner")?person.lastname.toUpperCase()+", "+person.firstname:"",70);
+	        	table.addCell(cell);
+	        	
+	        	cell=createLabelCell("",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","child"),15);
+	        	table.addCell(cell);
+	        	cell=createBoldLabelCell(insurance.getStatus().equalsIgnoreCase("child")?"X":"",3);
+	        	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	        	cell.setBorder(PdfPCell.BOX);
+	        	table.addCell(cell);
+	        	cell=createLabelCell("",2);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(getTran("web","name")+":",5);
+	        	table.addCell(cell);
+	        	cell=createLabelCell(insurance.getStatus().equalsIgnoreCase("child")?person.lastname.toUpperCase()+", "+person.firstname:"",70);
+	        	table.addCell(cell);
 	        	doc.add(table);
+	        	
+	        	addBlankRow();
         	}
         }
         catch(Exception e){
@@ -520,265 +681,15 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             e.printStackTrace();
         }
     }
-    private void printInvoice(PatientInvoice invoice){
+    private void printInvoiceVisit(PatientInvoice invoice){
         try {
             PdfPTable table = new PdfPTable(100);
             table.setWidthPercentage(pageWidth);
             
-            cell=createUnderlinedCell(getTran("web","ctams.caredetail"),100,9);
-            table.addCell(cell);
-            
-            cell=createValueCell("\n",100);
-            table.addCell(cell);
-
-            cell=createValueCell(getTran("web","date"),10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell(getTran("web","code"),10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell(getTran("web","label"),50);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell(getTran("web","quantity"),10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell(getTran("web","up"),10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell(getTran("web","tp"),10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createBoldLabelCell(getTran("web","consultations"),80);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-
-            Hashtable printedDebets = new Hashtable();
-            Vector debets = invoice.getDebets();
-            boolean bPrinted=false;
-            for(int n=0;n<debets.size();n++){
-            	Debet debet = (Debet)debets.elementAt(n);
-            	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSconsultationCategory","Co"))){
-            			printDebet(debet,table);
-            			printedDebets.put(debet.getUid(), "1");
-            			bPrinted=true;
-            		}
-            	}
-            }
-            if(!bPrinted){
-                cell=createValueCell("\n",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",50);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-            }
-            
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createBoldLabelCell(getTran("web","examinations"),80);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-
-            debets = invoice.getDebets();
-            bPrinted=false;
-            for(int n=0;n<debets.size();n++){
-            	Debet debet = (Debet)debets.elementAt(n);
-            	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null  && (debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSlabCategory","L")) || debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSimagingCategory","R")))){
-            			printDebet(debet,table);
-            			printedDebets.put(debet.getUid(), "1");
-            			bPrinted=true;
-            		}
-            	}
-            }
-            if(!bPrinted){
-                cell=createValueCell("\n",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",50);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-            }
-
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createBoldLabelCell(getTran("web","acts"),80);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-
-            debets = invoice.getDebets();
-            bPrinted=false;
-            for(int n=0;n<debets.size();n++){
-            	Debet debet = (Debet)debets.elementAt(n);
-            	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null  && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSactsCategory","A"))){
-            			printDebet(debet,table);
-            			printedDebets.put(debet.getUid(), "1");
-            			bPrinted=true;
-            		}
-            	}
-            }
-            if(!bPrinted){
-                cell=createValueCell("\n",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",50);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-            }
-
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createBoldLabelCell(getTran("web","consumables"),80);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-
-            debets = invoice.getDebets();
-            bPrinted=false;
-            for(int n=0;n<debets.size();n++){
-            	Debet debet = (Debet)debets.elementAt(n);
-            	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null  && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSconsumablesCategory","C"))){
-            			printDebet(debet,table);
-            			printedDebets.put(debet.getUid(), "1");
-            			bPrinted=true;
-            		}
-            	}
-            }
-            if(!bPrinted){
-                cell=createValueCell("\n",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",50);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-            }
-
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createValueCell("",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createBoldLabelCell(getTran("web","other"),80);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-
-            //Eerst nog de geneesmiddelen verwijderen
-            debets = invoice.getDebets();
-            for(int n=0;n<debets.size();n++){
-            	Debet debet = (Debet)debets.elementAt(n);
-            	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null  && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSdrugsCategory","M"))){
-            			printedDebets.put(debet.getUid(), "1");
-            		}
-            	}
-            }
-            
-            debets = invoice.getDebets();
-            bPrinted=false;
-            for(int n=0;n<debets.size();n++){
-            	Debet debet = (Debet)debets.elementAt(n);
-            	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && printedDebets.get(debet.getUid())==null){
-            			printDebet(debet,table);
-            			bPrinted=true;
-            		}
-            	}
-            }
-            if(!bPrinted){
-                cell=createValueCell("\n",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",50);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-            }
-
+            String departments="";
         	//Find encounters
         	Hashtable encounters = new Hashtable();
-        	debets = invoice.getDebets();
+        	Vector debets = invoice.getDebets();
         	for(int n=0;n<debets.size();n++){
         		Debet debet = (Debet)debets.elementAt(n);
         		if(encounters.get(debet.getEncounterUid())==null){
@@ -786,165 +697,357 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
         		}
         	}
         	Enumeration eEncounters = encounters.elements();
-        	int admDays=0, ambCount=0;
-        	Date admBegin=null,admEnd=null;
         	while(eEncounters.hasMoreElements()){
         		Encounter encounter = (Encounter)eEncounters.nextElement();
-        		if(encounter.getType().equalsIgnoreCase("admission")){
-        			if(admBegin==null || admBegin.after(encounter.getBegin())){
-        				admBegin=encounter.getBegin();
+        		if(!encounter.getType().equalsIgnoreCase("admission") && encounter.getService()!=null){
+        			if(departments.length()>0){
+        				departments+=", ";
         			}
-        			if(admEnd==null || (encounter.getEnd()!=null && admEnd.before(encounter.getEnd()))){
-        				admEnd=encounter.getEnd();
-        			}
-        			admDays+=encounter.getDurationInDays();
-        		}
-        		else {
-        			ambCount++;
+        			departments+=encounter.getService().getLabel(user.person.language);
         		}
         	}
-            cell=createValueCell("",20);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createBoldLabelCell(getTran("web","admission.from")+": "+(admBegin==null?"":new SimpleDateFormat("dd/MM/yyyy").format(admBegin))+" "+getTran("web","ctams.to")+" "+(admEnd==null?"":new SimpleDateFormat("dd/MM/yyyy").format(admEnd))+"   "+getTran("web","ctams.number.of.days")+": "+admDays+"\n"+
-            getTran("web","number.of.visits")+": "+ambCount,80);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            doc.add(table);
-            
-            addBlankRow();
 
-            table = new PdfPTable(100);
-            table.setWidthPercentage(pageWidth);
-            
-            cell=createUnderlinedCell(getTran("web","ctams.drugs"),100,9);
-            table.addCell(cell);
-            
+        	cell=createLabelCell(getTran("web","service")+":",20);
+        	table.addCell(cell);
+        	cell=createBoldLabelCell(departments,80);
+        	table.addCell(cell);
+
             cell=createValueCell("\n",100);
             table.addCell(cell);
 
-            cell=createValueCell(getTran("web","date"),10);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell(getTran("web","mfp.acts.and.drugs"),40,7,Font.BOLD);
+            cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","code"),10);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell(getTran("web","code"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","drugnames"),50);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell("#",5,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","quantity"),10);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell(getTran("web","up"),5,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","up"),10);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell(getTran("web","mfp.cat1"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","tp"),10);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell(getTran("web","mfp.cat2"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.cat3"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.supplement"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
 
             debets = invoice.getDebets();
-            bPrinted=false;
+            double patientshare=0,insureramount=0,supplements=0;
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
-            	if(debet.getPrestation()!=null){
-            		if(debet.getQuantity()>0 && debet.getPrestation().getReferenceObject()!=null && debet.getPrestation().getReferenceObject().getObjectType()!=null && debet.getPrestation().getReferenceObject().getObjectType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("CTAMSdrugsCategory","M"))){
-            			printDebet(debet,table);
-            			printedDebets.put(debet.getUid(), "1");
-            			bPrinted=true;
-            		}
+            	if(debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit") && debet.getPrestation()!=null && debet.getQuantity()>0){
+        			printDebet(debet,table);
+        			patientshare+=debet.getAmount()+debet.getExtraInsurarAmount();
+        			insureramount+=debet.getInsurarAmount();
+        			supplements+=debet.getPrestation().getSupplement()*debet.getQuantity();
             	}
             }
-            if(!bPrinted){
-                cell=createValueCell("\n",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",50);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-                cell=createValueCell("",10);
-                cell.setBorder(PdfPCell.BOX);
-                table.addCell(cell);
-            }
 
-            doc.add(table);
+            cell=createValueCell("",60,7,Font.BOLD);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare+insureramount),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(insureramount),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare-supplements),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(supplements),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+
+            cell=createValueCell("\n\n",100);
+            table.addCell(cell);
+
+            cell=createEmptyCell(20);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.total"),30);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare+insureramount),10,7,Font.BOLD);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createEmptyCell(40);
+            table.addCell(cell);
             
+            cell=createEmptyCell(20);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.patientshare"),30);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare),10,7,Font.BOLD);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createEmptyCell(40);
+            table.addCell(cell);
+            
+            cell=createEmptyCell(20);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.insurer"),30);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(insureramount),10,7,Font.BOLD);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createEmptyCell(40);
+            table.addCell(cell);
+            
+            doc.add(table);
+
             addBlankRow();
             
             table = new PdfPTable(100);
             table.setWidthPercentage(pageWidth);
 
-            cell=createEmptyCell(20);
+            cell=createEmptyCell(70);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","insurance"),30);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell(getTran("web","ctams.done.at")+" "+new SimpleDateFormat("dd/MM/yyyy").format(new Date()),30);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","amount"),10);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell("\n",100);
             table.addCell(cell);
-            cell=createValueCell("%",10);
-            cell.setBorder(PdfPCell.BOX);
+            cell=createValueCell(getTran("web","printedby")+": "+user.person.lastname.toUpperCase()+", "+user.person.firstname+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date()),100);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
-            cell=createEmptyCell(30);
+            cell=createValueCell(getTran("web","ctams.beneficiary.signature"),33);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","ctams.caregiver.signature"),33);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","ctams.facility.stamp"),34);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            table.addCell(cell);
+            
+            doc.add(table);
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void printInvoiceAdmission(PatientInvoice invoice){
+        try {
+            PdfPTable table = new PdfPTable(100);
+            table.setWidthPercentage(pageWidth);
+            
+        	//Find encounters
+        	Hashtable encounters = new Hashtable();
+        	Vector debets = invoice.getDebets();
+        	for(int n=0;n<debets.size();n++){
+        		Debet debet = (Debet)debets.elementAt(n);
+        		if(encounters.get(debet.getEncounterUid())==null){
+        			encounters.put(debet.getEncounterUid(), debet.getEncounter());
+        		}
+        	}
+        	Enumeration eEncounters = encounters.elements();
+        	while(eEncounters.hasMoreElements()){
+        		Encounter encounter = (Encounter)eEncounters.nextElement();
+        		if(encounter.getType().equalsIgnoreCase("admission") && encounter.getService()!=null){
+                	cell=createLabelCell(getTran("web","service")+":",20);
+                	table.addCell(cell);
+                	String department="";
+                	if(encounter.getService()!=null){
+                		department=encounter.getService().getFullyQualifiedName(user.person.language);
+                	}
+                	cell=createBoldLabelCell(department,80);
+                	table.addCell(cell);
+                	cell=createLabelCell(getTran("web","bed")+":",20);
+                	table.addCell(cell);
+                	String bed="";
+                	if(encounter.getBed()!=null){
+                		bed=encounter.getBed().getName()+" ("+encounter.getBed().getService().getFullyQualifiedName(user.person.language)+")";
+                	}
+                	cell=createBoldLabelCell(bed,80);
+                	table.addCell(cell);
+                    cell=createLabelCell(getTran("web","period"),10);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+                    cell=createBoldLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin())+" - "+(encounter.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd())),20);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                	table.addCell(cell);
+                    cell=createBoldLabelCell(getTran("web","up"),10);
+                    cell.setBorder(PdfPCell.BOTTOM);
+                    table.addCell(cell);
+                    cell=createBoldLabelCell(getTran("web","supplement"),10);
+                    cell.setBorder(PdfPCell.BOTTOM);
+                    table.addCell(cell);
+                    cell=createBoldLabelCell(getTran("web","stay"),10);
+                    cell.setBorder(PdfPCell.BOTTOM);
+                    table.addCell(cell);
+                    cell=createBoldLabelCell(getTran("web","total"),10);
+                    cell.setBorder(PdfPCell.BOTTOM);
+                    table.addCell(cell);
+                    cell=createBoldLabelCell(getTran("web","total.supplements"),10);
+                    cell.setBorder(PdfPCell.BOTTOM);
+                    table.addCell(cell);
+                    cell=createBoldLabelCell(getTran("web","mfp.cat4"),10);
+                    cell.setBorder(PdfPCell.BOTTOM);
+                    table.addCell(cell);
+                    cell=createBoldLabelCell(getTran("web","mfp.cat5"),10);
+                    cell.setBorder(PdfPCell.BOTTOM);
+                    table.addCell(cell);
+                    debets = invoice.getDebets();
+                    for(int n=0;n<debets.size();n++){
+                    	Debet debet = (Debet)debets.elementAt(n);
+                    	if(debet.getEncounterUid().equalsIgnoreCase(encounter.getUid()) && debet.getPrestation()!=null && debet.getPrestation().getType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("roomCode","SE"))){
+                    		//Dit is een verblijfsdebet, dus afdrukken
+                            cell=createLabelCell("",30);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            table.addCell(cell);
+                            cell=createLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()-debet.getPrestation().getSupplement()),10);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            table.addCell(cell);
+                            cell=createLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getPrestation().getSupplement()),10);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            table.addCell(cell);
+                            cell=createLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getQuantity()),10);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            table.addCell(cell);
+                            cell=createLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()-debet.getPrestation().getSupplement())*debet.getQuantity()),10);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            table.addCell(cell);
+                            cell=createLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getQuantity()*debet.getPrestation().getSupplement()),10);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            table.addCell(cell);
+                            cell=createLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getInsurarAmount()),10);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            table.addCell(cell);
+                            cell=createLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getAmount()+debet.getExtraInsurarAmount()-debet.getQuantity()*debet.getPrestation().getSupplement()),10);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            table.addCell(cell);
+                    	}
+                    }
+                    cell=createValueCell("\n",100);
+                    table.addCell(cell);
+        		}
+        	}
+
+
+            cell=createValueCell("\n",100);
             table.addCell(cell);
 
-            double patientshare=0,insureramount=0;
+            cell=createValueCell(getTran("web","mfp.acts.and.drugs"),40,7,Font.BOLD);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","code"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell("#",5,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","up"),5,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.cat1"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.cat2"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.cat3"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.supplement"),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.BOTTOM);
+            table.addCell(cell);
+
             debets = invoice.getDebets();
-            bPrinted=false;
+            double patientshare=0,insureramount=0,supplements=0;
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
-            	patientshare+=debet.getAmount()+debet.getExtraInsurarAmount();
-            	insureramount+=debet.getInsurarAmount();
+            	if(debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("admission") && debet.getPrestation()!=null && debet.getQuantity()>0){
+        			printDebet(debet,table);
+        			patientshare+=debet.getAmount()+debet.getExtraInsurarAmount();
+        			insureramount+=debet.getInsurarAmount();
+        			supplements+=debet.getPrestation().getSupplement()*debet.getQuantity();
+            	}
             }
+
+            cell=createValueCell("",60,7,Font.BOLD);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare+insureramount),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(insureramount),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare-supplements),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(supplements),10,7,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setBorder(PdfPCell.TOP);
+            table.addCell(cell);
+
+            cell=createValueCell("\n\n",100);
+            table.addCell(cell);
 
             cell=createEmptyCell(20);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","total"),30);
+            cell=createValueCell(getTran("web","mfp.total"),30);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
-            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare+insureramount),10);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare+insureramount),10,7,Font.BOLD);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
-            cell=createValueCell("100%",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createEmptyCell(30);
+            cell=createEmptyCell(40);
             table.addCell(cell);
             
             cell=createEmptyCell(20);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","ctams.patientshare"),30);
+            cell=createValueCell(getTran("web","mfp.patientshare"),30);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
-            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare),10);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare),10,7,Font.BOLD);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
-            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare*100/(patientshare+insureramount))+"%",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createEmptyCell(30);
+            cell=createEmptyCell(40);
             table.addCell(cell);
             
             cell=createEmptyCell(20);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","ctams.insurer"),30);
+            cell=createValueCell(getTran("web","mfp.insurer"),30);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
-            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(insureramount),10);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(insureramount),10,7,Font.BOLD);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
-            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(insureramount*100/(patientshare+insureramount))+"%",10);
-            cell.setBorder(PdfPCell.BOX);
-            table.addCell(cell);
-            cell=createEmptyCell(30);
+            cell=createEmptyCell(40);
             table.addCell(cell);
             
             doc.add(table);
@@ -982,24 +1085,34 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
     }
 
     private void printDebet(Debet debet,PdfPTable table){
-        cell=createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()),10);
-        cell.setBorder(PdfPCell.BOX);
-        table.addCell(cell);
-        cell=createValueCell(debet.getPrestation().getCode(),10);
-        cell.setBorder(PdfPCell.BOX);
-        table.addCell(cell);
-        cell=createLabelCell(debet.getPrestation().getDescription(),50);
-        cell.setBorder(PdfPCell.BOX);
-        table.addCell(cell);
-        cell=createValueCell(debet.getQuantity()+"",10);
-        cell.setBorder(PdfPCell.BOX);
-        table.addCell(cell);
-        cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()),10);
-        cell.setBorder(PdfPCell.BOX);
-        table.addCell(cell);
-        cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount()),10);
-        cell.setBorder(PdfPCell.BOX);
-        table.addCell(cell);
+    	if(!debet.getPrestation().getType().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("roomCode","SE"))){
+	        cell=createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()),10);
+	        table.addCell(cell);
+	        cell=createLabelCell(debet.getPrestation().getDescription(),30);
+	        table.addCell(cell);
+	        cell=createValueCell(debet.getPrestation().getCode()+"",10);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        cell=createValueCell(debet.getQuantity()+"",5);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()),5);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount()),10);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getInsurarAmount()),10);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        boolean b=debet.getExtraInsurarAmount()>0;
+	        cell=createValueCell((b?"(":"")+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getAmount()+debet.getExtraInsurarAmount()-debet.getPrestation().getSupplement()*debet.getQuantity())+(b?")":""),10);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(debet.getPrestation().getSupplement()*debet.getQuantity()),10);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+    	}
     }
     
     //### PRIVATE METHODS #########################################################################
