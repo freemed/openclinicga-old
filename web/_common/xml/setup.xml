@@ -13,6 +13,7 @@
 		<config key="mxsref" value="BE"/>
 		<config key="priceFormat" value="#,##0.00"/>
 		<config key="priceFormatInsurar" value="#,##0.00"/>
+		<config key="currencyDecimals" value="2"/>
 	</country>
 	<country code="cd">
 		<config key="currency" value="CDF"/>
@@ -27,6 +28,7 @@
 		<config key="mxsref" value="CD"/>
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
 	</country>
 	<country code="rw">
 		<config key="currency" value="RWF"/>
@@ -41,6 +43,7 @@
 		<config key="mxsref" value="RW"/>
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
 	</country>
 	<country code="bi">
 		<config key="currency" value="BIF"/>
@@ -55,6 +58,7 @@
 		<config key="mxsref" value="BI"/>
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
 	</country>
 	<country code="ml">
 		<config key="currency" value="XOF"/>
@@ -69,6 +73,7 @@
 		<config key="mxsref" value="ML"/>
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
 	</country>
 	<country code="ci">
 		<config key="currency" value="XOF"/>
@@ -83,6 +88,7 @@
 		<config key="mxsref" value="CI"/>
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
 	</country>
 	<os code="windows">
 		<config key="DocumentsFolder" value="$setupdir$documents"/>
