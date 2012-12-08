@@ -396,6 +396,7 @@
                             <select name='EditInsurarDefaultPatientInvoiceModel' id='EditInsurarDefaultPatientInvoiceModel'>
                             	<option value='default' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
                             	<option value='ctams' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
+                            	<option value='mfp' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
                             </select>
                         </td>
                     </tr>
