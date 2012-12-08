@@ -310,6 +310,7 @@
             <%
             	}
             %>
+                <input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick="doInvoice();">
             </td>
         </tr>
     </table>
@@ -319,6 +320,10 @@
     <input type='hidden' id="prestationids" name="prestationids" value=""/>
 </form>
 <script>
+	function doInvoice(){
+		window.location.href="<c:url value='/main.do?Page=financial/patientInvoiceEdit.jsp'/>";
+	}
+	
 	function changeQuicklistPrestations(prestations){
 		$('prestationids').value=prestations;
         EditForm.EditPrestationName.style.backgroundColor='white';

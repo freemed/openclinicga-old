@@ -1,6 +1,6 @@
 <%@page import="be.openclinic.adt.Encounter,
                 be.openclinic.finance.PatientCredit,
-                java.util.Vector,
+                java.util.Vector,java.text.*,
                 be.openclinic.finance.Wicket,
                 be.openclinic.finance.WicketCredit"%>
 <%@ page import="be.openclinic.finance.PatientInvoice" %>
@@ -27,6 +27,7 @@
            sEditCreditType       = checkString(request.getParameter("EditCreditType")),
            sEditCreditEncUid     = checkString(request.getParameter("EditCreditEncounterUid")),
            sEditCreditDescr      = checkString(request.getParameter("EditCreditDescription")),
+       	   sEditBalance      = checkString(request.getParameter("EditBalance")),
            sEditCreditWicketUid  = checkString(request.getParameter("EditCreditWicketUid"));
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
@@ -166,7 +167,9 @@
     }
     else if ((!sScreenType.equals(""))&&(sEditCreditInvoiceUid.length()>0)){
         PatientInvoice patientInvoice = PatientInvoice.get(sEditCreditInvoiceUid);
-        sEditCreditAmount = Double.toString(patientInvoice.getBalance());
+        if(sEditCreditAmount.length()==0 && sEditBalance.length()>0){
+        	sEditCreditAmount=sEditBalance;
+        }
         sEditCreditInvoiceNr = patientInvoice.getInvoiceUid();
         sEditCreditDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
 
