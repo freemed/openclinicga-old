@@ -378,7 +378,7 @@ public class UpdateSystem {
 	            identifiers = paramName.split("\\$");
 	            exists=false;
 	            langHashtable = MedwanQuery.getInstance().getLabels();
-	            if(langHashtable!=null){
+	            if(langHashtable!=null && identifiers.length>1){
 	                typeHashtable = (Hashtable) langHashtable.get(identifiers[2]);
 	                if(typeHashtable!=null){
 	                    idHashtable = (Hashtable) typeHashtable.get(identifiers[0].toLowerCase());
@@ -390,7 +390,7 @@ public class UpdateSystem {
 	                    }
 	                }
 	            }
-	            if(!exists){
+	            if(!exists && identifiers.length>1){
 	                MedwanQuery.getInstance().storeLabel(identifiers[0],identifiers[1],identifiers[2],paramValue,0);
 	            }
 	        }

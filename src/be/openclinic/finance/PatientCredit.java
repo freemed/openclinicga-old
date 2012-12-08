@@ -399,6 +399,9 @@ public class PatientCredit extends OC_Object {
         	ps = oc_conn.prepareStatement("delete from OC_PATIENTCREDITS where OC_PATIENTCREDIT_INVOICEUID=? and OC_PATIENTCREDIT_TYPE='reduction'");
         	ps.setString(1, patientInvoiceUid);
         	ps.execute();
+        	ps.close();
+        	ps = oc_conn.prepareStatement("delete from OC_PATIENTCREDITS where OC_PATIENTCREDIT_INVOICEUID is null and OC_PATIENTCREDIT_TYPE='reduction'");
+        	ps.execute();
         }
         catch(Exception e){
         	e.printStackTrace();
