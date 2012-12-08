@@ -26,6 +26,7 @@
     String sEditEncounterBeginHour = checkString(request.getParameter("EditEncounterBeginHour"));
     String sEditEncounterEnd = checkString(request.getParameter("EditEncounterEnd"));
     String sEditEncounterEndHour = checkString(request.getParameter("EditEncounterEndHour"));
+    String sEditEncounterCategories = checkString(request.getParameter("EditEncounterCategories"));
 
     String sEditEncounterService = checkString(request.getParameter("EditEncounterService"));
     String sEditEncounterServiceName = checkString(request.getParameter("EditEncounterServiceName"));
@@ -124,6 +125,7 @@
         }
         tmpEncounter.setOutcome(sEditEncounterOutcome);
         tmpEncounter.setSituation(sEditEncounterSituation);
+        tmpEncounter.setCategories(sEditEncounterCategories);
 
         Service tmpService ;
         Service tmpDestination;
@@ -270,9 +272,9 @@
             sEditEncounterBedName     = "";
         }else{
             sEditEncounterBed         = checkString(tmpEncounter.getBed().getUid());
-            sEditEncounterBedName     = (tmpEncounter.getServiceUID()==null?"":tmpEncounter.getServiceUID()+": ")+checkString(tmpEncounter.getBed().getName());
+            sEditEncounterBedName     = (tmpEncounter.getBed().getServiceUID()==null?"":tmpEncounter.getBed().getServiceUID()+": ")+checkString(tmpEncounter.getBed().getName());
         }
-
+		sEditEncounterCategories	= checkString(tmpEncounter.getCategories());
         sEditEncounterPatient         = checkString(tmpEncounter.getPatient().personid);
         sEditEncounterOrigin         = checkString(tmpEncounter.getOrigin());
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
@@ -489,6 +491,16 @@
                 <input class="text" type="text" name="EditEncounterDestinationName" id="EditEncounterDestinationName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterDestinationName%>" onblur="">
                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditEncounterDestination','EditEncounterDestinationName');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditEncounterForm.EditEncounterDestination.value='';EditEncounterForm.EditEncounterDestinationName.value='';">
+            </td>
+        </tr>
+        <tr id="Destination" style="visibility: visible;">
+            <td class="admin"><%=getTran("Web","category",sWebLanguage)%></td>
+            <td class='admin2'>
+                <input type='radio' name='EditEncounterCategories' value='A' <%=sEditEncounterCategories.indexOf("A")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.natural",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='B' <%=sEditEncounterCategories.indexOf("B")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.professional",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='C' <%=sEditEncounterCategories.indexOf("C")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.work",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='D' <%=sEditEncounterCategories.indexOf("D")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.traffic",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='E' <%=sEditEncounterCategories.indexOf("E")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.other",sWebLanguage) %>&nbsp;
             </td>
         </tr>
         <%
