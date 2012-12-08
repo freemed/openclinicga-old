@@ -21,6 +21,9 @@
         if(sPrintModel.equalsIgnoreCase("ctams")){
         	pdfGenerator = new PDFPatientInvoiceGeneratorCTAMS(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
         }
+        else if(sPrintModel.equalsIgnoreCase("mfp")){
+        	pdfGenerator = new PDFPatientInvoiceGeneratorMFP(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
+        }
         else {
         	pdfGenerator = new PDFPatientInvoiceGenerator(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
         }
