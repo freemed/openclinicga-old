@@ -1959,6 +1959,7 @@
             <column name="OC_ENCOUNTER_ORIGIN" dbtype="varchar" javatype="string" size="255" nulls="0"/>
             <column name="OC_ENCOUNTER_SITUATION" dbtype="varchar" javatype="string" size="50" nulls="0"/>
             <column name="OC_ENCOUNTER_PROCESSED" dbtype="datetime" javatype="date"/>
+            <column name="OC_ENCOUNTER_CATEGORIES" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_ENCOUNTER_OBJECTID">
@@ -1999,6 +2000,7 @@
             <column name="OC_ENCOUNTER_ORIGIN" dbtype="varchar" javatype="string" size="255" nulls="0"/>
             <column name="OC_ENCOUNTER_SITUATION" dbtype="varchar" javatype="string" size="50" nulls="0"/>
             <column name="OC_ENCOUNTER_PROCESSED" dbtype="datetime" javatype="date"/>
+            <column name="OC_ENCOUNTER_CATEGORIES" dbtype="varchar" javatype="string" size="50"/>
         </columns>
     </table>
 
@@ -4225,7 +4227,8 @@
             a.oc_encounter_situation,
             b.oc_encounter_serviceuid,
             b.oc_encounter_beduid,
-            b.oc_encounter_manageruid
+            b.oc_encounter_manageruid,
+            a.oc_encounter_categories
             from oc_encounters a,oc_encounter_services b
             where
             a.oc_encounter_serverid=b.oc_encounter_serverid and
@@ -4251,7 +4254,8 @@
             a.oc_encounter_situation,
             b.oc_encounter_serviceuid,
             b.oc_encounter_beduid,
-            b.oc_encounter_manageruid
+            b.oc_encounter_manageruid,
+            a.oc_encounter_categories
             from oc_encounters a,oc_encounter_services b
             where
             a.oc_encounter_serverid=b.oc_encounter_serverid and
@@ -4278,7 +4282,8 @@
             a.oc_encounter_situation,
             b.oc_encounter_serviceuid,
             b.oc_encounter_beduid,
-            b.oc_encounter_manageruid
+            b.oc_encounter_manageruid,
+            a.oc_encounter_categories
             from oc_encounters a,oc_encounter_services b
             where
             a.oc_encounter_serverid=b.oc_encounter_serverid and
