@@ -420,6 +420,15 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+	                //Nu gaan we na of er een extra lijn met commentaar moet worden afgedrukt
+	                if(!MedwanQuery.getInstance().getLabel("labanalysis.refcomment",analysisCode,user.person.language).equals(analysisCode)){
+	                	cell=createLabelCourier("", 8, 45, fonttype);
+		                subTable.addCell(cell);
+	                	cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labanalysis.refcomment",analysisCode,user.person.language),8,55,Font.NORMAL);
+		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		                subTable.addCell(cell);
+	                }
                 }
             }
         }

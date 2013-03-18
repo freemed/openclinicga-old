@@ -639,7 +639,6 @@ public class ProductOrder extends OC_Object{
 
             // order by selected col or default col
             sSelect+= "ORDER BY po."+sSortCol+" "+sSortDir;
-            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
 
             // set questionmark values
@@ -780,7 +779,6 @@ public class ProductOrder extends OC_Object{
 	
 	        // order by selected col or default col
 	        sSelect+= "ORDER BY po."+sSortCol+" "+sSortDir;
-	        System.out.println(sSelect);
 	        ps = oc_conn.prepareStatement(sSelect);
 	
 	        // set questionmark values

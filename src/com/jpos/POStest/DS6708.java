@@ -64,8 +64,7 @@ public class DS6708 implements DataListener, ErrorListener {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
                 }
-                System.out.println("Scanner = "+getScanner().getDeviceServiceDescription());
-            } catch (JposException e) {
+            } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }

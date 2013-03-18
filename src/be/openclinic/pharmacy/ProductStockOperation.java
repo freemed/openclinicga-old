@@ -608,8 +608,6 @@ public class ProductStockOperation extends OC_Object{
             if(productStock.getSupplierUid()==null){
                 productStock.setSupplierUid("");
             }
-            System.out.println("isnew="+isnew);
-            System.out.println("productStockUid="+productStock.getUid());
             productStock.store();
 
             if(!sourceBatchUid.equalsIgnoreCase("?") || !destinationBatchUid.equalsIgnoreCase("?")){
@@ -646,11 +644,12 @@ public class ProductStockOperation extends OC_Object{
 	            		debet.setInsurance(insurance);
 	            		//First find out if there is a fixed tariff for this prestation
 	            		insuraramount = prestation.getInsuranceTariff(insurance.getInsurarUid(), insurance.getInsuranceCategoryLetter());
-	            		System.out.println("insuraramount 1 = "+insuraramount);
+		                if(activeEncounter.getType().equalsIgnoreCase("admission") && prestation.getMfpAdmissionPercentage()>0){
+		                	insuraramount = prestation.getInsuranceTariff(insurance.getInsurar().getUid(),"*H");
+		                }
 	            		if(insuraramount==-1){
 	            			//Calculate the insuranceamount based on reimbursementpercentage
 	            			insuraramount=patientamount*(100-insurance.getPatientShare())/100;
-		            		System.out.println("insuraramount 2 = "+insuraramount);
 	            		}
             		}
             		patientamount=patientamount-insuraramount;
@@ -1053,7 +1052,6 @@ public class ProductStockOperation extends OC_Object{
 			// dates
 			if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
 			if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
-			System.out.println(sSelect);
 			// order by selected col or default col
 			ps = oc_conn.prepareStatement(sSelect);
 			
@@ -1161,12 +1159,9 @@ public class ProductStockOperation extends OC_Object{
             // dates
             if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
             if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
-            System.out.println("dateFrom="+dateFrom);
-            System.out.println("dateUntil="+dateUntil);
             // order by selected col or default col
             sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
             ps = oc_conn.prepareStatement(sSelect);
-            System.out.println(sSelect);
             // set questionmark-values
             int questionMarkIdx = 1;
             if(sourceDestionationUid.length() > 0) ps.setString(questionMarkIdx++,sourceDestionationUid);

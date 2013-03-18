@@ -1570,6 +1570,7 @@ public class PrestationDebet extends OC_Object implements Comparable {
 	            	debet.setPrestationUid(rs.getString("OC_DEBET_PRESTATIONUID"));
 	            	debet.setQuantity(rs.getInt("OC_DEBET_QUANTITY"));
 	            	debet.setRenewalInterval(rs.getInt("OC_DEBET_RENEWALINTERVAL"));
+	                debet.setServiceUid(rs.getString("OC_DEBET_SERVICEUID"));
 	            	debet.setUpdateDateTime(new java.util.Date());
 	            	debet.setUpdateUser(userid);
 	            	debet.setVersion(1);

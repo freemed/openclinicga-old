@@ -17,6 +17,8 @@ import javax.servlet.jsp.PageContext;
 import java.io.File;
 import java.sql.*;
 import java.sql.Date;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,6 +38,13 @@ public class ScreenHelper {
     		return s.substring(0,n-3)+"...";
     	}
     }
+    
+    static public String getPriceFormat(double value){
+    	DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols();
+    	formatSymbols.setGroupingSeparator(MedwanQuery.getInstance().getConfigString("decimalThousandsSeparator"," ").toCharArray()[0]);
+    	return new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat"),formatSymbols).format(value);
+    }
+    
     //--- CUSTOMER INCLUDE ------------------------------------------------------------------------
     static public String customerInclude(String fileName, String sAPPFULLDIR, String sAPPDIR){
         if (fileName.indexOf("?")>0){
@@ -201,43 +210,44 @@ public class ScreenHelper {
     //--- GET TRAN DB -----------------------------------------------------------------------------
     static public String getTranDb(String sType, String sID, String sLang){
         String labelValue = "";
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try{
-            if(sLang.length() != 2) throw new Exception("Language must be a two-letter notation.");
-
-            // LOWER
-            String sSelect = "SELECT OC_LABEL_VALUE FROM OC_LABELS"+
-                             " WHERE OC_LABEL_TYPE=? AND OC_LABEL_ID=? AND OC_LABEL_LANGUAGE=?";
-            ps = oc_conn.prepareStatement(sSelect);
-            ps.setString(1,sType.toLowerCase());
-            ps.setString(2,sID.toLowerCase());
-            ps.setString(3,sLang.toLowerCase());
-
-            rs = ps.executeQuery();
-            if(rs.next()){
-                labelValue = checkString(rs.getString("OC_LABEL_VALUE"));
-            }
-            else{
-                labelValue = sID;
-            }
+        if(sType!=null && sID!=null && sLang!=null){
+	        PreparedStatement ps = null;
+	        ResultSet rs = null;
+	        
+	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	        try{
+	            if(sLang.length() != 2) throw new Exception("Language must be a two-letter notation.");
+	
+	            // LOWER
+	            String sSelect = "SELECT OC_LABEL_VALUE FROM OC_LABELS"+
+	                             " WHERE OC_LABEL_TYPE=? AND OC_LABEL_ID=? AND OC_LABEL_LANGUAGE=?";
+	            ps = oc_conn.prepareStatement(sSelect);
+	            ps.setString(1,sType.toLowerCase());
+	            ps.setString(2,sID.toLowerCase());
+	            ps.setString(3,sLang.toLowerCase());
+	
+	            rs = ps.executeQuery();
+	            if(rs.next()){
+	                labelValue = checkString(rs.getString("OC_LABEL_VALUE"));
+	            }
+	            else{
+	                labelValue = sID;
+	            }
+	        }
+	        catch(Exception e){
+	            e.printStackTrace();
+	        }
+	        finally{
+	            try{
+	                if(rs!=null) rs.close();
+	                if(ps!=null) ps.close();
+	                oc_conn.close();
+	            }
+	            catch(SQLException se){
+	                se.printStackTrace();
+	            }
+	        }
         }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        finally{
-            try{
-                if(rs!=null) rs.close();
-                if(ps!=null) ps.close();
-                oc_conn.close();
-            }
-            catch(SQLException se){
-                se.printStackTrace();
-            }
-        }
-
         return labelValue.replaceAll("##CR##","\n");
     }
 
@@ -960,7 +970,7 @@ public class ScreenHelper {
         return "<tr>"+
                " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
                " <td width='99%' nowrap>"+
-               "  <button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='window.location.href=\""+sCONTEXTDIR+"/"+sPath+"\"'></button><a href='"+sCONTEXTDIR+"/"+sPath+"' class='menuItem' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+               "  <button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='window.location.href=\""+sCONTEXTDIR+"/"+sPath+"\"'></button><a href='"+sCONTEXTDIR+"/"+sPath+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
                " </td>"+
                "</tr>";
     }
@@ -970,7 +980,7 @@ public class ScreenHelper {
         return "<tr>"+
                " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
                " <td width='99%' nowrap>"+
-               "  <a href='"+sCONTEXTDIR+"/"+sPath+"' class='menuItem' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+               "  <a href='"+sCONTEXTDIR+"/"+sPath+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
                " </td>"+
                "</tr>";
     }
@@ -980,7 +990,7 @@ public class ScreenHelper {
         return "<tr>"+
                " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
                " <td width='99%' nowrap>"+
-               "  <button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='"+sCommand+"'></button><a href='"+sCommand+"' class='menuItem' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+               "  <button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='"+sCommand+"'></button><a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
                " </td>"+
                "</tr>";
     }
@@ -990,7 +1000,7 @@ public class ScreenHelper {
         return "<tr>"+
                " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
                " <td width='99%' nowrap>"+
-               "  <a href='"+sCommand+"' class='menuItem' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+               "  <a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
                " </td>"+
                "</tr>";
     }
@@ -1172,6 +1182,12 @@ public class ScreenHelper {
                "<script src='"+sCONTEXTDIR+"/_common/_script/buttons.js'></script>";
     }
 
+    public static void closeQuietly(Connection connection, Statement statement, ResultSet resultSet) {
+        if (resultSet != null) try { resultSet.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
+        if (statement != null) try { statement.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
+        if (connection != null) try { connection.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
+    }
+    
     //--- SET INCLUDE PAGE ------------------------------------------------------------------------
     static public void setIncludePage(String sPage, PageContext pageContext) {
         // ? or &
@@ -1298,6 +1314,13 @@ public class ScreenHelper {
     static public String setSearchFormButtonsStop(){
         return "</td></tr>";
     }
+    
+    static public String getFullPersonName(String personId){
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	String s=getFullPersonName(personId,conn);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return s;
+    }
 ////////////////////////////////////////////////////////////////////////////////////////////
     static public String getFullPersonName(String personId,Connection dbConnection){
         String sReturn = "";
@@ -1330,6 +1353,34 @@ public class ScreenHelper {
         return sReturn;
     }
 
+    static public String getFullUserName(String userId){
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	String s = getFullUserName(userId, conn);
+    	closeQuietly(conn, null, null);
+    	return s;
+    }
+    
+    static public String getPrestationGroupOptions(){
+    	StringBuffer s=new StringBuffer();
+		String sSql="select * from oc_prestation_groups order by oc_group_description";
+		Connection oc_conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		try{
+			oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+			ps=oc_conn.prepareStatement(sSql);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				s.append("<option value='"+rs.getInt("oc_group_serverid")+"."+rs.getInt("oc_group_objectid")+"'>"+rs.getString("oc_group_description")+"</option>");
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		closeQuietly(oc_conn, ps, rs);
+		return s.toString();
+    }
+    
     //--- GET FULL USER NAME ----------------------------------------------------------------------
     static public String getFullUserName(String userId, Connection conn){
         String fullName = "";

@@ -39,8 +39,17 @@ public class LabAnalysis {
     private String editorparameters;
     private int unavailable;
     private int limitedVisibility;
+    private String prestationcode;
 
-    public int getLimitedVisibility() {
+    public String getPrestationcode() {
+		return prestationcode;
+	}
+
+	public void setPrestationcode(String prestationcode) {
+		this.prestationcode = prestationcode;
+	}
+
+	public int getLimitedVisibility() {
 		return limitedVisibility;
 	}
 
@@ -284,6 +293,7 @@ public class LabAnalysis {
                 objLabAnalysis.setMonster(ScreenHelper.checkString(rs.getString("monster")));
                 objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
                 objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
+                objLabAnalysis.setPrestationcode(ScreenHelper.checkString(rs.getString("prestationcode")));
 
                 hLabAnalysis.put(objLabAnalysis.getLabcode(),objLabAnalysis);
             }
@@ -312,7 +322,7 @@ public class LabAnalysis {
 
         String sLowerCode = ScreenHelper.getConfigParam("lowerCompare","labcode");
 
-        String sSelect = "SELECT a.unavailable,limitedvisibility,a.labID, a.labtype, a.labcode, a.labcodeother, OC_LABEL_VALUE AS name,a.editor,a.editorparameters,a.medidoccode" +
+        String sSelect = "SELECT a.unavailable,limitedvisibility,a.labID, a.labtype, a.labcode, a.labcodeother, OC_LABEL_VALUE AS name,a.editor,a.editorparameters,a.medidoccode,a.prestationcode" +
                 " FROM LabAnalysis a, OC_LABELS l" +
                 " WHERE a.deletetime IS NULL" +
                 "  AND l.OC_LABEL_TYPE = 'labanalysis'" +
@@ -343,6 +353,7 @@ public class LabAnalysis {
                 objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("medidoccode")));
                 objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
                 objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
+                objLabAnalysis.setPrestationcode(ScreenHelper.checkString(rs.getString("prestationcode")));
 
                 hLabAnalysis.add(objLabAnalysis);
             }
@@ -371,7 +382,7 @@ public class LabAnalysis {
 
         Hashtable hLabAnalysis = new Hashtable();
 
-        String sSelect = " SELECT a.unavailable,limitedvisibility,a.labID, a.labtype, a.labcode, a.labcodeother, OC_LABEL_VALUE AS name,a.editor,a.editorparameters" +
+        String sSelect = " SELECT a.unavailable,limitedvisibility,a.labID, a.labtype, a.labcode, a.labcodeother, OC_LABEL_VALUE AS name,a.editor,a.editorparameters,a.prestationcode" +
                          " FROM LabAnalysis a, OC_LABELS l" +
                          " WHERE a.deletetime IS NULL" +
                          "  AND l.OC_LABEL_TYPE = 'labanalysis'" +
@@ -401,6 +412,7 @@ public class LabAnalysis {
                 objLabAnalysis.setLimitedVisibility(rs.getInt("limitedvisibility"));
                 objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
                 objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
+                objLabAnalysis.setPrestationcode(ScreenHelper.checkString(rs.getString("prestationcode")));
                 sName = ScreenHelper.checkString(rs.getString("name"));
                 hLabAnalysis.put(sName,objLabAnalysis);
             }
@@ -433,7 +445,7 @@ public class LabAnalysis {
 
         if(sSearchProfileID.equals("")){
             sQuery.append("SELECT a.unavailable,limitedvisibility,a.labID,a.labtype AS type,a.labcode AS code,OC_LABEL_VALUE AS name,");
-            sQuery.append(" a.labcodeother,'' AS comment,a.monster,a.editor,a.editorparameters,a.medidoccode");
+            sQuery.append(" a.labcodeother,'' AS comment,a.monster,a.editor,a.editorparameters,a.medidoccode,a.prestationcode");
             sQuery.append(" FROM LabAnalysis a, OC_LABELS l ");
 
             // leave out allready selected labAnalyses
@@ -461,7 +473,7 @@ public class LabAnalysis {
         }
         else{
             sQuery.append("SELECT DISTINCT(a.labID),a.unavailable,limitedvisibility,a.medidoccode,,a.editor,a.editorparameters,a.labtype AS type,a.labcode AS code,OC_LABEL_VALUE AS name,")
-                  .append(" a.labcodeother,lpa.comment AS comment,a.monster")
+                  .append(" a.labcodeother,lpa.comment AS comment,a.monster,a.prestationcode")
                   .append(" FROM LabAnalysis a, OC_LABELS l, LabProfilesAnalysis lpa ");
 
             // leave out allready selected labAnalyses
@@ -514,6 +526,7 @@ public class LabAnalysis {
                 objLabAnalysis.setMedidoccode(ScreenHelper.checkString(rs.getString("medidoccode")));
                 objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
                 objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
+                objLabAnalysis.setPrestationcode(ScreenHelper.checkString(rs.getString("prestationcode")));
 
                 hLabAnalysis.add(objLabAnalysis);
             }
@@ -604,7 +617,7 @@ public class LabAnalysis {
         String lowerLabelType = ScreenHelper.getConfigParam("lowerCompare", "l.OC_LABEL_TYPE");
 
         sQuery.append("SELECT a.unavailable,limitedvisibility,a.labID,a.labtype AS type,a.labcode AS code,OC_LABEL_VALUE AS name,")
-                .append("  a.labcodeother,lpa.comment AS comment,a.monster,a.editor,a.editorparameters")
+                .append("  a.labcodeother,lpa.comment AS comment,a.monster,a.editor,a.editorparameters,a.prestationcode")
                 .append(" FROM LabAnalysis a, OC_LABELS l, LabProfilesAnalysis lpa");
 
         // leave out allready selected labAnalyses
@@ -643,6 +656,7 @@ public class LabAnalysis {
                 objLabAnalysis.setLimitedVisibility(rs.getInt("limitedvisibility"));
                 objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
                 objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
+                objLabAnalysis.setPrestationcode(ScreenHelper.checkString(rs.getString("prestationcode")));
                 sName  = ScreenHelper.checkString(rs.getString("name"));
 
                 hLabAnalysis.add(objLabAnalysis);
@@ -746,8 +760,8 @@ public class LabAnalysis {
 
         String sInsert = " INSERT INTO LabAnalysis(labID,labcode,labtype,monster,biomonitoring," +
                          "  medidoccode,labgroup,comment,updateuserid,updatetime,deletetime,labcodeother," +
-                         "  limitvalue,shorttimevalue,unit,alertvalue,unavailable,editor,editorparameters,limitedvisibility)" +
-                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         "  limitvalue,shorttimevalue,unit,alertvalue,unavailable,editor,editorparameters,limitedvisibility,prestationcode)" +
+                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -773,7 +787,8 @@ public class LabAnalysis {
             ps.setString(18, this.getEditor());
             ps.setString(19, this.getEditorparameters());
             ps.setInt(20, this.getLimitedVisibility());
-
+            ps.setString(21, this.getPrestationcode());
+            
             ps.executeUpdate();
             ps.close();
         }catch(Exception e){
@@ -794,7 +809,7 @@ public class LabAnalysis {
         String sUpdate =" UPDATE LabAnalysis SET" +
                         "  labID=?, labcode=?, labtype=?, monster=?, biomonitoring=?, medidoccode=?," +
                         "  labgroup=?, comment=?, updateuserid=?, updatetime=?, deletetime=?, labcodeother=?," +
-                        "  limitvalue=?, shorttimevalue=?, unit=?, alertvalue=?, unavailable=?,editor=?,editorparameters=?,limitedvisibility=?" +
+                        "  limitvalue=?, shorttimevalue=?, unit=?, alertvalue=?, unavailable=?,editor=?,editorparameters=?,limitedvisibility=?,prestationcode=?" +
                         " WHERE labID = ?  and deletetime is null";
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -821,7 +836,8 @@ public class LabAnalysis {
             ps.setString(18, this.getEditor());
             ps.setString(19, this.getEditorparameters());
             ps.setInt(20, this.getLimitedVisibility());
-            ps.setInt(21,this.getLabId());
+            ps.setString(21, this.getPrestationcode());
+            ps.setInt(22,this.getLabId());
             ps.executeUpdate();
             ps.close();
         }catch(Exception e){
@@ -871,7 +887,7 @@ public class LabAnalysis {
         String lowerLabCode   = MedwanQuery.getInstance().getConfigParam("lowerCompare","labcode"),
                lowerLabelType = MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE");
 
-        String sSelect = "SELECT unavailable,limitedvisibility,labID,labtype,labcode,monster,biomonitoring,medidoccode,labcodeother,labgroup,editor,editorparameters"+
+        String sSelect = "SELECT unavailable,limitedvisibility,labID,labtype,labcode,monster,biomonitoring,medidoccode,labcodeother,labgroup,editor,editorparameters,prestationcode"+
                   " FROM LabAnalysis a, OC_LABELS b"+
                   " WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","a.labID")+" = b.OC_LABEL_ID"+
                   "  AND "+lowerLabelType+" = '"+sLabLabelType+"'"+
@@ -904,6 +920,7 @@ public class LabAnalysis {
                 objLabAnalysis.setLimitedVisibility(rs.getInt("limitedvisibility"));
                 objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
                 objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
+                objLabAnalysis.setPrestationcode(ScreenHelper.checkString(rs.getString("prestationcode")));
 
                 vAnalyses.addElement(objLabAnalysis);
             }
@@ -992,6 +1009,7 @@ public class LabAnalysis {
                 objLabAnalysis.setLimitedVisibility(rs.getInt("limitedvisibility"));
                 objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
                 objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
+                objLabAnalysis.setPrestationcode(ScreenHelper.checkString(rs.getString("prestationcode")));
             }
             rs.close();
             ps.close();
@@ -1043,6 +1061,7 @@ public class LabAnalysis {
                 objLabAnalysis.setLimitedVisibility(rs.getInt("limitedvisibility"));
                 objLabAnalysis.setEditor(ScreenHelper.checkString(rs.getString("editor")));
                 objLabAnalysis.setEditorparameters(ScreenHelper.checkString(rs.getString("editorparameters")));
+                objLabAnalysis.setPrestationcode(ScreenHelper.checkString(rs.getString("prestationcode")));
             }
             rs.close();
             ps.close();

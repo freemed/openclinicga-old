@@ -682,7 +682,6 @@ public class ProductStock extends OC_Object implements Comparable {
 
             // order by selected col or default col
             sSelect += "ORDER BY " + sSortCol + " " + sSortDir;
-            System.out.println(sSelect);
             ps = oc_conn.prepareStatement(sSelect);
 
             // set questionmark values
@@ -753,14 +752,11 @@ public class ProductStock extends OC_Object implements Comparable {
     //--- GET TOTAL UNITS IN FOR MONTH ------------------------------------------------------------
     public int getTotalUnitsInForMonth(java.util.Date dateFrom) {
         int units = 0;
-        System.out.println("1.dateFrom="+dateFrom);
         // date from : begin of specified month
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(dateFrom);
-        System.out.println("2.dateFrom="+dateFrom);
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1, 0, 0, 0);
         dateFrom = calendar.getTime();
-        System.out.println("3.dateFrom="+dateFrom);
 
         // date untill : end of specified month
         calendar.add(Calendar.MONTH, 1);
@@ -883,7 +879,6 @@ public class ProductStock extends OC_Object implements Comparable {
     //---------------------------------------------------------------------------------------------
     public int getLevel(java.util.Date dateUntill) {
         java.util.Date dateFrom = new java.util.Date(0); // begin of time
-        System.out.println("1.dateUntill="+dateUntill);
         // IN
         int unitsIn = 0;
         Vector receipts = ProductStockOperation.getReceipts(getUid(), "", dateFrom, dateUntill, "OC_OPERATION_DATE", "ASC");
@@ -892,7 +887,6 @@ public class ProductStock extends OC_Object implements Comparable {
             receipt = (ProductStockOperation) receipts.get(i);
             unitsIn += receipt.getUnitsChanged();
         }
-        System.out.println("2.dateUntill="+dateUntill);
 
         // OUT
         int unitsOut = 0;
@@ -902,7 +896,6 @@ public class ProductStock extends OC_Object implements Comparable {
             delivery = (ProductStockOperation) deliveries.get(i);
             unitsOut += delivery.getUnitsChanged();
         }
-        System.out.println("3.dateUntill="+dateUntill);
         return unitsIn - unitsOut;
     }
     //--- COMPARE TO ------------------------------------------------------------------------------

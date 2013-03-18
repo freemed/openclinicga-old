@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 import be.mxs.common.util.system.ScreenHelper;
@@ -135,7 +136,9 @@ public class PatientInvoice extends Invoice {
         }
         for(int n=0;n<getDebets().size();n++){
             Debet debet = (Debet)getDebets().elementAt(n);
-            b+=debet.getAmount();
+            if(!debet.hasValidExtrainsurer2()){
+            	b+=debet.getAmount();
+            }
         }
         if(getCredits()==null){
             credits = PatientCredit.getPatientCreditsViaInvoiceUID(getUid());
@@ -143,6 +146,17 @@ public class PatientInvoice extends Invoice {
         for(int n=0;n<getCredits().size();n++){
             PatientCredit credit = PatientCredit.get((String)getCredits().elementAt(n));
             b-=credit.getAmount();
+        }
+        if(MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)>0 && b<1/Math.pow(10,MedwanQuery.getInstance().getConfigInt("currencyDecimals",2))){
+        	b=0;
+        }
+        else {
+        	try{
+        		b=Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(b));
+        	}
+        	catch(Exception e){
+        		e.printStackTrace();
+        	}
         }
         return b;
     }
@@ -342,7 +356,7 @@ public class PatientInvoice extends Invoice {
                 ps.setInt(4,Integer.parseInt(this.getInvoiceUid()));
                 ps.setString(5,this.getPatientUid());
                 ps.setTimestamp(6,new Timestamp(this.getCreateDateTime().getTime()));
-                ps.setTimestamp(7,new Timestamp(this.getUpdateDateTime().getTime()));
+                ps.setTimestamp(7,new Timestamp(new java.util.Date().getTime()));
                 ps.setString(8,this.getUpdateUser());
                 ps.setInt(9,iVersion);
                 ps.setDouble(10,this.getBalance());

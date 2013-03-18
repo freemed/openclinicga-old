@@ -2,6 +2,7 @@ package be.openclinic.finance;
 
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.common.OC_Object;
 import net.admin.AdminPerson;
@@ -11,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.Hashtable;
 
@@ -31,8 +34,50 @@ public class Insurance extends OC_Object {
     private InsuranceCategory insuranceCategory;
     private Insurar insurar;
     private int patientShare;
+    private String extraInsurarUid;
+    private String extraInsurarUid2;
 
-    public String getMemberImmat() {
+    public String getExtraInsurarUid() {
+		return extraInsurarUid;
+	}
+
+    public boolean isAuthorized(){
+    	boolean bAuthorized=false;
+    	if(MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").indexOf("*"+this.getInsurarUid()+"*")<=-1){
+    		return true;
+    	}
+    	else {
+			Vector pointers = Pointer.getPointers("AUTH."+this.getInsurarUid()+"."+this.getPatientUID()+"."+new SimpleDateFormat("yyyyMM").format(new java.util.Date()));
+	    	for(int n=0;n<pointers.size() && !bAuthorized;n++){
+	    		String pointer = (String)pointers.elementAt(n);
+	    		java.util.Date dValidUntil=new java.util.Date();
+				try {
+					dValidUntil = new SimpleDateFormat("yyyyMMddHHmmss").parse(pointer.split(";")[0]);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+	    		if(dValidUntil.after(new java.util.Date())){
+	    			//Still valid!
+	    			bAuthorized=true;
+	    		}
+	    	}
+    	}
+    	return bAuthorized;
+    }
+    
+	public void setExtraInsurarUid(String extraInsurarUid) {
+		this.extraInsurarUid = extraInsurarUid;
+	}
+
+	public String getExtraInsurarUid2() {
+		return extraInsurarUid2;
+	}
+
+	public void setExtraInsurarUid2(String extraInsurarUid2) {
+		this.extraInsurarUid2 = extraInsurarUid2;
+	}
+
+	public String getMemberImmat() {
 		return memberImmat;
 	}
 
@@ -82,7 +127,6 @@ public class Insurance extends OC_Object {
     }
     
     public static String getBestActiveCoveragePlan(String sPatientId){
-    	System.out.println("sPatientId="+sPatientId);
     	Vector contributions = Debet.getActiveContributions(sPatientId);
     	double patientshare=100;
     	String coverageplan=null;
@@ -258,6 +302,9 @@ public class Insurance extends OC_Object {
                         insurance.setVersion(rs.getInt("OC_INSURANCE_VERSION"));
                         insurance.setPatientUID(ScreenHelper.checkString(rs.getString("OC_INSURANCE_PATIENTUID")));
                         insurance.setInsuranceCategoryLetter(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURANCECATEGORYLETTER")));
+
+                        insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
+                        insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
                     }
                 }catch(Exception e){
                     Debug.println("OpenClinic => Insurance.java => get => "+e.getMessage());
@@ -336,7 +383,10 @@ public class Insurance extends OC_Object {
                                     " OC_INSURANCE_MEMBER_IMMAT," +
                                     " OC_INSURANCE_MEMBER_EMPLOYER," +
                                     " OC_INSURANCE_STATUS," +
-                                    " OC_INSURANCE_MEMBER)" +
+                                    " OC_INSURANCE_MEMBER," +
+                                    " OC_INSURANCE_EXTRAINSURARUID," +
+                                    " OC_INSURANCE_EXTRAINSURARUID2" +
+                                    ")" +
 
                                   " SELECT OC_INSURANCE_SERVERID," +
                                          " OC_INSURANCE_OBJECTID," +
@@ -355,7 +405,9 @@ public class Insurance extends OC_Object {
                                          " OC_INSURANCE_MEMBER_IMMAT," +
                                          " OC_INSURANCE_MEMBER_EMPLOYER," +
                                          " OC_INSURANCE_STATUS," +
-                                         " OC_INSURANCE_MEMBER" +
+                                         " OC_INSURANCE_MEMBER," +
+                                         " OC_INSURANCE_EXTRAINSURARUID," +
+                                         " OC_INSURANCE_EXTRAINSURARUID2" +
                                   " FROM OC_INSURANCES " +
                                   " WHERE OC_INSURANCE_SERVERID = ?" +
                                   " AND OC_INSURANCE_OBJECTID = ?";
@@ -399,9 +451,11 @@ public class Insurance extends OC_Object {
                                       " OC_INSURANCE_MEMBER_IMMAT," +
                                       " OC_INSURANCE_MEMBER_EMPLOYER," +
                                       " OC_INSURANCE_STATUS," +
-                                      " OC_INSURANCE_MEMBER" +
+                                      " OC_INSURANCE_MEMBER," +
+                                      " OC_INSURANCE_EXTRAINSURARUID," +
+                                      " OC_INSURANCE_EXTRAINSURARUID2" +
                                       ") " +
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1,Integer.parseInt(ids[0]));
@@ -428,6 +482,8 @@ public class Insurance extends OC_Object {
                 ps.setString(16,this.getMemberEmployer());
                 ps.setString(17,this.getStatus());
                 ps.setString(18,this.getMember());
+                ps.setString(19,this.getExtraInsurarUid());
+                ps.setString(20,this.getExtraInsurarUid2());
                 ps.executeUpdate();
                 ps.close();
                 this.setUid(ids[0] + "." + ids[1]);
@@ -501,11 +557,15 @@ public class Insurance extends OC_Object {
                 insurance.setStart(rs.getTimestamp("OC_INSURANCE_START"));
                 insurance.setStop(rs.getTimestamp("OC_INSURANCE_STOP"));
                 insurance.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("OC_INSURANCE_COMMENT"))));
+                insurance.setInsuranceCategoryLetter(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURANCECATEGORYLETTER")));
 
                 insurance.setCreateDateTime(rs.getTimestamp("OC_INSURANCE_CREATETIME"));
                 insurance.setUpdateDateTime(rs.getTimestamp("OC_INSURANCE_UPDATETIME"));
                 insurance.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_INSURANCE_UPDATEUID")));
                 insurance.setVersion(rs.getInt("OC_INSURANCE_VERSION"));
+
+                insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
+                insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
 
                 vInsurance.addElement(insurance);
             }
@@ -614,6 +674,9 @@ public class Insurance extends OC_Object {
                 insurance.setPatientUID(ScreenHelper.checkString(rs.getString("OC_INSURANCE_PATIENTUID")));
                 insurance.setInsuranceCategoryLetter(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURANCECATEGORYLETTER")));
 
+                insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
+                insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
+
                 vInsurances.addElement(insurance);
             }
 
@@ -690,7 +753,7 @@ public class Insurance extends OC_Object {
             ps.setDate(2,new java.sql.Date(new java.util.Date().getTime())); // now
             rs = ps.executeQuery();
 
-            if(rs.next()){
+            while(rs.next()){
                 insurance = new Insurance();
 
                 insurance.setUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_INSURANCE_OBJECTID")));
@@ -712,6 +775,15 @@ public class Insurance extends OC_Object {
                 insurance.setPatientUID(ScreenHelper.checkString(rs.getString("OC_INSURANCE_PATIENTUID")));
                 insurance.setInsuranceCategoryLetter(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURANCECATEGORYLETTER")));
                 insurance.setPatientShare(rs.getInt("OC_INSURANCECATEGORY_PATIENTSHARE"));
+                insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
+                insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
+                
+                if(insurance.isAuthorized()){
+                	break;
+                }
+                else {
+                	insurance = null;
+                }
             }
         }
         catch(Exception e) {
@@ -752,7 +824,7 @@ public class Insurance extends OC_Object {
             ps.setDate(3,new java.sql.Date(date.getTime())); 
             rs = ps.executeQuery();
 
-            if(rs.next()){
+            while(rs.next()){
                 insurance = new Insurance();
 
                 insurance.setUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_INSURANCE_OBJECTID")));
@@ -774,6 +846,14 @@ public class Insurance extends OC_Object {
                 insurance.setPatientUID(ScreenHelper.checkString(rs.getString("OC_INSURANCE_PATIENTUID")));
                 insurance.setInsuranceCategoryLetter(ScreenHelper.checkString(rs.getString("OC_INSURANCE_INSURANCECATEGORYLETTER")));
                 insurance.setPatientShare(rs.getInt("OC_INSURANCECATEGORY_PATIENTSHARE"));
+                insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
+                insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
+                if(insurance.isAuthorized()){
+                	break;
+                }
+                else {
+                	insurance = null;
+                }
             }
         }
         catch(Exception e) {

@@ -87,6 +87,7 @@ public class MedwanQuery {
     private static Scheduler scheduler;
     private static BrokerScheduler brokerScheduler;
     private Hashtable datacenterparametertypes=new Hashtable();
+    private Hashtable countersInUse=new Hashtable();
 
     public Hashtable getDatacenterparametertypes() {
 		return datacenterparametertypes;
@@ -218,9 +219,9 @@ public class MedwanQuery {
     public String getAccomodationPrestationUIDs() {
         if (accomodationprestationuids == null) {
             accomodationprestationuids = "";
-            String[] prestationcodes = getConfigString("accomodationPrestations", "").split(";");
-            for (int n = 0; n < prestationcodes.length; n++) {
-                Prestation prestation = Prestation.getByCode(prestationcodes[n]);
+            Vector prestations = Prestation.getPrestationsByClass("stay");
+            for (int n = 0; n < prestations.size(); n++) {
+                Prestation prestation = (Prestation)prestations.elementAt(n);
                 if (prestation != null) {
                     if (accomodationprestationuids.length() > 0) {
                         accomodationprestationuids += ";";
@@ -361,6 +362,7 @@ public class MedwanQuery {
 
         this.uri = uri;
 
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 1");
         // load config values from DB
         Statement configStatement = null;
         ResultSet rs = null;
@@ -387,6 +389,7 @@ public class MedwanQuery {
                 se.printStackTrace();
             }
         }
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 2");
 
         // load config values from XML
         try {
@@ -403,6 +406,7 @@ public class MedwanQuery {
         catch (Exception e) {
             if (Debug.enabled) Debug.println(e.getMessage());
         }
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 3");
 
         // load restricted diagnoses from XML
         try {
@@ -452,7 +456,8 @@ public class MedwanQuery {
         catch (Exception e) {
             //if(Debug.enabled) Debug.println(e.getMessage());
         }
-        
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 4");
+
         // Load disabledApplications
         oc_conn=getOpenclinicConnection();
         try{
@@ -475,10 +480,12 @@ public class MedwanQuery {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        loadRiskExaminationLabcodes();
-        loadRiskCategories();
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 4.1");
+        //loadRiskExaminationLabcodes();
+        //loadRiskCategories();
         ObjectCacheFactory.getInstance().setObjectCacheSize(getConfigInt("objectCacheSize",10000));
-        
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 5");
+
         // load DataCenter data
         try {
             String sDoc = getConfigString("datacenterTemplateSource",getConfigString("templateSource")) + "datacenterschedule.xml";
@@ -495,12 +502,18 @@ public class MedwanQuery {
         catch (Exception e) {
             if (Debug.enabled) Debug.println(e.getMessage());
         }
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 6");
+
         if(scheduler==null || !scheduler.isActive()){
         	scheduler=new Scheduler();
         }
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 7");
+
         if(brokerScheduler==null){
         	brokerScheduler=new BrokerScheduler();
         }
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 8");
+
     }
     
     public void stopScheduler(){
@@ -3216,12 +3229,25 @@ public class MedwanQuery {
         return false;
     }
     public int getOpenclinicCounter(String name) {
+    	int loopcounter=0;
+    	while(countersInUse.get(name)!=null && loopcounter<500){
+    		loopcounter++;
+    		try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	countersInUse.put(name, "1");
         int newCounter = 0;
+        Connection oc_conn=getOpenclinicConnection();
+        PreparedStatement ps=null;
+        ResultSet rs=null;
         try {
-            Connection oc_conn=getOpenclinicConnection();
-        	PreparedStatement ps = oc_conn.prepareStatement("select OC_COUNTER_VALUE from OC_COUNTERS where OC_COUNTER_NAME=?");
+        	ps = oc_conn.prepareStatement("select OC_COUNTER_VALUE from OC_COUNTERS where OC_COUNTER_NAME=?");
             ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 newCounter = rs.getInt("OC_COUNTER_VALUE");
                 rs.close();
@@ -3240,11 +3266,21 @@ public class MedwanQuery {
             ps.setString(2, name);
             ps.execute();
             ps.close();
-            oc_conn.close();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+        	try{
+        		if(rs!=null) rs.close();
+        		if(ps!=null) ps.close();
+                oc_conn.close();
+        	}
+        	catch(Exception e2){
+        		e2.printStackTrace();
+        	}
+        }
+        countersInUse.remove(name);
         if (usedCounters.get(name) != null && newCounter <= ((Integer) usedCounters.get(name)).intValue()) {
             newCounter = getOpenclinicCounter(name);
         }

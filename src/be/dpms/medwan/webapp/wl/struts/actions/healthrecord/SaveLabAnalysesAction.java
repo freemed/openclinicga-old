@@ -1,6 +1,9 @@
 package be.dpms.medwan.webapp.wl.struts.actions.healthrecord;
 
+import be.openclinic.finance.Debet;
+import be.openclinic.medical.LabAnalysis;
 import be.openclinic.medical.RequestedLabAnalysis;
+import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
 
@@ -33,6 +36,7 @@ public class SaveLabAnalysesAction extends Action {
         String sServerId          = ScreenHelper.checkString(request.getParameter("be.mxs.healthrecord.server_id")),
                sTransactionId     = ScreenHelper.checkString(request.getParameter("be.mxs.healthrecord.transaction_id")),
                sPatientId         = ScreenHelper.checkString(request.getParameter("patientId")),
+               sUserId         = ScreenHelper.checkString(request.getParameter("userId")),
                sLabAnalysesToSave = ScreenHelper.checkString(request.getParameter("labAnalysesToSave")),
                sSavedLabAnalyses  = ScreenHelper.checkString(request.getParameter("savedLabAnalyses"));
 
@@ -116,6 +120,9 @@ public class SaveLabAnalysesAction extends Action {
             while(iterator.hasNext()){
                 labCode = (String)iterator.next();
                 RequestedLabAnalysis.delete(Integer.parseInt(sServerId),Integer.parseInt(sTransactionId),labCode);
+                if(MedwanQuery.getInstance().getConfigInt("enableAutomaticLabInvoicing",0)==1){
+                	Pointer.deletePointers("LAB."+sServerId+"."+sTransactionId+"."+labCode);
+                }
             }
 
             // save analyses to be saved
@@ -123,6 +130,7 @@ public class SaveLabAnalysesAction extends Action {
             while(analysesToSaveEnum.hasMoreElements()){
                 analysisCode = (String)analysesToSaveEnum.nextElement();
                 comment      = (String)analysesToSave.get(analysisCode);
+            	Hashtable allanalyses = LabAnalysis.getAllLabanalyses();
 
                 if(!RequestedLabAnalysis.exists(Integer.parseInt(sServerId),Integer.parseInt(sTransactionId),analysisCode)){
                     // labRequest not found : insert in DB
@@ -133,6 +141,12 @@ public class SaveLabAnalysesAction extends Action {
                     labAnalysis.setAnalysisCode(analysisCode);
                     labAnalysis.setComment(comment);
                     labAnalysis.store(false); // object does not exist, so insert
+                    if(MedwanQuery.getInstance().getConfigInt("enableAutomaticLabInvoicing",0)==1){
+	                    LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
+	                    if(a!=null && a.getPrestationcode()!=null && a.getPrestationcode().length()>0){
+	        				Debet.createAutomaticDebet("LAB."+sServerId+"."+sTransactionId+"."+analysisCode, sPatientId, a.getPrestationcode(), sUserId);
+	        		    }
+                    }
                 }
             }
         }

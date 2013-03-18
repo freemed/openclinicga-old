@@ -474,7 +474,6 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
             	catch(Exception e){
             		e.printStackTrace();
             	}
-        		System.out.println("2: "+sInvoiceUid);
             	if(patientInvoice!=null && patientInvoice.getUid()!=null && patientInvoice.getUid().equals(sInvoiceUid)){
             		Hashtable insurarAmounts = patientInvoice.getInsurarAmounts();
             		Enumeration e = insurarAmounts.keys();

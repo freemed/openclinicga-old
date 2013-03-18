@@ -50,21 +50,16 @@ public class JavaPOSPrinter implements OutputCompleteListener, StatusUpdateListe
 
 	public String printReceipt(String project,String sLanguage, String content,String barcode){
 		String error="";
-		System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_URL_PROP_NAME, MedwanQuery.getInstance().getConfigString("templateSource","http://localhost/openclinic/_common/xml/")+"jpos.xml");
-		System.out.println("AA: "+System.getProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_URL_PROP_NAME));
+		System.setProperty(JposPropertiesConst.JPOS_POPULATOR_FILE_URL_PROP_NAME, MedwanQuery.getInstance().getConfigString("jposFile","http://localhost/openclinic/_common/xml/")+"jpos.xml");
 		POSPrinter printer = new POSPrinter();
 		try {
 			printer.addOutputCompleteListener(this);
 			printer.addStatusUpdateListener(this);
 			printer.addErrorListener(this);
 			printer.open(MedwanQuery.getInstance().getConfigString("JavaPOSPrinter","Star TSP100 Cutter (TSP143)_1"));
-			System.out.println(MedwanQuery.getInstance().getConfigString("JavaPOSPrinter","Star TSP100 Cutter (TSP143)_1"));
 			printer.claim(1);
-			System.out.println("1");
 			printer.setDeviceEnabled(true);
-			System.out.println("2");
 			printer.setAsyncMode(true);
-			System.out.println("3");
 			printer.setMapMode(POSPrinterConst.PTR_MM_METRIC); // unit = 1/100 mm - i.e. 1 cm = 10 mm = 10 * 100 units
 			do {
 				if (printer.getCoverOpen() == true) {
@@ -85,10 +80,8 @@ public class JavaPOSPrinter implements OutputCompleteListener, StatusUpdateListe
 				        String imageSource=MedwanQuery.getInstance().getConfigString("baseDirectory","c:/projects/openclinic");
 				        //Try to find the image in the project image directory
 				        String sLogo=imageSource+"/projects/"+project+"/_img/JavaPOSImage1.gif";
-				        System.out.println(sLogo);
 				        printer.printBitmap(POSPrinterConst.PTR_S_RECEIPT, sLogo, POSPrinterConst.PTR_BM_ASIS, POSPrinterConst.PTR_BM_CENTER);
 					} catch (JposException e) {
-						System.out.println(e.getStackTrace());
 						if (e.getErrorCode() != JposConst.JPOS_E_NOEXIST) {
 							error=e.getErrorCode()+": "+ScreenHelper.getTranNoLink("web","javapos.imagedoesnotexist",sLanguage);
 							break;
@@ -129,7 +122,7 @@ public class JavaPOSPrinter implements OutputCompleteListener, StatusUpdateListe
 			if (printer.getState() != JposConst.JPOS_S_CLOSED) {
 				try {
 					while (printer.getState() != JposConst.JPOS_S_IDLE) {
-						Thread.sleep(0);
+						Thread.sleep(5);
 					}
 
 					printer.close();

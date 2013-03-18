@@ -39,7 +39,7 @@ public class CsvStats {
                         if(n>0){
                             result.append(";");
                         }
-                        result.append(resultSet.getMetaData().getColumnName(n+1));
+                        result.append(resultSet.getMetaData().getColumnLabel(n+1));
                     }
                     result.append("\r\n");
                 }

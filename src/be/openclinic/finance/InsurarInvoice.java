@@ -46,6 +46,21 @@ public class InsurarInvoice extends Invoice {
         return insurar;
     }
 
+    public double getAmount(){
+    	double amount=0;
+    	Vector debets = getDebets();
+    	if(debets==null){
+    		debets=Debet.getFullInsurarDebetsViaInvoiceUid(getUid());
+    	}
+    	for(int n=0;n<debets.size();n++){
+    		Debet debet = (Debet)debets.elementAt(n);
+    		if(debet!=null){
+    			amount+=debet.getInsurarAmount();
+    		}
+    	}
+    	return amount;
+    }
+    
     //--- GET -------------------------------------------------------------------------------------
     public static InsurarInvoice get(String uid){
         InsurarInvoice insurarInvoice = new InsurarInvoice();
@@ -691,6 +706,7 @@ public class InsurarInvoice extends Invoice {
                 debet.setComment(rs.getString("OC_DEBET_COMMENT"));
                 debet.setCredited(rs.getInt("OC_DEBET_CREDITED"));
                 debet.setQuantity(rs.getInt("OC_DEBET_QUANTITY"));
+                debet.setServiceUid(rs.getString("OC_DEBET_SERVICEUID"));
                 debet.setPatientName(rs.getString("lastname")+", "+rs.getString("firstname"));
 
                 //*********************
@@ -711,6 +727,7 @@ public class InsurarInvoice extends Invoice {
                 encounter.setOutcome(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME")));
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
+                encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
 
                 //Now find the most recent service for this encounter
                 Encounter.EncounterService encounterService = encounter.getLastEncounterService();
@@ -806,6 +823,7 @@ public class InsurarInvoice extends Invoice {
                 debet.setComment(rs.getString("OC_DEBET_COMMENT"));
                 debet.setCredited(rs.getInt("OC_DEBET_CREDITED"));
                 debet.setQuantity(rs.getInt("OC_DEBET_QUANTITY"));
+                debet.setServiceUid(rs.getString("OC_DEBET_SERVICEUID"));
                 debet.setPatientName(rs.getString("lastname")+", "+rs.getString("firstname"));
 
                 //*********************
@@ -826,6 +844,7 @@ public class InsurarInvoice extends Invoice {
                 encounter.setOutcome(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME")));
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
+                encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
 
                 //Now find the most recent service for this encounter
                 Encounter.EncounterService encounterService = encounter.getLastEncounterService();

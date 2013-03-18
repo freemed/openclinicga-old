@@ -379,7 +379,7 @@ public class PDFHospitalReportGenerator extends PDFOfficialBasic {
 	    	}
 	    	for(int n=0;n<kv.length;n++){
 	    		String costcenter = ScreenHelper.getTranNoLink("costcenter", kv[n].getKey(), sPrintLanguage); 
-	    		cell = new PdfPCell(new Paragraph(kv[n].getKey()+(costcenter.equalsIgnoreCase(kv[n].getKey())?"":": "+costcenter),FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
+	    		cell = new PdfPCell(new Paragraph(kv[n].getKey().toUpperCase()+(costcenter.equalsIgnoreCase(kv[n].getKey())?"":": "+costcenter),FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
 		        cell.setPaddingTop(5);
 		        cell.setColspan(60);
 		        cell.setBorder(PdfPCell.BOX);
@@ -444,7 +444,7 @@ public class PDFHospitalReportGenerator extends PDFOfficialBasic {
 	    	}
 	    	for(int n=0;n<kv.length;n++){
 	    		Service service = Service.getService(kv[n].getKey());
-	    		cell = new PdfPCell(new Paragraph(kv[n].getKey()+(service==null?"":": "+service.getLabel(sPrintLanguage)),FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
+	    		cell = new PdfPCell(new Paragraph(kv[n].getKey()+(service==null?"?":": "+service.getLabel(sPrintLanguage)),FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
 		        cell.setPaddingTop(5);
 		        cell.setColspan(60);
 		        cell.setBorder(PdfPCell.BOX);

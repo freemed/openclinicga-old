@@ -45,6 +45,14 @@ public class IntrusionDetector {
         blockTimeLevel2 = value;
     }
 
+    static public int registerIntrusionOnIP(ServletRequest request, String sIntruderIP) {
+    	int n;
+    	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+    	n=registerIntrusionOnIP(conn, request, sIntruderIP);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return n;
+    }
+    
     //--- REGISTER INTRUSION ON IP ----------------------------------------------------------------
     static public int registerIntrusionOnIP(Connection conn, ServletRequest request, String sIntruderIP) {
         int value;
@@ -78,6 +86,14 @@ public class IntrusionDetector {
         return registerIntrusion(conn,request,sIntruderIP);
     }
 
+    static public int registerIntrusionOnLogin(ServletRequest request, String sIntruderLogin) {
+    	int n;
+    	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+    	n=registerIntrusionOnLogin(conn, request, sIntruderLogin);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return n;
+    }
+    
     //--- REGISTER INTRUSION ON LOGIN -------------------------------------------------------------
     static public int registerIntrusionOnLogin(Connection conn, ServletRequest request, String sIntruderLogin) {
         int value;
@@ -264,6 +280,14 @@ public class IntrusionDetector {
         if(ps!=null) ps.close();
     }
 
+    static public boolean isIntruderBlockedPermanently(String sIntruderID) throws Exception {
+    	boolean bReturn=false;
+    	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=isIntruderBlockedPermanently(conn, sIntruderID);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
     //--- IS INTRUDER BLOCKED PERMANENTLY ---------------------------------------------------------
     static public boolean isIntruderBlockedPermanently(Connection conn, String sIntruderID) throws Exception {
         boolean isBlocked = false;
@@ -281,6 +305,14 @@ public class IntrusionDetector {
         return isBlocked;
     }
 
+    static public boolean isIntruderBlockedTemporarily(String sIntruderID) throws Exception {
+    	boolean bReturn=false;
+    	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=isIntruderBlockedTemporarily(conn, sIntruderID);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
     //--- IS INTRUDER BLOCKED TEMPORARILY ---------------------------------------------------------
     static public boolean isIntruderBlockedTemporarily(Connection conn, String sIntruderID) throws Exception {
         boolean isBlocked = false;
@@ -299,6 +331,12 @@ public class IntrusionDetector {
         return isBlocked;
     }
 
+    static public void clearIntrusion(String sIntruderID) throws Exception {
+    	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+    	clearIntrusion(conn, sIntruderID);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    }
+
     //--- CLEAR INTRUSION -------------------------------------------------------------------------
     static public void clearIntrusion(Connection conn, String sIntruderID) throws Exception {
         // reset intrusionCount for the specified intruder
@@ -310,6 +348,14 @@ public class IntrusionDetector {
         if(ps!=null) ps.close();
     }
 
+    static public int getRemainingBlockDuration(String sIntruderID) throws Exception {
+    	int n;
+    	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+    	n=getRemainingBlockDuration(conn, sIntruderID);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return n;
+    }
+    
     //--- GET REMAINING BLOCK DURATION ------------------------------------------------------------
     static public int getRemainingBlockDuration(Connection conn, String sIntruderID) throws Exception {
         int remainingMinutes = -1;

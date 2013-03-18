@@ -170,15 +170,35 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
             cell=createLabel(MedwanQuery.getInstance().getLabel("web","carddateofbirth",user.person.language),6,2,Font.ITALIC);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
-            cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardgender",user.person.language),6,2,Font.ITALIC);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            table.addCell(cell);
+            if(MedwanQuery.getInstance().getConfigInt("patientCardModel",1)==2){
+	            cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardinsurancenumber",user.person.language),6,1,Font.ITALIC);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            table.addCell(cell);
+	            cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardgender",user.person.language),6,1,Font.ITALIC);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	            table.addCell(cell);
+            }
+            else {
+	            cell=createLabel(MedwanQuery.getInstance().getLabel("web","cardgender",user.person.language),6,2,Font.ITALIC);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	            table.addCell(cell);
+            }
             cell=createLabel(person.dateOfBirth,10,2,Font.BOLD);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
-            cell=createLabel(person.gender,10,2,Font.BOLD);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            table.addCell(cell);
+            if(MedwanQuery.getInstance().getConfigInt("patientCardModel",1)==2){
+	            cell=createLabel(person.comment5,10,1,Font.BOLD);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            table.addCell(cell);
+	            cell=createLabel(person.gender,10,1,Font.BOLD);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	            table.addCell(cell);
+            }
+            else {
+	            cell=createLabel(person.gender,10,2,Font.BOLD);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	            table.addCell(cell);
+            }
 
             cell=createBorderlessCell(4);
             table.addCell(cell);

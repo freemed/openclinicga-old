@@ -201,7 +201,6 @@ public class OperationDocument extends OC_Object {
     				order= "OC_DOCUMENT_DATE";
     			}
     			sSelect="SELECT * from OC_PRODUCTSTOCKOPERATIONDOCUMENTS where 1=1"+sWhere+" ORDER by "+order;
-    			System.out.println(sSelect);
     			ps=conn.prepareStatement(sSelect);
     			int i=1;
     	    	if(type!=null && type.length()>0){

@@ -56,6 +56,7 @@ public class Service {
     public String updateuserid;
     public String costcenter;
     public String performeruid;
+    public String stayprestationuid;
     
     public String acceptsVisits="0";
 
@@ -102,6 +103,7 @@ public class Service {
         totalbeds=0;
         costcenter="";
         acceptsVisits="0";
+        stayprestationuid="";
         //updatetime;
         //updateuserid;
     }
@@ -233,6 +235,7 @@ public class Service {
 
                     if(this.costcenter.trim().length()>0) hSelect.put(" costcenter = ? ",this.costcenter);
                     if(this.performeruid.trim().length()>0) hSelect.put(" performeruid = ? ",this.performeruid);
+                    if(this.stayprestationuid.trim().length()>0) hSelect.put(" stayprestationuid = ? ",this.stayprestationuid);
 
                     if (hSelect.size()>0) {
                         sSelect = "UPDATE Services SET ";
@@ -293,8 +296,8 @@ public class Service {
                               "  inscode, contract, contracttype, contactperson, contractdate,"+
                               "  contactaddress, contactzipcode, contactcity, contactcountry,"+
                               "  contacttelephone, contactfax, contactemail, portal_email, wicket, defaultcontext,"+
-                              "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,performeruid,acceptsVisits)"+
-                              " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                              "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid)"+
+                              " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                     rs.close();
                     ps.close();
@@ -340,6 +343,7 @@ public class Service {
                     ps.setString(37,this.costcenter);
                     ps.setString(38,this.performeruid);
                     ps.setString(39,this.acceptsVisits);
+                    ps.setString(40,this.stayprestationuid);
                     ps.executeUpdate();
                     if(ps!=null) ps.close();
                 }
@@ -403,6 +407,7 @@ public class Service {
                     service.inactive = ScreenHelper.checkString(rs.getString("inactive"));
                     service.defaultContext = ScreenHelper.checkString(rs.getString("defaultcontext"));
                     service.defaultServiceStockUid = ScreenHelper.checkString(rs.getString("defaultservicestockuid"));
+                    
                     // codes
                     service.code1 = rs.getString("code1");
                     service.code2 = rs.getString("code2");
@@ -416,6 +421,7 @@ public class Service {
                     service.costcenter=rs.getString("costcenter");
                     service.performeruid=rs.getString("performeruid");
                     service.acceptsVisits=rs.getString("acceptsVisits");
+                    service.stayprestationuid=rs.getString("stayprestationuid");
                 }
                 rs.close();
                 ps.close();
@@ -976,8 +982,8 @@ public class Service {
                          " fax, comment, updatetime, email, serviceparentid, inscode, serviceorder," +
                          " servicelanguage, updateuserid, contract, contracttype, contactperson, contractdate," +
                          " defaultcontext, defaultservicestockuid, contactaddress, contactzipcode, contactcity," +
-                         " contactcountry, contacttelephone, contactfax, contactemail, code3, code5,wicket,totalbeds,inactive,costcenter,performeruid,acceptsVisits)" +
-                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         " contactcountry, contacttelephone, contactfax, contactemail, code3, code5,wicket,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid)" +
+                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
@@ -1021,6 +1027,7 @@ public class Service {
             ps.setString(34,hService.get("costcenter").toString());
             ps.setString(35,hService.get("performeruid").toString());
             ps.setString(36,hService.get("acceptsVisits").toString());
+            ps.setString(37,hService.get("stayprestationuid").toString());
 
             ps.executeUpdate();
             ps.close();
@@ -1046,7 +1053,7 @@ public class Service {
                          "  servicelanguage = ?, updateuserid = ?, contract = ?, contracttype = ?, contactperson = ?," +
                          "  contractdate = ?, defaultcontext = ?, defaultservicestockuid = ?, contactaddress = ?," +
                          "  contactzipcode = ?, contactcity = ?, contactcountry = ?, contacttelephone = ?," +
-                         "  contactfax = ?, contactemail = ?, code3 = ?, code5 = ?, wicket = ?, totalbeds = ?, inactive = ?, costcenter= ?, performeruid=?,acceptsVisits=?" +
+                         "  contactfax = ?, contactemail = ?, code3 = ?, code5 = ?, wicket = ?, totalbeds = ?, inactive = ?, costcenter= ?, performeruid=?,acceptsVisits=?,stayprestationuid=?" +
                          " WHERE serviceid = ?";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
@@ -1091,8 +1098,9 @@ public class Service {
             ps.setString(34, hService.get("costcenter").toString());
             ps.setString(35, hService.get("performeruid").toString());
             ps.setString(36, hService.get("acceptsVisits").toString());
+            ps.setString(37, hService.get("stayprestationuid").toString());
 
-            ps.setString(37, hService.get("oldserviceid").toString());
+            ps.setString(38, hService.get("oldserviceid").toString());
 
             ps.executeUpdate();
             ps.close();

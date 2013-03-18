@@ -23,8 +23,69 @@ public class Insurar extends OC_Object {
     private String defaultPatientInvoiceModel;
     private String defaultInsurarInvoiceModel;
     private String allowedReductions;
+    private String modifiers;
 
-    public String getAllowedReductions() {
+    public String getModifiers() {
+		return modifiers;
+	}
+
+	public void setModifiers(String modifiers) {
+		this.modifiers = modifiers;
+	}
+
+	public int getNoSupplements(){
+		int n=0;
+		if(getModifiers()!=null){
+			try{
+				n=Integer.parseInt(getModifiers().split(";")[0]);
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return n;
+	}
+	
+	public void setNoSupplements(int n){
+		setModifier(0,n+"");
+	}
+	
+	public int getCoverSupplements(){
+		int n=0;
+		if(getModifiers()!=null){
+			try{
+				n=Integer.parseInt(getModifiers().split(";")[1]);
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return n;
+	}
+	
+	public void setCoverSupplements(int n){
+		setModifier(1,n+"");
+	}
+	
+	
+	
+	public void setModifier(int index,String value){
+		if(getModifiers()==null){
+			setModifiers("");
+		}
+		String[] m = getModifiers().split(";");
+		if(m.length<=index){
+			setModifiers(getModifiers()+"; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;".substring(0,(index+1-m.length)*2));
+			m = getModifiers().split(";");
+		}
+		m[index]=value;
+		modifiers="";
+		for(int n=0;n<m.length;n++){
+			modifiers+=m[n]+";";
+		}
+	}
+	
+	public String getAllowedReductions() {
 		return allowedReductions;
 	}
 
@@ -211,6 +272,7 @@ public class Insurar extends OC_Object {
                 insurar.setDefaultInsurarInvoiceModel(rs.getString("OC_INSURAR_DEFAULTINSURARINVOICEMODEL"));
                 insurar.setDefaultPatientInvoiceModel(rs.getString("OC_INSURAR_DEFAULTPATIENTINVOICEMODEL"));
                 insurar.setAllowedReductions(rs.getString("OC_INSURAR_ALLOWEDREDUCTIONS"));
+                insurar.setModifiers(rs.getString("OC_INSURAR_MODIFIERS"));
                 rs.close();
                 ps.close();
 
@@ -284,7 +346,8 @@ public class Insurar extends OC_Object {
                          "  OC_INSURAR_TYPE=?,"+
                          "  OC_INSURAR_DEFAULTINSURARINVOICEMODEL=?,"+
                          "  OC_INSURAR_DEFAULTPATIENTINVOICEMODEL=?,"+
-                         "  OC_INSURAR_ALLOWEDREDUCTIONS=?"+
+                         "  OC_INSURAR_ALLOWEDREDUCTIONS=?," +
+                         "  OC_INSURAR_MODIFIERS=?"+
                          " WHERE OC_INSURAR_SERVERID=? AND OC_INSURAR_OBJECTID=?";
                 rs.close();
                 ps.close();
@@ -300,8 +363,9 @@ public class Insurar extends OC_Object {
                 ps.setString(9,getDefaultInsurarInvoiceModel());
                 ps.setString(10,getDefaultPatientInvoiceModel());
                 ps.setString(11,getAllowedReductions());
-                ps.setInt(12,Integer.parseInt(getUid().split("\\.")[0]));
-                ps.setInt(13,Integer.parseInt(getUid().split("\\.")[1]));
+                ps.setString(12, getModifiers());
+                ps.setInt(13,Integer.parseInt(getUid().split("\\.")[0]));
+                ps.setInt(14,Integer.parseInt(getUid().split("\\.")[1]));
                 ps.execute();
                 ps.close();
 
@@ -365,8 +429,9 @@ public class Insurar extends OC_Object {
                          "  OC_INSURAR_DEFAULTINSURARINVOICEMODEL," +
                          "  OC_INSURAR_DEFAULTPATIENTINVOICEMODEL,"+
                          "  OC_INSURAR_ALLOWEDREDUCTIONS,"+
-                         "  OC_INSURAR_CONTACTPERSON)"+
-                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         "  OC_INSURAR_CONTACTPERSON," +
+                         "  OC_INSURAR_MODIFIERS)"+
+                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = oc_conn.prepareStatement(sQuery);
                 ps.setDate(1, new java.sql.Date(new Date().getTime()));
                 ps.setDate(2, new java.sql.Date(new Date().getTime()));
@@ -383,6 +448,7 @@ public class Insurar extends OC_Object {
                 ps.setString(13,getDefaultPatientInvoiceModel());
                 ps.setString(14,getAllowedReductions());
                 ps.setString(15,getContactPerson());
+                ps.setString(16, getModifiers());
                 ps.execute();
                 ps.close();
 

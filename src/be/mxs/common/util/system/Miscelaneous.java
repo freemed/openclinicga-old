@@ -85,7 +85,6 @@ public class Miscelaneous {
         String imageSource = MedwanQuery.getInstance().getConfigString("JAVAIMG."+name);
         if(imageSource!=null && imageSource.length()>0){
             try {
-            	System.out.println(imageSource);
                 image = Toolkit.getDefaultToolkit().getImage(new URL(imageSource));
                 return image;
             }
@@ -94,7 +93,6 @@ public class Miscelaneous {
         imageSource=MedwanQuery.getInstance().getConfigString("imageSource","http://localhost/openclinic");
         //Try to find the image in the default image directory
         try{
-        	System.out.println(imageSource);
             image = Toolkit.getDefaultToolkit().getImage(new URL(imageSource+"/_img/"+name));
             MedwanQuery.getInstance().setConfigString("JAVAIMG."+name,imageSource+"/_img/"+name);
             return image;

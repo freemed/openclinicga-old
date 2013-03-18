@@ -976,9 +976,6 @@ public class RequestedLabAnalysis {
             // order by selected col or default col
             sSelect+= "ORDER BY "+sSortCol+" "+sSortDir;
 
-            System.out.println(sSelect);
-            System.out.println("resultDateMin="+resultDateMin);
-            System.out.println("resultDateMax="+resultDateMax);
             ps = oc_conn.prepareStatement(sSelect);
 
             // set questionmark values

@@ -154,7 +154,7 @@ public class Encounter extends OC_Object {
         Vector invoicedAccomodations = new Vector();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            PreparedStatement ps = oc_conn.prepareStatement("select * from OC_DEBETS where OC_DEBET_ENCOUNTERUID=? AND OC_DEBET_PRESTATIONUID in ('"+MedwanQuery.getInstance().getAccomodationPrestationUIDs().replaceAll(";","','")+"')");
+            PreparedStatement ps = oc_conn.prepareStatement("select * from OC_DEBETS where OC_DEBET_ENCOUNTERUID=? AND (OC_DEBET_CREDITED IS NULL OR OC_DEBET_CREDITED<>1) AND OC_DEBET_PRESTATIONUID in ('"+MedwanQuery.getInstance().getAccomodationPrestationUIDs().replaceAll(";","','")+"')");
             ps.setString(1, encounterUID);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -419,7 +419,8 @@ public class Encounter extends OC_Object {
         int total = 0;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            PreparedStatement ps = oc_conn.prepareStatement("select SUM(OC_DEBET_QUANTITY) as total from OC_DEBETS where OC_DEBET_ENCOUNTERUID=? AND OC_DEBET_PRESTATIONUID in ('"+MedwanQuery.getInstance().getAccomodationPrestationUIDs().replaceAll(";","','")+"')");
+        	String sQuery="select SUM(OC_DEBET_QUANTITY) as total from OC_DEBETS where OC_DEBET_ENCOUNTERUID=? AND (OC_DEBET_CREDITED IS NULL OR OC_DEBET_CREDITED<>1) AND OC_DEBET_PRESTATIONUID in ('"+MedwanQuery.getInstance().getAccomodationPrestationUIDs().replaceAll(";","','")+"')";
+            PreparedStatement ps = oc_conn.prepareStatement(sQuery);
             ps.setString(1, encounterUID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -566,12 +567,25 @@ public class Encounter extends OC_Object {
         this.patientUID = patientUID;
     }
 
-    public int getDurationInDays() {
+    public int getDurationInDays() throws ParseException {
+    	if(MedwanQuery.getInstance().getConfigString("encounterDurationCalculationMethod","simple").equalsIgnoreCase("noLastDay")){
+    		return getDurationInDaysNoLastDay();
+    	}
         double duration;
         if (getEnd() != null) {
             duration = getEnd().getTime() - getBegin().getTime();
         } else {
             duration = new Date().getTime() - getBegin().getTime();
+        }
+        return new Double(Math.ceil(duration / (1000 * 60 * 60 * 24))).intValue();
+    }
+
+    public int getDurationInDaysNoLastDay() throws ParseException {
+        double duration;
+        if (getEnd() != null) {
+            duration = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(getEnd())).getTime() - getBegin().getTime();
+        } else {
+            duration = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())).getTime() - getBegin().getTime();
         }
         return new Double(Math.ceil(duration / (1000 * 60 * 60 * 24))).intValue();
     }
@@ -670,7 +684,7 @@ public class Encounter extends OC_Object {
                 //Data have changed, keep track of the changes
                 //First check if new data do not conflict with existing data
                 //-> if begindate < existing max enddate, refuse service
-                if (encounterService != null && getBegin() != null && getEnd() != null && getBegin().before(encounterService.end)) {
+                if (encounterService != null && encounterService.end!=null && getBegin() != null && getEnd() != null && getBegin().before(encounterService.end)) {
                     return;
                 }
                 //First close the previous encounterservice
@@ -963,7 +977,7 @@ public class Encounter extends OC_Object {
         ResultSet rs = null;
 
         String sSelect, sInsert, sDelete;
-
+        System.out.println("type="+getType());
         int iVersion = 1;
         String ids[];
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -1426,7 +1440,7 @@ public class Encounter extends OC_Object {
         String sSelect = " SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID " +
         " FROM OC_ENCOUNTERS" +
         " WHERE OC_ENCOUNTER_PATIENTUID = ? " +
-        " AND OC_ENCOUNTER_ENDDATE IS NULL and NOT OC_ENCOUNTER_TYPE = 'coverage' ";
+        " AND OC_ENCOUNTER_ENDDATE IS NULL and NOT OC_ENCOUNTER_TYPE = 'coverage'";
 
 		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		try {
@@ -1443,7 +1457,7 @@ public class Encounter extends OC_Object {
 				sSelect = " SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID " +
 				" FROM OC_ENCOUNTERS" +
 				" WHERE OC_ENCOUNTER_PATIENTUID = ? " +
-				" AND OC_ENCOUNTER_ENDDATE > ? and NOT OC_ENCOUNTER_TYPE = 'coverage'";
+				" AND OC_ENCOUNTER_ENDDATE > ? and NOT OC_ENCOUNTER_TYPE = 'coverage' order by OC_ENCOUNTER_ENDDATE DESC,OC_ENCOUNTER_OBJECTID DESC";
 				rs.close();
 				ps.close();
 				ps = oc_conn.prepareStatement(sSelect);

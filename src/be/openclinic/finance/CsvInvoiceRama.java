@@ -1,6 +1,7 @@
 package be.openclinic.finance;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -46,7 +47,13 @@ public class CsvInvoiceRama {
 	            int linecounter=1;
 	            for(int i=0; i<debets.size(); i++){
 	                debet = (Debet)debets.get(i);
-	                date = debet.getDate();
+	                try {
+						date = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						date=debet.getDate();
+						e.printStackTrace();
+					}
 	                displayDate = !date.equals(prevdate);
 	                sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
 	                displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName) || (debet.getPatientInvoiceUid()!=null && debet.getPatientInvoiceUid().indexOf(".")>=0 && invoiceid.indexOf(debet.getPatientInvoiceUid().split("\\.")[1])<0 && invoiceid.length()>0);

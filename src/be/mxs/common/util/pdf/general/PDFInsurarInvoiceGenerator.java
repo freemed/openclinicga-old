@@ -621,7 +621,7 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
         invoiceTable.addCell(createEmptyCell(1));
         invoiceTable.addCell(createValueCell(sDebetDate,2));
         invoiceTable.addCell(createValueCell(sEncounterName,4));
-        invoiceTable.addCell(createValueCell(debet.getPatientInvoiceUid().replaceAll("1.", ""),2));
+        invoiceTable.addCell(createValueCell(debet.getPatientInvoiceUid()==null?"":debet.getPatientInvoiceUid().replaceAll("1\\.", ""),2));
         invoiceTable.addCell(createValueCell(sPrestationCode+debet.getQuantity()+" x "+sPrestationDescr,8));
         invoiceTable.addCell(createPriceCellInsurar(debetAmount,3));
     }

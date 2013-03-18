@@ -538,7 +538,6 @@ public class ChronicMedication extends OC_Object {
 
             // order by selected col or default col
             sSelect+= "ORDER BY "+sSortCol+" "+sSortDir;
-            System.out.println(sSelect);
             // set questionmark values
             ps = oc_conn.prepareStatement(sSelect);
             int questionMarkIdx = 1;

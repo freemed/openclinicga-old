@@ -32,7 +32,6 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.system.TransactionItem;
 
 public class UpdateSystem {
-
 	public static void update(String basedir){
 		updateDb();
 		updateLabels(basedir);
@@ -412,6 +411,18 @@ public class UpdateSystem {
         catch(Exception e){
         	e.printStackTrace();
         }
+        //Clear non-existing extrainsurars
+        try{
+        	PreparedStatement ps = conn.prepareStatement("delete from OC_LABELS where OC_LABEL_TYPE='patientsharecoverageinsurance' and replace(OC_LABEL_ID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') not in (select OC_INSURAR_OBJECTID from OC_INSURARS)");
+        	ps.execute();
+        	ps = conn.prepareStatement("delete from OC_LABELS where OC_LABEL_TYPE='patientsharecoverageinsurance2' and replace(OC_LABEL_ID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') not in (select OC_INSURAR_OBJECTID from OC_INSURARS)");
+        	ps.execute();
+        	ps.close();
+        	conn.close();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": reload labels");
         reloadSingleton();
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end updateLabels");
@@ -567,6 +578,35 @@ public class UpdateSystem {
     }
     public static void updateCounters() {
         try{
+        	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	PreparedStatement ps = conn.prepareStatement("select * from oc_config where oc_key like 'quickList%'");
+        	ResultSet rs = ps.executeQuery();
+        	while (rs.next()){
+        		String oc_key=rs.getString("OC_KEY");
+        		String oc_value=rs.getString("OC_VALUE");
+        		String news="";
+        		if(oc_value.indexOf("£")<0){
+        			String[] s=oc_value.split(";");
+        			for(int n=0;n<s.length;n++){
+        				if(news.length()>0){
+        					news=";"+news;
+        				}
+        				for (int i=s[n].split("\\.").length-1;i>-1;i--){
+        					if(i==s[n].split("\\.").length-3){
+        						news="£"+news;
+        					}
+        					else if (i<s[n].split("\\.").length-1){
+        						news="."+news;
+        					}
+        					news=s[n].split("\\.")[i]+news;
+        				}
+        			}
+        			MedwanQuery.getInstance().setConfigString(oc_key, news);
+        		}
+        	}
+        	rs.close();
+        	ps.close();
+        	conn.close();
 	        SAXReader xmlReader = new SAXReader();
 	        Document document;
 	        String sMenuXML = MedwanQuery.getInstance().getConfigString("countersXMLFile","counters.xml");

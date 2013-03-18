@@ -141,8 +141,12 @@ public class User extends OC_Object {
     		set.add(value+"_"+prestation);
     	}
     	Iterator i = set.iterator();
+    	String s;
     	while(i.hasNext() && p.size()<top){
-    		p.add(((String)i.next()).split("_")[1]);
+    		s=(String)i.next();
+    		if(s.split("_").length>1){
+    			p.add(s.split("_")[1]);
+    		}
     	}
     	return p;
     }
@@ -180,6 +184,14 @@ public class User extends OC_Object {
         }
         return otherExaminations;
     }
+    
+    public boolean initialize(String sLogin, byte[] aPassword){
+    	boolean bReturn=false;
+    	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=initialize(conn, sLogin, aPassword);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
 
     public boolean initialize (Connection connection, String sLogin, byte[] aPassword) {
     	boolean bReturn = false;
@@ -194,8 +206,6 @@ public class User extends OC_Object {
                      this.userid = rs.getString("userid");
                      this.personid = rs.getString("personid");
                      this.password = rs.getBytes("encryptedpassword");
-                     System.out.println("password="+this.password);
-                     System.out.println("apassword="+aPassword);
 
                      this.start = ScreenHelper.getSQLDate(rs.getDate("start"));
                      this.stop = ScreenHelper.getSQLDate(rs.getDate("stop"));
@@ -235,7 +245,7 @@ public class User extends OC_Object {
                      }
 
                      loadAccessRights(sUserProfileID,connection);
-                     initializeService(connection);
+                     initializeService();
                  }
                  else {
 	                 rs.close();
@@ -251,6 +261,14 @@ public class User extends OC_Object {
          return bReturn;
      }
 
+    public boolean initializeAuto (String sLogin, String aPassword) {
+    	boolean bReturn=false;
+    	Connection conn=MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=initializeAuto(conn, sLogin, aPassword);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
     public boolean initializeAuto (Connection connection, String sLogin, String aPassword) {
          boolean bReturn = false;
 
@@ -300,7 +318,7 @@ public class User extends OC_Object {
                      }
 
                      loadAccessRights(sUserProfileID,connection);
-                     initializeService(connection);
+                     initializeService();
                  }
                  else {
                      rs.close();
@@ -370,7 +388,7 @@ public class User extends OC_Object {
                  // reload accessrights from database
                  loadAccessRights(sUserProfileID,connection);
 
-                 initializeService(connection);
+                 initializeService();
                  bReturn = true;
              }
              else {
@@ -442,7 +460,7 @@ public class User extends OC_Object {
                 loadAccessRights(sUserProfileID,connection);
 
                 // LOAD SERVICES
-                initializeService(connection);
+                initializeService();
             }
             else {
                 rs.close();
@@ -468,6 +486,14 @@ public class User extends OC_Object {
         return "";
     }
 
+    public boolean saveToDB(){
+    	boolean bReturn=false;
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=saveToDB(conn);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
     public boolean saveToDB(Connection connection) {
         boolean bReturn = true;
         String sSelect = "";
@@ -589,6 +615,14 @@ public class User extends OC_Object {
         return false;
     }
 
+    public boolean updateParameter(Parameter parameter) {
+    	boolean bReturn=false;
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=updateParameter(parameter, conn);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
     public boolean updateParameter(Parameter parameter, Connection connection) {
         String sSelect = "";
         try {
@@ -637,6 +671,14 @@ public class User extends OC_Object {
         }
     }
 
+    public boolean removeParameter(String sParameter) {
+    	boolean bReturn=false;
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=removeParameter(sParameter, conn);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
     public boolean removeParameter(String sParameter, Connection connection) {
         try {
             String sSelect = "UPDATE UserParameters SET active = 0, updatetime = ? WHERE userid = ? AND parameter = ? ";
@@ -663,7 +705,7 @@ public class User extends OC_Object {
         }
     }
 
-    public boolean initializeService(Connection connection){
+    public boolean initializeService(){
         boolean bReturn = true;
         PreparedStatement ps = null;
         ResultSet rs = null;

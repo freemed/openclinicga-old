@@ -37,7 +37,6 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected void addFooter(){
         String sFooter = getConfigString("footer."+sProject);
         sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
-        System.out.println("sFooter="+sFooter);
         PDFFooter footer = new PDFFooter(sFooter+"\n");
         docWriter.setPageEvent(footer);
     }
@@ -301,6 +300,26 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     //--- CREATE BOLD LABEL CELL (left align) -----------------------------------------------------
     protected PdfPCell createBoldLabelCell(String label, int colspan){
         cell = new PdfPCell(new Paragraph(label,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createBoldLabelCell(String label, int colspan,int size){
+        cell = new PdfPCell(new Paragraph(label,FontFactory.getFont(FontFactory.HELVETICA,size,Font.BOLD)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createBoldUnderlinedLabelCell(String label, int colspan){
+        cell = new PdfPCell(new Paragraph(label,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD+Font.UNDERLINE)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);

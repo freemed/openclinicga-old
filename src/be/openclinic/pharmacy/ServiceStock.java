@@ -613,7 +613,6 @@ public class ServiceStock extends OC_Object {
         for (int i = 0; i < stockIds.size(); i++) {
             productStock = ProductStock.get((String) stockIds.get(i));
             if(productStock!=null && productStock.getProduct()!=null){
-	            System.out.println("Adding to map: "+productStock.getProduct().getName()+"."+productStock.getUid());
 	            map.put(productStock.getProduct().getName().toUpperCase()+"."+productStock.getUid(), productStock);
             }
         }
@@ -621,7 +620,6 @@ public class ServiceStock extends OC_Object {
         String sKey;
         while(i.hasNext()){
             sKey=(String)i.next();
-            System.out.println(sKey);
         	stocks.add(map.get(sKey));
         }
         

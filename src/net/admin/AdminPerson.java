@@ -211,6 +211,14 @@ public class AdminPerson extends OC_Object{
     }
     
     //--- INITIALIZE ------------------------------------------------------------------------------
+    public boolean initialize(String sPersonID){
+    	boolean bReturn=false;
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	bReturn = initialize(conn,sPersonID);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
     public boolean initialize (Connection connection, String sPersonID) {
         boolean bReturn = false;
         if ((sPersonID!=null)&&(sPersonID.trim().length()>0)) {
@@ -499,6 +507,18 @@ public class AdminPerson extends OC_Object{
                 if(Debug.enabled) Debug.println("AdminPerson initialize error: "+e.getMessage()+" "+sSelect);
             }
         }
+        return bReturn;
+    }
+
+    //--- SAVE TO DB ------------------------------------------------------------------------------
+    public boolean saveToDB(String activeMedicalCenter,String activeMD,String activePara){
+        boolean bReturn=false;
+    	this.activeMedicalCenter=activeMedicalCenter;
+        this.activeMD=activeMD;
+        this.activePara=activePara;
+        Connection conn = MedwanQuery.getInstance().getAdminConnection();
+        bReturn= saveToDB(conn);
+        ScreenHelper.closeQuietly(conn, null, null);
         return bReturn;
     }
 
@@ -3144,6 +3164,14 @@ public class AdminPerson extends OC_Object{
         return vData;
     }
 
+    public boolean saveMiniToDB(){
+    	boolean bReturn=false;
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=saveMiniToDB(conn);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
     public boolean saveMiniToDB(Connection connection) {
         boolean bReturn = true;
         String sSelect = "";

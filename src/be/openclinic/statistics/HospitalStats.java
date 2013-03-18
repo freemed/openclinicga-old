@@ -1,5 +1,6 @@
 package be.openclinic.statistics;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.StatFunctions;
 import be.openclinic.common.KeyValue;
 import be.openclinic.statistics.DepartmentIncome.Income;
@@ -64,7 +65,7 @@ public class HospitalStats {
 		while(e.hasMoreElements()){
 			String id = (String)e.nextElement();
 			Service service = Service.getService(id);
-			String key = (service==null || service.costcenter==null?"?":service.costcenter);
+			String key = (service==null || service.costcenter==null || service.costcenter.length()==0?"?":service.costcenter);
 			if(csi.get(key)==null){
 				csi.put(key, totalDepartmentIncomes.get(id));
 			}
@@ -456,33 +457,15 @@ public class HospitalStats {
             statvalues.put("T10PFCCV", StatFunctions.getTop(t10pfccv, 10));
             //Health econometrics
             Hashtable h = new Hashtable();
-            //First get list of distributioncorrectors
-            Hashtable correctors = new Hashtable();
-            sql="select a.oc_debet_objectid,a.oc_debet_encounteruid,count(*) as total"+
-        	" from oc_debets a, oc_encounters_view c"+
-        	" where"+
-			" "+MedwanQuery.getInstance().convert("int","replace(a.oc_debet_encounteruid,'"+serverid+"','')")+"=c.oc_encounter_objectid and"+
-			" c.oc_encounter_begindate <=? and"+
-			" c.oc_encounter_enddate >=?"+
-			" group by a.oc_debet_objectid,a.oc_debet_encounteruid having count(*)>1";
-            ps = loc_conn.prepareStatement(sql);
-            ps.setDate(1,new java.sql.Date(end.getTime()));
-            ps.setDate(2,new java.sql.Date(begin.getTime()));
-            rs=ps.executeQuery();
-            while(rs.next()){
-            	correctors.put(rs.getInt("oc_debet_objectid")+"."+rs.getString("oc_debet_encounteruid"),new Integer(rs.getInt("total")));
-            }
-            rs.close();
-            ps.close();
             
             sql="select (select max(oc_insurar_name) from oc_insurars c, oc_insurances b where b.oc_insurance_objectid=replace(a.oc_debet_insuranceuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and c.oc_insurar_objectid=replace(b.oc_insurance_insuraruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')) as oc_insurar_name"+
-            	",a.oc_debet_objectid,b.oc_prestation_reftype,b.oc_prestation_code,c.oc_encounter_serviceuid,c.oc_encounter_type,a.oc_debet_encounteruid,a.oc_debet_amount+a.oc_debet_insuraramount+"+MedwanQuery.getInstance().convert("float","a.oc_debet_extrainsuraramount")+" as amount"+
-            	" from oc_debets a, oc_prestations b, oc_encounters_view c"+
+            	",a.oc_debet_objectid,b.oc_prestation_reftype,b.oc_prestation_code,a.oc_debet_serviceuid,c.oc_encounter_type,a.oc_debet_encounteruid,a.oc_debet_amount+a.oc_debet_insuraramount+"+MedwanQuery.getInstance().convert("float","a.oc_debet_extrainsuraramount")+" as amount"+
+            	" from oc_debets a, oc_prestations b, oc_encounters c"+
             	" where"+
 				" "+MedwanQuery.getInstance().convert("int","replace(a.oc_debet_prestationuid,'"+serverid+"','')")+"=b.oc_prestation_objectid and"+
 				" "+MedwanQuery.getInstance().convert("int","replace(a.oc_debet_encounteruid,'"+serverid+"','')")+"=c.oc_encounter_objectid and"+
-				" c.oc_encounter_begindate <=? and"+
-				" c.oc_encounter_enddate >=?";
+				" a.oc_debet_date <=? and"+
+				" a.oc_debet_date >=?";
             ps = loc_conn.prepareStatement(sql);
             ps.setDate(1,new java.sql.Date(end.getTime()));
             ps.setDate(2,new java.sql.Date(begin.getTime()));
@@ -497,16 +480,12 @@ public class HospitalStats {
             		insurarname="?";
             	}
             	debetuid=rs.getInt("oc_debet_objectid")+"";
-            	serviceid=rs.getString("oc_encounter_serviceuid");
+            	serviceid=ScreenHelper.checkString(rs.getString("oc_debet_serviceuid"));
             	encountertype=rs.getString("oc_encounter_type");
             	prestationcode=rs.getString("oc_prestation_code");
             	prestationfamily=rs.getString("oc_prestation_reftype");
             	encounteruid=rs.getString("oc_debet_encounteruid");
             	amount=rs.getDouble("amount");
-            	corrector=(Integer)correctors.get(debetuid+"."+encounteruid);
-           		if(corrector!=null){
-           			amount/=corrector.intValue();
-           		}
            		totalIncome+=amount;
            		if(departmentIncomes.get(serviceid)==null){
             		departmentIncomes.put(serviceid, new DepartmentIncome());

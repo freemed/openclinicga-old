@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.Statement;
 
-public class ExtraInsurarInvoice extends Invoice {
+public class ExtraInsurarInvoice2 extends Invoice {
     private String insurarUid;
     private Insurar insurar;
 
@@ -42,8 +42,8 @@ public class ExtraInsurarInvoice extends Invoice {
     }
 
     //--- GET -------------------------------------------------------------------------------------
-    public static ExtraInsurarInvoice get(String uid){
-        ExtraInsurarInvoice insurarInvoice = new ExtraInsurarInvoice();
+    public static ExtraInsurarInvoice2 get(String uid){
+        ExtraInsurarInvoice2 insurarInvoice = new ExtraInsurarInvoice2();
 
         if(uid!=null && uid.length()>0){
             String [] ids = uid.split("\\.");
@@ -51,7 +51,7 @@ public class ExtraInsurarInvoice extends Invoice {
             if (ids.length==2){
                 PreparedStatement ps = null;
                 ResultSet rs = null;
-                String sSelect = "SELECT * FROM OC_EXTRAINSURARINVOICES WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
+                String sSelect = "SELECT * FROM OC_EXTRAINSURARINVOICES2 WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
                 Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                 try{
                     ps = oc_conn.prepareStatement(sSelect);
@@ -74,7 +74,7 @@ public class ExtraInsurarInvoice extends Invoice {
                     rs.close();
                     ps.close();
 
-                    insurarInvoice.debets = Debet.getFullExtraInsurarDebetsViaInvoiceUid(insurarInvoice.getUid());
+                    insurarInvoice.debets = Debet.getFullExtraInsurarDebetsViaInvoiceUid2(insurarInvoice.getUid());
                     insurarInvoice.credits = InsurarCredit.getInsurarCreditsViaInvoiceUID(insurarInvoice.getUid());
                 }
                 catch(Exception e){
@@ -96,11 +96,11 @@ public class ExtraInsurarInvoice extends Invoice {
         return insurarInvoice;
     }
 
-    public static ExtraInsurarInvoice getViaInvoiceUID(String sInvoiceID){
-        ExtraInsurarInvoice insurarInvoice = new ExtraInsurarInvoice();
+    public static ExtraInsurarInvoice2 getViaInvoiceUID(String sInvoiceID){
+        ExtraInsurarInvoice2 insurarInvoice = new ExtraInsurarInvoice2();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sSelect = "SELECT * FROM OC_EXTRAINSURARINVOICES WHERE OC_INSURARINVOICE_ID = ? ";
+        String sSelect = "SELECT * FROM OC_EXTRAINSURARINVOICES2 WHERE OC_INSURARINVOICE_ID = ? ";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);
@@ -122,7 +122,7 @@ public class ExtraInsurarInvoice extends Invoice {
             rs.close();
             ps.close();
 
-            insurarInvoice.debets = Debet.getExtraInsurarDebetsViaInvoiceUid(insurarInvoice.getUid());
+            insurarInvoice.debets = Debet.getExtraInsurarDebetsViaInvoiceUid2(insurarInvoice.getUid());
             insurarInvoice.credits = InsurarCredit.getInsurarCreditsViaInvoiceUID(insurarInvoice.getUid());
         }
         catch(Exception e){
@@ -155,7 +155,7 @@ public class ExtraInsurarInvoice extends Invoice {
                 ids = this.getUid().split("\\.");
 
                 if(ids.length == 2){
-                    sSelect = "SELECT OC_INSURARINVOICE_VERSION FROM OC_EXTRAINSURARINVOICES WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
+                    sSelect = "SELECT OC_INSURARINVOICE_VERSION FROM OC_EXTRAINSURARINVOICES2 WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -168,14 +168,14 @@ public class ExtraInsurarInvoice extends Invoice {
                     rs.close();
                     ps.close();
 
-                    sSelect = "INSERT INTO OC_EXTRAINSURARINVOICES_HISTORY SELECT * FROM OC_EXTRAINSURARINVOICES WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
+                    sSelect = "INSERT INTO OC_EXTRAINSURARINVOICES2_HISTORY SELECT * FROM OC_EXTRAINSURARINVOICES2 WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
 
-                    sSelect = " DELETE FROM OC_EXTRAINSURARINVOICES WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
+                    sSelect = " DELETE FROM OC_EXTRAINSURARINVOICES2 WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -195,7 +195,7 @@ public class ExtraInsurarInvoice extends Invoice {
             }
 
             if(ids.length == 2){
-               sSelect = " INSERT INTO OC_EXTRAINSURARINVOICES (" +
+               sSelect = " INSERT INTO OC_EXTRAINSURARINVOICES2 (" +
                           " OC_INSURARINVOICE_SERVERID," +
                           " OC_INSURARINVOICE_OBJECTID," +
                           " OC_INSURARINVOICE_DATE," +
@@ -227,7 +227,7 @@ public class ExtraInsurarInvoice extends Invoice {
                 ps.executeUpdate();
                 ps.close();
 
-                sSelect = "UPDATE OC_DEBETS SET OC_DEBET_EXTRAINSURARINVOICEUID = NULL WHERE OC_DEBET_EXTRAINSURARINVOICEUID = ? ";
+                sSelect = "UPDATE OC_DEBETS SET OC_DEBET_EXTRAINSURARINVOICEUID2 = NULL WHERE OC_DEBET_EXTRAINSURARINVOICEUID2 = ? ";
                 ps = oc_conn.prepareStatement(sSelect);
                 ps.setString(1,this.getUid());
                 ps.executeUpdate();
@@ -254,13 +254,13 @@ public class ExtraInsurarInvoice extends Invoice {
                             }
                         }
                         if(counter>=250){
-                            st.addBatch("UPDATE OC_DEBETS SET OC_DEBET_EXTRAINSURARINVOICEUID = '"+this.getUid()+"' WHERE OC_DEBET_OBJECTID in ("+UIDs+")");
+                            st.addBatch("UPDATE OC_DEBETS SET OC_DEBET_EXTRAINSURARINVOICEUID2 = '"+this.getUid()+"' WHERE OC_DEBET_OBJECTID in ("+UIDs+")");
                             UIDs="";
                             counter=0;
                         }
                     }
                     if(counter>0){
-                        st.addBatch("UPDATE OC_DEBETS SET OC_DEBET_EXTRAINSURARINVOICEUID = '"+this.getUid()+"' WHERE OC_DEBET_OBJECTID in ("+UIDs+")");
+                        st.addBatch("UPDATE OC_DEBETS SET OC_DEBET_EXTRAINSURARINVOICEUID2 = '"+this.getUid()+"' WHERE OC_DEBET_OBJECTID in ("+UIDs+")");
                     }
                 }
                 if(hasqueries){
@@ -331,7 +331,7 @@ public class ExtraInsurarInvoice extends Invoice {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             // compose query
-            String sSql = "SELECT * FROM OC_EXTRAINSURARINVOICES WHERE ";
+            String sSql = "SELECT * FROM OC_EXTRAINSURARINVOICES2 WHERE ";
             if(sInvoiceDate.length() > 0){
                 sSql+= " OC_INSURARINVOICE_DATE = ? AND";
             }
@@ -384,9 +384,9 @@ public class ExtraInsurarInvoice extends Invoice {
 
             rs = ps.executeQuery();
 
-            ExtraInsurarInvoice invoice;
+            ExtraInsurarInvoice2 invoice;
             while(rs.next()){
-                invoice = new ExtraInsurarInvoice();
+                invoice = new ExtraInsurarInvoice2();
 
                 invoice.setUid(rs.getInt("OC_INSURARINVOICE_SERVERID")+"."+rs.getInt("OC_INSURARINVOICE_OBJECTID"));
                 invoice.setDate(rs.getTimestamp("OC_INSURARINVOICE_DATE"));
@@ -427,7 +427,7 @@ public class ExtraInsurarInvoice extends Invoice {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             // compose query
-            String sSql = "SELECT * FROM OC_EXTRAINSURARINVOICES WHERE ";
+            String sSql = "SELECT * FROM OC_EXTRAINSURARINVOICES2 WHERE ";
             if(sInvoiceDateBegin.length() > 0){
                 sSql+= " OC_INSURARINVOICE_DATE >= ? AND";
             }
@@ -478,9 +478,9 @@ public class ExtraInsurarInvoice extends Invoice {
 
             rs = ps.executeQuery();
 
-            ExtraInsurarInvoice invoice;
+            ExtraInsurarInvoice2 invoice;
             while(rs.next()){
-                invoice = new ExtraInsurarInvoice();
+                invoice = new ExtraInsurarInvoice2();
 
                 invoice.setUid(rs.getInt("OC_INSURARINVOICE_SERVERID")+"."+rs.getInt("OC_INSURARINVOICE_OBJECTID"));
                 invoice.setDate(rs.getTimestamp("OC_INSURARINVOICE_DATE"));
@@ -521,13 +521,13 @@ public class ExtraInsurarInvoice extends Invoice {
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            sSelect = "SELECT * FROM OC_EXTRAINSURARINVOICES WHERE  OC_INSURARINVOICE_STATUS not in ("+sStatus+")";
+            sSelect = "SELECT * FROM OC_EXTRAINSURARINVOICES2 WHERE  OC_INSURARINVOICE_STATUS not in ("+sStatus+")";
             ps = oc_conn.prepareStatement(sSelect);
 
             rs = ps.executeQuery();
-            ExtraInsurarInvoice insurarInvoice;
+            ExtraInsurarInvoice2 insurarInvoice;
             while(rs.next()){
-                insurarInvoice = new ExtraInsurarInvoice();
+                insurarInvoice = new ExtraInsurarInvoice2();
 
                 insurarInvoice.setUid(rs.getInt("OC_INSURARINVOICE_SERVERID")+"."+rs.getInt("OC_INSURARINVOICE_OBJECTID"));
                 insurarInvoice.setDate(rs.getTimestamp("OC_INSURARINVOICE_DATE"));
@@ -572,9 +572,9 @@ public class ExtraInsurarInvoice extends Invoice {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             sSelect = "SELECT a.lastname, a.firstname, d.*,e.* ,c.* "+
-            " FROM OC_DEBETS d, OC_EXTRAINSURARINVOICES i, OC_ENCOUNTERS e, AdminView a, OC_PRESTATIONS c"+
-            "  WHERE d.OC_DEBET_EXTRAINSURARINVOICEUID = ?"+
-            "   AND i.OC_INSURARINVOICE_OBJECTID = replace(d.OC_DEBET_EXTRAINSURARINVOICEUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+            " FROM OC_DEBETS d, OC_EXTRAINSURARINVOICES2 i, OC_ENCOUNTERS e, AdminView a, OC_PRESTATIONS c"+
+            "  WHERE d.OC_DEBET_EXTRAINSURARINVOICEUID2 = ?"+
+            "   AND i.OC_INSURARINVOICE_OBJECTID = replace(d.OC_DEBET_EXTRAINSURARINVOICEUID2,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
             "   AND e.OC_ENCOUNTER_OBJECTID = replace(d.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
             "   AND c.OC_PRESTATION_OBJECTID = replace(d.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
             "   AND e.OC_ENCOUNTER_PATIENTUID = a.personid"+
@@ -603,6 +603,8 @@ public class ExtraInsurarInvoice extends Invoice {
                 debet.setExtraInsurarAmount(rs.getDouble("OC_DEBET_EXTRAINSURARAMOUNT"));
                 debet.setExtraInsurarInvoiceUid(rs.getString("OC_DEBET_EXTRAINSURARINVOICEUID"));
                 debet.setExtraInsurarUid(rs.getString("OC_DEBET_EXTRAINSURARUID"));
+                debet.setExtraInsurarInvoiceUid2(rs.getString("OC_DEBET_EXTRAINSURARINVOICEUID2"));
+                debet.setExtraInsurarUid2(rs.getString("OC_DEBET_EXTRAINSURARUID2"));
                 debet.setServiceUid(rs.getString("OC_DEBET_SERVICEUID"));
                 debet.setPatientName(rs.getString("lastname")+", "+rs.getString("firstname"));
 
@@ -689,9 +691,9 @@ public class ExtraInsurarInvoice extends Invoice {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             sSelect = "SELECT a.lastname, a.firstname, d.*,e.*,c.*"+
-            " FROM OC_DEBETS d, OC_EXTRAINSURARINVOICES i, OC_ENCOUNTERS e, AdminView a, OC_PRESTATIONS c"+
-            "  WHERE d.OC_DEBET_EXTRAINSURARINVOICEUID = ?"+
-            "   AND i.OC_INSURARINVOICE_OBJECTID = replace(d.OC_DEBET_EXTRAINSURARINVOICEUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+            " FROM OC_DEBETS d, OC_EXTRAINSURARINVOICES2 i, OC_ENCOUNTERS e, AdminView a, OC_PRESTATIONS c"+
+            "  WHERE d.OC_DEBET_EXTRAINSURARINVOICEUID2 = ?"+
+            "   AND i.OC_INSURARINVOICE_OBJECTID = replace(d.OC_DEBET_EXTRAINSURARINVOICEUID2,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
             "   AND e.OC_ENCOUNTER_OBJECTID = replace(d.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
             "   AND c.OC_PRESTATION_OBJECTID = replace(d.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
             "   AND e.OC_ENCOUNTER_PATIENTUID = a.personid"+
@@ -720,6 +722,8 @@ public class ExtraInsurarInvoice extends Invoice {
                 debet.setExtraInsurarAmount(rs.getDouble("OC_DEBET_EXTRAINSURARAMOUNT"));
                 debet.setExtraInsurarInvoiceUid(rs.getString("OC_DEBET_EXTRAINSURARINVOICEUID"));
                 debet.setExtraInsurarUid(rs.getString("OC_DEBET_EXTRAINSURARUID"));
+                debet.setExtraInsurarInvoiceUid2(rs.getString("OC_DEBET_EXTRAINSURARINVOICEUID2"));
+                debet.setExtraInsurarUid2(rs.getString("OC_DEBET_EXTRAINSURARUID2"));
                 debet.setServiceUid(rs.getString("OC_DEBET_SERVICEUID"));
                 debet.setPatientName(rs.getString("lastname")+", "+rs.getString("firstname"));
 
@@ -799,7 +803,7 @@ public class ExtraInsurarInvoice extends Invoice {
         PreparedStatement ps = null;
         ResultSet rs = null;
         boolean okQuery = false;
-        String sSelect = "update OC_EXTRAINSURARINVOICES SET OC_INSURARINVOICE_STATUS ='open',OC_INSURARINVOICE_UPDATETIME=?,OC_INSURARINVOICE_UPDATEUID=? WHERE OC_INSURARINVOICE_OBJECTID = ? ";
+        String sSelect = "update OC_EXTRAINSURARINVOICES2 SET OC_INSURARINVOICE_STATUS ='open',OC_INSURARINVOICE_UPDATETIME=?,OC_INSURARINVOICE_UPDATEUID=? WHERE OC_INSURARINVOICE_OBJECTID = ? ";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);

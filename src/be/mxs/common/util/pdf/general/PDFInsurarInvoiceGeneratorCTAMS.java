@@ -101,18 +101,25 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	        SortedMap sortedDebets = new TreeMap();
 	        for(int n=0;n<debets.size();n++){
 	        	debet = (Debet)debets.elementAt(n);
-	        	date = (Date)patientInvoices.get(debet.getPatientInvoiceUid());
-	        	if(date==null){
-	        		patientInvoice = PatientInvoice.get(debet.getPatientInvoiceUid());
-	        		if(patientInvoice!=null){
-	        			date = patientInvoice.getDate();
-	        			patientInvoices.put(debet.getPatientInvoiceUid(), date);
-	        		}
+	        	if(debet.getPatientInvoiceUid()!=null){
+		        	date = (Date)patientInvoices.get(debet.getPatientInvoiceUid());
+		        	if(date==null){
+		        		patientInvoice = PatientInvoice.get(debet.getPatientInvoiceUid());
+		        		if(patientInvoice!=null){
+		        			date = patientInvoice.getDate();
+		        			if(date!=null){
+		        				patientInvoices.put(debet.getPatientInvoiceUid(), date);
+		        			}
+		        		}
+		        	}
+		        	if(date!=null){
+		        		debet.setDate(date);
+		        	}
+		        	sortedDebets.put(new SimpleDateFormat("yyyyMMdd").format(debet.getDate())+"."+debet.getPatientName()+"."+debet.getUid(), debet);
 	        	}
-	        	if(date!=null){
-	        		debet.setDate(date);
+	        	else {
+	        		System.out.println("WARNING: debet "+debet.getUid()+" has no PatientInvoice associated");
 	        	}
-	        	sortedDebets.put(new SimpleDateFormat("yyyyMMdd").format(debet.getDate())+"."+debet.getPatientInvoiceUid()+"."+debet.getUid(), debet);
 	        }
 	        //Breng nu de gesorteerde debets terug over naar de vector
 	        debets = new Vector();
@@ -506,18 +513,25 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
         SortedMap sortedDebets = new TreeMap();
         for(int n=0;n<debets.size();n++){
         	debet = (Debet)debets.elementAt(n);
-        	date = (Date)patientInvoices.get(debet.getPatientInvoiceUid());
-        	if(date==null){
-        		patientInvoice = PatientInvoice.get(debet.getPatientInvoiceUid());
-        		if(patientInvoice!=null){
-        			date = patientInvoice.getDate();
-        			patientInvoices.put(debet.getPatientInvoiceUid(), date);
-        		}
+        	if(debet.getPatientInvoiceUid()!=null){
+	        	date = (Date)patientInvoices.get(debet.getPatientInvoiceUid());
+	        	if(date==null){
+	        		patientInvoice = PatientInvoice.get(debet.getPatientInvoiceUid());
+	        		if(patientInvoice!=null){
+	        			date = patientInvoice.getDate();
+	        			if(date!=null){
+	        				patientInvoices.put(debet.getPatientInvoiceUid(), date);
+	        			}
+	        		}
+	        	}
+	        	if(date!=null){
+	        		debet.setDate(date);
+	        	}
+	        	sortedDebets.put(new SimpleDateFormat("yyyyMMdd").format(debet.getDate())+"."+debet.getPatientName()+"."+debet.getUid(), debet);
         	}
-        	if(date!=null){
-        		debet.setDate(date);
+        	else {
+        		System.out.println("WARNING: debet "+debet.getUid()+" has no PatientInvoice associated");
         	}
-        	sortedDebets.put(new SimpleDateFormat("yyyyMMdd").format(debet.getDate())+"."+debet.getPatientInvoiceUid()+"."+debet.getUid(), debet);
         }
         //Breng nu de gesorteerde debets terug over naar de vector
         debets = new Vector();
@@ -607,7 +621,6 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	                        cell.setBorder(PdfPCell.BOX);
 	                        cell.setPaddingRight(5);
 	                        table.addCell(cell);
-	                        table.addCell(createEmptyCell(200));
 	
 	                        cell = createLabelCell(priceFormatInsurar.format(pageConsumablesAmount),100,7);
 	                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -629,6 +642,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	                        cell.setBorder(PdfPCell.BOX);
 	                        cell.setPaddingRight(5);
 	                        table.addCell(cell);
+	                        table.addCell(createEmptyCell(200));
 	
 	                        
 	                        //Nu de totalen toevoegen

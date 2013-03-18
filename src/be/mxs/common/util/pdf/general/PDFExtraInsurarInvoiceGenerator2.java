@@ -15,11 +15,11 @@ import be.openclinic.finance.*;
 import be.openclinic.adt.Encounter;
 import net.admin.*;
 
-public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
+public class PDFExtraInsurarInvoiceGenerator2 extends PDFInvoiceGenerator {
     String PrintType;
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
-    public PDFExtraInsurarInvoiceGenerator(User user, String sProject, String sPrintLanguage, String PrintType){
+    public PDFExtraInsurarInvoiceGenerator2(User user, String sProject, String sPrintLanguage, String PrintType){
         this.user = user;
         this.sProject = sProject;
         this.sPrintLanguage = sPrintLanguage;
@@ -50,7 +50,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
             doc.open();
 
             // get specified invoice
-            ExtraInsurarInvoice invoice = ExtraInsurarInvoice.get(sInvoiceUid);
+            ExtraInsurarInvoice2 invoice = ExtraInsurarInvoice2.get(sInvoiceUid);
 
             addHeading(invoice);
             addInsurarData(invoice);
@@ -88,7 +88,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
     }
 
     //---- ADD HEADING (logo & barcode) -----------------------------------------------------------
-    private void addHeading(ExtraInsurarInvoice invoice) throws Exception {
+    private void addHeading(ExtraInsurarInvoice2 invoice) throws Exception {
         table = new PdfPTable(5);
         table.setWidthPercentage(pageWidth);
 
@@ -136,7 +136,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
     }
 
     //--- ADD INSURAR DATA ------------------------------------------------------------------------
-    private void addInsurarData(ExtraInsurarInvoice invoice){
+    private void addInsurarData(ExtraInsurarInvoice2 invoice){
         PdfPTable table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
 
@@ -163,7 +163,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
     }
 
     //--- PRINT INVOICE ---------------------------------------------------------------------------
-    protected void printInvoice(ExtraInsurarInvoice invoice){
+    protected void printInvoice(ExtraInsurarInvoice2 invoice){
         try {
             PdfPTable table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
@@ -208,10 +208,10 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
 
     //--- GET DEBETS (prestations) ----------------------------------------------------------------
     // grouped by patient, sorted on date desc
-    private void getDebets(ExtraInsurarInvoice invoice, PdfPTable tableParent){
+    private void getDebets(ExtraInsurarInvoice2 invoice, PdfPTable tableParent){
 
         if(PrintType.equalsIgnoreCase("sortbypatient")){
-            Vector debets = ExtraInsurarInvoice.getDebetsForInvoice(invoice.getUid());
+            Vector debets = ExtraInsurarInvoice2.getDebetsForInvoice(invoice.getUid());
             if(debets.size() > 0){
                 PdfPTable table = new PdfPTable(20);
                 table.setWidthPercentage(pageWidth);
@@ -256,18 +256,18 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
 
                 for(int i=0; i<debets.size(); i++){
                     debet = (Debet)debets.get(i);
-                    if(debet.getExtraInsurarAmount()!=0){
+                    if(debet.getAmount()!=0){
 	                    table = new PdfPTable(20);
 	                    table.setWidthPercentage(pageWidth);
 	                    sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
 	                    displayPatientName = !sPatientName.equals(sPrevPatientName);
-	                    total+= debet.getExtraInsurarAmount();
+	                    total+= debet.getAmount();
 	                    printDebet(table,debet,displayPatientName);
 	                    if(displayPatientName && i>0){
 	                    	printTotal(tableParent,patienttotal);
 	                    	patienttotal=0;
 	                    }
-	                    patienttotal+= debet.getExtraInsurarAmount();
+	                    patienttotal+= debet.getAmount();
 	                    sPrevPatientName = sPatientName;
 	                    cell=new PdfPCell(table);
 	                    cell.setPadding(0);
@@ -298,7 +298,8 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
             }
         }
         else if(PrintType.equalsIgnoreCase("sortbydate")){
-            Vector debets = ExtraInsurarInvoice.getDebetsForInvoiceSortByDate(invoice.getUid());
+            Vector debets = ExtraInsurarInvoice2.getDebetsForInvoiceSortByDate(invoice.getUid());
+
             if(debets.size() > 0){
                 PdfPTable table = new PdfPTable(20);
                 table.setWidthPercentage(pageWidth);
@@ -348,7 +349,6 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                 String sPatientName, sPrevPatientName = "";
                 Date date=null,prevdate=null;
                 boolean displayPatientName,displayDate;
-
                 for(int i=0; i<debets.size(); i++){
                     table = new PdfPTable(20);
                     table.setWidthPercentage(pageWidth);
@@ -357,13 +357,13 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                     displayDate = !date.equals(prevdate);
                     sPatientName = debet.getPatientName();
                     displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName);
-                    total+= debet.getExtraInsurarAmount();
+                    total+= debet.getAmount();
                     printDebet2(table,debet,displayDate,displayPatientName);
                     if(displayPatientName){
                     	printTotal(table,patienttotal);
                     	patienttotal=0;
                     }
-                    patienttotal+= debet.getExtraInsurarAmount();
+                    patienttotal+= debet.getAmount();
                     prevdate = date;
                     sPrevPatientName = sPatientName;
                     cell=new PdfPCell(table);
@@ -396,7 +396,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
     }
 
     //--- GET CREDITS (payments) (sorted on date desc) --------------------------------------------
-    private PdfPTable getCredits(ExtraInsurarInvoice invoice){
+    private PdfPTable getCredits(ExtraInsurarInvoice2 invoice){
         PdfPTable table = new PdfPTable(20);
         table.setWidthPercentage(pageWidth);
 
@@ -540,7 +540,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
     private void printDebet2(PdfPTable invoiceTable, Debet debet, boolean displayDate,boolean displayPatientName){
         String sDebetDate = stdDateFormat.format(debet.getDate());
-        double debetAmount = debet.getExtraInsurarAmount();
+        double debetAmount = debet.getAmount();
 
         // encounter
         Encounter encounter = debet.getEncounter();

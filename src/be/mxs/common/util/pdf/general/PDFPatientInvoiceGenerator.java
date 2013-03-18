@@ -60,7 +60,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             addHeading(invoice);
             addPatientData();
             //get list of patientinsurances
-            Vector insurances = Insurance.getCurrentInsurances(patient.personid);
+            Vector insurances = Insurance.findInsurances("", "", "", "", "", patient.personid);
             for(int n=0;n<insurances.size();n++){
                 Insurance insurance = (Insurance)insurances.elementAt(n);
                 if(insurance!=null){
@@ -88,7 +88,6 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 		if(baosPDF.size() < 1){
 			throw new DocumentException("document has no bytes");
 		}
-		System.out.println("Returning baosPDF");
 
 		return baosPDF;
 	}
@@ -101,6 +100,14 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         // logo
         try{
             Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
+            Vector debets = invoice.getDebets();
+            for(int n=0;n<debets.size();n++){
+            	Debet debet = (Debet)debets.elementAt(n);
+            	if(debet.getInsurance()!=null && debet.getInsurance().getInsurarUid()!=null && MedwanQuery.getInstance().getConfigString("insurancelogo."+debet.getInsurance().getInsurarUid(),"").length()>0){
+            		img = Miscelaneous.getImage(MedwanQuery.getInstance().getConfigString("insurancelogo."+debet.getInsurance().getInsurarUid(),""),sProject);
+            		break;
+            	}
+            }
             if(img==null){
                 cell = createEmptyCell(10);
                 receiptTable.addCell(cell);
@@ -237,7 +244,18 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             //*** logo ***
             try{
                 Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-                img.scaleToFit(75, 75);
+                int imgwidth=75,imgheight=75;
+                Vector debets = invoice.getDebets();
+                for(int n=0;n<debets.size();n++){
+                	Debet debet = (Debet)debets.elementAt(n);
+                	if(debet.getInsurance()!=null && debet.getInsurance().getInsurarUid()!=null && MedwanQuery.getInstance().getConfigString("insurancelogo."+debet.getInsurance().getInsurarUid(),"").length()>0){
+                		img = Miscelaneous.getImage(MedwanQuery.getInstance().getConfigString("insurancelogo."+debet.getInsurance().getInsurarUid(),""),sProject);
+                		imgwidth=MedwanQuery.getInstance().getConfigInt("insurancelogo."+debet.getInsurance().getInsurarUid()+".width",imgwidth);
+                		imgheight=MedwanQuery.getInstance().getConfigInt("insurancelogo."+debet.getInsurance().getInsurarUid()+".height",imgheight);
+                		break;
+                	}
+                }
+                img.scaleToFit(imgwidth,imgheight);
                 cell = new PdfPCell(img);
                 cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setColspan(1);
@@ -428,7 +446,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             // saldo
             PdfPTable saldoTable = new PdfPTable(1);
             saldoTable.addCell(createGrayCell(getTran("web","invoiceSaldo").toUpperCase(),1));
-            cell = new PdfPCell(getSaldo());
+            cell = new PdfPCell(getSaldo(debets));
             cell.setPadding(cellPadding);
             saldoTable.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
             table.addCell(createCell(new PdfPCell(saldoTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
@@ -788,7 +806,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
     }
 
     //--- GET SALDO -------------------------------------------------------------------------------
-    private PdfPTable getSaldo(){
+    private PdfPTable getSaldo(Vector debets){
         PdfPTable table = new PdfPTable(20);
         table.setWidthPercentage(pageWidth);
 
@@ -816,10 +834,38 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         cell.setPaddingRight(5);
         table.addCell(cell);
-
         double saldo = (this.patientDebetTotal - Math.abs(this.creditTotal));
         table.addCell(createTotalPriceCell(saldo,3));
         table.addCell(createEmptyCell(3));
+
+        
+        double complementaryinsurar = 0;
+        String sComplementaryInsurars="";
+        for (int n=0;n<debets.size();n++){
+        	Debet debet = (Debet)debets.elementAt(n);
+        	if(debet.getExtraInsurarUid2()!=null && debet.getExtraInsurarUid2().length()>0){
+        		Insurar e2 = Insurar.get(debet.getExtraInsurarUid2());
+        		if(e2!=null){
+        			String sName = e2.getName();
+        			if(sComplementaryInsurars.indexOf(sName)<0){
+        				if(sComplementaryInsurars.length()>0){
+        					sComplementaryInsurars+=", ";
+        				}
+        				sComplementaryInsurars+=sName;
+        			}
+        		}
+        		complementaryinsurar+=debet.getAmount();
+        	}
+        }
+        // complementary insurar
+        table.addCell(createEmptyCell(9));
+        cell = createBoldLabelCell(getTran("web","complementarycoverage2").toUpperCase()+" ("+sComplementaryInsurars+")",5);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        cell.setPaddingRight(5);
+        table.addCell(cell);
+        table.addCell(createTotalPriceCell(complementaryinsurar,3));
+        table.addCell(createEmptyCell(3));
+
 
         return table;
     }
