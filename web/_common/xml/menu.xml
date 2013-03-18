@@ -54,6 +54,7 @@
             <Menu labelid="patientInvoiceEdit" patientselected="true" accessrights="financial.patientinvoice.edit" url="/main.do?Page=financial/patientInvoiceEdit.jsp"/>
             <Menu labelid="insuranceInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/insuranceInvoiceEdit.jsp"/>
             <Menu labelid="extraInsuranceInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/extraInsuranceInvoiceEdit.jsp"/>
+            <Menu labelid="extraInsuranceInvoiceEdit2" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/extraInsuranceInvoiceEdit2.jsp"/>
             <Menu labelid="searchInvoice" accessrights="financial.insuranceinvoice.select" url="/main.do?Page=financial/searchInvoice.jsp"/>
             <Menu labelid="updateInvoice" accessrights="financial.invoiceupdate.edit" url="/main.do?Page=financial/updateInvoice.jsp"/>
         </Menu>

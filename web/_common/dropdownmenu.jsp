@@ -4,6 +4,7 @@
 <%@page errorPage="/includes/error.jsp" %>
 <%@include file="/_common/templateAddIns.jsp" %>
 <script type="text/javascript" src="<c:url value='/_common/_script/menu.js'/>"></script>
+
 <%!//### INNERCLASS MENU #########################################################################
 
     public class Menu {
@@ -144,9 +145,7 @@
     window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
 <%} else if (sPersonID.length() > 0) {
-		Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        activePatient = AdminPerson.getAdminPerson(ad_conn, sPersonID);
-        ad_conn.close();
+        activePatient = AdminPerson.getAdminPerson(sPersonID);
         session.setAttribute("activePatient", activePatient);
 %>
 <script type="text/javascript">
@@ -156,9 +155,7 @@
     sPersonID = checkString(request.getParameter("PersonID"));
     if (sPersonID.length() > 0) {
         session.removeAttribute("activePatient");
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        activePatient = AdminPerson.getAdminPerson(ad_conn, sPersonID);
-        ad_conn.close();
+        activePatient = AdminPerson.getAdminPerson(sPersonID);
     }
 }
 	//First check if user has access to the active patient
@@ -363,6 +360,10 @@
             url = "<c:url value='/main.do'/>?Page=financial/patientInvoiceEdit.jsp&ts=<%=ScreenHelper.getTs()%>&LoadPatientId=true&FindPatientInvoiceUID=" + barcode.substring(1);
         	window.location.href = url;
         }
+        else if (barcode.substring(0, 1) == "8") {
+            url = "<c:url value='/main.do'/>?Page=financial/patientCreditEdit.jsp&ts=<%=ScreenHelper.getTs()%>&LoadPatientId=true&FindPatientCreditUID=" + barcode.substring(1);
+        	window.location.href = url;
+        }
     }
     function readBarcode3(barcode) {
         var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
@@ -390,7 +391,7 @@
     <%
     if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
     %>
-        openPopup("_common/readFingerPrint.jsp&ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName()+"/"+sCONTEXTPATH%>", 400, 300);
+        openPopup("_common/readFingerPrint.jsp&ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName()+"/"+sCONTEXTPATH%>", 400, 100);
     <%
     }
     else{
@@ -461,6 +462,27 @@
             var w = window.open('<c:url value='/medical/deletePaperPrescription.jsp'/>?ts=<%=getTs()%>&prescriptionuid=' + prescriptionuid, "delete", "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no");
         }
     }
+    
+    function getPOSPrinterServer(){
+		var POSPrinterServer='http://localhost/openclinic';
+	    var url= '<%=MedwanQuery.getInstance().getConfigString("javaPOSServer","http://localhost/openclinic")%>/util/getPOSPrinterServer.jsp';
+	    new Ajax.Request(url,{
+			method: "GET",
+	        parameters: "",
+	        onSuccess: function(resp){
+		       	var label = eval('('+resp.responseText+')');
+		       	if(label.server.length>0){
+		           	POSPrinterServer=label.server;
+		        };
+	        },
+			onFailure: function(){
+            }
+        }
+		);
+		return POSPrinterServer;
+	}
+	    
+    
     <%-- CONFIRM LOGOUT --%>
     function confirmLogout() {
         if (verifyPrestationCheck()) {
@@ -601,5 +623,20 @@
     <%
       }
     %>
+    
+    function addAutoCompleter(key,id,div){
+		new Ajax.Autocompleter(id,div,'util/loadAutoCompleteItems.jsp?key='+key,
+		{   
+			minChars: 1,
+		    method: 'post',
+		    callback:genericEventDateCallback
+		});
+    }
+	
+	function genericEventDateCallback(element, entry) {
+	    var serialized =  "search="+element.value;
+      	return serialized;
+	}
+
 </script>
 

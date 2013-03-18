@@ -127,6 +127,12 @@
                         <%=writeDateField("EditBegin", "EditForm", new SimpleDateFormat("01/MM/yyyy").format(previousmonth), sWebLanguage)%>
                         <%=getTran("web","to",sWebLanguage)%>
                         <%=writeDateField("EditEnd", "EditForm", new SimpleDateFormat("dd/MM/yyyy").format(previousmonth), sWebLanguage)%>
+		               <input type="hidden" name="EditInvoiceService" id="EditInvoiceService" value="">
+                        <% if(insurarInvoice==null || insurarInvoice.getStatus()==null || insurarInvoice.getStatus().equalsIgnoreCase("open")){ %>
+			               <input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">
+			               <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
+			               <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
+						<%}%>                        
                         &nbsp;<input type="button" class="button" name="update" value="<%=getTran("web","update",sWebLanguage)%>" onclick="changeInsurar();"/>
                         &nbsp;<input type="button" class="button" name="updateBalance" value="<%=getTranNoLink("web","updateBalance",sWebLanguage)%>" onclick="updateBalance();"/>
                     </td>
@@ -208,6 +214,20 @@
                             <option value="ramanew" <%=defaultmodel.equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
                             <option value="ctams" <%=defaultmodel.equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
                             <option value="ramacsv" <%=defaultmodel.equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
+		                    <%
+		                    	if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
+		                    %>
+	                            <option value="mfp" <%=defaultmodel.equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
+                        	<%
+                   				}
+		                    	if(MedwanQuery.getInstance().getConfigInt("enableBurundi",0)==1){
+		                    %>
+	                            <option value="ascoma" <%=defaultmodel.equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
+	                            <option value="brarudi" <%=defaultmodel.equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
+	                            <option value="ambusa" <%=defaultmodel.equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
+                        	<%
+                   				}
+                        	%>
                         </select>
                             <%
                                 if(insurarInvoice.getStatus().equalsIgnoreCase("closed")){
@@ -409,6 +429,7 @@ function changeInsurar() {
     var pb= 'InsurarUid=' + EditForm.EditInsurarUID.value
             + '&EditBegin=' + EditForm.EditBegin.value
             + '&EditEnd=' + EditForm.EditEnd.value
+            + '&EditInvoiceService=' + EditForm.EditInvoiceService.value
             + '&EditInsurarInvoiceUID=<%=checkString(insurarInvoice.getUid())%>';
 
     new Ajax.Request(url, {
@@ -420,7 +441,7 @@ function changeInsurar() {
             s=s.replace(/<2>/g,"' onclick='doBalance(this, true)' ");
             $('divPrestations').innerHTML = s;
             tot=tot+countDebets();
-            document.getElementById('EditBalance').value=tot;
+            document.getElementById('EditBalance').value=format_number(tot, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
         },
         onFailure: function() {
         }
@@ -436,7 +457,7 @@ function changeInsurar() {
         onSuccess: function(resp) {
             $('divCredits').innerHTML = resp.responseText;
             tot=tot-countCredits();
-            document.getElementById('EditBalance').value=tot;
+            document.getElementById('EditBalance').value=format_number(tot, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
         },
         onFailure: function() {
         }
@@ -449,6 +470,12 @@ function changeInsurar() {
         document.getElementById('period').style.visibility='hidden';
     }
 }
+
+function searchService(serviceUidField,serviceNameField){
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+    document.getElementById(serviceNameField).focus();
+}
+
 
 FindForm.FindInsurarInvoiceUID.focus();
 loadOpenInsurarInvoices();

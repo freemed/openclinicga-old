@@ -10,7 +10,35 @@
 <%=sJSSTRINGFUNCTIONS%>
 <%=sJSPROTOTYPE%>
 <%
-    PatientCredit credit=null;
+String sFindPatientCreditUID = checkString(request.getParameter("FindPatientCreditUID"));
+PatientCredit credit=null;
+String sPatientId="";
+
+if (sFindPatientCreditUID.length() > 0) {
+    credit = PatientCredit.get(MedwanQuery.getInstance().getConfigString("serverId")+"."+sFindPatientCreditUID);
+    if (credit!=null && credit.getDate()!=null){
+        sPatientId = credit.getEncounter().getPatientUID();
+        if(request.getParameter("LoadPatientId")!=null && (activePatient==null || !sPatientId.equalsIgnoreCase(activePatient.personid))){
+        	if(activePatient==null){
+        		activePatient=new AdminPerson();
+        		session.setAttribute("activePatient",activePatient);
+        	}
+        	activePatient.initialize(sPatientId);
+        }
+    	%>
+    	<script>
+    		url='<c:url value="/main.do"/>?Page=financial/patientCreditEdit.jsp&ts=<%=ScreenHelper.getTs()%>&EditCreditUid=<%=credit.getUid()%>';
+    		window.location.href=url;
+    	</script>
+    	<%
+    	out.flush();
+    }
+    else{
+    	out.println(getTran("web","credit.does.not.exist",sWebLanguage)+": "+sFindPatientCreditUID);
+    }
+
+} 
+
     String sAction = checkString(request.getParameter("Action"));
     String sScreenType = checkString(request.getParameter("ScreenType"));
 
@@ -357,7 +385,7 @@
         <tr>
             <td class="admin"/>
             <td class="admin2">
-                <input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
+                <input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
                 <div id="printsection" name="printsection" style="visibility: hidden">
                     <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>
 
@@ -411,9 +439,9 @@
   }
 
   function doPrintPatientPaymentReceipt(){
-      var params = '';
+  	  var params = '';
       var today = new Date();
-      var url= '<c:url value="/financial/printPaymentReceipt.jsp"/>?credituid='+document.getElementById('EditCreditUid').value+'&ts='+today;
+      var url= '<c:url value="/financial/printPaymentReceiptOffline.jsp"/>?credituid='+document.getElementById('EditCreditUid').value+'&ts='+today+'&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>';
       new Ajax.Request(url,{
 				method: "GET",
               parameters: params,
@@ -564,6 +592,14 @@ if (sScreenType.equals("")){
     EditForm.EditCreditEncounterName.value = encName;
     EditForm.EditCreditDescription.value = descr;
     EditForm.EditCreditInvoiceUid.value = invoiceUid;
+    if(EditForm.EditCreditWicketUid.value==wicketuid){
+        document.getElementById("buttonSave").style.visibility='visible';
+        document.getElementById("EditCreditWicketUid").style.visibility='visible';
+    }
+    else {
+        document.getElementById("buttonSave").style.visibility='hidden';
+        document.getElementById("EditCreditWicketUid").style.visibility='hidden';
+    }
 
     if (invoiceUid.indexOf(".")>-1){
         EditForm.EditCreditInvoiceNr.value = invoiceUid.split(".")[1];
@@ -577,6 +613,8 @@ if (sScreenType.equals("")){
   }
 
   function clearEditFields(){
+    document.getElementById("buttonSave").style.visibility='visible';
+    document.getElementById("EditCreditWicketUid").style.visibility='visible';
     EditForm.EditCreditUid.value = "";
     EditForm.EditCreditDate.value = "<%=getDate()%>";
     EditForm.EditCreditInvoiceUid.value = "";

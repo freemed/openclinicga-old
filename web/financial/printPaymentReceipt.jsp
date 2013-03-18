@@ -44,6 +44,10 @@
 				//Afdrukken van betalingsgegevens
 				content+=printer.LEFT+printer.UNDERLINE+getTran("web","payments",sWebLanguage)+printer.NOTUNDERLINE+printer.LF;
 	            content+=printer.LEFT+new SimpleDateFormat("dd/MM/yyyy").format(credit.getDate())+"  "+getTran("credit.type",credit.getType(),sWebLanguage)+": "+priceFormat.format(credit.getAmount())+" "+sCurrency+printer.LF;
+	            if(credit.getComment()!=null && credit.getComment().length()>0){
+					content+=printer.LEFT+"---------------------------------------------------------------------------------".substring(0,48)+printer.LF;
+	            	content+=printer.LEFT+credit.getComment()+printer.LF;
+	            }
 				//Totale kost en betalingen
 				content+=printer.LEFT+printer.UNDERLINE+"                                                                              ".substring(0,48)+printer.NOTUNDERLINE+printer.LF;
 				content+=printer.LEFT+printer.DOUBLE+getTran("web","total",sWebLanguage)+": "+priceFormat.format(credit.getAmount())+" "+sCurrency+printer.NOTBOLD+printer.REGULAR+printer.LF;

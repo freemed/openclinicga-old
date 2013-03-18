@@ -1,6 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%//=checkPermission("occupmanagelabanalysis","select",activeUser)%>
 
@@ -410,7 +409,7 @@
                   <td><%=iTotal%> <%=getTran("Web","recordsFound",sWebLanguage)%></td>
                   <td align="right">
                       <img src='<c:url value="/_img/pijl.gif"/>'>
-                      <a class="menuItem" href="<c:url value='/main.do'/>?Page=healthrecord/manageLabProfiles_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
+                      <a  href="<c:url value='/main.do'/>?Page=healthrecord/manageLabProfiles_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
                   </td>
               </tr>
           </table>
@@ -698,7 +697,7 @@
 
   <%-- link to labprofiles --%>
   <img src='<c:url value="/_img/pijl.gif"/>'>
-  <a class="menuItem" href="<c:url value='/main.do'/>&Page=healthrecord/manageLabProfiles_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
+  <a  href="<c:url value='/main.do'/>&Page=healthrecord/manageLabProfiles_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 
 <script>

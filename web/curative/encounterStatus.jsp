@@ -89,21 +89,26 @@
                     %>
                     <td><%=getTran("web","careprovider",sWebLanguage)%></td>
                 </tr>
-                <tr class='list' onmouseover="this.style.cursor='hand';"
+                <tr class='<%=activeEncounter.getEnd()==null?"list":"listDisabled"%>' onmouseover="this.style.cursor='hand';"
                                  onmouseout="this.style.cursor='default';"
                                  onclick="goEdit('<%=activeEncounter.getUid()%>');">
                     <td>
                         <b><%=checkString(activeEncounter.getUid())%></b>
+                        <img src="<c:url value='/_img/icon_edit.gif'/>"  style="vertical-align:-4px;" class="link" alt="<%=getTran("web","edit",sWebLanguage)%>" onclick="goEdit('<%=activeEncounter.getUid()%>');">
                         <%
-                            if(activeEncounter.getDurationInDays()>Encounter.getAccountedAccomodationDays(activeEncounter.getUid())){
-                                %>
-                                    <img class="link" src="<c:url value='/_img/money.gif'/>"/>
-                                <%
-                            }
+	                        if(activeEncounter.getType().equalsIgnoreCase("admission") && activeEncounter.getDurationInDays()>Encounter.getAccountedAccomodationDays(activeEncounter.getUid())){
+	                            %>
+	                                <img class="link" src="<c:url value='/_img/money.gif'/>"  style="vertical-align:-4px;"/>
+	                            <%
+	                        }
+	                        if(activeEncounter.getEnd()!=null){
+	                            %>
+	                                <img class="link" src="<c:url value='/_img/keywords.gif'/>"  style="vertical-align:-4px;"/>
+	                            <%
+	                        }
                         %>
                     </td>
                     <td>
-                        <img src="<c:url value='/_img/icon_edit.gif'/>" class="link" alt="<%=getTran("web","edit",sWebLanguage)%>" onclick="goEdit('<%=activeEncounter.getUid()%>');">
                         <b><%=getTran("web",checkString(activeEncounter.getType()),sWebLanguage)%></b>
                     </td>
                     <td>
@@ -139,9 +144,7 @@
                         User manager = activeEncounter.getManager();
 
                         if((manager!=null)&&(manager.userid != null) && (manager.userid.length() > 0)){
-                            Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                            out.print(ScreenHelper.getFullUserName(manager.userid,ad_conn));//MedwanQuery.getInstance().getUser(sArts).getPersonVO().personId+"",dbConnection));
-                            ad_conn.close();
+                            out.print(ScreenHelper.getFullUserName(manager.userid));
                         }
                     %>
                     </td>

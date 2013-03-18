@@ -3,7 +3,7 @@
 <%@ page errorPage="/includes/error.jsp" %>
 <%@ include file="/includes/validateUser.jsp" %>
 <%!
-    public String createEncounterInfo(String sEncounterUID, String sLanguage, Connection dbConnection) {
+    public String createEncounterInfo(String sEncounterUID, String sLanguage) {
         String sOutput;
 
         Encounter eTmp;
@@ -22,7 +22,6 @@
         } else {
             sEnd = "";
         }
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
 
         sOutput = "<table class='list' width='100%' cellspacing='1' cellpadding='0'>" +
                 "<tr>" +
@@ -43,7 +42,7 @@
                 "<tr>" +
                 "<td class='admin'>" + getTran("Web", "manager", sLanguage) + "</td>" +
                 "<td class='admin2'>" +
-                (checkString(eTmp.getManagerUID()).length() > 0 ? ScreenHelper.getFullPersonName("" + MedwanQuery.getInstance().getPersonIdFromUserId(Integer.parseInt(eTmp.getManagerUID())), ad_conn) : "") +
+                (checkString(eTmp.getManagerUID()).length() > 0 ? ScreenHelper.getFullPersonName("" + MedwanQuery.getInstance().getPersonIdFromUserId(Integer.parseInt(eTmp.getManagerUID()))) : "") +
                 "</td>" +
                 "</tr>" +
                 "<tr>" +
@@ -51,12 +50,6 @@
                 "<td class='admin2'>" + getTran("Service", checkString(eTmp.getServiceUID()), sLanguage) + "</td>" +
                 "</tr>" +
                 "</table>";
-                try{
-                	ad_conn.close();
-                }
-                catch(Exception e){
-                	e.printStackTrace();
-                }
         return sOutput;
     }
 %>
@@ -110,9 +103,7 @@
                     sSelectable = "";//onclick=\"editEncounter('" + sEncounterUid + "');\"";
                 }
 
-            	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                sPatientName = ScreenHelper.getFullPersonName((String) hOccupiedInfo.get("patientUid"), ad_conn);
-                ad_conn.close();
+                sPatientName = ScreenHelper.getFullPersonName((String) hOccupiedInfo.get("patientUid"));
                 sClassOccupied = "occupied";
             } else {
                 //if not occupied
@@ -138,16 +129,14 @@
                     .append("<td " + sSelectable + ">" + sPatientName + "</td>")
                     .append("</tr>");
             if (bStatus.booleanValue()) {
-                Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                 results.append(
                         "<tr id='" + tmpBed.getUid() + "' style='display: none;'>" +
                                 "<td/>" +
                                 "<td/>" +
                                 "<td colspan='2'>" +
-                                createEncounterInfo(sEncounterUid, sWebLanguage, oc_conn) +
+                                createEncounterInfo(sEncounterUid, sWebLanguage) +
                                 "</td>" +
                                 "</tr>");
-                oc_conn.close();
             }
             sPatientName = "";
         }

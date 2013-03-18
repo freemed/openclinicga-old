@@ -60,9 +60,6 @@
                     for (int n=0; n<codes.size(); n++){
                         foundRecords++;
                         code = (ICPCCode)codes.elementAt(n);
-						System.out.println(code);
-						System.out.println(code.code);
-						System.out.println(code.label);
                         if(!oldcodelabel.equalsIgnoreCase(code.label)){
                             oldcodelabel=code.label;
                             if (code.code.length()>=5 || code.code.startsWith("I")){

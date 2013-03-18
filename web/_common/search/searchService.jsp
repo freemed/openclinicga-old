@@ -88,7 +88,7 @@
                 window.opener.document.getElementsByName('<%=sVarCode%>')[0].onchange();
             }
         }
-
+        
         window.close();
     }
 

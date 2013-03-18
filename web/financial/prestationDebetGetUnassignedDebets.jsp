@@ -17,29 +17,19 @@
                 sDebetUID = checkString((String) vDebets.elementAt(i));
 
                 if (sDebetUID.length() > 0) {
-					System.out.println("sDebetUID="+sDebetUID+"*");
                     debet = PrestationDebet.get(sDebetUID);
 
                     if (debet != null) {
                         sEncounterName = "";
                         sPatientName = "";
-						System.out.println("debet.getEncounterUid()="+debet.getEncounterUid());
 
                         if (checkString(debet.getEncounterUid()).length() > 0) {
                             encounter = debet.getEncounter();
-    						System.out.println("encounter="+encounter);
 
                             if (encounter != null) {
                                 sEncounterName = getTran("web","insurance.coverage",sWebLanguage);
-                            	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                                sPatientName = ScreenHelper.getFullPersonName(encounter.getPatientUID(), ad_conn);
-                                try{
-                                	ad_conn.close();
-                                }
-                                catch(Exception e){
-                                	e.printStackTrace();
-                                }
-                            }
+                                sPatientName = ScreenHelper.getFullPersonName(encounter.getPatientUID());
+                             }
                         }
 
                         sPrestationDescription = "";

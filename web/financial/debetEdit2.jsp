@@ -168,18 +168,7 @@
 				<%=getTran("web","prestationgroups",sWebLanguage) %>
 				<select class="text" name="EditPrestationGroup" id="EditPrestationGroup" onchange="document.getElementById('EditPrestationName').value='';changePrestation(false)">
                     <option/>
-					<%
-						String sSql="select * from oc_prestation_groups order by oc_group_description";
-				        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-						PreparedStatement ps=oc_conn.prepareStatement(sSql);
-						ResultSet rs = ps.executeQuery();
-						while(rs.next()){
-							out.println("<option value='"+rs.getInt("oc_group_serverid")+"."+rs.getInt("oc_group_objectid")+"'>"+rs.getString("oc_group_description")+"</option>");
-						}
-                        rs.close();
-                        ps.close();
-                        oc_conn.close();
-					%>
+					<%=ScreenHelper.getPrestationGroupOptions()%>
 				</select>
             </td>
         </tr>

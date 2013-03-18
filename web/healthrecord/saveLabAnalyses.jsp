@@ -1,4 +1,4 @@
-<%@page import="be.openclinic.medical.RequestedLabAnalysis"%>
+<%@page import="be.openclinic.medical.*,be.mxs.common.util.system.*,be.openclinic.finance.*"%>
 <%@ page import="java.util.*" %>
 <%@ page import="be.openclinic.medical.Labo" %>
 <%@page errorPage="/includes/error.jsp"%>
@@ -74,13 +74,15 @@
     // delete specified analyses
     Iterator iterator = analysesToDelete.iterator();
     while (iterator.hasNext()) {
-        RequestedLabAnalysis.delete(Integer.parseInt(sServerId), Integer.parseInt(sTransactionId), (String) iterator.next());
+		analysisCode=(String) iterator.next();
+        RequestedLabAnalysis.delete(Integer.parseInt(sServerId), Integer.parseInt(sTransactionId), analysisCode);
+        Pointer.deletePointers("LAB."+sServerId+"."+sTransactionId+"."+analysisCode);
     }
 
     // sort analysis-codes to be saved
     Vector codes = new Vector(labAnalysesToSave.keySet());
     Collections.sort(codes);
-
+	Hashtable allanalyses = LabAnalysis.getAllLabanalyses();
     for (int i = 0; i < codes.size(); i++) {
         analysisCode = (String) codes.get(i);
         comment = (String) labAnalysesToSave.get(analysisCode);
@@ -94,6 +96,10 @@
             labAnalysis.setAnalysisCode(analysisCode);
             labAnalysis.setComment(comment);
             labAnalysis.store();
+            LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
+            if(a!=null && a.getPrestationcode()!=null && a.getPrestationcode().length()>0){
+				Debet.createAutomaticDebet("LAB."+sServerId+"."+sTransactionId+"."+analysisCode, activePatient.personid, a.getPrestationcode(), activeUser.userid);
+		    }
         }
 
         // get default-labanalysis-data from DB

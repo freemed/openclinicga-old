@@ -32,11 +32,9 @@
                                 %>
                                     <%-- source id --%>
                                     <%
-	                                	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                                        String sSourceFullName      = ScreenHelper.getFullPersonName(afr.sourceId+"",ad_conn),
-                                               sDestinationFullName = ScreenHelper.getFullPersonName(afr.destinationId+"",ad_conn),
+                                        String sSourceFullName      = ScreenHelper.getFullPersonName(afr.sourceId+""),
+                                               sDestinationFullName = ScreenHelper.getFullPersonName(afr.destinationId+""),
                                                sRelationType        = getTran("admin.familyrelation",afr.relationType,sWebLanguage);
-                                        ad_conn.close();
                                     %>
                                     <tr class="list<%=sClass%>" >
                                         <td>&nbsp;</td>

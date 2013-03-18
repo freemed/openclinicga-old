@@ -45,9 +45,7 @@
             srcDestUid = operation.getSourceDestination().getObjectUid();
 
             if (srcDestType.equals("patient")) {
-              	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                srcDestName = ScreenHelper.getFullPersonName(srcDestUid, ad_conn);
-                ad_conn.close();
+                srcDestName = ScreenHelper.getFullPersonName(srcDestUid);
             } else if (srcDestType.equals("servicestock")) {
                 ServiceStock serviceStock =ServiceStock.get(srcDestUid);
                 if(serviceStock!=null){
@@ -224,9 +222,7 @@
                 sSelectedSrcDestUid  = operation.getSourceDestination().getObjectUid();
 
                 if(sSelectedSrcDestType.indexOf("patient") > -1 || sSelectedSrcDestType.indexOf("medic") > -1){
-                  	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                    sSelectedSrcDestName = ScreenHelper.getFullPersonName(sSelectedSrcDestUid,ad_conn);
-                    ad_conn.close();
+                    sSelectedSrcDestName = ScreenHelper.getFullPersonName(sSelectedSrcDestUid);
                 }
                 else if(sSelectedSrcDestType.indexOf("service") > -1){
                     sSelectedSrcDestName = getTran("service",sSelectedSrcDestUid,sWebLanguage);

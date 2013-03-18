@@ -17,7 +17,6 @@
 		year = new SimpleDateFormat("yyyy").format(date);
 		month = new SimpleDateFormat("MM").format(date);
 	}
-	System.out.println("=================date: "+date);
 %>
 <form name='transactionForm' method='post'>
 <table>
@@ -73,13 +72,9 @@
 		ProductStock productStock = (ProductStock)productStocks.elementAt(n);
 		if(productStock.getProduct()!=null){
 			start = productStock.getLevel(date);
-			System.out.println("incoming");
 			incoming = productStock.getTotalUnitsInForMonth(date);
-			System.out.println("outgoingvisits");
 			outgoingvisits = productStock.getTotalVisitUnitsOutForMonth(date);
-			System.out.println("outgoingadmissions");
 			outgoingadmissions = productStock.getTotalAdmissionUnitsOutForMonth(date);
-			System.out.println("outgoing");
 			outgoing = productStock.getTotalUnitsOutForMonth(date);
 			double buyingprice=productStock.getProduct().getUnitPrice();
 			double sellingprice=0;

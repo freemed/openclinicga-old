@@ -3,8 +3,8 @@
 <%!
 	public String getItemValue(String[] prestations,int column, int row){
 		for(int n=0;n<prestations.length;n++){
-			if(prestations[n].split("\\.").length==3 && Integer.parseInt(prestations[n].split("\\.")[1])==column && Integer.parseInt(prestations[n].split("\\.")[2])==row){
-				return prestations[n].split("\\.")[0];
+			if(prestations[n].split("£").length==2 && prestations[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(prestations[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(prestations[n].split("£")[1].split("\\.")[1])==row){
+				return prestations[n].split("£")[0];
 			}
 		}
 		return "";

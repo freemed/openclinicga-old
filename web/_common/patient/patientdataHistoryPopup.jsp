@@ -14,9 +14,7 @@
     response.setHeader("Pragma", "no-cache");
     String personid = request.getParameter("personid");
     java.util.Date updatetime = new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(request.getParameter("updatetime"));
-	Connection conn = MedwanQuery.getInstance().getAdminConnection();
-    AdminPerson activeHistoryPatient = AdminPerson.getAdminHistoryPerson(conn,personid,updatetime);
-    conn.close();
+    AdminPerson activeHistoryPatient = AdminPerson.getAdminHistoryPerson(personid,updatetime);
 %>
 <table width="100%" class="list" cellspacing="1">
     <tr>

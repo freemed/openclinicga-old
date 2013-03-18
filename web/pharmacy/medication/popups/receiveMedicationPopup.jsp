@@ -489,7 +489,6 @@
 	   	                            document.getElementById('EditSrcDestName').readOnly=true;
 	   	                        <%
 								}
-								System.out.println("0.1");
 	   	                        %>
 								document.getElementById('documentline').style.visibility="visible";
 
@@ -505,13 +504,11 @@
 	                        else if(srcDestType.indexOf('supplier') > -1){
 								document.getElementById('documentline').style.visibility="visible";
     							<%
-System.out.println("1");
     							if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)!=1){
 								%>
 		                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";
 	   	                        <%
 								}
-    							System.out.println("2");
 	   	                        %>
 
 	                            document.getElementById('EditSrcDestName').readOnly=false;

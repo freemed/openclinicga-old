@@ -194,6 +194,16 @@
                             <option value="sortbydate" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbydate")?"selected":""%>><%=getTran("web","sortbydate",sWebLanguage)%></option>
                             <option value="sortbypatient" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbypatient")?"selected":""%>><%=getTran("web","sortbypatient",sWebLanguage)%></option>
                         </select>
+                        <%
+                        	String defaultmodel=MedwanQuery.getInstance().getConfigString("defaultExtraInvoiceModel","default");
+                        	if(insurarInvoice.getInsurar()!=null && insurarInvoice.getInsurar().getDefaultInsurarInvoiceModel()!=null){
+                        		defaultmodel=insurarInvoice.getInsurar().getDefaultInsurarInvoiceModel();
+                        	}
+                        %>
+                        <select class="text" name="PrintModel">
+                            <option value="default" <%=defaultmodel.equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
+                            <option value="mfp" <%=defaultmodel.equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
+                        </select>
                             <%
                                 if(insurarInvoice.getStatus().equalsIgnoreCase("closed")){
                             %>
@@ -337,7 +347,7 @@ function doBalance(oObject, bAdd) {
 
 <%-- PRINT PDF --%>
 function doPrintPdf(invoiceUid) {
-    var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid=" + invoiceUid + "&ts=<%=getTs()%>&PrintLanguage=" + EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value;
+    var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid=" + invoiceUid + "&ts=<%=getTs()%>&PrintLanguage=" + EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
     window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
 }
 

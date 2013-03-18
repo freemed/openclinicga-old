@@ -32,6 +32,7 @@
         out.print(inputRow("Web","Lastname","Lastname","Admin",activePatient.lastname,"T",true, true,sWebLanguage)
             +inputRow("Web","Firstname","Firstname","Admin",activePatient.firstname,"T",true, true,sWebLanguage)
             +inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"Dp",true,false,sWebLanguage)
+            +inputRow("Web","NativeTown","NativeTown","Admin",activePatient.nativeTown,"T",true,true,sWebLanguage)
             +writeCountry(activePatient.nativeCountry, "NativeCountry", "Admin", "NativeCountryDescription", true, "NativeCountry",sWebLanguage)
             +"<tr><td class='admin'>"+getTran("web","personid",sWebLanguage)+"</td><td class='admin2'>"+activePatient.personid+"</td></tr>"
             +inputRow("Web","immatnew","ImmatNew","Admin",activePatient.getID("immatnew"),"T",true,true,sWebLanguage)
@@ -89,6 +90,7 @@
           +inputRow("Web","treating-physician","TreatingPhysician","Admin",activePatient.comment1,"T",true,false,sWebLanguage)
           +normalRow("Web","civilstatus","CivilStatus","Admin",sWebLanguage)+sCivilStatus+"</td></tr>"
           +inputRow("Web","comment3","Comment3","Admin",activePatient.comment3,"T",true, false,sWebLanguage) 
+          +inputRow("Web","comment5","Comment5","Admin",activePatient.comment5,"T",true, false,sWebLanguage) 
           +(activePatient.isDead()!=null?inputRow("Web","deathcertificateon","DeathCertificateOn","Admin",checkString((String)activePatient.adminextends.get("deathcertificateon")),"T",true,false,sWebLanguage)
           +inputRow("Web","deathcertificateto","DeathCertificateTo","Admin",checkString((String)activePatient.adminextends.get("deathcertificateto")),"T",true,false,sWebLanguage):"")
 	      +inputRow("Web","comment","Comment","Admin",activePatient.comment,"T",true, false,sWebLanguage)

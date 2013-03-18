@@ -11,6 +11,7 @@
     String sVarTyp = checkString(request.getParameter("VarTyp"));
     String sVarTypName = checkString(request.getParameter("VarTypName"));
     String sVarCompUID = checkString(request.getParameter("VarCompUID"));
+    String sVarFunction = checkString(request.getParameter("VarFunction"));
 
 %>
 <form name='SearchForm' method="POST" onSubmit="doFind();return false;" onsubmit="doFind();return false;">
@@ -96,7 +97,11 @@
             if ('<%=sVarTypName%>' != '') {
                 window.opener.document.getElementsByName('<%=sVarTypName%>')[0].value = sInsuranceTypeName;
             }
-
+			<% 	
+				if (sVarFunction.length()>0) {
+                	out.print("window.opener."+sVarFunction+";");
+            	}
+			%>
             window.close();
         }
         window.setTimeout("document.getElementsByName('FindInsurarName')[0].focus();document.getElementsByName('FindInsurarName')[0].select();", 100);

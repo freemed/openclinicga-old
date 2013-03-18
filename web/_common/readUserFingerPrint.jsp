@@ -1,131 +1,148 @@
-<%@ page import="be.openclinic.id.FingerPrint" %>
-<%@ page import="be.mxs.common.util.system.ScreenHelper" %>
-<%@ page import="sun.misc.BASE64Decoder" %>
-<%@ page import="sun.misc.BASE64Encoder" %>
-<%@ page import="com.griaule.grfingerjava.Template" %>
-<%@ page import="net.admin.User" %>
-<%@ page import="java.util.Vector" %>
-<%@include file="../includes/SingletonContainer.jsp"%>
-<%!
-    //--- ENCODE ----------------------------------------------------------------------------------
-    public String encode(byte[] sValue) {
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encodeBuffer(sValue);
-    }
-
-    //--- DECODE ----------------------------------------------------------------------------------
-    public byte[] decode(String sValue) {
-        byte[] sReturn = null;
-        BASE64Decoder decoder = new BASE64Decoder();
-
-        try {
-            sReturn = decoder.decodeBuffer(sValue);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return sReturn;
-    }
-    static public String checkString(String sString) {
-        // om geen 'null' weer te geven
-        if ((sString==null)||(sString.toLowerCase().equals("null"))) {
-            return "";
-        }
-        else {
-            sString = sString.trim();
-        }
-        return sString;
-    }
-%>
+<%@include file="/includes/helper.jsp"%>
 <head>
-    <link href='<%=request.getRequestURI().replaceAll(request.getServletPath(),"")%>/_common/_css/web.css' rel='stylesheet' type='text/css'>
-    <link href='<%=request.getRequestURI().replaceAll(request.getServletPath(),"")%>/"<%=checkString((String) session.getAttribute("activeProjectDir"))%>"/_common/_css/web.css' rel='stylesheet' type='text/css'>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-    <meta http-equiv="pragma" content="no-cache"/>
-    <meta http-equiv="cache-control" content="no-cache"/>
-    <META HTTP-EQUIV="Expires" CONTENT="-1"/>
+    <%=sCSSNORMAL%>
+    <%=sJSPROTOTYPE%>
 </head>
+
 <body onload="javascript:res();">
-<script type="text/javascript">
+<script type="text/javascript">  
+   	var _app = navigator.appName;
+  	
+  	function onErrorHandler() {
+        alert("Error");
+    }
+  	
+  	function onLoadHandler(){
+  		document.UareUApplet.SelectFormatISO();
+	}
+
+    function onDisconnectedHandler() {
+        setTimeout('document.getElementById("readerID").innerHTML="<%=getTranNoLink("web","no.reader","en")%>"');
+    }
+
+    function onConnectedHandler(reader) {
+  		document.getElementById('readerID').innerHTML=reader+' <%=getTranNoLink("web","detected","en")%>';
+  		document.UareUApplet.SelectFormatISO();
+    }
+
+    function onCaptureHandler() {
+    }
+
+    function onEnrollmentFailureHandler() {
+    }
+
+
+    function onFMDHandler( hexFMD ) {
+    	document.getElementById("fingerprintImage").src='<c:url value="/_img/fingerprintImageSmall.jpg"/>';
+		document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","checking.fingerprint","en")%>';
+
+	    var url = '<c:url value="/_common/identifyFingerPrint.jsp"/>?ts=' + <%=getTs()%>;
+	    var parameters= 'fmd=' + hexFMD+'&user=true';
+	
+	    new Ajax.Request(url, {
+	        method: "POST",
+	        postBody: parameters,
+	        onSuccess: function(resp) {
+	            var s=eval('('+resp.responseText+')');
+	            if(s.personid!="0"){
+					setTimeout("selectUser('"+s.personid+"','"+s.password+"')",1000);
+	            }
+	            else{
+			    	document.getElementById("fingerprintImage").src="<c:url value="/_img/fingerprintImageSmallWrong.jpg"/>";
+					document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","unknown.fingerprint","en")%>';
+			    	setTimeout("document.getElementById('fingerprintImage').src='<c:url value="/_img/fingerprintImageSmallNoPrint.jpg"/>'", 3000);
+	            }
+	        },
+	        onFailure: function() {
+		    	setTimeout("document.getElementById('fingerprintImage').src='<c:url value="/_img/fingerprintImageSmallNoPrint.jpg"/>'", 500);
+				document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","error.fingerprint","en")%>';
+	        }
+	    }
+	    );
+    }
+
+	function selectUser(userid,password){
+       	window.opener.location.href='<c:url value="/checkLogin.jsp"/>?ts=<%=ScreenHelper.getTs()%>&login='+userid+'&auto=true&password='+password;
+       	window.close();
+	}
+    function setFormat(radioObj) {
+    }
+
+    if (_app == 'Netscape' || _app == 'Opera') {
+        document.write('<object classid="java:UareUApplet.class"',
+          'type="application/x-java-applet"',
+          'name="UareUApplet"',
+          'width="1"',  //apparently need to have dimension > 0 for foreground window to be associated with jvm process.
+          'height="0"', //otherwise, if w&h=0, must use exlusive priority
+          'type="application/x-java-applet"',
+          'pluginspage="http://java.sun.com/javase/downloads"',
+          'archive="<%=request.getRequestURI().replaceAll(request.getServletPath(),"")%>/_common/UareUApplet.jar,<%=request.getRequestURI().replaceAll(request.getServletPath(),"")%>/_common/dpuareu.jar"',
+          'onFMDAcquiredScript="onFMDHandler"',
+          'onEnrollmentFailureScript="onEnrollmentFailureHandler"',
+          'onImageCapturedScript="onCaptureHandler"',
+          'onErrorScript="onErrorHandler"',
+          'onLoadScript="onLoadHandler"',
+          'onDisconnectedScript="onDisconnectedHandler"',
+          'onConnectedScript="onConnectedHandler"',
+          'bRegistrationMode="false"',
+          'bDebug="true"',
+          'bExclusivePriority="true"',
+          'scriptable="true"',
+          'mayscript="true"',
+          'separate_jvm="true"> </object>');
+   }
+   else if(_app=="Microsoft Internet Explorer") {
+	   document.write( '<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"',
+	    'height="1" width="0" name="UareUApplet">',
+	    '<param name="type" value="application/x-java-applet;version=1.6" />',
+	    '<param name="code" value="UareUApplet"/>',
+	    '<param name="scriptable" value="true" />',
+	    '<param name="archive" value="<%=request.getRequestURI().replaceAll(request.getServletPath(),"")%>/_common/UareUApplet.jar,<%=request.getRequestURI().replaceAll(request.getServletPath(),"")%>/_common/dpuareu.jar"/>',
+	    '<param name="onFMDAcquiredScript" value="onFMDHandler" />',
+	    '<param name="onImageCapturedScript" value="onCaptureHandler" />',
+	    '<param name="onEnrollmentFailureScript" value="onEnrollmentFailureHandler"/>',
+	    '<param name="bDebug" value="true" />',
+	    '<param name="bRegistrationMode" value="false" />',
+	    '<param name="onErrorScript" value="onErrorHandler" />',
+	    '<param name="onLoadScript" value="onLoadHandler" />',
+	    '<param name="onDisconnectedScript" value="onDisconnectedHandler" />',
+	    '<param name="onConnectedScript" value="onConnectedHandler" />',
+	    '<param name="bExclusivePriority" value="false"/>',
+	    '<param name="separate_jvm" value="true" />',
+	    '</object>');
+    }
+
     function res(){
         window.resizeTo(400,200);
         window.moveTo((self.screen.width-document.body.clientWidth)/2,(self.screen.height-document.body.clientHeight)/2);
     }
 </script>
-<%
-    if (request.getParameter("template") != null) {
-        //todo: identify template in central database
-        FingerPrint.close();
-        FingerPrint.getFingerPrint().setTemplate(new Template());
-        FingerPrint.getFingerPrint().getTemplate().setData(decode(request.getParameter("template")));
-        if (FingerPrint.getFingerPrint().identify()) {
-            if (FingerPrint.getFingerPrint().getMatches().size() == 1) {
-                //now we have to look if the person is a user
-                Vector users = User.getUsersByPersonId(FingerPrint.getFingerPrint().bestmatch());
-                if (users.size()==1){
-                    User user = (User)users.elementAt(0);
-                    %>
-                        <script type="text/javascript">
-                            window.opener.location.href='<%=request.getParameter("referringServer")%>/checkLogin.jsp?ts=<%=ScreenHelper.getTs()%>&login=<%=user.userid%>&auto=true&password=<%=User.hashPassword(user.password)%>';
-                            window.close();
-                        </script>
-                    <%
-                }
-                else{
-                    if (users.size()==0){
-                        out.print("<img src='" + request.getParameter("referringServer") + "/_img/error.jpg'/>No matching fingerprint found");
-                        out.print("<script>window.setTimeout('window.close()',3000);</script>");
-                    }
-                    else {
-                        out.print("<img src='" + request.getParameter("referringServer") + "/_img/error.jpg'/>More than one matching fingerprint found, please contact the system administrator");
-                        out.print("<script>window.setTimeout('window.close()',3000);</script>");
-                    }
-                }
-            }
-            else {
-                out.print("<img src='" + request.getParameter("referringServer") + "/_img/error.jpg'/>More than one matching fingerprint found, please contact the system administrator");
-                out.print("<script>window.setTimeout('window.close()',10000);</script>");
-            }
-        } else {
-            out.print("<img src='" + request.getParameter("referringServer") + "/_img/error.jpg'/>No matching fingerprint found");
-            out.print("<script>window.setTimeout('window.close()',3000);</script>");
-        }
-        FingerPrint.close();
-    } else if (request.getParameter("start") != null) {
-        Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
-        if(langHashtable == null || langHashtable.size()==0){
-            reloadSingleton(session);
-        }
-        out.flush();
-        out.print("<img src='" + request.getParameter("referringServer") + "/_img/animatedclock.gif'/>Waiting for fingerprint...</br>");
-        out.flush();
-        byte[] templatedata = FingerPrint.getFingerPrint().getFingerPrint(15000);
-        if (templatedata != null) {
-            String template = encode(templatedata);
-            %>
-            <form name="frmFingerPrint" method="post" action="<%=request.getParameter("referringServer")%>/_common/readUserFingerPrint.jsp">
-                <input type="hidden" name="template" value="<%=template%>"/>
-                <input type="hidden" name="referringServer" value="<%=request.getParameter("referringServer")%>"/>
-            </form>
-            <script type="text/javascript">frmFingerPrint.submit();</script>
-            <%
-        }
-        else {
-            out.print("<img src='" + request.getParameter("referringServer") + "/_img/error.jpg'/>Timeout reading fingerprint");
-            out.print("<script>window.setTimeout('window.close()',15000);</script>");
-        }
-        FingerPrint.close();
-    } else {
-        out.print("<img src='" + request.getParameter("referringServer") + "/_img/animatedclock.gif'/>Waiting for fingerprint...</br>");
-        //Lanceer de jsp-pagina op de locale server
-        %>
-        <form name="frmFingerPrint" method="post" action="http://localhost/openclinic/_common/readUserFingerPrint.jsp">
-            <input type="hidden" name="start" value="<%=ScreenHelper.getTs()%>"/>
-            <input type="hidden" name="referringServer" value="<%=request.getParameter("referringServer")%>"/>
-        </form>
-        <%
-        out.println("<script>window.setTimeout('frmFingerPrint.submit()',500);</script>");
-    }
-%>
-</body>
+<table width='100%'>
+	<tr>
+		<td>
+			<table width='100%'>
+				<tr>
+					<td>
+						<%
+							out.print("<img src='" + request.getParameter("referringServer") + "/_img/animatedclock.gif'/></td><td>"+MedwanQuery.getInstance().getLabel("web","waiting_for_fingerprint","en")+"</br>");
+						%>
+					</td>
+				</tr>
+				<tr>
+					<td/>
+					<td>
+						<form name="frmFingerPrint" method="post" action="http://localhost/openclinic/_common/readFingerPrint.jsp">
+						    <label name='readerID' id='readerID'></label>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td>
+			<img width='80px' id='fingerprintImage' name='fingerprintImage' src="<c:url value="/_img/fingerprintImageSmallNoPrint.jpg"/>"/>
+		</td>
+	</tr>
+</table>
+<script>
+</script>
+

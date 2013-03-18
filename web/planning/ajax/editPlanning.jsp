@@ -74,7 +74,6 @@
 %>
 <%
 	try{
-	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
     String sAction = checkString(request.getParameter("Action"));
     String sFindPlanningUID = checkString(request.getParameter("FindPlanningUID"));
     String sPage = checkString(request.getParameter("Page"));
@@ -317,7 +316,7 @@
         <td class='admin'><%=HTMLEntities.htmlentities(getTran("planning", "user", sWebLanguage))%>*</td>
         <td class='admin2'>
             <input type="hidden" id="EditUserUID" name="EditUserUID" value="<%=planning.getUserUID()%>">
-            <input class="text" type="text" id="EditUserName" name="EditUserName" readonly size="<%=sTextWidth%>" value="<%=HTMLEntities.htmlentities(ScreenHelper.getFullUserName(planning.getUserUID(),ad_conn))%>">
+            <input class="text" type="text" id="EditUserName" name="EditUserName" readonly size="<%=sTextWidth%>" value="<%=HTMLEntities.htmlentities(ScreenHelper.getFullUserName(planning.getUserUID()))%>">
             <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('EditUserUID','EditUserName');">
             <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="$('EditUserUID').clear();$('EditUserName').clear();">
         </td>
@@ -326,7 +325,7 @@
         <td class='admin'><%=HTMLEntities.htmlentities(getTran("planning", "patient", sWebLanguage))%>*</td>
         <td class='admin2'>
             <input type="hidden" id="EditPatientUID" name="EditPatientUID" value="<%=(planning.getPatientUID()==null)?"":planning.getPatientUID()%>">
-            <input class="text" id="EditPatientName" type="text" name="EditPatientName" readonly size="<%=sTextWidth%>" value="<%=HTMLEntities.htmlentities(ScreenHelper.getFullPersonName(planning.getPatientUID(),ad_conn))%>">
+            <input class="text" id="EditPatientName" type="text" name="EditPatientName" readonly size="<%=sTextWidth%>" value="<%=HTMLEntities.htmlentities(ScreenHelper.getFullPersonName(planning.getPatientUID()))%>">
             <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchMyPatient('EditPatientUID','EditPatientName');">
             <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="$('EditPatientUID').clear();$('EditPatientName').clear();">
         </td>
@@ -464,7 +463,6 @@
 </script>
 </div>
 <%}
-	ad_conn.close();
 	}
 catch(Exception e){
 	e.printStackTrace();

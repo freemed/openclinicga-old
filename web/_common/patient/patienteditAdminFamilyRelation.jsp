@@ -10,16 +10,9 @@
         else            sClass = "list";
 
         // get names
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        String sSourceFullName      = ScreenHelper.getFullPersonName(sourceId+"",ad_conn),
-               sDestinationFullName = ScreenHelper.getFullPersonName(destinationId+"",ad_conn),
+        String sSourceFullName      = ScreenHelper.getFullPersonName(sourceId+""),
+               sDestinationFullName = ScreenHelper.getFullPersonName(destinationId+""),
                sRelationType        = getTran("admin.familyrelation",relationType,sWebLanguage);
-        try{
-        	ad_conn.close();
-        }
-        catch(Exception e){
-        	e.printStackTrace();
-        }
 
         String detailsTran = getTran("web","showdetails",sWebLanguage);
         StringBuffer buf = new StringBuffer();

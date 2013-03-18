@@ -92,7 +92,6 @@
 
         sOut.append("</tbody>");
     }
-    System.out.println(sOut);
 
 %>
 

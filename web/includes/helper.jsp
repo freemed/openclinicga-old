@@ -517,14 +517,7 @@
         String sReturn = "";
         if ((or != null) && (or.getObjectUid() != null) && (or.getObjectUid().length() > 0)) {
             if (or.getObjectType().equalsIgnoreCase("person")) {
-               	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                String s = checkString(ScreenHelper.getFullPersonName(or.getObjectUid(),ad_conn));
-                try{
-                	ad_conn.close();
-                }
-                catch(Exception e){
-                	e.printStackTrace();
-                }
+                String s = checkString(ScreenHelper.getFullPersonName(or.getObjectUid()));
                 return s;
             } else if (or.getObjectType().equalsIgnoreCase("service")) {
                 sReturn = getTranDb("service", or.getObjectUid(), sWebLanguage);
@@ -624,21 +617,13 @@
     		e3.printStackTrace();
     	}
     	User user=new User();
-    	java.sql.Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-    	user.initialize(ad_conn, username, user.encrypt(password));
-    	try{
-    		ad_conn.close();
-    	}
-    	catch(Exception e){
-    		e.printStackTrace();
-    	}
+    	user.initialize(username, user.encrypt(password));
         request.getSession().setAttribute("activeUser",user);
         MedwanQuery.setSession(request.getSession(),user);
         //Add some session attributes for user connectivity monitoring
         request.getSession().setAttribute("mon_ipaddress",request.getRemoteAddr());
         request.getSession().setAttribute("mon_browser",browser+" "+version);
         request.getSession().setAttribute("mon_start",new java.util.Date());
-
     }
 
     //--- GET BUTTONS HTML ------------------------------------------------------------------------

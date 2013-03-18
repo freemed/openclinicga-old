@@ -186,13 +186,13 @@
         <td colspan="3">
             <br>
             <img src='<c:url value="/_img/pijl.gif"/>'>
-            <a href="<c:url value='/managePeriodicExaminations.do?ts='/><%=getTs()%>" class="menuItem" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.healthrecord.periodic-examinations",sWebLanguage)%></a>
+            <a href="<c:url value='/managePeriodicExaminations.do?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.healthrecord.periodic-examinations",sWebLanguage)%></a>
         </td>
     </tr>
     <tr>
         <td colspan="3">
             <img src='<c:url value="/_img/pijl.gif"/>'>
-            <a href="<c:url value='/main.jsp'/>?Page=curative/index.jsp&ts=<%=getTs()%>" class="menuItem" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.recruitment.view-recruitment-examinations-summary",sWebLanguage)%></a>
+            <a href="<c:url value='/main.jsp'/>?Page=curative/index.jsp&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.recruitment.view-recruitment-examinations-summary",sWebLanguage)%></a>
         </td>
     </tr>
 </table>

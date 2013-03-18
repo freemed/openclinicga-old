@@ -101,14 +101,12 @@ if (activePatient!=null){
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(calPlanningStop.getTime())%></a></td>
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');">
                                     <%
-	                                  	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                                         if (planning.getUserUID().equals(activeUser.userid)){
-                                            out.print("<b>"+ScreenHelper.getFullUserName(planning.getUserUID(), ad_conn)+"</b>");
+                                            out.print("<b>"+ScreenHelper.getFullUserName(planning.getUserUID())+"</b>");
                                         }
                                         else {
-                                            out.print(ScreenHelper.getFullUserName(planning.getUserUID(), ad_conn));
+                                            out.print(ScreenHelper.getFullUserName(planning.getUserUID()));
                                         }
-                                        ad_conn.close();
                                     %>
                                 </a></td>
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');">

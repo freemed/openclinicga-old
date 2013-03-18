@@ -128,9 +128,7 @@
                                 <td>
                                     <a href="<c:url value="/main.do"/>?Page=curative/index.jsp&PersonID=<%=sPatientUID%>">
                                     <%
-	                                    Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                                        out.print(ScreenHelper.getFullPersonName(sPatientUID,ad_conn));
-                                        ad_conn.close();
+                                        out.print(ScreenHelper.getFullPersonName(sPatientUID));
                                     %>
                                     </a>
                                 </td>

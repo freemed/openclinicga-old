@@ -107,10 +107,7 @@
 
         Service tmpService = Service.getService(sEditEncounterService);
         Bed tmpBed = Bed.get(sEditEncounterBed);
-        Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        AdminPerson tmpPatient = AdminPerson.getAdminPerson(ad_conn, sEditEncounterPatient);
-        ad_conn.close();
-        //AdminPerson tmpManager = AdminPerson.getAdminPerson(dbConnection,sEditEncounterManager);
+        AdminPerson tmpPatient = AdminPerson.getAdminPerson( sEditEncounterPatient);
         User tmpManager = new User();
         tmpManager.initialize(Integer.parseInt(sEditEncounterManager));
 
@@ -150,12 +147,10 @@
         sEditEncounterBedName = tmpEncounter.getBed().getName();
 
         sEditEncounterPatient = tmpEncounter.getPatient().personid;
-        Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        sEditEncounterPatientName = ScreenHelper.getFullPersonName(tmpEncounter.getPatient().personid, ad_conn);
+        sEditEncounterPatientName = ScreenHelper.getFullPersonName(tmpEncounter.getPatient().personid);
 
         sEditEncounterManager = tmpEncounter.getManager().personid;
-        sEditEncounterManagerName = ScreenHelper.getFullUserName(tmpEncounter.getManager().userid, ad_conn);
-		ad_conn.close();
+        sEditEncounterManagerName = ScreenHelper.getFullUserName(tmpEncounter.getManager().userid);
         sEditEncounterUID = tmpEncounter.getUid();
     }
 %>
@@ -302,11 +297,9 @@
                 sbResults.append("</td><td>");
                 sbResults.append(sEnd);
                 sbResults.append("</td><td>");
-                Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                sbResults.append(ScreenHelper.getFullPersonName(tmpEncounter.getPatient().personid,ad_conn));
+                sbResults.append(ScreenHelper.getFullPersonName(tmpEncounter.getPatient().personid));
                 sbResults.append("</td><td>");
-                sbResults.append(ScreenHelper.getFullUserName(tmpEncounter.getManager().userid, ad_conn));
-				ad_conn.close();
+                sbResults.append(ScreenHelper.getFullUserName(tmpEncounter.getManager().userid));
                 sbResults.append("</td><td>");
                 sbResults.append(checkString(tmpEncounter.getBed().getName()));
                 sbResults.append("</td><td>");

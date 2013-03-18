@@ -1,0 +1,155 @@
+<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.text.*" %>
+<%@ include file="/includes/validateUser.jsp" %>
+<%!
+    private String addDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked, java.util.Date begin, java.util.Date end,User activeUser){
+        StringBuffer sReturn = new StringBuffer();
+
+            if (vDebets!=null){
+            Debet debet;
+            Encounter encounter;
+            Prestation prestation;
+            String sEncounterName, sPrestationDescription, sCredited, sDebetUID;
+            String sChecked = "";
+            if (bChecked){
+                sChecked = " checked";
+            }
+
+            for (int i = 0; i < vDebets.size(); i++) {
+                sDebetUID = checkString((String) vDebets.elementAt(i));
+
+                if (sDebetUID!=null && sDebetUID.length()>0){
+                    debet = Debet.get(sDebetUID);
+
+                    if (debet != null) {
+                    	if(begin!=null && debet.getDate()!=null && debet.getDate().before(begin)){
+                    		continue;
+                    	}
+                    	if(end!=null && debet.getDate()!=null && debet.getDate().after(end)){
+                    		continue;
+                    	}
+                        if (sClass.equals("")) {
+                            sClass = "1";
+                        } else {
+                            sClass = "";
+                        }
+
+                        sEncounterName = "";
+
+                        if (checkString(debet.getEncounterUid()).length() > 0) {
+                            encounter = debet.getEncounter();
+
+                            if (encounter != null) {
+                                sEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
+                            }
+                        }
+
+                        sPrestationDescription = "";
+
+                        if (checkString(debet.getPrestationUid()).length()>0){
+                            prestation = debet.getPrestation();
+
+                            if (prestation!=null){
+                                sPrestationDescription = checkString(prestation.getDescription());
+                            }
+                        }
+
+                        sCredited = "";
+
+                        if (debet.getCredited()>0){
+                            sCredited = getTran("web","canceled",sWebLanguage);
+                        }
+                        double patientAmount=debet.getExtraInsurarUid2()!=null && debet.getExtraInsurarUid2().length()>0?0:debet.getAmount();
+            			if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0){
+	                        sReturn.append( "<tr class='list"+sClass+"'>"
+	                            +"<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"
+   	                            +"<td><input type='checkbox' checked disabled></td>"
+	                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
+	                            +"<td>"+(debet.getCreateDateTime()==null?"":new SimpleDateFormat("dd/MM/yyyy HH:mm").format(debet.getCreateDateTime()))+"</td>"
+	                            +"<td>"+sEncounterName+"</td>"
+	                            +"<td>"+debet.getQuantity()+" x "+sPrestationDescription+"</td>"
+	                            +"<td>"+patientAmount+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>"
+	                            +"<td>"+sCredited+"</td>"
+	                            +"<td>"+(debet.getInsurarInvoiceUid()==null?"":ScreenHelper.checkString(debet.getInsurarInvoiceUid()).replaceAll("1\\.",""))+"</td>"
+	                        +"</tr>");
+            			}
+            			else {
+	                        sReturn.append( "<tr class='list"+sClass+"'>"
+		                            +"<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"
+		                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
+		                            +"<td>"+(debet.getCreateDateTime()==null?"":new SimpleDateFormat("dd/MM/yyyy HH:mm").format(debet.getCreateDateTime()))+"</td>"
+		                            +"<td>"+sEncounterName+"</td>"
+		                            +"<td>"+debet.getQuantity()+" x "+sPrestationDescription+"</td>"
+		                            +"<td>"+patientAmount+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>"
+		                            +"<td>"+sCredited+"</td>"
+		                            +"<td>"+(debet.getInsurarInvoiceUid()==null?"":ScreenHelper.checkString(debet.getInsurarInvoiceUid()).replaceAll("1\\.",""))+"</td>"
+		                        +"</tr>");
+            			}
+                    }
+                }
+            }
+        }
+        return sReturn.toString();
+    }
+%>
+<%
+	String sPatientInvoiceUid=checkString(request.getParameter("PatientInvoiceUID"));
+	String sPatientId=checkString(request.getParameter("PatientUID"));
+	String sBegin=checkString(request.getParameter("Begin"));
+	String sEnd=checkString(request.getParameter("End"));
+	String sInvoiceService = checkString(request.getParameter("EditInvoiceService"));
+	java.util.Date begin=null,end=null;
+	try{
+		begin = new SimpleDateFormat("dd/MM/yyyy").parse(sBegin);
+	}
+	catch(Exception e){
+	}
+	try{
+		end = new SimpleDateFormat("dd/MM/yyyy").parse(sEnd);
+	}
+	catch(Exception e){
+	}
+	Vector vDebets = new Vector();
+	PatientInvoice patientInvoice=null;
+	if(sPatientInvoiceUid.length()>0){
+		patientInvoice = PatientInvoice.get(sPatientInvoiceUid);
+		if(patientInvoice!=null){
+			vDebets = patientInvoice.getDebetStrings();
+		}
+	}
+	
+ %>
+<table width="100%" class="list" cellspacing="2">
+    <tr class="gray">
+		<%
+		if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0){
+		%>
+	        <td width="20"><%=getTran("web","authorizationabbreviation",sWebLanguage)%></td>
+	    <%
+	    }
+	    %>
+        <td width="20"><%=getTran("web","invoiceabbreviation",sWebLanguage)%></td>
+        <td width="80"><%=getTran("web","date",sWebLanguage)%></td>
+        <td><%=getTran("web","entrydate",sWebLanguage)%></td>
+        <td><%=getTran("web.finance","encounter",sWebLanguage)%></td>
+        <td><%=getTran("web","prestation",sWebLanguage)%></td>
+        <td><%=getTran("web","amount",sWebLanguage)%></td>
+        <td><%=getTran("web","credit",sWebLanguage)%></td>
+        <td><%=getTran("web","insuranceinvoiceid",sWebLanguage)%></td>
+    </tr>
+<%
+    String sClass = "";
+    out.print(addDebets(vDebets,sClass,sWebLanguage, true,null,null,activeUser));
+    if (patientInvoice==null || (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed") || checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled")))){
+        Vector vUnassignedDebets;
+        if(sInvoiceService.length()==0){
+        	vUnassignedDebets=Debet.getUnassignedPatientDebets(sPatientId);
+        }
+        else {
+        	vUnassignedDebets=Debet.getUnassignedPatientDebets(sPatientId,sInvoiceService);
+        }
+		if(activeUser.getParameter("insuranceagent")==null || activeUser.getParameter("insuranceagent").length()==0){
+	        out.print(addDebets(vUnassignedDebets,sClass,sWebLanguage, false,begin,end,activeUser));
+		}
+    }
+%>
+</table>

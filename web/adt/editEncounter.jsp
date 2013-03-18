@@ -138,10 +138,7 @@
         }
         tmpDestination = Service.getService(sEditEncounterDestination);
 
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        tmpPatient = AdminPerson.getAdminPerson(ad_conn, sEditEncounterPatient);
-        ad_conn.close();
-        //AdminPerson tmpManager = AdminPerson.getAdminPerson(dbConnection,sEditEncounterManager);
+        tmpPatient = AdminPerson.getAdminPerson(sEditEncounterPatient);
 
         User tmpManager = new User();
         if (sEditEncounterManager.length() > 0) {
@@ -198,8 +195,31 @@
                         else {
                             Debet debet = new Debet();
                             debet.setQuantity(accountAccomodationDays);
-                            debet.setAmount(accountAccomodationDays * accomodationPrestation.getPrice(insurance.getType()) * insurance.getPatientShare() / 100);
-                            debet.setInsurarAmount(accountAccomodationDays * accomodationPrestation.getPrice(insurance.getType()) * (100 - insurance.getPatientShare()) / 100);
+                            double patientAmount=0,insurarAmount=0;
+        	                double dPrice = accomodationPrestation.getPrice(insurance.getType());
+                            if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==1){
+                            	dPrice+=accomodationPrestation.getSupplement();
+                            }
+        	                double dInsuranceMaxPrice = accomodationPrestation.getInsuranceTariff(insurance.getInsurar().getUid(),insurance.getInsuranceCategoryLetter());
+        	                if(tmpEncounter!=null && tmpEncounter.getType().equalsIgnoreCase("admission") && accomodationPrestation.getMfpAdmissionPercentage()>0){
+        	                	dInsuranceMaxPrice = accomodationPrestation.getInsuranceTariff(insurance.getInsurar().getUid(),"*H");
+        	                }
+        	                String sShare=checkString(accomodationPrestation.getPatientShare(insurance)+"");
+        	                if (sShare.length()>0){
+        	                	patientAmount = accountAccomodationDays * dPrice * Double.parseDouble(sShare) / 100;
+        	                    insurarAmount = accountAccomodationDays * dPrice - patientAmount;
+        	                    if(dInsuranceMaxPrice>=0){
+        	                    	insurarAmount=accountAccomodationDays * dInsuranceMaxPrice;
+        	                   		patientAmount=accountAccomodationDays * dPrice - insurarAmount;
+        	                    }
+        	                    if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==0){
+        	                    	patientAmount+=accountAccomodationDays*accomodationPrestation.getSupplement();
+        	                    }
+        	                }
+
+                            
+                            debet.setAmount(patientAmount);
+                            debet.setInsurarAmount(insurarAmount);
                             debet.setPrestationUid(accomodationPrestation.getUid());
                             debet.setInsuranceUid(insurance.getUid());
                             debet.setDate(new Date());
@@ -277,8 +297,7 @@
 		sEditEncounterCategories	= checkString(tmpEncounter.getCategories());
         sEditEncounterPatient         = checkString(tmpEncounter.getPatient().personid);
         sEditEncounterOrigin         = checkString(tmpEncounter.getOrigin());
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        sEditEncounterPatientName     = checkString(ScreenHelper.getFullPersonName(tmpEncounter.getPatient().personid,ad_conn));
+        sEditEncounterPatientName     = checkString(ScreenHelper.getFullPersonName(tmpEncounter.getPatient().personid));
         sEditEncounterOutcome         = checkString(tmpEncounter.getOutcome());
         sEditEncounterSituation         = checkString(tmpEncounter.getSituation());
 
@@ -287,9 +306,8 @@
             sEditEncounterManagerName = "";
         }else{
             sEditEncounterManager         = checkString(tmpEncounter.getManager().userid);
-            sEditEncounterManagerName     = checkString(ScreenHelper.getFullUserName(tmpEncounter.getManager().userid,ad_conn));
+            sEditEncounterManagerName     = checkString(ScreenHelper.getFullUserName(tmpEncounter.getManager().userid));
         }
-        ad_conn.close();
 
         sEditEncounterUID             = checkString(tmpEncounter.getUid());
         if(Debug.enabled){
@@ -337,6 +355,9 @@
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","type",sWebLanguage)%> *</td>
             <td class='admin2'>
+            <%
+            	if(sEditEncounterUID.split("\\.").length<=1 ||sEditEncounterType.length()==0){
+            %>
                 <select class='text' id='EditEncounterType' name='EditEncounterType' onchange="checkEncounterType();">
                     <%
                         String encountertypes=MedwanQuery.getInstance().getConfigString("encountertypes","admission,visit");
@@ -353,6 +374,15 @@
                     %>
 
                 </select>
+            <%
+            	}
+            	else {
+            %>
+            	<label class='text' width='20'><b><%=getTranNoLink("web",sEditEncounterType,sWebLanguage)%></b></label>
+            	<input type='hidden' id='EditEncounterType' name='EditEncounterType' value='<%=sEditEncounterType%>'/>
+            <%
+            	}
+            %>
             </td>
         </tr>
         <%-- date begin --%>
@@ -403,7 +433,7 @@
        <tr id="Service">
            <td class="admin"><%=getTran("Web","service",sWebLanguage)%> *</td>
            <td class='admin2'>
-               <input type="hidden" name="EditEncounterService" value="<%=sEditEncounterService%>" onchange="EditEncounterForm.EditEncounterBed.value='';EditEncounterForm.EditEncounterBedName.value='';setBedButton();setTransfer();">
+               <input type="hidden" name="EditEncounterService" id="EditEncounterService" value="<%=sEditEncounterService%>" onchange="EditEncounterForm.EditEncounterBed.value='';EditEncounterForm.EditEncounterBedName.value='';setBedButton();setTransfer();changeService();">
                <input class="text" type="text" name="EditEncounterServiceName" id="EditEncounterServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterServiceName%>" onblur="">
                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditEncounterService','EditEncounterServiceName');">
                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditEncounterForm.EditEncounterService.value='';EditEncounterForm.EditEncounterServiceName.value='';">
@@ -496,11 +526,11 @@
         <tr id="Destination" style="visibility: visible;">
             <td class="admin"><%=getTran("Web","category",sWebLanguage)%></td>
             <td class='admin2'>
-                <input type='radio' name='EditEncounterCategories' value='A' <%=sEditEncounterCategories.indexOf("A")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.natural",sWebLanguage) %>&nbsp;
-                <input type='radio' name='EditEncounterCategories' value='B' <%=sEditEncounterCategories.indexOf("B")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.professional",sWebLanguage) %>&nbsp;
-                <input type='radio' name='EditEncounterCategories' value='C' <%=sEditEncounterCategories.indexOf("C")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.work",sWebLanguage) %>&nbsp;
-                <input type='radio' name='EditEncounterCategories' value='D' <%=sEditEncounterCategories.indexOf("D")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.traffic",sWebLanguage) %>&nbsp;
-                <input type='radio' name='EditEncounterCategories' value='E' <%=sEditEncounterCategories.indexOf("E")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.other",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='A' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("A")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.natural",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='B' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("B")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.professional",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='C' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("C")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.work",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='D' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("D")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.traffic",sWebLanguage) %>&nbsp;
+                <input type='radio' name='EditEncounterCategories' value='E' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("E")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.other",sWebLanguage) %>&nbsp;
             </td>
         </tr>
         <%
@@ -513,7 +543,9 @@
             <%
                 for(int n=0;n<accomodationDebets.size();n++){
                     Debet debet = (Debet)accomodationDebets.elementAt(n);
-                    out.print(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate())+": <b>"+debet.getQuantity()+"</b> "+getTran("web","days",sWebLanguage)+" ("+debet.getPrestation().getDescription()+") = <b>"+debet.getAmount()+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+"</b> ("+getTran("web","insurar",sWebLanguage)+" = "+debet.getInsurarAmount()+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+")</BR/>");
+                    if(debet==null && debet.getPrestation()==null){
+                    	out.print(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate())+": <b>"+debet.getQuantity()+"</b> "+getTran("web","days",sWebLanguage)+" ("+debet.getPrestation().getDescription()+") = <b>"+debet.getAmount()+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+"</b> ("+getTran("web","insurar",sWebLanguage)+" = "+debet.getInsurarAmount()+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+")</BR/>");
+                    }
                 }
             %>
             </td>
@@ -521,13 +553,18 @@
         <tr id="notAccountedAccomodation" style="visibility: visible;">
             <td class="admin"><%=getTran("Web","notaccountedaccomodation",sWebLanguage)%></td>
             <td class='admin2'>
-                <select class="text" name="EditEncounterAccomodationPrestation" style="vertical-align:top;">
+                <select class="text" name="EditEncounterAccomodationPrestation" id="EditEncounterAccomodationPrestation" style="vertical-align:top;">
                     <%
-                        String[] accomodationprestations = MedwanQuery.getInstance().getConfigString("accomodationPrestations","").split(";");
-                        for (int n=0;n<accomodationprestations.length;n++){
-                            Prestation prestation = Prestation.getByCode(accomodationprestations[n]);
+                    	String defaultStay="";
+	                    if (tmpEncounter != null && tmpEncounter.getService()!=null && tmpEncounter.getService().stayprestationuid!=null) {
+	                    	defaultStay=tmpEncounter.getService().stayprestationuid;
+	                    }
+                    
+                        Vector prestations = Prestation.getPrestationsByClass("stay");
+                        for (int n=0;n<prestations.size();n++){
+                            Prestation prestation = (Prestation)prestations.elementAt(n);
                             if(prestation!=null){
-                                out.println("<option value='"+prestation.getUid()+"'>"+prestation.getDescription()+"</option>");
+                                out.println("<option value='"+prestation.getUid()+"' "+(defaultStay.equalsIgnoreCase(prestation.getUid())?"selected":"")+">"+prestation.getCode()+": "+prestation.getDescription()+"</option>");
                             }
                         }
                     %>
@@ -646,7 +683,7 @@
 				sNeedsBeds="&needsvisits=1";
 			}
         }
-        openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField+sNeedsBeds);
+        openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarSelectDefaultStay=true&VarCode="+serviceUidField+"&VarText="+serviceNameField+sNeedsBeds);
         document.getElementById(serviceNameField).focus();
     }
 
@@ -695,7 +732,7 @@
             var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_encounter_enddate";
             var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
             (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_encounter_enddate",sWebLanguage)%>");
-        }else if ((EditEncounterForm.EditEncounterOutcome.selectedIndex==0)&&(EditEncounterForm.EditEncounterEnd.value != "")){
+        }else if ((EditEncounterForm.EditEncounterType.value=='admission')&&(EditEncounterForm.EditEncounterOutcome.selectedIndex==0)&&(EditEncounterForm.EditEncounterEnd.value != "")){
             var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_encounter_outcome";
             var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
             (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_encounter_outcome",sWebLanguage)%>");
@@ -711,6 +748,10 @@
             var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=encounter_invalid_origin";
             var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
             (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","encounter_invalid_origin",sWebLanguage)%>");
+        }else if (!categoryCheck()){
+            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=encounter_invalid_categories";
+            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","encounter_invalid_categories",sWebLanguage)%>");
         }else{
             EditEncounterForm.saveButton.disabled = true;
             EditEncounterForm.Action.value = "SAVE";
@@ -718,7 +759,20 @@
         }
         EditEncounterTransferDate
     }
-
+	
+    function categoryCheck(){
+    	<%
+    		if(MedwanQuery.getInstance().getConfigInt("encounterDiseaseCategoryMandatory",0)==0){
+    			out.println("return true");
+    		}
+    	%>
+    	for(var n=0;n<EditEncounterForm.EditEncounterCategories.length;n++){
+    		if(EditEncounterForm.EditEncounterCategories[n].checked){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
     <%-- back --%>
     function doBack(){
         window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
@@ -771,6 +825,13 @@
                 if(EditEncounterForm.EditEncounterEndHour.value.split(":").length==2){
                     end.setTime(end.getTime()+EditEncounterForm.EditEncounterEndHour.value.split(":")[0]*60*60000+EditEncounterForm.EditEncounterEndHour.value.split(":")[1]*60000);
                 }
+                <%
+	            	if(MedwanQuery.getInstance().getConfigString("encounterDurationCalculationMethod","simple").equalsIgnoreCase("noLastDay")){
+	            %>
+	            	end= new Date(end.getFullYear(),end.getMonth(),end.getDate(),0,0,0,0);
+	            <%
+	            	}
+	            %>
                 if(end>=begin){
                     var days=Math.ceil((end.getTime()-begin.getTime())/(24*3600*1000));
                     var accounted=<%=Encounter.getAccountedAccomodationDays(sEditEncounterUID)%>;
@@ -872,6 +933,31 @@
             );
         }
     }
+
+	function changeService(){
+            var today = new Date();
+            var url= '<c:url value="/adt/findServiceStayPrestation.jsp"/>?serviceid='+document.getElementById('EditEncounterService').value+'&ts='+today;
+            var params='';
+            new Ajax.Request(url,{
+                    method: "POST",
+                    parameters: params,
+                    onSuccess: function(resp){
+                        var stayprestation=resp.responseText;
+                        var stays=document.getElementById('EditEncounterAccomodationPrestation').options;
+                        for(var n=0;n<stays.length;n++){
+                        	if(stays[n].value==stayprestation){
+                        		stays[n].selected=true;
+                        	}
+                        	else {
+                        		stays[n].selected=false;
+                        	}
+                        }
+                    },
+                    onFailure: function(){
+                    }
+                }
+            );
+	}
 
     calculateAccomodationDates();
     hide("transfer");

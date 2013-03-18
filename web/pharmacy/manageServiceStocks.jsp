@@ -53,14 +53,7 @@
             if (sManagerUid.length() > 0) {
                 if (!sManagerUid.equals(sPreviousManagerUid)) {
                     sPreviousManagerUid = sManagerUid;
-                  	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                    sManagerName = ScreenHelper.getFullUserName(sManagerUid, ad_conn);
-                    try{
-                    	ad_conn.close();
-                    }
-                    catch(Exception e){
-                    	e.printStackTrace();
-                    }
+                    sManagerName = ScreenHelper.getFullUserName(sManagerUid);
                 }
             }
 
@@ -216,9 +209,7 @@
             StringTokenizer idTokenizer = new StringTokenizer(authorizedUserIds,"$");
             while(idTokenizer.hasMoreTokens()){
                 authorizedUserId = idTokenizer.nextToken();
-              	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                authorizedUserObj = AdminPerson.getAdminPerson(ad_conn,authorizedUserId);
-                ad_conn.close();
+                authorizedUserObj = AdminPerson.getAdminPerson(authorizedUserId);
                 stock.addAuthorizedUser(authorizedUserObj);
             }
         }
@@ -339,13 +330,12 @@
 
                 // authorized users
                 String authorizedUserIds = checkString(serviceStock.getAuthorizedUserIds());
-              	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                 if(authorizedUserIds.length() > 0){
                     authorisedUsersIdx = 1;
                     StringTokenizer idTokenizer = new StringTokenizer(authorizedUserIds,"$");
                     while(idTokenizer.hasMoreTokens()){
                         authorizedUserId = idTokenizer.nextToken();
-                        authorizedUserName = ScreenHelper.getFullUserName(authorizedUserId,ad_conn);
+                        authorizedUserName = ScreenHelper.getFullUserName(authorizedUserId);
                         authorisedUsersIdx++;
 
                         authorizedUsersJS.append("rowAuthorizedUsers"+authorisedUsersIdx+"="+authorizedUserId+"£"+authorizedUserName+"$");
@@ -360,9 +350,8 @@
                 }
 
                 if(sSelectedManagerUid.length() > 0){
-                    sSelectedManagerName = ScreenHelper.getFullUserName(sSelectedManagerUid,ad_conn);
+                    sSelectedManagerName = ScreenHelper.getFullUserName(sSelectedManagerUid);
                 }
-				ad_conn.close();
                 if(sSelectedDefaultSupplierUid.length() > 0){
                     sSelectedDefaultSupplierName = getTranNoLink("service",sSelectedDefaultSupplierUid,sWebLanguage);
                 }
@@ -400,9 +389,7 @@
 
             // active user as default manager
             sSelectedManagerUid = activeUser.person.personid;
-          	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-            sSelectedManagerName = ScreenHelper.getFullUserName(sSelectedManagerUid,ad_conn);
-            ad_conn.close();
+            sSelectedManagerName = ScreenHelper.getFullUserName(sSelectedManagerUid);
 
             // central pharmacy as default defaultSupplier
             sSelectedDefaultSupplierUid = centralPharmacyCode;

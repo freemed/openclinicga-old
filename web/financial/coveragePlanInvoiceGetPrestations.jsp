@@ -309,7 +309,6 @@ if(sEditServiceUID.length()==0 && sEditCoveragePlanInvoiceUID.length()==0){
         catch(Exception e){}
         String s="";
         if(sEditServiceUID.length()==0){
-        	System.out.println("PER SERVICE! sInsurarUid="+sInsurarUid);
 			Hashtable vUnassignedDebets = PrestationDebet.getUnassignedInsurarDebetsPerService(sInsurarUid, begin, end);
             s = addPeriodServices(vUnassignedDebets, sClass, sWebLanguage);
         }

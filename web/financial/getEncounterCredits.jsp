@@ -1,9 +1,7 @@
-<%@page import="be.openclinic.finance.PatientCredit,
-                java.util.*,
+<%@page import="java.util.*,
                 be.openclinic.adt.Encounter,
                 java.text.DecimalFormat,
-                be.mxs.common.util.system.HTMLEntities,be.openclinic.finance.PatientInvoice" %>
-<%@ page import="be.openclinic.finance.WicketCredit" %>
+                be.mxs.common.util.system.HTMLEntities,be.openclinic.finance.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%!
@@ -49,10 +47,14 @@
                                 invoiceref=invoice.getUid().split("\\.")[1]+" ("+new DecimalFormat("###,###,###,###").format(-invoice.getBalance())+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+")";
                             }
                         }
-                        String wicketUid="";
+                        String wicketUid="",wicketName="";
                         WicketCredit wicketCredit = WicketCredit.getByReferenceUid(credit.getUid());
                         if(wicketCredit!=null && wicketCredit.getUid()!=null && wicketCredit.getUid().length()>1){
                             wicketUid=wicketCredit.getWicketUID();
+                            Wicket wicket=Wicket.get(wicketUid);
+                            if(wicket!=null && wicket.getService()!=null){
+                            	wicketName=checkString(wicket.getService().getLabel(sWebLanguage));
+                            }
                         }
 
                         hSort.put(credit.getDate().getTime() + "=" + credit.getUid(),
@@ -64,6 +66,7 @@
                                         "<td>" + HTMLEntities.htmlentities(sCreditType) + "</td>" +
                                         "<td>" + HTMLEntities.htmlentities(invoiceref) + "</td>" +
                                         "<td>" + HTMLEntities.htmlentities(ScreenHelper.checkString(credit.getComment()).replaceAll("'","´")) + "</td>" +
+                                        "<td>" + HTMLEntities.htmlentities(wicketName) + "</td>" +
                                         "</tr>"
                         );
 
@@ -111,7 +114,7 @@
             <table width="100%" class="list" cellspacing="0" style="border:none;">
                 <%-- header --%>
                 <tr class="admin">
-                    <td colspan="7"><%=HTMLEntities.htmlentities(getTran("web","paymentsforencounter",sWebLanguage))+" #"+sEncounterUID%></td>
+                    <td colspan="8"><%=HTMLEntities.htmlentities(getTran("web","paymentsforencounter",sWebLanguage))+" #"+sEncounterUID%></td>
                 </tr>
                 <tr class="admin">
                     <td width="20">#</td>
@@ -121,6 +124,7 @@
                     <td width="200"><%=HTMLEntities.htmlentities(getTran("web","type",sWebLanguage))%></td>
                     <td width="200"><%=HTMLEntities.htmlentities(getTran("web","invoice",sWebLanguage))%></td>
                     <td width="*"><%=HTMLEntities.htmlentities(getTran("web","description",sWebLanguage))%></td>
+                    <td width="*"><%=HTMLEntities.htmlentities(getTran("web","wicket",sWebLanguage))%></td>
                 </tr>
 
                 <tbody onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">

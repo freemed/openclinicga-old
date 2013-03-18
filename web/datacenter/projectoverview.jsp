@@ -141,6 +141,9 @@
     function simpleValueGraph(serverid,parameterid){
         openPopupWindow("/datacenter/simpleValueGraph.jsp?serverid="+serverid+"&parameterid="+parameterid+"&ts=<%=getTs()%>");
     }
+    function simpleValueGraphFull(serverid,parameterid){
+        openPopupWindow("/datacenter/simpleValueGraph.jsp?fullperiod=yes&serverid="+serverid+"&parameterid="+parameterid+"&ts=<%=getTs()%>");
+    }
 	function processPatientRecords(serverid){
         openPopup("/datacenter/processPatientRecords.jsp&serverid="+serverid+"&ts=<%=getTs()%>",500,400,"OpenClinic Datacenter");
 	}

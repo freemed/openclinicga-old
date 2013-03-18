@@ -324,6 +324,9 @@
     function simpleValueGraph(serverid,parameterid){
         openPopupWindow("/datacenter/simpleValueGraph.jsp?serverid="+serverid+"&parameterid="+parameterid+"&ts=<%=getTs()%>");
     }
+    function simpleValueGraphFull(serverid,parameterid){
+        openPopupWindow("/datacenter/simpleValueGraph.jsp?fullperiod=yes&serverid="+serverid+"&parameterid="+parameterid+"&ts=<%=getTs()%>");
+    }
     
 
     function loadDiagnoses(serverid,period,nextfunction){

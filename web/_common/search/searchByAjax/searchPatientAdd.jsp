@@ -21,9 +21,7 @@
     person.checkNatreg = false;
     person.sourceid = "";
     person.updateuserid = activeUser.userid;
-	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-    person.saveMiniToDB(ad_conn);
-    ad_conn.close();
+    person.saveMiniToDB();
 
     if (checkString(person.personid).length()>0){
 %>

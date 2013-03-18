@@ -49,7 +49,7 @@
                 <textarea onKeyup="resizeTextarea(this,10);" class="text" <%=setRightClick("ITEM_TYPE_ABSENT_REASON")%> cols="75" rows="2" id="absent_reason" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABSENT_REASON" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABSENT_REASON" property="value"/></textarea>
 
                 <%-- select a macro as reason --%>
-                <a class="menuItem" style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="selectMacro('absent','absent_reason');">
+                <a style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="selectMacro('absent','absent_reason');">
                     <img src="<c:url value="/_img/icon_help.gif"/>">
                 </a>
             </td>

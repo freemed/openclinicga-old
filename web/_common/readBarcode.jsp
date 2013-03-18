@@ -32,9 +32,7 @@
                 sessionContainerWO.setUserVO(MedwanQuery.getInstance().getUser(activeUser.userid));
 
                 activePatient = new AdminPerson();
-            	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                activePatient.initialize(ad_conn, personid + "");
-                ad_conn.close();
+                activePatient.initialize( personid + "");
                 session.setAttribute("activePatient", activePatient);
 
                 // Then we open the document

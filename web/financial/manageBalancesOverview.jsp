@@ -45,9 +45,7 @@
             if(or != null){
                 sType = or.getObjectType();
                 if(sType.equalsIgnoreCase("person")){
-                	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                    sName = ScreenHelper.getFullUserName(or.getObjectUid(),ad_conn);
-                    ad_conn.close();
+                    sName = ScreenHelper.getFullUserName(or.getObjectUid());
                 }else if(sType.equalsIgnoreCase("service")){
                     sName = getTran("Service",or.getObjectUid(),sWebLanguage);
                 }

@@ -136,7 +136,7 @@
             //*** display stock in one row ***
             html.append("<tr class='list" + sClass + "' >")
                     .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\" title='" + deleteTran + "'><td/>":"<td/>"))
-		            .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches")?"<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sStockUid + "');\" title='" + ficheTran + "'><td/>":"<td/>"));
+		            .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sStockUid + "');\" title='" + ficheTran + "'><td/>":"<td/>"));
             if(productStock.hasOpenDeliveries()){
                 html.append("<a href='javascript:receiveProduct(\"" + sStockUid + "\",\"" + sProductName + "\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a>");
             }
@@ -402,22 +402,10 @@
             	sFindServiceStockUid = sEditServiceStockUid;
         	}
         }
-        System.out.println("serviceid="+sServiceId);
         Vector productStocks = ProductStock.find(sFindServiceStockUid,sFindProductUid,sFindLevel,sFindMinimumLevel,
                                                  sFindMaximumLevel,sFindOrderLevel,sFindBegin,sFindEnd,sFindDefaultImportance,
                                                  sFindSupplierUid,"",sSortCol,sSortDir);
 
-        System.out.println("sFindServiceStockUid="+sFindServiceStockUid);
-        System.out.println("sFindProductUid="+sFindProductUid);
-        System.out.println("sFindLevel="+sFindLevel);
-        System.out.println("sFindMinimumLevel="+sFindMinimumLevel);
-        System.out.println("sFindMaximumLevel="+sFindMaximumLevel);
-        System.out.println("sFindOrderLevel="+sFindOrderLevel);
-        System.out.println("sFindBegin="+sFindBegin);
-        System.out.println("sFindEnd="+sFindEnd);
-        System.out.println("sFindDefaultImportance="+sFindDefaultImportance);
-        System.out.println("sFindSupplierUid="+sFindSupplierUid);
-        System.out.println("sSortCol="+sSortCol);
         // display other layout if stocks of only one service are shown
         if(sServiceId.length() == 0) stocksHtml = objectsToHtml1(productStocks,sWebLanguage);
         else                         stocksHtml = objectsToHtml2(productStocks,sServiceId,sWebLanguage,activeUser);

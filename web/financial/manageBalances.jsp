@@ -80,7 +80,6 @@
         AdminPerson tmpPerson = new AdminPerson();
 
         tmpBalance            = Balance.get(sEditBalanceUID);
-        //tmpPerson.initialize(dbConnection,tmpBalance.getOwner().getObjectUid());
         //sEditBalance          = Double.toString(tmpBalance.getBalance());
         sEditBalanceMax       = Double.toString(tmpBalance.getMaximumBalance());
         sEditBalanceMin       = Double.toString(tmpBalance.getMinimumBalance());
@@ -93,9 +92,7 @@
         //}
 
         if(tmpBalance.getOwner().getObjectType().equalsIgnoreCase("PERSON")){
-        	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-            tmpPerson.initialize(ad_conn,tmpBalance.getOwner().getObjectUid());
-            ad_conn.close();
+            tmpPerson.initialize(tmpBalance.getOwner().getObjectUid());
             sEditBalanceOwnerName = tmpPerson.lastname + " " + tmpPerson.firstname;
         }else if(tmpBalance.getOwner().getObjectType().equalsIgnoreCase("SERVICE")){
             sEditBalanceOwnerName = getTran("Service",tmpBalance.getOwner().getObjectUid(),sWebLanguage);
@@ -205,9 +202,7 @@
             sBalance    = checkString(Double.toString(objBalance.getBalance()));
             dDate = objBalance.getDate();
             if (sOwnerType.equalsIgnoreCase("PERSON")) {
-            	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                sName = ScreenHelper.getFullPersonName(sOwnerUID, ad_conn);
-                ad_conn.close();
+                sName = ScreenHelper.getFullPersonName(sOwnerUID);
             } else if (sOwnerType.equalsIgnoreCase("SERVICE")) {
                 sName = getTran("Service", sOwnerUID, sWebLanguage);
             }

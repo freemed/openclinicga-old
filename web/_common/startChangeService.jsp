@@ -10,9 +10,7 @@
    if ((sActionField.equals("update"))&&(sEditDefaultService.length()>0)){
         User.setActiveServiceById(activeUser.userid);
         User.setUpdatetimeAndActiveServiceByIdAndService(activeUser.userid,sEditDefaultService);
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        activeUser.initializeService(ad_conn);
-        ad_conn.close();
+        activeUser.initializeService();
         session.setAttribute("activeMedicalCenter",sEditDefaultService);
         session.setAttribute("activeUser",activeUser);
         out.print("<script>window.location.href='main.do?Page="+sNextPage+"&NextPage=ok&CheckEmail=true'</script>");

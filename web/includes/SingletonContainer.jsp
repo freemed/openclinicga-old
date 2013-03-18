@@ -1,7 +1,7 @@
 <%@page import="net.admin.*,
                 be.mxs.common.util.db.MedwanQuery,
                 be.mxs.common.util.system.Debug,
-                java.sql.*"%>
+                java.sql.*,java.text.*"%>
 <%@ page import="java.util.Hashtable" %>
 <%@ page import="java.util.Vector" %>
 <%@ page import="java.util.Iterator" %>
@@ -17,6 +17,7 @@
         // only load labels in memory that are service nor function.
         Vector vLabels = net.admin.Label.getNonServiceFunctionLabels();
         Iterator iter = vLabels.iterator();
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": A");
 
         if (Debug.enabled) Debug.println("About to (re)load labels.");
         while(iter.hasNext()){
@@ -39,6 +40,7 @@
 
             labelIds.put(label.id, label);
         }
+        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": B");
 
         // status info
         if (Debug.enabled) {

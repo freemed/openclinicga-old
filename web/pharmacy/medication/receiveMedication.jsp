@@ -45,14 +45,7 @@
                 sUserId = operation.getUpdateUser();
                 user = (AdminPerson) usersHash.get(sUserId);
                 if (user == null) {
-                  	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                    user = AdminPerson.getAdminPerson(ad_conn, sUserId);
-                    try{
-                    	ad_conn.close();
-                    }
-                    catch(Exception e){
-                    	e.printStackTrace();
-                    }
+                    user = AdminPerson.getAdminPerson(sUserId);
                     usersHash.put(sUserId, user);
                     if (user != null) {
                         sUserName = user.lastname + " " + user.firstname;
@@ -270,17 +263,15 @@
                 }
 
                 // names
-	          	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                 if(sSelectedSrcDestType.indexOf("patient") > -1){
-                    sSelectedSrcDestName = ScreenHelper.getFullPersonName(sSelectedSrcDestUid,ad_conn);
+                    sSelectedSrcDestName = ScreenHelper.getFullPersonName(sSelectedSrcDestUid);
                 }
                 else if(sSelectedSrcDestType.indexOf("medic") > -1){
-                    sSelectedSrcDestName = ScreenHelper.getFullUserName(sSelectedSrcDestUid,ad_conn);
+                    sSelectedSrcDestName = ScreenHelper.getFullUserName(sSelectedSrcDestUid);
                 }
                 else if(sSelectedSrcDestType.indexOf("service") > -1){
                     sSelectedSrcDestName = getTran("Service",sSelectedSrcDestUid,sWebLanguage);
                 }
-                ad_conn.close();
             }
         }
         else if(sAction.equals("showDetailsAfterAddReject")){

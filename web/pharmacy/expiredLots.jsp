@@ -35,7 +35,6 @@
 						" d.oc_product_objectid=replace(b.oc_stock_productuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
 						" order by c.oc_stock_objectid,b.oc_stock_objectid,a.oc_batch_end";
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
-		System.out.println(sQuery);
 		PreparedStatement ps = conn.prepareStatement(sQuery);
 		ps.setDate(1,new java.sql.Date(dDate.getTime()));
 		ResultSet rs = ps.executeQuery();

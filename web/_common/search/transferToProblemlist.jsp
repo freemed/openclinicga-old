@@ -7,9 +7,7 @@
     String gravity = ScreenHelper.checkString(request.getParameter("gravity"));
     String certainty = ScreenHelper.checkString(request.getParameter("certainty"));
     if(ScreenHelper.checkString(request.getParameter("patientuid")).length()>0){
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-    	person=AdminPerson.getAdminPerson(ad_conn,request.getParameter("patientuid"));
-    	ad_conn.close();
+    	person=AdminPerson.getAdminPerson(request.getParameter("patientuid"));
     }
     Problem problem=new Problem(person.personid,codetype,code,"",new java.util.Date(),null);
     problem.setGravity(Integer.parseInt(gravity));

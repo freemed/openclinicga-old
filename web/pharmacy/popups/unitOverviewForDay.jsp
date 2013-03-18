@@ -54,9 +54,7 @@
         }
         if (sourceDestination != null) {
             if (sourceDestination.getObjectType().equalsIgnoreCase("patient")) {
-              	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                AdminPerson patient = AdminPerson.getAdminPerson(ad_conn, sourceDestination.getObjectUid());
-                ad_conn.close();
+                AdminPerson patient = AdminPerson.getAdminPerson(sourceDestination.getObjectUid());
                 sd = patient.personid + ": " + patient.firstname + " " + patient.lastname;
             } else if (sourceDestination.getObjectType().equalsIgnoreCase("servicestock") || sourceDestination.getObjectType().equalsIgnoreCase("service")) {
                 ServiceStock serviceStock = ServiceStock.get(sourceDestination.getObjectUid());

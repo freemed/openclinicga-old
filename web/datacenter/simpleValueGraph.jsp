@@ -7,7 +7,7 @@
 	int serverId=Integer.parseInt(request.getParameter("serverid"));
 	String parameterId=request.getParameter("parameterid");
 
-    List lValues = TimeGraph.getListValueGraph(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1)),
+    List lValues = TimeGraph.getListValueGraph(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-(request.getParameter("fullperiod")==null?1:999))),
 			new java.util.Date(new java.util.Date().getTime()+24*3600000),serverId,parameterId,sWebLanguage,activeUser.userid);
     String sJsArray = "[";
     for(Iterator it=lValues.iterator();it.hasNext();){
@@ -19,11 +19,15 @@
     sJsArray+="]";
 %>
 <div style="float:left;padding-left:20px;">
-    <div id="barchart" style="width: 620px; height: 300px; position: relative;"></div>
+    <div id="barchart" style="width: 620px; height: 320px; position: relative;"></div>
         <div style="float:left;height:30px;font-size:15px;text-align:center;width:100%;"><%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%></div>
     </div>
 </div>
 <script type="text/javascript">
     setGraph(<%=sJsArray%>);
-    Modalbox.setTitle("<%=HTMLEntities.htmlentities(getTran("datacenterserver", serverId + "", sWebLanguage)) + "<br />" + HTMLEntities.htmlentities(getTranNoLink("datacenterparameter", parameterId, sWebLanguage))%>");
+    <%
+    	String sTitle=HTMLEntities.htmlentities(getTran("datacenterserver", serverId + "", sWebLanguage)) + "<br />" + HTMLEntities.htmlentities(getTranNoLink("datacenterparameter", parameterId, sWebLanguage))+
+    			(request.getParameter("fullperiod")!=null?" <a href=\\\"javascript:simpleValueGraph('"+serverId+"','"+parameterId+"')\\\">("+ScreenHelper.getTranNoLink("web", "lastyear", sWebLanguage)+")</a>":" <a href=\\\"javascript:simpleValueGraphFull('"+serverId+"','"+parameterId+"')\\\">("+ScreenHelper.getTranNoLink("web", "fullperiod", sWebLanguage)+")</a>");
+    %>
+    Modalbox.setTitle("<%=sTitle%>");
 </script>

@@ -32,7 +32,6 @@
 	if(sDeleteOperation.length()>0){
 		ProductStockOperation.deleteWithProductStockUpdate(sDeleteOperation);
 	}
-	System.out.println(1);
 	OperationDocument operationDocument = new OperationDocument();
 
 	if(sAction.equalsIgnoreCase("save")){
@@ -59,7 +58,6 @@
 		sFindMaxDate=sDate;
 		sFindReference=sReference;
 	}
-	System.out.println(2);
 
 	if(sAction.length()==0 || sAction.equalsIgnoreCase("find")){
 		if(sUid.length()>0){
@@ -153,7 +151,6 @@
 						OperationDocument document = (OperationDocument)documents.elementAt(n);
 						sType=checkString(document.getType());
 						if(document.getSourceuid().length()>0){
-							System.out.println("document.getSourceuid()="+document.getSourceuid());
 							sSource=document.getSource().getName();
 						}
 						else {
@@ -171,11 +168,8 @@
 						else {
 							sDate="";
 						}
-						System.out.println("sDate="+sDate);
 						sComment=checkString(document.getComment());
-						System.out.println("sComment="+sComment);
 						sReference=checkString(document.getReference());
-						System.out.println("sReference="+sReference);
 						out.println("<tr class='listText'><td>"+document.getUid()+"</td><td><a href='javascript:editDocument(\""+document.getUid()+"\");'>"+sDate+"</a></td><td>"+getTran("operationdocumenttypes",sType,sWebLanguage)+"</td><td>"+sSource+"</td><td>"+sDestination+"</td><td>"+sReference+"</td></tr>");
 					}
 					%>
@@ -186,11 +180,9 @@
 		<%		
 	}
 	else if(sAction.equalsIgnoreCase("new") || sAction.equalsIgnoreCase("edit")){ 
-		System.out.println(3);
 		if(sAction.equalsIgnoreCase("edit")){
 			operationDocument = OperationDocument.get(sUid);
 		}
-		System.out.println("4: "+operationDocument);
 		%>
 		<table><tr><td colspan="5">
 		<form name="editForm" method="post" action="<c:url value="/main.jsp"/>">

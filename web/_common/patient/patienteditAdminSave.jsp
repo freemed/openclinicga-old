@@ -1,5 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
-<%@page import="be.mxs.common.util.system.Mail"%>
+<%@page import="be.mxs.common.util.system.Mail,net.admin.*"%>
 <%@ page import="java.util.Hashtable" %>
 <%@include file="/_common/patient/patienteditHelper.jsp"%>
 <%
@@ -158,21 +158,13 @@
                             bReturn = false;
                         } else {
                             //insert
-					    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                            if (activePatient.saveToDB(ad_conn, checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
-                                if (activePatient.workContacts.size() == 0) {
-                                    AdminWorkContact awc = new AdminWorkContact();
-                                    awc.begin = getDate();
-                                    awc.updateuserid = activeUser.userid;
-                                    awc.saveToDB(activePatient.personid, ad_conn, checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")));
-                                }
+                            if (activePatient.saveToDB(checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
                               	activePatient.setExportRequest(sExport.equalsIgnoreCase("1"));
                                 out.print("<script>window.location.href='" + sCONTEXTPATH + "/patientdata.do?Tab=" + tab + "&personid=" + activePatient.personid + "&ts=" + getTs() + "'</script>");
                             } else {
                                 //error
                                 bReturn = false;
                             }
-                            ad_conn.close();
                         }
                     } else {
                         //no name, firstname, dob
@@ -213,16 +205,9 @@
                 if (bReturn) {
                     activePatient.personid = sPersonID;
                     activePatient.updateuserid = activeUser.userid;
-                	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                    if (activePatient.saveToDB(ad_conn, checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
-                        if (activePatient.workContacts.size() == 0) {
-                            AdminWorkContact awc = new AdminWorkContact();
-                            awc.begin = getDate();
-                            awc.updateuserid = activeUser.userid;
-                            awc.saveToDB(activePatient.personid, ad_conn);
-                        }
+                    if (activePatient.saveToDB( checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
                         activePatient = new AdminPerson();
-                        activePatient.initialize(ad_conn, sPersonID);
+                        activePatient.initialize(sPersonID);
                       	activePatient.setExportRequest(sExport.equalsIgnoreCase("1"));
                         session.setAttribute("activePatient", activePatient);
                         out.print("<script>window.location.href='" + sCONTEXTPATH + "/patientdata.do?Tab=" + tab + "&personid=" + sPersonID + "&ts=" + getTs() + "'</script>");
@@ -230,7 +215,6 @@
                         //error
                         bReturn = false;
                     }
-                    ad_conn.close();
                 }
             }
             out.print(sReturn);
@@ -286,19 +270,15 @@
                             .append(getTran("Web", "natreg", sWebLanguage) + ": " + activePatient.getID("natreg") + "\r\n\r\n")
                             .append(sMail);
                     try {
-                    	Connection co_conn = MedwanQuery.getInstance().getConfigConnection();
-                        Mail.sendMail(getConfigStringDB("PatientEdit.MailServer", co_conn)
-                                , getConfigStringDB("PatientEdit.MailSender", co_conn)
-                                , getConfigStringDB("PatientEdit.MailAddressee", co_conn), "Request Admin-update", sMail.toString());
-                        co_conn.close();
+                        Mail.sendMail(MedwanQuery.getInstance().getConfigString("PatientEdit.MailServer")
+                                , MedwanQuery.getInstance().getConfigString("PatientEdit.MailSender")
+                                , MedwanQuery.getInstance().getConfigString("PatientEdit.MailAddressee"), "Request Admin-update", sMail.toString());
                     }
                     catch (Exception e) {
                     }
                 }
                 activePatient = new AdminPerson();
-            	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                activePatient.initialize(ad_conn, sPersonID);
-                ad_conn.close();
+                activePatient.initialize(sPersonID);
                 session.setAttribute("activePatient", activePatient);
 
                 out.print("<script>window.location.href='" + sCONTEXTPATH + "/patientdata.do?Tab=" + tab + "&personid=" + sPersonID + "&ts=" + getTs() + "'</script>");

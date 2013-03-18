@@ -143,7 +143,6 @@
 	//Nu gaan we kijken of er geneesmiddelen geleverd zijn geworden in de laatste x dagen
 	long day=24*3600*1000;
 	Vector medicationHistory = ProductStockOperation.getPatientDeliveries(activePatient.personid, new java.util.Date(new java.util.Date().getTime()-MedwanQuery.getInstance().getConfigInt("patientMedicationDeliveryHistoryDuration",14)*day), new java.util.Date(), "OC_OPERATION_DATE", "DESC");
-	System.out.println("medicationHistory.size="+medicationHistory.size());
 	if(medicationHistory.size()>0){
 		%>
         <tr>

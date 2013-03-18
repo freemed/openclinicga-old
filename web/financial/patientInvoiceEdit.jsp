@@ -5,75 +5,6 @@
 <%=sJSPROTOTYPE%>
 <%=sJSNUMBER%> 
 <%!
-    private String addDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked){
-        StringBuffer sReturn = new StringBuffer();
-
-            if (vDebets!=null){
-            Debet debet;
-            Encounter encounter;
-            Prestation prestation;
-            String sEncounterName, sPrestationDescription, sCredited, sDebetUID;
-            String sChecked = "";
-            if (bChecked){
-                sChecked = " checked";
-            }
-
-            for (int i = 0; i < vDebets.size(); i++) {
-                sDebetUID = checkString((String) vDebets.elementAt(i));
-
-                if (sDebetUID.length()>0){
-                    debet = Debet.get(sDebetUID);
-
-                    if (debet != null) {
-                        if (sClass.equals("")) {
-                            sClass = "1";
-                        } else {
-                            sClass = "";
-                        }
-
-                        sEncounterName = "";
-
-                        if (checkString(debet.getEncounterUid()).length() > 0) {
-                            encounter = debet.getEncounter();
-
-                            if (encounter != null) {
-                                sEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
-                            }
-                        }
-
-                        sPrestationDescription = "";
-
-                        if (checkString(debet.getPrestationUid()).length()>0){
-                            prestation = debet.getPrestation();
-
-                            if (prestation!=null){
-                                sPrestationDescription = checkString(prestation.getDescription());
-                            }
-                        }
-
-                        sCredited = "";
-
-                        if (debet.getCredited()>0){
-                            sCredited = getTran("web","canceled",sWebLanguage);
-                        }
-
-                        sReturn.append( "<tr class='list"+sClass+"'>"
-                            +"<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+debet.getAmount()+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"
-                            +"<td>"+ScreenHelper.getSQLDate(debet.getDate())+"</td>"
-                            +"<td>"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(debet.getCreateDateTime())+"</td>"
-                            +"<td>"+sEncounterName+"</td>"
-                            +"<td>"+debet.getQuantity()+" x "+sPrestationDescription+"</td>"
-                            +"<td>"+debet.getAmount()+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>"
-                            +"<td>"+sCredited+"</td>"
-                            +"<td>"+ScreenHelper.checkString(debet.getInsurarInvoiceUid()).replaceAll("1\\.","")+"</td>"
-                        +"</tr>");
-                    }
-                }
-            }
-        }
-        return sReturn.toString();
-    }
-
     private String addCredits(Vector vCredits, String sClass, boolean bChecked, String sWebLanguage){
         StringBuffer sReturn = new StringBuffer();
 
@@ -115,7 +46,6 @@
 <%
 
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
-
 	PatientInvoice patientInvoice;
     String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="";
 
@@ -125,13 +55,11 @@
             sPatientInvoiceID = checkString(patientInvoice.getInvoiceUid());
             sPatientId = patientInvoice.getPatientUid();
             if(request.getParameter("LoadPatientId")!=null && (activePatient==null || !sPatientId.equalsIgnoreCase(activePatient.personid))){
-            	Connection conn = MedwanQuery.getInstance().getAdminConnection();
             	if(activePatient==null){
             		activePatient=new AdminPerson();
             		session.setAttribute("activePatient",activePatient);
             	}
-            	activePatient.initialize(conn,sPatientId);
-            	conn.close();
+            	activePatient.initialize(sPatientId);
             	%>
             	<script>window.location.href='<c:url value='/main.do'/>?Page=financial/patientInvoiceEdit.jsp&ts=<%=ScreenHelper.getTs()%>&FindPatientInvoiceUID=<%=sFindPatientInvoiceUID%>';</script>
             	<%
@@ -168,7 +96,7 @@
 	            }
 	        }
 	    }
-	
+
 	    Vector vPatientCredits = PatientCredit.getPatientCreditsViaInvoiceUID(patientInvoice.getUid());
 	
 	    if (vPatientCredits!=null){
@@ -251,8 +179,6 @@
 	
 	                %>
 	            </td>
-	        </tr>
-	        <tr>
 	            <td class="admin" nowrap><%=getTran("web.finance","insurarreference",sWebLanguage)%></td>
 	            <td class="admin2">
 	                <input type="text" size="40" class="text" id="EditInsurarReference" name="EditInsurarReference" value="<%=sInsurarReference%>">
@@ -261,8 +187,6 @@
 	        <tr>
 	            <td class='admin' nowrap><%=getTran("Web","date",sWebLanguage)%> *</td>
 	            <td class='admin2'><%=writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(patientInvoice.getDate()),sWebLanguage)%></td>
-	        </tr>
-	        <tr>
 	            <td class='admin' nowrap><%=getTran("Web.finance","patientinvoice.status",sWebLanguage)%> *</td>
 	            <td class='admin2'>
 	                <%
@@ -288,23 +212,53 @@
 	                &nbsp;<%=getTran("web","total",sWebLanguage) %>: <label id='invoiceValue'></label> <%=MedwanQuery.getInstance().getConfigString("currency","EUR") %>
 	                &nbsp;<%=getTran("web","paid",sWebLanguage) %>: <label id='invoicePaid'></label> <%=MedwanQuery.getInstance().getConfigString("currency","EUR") %>
 	            </td>
+	            <td class='admin' nowrap><%=getTran("web","period",sWebLanguage)%></td>
+	            <td class='admin2'>
+                    <%=writeDateField("EditBegin", "EditForm", "", sWebLanguage)%>
+                    <%=getTran("web","to",sWebLanguage)%>
+                    <%=writeDateField("EditEnd", "EditForm", "", sWebLanguage)%>
+                    &nbsp;<input type="button" class="button" name="update" value="<%=getTran("web","update",sWebLanguage)%>" onclick="loadDebets();"/>
+		            <input type="hidden" name="EditInvoiceService" id="EditInvoiceService" value="">
+	            </td>
 	        </tr>
+            <% if(patientInvoice==null || patientInvoice.getStatus()==null || patientInvoice.getStatus().equalsIgnoreCase("open")){ %>
+            <tr>
+            	<td class='admin'><%=getTran("web","service",sWebLanguage)%></td>
+            	<td class='admin2' colspan='3'>
+		           	<input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">
+		           	<img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
+		           	<img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
+                    &nbsp;<input type="button" class="button" name="update2" value="<%=getTran("web","update",sWebLanguage)%>" onclick="loadDebets();"/>
+				</td>
+			</tr>
+			<%}%>                        
             <%
   				boolean bReduction=false;
-            	Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(activePatient.personid);
-            	if(patientInvoice.getStatus().equals("open") && insurance!=null && insurance.getInsurar()!=null && insurance.getInsurar().getAllowedReductions()!=null && insurance.getInsurar().getAllowedReductions().length()>0){
-					out.println("<tr><td class='admin'>"+getTran("web","acceptable.reductions",sWebLanguage)+"</td><td class='admin2'>");
-            		String options[]=insurance.getInsurar().getAllowedReductions().split(";");
-            		int reductionLevel=0;
-            		if(patientInvoice.getReduction()!=null){
-            			reductionLevel=new Double(patientInvoice.getReduction().getAmount()/patientInvoice.getPatientAmount()).intValue();
-            		}
-					for(int n=0;n<options.length;n++){
-             			out.print("<input type='radio' "+(n==0 && patientInvoice.getReduction()==null?"checked":"")+" name='reduction' class='text' onclick='removeReductions();doBalance();' onDblClick='uncheckRadio(this);doBalance()' value='"+options[n]+"'>"+options[n]+"%");
-					}
-            		bReduction=true;
-            		out.print("</td></tr>");
+  				Insurance insurance = null;
+            	String pid="0";
+            	if(patientInvoice!=null){
+            		pid=patientInvoice.getPatientUid();
             	}
+            	else if(activePatient!=null){
+            		pid=activePatient.personid;
+            	}
+
+  				if(patientInvoice!=null){
+	            	insurance = Insurance.getMostInterestingInsuranceForPatient(pid);
+	            	if(patientInvoice!=null && patientInvoice.getStatus()!=null && patientInvoice.getStatus().equals("open") && insurance!=null && insurance.getInsurar()!=null && insurance.getInsurar().getAllowedReductions()!=null && insurance.getInsurar().getAllowedReductions().length()>0){
+						out.println("<tr><td class='admin'>"+getTran("web","acceptable.reductions",sWebLanguage)+"</td><td class='admin2' colspan='3'>");
+	            		String options[]=insurance.getInsurar().getAllowedReductions().split(";");
+	            		int reductionLevel=0;
+	            		if(patientInvoice.getReduction()!=null){
+	            			reductionLevel=new Double(patientInvoice.getReduction().getAmount()/patientInvoice.getPatientAmount()).intValue();
+	            		}
+						for(int n=0;n<options.length;n++){
+	             			out.print("<input type='radio' "+(n==0 && patientInvoice.getReduction()==null?"checked":"")+" name='reduction' class='text' onclick='removeReductions();doBalance();' onDblClick='uncheckRadio(this);doBalance()' value='"+options[n]+"'>"+options[n]+"%");
+						}
+	            		bReduction=true;
+	            		out.print("</td></tr>");
+	            	}
+  				}
              	if(!bReduction){
              		out.println("<input type='hidden' name='reduction' id='reduction' value='0'/>");
              	}
@@ -312,29 +266,8 @@
              %>
 	        <tr>
 	            <td class='admin' nowrap><%=getTran("web.finance","prestations",sWebLanguage)%></td>
-	            <td class='admin2'>
-	                <div style="height:120px;"class="searchResults">
-	                    <table width="100%" class="list" cellspacing="2">
-	                        <tr class="gray">
-	                            <td width="20"/>
-	                            <td width="80"><%=getTran("web","date",sWebLanguage)%></td>
-	                            <td><%=getTran("web","entrydate",sWebLanguage)%></td>
-	                            <td><%=getTran("web.finance","encounter",sWebLanguage)%></td>
-	                            <td><%=getTran("web","prestation",sWebLanguage)%></td>
-	                            <td><%=getTran("web","amount",sWebLanguage)%></td>
-	                            <td><%=getTran("web","credit",sWebLanguage)%></td>
-	                            <td><%=getTran("web","insuranceinvoiceid",sWebLanguage)%></td>
-	                        </tr>
-	                    <%
-	                        String sClass = "";
-	                        out.print(addDebets(vDebets,sClass,sWebLanguage, true));
-	
-	                        if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed") || checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
-	                            Vector vUnassignedDebets = Debet.getUnassignedPatientDebets(sPatientId);
-	                            out.print(addDebets(vUnassignedDebets,sClass,sWebLanguage, false));
-	                        }
-	                    %>
-	                    </table>
+	            <td class='admin2' colspan='3'>
+	                <div style="height:120px;"class="searchResults" id="patientInvoiceDebets" name="patientInvoiceDebets" >
 	                </div>
 	                <input class='button' type="button" id="ButtonDebetSelectAll" name="ButtonDebetSelectAll" value="<%=getTran("web","selectall",sWebLanguage)%>" onclick="selectAll('cbDebet',true,'ButtonDebetSelectAll','ButtonDebetDeselectAll',true);">&nbsp;
 	                <input class='button' type="button" id="ButtonDebetDeselectAll" name="ButtonDebetDeselectAll" value="<%=getTran("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbDebet',false,'ButtonDebetDeselectAll','ButtonDebetSelectAll',true);">
@@ -342,7 +275,7 @@
 	        </tr>
 	        <tr>
 	            <td class='admin' nowrap><%=getTran("web.finance","credits",sWebLanguage)%></td>
-	            <td class='admin2'>
+	            <td class='admin2' colspan='3'>
 	                <div style="height:120px;"class="searchResults">
 	                    <table id='creditsTable' width="100%" class="list" cellspacing="1">
 	                        <tr class="gray">
@@ -352,6 +285,7 @@
 	                            <td align="right"><%=getTran("web","amount",sWebLanguage)%></td>
 	                        </tr>
 	                    <%
+		                    String sClass = "";
 	                        out.print(addCredits(vPatientCredits,sClass,true,sWebLanguage));
 	
 	                        if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed")||checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
@@ -367,14 +301,14 @@
 	        </tr>
 	        <tr>
 	            <td class="admin"/>
-	            <td class="admin2">
+	            <td class="admin2" colspan='3'>
 	                <%
 	                if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed")||checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
 	                %>
 	                <input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave(this);">&nbsp;
 	                <%
 	                }
-	
+
 	                // pdf print button for existing invoices
 	                if(checkString(patientInvoice.getUid()).length() > 0){
 	                    %>
@@ -403,7 +337,7 @@
 	                        </select>
 	                        <%
 	                        	String defaultmodel="default";
-	                        	insurance = Insurance.getMostInterestingInsuranceForPatient(activePatient.personid);
+	                        	insurance = Insurance.getMostInterestingInsuranceForPatient(pid);
 	                        	if(insurance!=null && insurance.getInsurar().getDefaultPatientInvoiceModel()!=null){
 	                        		defaultmodel=insurance.getInsurar().getDefaultPatientInvoiceModel();
 	                        	}
@@ -411,7 +345,19 @@
 	                        <select class="text" name="PrintModel" id="PrintModel">
 	                            <option value="default" <%=defaultmodel.equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
 	                            <option value="ctams" <%=defaultmodel.equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
-	                            <option value="mfp" <%=defaultmodel.equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
+			                    <%
+			                    	if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
+			                    %>
+		                            <option value="mfp" <%=defaultmodel.equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
+		                            <option value="mfppharma" <%=defaultmodel.equalsIgnoreCase("mfpharma")?"selected":""%>><%=getTranNoLink("web","mfpharmamodel",sWebLanguage)%></option>
+	                        	<%
+                    				}
+			                    	if(MedwanQuery.getInstance().getConfigInt("enableCMCK",0)==1){
+			                    %>
+		                            <option value="cmck" <%=defaultmodel.equalsIgnoreCase("cmck")?"selected":""%>><%=getTranNoLink("web","cmckmodel",sWebLanguage)%></option>
+	                        	<%
+                    				}
+	                        	%>
 	                        </select>
 	
 	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf('<%=patientInvoice.getUid()%>');">
@@ -425,13 +371,13 @@
 	                        %>
 	                        <%
 	                            if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
-	                            	if(!patientInvoice.getStatus().equalsIgnoreCase("closed")||(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.cancelclosedinvoice.select")){
+	                            	if((MedwanQuery.getInstance().getConfigInt("authorizeCancellationOfOpenInvoices",1)==1 && !patientInvoice.getStatus().equalsIgnoreCase("closed"))||(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.cancelclosedinvoice.select")){
 	                        %>
 	                                	<input class="button" type="button" name="buttonCancellation" value='<%=getTranNoLink("Web.finance","cancellation",sWebLanguage)%>' onclick="doCancel('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                            	}
 	                        %>
-	                                <input class="button" type="button" name="buttonPayment" value='<%=getTranNoLink("Web.finance","payment",sWebLanguage)%>' onclick="doPayment('<%=patientInvoice.getUid()%>');">
+                               	<input class="button" type="button" name="buttonPayment" value='<%=getTranNoLink("Web.finance","payment",sWebLanguage)%>' onclick="doPayment('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                            }
 	                        %>
@@ -576,14 +522,14 @@
 	    	var elements = document.getElementsByTagName("input");
 	    	for(var n=0;n<elements.length;n++){
 	    		if(elements[n].name.indexOf("cbDebet")==0 && elements[n].checked){
-	    			total+=elements[n].name.split("=")[1]*1;
+	    			total+=parseFloat(elements[n].name.split("=")[1])*1;
 	    		}
 	    		else if(elements[n].name.indexOf("cbPatientInvoice")==0 && elements[n].checked){
-	    			paid+=elements[n].name.split("=")[1]*1;
+	    			paid+=parseFloat(elements[n].name.split("=")[1])*1;
 	    		}
 	    	}
-	    	document.getElementById('invoiceValue').innerHTML='<b>'+total+'</b>';
-	    	document.getElementById('invoicePaid').innerHTML='<b>'+paid+'</b>';
+	    	document.getElementById('invoiceValue').innerHTML='<b>'+total.toFixed(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>)+'</b>';
+	    	document.getElementById('invoicePaid').innerHTML='<b>'+paid.toFixed(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>)+'</b>';
 			var reductions=document.getElementsByName('reduction');
 			if(reductions[0].type=='radio'){
 				for(var n=0;n<reductions.length;n++){
@@ -618,7 +564,7 @@
 	    function doPrintPatientReceipt(invoiceUid){
 	        var params = '';
 	        var today = new Date();
-	        var url= '<c:url value="/financial/printPatientReceipt.jsp"/>?invoiceuid='+invoiceUid+'&ts='+today;
+	        var url= '<c:url value="/financial/printPatientReceiptOffline.jsp"/>?invoiceuid='+invoiceUid+'&ts='+today+'&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>';
 	        new Ajax.Request(url,{
 					method: "GET",
 	                parameters: params,
@@ -633,7 +579,7 @@
 	            }
 			);
 	    }
-	    
+
 	    function loadOpenPatientInvoices(){
 	        var params = '';
 	        var today = new Date();
@@ -644,6 +590,24 @@
 	                parameters: params,
 	                onSuccess: function(resp){
 	                    $('divOpenPatientInvoices').innerHTML=resp.responseText;
+	                },
+					onFailure: function(){
+	                }
+	            }
+			);
+	    }
+	
+	    function loadDebets(){
+	        var params = '';
+	        var today = new Date();
+	        var url= '<c:url value="/financial/getPatientDebets.jsp"/>?PatientUID=<%=sPatientId%>&PatientInvoiceUID='+EditForm.EditPatientInvoiceUID.value+'&EditInvoiceService=' +EditForm.EditInvoiceService.value+'&Begin='+EditForm.EditBegin.value+'&End='+EditForm.EditEnd.value+'&ts='+today;
+	        document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	        new Ajax.Request(url,{
+					method: "GET",
+	                parameters: params,
+	                onSuccess: function(resp){
+	                    $('patientInvoiceDebets').innerHTML=resp.responseText;
+	                    doBalance();
 	                },
 					onFailure: function(){
 	                }
@@ -695,11 +659,16 @@
 	        }
 	    }
 	
+	function searchService(serviceUidField,serviceNameField){
+	    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+	    document.getElementById(serviceNameField).focus();
+	}
 	    function doPayment (invoiceUid){
 	        openPopup("/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+"&ScreenType=doPayment&EditBalance="+document.getElementById('EditBalance').value);
 	    }
 	
 	    FindForm.FindPatientInvoiceUID.focus();
+	    loadDebets();
 	    loadOpenPatientInvoices();
 	    doBalance();
 	    document.getElementById('EditBalance').value = (document.getElementById('EditBalance').value).fixedTo(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);

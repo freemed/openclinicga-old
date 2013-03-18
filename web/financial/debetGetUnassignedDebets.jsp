@@ -17,28 +17,18 @@
                 sDebetUID = checkString((String) vDebets.elementAt(i));
 
                 if (sDebetUID.length() > 0) {
-					System.out.println("sDebetUID="+sDebetUID+"*");
                     debet = Debet.get(sDebetUID);
 
                     if (debet != null) {
                         sEncounterName = "";
                         sPatientName = "";
-						System.out.println("debet.getEncounterUid()="+debet.getEncounterUid());
 
                         if (checkString(debet.getEncounterUid()).length() > 0) {
                             encounter = debet.getEncounter();
-    						System.out.println("encounter="+encounter);
 
                             if (encounter != null) {
                                 sEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
-                            	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                                sPatientName = ScreenHelper.getFullPersonName(encounter.getPatientUID(), ad_conn);
-                                try{
-                                	ad_conn.close();
-                                }
-                                catch(Exception e){
-                                	e.printStackTrace();
-                                }
+                                sPatientName = ScreenHelper.getFullPersonName(encounter.getPatientUID());
                             }
                         }
 
@@ -61,10 +51,11 @@
                                 + "<td>" + ScreenHelper.getSQLDate(debet.getDate()) + "</td>"
                                 + "<td>" + HTMLEntities.htmlentities(sEncounterName) + " ("+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName()+")</td>"
                                 + "<td>" + debet.getQuantity()+" x "+HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
-                                + "<td "+(checkString(debet.getExtraInsurarUid()).length()>0?"style='text-decoration: line-through'":"")+">" + (debet.getAmount()+debet.getExtraInsurarAmount()) + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td "+(checkString(debet.getExtraInsurarUid2()).length()>0?"style='text-decoration: line-through'":"")+">" + debet.getAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td>" + debet.getInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td>" + debet.getExtraInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
                                 + "<td>" + sCredited + "</td>"
                                 + "</tr>");
-						System.out.println("2");
                     }
                 }
             }
@@ -89,11 +80,13 @@
 %>
 <table width="100%" cellspacing="0">
     <tr class="admin">
-        <td width="80"><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web.finance","encounter",sWebLanguage))%></td>
-        <td width="200"><%=HTMLEntities.htmlentities(getTran("web","prestation",sWebLanguage))%></td>
-        <td width="100"><%=HTMLEntities.htmlentities(getTran("web","amount",sWebLanguage))%></td>
-        <td width="50"><%=HTMLEntities.htmlentities(getTran("web","canceled",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTran("web","prestation",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTran("web","amount",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTranNoLink("web.finance","amount.insurar",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTran("web","canceled",sWebLanguage))%></td>
     </tr>
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
 <%

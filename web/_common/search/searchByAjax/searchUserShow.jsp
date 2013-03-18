@@ -83,7 +83,6 @@
             sReturnName = checkString(request.getParameter("ReturnName")),
             sSetGreenField = checkString(request.getParameter("SetGreenField"));
     // options
-    System.out.println("request.getParameter('displayImmatNew')="+request.getParameter("displayImmatNew")+"*");
     boolean displayImmatNew = !checkString(request.getParameter("displayImmatNew")).equalsIgnoreCase("no");
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
@@ -109,7 +108,6 @@
     Vector vResults;
     Hashtable hInfo;
     vResults = User.searchUsers(sSelectLastname, sSelectFirstname);
-    System.out.println("vResults.size="+vResults.size());
     Iterator iter = vResults.iterator();
 
     Hashtable usersPerDiv = new Hashtable();

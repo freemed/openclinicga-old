@@ -4,9 +4,7 @@
 <%@page import="java.io.ByteArrayOutputStream,
                 com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,
-                be.mxs.common.util.pdf.general.PDFInsurarInvoiceGenerator,
-                be.mxs.common.util.pdf.general.PDFInsurarInvoiceGeneratorRAMA,
-                be.mxs.common.util.pdf.general.PDFInvoiceGenerator"%>
+                be.mxs.common.util.pdf.general.*"%>
 
 <%
     String sInvoiceUid    = checkString(request.getParameter("InvoiceUid")),
@@ -27,6 +25,18 @@
         }
         else if(sPrintModel.equalsIgnoreCase("ctams")){
         	pdfGenerator = new PDFInsurarInvoiceGeneratorCTAMS(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
+        else if(sPrintModel.equalsIgnoreCase("mfp")){
+        	pdfGenerator = new PDFInsurarInvoiceGeneratorMFP(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
+        else if(sPrintModel.equalsIgnoreCase("ascoma")){
+        	pdfGenerator = new PDFInsurarInvoiceGeneratorASCOMA(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
+        else if(sPrintModel.equalsIgnoreCase("brarudi")){
+        	pdfGenerator = new PDFInsurarInvoiceGeneratorBRARUDI(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
+        else if(sPrintModel.equalsIgnoreCase("ambusa")){
+        	pdfGenerator = new PDFInsurarInvoiceGeneratorAMBUSA(activeUser,sProject,sPrintLanguage,sPrintType);
         }
         else{
         	pdfGenerator = new PDFInsurarInvoiceGenerator(activeUser,sProject,sPrintLanguage,sPrintType);

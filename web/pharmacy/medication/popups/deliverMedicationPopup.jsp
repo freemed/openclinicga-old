@@ -329,7 +329,7 @@
                     <tr>
                         <td class="admin"><%=getTran("Web","unitschanged",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditUnitsChanged" id="EditUnitsChanged" size="5" maxLength="5" value="<%=sSelectedUnitsChanged%>" onKeyUp="if(this.value=='0'){this.value='';}isNumber(this);setMaxQuantityValue(setMaxQuantity);" onblur="validateMaxFocus(this);" <%=(sAction.equals("showDetails")?"READONLY":"")%>><span id="maxquantity" name="maxquantity"/>
+                            <input class="text" type="text" name="EditUnitsChanged" id="EditUnitsChanged" size="10" maxLength="10" value="<%=sSelectedUnitsChanged%>" onKeyUp="if(this.value=='0'){this.value='';}isNumber(this);setMaxQuantityValue(setMaxQuantity);" onblur="validateMaxFocus(this);" <%=(sAction.equals("showDetails")?"READONLY":"")%>><span id="maxquantity" name="maxquantity"/>
                         </td>
                     </tr>
 					<%

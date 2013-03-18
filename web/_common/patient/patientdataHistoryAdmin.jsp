@@ -3,9 +3,7 @@
 <%
 	String personid = request.getParameter("personid");
 	java.util.Date updatetime = new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(request.getParameter("updatetime"));
-	Connection conn = MedwanQuery.getInstance().getAdminConnection();
-	AdminPerson activeHistoryPatient = AdminPerson.getAdminHistoryPerson(conn,personid,updatetime);
-	conn.close();
+	AdminPerson activeHistoryPatient = AdminPerson.getAdminHistoryPerson(personid,updatetime);
 
 	String sGender = "&nbsp;", sComment = "&nbsp;", sNativeCountry = "&nbsp;", sLanguage = "&nbsp;", sNatreg = "&nbsp;"
             , sCivilStatus = "&nbsp;", sTracnetID = "&nbsp;", sTreatingPhysician = "&nbsp;", sComment3="", sDeathCertificateTo="", sDeathCertificateOn="";

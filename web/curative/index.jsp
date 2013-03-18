@@ -15,15 +15,10 @@
         if(l.size()>1){
         	try{
             Object[] ss = (Object[])l.get(1);
-            System.out.println(2);
             Timestamp t = (Timestamp)ss[0];
-            System.out.println(3);
             Hashtable u = User.getUserName((String)ss[1]);
-            System.out.println(4);
             s+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ (t==null?"?":dateformat.format(t))+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+(u==null?"?":u.get("firstname")+" "+u.get("lastname"))+"</b></span>";
-            System.out.println(5);
             s+=" | <a href='javascript:void(0)' onclick='getAccessHistory(20)' class='link history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a><a href='javascript:void(0)' onclick='getAdminHistory(20)' class='link adminhistory' title='"+getTranNoLink("web","adminhistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
-            System.out.println(6);
         	}
         	catch(Exception e){
         		e.printStackTrace();

@@ -19,6 +19,7 @@
                 sLanguage = checkString(request.getParameter("Language")),
                 sGender = checkString(request.getParameter("Gender")),
                 sNativeCountry = checkString(request.getParameter("NativeCountry")),
+                sNativeTown = checkString(request.getParameter("NativeTown")),
                 sComment = checkString(request.getParameter("Comment")),
                 sComment3 = checkString(request.getParameter("Comment3")),
                 sComment4 = checkString(request.getParameter("Comment4")),
@@ -114,6 +115,7 @@
             activePatient.dateOfBirth = sDateOfBirth.trim();
             activePatient.updateuserid = activeUser.userid;
             activePatient.nativeCountry = sNativeCountry;
+            activePatient.nativeTown = sNativeTown;
             AdminID aID;
             Debug.println("2");
 
@@ -240,9 +242,8 @@
 
             Debug.println("4");
             //################################ CREATE ##########################################
-          	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             if (sPersonID == null || sPersonID.trim().length() == 0) {
-                if (activePatient.saveToDB(ad_conn, checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
+                if (activePatient.saveToDB(checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
                     // nothing
                 } else {
                     // error
@@ -254,10 +255,10 @@
                 activePatient.personid = sPersonID;
                 activePatient.updateuserid = activeUser.userid;
 
-                if (activePatient.saveToDB(ad_conn, checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
+                if (activePatient.saveToDB(checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
                     // update patient in session
                     activePatient = new AdminPerson();
-                    activePatient.initialize(ad_conn, sPersonID);
+                    activePatient.initialize(sPersonID);
                     session.setAttribute("activePatient", activePatient);
                 } else {
                     // error
@@ -265,7 +266,6 @@
                 }
             }
           	activePatient.setExportRequest(sExport.equalsIgnoreCase("1"));
-            ad_conn.close();
         }
     }
     //*** display saved data OR display errormessage ***********************************************

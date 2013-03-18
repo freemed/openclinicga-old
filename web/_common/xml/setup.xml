@@ -90,6 +90,21 @@
 		<config key="priceFormatInsurar" value="#"/>
 		<config key="currencyDecimals" value="0"/>
 	</country>
+	<country code="cg">
+		<config key="currency" value="XOF"/>
+		<config key="currencyPdf" value="XOF"/>
+		<config key="countrycode" value="CG"/>
+		<config key="DefaultCountry" value="CG"/>
+		<config key="defaultSearchCountry" value="CONGO"/>
+		<config key="zipcodetable" value="brazzazipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,en"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="CG"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
+	</country>
 	<os code="windows">
 		<config key="DocumentsFolder" value="$setupdir$documents"/>
 		<config key="fingerprintBinDirectory" value="$setupdir$web-inf/lib"/>

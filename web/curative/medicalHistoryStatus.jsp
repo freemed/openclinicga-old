@@ -223,14 +223,14 @@ try{
                                 if(!"1".equalsIgnoreCase(request.getParameter("showAll")) && totalTransactions > numberOfTransToList){
                                     %>
                                         <img src='<c:url value="/_img/pijl.gif"/>'>
-                                        <a href="<c:url value='/main.do?Page=/curative/index.jsp'/>&showAll=1&ts=<%=getTs()%>" class="menuItem" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.common.all",sWebLanguage)%></a>
+                                        <a href="<c:url value='/main.do?Page=/curative/index.jsp'/>&showAll=1&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.common.all",sWebLanguage)%></a>
                                     <%
                                 }
 
                                 if("1".equalsIgnoreCase(request.getParameter("showAll"))){
                                     %>
                                         <img src='<c:url value="/_img/pijl.gif"/>'>
-                                        <a href="<c:url value='/main.do?Page=/curative/index.jsp'/>&showAll=0&ts=<%=getTs()%>" class="menuItem" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.common.summary",sWebLanguage)%></a>
+                                        <a href="<c:url value='/main.do?Page=/curative/index.jsp'/>&showAll=0&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.common.summary",sWebLanguage)%></a>
                                     <%
                                 }
                             }

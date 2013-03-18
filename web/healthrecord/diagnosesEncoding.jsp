@@ -10,7 +10,6 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%
-System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+1);
 	String activeEncounterUid="",sRfe="";
 	SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
     TransactionVO curTran = sessionContainerWO.getCurrentTransactionVO();
@@ -24,7 +23,6 @@ System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date()
         	activeEncounterUid=activeEnc.getUid();
         }
     }
-    System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+2);
     if(activeEncounterUid.length()>0){
         sRfe= ReasonForEncounter.getReasonsForEncounterAsHtml(activeEncounterUid,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
 		%>
@@ -48,7 +46,6 @@ System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date()
         <td id='icpccodes'>
 	        <table width='100%'>
 			        <%
-			        System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+3);
 			         Iterator items = curTran.getItems().iterator();
 			         ItemVO item;
 			
@@ -111,7 +108,6 @@ System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date()
 			                 <%
 			             }
 			         }
-			         System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+5);
 			        %>
 	        </table>
 	    </td>
@@ -130,9 +126,7 @@ System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date()
 			
 			         sReferenceUID = curTran.getServerId() + "." + curTran.getTransactionId();
 			         sReferenceType = "Transaction";
-  	 			        System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+6);
 			         Vector d = Diagnosis.selectDiagnoses("","",activeEncounterUid,"","","","","","","","","","");
-			         System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+7);
 
 			         for (int n=0;n<d.size();n++) {
 			        	 Diagnosis diag=(Diagnosis)d.elementAt(n);
@@ -152,7 +146,6 @@ System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date()
 			                 <%
 			             }
 			         }
-			         System.out.println(new SimpleDateFormat("mm:ss:sss").format(new java.util.Date())+": "+8);
 		        }
 		        %>
 	        </table>

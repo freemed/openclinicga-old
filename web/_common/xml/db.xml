@@ -9,6 +9,17 @@
 		</columns>
 	</table>
     <!-- ###################################  OPENCLINIC TABLES ################################### -->
+    <table name="OC_POINTERS" db="openclinic" sync="NONE">
+    	<columns>
+    		<column name="OC_POINTER_KEY" dbtype="varchar" javatype="string" size="255"/>
+    		<column name="OC_POINTER_VALUE" dbtype="varchar" javatype="string" size="255"/>
+    	</columns>
+    	<indexes>
+    		<index name="OC_POINTER_KEY">
+    			<indexcolumn order="ASC" name="OC_POINTER_KEY"/>
+    		</index>
+    	</indexes>
+    </table>
 	<table name="OC_NOTIFIER" db="openclinic" sync="NONE">
 		<columns>
 			<column name="OC_NOTIFIER_TRANSACTIONID" dbtype="int" javatype="integer" />
@@ -679,6 +690,7 @@
     		<column  name="OC_INSURAR_DEFAULTINSURARINVOICEMODEL" dbtype="varchar" javatype="string" size="25"/>
     		<column  name="OC_INSURAR_DEFAULTPATIENTINVOICEMODEL" dbtype="varchar" javatype="string" size="25"/>
     		<column  name="OC_INSURAR_ALLOWEDREDUCTIONS" dbtype="varchar" javatype="string" size="255"/>
+    		<column  name="OC_INSURAR_MODIFIERS" dbtype="varchar" javatype="string" size="255"/>
 		</columns>
 		<indexes>
 			<index name="OC_INSURAR_OBJECTID">
@@ -1512,12 +1524,16 @@
             <column name="OC_DEBET_COMMENT" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_DEBET_EXTRAINSURARUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_DEBET_EXTRAINSURARINVOICEUID" dbtype="varchar" javatype="string" size="50"/>
-            <column name="OC_DEBET_EXTRAINSURARAMOUNT" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_EXTRAINSURARAMOUNT" dbtype="float" javatype="float"/>
 			<column name="OC_DEBET_CREDITED" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_QUANTITY" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_RENEWALINTERVAL" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_RENEWALDATE" dbtype="datetime" javatype="date"/>
             <column name="OC_DEBET_PERFORMERUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_EXTRAINSURARUID2" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_EXTRAINSURARINVOICEUID2" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_EXTRAINSURARAMOUNT2" dbtype="float" javatype="float"/>
+            <column name="OC_DEBET_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_DEBET_OBJECTID">
@@ -1558,6 +1574,12 @@
 			<index name="OC_DEBET_EXTRAINSURARINVOICEUID">
 				<indexcolumn order="ASC" name="OC_DEBET_EXTRAINSURARINVOICEUID"/>
 			</index>
+			<index name="OC_DEBET_EXTRAINSURARUID2">
+				<indexcolumn order="ASC" name="OC_DEBET_EXTRAINSURARUID2"/>
+			</index>
+			<index name="OC_DEBET_EXTRAINSURARINVOICEUID2">
+				<indexcolumn order="ASC" name="OC_DEBET_EXTRAINSURARINVOICEUID2"/>
+			</index>
 		</indexes>
     </table>
 
@@ -1586,12 +1608,16 @@
             <column name="OC_DEBET_COMMENT" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_DEBET_EXTRAINSURARUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_DEBET_EXTRAINSURARINVOICEUID" dbtype="varchar" javatype="string" size="50"/>
-            <column name="OC_DEBET_EXTRAINSURARAMOUNT" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_EXTRAINSURARAMOUNT" dbtype="float" javatype="float"/>
 			<column name="OC_DEBET_CREDITED" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_QUANTITY" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_RENEWALINTERVAL" dbtype="int" javatype="integer"/>
 			<column name="OC_DEBET_RENEWALDATE" dbtype="datetime" javatype="date"/>
             <column name="OC_DEBET_PERFORMERUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_EXTRAINSURARUID2" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_EXTRAINSURARINVOICEUID2" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_DEBET_EXTRAINSURARAMOUNT2" dbtype="float" javatype="float"/>
+            <column name="OC_DEBET_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 	</table>
 
@@ -1768,6 +1794,8 @@
             <column name="OC_INSURANCE_MEMBER_IMMAT" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_INSURANCE_MEMBER_EMPLOYER" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_INSURANCE_STATUS" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_INSURANCE_EXTRAINSURARUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_INSURANCE_EXTRAINSURARUID2" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_INSURANCE_OBJECTID">
@@ -1802,6 +1830,8 @@
             <column name="OC_INSURANCE_MEMBER_IMMAT" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_INSURANCE_MEMBER_EMPLOYER" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_INSURANCE_STATUS" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_INSURANCE_EXTRAINSURARUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_INSURANCE_EXTRAINSURARUID2" dbtype="varchar" javatype="string" size="50"/>
         </columns>
     </table>
 
@@ -1830,6 +1860,46 @@
     </table>
 
     <table name="OC_EXTRAINSURARINVOICES_HISTORY" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_INSURARINVOICE_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="OC_INSURARINVOICE_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="OC_INSURARINVOICE_ID" dbtype="int" javatype="integer"/>
+			<column name="OC_INSURARINVOICE_DATE" dbtype="datetime" javatype="date"/>
+            <column name="OC_INSURARINVOICE_INSURARUID" dbtype="varchar" javatype="string" size="20"/>
+			<column name="OC_INSURARINVOICE_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+            <column name="OC_INSURARINVOICE_UPDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+			<column name="OC_INSURARINVOICE_UPDATEUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
+			<column name="OC_INSURARINVOICE_VERSION" dbtype="int" javatype="integer" nulls="0"/>
+            <column name="OC_INSURARINVOICE_STATUS" dbtype="varchar" javatype="string" size="255" nulls="0"/>
+            <column name="OC_INSURARINVOICE_BALANCE" dbtype="float" javatype="float"/>
+        </columns>
+    </table>
+
+    <table name="OC_EXTRAINSURARINVOICES2" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_INSURARINVOICE_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="OC_INSURARINVOICE_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="OC_INSURARINVOICE_ID" dbtype="int" javatype="integer"/>
+			<column name="OC_INSURARINVOICE_DATE" dbtype="datetime" javatype="date"/>
+            <column name="OC_INSURARINVOICE_INSURARUID" dbtype="varchar" javatype="string" size="20"/>
+			<column name="OC_INSURARINVOICE_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+            <column name="OC_INSURARINVOICE_UPDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+			<column name="OC_INSURARINVOICE_UPDATEUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
+			<column name="OC_INSURARINVOICE_VERSION" dbtype="int" javatype="integer" nulls="0"/>
+            <column name="OC_INSURARINVOICE_STATUS" dbtype="varchar" javatype="string" size="255" nulls="0"/>
+            <column name="OC_INSURARINVOICE_BALANCE" dbtype="float" javatype="float"/>
+        </columns>
+		<indexes>
+			<index name="OC_E_INSURARINVOICE2_OBJECTID">
+				<indexcolumn order="ASC" name="OC_INSURARINVOICE_OBJECTID"/>
+			</index>
+			<index name="OC_E_INSURARINVOICE2_INSURARUID">
+				<indexcolumn order="ASC" name="OC_INSURARINVOICE_INSURARUID"/>
+			</index>
+		</indexes>
+    </table>
+
+    <table name="OC_EXTRAINSURARINVOICES2_HISTORY" db="openclinic" sync="NONE">
 		<columns>
 			<column name="OC_INSURARINVOICE_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
 			<column name="OC_INSURARINVOICE_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
@@ -2154,6 +2224,9 @@
             <column name="OC_PRESTATION_INACTIVE" dbtype="int" javatype="integer"/>
             <column name="OC_PRESTATION_PERFORMERUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PRESTATION_SUPPLEMENT" dbtype="float" javatype="float"/>
+            <column name="OC_PRESTATION_CLASS" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PRESTATION_MODIFIERS" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_PRESTATION_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_PRESTATION_OBJECTID">
@@ -2501,6 +2574,7 @@
             <column name="editorparameters" dbtype="varchar"  javatype="string"  size="255"/>
             <column name="limitedvisibility" dbtype="int"  javatype="integer"/>
             <column name="unavailable" dbtype="int"  javatype="integer"/>
+            <column name="prestationcode" dbtype="varchar"  javatype="string"  size="50"/>
 		</columns>
 		<indexes>
 			<index name="labanalysis_labID">
@@ -2584,6 +2658,7 @@
             <column name="costcenter" dbtype="varchar" javatype="string" size="50"/>
             <column name="acceptsVisits" dbtype="int" javatype="integer" />
             <column name="performeruid" dbtype="varchar" javatype="string" size="50"/>
+            <column name="stayprestationuid" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="services_serviceid">
@@ -2911,6 +2986,7 @@
 			<column name="frequency" dbtype="int" javatype="integer"/>
 			<column name="tolerance" dbtype="int" javatype="integer"/>
 			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
+			<column name="comment" dbtype="text" javatype="string"/>
 		</columns>
 	</table>
 	<table name="Appointments" db="openclinic" sync="NONE">
@@ -3790,6 +3866,33 @@
 				<indexcolumn order="ASC" name="OC_NUTRICIENT_OBJECTID"/>
 			</index>
 		</indexes>
+    </table>
+    <table name="RequestedLabanalyses" db="openclinic" sync="NONE">
+    	<columns>
+    		<column name="serverid" dbtype="int" javatype="integer"/>
+    		<column name="objectid" dbtype="int" javatype="integer"/>
+    		<column name="analysiscode" dbtype="varchar" javatype="string" size="50"/>
+    		<column name="comment" dbtype="varchar" javatype="string" size="255"/>
+    		<column name="resultvalue" dbtype="varchar" javatype="string" size="255"/>
+    		<column name="resultunit" dbtype="varchar" javatype="string" size="50"/>
+    		<column name="resultmodifier" dbtype="varchar" javatype="string" size="50"/>
+    		<column name="resultcomment" dbtype="text" javatype="string"/>
+    		<column name="resultrefmax" dbtype="varchar" javatype="string" size="50"/>
+    		<column name="resultrefmin" dbtype="varchar" javatype="string" size="50"/>
+    		<column name="resultdate" dbtype="datetime" javatype="date"/>
+    		<column name="resultuserid" dbtype="int" javatype="integer"/>
+    		<column name="patientid" dbtype="int" javatype="integer"/>
+    		<column name="resultprovisional" dbtype="varchar" javatype="string" size="1"/>
+    		<column name="technicalvalidator" dbtype="int" javatype="integer"/>
+    		<column name="technicalvalidationdatetime" dbtype="datetime" javatype="date"/>
+    		<column name="finalvalidator" dbtype="int" javatype="integer"/>
+    		<column name="finalvalidationdatetime" dbtype="datetime" javatype="date"/>
+    		<column name="requestdatetime" dbtype="datetime" javatype="date"/>
+    		<column name="samplereceptiondatetime" dbtype="datetime" javatype="date"/>
+    		<column name="sampletakendatetime" dbtype="datetime" javatype="date"/>
+    		<column name="sampler" dbtype="int" javatype="integer"/>
+    		<column name="worklisteddatetime" dbtype="datetime" javatype="date"/>
+    	</columns>
     </table>
     <table name="OC_ANTIBIOGRAMS" db="openclinic" sync="NONE">
         <columns>

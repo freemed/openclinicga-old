@@ -13,15 +13,15 @@
     if (sFindSortColumn.length() > 0) {
         sFindSortColumn += " DESC";
     } else {
-        sFindSortColumn = " OC_ENCOUNTER_BEGINDATE DESC";
+        sFindSortColumn = " OC_ENCOUNTER_BEGINDATE DESC,OC_ENCOUNTER_OBJECTID DESC";
     }
 
-    Vector vEncounters = Encounter.selectEncounters("", "", "", "", "", "", "", "", activePatient.personid, sFindSortColumn);
+    Vector vEncounters = Encounter.selectEncountersUnique("", "", "", "", "", "", "", "", activePatient.personid, sFindSortColumn);
 
     Iterator iter = vEncounters.iterator();
     Encounter eTmp = new Encounter();
 
-    boolean bFinished = false;
+    boolean bFinished = true;
     String sClass = "";
     String sInactive = "";
     String sInactiveSelect = "";
@@ -33,12 +33,12 @@
     while (iter.hasNext()) {
         eTmp = (Encounter) iter.next();
 
-        if (eTmp.getEnd() == null || eTmp.getEnd().after(ScreenHelper.getSQLDate(getDate()))) {
+        if (bFinished && eTmp.getEnd() == null || eTmp.getEnd().after(ScreenHelper.getSQLDate(getDate()))) {
             bFinished = false;
         } else {
             bFinished = true;
         }
-
+		
         if (eTmp.getBegin() != null) {
             sBegin = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getBegin());
         } else {
@@ -52,9 +52,7 @@
         }
 
         if (checkString(eTmp.getManagerUID()).length() > 0) {
-            Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        	sManagerName = ScreenHelper.getFullUserName(eTmp.getManagerUID(), ad_conn);
-            ad_conn.close();
+        	sManagerName = ScreenHelper.getFullUserName(eTmp.getManagerUID());
         } else {
             sManagerName = "";
         }

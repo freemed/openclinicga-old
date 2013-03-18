@@ -23,7 +23,7 @@
                                         while (iter.hasNext()) {
                                             recsFound = true;
                                             objInsurar = (Insurar) iter.next();
-                                            if(!objInsurar.getContact().equals("plan.openinsurance")){
+                                            if(objInsurar!=null && objInsurar.getInsuraceCategories()!=null && !objInsurar.getContact().equals("plan.openinsurance")){
 	                                            String cats = "";
 	                                            for (int n = 0; n < objInsurar.getInsuraceCategories().size(); n++) {
 	                                                InsuranceCategory insCat=(InsuranceCategory)objInsurar.getInsuraceCategories().elementAt(n);

@@ -102,11 +102,8 @@
                     }
 
                     // count units
-                    System.out.println("----------"+calendar.getTime());
                     unitsIn = productStock.getTotalUnitsInForDate(calendar.getTime());
                     unitsOut = productStock.getTotalUnitsOutForDate(calendar.getTime());
-                    System.out.println("----------"+unitsIn);
-                    System.out.println("----------"+unitsOut);
                     unitsDiff = unitsIn - unitsOut;
 
                     // alternate row-style

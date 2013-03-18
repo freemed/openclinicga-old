@@ -40,6 +40,5 @@
 	ps.close();
 	conn.close();
 	drugs+="</table>";
-	System.out.println(drugs);
 	out.print("{\"drugs\":\""+drugs+"\"}");
 %>

@@ -3,7 +3,6 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-		System.out.println("SAVING");
 		String sEditDate = checkString(request.getParameter("EditDate"));
         String sEditDebetUID = checkString(request.getParameter("EditDebetUID"));
         String sEditInsuranceUID = checkString(request.getParameter("EditInsuranceUID"));

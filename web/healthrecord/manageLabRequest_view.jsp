@@ -447,7 +447,7 @@
     <%-- set the forward key --%>
     if(sLASaved != sLA){
       <%-- when some labanalyses were removed or added, update the transaction and reload this page in order to save the labanalyses --%>
-      document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = "<c:url value='../healthrecord/saveLabAnalyses.do'/>?ForwardUpdateTransactionId&labAnalysesToSave="+sLA+"&savedLabAnalyses="+sLASaved+"&patientId=<%=activePatient.personid%>&ts=<%=getTs()%>";
+      document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = "<c:url value='../healthrecord/saveLabAnalyses.do'/>?ForwardUpdateTransactionId&labAnalysesToSave="+sLA+"&savedLabAnalyses="+sLASaved+"&patientId=<%=activePatient.personid%>&userId=<%=activeUser.userid%>&ts=<%=getTs()%>";
     }
     else{
       <%-- when no labanalyses were removed or added, update the transaction and go to the consultation-overview --%>

@@ -69,9 +69,7 @@
 
                                         // names
                                         sOwnerUID = objBalance.getOwner().getObjectUid();
-                                    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                                        sOwnerName = ScreenHelper.getFullUserName(sOwnerUID, ad_conn);
-                                        ad_conn.close();
+                                        sOwnerName = ScreenHelper.getFullUserName(sOwnerUID);
 
                                         sBalanceName = objBalance.getUid();
 

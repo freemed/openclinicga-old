@@ -62,9 +62,7 @@
         </tr>
         <%-- patient --%>
         <%
-	      	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-            AdminPerson patient = AdminPerson.getAdminPerson(ad_conn,sPatientId);
-            ad_conn.close();
+            AdminPerson patient = AdminPerson.getAdminPerson(sPatientId);
         %>
         <tr>
             <td class="admin"><%=getTran("web","patient",sWebLanguage)%></td>

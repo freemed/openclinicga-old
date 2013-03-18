@@ -83,7 +83,6 @@
         Collections.sort(keys);
         Iterator iter = keys.iterator();
 
-        Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         while(iter.hasNext()){
             key = iter.next();
             debet = (WicketDebet)hDebets.get(key);
@@ -97,7 +96,7 @@
                     .append("<td>"+checkString(debet.getUid())+"</td>")
                         .append("<td style='text-align:right;'>"+priceFormat.format(debet.getAmount())+"&nbsp;&nbsp;</td>")
                         .append("<td>"+getTranNoLink("debet.type",debet.getOperationType(),sWebLanguage)+"</td>")
-                        .append("<td>"+ScreenHelper.getFullUserName(Integer.toString(debet.getUserUID()),ad_conn)+"</td>")
+                        .append("<td>"+ScreenHelper.getFullUserName(Integer.toString(debet.getUserUID()))+"</td>")
                         .append("<td>"+debet.getComment()+"</td>")
                        .append("</tr>");
 
@@ -125,13 +124,12 @@
                     .append("<td>"+checkString(credit.getUid())+"</td>")
                          .append("<td style='text-align:right;'>"+priceFormat.format(credit.getAmount())+"&nbsp;&nbsp;</td>")
                          .append("<td>"+getTranNoLink("credit.type",credit.getOperationType(),sWebLanguage)+"</td>")
-                         .append("<td>"+ScreenHelper.getFullUserName(Integer.toString(credit.getUserUID()),ad_conn)+"</td>")
+                         .append("<td>"+ScreenHelper.getFullUserName(Integer.toString(credit.getUserUID()))+"</td>")
                          .append("<td>"+credit.getComment()+"</td>")
                         .append("</tr>");
 
             dCreditsTotal+= credit.getAmount();
         }
-        ad_conn.close();
 
         sWicketCreditTotal = priceFormat.format(dCreditsTotal);
 

@@ -3,20 +3,25 @@
 <%@page import="java.io.ByteArrayOutputStream,
                 com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,
-                be.mxs.common.util.pdf.general.PDFInsurarInvoiceGenerator,
-                be.mxs.common.util.pdf.general.PDFInvoiceGenerator"%>
-<%@ page import="be.mxs.common.util.pdf.general.PDFExtraInsurarInvoiceGenerator" %>
+                be.mxs.common.util.pdf.general.*"%>
 
 <%
     String sInvoiceUid    = checkString(request.getParameter("InvoiceUid")),
             sPrintLanguage = checkString(request.getParameter("PrintLanguage")),
-            sPrintType = checkString(request.getParameter("PrintType"));
+            sPrintType = checkString(request.getParameter("PrintType")),
+			sPrintModel = checkString(request.getParameter("PrintModel"));
     ByteArrayOutputStream baosPDF = null;
 
     try{
         // PDF generator
         sProject = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
-        PDFInvoiceGenerator pdfGenerator = new PDFExtraInsurarInvoiceGenerator(activeUser,sProject,sPrintLanguage,sPrintType);
+        PDFInvoiceGenerator pdfGenerator =null;
+        if(sPrintModel.equalsIgnoreCase("mfp")){
+        	pdfGenerator = new PDFExtraInsurarInvoiceGeneratorMFP(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
+        else {
+        	pdfGenerator = new PDFExtraInsurarInvoiceGenerator(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
         baosPDF = pdfGenerator.generatePDFDocumentBytes(request,sInvoiceUid);
 
         StringBuffer sbFilename = new StringBuffer();

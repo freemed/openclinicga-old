@@ -38,7 +38,7 @@
             <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF" property="value"/></textarea>
 
             <%-- select a macro --%>
-            <a class="menuItem" style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
+            <a  style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
                 <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icon_help.gif"/>">
             </a>
         </td>
@@ -50,7 +50,7 @@
             <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT ")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT" property="value"/></textarea>
 
             <%-- select a macro --%>
-            <a class="menuItem" style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
+            <a  style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
                 <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icon_help.gif"/>">
             </a>
         </td>
@@ -62,7 +62,7 @@
             <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF" property="value"/></textarea>
 
             <%-- select a macro --%>
-            <a class="menuItem" style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
+            <a  style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
                 <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icon_help.gif"/>">
             </a>
         </td>

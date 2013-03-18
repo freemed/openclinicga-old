@@ -24,7 +24,7 @@
               <%--- NEEDLE ---%>
               <td align="center">
                 <logic:notEqual name="vaccinationInfoVO" scope="page" property="nextStatus" value="-">
-                  <a href="<c:url value='/healthrecord/manageNextVaccination.do'/>?ts=<%=getTs()%>&status=<bean:write name="vaccinationInfoVO" scope="page" property="nextStatus"/>&vaccination=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" translate="false" property="value"/><logic:present name="vaccinName"><logic:notEqual name="vaccinName" scope="page" value="">&vaccination_name=<bean:write name="vaccinName" scope="page"/></logic:notEqual></logic:present>" class="menuItem" title="<%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>" onMouseOver="window.status='';return true;"><img border="0" src='<c:url value="/_img/needle.gif"/>'></a>
+                  <a href="<c:url value='/healthrecord/manageNextVaccination.do'/>?ts=<%=getTs()%>&status=<bean:write name="vaccinationInfoVO" scope="page" property="nextStatus"/>&vaccination=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" translate="false" property="value"/><logic:present name="vaccinName"><logic:notEqual name="vaccinName" scope="page" value="">&vaccination_name=<bean:write name="vaccinName" scope="page"/></logic:notEqual></logic:present>"  title="<%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>" onMouseOver="window.status='';return true;"><img border="0" src='<c:url value="/_img/needle.gif"/>'></a>
                 </logic:notEqual>
               </td>
 
@@ -117,7 +117,7 @@
           <logic:iterate id="examinationVO" scope="session" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="personalVaccinationsInfoVO.otherVaccinations">
             <tr class="list">
               <td align="center">
-                <a href="<c:url value='/healthrecord/manageVaccination.do'/>?vaccination=<bean:write name='examinationVO' scope='page' property='messageKey'/>&ts=<%=getTs()%>" class="menuItem" onMouseOver="window.status='';return true;" title="<%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>"><img border="0" src='<c:url value="/_img/needle.gif"/>'></a>
+                <a href="<c:url value='/healthrecord/manageVaccination.do'/>?vaccination=<bean:write name='examinationVO' scope='page' property='messageKey'/>&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;" title="<%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>"><img border="0" src='<c:url value="/_img/needle.gif"/>'></a>
               </td>
               <td><mxs:beanTranslator name="examinationVO" scope="page" property="messageKey"/></td>
             </tr>
@@ -132,19 +132,19 @@
     <bean:define id="flags" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="flags"/>
     <td>
       <img src='<c:url value="/_img/pijl.gif"/>'>
-      <a href="<c:url value='/healthrecord/managePeriodicExaminations.do?be.medwan.context.department=context.department.occup&be.medwan.context.context='/><mxs:propertyAccessorI18N name="flags" scope="page" translate="false" property="context"/>&ts=<%=getTs()%>" class="menuItem" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.healthrecord.periodic-examinations",sWebLanguage)%></a>
+      <a href="<c:url value='/healthrecord/managePeriodicExaminations.do?be.medwan.context.department=context.department.occup&be.medwan.context.context='/><mxs:propertyAccessorI18N name="flags" scope="page" translate="false" property="context"/>&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.healthrecord.periodic-examinations",sWebLanguage)%></a>
     </td>
   </tr>
   <tr>
     <td>
       <img src='<c:url value="/_img/pijl.gif"/>'>
-      <a href="<c:url value='/main.jsp'/>?Page=curative/index.jsp&ts=<%=getTs()%>" class="menuItem" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.recruitment.view-recruitment-examinations-summary",sWebLanguage)%></a>
+      <a href="<c:url value='/main.jsp'/>?Page=curative/index.jsp&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.recruitment.view-recruitment-examinations-summary",sWebLanguage)%></a>
     </td>
   </tr>
   <tr>
     <td>
       <img src='<c:url value="/_img/pijl.gif"/>'>
-      <a href="<c:url value='/healthrecord/showRiskProfile.do'/>?ts=<%=getTs()%>" class="menuItem" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.occupational-medicine.manage-risk-profile",sWebLanguage)%></a>
+      <a href="<c:url value='/healthrecord/showRiskProfile.do'/>?ts=<%=getTs()%>"  onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.occupational-medicine.manage-risk-profile",sWebLanguage)%></a>
     </td>
   </tr>
 </table>

@@ -157,7 +157,6 @@
 						OperationDocument document = (OperationDocument)documents.elementAt(n);
 						sType=checkString(document.getType());
 						if(document.getSourceuid().length()>0){
-							System.out.println("document.getSourceuid()="+document.getSourceuid());
 							sSource=document.getSource().getName();
 						}
 						else {

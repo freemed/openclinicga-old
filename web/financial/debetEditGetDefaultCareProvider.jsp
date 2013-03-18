@@ -9,10 +9,10 @@
     while(e.hasMoreElements()){
     	String parameterName = (String)e.nextElement();
     	if(parameterName.startsWith("PPC_")){
-    		String sPrestationUid=parameterName.split("_")[1];
+    		String sPrestationUid=parameterName.split("\\_")[1];
     	    if(sPrestationUid.length()>0){
     			Prestation prestation = Prestation.get(sPrestationUid);
-    			if(prestation!=null && prestation.getPerformerUid()!=null && performeruid.length()>0){
+    			if(prestation!=null && prestation.getPerformerUid()!=null && prestation.getPerformerUid().length()>0){
     				performeruid=prestation.getPerformerUid();
     			}
     		}

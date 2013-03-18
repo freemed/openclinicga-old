@@ -1,6 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%
     String action = checkString(request.getParameter("action")).trim();

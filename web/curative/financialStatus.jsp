@@ -13,6 +13,7 @@
         <td width="200">
             <%=getTran("curative","financial.status.title",sWebLanguage)%>&nbsp;
             <a href="<c:url value='/main.do'/>?Page=financial/editBalance.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_edit.gif'/>" class="link" alt="<%=getTran("web","editBalance",sWebLanguage)%>" style="vertical-align:-4px;"></a>
+            <a href="<c:url value='/main.do'/>?Page=financial/debetEdit.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/money.gif'/>" class="link" alt="<%=getTran("web","debetEdit",sWebLanguage)%>" style="vertical-align:-4px;"></a>
         </td>
         <td <%=saldo<balance.getMinimumBalance()?" class='letterred'":""%>><%=getTran("balance","balance",sWebLanguage)%>:
         <%=new DecimalFormat("#0.00").format(saldo)+" "+sCurrency%></td>

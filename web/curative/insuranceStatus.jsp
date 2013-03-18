@@ -38,14 +38,23 @@
                 }else{
                     sClass = "";
                 }
+            	boolean bAuth=currentInsurance.isAuthorized();
     %>
                 <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';"
                                             onmouseout="this.style.cursor='default';"
                                             onclick="doSelect('<%=currentInsurance.getUid()%>');">
-                    <td><%=ScreenHelper.checkString(currentInsurance.getInsuranceNr())%></td>
-                    <td><%=ScreenHelper.checkString(currentInsurance.getInsuranceCategoryLetter()).length()>0 && currentInsurance.getInsuranceCategory().getLabel().length()>0?ScreenHelper.checkString(currentInsurance.getInsuranceCategory().getInsurar().getName())+ " ("+currentInsurance.getInsuranceCategory().getCategory()+": "+currentInsurance.getInsuranceCategory().getPatientShare()+"/"+(100-Integer.parseInt(currentInsurance.getInsuranceCategory().getPatientShare()))+")":""%></td>
-                    <td><%=ScreenHelper.checkString(getTran("insurance.types",currentInsurance.getType(),sWebLanguage))%></td>
-                    <td><%=ScreenHelper.checkString(currentInsurance.getStart()!=null?new SimpleDateFormat("dd/MM/yyyy").format(currentInsurance.getStart()):"")%></td>
+                    <td <%=!bAuth?"style='text-decoration: line-through'":""%>>
+                    <%
+                     if (!bAuth){
+                    %>
+                    	<img width="18px" src="<c:url value="/_img/noaccess.jpg"/>"/>
+                    <%
+                     }
+                    %>
+                    <%=ScreenHelper.checkString(currentInsurance.getInsuranceNr())%></td>
+                    <td <%=!bAuth?"style='text-decoration: line-through'":""%>><%=ScreenHelper.checkString(currentInsurance.getInsuranceCategoryLetter()).length()>0 && currentInsurance.getInsuranceCategory().getLabel().length()>0?ScreenHelper.checkString(currentInsurance.getInsuranceCategory().getInsurar().getName())+ " ("+currentInsurance.getInsuranceCategory().getCategory()+": "+currentInsurance.getInsuranceCategory().getPatientShare()+"/"+(100-Integer.parseInt(currentInsurance.getInsuranceCategory().getPatientShare()))+")":""%></td>
+                    <td <%=!bAuth?"style='text-decoration: line-through'":""%>><%=ScreenHelper.checkString(getTran("insurance.types",currentInsurance.getType(),sWebLanguage))%></td>
+                    <td <%=!bAuth?"style='text-decoration: line-through'":""%>><%=ScreenHelper.checkString(currentInsurance.getStart()!=null?new SimpleDateFormat("dd/MM/yyyy").format(currentInsurance.getStart()):"")%></td>
                 </tr>
     <%
             }

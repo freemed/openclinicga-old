@@ -1,6 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%//=checkPermission("occupmanagelabprofiles","select",activeUser)%>
 
@@ -421,7 +420,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
               <td><%=iTotal%> <%=getTran("Web","recordsFound",sWebLanguage)%></td>
               <td align="right">
                 <img src='<c:url value="/_img/pijl.gif"/>'>
-                <a class="menuItem" href="<c:url value='/main.do'/>?Page=healthrecord/manageLabAnalysis_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
+                <a  href="<c:url value='/main.do'/>?Page=healthrecord/manageLabAnalysis_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
               </td>
             </tr>
           </table>
@@ -756,7 +755,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 
   <%-- link to labanalyses --%>
   <img src='<c:url value="/_img/pijl.gif"/>'>
-  <a class="menuItem" href="<c:url value='/main.do'/>?Page=healthrecord/manageLabAnalysis_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
+  <a  href="<c:url value='/main.do'/>?Page=healthrecord/manageLabAnalysis_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 
 <script>

@@ -1,4 +1,4 @@
-<%@page import="be.openclinic.finance.Wicket,
+<%@page import="be.openclinic.finance.*,
                 org.dom4j.DocumentException,java.sql.Connection" %>
 <%@page import="java.util.*" %>
 <%@page errorPage="/includes/error.jsp"%>
@@ -113,9 +113,7 @@
             thisUser.stop = user.stop;
             thisUser.project = sTmpProject;
 
-          	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-            thisUser.initialize(ad_conn, thisUser.userid, thisUser.password);
-            ad_conn.close();
+            thisUser.initialize(thisUser.userid, thisUser.password);
         }
     }
 
@@ -144,6 +142,7 @@
                 || (parameter.parameter.equalsIgnoreCase("stop"))
                 || (parameter.parameter.equalsIgnoreCase("sa"))
                 || (parameter.parameter.equalsIgnoreCase("clearpassword"))
+                || (parameter.parameter.equalsIgnoreCase("insuranceagent"))
                 || (parameter.parameter.equalsIgnoreCase("invoicingcareprovider"))
                 || (parameter.parameter.equalsIgnoreCase("computernumber"))) {
                 // nothing
@@ -190,11 +189,10 @@
         }
 
         // clearpassword
-       	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         if (thisUser.getParameter("clearpassword").length() > 0) {
             thisUser.password = thisUser.encrypt(sDefaultPassword);
             sPasswordString = "Password = " + sDefaultPassword;
-            thisUser.removeParameter("clearpassword", ad_conn);
+            thisUser.removeParameter("clearpassword");
         }
 
         // save
@@ -205,7 +203,7 @@
         activePatient.store();
 
         // SAVE TO DB
-        if (thisUser.saveToDB(ad_conn)) {
+        if (thisUser.saveToDB()) {
             if (thisUser.userid.equals(activeUser.userid)) {
                 session.setAttribute("activeUser", thisUser);
             }
@@ -226,7 +224,6 @@
                 ScreenHelper.setIncludePage("index.jsp", pageContext);
             }
         }
-        ad_conn.close();
     }
     //--- ANY OTHER ACTION ------------------------------------------------------------------------
     else {
@@ -428,6 +425,23 @@
                         <input TYPE="hidden" NAME="EditDefaultServiceid" VALUE="<%=thisUser.getParameter("defaultserviceid")%>">
                     </td>
                 </tr>
+                <tr>
+                    <td class="admin">
+                        <%=getTran("web","insuranceagent",sWebLanguage)%>
+                    </td>
+                    <td class="admin2">
+                        <%
+                            String insuranceagenttext="";
+                            if(thisUser.getParameter("insuranceagent").length()>0){
+                            	insuranceagenttext=Insurar.get(thisUser.getParameter("insuranceagent")).getName();
+                            }
+                        %>
+                        <input TYPE="hidden" NAME="EditInsuranceAgent" id="EditInsuranceAgent" VALUE="<%=thisUser.getParameter("insuranceagent")%>">
+                        <input class='text' TYPE="text" NAME="insuranceagenttext" id="insuranceagenttext" readonly size="49" TITLE="<%=insuranceagenttext%>" VALUE="<%=insuranceagenttext%>" onkeydown="window.event.keyCode = '';return true;">
+			            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
+			            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInsuranceAgent').value='';document.getElementById('insuranceagenttext').value='';">
+                    </td>
+                </tr>
                  <tr>
                      <td class="admin" width='<%=sTDAdminWidth%>'><%=getTran("Web","language",sWebLanguage)%></td>
                      <td class="admin2">
@@ -478,6 +492,11 @@
               transactionForm.Editmedicalcentercode.focus();
             }
           }
+          
+		function searchInsurar() {
+		    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsuranceAgent&ReturnFieldInsurarName=insuranceagenttext&excludePatientSelfIsurarUID=true&PopupHeight=500&PopupWith=500");
+		}
+          
 
           <%-- LOOK UP MEDICAL CENTER --%>
           function lookupMedicalCenter(){

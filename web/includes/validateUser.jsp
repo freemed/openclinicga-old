@@ -1,6 +1,7 @@
 <%@page import="be.mxs.common.util.db.MedwanQuery"%>
 <%@ page import="net.admin.system.AccessLog" %>
 <%@include file="/includes/helper.jsp"%>
+<%@include file="/includes/SingletonContainer.jsp"%>
 <%
 	response.setHeader("Content-Type", "text/html; charset=ISO-8859-1");
     String sProject = null;
@@ -17,9 +18,7 @@
             // active user
             activeUser = new User();
             byte[] aUserPassword = activeUser.encrypt(request.getParameter("AutoUserPassword"));
-           	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-            activeUser.initialize(ad_conn, request.getParameter("AutoUserName"), aUserPassword);
-            ad_conn.close();
+            activeUser.initialize(request.getParameter("AutoUserName"), aUserPassword);
             session.setAttribute("activeUser", activeUser);
 
             //reset lastPatient
@@ -68,6 +67,7 @@
             }
 
             session.setMaxInactiveInterval(iTimeOutInSeconds);
+            reloadSingleton(session);
         }
         //*** no AutoUserName ***
         else {
@@ -115,8 +115,6 @@
         }
 
     }
-
-
     if (activeUser == null) {
 %><script>//window.location.href="<c:url value='/relogin.do'/>?ts=<%=getTs()%>";</script><%
     }

@@ -96,10 +96,8 @@
 	    if ((activeUser.vServices.size()>1)&&(sCheckService.trim().equals("true"))){
 	        ScreenHelper.setIncludePage("startChangeService.jsp?NextPage=_common/start.jsp", pageContext);
 	    }
-	    else{
-	        out.print(getTran("Web","welcome",sWebLanguage)+" "+activeUser.person.firstname+" "+activeUser.person.lastname);
-	        session.setAttribute("activeMedicalCenter",activeUser.activeService.code);
-	    }
+        out.print("<center><h4>"+getTran("Web","welcome",sWebLanguage)+" "+activeUser.person.firstname+" "+activeUser.person.lastname+"</h4></center>");
+        session.setAttribute("activeMedicalCenter",activeUser.activeService.code);
     }
     else {
     	ScreenHelper.setIncludePage("../datacenterstatistics/index.jsp",pageContext);
