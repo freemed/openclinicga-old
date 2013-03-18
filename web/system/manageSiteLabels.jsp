@@ -1,7 +1,6 @@
 <%@page import="be.mxs.common.util.db.MedwanQuery,
                 be.openclinic.system.Config,java.util.Hashtable,java.util.Enumeration" %>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
 <%!
@@ -81,6 +80,7 @@
 	out.println(writeRow("web.occup","invoicedirector"));
 	out.println(writeRow("labresult","footer"));
 	out.println(writeRow("web","hospitalname"));
+	out.println(writeRow("web","hospitaladdress"));
 	out.println(writeRow("web.occup","invoicefinancialmessagetitle"));
 	out.println(writeRow("web.occup","invoicefinancialmessagetitle2"));
 	out.println(writeRow("web","productionsystemwarning"));
@@ -90,6 +90,9 @@
 		out.println(writeRow("web.occup","rbmessagetitle2"));
 	}
 	out.println(writeConfigRow("footer."+checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase()));
+	out.println(writeRow("web","javaposcentername"));
+	out.println(writeRow("web","javaposcentersubtitle"));
+	out.println(writeRow("web","javaposcenterphone"));
 %>
   </table>
   <input type='submit' name='save' value='<%=getTran("web","save",sWebLanguage)%>'/>

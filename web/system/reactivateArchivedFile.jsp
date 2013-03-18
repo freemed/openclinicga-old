@@ -142,7 +142,7 @@
         <br><br>
         <%-- link to archive active file --%>
         <img src="<c:url value="/_img/pijl.gif"/>">
-        <a class="menuItem" href="<c:url value='/main.do'/>?Page=system/archiveActiveFile.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","archiveactivefile",sWebLanguage)%></a>&nbsp;
+        <a  href="<c:url value='/main.do'/>?Page=system/archiveActiveFile.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","archiveactivefile",sWebLanguage)%></a>&nbsp;
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 <script>

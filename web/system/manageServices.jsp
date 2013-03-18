@@ -1,8 +1,7 @@
 <%@page import="java.util.Enumeration,
-                be.openclinic.pharmacy.ServiceStock,java.util.*" %>
+                be.openclinic.pharmacy.ServiceStock,java.util.*,be.openclinic.finance.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%=checkPermission("system.manageservices","all",activeUser)%>
 
@@ -78,6 +77,7 @@
                 sEditServiceCostcenter = checkString(request.getParameter("EditServiceCostcenter")),
                 sEditServiceAcceptsVisits = checkString(request.getParameter("EditServiceAcceptsVisits")),
                 sEditCareProvider = checkString(request.getParameter("EditCareProvider")),
+                sEditStayPrestationUid = checkString(request.getParameter("EditStayPrestationUid")),
                 sEditServiceInactive =checkString(request.getParameter("EditServiceInactive"));
 
         // codes
@@ -132,6 +132,7 @@
             hServiceInfo.put("contactemail",sEditContactEmail);
             hServiceInfo.put("costcenter",sEditServiceCostcenter);
             hServiceInfo.put("performeruid",sEditCareProvider);
+            hServiceInfo.put("stayprestationuid",sEditStayPrestationUid);
             try{
                 hServiceInfo.put("totalbeds",new Integer(sEditTotalBeds));
             }
@@ -218,6 +219,7 @@
             hServiceInfo.put("totalbeds",sEditTotalBeds);
             hServiceInfo.put("costcenter",sEditServiceCostcenter);
             hServiceInfo.put("performeruid",sEditCareProvider);
+            hServiceInfo.put("stayprestationuid",sEditStayPrestationUid);
 
             hServiceInfo.put("code3",sEditServiceCode3);// NACE
             hServiceInfo.put("code5",sEditServiceCode5);// MED CENTRE
@@ -443,9 +445,8 @@
                 <tr>
                     <td class="admin"> <%=getTran("Web.Manage.Service","ParentID",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" readonly class="text" name="EditServiceParentText" value="<%=sServiceParentCodeText%>" size="<%=sTextWidth%>">
+                        <input type="text readonly class="text" name="EditServiceParentCode" value="<%=service.parentcode%>"> <input type="text" readonly class="text" name="EditServiceParentText" value="<%=sServiceParentCodeText%>" size="<%=sTextWidth%>">
                         <%=ScreenHelper.writeServiceButton("buttonService","EditServiceParentCode","EditServiceParentText",sWebLanguage,sCONTEXTPATH)%>
-                        <input type="hidden" name="EditServiceParentCode" value="<%=service.parentcode%>">
                     </td>
                 </tr>
                 <%-- ShowOrder --%>
@@ -593,6 +594,23 @@
                         <input type="text" class="text" name="EditServiceCode5" value="<%=service.code5%>" size="<%=sTextWidth%>">
                     </td>
                 </tr>
+                <tr>
+                    <td class="admin"> <%=getTran("Web","stayprestation",sWebLanguage)%></td>
+                    <td class="admin2">
+		                <select class="text" name="EditStayPrestationUid" style="vertical-align:top;">
+		                	<option value=''></option>
+		                    <%
+		                        Vector prestations = Prestation.getPrestationsByClass("stay");
+		                        for (int n=0;n<prestations.size();n++){
+		                            Prestation prestation = (Prestation)prestations.elementAt(n);
+		                            if(prestation!=null){
+		                                out.println("<option value='"+prestation.getUid()+"' "+(checkString(service.stayprestationuid).equalsIgnoreCase(prestation.getUid())?"selected":"")+">"+prestation.getCode()+": "+prestation.getDescription()+"</option>");
+		                            }
+		                        }
+		                    %>
+		                </select>
+                    </td>
+                </tr>
                 
 	            <tr>
 		            <td class='admin'><%=getTran("web","invoicingcareprovider",sWebLanguage)%></td>
@@ -622,6 +640,7 @@
                     <td class="admin"> <%=getTran("Web","costcenter",sWebLanguage)%></td>
                     <td class="admin2">
                     	<select name="EditServiceCostcenter" class="text">
+                    	<option value=''/>
                     	<%=ScreenHelper.writeSelect("costcenter",checkString(service.costcenter),sWebLanguage,false,true) %>
                     	</select>
                     </td>

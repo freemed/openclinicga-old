@@ -1,33 +1,9 @@
-<%@ page import="java.util.*,be.openclinic.system.ExportSpecification,be.openclinic.medical.LabAnalysis" %>
+<%@ page import="java.util.*,be.openclinic.system.ExportSpecification,be.openclinic.medical.LabAnalysis,be.openclinic.finance.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%=checkPermission("system.management","all",activeUser)%>
 <%=sJSSORTTABLE%>
-
-<%!
-    //--- PROCESS EXPORT SPECIFICATION FOR ANALYSIS -----------------------------------------------
-    private void processExportSpecificationForAnalysis(String elementType, String exportCode, String elementContent) throws Exception {
-        // check if an exportSpecification exists for the specified prestation (=analysis-request)
-        boolean exportSpecificationFound = ExportSpecification.exists(elementType);
-
-        ExportSpecification exportSpec;
-        exportSpec = new ExportSpecification();
-        exportSpec.setElementType(elementType);
-        exportSpec.setExportCode(exportCode);
-        exportSpec.setElementContent(elementContent);
-        exportSpec.setUpdatetime(getSQLTime());
-        // add exportSpecification if no exportCode exists for the specified prestation
-        if (!exportSpecificationFound) {
-            exportSpec.insert();
-        }
-        // update exportSpecification if an exportCode was found
-        else {
-            exportSpec.update(elementType);
-        }
-    }
-%>
 
 <%
     final String sLabLabelType = "labanalysis";
@@ -75,6 +51,7 @@
     // get all params starting with 'EditLabelValueXX', representing labels in different languages
     Hashtable labelValues = new Hashtable();
     Hashtable shortLabelValues = new Hashtable();
+    Hashtable resultRefCommentValues = new Hashtable();
     Enumeration paramEnum = request.getParameterNames();
     String tmpParamName, tmpParamValue, tmpLang;
 
@@ -90,6 +67,10 @@
                 tmpParamValue = request.getParameter(tmpParamName);
                 shortLabelValues.put(tmpParamName.substring(19),tmpParamValue); // language, value
             }
+            else if(tmpParamName.startsWith("EditResultRefCommentValue")){
+                tmpParamValue = request.getParameter(tmpParamName);
+                resultRefCommentValues.put(tmpParamName.substring(25),tmpParamValue); // language, value
+            }
         }
     }
     else if(sAction.equals("details")){
@@ -100,6 +81,9 @@
             labelValues.put(tmpLang,ll);
             String sl =getTranNoLink("labanalysis.short",sLabID,tmpLang);
             shortLabelValues.put(tmpLang,sl.equalsIgnoreCase(sLabID)?ll:sl);
+            LabAnalysis la = LabAnalysis.getLabAnalysisByLabID(sLabID);
+            ll=getTranNoLink("labanalysis.refcomment",la.getLabcode(),tmpLang);
+            resultRefCommentValues.put(tmpLang,ll);
         }
     }
 
@@ -154,7 +138,7 @@
             sAlertValue = checkString(request.getParameter("EditAlertValue"));
             sLimitValue = checkString(request.getParameter("EditLimitValue"));
             sShortTimeValue = checkString(request.getParameter("EditShortTimeValue"));
-            sPrestationCode = checkString(request.getParameter("EditPrestationcode"));
+            sPrestationCode = checkString(request.getParameter("EditPrestationCode"));
             sLabGroup = checkString(request.getParameter("EditLabGroup"));
             sEditor=checkString(request.getParameter("EditLabEditor"));
             sEditorParameters=checkString(request.getParameter("EditLabEditorParameters"));
@@ -223,6 +207,7 @@
                 labAnalysis.setLimitedVisibility(nEditLimitedVisibility);
                 labAnalysis.setEditor(sEditor);
                 labAnalysis.setEditorparameters(sEditorParameters);
+                labAnalysis.setPrestationcode(sPrestationCode);
 
                 if (bInsert) {
                     labAnalysis.insert();
@@ -258,14 +243,21 @@
 
                 MedwanQuery.getInstance().removeLabelFromCache("labanalysis.short", sEditLabCode, tmpLang);
                 MedwanQuery.getInstance().getLabel("labanalysis.short", sEditLabCode, tmpLang);
+
+                label = new Label();
+                label.type = "labanalysis.refcomment";
+                label.id = sEditLabCode;
+                label.language = tmpLang;
+                label.showLink = "0";
+                label.updateUserId = activeUser.userid;
+                label.value = checkString((String) resultRefCommentValues.get(tmpLang));
+                label.saveToDB();
+
+                MedwanQuery.getInstance().removeLabelFromCache("labanalysis.refcomment", sEditLabCode, tmpLang);
+                MedwanQuery.getInstance().getLabel("labanalysis.refcomment", sEditLabCode, tmpLang);
             }
 
             reloadSingleton(session);
-
-            // save prestationcode if needed
-            if (!recordExists && sPrestationCode.length() > 0) {
-                processExportSpecificationForAnalysis( sPrestationType, sPrestationCode, "");
-            }
 
             // message
             if (recordExists) {
@@ -380,7 +372,7 @@
                   <%-- link --%>
                   <td align="right">
                       <img src='<c:url value="/_img/pijl.gif"/>'>
-                      <a class="menuItem" href="<c:url value="/main.jsp"/>?Page=system/manageLabProfiles.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
+                      <a href="<c:url value="/main.jsp"/>?Page=system/manageLabProfiles.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
                   </td>
               </tr>
           </table>
@@ -435,10 +427,7 @@
                 nEditLimitedVisibility=labAnalysis.getLimitedVisibility();
                 sEditor			=labAnalysis.getEditor();
                 sEditorParameters=labAnalysis.getEditorparameters();
-            }
-            // get prestation code is one exists
-            if(sEditLabCode.length() > 0){
-                sPrestationCode = ExportSpecification.getExportCodeByElementType("LABCODE."+sEditLabCode);
+                sPrestationCode=labAnalysis.getPrestationcode();
             }
         }
     %>
@@ -522,9 +511,21 @@
 	  String sl=checkString((String)shortLabelValues.get(tmpLang));
       %>
       <tr>
-          <td class="admin"> <%=getTran("Web","ShortDescription",sWebLanguage)%> <%=tmpLang%> *</td>
+          <td class="admin"> <%=getTran("Web","ShortDescription",sWebLanguage)%> <%=tmpLang%></td>
           <td class="admin2">
               <input size="8" maxlength="8" type="text" class="text" name="EditShortLabelValue<%=tmpLang%>" value="<%=sl.length()<8?sl:sl.substring(0,8)%>">
+          </td>
+      </tr>
+      <%
+  }
+  tokenizer = new StringTokenizer(supportedLanguages,",");
+  while(tokenizer.hasMoreTokens()){
+      tmpLang = tokenizer.nextToken();
+      %>
+      <tr>
+          <td class="admin"> <%=getTran("Web","resultrefcomment",sWebLanguage)%> <%=tmpLang%></td>
+          <td class="admin2">
+              <textarea cols="80" class="text" name="EditResultRefCommentValue<%=tmpLang%>"><%=checkString((String)resultRefCommentValues.get(tmpLang))%></textarea>
           </td>
       </tr>
       <%
@@ -625,12 +626,30 @@
     </td>
   </tr>
   <%-- PRESTATION CODE --%>
+  <%
+  if(MedwanQuery.getInstance().getConfigInt("enableAutomaticLabInvoicing",0)==1){
+  %>
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.prestationcode",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditPrestationcode" class="text" value="<%=sPrestationCode%>" size="50" onblur="validateText(this);limitLength(this);">
+        <input class="text" type="text" name="EditPrestationCode" id="EditPrestationCode" size="10" maxLength="50" readonly value="<%=sPrestationCode%>" >
+        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
+        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt='Vider' onclick="document.getElementById('EditPrestationCode').value='';document.getElementById('EditPrestationName').value='';"> 
+        <%
+        	String sEditPrestationName="";
+        	if(sPrestationCode.length()>0){
+        		Prestation prestation = Prestation.get(sPrestationCode);
+        		if(prestation!=null){
+        			sEditPrestationName=checkString(prestation.getDescription());
+        		}
+        	}
+        %>
+        <input class="greytext" readonly disabled type="text" name="EditPrestationName" id="EditPrestationName" value="<%=sEditPrestationName%>" size="50"/>
     </td>
   </tr>
+  <%
+  }
+  %>
   <%-- LAB GROUP --%>
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.labgroup",sWebLanguage)%></td>
@@ -732,6 +751,10 @@
   	  	}
   	  	return "";
   	}
+  function searchPrestation(){
+	  document.getElementById("EditPrestationCode").value = "";
+      openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldUid=EditPrestationCode&ReturnFieldDescr=EditPrestationName");
+  }
     function checkSave(){
       if(editForm.EditLabCode.value.length == 0 || editForm.LabType.selectedIndex == 0 || editForm.EditLabGroup.selectedIndex == 0
         <%
@@ -797,7 +820,7 @@
   <br><br>
   <%-- link to labprofiles --%>
   <img src='<c:url value="/_img/pijl.gif"/>'>
-  <a class="menuItem" href="<c:url value="/main.jsp"/>?Page=system/manageLabProfiles.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
+  <a  href="<c:url value="/main.jsp"/>?Page=system/manageLabProfiles.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 <script>
   function showOverview(){

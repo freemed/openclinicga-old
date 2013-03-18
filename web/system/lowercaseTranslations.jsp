@@ -1,7 +1,6 @@
 <%@page import="java.io.*,java.util.Properties,java.util.Enumeration,java.util.StringTokenizer" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%=checkPermission("system.management","all",activeUser)%>
 

@@ -7,12 +7,13 @@
                 org.dom4j.DocumentException,
                 java.net.MalformedURLException,
                 java.sql.PreparedStatement,
-                java.sql.Connection,
                 java.util.Iterator" %>
 <%@page errorPage="/includes/error.jsp" %>
 <%@include file="/includes/helper.jsp" %>
+<%@include file="/includes/SingletonContainer.jsp" %>
 <%
     response.setHeader("Content-Type", "text/html; charset=ISO-8859-1");
+	session.setAttribute("javaPOSServer", checkString(request.getParameter("javaPOSServer")));
 %>
 <html>
 <script>
@@ -23,7 +24,9 @@
     <link rel="shortcut icon" href="favourite.ico"/>
     <META HTTP-EQUIV="Refresh" CONTENT="300">
     <%=sCSSNORMAL%><%=sJSCHAR%><%=sJSPROTOTYPE%><%=sJSCOOKIE%><%=sJSDROPDOWNMENU%>
-    <%MedwanQuery.getInstance("http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR);
+    <%
+    MedwanQuery.getInstance("http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR);
+    reloadSingleton(request.getSession());
 
     //*** retreive application version ***
     String version = "version unknown";
@@ -172,7 +175,7 @@
         <img src="_img/maliflag.jpg" height="15px" width="30px" alt="Mali"/>
         <a href="http://www.sante.gov.ml/" target="_new"><b>ANTIM</b></a> et <a href="http://www.mxs.be" target="_new"><b>MXS</b></a>
         <BR/> Hamdalaye ACI 2000, Rue 340, Porte 541, Bamako - Mali<br/>
-        <a href="mailto:info@openit-burundi.net">ousmanely@sante.gov.ml</a>
+        <a href="mailto:info@openit-burundi.net">antim@sante.gov.ml</a>
         <% } else { %>
         <img src="_img/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
         <a href="http://www.mxs.be" target="_new"><b>MXS SA/NV</b></a>

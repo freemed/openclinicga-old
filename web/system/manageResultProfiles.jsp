@@ -3,7 +3,6 @@
 <%@ page import="be.openclinic.medical.ResultsProfileAnalysis" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%=checkPermission("system.management","all",activeUser)%>
 <%=sJSSORTTABLE%>
@@ -307,7 +306,7 @@
               <%-- link --%>
               <td align="right">
                 <img src='<c:url value="/_img/pijl.gif"/>'>
-                <a class="menuItem" href="<c:url value="/main.do"/>?Page=system/manageLabAnalyses.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
+                <a  href="<c:url value="/main.do"/>?Page=system/manageLabAnalyses.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
               </td>
             </tr>
           </table>
@@ -567,7 +566,7 @@
           <input class="button" type="button" value="<%=getTran("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
           <%-- link to labanalyses --%>
           <img src='<c:url value="/_img/pijl.gif"/>'>
-          <a class="menuItem" href="<c:url value="/main.do"/>?Page=system/manageLabAnalyses.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
+          <a  href="<c:url value="/main.do"/>?Page=system/manageLabAnalyses.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
       </td>
   </tr>
 </table>

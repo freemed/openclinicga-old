@@ -58,10 +58,8 @@
         String sDefaultFocus = checkString(request.getParameter("DefaultFocus"));
         Parameter parameter = new Parameter("DefaultFocus",sDefaultFocus);
 
-      	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        activeUser.removeParameter("DefaultFocus",ad_conn);
-        activeUser.updateParameter(parameter,ad_conn);
-        ad_conn.close();
+        activeUser.removeParameter("DefaultFocus");
+        activeUser.updateParameter(parameter);
         activeUser.parameters.add(parameter);
         session.setAttribute("activeUser",activeUser);
 

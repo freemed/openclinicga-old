@@ -290,9 +290,7 @@
                     
                     // let user remember when he changed his password
                     Parameter pwdChangeParam = new Parameter("pwdChangeDate",System.currentTimeMillis()+"");
-                  	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                    activeUser.updateParameter(pwdChangeParam,ad_conn);
-                    ad_conn.close();
+                    activeUser.updateParameter(pwdChangeParam);
 
                     // display how long the password remains valid
                     int availability;

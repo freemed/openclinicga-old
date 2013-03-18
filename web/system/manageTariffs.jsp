@@ -28,7 +28,6 @@
 	
 	                <select class="text" name="EditPrestationName" onchange="document.getElementById('tmpPrestationUID').value=this.value">
 	                    <%
-							System.out.println("sPrestUid="+sPrestUid);
 	                    	Prestation prest = Prestation.get(sPrestUid);
 	                    	if (prest!=null){
 	                    		
@@ -110,7 +109,6 @@
 			" a.oc_tariff_insuraruid like '"+sInsurarUid+"%' and "+
 			" a.oc_tariff_prestationuid like '"+sPrestUid+"%' and "+
 			" a.oc_tariff_insurancecategory like '"+sCategory+"%'";
-		System.out.println(sSql);
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps = oc_conn.prepareStatement(sSql);
 		ResultSet rs = ps.executeQuery();

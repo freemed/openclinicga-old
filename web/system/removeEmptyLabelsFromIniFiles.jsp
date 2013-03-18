@@ -339,7 +339,7 @@
 <%-- link to manage translations --%>
 <%=ScreenHelper.alignButtonsStart()%>
     <img src='<c:url value="/_img/pijl.gif"/>'>
-    <a class="menuItem" href="<c:url value='/main.do'/>?Page=system/manageTranslations.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetranslations",sWebLanguage)%></a>&nbsp;
+    <a  href="<c:url value='/main.do'/>?Page=system/manageTranslations.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetranslations",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 <a name="bottom"/>
 <%-- SCRIPTS -------------------------------------------------------------------------------------%>

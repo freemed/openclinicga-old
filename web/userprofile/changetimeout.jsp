@@ -97,10 +97,8 @@
 
         // set timeout as parameter in user
         Parameter parameter = new Parameter("Timeout",sTimeout);
-      	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        activeUser.removeParameter("Timeout",ad_conn);
-        activeUser.updateParameter(parameter,ad_conn);
-        ad_conn.close();
+        activeUser.removeParameter("Timeout");
+        activeUser.updateParameter(parameter);
         activeUser.parameters.add(parameter);
         session.setAttribute("activeUser",activeUser);
 

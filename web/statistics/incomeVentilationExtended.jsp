@@ -24,7 +24,7 @@
 	java.util.Date start = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("start"))+" 00:00");
 	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
-	String sQuery="select oc_debet_objectid,oc_prestation_invoicegroup,(select max(oc_encounter_serviceuid) from oc_encounter_services where oc_encounter_objectid=replace(oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')) oc_encounter_serviceuid,oc_debet_amount,oc_debet_insuraramount,oc_debet_extrainsuraramount"+
+	String sQuery="select oc_debet_objectid,oc_prestation_invoicegroup,oc_debet_serviceuid,oc_debet_amount,oc_debet_insuraramount,oc_debet_extrainsuraramount"+
 				" from oc_debets a,oc_prestations b"+
 				" where"+
 				" oc_prestation_objectid=replace(oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and"+
@@ -41,18 +41,23 @@
 	double totalpatient=0,totalinsurar=0,totalextrainsurar=0,patientamount,insuraramount,extrainsuraramount;
 	Hashtable debets = new Hashtable();
 	SortedMap incomes = new TreeMap();
-	String group,debetid,serviceuid;
+	String group,debetid,serviceuid,servicename;
+	Service service;
 	Income income = null;
 	while(rs.next()){
 		debetid=rs.getString("oc_debet_objectid");
 		group=checkString(rs.getString("oc_prestation_invoicegroup"));
 		if(group.length()==0){
-			serviceuid=rs.getString("oc_encounter_serviceuid");
-			group=serviceuid+" "+checkString(getTranDb("service",serviceuid,sWebLanguage));
-			if(group.length()==0){
+			serviceuid=rs.getString("oc_debet_serviceuid");
+			servicename="";
+			service=Service.getService(serviceuid);
+			if(service!=null){
+				servicename=service.getLabel(sWebLanguage);
+				group = "S: "+serviceuid+" "+servicename;
+			}
+			else {
 				group="?";
 			}
-			group="S: "+group;
 		}
 		else {
 			group="C: "+group;

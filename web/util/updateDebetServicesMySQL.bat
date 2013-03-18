@@ -1,0 +1,2 @@
+java -Xms64m -Xmx256m -classpath ../WEB-INF/classes;../WEB-INF/lib/log4j.jar;../WEB-INF/lib/dom4j-full.jar;../WEB-INF/lib/mysql-connector-java-5.1.10-bin.jar be.mxs.common.util.diagnostics.UpdateDebetServices "jdbc:mysql://localhost:3306/openclinic_dbo?user=root&password="
+REM exit

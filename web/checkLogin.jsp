@@ -118,7 +118,6 @@
 	catch(Exception e3){
 		e3.printStackTrace();
 	}
-System.out.println(1);
 // get formdata
   if (request.getParameter("Dir")!=null){
       sAPPDIR = request.getParameter("Dir");
@@ -150,9 +149,7 @@ System.out.println(1);
               User user = new User();
               byte[] aUserPassword = user.encrypt(sUserPassword);
 
-              System.out.println(1.1);
               if ((sAuto!=null && sAuto.equalsIgnoreCase("true") && user.initializeAuto(ad_conn, sUserLogin, sUserPassword)) || user.initialize(ad_conn, sUserLogin, aUserPassword)) {
-            	  System.out.println(1.2);
                   GregorianCalendar myDate = new GregorianCalendar();
                   String sDay, sMonth, sYear, sDate;
                   sDay = myDate.get(Calendar.DATE) + "";
@@ -320,6 +317,5 @@ System.out.println(1);
           e.printStackTrace();
       }
   }
-  System.out.println(2);
 
 %>

@@ -3,15 +3,22 @@
 <%@page import="java.io.ByteArrayOutputStream,
                 com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,
-                be.mxs.common.util.pdf.general.PDFUserCardGenerator" %>
+                be.mxs.common.util.pdf.general.*" %>
 
 <%
     ByteArrayOutputStream baosPDF = null;
 
     try {
         // PDF generator
-        PDFUserCardGenerator pdfUserCardGenerator = new PDFUserCardGenerator(activeUser, sProject);
-        baosPDF = pdfUserCardGenerator.generatePDFDocumentBytes(request, activePatient);
+        String type = checkString(request.getParameter("cardtype"));
+        if(type.equalsIgnoreCase("new")){
+        	PDFUserCardGeneratorNew pdfUserCardGenerator = new PDFUserCardGeneratorNew(activeUser, sProject);
+            baosPDF = pdfUserCardGenerator.generatePDFDocumentBytes(request, activePatient);
+        }
+        else {
+        	PDFUserCardGenerator pdfUserCardGenerator = new PDFUserCardGenerator(activeUser, sProject);
+            baosPDF = pdfUserCardGenerator.generatePDFDocumentBytes(request, activePatient);
+        }
         StringBuffer sbFilename = new StringBuffer();
         sbFilename.append("filename_").append(System.currentTimeMillis()).append(".pdf");
 

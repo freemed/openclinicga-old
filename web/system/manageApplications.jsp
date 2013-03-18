@@ -5,7 +5,6 @@
     public String writePermission(String sLabel, String sScreenID, int idx, int categoryIdx) {
         String sChecked = "";
 
-        System.out.println("verifying "+sScreenID+": "+Application.isDisabled(sScreenID));
         if (Application.isDisabled(sScreenID)){
             sChecked = " checked";
         }

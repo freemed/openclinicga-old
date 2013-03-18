@@ -1,6 +1,5 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%=checkPermission("system.management","all",activeUser)%>
 <%
     String sFindCareUID = checkString(request.getParameter("FindCareUID"));

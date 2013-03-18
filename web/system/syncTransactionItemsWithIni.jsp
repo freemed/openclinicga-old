@@ -354,7 +354,7 @@
 <%-- link to manage transactionItems --%>
 <%=ScreenHelper.alignButtonsStart()%>
   <img src='<c:url value="/_img/pijl.gif"/>'>
-  <a class="menuItem" href="<c:url value='/main.do'/>?Page=system/manageTransactionItems.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetransactionitems",sWebLanguage)%></a>&nbsp;
+  <a  href="<c:url value='/main.do'/>?Page=system/manageTransactionItems.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetransactionitems",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 <a name="bottom"/>
 <%-- SCRIPTS ---------------------------------------------------------------------------------------------------------%>

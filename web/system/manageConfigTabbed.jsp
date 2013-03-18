@@ -418,6 +418,6 @@
     <%-- link to manageConfig --%>
     <%=ScreenHelper.alignButtonsStart()%>
         <img src='<c:url value="/_img/pijl.gif"/>'>
-        <a class="menuItem" href="<c:url value='/main.do'/>?Page=system/manageConfig.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Manage","manageConfiguration",sWebLanguage)%></a>&nbsp;
+        <a  href="<c:url value='/main.do'/>?Page=system/manageConfig.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Manage","manageConfiguration",sWebLanguage)%></a>&nbsp;
     <%=ScreenHelper.alignButtonsStop()%>
 </form>

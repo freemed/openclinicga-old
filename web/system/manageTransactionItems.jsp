@@ -217,7 +217,7 @@
 
           <%-- link to synchronise transactionItems with ini --%>
           <img src='<c:url value="/_img/pijl.gif"/>'>
-          <a class="menuItem" href="<c:url value='/main.do?Page=system/syncTransactionItemsWithIni.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","synchronizetransactionitemswithini",sWebLanguage)%></a>&nbsp;
+          <a  href="<c:url value='/main.do?Page=system/syncTransactionItemsWithIni.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","synchronizetransactionitemswithini",sWebLanguage)%></a>&nbsp;
       </td>
   </tr>
   <%-- MESSAGE -----------------------------------------------------------------------------------%>

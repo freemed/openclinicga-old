@@ -252,7 +252,7 @@
 <%-- link to synchronise labels with ini --%>
 <%=ScreenHelper.alignButtonsStart()%>
     <img src="<c:url value="/_img/pijl.gif"/>">
-    <a class="menuItem" href="<c:url value='/main.do?Page=system/syncLabelsWithIni.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","synchronizelabelswithini",sWebLanguage)%></a>&nbsp;
+    <a  href="<c:url value='/main.do?Page=system/syncLabelsWithIni.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","synchronizelabelswithini",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>

@@ -1,7 +1,6 @@
 <%@page import="java.util.StringTokenizer" %>
 <%@page errorPage="/includes/error.jsp"%>
-<%@include file="/_common/templateAddIns.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%=checkPermissionPopup("system.managetranslations","",activeUser)%>
 <%
     String sAction = checkString(request.getParameter("Action"));

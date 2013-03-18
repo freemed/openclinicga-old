@@ -20,6 +20,20 @@
                 " a.personid=b.personid " +
                 " order by userid";
     }
+    else if("debet.list".equalsIgnoreCase(request.getParameter("query"))){
+        query="select oc_debet_date as DATE, lastname as NOM,firstname as PRENOM,oc_prestation_description as PRESTATION,oc_debet_quantity as QUANTITE,"+MedwanQuery.getInstance().convert("int","oc_debet_amount")+" as PATIENT,"+MedwanQuery.getInstance().convert("int","oc_debet_insuraramount")+" as ASSUREUR,oc_label_value as SERVICE,oc_debet_credited as ANNULE,replace(oc_debet_patientinvoiceuid,'1.','') as FACT_PATIENT"+
+        		" from oc_debets,oc_encounters,adminview,oc_prestations,servicesview,oc_labels"+
+        		" where"+
+        		" oc_encounter_objectid=replace(oc_debet_encounteruid,'1.','') and"+
+        		" oc_prestation_objectid=replace(oc_debet_prestationuid,'1.','') and"+
+        		" serviceid=oc_debet_serviceuid and"+
+        		" oc_label_type='service' and"+
+        		" oc_label_id=serviceid and"+
+        		" oc_label_language='fr' and"+
+        		" oc_encounter_patientuid=personid and"+
+        		" oc_debet_date>="+ MedwanQuery.getInstance().convertStringToDate("'<beginfin>'")+" and"+
+        		" oc_debet_date<="+ MedwanQuery.getInstance().convertStringToDate("'<endfin>'")+" ORDER BY oc_debet_date,lastname,firstname";
+    }
     else if("global.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,district as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_DIAGNOSIS_AUTHORUID as CODE_USER, OC_DIAGNOSIS_CODETYPE as TYPE, OC_DIAGNOSIS_CODE as DIAGCODE,"
         +"(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select "+label+" from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
@@ -126,6 +140,24 @@
         " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
         " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
                 " order by CODE";
+    }
+    else if("wicketcredits.list".equalsIgnoreCase(request.getParameter("query"))){
+        query="select oc_wicket_credit_operationdate as DATE,a.oc_label_value as CAISSE,b.oc_label_value as TYPE,"+MedwanQuery.getInstance().convert("int","oc_wicket_credit_amount")+" as MONTANT,oc_wicket_credit_comment as COMMENTAIRE,"+
+        		" oc_wicket_credit_invoiceuid as REF_FACTURE,lastname as NOM_UTILISATEUR,firstname as PRENOM_UTILISATEUR"+
+        		" from oc_wicket_credits,oc_wickets,oc_labels a,oc_labels b,usersview c,adminview d"+
+        		" where"+
+        		" oc_wicket_credit_updateuid=userid and"+
+        		" c.personid=d.personid and"+
+        		" oc_wicket_credit_operationdate >="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" and"+
+        		" oc_wicket_credit_operationdate<"+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" and"+
+        		" oc_wicket_objectid=replace(oc_wicket_credit_wicketuid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and"+
+        		" a.oc_label_type='service' and"+
+        		" a.oc_label_id=oc_wicket_serviceuid and"+
+        		" a.oc_label_language='fr' and"+
+        		" b.oc_label_type='credit.type' and"+
+        		" b.oc_label_id=oc_wicket_credit_type and"+
+        		" b.oc_label_language='fr'"+
+        		" order by DATE";
     }
     else if("diagnosis.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select replace(OC_DIAGNOSIS_ENCOUNTERUID,'.','_') as CODE_CONTACT, OC_DIAGNOSIS_AUTHORUID as CODE_USER, OC_DIAGNOSIS_CODETYPE as TYPE, OC_DIAGNOSIS_CODE as CODE,"+

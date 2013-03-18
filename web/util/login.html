@@ -1,0 +1,82 @@
+<script>
+//Get browser info
+    
+    var _app = navigator.appName;
+
+    //Events section
+   
+    //Fired during internal error
+    function onErrorHandler() {
+        alert("Error");
+    }
+
+	function onLoadHandler()
+	{
+   	//no need to do anything	
+	}
+
+    function onCaptureHandler() {
+	alert("captured");
+    }
+
+    function onEnrollmentFailureHandler() {
+        alert("Enrollment failed.  Please be sure to use the same finger for each of the 4 presses or try to register a different finger.");
+    }
+
+
+    function onFMDHandler( hexFMD ) {
+     }
+
+     function setFormat(radioObj) {
+     }
+
+</script>
+
+
+<script type="text/javascript">  
+            if (_app == 'Netscape' || _app == 'Opera') {
+            
+                document.write('<object classid="java:UareUApplet.class"',
+                   'type="application/x-java-applet"',
+                   'name="UareUApplet"',
+                   'width="1"',  //apparently need to have dimension > 0 for foreground window to be associated with jvm process.
+                   'height="0"', //otherwise, if w&h=0, must use exlusive priority
+                   'type="application/x-java-applet"',
+                   'pluginspage="http://java.sun.com/javase/downloads"',
+                   'archive="UareUApplet.jar, dpuareu.jar"',
+                   'onFMDAcquiredScript="onFMDHandler"',
+                   'onEnrollmentFailureScript="onEnrollmentFailureHandler"',
+                   'onImageCapturedScript="onCaptureHandler"',
+                   'onErrorScript="onErrorHandler"',
+                   'onLoadScript="onLoadHandler"',
+                   'bRegistrationMode="false"',
+                   'bDebug="true"',
+                   'bExclusivePriority="true"',
+                   'scriptable="true"',
+                   'mayscript="true"',
+                   'separate_jvm="true"> </object>');
+   }
+    
+   else if(_app=="Microsoft Internet Explorer") //we assume IE (use activeX jre plugin)
+   {
+   document.write( '<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"',
+    'height="1" width="0" name="UareUApplet">',
+    '<param name="type" value="application/x-java-applet;version=1.6" />',
+    '<param name="code" value="UareUApplet"/>',
+    '<param name="scriptable" value="true" />',
+    '<param name="archive" value="UareUApplet.jar, dpuareu.jar"/>',
+    '<param name="onFMDAcquiredScript" value="onFMDHandler" />',
+    '<param name="onImageCapturedScript" value="onCaptureHandler" />',
+    '<param name="onEnrollmentFailureScript" value="onEnrollmentFailureHandler"/>',
+    '<param name="bDebug" value="true" />',
+    '<param name="bRegistrationMode" value="false" />',
+    '<param name="onErrorScript" value="onErrorHandler" />',
+    '<param name="onLoadScript" value="onLoadHandler" />',
+    '<param name="bExclusivePriority" value="false"/>',
+    '<param name="separate_jvm" value="true" />',
+    '</object>');
+    }
+    
+</script>
+
+

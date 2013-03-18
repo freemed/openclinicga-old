@@ -10,9 +10,7 @@
     //--- SAVE ------------------------------------------------------------------------------------
     if (sAction.equals("save")) {
         String sFavorite;
-      	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        activeUser.removeParameter("favorite", ad_conn);
-        ad_conn.close();
+        activeUser.removeParameter("favorite");
         Hashtable hFavorites = (Hashtable) MedwanQuery.getInstance().getLabels().get(sWebLanguage);
         hFavorites = (Hashtable) hFavorites.get("favorite");
 

@@ -16,7 +16,6 @@
         <%
             String sAction = checkString(request.getParameter("Action"));
 
-	      	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             if (sAction.equals("save")) {
                 Parameter parameter;
                 Vector vParameters = (Vector) activeUser.parameters.clone();
@@ -25,7 +24,7 @@
                     parameter = (Parameter) vParameters.elementAt(i);
 
                     if (parameter.parameter.toLowerCase().startsWith("showexamination_")) {
-                        activeUser.removeParameter(parameter.parameter, ad_conn);
+                        activeUser.removeParameter(parameter.parameter);
                     }
                 }
 
@@ -42,14 +41,13 @@
                             parameter.parameter = "showexamination_" + sParamName.substring(4);
                             parameter.value = "on";
                             activeUser.parameters.add(parameter);
-                            activeUser.updateParameter(parameter, ad_conn);
+                            activeUser.updateParameter(parameter);
                         }
                     }
                 }
 
                 session.setAttribute("activeUser", activeUser);
             }
-			ad_conn.close();
             Vector vExaminations = Examination.searchAllExaminations();
             Iterator iter = vExaminations.iterator();
 

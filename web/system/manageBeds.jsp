@@ -388,5 +388,6 @@
         openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
     }
 
+	setTimeout('EditBedForm.EditName.focus();',500);
 <%-- End Edit Block --%>
 </script>

@@ -1,7 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%
     String sAction             = checkString(request.getParameter("Action")),
            sFindCategoryCode    = checkString(request.getParameter("FindCategoryCode")),

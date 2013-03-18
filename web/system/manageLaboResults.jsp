@@ -1,7 +1,6 @@
 <%@ page import="be.openclinic.medical.RequestedLabAnalysis" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%=checkPermission("system.management","all",activeUser)%>
 <%=sJSSORTTABLE%>

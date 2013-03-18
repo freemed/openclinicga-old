@@ -223,7 +223,6 @@
             <%
                 // display documents in configured directory, and check those which are marked as seleted in the database
                 String sDocumentsFolder = MedwanQuery.getInstance().getConfigString("DocumentsFolder");
-                if(Debug.enabled) System.out.println("*** using configvalue 'documentsFolder' : "+sDocumentsFolder);
 
                 int documentCount = 0;
                 File documentsDir = new File(sDocumentsFolder+"/base/");

@@ -3,7 +3,6 @@
                 java.util.Collections"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%=checkPermission("system.manageexaminations","select",activeUser)%>
 <%
     String msg = "", sEditPriority = "", sEditData = "", sEditTranType = "", sEditExamName = "";

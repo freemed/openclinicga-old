@@ -144,46 +144,42 @@ if(request.getParameter("nousers")==null){
 </tr>
 </table>
 <%
-	Connection conn=MedwanQuery.getInstance().getAdminConnection();
-	PreparedStatement ps = conn.prepareStatement("select count(*) total from Admin");
-	ResultSet rs=ps.executeQuery();
-	rs.next();
-	int totalpatients=rs.getInt("total");
-	rs.close();
-	ps.close();
-	conn.close();
-	conn=MedwanQuery.getInstance().getOpenclinicConnection();
-	ps=conn.prepareStatement("select count(*) total from OC_ENCOUNTERS");
-	rs=ps.executeQuery();
-	rs.next();
-	int totalencounters=rs.getInt("total");
-	rs.close();
-	ps.close();
-	conn.close();
-	conn=MedwanQuery.getInstance().getOpenclinicConnection();
-	ps=conn.prepareStatement("select count(*) total from OC_DEBETS");
-	rs=ps.executeQuery();
-	rs.next();
-	int totaldebets=rs.getInt("total");
-	rs.close();
-	ps.close();
-	conn.close();
-	conn=MedwanQuery.getInstance().getOpenclinicConnection();
-	ps=conn.prepareStatement("select count(*) total from OC_PATIENTINVOICES");
-	rs=ps.executeQuery();
-	rs.next();
-	int totalpatientinvoices=rs.getInt("total");
-	rs.close();
-	ps.close();
-	conn.close();
-	conn=MedwanQuery.getInstance().getAdminConnection();
-	ps=conn.prepareStatement("select count(*) total from admin where archivefilecode is not null and archivefilecode<>''");
-	rs=ps.executeQuery();
-	rs.next();
-	int totalarchivedpatients=rs.getInt("total");
-	rs.close();
-	ps.close();
-	conn.close();
+	if(MedwanQuery.getInstance().getConfigInt("enableMonitorMiniStats",0)==1 || request.getParameter("nousers")!=null){
+		Connection conn=MedwanQuery.getInstance().getAdminConnection();
+		PreparedStatement ps = conn.prepareStatement("select count(*) total from Admin");
+		ResultSet rs=ps.executeQuery();
+		rs.next();
+		int totalpatients=rs.getInt("total");
+		rs.close();
+		ps.close();
+		ps=conn.prepareStatement("select count(*) total from admin where archivefilecode is not null and archivefilecode<>''");
+		rs=ps.executeQuery();
+		rs.next();
+		int totalarchivedpatients=rs.getInt("total");
+		rs.close();
+		ps.close();
+		conn.close();
+		
+		conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		ps=conn.prepareStatement("select count(*) total from OC_ENCOUNTERS");
+		rs=ps.executeQuery();
+		rs.next();
+		int totalencounters=rs.getInt("total");
+		rs.close();
+		ps.close();
+		ps=conn.prepareStatement("select count(*) total from OC_PATIENTINVOICES");
+		rs=ps.executeQuery();
+		rs.next();
+		int totalpatientinvoices=rs.getInt("total");
+		rs.close();
+		ps.close();
+		ps=conn.prepareStatement("select count(*) total from OC_DEBETS");
+		rs=ps.executeQuery();
+		rs.next();
+		int totaldebets=rs.getInt("total");
+		rs.close();
+		ps.close();
+		conn.close();
 %>
 <table width='100%'>
 <tr>
@@ -199,4 +195,7 @@ if(request.getParameter("nousers")==null){
 <tr>
 	<td colspan='10'><hr/></td>
 </tr>
+<%
+	}
+%>
 </table>

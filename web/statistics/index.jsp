@@ -89,6 +89,8 @@ if(true){
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"document.list\",\"openclinic\");",getTran("Web","statistics.download.documentlist",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"user.list\",\"admin\");",getTran("Web","statistics.download.userlist",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"service.list\",\"openclinic\");",getTran("Web","statistics.download.servicelist",sWebLanguage))
+            +writeTblChildWithCodeNoButton("javascript:downloadStats(\"debet.list\",\"openclinic\");",getTran("Web","statistics.download.debetlist",sWebLanguage))
+            +writeTblChildWithCodeNoButton("javascript:downloadStats(\"wicketcredits.list\",\"openclinic\");",getTran("Web","statistics.download.wicketcredits",sWebLanguage))
             +(MedwanQuery.getInstance().getConfigInt("datacenterenabled",0)==1?writeTblChildWithCodeNoButton("javascript:downloadDatacenterStats(\"service.income.list\",\"stats\");",getTran("Web","statistics.download.serviceincomelist",sWebLanguage)):"")
             +ScreenHelper.writeTblFooter()+"<br>");
 
@@ -98,6 +100,8 @@ if(true){
             +writeTblChildWithCode("javascript:getOpenInvoices()",getTran("Web","statistics.openinvoicelists",sWebLanguage))
             +writeTblChildWithCode("javascript:getClosedNonZeroInvoices()",getTran("Web","statistics.closednonzeroinvoicelists",sWebLanguage))
             +writeTblChildWithCode("javascript:getCanceledInvoices()",getTran("Web","statistics.canceledinvoicelists",sWebLanguage))
+            +writeTblChildWithCode("javascript:getIssuedInsurerInvoices()",getTran("Web","statistics.issuedinsurerinvoices",sWebLanguage))
+            +(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1?writeTblChildWithCode("javascript:getMFPSummary()",getTran("Web","statistics.mfpsummary",sWebLanguage)):"")
             +ScreenHelper.writeTblFooter()+"<br>");
     }
 
@@ -124,6 +128,10 @@ if(true){
 	}
     function minisanteReport(){
         var w=window.open("<c:url value='/statistics/createMonthlyReportPdf.jsp?'/>start="+document.getElementById('begin2').value+"&end="+document.getElementById('end2').value+"&ts=<%=getTs()%>");
+    }
+    function getMFPSummary(){
+        var URL="/statistics/createMFPSummary.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
+		openPopup(URL,400,600,"OpenClinic");
     }
     function minisanteReportDH(){
         var w=window.open("<c:url value='/statistics/createMonthlyReportPdfDH.jsp?'/>start="+document.getElementById('begin2').value+"&end="+document.getElementById('end2').value+"&ts=<%=getTs()%>");
@@ -164,6 +172,10 @@ if(true){
     }
     function getCanceledInvoices(){
 		var URL = "statistics/canceledInvoiceLists.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
+    function getIssuedInsurerInvoices(){
+		var URL = "statistics/issuedInsurerInvoiceList.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
 		openPopup(URL,800,600,"OpenClinic");
     }
     function searchService(serviceUidField,serviceNameField){

@@ -1,4 +1,3 @@
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%@page import="be.openclinic.finance.Insurar,
                 be.openclinic.finance.InsuranceCategory,
                 java.util.Vector,
@@ -51,6 +50,9 @@
            sFindInsurarLanguage = checkString(request.getParameter("FindInsurarLanguage")),
            sFindInsurarContact  = checkString(request.getParameter("FindInsurarContact")),
            sEditInsurarId       = checkString(request.getParameter("EditInsurarId")),
+           sEditNoSupplements       = checkString(request.getParameter("EditNoSupplements")),
+           sEditAuthorizationNeeded       = checkString(request.getParameter("EditAuthorizationNeeded")),
+           sEditCoverSupplements       = checkString(request.getParameter("EditCoverSupplements")),
            sEditInsurarDefaultInsurarInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultInsurarInvoiceModel")),
       	   sEditInsurarDefaultPatientInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
      	   sEditInsurarAllowedReductions       = checkString(request.getParameter("EditInsurarAllowedReductions")),
@@ -73,26 +75,6 @@
     // delete all categories for the specified insurar,
     // then add all selected categories (those in request)
     if(sAction.equals("save")){
-    	if(request.getParameter("EditInsurarExtra")==null){
-			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
-			for(int n=0;n<supportedlanguages.length;n++){
-	    		Label.delete("patientsharecoverageinsurance",sEditInsurarId,supportedlanguages[n]);
-			}
-    	}
-    	else {
-    		Label label = new Label();
-    		label.showLink="0";
-    		label.type="patientsharecoverageinsurance";
-    		label.id=sEditInsurarId;
-    		label.updateUserId=activeUser.userid;
-    		label.value=checkString(request.getParameter("EditInsurarName"));
-			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
-			for(int n=0;n<supportedlanguages.length;n++){
-	    		label.language=supportedlanguages[n];
-	    		label.saveToDB();
-			}
-    	}
-		reloadSingleton(session);
         // categories
         String sCategoriesToSave   = checkString(request.getParameter("selectedCategories")),
                sCategoriesToDelete = checkString(request.getParameter("categoriesToDelete"));
@@ -121,6 +103,9 @@
             Insurar.deleteCategories(sEditInsurarId);
             insurar = Insurar.get(sEditInsurarId);
         }
+    	if(sEditAuthorizationNeeded.length()>0 && !insurar.getUid().equalsIgnoreCase("-1")){
+    		MedwanQuery.getInstance().setConfigString("InsuranceAgentAuthorizationNeededFor",MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").replaceAll("\\*"+sEditInsurarId.replaceAll("\\.","\\\\.")+"\\*", "")+"*"+sEditInsurarId+"*");
+    	}
 
         insurar.setName(checkString(request.getParameter("EditInsurarName")));
         insurar.setContact(checkString(request.getParameter("EditInsurarContact")));
@@ -131,7 +116,22 @@
         insurar.setDefaultInsurarInvoiceModel(request.getParameter("EditInsurarDefaultInsurarInvoiceModel"));
         insurar.setDefaultPatientInvoiceModel(request.getParameter("EditInsurarDefaultPatientInvoiceModel"));
         insurar.setAllowedReductions(request.getParameter("EditInsurarAllowedReductions"));
-
+		int nNoSupplements=0;
+		try{
+			nNoSupplements=Integer.parseInt(sEditNoSupplements);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		insurar.setNoSupplements(nNoSupplements);
+		int nCoverSupplements=0;
+		try{
+			nCoverSupplements=Integer.parseInt(sEditCoverSupplements);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		insurar.setCoverSupplements(nCoverSupplements);
         //*** save categories ***
         if(sCategoriesToSave.length() > 0){
             String catName, catLabel, catPatientShare, sOneCategory, catUid;
@@ -167,6 +167,45 @@
         msg = getTran("web","dataIsSaved",sWebLanguage);
         sFindInsurarName=insurar.getName();
         sAction = "search";
+    	if(request.getParameter("EditInsurarExtra")==null){
+			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0;n<supportedlanguages.length;n++){
+	    		Label.delete("patientsharecoverageinsurance",insurar.getUid(),supportedlanguages[n]);
+			}
+    	}
+    	else {
+    		Label label = new Label();
+    		label.showLink="0";
+    		label.type="patientsharecoverageinsurance";
+    		label.id=insurar.getUid();
+    		label.updateUserId=activeUser.userid;
+    		label.value=checkString(request.getParameter("EditInsurarName"));
+			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0;n<supportedlanguages.length;n++){
+	    		label.language=supportedlanguages[n];
+	    		label.saveToDB();
+			}
+    	}
+    	if(request.getParameter("EditInsurarExtra2")==null){
+			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0;n<supportedlanguages.length;n++){
+	    		Label.delete("patientsharecoverageinsurance2",insurar.getUid(),supportedlanguages[n]);
+			}
+    	}
+    	else {
+    		Label label = new Label();
+    		label.showLink="0";
+    		label.type="patientsharecoverageinsurance2";
+    		label.id=insurar.getUid();
+    		label.updateUserId=activeUser.userid;
+    		label.value=checkString(request.getParameter("EditInsurarName"));
+			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0;n<supportedlanguages.length;n++){
+	    		label.language=supportedlanguages[n];
+	    		label.saveToDB();
+			}
+    	}
+		reloadSingleton(session);
     }
     //--- DELETE ----------------------------------------------------------------------------------
     else if(sAction.equals("delete")){
@@ -397,6 +436,7 @@
                             	<option value='default' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
                             	<option value='ctams' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
                             	<option value='mfp' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
+                            	<option value='cmck' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("cmck")?"selected":""%>><%=getTranNoLink("web","cmckmodel",sWebLanguage)%></option>
                             </select>
                         </td>
                     </tr>
@@ -409,6 +449,7 @@
                             <option value="ramanew" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
                             <option value="ctams" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
                             <option value="ramacsv" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
+                            <option value="mfp" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
                             </select>
                         </td>
                     </tr>
@@ -428,6 +469,36 @@
                         %>
                         <td class="admin2">
                             <input type="checkbox" class="text" name="EditInsurarExtra" <%=sExtraInsurar %>/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","complementarycoverage2",sWebLanguage)%></td>
+                        <%
+                        	String sExtraInsurar2="";
+                        	if(!sEditInsurarId.equalsIgnoreCase(getTranNoLink("patientsharecoverageinsurance2",sEditInsurarId,sWebLanguage))){
+                        		sExtraInsurar2="checked";
+                        	}
+                        %>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditInsurarExtra2" <%=sExtraInsurar2 %>/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","nosupplements",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditNoSupplements" <%=insurar.getNoSupplements()==1?"checked":"" %> value="1"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","coversupplements",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditCoverSupplements" <%=insurar.getCoverSupplements()==1?"checked":"" %> value="1"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","authorizationneeded",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditAuthorizationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":"" %> value="1"/>
                         </td>
                     </tr>
                     <%-- SELECTED CATEGORIES --%>

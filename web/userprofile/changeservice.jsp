@@ -5,7 +5,6 @@
     String sEditDefaultService = checkString(request.getParameter("EditDefaultService"));
     String sAddServiceCode     = checkString(request.getParameter("AddServiceCode"));
     //--- ADD -------------------------------------------------------------------------------------
-  	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
     if (sAction.equals("add") && sAddServiceCode.length()>0){
         boolean bExists;
 
@@ -21,7 +20,7 @@
                 uService.setActiveservice(0);
             }
             uService.saveToDB();
-            activeUser.initializeService(ad_conn);
+            activeUser.initializeService();
             session.setAttribute("activeUser",activeUser);
         }
     }
@@ -33,11 +32,11 @@
         uService.setServiceid(sEditDefaultService);
         uService.update();
 
-        activeUser.initializeService(ad_conn);
+        activeUser.initializeService();
 
         Parameter parameter = new Parameter("defaultserviceid",sEditDefaultService);
-        activeUser.removeParameter("defaultserviceid",ad_conn);
-        activeUser.updateParameter(parameter,ad_conn);
+        activeUser.removeParameter("defaultserviceid");
+        activeUser.updateParameter(parameter);
         session.setAttribute("activeMedicalCenter",sEditDefaultService);
         activeUser.parameters.add(parameter);
         activeUser.activeService.code = sEditDefaultService;
@@ -49,10 +48,9 @@
         uService.setUserid(Integer.parseInt(activeUser.userid));
         uService.setServiceid(sEditDefaultService);
         uService.delete();
-        activeUser.initializeService(ad_conn);
+        activeUser.initializeService();
         session.setAttribute("activeUser",activeUser);
     }
-    ad_conn.close();
 %>
 <form name="UserProfile" method="post">
     <input type="hidden" name="Action">

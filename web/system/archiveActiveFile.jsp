@@ -45,7 +45,7 @@
         <br><br>
         <%-- link to reactivate archived file --%>
         <img src='<c:url value="/_img/pijl.gif"/>'>
-        <a class="menuItem" href="<c:url value='/main.do?Page=system/reactivateArchivedFile.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","reactivatearchivedfile",sWebLanguage)%></a>&nbsp;
+        <a  href="<c:url value='/main.do?Page=system/reactivateArchivedFile.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","reactivatearchivedfile",sWebLanguage)%></a>&nbsp;
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 <script>

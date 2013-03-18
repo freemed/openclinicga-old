@@ -63,10 +63,8 @@
     else{
         String sDefaultPage = checkString(request.getParameter("DefaultPage"));
         Parameter parameter = new Parameter("DefaultPage",sDefaultPage);
-      	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-        activeUser.removeParameter("DefaultPage",ad_conn);
-        activeUser.updateParameter(parameter,ad_conn);
-        ad_conn.close();
+        activeUser.removeParameter("DefaultPage");
+        activeUser.updateParameter(parameter);
         activeUser.parameters.add(parameter);
         session.setAttribute("activeUser",activeUser);
         out.print("<script>window.location.href='main.do?Page=userprofile/index.jsp';</script>");

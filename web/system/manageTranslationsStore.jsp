@@ -1,7 +1,6 @@
 <%@ page import="be.mxs.common.util.system.HTMLEntities" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");

@@ -161,6 +161,9 @@
                             hMenu.put(getTran("Web.manage", "diagnostics", sWebLanguage), "main.do?Page=system/diagnostics.jsp");
                             hMenu.put(getTran("Web.manage", "quicklist", sWebLanguage), "main.do?Page=system/manageQuickList.jsp");
                             hMenu.put(getTran("Web.manage", "countarchivelabels", sWebLanguage), "main.do?Page=util/countArchiveLabels.jsp");
+                            if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
+                            	hMenu.put(getTran("Web.manage", "mfptariffs", sWebLanguage), "main.do?Page=util/setMFPTariffs.jsp");
+                            }
                             hMenu.put(getTran("Web.manage", "notifiermessages", sWebLanguage), "main.do?Page=system/manageNotifierMessages.jsp");
 
                                 out.print(ScreenHelper.writeTblHeader(getTran("web.occup", "medwan.common.other", sWebLanguage), sCONTEXTPATH)
@@ -176,6 +179,6 @@
 </table>
 <script>
     function printUserCard() {
-        window.open("<c:url value='/userprofile/createUserCardPdf.jsp'/>?ts=<%=getTs()%>", "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
+        window.open("<c:url value='/userprofile/createUserCardPdf.jsp'/>?cardtype=<%=MedwanQuery.getInstance().getConfigString("userCardType","default")%>&ts=<%=getTs()%>", "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
     }
 </script>

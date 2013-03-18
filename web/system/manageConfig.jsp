@@ -171,7 +171,7 @@
                 <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
                 &nbsp;
                 <img src='<c:url value="/_img/pijl.gif"/>'>
-                <a class="menuItem" href="<c:url value='/main.do?Page=system/manageConfigTabbed.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Manage","manageConfigurationTabbed",sWebLanguage)%></a>&nbsp;
+                <a  href="<c:url value='/main.do?Page=system/manageConfigTabbed.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Manage","manageConfigurationTabbed",sWebLanguage)%></a>&nbsp;
             </td>
         </tr>
     </table>

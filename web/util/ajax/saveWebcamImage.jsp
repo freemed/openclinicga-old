@@ -28,7 +28,6 @@
     }
    %>
 <%
-System.out.println("activePatient 3="+activePatient);
     String sData = checkString(request.getParameter("imagedata"));
     try {
         if (sData.trim().length() > 0) {

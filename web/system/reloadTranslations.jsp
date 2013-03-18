@@ -1,6 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%
     String sReload = checkString(request.getParameter("ReloadButton"));
     String sText = getTran("Web.Translations","ReloadText",sWebLanguage);

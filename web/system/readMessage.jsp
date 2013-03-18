@@ -6,7 +6,6 @@
                 java.io.*,be.mxs.common.util.system.Mail"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%
 
 %>

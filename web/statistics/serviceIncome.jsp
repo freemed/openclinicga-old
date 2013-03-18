@@ -43,21 +43,15 @@
     	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
         //We zoeken alle debets op van de betreffende periode en ventileren deze per dienst
 		
-        String sQuery="select count(*) number,sum(oc_debet_quantity) quantity,sum(oc_debet_amount+oc_debet_insuraramount+oc_debet_extrainsuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount+oc_debet_extrainsuraramount) insurarincome, serviceuid, oc_prestation_description, oc_prestation_code" +
-                        " from" +
-                        " (select oc_debet_amount,oc_debet_insuraramount,oc_debet_quantity,oc_debet_extrainsuraramount,oc_debet_prestationuid," +
-                        "   (" +
-                        "       select max(oc_encounter_serviceuid) " +
-                        "       from oc_encounters_view" +
-                        "       where" +
-                        "       oc_encounter_objectid=replace(oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
-                        "   ) serviceuid" +	
-                        "   from oc_debets where (oc_debet_patientinvoiceuid is not null and oc_debet_patientinvoiceuid<>'') and oc_debet_date between ? and ?) a, oc_prestations b" +
+        String sQuery="select count(*) number,sum(oc_debet_quantity) quantity,sum(oc_debet_amount+oc_debet_insuraramount+oc_debet_extrainsuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount+oc_debet_extrainsuraramount) insurarincome, oc_debet_serviceuid, oc_prestation_description, oc_prestation_code" +
+                        " from oc_debets a, oc_prestations b" +
                         " where" +
-                        " oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
-                        " and serviceuid in ("+Service.getChildIdsAsString(service)+")"+
-                        " group by serviceuid,oc_prestation_description,oc_prestation_code" +
-                        " order by serviceuid,total desc";
+                        " oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and"+ 
+                        " (oc_debet_patientinvoiceuid is not null and oc_debet_patientinvoiceuid<>'') and"+
+                        " oc_debet_date between ? and ? and"+
+                        " oc_debet_serviceuid in ("+Service.getChildIdsAsString(service)+")"+
+                        " group by oc_debet_serviceuid,oc_prestation_description,oc_prestation_code" +
+                        " order by oc_debet_serviceuid,total desc";
         Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
         PreparedStatement ps = loc_conn.prepareStatement(sQuery);
         ps.setDate(1,new java.sql.Date(begin.getTime()));
@@ -69,7 +63,7 @@
         int totalservicepatientincome=0;
         int totalserviceinsurarincome=0;
         while (rs.next()){
-            String serviceuid=checkString(rs.getString("serviceuid"));
+            String serviceuid=checkString(rs.getString("oc_debet_serviceuid"));
             if(activeservice==null || !activeservice.equalsIgnoreCase(serviceuid)){
                 if(activeservice!=null){
                     out.println("<tr><td/><td colspan='4'><hr/></td></tr><tr><td colspan='2'/><td><b>"+(totalserviceinsurarincome+totalservicepatientincome)+"</b></td><td><b>"+totalservicepatientincome+"</b></td><td><b>"+totalserviceinsurarincome+"</b></td></tr>");

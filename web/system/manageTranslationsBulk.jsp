@@ -1,7 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 
 <%=checkPermission("system.managetranslations","all",activeUser)%>
 

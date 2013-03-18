@@ -42,9 +42,13 @@
            sEditPrestationFamily  = checkString(request.getParameter("EditPrestationFamily")),
            sEditPrestationInvoiceGroup  = checkString(request.getParameter("EditPrestationInvoiceGroup")),
            sEditPrestationMfpPercentage  = checkString(request.getParameter("EditPrestationMfpPercentage")),
+           sEditPrestationMfpAdmissionPercentage  = checkString(request.getParameter("EditPrestationMfpAdmissionPercentage")),
+           sEditPrestationAnesthesiaPercentage  = checkString(request.getParameter("EditPrestationAnesthesiaPercentage")),
            sEditPrestationSupplement  = checkString(request.getParameter("EditPrestationSupplement")),
+           sEditPrestationClass  = checkString(request.getParameter("EditPrestationClass")),
            sEditPrestationInactive  = checkString(request.getParameter("EditPrestationInactive")),
            sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice")),
+           sEditPrestationServiceUid = checkString(request.getParameter("EditPrestationServiceUid")),
 		   sEditCareProvider = checkString(request.getParameter("EditCareProvider"));
 	   try{
 		   sEditPrestationPrice =""+Double.parseDouble(sEditPrestationPrice);
@@ -68,6 +72,25 @@
 	   }
 	   catch(Exception e){
 		   sEditPrestationMfpPercentage="0";
+	   }
+	   try{
+		   sEditPrestationMfpAdmissionPercentage =""+Integer.parseInt(sEditPrestationMfpAdmissionPercentage);
+	   }
+	   catch(Exception e){
+		   sEditPrestationMfpAdmissionPercentage="0";
+	   }
+	   try{
+		   sEditPrestationAnesthesiaPercentage =""+Double.parseDouble(sEditPrestationAnesthesiaPercentage);
+	   }
+	   catch(Exception e){
+		   sEditPrestationAnesthesiaPercentage="0";
+	   }
+	   String sEditPrestationServiceName="";
+	   if(sEditPrestationServiceUid.length()>0){
+		   Service service = Service.getService(sEditPrestationServiceUid);
+		   if(service!=null){
+			   sEditPrestationServiceName=service.getLabel(sWebLanguage);
+		   }
 	   }
 
     // DEBUG //////////////////////////////////////////////////////////////////
@@ -116,9 +139,13 @@
         prestation.setReferenceObject(new ObjectReference(sEditPrestationFamily,"0")); 
         prestation.setInvoiceGroup(sEditPrestationInvoiceGroup);
         prestation.setMfpPercentage(Integer.parseInt(sEditPrestationMfpPercentage));
+        prestation.setMfpAdmissionPercentage(Integer.parseInt(sEditPrestationMfpAdmissionPercentage));
+        prestation.setAnesthesiaPercentage(Double.parseDouble(sEditPrestationAnesthesiaPercentage));
         prestation.setSupplement(Double.parseDouble(sEditPrestationSupplement));
         prestation.setInactive(Integer.parseInt(sEditPrestationInactive));
         prestation.setPerformerUid(sEditCareProvider);
+        prestation.setPrestationClass(sEditPrestationClass);
+        prestation.setServiceUid(sEditPrestationServiceUid);
         prestation.store();
         //activeUser.addPrestation(prestation.getUid());
         sEditPrestationUid = prestation.getUid();
@@ -213,6 +240,15 @@
             // load specified prestation
             if(sAction.equals("edit")){
                 prestation = Prestation.get(sEditPrestationUid);
+                if(prestation!=null){
+                	sEditPrestationServiceUid=prestation.getServiceUid();
+                	if(sEditPrestationServiceUid!=null && sEditPrestationServiceUid.length()>0){
+                		Service service = Service.getService(sEditPrestationServiceUid);
+                		if(service!=null){
+                			sEditPrestationServiceName=service.getLabel(sWebLanguage);
+                		}
+                	}
+                }
             }
             else{
                 // ..or create a new one
@@ -239,6 +275,10 @@
                 <%-- EDIT FIELDS ----------------------------------------------------------------%>
                 <table width="100%" cellspacing="1" cellpadding="0" class="list">
                     <tr>
+                        <td class="admin" width="<%=sTDAdminWidth%>">ID</td>
+                        <td class="admin2"><%=checkString(prestation.getUid())%></td>
+                    </tr>
+                    <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","code",sWebLanguage)%>&nbsp;*&nbsp;</td>
                         <td class="admin2">
                             <input type="text" class="text" name="EditPrestationCode" size="20" maxlength="50" value="<%=checkString(prestation.getCode())%>">
@@ -255,7 +295,7 @@
                         <td class="admin2">
                             <select class="text" name="EditPrestationType">
                                 <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
-                                <%=ScreenHelper.writeSelectUnsorted("prestation.type",checkString(prestation.getType()),sWebLanguage)%>
+                                <%=ScreenHelper.writeSelect("prestation.type",checkString(prestation.getType()),sWebLanguage)%>
                             </select>
                         </td>
                     </tr>
@@ -280,6 +320,15 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="admin"><%=getTran("web","class",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <select class="text" name="EditPrestationClass">
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
+                                <%=ScreenHelper.writeSelect("prestation.class",checkString(prestation.getPrestationClass()),sWebLanguage)%>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="admin"><%=getTran("web","defaultprice",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="text" class="text" name="EditPrestationPrice" size="10" maxlength="10" value="<%=sPrice%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=sCurrency%>
@@ -288,10 +337,32 @@
                     <%
                     	if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
                     %>
+	                    <tr>
+	                        <td class="admin"><%=getTran("web","mfppercentage",sWebLanguage)%></td>
+	                        <td class="admin2">
+	                            <input type="text" class="text" name="EditPrestationMfpPercentage" size="4" maxlength="3" value="<%=prestation.getMfpPercentage()%>" onKeyup="if(!isNumber(this)){this.value='';}">%
+	                        </td>
+	                    </tr>
+                    <%
+                    		if(MedwanQuery.getInstance().getConfigInt("enableMFPAdmission",0)==1){
+                    %>
+		                    <tr>
+		                        <td class="admin"><%=getTran("web","mfpadmissionpercentage",sWebLanguage)%></td>
+		                        <td class="admin2">
+		                            <input type="text" class="text" name="EditPrestationMfpAdmissionPercentage" size="4" maxlength="3" value="<%=prestation.getMfpAdmissionPercentage()%>" onKeyup="if(!isNumber(this)){this.value='';}">%
+		                        </td>
+		                    </tr>
+                    <%
+                    		}
+                    	}
+                    %>
+                    <%
+                    	if(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid","").length()>0){
+                    %>
                     <tr>
-                        <td class="admin"><%=getTran("web","mfppercentage",sWebLanguage)%></td>
+                        <td class="admin"><%=getTran("web","anesthesiapercentage",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="text" class="text" name="EditPrestationMfpPercentage" size="4" maxlength="3" value="<%=prestation.getMfpPercentage()%>" onKeyup="if(!isNumber(this)){this.value='';}">%
+                            <input type="text" class="text" name="EditPrestationAnesthesiaPercentage" size="4" maxlength="3" value="<%=prestation.getAnesthesiaPercentage()%>" onKeyup="if(!isNumber(this)){this.value='';}">%
                         </td>
                     </tr>
                     <%
@@ -325,6 +396,15 @@
 			            	</select>
 			            </td>
 			        </tr>
+			       <tr id="Service">
+			           <td class="admin"><%=getTran("Web","linked.service",sWebLanguage)%></td>
+			           <td class='admin2'>
+			               <input type="hidden" name="EditPrestationServiceUid" id="EditPrestationServiceUid" value="<%=sEditPrestationServiceUid%>">
+			               <input class="text" type="text" name="EditPrestationServiceName" id="EditPrestationServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditPrestationServiceName%>" onblur="">
+			               <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditPrestationServiceUid','EditPrestationServiceName');">
+			               <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditPrestationServiceUid').value='';document.getElementById('EditPrestationServiceName').value='';">
+			           </td>
+			       </tr>
                     
                     <tr>
                         <td class="admin"><%=getTran("web","inactive",sWebLanguage)%></td>
@@ -592,6 +672,13 @@
       row.cells[i].style.backgroundColor = "#E0EBF2";
     }
   }
+  
+  function searchService(serviceUidField,serviceNameField){
+      openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+      document.getElementById(serviceNameField).focus();
+  }
+
+
   <%
   if (sAction.length()>0){
     out.print("  searchPrestation();");

@@ -70,10 +70,9 @@
                     <%if (sEditUserIDs.length() > 0) {
                         String[] aUserIDs = sEditUserIDs.split(";");
                         String sUserName;
-                      	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                         for (int i = 0; i < aUserIDs.length; i++) {
                             if (aUserIDs[i].length() > 0) {
-                                sUserName = ScreenHelper.getFullUserName(aUserIDs[i], ad_conn);%>
+                                sUserName = ScreenHelper.getFullUserName(aUserIDs[i]);%>
                     <tr id='tr<%=aUserIDs[i]%>'>
                         <td>
                             <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete('tr<%=aUserIDs[i]%>',this.parentNode.parentNode.rowIndex)">
@@ -83,7 +82,6 @@
                     </tr>
                     <%		}
                     	}
-                        ad_conn.close();
                     }%>
                 </table>
             </td>
@@ -258,28 +256,26 @@
 //--- SAVE AND RETURN TO INDEX ----------------------------------------------------------------
 else if (sAction.equals("save")) {
     try{
-   	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
     Parameter parameter = new Parameter("PlanningFindFrom", sEditFrom, activeUser.userid);
-    activeUser.removeParameter("PlanningFindFrom", ad_conn);
-    activeUser.updateParameter(parameter,ad_conn );
+    activeUser.removeParameter("PlanningFindFrom");
+    activeUser.updateParameter(parameter );
     activeUser.parameters.add(parameter);
     parameter = new Parameter("PlanningFindUntil", sEditUntil, activeUser.userid);
-    activeUser.removeParameter("PlanningFindUntil", ad_conn);
-    activeUser.updateParameter(parameter,ad_conn);
+    activeUser.removeParameter("PlanningFindUntil");
+    activeUser.updateParameter(parameter);
     activeUser.parameters.add(parameter);
     parameter = new Parameter("PlanningFindZoom", sEditZoom, activeUser.userid);
-    activeUser.removeParameter("PlanningFindZoom", ad_conn);
-    activeUser.updateParameter(parameter,ad_conn);
+    activeUser.removeParameter("PlanningFindZoom");
+    activeUser.updateParameter(parameter);
     activeUser.parameters.add(parameter);
     parameter = new Parameter("PlanningFindUserIDs", sEditUserIDs, activeUser.userid);
-    activeUser.removeParameter("PlanningFindUserIDs", ad_conn);
-    activeUser.updateParameter(parameter,ad_conn);
+    activeUser.removeParameter("PlanningFindUserIDs");
+    activeUser.updateParameter(parameter);
     activeUser.parameters.add(parameter);
     parameter = new Parameter("PlanningExamDuration", sEditExamDuration, activeUser.userid);
-    activeUser.removeParameter("PlanningExamDuration", ad_conn);
-    activeUser.updateParameter(parameter,ad_conn);
+    activeUser.removeParameter("PlanningExamDuration");
+    activeUser.updateParameter(parameter);
     activeUser.parameters.add(parameter);
-    ad_conn.close();
     session.setAttribute("activeUser", activeUser);
     out.write("<span class='valid'>"+
                    "<img src='"+sCONTEXTPATH+"/_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+

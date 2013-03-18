@@ -1,7 +1,6 @@
 <%@page import="be.openclinic.system.ServiceExamination,java.util.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%=checkPermission("system.manageserviceexaminations","all",activeUser)%>
 <%=sJSSORTTABLE%>
 <%!
