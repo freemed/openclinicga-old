@@ -639,7 +639,7 @@ public class UpdateSystem {
 	                    		//Examination doesn't exist, let's add it
 	                    		rs.close();
 	                    		ps.close();
-	                    		ps=conn.prepareStatement("insert into examinations(id,transactiontype,priority,data,updatetime,updateuserid) values(?,?,1,?,?,4)");
+	                    		ps=conn.prepareStatement("insert into examinations(id,transactiontype,priority,data,updatetime,updateuserid,messageKey) values(?,?,1,?,?,4,'')");
 	                    		ps.setInt(1,Integer.parseInt(id.getText()));
 	                    		ps.setString(2, transactiontype.getText());
 	                    		ps.setString(3, data!=null?data.asXML():"");
