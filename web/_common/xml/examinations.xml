@@ -822,13 +822,6 @@
 		<en>Surveillance during anaestesia</en>
 	</Row>
 	<Row>
-		<id>1044</id>
-		<class>physiotherapy</class>
-		<transactiontype>test</transactiontype>
-		<fr>Demande de kin&#233;sith&#233;rapie</fr>
-		<en>Fysiotherapy order</en>
-	</Row>
-	<Row>
 		<id>1045</id>
 		<class>physiotherapy</class>
 		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_KINESITHERAPY_APPLICATION</transactiontype>
@@ -848,13 +841,6 @@
 		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_OPERATION_PROTOCOL</transactiontype>
 		<fr>Protocole op&#233;ratoire ophtalmologique</fr>
 		<en>Ophtalmology surgery protocol</en>
-	</Row>
-	<Row>
-		<id>1048</id>
-		<class>physiotherapy</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT</transactiontype>
-		<fr>Consultation et traitement kin&#233;sith&#233;rapeutique</fr>
-		<en>Fysiotherapy consultation and treatment</en>
 	</Row>
 	<Row>
 		<id>1049</id>
