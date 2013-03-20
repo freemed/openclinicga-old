@@ -1,4 +1,9 @@
 <mappings>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PSYCHOLOGYFOLLOWUP"           		   path="/main.do?Page=/healthrecord/managePsychologyFollowUp.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MEETINGREPORT"                		   path="/main.do?Page=/healthrecord/manageMeetingReport.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ERGOTHERAPY"                		   path="/main.do?Page=/healthrecord/manageErgotherapyConsultation.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EMG"                		   		   path="/main.do?Page=/healthrecord/manageEMG.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EEG"                		   		   path="/main.do?Page=/healthrecord/manageEEG.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_HC_CONTACT"                		   path="/main.do?Page=/healthrecord/manageHealthcenterContact.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TEST_OPENIT"                		   path="/main.do?Page=/healthrecord/manageOpenITTest.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SURVEILLANCE_PROTOCOL"                path="/main.do?Page=/healthrecord/globalSurveillance.jsp"/>

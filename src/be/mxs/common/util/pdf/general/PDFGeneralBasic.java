@@ -4,6 +4,7 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.PDFBasic;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
+import be.openclinic.adt.Encounter;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import net.admin.AdminPerson;
+import net.admin.Service;
 import net.admin.User;
 import javax.servlet.http.HttpServletRequest;
 
@@ -65,8 +67,15 @@ public abstract class PDFGeneralBasic extends PDFBasic {
             headerTable.addCell(cell);
 
             // transaction context
-            ItemVO item = transactionVO.getItem(IConstants_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT");
-            cell = new PdfPCell(new Paragraph(item!=null?getTran("Web.Occup",item.getValue()):"",FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+            ItemVO item = transactionVO.getItem(IConstants_PREFIX+"ITEM_TYPE_CONTEXT_ENCOUNTERUID");
+            Service service=null;
+            if(item!=null){
+            	Encounter encounter=Encounter.get(item.getValue());
+            	if(encounter!=null){
+            		service=encounter.getService();
+            	}
+            }
+            cell = new PdfPCell(new Paragraph(service!=null?service.getLabel(sPrintLanguage):"",FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
             cell.setColspan(4);
             cell.setBorder(PdfPCell.BOX);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -80,9 +89,11 @@ public abstract class PDFGeneralBasic extends PDFBasic {
             cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
             headerTable.addCell(cell);
 
-            User registeringUser = new User();
-            registeringUser.initialize(transactionVO.user.getUserId().intValue());
-            String username = registeringUser.person.lastname+" "+registeringUser.person.firstname;
+            String username="?";
+            User registeringUser = User.get(transactionVO.user.getUserId().intValue());
+            if(registeringUser!=null){
+            	username = registeringUser.person.getFullName();
+            }
             cell = new PdfPCell(new Paragraph(username,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
             cell.setColspan(6);
             cell.setBorder(PdfPCell.BOX);

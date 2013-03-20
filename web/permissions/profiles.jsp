@@ -16,7 +16,8 @@
     }
     return "<tr " + (idx % 2 == 0 ? "class='list'" : "") + ">" +
             " <td></td>" +
-            " <td>" + sLabel + "</td>" +
+            " <td width='25%'><b>" + sLabel + "</b></td>" +
+            " <td width='25%'>" + sScreenID + "</td>" +
             " <td><input type='checkbox' onclick=\"checkRow(" + categoryIdx + ",'" + sScreenID + "',this.checked);\" name='cat" + categoryIdx + "$" + sScreenID + "'></td>" +
             " <td><input type='checkbox' onClick=\"uncheckRowSelector(" + categoryIdx + ",'" + sScreenID + "');applyPolicy1(this," + categoryIdx + ",'" + sScreenID + "');\" name='cat" + categoryIdx + "$" + sScreenID + ".Select' " + sSelect + "></td>" +
             " <td><input type='checkbox' onClick=\"uncheckRowSelector(" + categoryIdx + ",'" + sScreenID + "');applyPolicy2(this," + categoryIdx + ",'" + sScreenID + "');\" name='cat" + categoryIdx + "$" + sScreenID + ".Add' " + sAdd + "></td>" +
@@ -24,7 +25,7 @@
             " <td colspan='2'><input type='checkbox' onClick=\"uncheckRowSelector(" + categoryIdx + ",'" + sScreenID + "');applyPolicy2(this," + categoryIdx + ",'" + sScreenID + "');\" name='cat" + categoryIdx + "$" + sScreenID + ".Delete' " + sDelete + "></td>" +
             "</tr>";
 }
-    public String writeHeader(String sHeader, int headerIdx, boolean displaySection) {
+    public String writeHeader(String sHeader, int headerIdx, boolean displaySection,String sWebLanguage) {
         return (headerIdx == 0 ? "" : "<br>") +
                 "<input type='hidden' name='cat" + headerIdx + "_selected' value='1'>" +
                 "<table width='100%' cellspacing='0' class='list'>" +
@@ -32,13 +33,14 @@
                 "  <td width='2%'>" +
                 "   <a href='#'><img id='Input_" + headerIdx + "_S' border='0' src='" + sCONTEXTPATH + "/_img/plus.png' OnClick='showD(\"Input_" + headerIdx + "\",\"Input_" + headerIdx + "_S\",\"Input_" + headerIdx + "_H\")' style='display:none'></a>" +
                 "   <a href='#'><img id='Input_" + headerIdx + "_H' border='0' src='" + sCONTEXTPATH + "/_img/minus.png' OnClick='hideD(\"Input_" + headerIdx + "\",\"Input_" + headerIdx + "_S\", \"Input_" + headerIdx + "_H\")'></a>" +
-                "  </td>" +
-                "  <td width='300'>" + sHeader + "</td>" +
-                "  <td width='8%'>&nbsp;<a href='javascript:togglePermissions(" + headerIdx + ");'>All</a></td>" +
-                "  <td width='8%'>&nbsp;Select</td>" +
-                "  <td width='8%'>&nbsp;Add</td>" +
-                "  <td width='8%'>&nbsp;Edit</td>" +
-                "  <td width='8%'>&nbsp;Delete</td>" +
+                        "  </td>" +
+                        "  <td >" + sHeader + "</td>" +
+                        "  <td >Permission</td>" +
+                "  <td width='8%'>&nbsp;<a href='javascript:togglePermissions(" + headerIdx + ");'>"+getTran("web","all",sWebLanguage)+"</a></td>" +
+                "  <td width='8%'>&nbsp;"+getTran("web","view",sWebLanguage)+"</td>" +
+                "  <td width='8%'>&nbsp;"+getTran("web","add",sWebLanguage)+"</td>" +
+                "  <td width='8%'>&nbsp;"+getTran("web","edit",sWebLanguage)+"</td>" +
+                "  <td width='8%'>&nbsp;"+getTran("web","delete",sWebLanguage)+"</td>" +
                 "  <td align='right'><a href=\"#topp\" class=\"topbutton\">&nbsp;</a></td>" +
                 " </tr>" +
                 " <tbody id='Input_" + headerIdx + "'>";
@@ -48,12 +50,12 @@
                 "</table>";
     }
     private String displayPermissions(String categoryName, Hashtable permissions, String sUserProfileID,
-                                      int categoryIdx, boolean sortPermissions, boolean displaySection) {
+                                      int categoryIdx, boolean sortPermissions, boolean displaySection,String sWebLanguage) {
         // sort permissions on translation
         Vector labels = new Vector(permissions.keySet());
         if (sortPermissions) Collections.sort(labels);
         StringBuffer out = new StringBuffer();
-        out.append(writeHeader(categoryName, categoryIdx, displaySection));
+        out.append(writeHeader(categoryName, categoryIdx, displaySection,sWebLanguage));
         int counter = 0;
         String label, permissionName;
         for (int i = 0; i < labels.size(); i++) {
@@ -270,7 +272,7 @@
                                         }
 
                                         bDisplaySection = !sApplicationDisplaySection.equalsIgnoreCase("false");
-                                        out.print(displayPermissions(title, perms, sUserProfileID, headerIdx++, true, bDisplaySection));
+                                        out.print(displayPermissions(title, perms, sUserProfileID, headerIdx++, true, bDisplaySection,sWebLanguage));
                                     }
                                 }
                             }
@@ -279,12 +281,12 @@
 
 
 
-                    %> <%=writeHeader(getTran("web","other",sWebLanguage),headerIdx,true)%> <%-- DEFAULT PAGE --%>
+                    %> <%=writeHeader(getTran("web","other",sWebLanguage),headerIdx,true,sWebLanguage)%> <%-- DEFAULT PAGE --%>
             <tr height="22" class="list">
                 <td/>
                 <td><%=getTran("Web.UserProfile", "DefaultPage", sWebLanguage)%>
                 </td>
-                <td colspan="10">
+                <td colspan="11">
                     <select name='DefaultPage' class="text">
                         <option/>
                         <%String sSelected = sDefaultPage;

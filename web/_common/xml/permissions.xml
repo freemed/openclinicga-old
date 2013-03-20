@@ -58,6 +58,11 @@
         <permission type="Web.Occup" id="vitalsigns">occup.vitalsigns</permission>
         <permission type="Web.Occup" id="minimalclinicaldata">occup.minimalclinicaldata</permission>
         <permission type="Web.Occup" id="external.documents">occup.externaldocuments</permission>
+        <permission type="web" id="emg">occup.emg</permission>
+        <permission type="web" id="eeg">occup.eeg</permission>
+        <permission type="web" id="ergotherapy">occup.ergotherapy</permission>
+        <permission type="web" id="psychologyfollowup">occup.psychologyfollowup</permission>
+        <permission type="web" id="meetingreport">occup.meetingreport</permission>
     </application>
     <application type="Web" id="newexaminations">
         <permission type="web" id="globalexaminations">examinations.global</permission>

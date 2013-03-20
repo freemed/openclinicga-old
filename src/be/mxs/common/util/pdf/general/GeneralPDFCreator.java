@@ -1116,6 +1116,21 @@ public class GeneralPDFCreator extends PDFCreator {
         else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_THYROID_ECHOGRAPHY_PROTOCOL")){
             loadTransactionOfType("PDFThyroidEchographyProtocol",transactionVO,partsOfTransactionToPrint);
         }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_PSYCHOLOGYFOLLOWUP")){
+            loadTransactionOfType("PDFPsychologyFollowUp",transactionVO,partsOfTransactionToPrint);
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_MEETINGREPORT")){
+            loadTransactionOfType("PDFMeetingReport",transactionVO,partsOfTransactionToPrint);
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_ERGOTHERAPY")){
+            loadTransactionOfType("PDFErgotherapyConsultation",transactionVO,partsOfTransactionToPrint);
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_EEG")){
+            loadTransactionOfType("PDFEEG",transactionVO,partsOfTransactionToPrint);
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_EMG")){
+            loadTransactionOfType("PDFEMG",transactionVO,partsOfTransactionToPrint);
+        }
         else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_URGENCE_CONSULTATION")){
             //loadTransactionOfType("PDFUrgenceConsultation",transactionVO,partsOfTransactionToPrint);
             loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint);

@@ -13,6 +13,7 @@
     if(langHashtable == null || langHashtable.size()==0){
         reloadSingleton(request.getSession());
     }
+    MedwanQuery.getInstance().reloadConfigValues();
 %>
 <script>
 	window.location.href='datacenterHome.jsp';

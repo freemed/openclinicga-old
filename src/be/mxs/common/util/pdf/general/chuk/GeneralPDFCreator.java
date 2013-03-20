@@ -1093,6 +1093,21 @@ public class GeneralPDFCreator extends PDFCreator {
         else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_PROCTOLOGY_PROTOCOL")){
             loadTransactionOfType("PDFProctologyProtocol",transactionVO,partsOfTransactionToPrint);      
         }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_PSYCHOLOGYFOLLOWUP")){
+            loadTransactionOfType("PDFPsychologyFollowUp",transactionVO,partsOfTransactionToPrint);      
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_PROCTOLOGY_PROTOCOL")){
+            loadTransactionOfType("PDFProctologyProtocol",transactionVO,partsOfTransactionToPrint);      
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_PROCTOLOGY_PROTOCOL")){
+            loadTransactionOfType("PDFProctologyProtocol",transactionVO,partsOfTransactionToPrint);      
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_PROCTOLOGY_PROTOCOL")){
+            loadTransactionOfType("PDFProctologyProtocol",transactionVO,partsOfTransactionToPrint);      
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_PROCTOLOGY_PROTOCOL")){
+            loadTransactionOfType("PDFProctologyProtocol",transactionVO,partsOfTransactionToPrint);      
+        }
         else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_PROTOCOL_IMAGES_STOMATOLOGY")){
             loadTransactionOfType("PDFProtocolImagesStomatology",transactionVO,partsOfTransactionToPrint);
         }

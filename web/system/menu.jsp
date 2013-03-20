@@ -101,6 +101,7 @@
                     hMenu.put(getTran("Web.Manage", "synchronization.of.counters", sWebLanguage), "main.do?Page=system/countersSync.jsp");
                     hMenu.put(getTran("Web.Manage", "recalculate.stocklevels", sWebLanguage), "main.do?Page=system/recalculateStockLevels.jsp");
                     hMenu.put(getTran("Web.Manage", "update.all", sWebLanguage), "main.do?Page=util/updateSystem.jsp");
+                    hMenu.put(getTran("Web.Manage", "update.examinations", sWebLanguage), "main.do?Page=util/updateExaminations.jsp");
                     hMenu.put(getTran("Web.Manage", "reset.defaults", sWebLanguage), "main.do?Page=system/resetDefaults.jsp");
 
                     out.print(ScreenHelper.writeTblHeader(getTran("web.manage", "Synchronization", sWebLanguage), sCONTEXTPATH)
