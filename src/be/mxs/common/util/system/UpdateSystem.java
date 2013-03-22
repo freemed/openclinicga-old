@@ -36,6 +36,7 @@ public class UpdateSystem {
 		updateDb();
 		updateLabels(basedir);
 		updateTransactionItems(basedir);
+		updateExaminations();
         String sDoc = MedwanQuery.getInstance().getConfigString("templateSource") + "application.xml";
         SAXReader reader = new SAXReader(false);
         try{

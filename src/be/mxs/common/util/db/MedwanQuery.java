@@ -2765,10 +2765,12 @@ public class MedwanQuery {
                 String examinationuid = Occuprs.getString("OC_PLANNING_CONTACTUID");
                 if (examinationuid != null && examinationuid.trim().length() > 0 && sessionContainerWO.getUserVO()!=null && sessionContainerWO.getUserVO().getPersonVO()!=null) {
                     ExaminationVO examinationVO = getExamination(examinationuid, sessionContainerWO.getUserVO().getPersonVO().language);
-                    String type = examinationVO.getTransactionType();
-                    if (type != null) {
-                        PlannedExamination plannedExamination = new PlannedExamination(Occuprs.getString("OC_PLANNING_PATIENTUID"), Occuprs.getString("OC_PLANNING_USERUID"), Occuprs.getDate("OC_PLANNING_PLANNEDDATE"), Occuprs.getDate("OC_PLANNING_EFFECTIVEDATE"), Occuprs.getDate("OC_PLANNING_CANCELATIONDATE"), Occuprs.getString("OC_PLANNING_CONTACTTYPE"), Occuprs.getString("OC_PLANNING_CONTACTUID"), Occuprs.getString("OC_PLANNING_TRANSACTIONUID"), Occuprs.getString("OC_PLANNING_DESCRIPTION"));
-                        sessionContainerWO.setPlannedTransaction(type.split("&")[0], plannedExamination);
+                    if(examinationVO!=null){
+	                    String type = examinationVO.getTransactionType();
+	                    if (type != null) {
+	                        PlannedExamination plannedExamination = new PlannedExamination(Occuprs.getString("OC_PLANNING_PATIENTUID"), Occuprs.getString("OC_PLANNING_USERUID"), Occuprs.getDate("OC_PLANNING_PLANNEDDATE"), Occuprs.getDate("OC_PLANNING_EFFECTIVEDATE"), Occuprs.getDate("OC_PLANNING_CANCELATIONDATE"), Occuprs.getString("OC_PLANNING_CONTACTTYPE"), Occuprs.getString("OC_PLANNING_CONTACTUID"), Occuprs.getString("OC_PLANNING_TRANSACTIONUID"), Occuprs.getString("OC_PLANNING_DESCRIPTION"));
+	                        sessionContainerWO.setPlannedTransaction(type.split("&")[0], plannedExamination);
+	                    }
                     }
                 }
             }
