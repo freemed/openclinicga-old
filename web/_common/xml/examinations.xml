@@ -1101,4 +1101,25 @@
 		<fr>Fiche de suivi psychologique</fr>
 		<en>Vaccination VAA</en>
 	</Row>
+	<Row>
+		<id>1086</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_PHYSIOTHERAPYREPORT</transactiontype>
+		<fr>Fiche d&apos;evaluation physioth&#233;rapeutique du patient</fr>
+		<en>Physiotherapy evaluation form</en>
+	</Row>
+	<Row>
+		<id>1087</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_OUTPATIENTSUMMARY</transactiontype>
+		<fr>R&#233;sum&#233; de la visite</fr>
+		<en>Outpatient summary</en>
+	</Row>
+	<Row>
+		<id>1088</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_INPATIENTSUMMARY</transactiontype>
+		<fr>R&#233;sum&#233; du s&#233;jour</fr>
+		<en>Inpatient admission summary</en>
+	</Row>
 </Examinations>

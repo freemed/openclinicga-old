@@ -1,4 +1,7 @@
 <mappings>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_PHYSIOTHERAPYREPORT"         path="/main.do?Page=/healthrecord/manageNeuropsyPhysiotherapyReport.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_OUTPATIENTSUMMARY"           path="/main.do?Page=/healthrecord/manageNeuropsyOutpatientSummary.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_INPATIENTSUMMARY"            path="/main.do?Page=/healthrecord/manageNeuropsyInpatientSummary.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PSYCHOLOGYFOLLOWUP"           		   path="/main.do?Page=/healthrecord/managePsychologyFollowUp.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MEETINGREPORT"                		   path="/main.do?Page=/healthrecord/manageMeetingReport.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ERGOTHERAPY"                		   path="/main.do?Page=/healthrecord/manageErgotherapyConsultation.jsp"/>

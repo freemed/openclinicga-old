@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="web/_common/dpuareu.jar"/>
+	<classpathentry kind="lib" path="web/_common/UareUApplet.jar"/>
+	<classpathentry kind="lib" path="web/_common/UareUAppletOld.jar"/>
+	<classpathentry kind="lib" path="web/system/IDAPDF417.jar"/>
+	<classpathentry kind="lib" path="web/util/dpuareu.jar"/>
+	<classpathentry kind="lib" path="web/util/UareUApplet.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activation.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/batik-awt-util.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/batik-dom.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/batik-svggen.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/batik-util.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/batik-xml.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-codec-1.2.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-math-1.2.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-modeler.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-net-2.2.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/cos-09May2002.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/crimson.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/dom4j-full.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/dpuareu.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/fileupload.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/gnujaxp.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/grfingerjava.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/itext-1.2.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/iText-5.0.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/izmado.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jacob.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jai_codec.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jai_core.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jasypt-1.7.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jaxp-api.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jcl.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jcommon-1.0.10.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jdbc2_0-stdext.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jdbmonitor-common.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jdbmonitor-driver.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jFdfTk.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jfreechart-1.0.13.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jnet.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jnp-client.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jpos113-controls.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jpos191-controls.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jpos191.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jsmpp-2.1.0.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jstl.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/junit.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/log4j.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/mail.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/mlibwrapper_jai.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/morena_license.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/morena_windows.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/morena.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/mysql-connector-java-5.1.10-bin.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/primrose.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/RXTXcomm.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/sax.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/smslib-3.5.0.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 32-bit/jcl.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 32-bit/jpos113-controls.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 32-bit/stario.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 32-bit/starjavapos.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 32-bit/xercesimpl.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 32-bit/xml-apis.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 64-bit/jcl.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 64-bit/jpos113-controls.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 64-bit/stario.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 64-bit/starjavapos.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 64-bit/xercesimpl.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/star/Windows 64-bit/xml-apis.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/stario.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/starjavapos.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/StatisticsJ2SE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/struts.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/symbol-jpos-scanner191.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/UareUApplet.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/uploadbean.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/xerces.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/xercesimpl.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/xsltc.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="F:/Program Files/Apache Software Foundation/Tomcat 6.0/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="F:/Program Files/Apache Software Foundation/Tomcat 6.0/lib/servlet-api.jar"/>
+	<classpathentry kind="output" path="web/WEB-INF/classes"/>
+</classpath>
