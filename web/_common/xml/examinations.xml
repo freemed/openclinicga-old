@@ -78,13 +78,6 @@
 		<en>Biometrics</en>
 	</Row>
 	<Row>
-		<id>1012</id>
-		<class>cardiology</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SPIRO_CYCLO_ERGOMETRY</transactiontype>
-		<fr>Spiro cyclo ergom&#233;trie</fr>
-		<en>Spiro-cyclo-ergometry</en>
-	</Row>
-	<Row>
 		<id>1013</id>
 		<class>cardiology</class>
 		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CARDIOVASCULAR_RISK</transactiontype>
@@ -1121,5 +1114,131 @@
 		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_INPATIENTSUMMARY</transactiontype>
 		<fr>R&#233;sum&#233; du s&#233;jour</fr>
 		<en>Inpatient admission summary</en>
+	</Row>
+	<Row>
+		<id>1089</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_CONSULTATION</transactiontype>
+		<fr>Consultation HI</fr>
+		<en>Consultation HI</en>
+	</Row>
+	<Row>
+		<id>1090</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_KINECONSULTATION</transactiontype>
+		<fr>Consultation kin&#233;sith&#233;rapie HI</fr>
+		<en>Consultation physiotherapy HI</en>
+	</Row>
+	<Row>
+		<id>1091</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_SURGERY_EXAMINATION</transactiontype>
+		<fr>Examen chirurgical HI</fr>
+		<en>Surgical examination HI</en>
+	</Row>
+	<Row>
+		<id>1092</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_HC_CONTACT</transactiontype>
+		<fr>Consultation Centre de Sant&#233; type AMC</fr>
+		<en>Health Center Consultation type AMC</en>
+	</Row>
+	<Row>
+		<id>1093</id>
+		<class>lab</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ANATOMOPATHOLOGY</transactiontype>
+		<fr>Examen anatomo-pathologique</fr>
+		<en>Pathology examination</en>
+	</Row>
+	<Row>
+		<id>1094</id>
+		<class>ophtalmology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_DSW</transactiontype>
+		<fr>Examen visuel type Ergovision</fr>
+		<en>Vision examination type Ergovision</en>
+	</Row>
+	<Row>
+		<id>1095</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ORTHOPROSTESIS_CONSULTATION_TREATMENT</transactiontype>
+		<fr>Consultation ortho-proth&#232;ses HI</fr>
+		<en>Orthoprosthesis consultation HI</en>
+	</Row>
+	<Row>
+		<id>1096</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MOBILE_TECHNIQUE_SUPPORT</transactiontype>
+		<fr>Consultation mobilisation HI</fr>
+		<en>Mobilisation consultation HI</en>
+	</Row>
+	<Row>
+		<id>1097</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SOCIALASSISTANT</transactiontype>
+		<fr>Consultation assistante sociale HI</fr>
+		<en>Social assistant consultation HI</en>
+	</Row>
+	<Row>
+		<id>1098</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ALERT</transactiontype>
+		<fr>Alerte</fr>
+		<en>Warning</en>
+	</Row>
+	<Row>
+		<id>1099</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_PVV</transactiontype>
+		<fr>Consultation PVV</fr>
+		<en>Consultation PVV</en>
+	</Row>
+	<Row>
+		<id>1099</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_CPN</transactiontype>
+		<fr>Consultation CPN</fr>
+		<en>Consultation PNC</en>
+	</Row>
+	<Row>
+		<id>1100</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_PMTCT</transactiontype>
+		<fr>Consultation PMTCT</fr>
+		<en>Consultation PMTCT</en>
+	</Row>
+	<Row>
+		<id>1101</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_ACCOUCHEMENT</transactiontype>
+		<fr>Consultation accouchement</fr>
+		<en>Consultation delivery</en>
+	</Row>
+	<Row>
+		<id>1102</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_SUIVI_ENFANTS</transactiontype>
+		<fr>Consultation suivi enfants VIH pos</fr>
+		<en>Consultation HIV pos children follow-up</en>
+	</Row>
+	<Row>
+		<id>1103</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_PLANNING_FAMILIAL</transactiontype>
+		<fr>Consultation planning familial</fr>
+		<en>Consultation family planning</en>
+	</Row>
+	<Row>
+		<id>1104</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_CONSULTATION</transactiontype>
+		<fr>Consultation</fr>
+		<en>Consultation</en>
+	</Row>
+	<Row>
+		<id>1105</id>
+		<class>gynecology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPERATION_PROTOCOL_GYN</transactiontype>
+		<fr>Protocole op&#233;ratoire gyn&#233;cologique</fr>
+		<en>Gynecology surgery report</en>
 	</Row>
 </Examinations>

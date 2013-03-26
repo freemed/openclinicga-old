@@ -61,7 +61,7 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SOCIALASSISTANT"                      path="/main.do?Page=/healthrecord/manageSocialAssistant_view.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CARDIOVASCULAR_RISK"                  path="/main.do?Page=/healthrecord/manageCardioVascularRisk.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NURSE_EXAMINATION"                    path="/main.do?Page=/healthrecord/manageNurseExamination_view.jsp"/>
-    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_SURGERY_EXAMINATION"                    path="/main.do?Page=/healthrecord/CNARSurgeryExamination_view.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_SURGERY_EXAMINATION"             path="/main.do?Page=/healthrecord/CNARSurgeryExamination_view.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NURSE_FOLLOWUP"                       path="/main.do?Page=/healthrecord/manageNurseFollowup_view.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROLOGY_CAREFILE"                   path="/main.do?Page=/healthrecord/manageNeurologyCareFile.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROLOGY_FOLLOWUP"                   path="/main.do?Page=/healthrecord/manageNeurologyFollowup_view.jsp"/>

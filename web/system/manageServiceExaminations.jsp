@@ -1,3 +1,4 @@
+<%@page import="be.mxs.common.util.io.messync.Examination"%>
 <%@page import="be.openclinic.system.ServiceExamination,java.util.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
@@ -80,10 +81,8 @@
 	        String sMenuXML = MedwanQuery.getInstance().getConfigString("examinationsXMLFile","examinations.xml");
 	        String sMenuXMLUrl = MedwanQuery.getInstance().getConfigString("templateSource") + sMenuXML;
 	        // Check if menu file exists, else use file at templateSource location.
-        	System.out.println("sMenuXMLUrl="+sMenuXMLUrl);
 	        document = xmlReader.read(new URL(sMenuXMLUrl));
 	        if (document != null) {
-	        	System.out.println("document="+document);
 	            Element root = document.getRootElement();
 	            if (root != null) {
 	                Iterator elements = root.elementIterator("Row");
@@ -99,7 +98,7 @@
 		                    	exams.put(getTran("web",elementClass,sWebLanguage),new TreeMap());
 		                    }
 		                    SortedMap serviceExams = (TreeMap)exams.get(getTran("web",elementClass,sWebLanguage));
-		                    serviceExams.put(getTran("examination",e.element("id").getText(),sWebLanguage)+" ("+e.element("id").getText()+")",e.element("id").getText());
+		                    serviceExams.put(getTran("examination",e.element("id").getText(),sWebLanguage)+" ("+e.element("id").getText()+")",e.element("id").getText()+";"+e.element("transactiontype").getText());
 	                    }
 	                }
 	            }
@@ -108,7 +107,7 @@
 			Iterator i = exams.keySet().iterator();
 	        while(i.hasNext()){
 	        	String key = (String)i.next();
-	        	out.println("<tr class='admin'><td colspan='5'>"+key+"</td></tr>");
+	        	out.println("<tr class='admin'><td colspan='5'>"+key.toUpperCase()+"</td></tr>");
 	        	SortedMap serviceExams = (TreeMap)exams.get(key);
 	        	Iterator j = serviceExams.keySet().iterator();
 				int examCounter=0;
@@ -117,7 +116,8 @@
 	        			out.println("<tr>");
 	        		}
 	        		key = (String)j.next();
-	        		out.println("<td class='admin'><input type='checkbox' name='cb"+serviceExams.get(key)+"' "+(hExaminations.get(serviceExams.get(key))!=null?"checked":"")+"/>"+key+"</td>");
+					String screen=MedwanQuery.getInstance().getForward(((String)serviceExams.get(key)).split(";")[1]);
+	        		out.println("<td class='admin'><input type='checkbox' name='cb"+((String)serviceExams.get(key)).split(";")[0]+"' "+(hExaminations.get(((String)serviceExams.get(key)).split(";")[0])!=null?"checked":"")+"/>"+key+"</td>");
 	        		examCounter++;
 	        		if(examCounter % 5 ==0){
 	        			out.println("</tr>");
@@ -140,4 +140,10 @@
     
     </table>
 </form>
+
+<script>
+	function showScreen(transactionType){
+		openPopup(transactionType);
+	}
+</script>
 

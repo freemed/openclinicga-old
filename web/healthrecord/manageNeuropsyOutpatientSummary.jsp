@@ -1,7 +1,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
-<%=checkPermission("occup.meetingreport","select",activeUser)%>
+<%=checkPermission("occup.neuropsyphysiotherapyreport","select",activeUser)%>
 
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
@@ -31,24 +31,39 @@
 		      	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
 	    	</td>
 	    </tr>
+        <tr class="admin">
+            <td colspan="2"><%=getTran("web","medicalsummary",sWebLanguage)%></td>
+        </tr>
         <tr>
-            <td class="admin"><%=getTran("web","meeting",sWebLanguage)%></td>
+            <td class="admin"><%=getTran("web","reason.for.encounter",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,10000);" <%=setRightClick("ITEM_TYPE_MEETINGREPORT_MEETING")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MEETINGREPORT_MEETING" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MEETINGREPORT_MEETING" property="value"/></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NPOS_REASONFORENCOUNTER")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPOS_REASONFORENCOUNTER" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPOS_REASONFORENCOUNTER" property="value"/></textarea>
             </td>
         </tr>
-        
-         <tr>
-            <td class="admin"><%=getTran("web","conclusion",sWebLanguage)%></td>
+        <tr>
+            <td class="admin"><%=getTran("web","complentary.exams",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,10000);" <%=setRightClick("ITEM_TYPE_MEETINGREPORT_CONCLUSION")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MEETINGREPORT_CONCLUSION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MEETINGREPORT_CONCLUSION" property="value"/></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NPOS_COMPLEMENTARYEXAMS")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPOS_COMPLEMENTARYEXAMS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPOS_COMPLEMENTARYEXAMS" property="value"/></textarea>
             </td>
         </tr>
-<%-- BUTTONS --%>
+        <tr>
+            <td class="admin"><%=getTran("web","measures.taken",sWebLanguage)%></td>
+            <td class="admin2">
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NPOS_MEASURESTAKEN")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPOS_MEASURESTAKEN" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPOS_MEASURESTAKEN" property="value"/></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="admin"><%=getTran("web","specific.reccommendations",sWebLanguage)%></td>
+            <td class="admin2">
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NPOS_RECCOMMENDATIONS")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPOS_RECCOMMENDATIONS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPOS_RECCOMMENDATIONS" property="value"/></textarea>
+            </td>
+        </tr>
+		
+		<%-- BUTTONS --%>
         <tr>
             <td class="admin"/>
             <td class="admin2">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.meetingreport",sWebLanguage)%>
+                <%=getButtonsHtml(request,activeUser,activePatient,"web.neuropsyphysiotherapyreport",sWebLanguage)%>
             </td>
         </tr>
     </table>

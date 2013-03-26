@@ -90,6 +90,12 @@
                 <script type="text/javascript">writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
             </td>
         </tr>
+	    <%-- DIAGNOSIS --%>
+	    <tr>
+	    	<td class="admin" colspan="2">
+		      	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
+	    	</td>
+	    </tr>
     <%--  MOTIF --%>
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("web","reason",sWebLanguage)%>&nbsp;</td>

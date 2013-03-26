@@ -146,7 +146,7 @@
     %>
     }
     window.onload = function() {
-        if ("<bean:write name="transaction" scope="page" property="transactionId"/>" < 0 && <%=MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(activePatient.personid),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_CPN_GROSSESSE_RISQUE")%>) {
+        if ("<bean:write name="transaction" scope="page" property="transactionId"/>" < 0 && "<%=MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(activePatient.personid),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_CPN_GROSSESSE_RISQUE")%>".length>0) {
         <%
 
 TransactionVO tran = MedwanQuery.getInstance().getLastTransactionVO(Integer.parseInt(activePatient.personid),"be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_CPN");

@@ -83,6 +83,12 @@
 <table class="list" width="100%" cellspacing="1"> 
 
 
+	    <%-- DIAGNOSIS --%>
+	    <tr>
+	    	<td class="admin" colspan="2">
+		      	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
+	    	</td>
+	    </tr>
 <%--  Personne de référence/Institution --%>
     <tr>
         <td class="admin" width="10%"><%=getTran("web","referenceperson",sWebLanguage)%>&nbsp;</td>

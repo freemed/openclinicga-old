@@ -6,6 +6,7 @@
 	UpdateSystem.updateLabels(sAPPFULLDIR);
 	UpdateSystem.updateTransactionItems(sAPPFULLDIR);
 	UpdateSystem.updateCounters();
+	UpdateSystem.updateExaminations();
 	if(request.getParameter("updateVersion")!=null){
 		MedwanQuery.getInstance().setConfigString("updateVersion",request.getParameter("updateVersion"));
 	}

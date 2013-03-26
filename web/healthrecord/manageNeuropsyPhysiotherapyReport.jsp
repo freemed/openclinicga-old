@@ -25,6 +25,12 @@
                 <script type="text/javascript">writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
             </td>
         </tr>
+	    <%-- DIAGNOSIS --%>
+	    <tr>
+	    	<td class="admin" colspan="2">
+		      	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
+	    	</td>
+	    </tr>
         <tr class="admin">
             <td colspan="2"><%=getTran("web","subjective.examination",sWebLanguage)%></td>
         </tr>
@@ -106,7 +112,7 @@
         <tr>
             <td class="admin"><%=getTran("web","diagnosis",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NPPR_DIAGNOSIS")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPPR_DIAGNOSIS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPPR_ITEM_TYPE_NPPR_DIAGNOSIS" property="value"/></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NPPR_DIAGNOSIS")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPPR_DIAGNOSIS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NPPR_DIAGNOSIS" property="value"/></textarea>
             </td>
         </tr>
         <tr>
