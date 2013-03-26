@@ -1131,6 +1131,15 @@ public class GeneralPDFCreator extends PDFCreator {
         else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_EMG")){
             loadTransactionOfType("PDFEMG",transactionVO,partsOfTransactionToPrint);
         }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_NEUROPSY_PHYSIOTHERAPYREPORT")){
+            loadTransactionOfType("PDFNeuropsyPhysiotherapyReport",transactionVO,partsOfTransactionToPrint);
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_NEUROPSY_OUTPATIENTSUMMARY")){
+            loadTransactionOfType("PDFNeuropsyOutpatientSummary",transactionVO,partsOfTransactionToPrint);
+        }
+        else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_NEUROPSY_INPATIENTSUMMARY")){
+            loadTransactionOfType("PDFNeuropsyInpatientSummary",transactionVO,partsOfTransactionToPrint);
+        }
         else if (transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_URGENCE_CONSULTATION")){
             //loadTransactionOfType("PDFUrgenceConsultation",transactionVO,partsOfTransactionToPrint);
             loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint);

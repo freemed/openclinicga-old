@@ -5,9 +5,11 @@ import be.mxs.common.util.pdf.PDFBasic;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 import be.openclinic.adt.Encounter;
+import be.openclinic.medical.Diagnosis;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 
 import java.util.Date;
+import java.util.Vector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -110,6 +112,51 @@ public abstract class PDFGeneralBasic extends PDFBasic {
 
     //*** ROWS *************************************************************************************
 
+    protected void addEncounterDiagnosticsRow(PdfPTable table,String encounterUid){
+    	cell=createHeaderCell(getTran("web","diagnostic.codes").toUpperCase(),5);
+    	cell.setBorder(PdfPCell.BOX);
+    	table.addCell(cell);
+    	Vector diagnoses = Diagnosis.selectDiagnoses("", "", encounterUid, "", "", "", "", "", "", "", "", "icd10", "");
+    	if(diagnoses.size()>0){
+            table.addCell(createItemNameCell(getTran("Web.Occup","ICD-10")));
+            PdfPTable table2 = new PdfPTable(3);
+            table2.setWidthPercentage(100);
+    		for(int n=0;n<diagnoses.size();n++){
+    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
+    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("icd10code"+diagnosis.getCode(), sPrintLanguage) ));
+    		}
+    		cell=new PdfPCell(table2);
+    		cell.setColspan(3);
+    		table.addCell(cell);
+    	}
+    	diagnoses = Diagnosis.selectDiagnoses("", "", encounterUid, "", "", "", "", "", "", "", "", "icpc", "");
+    	if(diagnoses.size()>0){
+            table.addCell(createItemNameCell(getTran("Web.Occup","ICPC-2")));
+            PdfPTable table2 = new PdfPTable(3);
+            table2.setWidthPercentage(100);
+    		for(int n=0;n<diagnoses.size();n++){
+    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
+    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("icpccode"+diagnosis.getCode(), sPrintLanguage) ));
+    		}
+    		cell=new PdfPCell(table2);
+    		cell.setColspan(3);
+    		table.addCell(cell);
+    	}
+    	diagnoses = Diagnosis.selectDiagnoses("", "", encounterUid, "", "", "", "", "", "", "", "", "dsm4", "");
+    	if(diagnoses.size()>0){
+            table.addCell(createItemNameCell(getTran("Web.Occup","DSM-4")));
+            PdfPTable table2 = new PdfPTable(3);
+            table2.setWidthPercentage(100);
+    		for(int n=0;n<diagnoses.size();n++){
+    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
+    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("dsm4code"+diagnosis.getCode(), sPrintLanguage) ));
+    		}
+    		cell=new PdfPCell(table2);
+    		cell.setColspan(3);
+    		table.addCell(cell);
+    	}
+    }
+    
     //--- ADD ITEM ROW -----------------------------------------------------------------------------
     protected void addItemRow(PdfPTable table, String itemName, String itemValue){
         table.addCell(createItemNameCell(itemName));
