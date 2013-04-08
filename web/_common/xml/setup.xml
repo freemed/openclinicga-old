@@ -14,6 +14,10 @@
 		<config key="priceFormat" value="#,##0.00"/>
 		<config key="priceFormatInsurar" value="#,##0.00"/>
 		<config key="currencyDecimals" value="2"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
 	</country>
 	<country code="cd">
 		<config key="currency" value="CDF"/>
@@ -29,6 +33,10 @@
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
 		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
 	</country>
 	<country code="rw">
 		<config key="currency" value="RWF"/>
@@ -44,6 +52,14 @@
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
 		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+			<label id="rmdc" language="fr">http://omr.hnrw.org/omr/util/getPersonInfo.jsp</label>
+			<label id="rmdc" language="en">http://omr.hnrw.org/omr/util/getPersonInfo.jsp</label>
+		</labels>
+		<labels type="professional.councils">
+			<label id="rmdc" language="fr">Ordre de M&#233;decins et de Dentistes du Rwanda</label>
+			<label id="rmdc" language="en">Rwanda Medical and Dental Council</label>
+		</labels>
 	</country>
 	<country code="bi">
 		<config key="currency" value="BIF"/>
@@ -59,6 +75,10 @@
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
 		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
 	</country>
 	<country code="ml">
 		<config key="currency" value="XOF"/>
@@ -74,6 +94,22 @@
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
 		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+			<label id="cnom" language="fr">http://server.antim.hnrw.org/cnom/util/getPersonInfo.jsp</label>
+			<label id="cnom" language="en">http://server.antim.hnrw.org/cnom/util/getPersonInfo.jsp</label>
+			<label id="cnop" language="fr">http://server.antim.hnrw.org/cnop/util/getPersonInfo.jsp</label>
+			<label id="cnop" language="en">http://server.antim.hnrw.org/cnop/util/getPersonInfo.jsp</label>
+			<label id="cnosf" language="fr">http://server.antim.hnrw.org/cnosf/util/getPersonInfo.jsp</label>
+			<label id="cnosf" language="en">http://server.antim.hnrw.org/cnosf/util/getPersonInfo.jsp</label>
+		</labels>
+		<labels type="professional.councils">
+			<label id="cnom" language="fr">Conseil National de l'Ordre des Médecins du Mali</label>
+			<label id="cnom" language="en">National Medical Council of Mali</label>
+			<label id="cnop" language="fr">Conseil National de l'Ordre des Pharmaciens du Mali</label>
+			<label id="cnop" language="en">National Pharmaceutical Council of Mali</label>
+			<label id="cnosf" language="fr">Conseil National de l'Ordre des Sages Femmes du Mali</label>
+			<label id="cnosf" language="en">National Midwives Council of Mali</label>
+		</labels>
 	</country>
 	<country code="ci">
 		<config key="currency" value="XOF"/>
@@ -89,10 +125,14 @@
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
 		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
 	</country>
 	<country code="cg">
-		<config key="currency" value="XOF"/>
-		<config key="currencyPdf" value="XOF"/>
+		<config key="currency" value="XAF"/>
+		<config key="currencyPdf" value="XAF"/>
 		<config key="countrycode" value="CG"/>
 		<config key="DefaultCountry" value="CG"/>
 		<config key="defaultSearchCountry" value="CONGO"/>
@@ -104,6 +144,10 @@
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
 		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
 	</country>
 	<os code="windows">
 		<config key="DocumentsFolder" value="$setupdir$documents"/>

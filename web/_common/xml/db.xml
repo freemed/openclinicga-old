@@ -13,10 +13,14 @@
     	<columns>
     		<column name="OC_POINTER_KEY" dbtype="varchar" javatype="string" size="255"/>
     		<column name="OC_POINTER_VALUE" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_POINTER_UPDATETIME" dbtype="datetime" javatype="date"/>
     	</columns>
     	<indexes>
     		<index name="OC_POINTER_KEY">
     			<indexcolumn order="ASC" name="OC_POINTER_KEY"/>
+    		</index>
+    		<index name="OC_POINTER_UPDATETIME">
+    			<indexcolumn order="ASC" name="OC_POINTER_UPDATETIME"/>
     		</index>
     	</indexes>
     </table>
@@ -232,6 +236,49 @@
 	    	</index>
 	    	<index name="OC_ANSWER_SESSIONID">
 	    		<indexcolumn order="ASC" name="OC_ANSWER_SESSIONID"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="DC_MONITORSERVERS" db="stats" sync="NONE">
+		<columns>
+			<column name="DC_MONITORSERVER_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_MONITORSERVER_SERVERUID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_MONITORSERVER_NAME" dbtype="varchar" javatype="string" size="255"/>
+			<column name="DC_MONITORSERVER_COUNTRY" dbtype="varchar" javatype="string" size="5"/>
+			<column name="DC_MONITORSERVER_CITY" dbtype="varchar" javatype="string" size="255"/>
+			<column name="DC_MONITORSERVER_EMAIL" dbtype="varchar" javatype="string" size="255"/>
+			<column name="DC_MONITORSERVER_CONTACT" dbtype="varchar" javatype="string" size="255"/>
+			<column name="DC_MONITORSERVER_TYPE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_MONITORSERVER_LEVEL" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_MONITORSERVER_BEDS" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_MONITORSERVER_UPDATETIME" dbtype="datetime" javatype="date"/>
+	    </columns>
+	    <indexes>
+	    	<index name="DC_MONITORSERVER_SERVERID">
+	    		<indexcolumn order="ASC" name="DC_MONITORSERVER_SERVERID"/>
+	    	</index>
+	    	<index name="DC_MONITORSERVER_SERVERUID">
+	    		<indexcolumn order="ASC" name="DC_MONITORSERVER_SERVERID"/>
+	    	</index>
+	    </indexes>
+	</table>
+	<table name="DC_MONITORVALUES" db="stats" sync="NONE">
+		<columns>
+			<column name="DC_MONITORVALUE_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_MONITORVALUE_DATE" dbtype="datetime" javatype="date"/>
+			<column name="DC_MONITORVALUE_PATIENTCOUNT" dbtype="int" javatype="integer" />
+			<column name="DC_MONITORVALUE_VISITCOUNT" dbtype="int" javatype="integer" />
+			<column name="DC_MONITORVALUE_ADMISSIONCOUNT" dbtype="int" javatype="integer" />
+			<column name="DC_MONITORVALUE_TRANSACTIONCOUNT" dbtype="int" javatype="integer" />
+			<column name="DC_MONITORVALUE_LABANALYSESCOUNT" dbtype="int" javatype="integer" />
+			<column name="DC_MONITORVALUE_PATIENTINVOICECOUNT" dbtype="int" javatype="integer" />
+			<column name="DC_MONITORVALUE_DEBETCOUNT" dbtype="int" javatype="integer" />
+			<column name="DC_MONITORVALUE_UPDATETIME" dbtype="datetime" javatype="date"/>
+	    </columns>
+	    <indexes>
+	    	<index name="DC_MONITORVALUE_SERVERID_DATE">
+	    		<indexcolumn order="ASC" name="DC_MONITORVALUE_SERVERID"/>
+	    		<indexcolumn order="ASC" name="DC_MONITORVALUE_DATE"/>
 	    	</index>
 	    </indexes>
 	</table>
@@ -1241,6 +1288,7 @@
 			<column name="OC_OPERATION_RECEIVEPRODUCTSTOCKUID" dbtype="varchar" javatype="string" size="255"/>
 			<column name="OC_OPERATION_DOCUMENTUID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_OPERATION_ENCOUNTERUID" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_OPERATION_ORDERUID" dbtype="varchar" javatype="string" size="50"/>
 		</columns>
 		<indexes>
 			<index name="OC_OPERATION_OBJECTID">
@@ -1369,18 +1417,19 @@
 		<columns>
 			<column name="OC_ORDER_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
 			<column name="OC_ORDER_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
-			<column name="OC_ORDER_DESCRIPTION" dbtype="varchar" javatype="string" size="255"/>
-			<column name="OC_ORDER_PRODUCTSTOCKUID" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_ORDER_DESCRIPTION" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_ORDER_PRODUCTSTOCKUID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_ORDER_PACKAGESORDERED" dbtype="int" javatype="integer"/>
 			<column name="OC_ORDER_PACKAGESDELIVERED" dbtype="int" javatype="integer"/>
 			<column name="OC_ORDER_DATEORDERED" dbtype="datetime" javatype="date"/>
 			<column name="OC_ORDER_DATEDELIVERYDUE" dbtype="datetime" javatype="date"/>
 			<column name="OC_ORDER_DATEDELIVERED" dbtype="datetime" javatype="date"/>
-			<column name="OC_ORDER_IMPORTANCE" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_ORDER_IMPORTANCE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_ORDER_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
 			<column name="OC_ORDER_UPDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
-			<column name="OC_ORDER_UPDATEUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
+			<column name="OC_ORDER_UPDATEUID" dbtype="varchar" javatype="string" size="50" nulls="0"/>
 			<column name="OC_ORDER_VERSION" dbtype="int" javatype="integer" nulls="0"/>
+			<column name="OC_ORDER_STATUS" dbtype="varchar" javatype="string" size="50" nulls="0"/>
 		</columns>
 		<indexes>
 			<index name="OC_ORDER_OBJECTID">
@@ -1742,6 +1791,7 @@
             <column name="OC_PATIENTINVOICE_BALANCE" dbtype="float" javatype="float"/>
             <column name="OC_PATIENTINVOICE_NUMBER" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_INSURARREFERENCE" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PATIENTINVOICE_ACCEPTATIONUID" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_PATIENTINVOICE_OBJECTID">
@@ -1771,6 +1821,7 @@
             <column name="OC_PATIENTINVOICE_BALANCE" dbtype="float" javatype="float"/>
             <column name="OC_PATIENTINVOICE_NUMBER" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_INSURARREFERENCE" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PATIENTINVOICE_ACCEPTATIONUID" dbtype="varchar" javatype="string" size="50"/>
         </columns>
     </table>
 

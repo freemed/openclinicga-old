@@ -285,9 +285,9 @@
             UserVO user = sessionContainerWO.getUserVO();
             User activeUser = new User();
             activeUser.initialize(user.getUserId().intValue());
-            Service service;
+            net.admin.Service service;
             for (int i = 0; i < activeUser.vServices.size(); i++) {
-                service = (Service) activeUser.vServices.elementAt(i);
+                service = (net.admin.Service) activeUser.vServices.elementAt(i);
                 result += "<option value='" + service.code + "'";
                 if (service.code.equals(activeUser.activeService.code)) {
                     result += " selected";

@@ -61,7 +61,7 @@
 
             // display stock in one row
             html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\" align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\">")
+                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\" align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\"></td>")
                     .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sServiceStockName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sProductName + "</td>");
 
@@ -135,13 +135,15 @@
             
             //*** display stock in one row ***
             html.append("<tr class='list" + sClass + "' >")
-                    .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\" title='" + deleteTran + "'><td/>":"<td/>"))
-		            .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sStockUid + "');\" title='" + ficheTran + "'><td/>":"<td/>"));
+                    .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\" title='" + deleteTran + "'></td>":"<td/>"))
+		            .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sStockUid + "');\" title='" + ficheTran + "'></td>":"<td/>"));
             if(productStock.hasOpenDeliveries()){
-                html.append("<a href='javascript:receiveProduct(\"" + sStockUid + "\",\"" + sProductName + "\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a>");
+                html.append("<td><a href='javascript:receiveProduct(\"" + sStockUid + "\",\"" + sProductName + "\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a></td>");
+            }
+            else {
+            	html.append("<td/>");
             }
 
-            html.append("</td>");
 
             // non-existing productname in red
             if (sProductName.length() == 0) {
@@ -543,7 +545,7 @@
                         <%
                         }
                     %>
-                        <tr>
+                        <tr id='filtersection'>
                             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","productstock",sWebLanguage)%>&nbsp;</td>
                             <td class="admin2"><input type='text' class='text' name='filter' id='filter' onkeyup='showSearchResults(this.value)' value='' size='10'/></td>
                         </tr>
@@ -726,7 +728,6 @@
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td/>
                             <td/>
                             <td/>
                             <td/>
@@ -1262,7 +1263,7 @@
 	  table =document.getElementById("searchresults");
 	  rows=table.rows;
 	  for(var n=1;n<rows.length;n++){
-		  cell=rows[n].cells[4];
+		  cell=rows[n].cells[3];
 		  if(cell.firstChild.nodeValue.toLowerCase().indexOf(s.toLowerCase())>=0){
 			 rows[n].style.display='';
 		  }
@@ -1281,10 +1282,16 @@
     window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=pharmacy/manageProductStocks.jsp&DisplaySearchFields=true&ts=<%=getTs()%>";
   }
 
-  <%-- close "search in progress"-popup that might still be open --%>
-  var popup = window.open("","Searching","width=1,height=1");
-  popup.close();
-  if(document.getElementById("filter")){
-	  window.setTimeout("document.getElementById('filter').focus()",500);
-  }
+  if('<%=sAction%>'=='findShowOverview'){
+      document.getElementById('filtersection').style.display='';
+	  <%-- close "search in progress"-popup that might still be open --%>
+	  var popup = window.open("","Searching","width=1,height=1");
+	  popup.close();
+	  if(document.getElementById("filter")){
+		  window.setTimeout("document.getElementById('filter').focus()",500);
+	  }
+   }
+   else {
+      document.getElementById('filtersection').style.display='none';
+   }
 </script>

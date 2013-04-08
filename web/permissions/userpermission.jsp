@@ -136,6 +136,7 @@
                 || (parameter.parameter.equalsIgnoreCase("defaultpage"))
                 || (parameter.parameter.equalsIgnoreCase("defaultwicket"))
                 || (parameter.parameter.equalsIgnoreCase("organisationid"))
+                || (parameter.parameter.equalsIgnoreCase("automaticorganizationidvalidation"))
                 || (parameter.parameter.equalsIgnoreCase("medicalcentercode"))
                 || (parameter.parameter.equalsIgnoreCase("defaultserviceid"))
                 || (parameter.parameter.equalsIgnoreCase("userprofileid"))
@@ -392,8 +393,27 @@
 
                 <%=writeMyCheckbox(getTran("Web.Permissions","SA",sWebLanguage),"EditSA", "sa", thisUser)%>
                 <%=writeMyCheckbox(getTran("Web.Permissions","ClearPassword",sWebLanguage),"EditClearPassword", "", thisUser)%>
-                <%=writeMyInput(getTran("Web.UserProfile","organisationId",sWebLanguage),"Editorganisationid", thisUser)%>
 
+                <%-- organizationID --%>
+                <tr>
+                    <td class="admin"><%=getTran("Web.UserProfile","organisationId",sWebLanguage)%></td>
+                    <td class="admin2">
+                        <input type='text' class='text' name='Editorganisationid' id='Editorganisationid' value='<%=thisUser.getParameter("organisationId").trim()%>'>
+                    </td>
+                </tr>
+				<%
+                    if(MedwanQuery.getInstance().getConfigInt("enableMedicalCouncilLookup",0)==1){
+				%>
+                <tr>
+                    <td class="admin"><%=getTran("Web.UserProfile","AutomaticOrganizationIdValidation",sWebLanguage)%></td>
+                    <td class="admin2">
+                    	<%
+                   			out.println("<select name='EditAutomaticOrganizationIdValidation' id='council' onchange='showRegistrationStatus();'><option value=''/>"+ScreenHelper.writeSelect("professional.councils",thisUser.getParameter("automaticorganizationidvalidation"),sWebLanguage)+"</select>");
+	            			out.println(" &nbsp;<a href='javascript:councilLookup("+thisUser.userid+");'><img id='councillookup' src='"+sCONTEXTPATH+"/_img/icon_search.gif' title='"+getTran("web","verify",sWebLanguage)+"'/></a> &nbsp;&nbsp;&nbsp;<label id='registrationstatus'></label>");
+                    	%>
+                    </td>
+                </tr>
+				<%} %>
                 <%-- medicalCenterCode --%>
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","medicalCenterCode",sWebLanguage)%></td>
@@ -505,6 +525,9 @@
             }
           }
 
+		  function councilLookup(userid){
+              openPopup("/_common/search/councilLookup.jsp&council="+document.getElementById("council").value+"&regnr="+document.getElementById("Editorganisationid").value+"&language=<%=sWebLanguage%>&userid="+userid,600,400,document.getElementById("council").value);
+		  }
           <%-- CHECK MEDICAL CENTER LENGTH --%>
           function checkMedicalCenterLength(){
             if(transactionForm.Editmedicalcentercode.value.length > 0){
@@ -532,6 +555,24 @@
               window.location.href = "./main.do?Page=permissions/index.jsp";
             }
           }
+		
+		function showRegistrationStatus(){
+			if(document.getElementById('council').value==''){
+				document.getElementById('registrationstatus').innerHTML='';
+				document.getElementById('councillookup').style.visibility='hidden';
+			}
+			else if('<%=thisUser.getParameter("automaticorganizationidvalidation")%>'!=document.getElementById('council').value){
+				document.getElementById('registrationstatus').innerHTML='<b><img src=\"<%=sCONTEXTPATH+"/_img/icon_error.jpg\""%>/> <%=getTranNoLink("lookup","unverified",sWebLanguage)%></b>';
+				document.getElementById('councillookup').style.visibility='visible';
+			}
+			else {
+				document.getElementById('registrationstatus').innerHTML='<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
+				document.getElementById('councillookup').style.visibility='visible';
+			}
+		}
+		
+		
+		showRegistrationStatus();
         </script>
 
         <%=writeJSButtons("transactionForm","saveButton")%>

@@ -1,4 +1,4 @@
-<%@page import="java.util.*" %>
+<%@page import="java.util.*,be.mxs.common.util.system.*" %>
 <%@ page import="be.openclinic.pharmacy.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
@@ -61,6 +61,7 @@
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sServiceStockName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sProductName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + order.getPackagesOrdered() + "</td>")
+                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + order.getPackagesDelivered() + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sDateOrdered + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sDateDelivered + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sImportance + "</td>")
@@ -145,6 +146,7 @@
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sServiceStockName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sProductName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + order.getPackagesOrdered() + "</td>")
+                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + order.getPackagesDelivered() + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sDateOrdered + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sDateDeliveryDue + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sImportance + "</td>")
@@ -205,10 +207,11 @@
             sFindDateOrdered = "", sFindDateDeliveryDue = "", sFindDateDelivered = "", sFindImportance = "",
             sSelectedProductStockUid = "", sSelectedDescription = "", sSelectedPackagesOrdered = "",
             sSelectedPackagesDelivered = "", sSelectedDateOrdered = "", sSelectedDateDeliveryDue = "",
-            sSelectedDateDelivered = "", sSelectedImportance = "", sSelectedProductName = "",
-            sFindServiceName = "", sFindServiceStockName = "", sFindProductName = "",
+            sSelectedDateDelivered = "", sSelectedImportance = "", sSelectedProductName = "", sSelectedServiceStockName="",
+            sFindServiceName = "", sFindServiceStockName = "", sFindProductName = "", sDeliveredQuantity="",
             sFindSupplierUid = "", sFindSupplierName = "", sFindDateDeliveredSince = "";
 
+    int nTotalPackagesDelivered=0;
     // get find-data from form
     sFindDescription = (checkString(request.getParameter("FindDescription"))+"%").replaceAll("%%", "%");
     sFindSupplierUid = checkString(request.getParameter("FindSupplierUid"));
@@ -290,10 +293,11 @@
         ProductOrder existingOrder = ProductOrder.get(sEditOrderUid);
         if (existingOrder != null) {
             dPrevDateDelivered = existingOrder.getDateDelivered();
+            orderIsClosed = checkString(existingOrder.getStatus()).equalsIgnoreCase("closed");
         }
-
-        if (dPrevDateDelivered == null) orderIsClosed = false;
-        else orderIsClosed = true;
+        else {
+        	orderIsClosed = false;
+        }
     }
 
     if (sAction.length() == 0) sAction = "find"; // default action
@@ -301,7 +305,6 @@
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
-
     //--- SAVE ------------------------------------------------------------------------------------
    	 int nPackagesDelivered=0;
    	 try{
@@ -314,27 +317,12 @@
         if (!sPrevUsedDocument.equals(sEditProductStockDocumentUid)) {
             session.setAttribute("PrevUsedDocument", sEditProductStockDocumentUid);
         }
-        // create order
-        ProductOrder order = new ProductOrder();
-        order.setUid(sEditOrderUid);
-        order.setDescription(sEditDescription);
-        order.setProductStockUid(sEditProductStockUid);
-        order.setImportance(sEditImportance); // (native|high|low)
-        order.setUpdateUser(activeUser.userid);
-        if (sEditPackagesOrdered.length() > 0) order.setPackagesOrdered(Integer.parseInt(sEditPackagesOrdered));
-        if (sEditPackagesDelivered.length() > 0) order.setPackagesDelivered(Integer.parseInt(sEditPackagesDelivered));
-        if (sEditDateOrdered.length() > 0) order.setDateOrdered(stdDateFormat.parse(sEditDateOrdered));
-        if (sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(stdDateFormat.parse(sEditDateDeliveryDue));
-        if (sEditDateDelivered.length() > 0) order.setDateDelivered(stdDateFormat.parse(sEditDateDelivered));
-		if(order.getPackagesOrdered()>=order.getPackagesDelivered()){
-			order.setPackagesOrdered(order.getPackagesOrdered()-order.getPackagesDelivered());
-	        String existingOrderUid = order.exists();
-	        boolean orderExists = existingOrderUid.length() > 0;
-	
-		   	
-	        // only update product-stock if order is not allready delivered
-	        //if (!(sEditOrderUid.equals("-1") && orderExists) && !(!sEditOrderUid.equals("-1") && orderExists && !sEditOrderUid.equals(existingOrderUid)) && dPrevDateDelivered == null) {
-	            //Create a productstockoperation that does the work for you
+        
+        ProductOrder order=null;
+        // save order
+        if(sEditOrderUid.length()>0){
+        	if(nPackagesDelivered>0){
+	            //first save the productstock operation
 	            ProductStockOperation operation = new ProductStockOperation();
 	            operation.setUid("-1");
 	            operation.setCreateDateTime(new java.util.Date());
@@ -348,84 +336,44 @@
 	            catch(Exception e){}
 	            ProductStock productStock = ProductStock.get(sEditProductStockUid);
 	            ObjectReference sd=new ObjectReference("servicestock","");
-	            if (productStock.getSupplier() != null && productStock.getSupplier().defaultServiceStockUid != null && productStock.getSupplier().defaultServiceStockUid.length() > 0) {
-	                sd = new ObjectReference("servicestock",productStock.getSupplier().defaultServiceStockUid);
-	            }
+				if(productStock!=null){
+		            if (productStock.getSupplier() != null && productStock.getSupplier().defaultServiceStockUid != null && productStock.getSupplier().defaultServiceStockUid.length() > 0) {
+		                sd = new ObjectReference("servicestock",productStock.getSupplier().defaultServiceStockUid);
+		            }
+		            if(productStock.getProduct()!=null && request.getParameter("EditPrice")!=null){
+		            	try{
+		            		Pointer.storePointer("drugprice."+productStock.getProduct().getUid(),nPackagesDelivered+";"+Double.parseDouble(request.getParameter("EditPrice")));
+		            	}
+		            	catch(Exception e){
+		            		e.printStackTrace();
+		            	}
+		            }
+				}
 	            operation.setSourceDestination(sd);
 	            operation.setDocumentUID(sEditProductStockDocumentUid);
-	            if(sEditPackagesDelivered.length()>0) { operation.setUnitsChanged(Integer.parseInt(sEditPackagesDelivered));}
+	            operation.setUnitsChanged(nPackagesDelivered);
 	            operation.setUpdateDateTime(new java.util.Date());
 	            operation.setUpdateUser(activeUser.userid);
-	            // add number of packages that were actualy delivered
-	            String sResult=operation.store();
-	            if(sResult==null){
-	                if (sEditOrderUid.equals("-1")) {
-	                    //***** insert new order *****
-	                    if (!orderExists) {
-	                        order.store(false);
-	
-	                        // show saved data
-	                        sAction = "find"; // showDetails
-	                        msg = getTran("web", "dataissaved", sWebLanguage);
-	                    }
-	                    //***** reject new addition *****
-	                    else {
-	                        // show rejected data
-	                        sAction = "showDetailsAfterAddReject";
-	                        msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
-	                    }
-	                } else {
-	                    //***** update existing record *****
-	                    if (!orderExists) {
-	                        // store the edited data
-	                        order.store(false);
-	
-	                        // show saved data
-	                        sAction = "find"; // showDetails
-	                        msg = getTran("web", "dataissaved", sWebLanguage);
-	                    }
-	                    //***** reject double record thru update *****
-	                    else {
-	                        if (sEditOrderUid.equals(existingOrderUid)) {
-	                            // nothing : just updating a record with its own data
-	                            if (order.changed()) {
-	                                order.store(false);
-	                                msg = getTran("web", "dataissaved", sWebLanguage);
-	                            }
-	                            sAction = "find"; // showDetails
-	                        } else {
-	                            // tried to update one order with exact the same data as an other order
-	                            // show rejected data
-	                            sAction = "showDetailsAfterUpdateReject";
-	                            msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
-	                        }
-	                    }
-	                }
-	                orderIsClosed = true;
-	                // reload opener to see the change in level
-	                displayUndeliveredOrders=true;
-	                displayDeliveredOrders=false;
-	            }
-	            else {
-	                %>
-	                <script>
-	                    alert('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
-	                </script>
-	                <%
-	                displayUndeliveredOrders=false;
-	                displayDeliveredOrders=false;
-	                sAction = "showDetailsAfterUpdateReject";
-	                msg = "<font color='red'>" + getTranNoLink("web",sResult,sWebLanguage) + "</font>";
-	            }
-	        //}
-	        //else {
-	        //        sAction = "showDetailsAfterUpdateReject";
-	        //        msg = "<font color='red'>" + getTran("web.manage", "orderexists", sWebLanguage) + "</font>";
-	        //}
-		}
+	            operation.setOrderUID(sEditOrderUid);
+				operation.store();            
+        	}            
+            order = ProductOrder.get(sEditOrderUid);
+            order.setImportance(sEditImportance); // (native|high|low)
+            order.setUpdateUser(activeUser.userid);
+            if (sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(stdDateFormat.parse(sEditDateDeliveryDue));
+            if (sEditDateDelivered.length() > 0) order.setDateDelivered(stdDateFormat.parse(sEditDateDelivered));
+            order.setPackagesDelivered(order.getDeliveredQuantity());
+            if(order.getPackagesDelivered()==order.getPackagesOrdered() || request.getParameter("closeOrder")!=null){
+            	order.setStatus("closed");
+            	orderIsClosed=true;
+            }
+            order.store();
+        }
+
         if (Debug.enabled) Debug.println("*** orderIsClosed : " + orderIsClosed);
 
         sEditOrderUid = order.getUid();
+        sAction="find";
     }
     //--- DELETE ----------------------------------------------------------------------------------
     else if (sAction.equals("delete") && sEditOrderUid.length() > 0) {
@@ -475,7 +423,7 @@
             sSelectedPackagesOrdered = (order.getPackagesOrdered() < 0 ? "" : order.getPackagesOrdered() + "");
             sSelectedPackagesDelivered = (order.getPackagesDelivered() < 0 ? "" : order.getPackagesDelivered() + "");
             sSelectedImportance = checkString(order.getImportance());
-
+			
             // format date ordered
             java.util.Date tmpDate = order.getDateOrdered();
             if (tmpDate != null) sSelectedDateOrdered = stdDateFormat.format(tmpDate);
@@ -490,7 +438,17 @@
 
             // afgeleide data
             ProductStock productStock = ProductStock.get(sSelectedProductStockUid);
-            sSelectedProductName = productStock.getProduct().getName();
+            if(productStock!=null){
+            	if(productStock.getProduct()!=null){
+            		sSelectedProductName=productStock.getProduct().getName();
+            	}
+            	ServiceStock serviceStock = productStock.getServiceStock();
+            	if(serviceStock!=null){
+            		sSelectedServiceStockName=serviceStock.getName();
+            	}
+            }
+            
+            nTotalPackagesDelivered=order.getPackagesDelivered();
         } else if (sAction.equals("showDetailsAfterAddReject")) {
             // do not get data from DB, but show data that were allready on form
             sSelectedProductStockUid = sEditProductStockUid;
@@ -520,12 +478,7 @@
         if (sSelectedPackagesDelivered.equals("0")) sSelectedPackagesDelivered = "";
     }
     // onclick : when editing, save, else search when pressing 'enter'
-    String sOnKeyDown;
-    if (sAction.startsWith("showDetails")) {
-        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSave();}\"";
-    } else {
-        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch(" + displayDeliveredOrders + ",'" + sDefaultSortCol + "');}\"";
-    }
+    String sOnKeyDown="";
 %>
 <form name="transactionForm" id="transactionForm" method="post" <%=sOnKeyDown%> <%=((displaySearchFields||orderIsClosed)?"onClick=\"clearMessage();\"":"onClick=\"setSaveButton(event);clearMessage();\" onKeyUp=\"setSaveButton(event);\"")%>>
     <%-- page title --%>
@@ -703,14 +656,15 @@
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td width="22" nowrap>&nbsp;</td>
-                            <td width="20%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DESCRIPTION');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%><%=getTran("Web","description",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%></a></td>
-                            <td width="14%"><%=getTran("Web","servicestock",sWebLanguage)%></td>
-                            <td width="20%"><%=getTran("Web","product",sWebLanguage)%></td>
-                            <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_PACKAGESORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DATEORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","dateordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td width="18%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DATEDELIVERYDUE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE")?"<"+sSortDir+">":"")%><%=getTran("Web","datedeliverydue",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE")?"<"+sSortDir+">":"")%></a></td>
-                            <td width="*"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_IMPORTANCE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%><%=getTran("Web","importance",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%></a></td>
+                            <td nowrap>&nbsp;</td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DESCRIPTION');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%><%=getTran("Web","description",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%></a></td>
+                            <td><%=getTran("Web","servicestock",sWebLanguage)%></td>
+                            <td><%=getTran("Web","product",sWebLanguage)%></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_PACKAGESORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_PACKAGESDELIVERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesdelivered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED")?"<"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DATEORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","dateordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DATEDELIVERYDUE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE")?"<"+sSortDir+">":"")%><%=getTran("Web","datedeliverydue",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE")?"<"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_IMPORTANCE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%><%=getTran("Web","importance",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%></a></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=ordersHtml%>
@@ -762,14 +716,15 @@
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td width="22" nowrap>&nbsp;</td>
-                            <td width="20%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DESCRIPTION');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%><%=getTran("Web","description",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%></a></td>
-                            <td width="14%"><%=getTran("Web","servicestock",sWebLanguage)%></td>
-                            <td width="25%"><%=getTran("Web","product",sWebLanguage)%></td>
-                            <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_PACKAGESORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DATEORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","dateordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DATEDELIVERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERED")?"<"+sSortDir+">":"")%><%=getTran("Web","datedelivered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td width="*"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_IMPORTANCE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%><%=getTran("Web","importance",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%></a></td>
+                            <td nowrap>&nbsp;</td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DESCRIPTION');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%><%=getTran("Web","description",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%></a></td>
+                            <td><%=getTran("Web","servicestock",sWebLanguage)%></td>
+                            <td><%=getTran("Web","product",sWebLanguage)%></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_PACKAGESORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_PACKAGESDELIVERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesdelivered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED")?"<"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DATEORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","dateordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DATEDELIVERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERED")?"<"+sSortDir+">":"")%><%=getTran("Web","datedelivered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERED")?"<"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_IMPORTANCE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%><%=getTran("Web","importance",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%></a></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=ordersHtml%>
@@ -795,11 +750,18 @@
             if(!orderIsClosed){
                 %>
                     <table class="list" width="100%" cellspacing="1">
+                        <%-- servicestock --%>
+                        <tr>
+                            <td class="admin"><%=getTran("Web","servicestock",sWebLanguage)%> *</td>
+                            <td class="admin2">
+                                <input type="text" readonly class="greytext" value="<%=sSelectedServiceStockName%>" size="<%=sTextWidth%>" maxLength="255">
+                            </td>
+                        </tr>
                         <%-- description --%>
                         <tr>
                             <td class="admin"><%=getTran("Web","description",sWebLanguage)%> *</td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditDescription" value="<%=sSelectedDescription%>" size="<%=sTextWidth%>" maxLength="255">
+                                <input type="text" readonly class="greytext" name="EditDescription" value="<%=sSelectedDescription%>" size="<%=sTextWidth%>" maxLength="255">
                             </td>
                         </tr>
                         <%-- ProductStock --%>
@@ -807,49 +769,42 @@
                             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","ProductStock",sWebLanguage)%>&nbsp;</td>
                             <td class="admin2">
                                 <input type="hidden" name="EditProductStockUid" value="<%=sSelectedProductStockUid%>">
-                                <input class="text" type="text" name="EditProductName" readonly size="<%=sTextWidth%>" value="<%=sSelectedProductName%>">
-
-                                <%
-                                    // only display 'SearchProductStockButton' if order is not closed and thus editable
-                                    if(!orderIsClosed){
-                                        %>
-                                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('EditProductStockUid','EditProductName');">
-                                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductStockUid.value='';transactionForm.EditProductName.value='';">
-                                        <%
-                                    }
-                                %>
+                                <input class="greytext" readonly type="text" name="EditProductName" readonly size="<%=sTextWidth%>" value="<%=sSelectedProductName%>">
                             </td>
                         </tr>
                         <%-- PackagesOrdered --%>
                         <tr>
                             <td class="admin"><%=getTran("Web","PackagesOrdered",sWebLanguage)%>&nbsp;*</td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditPackagesOrdered" value="<%=sSelectedPackagesOrdered%>" size="5" maxLength="5" onKeyUp="if(!isNumberLimited(this,1,99999)){this.value='';}">
+                                <input type="text" readonly class="greytext" name="EditPackagesOrdered" value="<%=sSelectedPackagesOrdered%>" size="5" maxLength="5" onKeyUp="if(!isNumberLimited(this,1,99999)){this.value='';}">
                             </td>
                         </tr>
                         <%-- PackagesDelivered --%>
                         <tr>
-                            <td class="admin"><%=getTran("Web","PackagesDelivered",sWebLanguage)%>&nbsp;</td>
+                            <td class="admin"><%=getTran("Web","register.delivery",sWebLanguage)%>&nbsp;(max = <%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered %>)</td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditPackagesDelivered" value="<%=sSelectedPackagesDelivered%>" size="5" maxLength="5" onKeyUp="isNumber(this);">
+                                <input type="text" class="text" name="EditPackagesDelivered" value="<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>" size="5" maxLength="5" onKeyUp="if(!isNumberLimited(this,0,<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>)){alert('<%=getTran("web","number.out.of.limits",sWebLanguage)%>');this.value=''}">
+                            </td>
+                        </tr>
+                        <%-- Prices --%>
+                        <tr>
+                            <td class="admin"><%=getTran("Web","unitprice",sWebLanguage)%></td>
+                            <td class="admin2">
+                                <input type="text" class="text" name="EditPrice" value="" size="15" maxLength="15" onKeyUp="if(!isNumber(this,0)){this.value=''}">
+                            </td>
+                        </tr>
+                        <%-- Comment --%>
+                        <tr>
+                            <td class="admin"><%=getTran("Web","comment",sWebLanguage)%>&nbsp;</td>
+                            <td class="admin2">
+                                <textarea onKeyup="resizeTextarea(this,10);" type="text" class="text" name="EditComment" value="" cols="80"></textarea>
                             </td>
                         </tr>
                         <%-- DateOrdered --%>
                         <tr>
                             <td class="admin"><%=getTran("Web","DateOrdered",sWebLanguage)%>&nbsp;*</td>
                             <td class="admin2">
-                                <input type="text" class="text" size="12" maxLength="12" value="<%=sSelectedDateOrdered%>" name="EditDateOrdered" id="EditDateOrdered" onBlur="checkDate(this);">
-                                <%
-                                    // only display 'EditDateOrdered' if order is not closed and thus editable
-                                    if(!orderIsClosed){
-                                        %><script>writeMyDate("EditDateOrdered","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script><%
-
-                                        // if new order : set today as default value for date-ordered
-                                        if(sAction.equals("showDetailsNew")){
-                                            %><script>getToday(document.all['EditDateOrdered']);</script><%
-                                        }
-                                    }
-                                %>
+                                <input type="text" readonly class="greytext" size="12" maxLength="12" value="<%=sSelectedDateOrdered%>" name="EditDateOrdered" id="EditDateOrdered" onBlur="checkDate(this);">
                             </td>
                         </tr>
                         <%-- DateDeliveryDue --%>
@@ -870,7 +825,7 @@
                         <tr>
                             <td class="admin"><%=getTran("Web","DateDelivered",sWebLanguage)%>&nbsp;</td>
                             <td class="admin2">
-                                <input type="text" class="text" size="12" maxLength="12" value="<%=sSelectedDateDelivered%>" name="EditDateDelivered" id="EditDateDelivered" onBlur="checkDate(this);">
+                                <input type="text" class="text" size="12" maxLength="12" value="<%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())%>" name="EditDateDelivered" id="EditDateDelivered" onBlur="checkDate(this);">
 
                                 <%
                                     // only display 'EditDateDelivered' if order is not closed and thus editable
@@ -897,6 +852,13 @@
                                     <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
                                     <%=ScreenHelper.writeSelectUnsorted("productorder.importance",sSelectedImportance,sWebLanguage)%>
                                 </select>
+                            </td>
+                        </tr>
+                        <%-- importance (dropdown : native|high|low) --%>
+                        <tr>
+                            <td class="admin"><%=getTran("Web","close.order",sWebLanguage)%>&nbsp;*</td>
+                            <td class="admin2">
+                            	<input type='checkbox' name='closeOrder'/>
                             </td>
                         </tr>
                         <%-- EDIT BUTTONS --%>
@@ -996,6 +958,22 @@
                     <br>
                 <%
             }
+            //Also list all existing operations on this product order
+            Vector operations = ProductStockOperation.searchProductStockOperations("", "", "", "", "", sEditOrderUid,"");
+			if(operations.size()>0){
+	            out.println("<table width='100%'>");
+	            out.println("<tr class='admin'>");
+	            out.println("<td>"+getTran("web","date",sWebLanguage)+"</td>");
+	            out.println("<td>"+getTran("web","description",sWebLanguage)+"</td>");
+	            out.println("<td>"+getTran("web","PackagesDelivered",sWebLanguage)+"</td>");
+	            out.println("<td>"+getTran("web","productstockoperationdocument",sWebLanguage)+"</td>");
+	            out.println("</tr>");
+	            for(int n=0;n<operations.size();n++){
+	            	ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
+	            	out.println("<tr><td class='admin'>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td><td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td><td class='admin2'>"+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getDocumentUID()+"</td></tr>");
+	            }
+	            out.println("</table>");
+			}
         }
     %>
     <%-- hidden fields --%>

@@ -1,0 +1,23 @@
+<parameters>
+	<parameter name="patientCount">
+		<sql database="admin">select count(*) as result from admin</sql>
+	</parameter>
+	<parameter name="visitCount">
+		<sql database="openclinic">select count(*) as result from oc_encounters where oc_encounter_type='visit'</sql>
+	</parameter>
+	<parameter name="admissionCount">
+		<sql database="openclinic">select count(*) as result from oc_encounters where oc_encounter_type='admission'</sql>
+	</parameter>
+	<parameter name="transactionCount">
+		<sql database="openclinic">select count(*) as result from Transactions</sql>
+	</parameter>
+	<parameter name="labAnalysisCount">
+		<sql database="openclinic">select count(*) as result from RequestedLabanalyses</sql>
+	</parameter>
+	<parameter name="patientInvoiceCount">
+		<sql database="openclinic">select count(*) as result from oc_patientinvoices</sql>
+	</parameter>
+	<parameter name="debetCount">
+		<sql database="openclinic">select count(*) as result from oc_debets</sql>
+	</parameter>
+</parameters>

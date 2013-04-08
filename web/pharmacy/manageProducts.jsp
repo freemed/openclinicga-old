@@ -147,7 +147,7 @@
             sFindProductGroup, sFindUnitPriceMax, sFindPackageUnits, sFindMinOrderPackages = "",
             sFindSupplierUid, sSelectedProductName = "", sSelectedUnit = "", sSelectedUnitPrice = "",
             sSelectedPackageUnits = "", sSelectedMinOrderPackages = "", sSelectedSupplierUid = "",
-            sSelectedTimeUnit = "", sFindSupplierName, sSelectedTimeUnitCount = "",
+            sSelectedTimeUnit = "", sFindSupplierName, sSelectedTimeUnitCount = "", sAverageUnitPrice="0",
             sSelectedUnitsPerTimeUnit = "", sSelectedSupplierName = "", sSelectedProductGroup = "", sSelectedBarcode="",
             sSelectedPrestationCode="",sSelectedPrestationQuantity="", sSelectedMargin =MedwanQuery.getInstance().getConfigString("defaultProductsMargin",""), sSelectedApplyLowerPrices="",sSelectedAutomaticInvoicing="";
 
@@ -330,6 +330,7 @@
                 sSelectedSupplierName = getTranNoLink("Service", sSelectedSupplierUid, sWebLanguage);
                 sSelectedBarcode = checkString(product.getBarcode());
                 sSelectedPrestationCode = checkString(product.getPrestationcode());
+                sAverageUnitPrice=product.getLastYearsAveragePrice()+"";
                 sSelectedPrestationQuantity = product.getPrestationquantity()+"";
                 sSelectedMargin=product.getMargin()+"";
                 sSelectedApplyLowerPrices=product.isApplyLowerPrices()?"1":"0";
@@ -544,6 +545,13 @@
             DecimalFormat doubleFormat = new DecimalFormat("#.#");
             %>
                 <table class="list" width="100%" cellspacing="1">
+                    <%-- UnitPrice --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","code",sWebLanguage)%> *</td>
+                        <td class="admin2">
+                            <input disabled class="greytext" type="text" name="Code" size="15" maxLength="15" value="<%=sEditProductUid%>" />
+                        </td>
+                    </tr>
                     <%-- product name --%>
                     <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","productName",sWebLanguage)%> *</td>
@@ -566,6 +574,13 @@
                         <td class="admin" nowrap><%=getTran("Web","UnitPrice",sWebLanguage)%> *</td>
                         <td class="admin2">
                             <input class="text" type="text" name="EditUnitPrice" size="15" maxLength="15" value="<%=sSelectedUnitPrice%>" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
+                        </td>
+                    </tr>
+                    <%-- UnitPrice --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","lastyearsaverageprice",sWebLanguage)%> *</td>
+                        <td class="admin2">
+                            <input disabled class="greytext" type="text" name="AverageUnitPrice" size="15" maxLength="15" value="<%=ScreenHelper.getPriceFormat(Double.parseDouble(sAverageUnitPrice))%>" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
                         </td>
                     </tr>
                     <%-- PackageUnits --%>

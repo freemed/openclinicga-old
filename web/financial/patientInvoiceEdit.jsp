@@ -44,6 +44,11 @@
     }
 %>
 <%
+	boolean isInsuranceAgent=false;
+	if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+activeUser.getParameter("insuranceagent")+"*")>-1){
+		//This is an insurance agent, limit the functionalities
+		isInsuranceAgent=true;
+	}
 
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
 	PatientInvoice patientInvoice;
@@ -184,13 +189,29 @@
 	                <input type="text" size="40" class="text" id="EditInsurarReference" name="EditInsurarReference" value="<%=sInsurarReference%>">
 	            </td>
 	        </tr>
+	        <%
+	        	if(checkString(patientInvoice.getAcceptationUid()).length()>0){
+	        %>
+	        <tr>
+	        	<td class='admin'/><td class='admin2'/>
+	            <td class="admin" nowrap><%=getTran("web.finance","accepted.by",sWebLanguage)%></td>
+	            <td class="admin2">
+	                <%=MedwanQuery.getInstance().getUserName(Integer.parseInt(patientInvoice.getAcceptationUid())) %>
+	            </td>
+	        </tr>
+	        <%	
+	        	}
+	        %>
 	        <tr>
 	            <td class='admin' nowrap><%=getTran("Web","date",sWebLanguage)%> *</td>
 	            <td class='admin2'><%=writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(patientInvoice.getDate()),sWebLanguage)%></td>
 	            <td class='admin' nowrap><%=getTran("Web.finance","patientinvoice.status",sWebLanguage)%> *</td>
 	            <td class='admin2'>
 	                <%
-	
+					if(isInsuranceAgent){
+						out.println("<input type='hidden' name='EditStatus' value='"+patientInvoice.getStatus()+"'/>"+getTran("finance.patientinvoice.status",checkString(patientInvoice.getStatus()),sWebLanguage));
+					}
+					else {
 	                %>
 	                <select id="invoiceStatus" class="text" name="EditStatus" onchange="doStatus()"  <%=patientInvoice.getStatus().equalsIgnoreCase("closed") || patientInvoice.getStatus().equalsIgnoreCase("canceled")?"disabled":""%>>
 	                    <%
@@ -203,6 +224,9 @@
 	                        }
 	                    %>
 	                </select>
+	                <%
+					}
+	                %>
 	            </td>
 	        </tr>
 	        <tr>
@@ -359,18 +383,19 @@
                     				}
 	                        	%>
 	                        </select>
-	
+							<%if(!isInsuranceAgent){ %>
 	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf('<%=patientInvoice.getUid()%>');">
+	                        <%} %>
 	                        <input class="button" type="button" name="buttonPrint" value='PROFORMA' onclick="doPrintProformaPdf('<%=patientInvoice.getUid()%>');">
 	                        <%
-	                        	if(MedwanQuery.getInstance().getConfigInt("javaPOSenabled",0)==1){
+	                        	if(!isInsuranceAgent && MedwanQuery.getInstance().getConfigInt("javaPOSenabled",0)==1){
 	                        %>
 	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientReceipt('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                        	}
 	                        %>
 	                        <%
-	                            if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
+	                            if (!isInsuranceAgent && !(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
 	                            	if((MedwanQuery.getInstance().getConfigInt("authorizeCancellationOfOpenInvoices",1)==1 && !patientInvoice.getStatus().equalsIgnoreCase("closed"))||(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.cancelclosedinvoice.select")){
 	                        %>
 	                                	<input class="button" type="button" name="buttonCancellation" value='<%=getTranNoLink("Web.finance","cancellation",sWebLanguage)%>' onclick="doCancel('<%=patientInvoice.getUid()%>');">
@@ -440,7 +465,7 @@
 		            for(i = 0; i < EditForm.elements.length; i++) {
 		                elm = EditForm.elements[i];
 		
-		                if ((elm.type == 'checkbox')&&(elm.checked)) {
+		                if ((elm.type == 'checkbox'||elm.type == 'hidden')&&(elm.checked)) {
 		                    sCbs += elm.name.split("=")[0]+",";
 		                }
 		            }

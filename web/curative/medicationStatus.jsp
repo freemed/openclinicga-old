@@ -156,7 +156,9 @@
 							if(operation.getProductStock()!=null && operation.getProductStock().getProduct()!=null){
 								product=operation.getProductStock().getProduct().getName();
 							}
-							out.println("<tr><td>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td><td>"+operation.getUnitsChanged()+" X "+product+"</td></tr>");		                    
+							if(operation.getUnitsChanged()!=0){
+								out.println("<tr><td>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td><td>"+operation.getUnitsChanged()+" X "+product+"</td></tr>");		                    
+							}
 						}
                     %>
                 </table>

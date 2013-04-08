@@ -43,6 +43,7 @@
 				}
 			}
 		}
+		out.println("<script>window.opener.reload();</script>");
 	}
 
 	String sServiceStockUid = checkString(request.getParameter("ServiceStockUid"));

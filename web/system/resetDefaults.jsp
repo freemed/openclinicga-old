@@ -21,7 +21,8 @@
 		if(checkString(request.getParameter("project")).length()>0){
 			UpdateSystem.updateProject(request.getParameter("project"));
 		}
-		MedwanQuery.reload();
+		MedwanQuery.getInstance().reloadConfigValues();
+		MedwanQuery.getInstance().reloadLabels();
 	}
 %>
 <form name='resetDefaults' method='post'>
@@ -67,7 +68,7 @@
 		<tr>
 			<td class='admin'><%=getTran("web","project",sWebLanguage) %>&nbsp</td>
 			<td class='admin2'>
-				<input class='text' type='text' name='project' id='project' value='<%=sAPPTITLE%>'/>
+				<input class='text' type='text' name='project' id='project' value='<%=MedwanQuery.getInstance().getConfigString("defaultProject","openclinic")%>'/>
 			</td>
 		</tr>
 		<tr>

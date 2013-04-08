@@ -52,6 +52,7 @@
            sEditInsurarId       = checkString(request.getParameter("EditInsurarId")),
            sEditNoSupplements       = checkString(request.getParameter("EditNoSupplements")),
            sEditAuthorizationNeeded       = checkString(request.getParameter("EditAuthorizationNeeded")),
+           sEditAcceptationNeeded       = checkString(request.getParameter("EditAcceptationNeeded")),
            sEditCoverSupplements       = checkString(request.getParameter("EditCoverSupplements")),
            sEditInsurarDefaultInsurarInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultInsurarInvoiceModel")),
       	   sEditInsurarDefaultPatientInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
@@ -105,6 +106,10 @@
         }
     	if(sEditAuthorizationNeeded.length()>0 && !insurar.getUid().equalsIgnoreCase("-1")){
     		MedwanQuery.getInstance().setConfigString("InsuranceAgentAuthorizationNeededFor",MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").replaceAll("\\*"+sEditInsurarId.replaceAll("\\.","\\\\.")+"\\*", "")+"*"+sEditInsurarId+"*");
+    	}
+
+    	if(sEditAcceptationNeeded.length()>0 && !insurar.getUid().equalsIgnoreCase("-1")){
+    		MedwanQuery.getInstance().setConfigString("InsuranceAgentAcceptationNeededFor",MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").replaceAll("\\*"+sEditInsurarId.replaceAll("\\.","\\\\.")+"\\*", "")+"*"+sEditInsurarId+"*");
     	}
 
         insurar.setName(checkString(request.getParameter("EditInsurarName")));
@@ -450,6 +455,15 @@
                             <option value="ctams" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
                             <option value="ramacsv" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
                             <option value="mfp" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
+                        	<%
+		                    	if(MedwanQuery.getInstance().getConfigInt("enableBurundi",0)==1){
+		                    %>
+	                            <option value="ascoma" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
+	                            <option value="brarudi" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
+	                            <option value="ambusa" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
+                        	<%
+                   				}
+                        	%>
                             </select>
                         </td>
                     </tr>
@@ -499,6 +513,12 @@
                         <td class="admin"><%=getTran("web","authorizationneeded",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="checkbox" class="text" name="EditAuthorizationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":"" %> value="1"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","acceptationneeded",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditAcceptationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":"" %> value="1"/>
                         </td>
                     </tr>
                     <%-- SELECTED CATEGORIES --%>

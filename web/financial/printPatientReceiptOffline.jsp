@@ -111,15 +111,18 @@
 		String javaPOSServer=(String)session.getAttribute("javaPOSServer");
 		if(javaPOSServer.length()==0){
 			javaPOSServer="http://localhost/openclinic";
-		}
+
 		String url = javaPOSServer+"/financial/printReceipt.jsp";
 		PostMethod method = new PostMethod(url);
 		method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
-		NameValuePair nvp1= new NameValuePair("project",activeUser.project);
-		NameValuePair nvp2= new NameValuePair("language",sWebLanguage);
-		NameValuePair nvp3= new NameValuePair("content",HTMLEntities.htmlentities(content));
-		NameValuePair nvp4= new NameValuePair("id","7"+invoicenumber);
-		method.setQueryString(new NameValuePair[]{nvp1,nvp2,nvp3,nvp4});
+		Vector<NameValuePair> vNvp = new Vector<NameValuePair>();
+		vNvp.add(new NameValuePair("project",activeUser.project));
+		vNvp.add(new NameValuePair("language",sWebLanguage));
+		vNvp.add(new NameValuePair("content",HTMLEntities.htmlentities(content)));
+		vNvp.add(new NameValuePair("id","7"+invoicenumber));
+		NameValuePair[] nvp = new NameValuePair[vNvp.size()];
+		vNvp.copyInto(nvp);
+		method.setQueryString(nvp);
 		int statusCode = client.executeMethod(method);
 		out.print("{\"message\":\""+""+"\"}");
 

@@ -61,7 +61,6 @@
         System.out.println("* sReturnProductStockUidField  : " + sReturnProductStockUidField + "\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
-
     // display products of user-service by default (on first page load)
     boolean displayProductsOfDoctorService = checkString(request.getParameter("DisplayProductsOfDoctorService")).equals("true");
 
@@ -165,7 +164,7 @@
                     sUnitTran = getTranNoLink("product.unit", product.getUnit(), sWebLanguage);
 
                     // supplyingService
-                    supplyingServiceUid = serviceStock.getService().code;
+                    supplyingServiceUid = serviceStock.getServiceUid();
                     if (supplyingServiceUid.length() > 0) {
                         supplyingServiceName = getTranNoLink("service", supplyingServiceUid, sWebLanguage);
                     }

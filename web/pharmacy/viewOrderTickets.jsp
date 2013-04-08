@@ -78,6 +78,7 @@
                 orderData.put("serviceStockName", sServiceStockName);
                 orderData.put("productName", sProductName);
                 orderData.put("packagesOrdered", order.getPackagesOrdered() + "");
+                orderData.put("packagesDelivered", order.getPackagesDelivered() + "");
                 orderData.put("dateOrdered", sDateOrdered);
                 orderData.put("dateDeliveryDue", sDateDeliveryDue);
 
@@ -128,13 +129,14 @@
 
             // header
             html.append("<tr class='admin'>")
-                    .append(" <td width='22' nowrap>&nbsp;</td>")
-                    .append(" <td width='25%'><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_DESCRIPTION');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION") ? "<" + sSortDir + ">" : "") + getTran("Web", "description", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION") ? "<" + sSortDir + ">" : "") + "</a></td>")
-                    .append(" <td width='20%'>" + getTran("Web", "servicestock", sWebLanguage) + "</td>")
-                    .append(" <td width='*'>" + getTran("Web", "product", sWebLanguage) + "</td>")
-                    .append(" <td width='10%'><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_PACKAGESORDERED');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED") ? "<" + sSortDir + ">" : "") + getTran("Web", "packagesordered", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED") ? "<" + sSortDir + ">" : "") + "</a></td>")
-                    .append(" <td width='10%'><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_DATEORDERED');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED") ? "<" + sSortDir + ">" : "") + getTran("Web", "dateordered", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED") ? "<" + sSortDir + ">" : "") + "</a></td>")
-                    .append(" <td width='10%'><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_DATEDELIVERYDUE');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE") ? "<" + sSortDir + ">" : "") + getTran("Web", "dateDeliveryDue", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE") ? "<" + sSortDir + ">" : "") + "</a></td>")
+                    .append(" <td nowrap>&nbsp;</td>")
+                    .append(" <td><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_DESCRIPTION');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION") ? "<" + sSortDir + ">" : "") + getTran("Web", "description", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION") ? "<" + sSortDir + ">" : "") + "</a></td>")
+                    .append(" <td>" + getTran("Web", "servicestock", sWebLanguage) + "</td>")
+                    .append(" <td>" + getTran("Web", "product", sWebLanguage) + "</td>")
+                    .append(" <td><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_PACKAGESORDERED');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED") ? "<" + sSortDir + ">" : "") + getTran("Web", "packagesordered", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED") ? "<" + sSortDir + ">" : "") + "</a></td>")
+                    .append(" <td><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_PACKAGESDELIVERED');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED") ? "<" + sSortDir + ">" : "") + getTran("Web", "packagesdelivered", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED") ? "<" + sSortDir + ">" : "") + "</a></td>")
+                    .append(" <td><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_DATEORDERED');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED") ? "<" + sSortDir + ">" : "") + getTran("Web", "dateordered", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED") ? "<" + sSortDir + ">" : "") + "</a></td>")
+                    .append(" <td><a href='#' class='underlined' title='" + sortTran + "' onClick=\"doSort('OC_ORDER_DATEDELIVERYDUE');\">" + (sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE") ? "<" + sSortDir + ">" : "") + getTran("Web", "dateDeliveryDue", sWebLanguage) + (sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE") ? "<" + sSortDir + ">" : "") + "</a></td>")
                     .append("</tr>");
 
             // run thru orders of this Supplier
@@ -147,11 +149,12 @@
 
                 //*** display order in one row ***
                 html.append("<tr class='list" + sClass + "'  title='" + selectTran + "'>")
-                        .append(" <td align='center'><input type='checkbox' name='order_" + sSupplierUid + "$" + j + "' value='" + orderData.get("orderUid") + "£" + orderData.get("supplierUid") + "' checked>")
+                        .append(" <td align='center'><input type='checkbox' name='order_" + sSupplierUid + "$" + j + "' value='" + orderData.get("orderUid") + "£" + orderData.get("supplierUid") + "' "+(orderData.get("packagesDelivered").equals("0")?"checked":"")+">")
                         .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("description") + "</td>")
                         .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("serviceStockName") + "</td>")
                         .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("productName") + "</td>")
                         .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("packagesOrdered") + "</td>")
+                        .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("packagesDelivered") + "</td>")
                         .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("dateOrdered") + "</td>")
                         .append(" <td onClick=\"selectOrder('" + sSupplierUid + "$" + j + "');\">" + orderData.get("dateDeliveryDue") + "</td>")
                         .append("</tr>");

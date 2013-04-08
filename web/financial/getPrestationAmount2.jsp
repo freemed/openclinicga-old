@@ -233,6 +233,7 @@
                 	dPrice+=prestation.getSupplement();
                 }
                 double dInsuranceMaxPrice = prestation.getInsuranceTariff(insurance.getInsurar().getUid(),insurance.getInsuranceCategoryLetter());
+                System.out.println("dInsuranceMaxPrice="+dInsuranceMaxPrice);
                 if(encounter!=null && encounter.getType().equalsIgnoreCase("admission") && prestation.getMfpAdmissionPercentage()>0){
                 	dInsuranceMaxPrice = prestation.getInsuranceTariff(insurance.getInsurar().getUid(),"*H");
                 }
@@ -578,6 +579,7 @@
         oc_conn.close();
         prestationcontent+="</table>";
     }
+    System.out.println("dInsurarAmount="+dInsurarAmount);
 %>
 {
 "PrestationContent":"<%=prestationcontent%>",

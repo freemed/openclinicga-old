@@ -5,7 +5,8 @@
                 java.io.PrintWriter,be.mxs.common.util.pdf.general.PDFPatientCardGenerator, be.openclinic.id.Barcode" %>
 <%@ page import="be.mxs.common.util.pdf.general.*" %>
 <%@ page import="org.hnrw.report.Report_RFE" %>
-<%
+<%	
+	sProject = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
     ByteArrayOutputStream baosPDF = null;
     try {
         // PDF generator

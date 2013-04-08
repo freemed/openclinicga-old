@@ -6,6 +6,7 @@
 <%@ page import="be.mxs.common.util.pdf.general.PDFMonthlyReportGeneratorDH" %>
 <%@ page import="org.hnrw.report.Report_RFE" %>
 <%
+	sProject = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
     ByteArrayOutputStream baosPDF = null;
     java.util.Date start = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("start"))+" 23:59");
     java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");

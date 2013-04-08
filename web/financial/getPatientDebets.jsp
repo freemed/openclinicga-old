@@ -59,24 +59,27 @@
                             sCredited = getTran("web","canceled",sWebLanguage);
                         }
                         double patientAmount=debet.getExtraInsurarUid2()!=null && debet.getExtraInsurarUid2().length()>0?0:debet.getAmount();
-            			if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0){
+                        String insuraruid="zeyrfgkaef";
+                        if(debet.getInsurance()!=null && debet.getInsurance().getInsurarUid()!=null){
+                        	insuraruid=debet.getInsurance().getInsurarUid();
+                        }
+                        if(MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insuraruid+"*")>-1 && (activeUser==null || activeUser.getParameter("insuranceagent")==null || !activeUser.getParameter("insuranceagent").equalsIgnoreCase(insuraruid))){
 	                        sReturn.append( "<tr class='list"+sClass+"'>"
-	                            +"<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"
-   	                            +"<td><input type='checkbox' checked disabled></td>"
-	                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
-	                            +"<td>"+(debet.getCreateDateTime()==null?"":new SimpleDateFormat("dd/MM/yyyy HH:mm").format(debet.getCreateDateTime()))+"</td>"
-	                            +"<td>"+sEncounterName+"</td>"
-	                            +"<td>"+debet.getQuantity()+" x "+sPrestationDescription+"</td>"
-	                            +"<td>"+patientAmount+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>"
-	                            +"<td>"+sCredited+"</td>"
-	                            +"<td>"+(debet.getInsurarInvoiceUid()==null?"":ScreenHelper.checkString(debet.getInsurarInvoiceUid()).replaceAll("1\\.",""))+"</td>"
-	                        +"</tr>");
+		                            +"<td><input type='hidden' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' "+sChecked+" "+(sChecked.length()>0?" value='1'":"")+"/>"+(sChecked.length()>0?"<img src='"+sCONTEXTPATH+"/_img/checked.png'/>":"<img src='"+sCONTEXTPATH+"/_img/unchecked.png'/>")+"</td>"
+		                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
+		                            +"<td>"+(debet.getInsurance()==null || debet.getInsurance().getInsurar()==null?"":debet.getInsurance().getInsurar().getName())+"</td>"
+		                            +"<td>"+sEncounterName+"</td>"
+		                            +"<td>"+debet.getQuantity()+" x "+sPrestationDescription+"</td>"
+		                            +"<td>"+patientAmount+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>"
+		                            +"<td>"+sCredited+"</td>"
+		                            +"<td>"+(debet.getInsurarInvoiceUid()==null?"":ScreenHelper.checkString(debet.getInsurarInvoiceUid()).replaceAll("1\\.",""))+"</td>"
+		                        +"</tr>");
             			}
             			else {
 	                        sReturn.append( "<tr class='list"+sClass+"'>"
 		                            +"<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"
 		                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
-		                            +"<td>"+(debet.getCreateDateTime()==null?"":new SimpleDateFormat("dd/MM/yyyy HH:mm").format(debet.getCreateDateTime()))+"</td>"
+		                            +"<td>"+(debet.getInsurance()==null || debet.getInsurance().getInsurar()==null?"":debet.getInsurance().getInsurar().getName())+"</td>"
 		                            +"<td>"+sEncounterName+"</td>"
 		                            +"<td>"+debet.getQuantity()+" x "+sPrestationDescription+"</td>"
 		                            +"<td>"+patientAmount+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>"
@@ -121,7 +124,7 @@
 <table width="100%" class="list" cellspacing="2">
     <tr class="gray">
 		<%
-		if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0){
+		if(false && activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0){
 		%>
 	        <td width="20"><%=getTran("web","authorizationabbreviation",sWebLanguage)%></td>
 	    <%
@@ -129,7 +132,7 @@
 	    %>
         <td width="20"><%=getTran("web","invoiceabbreviation",sWebLanguage)%></td>
         <td width="80"><%=getTran("web","date",sWebLanguage)%></td>
-        <td><%=getTran("web","entrydate",sWebLanguage)%></td>
+        <td><%=getTran("web","insurar",sWebLanguage)%></td>
         <td><%=getTran("web.finance","encounter",sWebLanguage)%></td>
         <td><%=getTran("web","prestation",sWebLanguage)%></td>
         <td><%=getTran("web","amount",sWebLanguage)%></td>
@@ -147,9 +150,9 @@
         else {
         	vUnassignedDebets=Debet.getUnassignedPatientDebets(sPatientId,sInvoiceService);
         }
-		if(activeUser.getParameter("insuranceagent")==null || activeUser.getParameter("insuranceagent").length()==0){
+		//if(activeUser.getParameter("insuranceagent")==null || activeUser.getParameter("insuranceagent").length()==0){
 	        out.print(addDebets(vUnassignedDebets,sClass,sWebLanguage, false,begin,end,activeUser));
-		}
+		//}
     }
 %>
 </table>

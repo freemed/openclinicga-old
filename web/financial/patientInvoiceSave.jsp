@@ -18,9 +18,10 @@
 
     if (sEditPatientInvoiceUID.length() > 0) {
         PatientInvoice oldpatientinvoice = PatientInvoice.get(sEditPatientInvoiceUID);
-        patientinvoice.setCreateDateTime(oldpatientinvoice.getCreateDateTime());
-        patientinvoice.setNumber(oldpatientinvoice.getNumber());
         if(oldpatientinvoice!=null){
+            patientinvoice.setCreateDateTime(oldpatientinvoice.getCreateDateTime());
+            patientinvoice.setNumber(oldpatientinvoice.getNumber());
+            patientinvoice.setAcceptationUid(oldpatientinvoice.getAcceptationUid());
             invoicePatient=oldpatientinvoice.getPatient();
         }
     } else {
@@ -40,10 +41,9 @@
 	}
     patientinvoice.setDebets(new Vector());
     patientinvoice.setCredits(new Vector());
-
     double dTotalCredits = 0;
     double dTotalDebets = 0;
-
+	String acceptationuid="";
     if (sEditCBs.length() > 0) {
         String[] aCBs = sEditCBs.split(",");
         String sID;
@@ -52,7 +52,7 @@
 
         for (int i = 0; i < aCBs.length; i++) {
             if (checkString(aCBs[i]).length() > 0) {
-
+	
                 if (checkString(aCBs[i]).startsWith("cbDebet")) {
                     sID = aCBs[i].substring(7);
                     patientinvoice.getDebets().add(Debet.get(sID));
@@ -68,7 +68,10 @@
                     if (debet != null) {
                         dTotalDebets += debet.getAmount();
                     }
-
+                    if(acceptationuid.length()==0 && debet.getInsurance()!=null && MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+debet.getInsurance().getInsurarUid()+"*")>-1 && activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").equalsIgnoreCase(debet.getInsurance().getInsurarUid())){
+						//This is a user agent which can accept debets on the invoice
+						acceptationuid=activeUser.userid;
+                    }
                 } else if (checkString(aCBs[i]).startsWith("cbPatientInvoice")) {
                     sID = aCBs[i].substring(16);
                     patientinvoice.getCredits().add(sID);
@@ -80,6 +83,9 @@
                     }
                 }
             }
+        }
+        if(acceptationuid.length()>0){
+        	patientinvoice.setAcceptationUid(acceptationuid);
         }
     }
     double dBalance = Double.parseDouble(sEditBalance);

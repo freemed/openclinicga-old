@@ -103,6 +103,7 @@
                     hMenu.put(getTran("Web.Manage", "update.all", sWebLanguage), "main.do?Page=util/updateSystem.jsp");
                     hMenu.put(getTran("Web.Manage", "update.examinations", sWebLanguage), "main.do?Page=util/updateExaminations.jsp");
                     hMenu.put(getTran("Web.Manage", "reset.defaults", sWebLanguage), "main.do?Page=system/resetDefaults.jsp");
+                    hMenu.put(getTran("Web.Manage", "load.file", sWebLanguage), "main.do?Page=system/loadTable.jsp");
 
                     out.print(ScreenHelper.writeTblHeader(getTran("web.manage", "Synchronization", sWebLanguage), sCONTEXTPATH)
                             + sortMenu(hMenu)
@@ -143,6 +144,7 @@
                             hMenu.put(getTran("Web.Manage", "ManageServerId", sWebLanguage), "main.do?Page=system/manageServerId.jsp");
                             hMenu.put(getTran("Web.Manage", "applications", sWebLanguage), "main.do?Page=system/manageApplications.jsp");
                             hMenu.put(getTran("Web.Manage", "manageSiteLabels", sWebLanguage), "main.do?Page=system/manageSiteLabels.jsp");
+                            hMenu.put(getTran("Web.Manage", "manageGglobalhealthbarometerdata", sWebLanguage), "main.do?Page=system/manageGlobalHealthBarometerData.jsp");
                             hMenu.put(getTran("Web.Manage", "manageDatacenterConfig", sWebLanguage), "main.do?Page=system/manageDatacenterConfig.jsp");
 
                             out.print(ScreenHelper.writeTblHeader(getTran("web.manage", "setup", sWebLanguage), sCONTEXTPATH)
