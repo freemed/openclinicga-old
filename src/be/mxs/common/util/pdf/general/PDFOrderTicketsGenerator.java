@@ -287,7 +287,7 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
         	table.addCell(cell);
         	cell=createValueCell(ScreenHelper.getTranNoLink("product.units",order.getProductStock().getProduct().getUnit(),sPrintLanguage),1,6,10,true);
         	table.addCell(cell);
-        	cell=createValueCell(order.getPackagesOrdered()+"",1,6,7,true);
+        	cell=createValueCell(order.getPackagesOrdered()-order.getPackagesDelivered()+"",1,6,7,true);
         	table.addCell(cell);
         	cell=createValueCell("",0,6,7,true);
         	table.addCell(cell);

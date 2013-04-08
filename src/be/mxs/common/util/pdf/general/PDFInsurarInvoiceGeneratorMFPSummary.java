@@ -377,7 +377,7 @@ public class PDFInsurarInvoiceGeneratorMFPSummary extends PDFInvoiceGenerator {
             table.setWidthPercentage(pageWidth);
             cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsperdateannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
             table.addCell(cell);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web","employer",user.person.language)+": "+(serviceUid.split(";").length<2?"":serviceUid.split(";")[1]), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web","category",user.person.language)+": "+(serviceUid.split(";").length<2?"":serviceUid.split(";")[1]), 1);
             table.addCell(cell);
             doc.add(table);
             addBlankRow();

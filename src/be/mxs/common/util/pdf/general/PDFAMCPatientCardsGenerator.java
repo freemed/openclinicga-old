@@ -185,12 +185,7 @@ public class PDFAMCPatientCardsGenerator extends PDFOfficialBasic {
             cell.setPadding(1);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table2.addCell(cell);
-            String dateofbirth="";
-            try {
-            	dateofbirth=new SimpleDateFormat("dd/MM/yyyy").format(person.dateOfBirth);
-            }
-            catch(Exception e){}
-            cell=createLabel(dateofbirth,8,1,Font.BOLD);
+            cell=createLabel(person.dateOfBirth,8,1,Font.BOLD);
             cell.setColspan(700);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setPadding(1);

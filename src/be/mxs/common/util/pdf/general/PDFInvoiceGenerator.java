@@ -202,6 +202,10 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         return createPriceCell(price,false,colspan);
     }
 
+    protected PdfPCell createLargePriceCell(double price, int colspan){
+        return createLargePriceCell(price,false,colspan);
+    }
+
     protected PdfPCell createPriceCellInsurar(double price, int colspan){
         return createPriceCellInsurar(price,false,colspan);
     }
@@ -213,6 +217,21 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         }
 
         cell = new PdfPCell(new Paragraph(sValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+
+        return cell;
+    }
+
+    protected PdfPCell createLargePriceCell(double price, boolean indicateNegative, int colspan){
+        String sValue = priceFormat.format(price)+" "+sCurrency;
+        if(indicateNegative){
+            sValue = "- "+sValue;
+        }
+
+        cell = new PdfPCell(new Paragraph(sValue,FontFactory.getFont(FontFactory.HELVETICA,9,Font.BOLD)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);

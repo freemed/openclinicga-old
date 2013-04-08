@@ -363,6 +363,7 @@ public class Prestation extends OC_Object{
     		ps.setString(3, insuranceCategory);
     		ResultSet rs = ps.executeQuery();
     		if(rs.next()){
+    			System.out.println("1");
     			p=rs.getDouble("OC_TARIFF_PRICE");
     		}
     		else {
@@ -377,6 +378,7 @@ public class Prestation extends OC_Object{
 				ps.setString(2, insurarUid);
 				rs = ps.executeQuery();
 				if(rs.next()){
+	    			System.out.println("2");
 					p=rs.getDouble("OC_TARIFF_PRICE");
 				}
     		}

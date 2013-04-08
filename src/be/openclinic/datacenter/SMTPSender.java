@@ -36,6 +36,7 @@ public class SMTPSender extends Sender {
 					messageContent=messageContent+"</message>";
 					//Send mail
 			        Properties properties = System.getProperties(); 
+			        properties.setProperty("mail.smtp.localhost", "127.0.0.1"); 
 			        properties.setProperty("mail.smtp.host", host); 
 			        Session session = Session.getDefaultInstance(properties); 
 			        MimeMessage message = new MimeMessage(session); 

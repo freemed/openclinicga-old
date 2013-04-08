@@ -60,32 +60,34 @@ public class Batch extends OC_Object{
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "SELECT * FROM OC_BATCHES"+
-                             " WHERE OC_BATCH_SERVERID = ? AND OC_BATCH_OBJECTID = ?";
-            ps = oc_conn.prepareStatement(sSelect);
-            ps.setInt(1,Integer.parseInt(batchUid.split("\\.")[0]));
-            ps.setInt(2,Integer.parseInt(batchUid.split("\\.")[1]));
-            rs = ps.executeQuery();
-
-            // get data from DB
-            if(rs.next()){
-            	batch = new Batch();
-                batch.setUid(batchUid);
-
-                batch.setProductStockUid(rs.getString("OC_BATCH_PRODUCTSTOCKUID"));
-                batch.setBatchNumber(rs.getString("OC_BATCH_NUMBER"));
-                batch.setLevel(rs.getInt("OC_BATCH_LEVEL"));
-                batch.setComment(rs.getString("OC_BATCH_COMMENT"));
-                batch.setEnd(rs.getDate("OC_BATCH_END"));
-
-                // OBJECT variables
-                batch.setCreateDateTime(rs.getTimestamp("OC_BATCH_CREATETIME"));
-                batch.setUpdateDateTime(rs.getTimestamp("OC_BATCH_UPDATETIME"));
-                batch.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_BATCH_UPDATEUID")));
-            }
-            else{
-                throw new Exception("ERROR : BATCH "+batchUid+" NOT FOUND");
-            }
+        	if(batchUid!=null && batchUid.split("\\.").length>1){
+	        	String sSelect = "SELECT * FROM OC_BATCHES"+
+	                             " WHERE OC_BATCH_SERVERID = ? AND OC_BATCH_OBJECTID = ?";
+	            ps = oc_conn.prepareStatement(sSelect);
+	            ps.setInt(1,Integer.parseInt(batchUid.split("\\.")[0]));
+	            ps.setInt(2,Integer.parseInt(batchUid.split("\\.")[1]));
+	            rs = ps.executeQuery();
+	
+	            // get data from DB
+	            if(rs.next()){
+	            	batch = new Batch();
+	                batch.setUid(batchUid);
+	
+	                batch.setProductStockUid(rs.getString("OC_BATCH_PRODUCTSTOCKUID"));
+	                batch.setBatchNumber(rs.getString("OC_BATCH_NUMBER"));
+	                batch.setLevel(rs.getInt("OC_BATCH_LEVEL"));
+	                batch.setComment(rs.getString("OC_BATCH_COMMENT"));
+	                batch.setEnd(rs.getDate("OC_BATCH_END"));
+	
+	                // OBJECT variables
+	                batch.setCreateDateTime(rs.getTimestamp("OC_BATCH_CREATETIME"));
+	                batch.setUpdateDateTime(rs.getTimestamp("OC_BATCH_UPDATETIME"));
+	                batch.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_BATCH_UPDATEUID")));
+	            }
+	            else{
+	                throw new Exception("ERROR : BATCH "+batchUid+" NOT FOUND");
+	            }
+        	}
         }
         catch(Exception e){
            e.printStackTrace();
@@ -436,7 +438,9 @@ public class Batch extends OC_Object{
             		ProductStockOperation operation = ProductStockOperation.get(rs.getString("OC_BATCHOPERATION_PRODUCTSTOCKOPERATIONUID"));
             		if(operation!=null){
             			if(operation.getDescription().indexOf("receipt")>-1){
-            				thirdParty=operation.getProductStock().getServiceStock().getService().getLabel(sLanguage);
+            				if(operation.getProductStock()!=null && operation.getProductStock().getServiceStock()!=null && operation.getProductStock().getServiceStock().getService()!=null){
+            					thirdParty=operation.getProductStock().getServiceStock().getService().getLabel(sLanguage);
+            				}
             			}
             			else {
             				if(operation.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")){

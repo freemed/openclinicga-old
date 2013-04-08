@@ -458,7 +458,8 @@ public class Balance extends OC_Object implements Comparable{
                     " select -sum(oc_debet_amount) total from oc_debets a,oc_encounters b" +
                     " where" +
                     " a.oc_debet_encounteruid='"+MedwanQuery.getInstance().getConfigString("serverId")+".'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "b.oc_encounter_objectid")+" and" +
-                    " b.oc_encounter_patientuid=?" +
+                    " b.oc_encounter_patientuid=? and" +
+                    " (a.oc_debet_extrainsuraruid2 is null or a.oc_debet_extrainsuraruid2 ='')" +
                     ") a";
             if(MedwanQuery.getInstance().getConfigString("convertDataTypeVarchar","").equalsIgnoreCase("char")){
             	//This is MySQL, no conversion to be used
@@ -472,7 +473,8 @@ public class Balance extends OC_Object implements Comparable{
                         " select -sum(oc_debet_amount) total from oc_debets a,oc_encounters b" +
                         " where" +
                         " a.oc_debet_encounteruid='"+MedwanQuery.getInstance().getConfigString("serverId")+".'"+MedwanQuery.getInstance().concatSign()+"b.oc_encounter_objectid and" +
-                        " b.oc_encounter_patientuid=?" +
+                        " b.oc_encounter_patientuid=? and" +
+                        " (a.oc_debet_extrainsuraruid2 is null or a.oc_debet_extrainsuraruid2 ='')" +
                         ") a";
             }
             PreparedStatement ps = oc_conn.prepareStatement(sSelect);

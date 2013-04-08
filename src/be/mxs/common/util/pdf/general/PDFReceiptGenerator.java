@@ -343,7 +343,7 @@ public class PDFReceiptGenerator extends PDFInvoiceGenerator {
         invoiceTable.addCell(createValueCell(sCreditType,3));
         invoiceTable.addCell(createValueCell(credit.getEncounterUid()+", "+ScreenHelper.getTranDb("encountertype", credit.getEncounter().getType(),sPrintLanguage),4));
         invoiceTable.addCell(createValueCell(sCreditComment,5));
-        invoiceTable.addCell(createPriceCell(creditAmount,3));
+        invoiceTable.addCell(createLargePriceCell(creditAmount,3));
         invoiceTable.addCell(createEmptyCell(3));
     }
 

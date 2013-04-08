@@ -21,8 +21,17 @@ public class PatientInvoice extends Invoice {
     private String patientUid;
     private AdminPerson patient;
     private String number;
+    private String acceptationUid;
     
-    public String getInvoiceNumber() {
+    public String getAcceptationUid() {
+		return acceptationUid;
+	}
+
+	public void setAcceptationUid(String acceptationUid) {
+		this.acceptationUid = acceptationUid;
+	}
+
+	public String getInvoiceNumber() {
         if(number==null || number.equalsIgnoreCase("")){
         	return invoiceUid;
         }
@@ -192,6 +201,7 @@ public class PatientInvoice extends Invoice {
                         patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
                         patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
                         patientInvoice.setInsurarreference(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCE"));
+                        patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                     }
                     rs.close();
                     ps.close();
@@ -243,6 +253,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
                 patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
                 patientInvoice.setInsurarreference(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCE"));
+                patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
             }
             rs.close();
             ps.close();
@@ -343,9 +354,10 @@ public class PatientInvoice extends Invoice {
                           " OC_PATIENTINVOICE_BALANCE," +
                           " OC_PATIENTINVOICE_STATUS," +
                           " OC_PATIENTINVOICE_NUMBER," +
-                          " OC_PATIENTINVOICE_INSURARREFERENCE" +
+                          " OC_PATIENTINVOICE_INSURARREFERENCE," +
+                          " OC_PATIENTINVOICE_ACCEPTATIONUID" +
                         ") " +
-                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = oc_conn.prepareStatement(sSelect);
                 while(!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_PATIENTINVOICES","OC_PATIENTINVOICE_OBJECTID",ids[1])){
                     ids[1] = MedwanQuery.getInstance().getOpenclinicCounter("OC_INVOICES") + "";
@@ -363,6 +375,7 @@ public class PatientInvoice extends Invoice {
                 ps.setString(11,this.getStatus());
                 ps.setString(12,this.getNumber());
                 ps.setString(13,this.getInsurarreference());
+                ps.setString(14,this.getAcceptationUid());
                 ps.executeUpdate();
                 ps.close();
 
@@ -524,6 +537,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
                 patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
                 patientInvoice.setInsurarreference(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCE"));
+                patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
 
                 invoices.add(patientInvoice);
             }
@@ -612,6 +626,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
                 patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
                 patientInvoice.setInsurarreference(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCE"));
+                patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
 
                 invoices.add(patientInvoice);
             }
@@ -801,6 +816,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setStatus(rs.getString("OC_PATIENTINVOICE_STATUS"));
                 patientInvoice.setNumber(rs.getString("OC_PATIENTINVOICE_NUMBER"));
                 patientInvoice.setInsurarreference(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCE"));
+                patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
 
                 vPatientInvoices.add(patientInvoice);
             }

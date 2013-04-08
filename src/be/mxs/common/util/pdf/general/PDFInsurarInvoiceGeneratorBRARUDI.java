@@ -40,6 +40,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
     private class PrestationData{
     	public int quantity;
     	public double amount;
+    	public int totalamount;
     }
     
     //--- GENERATE PDF DOCUMENT BYTES -------------------------------------------------------------
@@ -1461,6 +1462,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             	}
             	prestation = (PrestationData)prestations.get(uid);
             	prestation.amount+=debet.getInsurarAmount();
+            	prestation.totalamount+=debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount();
             	prestation.quantity+=debet.getQuantity();
             	prestations.put(uid, prestation);
             }
@@ -1500,7 +1502,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
 					cell = createBoldLabelCell(prestation.quantity+"", 15);
 					cell.setBorder(PdfPCell.BOX);
 					table.addCell(cell);
-					cell = createBoldLabelCell(new Double(prestation.amount/prestation.quantity).intValue()+"", 15);
+					cell = createBoldLabelCell(new Double(prestation.totalamount/prestation.quantity).intValue()+"", 15);
 					cell.setBorder(PdfPCell.BOX);
 					table.addCell(cell);
 					cell = createBoldLabelCell(new Double(prestation.amount).intValue()+"", 15);

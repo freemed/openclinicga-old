@@ -277,7 +277,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getQuantity()).intValue()+"", 10);
 							table.addCell(cell);
-							cell = createLabelCell(new Double(debet.getInsurarAmount()/debet.getQuantity()).intValue()+"", 10);
+							cell = createLabelCell(new Double((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()).intValue()+"", 10);
 							cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getInsurarAmount()).intValue()+"", 10);
@@ -461,7 +461,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getQuantity()).intValue()+"", 10);
 							table.addCell(cell);
-							cell = createLabelCell(new Double(debet.getInsurarAmount()/debet.getQuantity()).intValue()+"", 10);
+							cell = createLabelCell(new Double((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()).intValue()+"", 10);
 							cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getInsurarAmount()).intValue()+"", 10);
@@ -643,7 +643,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getQuantity()).intValue()+"", 10);
 							table.addCell(cell);
-							cell = createLabelCell(new Double(debet.getInsurarAmount()/debet.getQuantity()).intValue()+"", 10);
+							cell = createLabelCell(new Double((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()).intValue()+"", 10);
 							cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getInsurarAmount()).intValue()+"", 10);
@@ -2173,7 +2173,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getQuantity()).intValue()+"", 10);
 							table.addCell(cell);
-							cell = createLabelCell(new Double(debet.getInsurarAmount()/debet.getQuantity()).intValue()+"", 10);
+							cell = createLabelCell(new Double((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()).intValue()+"", 10);
 							cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getInsurarAmount()).intValue()+"", 10);
@@ -2512,7 +2512,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getQuantity()).intValue()+"", 10);
 							table.addCell(cell);
-							cell = createLabelCell(new Double(debet.getInsurarAmount()/debet.getQuantity()).intValue()+"", 10);
+							cell = createLabelCell(new Double((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()).intValue()+"", 10);
 							cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 							table.addCell(cell);
 							cell = createLabelCell(new Double(debet.getInsurarAmount()).intValue()+"", 10);

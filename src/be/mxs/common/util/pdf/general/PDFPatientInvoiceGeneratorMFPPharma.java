@@ -667,7 +667,7 @@ public class PDFPatientInvoiceGeneratorMFPPharma extends PDFInvoiceGenerator {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
             cell=createValueCell(getTran("web","ctams.pharmacy.stamp"),34);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             
             doc.add(table);

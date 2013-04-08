@@ -220,7 +220,9 @@ public class PDFWicketDebetProofGenerator extends PDFInvoiceGenerator {
             creditTable.addCell(createGrayCell(getTran("web","operation.type").toUpperCase(),20));
             creditTable.addCell(createValueCell(getTran("debet.type",credit.getOperationType()),80));
             creditTable.addCell(createGrayCell(getTran("web","amount").toUpperCase(),20));
-            creditTable.addCell(createValueCell(credit.getAmount()+" "+sCurrency,80));
+            cell=createLargePriceCell(credit.getAmount(),80);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            creditTable.addCell(cell);
             creditTable.addCell(createGrayCell(getTran("web","comment").toUpperCase(),20));
             creditTable.addCell(createValueCell(credit.getComment()+"",80));
             creditTable.addCell(createEmptyCell(100));

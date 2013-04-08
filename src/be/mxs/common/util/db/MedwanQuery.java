@@ -46,6 +46,7 @@ import java.util.Date;
 import jpos.JposException;
 import be.openclinic.adt.Encounter;
 import be.openclinic.common.OC_Object;
+import be.openclinic.datacenter.Monitor;
 import be.openclinic.datacenter.Scheduler;
 public class MedwanQuery {
 	private static DataSource dsOpenClinic=null;
@@ -85,6 +86,7 @@ public class MedwanQuery {
     private Hashtable serviceexaminations = new Hashtable();
     private Hashtable serviceexaminationsincludingparent = new Hashtable();
     private static Scheduler scheduler;
+    private static Monitor monitor;
     private static BrokerScheduler brokerScheduler;
     private Hashtable datacenterparametertypes=new Hashtable();
     private Hashtable countersInUse=new Hashtable();
@@ -108,6 +110,12 @@ public class MedwanQuery {
 	public void runScheduler(){
 		if(scheduler!=null){
 			scheduler.runScheduler();
+		}
+	}
+	
+	public void runMonitor(){
+		if(monitor!=null){
+			monitor.runScheduler();
 		}
 	}
 	
@@ -162,6 +170,34 @@ public class MedwanQuery {
 		return serviceexaminations;
 	}
 
+    public void reloadLabels() {
+        Hashtable labelLanguages = new Hashtable();
+        Hashtable labelTypes = new Hashtable();
+        Hashtable labelIds;
+        net.admin.Label label;
+        // only load labels in memory that are service nor function.
+        Vector vLabels = net.admin.Label.getNonServiceFunctionLabels();
+        Iterator iter = vLabels.iterator();
+        if (Debug.enabled) Debug.println("About to (re)load labels.");
+        while(iter.hasNext()){
+            label = (net.admin.Label)iter.next();
+            // type
+            labelTypes = (Hashtable) labelLanguages.get(label.language);
+            if (labelTypes == null) {
+                labelTypes = new Hashtable();
+                labelLanguages.put(label.language, labelTypes);
+            }
+            // id
+            labelIds = (Hashtable) labelTypes.get(label.type);
+            if (labelIds == null) {
+                labelIds = new Hashtable();
+                labelTypes.put(label.type, labelIds);
+            }
+            labelIds.put(label.id, label);
+        }
+        MedwanQuery.getInstance().putLabels(labelLanguages);
+    }
+    
 	public void setServiceexaminations(Hashtable serviceexaminations) {
 		this.serviceexaminations = serviceexaminations;
 	}
@@ -362,7 +398,6 @@ public class MedwanQuery {
 
         this.uri = uri;
 
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 1");
         // load config values from DB
         Statement configStatement = null;
         ResultSet rs = null;
@@ -389,7 +424,6 @@ public class MedwanQuery {
                 se.printStackTrace();
             }
         }
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 2");
 
         // load config values from XML
         try {
@@ -406,7 +440,6 @@ public class MedwanQuery {
         catch (Exception e) {
             if (Debug.enabled) Debug.println(e.getMessage());
         }
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 3");
 
         // load restricted diagnoses from XML
         try {
@@ -456,7 +489,6 @@ public class MedwanQuery {
         catch (Exception e) {
             //if(Debug.enabled) Debug.println(e.getMessage());
         }
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 4");
 
         // Load disabledApplications
         oc_conn=getOpenclinicConnection();
@@ -480,11 +512,9 @@ public class MedwanQuery {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 4.1");
         //loadRiskExaminationLabcodes();
         //loadRiskCategories();
         ObjectCacheFactory.getInstance().setObjectCacheSize(getConfigInt("objectCacheSize",10000));
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 5");
 
         // load DataCenter data
         try {
@@ -502,23 +532,29 @@ public class MedwanQuery {
         catch (Exception e) {
             if (Debug.enabled) Debug.println(e.getMessage());
         }
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 6");
 
         if(scheduler==null || !scheduler.isActive()){
         	scheduler=new Scheduler();
         }
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 7");
+        if(monitor==null || !monitor.isActive()){
+        	monitor=new Monitor();
+        }
 
         if(brokerScheduler==null){
         	brokerScheduler=new BrokerScheduler();
         }
-        System.out.println(new SimpleDateFormat("HH:mm:ss sss").format(new java.util.Date())+": 8");
 
     }
     
     public void stopScheduler(){
     	if(scheduler!=null){
     		scheduler.setStopped(true);
+    	}
+    }
+    
+    public void stopMonitor(){
+    	if(monitor!=null){
+    		monitor.setStopped(true);
     	}
     }
     
@@ -6487,6 +6523,7 @@ public class MedwanQuery {
                 se.printStackTrace();
             }
         }
+        System.out.println(name+"="+iRealValue+"/"+iActualNbValue);
         //-- uppdate table if necessary --//
         if (iActualNbValue != iRealValue) {
             try {
@@ -6495,6 +6532,7 @@ public class MedwanQuery {
                 ps.setInt(1, iRealValue);
                 ps.setString(2, name);
                 if (ps.executeUpdate()>0) {
+                	usedCounters.put(name, iRealValue);
                     sOut += ("<span class='valid'>Updated with " + iRealValue + " instead of " + iActualNbValue + "</span>");
                 } else {
                      //-- insert row if necessary --//

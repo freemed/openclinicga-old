@@ -17,6 +17,7 @@ import net.admin.User;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Mail;
 import be.mxs.common.util.system.Pointer;
+import be.mxs.common.util.system.ScreenHelper;
 
 public class ExportAMO {
 
@@ -36,6 +37,14 @@ public class ExportAMO {
 		    if(rs.next()){
 				lastexport = new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(rs.getString("oc_value"));
 			    System.out.println("lastExport="+lastexport);
+		    }
+		    rs.close();
+		    ps.close();
+		    String hospitalname="?";
+		    ps=conn.prepareStatement("select * from OC_LABELS where OC_LABEL_TYPE='web' and OC_LABEL_ID='hospitalname' and OC_LABEL_LANGUAGE='fr'");
+		    rs=ps.executeQuery();
+		    if(rs.next()){
+		    	hospitalname=rs.getString("OC_LABEL_VALUE");
 		    }
 		    rs.close();
 		    ps.close();
@@ -77,7 +86,7 @@ public class ExportAMO {
 			exportfile.append("PREST_DATE;");
 			exportfile.append("CONTACT_TYPE;");
 			exportfile.append("CONTACT_ID;");
-			exportfile.append("CHUGT_ID;");
+			exportfile.append("HOSP_ID;");
 			exportfile.append("AMO_ID;");
 			exportfile.append("AMO_STATUS;");
 			exportfile.append("AMO_SOURCE;");
@@ -168,8 +177,8 @@ public class ExportAMO {
 			System.out.println("hasdata="+hasdata);
 			rs.close();
 			ps.close();
-			String title="The Global Health Barometer - TEST AMO extract CHU GT";
-			String message="Message de test avec extraction de données de facturation pour CHU GT en annexe.\n" +
+			String title="The Global Health Barometer - TEST AMO extract "+hospitalname+"";
+			String message="Message de test avec extraction de données de facturation pour "+hospitalname+" en annexe.\n" +
 							"- Période de facturation couverte: du "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(mindate)+" au "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(maxdate)+"\n" +
 							"- Nombre de prestations facturées: "+countdebets+"\n" +
 							"- Montant total des prestations: "+totalprice+" XOF\n" +
@@ -179,20 +188,20 @@ public class ExportAMO {
 							"- PREST_DATE: date de la prestation\n" +
 							"- CONTACT_TYPE: C=Consultation, H=Hospitalisation\n" +
 							"- CONTACT_ID: numéro unique de la consultation ou de l'hospitalisation\n" +
-							"- CHUGT_ID: numéro d'identification interne du bénéficiaire au CHU Gabriel Touré\n" +
+							"- HOSP_ID: numéro d'identification interne du bénéficiaire au "+hospitalname+"\n" +
 							"- AMO_ID: numéro AMO du bénéficiaire\n" +
 							"- AMO_STATUS: affiliate=Adhérent, child=Enfant, partner=Conjoint, parent=Parent\n" +
 							"- AMO_SOURCE: INPS ou CMSS\n" +
 							"- PAT_LASTNAME: nom du patient\n" +
 							"- PAT_FIRSTNAME: prénom du patient\n" +
-							"- PREST_CODE: code de la prestation au CHU Gabriel Touré\n" +
+							"- PREST_CODE: code de la prestation au "+hospitalname+"\n" +
 							"- PREST_NAME: dénomination de la prestation\n" +
 							"- PREST_PRICE: prix (tarif) de la prestation\n" +
 							"- PREST_QUANTITY: nombre de prestations réalisées\n" +
 							"- INV_AMO: montant à charge de l'AMO\n" +
 							"- INV_PATIENTREF: numéro de la facture patient qui reprend la prestation\n" +
 							"- AUTH_AMO: agent AMO qui a autorisé la transaction\n\n" +
-							"Message généré automatiquement le "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+" pour le CHU Gabriel Touré par le Global Health Barometer. " +
+							"Message généré automatiquement le "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+" pour le "+hospitalname+" par le Global Health Barometer. " +
 							"Veuillez ne pas répondre directement à ce message svp. " +
 							"Pour toute information supplémentaire concernant la structure de l'annexe, vous pouvez contacter Tidiani Togola (tidianitogola@sante.gov.ml) " +
 							"à l'Agence Nationale de Télésanté et d'Informatique Médicale (ANTIM).\n\n" +

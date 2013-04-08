@@ -740,6 +740,72 @@ public class ScreenHelper {
         return sOptions;
     }
 
+    //--- WRITE SELECT ----------------------------------------------------------------------------
+    static public String writeSelectUpperCase(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted){
+        String sOptions = "";
+        Label label;
+        Iterator it;
+
+        Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
+        if (labelTypes!=null) {
+            Hashtable labelIds = (Hashtable)labelTypes.get(sLabelType.toLowerCase());
+
+            if(labelIds!=null) {
+                Enumeration idsEnum = labelIds.elements();
+                Hashtable hSelected = new Hashtable();
+
+                if(sorted){
+                    // sorted on value
+                    while (idsEnum.hasMoreElements()) {
+                        label = (Label)idsEnum.nextElement();
+                        hSelected.put(label.value.toUpperCase(),label.id);
+                    }
+                }
+                else{
+                    // sorted on id
+                    while (idsEnum.hasMoreElements()) {
+                        label = (Label)idsEnum.nextElement();
+                        hSelected.put(label.id,label.value.toUpperCase());
+                    }
+                }
+
+                // sort on keys :
+                //  when sorted (on value), key = labelValue
+                //  when !sorted (sorted on id), key = labelID
+                Vector keys = new Vector(hSelected.keySet());
+                Collections.sort(keys);
+                it = keys.iterator();
+
+                // to html
+                String sLabelValue, sLabelID;
+                while (it.hasNext()) {
+                    if(sorted){
+                        sLabelValue = (String)it.next();
+                        sLabelID = (String)hSelected.get(sLabelValue);
+                    }
+                    else{
+                        sLabelID = (String)it.next();
+                        sLabelValue = (String)hSelected.get(sLabelID);
+                    }
+
+                    sOptions+= "<option value='"+sLabelID+"'";
+                    if (sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
+                        sOptions+= " selected";
+                    }
+
+                    if(showLabelID){
+                        sOptions+= ">"+sLabelID+" - "+sLabelValue+"</option>";
+                    }
+                    else{
+                        sOptions+= ">"+sLabelValue+"</option>";
+                    }
+                }
+            }
+        }
+
+        return sOptions;
+    }
+
     static public String writeSelectExclude(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted, String sExclude){
         String sOptions = "";
         Label label;

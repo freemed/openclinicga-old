@@ -19,8 +19,8 @@ import net.admin.Service;
 public class ProductOrder extends OC_Object{
     private String description;
     private ProductStock productStock;
-    private int packagesOrdered = -1;
-    private int packagesDelivered = -1;
+    private int packagesOrdered = 0;
+    private int packagesDelivered = 0;
     private Date dateOrdered;
     private Date dateDeliveryDue;
     private Date dateDelivered;
@@ -62,6 +62,38 @@ public class ProductOrder extends OC_Object{
     public void setProductStock(ProductStock productStock) {
         this.productStock = productStock;
     }
+    
+    public int getDeliveredQuantity(){
+        int quantity=0;
+        PreparedStatement ps = null;
+        ResultSet rs=null;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	try{
+            String sQuery="select sum(OC_OPERATION_UNITSCHANGED) as total from OC_PRODUCTSTOCKOPERATIONS" +
+                    " where " +
+                    " OC_OPERATION_ORDERUID=?";
+            ps=oc_conn.prepareStatement(sQuery);
+            ps.setString(1,this.getUid());
+            rs=ps.executeQuery();
+            if(rs.next()){
+                quantity=rs.getInt("total");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return quantity;
+    }
 
     public static int getOpenOrderedQuantity(String productStockUid){
         int quantity=0;
@@ -69,9 +101,9 @@ public class ProductOrder extends OC_Object{
         ResultSet rs=null;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sQuery="select sum(OC_ORDER_PACKAGESORDERED) as total from OC_PRODUCTORDERS" +
+            String sQuery="select sum(OC_ORDER_PACKAGESORDERED-OC_ORDER_PACKAGESDELIVERED) as total from OC_PRODUCTORDERS" +
                     " where " +
-                    " OC_ORDER_DATEDELIVERED IS NULL and" +
+                    " (OC_ORDER_STATUS is NULL OR OC_ORDER_STATUS<>'closed') and" +
                     " OC_ORDER_PRODUCTSTOCKUID=?";
             ps=oc_conn.prepareStatement(sQuery);
             ps.setString(1,productStockUid);
@@ -297,7 +329,7 @@ public class ProductOrder extends OC_Object{
                 ps.setTimestamp(11,new java.sql.Timestamp(new java.util.Date().getTime())); // now
                 ps.setTimestamp(12,new java.sql.Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(13,this.getUpdateUser());
-                ps.setString(13, this.getStatus());
+                ps.setString(14, this.getStatus());
 
                 ps.executeUpdate();
             }
@@ -559,10 +591,10 @@ public class ProductOrder extends OC_Object{
                 sSelect+= "";
             }
             else if(searchDelivered){
-                sSelect+= " WHERE OC_ORDER_DATEDELIVERED > ?";
+                sSelect+= " WHERE OC_ORDER_STATUS='closed'";
             }
             else if(searchUndelivered){
-                sSelect+= " WHERE OC_ORDER_DATEDELIVERED IS NULL ";
+                sSelect+= " WHERE (OC_ORDER_STATUS IS NULL OR OC_ORDER_STATUS<>'closed') ";
             }
 
             // match search criteria
@@ -699,10 +731,10 @@ public class ProductOrder extends OC_Object{
 	            sSelect+= "";
 	        }
 	        else if(searchDelivered){
-	            sSelect+= " WHERE OC_ORDER_DATEDELIVERED > ?";
+	            sSelect+= " WHERE OC_ORDER_STATUS='closed'";
 	        }
 	        else if(searchUndelivered){
-	            sSelect+= " WHERE OC_ORDER_DATEDELIVERED IS NULL ";
+	            sSelect+= " WHERE (OC_ORDER_STATUS IS NUll OR OC_ORDER_STATUS<>'closed') ";
 	        }
 	
 	        // match search criteria
@@ -783,19 +815,6 @@ public class ProductOrder extends OC_Object{
 	
 	        // set questionmark values
 	        int questionMarkIdx = 1;
-	        if(searchDelivered){
-	        	java.util.Date referencedate=null;
-	        	if(sFindDateDeliveredSince!=null && sFindDateDeliveredSince.length()>0){
-	        		try{
-	        			referencedate=new SimpleDateFormat("dd/MM/yyyy").parse(sFindDateDeliveredSince);
-	        		}
-	        		catch(Exception e){};
-	        	}
-	        	if(referencedate==null){
-	        		referencedate= new java.util.Date(new java.util.Date().getTime()-7*24*3600*1000);
-	        	}
-	        	ps.setDate(questionMarkIdx++,new java.sql.Date(referencedate.getTime()));
-	        }
 	        if(sFindDescription.length() > 0)     ps.setString(questionMarkIdx++,sFindDescription.toLowerCase()+"%");
 	        if(sFindServiceStockUid.length() > 0) ps.setString(questionMarkIdx++,sFindServiceStockUid);
 	        if(sFindProductStockUid.length() > 0) ps.setString(questionMarkIdx++,sFindProductStockUid);

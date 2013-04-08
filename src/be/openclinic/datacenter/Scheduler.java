@@ -52,7 +52,8 @@ public class Scheduler implements Runnable{
             document = reader.read(new URL(sDoc));
             root = document.getRootElement();
             Element exporters = root.element("exporters");
-            Iterator elements = exporters.elementIterator("module");
+            @SuppressWarnings("unchecked")
+			Iterator<Element> elements = exporters.elementIterator("module");
             Element module;
             while (elements.hasNext()) {
                 module = (Element) elements.next();
@@ -70,7 +71,8 @@ public class Scheduler implements Runnable{
         }
         try {
             Element senders = root.element("senders");
-            Iterator elements = senders.elementIterator("module");
+            @SuppressWarnings("unchecked")
+			Iterator<Element> elements = senders.elementIterator("module");
             Element module;
             while (elements.hasNext()) {
                 module = (Element) elements.next();
@@ -86,7 +88,8 @@ public class Scheduler implements Runnable{
         }
         try {
             Element receivers = root.element("receivers");
-            Iterator elements = receivers.elementIterator("module");
+            @SuppressWarnings("unchecked")
+			Iterator<Element> elements = receivers.elementIterator("module");
             Element module;
             while (elements.hasNext()) {
                 module = (Element) elements.next();
@@ -103,17 +106,15 @@ public class Scheduler implements Runnable{
 	}
 	
 	public void run() {
-		// TODO Auto-generated method stub
         try {
         	while(!isStopped()){
         		if(MedwanQuery.getInstance().getConfigInt("datacenterEnabled",0)==1){
 	        		Debug.println("Running scheduler...");
         			runScheduler();
         		}
-        		thread.sleep(MedwanQuery.getInstance().getConfigInt("datacenterScheduleInterval",20000));
+        		Thread.sleep(MedwanQuery.getInstance().getConfigInt("datacenterScheduleInterval",20000));
         	}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -167,7 +168,6 @@ public class Scheduler implements Runnable{
 				}
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return deadline;

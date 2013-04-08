@@ -1,8 +1,10 @@
 package be.mxs.common.util.system;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -22,7 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.admin.Label;
+import net.admin.Parameter;
+import net.admin.User;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -515,6 +522,8 @@ public class UpdateSystem {
 	    	ps.execute();
 	    	ps.close();
 	    	conn.close();
+	    	MedwanQuery.getInstance().setConfigString("availableProjects", sProject);
+	    	MedwanQuery.getInstance().setConfigString("defaultProject", sProject);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -543,7 +552,117 @@ public class UpdateSystem {
         }
         return iniProps;
     }
-
+    
+    public static void validateCouncilRegistrations(){
+    	String regnrs="";
+    	Hashtable hRegs=new Hashtable();
+    	Hashtable councils=new Hashtable();
+    	try{
+	    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+	    	PreparedStatement ps = conn.prepareStatement("select distinct userid,value from UserParameters a where parameter='automaticorganizationidvalidation' and active=1");
+	    	ResultSet rs = ps.executeQuery();
+	    	while(rs.next()){
+	    		String council = rs.getString("value");
+	    		int userid = rs.getInt("userid");
+	    		PreparedStatement ps2 = conn.prepareStatement("select * from UserParameters where userid=? and parameter='organisationid' and active=1");
+	    		ps2.setInt(1, userid);
+	    		ResultSet rs2=ps2.executeQuery();
+	    		if(rs2.next()){
+		    		String reg=rs2.getString("value");
+		    		if(hRegs.get(reg)==null){
+			    		String regs = (String)councils.get(council);
+			    		if(regs==null){
+			    			regs="";
+			    		}
+			    		if(regs.length()>0){
+			    			regs+=";";
+			    		}
+		    			regs+=reg;
+			    		councils.put(council, regs);
+			    		hRegs.put(reg,"1");
+		    		}
+	    		}
+	    		rs2.close();
+	    		ps2.close();
+	    	}
+	    	rs.close();
+	    	ps.close();
+	    	//We now have all id's to verify
+	    	Enumeration r = councils.keys();
+	    	while(r.hasMoreElements()){
+	    		String council = (String)r.nextElement();
+	    		String regs = (String)councils.get(council);
+	    		//Launch the updatequery for this council
+	    		HttpClient client = new HttpClient();
+	    		MedwanQuery.getInstance().reloadLabels();
+	    		String lookupUrl=ScreenHelper.getTran("professional.council.url",council,"fr");
+	    		System.out.println("launching post to "+lookupUrl);
+	    		PostMethod method = new PostMethod(lookupUrl);
+	    		method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
+	    		NameValuePair nvp1= new NameValuePair("regnrs",regs);
+	    		NameValuePair nvp2= new NameValuePair("key",MedwanQuery.getInstance().getConfigString("councilLookupKey"));
+	    		method.setQueryString(new NameValuePair[]{nvp1,nvp2});
+	    		try{
+	    			int statusCode = client.executeMethod(method);
+		    		System.out.println("resultcode = "+statusCode);
+	    			if(statusCode==200){
+	    				String xml = method.getResponseBodyAsString();
+	    				org.dom4j.Document document=null;
+	    				Element root=null;
+	    				BufferedReader br = new BufferedReader(new StringReader(xml));
+	    				SAXReader reader=new SAXReader(false);
+	    				document=reader.read(br);
+			    		System.out.println("xml = "+document.asXML());
+	    				root=document.getRootElement();
+	    				if(root.getName().equalsIgnoreCase("registration")){
+	    					Iterator elements = root.elementIterator("status");
+	    					while(elements.hasNext()){
+	    						Element element = (Element)elements.next();
+	    						ps=conn.prepareStatement("select * from UserParameters where parameter='organisationid' and value=? and active=1");
+	    						ps.setString(1, element.attributeValue("regnr"));
+	    						rs=ps.executeQuery();
+	    						while(rs.next()){
+		    						User user = User.get(rs.getInt("userid"));
+		    						if(user !=null && !user.getParameter("registrationstatus").equalsIgnoreCase(element.attributeValue("id"))){
+		    							user.updateParameter(new Parameter("registrationstatus",element.attributeValue("id")));
+		    							user.updateParameter(new Parameter("registrationstatusdate",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())));
+		    						}
+		    						else if(user!=null && !user.getParameter("registrationstatus").equalsIgnoreCase("0")){
+		    							if(MedwanQuery.getInstance().getConfigInt("enableProfessionalCouncilRegistrationCancellation",0)==1){
+			    							try{
+			    								long trimester = 24*3600*1000;
+			    								trimester=trimester*MedwanQuery.getInstance().getConfigInt("professionalCouncilRegistrationCancellationDelay",90);
+			    								if(new java.util.Date().getTime()-new SimpleDateFormat("dd/MM/yyyy").parse(user.getParameter("registrationstatusdate")).getTime()>trimester){
+			    									//Cancel user access
+			    									user.stop=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+			    									user.saveToDB();
+			    								}
+			    							}
+			    							catch(Exception e4){
+			    								e4.printStackTrace();
+			    							}
+		    							}
+		    						}
+	    							user.updateParameter(new Parameter("registrationstatusupdatetime",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())));
+	    						}
+	    						rs.close();
+	    						ps.close();
+	    					}
+	    				}
+	    				MedwanQuery.getInstance().setConfigString("lastProfessionalCouncilValidation", new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()));
+	    			}
+	    		}
+	    		catch(Exception e3){
+	    			e3.printStackTrace();
+	    		}
+		    	conn.close();
+	    	}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    }
+    
     public static void updateSetup(String section, String code, HttpServletRequest request){
     	MedwanQuery.getInstance().setConfigString("setup."+section, code);
         try{
@@ -566,6 +685,24 @@ public class UpdateSystem {
 	                    		if(configelement.getName().equalsIgnoreCase("config")){
 	                    			//This is an OC_CONFIG setting
 	                    			MedwanQuery.getInstance().setConfigString(configelement.attributeValue("key"), configelement.attributeValue("value").replaceAll("\\$setupdir\\$", request.getSession().getServletContext().getRealPath("/").replaceAll("\\\\","/")));
+	                    		}
+	                    		else if(configelement.getName().equalsIgnoreCase("labels")){
+	                    			//This is a label list 
+	                    			//First erase existing entries
+	                    			Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	                    			PreparedStatement ps = conn.prepareStatement("delete from OC_LABELS where OC_LABEL_TYPE=?");
+	                    			ps.setString(1, configelement.attributeValue("type"));
+	                    			ps.execute();
+	                    			ps.close();
+	                    			conn.close();
+	                    			//Then, add every label that is inside this label list
+	                    			Iterator labels = configelement.elementIterator("label");
+	                    			while(labels.hasNext()){
+	                    				Element labelelement = (Element)labels.next();
+	                    				Label label = new Label(configelement.attributeValue("type"),labelelement.attributeValue("id"),labelelement.attributeValue("language"),labelelement.getText(),"1","4");
+	                    				label.saveToDB();
+	                    			}
+	                    			MedwanQuery.getInstance().reloadLabels();
 	                    		}
 	                    	}
 	                    }

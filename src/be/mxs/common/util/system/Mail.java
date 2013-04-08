@@ -58,6 +58,7 @@ public class Mail {
         throws AddressException, MessagingException {
 
         Properties props = System.getProperties();
+        props.put("mail.smtp.localhost", "127.0.0.1"); 
         props.put("mail.smtp.host", smtpServer);
         Session session = Session.getDefaultInstance(props, null);
         Message msg = new MimeMessage(session);

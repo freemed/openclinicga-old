@@ -59,10 +59,52 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             // get specified invoice
             PatientInvoice invoice = PatientInvoice.get(sInvoiceUid);
 
-            addReceipt(invoice);
-            addHeading(invoice);
-            addPatientData(invoice);
-            printInvoice(invoice);
+            //We want to print an invoice for every insurance involved
+            //First make a list of the insurances
+            Hashtable insurers = new Hashtable();
+            Vector allDebets = new Vector();
+            Vector debets = invoice.getDebets();
+            for(int n=0;n<debets.size();n++){
+            	Debet debet = (Debet)debets.elementAt(n);
+            	allDebets.add(debet);
+            	if(debet.getInsuranceUid()!=null){
+            		insurers.put(debet.getInsuranceUid(), "1");
+            	}
+            	else {
+            		insurers.put("?", "1");
+            	}
+            }
+            Enumeration eInsurers = insurers.keys();
+            boolean bInitialized=false;
+            while(eInsurers.hasMoreElements()){
+            	if(bInitialized){
+            		doc.newPage();
+            	}
+            	else {
+            		bInitialized=true;
+            	}
+            	String insuranceUid=(String)eInsurers.nextElement();
+            	//We only select the debets of this insurance;
+            	debets = new Vector();
+            	for(int n=0;n<allDebets.size();n++){
+            		Debet debet = (Debet)allDebets.elementAt(n);
+            		if(debet.getInsuranceUid()!=null && debet.getInsuranceUid().equalsIgnoreCase(insuranceUid)){
+            			debets.add(debet);
+            		}
+            		else if(insuranceUid.equalsIgnoreCase("?") && debet.getInsuranceUid()==null){
+            			debets.add(debet);
+            		}
+            	}
+            	Insurance insurance = new Insurance();
+            	if(!insuranceUid.equalsIgnoreCase("?")){
+            		insurance = Insurance.get(insuranceUid);
+            	}
+            	invoice.setDebets(debets);
+	            addReceipt(invoice);
+	            addHeading(invoice);
+	            addPatientData(invoice,insurance);
+	            printInvoice(invoice);
+            }
         }
 		catch(Exception e){
 			baosPDF.reset();
@@ -285,30 +327,14 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
     }
 
     //--- ADD PATIENT DATA ------------------------------------------------------------------------
-    private void addPatientData(PatientInvoice invoice){
+    private void addPatientData(PatientInvoice invoice,Insurance ins){
         PdfPTable table = new PdfPTable(100);
         table.setWidthPercentage(pageWidth);
         try{
         	AdminPerson person = invoice.getPatient();
-        	Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(person.personid);
-        	if(insurance==null){
-        		insurance=new Insurance();
-        	}
         	String allInsurers="",allInsurarNumbers="";
-        	Vector insurances = Insurance.getCurrentInsurances(person.personid);
-        	for(int n=0;n<insurances.size();n++){
-        		Insurance ins = (Insurance)insurances.elementAt(n);
-        		if(n>0){
-        			allInsurers+=", ";
-        		}
-        		if(allInsurarNumbers.length()>0){
-        			allInsurarNumbers+=", ";
-        		}
-        		allInsurers+=ins.getInsurar().getName();
-        		if(insurance.getInsuranceNr()!=null){
-        			allInsurarNumbers+=insurance.getInsuranceNr();
-        		}
-        	}
+    		allInsurers=ins!=null && ins.getInsurar()!=null?ins.getInsurar().getName():"?";
+   			allInsurarNumbers=ins!=null?ins.getInsuranceNr():"";
         	//Find encounters
         	Hashtable encounters = new Hashtable();
         	Vector debets = invoice.getDebets();
@@ -325,7 +351,7 @@ public class PDFPatientInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	        	table.addCell(cell);
 	        	cell=createLabelCell(getTran("web","ctams.cardnumber"),15);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(insurance.getInsuranceNr(),15);
+	        	cell=createBoldLabelCell(allInsurarNumbers,15);
 	        	table.addCell(cell);
 	        	cell=createLabelCell(getTran("web","ctams.beneficiary"),20);
 	        	table.addCell(cell);

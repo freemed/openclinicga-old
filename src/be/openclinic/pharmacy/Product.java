@@ -4,6 +4,7 @@ import net.admin.Service;
 import be.openclinic.common.OC_Object;
 import be.openclinic.finance.Prestation;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
 
@@ -140,6 +141,26 @@ public class Product extends OC_Object implements Comparable {
         this.minimumOrderPackages = minimumOrderPackages;
     }
 
+    public double getLastYearsAveragePrice(){
+    	double price=0;
+    	long day = 24*3600*1000;
+    	long year = 365*day;
+    	double totalprice=0;
+    	double count=0;
+    	Vector prices = Pointer.getPointers("drugprice."+getUid(), new java.util.Date(new java.util.Date().getTime()-year), new java.util.Date());
+    	for(int n=0; n<prices.size();n++){
+    		String[] s = ((String)prices.elementAt(n)).split(";");
+    		if(s.length>1){
+    			totalprice+=Double.parseDouble(s[0])*Double.parseDouble(s[1]);
+    			count+=Double.parseDouble(s[0]);
+    		}
+    	}
+    	if(count>0){
+    		price=totalprice/count;
+    	}
+    	return price;
+    }
+    
     //--- SUPPLIER --------------------------------------------------------------------------------
     public Service getSupplier() {
         if(supplierUid!=null && supplierUid.length() > 0){

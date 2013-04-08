@@ -1,6 +1,7 @@
 package net.admin;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.db.ObjectCacheFactory;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.pharmacy.ServiceStock;
 import be.openclinic.adt.Bed;
@@ -136,6 +137,72 @@ public class Service {
         }
     }
 
+    public void store(){
+    	try {
+        		Connection conn = MedwanQuery.getInstance().getAdminConnection();
+	          PreparedStatement ps = conn.prepareStatement("delete from Services where serviceid='"+this.code+"'");
+	          ps.execute();
+	          ps.close();
+	          ObjectCacheFactory.getInstance().resetObjectCache();
+	          String sSelect = "INSERT INTO Services (serviceid, address, city, zipcode, country,"+
+                    "  telephone, fax, email, comment, servicelanguage, serviceparentid, serviceorder,"+
+                    "  inscode, contract, contracttype, contactperson, contractdate,"+
+                    "  contactaddress, contactzipcode, contactcity, contactcountry,"+
+                    "  contacttelephone, contactfax, contactemail, portal_email, wicket, defaultcontext,"+
+                    "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid)"+
+                    " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+	          ps = conn.prepareStatement(sSelect);
+	          ps.setString(1,this.code.toUpperCase());
+	          ps.setString(2,this.address);
+	          ps.setString(3,this.city);
+	          ps.setString(4,this.zipcode);
+	          ps.setString(5,this.country);
+	          ps.setString(6,this.telephone);
+	          ps.setString(7,this.fax);
+	          ps.setString(8,this.email);
+	          ps.setString(9,this.comment);
+	          ps.setString(10,this.language);
+	          ps.setString(11,this.parentcode);
+	          ps.setString(12,this.showOrder);
+	          ps.setString(13,this.inscode);
+	          ps.setString(14,this.contract);
+	          ps.setString(15,this.contracttype);
+	          ps.setString(16,this.contactperson);
+	          ScreenHelper.setSQLDate(ps,17,this.contractdate);
+	          ps.setString(18,this.contactaddress);
+	          ps.setString(19,this.contactzipcode);
+	          ps.setString(20,this.contactcity);
+	          ps.setString(21,this.contactcountry);
+	          ps.setString(22,this.contacttelephone);
+	          ps.setString(23,this.contactfax);
+	          ps.setString(24,this.contactemail);
+	          ps.setString(25,this.portal_email);
+	          ps.setString(26,this.wicket);
+	          ps.setString(27,this.defaultContext);
+	          ps.setString(28,this.defaultServiceStockUid);
+	
+	          ps.setString(29,this.code1);
+	          ps.setString(30,this.code2);
+	          ps.setString(31,this.code3);
+	          ps.setString(32,this.code4);
+	          ps.setString(33,this.code5);
+	
+	          ps.setTimestamp(34,new Timestamp(new java.util.Date().getTime()));
+	          ps.setInt(35,this.totalbeds);
+	          ps.setString(36,this.inactive);
+	          ps.setString(37,this.costcenter);
+	          ps.setString(38,this.performeruid);
+	          ps.setString(39,this.acceptsVisits);
+	          ps.setString(40,this.stayprestationuid);
+	          ps.executeUpdate();
+	          if(ps!=null) ps.close();
+	          conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     //--- SAVE TO DB (copied from AdminService ------------------------------------------------------------------------------
     public boolean saveToDB(String sWorkID, Connection connection) {
         boolean bReturn = true;
