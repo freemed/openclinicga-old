@@ -2019,6 +2019,76 @@ public class MedwanQuery {
         }
         return false;
     }
+    
+    public void updateLabel(String type,String id,String language,String value){
+    	updateLabel(type,id,language,value,4);
+    }
+
+    public void updateLabel(String type,String id,String language,String value,int updateuid){
+    	//Eerst zien of het label niet al in identieke vorm bestaat
+    	if(ScreenHelper.getTranNoLink(type, id, language).equals(value)){
+    		return;
+    	}
+    	Connection conn = null;
+    	try{
+    		conn = MedwanQuery.getInstance().getOpenclinicConnection();
+    		PreparedStatement ps = conn.prepareStatement("select * from oc_labels where oc_label_type=? and oc_label_id=? and oc_label_language=?");
+    		ps.setString(1, type);
+    		ps.setString(2, id);
+    		ps.setString(3, language);
+    		ResultSet rs = ps.executeQuery();
+    		if(rs.next()){
+    			rs.close();
+    			ps.close();
+    			ps=conn.prepareStatement("update oc_labels set oc_label_value=? where oc_label_type=? and oc_label_id=? and oc_label_language=?");
+        		ps.setString(1, value);
+        		ps.setString(2, type);
+        		ps.setString(3, id);
+        		ps.setString(4, language);
+        		ps.execute();
+        		ps.close();
+    		}
+    		else {
+    			rs.close();
+    			ps.close();
+    			ps=conn.prepareStatement("insert into oc_labels(oc_label_value,oc_label_type,oc_label_id,oc_label_language,oc_label_showlink,oc_label_updatetime,oc_label_updateuserid) values(?,?,?,?,?,?,?)");
+        		ps.setString(1, value);
+        		ps.setString(2, type);
+        		ps.setString(3, id);
+        		ps.setString(4, language);
+        		ps.setInt(5, 1);
+        		ps.setTimestamp(6, new java.sql.Timestamp(new java.util.Date().getTime()));
+        		ps.setInt(7, updateuid);
+        		ps.execute();
+        		ps.close();
+    		}
+            // type
+            Hashtable labelTypes = (Hashtable) labels.get(language);
+            if (labelTypes == null) {
+                labelTypes = new Hashtable();
+                labels.put(language, labelTypes);
+            }
+            // id
+            Hashtable labelIds = (Hashtable) labelTypes.get(type);
+            if (labelIds == null) {
+                labelIds = new Hashtable();
+                labelTypes.put(type, labelIds);
+            }
+            labelIds.put(id, value);
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+        finally {
+        	try{
+                conn.close();
+        	}
+        	catch(Exception e2){
+        		e2.printStackTrace();
+        	}
+        }
+    }
+    
     public void fillTransactionItems(TransactionVO transactionVO) {
         try {
             Connection OccupdbConnection = getOpenclinicConnection();
