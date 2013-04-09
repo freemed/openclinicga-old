@@ -13,6 +13,36 @@
                 " OC_LABEL_LANGUAGE='"+sWebLanguage+"' " +
                 " order by upper(OC_LABEL_ID)";
     }
+    else if("labels.list".equalsIgnoreCase(request.getParameter("query"))){
+    	if(ScreenHelper.checkString(request.getParameter("tabletype")).equalsIgnoreCase("singlelanguage")){
+    		if(request.getParameter("language")!=null){
+    			query="select oc_label_type as TYPE,oc_label_id as ID,oc_label_language as LANGUAGE,oc_label_value as LABEL from oc_labels where oc_label_language='"+request.getParameter("language")+"' order by oc_label_type,oc_label_id";
+    			System.out.println(query);
+    		}
+    	}
+    	else if(ScreenHelper.checkString(request.getParameter("tabletype")).equalsIgnoreCase("multilanguage")){
+    		if(request.getParameter("language")!=null){
+        		String languagecolumns="";
+        		String[] languages = request.getParameter("language").split(",");
+        		for(int n=0;n<languages.length;n++){
+        			languagecolumns+=",(select max(oc_label_value) from oc_labels where oc_label_type=a.oc_label_type and oc_label_id=a.oc_label_id and oc_label_language='"+languages[n]+"') "+languages[n].toUpperCase();
+        		}
+    			query="select a.oc_label_type TYPE,a.oc_label_id ID"+languagecolumns+" from (select distinct oc_label_type,oc_label_id from oc_labels) a order by oc_label_type,oc_label_id";
+    			System.out.println(query);
+    		}
+    	}
+    	else if(ScreenHelper.checkString(request.getParameter("tabletype")).equalsIgnoreCase("missinglabels")){
+    		if(request.getParameter("sourcelanguage")!=null && request.getParameter("targetlanguage")!=null){
+        		String languagecolumns=",(select max(oc_label_value) from oc_labels where oc_label_type=a.oc_label_type and oc_label_id=a.oc_label_id and oc_label_language='"+request.getParameter("targetlanguage")+"') "+request.getParameter("targetlanguage").toUpperCase();
+        		String[] languages = request.getParameter("sourcelanguage").split(",");
+        		for(int n=0;n<languages.length;n++){
+        			languagecolumns+=",(select max(oc_label_value) from oc_labels where oc_label_type=a.oc_label_type and oc_label_id=a.oc_label_id and oc_label_language='"+languages[n]+"') "+languages[n].toUpperCase();
+        		}
+    			query="select a.oc_label_type TYPE,a.oc_label_id ID"+languagecolumns+" from (select distinct oc_label_type,oc_label_id from oc_labels) a where not exists (select * from oc_labels where oc_label_type=a.oc_label_type and oc_label_id=a.oc_label_id and oc_label_value<>'' and oc_label_language='"+request.getParameter("targetlanguage")+"') order by oc_label_type,oc_label_id";
+    			System.out.println(query);
+    		}
+    	}
+    }
     else if("user.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select userid as CODE,firstname as FIRSTNAME,lastname as LASTNAME" +
                 " from Users a,Admin b " +

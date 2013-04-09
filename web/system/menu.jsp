@@ -104,6 +104,7 @@
                     hMenu.put(getTran("Web.Manage", "update.examinations", sWebLanguage), "main.do?Page=util/updateExaminations.jsp");
                     hMenu.put(getTran("Web.Manage", "reset.defaults", sWebLanguage), "main.do?Page=system/resetDefaults.jsp");
                     hMenu.put(getTran("Web.Manage", "load.file", sWebLanguage), "main.do?Page=system/loadTable.jsp");
+                    hMenu.put(getTran("Web.Manage", "export.labels", sWebLanguage), "main.do?Page=system/exportLabels.jsp");
 
                     out.print(ScreenHelper.writeTblHeader(getTran("web.manage", "Synchronization", sWebLanguage), sCONTEXTPATH)
                             + sortMenu(hMenu)

@@ -12,7 +12,7 @@
 <%
 	String msg="";
 	String centerUid = notNull(request.getParameter("centerUid"),"");
-	String centerName = notNull(request.getParameter("centerName"),"");
+	String centerName = notNull(request.getParameter("centerName"),request.getRemoteAddr());
 	String centerCountry = notNull(request.getParameter("centerCountry"),"");
 	String centerCity = notNull(request.getParameter("centerCity"),"");
 	String centerEmail = notNull(request.getParameter("centerEmail"),"");

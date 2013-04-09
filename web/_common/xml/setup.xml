@@ -8,8 +8,8 @@
 		<config key="defaultSearchCountry" value="BELGIUM"/>
 		<config key="zipcodetable" value="BelgiumZipcodes"/>
 		<config key="DefaultLanguage" value="fr"/>
-		<config key="PatientLanguages" value="fr,nl,de,en"/>
-		<config key="supportedLanguages" value="fr,en,nl"/>
+		<config key="PatientLanguages" value="fr,nl,de,en,es,pt"/>
+		<config key="supportedLanguages" value="fr,en,es,pt"/>
 		<config key="mxsref" value="BE"/>
 		<config key="priceFormat" value="#,##0.00"/>
 		<config key="priceFormatInsurar" value="#,##0.00"/>
@@ -75,6 +75,25 @@
 		<config key="priceFormat" value="#"/>
 		<config key="priceFormatInsurar" value="#"/>
 		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
+	</country>
+	<country code="br">
+		<config key="currency" value="BRL"/>
+		<config key="currencyPdf" value="BRL"/>
+		<config key="countrycode" value="BR"/>
+		<config key="DefaultCountry" value="BR"/>
+		<config key="defaultSearchCountry" value="BRASIL"/>
+		<config key="zipcodetable" value="BrazilZipcodes"/>
+		<config key="DefaultLanguage" value="pt"/>
+		<config key="PatientLanguages" value="pt,es,en,fr"/>
+		<config key="supportedLanguages" value="pt,es,en,fr"/>
+		<config key="mxsref" value="BR"/>
+		<config key="priceFormat" value="#,##0.00"/>
+		<config key="priceFormatInsurar" value="#,##0.00"/>
+		<config key="currencyDecimals" value="2"/>
 		<labels type="professional.council.url">
 		</labels>
 		<labels type="professional.councils">

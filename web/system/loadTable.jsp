@@ -19,6 +19,7 @@
 				<select name="filetype" id="filetype" class="text" onchange="showstructure();">
 					<option value="prestationscsv"><%=getTran("web","prestations.csv",sWebLanguage) %></option>
 					<option value="servicescsv"><%=getTran("web","services.csv",sWebLanguage) %></option>
+					<option value="labelscsv"><%=getTran("web","labels.csv",sWebLanguage) %></option>
 				</select>
 			</td>
 			<td class='admin2'><input class="text" type="checkbox" name="erase" value="1"/> <%=getTran("web","delete.table.before.load",sWebLanguage)%></td>
@@ -160,9 +161,33 @@
 								service.updatetime= new java.sql.Date(new java.util.Date().getTime());
 								service.updateuserid=activeUser.userid;
 								service.store();
-								System.out.println("stored service "+code);
 								MedwanQuery.getInstance().storeLabel("service", code, "fr", name, Integer.parseInt(activeUser.userid));
 								MedwanQuery.getInstance().storeLabel("service", code, "en", name, Integer.parseInt(activeUser.userid));
+							}
+						}
+						reader.close();
+						reloadSingleton(session);
+		                f.delete();
+						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");
+					}
+					else if(mrequest.getParameter("filetype").equalsIgnoreCase("labelscsv")){
+						String type,id,language,label;
+						//Read file as a prestations csv file
+		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
+						BufferedReader reader = new BufferedReader(new FileReader(f));
+						lines=0;
+						while(reader.ready()){
+							String[] line = reader.readLine().split(";");
+							if(line.length<4){
+								break;
+							}
+							else{
+								type=line[0].trim();
+								id=line[1].trim();
+								language=line[2].trim();
+								label=line[3].trim();
+								MedwanQuery.getInstance().updateLabel(type,id,language,label);
+								lines++;
 							}
 						}
 						reader.close();
@@ -183,8 +208,11 @@
 		if(document.getElementById("filetype").value=="prestationscsv"){
 			document.getElementById("structure").innerHTML="Required structure (* are mandatory):<br/><b>Code* (#=auto); Name* ; Price* ; Category ; Class; AMO % ; AMO Admission %</b>";
 		}
-		elseif(document.getElementById("filetype").value=="servicescsv"){
+		else if(document.getElementById("filetype").value=="servicescsv"){
 			document.getElementById("structure").innerHTML="Required structure (* are mandatory):<br/><b>Code* ; Name* ; Language* ; Beds ; Visits ; ParentCode</b>";
+		}
+		else if(document.getElementById("filetype").value=="labelscsv"){
+			document.getElementById("structure").innerHTML="Required structure (* are mandatory):<br/><b>Type* ; ID* ; Language* ; Label*</b>";
 		}
 	}
 	
