@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.statistics.CsvStats" %><%@include file="/includes/validateUser.jsp"%><%@ page import="be.mxs.common.util.db.MedwanQuery" %><%@ page import="java.text.SimpleDateFormat" %><%@ page import="java.util.Date" %><%
+<%@ page import="be.openclinic.statistics.CsvStats,be.mxs.common.util.system.HTMLEntities" %><%@include file="/includes/validateUser.jsp"%><%@ page import="be.mxs.common.util.db.MedwanQuery" %><%@ page import="java.text.SimpleDateFormat" %><%@ page import="java.util.Date" %><%
     String query=null;
 	String label="labelfr";
 	if(sWebLanguage.equalsIgnoreCase("e")||sWebLanguage.equalsIgnoreCase("en")){
@@ -225,7 +225,7 @@
     Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
 	Connection lad_conn = MedwanQuery.getInstance().getLongAdminConnection();
     CsvStats csvStats = new CsvStats(request.getParameter("begin"), request.getParameter("end"), "admin".equalsIgnoreCase(request.getParameter("db"))?lad_conn:loc_conn, query);
-    response.setContentType("application/octet-stream");
+    response.setContentType("application/octet-stream; charset=windows-1252");
     response.setHeader("Content-Disposition", "Attachment;Filename=\"OpenClinicStatistic" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".csv\"");
     ServletOutputStream os = response.getOutputStream();
     byte[] b = csvStats.execute().toString().getBytes();
