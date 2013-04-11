@@ -1,7 +1,7 @@
 <%@include file="/includes/helper.jsp"%>
 <%!
 	String notNull(String value, String defaultValue){
-		if(value==null){
+		if(value==null || value.length()==0){
 			return defaultValue;
 		}
 		else{
@@ -12,7 +12,8 @@
 <%
 	String msg="";
 	String centerUid = notNull(request.getParameter("centerUid"),"");
-	String centerName = notNull(request.getParameter("centerName"),request.getRemoteAddr());
+	String centerName = notNull(request.getParameter("centerName"),notNull(request.getHeader("X-Forwarded-For"),request.getRemoteAddr()));
+	System.out.println("postMonitor from "+centerName);
 	String centerCountry = notNull(request.getParameter("centerCountry"),"");
 	String centerCity = notNull(request.getParameter("centerCity"),"");
 	String centerEmail = notNull(request.getParameter("centerEmail"),"");
@@ -33,6 +34,7 @@
 		try{
 			//First update/create server data
 			int serverid=0;
+			String oldCenterCountry="";
 			Connection conn = MedwanQuery.getInstance().getStatsConnection();
 			String sSql="select * from dc_monitorservers where dc_monitorserver_serveruid=?";
 			PreparedStatement ps = conn.prepareStatement(sSql);
@@ -40,13 +42,14 @@
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
 				serverid=rs.getInt("dc_monitorserver_serverid");
+				oldCenterCountry=rs.getString("dc_monitorserver_country");
 				//Update existing data
 				rs.close();
 				ps.close();
 				sSql="update dc_monitorservers set dc_monitorserver_name=?,dc_monitorserver_country=?,dc_monitorserver_city=?,dc_monitorserver_contact=?,dc_monitorserver_email=?,dc_monitorserver_type=?,dc_monitorserver_level=?,dc_monitorserver_beds=?,dc_monitorserver_updatetime=? where dc_monitorserver_serveruid=?";
 				ps=conn.prepareStatement(sSql);
 				ps.setString(1,centerName);
-				ps.setString(2,centerCountry);
+				ps.setString(2,centerCountry.length()>0?centerCountry:oldCenterCountry);
 				ps.setString(3,centerCity);
 				ps.setString(4,centerContact);
 				ps.setString(5,centerEmail);
