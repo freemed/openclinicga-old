@@ -70,6 +70,7 @@ public class Monitor implements Runnable{
     			}
     			//Now create a vector with all parameters to extract in the form of NameValuePairs
     			//Send print instruction to JAVAPOS server
+    			System.out.println("starting post");
     			HttpClient client = new HttpClient();
     			String url = MedwanQuery.getInstance().getConfigString("globalHealthBarometerURL","http://www.globalhealthbarometer.net/globalhealthbarometer/datacenter/postMonitor.jsp");
     			PostMethod method = new PostMethod(url);
@@ -116,6 +117,7 @@ public class Monitor implements Runnable{
     			vNvp.copyInto(nvp);
     			method.setQueryString(nvp);
     			int statusCode = client.executeMethod(method);
+    			System.out.println("result="+method.getResponseBodyAsString());
     			if(method.getResponseBodyAsString().contains("<OK>")){
     				MedwanQuery.getInstance().setConfigString("lastGlobalHealthBarometerMonitor", new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()));
     			}

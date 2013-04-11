@@ -46,7 +46,7 @@ public class LabresultsNotifier {
 			return dDate;
 			
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return new Date(new Date().getTime()-24*3600*1000);
 		}		
 	}
