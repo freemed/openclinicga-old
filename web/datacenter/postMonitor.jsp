@@ -1,4 +1,5 @@
 <%@include file="/includes/helper.jsp"%>
+<%@page import="be.mxs.common.util.system.*"%>
 <%!
 	String notNull(String value, String defaultValue){
 		if(value==null || value.length()==0){
@@ -12,12 +13,12 @@
 <%
 	String msg="";
 	String centerUid = notNull(request.getParameter("centerUid"),"");
-	String centerName = notNull(request.getParameter("centerName"),notNull(request.getHeader("X-Forwarded-For"),request.getRemoteAddr()));
+	String centerName = HTMLEntities.unhtmlentities(notNull(request.getParameter("centerName"),notNull(request.getHeader("X-Forwarded-For"),request.getRemoteAddr())));
 	System.out.println("postMonitor from "+centerName);
 	String centerCountry = notNull(request.getParameter("centerCountry"),"");
-	String centerCity = notNull(request.getParameter("centerCity"),"");
+	String centerCity = HTMLEntities.unhtmlentities(notNull(request.getParameter("centerCity"),""));
 	String centerEmail = notNull(request.getParameter("centerEmail"),"");
-	String centerContact = notNull(request.getParameter("centerContact"),"");
+	String centerContact = HTMLEntities.unhtmlentities(notNull(request.getParameter("centerContact"),""));
 	String centerType = notNull(request.getParameter("centerType"),"");
 	String centerLevel = notNull(request.getParameter("centerLevel"),"");
 	String centerBeds = notNull(request.getParameter("centerBeds"),"");
@@ -42,7 +43,7 @@
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
 				serverid=rs.getInt("dc_monitorserver_serverid");
-				oldCenterCountry=rs.getString("dc_monitorserver_country");
+				oldCenterCountry=notNull(rs.getString("dc_monitorserver_country"),"");
 				//Update existing data
 				rs.close();
 				ps.close();

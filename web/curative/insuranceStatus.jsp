@@ -3,6 +3,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
 <%
+Debug.println("insurance start");
     Vector vCurrentInsurances;
     vCurrentInsurances = Insurance.getCurrentInsurances(activePatient.personid);
     Iterator iter = vCurrentInsurances.iterator();
@@ -64,6 +65,7 @@
     </tr>
     <%
         }
+    Debug.println("insurance stop");
     %>
 </table>
 <script>

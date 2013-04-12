@@ -83,8 +83,8 @@
 	}
 	if(updated){
         reloadSingleton(session);
-        MedwanQuery.getInstance().setConfigString("lastGlobalHealthBarometerMonitor","19000101");
 	}
+    MedwanQuery.getInstance().setConfigString("lastGlobalHealthBarometerMonitor","19000101");
 	if(checkString(request.getParameter("AutoClose")).equalsIgnoreCase("1") && MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCountry","").length()>0 && MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCity","").length()>0){
 		out.println("<script>window.close();</script>");
 		out.flush();

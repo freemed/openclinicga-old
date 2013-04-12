@@ -5,8 +5,11 @@
 <%
     Debug.println("financial start");
     Balance balance = Balance.getActiveBalance(activePatient.personid);
+    Debug.println("financial 1");
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
+    Debug.println("financial 2");
     double saldo = Balance.getPatientBalance(activePatient.personid);
+    Debug.println("financial 3");
 %>
 <table width="100%" cellpadding="0" cellspacing="0" class="list">
     <tr class="admin">

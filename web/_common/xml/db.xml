@@ -3079,6 +3079,51 @@
             </index>
         </indexes>
     </table>
+    <table name="belgiumzipcodes" db="ocadmin" sync="MASTER">
+        <columns>
+            <column name="zipcode" dbtype="varchar" javatype="string" size="10" primary="1"/>
+            <column name="district" dbtype="varchar" javatype="string"  size="255" primary="1"/>
+            <column name="city" dbtype="varchar" javatype="string"  size="255"/>
+        </columns>
+        <indexes>
+            <index name="belgiumzip_zipcode">
+                <indexcolumn name="zipcode" order="ASC"/>
+            </index>
+            <index name="belgiumzip_district">
+                <indexcolumn name="district" order="ASC"/>
+            </index>
+        </indexes>
+    </table>
+    <table name="nozipcodes" db="ocadmin" sync="MASTER">
+        <columns>
+            <column name="zipcode" dbtype="varchar" javatype="string" size="10" primary="1"/>
+            <column name="district" dbtype="varchar" javatype="string"  size="255" primary="1"/>
+            <column name="city" dbtype="varchar" javatype="string"  size="255"/>
+        </columns>
+        <indexes>
+            <index name="nozip_zipcode">
+                <indexcolumn name="zipcode" order="ASC"/>
+            </index>
+            <index name="nozip_district">
+                <indexcolumn name="district" order="ASC"/>
+            </index>
+        </indexes>
+    </table>
+    <table name="tanzaniazipcodes" db="ocadmin" sync="MASTER">
+        <columns>
+            <column name="zipcode" dbtype="varchar" javatype="string" size="10" primary="1"/>
+            <column name="district" dbtype="varchar" javatype="string"  size="255" primary="1"/>
+            <column name="city" dbtype="varchar" javatype="string"  size="255"/>
+        </columns>
+        <indexes>
+            <index name="tanzaniazip_zipcode">
+                <indexcolumn name="zipcode" order="ASC"/>
+            </index>
+            <index name="tanzaniazip_district">
+                <indexcolumn name="district" order="ASC"/>
+            </index>
+        </indexes>
+    </table>
     <table name="drczipcodes" db="ocadmin" sync="MASTER">
         <columns>
             <column name="zipcode" dbtype="varchar" javatype="string" size="10" primary="1"/>
