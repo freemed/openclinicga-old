@@ -448,6 +448,7 @@ public class Balance extends OC_Object implements Comparable{
         double total=0;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
+        	PreparedStatement ps=null;
             String sSelect = "select sum(total) balance from" +
                     " (" +
                     " select sum(oc_patientcredit_amount) total from oc_patientcredits a,oc_encounters b" +
@@ -476,10 +477,15 @@ public class Balance extends OC_Object implements Comparable{
                         " b.oc_encounter_patientuid=? and" +
                         " (a.oc_debet_extrainsuraruid2 is null or a.oc_debet_extrainsuraruid2 ='')" +
                         ") a";
+	            ps = oc_conn.prepareStatement(sSelect);
+	            ps.setInt(1,Integer.parseInt(personid));
+	            ps.setInt(2,Integer.parseInt(personid));
             }
-            PreparedStatement ps = oc_conn.prepareStatement(sSelect);
-            ps.setString(1,personid);
-            ps.setString(2,personid);
+            else {
+	            ps = oc_conn.prepareStatement(sSelect);
+	            ps.setString(1,personid);
+	            ps.setString(2,personid);
+            }
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 total=rs.getDouble("balance");

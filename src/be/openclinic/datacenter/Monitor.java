@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -19,6 +18,7 @@ import org.dom4j.io.SAXReader;
 
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.HTMLEntities;
 import be.mxs.common.util.system.UpdateSystem;
 
 public class Monitor implements Runnable{
@@ -77,10 +77,10 @@ public class Monitor implements Runnable{
     			method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
     			Vector<NameValuePair> vNvp = new Vector<NameValuePair>();
             	vNvp.add(new NameValuePair("centerUid",uid));
-            	vNvp.add(new NameValuePair("centerName",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterName","")));
+            	vNvp.add(new NameValuePair("centerName",HTMLEntities.htmlentities(MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterName",""))));
             	vNvp.add(new NameValuePair("centerCountry",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCountry","")));
-            	vNvp.add(new NameValuePair("centerCity",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCity","")));
-            	vNvp.add(new NameValuePair("centerContact",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterContact","")));
+            	vNvp.add(new NameValuePair("centerCity",HTMLEntities.htmlentities(MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCity",""))));
+            	vNvp.add(new NameValuePair("centerContact",HTMLEntities.htmlentities(MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterContact",""))));
             	vNvp.add(new NameValuePair("centerEmail",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterEmail","")));
             	vNvp.add(new NameValuePair("centerType",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterType","")));
             	vNvp.add(new NameValuePair("centerLevel",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterLevel","")));
