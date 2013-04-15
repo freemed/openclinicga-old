@@ -49,7 +49,6 @@ public class UpdateDatacenterIPAddresses {
 		    while(rs.next()){
 		    	String ip=rs.getString("dc_monitorserver_name");
 		    	int id = rs.getInt("dc_monitorserver_serverid");
-		    	System.out.println("IP address to evaluate="+ip);
     			HttpClient client = new HttpClient();
     			String url = "http://api.ipinfodb.com/v3/ip-city/";
     			PostMethod method = new PostMethod(url);
@@ -61,6 +60,7 @@ public class UpdateDatacenterIPAddresses {
     			NameValuePair[] nvp = new NameValuePair[vNvp.size()];
     			vNvp.copyInto(nvp);
     			method.setQueryString(nvp);
+    			String location="";
     			int statusCode = client.executeMethod(method);
     			if(method.getResponseBodyAsString().contains("<Response>")){
     				BufferedReader br = new BufferedReader(new StringReader(method.getResponseBodyAsString()));
@@ -69,19 +69,22 @@ public class UpdateDatacenterIPAddresses {
     				Element root = document.getRootElement();
     				if(!root.element("countryCode").getText().equalsIgnoreCase("-")){
     					PreparedStatement ps2 = conn.prepareStatement("update dc_monitorservers set dc_monitorserver_country=? where dc_monitorserver_serverid=?");
-    					ps2.setString(1, root.element("countryCode").getText());
+    					ps2.setString(1, root.element("countryCode").getText().toUpperCase());
     					ps2.setInt(2,id);
     					ps2.execute();
     					ps2.close();
+    					location+="-> "+root.element("countryCode").getText().toUpperCase();
     				}
     				if(!root.element("cityName").getText().equalsIgnoreCase("-")){
     					PreparedStatement ps2 = conn.prepareStatement("update dc_monitorservers set dc_monitorserver_city=? where dc_monitorserver_serverid=?");
-    					ps2.setString(1, root.element("cityName").getText());
+    					ps2.setString(1, root.element("cityName").getText().toUpperCase());
     					ps2.setInt(2,id);
     					ps2.execute();
     					ps2.close();
+    					location+=", "+root.element("cityName").getText().toUpperCase();
     				}
     			}
+		    	System.out.println("IP address to evaluate="+ip+" "+location);
 		    }
 		    rs.close();
 		    ps.close();

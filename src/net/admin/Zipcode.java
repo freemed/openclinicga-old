@@ -450,19 +450,34 @@ public class Zipcode {
 
         String sZipcode = "";
 
-        if ((ScreenHelper.checkString(sDistrict).length()>0)&&(ScreenHelper.checkString(sCity).length()>0)&&(ScreenHelper.checkString(sRegion).length()>0)&&(ScreenHelper.checkString(sQuarter).length()>0)){
+        if (ScreenHelper.checkString(sDistrict).length()>0 && ScreenHelper.checkString(sCity).length()>0){
             PreparedStatement ps = null;
             ResultSet rs = null;
 
-            String sSelect = " SELECT zipcode FROM "+table+" WHERE district = ? AND city = ? and region=? and sector=?";
-
+            String sSelect = " SELECT zipcode FROM "+table+" WHERE district = ? AND city = ?";
+            if(ScreenHelper.checkString(sRegion).length()>0){
+            	sSelect+=" and region=? ";
+            }
+            if(ScreenHelper.checkString(sQuarter).length()>0){
+            	sSelect+=" and sector=?";
+            }
+            
         	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             try {
                 ps = ad_conn.prepareStatement(sSelect);
-                ps.setString(1,sDistrict);
-                ps.setString(2,sCity);
-                ps.setString(3,sRegion);
-                ps.setString(4,sQuarter);
+                int n=1;
+                ps.setString(n,sDistrict);
+                n++;
+                ps.setString(n,sCity);
+                n++;
+                if(ScreenHelper.checkString(sRegion).length()>0){
+                	ps.setString(n,sRegion);
+                	n++;
+                }
+                if(ScreenHelper.checkString(sRegion).length()>0){
+                	ps.setString(n,sQuarter);
+                	n++;
+                }
                 rs = ps.executeQuery();
 
                 if (rs.next()) {

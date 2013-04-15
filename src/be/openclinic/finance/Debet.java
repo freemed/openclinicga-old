@@ -1990,7 +1990,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
-            sSelect = "SELECT SUM(d.OC_DEBET_AMOUNT) as somme,count(OC_DEBET_OBJECTID) as nb,a.lastname,a.firstname,a.personid FROM  OC_DEBETS d,OC_ENCOUNTERS b,adminview a WHERE OC_DEBET_AMOUNT >0 AND (OC_DEBET_PATIENTINVOICEUID IS NULL OR OC_DEBET_PATIENTINVOICEUID = '0' OR OC_DEBET_PATIENTINVOICEUID = '') AND " +
+            sSelect = "SELECT SUM(d.OC_DEBET_AMOUNT) as somme,MAX(d.oc_debet_date) as maxdate,min(oc_debet_date) as mindate,count(OC_DEBET_OBJECTID) as nb,a.lastname,a.firstname,a.personid FROM  OC_DEBETS d,OC_ENCOUNTERS b,adminview a WHERE OC_DEBET_AMOUNT >0 AND (OC_DEBET_PATIENTINVOICEUID IS NULL OR OC_DEBET_PATIENTINVOICEUID = '0' OR OC_DEBET_PATIENTINVOICEUID = '') AND " +
                     MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_ENCOUNTERUID,'" + serverid + "','')") + "=b.OC_ENCOUNTER_OBJECTID AND " + MedwanQuery.getInstance().convert("int", "b.OC_ENCOUNTER_PATIENTUID") + "=a.personid GROUP BY a.lastname,a.firstname ORDER BY a.lastname,a.firstname,a.personid";
             ps = oc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
@@ -2002,6 +2002,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 //add Patient name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("lastname")) + " " + ScreenHelper.checkString(rs.getString("firstname")));
+                debet.setRefUid(new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("mindate"))+" - "+new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("maxdate")));
                 debet.setEncounterUid(rs.getString("personid"));
                 MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
                 vDebets.add(debet);
@@ -2031,7 +2032,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
-            sSelect = "SELECT SUM(d.OC_DEBET_INSURARAMOUNT) as somme,count(OC_DEBET_OBJECTID) as nb,a.OC_INSURAR_NAME FROM  OC_DEBETS d,OC_INSURANCES b,OC_INSURARS a WHERE OC_DEBET_INSURARAMOUNT >0 AND (OC_DEBET_INSURARINVOICEUID IS NULL OR OC_DEBET_INSURARINVOICEUID = '0') AND " +
+            sSelect = "SELECT SUM(d.OC_DEBET_INSURARAMOUNT) as somme,MAX(d.oc_debet_date) as maxdate,min(oc_debet_date) as mindate,count(OC_DEBET_OBJECTID) as nb,a.OC_INSURAR_NAME FROM  OC_DEBETS d,OC_INSURANCES b,OC_INSURARS a WHERE OC_DEBET_INSURARAMOUNT >0 AND (OC_DEBET_INSURARINVOICEUID IS NULL OR OC_DEBET_INSURARINVOICEUID = '0') AND " +
                     MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_INSURANCEUID,'" + serverid + "','')") + "=b.OC_INSURANCE_OBJECTID AND " + MedwanQuery.getInstance().convert("int", "replace(b.OC_INSURANCE_INSURARUID,'" + serverid + "','')") + "=a.OC_INSURAR_OBJECTID GROUP BY a.OC_INSURAR_NAME ORDER BY a.OC_INSURAR_NAME";
             ps = oc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
@@ -2043,6 +2044,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 //add Insurar name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("OC_INSURAR_NAME")));
+                debet.setRefUid(new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("mindate"))+" - "+new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("maxdate")));
                 MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
                 vDebets.add(debet);
             }
@@ -2071,7 +2073,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
-            sSelect = "SELECT SUM("+MedwanQuery.getInstance().convert("float", "d.OC_DEBET_EXTRAINSURARAMOUNT")+") as somme,count(OC_DEBET_OBJECTID) as nb,a.OC_INSURAR_NAME FROM  OC_DEBETS d,OC_INSURARS a WHERE "+MedwanQuery.getInstance().convert("float", "d.OC_DEBET_EXTRAINSURARAMOUNT")+" >0 AND (d.OC_DEBET_EXTRAINSURARINVOICEUID IS NULL OR d.OC_DEBET_EXTRAINSURARINVOICEUID = '0') AND " +
+            sSelect = "SELECT SUM("+MedwanQuery.getInstance().convert("float", "d.OC_DEBET_EXTRAINSURARAMOUNT")+") as somme,MAX(d.oc_debet_date) as maxdate,min(oc_debet_date) as mindate,count(OC_DEBET_OBJECTID) as nb,a.OC_INSURAR_NAME FROM  OC_DEBETS d,OC_INSURARS a WHERE "+MedwanQuery.getInstance().convert("float", "d.OC_DEBET_EXTRAINSURARAMOUNT")+" >0 AND (d.OC_DEBET_EXTRAINSURARINVOICEUID IS NULL OR d.OC_DEBET_EXTRAINSURARINVOICEUID = '0') AND " +
                     MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_EXTRAINSURARUID,'" + serverid + "','')") + "=a.OC_INSURAR_OBJECTID GROUP BY a.OC_INSURAR_NAME ORDER BY a.OC_INSURAR_NAME";
             ps = oc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
@@ -2083,6 +2085,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 //add extrainsurance name
                 //*********************
                 debet.setPatientName(ScreenHelper.checkString(rs.getString("OC_INSURAR_NAME")));
+                debet.setRefUid(new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("mindate"))+" - "+new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("maxdate")));
                 MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
                 vDebets.add(debet);
             }

@@ -714,6 +714,60 @@ public class UpdateSystem {
         }
     }
     
+    public static void initialSetup(String section, String code, HttpServletRequest request){
+    	MedwanQuery.getInstance().setConfigString("setup."+section, code);
+        try{
+	        SAXReader xmlReader = new SAXReader();
+	        Document document;
+	        String sMenuXML = MedwanQuery.getInstance().getConfigString("setupXMLFile","setup.xml");
+	        String sMenuXMLUrl = MedwanQuery.getInstance().getConfigString("templateSource") + sMenuXML;
+	        // Check if menu file exists, else use file at templateSource location.
+	        document = xmlReader.read(new URL(sMenuXMLUrl));
+	        if (document != null) {
+	            Element root = document.getRootElement();
+	            if (root != null) {
+	                Iterator elements = root.elementIterator(section);
+	                while (elements.hasNext()) {
+	                    Element e = (Element) elements.next();
+	                    if(e.attributeValue("code").equalsIgnoreCase(code)){
+	                    	Iterator configelements = e.elementIterator();
+	                    	while(configelements.hasNext()){
+	                    		Element configelement = (Element)configelements.next();
+	                    		if(configelement.getName().equalsIgnoreCase("config")){
+	                    			//This is an OC_CONFIG setting
+	                    			MedwanQuery.getInstance().setConfigString(configelement.attributeValue("key"), configelement.attributeValue("value").replaceAll("\\$setupdir\\$", request.getSession().getServletContext().getRealPath("/").replaceAll("\\\\","/")));
+	                    		}
+	                    		else if(configelement.getName().equalsIgnoreCase("labels")){
+	                    			//This is a label list 
+	                    			//First erase existing entries
+	                    			Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	                    			PreparedStatement ps = conn.prepareStatement("delete from OC_LABELS where OC_LABEL_TYPE=?");
+	                    			ps.setString(1, configelement.attributeValue("type"));
+	                    			ps.execute();
+	                    			ps.close();
+	                    			conn.close();
+	                    			//Then, add every label that is inside this label list
+	                    			Iterator labels = configelement.elementIterator("label");
+	                    			while(labels.hasNext()){
+	                    				Element labelelement = (Element)labels.next();
+	                    				Label label = new Label(configelement.attributeValue("type"),labelelement.attributeValue("id"),labelelement.attributeValue("language"),labelelement.getText(),"1","4");
+	                    				label.saveToDB();
+	                    			}
+	                    			MedwanQuery.getInstance().reloadLabels();
+	                    		}
+	                    		else if(configelement.getName().equalsIgnoreCase("project")){
+	                    			updateProject(configelement.getText());
+	                    		}
+	                    	}
+	                    }
+	                }
+	            }
+	        }
+        }catch (Exception e){
+        	e.printStackTrace();
+        }
+    }
+    
     public static int updateExaminations(){
         int counter=0;
     	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
