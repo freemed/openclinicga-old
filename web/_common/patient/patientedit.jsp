@@ -41,7 +41,7 @@
     </table>
     <%-- SAVE BUTTONS ---------------------------------------------------------------------------%>
     <%
-        if (activeUser.getAccessRight("patient.administration.edit")){
+        if (activeUser.getAccessRight("patient.administration.edit")||activeUser.getAccessRight("patient.administration.add")){
             %>
                 <div id="saveMsg"><%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>.</div>
                 <%=ScreenHelper.alignButtonsStart()%>

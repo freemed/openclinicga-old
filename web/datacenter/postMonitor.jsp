@@ -50,8 +50,8 @@
 				sSql="update dc_monitorservers set dc_monitorserver_name=?,dc_monitorserver_country=?,dc_monitorserver_city=?,dc_monitorserver_contact=?,dc_monitorserver_email=?,dc_monitorserver_type=?,dc_monitorserver_level=?,dc_monitorserver_beds=?,dc_monitorserver_updatetime=? where dc_monitorserver_serveruid=?";
 				ps=conn.prepareStatement(sSql);
 				ps.setString(1,centerName);
-				ps.setString(2,centerCountry.length()>0?centerCountry:oldCenterCountry);
-				ps.setString(3,centerCity);
+				ps.setString(2,centerCountry.length()>0?centerCountry.toUpperCase():oldCenterCountry.toUpperCase());
+				ps.setString(3,centerCity.toUpperCase());
 				ps.setString(4,centerContact);
 				ps.setString(5,centerEmail);
 				ps.setString(6,centerType);
@@ -72,8 +72,8 @@
 				ps.setInt(1,serverid);
 				ps.setString(2,centerUid);
 				ps.setString(3,centerName);
-				ps.setString(4,centerCountry);
-				ps.setString(5,centerCity);
+				ps.setString(4,centerCountry.toUpperCase());
+				ps.setString(5,centerCity.toUpperCase());
 				ps.setString(6,centerContact);
 				ps.setString(7,centerEmail);
 				ps.setString(8,centerType);
