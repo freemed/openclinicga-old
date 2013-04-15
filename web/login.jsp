@@ -31,7 +31,13 @@
     //*** retreive application version ***
     String version = "version unknown";
     try {
-        String sDoc = MedwanQuery.getInstance().getConfigString("templateSource") + "application.xml";
+		if(MedwanQuery.getInstance().getConfigString("configureCountry","").length()>0){
+			UpdateSystem.initialSetup("country", MedwanQuery.getInstance().getConfigString("configureCountry",""), request);
+			MedwanQuery.getInstance().reloadConfigValues();
+			MedwanQuery.getInstance().reloadLabels();
+			MedwanQuery.getInstance().setConfigString("configureCountry", "");
+		}
+    	String sDoc = MedwanQuery.getInstance().getConfigString("templateSource") + "application.xml";
         SAXReader reader = new SAXReader(false);
         Document document = reader.read(new URL(sDoc));
         Element element = document.getRootElement().element("version");

@@ -7,6 +7,7 @@
         <%-- header --%>
         <tr height='20' class='gray'>
             <td><%=getTran("Web","prestations",sWebLanguage)%></td>
+            <td><%=getTran("Web","period",sWebLanguage)%></td>
             <td><%=getTran("Web","amount",sWebLanguage)%></td>
             <td><%=getTran("Web","id",sWebLanguage)%></td>
             <td><%=getTran("Web","patient",sWebLanguage)%></td>
@@ -30,7 +31,7 @@
             while(iter.hasNext()){
                 debet = (Debet)iter.next();
                 %>
-                <tr class='<%=(i%2==0)?"list":"list1"%>'><td ><%=debet.getComment()%></td><td ><%=debet.getAmount()%></td><td><a href='<c:url value="/"/>main.do?Page=curative/index.jsp&PersonID=<%=debet.getEncounterUid()%>'><%=debet.getEncounterUid()%></a></td><td><%=debet.getPatientName()%></td></tr>
+                <tr class='<%=(i%2==0)?"list":"list1"%>'><td ><%=debet.getComment()%></td><td ><%=debet.getRefUid()%></td><td ><%=debet.getAmount()%></td><td><a href='<c:url value="/"/>main.do?Page=curative/index.jsp&PersonID=<%=debet.getEncounterUid()%>'><%=debet.getEncounterUid()%></a></td><td><%=debet.getPatientName()%></td></tr>
                 <%
             i++;
             }

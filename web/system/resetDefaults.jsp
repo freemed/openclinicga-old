@@ -25,13 +25,14 @@
 		MedwanQuery.getInstance().reloadLabels();
 	}
 %>
+
 <form name='resetDefaults' method='post'>
 	<table>
 		<tr class='admin'><td colspan='2'><%=getTran("web","reset.defaults",sWebLanguage) %>&nbsp</td></tr>
 		<tr>
 			<td class='admin'><%=getTran("web","country",sWebLanguage) %></td>
 			<td class='admin2'>
-				<select name='country' class='text'>
+				<select name='country' id='country' class='text'>
 					<option value=''></option>
 					<option value='be' <%="be".equals(country)?"selected":""%>><%=getTran("country","be",sWebLanguage).toUpperCase() %></option>
 					<option value='rw' <%="rw".equals(country)?"selected":""%>><%=getTran("country","rw",sWebLanguage).toUpperCase() %></option>
@@ -40,6 +41,11 @@
 					<option value='cd' <%="cd".equals(country)?"selected":""%>><%=getTran("country","cd",sWebLanguage).toUpperCase() %></option>
 					<option value='ci' <%="ci".equals(country)?"selected":""%>><%=getTran("country","ci",sWebLanguage).toUpperCase() %></option>
 					<option value='cg' <%="cg".equals(country)?"selected":""%>><%=getTran("country","cg",sWebLanguage).toUpperCase() %></option>
+					<option value='al' <%="al".equals(country)?"selected":""%>><%=getTran("country","al",sWebLanguage).toUpperCase() %></option>
+					<option value='tz' <%="tz".equals(country)?"selected":""%>><%=getTran("country","tz",sWebLanguage).toUpperCase() %></option>
+					<option value='br' <%="br".equals(country)?"selected":""%>><%=getTran("country","br",sWebLanguage).toUpperCase() %></option>
+					<option value='ke' <%="ke".equals(country)?"selected":""%>><%=getTran("country","ke",sWebLanguage).toUpperCase() %></option>
+					<option value='ug' <%="ug".equals(country)?"selected":""%>><%=getTran("country","ug",sWebLanguage).toUpperCase() %></option>
 				</select>
 			</td>
 		</tr>
@@ -86,3 +92,27 @@
 	</table>
 	<input class='button' type = 'submit' name='update' value='<%=getTran("web","update",sWebLanguage)%>'/>
 </form>
+
+<script language="JavaScript" type="text/javascript">
+function sortlist(list) {
+	var lb = document.getElementById(list);
+	arrTexts = new Array();
+	arrValues = new Array();
+	
+	for(i=0; i<lb.length; i++)  {
+		  arrTexts[i] = lb.options[i].text+";"+lb.options[i].value;
+	}
+	
+	arrTexts.sort();
+	
+	for(i=0; i<lb.length; i++)  {
+	  lb.options[i].text = arrTexts[i].split(";")[0];
+	  lb.options[i].value = arrTexts[i].split(";")[1];
+	  if(lb.options[i].value=='<%=country%>'){
+		  lb.options.selectedIndex=i;
+	  }
+	}
+}
+
+sortlist('country');
+</script>

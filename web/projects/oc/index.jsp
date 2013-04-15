@@ -1,3 +1,3 @@
 <%
-    response.sendRedirect(request.getRequestURI().replaceAll(request.getServletPath(),"")+"/login.jsp?Title=CHUK&Dir=projects/muhima/");
+    response.sendRedirect(request.getRequestURI().replaceAll(request.getServletPath(),"")+"/login.jsp?Title=CHUK&Dir=projects/oc/");
 %>
