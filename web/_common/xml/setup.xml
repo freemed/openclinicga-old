@@ -156,6 +156,46 @@
 		</labels>
 		<project>ke</project>
 	</country>
+	<country code="lk">
+		<config key="currency" value="LKR"/>
+		<config key="currencyPdf" value="LKR"/>
+		<config key="countrycode" value="LK"/>
+		<config key="DefaultCountry" value="LK"/>
+		<config key="defaultSearchCountry" value="SRI"/>
+		<config key="zipcodetable" value="SriLankaZipcodes"/>
+		<config key="DefaultLanguage" value="en"/>
+		<config key="PatientLanguages" value="en"/>
+		<config key="supportedLanguages" value="en"/>
+		<config key="mxsref" value="LK"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
+		<project>lk</project>
+	</country>
+	<country code="bd">
+		<config key="currency" value="BDT"/>
+		<config key="currencyPdf" value="BDT"/>
+		<config key="countrycode" value="BD"/>
+		<config key="DefaultCountry" value="BD"/>
+		<config key="defaultSearchCountry" value="BANGLADESH"/>
+		<config key="zipcodetable" value="BangladeshZipcodes"/>
+		<config key="DefaultLanguage" value="en"/>
+		<config key="PatientLanguages" value="en"/>
+		<config key="supportedLanguages" value="en"/>
+		<config key="mxsref" value="BD"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
+		<project>bd</project>
+	</country>
 	<country code="ug">
 		<config key="currency" value="UGX"/>
 		<config key="currencyPdf" value="UGX"/>

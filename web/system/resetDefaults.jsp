@@ -46,6 +46,8 @@
 					<option value='br' <%="br".equals(country)?"selected":""%>><%=getTran("country","br",sWebLanguage).toUpperCase() %></option>
 					<option value='ke' <%="ke".equals(country)?"selected":""%>><%=getTran("country","ke",sWebLanguage).toUpperCase() %></option>
 					<option value='ug' <%="ug".equals(country)?"selected":""%>><%=getTran("country","ug",sWebLanguage).toUpperCase() %></option>
+					<option value='bd' <%="bd".equals(country)?"selected":""%>><%=getTran("country","bd",sWebLanguage).toUpperCase() %></option>
+					<option value='lk' <%="lk".equals(country)?"selected":""%>><%=getTran("country","lk",sWebLanguage).toUpperCase() %></option>
 				</select>
 			</td>
 		</tr>

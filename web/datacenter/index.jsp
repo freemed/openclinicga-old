@@ -16,5 +16,5 @@
     MedwanQuery.getInstance().reloadConfigValues();
 %>
 <script>
-	window.location.href='datacenterHome.jsp';
+	window.location.href='datacenterHomePublic.jsp';
 </script>
