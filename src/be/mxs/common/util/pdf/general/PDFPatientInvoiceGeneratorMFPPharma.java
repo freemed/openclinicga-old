@@ -79,6 +79,10 @@ public class PDFPatientInvoiceGeneratorMFPPharma extends PDFInvoiceGenerator {
         		}
         	}
             addReceipt(invoice);
+            if(MedwanQuery.getInstance().getConfigInt("pageBreakAfterReceiptForMFPPharma",0)==1){
+            	doc.newPage();
+            }
+
             addHeading(invoice);
             addPatientDataVisit(invoice);
             printInvoicePharma(invoice);

@@ -73,7 +73,11 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
        			services.put(serviceuid, "1");
         	}
             addReceipt(invoice);
-
+            
+            if(MedwanQuery.getInstance().getConfigInt("pageBreakAfterReceiptForMFP",0)==1){
+            	doc.newPage();
+            }
+            
         	Enumeration eServices = services.keys();
         	int subinvoices=0;
         	while(eServices.hasMoreElements()){
@@ -274,7 +278,7 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
 
         	PdfPTable table2 = new PdfPTable(30);
             table2.setWidthPercentage(pageWidth);
-            Report_Identification report_identification = new Report_Identification(invoice.getDate());
+            Report_Identification report_identification = new Report_Identification(new java.util.Date());
             cell=createValueCell(getTran("web","mfp.ident.1.1"),10,8,Font.BOLD);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table2.addCell(cell);

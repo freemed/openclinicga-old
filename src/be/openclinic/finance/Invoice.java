@@ -14,26 +14,26 @@ public class Invoice extends OC_Object {
     protected Vector credits;
     protected String status;
     protected double balance;
-    protected String insurarreference;
+    protected String verifier;
 
     protected static SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
     protected static SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     
-
-    public String getInsurarreference() {
-		return ScreenHelper.checkString(insurarreference);
-	}
-
-	public void setInsurarreference(String insurarreference) {
-		this.insurarreference = insurarreference;
-	}
 
 	//--- SETTERS & GETTERS -----------------------------------------------------------------------
     public String getInvoiceUid() {
         return invoiceUid;
     }
 
-    public void setInvoiceUid(String invoiceUid) {
+    public String getVerifier() {
+		return verifier;
+	}
+
+	public void setVerifier(String verifier) {
+		this.verifier = verifier;
+	}
+
+	public void setInvoiceUid(String invoiceUid) {
         this.invoiceUid = invoiceUid;
     }
 

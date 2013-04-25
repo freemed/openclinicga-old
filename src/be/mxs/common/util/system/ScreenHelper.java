@@ -24,8 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ScreenHelper {
-    static SimpleDateFormat stdDateFormat  = new SimpleDateFormat("dd/MM/yyyy");
-    static SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    static public SimpleDateFormat stdDateFormat  = new SimpleDateFormat("dd/MM/yyyy");
+    static public SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     static public String left(String s,int n){
     	if(s==null){

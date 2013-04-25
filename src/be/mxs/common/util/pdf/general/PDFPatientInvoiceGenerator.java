@@ -59,6 +59,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             addReceipt(invoice);
             addHeading(invoice);
             addPatientData();
+            addEncounterData(invoice);
             //get list of patientinsurances
             Vector insurances = Insurance.findInsurances("", "", "", "", "", patient.personid);
             for(int n=0;n<insurances.size();n++){
@@ -66,7 +67,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
                 if(insurance!=null){
                     Vector debets=invoice.getDebetsForInsurance(insurance.getUid());
                     if(debets.size()>0){
-                        addInsuranceData(insurance);
+                        addInsuranceData(insurance,invoice);
                         printDebets(invoice,debets);
                     }
                 }
@@ -91,6 +92,67 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
 		return baosPDF;
 	}
+    
+    private void addEncounterData(PatientInvoice invoice){
+        try {
+	    	PdfPTable wrappertable = new PdfPTable(2);
+	    	wrappertable.setWidthPercentage(pageWidth);
+	    	SortedMap encounters = new TreeMap();
+	    	for(int n=0;n<invoice.getDebets().size();n++){
+	    		Debet debet = (Debet)invoice.getDebets().elementAt(n);
+	    		encounters.put(debet.getEncounterUid(), "1");
+	    	}
+	    	Iterator iEncounters = encounters.keySet().iterator();
+	    	while(iEncounters.hasNext()){
+	    		String encounterUid = (String)iEncounters.next();
+	    		Encounter encounter = Encounter.get(encounterUid);
+	    		if(encounter!=null){
+	    			table = new PdfPTable(100);
+	    	        table.setWidthPercentage(pageWidth);
+	    			if(encounter.getType()!=null && encounter.getType().equalsIgnoreCase("admission")){
+		    			cell= createValueCell(getTran("web","begindate")+":",15);
+		    			cell.setBorder(PdfPCell.NO_BORDER);
+		    			table.addCell(cell);
+	        			cell= createValueCell(encounter.getBegin()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()),23);
+		    			cell.setBorder(PdfPCell.NO_BORDER);
+		    			table.addCell(cell);
+		    			cell= createValueCell(getTran("web","enddate")+":",15);
+		    			cell.setBorder(PdfPCell.NO_BORDER);
+		    			table.addCell(cell);
+		    			cell= createValueCell(encounter.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd()),23);
+		    			cell.setBorder(PdfPCell.NO_BORDER);
+		    			table.addCell(cell);
+		    			cell= createValueCell(getTran("web","bed")+":",10);
+		    			cell.setBorder(PdfPCell.NO_BORDER);
+		    			table.addCell(cell);
+		    			cell= createValueCell(encounter.getBed()==null?"":encounter.getBed().getName(),14);
+		    			cell.setBorder(PdfPCell.NO_BORDER);
+		    			table.addCell(cell);
+	    			}
+	    			else {
+		    			cell= createValueCell(getTran("web","begindate")+":",20);
+		    			cell.setBorder(PdfPCell.NO_BORDER);
+		    			table.addCell(cell);
+	        			cell= createValueCell(encounter.getBegin()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()),80);
+		    			cell.setBorder(PdfPCell.NO_BORDER);
+		    			table.addCell(cell);
+	    			}
+	    			cell = createGrayCell(getTran("encountertype",encounter.getType()).toUpperCase(), 1);
+	    			wrappertable.addCell(cell);
+	    			cell = createGrayCell(encounter.getService().getLabel(sPrintLanguage).toUpperCase(), 1);
+	    			wrappertable.addCell(cell);
+	                cell = createCell(new PdfPCell(table),2,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
+	                cell.setPadding(cellPadding);
+	                wrappertable.addCell(cell);
+	    		}
+	    	}
+	    	doc.add(wrappertable);
+	    	addBlankRow();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+    }
 
     //---- ADD RECEIPT ----------------------------------------------------------------------------
     private void addReceipt(PatientInvoice invoice) throws DocumentException {
@@ -378,6 +440,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
             doc.add(table);
             addBlankRow();
+            
         }
         catch(Exception e){
             e.printStackTrace();
@@ -385,7 +448,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
     }
 
     //--- ADD INSURANCE DATA ----------------------------------------------------------------------
-    private void addInsuranceData(Insurance insurance){
+    private void addInsuranceData(Insurance insurance,PatientInvoice invoice){
         try {
             if(insurance!=null){
                 InsuranceCategory insuranceCat = insurance.getInsuranceCategory();
@@ -397,7 +460,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
                         PdfPTable insuranceTable = new PdfPTable(1);
                         insuranceTable.addCell(createGrayCell(getTran("web","insurancyData").toUpperCase(),1));
-                        cell = new PdfPCell(getInsuranceData(insurance));
+                        cell = new PdfPCell(getInsuranceData(insurance,invoice));
                         cell.setPadding(cellPadding);
                         insuranceTable.addCell(createCell(cell,1,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
                         table.addCell(createCell(new PdfPCell(insuranceTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
@@ -458,7 +521,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             table.setWidthPercentage(pageWidth);
             // "printed by" info
             table.addCell(createCell(new PdfPCell(getPrintedByInfo()),2,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
-            table.addCell(createValueCell(getTran("patientsignature"),1));
+            table.addCell(createValueCell(MedwanQuery.getInstance().getConfigInt("enableInvoiceVerification",0)==1?getTran("verifiersignature")+"\n\n"+invoice.getVerifier():getTran("patientsignature"),1));
             table.addCell(createValueCell(getTran("careproviderSignature"),1));
             doc.add(table);
         }
@@ -470,7 +533,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
     //### PRIVATE METHODS #########################################################################
 
     //--- GET INSURANCE DATA ----------------------------------------------------------------------
-    private PdfPTable getInsuranceData(Insurance insurance){
+    private PdfPTable getInsuranceData(Insurance insurance,PatientInvoice invoice){
         PdfPTable table = new PdfPTable(14);
         table.setWidthPercentage(pageWidth);
 
@@ -500,6 +563,13 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         cell = createValueCell(":   "+(100-patientShare)+" %",2);
         table.addCell(cell);
         table.addCell(createEmptyCell(3));
+
+        //*** ROW 3 ***
+        // insurance category
+        table.addCell(createLabelCell(getTran("web.finance","insurarreference"),2));
+        table.addCell(createValueCell(":   "+invoice.getInsurarreference()+(invoice.getInsurarreferenceDate()!=null && invoice.getInsurarreferenceDate().length()>0?" ("+invoice.getInsurarreferenceDate()+")":""),5));
+        table.addCell(createLabelCell(getTran("insurance","member"),2));
+        table.addCell(createValueCell(":   "+ScreenHelper.checkString(insurance.getMember()),5));
 
         return table;
     }

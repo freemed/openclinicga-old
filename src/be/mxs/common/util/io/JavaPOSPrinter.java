@@ -82,9 +82,11 @@ public class JavaPOSPrinter implements OutputCompleteListener, StatusUpdateListe
 				        String sLogo=imageSource+"/projects/"+project+"/_img/JavaPOSImage1.gif";
 				        printer.printBitmap(POSPrinterConst.PTR_S_RECEIPT, sLogo, POSPrinterConst.PTR_BM_ASIS, POSPrinterConst.PTR_BM_CENTER);
 					} catch (JposException e) {
-						if (e.getErrorCode() != JposConst.JPOS_E_NOEXIST) {
+						e.printStackTrace();
+						error=e.getMessage();
+						if (e.getErrorCode() == JposConst.JPOS_E_NOEXIST) {
 							error=e.getErrorCode()+": "+ScreenHelper.getTranNoLink("web","javapos.imagedoesnotexist",sLanguage);
-							break;
+							//break;
 						}
 					}
 				}

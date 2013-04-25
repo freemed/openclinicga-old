@@ -655,8 +655,8 @@ public class UpdateSystem {
 	    		catch(Exception e3){
 	    			e3.printStackTrace();
 	    		}
-		    	conn.close();
 	    	}
+	    	conn.close();
     	}
     	catch(Exception e){
     		e.printStackTrace();
