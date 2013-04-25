@@ -73,7 +73,7 @@
                         %>
 
                         </div>
-                        <div id="footer_info"><a href="javascript:setLanguage('FR')">Fr</a> <a href="javascript:setLanguage('EN')">En</a> - developped by Mxs</div>
+                        <div id="footer_info"><a href="javascript:window.location.href='datacenterHomePublic.jsp';">Public</a> <a href="javascript:setLanguage('PT')">Pt</a> <a href="javascript:setLanguage('ES')">Es</a> <a href="javascript:setLanguage('FR')">Fr</a> <a href="javascript:setLanguage('EN')">En</a> - developped by Mxs</div>
                 </div>
             </div>
         </div>
@@ -237,7 +237,7 @@
 			coloredAreasColor: "#FFF2F9",
 			drawXAxis: true,
 			drawYAxis: true,
-			clickable: true,
+			clickable: true
 		},
         points: { show: false },
         xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
@@ -282,7 +282,7 @@
 			coloredAreasColor: "#FFF2F9",
 			drawXAxis: true,
 			drawYAxis: true,
-			clickable: true,
+			clickable: true
 		},
         xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
         selection: { mode: "x" }
@@ -312,7 +312,7 @@
                 method: "GET",
                 parameters: "language="+language,
                 onSuccess: function(resp){
-    				window.location.href=window.location.href;
+    				window.location.reload();
                 },
                 onFailure: function(){
                 }

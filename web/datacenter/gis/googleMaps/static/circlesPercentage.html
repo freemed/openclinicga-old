@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CirclesPercentage</title>
+ 
+    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script src="http://#localhostSubstitute#/#contextPathSubstitute#/datacenter/gis/googleMaps/data/gisData_#jsonFileId#.json"></script>
+    <link href="http://developers.google.com/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+    <script src="http://www.google.com/jsapi"></script>
+
+    <style>
+      .infoWin {
+        font-family: Arial;
+        font-size: 10pt;
+        width: 220px;
+      }
+    </style>
+
+    <script>
+      var markers, markerCenters, map;
+      var mapNE, mapSW;
+      var valueToPxFactor, pxRatio, minValuePx, maxValuePx;
+
+      var zIndexes = {"large":1,"medium":1,"small":1};
+      var infoWin = new google.maps.InfoWindow(); 
+
+          
+      //--- ZOOMLEVEL TO BORDER ---
+      var zoomLevelToBorder = new Array(21);
+      zoomLevelToBorder[20] = 0.2;
+      zoomLevelToBorder[19] = 0.3;
+      zoomLevelToBorder[18] = 0.4;
+      zoomLevelToBorder[17] = 0.5;
+      zoomLevelToBorder[16] = 1;
+      zoomLevelToBorder[15] = 1.5;
+      zoomLevelToBorder[14] = 2;
+      zoomLevelToBorder[13] = 2.5;
+      zoomLevelToBorder[12] = 5;
+      zoomLevelToBorder[11] = 5;
+      zoomLevelToBorder[10] = 10;
+      zoomLevelToBorder[9] = 20;
+      zoomLevelToBorder[8] = 50;
+      zoomLevelToBorder[7] = 100;
+      zoomLevelToBorder[6] = 200;
+      zoomLevelToBorder[5] = 500;
+      zoomLevelToBorder[4] = 1000;
+      zoomLevelToBorder[3] = 2000;
+      zoomLevelToBorder[2] = 3000;
+      zoomLevelToBorder[1] = 5000;
+
+      //--- ADD INFOWINDOW HANDLER ---
+      function addInfoWindowHandler(marker,i){ 
+        marker.setTitle("Click for info, double-click to zoom");
+          
+        var iwOptions = { 
+          content: "<div class='infoWin'>"+
+                    "<b>"+data.services[i].location+"</b>"+
+                    "<br>"+data.services[i].dataDate+
+                    "<br>"+formatValueToPercentage(data.services[i].value)+
+                    "<br>"+formatValue(data.services[i].sum1)+" / "+formatValue(data.services[i].sum2)+
+                   "</div>", 
+          position: marker.getPosition(),
+          maxWidth: 300
+        } 
+
+        google.maps.event.addListener(marker,"click",function(){ 
+          infoWin.setOptions(iwOptions); 
+          infoWin.open(map); 
+        }); 
+      } 
+
+      //--- ADD ZOOM HANDLER ---
+      function addZoomHandler(marker,i){ 
+        google.maps.event.addListener(marker,"dblclick",function(){ 
+          map.setCenter(marker.getPosition());
+          map.setZoom(map.getZoom()+1); // zoom in
+        }); 
+      } 
+
+      //--- THOUSAND SEPARATOR ---
+      function thousandSeparator(n,sep){
+	    var sRegExp = new RegExp('(-?[0-9]+)([0-9]{3})'),
+        sValue = n+"";
+ 
+        if(sep===undefined) sep = ",";
+	    while(sRegExp.test(sValue)) {
+          sValue = sValue.replace(sRegExp,'$1'+sep+'$2');
+	    }
+
+ 	    return sValue;
+      }
+
+      //--- FORMAT VALUE ---
+      function formatValue(value){
+        var sValue = "";
+ 
+        if(value >= 1000000){
+          sValue = (value/1000000).toFixed(1)+"M";
+        }
+        else if(value >= 1000){
+          sValue = thousandSeparator((value/1000).toFixed(1))+"K";
+        }
+        else if(value >= 1){
+          sValue = value.toFixed(1);
+        }
+        else{
+          sValue = thousandSeparator(value);
+        }
+
+        return sValue;
+      }  
+
+      //--- FORMAT VALUE TO PERCENTAGE ---
+      function formatValueToPercentage(value){
+        var sValue = "";
+
+        // scale level of precision with size of value
+        if(value >= 1000){
+          sValue = thousandSeparator((value/1000).toFixed(1),".")+"K%";
+        }
+        else if(value >= 100){
+          sValue = thousandSeparator(value.toFixed(1),".")+"%";
+        }
+        else if(value >= 10){
+          sValue = value.toFixed(1)+"%";
+        }
+        else if(value > 0){
+          sValue = value.toFixed(1)+"%";
+        }
+        else{
+          // value == 0
+          sValue = value+"%";
+        }
+
+        return sValue;
+      }
+
+      //--- INITIALIZE ---
+      function initialize(){
+        markers = [];
+        markerCenters = [];
+
+        var mapOptions = {
+          zoom: 2, // 4:sub-Saharian Africa
+          minZoom: 2, // world
+          maxZoom: 16,// 16:street, 15:neighbourhood, 14:city
+          center: new google.maps.LatLng(20,18),
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+          // controls
+          panControl: true,
+          zoomControl: true,
+          mapTypeControl: true,
+          scaleControl: true,
+          streetViewControl: false,
+          overviewMapControl: true,
+          rotateControl: false
+        };
+
+        map = new google.maps.Map(document.getElementById('map'),mapOptions);
+
+        initValues();
+        
+        // resize circles on zoom
+        google.maps.event.addListener(map,'zoom_changed',
+          function(){
+            zoomLevel = map.getZoom();
+            
+            if(zoomLevel < 8){  
+              initValues();
+            }
+
+            resizeCircles(map.getZoom());
+          }        
+        );  
+ 
+        // register maps coords when it is not dragged
+        google.maps.event.addListener(map,"idle",function(){
+          var bounds = map.getBounds(); 
+
+          mapNE = bounds.getNorthEast();
+          mapSW = bounds.getSouthWest();
+        });
+
+        // home-button
+        var homeControlDiv = document.createElement("div");
+        var homeControl = new HomeControl(homeControlDiv,map);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+
+        refreshMap();
+      } 
+      
+      //--- INIT VALUES ---
+      function initValues(){
+        var zoomLevel = map.getZoom();
+        //alert("zoomLevel : "+zoomLevel); ////////////
+        
+        var smallestValue = getSmallestValue(),
+            largestValue  = getLargestValue();
+        //alert("smallestValue : "+smallestValue); // todo
+        //alert("largestValue : "+largestValue); // todo
+        
+        if(smallestValue<=0) smallestValue = 1; // safety
+        var valueFactor = (largestValue/smallestValue); 
+        //alert("valueFactor : "+valueFactor); // todo
+        
+        var defMaxFactor = 8;
+        var minValuePx = 2;
+        var defValuePx = 8*(zoomLevel/4);
+        //alert("defValuePx : "+defValuePx); // todo
+        
+        if(valueFactor >= 1000){
+      	  defValuePx = defValuePx*2;   
+        }
+        
+        maxValuePx = defValuePx*defMaxFactor;
+        //alert("maxValuePx : "+maxValuePx); // todo
+        
+        valueToPxFactor = smallestValue/defValuePx;
+        //alert("valueToPxFactor : "+valueToPxFactor); // todo
+              
+        var minRequiredPx = defValuePx;
+        var maxRequiredPx = defValuePx*valueFactor;
+        
+        pxRatio = 1;
+        if(maxRequiredPx > maxValuePx){
+      	  pxRatio = maxRequiredPx/maxValuePx;  
+        }
+        //alert("pxRatio : "+pxRatio); // todo
+      }
+
+      //--- SET Z-INDEX ---
+      function setZIndex(marker,value){
+        //*** scale Z-index with value ***
+        if(value >= 100){
+          // large
+          marker.setZIndex(zIndexes["large"]*1);
+          zIndexes["large"]++;
+        }
+        else if(value >= 50){
+          // medium
+          marker.setZIndex(zIndexes["medium"]*10);
+          zIndexes["medium"]++;
+        }
+        else{
+          // small
+          marker.setZIndex(zIndexes["small"]*1000);
+          zIndexes["small"]++;
+        }
+      }
+      
+      //--- HOME CONTROL ---
+      function HomeControl(controlDiv,map){
+        controlDiv.style.padding = "5px 0px";
+
+        var controlUI = document.createElement("div");
+        controlUI.style.backgroundColor = "white";
+        controlUI.style.border = "1px solid #808080";
+        controlUI.style.cursor = "pointer";
+        controlUI.style.textAlign = "center";
+        controlUI.style.padding = "2px 1px 1px 1px";
+        controlUI.title = "Show initial location";
+        controlDiv.appendChild(controlUI);
+
+        var controlText = document.createElement("div");
+        controlText.style.fontFamily = "Arial,sans-serif";
+        controlText.style.fontSize = "12px";
+        controlText.style.paddingLeft = "4px";
+        controlText.style.paddingRight = "4px";
+        controlText.innerHTML = "<b>Home<b>";
+        controlUI.appendChild(controlText);
+
+        // add click listener to go home on click
+        google.maps.event.addDomListener(controlUI,"click",function(){
+          var home =  new google.maps.LatLng(20,18);
+          map.setCenter(home);
+          map.setZoom(2);
+        });
+      }
+
+      //--- REMOVE MARKERS FROM MAP ---
+      function removeMarkersFromMap(){
+        for(var i=0; i<markers.length; i++){
+          markers[i].setMap(null);
+          markerCenters[i].setMap(null);
+        }
+      }
+
+      //--- GET SMALLEST VALUE ---
+      function getSmallestValue(){
+        var smallestValue = 100000000; // 100M
+
+        for(var i=0; i<data.services.length; ++i){
+          if(data.services[i].value < smallestValue){
+        	smallestValue = data.services[i].value;
+          }
+        } 
+        
+        return smallestValue;
+      }
+
+      //--- GET LARGEST VALUE ---
+      function getLargestValue(){
+        var largestValue = -1;
+
+        for(var i=0; i<data.services.length; ++i){
+          if(data.services[i].value > largestValue){
+        	largestValue = data.services[i].value;
+          }
+        }  
+        
+        return largestValue;
+      }
+      
+      //--- RESIZE CIRCLES ---
+      function resizeCircles(zoomLevel){
+        removeMarkersFromMap();
+        markers = [];
+        markerCenters = [];
+        var marker, latLng;
+
+        for(var i=0; i<data.services.length; ++i){
+          latLng = new google.maps.LatLng(data.services[i].coordsLAT,data.services[i].coordsLONG);
+
+          //*** center of circle ***
+          marker = new google.maps.Marker({
+            position: latLng,
+            draggable: false,
+            map: map
+          });
+
+          // enhance marker
+          setZIndex(marker,data.services[i].value);
+          addInfoWindowHandler(marker,i);
+          addZoomHandler(marker,i);
+          
+          markerCenters.push(marker);
+
+          //*** circle ***
+          marker = new google.maps.Marker({
+            position: latLng,
+            draggable: false,
+            map: map,
+            value: data.services[i].value,
+            icon: getCircle(data.services[i].value,zoomLevel)
+          });  
+
+          // enhance marker
+          marker.setZIndex(-1);
+          addInfoWindowHandler(marker,i);
+          addZoomHandler(marker,i);
+
+          markers.push(marker);
+        } 
+      }
+
+      //--- REFRESH MAP ---
+      function refreshMap(){
+        var marker, latLng;
+        
+        for(var i=0; i<data.services.length; ++i){
+          latLng = new google.maps.LatLng(data.services[i].coordsLAT,data.services[i].coordsLONG);
+
+          //*** center of circle ***
+          marker = new google.maps.Marker({
+            position: latLng,
+            draggable: false,
+            map: map
+          });
+
+          // enhance marker
+          setZIndex(marker,data.services[i].value);
+          addInfoWindowHandler(marker,i);
+          addZoomHandler(marker,i);
+          
+          markerCenters.push(marker);
+          
+          //*** circle ***
+          marker = new google.maps.Marker({
+            position: latLng,
+            draggable: false,
+            map: map,
+            value: data.services[i].value,
+            icon: getCircle(data.services[i].value,map.getZoom())
+          });  
+
+          // enhance marker
+          marker.setZIndex(-1);
+          addInfoWindowHandler(marker,i);
+          addZoomHandler(marker,i);
+
+          markers.push(marker);
+        } 
+      }
+
+      //--- GET CIRCLE ---
+      function getCircle(magnitude,zoomLevel){
+        var sc = calculateScale(magnitude,zoomLevel);
+        
+        // color relates to weight
+        var color = "";
+        if(magnitude > (100/3)*2){
+          color = "#FF1100"; // red
+          opacity = 0.15;
+        }
+        else if(magnitude > (100/3)*1){
+          color = "#FF9922"; // orange
+          opacity = 0.20;
+        }
+        else{
+          color = "#FfEE11"; // yellow
+          opacity = 0.25;
+        }
+        
+        return {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: color,
+          fillOpacity: opacity, // 0.6-(zoomLevel/40)
+          scale: sc,
+          strokeColor: 'white',
+          strokeWeight: .5
+        }; 
+      }
+
+      //--- CALCULATE SCALE ---      
+      function calculateScale(magnitude,zoomLevel){
+        var scale = (magnitude/valueToPxFactor)/pxRatio; // pixels
+        
+        if(scale < minValuePx){
+          scale = minValuePx; // keep it visible
+        }
+        
+        return scale;
+      }     
+      
+      //--- LOCATE MARKER ---
+      function locateMarker(markerIdx){
+        // center map on marker when marker is out of map-bounds
+        var position = markerCenters[markerIdx].position; 
+        if(outOfBounds(position,mapNE,mapSW,map.getZoom())){
+          map.setCenter(position);
+        }
+        
+        // let marker jump once, after map is centered on marker
+        window.setTimeout("markerCenters["+markerIdx+"].setAnimation(google.maps.Animation.BOUNCE)",200);
+        window.setTimeout("markerCenters["+markerIdx+"].setAnimation(null)",850);
+      }
+
+      //--- OUT OF BOUNDS ---
+      function outOfBounds(position,ne,sw,zoomLevel){
+        var isOutOfBounds = false;
+                 
+        // create trigger border in visual zone
+        var borderWidth = zoomLevelToBorder[zoomLevel]/100;
+
+        if((position.lat() > ne.lat()-borderWidth || position.lat() < sw.lat()+borderWidth) ||
+           (position.lng() > ne.lng()-borderWidth || position.lng() < sw.lng()+borderWidth)
+          ){
+          isOutOfBounds = true;
+        }  
+  
+        return isOutOfBounds;
+      }
+    </script>
+
+    <script>window.moveTo(self.screen.width/7,self.screen.height/6);</script>
+  </head>
+
+  <body onload="initialize();" style="background:#ddd;">
+    <script>
+      document.write("<div style='background:#ddd; font-family:Arial; font-size:10pt; font-weight:bold; text-align:center; width:100%; padding:20px 0px;'>");
+      document.write(data.mapTitle);
+      document.write("</div>");
+    </script>
+
+    <div id="map" style="width:100%;height:510px;"></div>
+
+    <script>
+      var debug = false;
+    
+      if(debug==true){
+        //--- TABLE WITH 2 COLS ---
+        document.write("<div style='font-family:Arial;font-size:10pt;width:100%;padding:20px 0px;'>");
+        document.write("<b>Displayed data :</b>");
+      
+        // main table
+        document.write("<table border='0' cellspacing='0' cellpadding='1'>"+
+                        "<tr>"+
+                         "<td style='vertical-align:top;'>");
+
+        // col 1 = table 1
+        document.write("<table border='0' cellspacing='0' cellpadding='1'>");
+        for(var i=0; i<parseInt((data.services.length+1)/2); i++){
+          document.write("<tr>"+
+                          "<td>[<a href='#' onClick='javascript:locateMarker("+i+");'>"+(i+1)+"</a>] "+data.services[i].location+"</td>"+
+                          "<td style='padding-left:10px;text-align:right;'>"+data.services[i].value.toFixed(1)+"%</td>"+
+                         "</tr>");
+        }
+        document.write("</table>");
+
+        document.write("</td>");
+        document.write("<td style='padding-left:50px;vertical-align:top;'>");
+
+        // col 2 = table 2
+        document.write("<table border='0' cellspacing='0' cellpadding='1'>");
+        for(var i=parseInt((data.services.length+1)/2); i<data.services.length; i++){
+          document.write("<tr>"+
+                          "<td>[<a href='#' onClick='javascript:locateMarker("+i+");'>"+(i+1)+"</a>] "+data.services[i].location+"</td>"+
+                          "<td style='padding-left:10px;text-align:right;'>"+data.services[i].value.toFixed(1)+"%</td>"+
+                         "</tr>");
+        }
+        document.write("</table>");
+
+        document.write(  "</td>"+
+                        "</tr>"+
+                       "</table>");
+ 
+        document.write("</div>");
+      }
+    </script>
+  </body>
+</html>

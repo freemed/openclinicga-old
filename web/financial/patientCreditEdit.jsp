@@ -448,7 +448,7 @@ if (sFindPatientCreditUID.length() > 0) {
               onSuccess: function(resp){
               	var label = eval('('+resp.responseText+')');
               	if(label.message.length>0){
-                  	alert(label.message);
+                  	alert(label.message.unhtmlEntities());
                   };
               },
 				onFailure: function(){

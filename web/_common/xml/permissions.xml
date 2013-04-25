@@ -63,6 +63,7 @@
         <permission type="web" id="ergotherapy">occup.ergotherapy</permission>
         <permission type="web" id="psychologyfollowup">occup.psychologyfollowup</permission>
         <permission type="web" id="meetingreport">occup.meetingreport</permission>
+        <permission type="web" id="neuropsyphysiotherapyreport">occup.neuropsyphysiotherapyreport</permission>
     </application>
     <application type="Web" id="newexaminations">
         <permission type="web" id="globalexaminations">examinations.global</permission>

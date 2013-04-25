@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HeatMapWeighted</title>
+
+    <link href="https://developers.google.com/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization"></script>
+    <script src="http://#localhostSubstitute#/#contextPathSubstitute#/datacenter/gis/googleMaps/data/gisData_#jsonFileId#.json"></script>
+
+    <script>
+      var heatmap, map;
+
+      //--- INITIALIZE ---
+      function initialize(){
+        var mapOptions = {
+          zoom: 2, // 4:sub-Saharian Africa
+          minZoom: 2, // world
+          maxZoom: 16,// 16:street, 15:neighbourhood, 14:city
+          center: new google.maps.LatLng(20,18),
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+          // controls
+          panControl: false,
+          zoomControl: true,
+          mapTypeControl: true,
+          scaleControl: true,
+          streetViewControl: false,
+          overviewMapControl: true,
+          rotateControl: false
+        };
+
+        map = new google.maps.Map(document.getElementById('map_canvas'),mapOptions);
+
+        // home-button
+        var homeControlDiv = document.createElement("div");
+        var homeControl = new HomeControl(homeControlDiv,map);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+                
+        refreshMap();
+      }
+
+      //--- REFRESH MAP ---
+      function refreshMap(){
+        var heatmapData = [];
+        var weightedLoc, latLng;
+
+        for(var i=0; i<data.services.length; i++){      
+          latLng = new google.maps.LatLng(data.services[i].coordsLAT,data.services[i].coordsLONG);
+
+          weightedLoc = {
+            location: latLng,
+            weight: data.services[i].value
+          };
+
+          heatmapData.push(weightedLoc);
+        }
+
+        // create layer
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+          data: heatmapData,
+          dissipating: true, // false --> large spot
+          map: map,
+          radius: 50
+        });
+      }
+
+      //--- HOME CONTROL ---
+      function HomeControl(controlDiv,map){
+        controlDiv.style.padding = "5px 0px";
+
+        var controlUI = document.createElement("div");
+        controlUI.style.backgroundColor = "white";
+        controlUI.style.border = "1px solid #808080";
+        controlUI.style.cursor = "pointer";
+        controlUI.style.textAlign = "center";
+        controlUI.style.padding = "2px 1px 1px 1px";
+        controlUI.title = "Show initial location";
+        controlDiv.appendChild(controlUI);
+
+        var controlText = document.createElement("div");
+        controlText.style.fontFamily = "Arial,sans-serif";
+        controlText.style.fontSize = "12px";
+        controlText.style.paddingLeft = "4px";
+        controlText.style.paddingRight = "4px";
+        controlText.innerHTML = "<b>Home<b>";
+        controlUI.appendChild(controlText);
+
+        // add click listener to go home on click
+        google.maps.event.addDomListener(controlUI,"click",function(){
+          var home =  new google.maps.LatLng(20,18);
+          map.setCenter(home);
+          map.setZoom(2);
+        });
+      }
+ 
+      //-- RESOLVE LOCATION (to lat + lng) --
+      function resolveLocation(locationName){    
+        geocoder.geocode(
+          {'address':locationName},
+          function(results,status){
+            lat = results[0].geometry.location.lat();
+            lng = results[0].geometry.location.lng();
+          }
+        );    
+      }
+    </script>
+
+    <script>window.moveTo(self.screen.width/7,self.screen.height/6);</script>
+  </head>
+
+  <body onload="initialize()">
+    <div id="map_canvas"></div>
+  </body>
+</html>

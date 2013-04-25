@@ -1,0 +1,658 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>ClustererPercentage</title>
+
+    <script src="http://#localhostSubstitute#/#contextPathSubstitute#/datacenter/gis/googleMaps/data/gisData_#jsonFileId#.json"></script>
+    <script src="http://www.google.com/jsapi"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+ 
+    <link href="https://developers.google.com/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+  
+    <style>
+      .infoWin {
+        font-family: Arial;
+        font-size: 10pt;
+        width: 220px;
+      }
+    </style>
+ 
+    <script> 
+      var zoomLevelToScale = new Array(21);
+      zoomLevelToScale[1] = 1.000000000; // 1/(2^(1-1))
+      zoomLevelToScale[2] = zoomLevelToScale[1]/2; // 1/(2^(2-1)) 
+      zoomLevelToScale[3] = zoomLevelToScale[2]/2; // 1/(2^(3-1))
+      zoomLevelToScale[4] = zoomLevelToScale[3]/2; // 1/(2^(4-1))
+      zoomLevelToScale[5] = zoomLevelToScale[4]/2; // 1/(2^(5-1))
+      zoomLevelToScale[6] = zoomLevelToScale[5]/2; // 1/(2^(6-1))
+      zoomLevelToScale[7] = zoomLevelToScale[6]/2; // 1/(2^(7-1))
+      zoomLevelToScale[8] = zoomLevelToScale[7]/2; // 1/(2^(8-1))
+      zoomLevelToScale[9] = zoomLevelToScale[8]/2; // 1/(2^(9-1))
+      zoomLevelToScale[10]= zoomLevelToScale[9]/2; // 1/(2^(10-1))
+      zoomLevelToScale[11]= zoomLevelToScale[10]/2; // 1/(2^(11-1))
+      zoomLevelToScale[12]= zoomLevelToScale[11]/2; // 1/(2^(12-1))
+      zoomLevelToScale[13]= zoomLevelToScale[12]/2; // 1/(2^(13-1))
+      zoomLevelToScale[14]= zoomLevelToScale[13]/2; // 1/(2^(14-1))
+      zoomLevelToScale[15]= zoomLevelToScale[14]/2; // 1/(2^(15-1))
+      zoomLevelToScale[16]= zoomLevelToScale[15]/2; // 1/(2^(16-1))
+      zoomLevelToScale[17]= zoomLevelToScale[16]/2; // 1/(2^(17-1))
+      zoomLevelToScale[18]= zoomLevelToScale[17]/2; // 1/(2^(18-1))
+      zoomLevelToScale[19]= zoomLevelToScale[18]/2; // 1/(2^(19-1))
+      zoomLevelToScale[20]= zoomLevelToScale[19]/2; // 1/(2^(20-1))
+
+      var levelsOfClustering = 20;
+      var markers = []; 
+      var map, meanValue;
+      var mapNE, mapSW;
+      var zIndexes;
+      
+      var infoWin = new google.maps.InfoWindow(); 
+      
+      var smallestValue = getSmallestValue(),
+          largestValue  = getLargestValue();
+      //alert("smallestValue : "+smallestValue); // todo
+      //alert("largestValue : "+largestValue); // todo
+
+      var valueRatio = smallestValue/largestValue;
+      //alert("valueRatio : "+valueRatio); // todo
+                                
+      //--- GET SMALLEST VALUE ---
+      function getSmallestValue(){
+        var smallestValue = 100000000; // 100M
+
+        for(var i=0; i<data.services.length; ++i){
+          if(data.services[i].value < smallestValue){
+        	smallestValue = data.services[i].value;
+          }
+        } 
+        
+        return smallestValue;
+      }
+
+      //--- GET LARGEST VALUE ---
+      function getLargestValue(){
+        var largestValue = -1;
+
+        for(var i=0; i<data.services.length; ++i){
+          if(data.services[i].value > largestValue){
+            largestValue = data.services[i].value;
+          }
+        }  
+        
+        return largestValue;
+      }
+
+      //--- GET MEAN VALUE ---
+      function getMeanValue(){
+    	////////////////////////////////////
+        var marker, latLng;
+    	var markersTmp = [];
+    	
+        for(var i=data.services.length-1; i>=0; i--){
+          latLng = new google.maps.LatLng(data.services[i].coordsLAT,data.services[i].coordsLONG);
+
+          marker = new google.maps.Marker({
+            position: latLng,
+            serviceId: data.services[i].serviceId,
+            value: data.services[i].value,
+            location: data.services[i].location,
+            numberOfUnderlayingMarkers: 1
+          });
+
+          markersTmp.push(marker);
+        }
+
+        // apply own made clustering
+        for(var l=0; l<levelsOfClustering; l++){
+          markersTmp = clusterMarkers(markersTmp,2); // init zoom level
+        }
+    	////////////////////////////////////
+    	
+        var totalValue = 0;
+        var numberOfValues = 0;
+
+        if(markers!=null){
+          for(var i=0; i<markersTmp.length; ++i){
+            totalValue+= markersTmp[i].value;
+            numberOfValues++;
+          }  
+        }
+          
+        var meanValue = 0;
+        if(totalValue > 0){
+          meanValue = (totalValue/numberOfValues);	
+        }
+        
+        return meanValue;
+      }
+          
+      //--- ADD INFO WINDOW HANDLER (for non-clustering marker) ---
+      function addInfoWindowHandler(marker,i){ 
+        latLng = new google.maps.LatLng(data.services[i].coordsLAT,data.services[i].coordsLONG);
+
+        var iwOptions = { 
+          content: "<div class='infoWin'>"+
+                    "<b>"+data.services[i].location+"</b><br>"+
+                    data.services[i].dataDate+"<br>"+
+                    formatValueToPercentage(data.services[i].value)+
+                   "</div>", 
+          position: latLng,
+          maxWidth: 300
+        } 
+
+        // listen
+        google.maps.event.addListener(marker,"click",
+          function(){ 
+            infoWin.setOptions(iwOptions); 
+            infoWin.open(map); 
+          }
+        ); 
+      } 
+      
+      //--- ADD INFO WINDOW HANDLER 2 (for clustering marker) ---
+      function addInfoWindowHandler2(marker,i){
+        var iwOptions = { 
+          content: "<div class='infoWin'>"+
+                    "<b>"+marker.numberOfUnderlayingMarkers+" locations:</b><li>"+marker.location+"<br>"+
+                    "<b>Summed value:</b> "+formatValueToPercentage(marker.value)+"<br>"+
+                    "<b>Mean position:</b> "+marker.position.lat().toFixed(3)+"; "+marker.position.lng().toFixed(3)+
+                   "</div>", 
+          position: marker.position,
+          maxWidth: 300
+        } 
+
+        // listen
+        google.maps.event.addListener(marker,"click",
+          function(){ 
+            infoWin.setOptions(iwOptions); 
+            infoWin.open(map); 
+          }
+        ); 
+      } 
+
+      //--- ADD ZOOM HANDLER ---
+      function addZoomHandler(marker){ 
+        google.maps.event.addListener(marker,"dblclick",
+          function(){   
+            map.setZoom(map.getZoom()+1);
+            map.setCenter(marker.getPosition()); 
+            infoWin.close();
+          }
+        ); 
+      }
+
+      //--- REFRESH MAP ---
+      function refreshMap(){
+    	zIndexes = {"large":1,"medium":1,"small":1}; // reset on new level
+        meanValue = getMeanValue(); // recalculate on new level
+        //alert("meanValue on refresh : "+meanValue);
+        removeMarkersFromMap(markers);
+        markers = []; 
+
+        var marker, latLng;         
+        for(var i=data.services.length-1; i>=0; i--){
+          latLng = new google.maps.LatLng(data.services[i].coordsLAT,data.services[i].coordsLONG);
+
+          marker = new google.maps.Marker({
+            //map: map,
+            position: latLng,
+            draggable: false,
+            icon: getMarkerImage(data.services[i].value),
+            serviceId: data.services[i].serviceId,
+            value: data.services[i].value,
+            location: data.services[i].location,
+            numberOfUnderlayingMarkers: 1
+          }); 
+
+          // enhance
+          marker.setTitle("Click for info, double click to zoom");
+          setZIndex(marker,data.services[i].value);
+          addInfoWindowHandler(marker,i);
+          addZoomHandler(marker);
+
+          markers.push(marker);
+        }
+
+        // apply own made clustering
+        for(var l=0; l<levelsOfClustering; l++){
+          markers = clusterMarkers(markers,map.getZoom());
+        }
+
+        removeMarkersFromMap(markers);
+        putMarkersOnMap(markers);
+      }
+  
+      //--- PUT MARKERS ON MAP ---
+      function putMarkersOnMap(markers){   
+      	if(markers!=null){    
+          for(var i=markers.length-1; i>=0; i--){
+            if(markers[i]!=null){
+              markers[i].setMap(map);
+            }
+          }
+        }
+      }
+      
+      //--- REMOVE MARKERS FROM MAP ---
+      function removeMarkersFromMap(markers){
+    	if(markers!=null){
+          for(var i=markers.length-1; i>=0; i--){
+            if(markers[i]!=null){
+              markers[i].setMap(null);
+            }
+          }
+        }
+      }
+      
+      //--- REMOVE MARKER ---
+      function removeMarker(markers,markerIdx){
+    	markers[markerIdx] = null; // empty cell
+    	return markers;
+      }
+
+      //--- CLUSTER MARKERS ---
+      function clusterMarkers(markers,zoomLevel){
+        var clusteredMarkers = [];
+        var marker, summedValue, summedLocation, neighbourMarker, neighbourMarkerIdx = null;
+
+        // group markers near to another --> 2 become one, values added
+        for(var i=markers.length-1; i>=0; i--){
+          marker = markers[i];
+  
+          if(marker!=null){
+            neighbourMarkerIdx = searchNeighbourIdx(marker,markers,zoomLevel);
+            
+            if(neighbourMarkerIdx!=null){
+              neighbourMarker = markers[neighbourMarkerIdx];
+
+              // remove marker and his neighbour from map
+              marker.setMap(null);
+              neighbourMarker.setMap(null);
+              
+              // remove marker and his neighbour from array
+              markers = removeMarker(markers,neighbourMarkerIdx);
+              markers = removeMarker(markers,i);
+              
+              summedValue = neighbourMarker.value+marker.value;
+              summedLocation = marker.location+"<li>"+neighbourMarker.location;
+              
+              // display number of enclosed markers on second line in super-marker
+              var extraInfo = "";
+              if((marker.numberOfUnderlayingMarkers+neighbourMarker.numberOfUnderlayingMarkers) > 1){
+            	extraInfo = "("+(marker.numberOfUnderlayingMarkers+neighbourMarker.numberOfUnderlayingMarkers)+")";
+              }
+              
+              // create new super-marker
+              var pos = getIntermediatePosition(marker.position,neighbourMarker.position);
+              marker = new google.maps.Marker({
+                position: pos,
+                draggable: false,
+                icon: getMarkerImage(summedValue,extraInfo), // new value, new image
+                serviceId: marker.serviceId,
+                value: summedValue,
+                location: summedLocation,
+                numberOfUnderlayingMarkers: marker.numberOfUnderlayingMarkers+neighbourMarker.numberOfUnderlayingMarkers
+              });
+
+              // enhance marker
+              marker.setTitle("Click for info, double click to zoom");
+              setZIndex(marker,summedValue);
+              addInfoWindowHandler2(marker,i);
+              addZoomHandler(marker);
+            }
+  
+            if(!exists(clusteredMarkers,marker)){
+              clusteredMarkers.push(marker);
+            }
+          }
+        }
+        
+        return clusteredMarkers;
+      }
+       
+      //--- EXISTS ---
+      function exists(markers,marker){
+    	var markerFound = false;
+    	
+    	for(var i=0; i<markers.length; i++){
+          if(markers[i]!=null){
+    	    if(markers[i].serviceId==marker.serviceId){
+    		  markerFound = true;
+    		  break;
+    	    }
+    	  }
+    	}
+      
+    	return markerFound;
+      }
+      
+      //--- GET INTERMIDIATE POSITION ---
+      function getIntermediatePosition(pos1,pos2){
+        var latDiff = Math.abs(pos1.lat()-pos2.lat()),
+            lngDiff = Math.abs(pos1.lng()-pos2.lng());
+                
+    	//*** LAT ***
+        var newLat;
+    	
+        if(pos1.lat() > 0 && pos2.lat() > 0){
+          if(pos1.lat() < pos2.lat()){
+            newLat = pos1.lat()+(latDiff/2);
+          }
+          else{
+            newLat = pos2.lat()+(latDiff/2);
+          }
+        }
+        else if(pos1.lat() < 0 && pos2.lat() < 0){
+          if(pos1.lat() > pos2.lat()){
+            newLat = pos1.lat()-(latDiff/2);
+          }
+          else{
+            newLat = pos2.lat()-(latDiff/2);
+          }
+        }
+        else if(pos1.lat() < 0 && pos2.lat() > 0){
+          newLat = pos1.lat()+(latDiff/2);
+        }
+        else if(pos1.lat() > 0 && pos2.lat() < 0){
+          newLat = pos1.lat()-(latDiff/2);        
+        }
+
+        //*** LNG ***
+        var newLng;
+        
+        if(pos1.lng() > 0 && pos2.lng() > 0){
+          if(pos1.lng() < pos2.lng()){
+            newLng = pos1.lng()+(lngDiff/2);
+          }
+          else{
+            newLng = pos2.lng()+(lngDiff/2);
+          }
+        }
+        else if(pos1.lng() < 0 && pos2.lng() < 0){
+          if(pos1.lng() > pos2.lng()){
+            newLng = pos1.lng()-(lngDiff/2);
+          }
+          else{
+            newLng = pos2.lng()-(lngDiff/2);
+          }
+        }
+        else if(pos1.lng() < 0 && pos2.lng() > 0){
+          newLng = pos1.lng()+(lngDiff/2);
+        }
+        else if(pos1.lng() > 0 && pos2.lng() < 0){
+          newLng = pos1.lng()-(lngDiff/2);
+        }
+
+        /*
+        if(latDiff > 0 && lngDiff > 0){
+          alert("getIntermediatePosition : "+pos1+", "+pos2+" --> "+newLat+", "+newLng); // todo
+        }
+        */
+        
+        return new google.maps.LatLng(newLat,newLng);
+      }
+  
+      //--- SEARCH NEIGHBOUR IDX ---
+      function searchNeighbourIdx(marker,markers,zoomLevel){
+        var neighBourIdx = null, testMarker = null;
+
+        for(var i=markers.length-1; i>=0 && neighBourIdx==null; i--){
+          testMarker = markers[i];
+     
+          // exclude himself
+          if(testMarker!=null){
+            if(testMarker.serviceId!=marker.serviceId){
+              if(areNear(testMarker,marker,zoomLevel)==true){
+                neighBourIdx = i;
+              }
+            }
+          }
+        }
+      
+        return neighBourIdx;
+      }
+
+      //--- ARE NEAR --- 
+      function areNear(marker1,marker2,zoomLevel){
+        var near = false;
+
+        var latDiff = Math.abs(marker1.position.lat()-marker2.position.lat()),
+            lngDiff = Math.abs(marker1.position.lng()-marker2.position.lng());
+ 
+        var x = 80;
+        if(zoomLevel > 10) x = 20;
+        var maxDiff = zoomLevelToScale[zoomLevel]/((zoomLevel*zoomLevel)/x); // trial and error  
+        //alert("maxDiff (zl: "+zoomLevel+") : "+maxDiff); // todo
+        if(latDiff < maxDiff && lngDiff < maxDiff){
+          near = true;
+        }
+        
+        //alert("near : "+near); // todo
+        return near;
+      }
+
+      //--- FORMAT VALUE TO PERCENTAGE ---
+      function formatValueToPercentage(value){
+   	    var sValue = "";
+
+   	    // scale level of precision with size of value
+   	    if(value >= 1000){
+   	      sValue = thousandSeparator((value/1000).toFixed(1),".")+"K%";
+   	    }
+   	    else if(value >= 100){
+   	      sValue = thousandSeparator(value.toFixed(0),".")+"%";
+   	    }
+   	    else if(value >= 10){
+   	      sValue = value.toFixed(1)+"%";
+   	    }
+   	    else if(value > 0){
+   	      sValue = value.toFixed(2)+"%";
+   	    }
+   	    else{
+   	      // value == 0
+   	      sValue = value+"%";
+   	    }
+
+   	    return sValue;
+   	  }
+      
+      //--- THOUSAND SEPARATOR ---
+      function thousandSeparator(n,sep){
+		var sRegExp = new RegExp('(-?[0-9]+)([0-9]{3})'),
+		sValue = n+"";
+	 
+		if(sep===undefined) sep = ",";
+		while(sRegExp.test(sValue)){
+	      sValue = sValue.replace(sRegExp,'$1'+sep+'$2');
+		}
+	
+	 	return sValue;
+      }
+
+      //--- GET MARKER IMAGE ---
+      function getMarkerImage(value,extraValue){
+        if(extraValue==null) extraValue = "";
+        var sValue = formatValueToPercentage(value);
+
+        //*** scale marker size with value ***
+        var markerImg, imgUrl; 
+
+        if(value > ((meanValue/3)*2)){
+          //alert("red ((meanValue/3)*2) ["+value+"] = "+((meanValue/3)*2)); // todo
+          
+          // large : red
+          imgUrl = "http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.35|0|EE3300|10|_|"+sValue+(extraValue.length>0?"|"+extraValue:"");
+          markerImg = new google.maps.MarkerImage(imgUrl+"&ts="+new Date().getTime(),new google.maps.Size(51,90));        
+        }
+        else if(value > ((meanValue/3)*1)){
+          //alert("orange ((meanValue/3)*1) ["+value+"] = "+((meanValue/3)*1)); // todo
+         
+          // medium : orange
+          imgUrl = "http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.10|0|EE9900|9|_|"+sValue+(extraValue.length>0?"|"+extraValue:"");
+          markerImg = new google.maps.MarkerImage(imgUrl+"&ts="+new Date().getTime(),new google.maps.Size(40,72));         
+        }
+        else if(value >= ((meanValue/3)*0)){
+          //alert("yellow ((meanValue/3)*0) ["+value+"] = "+((meanValue/3)*0)); // todo
+          
+          // small : yellow
+          imgUrl = "http://chart.googleapis.com/chart?chst=d_map_spin&chld=0.90|0|EEEE00|8|_|"+sValue+(extraValue.length>0?"|"+extraValue:"");
+          markerImg = new google.maps.MarkerImage(imgUrl+"&ts="+new Date().getTime(),new google.maps.Size(33,59));         
+        }
+        
+        return markerImg;
+      }
+
+      //--- SET Z-INDEX ---
+      function setZIndex(marker,value){
+        //*** scale Z-index with value ***
+        if(value >= (meanValue/3)*2){
+          // large
+          marker.setZIndex(zIndexes["large"]*1);
+          zIndexes["large"]++;
+        }
+        else if(value >= (meanValue/3)*1){
+          // medium
+          marker.setZIndex(zIndexes["medium"]*10);
+          zIndexes["medium"]++;
+        }
+        else if(value >= (meanValue/3)*0){
+          // small
+          marker.setZIndex(zIndexes["small"]*1000);
+          zIndexes["small"]++;
+        } 
+        
+        //alert("value : "+value+" --> zindex : "+marker.getZIndex());
+      }
+      
+      //--- HOME CONTROL ---
+      function HomeControl(controlDiv,map){
+        controlDiv.style.padding = "5px 0px";
+
+        var controlUI = document.createElement("div");
+        controlUI.style.backgroundColor = "white";
+        controlUI.style.border = "1px solid #808080";
+        controlUI.style.cursor = "pointer";
+        controlUI.style.textAlign = "center";
+        controlUI.style.padding = "2px 1px 1px 1px";
+        controlUI.title = "Show initial location";
+        controlDiv.appendChild(controlUI);
+
+        var controlText = document.createElement("div");
+        controlText.style.fontFamily = "Arial,sans-serif";
+        controlText.style.fontSize = "12px";
+        controlText.style.paddingLeft = "4px";
+        controlText.style.paddingRight = "4px";
+        controlText.innerHTML = "<b>Home<b>";
+        controlUI.appendChild(controlText);
+
+        // add click listener to go home on click
+        google.maps.event.addDomListener(controlUI,"click",function(){
+          var home =  new google.maps.LatLng(20,18);
+          map.setCenter(home);
+          map.setZoom(2);
+        });
+      }
+ 
+      //--- INITIALIZE ---
+      function initialize(){
+        map = new google.maps.Map(document.getElementById("map"),{
+          zoom: 2, // 4:sub-Saharian Africa
+          minZoom: 2, // world
+          maxZoom: 16,// 16:street, 15:neighbourhood, 14:city
+          center: new google.maps.LatLng(20,18),
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+          // controls
+          panControl: false,
+          zoomControl: true,
+          mapTypeControl: true,
+          scaleControl: true,
+          streetViewControl: false,
+          overviewMapControl: true,
+          rotateControl: false
+        });
+
+        // register maps coords when it is not dragged
+        google.maps.event.addListener(map,"idle",
+          function(){
+            var bounds = map.getBounds(); 
+
+            mapNE = bounds.getNorthEast();
+            mapSW = bounds.getSouthWest();
+          }
+        ); 
+
+        // refresh map on zoom
+        google.maps.event.addListener(map,"zoom_changed",
+          function(){            
+            refreshMap();
+          }
+        ); 
+
+        // home-button
+        var homeControlDiv = document.createElement("div");
+        var homeControl = new HomeControl(homeControlDiv,map);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+        
+        refreshMap();
+      }
+    </script>
+
+    <script>window.moveTo(self.screen.width/7,self.screen.height/6);</script>
+  </head>
+
+  <body onload="initialize();" style="background:#ddd;">
+    <script>
+      document.write("<div style='background:#ddd; font-family:Arial; font-size:10pt; font-weight:bold; text-align:center; width:100%; padding:20px 0px;'>");
+      document.write(data.mapTitle);
+      document.write("</div>");
+    </script>
+
+    <div id="map" style="width:100%;height:510px;"></div>
+    
+    <script>
+      var debug = false;
+      
+      if(debug==true){
+        //--- TABLE WITH 2 COLS ---
+        document.write("<div style='font-family:Arial;font-size:10pt;width:100%;padding:20px 0px;'>");
+        document.write("<b>Displayed data :</b>");
+      
+        // main table
+        document.write("<table border='0' cellspacing='0' cellpadding='1'>"+
+                        "<tr>"+
+                         "<td style='vertical-align:top;'>");
+
+        // col 1 = table 1
+        document.write("<table border='0' cellspacing='0' cellpadding='1'>");
+        for(var i=0; i<parseInt((data.services.length+1)/2); i++){
+          document.write("<tr>"+
+                          "<td>["+(i+1)+"] "+data.services[i].location+"</td>"+
+                          "<td style='padding-left:10px;text-align:right;' title='"+thousandSeparator(data.services[i].value)+"'>"+formatValueToPercentage(data.services[i].value)+"</td>"+
+                         "</tr>");
+        }
+        document.write("</table>");
+ 
+        document.write("</td>");
+        document.write("<td style='padding-left:50px;vertical-align:top;'>");
+
+
+        // col 2 = table 2
+        document.write("<table border='0' cellspacing='0' cellpadding='1'>");
+        for(var i=parseInt((data.services.length+1)/2); i<data.services.length; i++){
+          document.write("<tr>"+
+                          "<td>["+(i+1)+"] "+data.services[i].location+"</td>"+
+                          "<td style='padding-left:10px;text-align:right;' title='"+thousandSeparator(data.services[i].value)+"'>"+formatValueToPercentage(data.services[i].value)+"</td>"+
+                         "</tr>");
+        }
+        document.write("</table>");
+
+        document.write(  "</td>"+
+                        "</tr>"+
+                       "</table>");
+
+        document.write("</div>");
+      }
+    </script>
+  </body>
+</html>

@@ -62,7 +62,7 @@ try{
 
             while (prestationsIter.hasNext()) {
                 prestation = (Prestation) prestationsIter.next();
-                if(!prestation.getType().equalsIgnoreCase("con.openinsurance")){
+                if(prestation!=null && !checkString(prestation.getType()).equalsIgnoreCase("con.openinsurance")){
 	                recsFound = true;
 	
 	                // names

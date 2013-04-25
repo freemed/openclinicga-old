@@ -160,7 +160,7 @@
             </td>
         </tr>
 <%
-	if(MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openpharmacy")||MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openinsurance")){
+	if(MedwanQuery.getInstance().getConfigInt("MFPextendedInformation",0)==1||MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openpharmacy")||MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openinsurance")){
 %>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">

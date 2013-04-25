@@ -4,6 +4,7 @@
 <%=checkPermission("financial.patientinvoice.edit","edit",activeUser)%>
 <%=sJSPROTOTYPE%>
 <%=sJSNUMBER%> 
+<%=sJSSTRINGFUNCTIONS%>
 <%!
     private String addCredits(Vector vCredits, String sClass, boolean bChecked, String sWebLanguage){
         StringBuffer sReturn = new StringBuffer();
@@ -52,7 +53,7 @@
 
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
 	PatientInvoice patientInvoice;
-    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="";
+    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", sInsurarReferenceDate="", sVerifier="";
 
     if (sFindPatientInvoiceUID.length() > 0) {
         patientInvoice = PatientInvoice.getViaInvoiceUID(sFindPatientInvoiceUID);
@@ -71,7 +72,9 @@
             	out.flush();
             }
             sClosed=patientInvoice.getStatus();
-            sInsurarReference=patientInvoice.getInsurarreference();
+            sInsurarReference=checkString(patientInvoice.getInsurarreference());
+            sInsurarReferenceDate=checkString(patientInvoice.getInsurarreferenceDate());
+            sVerifier=checkString(patientInvoice.getVerifier());
         }
         else{
         	out.println(getTran("web","invoice.does.not.exist",sWebLanguage)+": "+sFindPatientInvoiceUID);
@@ -187,6 +190,7 @@
 	            <td class="admin" nowrap><%=getTran("web.finance","insurarreference",sWebLanguage)%></td>
 	            <td class="admin2">
 	                <input type="text" size="40" class="text" id="EditInsurarReference" name="EditInsurarReference" value="<%=sInsurarReference%>">
+	                <%=getTran("web","date",sWebLanguage)%>: <%=writeDateField("EditInsurarReferenceDate","EditForm",sInsurarReferenceDate,sWebLanguage)%>
 	            </td>
 	        </tr>
 	        <%
@@ -245,18 +249,44 @@
 		            <input type="hidden" name="EditInvoiceService" id="EditInvoiceService" value="">
 	            </td>
 	        </tr>
-            <% if(patientInvoice==null || patientInvoice.getStatus()==null || patientInvoice.getStatus().equalsIgnoreCase("open")){ %>
-            <tr>
-            	<td class='admin'><%=getTran("web","service",sWebLanguage)%></td>
-            	<td class='admin2' colspan='3'>
-		           	<input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">
-		           	<img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
-		           	<img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
-                    &nbsp;<input type="button" class="button" name="update2" value="<%=getTran("web","update",sWebLanguage)%>" onclick="loadDebets();"/>
-				</td>
-			</tr>
-			<%}%>                        
-            <%
+	        <%
+	        if(patientInvoice==null || patientInvoice.getStatus()==null || patientInvoice.getStatus().equalsIgnoreCase("open") || MedwanQuery.getInstance().getConfigInt("enableInvoiceVerification",0)==1){
+	        %>
+	            <tr>
+	            <% 	
+	            	if(patientInvoice==null || patientInvoice.getStatus()==null || patientInvoice.getStatus().equalsIgnoreCase("open")){ 
+	            %>
+		            	<td class='admin'><%=getTran("web","service",sWebLanguage)%></td>
+		            	<td class='admin2'>
+				           	<input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">
+				           	<img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
+				           	<img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
+		                    &nbsp;<input type="button" class="button" name="update2" value="<%=getTran("web","update",sWebLanguage)%>" onclick="loadDebets();"/>
+						</td>
+				<%
+					}
+					else {
+				%>
+					<td class='admin'>&nbsp;</td><td class='admin2'>&nbsp;</td>			                        
+		        <%
+					}
+		            if(MedwanQuery.getInstance().getConfigInt("enableInvoiceVerification",0)==1){ 
+		        %>
+		            	<td class='admin'><%=getTran("web","verifier",sWebLanguage)%></td>
+		            	<td class='admin2'>
+				           	<input class="text" type="text" name="EditInvoiceVerifier" id="EditInvoiceVerifier" size="<%=sTextWidth%>" value="<%=sVerifier%>">
+						</td>
+				<%
+					}
+					else {
+				%>
+						<td class='admin'>&nbsp;</td><td class='admin2'>&nbsp;<input type='hidden' name='EditInvoiceVerifier' id='EditInvoiceVerifier' value=''/></td>			                        
+		        <%
+					}
+		        %>
+		        </tr>
+	        <%
+	        }
   				boolean bReduction=false;
   				Insurance insurance = null;
             	String pid="0";
@@ -497,6 +527,8 @@
 		                          +'&EditCBs='+sCbs
 		                          +'&EditInvoiceSeries='+sInvoiceSeries
 		                          +'&EditInsurarReference='+EditForm.EditInsurarReference.value
+		                          +'&EditInsurarReferenceDate='+EditForm.EditInsurarReferenceDate.value
+		                          +'&EditInvoiceVerifier='+EditForm.EditInvoiceVerifier.value
 		                          +'&EditReduction='+red
 		                          +'&EditBalance=' + document.getElementById('EditBalance').value,
 		                  onSuccess: function(resp){
@@ -506,6 +538,7 @@
 		                      $('EditInvoiceUID').value=label.EditInvoiceUID;
 		                      $('EditInvoiceUIDText').value=label.EditInvoiceUID;
 		                      $('EditInsurarReference').value=label.EditInsurarReference;
+		                      $('EditInsurarReferenceDate').value=label.EditInsurarReferenceDate;
 		                      $('FindPatientInvoiceUID').value=label.EditInvoiceUID;
 		                      doFind();
 		                  },
@@ -596,10 +629,11 @@
 	                onSuccess: function(resp){
 	                	var label = eval('('+resp.responseText+')');
 	                	if(label.message.length>0){
-	                    	alert(label.message);
+	                    	alert(label.message.unhtmlEntities());
 	                    };
 	                },
-					onFailure: function(){
+					onFailure: function(request, status, error){
+						alert(request.responseText);
 	                }
 	            }
 			);

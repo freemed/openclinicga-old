@@ -1,4 +1,4 @@
-<%@ page import="be.mxs.common.util.io.*,org.apache.commons.httpclient.*,org.apache.commons.httpclient.methods.*,be.mxs.common.util.db.*,be.mxs.common.util.system.*,be.openclinic.finance.*,java.util.*,java.text.*" %>
+<%@ page import="java.io.*,org.dom4j.*,org.dom4j.io.*,be.mxs.common.util.io.*,org.apache.commons.httpclient.*,org.apache.commons.httpclient.methods.*,be.mxs.common.util.db.*,be.mxs.common.util.system.*,be.openclinic.finance.*,java.util.*,java.text.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%
 	java.text.DecimalFormat priceFormat = new java.text.DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00"));
@@ -111,7 +111,7 @@
 		String javaPOSServer=(String)session.getAttribute("javaPOSServer");
 		if(javaPOSServer.length()==0){
 			javaPOSServer="http://localhost/openclinic";
-
+		}
 		String url = javaPOSServer+"/financial/printReceipt.jsp";
 		PostMethod method = new PostMethod(url);
 		method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
@@ -124,7 +124,19 @@
 		vNvp.copyInto(nvp);
 		method.setQueryString(nvp);
 		int statusCode = client.executeMethod(method);
-		out.print("{\"message\":\""+""+"\"}");
+		String sError="";
+		if(method.getResponseBodyAsString().contains("<error>")){
+			BufferedReader br = new BufferedReader(new StringReader(method.getResponseBodyAsString()));
+			SAXReader reader=new SAXReader(false);
+			org.dom4j.Document document=reader.read(br);
+			Element root = document.getRootElement();
+			if(ScreenHelper.checkString(root.getText()).trim().length()>0){
+				sError=root.getText();
+			}
+			
+		}
+
+		out.print("{\"message\":\""+sError+"\"}");
 
 	}
 	else {

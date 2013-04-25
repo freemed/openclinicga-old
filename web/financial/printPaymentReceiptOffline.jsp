@@ -1,4 +1,4 @@
-<%@ page import="sun.misc.*,be.mxs.common.util.io.*,org.apache.commons.httpclient.*,org.apache.commons.httpclient.methods.*,be.mxs.common.util.db.*,be.mxs.common.util.system.*,be.openclinic.finance.*,net.admin.*,java.util.*,java.text.*,be.openclinic.adt.*" %>
+<%@ page import="java.io.*,org.dom4j.*,org.dom4j.io.*,sun.misc.*,be.mxs.common.util.io.*,org.apache.commons.httpclient.*,org.apache.commons.httpclient.methods.*,be.mxs.common.util.db.*,be.mxs.common.util.system.*,be.openclinic.finance.*,net.admin.*,java.util.*,java.text.*,be.openclinic.adt.*" %>
 <%!
     //--- ENCODE ----------------------------------------------------------------------------------
     public String encode(String sValue) {
@@ -91,7 +91,19 @@
 				NameValuePair nvp4= new NameValuePair("id","8"+creditnumber);
 				method.setQueryString(new NameValuePair[]{nvp1,nvp2,nvp3,nvp4});
 				int statusCode = client.executeMethod(method);
-				out.print("{\"message\":\""+""+"\"}");
+				String sError="";
+				if(method.getResponseBodyAsString().contains("<error>")){
+					BufferedReader br = new BufferedReader(new StringReader(method.getResponseBodyAsString()));
+					SAXReader reader=new SAXReader(false);
+					org.dom4j.Document document=reader.read(br);
+					Element root = document.getRootElement();
+					if(ScreenHelper.checkString(root.getText()).trim().length()>0){
+						sError=root.getText();
+					}
+					
+				}
+
+				out.print("{\"message\":\""+sError+"\"}");
 			}
 		}
 	}

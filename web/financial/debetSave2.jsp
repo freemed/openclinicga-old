@@ -32,6 +32,9 @@
         		String sPatientAmount = request.getParameter("PPP_"+sPrestationUid);
         		String sInsurarAmount = request.getParameter("PPI_"+sPrestationUid);
 		        Debet debet = new Debet();
+		        if(sInsurarAmount.indexOf(",")>-1){
+		        	sInsurarAmount=sInsurarAmount.replaceAll("\\.","");
+		        }
 		        debet.setInsurarAmount(Double.parseDouble(sInsurarAmount.replaceAll(",",".")));
 		        debet.setComment(sEditComment);
 		
@@ -71,11 +74,17 @@
 					debet.setExtraInsurarAmount(0);
 				}
 				else {
-					debet.setExtraInsurarAmount(Double.parseDouble(sEditExtraInsurarAmount));
+			        if(sEditExtraInsurarAmount.indexOf(",")>-1){
+			        	sEditExtraInsurarAmount=sEditExtraInsurarAmount.replaceAll("\\.","");
+			        }
+					debet.setExtraInsurarAmount(Double.parseDouble(sEditExtraInsurarAmount.replaceAll(",",".")));
 				}
 				
 		        if (sEditExtraInsurarUID2.length()>0){
 		            debet.setExtraInsurarUid2(sEditExtraInsurarUID2);
+		        }
+		        if(sPatientAmount.indexOf(",")>-1){
+		        	sPatientAmount=sPatientAmount.replaceAll("\\.","");
 		        }
 	            debet.setAmount(Double.parseDouble(sPatientAmount.replaceAll(",",".")));
 		        if(!debet.store()){

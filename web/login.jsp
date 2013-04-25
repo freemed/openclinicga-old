@@ -174,8 +174,8 @@
         <a href="mailto:mxs@rwandamed.org">mxs@rwandamed.org</a>
         <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("bi")) { %>
         <img src="_img/burundiflag.jpg" height="15px" width="30px" alt="Burundi"/>
-        <a href="http://www.openit-burundi.net" target="_new"><b>Open-IT Burundi SARL</b></a>
-        <BR/> Burundi Business Incubator - Bujumbura +257 78 837 342<br/>
+        <a href="http://www.openit-burundi.net" target="_new"><b>Open-IT Burundi SPRL</b></a>
+        <BR/> Avenue de l'ONU 6, BP 7205 - Bujumbura +257 78 837 342<br/>
         <a href="mailto:info@openit-burundi.net">info@openit-burundi.net</a>
         <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("ml")) { %>
         <img src="_img/maliflag.jpg" height="15px" width="30px" alt="Mali"/>

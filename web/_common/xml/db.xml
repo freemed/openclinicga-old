@@ -252,6 +252,8 @@
 			<column name="DC_MONITORSERVER_LEVEL" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_MONITORSERVER_BEDS" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_MONITORSERVER_UPDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="DC_MONITORSERVER_LATITUDE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="DC_MONITORSERVER_LONGITUDE" dbtype="varchar" javatype="string" size="50"/>
 	    </columns>
 	    <indexes>
 	    	<index name="DC_MONITORSERVER_SERVERID">
@@ -1791,7 +1793,9 @@
             <column name="OC_PATIENTINVOICE_BALANCE" dbtype="float" javatype="float"/>
             <column name="OC_PATIENTINVOICE_NUMBER" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_INSURARREFERENCE" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PATIENTINVOICE_INSURARREFERENCEDATE" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_ACCEPTATIONUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PATIENTINVOICE_VERIFIER" dbtype="varchar" javatype="string" size="255"/>
         </columns>
 		<indexes>
 			<index name="OC_PATIENTINVOICE_OBJECTID">
@@ -1821,7 +1825,9 @@
             <column name="OC_PATIENTINVOICE_BALANCE" dbtype="float" javatype="float"/>
             <column name="OC_PATIENTINVOICE_NUMBER" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_INSURARREFERENCE" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PATIENTINVOICE_INSURARREFERENCEDATE" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_ACCEPTATIONUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PATIENTINVOICE_VERIFIER" dbtype="varchar" javatype="string" size="255"/>
         </columns>
     </table>
 

@@ -11,6 +11,8 @@
     String sEditCBs = checkString(request.getParameter("EditCBs"));
     String sEditInvoiceSeries = checkString(request.getParameter("EditInvoiceSeries"));
     String sEditInsurarReference = checkString(request.getParameter("EditInsurarReference"));
+    String sEditInvoiceVerifier = checkString(request.getParameter("EditInvoiceVerifier"));
+    String sEditInsurarReferenceDate = checkString(request.getParameter("EditInsurarReferenceDate"));
     String sEditReduction = checkString(request.getParameter("EditReduction"));
 
     PatientInvoice patientinvoice = new PatientInvoice();
@@ -36,6 +38,8 @@
     patientinvoice.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
     patientinvoice.setUpdateUser(activeUser.userid);
     patientinvoice.setInsurarreference(sEditInsurarReference);
+    patientinvoice.setInsurarreferenceDate(sEditInsurarReferenceDate);
+    patientinvoice.setVerifier(sEditInvoiceVerifier);
 	if(!sEditInvoiceSeries.equalsIgnoreCase("") && checkString(patientinvoice.getNumber()).length()==0){
 		patientinvoice.setNumber(sEditInvoiceSeries+"."+MedwanQuery.getInstance().getOpenclinicCounter(sEditInvoiceSeries));
 	}
@@ -166,5 +170,6 @@
 "Message":"<%=HTMLEntities.htmlentities(sMessage)%>",
 "EditPatientInvoiceUID":"<%=patientinvoice.getUid()%>",
 "EditInsurarReference":"<%=patientinvoice.getInsurarreference()%>",
+"EditInsurarReferenceDate":"<%=patientinvoice.getInsurarreferenceDate()%>",
 "EditInvoiceUID":"<%=patientinvoice.getInvoiceUid()%>"
 }

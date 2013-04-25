@@ -35,7 +35,7 @@
 		try{
 			//First update/create server data
 			int serverid=0;
-			String oldCenterCountry="";
+			String oldCenterCountry="",oldCenterCity="";
 			Connection conn = MedwanQuery.getInstance().getStatsConnection();
 			String sSql="select * from dc_monitorservers where dc_monitorserver_serveruid=?";
 			PreparedStatement ps = conn.prepareStatement(sSql);
@@ -44,6 +44,7 @@
 			if(rs.next()){
 				serverid=rs.getInt("dc_monitorserver_serverid");
 				oldCenterCountry=notNull(rs.getString("dc_monitorserver_country"),"");
+				oldCenterCity=notNull(rs.getString("dc_monitorserver_city"),"");
 				//Update existing data
 				rs.close();
 				ps.close();
@@ -51,7 +52,7 @@
 				ps=conn.prepareStatement(sSql);
 				ps.setString(1,centerName);
 				ps.setString(2,centerCountry.length()>0?centerCountry.toUpperCase():oldCenterCountry.toUpperCase());
-				ps.setString(3,centerCity.toUpperCase());
+				ps.setString(3,centerCity.length()>0?centerCity.toUpperCase():oldCenterCity.toUpperCase());
 				ps.setString(4,centerContact);
 				ps.setString(5,centerEmail);
 				ps.setString(6,centerType);

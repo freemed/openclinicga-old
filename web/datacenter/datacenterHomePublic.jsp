@@ -38,6 +38,7 @@
 			session.setAttribute("datacenteruser",request.getParameter("username"));
 		}
 	}
+    String jsonFileId = Long.toString(System.currentTimeMillis()); //request.getSession().getId();
 
 %>
 <html>
@@ -114,7 +115,7 @@
         </div>
         <div id="container">
             <div id="content">
-            	<label><h3><%=getTran("web","datacenter.intro",sWebLanguage).replaceAll("OpenClinic", "<a href='http://sourceforge.net/projects/open-clinic'>OpenClinic</a>") %></h3></label>
+            	<label><h3><%=getTran("web","datacenter.intro",sWebLanguage).replaceAll("OpenClinic", "<a href='http://sourceforge.net/projects/open-clinic'>OpenClinic</a>") %> <%=getTran("web","datacenter.intro2",sWebLanguage)%></h3></label>
             	<table width='100%' class='content'>
 			<%
 				SiteData summarySite=new SiteData();
@@ -131,7 +132,7 @@
 					serverid=rs.getInt("dc_monitorserver_serverid");
 					if(serverid!=activeServer){
 						activeServer=serverid;
-						String country = getTranNoLink("country",rs.getString("dc_monitorserver_country"),sWebLanguage).toUpperCase();
+						String country = getTranNoLink("country",rs.getString("dc_monitorserver_country").replaceAll("ZR","CD"),sWebLanguage).toUpperCase();
 						if(countries.get(country)==null){
 							countries.put(country,new TreeMap());
 						}
@@ -180,17 +181,134 @@
 						}
 					}
 				}
-				out.println("<tr bgcolor='black'><td colspan='1' width='1%' nowrap><b><font color='white'>"+getTran("web","total",sWebLanguage)+"</font></b></td><td><font color='white'>"+summarySite.id+" "+getTran("web","sites",sWebLanguage)+" "+getTran("web","datacenter.in",sWebLanguage).toLowerCase()+" "+countries.size()+" "+getTran("web","countries",sWebLanguage)+"</font></td><td/><td><font color='white'>"+getTran("web","patients",sWebLanguage)+"</font></td><td><font color='white'>"+getTran("web","outpatients",sWebLanguage)+"</font></td><td><font color='white'>"+getTran("web","admissions",sWebLanguage)+"</font></td><td><font color='white'>"+getTran("web","labanalyses",sWebLanguage)+"</font></td><td><font color='white'>"+getTran("web","invoices",sWebLanguage)+"</font></td><td><font color='white'>"+getTran("web","debets",sWebLanguage)+"</font></td></tr>");
-				out.println("<tr><td> </td><td> </td> <td/><td>"+new DecimalFormat("#,###").format(summarySite.patients)+"</td><td>"+new DecimalFormat("#,###").format(summarySite.visits)+"</td><td>"+new DecimalFormat("#,###").format(summarySite.admissions)+"</td><td>"+new DecimalFormat("#,###").format(summarySite.labs)+"</td><td>"+new DecimalFormat("#,###").format(summarySite.invoices)+"</td><td>"+new DecimalFormat("#,###").format(summarySite.debets)+"</td></tr>");
+				// totals row : header
+				out.println("<tr bgcolor='black'>"+
+				              "<td colspan='1' width='1%' nowrap><b><font color='white'>"+getTran("web","total",sWebLanguage)+"</font></b></td>"+
+				              "<td>"+
+				                "<font color='white'><b>"+summarySite.id+" "+getTran("web","sites",sWebLanguage)+" "+getTran("web","datacenter.in",sWebLanguage).toLowerCase()+" "+countries.size()+" "+getTran("web","countries",sWebLanguage)+"</b><br>"+
+						          " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','sites','clusterer');\">GIS</a>]&nbsp;"+
+						          " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','sites','mapChart');\">GISmap</a>]"+
+				                "</font>"+
+				              "</td>"+
+				              "<td/>"+
+				              "<td>"+
+				                "<font color='white'><b>"+getTran("web","patients",sWebLanguage)+"</b><br>"+
+				                  " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','patients','clusterer');\">GIS</a>]&nbsp;"+
+						          " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','patients','mapChart');\">GISmap</a>]"+
+				                "</font>"+
+				              "</td>"+
+				              "<td>"+
+				                "<font color='white'><b>"+getTran("web","outpatients",sWebLanguage)+"</b><br>"+
+				                  " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','outpatients','clusterer');\">GIS</a>]&nbsp;"+
+						          " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','outpatients','mapChart');\">GISmap</a>]"+
+				                "</font>"+
+				              "</td>"+
+				              "<td>"+
+				                "<font color='white'><b>"+getTran("web","admissions",sWebLanguage)+"</b><br>"+
+				                  " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','admissions','clusterer');\">GIS</a>]&nbsp;"+
+						          " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','admissions','mapChart');\">GISmap</a>]"+
+				                "</font>"+
+				              "</td>"+
+				              "<td>"+
+				                "<font color='white'><b>"+getTran("web","labanalyses",sWebLanguage)+"</b><br>"+
+				                  " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','labanalyses','clusterer');\">GIS</a>]&nbsp;"+
+						          " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','labanalyses','mapChart');\">GISmap</a>]"+
+				                "</font>"+
+				              "</td>"+
+				              "<td>"+
+				                "<font color='white'><b>"+getTran("web","invoices",sWebLanguage)+"</b><br>"+
+				                  " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','invoices','clusterer');\">GIS</a>]&nbsp;"+
+						          " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','invoices','mapChart');\">GISmap</a>]"+
+				                "</font>"+
+				              "</td>"+
+				              "<td>"+
+				                "<font color='white'><b>"+getTran("web","debets",sWebLanguage)+"</b><br>"+
+				                  " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','debets','clusterer');\">GIS</a>]&nbsp;"+
+						          " [<a style='color:white;' href='javascript:void(0);' onClick=\"openGISMap('"+summarySite.id+"','debets','mapChart');\">GISmap</a>]"+
+				                "</font>"+
+				              "</td>"+
+				            "</tr>");
+
+				// totals row : numbers
+				out.println("<tr>"+
+			                  "<td/>"+
+			                  "<td/>"+
+				              "<td/>"+
+						      "<td>"+new DecimalFormat("#,###").format(summarySite.patients)+"</td>"+
+				              "<td>"+new DecimalFormat("#,###").format(summarySite.visits)+"</td>"+
+						      "<td>"+new DecimalFormat("#,###").format(summarySite.admissions)+"</td>"+
+						      "<td>"+new DecimalFormat("#,###").format(summarySite.labs)+"</td>"+
+						      "<td>"+new DecimalFormat("#,###").format(summarySite.invoices)+"</td>"+
+				              "<td>"+new DecimalFormat("#,###").format(summarySite.debets)+"</td>"+
+						    "</tr>");
+				
+				// spacer
 				out.println("<tr><td colspan='8'>&nbsp;</td></tr>");
-				out.println(output);
-			%>
+				
+				out.println(output);			%>
 			</table>
             </div>
             <div class="pad2">&nbsp;</div>
         </div>
     <script>
-	    function keepAlive(){
+    var gisWin = null;
+
+    <%-- OPEN GIS MAP --%>
+    function openGISMap(siteId,parameter,mapType){    	
+      if(gisWin) gisWin.close();  
+		var url = "<c:url value='/datacenter/gis/createJSONPublic.jsp'/>?ts="+new Date().getTime();
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "siteId="+siteId+
+                    "&parameter="+parameter+
+                    "&mapType="+mapType+
+                    "&jsonFileId=<%=jsonFileId%>."+parameter,
+        onSuccess: function(resp){
+        	createHtml(siteId,parameter,mapType);     		
+        },
+        onFailure: function(resp){
+      	alert(resp.responseText);
+        }
+      });
+    }
+    
+    <%-- CREATE HTML --%>
+    function createHtml(siteId,parameter,mapType){       	
+  	if(mapType=="mapChart"){
+        openGISMapContinued(siteId,parameter,mapType);   	
+  	}
+  	else{
+		  var url = "<c:url value='/datacenter/gis/createHTML.jsp'/>?ts="+new Date().getTime();	
+        new Ajax.Request(url,{
+          method: "GET",
+          parameters: "jsonFileId=<%=jsonFileId%>."+parameter+
+                      "&htmlPage="+mapType+".html",
+          onSuccess: function(resp){
+        	  openGISMapContinued(siteId,parameter,mapType);   		
+          },
+          onFailure: function(resp){
+            alert(resp.responseText);
+          }
+        });
+  	}
+    }      
+    
+    <%-- OPEN GIS MAP CONTINUED --%>
+    function openGISMapContinued(siteId,parameter,mapType){   	
+  	// circles|clusterer|customMarker|mapChart|heatMap|heatMapWeighted
+      if(mapType=="mapChart"){
+    	  var url = "<c:url value='/datacenter/gis/googleMaps/'/>"+mapType+"_<%=jsonFileId%>."+parameter+".html?ts="+new Date().getTime();
+	      gisWin = window.open(url,"GISVisualiser","toolbar=no,status=no,scrollbars=yes,resizable=yes,width=810,height=520,menubar=no");
+      }
+      else{            
+        var url = "<c:url value='/datacenter/gis/googleMaps/'/>"+mapType+"_<%=jsonFileId%>."+parameter+".html?ts="+new Date().getTime();
+        gisWin = window.open(url,"GISVisualiser","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1040,height=680,menubar=no");
+      }
+    
+      gisWin.focus();
+    }      
+
+    function keepAlive(){
 	        var r="";
 	        var today = new Date();
 	        var url= '<c:url value="/util/keepAlive.jsp"/>?ts='+today;
@@ -281,7 +399,7 @@
 			coloredAreasColor: "#FFF2F9",
 			drawXAxis: true,
 			drawYAxis: true,
-			clickable: true,
+			clickable: true
 		},
         points: { show: false },
         xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
@@ -326,7 +444,7 @@
 			coloredAreasColor: "#FFF2F9",
 			drawXAxis: true,
 			drawYAxis: true,
-			clickable: true,
+			clickable: true
 		},
         xaxis: { mode: "time",fillColor:"#00ff00",monthNames:["jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"]},
         selection: { mode: "x" }

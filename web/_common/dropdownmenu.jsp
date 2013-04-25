@@ -588,7 +588,18 @@
     }
     
     function showmanual(){
-    	window.open("<c:url value="/documents/help/"/>openclinic_manual_<%=sWebLanguage.toLowerCase()%>.pdf");
+    	<%
+    		if(MedwanQuery.getInstance().getConfigString("documentationLanguages","en,fr").toLowerCase().indexOf(sWebLanguage.toLowerCase())>-1){
+    	%>
+		    	window.open("<c:url value="/documents/help/"/>openclinic_manual_<%=sWebLanguage.toLowerCase()%>.pdf");
+		<%
+    		}
+    		else {
+		%>
+	    	window.open("<c:url value="/documents/help/"/>openclinic_manual_en.pdf");
+		<%
+    		}
+		%>
     }    
     
 	function downloadPharmacyExport(){
