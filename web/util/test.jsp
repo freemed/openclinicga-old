@@ -1,4 +1,3 @@
-
 <%@ page import="be.openclinic.finance.Balance,
                 java.sql.*,be.mxs.common.util.db.*" %><%
 System.out.println(new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss SSS").format(new java.util.Date())+": util 1");
