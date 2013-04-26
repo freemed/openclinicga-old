@@ -425,21 +425,60 @@
 
     //--- NORMALIZE SPECIAL CHARACTERS ------------------------------------------------------------
     private String normalizeSpecialCharacters(String sTest){
-        sTest=sTest.toLowerCase();
     	sTest = sTest.replaceAll("´","'");
 
+    	// lowercase
         sTest = sTest.replaceAll("é","e");
         sTest = sTest.replaceAll("è","e");
-        sTest = sTest.replaceAll("ë","e");
         sTest = sTest.replaceAll("ê","e");
+        sTest = sTest.replaceAll("ë","e");
+        
+        sTest = sTest.replaceAll("ì","i");
+        sTest = sTest.replaceAll("í","i");
+        sTest = sTest.replaceAll("î","i");
         sTest = sTest.replaceAll("ï","i");
-        sTest = sTest.replaceAll("ö","o");
+        
+        sTest = sTest.replaceAll("ó","o");
+        sTest = sTest.replaceAll("ò","o");
         sTest = sTest.replaceAll("ô","o");
-        sTest = sTest.replaceAll("ä","a");
+        sTest = sTest.replaceAll("ö","o");
+        
         sTest = sTest.replaceAll("á","a");
         sTest = sTest.replaceAll("à","a");
         sTest = sTest.replaceAll("â","a");
+        sTest = sTest.replaceAll("ä","a");
+        
+        sTest = sTest.replaceAll("ú","u");
+        sTest = sTest.replaceAll("ù","u");
+        sTest = sTest.replaceAll("û","u");
+        sTest = sTest.replaceAll("ü","u");
+        
+        // uppercase
+        sTest = sTest.replaceAll("É","E");
+        sTest = sTest.replaceAll("È","E");
+        sTest = sTest.replaceAll("Ê","E");
+        sTest = sTest.replaceAll("Ë","E");
 
+        sTest = sTest.replaceAll("Í","I");
+        sTest = sTest.replaceAll("Ì","I");
+        sTest = sTest.replaceAll("Î","I");
+        sTest = sTest.replaceAll("Ï","I");
+
+        sTest = sTest.replaceAll("Ó","O");
+        sTest = sTest.replaceAll("Ò","O");
+        sTest = sTest.replaceAll("Ô","O");
+        sTest = sTest.replaceAll("Ö","O");
+        
+        sTest = sTest.replaceAll("Á","A");
+        sTest = sTest.replaceAll("À","A");
+        sTest = sTest.replaceAll("Â","A");
+        sTest = sTest.replaceAll("Ä","A");
+
+        sTest = sTest.replaceAll("Ù","U");
+        sTest = sTest.replaceAll("Ú","U");
+        sTest = sTest.replaceAll("Û","U");
+        sTest = sTest.replaceAll("Ü","U");
+        
         return sTest;
     }
  
@@ -539,14 +578,6 @@
         if(shadesCount > 15) shadesCount = 15;
         String sColor = "";
         int rgbGreen;
-
-        /*
-        System.out.println(""); // todo
-        for(int i=0; i<=shadesCount; i++){
-        	rgbGreen = (int)(((255d/(double)shadesCount)*i));
-        	System.out.println("CLASS "+i+" - rgbGreen : "+rgbGreen+" --> "+rgbToHtml(51,(255-rgbGreen),0)); // todo
-        }
-        */
         
         for(int i=0; i<=shadesCount; i++){
         	rgbGreen = (int)(((255d/(double)shadesCount)*i));
@@ -555,21 +586,7 @@
         	    sColor = rgbToHtml(51,(255-rgbGreen),0); // 51 == 33 hex == some red to soften the green
         	    break;
         	}
-        }
-        
-        /*
-            // 8 shades of green
-                 if(rgbScaled <=  25) sColor = "33ee00"; // light = light
-            else if(rgbScaled <=  50) sColor = "33dd00";
-            else if(rgbScaled <=  75) sColor = "33cc00";
-            else if(rgbScaled <= 100) sColor = "33bb00";
-            else if(rgbScaled <= 125) sColor = "33aa00";
-            else if(rgbScaled <= 150) sColor = "339900";
-            else if(rgbScaled <= 175) sColor = "338800";
-            else if(rgbScaled <= 200) sColor = "337700";
-            else if(rgbScaled <= 225) sColor = "336600";
-            else if(rgbScaled  > 225) sColor = "335500"; // dark = heavy            
-        */             
+        }   
 	    
         return sColor; 
 	}
@@ -704,8 +721,7 @@
         SiteData site;
         
         for(int i=0; i<servers.size(); i++){
-            site = (SiteData)servers.get(i);
-        	 	
+            site = (SiteData)servers.get(i);        	 	
             sCountryCode = site.countryCode;
                         
          	// country name
@@ -717,8 +733,7 @@
        	                                                               // GB-SCT Scotland country
        	                                                               // GB-WLS Wales
        	        
-       	        // take Kansas as center of US, otherwise wihtout state-code no label is shown
-                     
+       	        // take Kansas as center of US, otherwise wihtout state-code no label is shown                     
                 if(countryValues.get(sCountryCode)==null){
            	        if(site.dataType.equals("sites")){
                         countryValues.put(sCountryCode,1);
@@ -773,8 +788,10 @@
                         countryValues.put(sCountryCode,value+site.labs);
                	    }
                 }
+       	        
        	        if(sCountryCode.equals("US") && !sContinent.equalsIgnoreCase("World")){
        	        	sCountryCode = "US-KS"; // Kansas
+       	        	
                     if(countryValues.get(sCountryCode)==null){
                	        if(site.dataType.equals("sites")){
                             countryValues.put(sCountryCode,1);
@@ -903,10 +920,7 @@
         	else{
         		sCountryColor = (String)countryColors.get(countryIdx%10); // just the next color	
         	}
-       	           
-       	    // first letter uppercase
-       	    sCountryName = sCountryName.substring(0,1).toUpperCase()+sCountryName.substring(1);
-       	
+       	                  	
    	        chld+= sCountryCode+"|";
        	    chdl+= sCountryName+" : "+countryValue+" |";
        	    chco+= sCountryColor+"|";
@@ -946,9 +960,12 @@
 	    sIMG.append(chm);	
         //*************************************************
         
-        // chtt (title)
-        if(sContinent.length() > 0) sTitle+= " - "+sContinent;
+        // chtt (title)        
+        if(sContinent.length() > 0){
+        	sTitle+= " - "+getTranNoLink("web",sContinent,sWebLanguage);
+        }
         sTitle = normalizeSpecialCharacters(sTitle);
+       	sTitle = sTitle.substring(0,1).toUpperCase()+sTitle.substring(1);
         sIMG.append("&chtt="+sTitle.replaceAll(" ","+"));
                 	
         // close src-attribute
@@ -1513,20 +1530,18 @@
                 writer.write("</script>\n");
 
                 //*** display total below IMG ***
-                //if(sContinent.equals("World")){
-	                DecimalFormat deciTotal = new DecimalFormat("#,###.###");
+	            DecimalFormat deciTotal = new DecimalFormat("#,###.###");
 	                
-                    writer.write("<div style='font-family:Arial;font-size:8pt;'>"+
-             		               deciTotal.format(getTotalValue(servers))+" "+sParameter+" in "+countries.size()+" countries, in "+sContinent+
-                                 "</div>");
+                writer.write("<div style='font-family:Arial;font-size:8pt;'>"+
+             	               deciTotal.format(getTotalValue(servers))+" "+getTranNoLink("web",sParameter,sWebLanguage).toLowerCase()+" "+getTran("web","datacenter.in",sWebLanguage).toLowerCase()+" "+countries.size()+" "+getTran("web","countries",sWebLanguage)+", "+getTran("web","datacenter.in",sWebLanguage).toLowerCase()+" "+getTranNoLink("web",sContinent,sWebLanguage)+
+                             "</div>");
                     
-                    if(servers.size() > 0){
-	                    writer.write("<div style='font-family:Arial;font-size:8pt;'>"+
-	             		               "minValue: "+deci.format(minValue)+", maxValue: "+deci.format(maxValue)+
-	                                 "</div>");        
-                    }
-                //}
-
+                if(servers.size() > 0){
+	                writer.write("<div style='font-family:Arial;font-size:8pt;'>"+
+	                               "minValue: "+deci.format(minValue)+", maxValue: "+deci.format(maxValue)+
+	                             "</div>");        
+                }
+                
                 writer.write("</html>");                
                 writer.close();
             

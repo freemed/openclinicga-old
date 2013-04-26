@@ -143,7 +143,7 @@ table.content tr td {
     padding: 3px;
     color: #505050;
     font-size: 12px;
-    border-bottom: 1px solid #c9c9c8; /*   background: url( "../../_img/cell_border_ghb.gif" ) repeat-x bottom left;*/
+    /*border-bottom: 1px solid #c9c9c8;    background: url( "../../_img/cell_border_ghb.gif" ) repeat-x bottom left;*/
 }
 
 table.content tr.firstrow td {

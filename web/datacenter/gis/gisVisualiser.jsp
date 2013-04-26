@@ -8,7 +8,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%=sJSDATE%>
 
-<%=sFAVICON%>
+<%=sIcon%>
 <%=sJSTOGGLE%>
 <%=sJSFORM%>
 <%=sJSPOPUPMENU%>
@@ -62,27 +62,6 @@
 	    }	
 	    
 	    return vector;
-	}
-
-	//--- VECTOR TO STRING ------------------------------------------------------------------------
-	private String vectorToString(Vector vector, String sDelimeter){
-	    return vectorToString(vector,sDelimeter,true);
-	}
-	
-	private String vectorToString(Vector vector, String sDelimeter, boolean addApostrophes){
-		StringBuffer stringBuffer = new StringBuffer();
-	    
-	    for(int i=0; i<vector.size(); i++){
-	    	if(addApostrophes) stringBuffer.append("'");
-	        stringBuffer.append((String)vector.get(i));	        
-	    	if(addApostrophes) stringBuffer.append("'");
-	        
-	        if(i<vector.size()){
-	        	stringBuffer.append(sDelimeter);
-	        }
-	    }		    
-	    
-	    return stringBuffer.toString();
 	}
 
     //--- GET SERVER GROUP IDS --------------------------------------------------------------------

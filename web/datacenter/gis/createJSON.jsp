@@ -332,18 +332,58 @@
     private String normalizeSpecialCharacters(String sTest){
         sTest = sTest.replaceAll("´","'");
 
+    	// lowercase
         sTest = sTest.replaceAll("é","e");
         sTest = sTest.replaceAll("è","e");
-        sTest = sTest.replaceAll("ë","e");
         sTest = sTest.replaceAll("ê","e");
+        sTest = sTest.replaceAll("ë","e");
+        
+        sTest = sTest.replaceAll("ì","i");
+        sTest = sTest.replaceAll("í","i");
+        sTest = sTest.replaceAll("î","i");
         sTest = sTest.replaceAll("ï","i");
-        sTest = sTest.replaceAll("ö","o");
+        
+        sTest = sTest.replaceAll("ó","o");
+        sTest = sTest.replaceAll("ò","o");
         sTest = sTest.replaceAll("ô","o");
-        sTest = sTest.replaceAll("ä","a");
+        sTest = sTest.replaceAll("ö","o");
+        
         sTest = sTest.replaceAll("á","a");
         sTest = sTest.replaceAll("à","a");
         sTest = sTest.replaceAll("â","a");
+        sTest = sTest.replaceAll("ä","a");
+        
+        sTest = sTest.replaceAll("ú","u");
+        sTest = sTest.replaceAll("ù","u");
+        sTest = sTest.replaceAll("û","u");
+        sTest = sTest.replaceAll("ü","u");
+        
+        // uppercase
+        sTest = sTest.replaceAll("É","E");
+        sTest = sTest.replaceAll("È","E");
+        sTest = sTest.replaceAll("Ê","E");
+        sTest = sTest.replaceAll("Ë","E");
 
+        sTest = sTest.replaceAll("Í","I");
+        sTest = sTest.replaceAll("Ì","I");
+        sTest = sTest.replaceAll("Î","I");
+        sTest = sTest.replaceAll("Ï","I");
+
+        sTest = sTest.replaceAll("Ó","O");
+        sTest = sTest.replaceAll("Ò","O");
+        sTest = sTest.replaceAll("Ô","O");
+        sTest = sTest.replaceAll("Ö","O");
+        
+        sTest = sTest.replaceAll("Á","A");
+        sTest = sTest.replaceAll("À","A");
+        sTest = sTest.replaceAll("Â","A");
+        sTest = sTest.replaceAll("Ä","A");
+
+        sTest = sTest.replaceAll("Ù","U");
+        sTest = sTest.replaceAll("Ú","U");
+        sTest = sTest.replaceAll("Û","U");
+        sTest = sTest.replaceAll("Ü","U");
+        
         return sTest;
     }
  
