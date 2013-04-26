@@ -44,6 +44,27 @@ public class ScreenHelper {
     	formatSymbols.setGroupingSeparator(MedwanQuery.getInstance().getConfigString("decimalThousandsSeparator"," ").toCharArray()[0]);
     	return new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat"),formatSymbols).format(value);
     }
+
+	//--- VECTOR TO STRING ------------------------------------------------------------------------
+	public static String vectorToString(Vector vector, String sDelimeter){
+	    return vectorToString(vector,sDelimeter,true);
+	}
+	
+	public static String vectorToString(Vector vector, String sDelimeter, boolean addApostrophes){
+		StringBuffer stringBuffer = new StringBuffer();
+	    
+	    for(int i=0; i<vector.size(); i++){
+	    	if(addApostrophes) stringBuffer.append("'");
+	        stringBuffer.append((String)vector.get(i));	        
+	    	if(addApostrophes) stringBuffer.append("'");
+	        
+	        if(i<vector.size()){
+	        	stringBuffer.append(sDelimeter);
+	        }
+	    }		    
+	    
+	    return stringBuffer.toString();
+	}
     
     //--- CUSTOMER INCLUDE ------------------------------------------------------------------------
     static public String customerInclude(String fileName, String sAPPFULLDIR, String sAPPDIR){
