@@ -54,11 +54,13 @@
 	
 	while(rs.next()){
 		counter++;
-		group=rs.getString("DC_SERVERGROUP_ID");
-		server=rs.getString("DC_SERVERGROUP_SERVERID");
-		String sEdit="";
+		
+		group = rs.getString("DC_SERVERGROUP_ID");
+		server = rs.getString("DC_SERVERGROUP_SERVERID");
+		
+		String sEdit = "";
 		if(session.getAttribute("datacenteruser")!=null && ((String)session.getAttribute("datacenteruser")).toLowerCase().equalsIgnoreCase("mxs")){
-			sEdit=manualDataEntry(server);
+			sEdit = manualDataEntry(server);
 		}
 
         if(!activeGroup.equalsIgnoreCase(group)){
@@ -76,24 +78,28 @@
 			
 				parameters = new Hashtable();
 			}
+			
             if(counter>1){
                 out.write("</table></div></div>");
             }
             
             // header per group
-            out.print("<div class='landlist'><h3>"+getTranNoLink("datacenterservergroup",group,sWebLanguage)+"</h3><div class='subcontent'><table width=\"100%\" class=\"content\" cellpadding=\"0\" cellspacing=\"0\"><tr class='header'>"
-					+"<td class='admin'>&nbsp;</td>"
-					+"<td class='admin header'>"+getTranNoLink("web","lastupdate",sWebLanguage)+"</td>"
-					+"<td class='admin header'>"+getTranNoLink("web","patients",sWebLanguage)+"</td><td class='admin header'/>"
-					+"<td class='admin header'>"+getTranNoLink("web","users",sWebLanguage)+"</td>"
-					+"<td class='admin header'>"+getTranNoLink("web","admissions",sWebLanguage)+"</td>"
-					+"<td class='admin header'>"+getTranNoLink("web","consultations",sWebLanguage)+"</td>"
-					+"<td class='admin header'>"+getTranNoLink("web","transactions",sWebLanguage)+"</td>"
-					+"<td class='admin header'>"+getTranNoLink("web","diagnoses",sWebLanguage)+"</td>"
-					+"<td class='admin header'>"+getTranNoLink("web","debets",sWebLanguage)+"</td>"
-					+"</tr>");
-			activeGroup=group;
-			counter=1;
+            out.print("<div class='landlist'><h3>"+getTranNoLink("datacenterservergroup",group,sWebLanguage)+"</h3>"
+                        +"<div class='subcontent'><table width=\"100%\" class=\"content\" cellpadding=\"0\" cellspacing=\"0\">"
+                        +"<tr class='header'>"
+						+"<td class='admin'>&nbsp;</td>"
+						+"<td class='admin header'>"+getTranNoLink("web","lastupdate",sWebLanguage)+"</td>"
+						+"<td class='admin header'>"+getTranNoLink("web","patients",sWebLanguage)+"</td><td class='admin header'/>"
+						+"<td class='admin header'>"+getTranNoLink("web","users",sWebLanguage)+"</td>"
+						+"<td class='admin header'>"+getTranNoLink("web","admissions",sWebLanguage)+"</td>"
+						+"<td class='admin header'>"+getTranNoLink("web","consultations",sWebLanguage)+"</td>"
+						+"<td class='admin header'>"+getTranNoLink("web","transactions",sWebLanguage)+"</td>"
+						+"<td class='admin header'>"+getTranNoLink("web","diagnoses",sWebLanguage)+"</td>"
+						+"<td class='admin header'>"+getTranNoLink("web","debets",sWebLanguage)+"</td>"
+						+"</tr>");
+            
+			activeGroup = group;
+			counter = 1;
 		}
         
         if(showcontent){
@@ -148,6 +154,7 @@
 	function openserverdetail(serverid){
 		openPopupWindow("/datacenter/serverOverview.jsp?ts=<%=getTs()%>&serverid="+serverid,800,600,"OpenClinic Datacenter");
 	}
+	
     function simpleValueGraph(serverid,parameterid){
         openPopupWindow("/datacenter/simpleValueGraph.jsp?serverid="+serverid+"&parameterid="+parameterid+"&ts=<%=getTs()%>");
     }
@@ -160,9 +167,11 @@
     function simpleValueGraphFull(serverid,parameterid){
         openPopupWindow("/datacenter/simpleValueGraph.jsp?fullperiod=yes&serverid="+serverid+"&parameterid="+parameterid+"&ts=<%=getTs()%>");
     }
+    
 	function processPatientRecords(serverid){
         openPopup("/datacenter/processPatientRecords.jsp&serverid="+serverid+"&ts=<%=getTs()%>",500,400,"OpenClinic Datacenter");
 	}
+	
     <%-- OPEN POPUP --%>
     function openPopup(page, width, height, title) {
         var url = "<c:url value="/popup.jsp"/>?Page=" + page;

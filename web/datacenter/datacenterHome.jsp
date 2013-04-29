@@ -113,7 +113,7 @@
                
                     <div id="login">
 
-                        <form name="transactionForm" id="transactionForm" onkeyup="entsub(event,'transactionForm')" method="post" action="datacenterHome.jsp" >
+                        <form name="transactionForm" id="transactionForm" onkeyup="submitOnEnter(event,'transactionForm')" method="post" action="datacenterHome.jsp" >
                             <table width="100%" class="content">
                                 <tr ><td colspan="2"></td></tr>
                                 <tr class="last">
@@ -138,6 +138,8 @@
                         </form> 
                     </div>
                 </div>
+                
+                <script>transactionForm.username.focus();</script>
                 <%
                     }
                 %>
@@ -297,14 +299,17 @@
         ],options);
     }
     
-    function entsub(event,ourform) {
-        if (event && event.which == 13){
-            $('transactionForm').submit();
-            return true;
-        }else{
-           return false;
-        }
+    <%-- SUBMIT ON ENTER --%>
+    function submitOnEnter(event,ourform){
+      if(event && event.which == 13){
+        $("transactionForm").submit();
+        eval("document."+ourform).submit();
+      }
+      else if(event.keyCode==13){
+        eval("document."+ourform).submit();
+      }
     }
+    
     function setLanguage(language){
         var today = new Date();
         var url= '<c:url value="/datacenter/setLanguage.jsp"/>?ts='+today;

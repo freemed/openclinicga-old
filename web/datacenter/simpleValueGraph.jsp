@@ -12,9 +12,10 @@
 
 	String parameterId = request.getParameter("parameterid");
 	
+	// revert one year by default
 	java.util.Date beginDate = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+
 	                             (Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-(request.getParameter("fullperiod")==null?1:999)));
-	java.util.Date endDate = new java.util.Date(new java.util.Date().getTime()+24*3600000);
+	java.util.Date endDate = new java.util.Date(new java.util.Date().getTime()+24*3600*1000);
 
 	List lValues = null;
 
@@ -28,8 +29,7 @@
     }
 	// OR servergroupid specified
     else if(checkString(request.getParameter("servergroupid")).length() > 0){
-    	servergroupId = Integer.parseInt(request.getParameter("servergroupid"));
-    	
+    	servergroupId = Integer.parseInt(request.getParameter("servergroupid"));    	
     	lValues = TimeGraph.getListValueGraphForServerGroup(beginDate,endDate,servergroupId,parameterId,sWebLanguage,activeUser.userid);
 
         sTitle = HTMLEntities.htmlentities(getTran("datacenterServerGroup",servergroupId+"",sWebLanguage))+"<br />"+HTMLEntities.htmlentities(getTranNoLink("datacenterparameter", parameterId, sWebLanguage))+
@@ -47,7 +47,7 @@
 %>
 
 <div style="float:left;padding-left:20px;">
-    <div id="barchart" style="width: 620px; height: 320px; position: relative;"></div>
+    <div id="barchart" style="width: 620px; height: 305px; position: relative;"></div>
         <div style="float:left;height:30px;font-size:15px;text-align:center;width:100%;"><%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%></div>
     </div>
 </div>
