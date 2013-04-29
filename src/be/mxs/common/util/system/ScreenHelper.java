@@ -335,6 +335,72 @@ public class ScreenHelper {
         return labelValue.replaceAll("##CR##","\n");
     }
 
+    //--- GET TRAN NO LINK ------------------------------------------------------------------------
+    static public String getTranExists(String sType, String sID, String sLanguage) {
+        String labelValue = "";
+        if(sLanguage!=null && sLanguage.equalsIgnoreCase("f")){
+        	sLanguage="fr";
+        }
+        else if(sLanguage!=null && sLanguage.equalsIgnoreCase("n")){
+        	sLanguage="nl";
+        }
+        else if(sLanguage!=null && sLanguage.equalsIgnoreCase("e")){
+        	sLanguage="en";
+        }
+
+        try{
+            if(sLanguage!=null && sLanguage.length() == 2) {
+	
+	            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
+	                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
+	                if(labelValue==sID){
+	                	return "";
+	                }
+	            }
+	            else {
+	                Hashtable labels = MedwanQuery.getInstance().getLabels();
+	                if(labels==null){
+	                    saveUnknownLabel(sType,sID,sLanguage);
+	                    return "";
+	                }
+	                else{
+	                    Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
+	                    if(langHashtable == null){
+	                        return "";
+	                    }
+	
+	                    Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
+	                    if(typeHashtable == null){
+	                        return "";
+	                    }
+	
+	                    Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
+	                    if(idHashtable == null){
+	                        return "";
+	                    }
+	
+	                    Label label = (Label)idHashtable.get(sID.toLowerCase());
+	                    if(label == null){
+	                        return "";
+	                    }
+	
+	                    labelValue = label.value;
+	
+	                    // empty label : return id as labelValue
+	                    if(labelValue==null || labelValue.trim().length()==0) {
+	                        return "";
+	                    }
+	                }
+	            }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return labelValue.replaceAll("##CR##","\n");
+    }
+
     //--- CONVERT HTML CODE TO CHAR ---------------------------------------------------------------
     static public String convertHtmlCodeToChar(String text){
         text = text.replaceAll("&eacute;","é");
