@@ -15,6 +15,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.TimeZone;
 import java.util.Vector;
 
 import javax.mail.MessagingException;
@@ -161,7 +162,7 @@ public class TimeGraph {
      		                                           String parameterId, String sLanguage, String userid){
     	List graphData = null; // object to return
     	
-        Debug.println("\n**************************** getListValueGraphForServerGroup ****************************\n");
+        Debug.println("**************************** getListValueGraphForServerGroup ****************************\n");
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -193,7 +194,7 @@ public class TimeGraph {
                           "   and DC_SIMPLEVALUE_CREATEDATETIME between ? and ?"+
             		      " group by serverid, date"+
             		      "  order by date asc";
-            Debug.println("\nsSql : "+sSql+"\n");
+            Debug.println("sSql : "+sSql+"\n");
             ps = conn.prepareStatement(sSql);
             ps.setString(1,parameterId);
             ps.setTimestamp(2,new java.sql.Timestamp(begin.getTime()));
@@ -201,7 +202,7 @@ public class TimeGraph {
             rs = ps.executeQuery();
             
             //*** 1 - sum per server and per date **********************************
-            Debug.println("\n***************** 1 - sum per server and per date ****************\n");
+            Debug.println("***************** 1 - sum per server and per date ****************\n");
             java.util.Date date;
             Integer value = null;
             Hashtable valuesPerServerAndPerDate = new Hashtable();
@@ -240,7 +241,7 @@ public class TimeGraph {
             ps.close();
             
             //*** 2 - calculate value on missing dates, per server *****************
-            Debug.println("\n***************** 2 - calculate value on missing dates, per server *****************\n");
+            Debug.println("***************** 2 - calculate value on missing dates, per server *****************\n");
             java.util.Date periodBegin = null, periodEnd = null;
             boolean inPeriod = false;
             long millisInDay = 24*3600*1000;
@@ -257,7 +258,7 @@ public class TimeGraph {
                          
             for(int s=0; s<serverIds.size(); s++){
             	serverId = (Integer)serverIds.get(s);
-            	Debug.println("\n@@@@@@@@@@@@@@@ serverId : "+serverId+" @@@@@@@@@@@@@@@@@@");
+            	Debug.println("@@@@@@@@@@@@@@@ serverId : "+serverId+" @@@@@@@@@@@@@@@@@@");
 
             	// reset per server
             	beginValue = 0;
@@ -308,7 +309,23 @@ public class TimeGraph {
 	                        // ==> 2013-01-21 --> dayX0 + (640-424)/4 = 424 + (216/4) --> 424 + 54 = 478
 	                        //     2013-01-22 --> 478 + 54 = 532
 	                        //     2013-01-23 --> 532 + 54 = 586
+	                    	
+	                    	// add an hour to periodEnd when period contains switch to summertime
+	                    	TimeZone timeZone = TimeZone.getDefault();
+	                    	boolean beginInSummertime = timeZone.inDaylightTime(periodBegin),
+	                    	        endInSummertime = timeZone.inDaylightTime(periodEnd);
+	                    	
 	                		int daysInPeriod = (int)(((long)periodEnd.getTime() - (long)periodBegin.getTime())/millisInDay);
+	                		
+	                		// below : switch TO summertime
+	                		if(!beginInSummertime && endInSummertime){
+	                			Calendar tmpCal = Calendar.getInstance();
+	                			tmpCal.setTime(periodEnd);
+	                			tmpCal.add(Calendar.HOUR,1);
+	                			
+		                		daysInPeriod = (int)(((long)tmpCal.getTime().getTime() - (long)periodBegin.getTime())/millisInDay);
+		                    	Debug.println("added an hour to periodEnd because period contains switch to summertime");
+	                		}
 	                    	Debug.println("daysInPeriod : "+daysInPeriod);
 	                    	
 	                    	int periodValueDiff = endValue - beginValue;
@@ -378,7 +395,7 @@ public class TimeGraph {
             } 	
         	
             //*** 3 - convert hash to list (summing server values per date) *******
-            Debug.println("\n**************** 3 - convert hash to list (summing server values per date) *************\n");
+            Debug.println("**************** 3 - convert hash to list (summing server values per date) *************\n");
             serverIds = new Vector(valuesPerServerAndPerDate.keySet());
             Collections.sort(serverIds); // required ?
             
@@ -386,7 +403,7 @@ public class TimeGraph {
             Hashtable dataHash = new Hashtable();
             for(int s=0; s<serverIds.size(); s++){
             	serverId = (Integer)serverIds.get(s);
-            	Debug.println("\n*** serverId = "+serverId+" *************************************************");		
+            	Debug.println("*** serverId = "+serverId+" *************************************************");		
             	valuesPerServer = (Hashtable)valuesPerServerAndPerDate.get(serverId);
             	
             	// loop days of one server
@@ -442,12 +459,13 @@ public class TimeGraph {
              
             // display content of list
             if(Debug.enabled){
-	        	Debug.println("\n#################################################################################"); //////////////
+	        	Debug.println("#########################################################");
+	        	Debug.println("Content of list with data for graph : ");
 	            for(int m=0; m<graphData.size(); m++){
 	            	pair = (Object[])graphData.get(m);
-	            	Debug.println(ScreenHelper.stdDateFormat.format(pair[0])+" - "+pair[1]); //////////////
+	            	Debug.println("["+m+"] "+ScreenHelper.stdDateFormat.format(pair[0])+" - "+pair[1]);
 	            }
-	        	Debug.println("#################################################################################\n"); //////////////
+	        	Debug.println("###########################################################\n");
             }
         }
         catch(Exception e){
