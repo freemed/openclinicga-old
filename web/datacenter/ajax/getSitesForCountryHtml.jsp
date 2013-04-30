@@ -30,12 +30,21 @@
     ResultSet rs = null;
     
     try{
+    	if(sCountryCode.equalsIgnoreCase("B")){
+    		sCountryCode="'B','BE'";
+    	}
+    	else if(sCountryCode.equalsIgnoreCase("CD")){
+    		sCountryCode="'CD','ZR'";
+    	}
+    	else {
+    		sCountryCode="'"+sCountryCode+"'";
+    	}
 	    conn = MedwanQuery.getInstance().getStatsConnection();
 		String sSql = "select distinct * from dc_monitorservers a, dc_monitorvalues b"+
 		              " where b.dc_monitorvalue_serverid = a.dc_monitorserver_serverid"+
 		              "  and b.dc_monitorvalue_date > ?"+
 		              "  and a.dc_monitorserver_name <> ''"+
-		              "  and a.dc_monitorserver_country = ?"+
+		              "  and a.dc_monitorserver_country in ("+sCountryCode+") "+
 		              " order by dc_monitorserver_city, dc_monitorserver_serverid, dc_monitorvalue_date desc";
 	    ps = conn.prepareStatement(sSql);
 	
@@ -43,7 +52,6 @@
 		long monthMillis = 30*24*3600;
 		monthMillis*= 1000;	
 		ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()-monthMillis));	
-		ps.setString(2,sCountryCode);
 		
 		rs = ps.executeQuery();
 		SiteData siteData;

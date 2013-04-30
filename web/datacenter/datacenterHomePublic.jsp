@@ -143,7 +143,7 @@
 					if(serverid!=activeServer){
 						activeServer=serverid;
 						
-						String country = rs.getString("dc_monitorserver_country").replaceAll("ZR","CD");
+						String country = rs.getString("dc_monitorserver_country").replaceAll("ZR","CD").replaceAll("BE","B");
 						if(countries.get(country)==null){
 							countries.put(country,new TreeMap());
 						}
@@ -219,21 +219,21 @@
 					}
 
 					output.append("<tr style='padding:0px;' bgcolor='#dddddd'>")
-					       .append("<td colspan='1' width='30%' nowrap>")
+					       .append("<td colspan='1' width='25%' nowrap>")
 					        .append("<img src='"+sCONTEXTPATH+"/_img/plus.png' style='vertical-align:-3px;' id='plus_"+countryIdx+"' onClick=\"toggleSites('"+sCountryCode+"','"+countryIdx+"');\"/> <b>"+sCountryName+"</b>")
 					       .append("</td>")
-					       .append("<td align='right' width='10%'>"+countSites(countries,sCountryCode)+" "+getTran("web","sites",sWebLanguage)+" "+getTran("web","datacenter.in",sWebLanguage).toLowerCase()+" "+countCities(countries,sCountryCode)+" "+getTran("web","cities",sWebLanguage)+"</td>")
+					       .append("<td align='right' width='15%'>"+countSites(countries,sCountryCode)+" "+getTran("web","sites",sWebLanguage)+" "+getTran("web","datacenter.in",sWebLanguage).toLowerCase()+" "+countCities(countries,sCountryCode)+" "+getTran("web","cities",sWebLanguage)+"</td>")
 					       .append("<td align='right' width='10%'>"+deci.format(countryTotal.patients)+"</td>")
 					       .append("<td align='right' width='10%'>"+deci.format(countryTotal.visits)+"</td>")
 					       .append("<td align='right' width='10%'>"+deci.format(countryTotal.admissions)+"</td>")
 					       .append("<td align='right' width='10%'>"+deci.format(countryTotal.labs)+"</td>")
 					       .append("<td align='right' width='10%'>"+deci.format(countryTotal.invoices)+"</td>")
 					       .append("<td align='right' width='10%'>"+deci.format(countryTotal.debets)+"</td>")
-					      .append("</tr>\n");
+					      .append("</tr>");
 					
-					output.append("<tr style='padding:0px;' id='dataTR_"+countryIdx+"' style='display:none;'>")
+					output.append("<tr style='padding:0px;' id='dataTR_"+countryIdx+"' style='visibility:hidden;'>")
 					       .append("<td style='padding:0px;' colspan='8' id='dataDIV_"+countryIdx+"'>")
-					        // will be filled by Ajax
+					        		
 						   .append("</td>")
 				          .append("</tr>");
 				}
@@ -367,17 +367,17 @@
     function toggleSites(countryCode,countryIdx){
       var dataTR = document.getElementById("dataTR_"+countryIdx);
       var dataDIV = document.getElementById("dataDIV_"+countryIdx);
-      var divIsOpen = (dataTR.style.display=="block");
+      var divIsOpen = (dataTR.style.visibility=="visible");
       
       <%-- change icon and toggle dataTR --%>
       var icon = document.getElementById("plus_"+countryIdx);
       if(divIsOpen==true){
     	icon.src = "<%=sCONTEXTPATH%>/_img/plus.png";
-    	dataTR.style.display = "none";
+    	dataTR.style.visibility = "collapse";
       }
       else{
         icon.src = "<%=sCONTEXTPATH%>/_img/minus.png";
-        dataTR.style.display = "block";
+        dataTR.style.visibility = "visible";
         dataDIV.innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;<%=getTranNoLink("web","loading",sWebLanguage)%>";
       }
 
@@ -388,7 +388,7 @@
           method: "GET",
           parameters: "CountryCode="+countryCode,
           onSuccess: function(resp){
-        	dataDIV.innerHTML = trim(resp.responseText);     	
+        	dataDIV.innerHTML = trim(resp.responseText);
           },
           onFailure: function(resp){
             alert(resp.responseText);
