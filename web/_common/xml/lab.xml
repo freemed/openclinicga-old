@@ -1,0 +1,3310 @@
+<labanalyses>
+	<labanalysisgroup>
+		<code>hematology</code>
+		<label language="fr">A. HEMATOLOGIE</label>
+		<label language="en">A. HEMATOLOGY</label>
+		<label language="nl">A. HEMATOLOGIE</label>
+		<label language="es">A. HEMATOLOGIA</label>
+		<label language="pt">A. HEMATOLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>formule</code>
+		<label language="fr">A1. FORMULE</label>
+		<label language="en">A1. FORMULA</label>
+		<label language="nl">A1. FORMULE</label>
+		<label language="es">A1. FORMULA</label>
+		<label language="pt">A1. FORMULA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>hematology</code>
+		<label language="fr">A. HEMATOLOGIE</label>
+		<label language="en">A. HEMATOLOGY</label>
+		<label language="nl">A. HEMATOLOGIE</label>
+		<label language="es">A. HEMATOLOGIA</label>
+		<label language="pt">A. HEMATOLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>hemostasis</code>
+		<label language="fr">B. HEMOSTASE</label>
+		<label language="en">B. HEMOSTASIS</label>
+		<label language="nl">B. HEMOSTASE</label>
+		<label language="es">B. HEMOSTASIS</label>
+		<label language="pt">B. HEMOSTASE</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>immunohematology</code>
+		<label language="fr">C. IMMUNO-HEMATOLOGIE</label>
+		<label language="en">C. IMMUNO-HEMATOLOGY</label>
+		<label language="nl">C. IMMUNO-HEMATOLOGIE</label>
+		<label language="es">C. IMUNO-HEMATOLOGIA</label>
+		<label language="pt">C. IMUNO-HEMATOLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>immunology</code>
+		<label language="fr">D. IMMUNOLOGIE</label>
+		<label language="en">D. IMMUNOLOGY</label>
+		<label language="nl">D. IMMUNOLOGIE</label>
+		<label language="es">D. IMUNOLOGIA</label>
+		<label language="pt">D. IMUNOLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>biochemy</code>
+		<label language="fr">E. BIOCHIMIE</label>
+		<label language="en">E. BIOCHEMICS</label>
+		<label language="nl">E. BIOCHEMIE</label>
+		<label language="es">E. BIOQUIMICA</label>
+		<label language="pt">E. BIOQUIMICA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>electrolytes</code>
+		<label language="fr">E1. ELECTROLYTES</label>
+		<label language="en">E1. ELECTROLYTES</label>
+		<label language="nl">E1. ELECTROLYTES</label>
+		<label language="es">E1. ELECTROLYTOS</label>
+		<label language="pt">E1. ELECTROLYTOS</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>renal</code>
+		<label language="fr">E2. FONCTION RENALE</label>
+		<label language="en">E2. RENAL FUNCTION</label>
+		<label language="nl">E2. NIERFUNCTIE</label>
+		<label language="es">E2. FUNCION RENAL</label>
+		<label language="pt">E2. FUNCAO RENAL</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>proteines</code>
+		<label language="fr">E3. PROTEINES</label>
+		<label language="en">E3. PROTEIN</label>
+		<label language="nl">E3. EIWITTEN</label>
+		<label language="es">E3. PROTEINA</label>
+		<label language="pt">E3. PROTEINA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>fat</code>
+		<label language="fr">E4. METABOLISME DES GRAISSES</label>
+		<label language="en">E4. FAT METABOLISM</label>
+		<label language="nl">E4. VETMETABOLISME</label>
+		<label language="es">E4. METABOLISMO DE LAS GRASAS</label>
+		<label language="pt">E4. METABOLISMO DA GORDURA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>liver</code>
+		<label language="fr">E5. FOIE</label>
+		<label language="en">E5. LIVER</label>
+		<label language="nl">E5. LEVER</label>
+		<label language="es">E5. PRUEBAS HEPATICAS</label>
+		<label language="pt">E5. TESTES HEPATICOS</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>carbohydrates</code>
+		<label language="fr">E6. METABOLISME DES GLUCIDES</label>
+		<label language="en">E6. CARBOHYDRATES METABOLISM</label>
+		<label language="nl">E6. KOOLHYDRATENMETABOLISME</label>
+		<label language="es">E6. METABOLISMO DE LOS CARBOHIDRATOS</label>
+		<label language="pt">E6. METABOLISMO DE CARBOIDRATOS</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>pregnancy</code>
+		<label language="fr">F. GROSSESSE</label>
+		<label language="en">F. PREGNANCY</label>
+		<label language="nl">F. ZWANGERSCHAP</label>
+		<label language="es">F. EMBARAZO</label>
+		<label language="pt">F. GRAVIDEZ</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>endocrinology</code>
+		<label language="fr">G. ENDOCRINOLOGIE</label>
+		<label language="en">G. ENDOCRINOLOGY</label>
+		<label language="nl">G. ENDOCRINOLOGIE</label>
+		<label language="es">G. ENDOCRINOLOGIA</label>
+		<label language="pt">G. ENDOCRINOLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>urineroutine</code>
+		<label language="fr">H. URINE ROUTINE</label>
+		<label language="en">H. URINE ROUTINE</label>
+		<label language="nl">H. URINE ROUTINE</label>
+		<label language="es">H. URINA RUTINA</label>
+		<label language="pt">H. ORINA RUTINA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>urinehormones</code>
+		<label language="fr">I. URINE HORMONES</label>
+		<label language="en">I. URINE HORMONES</label>
+		<label language="nl">I. URINE HORMONEN</label>
+		<label language="es">I. URINA HORMONAS</label>
+		<label language="pt">I. ORINA HORMONAS</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>faeces</code>
+		<label language="fr">J. SELLES</label>
+		<label language="en">J. STOOL</label>
+		<label language="nl">J. FAECES</label>
+		<label language="es">J. HECES</label>
+		<label language="pt">J. SELAS</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>sperm</code>
+		<label language="fr">K. SPERME</label>
+		<label language="en">K. SPERM</label>
+		<label language="nl">K. SPERMA</label>
+		<label language="es">K. ESPERMA</label>
+		<label language="pt">K. ESPERMA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>bacteriology</code>
+		<label language="fr">L. BACTERIOLOGIE</label>
+		<label language="en">L. BACTERIOLOGY</label>
+		<label language="nl">L. BACTERIOLOGIE</label>
+		<label language="es">L. BACTERIOLOGIA</label>
+		<label language="pt">L. BACTERIOLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>serology</code>
+		<label language="fr">M. SEROLOGIE</label>
+		<label language="en">M. SEROLOGY</label>
+		<label language="nl">M. SEROLOGIE</label>
+		<label language="es">M. SEROLOGIA</label>
+		<label language="pt">M. SEROLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>parasitology</code>
+		<label language="fr">M1. PARASITOLOGIE</label>
+		<label language="en">M1. PARASITOLOGY</label>
+		<label language="nl">M1. PARASITOLOGIE</label>
+		<label language="es">M1. PARASITOLOGIA</label>
+		<label language="pt">M1. PARASITOLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>tumormarkers</code>
+		<label language="fr">N. MARQUEURS TUMORAUX</label>
+		<label language="en">N. TUMOR MARKERS</label>
+		<label language="nl">N. TUMOR MARKERS</label>
+		<label language="es">N. MARCADORES TUMORALES</label>
+		<label language="pt">N. MARCADORES TUMORAIS</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>toxicology</code>
+		<label language="fr">O. TOXICOLOGIE</label>
+		<label language="en">O. TOXICOLOGY</label>
+		<label language="nl">O. TOXICOLOGIE</label>
+		<label language="es">O. TOXICOLOGIA</label>
+		<label language="pt">O. TOXICOLOGIA</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>lumbar</code>
+		<label language="fr">P. PONCTION LOMBAIRE</label>
+		<label language="en">P. LUMBAR PUNCTION</label>
+		<label language="nl">P. LUMBAALMPUNCTIE</label>
+		<label language="es">P. PUNCION LUMBAR</label>
+		<label language="pt">P. PUNCAO LOMBAR</label>
+	</labanalysisgroup>
+	<labanalysisgroup>
+		<code>other</code>
+		<label language="fr">Z. AUTRE</label>
+		<label language="en">Z. OTHER</label>
+		<label language="nl">Z. ANDERE</label>
+		<label language="es">Z. OTRO</label>
+		<label language="pt">Z. OUTRO</label>
+	</labanalysisgroup>
+	<labprofile>
+		<code>pnc</code>
+		<label language="fr">PANCREAS</label>
+		<label language="en">PANCREAS</label>
+		<label language="nl">PANCREAS</label>
+		<label language="es">PANCREAS</label>
+		<label language="pt">PANCREAS</label>
+		<labanalysis>5200</labanalysis>
+		<labanalysis>5160</labanalysis>
+		<labanalysis>5170</labanalysis>
+	</labprofile>
+	<labprofile>
+		<code>lv</code>
+		<label language="fr">FOIE</label>
+		<label language="en">LIVER</label>
+		<label language="nl">LEVER</label>
+		<label language="es">HIGADO</label>
+		<label language="pt">FIGADO</label>
+		<labanalysis>5060</labanalysis>
+		<labanalysis>5070</labanalysis>
+		<labanalysis>5040</labanalysis>
+		<labanalysis>5050</labanalysis>
+		<labanalysis>5110</labanalysis>
+		<labanalysis>5130</labanalysis>
+		<labanalysis>5250</labanalysis>
+	</labprofile>
+	<labprofile>
+		<code>gen</code>
+		<label language="fr">EXAMEN GENERAL</label>
+		<label language="en">GENERAL EXAMINATION</label>
+		<label language="nl">ALGEMEEN ONDERZOEK</label>
+		<label language="es">INVESTIGACION GENERAL</label>
+		<label language="pt">PESQUISA GENERAL</label>
+		<labanalysis>3023</labanalysis>
+		<labanalysis>3024</labanalysis>
+		<labanalysis>3022</labanalysis>
+		<labanalysis>3025</labanalysis>
+		<labanalysis>3026</labanalysis>
+		<labanalysis>3027</labanalysis>
+		<labanalysis>3021</labanalysis>
+		<labanalysis>3032</labanalysis>
+		<labanalysis>3035</labanalysis>
+		<labanalysis>3033</labanalysis>
+		<labanalysis>3031</labanalysis>
+		<labanalysis>3034</labanalysis>
+		<labanalysis>3036</labanalysis>
+		<labanalysis>3028</labanalysis>
+		<labanalysis>5030</labanalysis>
+		<labanalysis>5150</labanalysis>
+		<labanalysis>5220</labanalysis>
+		<labanalysis>5080</labanalysis>
+		<labanalysis>5090</labanalysis>
+		<labanalysis>5091</labanalysis>
+		<labanalysis>5100</labanalysis>
+		<labanalysis>5040</labanalysis>
+		<labanalysis>5050</labanalysis>
+		<labanalysis>5130</labanalysis>
+		<labanalysis>5250</labanalysis>
+		<labanalysis>5160</labanalysis>
+		<labanalysis>5010</labanalysis>
+		<labanalysis>6130</labanalysis>
+		<labanalysis>6080</labanalysis>
+		<labanalysis>4011</labanalysis>
+		<labanalysis>4012</labanalysis>
+		<labanalysis>4013</labanalysis>
+		<labanalysis>4015</labanalysis>
+		<labanalysis>4020</labanalysis>
+		<labanalysis>4021</labanalysis>
+		<labanalysis>4030</labanalysis>
+	</labprofile>
+	<labprofile>
+		<code>ane</code>
+		<label language="fr">ANEMIE</label>
+		<label language="en">ANEMIA</label>
+		<label language="nl">ANEMIE</label>
+		<label language="es">ANEMIA</label>
+		<label language="pt">ANEMIA</label>
+		<labanalysis>3023</labanalysis>
+		<labanalysis>3024</labanalysis>
+		<labanalysis>3022</labanalysis>
+		<labanalysis>3025</labanalysis>
+		<labanalysis>3026</labanalysis>
+		<labanalysis>3027</labanalysis>
+		<labanalysis>3021</labanalysis>
+		<labanalysis>3032</labanalysis>
+		<labanalysis>3035</labanalysis>
+		<labanalysis>3033</labanalysis>
+		<labanalysis>3031</labanalysis>
+		<labanalysis>3034</labanalysis>
+		<labanalysis>3036</labanalysis>
+		<labanalysis>5060</labanalysis>
+		<labanalysis>6132</labanalysis>
+		<labanalysis>6133</labanalysis>
+		<labanalysis>1270</labanalysis>
+		<labanalysis>5250</labanalysis>
+		<labanalysis>5020</labanalysis>
+		<labanalysis>5030</labanalysis>
+		<labanalysis>5070</labanalysis>
+	</labprofile>
+	<labprofile>
+		<code>dia</code>
+		<label language="fr">DIABETE</label>
+		<label language="en">DIABETES</label>
+		<label language="nl">DIABETES</label>
+		<label language="es">DIABETES</label>
+		<label language="pt">DIABETES</label>
+		<labanalysis>5010</labanalysis>
+		<labanalysis>5230</labanalysis>
+		<labanalysis>4020</labanalysis>
+		<labanalysis>4021</labanalysis>
+	</labprofile>
+	<labprofile>
+		<code>int</code>
+		<label language="fr">ESTOMAC/INTESTINS</label>
+		<label language="en">STOMAC/BOWEL</label>
+		<label language="nl">MAAG/DARM</label>
+		<label language="es">ESTOMAGO/INTESTINO</label>
+		<label language="pt">ESTOMAGO/INTESTINO</label>
+		<labanalysis>1270</labanalysis>
+		<labanalysis>1260</labanalysis>
+		<labanalysis>2010</labanalysis>
+	</labprofile>
+	<labprofile>
+		<code>ht</code>
+		<label language="fr">HYPERTENSION</label>
+		<label language="en">HYPERTENSION</label>
+		<label language="nl">HYPERTENSIE</label>
+		<label language="es">HIPERTENSION</label>
+		<label language="pt">HIPERTENSAO</label>
+		<labanalysis>5190</labanalysis>
+		<labanalysis>5200</labanalysis>
+		<labanalysis>5110</labanalysis>
+		<labanalysis>5010</labanalysis>
+		<labanalysis>5100</labanalysis>
+		<labanalysis>5080</labanalysis>
+		<labanalysis>5090</labanalysis>
+		<labanalysis>5091</labanalysis>
+		<labanalysis>5020</labanalysis>
+		<labanalysis>5150</labanalysis>
+		<labanalysis>6080</labanalysis>
+		<labanalysis>4011</labanalysis>
+		<labanalysis>4012</labanalysis>
+		<labanalysis>4013</labanalysis>
+		<labanalysis>4015</labanalysis>
+		<labanalysis>4020</labanalysis>
+		<labanalysis>4021</labanalysis>
+		<labanalysis>4030</labanalysis>
+		<labanalysis>6131</labanalysis>
+	</labprofile>
+	<labprofile>
+		<code>pre</code>
+		<label language="fr">PREOPERATOIRE</label>
+		<label language="en">PREOPERATIVE</label>
+		<label language="nl">PREOPERATOIR</label>
+		<label language="es">PREOPERATORIA</label>
+		<label language="pt">PRE-OPERATORIO</label>
+		<labanalysis>3011</labanalysis>
+		<labanalysis>3023</labanalysis>
+		<labanalysis>3024</labanalysis>
+		<labanalysis>3022</labanalysis>
+		<labanalysis>3025</labanalysis>
+		<labanalysis>3026</labanalysis>
+		<labanalysis>3027</labanalysis>
+		<labanalysis>3021</labanalysis>
+		<labanalysis>3032</labanalysis>
+		<labanalysis>3035</labanalysis>
+		<labanalysis>3033</labanalysis>
+		<labanalysis>3031</labanalysis>
+		<labanalysis>3034</labanalysis>
+		<labanalysis>3036</labanalysis>
+		<labanalysis>3028</labanalysis>
+		<labanalysis>3502</labanalysis>
+		<labanalysis>3503</labanalysis>
+		<labanalysis>5130</labanalysis>
+		<labanalysis>5010</labanalysis>
+		<labanalysis>5030</labanalysis>
+		<labanalysis>4011</labanalysis>
+		<labanalysis>4012</labanalysis>
+		<labanalysis>4013</labanalysis>
+		<labanalysis>4015</labanalysis>
+		<labanalysis>4020</labanalysis>
+		<labanalysis>4021</labanalysis>
+		<labanalysis>4030</labanalysis>
+		<labanalysis>5190</labanalysis>
+		<labanalysis>5200</labanalysis>
+		<labanalysis>5110</labanalysis>
+		<labanalysis>5220</labanalysis>
+	</labprofile>
+	<labprofile>
+		<code>thy</code>
+		<label language="fr">THYROIDE</label>
+		<label language="en">THYROID GLAND</label>
+		<label language="nl">SCHILDKLIER</label>
+		<label language="es">TIROIDES</label>
+		<label language="pt">TIREOIDE</label>
+		<labanalysis>6080</labanalysis>
+		<labanalysis>6070</labanalysis>
+		<labanalysis>6110</labanalysis>
+		<labanalysis>6060</labanalysis>
+		<labanalysis>6100</labanalysis>
+		<labanalysis>5080</labanalysis>
+		<labanalysis>5090</labanalysis>
+		<labanalysis>5091</labanalysis>
+	</labprofile>
+	<labanalysis>
+		<code>1010</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">TOXO - QUALITATIVE</label>
+		<label language="en">TOXOPLASMOSIS - QUALITATIVE</label>
+		<label language="nl">TOXOPLASMOSE - KWALITATIEF</label>
+		<label language="es">TOXOPLASMOSIS - CUALITATIVA</label>
+		<label language="pt">TOXOPLASMOSIS - QUALIDADE</label>
+		<loinc>5387-6</loinc>
+		<short>TXQ</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1011</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>serology</group>
+		<unit>U/ml</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>10</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">TOXO-IGG</label>
+		<label language="en">TOXOPLASMOSIS - IGG</label>
+		<label language="nl">TOXOPLASMOSE - IGG</label>
+		<label language="es">TOXOPLASMOSIS - IGG</label>
+		<label language="pt">TOXOPLASMOSIS - IGG</label>
+		<loinc>8039-0</loinc>
+		<short>TXG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1012</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit>U/ml</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>0</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">TOXO-IGM</label>
+		<label language="en">TOXOPLASMOSIS - IGM</label>
+		<label language="nl">TOXOPLASMOSE - IGM</label>
+		<label language="es">TOXOPLASMOSIS - IGM</label>
+		<label language="pt">TOXOPLASMOSIS - IGM</label>
+		<loinc>8040-8</loinc>
+		<short>TXM</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1020</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">RUBEOLE - QUALITATIVE</label>
+		<label language="en">RUBELLA - QUALITATIVE</label>
+		<label language="nl">RUBELLA - KWALITATIEF</label>
+		<label language="es">RUBEOLA - CUALITATIVA</label>
+		<label language="pt">RUB&#201;OLA - QUALIDADE</label>
+		<loinc>5331-4</loinc>
+		<short>RUQ</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1021</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit>U/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">RUBEOLE-IGG</label>
+		<label language="en">RUBELLA - IGG</label>
+		<label language="nl">RUBELLA - IGG</label>
+		<label language="es">RUBEOLA - IGG</label>
+		<label language="pt">RUB&#201;OLA- IGG</label>
+		<loinc>8014-3</loinc>
+		<short>RUG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1022</code>
+		<type>1</type>
+		<sample>citrate</sample>
+		<group>serology</group>
+		<unit>U/ml</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>0</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">RUBEOLE-IGM</label>
+		<label language="en">RUBELLA - IGM</label>
+		<label language="nl">RUBELLA - IGM</label>
+		<label language="es">RUBEOLA - IGM</label>
+		<label language="pt">RUB&#201;OLA -IGM</label>
+		<loinc>8015-0</loinc>
+		<short>RUM</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1030</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">VDRL/TPHA</label>
+		<label language="en">VDRL/TPHA</label>
+		<label language="nl">VDRL/TPHA</label>
+		<label language="es">VDRL/TPHA</label>
+		<label language="pt">VDRL/TPHA</label>
+		<loinc>8041-6</loinc>
+		<short>TPHA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1045</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">HEPATITE B: AGHBS - QUALITATIF</label>
+		<label language="en">HEPATITIS B: AGHBS - QUALITATIVE</label>
+		<label language="nl">HEPATITIS B: AGHBS - KWALITATIEF</label>
+		<label language="es">HEPATITIS B: AGHBS - CUALITATIVA</label>
+		<label language="pt">HEPATITE B: AGHBS - QUALITATIF</label>
+		<loinc>5195-3</loinc>
+		<short>AGHBSQ</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1046</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">HEPATITE B: AGHBS - QUANTITATIF</label>
+		<label language="en">HEPATITIS B: AGHBS - QUANTITATIVE</label>
+		<label language="nl">HEPATITIS B: AGHBS - KWANTITATIEF</label>
+		<label language="es">HEPATITIS B: AGHBS - CUANTITATIVA</label>
+		<label language="pt">HEPATITE B: AGHBS - QUANTITATIF</label>
+		<loinc>58452-4</loinc>
+		<short>AGHBSN</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1047</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">HEPATITE B: AGHBE</label>
+		<label language="en">HEPATITIS B: AGHBE</label>
+		<label language="nl">HEPATITIS B: AGHBE</label>
+		<label language="es">HEPATITIS B: AGHBE</label>
+		<label language="pt">HEPATITE B: AGHBE</label>
+		<loinc>34844-4</loinc>
+		<short>AGHBE</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1048</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">HEPATITE B: ACHBE</label>
+		<label language="en">HEPATITIS B: ABHBE</label>
+		<label language="nl">HEPATITIS B: ABHBE</label>
+		<label language="es">HEPATITIS B: ABHBE</label>
+		<label language="pt">HEPATITE B: ACHBE</label>
+		<loinc>16933-4</loinc>
+		<short>ABHBE</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1049</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">HEPATITE C: AC HCV</label>
+		<label language="en">HEPATITIS C: AC HCV</label>
+		<label language="nl">HEPATITIS C: AB HCV</label>
+		<label language="es">HEPATITIS C: AB HCV</label>
+		<label language="pt">HEPATITE C: AC HCV</label>
+		<loinc>16128-1</loinc>
+		<short>ABHCV</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1050</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP:,+,-</modifiers>
+		<label language="fr">VIH</label>
+		<label language="en">HIV</label>
+		<label language="nl">HIV</label>
+		<label language="es">VIH</label>
+		<label language="pt">HIV</label>
+		<loinc>5222-5</loinc>
+		<short>HIV</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1060</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">WIDAL TO</label>
+		<label language="en">WIDAL TO</label>
+		<label language="nl">WIDAL TO</label>
+		<label language="es">WIDAL TO</label>
+		<label language="pt">WIDAL TO</label>
+		<loinc>13284-5</loinc>
+		<short>WIO</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1070</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">WIDAL TH</label>
+		<label language="en">WIDAL TH</label>
+		<label language="nl">WIDAL TH</label>
+		<label language="es">WIDAL TH</label>
+		<label language="pt">WIDAL TH</label>
+		<loinc/>
+		<short>WIH</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1080</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>1</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CRP</label>
+		<label language="en">CRP</label>
+		<label language="nl">CRP</label>
+		<label language="es">CRP</label>
+		<label language="pt">CRP</label>
+		<loinc>1988-5</loinc>
+		<short>CRP</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1090</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">ASLO</label>
+		<label language="en">ASLO</label>
+		<label language="nl">ASLO</label>
+		<label language="es">ASLO</label>
+		<label language="pt">ASLO</label>
+		<loinc>9788-1</loinc>
+		<short>ASLO</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1160</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">SEROLOGIE HELICOBACTER PYLORI</label>
+		<label language="en">SEROLOGY HELICOBACTER PYLORI</label>
+		<label language="nl">HELICOBACTER SEROLOGIE</label>
+		<label language="es">SEROLOGIA HELICOBACTER PYLORI</label>
+		<label language="pt">SEROLOGIA HELICOBACTER PYLORI</label>
+		<loinc>5174-8</loinc>
+		<short>HEL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1170</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">SEROLOGIE CHLAMIDIA TRACHOMATIS</label>
+		<label language="en">SEROLOGY CHLAMYDIA TRACHOMATIS</label>
+		<label language="nl">CHLAMIDIA TRACHOMATIS SEROLOGIE</label>
+		<label language="es">SEROLOGIA CHLAMIDIA TRACHOMATIS</label>
+		<label language="pt">SEROLOGIA CHLAMIDIA TRACHOMATIS</label>
+		<loinc>5083-1</loinc>
+		<short>CLA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1180</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP:,pos: &#62;=1:80,neg/n&#233;g:&#60;1:80</modifiers>
+		<label language="fr">BRUCELLA</label>
+		<label language="en">BRUCELLA</label>
+		<label language="nl">BRUCELLA</label>
+		<label language="es">BRUCELLA</label>
+		<label language="pt">BRUCELLA</label>
+		<loinc>5066-6</loinc>
+		<short>BRU</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1230</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>serology</group>
+		<unit>c/mm3</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>500</minval>
+				<maxval>1200</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:4</modifiers>
+		<label language="fr">CD4</label>
+		<label language="en">CD4</label>
+		<label language="nl">CD4</label>
+		<label language="es">CD4</label>
+		<label language="pt">CD4</label>
+		<loinc>8123-2</loinc>
+		<short>CD4</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1260</code>
+		<type>4</type>
+		<sample>faeces</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP:,+,-</modifiers>
+		<label language="fr">AG HELICOBACTER PYLORI</label>
+		<label language="en">AG HELICOBACTER PYLORI</label>
+		<label language="nl">AG HELICOBACTER PYLORI</label>
+		<label language="es">AG HELICOBACTER PYLORI</label>
+		<label language="pt">AG HELICOBACTER PYLORI</label>
+		<loinc/>
+		<short>AGHEL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>1270</code>
+		<type>4</type>
+		<sample>faeces</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP:,+,-</modifiers>
+		<label language="fr">SANG OCCULTE DANS LES SELLES</label>
+		<label language="en">OCCULT FAECAL BLOOD</label>
+		<label language="nl">OCCULT FAECAAL BLOED</label>
+		<label language="es">SANGRE OCULTA EN LAS EXCREMENTOS</label>
+		<label language="pt">PESQUIZA DE SANGUE OCULTO NAS FEZES</label>
+		<loinc>2335-8</loinc>
+		<short>OCC</short>
+	</labanalysis>
+	<labanalysis>
+		<code>2010</code>
+		<type>4</type>
+		<sample>faeces</sample>
+		<group>faeces</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:50</modifiers>
+		<label language="fr">SELLES</label>
+		<label language="en">STOOL</label>
+		<label language="nl">FAECES</label>
+		<label language="es">EXCREMENTOS</label>
+		<label language="pt">FEZES</label>
+		<loinc/>
+		<short>FAE</short>
+	</labanalysis>
+	<labanalysis>
+		<code>2020</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>parasitology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">GOUTTE EPAISSE</label>
+		<label language="en">THICK SMEAR</label>
+		<label language="nl">DIKDRUPPEL</label>
+		<label language="es">GOTA GRUESA</label>
+		<label language="pt">GOTA ESPESSA</label>
+		<loinc>637-9</loinc>
+		<short>GE</short>
+	</labanalysis>
+	<labanalysis>
+		<code>2021</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>parasitology</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">GOUTTE EPAISSE - QBC</label>
+		<label language="en">THICK SMEAR - QBC</label>
+		<label language="nl">DIKDRUPPEL - QBC</label>
+		<label language="es">GOTA GRUESA - QBC</label>
+		<label language="pt">GOTA ESPESSA - QBC</label>
+		<loinc>637-9</loinc>
+		<short>GEQ</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3010</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>endocrinology</group>
+		<unit>mU/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>13.5</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">HORMONE DE CROISSANCE</label>
+		<label language="en">GROWTH STIMULATING HORMONE</label>
+		<label language="nl">GROEIHORMOON</label>
+		<label language="es">HORMONA DEL CRECIMIENTO</label>
+		<label language="pt">HORM&#212;NIO DO CRESCIMENTO</label>
+		<loinc>2963-7</loinc>
+		<short>GSH</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3011</code>
+		<type>1</type>
+		<sample>edta.serum</sample>
+		<group>immunohematology</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">ABO + RHESUS</label>
+		<label language="en">ABO + RHESUS</label>
+		<label language="nl">ABO + RHESUS</label>
+		<label language="es">ABO + RHESUS</label>
+		<label language="pt">ABO + RHESUS</label>
+		<loinc>882-1</loinc>
+		<short>ABO</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3021</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>hematology</group>
+		<unit>10e3/mm3</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="24">
+				<minval>4</minval>
+				<maxval>16.5</maxval>
+			</ref>
+			<ref gender="mf" minage="25" maxage="96">
+				<minval>4</minval>
+				<maxval>15</maxval>
+			</ref>
+			<ref gender="mf" minage="97" maxage="216">
+				<minval>4</minval>
+				<maxval>13.5</maxval>
+			</ref>
+			<ref gender="mf" minage="217" maxage="1500">
+				<minval>4</minval>
+				<maxval>10</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">GLOBULES BLANCS</label>
+		<label language="en">WHITE BLOOD CELLS</label>
+		<label language="nl">WITTE BLOEDCELLEN</label>
+		<label language="es">GLOBULOS BLANCOS</label>
+		<label language="pt">GLOBULOS BRANCOS</label>
+		<loinc>6690-2</loinc>
+		<short>WBC</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3022</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>hematology</group>
+		<unit>10e6/mm3</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="2">
+				<minval>3.8</minval>
+				<maxval>5.6</maxval>
+			</ref>
+			<ref gender="mf" minage="3" maxage="24">
+				<minval>3.8</minval>
+				<maxval>5.2</maxval>
+			</ref>
+			<ref gender="mf" minage="25" maxage="180">
+				<minval>4</minval>
+				<maxval>5.2</maxval>
+			</ref>
+			<ref gender="f" minage="181" maxage="1500">
+				<minval>4.2</minval>
+				<maxval>5.4</maxval>
+			</ref>
+			<ref gender="m" minage="181" maxage="1500">
+				<minval>4.5</minval>
+				<maxval>6.3</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">GLOBULES ROUGES</label>
+		<label language="en">RED BLOOD CELLS</label>
+		<label language="nl">RODE BLOEDCELLEN</label>
+		<label language="es">GLOBULOS ROJOS</label>
+		<label language="pt">HEM&#193;CIAS</label>
+		<loinc>789-8</loinc>
+		<short>RBC</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3023</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>hematology</group>
+		<unit>g/dl</unit>
+		<editor>numeric</editor>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1">
+				<minval>10.7</minval>
+				<maxval>17.1</maxval>
+			</ref>
+			<ref gender="mf" minage="2" maxage="4">
+				<minval>10.3</minval>
+				<maxval>14.1</maxval>
+			</ref>
+			<ref gender="mf" minage="5" maxage="6">
+				<minval>11.4</minval>
+				<maxval>14.1</maxval>
+			</ref>
+			<ref gender="mf" minage="7" maxage="12">
+				<minval>11.3</minval>
+				<maxval>14.1</maxval>
+			</ref>
+			<ref gender="mf" minage="13" maxage="60">
+				<minval>11.5</minval>
+				<maxval>14.5</maxval>
+			</ref>
+			<ref gender="mf" minage="61" maxage="108">
+				<minval>11.4</minval>
+				<maxval>14.1</maxval>
+			</ref>
+			<ref gender="mf" minage="109" maxage="144">
+				<minval>12</minval>
+				<maxval>151</maxval>
+			</ref>
+			<ref gender="f" minage="145" maxage="168">
+				<minval>11.7</minval>
+				<maxval>15.3</maxval>
+			</ref>
+			<ref gender="f" minage="169" maxage="204">
+				<minval>11.4</minval>
+				<maxval>14.1</maxval>
+			</ref>
+			<ref gender="f" minage="205" maxage="528">
+				<minval>11.7</minval>
+				<maxval>15.5</maxval>
+			</ref>
+			<ref gender="f" minage="529" maxage="1500">
+				<minval>11.7</minval>
+				<maxval>16</maxval>
+			</ref>
+			<ref gender="m" minage="145" maxage="168">
+				<minval>12</minval>
+				<maxval>16</maxval>
+			</ref>
+			<ref gender="m" minage="169" maxage="204">
+				<minval>11.7</minval>
+				<maxval>16.6</maxval>
+			</ref>
+			<ref gender="m" minage="205" maxage="528">
+				<minval>13.2</minval>
+				<maxval>17.3</maxval>
+			</ref>
+			<ref gender="m" minage="529" maxage="1500">
+				<minval>13.1</minval>
+				<maxval>17.2</maxval>
+			</ref>
+		</refs>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">HEMOGLOBINE</label>
+		<label language="en">HEMOGLOBIN</label>
+		<label language="nl">HEMOGLOBINE</label>
+		<label language="es">HEMOGLOBINA</label>
+		<label language="pt">HEMOGLOBINA</label>
+		<loinc>4548-4</loinc>
+		<short>HB</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3024</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>hematology</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<refs>
+			<ref gender="mf" minage="0" maxage="2">
+				<minval>35</minval>
+				<maxval>64</maxval>
+			</ref>
+			<ref gender="mf" minage="3" maxage="72">
+				<minval>33</minval>
+				<maxval>43</maxval>
+			</ref>
+			<ref gender="mf" minage="73" maxage="180">
+				<minval>33</minval>
+				<maxval>46</maxval>
+			</ref>
+			<ref gender="f" minage="181" maxage="1500">
+				<minval>36</minval>
+				<maxval>47</maxval>
+			</ref>
+			<ref gender="m" minage="181" maxage="1500">
+				<minval>40</minval>
+				<maxval>54</maxval>
+			</ref>
+		</refs>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">HEMATOCRITE</label>
+		<label language="en">HEMATOCRIT</label>
+		<label language="nl">HEMATOCRIET</label>
+		<label language="es">HEMATOCRITO</label>
+		<label language="pt">HEMAT&#211;CRITO</label>
+		<loinc>4545-0</loinc>
+		<short>HC</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3025</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>hematology</group>
+		<unit>fl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="2">
+				<minval>85</minval>
+				<maxval>126</maxval>
+			</ref>
+			<ref gender="mf" minage="3" maxage="5">
+				<minval>74</minval>
+				<maxval>115</maxval>
+			</ref>
+			<ref gender="mf" minage="6" maxage="24">
+				<minval>70</minval>
+				<maxval>86</maxval>
+			</ref>
+			<ref gender="mf" minage="25" maxage="72">
+				<minval>75</minval>
+				<maxval>87</maxval>
+			</ref>
+			<ref gender="mf" minage="73" maxage="132">
+				<minval>77</minval>
+				<maxval>95</maxval>
+			</ref>
+			<ref gender="mf" minage="133" maxage="204">
+				<minval>78</minval>
+				<maxval>102</maxval>
+			</ref>
+			<ref gender="f" minage="205" maxage="1500">
+				<minval>78</minval>
+				<maxval>102</maxval>
+			</ref>
+			<ref gender="m" minage="205" maxage="1500">
+				<minval>80</minval>
+				<maxval>100</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MCV</label>
+		<label language="en">MCV</label>
+		<label language="nl">MCV</label>
+		<label language="es">MCV</label>
+		<label language="pt">MCV</label>
+		<loinc>787-2</loinc>
+		<short>MCV</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3026</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>hematology</group>
+		<unit>pg</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>26</minval>
+				<maxval>34</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MCH</label>
+		<label language="en">MCH</label>
+		<label language="nl">MCH</label>
+		<label language="es">MCH</label>
+		<label language="pt">MCH</label>
+		<loinc>785-6</loinc>
+		<short>MCH</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3027</code>
+		<type>1</type>
+		<sample>citrate</sample>
+		<group>hematology</group>
+		<unit>g/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>30</minval>
+				<maxval>38</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MCHC</label>
+		<label language="en">MCHC</label>
+		<label language="nl">MCHC</label>
+		<label language="es">MCHC</label>
+		<label language="pt">MCHC</label>
+		<loinc>786-4</loinc>
+		<short>MCHC</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3028</code>
+		<type>1</type>
+		<sample>citrate</sample>
+		<group>hematology</group>
+		<unit>10e3/mm3</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>120</minval>
+				<maxval>451</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">PLAQUETTES</label>
+		<label language="en">PLATELETS</label>
+		<label language="nl">PLAATJES</label>
+		<label language="es">PLAQUETAS</label>
+		<label language="pt">PLATELET</label>
+		<loinc>777-3</loinc>
+		<short>PLT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3031</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>%</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>18</minval>
+				<maxval>50</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">LYMPHOCYTES %</label>
+		<label language="en">LYMPHOCYTES %</label>
+		<label language="nl">LYMPHOCYTEN %</label>
+		<label language="es">LINFOCITOS %</label>
+		<label language="pt">LINFOCITOS %</label>
+		<loinc>13046-8</loinc>
+		<short>LYMP</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3032</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>%</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>9</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MONOCYTES %</label>
+		<label language="en">MONOCYTES %</label>
+		<label language="nl">MONOCYTEN %</label>
+		<label language="es">MONOCITOS %</label>
+		<label language="pt">MONOCITOS %</label>
+		<loinc>63126-9</loinc>
+		<short>MONP</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3033</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>%</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>35</minval>
+				<maxval>73</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">NEUTROPHILES %</label>
+		<label language="en">NEUTROPHILS %</label>
+		<label language="nl">NEUTROFIELEN %</label>
+		<label language="es">NEUTROFILOS %</label>
+		<label language="pt">NEUTROFILOS %</label>
+		<loinc>26511-6</loinc>
+		<short>NEUP</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3035</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>%</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>2</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">BASOPHILES %</label>
+		<label language="en">BASOPHILS %</label>
+		<label language="nl">BASOFIELEN %</label>
+		<label language="es">BASOFILOS %</label>
+		<label language="pt">BASOFILOS %</label>
+		<loinc>30180-4</loinc>
+		<short>BASP</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3036</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>%</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>5</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">EOSINOPHILES %</label>
+		<label language="en">EOSINOPHILS %</label>
+		<label language="nl">EOSINOFIELEN %</label>
+		<label language="es">EOSINOFILOS %</label>
+		<label language="pt">EOSINOFILOS %</label>
+		<loinc>26450-7</loinc>
+		<short>EOSP</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3037</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>10e3/mm3</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">LYMPHOCYTES</label>
+		<label language="en">LYMPHOCYTES</label>
+		<label language="nl">LYMPHOCYTEN</label>
+		<label language="es">LINFOCITOS</label>
+		<label language="pt">LINFOCITOS</label>
+		<loinc>26474-7</loinc>
+		<short>LYM</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3038</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>10e3/mm3</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MONOCYTES</label>
+		<label language="en">MONOCYTES</label>
+		<label language="nl">MONOCYTEN</label>
+		<label language="es">MONOCITOS</label>
+		<label language="pt">MONOCITOS</label>
+		<loinc>26484-6</loinc>
+		<short>MON</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3039</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>10e3/mm3</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">NEUTROPHILES</label>
+		<label language="en">NEUTROPHILES</label>
+		<label language="nl">NEUTROFIELEN</label>
+		<label language="es">NEUTROFILOS</label>
+		<label language="pt">NEUTROFILOS</label>
+		<loinc>26499-4</loinc>
+		<short>NEU</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3040</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>10e3/mm3</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">GRANULOCYTES </label>
+		<label language="en">GRANULOCYTES </label>
+		<label language="nl">GRANULOCYTEN</label>
+		<label language="es">GRANULOCITOS</label>
+		<label language="pt">GRANULOCITOS</label>
+		<loinc>30394-1</loinc>
+		<short>GRA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3041</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>10e3/mm3</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">BASOPHILES</label>
+		<label language="en">BASOPHILES</label>
+		<label language="nl">BASOFIELEN</label>
+		<label language="es">BASOFILOS</label>
+		<label language="pt">BASOFILOS</label>
+		<loinc>26444-0</loinc>
+		<short>BAS</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3042</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>formule</group>
+		<unit>10e3/mm3</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">EOSINOPHILES</label>
+		<label language="en">EOSINOPHILES</label>
+		<label language="nl">EOSINOFIELEN</label>
+		<label language="es">EOSINOFILOS</label>
+		<label language="pt">EOSINOFILOS</label>
+		<loinc>26449-9</loinc>
+		<short>EOS</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3045</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>hematology</group>
+		<unit>mm/h</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="144">
+				<minval>0</minval>
+				<maxval>10</maxval>
+			</ref>
+			<ref gender="f" minage="145" maxage="600">
+				<minval>0</minval>
+				<maxval>20</maxval>
+			</ref>
+			<ref gender="f" minage="601" maxage="1500">
+				<minval>0</minval>
+				<maxval>30</maxval>
+			</ref>
+			<ref gender="m" minage="145" maxage="600">
+				<minval>0</minval>
+				<maxval>15</maxval>
+			</ref>
+			<ref gender="m" minage="601" maxage="1500">
+				<minval>0</minval>
+				<maxval>20</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">VITESSE DE SEDIMENTATION</label>
+		<label language="en">ESR</label>
+		<label language="nl">SEDIMENTATIESNELHEID</label>
+		<label language="es">VELOCIDAD DE SEDIMENTACI&#211;N</label>
+		<label language="pt">VITESSE SEDIMENTACAO</label>
+		<loinc>30341-2</loinc>
+		<short>ESR</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3050</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>hemostasis</group>
+		<unit>min</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>1</minval>
+				<maxval>3</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">TEMPS DE SAIGNEMENT</label>
+		<label language="en">BLEEDING TIME</label>
+		<label language="nl">BLOEDINGSTIJD</label>
+		<label language="es">TIEMPO DE HEMORRAGIA</label>
+		<label language="pt">TEMPO DE HEMORRAGIA</label>
+		<loinc>11067-6</loinc>
+		<short>BT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3501</code>
+		<type>1</type>
+		<sample>citrate</sample>
+		<group>hemostasis</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>200</minval>
+				<maxval>400</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FIBRINOGENE</label>
+		<label language="en">FIBRINOGEN</label>
+		<label language="nl">FIBRINOGEEN</label>
+		<label language="es">FIBRINOGENO</label>
+		<label language="pt">FIBRINOGENIO</label>
+		<loinc>3251-6</loinc>
+		<short>FBG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3502</code>
+		<type>1</type>
+		<sample>citrate</sample>
+		<group>hemostasis</group>
+		<unit>%</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>70</minval>
+				<maxval>100</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">PT</label>
+		<label language="en">PT</label>
+		<label language="nl">PT</label>
+		<label language="es">PT</label>
+		<label language="pt">PT</label>
+		<loinc>5894-1</loinc>
+		<short>PT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3503</code>
+		<type>1</type>
+		<sample>citrate</sample>
+		<group>hemostasis</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">PTT</label>
+		<label language="en">PTT</label>
+		<label language="nl">PTT</label>
+		<label language="es">PTT</label>
+		<label language="pt">PTT</label>
+		<loinc>3173-2</loinc>
+		<short>PTT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>3504</code>
+		<type>1</type>
+		<sample>citrate</sample>
+		<group>hemostasis</group>
+		<unit>%</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>5</minval>
+				<maxval>15</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">TT</label>
+		<label language="en">TT</label>
+		<label language="nl">TT</label>
+		<label language="es">TT</label>
+		<label language="pt">TT</label>
+		<loinc>3243-3</loinc>
+		<short>TT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4011</code>
+		<type>2</type>
+		<sample>urine</sample>
+		<group>urineroutine</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">URINES - ASPECT</label>
+		<label language="en">URINE - ASPECT</label>
+		<label language="nl">URINE - ASPECT</label>
+		<label language="es">ASPECTO DE ORINA</label>
+		<label language="pt">URINA - ASPECTO</label>
+		<loinc/>
+		<short>UR</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4012</code>
+		<type>2</type>
+		<sample>urine</sample>
+		<group>urineroutine</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">URINE - S&#201;DIMENT</label>
+		<label language="en">URINE - SEDIMENT</label>
+		<label language="nl">URINESEDIMENT</label>
+		<label language="es">SEDIMENTO URINARIO</label>
+		<label language="pt">URINA - SEDIMENTOS</label>
+		<loinc>8246-1</loinc>
+		<short>URS</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4013</code>
+		<type>2</type>
+		<sample>urine</sample>
+		<group>urineroutine</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">URINE - GRAM</label>
+		<label language="en">URINE - GRAM</label>
+		<label language="nl">URINE - GRAMKLEURING</label>
+		<label language="es">ORINO TINCION DE GRAM</label>
+		<label language="pt">URINA - GRAM</label>
+		<loinc>653-6</loinc>
+		<short>URG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4015</code>
+		<type>3</type>
+		<sample>urine</sample>
+		<group>urineroutine</group>
+		<unit/>
+		<editor>antibiogram</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CULTURE</label>
+		<label language="en">CULTURE</label>
+		<label language="nl">CULTUUR</label>
+		<label language="es">CULTURA</label>
+		<label language="pt">CULTURA</label>
+		<loinc>630-4</loinc>
+		<short>URC</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4020</code>
+		<type>2</type>
+		<sample>urine</sample>
+		<group>urineroutine</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">SUCRE</label>
+		<label language="en">SUGAR</label>
+		<label language="nl">SUIKER</label>
+		<label language="es">GLOCOSE</label>
+		<label language="pt">GLICOSE</label>
+		<loinc>25428-4</loinc>
+		<short>URGL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4021</code>
+		<type>2</type>
+		<sample>urine</sample>
+		<group>urineroutine</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>0</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">SUCRE QUANTITATIF</label>
+		<label language="en">SUGAR QUANTITATIVE</label>
+		<label language="nl">SUIKER KWANTITATIEF</label>
+		<label language="es">GLOCOSE CUANTITATIVA</label>
+		<label language="pt">GLICOSE - QUANTITATIVA</label>
+		<loinc>63382-6</loinc>
+		<short>URGLQ</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4030</code>
+		<type>2</type>
+		<sample>urine</sample>
+		<group>urineroutine</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">ALBUMINURIE</label>
+		<label language="en">ALBUMINURIA</label>
+		<label language="nl">ALBUMINURIE</label>
+		<label language="es">ALBUMINURIA</label>
+		<label language="pt">ALBUMIN&#218;RIA</label>
+		<loinc>50949-7</loinc>
+		<short>URA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4031</code>
+		<type>2</type>
+		<sample>urine</sample>
+		<group>bacteriology</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>15</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">ALBUMINURIE QUANTITATIF</label>
+		<label language="en">ALBUMINURIA QUANTITATIVE</label>
+		<label language="nl">ALBUMINURIE KWANTITATIEF</label>
+		<label language="es">ALBUMINURIA CUANTITATIVA</label>
+		<label language="pt">ALBUMIN&#218;RIA - QUANTITATIVA</label>
+		<loinc>1754-1</loinc>
+		<short>URAQ</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4040</code>
+		<type>2</type>
+		<sample>urine</sample>
+		<group>urinehormones</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP: ,+,-</modifiers>
+		<label language="fr">TEST DE GROSSESSE</label>
+		<label language="en">PREGNANCY TEST</label>
+		<label language="nl">ZWANGERSCHAPSTEST</label>
+		<label language="es">PRUEBA DE EMBARAZO</label>
+		<label language="pt">TESTE DE GRAVIDEZ</label>
+		<loinc>2106-3</loinc>
+		<short>PRN</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4051</code>
+		<type>3</type>
+		<sample>swab</sample>
+		<group>bacteriology</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FROTTIS VAGINAL - S&#201;DIMENT</label>
+		<label language="en">VAGINAL SMEAR - SEDIMENT</label>
+		<label language="nl">VAGINAAL UITSTRIJKJE - SEDIMENT</label>
+		<label language="es">FROTIS VAGINAL - SEDIMENTO</label>
+		<label language="pt">ESFREGACO VAGINAL - SEDIMENTOS</label>
+		<loinc>47528-5</loinc>
+		<short>VSS</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4052</code>
+		<type>3</type>
+		<sample>swab</sample>
+		<group>bacteriology</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FROTTIS VAGINAL - GRAM</label>
+		<label language="en">VAGINAL SMEAR - GRAM</label>
+		<label language="nl">VAGINAAL UITSTRIJKJE _ GRAMKLEURING</label>
+		<label language="es">FROTIS VAGINAL - TINCION DE GRAM</label>
+		<label language="pt">ESFREGACO VAGINAL - GRAM</label>
+		<loinc>47528-5</loinc>
+		<short>VSG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4061</code>
+		<type>3</type>
+		<sample>swab</sample>
+		<group>bacteriology</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FROTTIS URETHRAL - ASPECT</label>
+		<label language="en">URETHRAL SMEAR - ASPECT</label>
+		<label language="nl">URETHRAAL UITSTRIJKJE - ASPECT</label>
+		<label language="es">FROTIS URETHRAL - ASPECTO</label>
+		<label language="pt">ESFREGACO URETRAL - ASPECTO</label>
+		<loinc/>
+		<short>USA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4062</code>
+		<type>3</type>
+		<sample>swab</sample>
+		<group>bacteriology</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FROTTIS URETHRAL - S&#201;DIMENT</label>
+		<label language="en">URETHRAL SMEARL - SEDIMENT</label>
+		<label language="nl">URETHRAAL UITSTRIJKJE - SEDIMENT</label>
+		<label language="es">FROTIS URETHRAL - SEDIMENTO</label>
+		<label language="pt">ESFREGACO URETRAL - SEDIMENTOS</label>
+		<loinc/>
+		<short>USS</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4063</code>
+		<type>3</type>
+		<sample>swab</sample>
+		<group>bacteriology</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FROTTIS URETHRAL - GRAM</label>
+		<label language="en">URETHRAL SMEAR - GRAM</label>
+		<label language="nl">URTEHRAAL UITSTRIJKJE - GRAMKLEURING</label>
+		<label language="es">FROTIS URETHRAL - TINCION DE GRAM</label>
+		<label language="pt">ESFREGACO URETRAL - GRAM</label>
+		<loinc/>
+		<short>USG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4064</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>bacteriology</group>
+		<unit/>
+		<editor>antibiogram</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CULTURE</label>
+		<label language="en">CULTURE</label>
+		<label language="nl">CULTUUR</label>
+		<label language="es">CULTURA</label>
+		<label language="pt">CULTURA</label>
+		<loinc>600-7</loinc>
+		<short>SWB</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4101</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP:,opac/opaq,transluc</modifiers>
+		<label language="fr">ASPECT</label>
+		<label language="en">ASPECT</label>
+		<label language="nl">ASPECT</label>
+		<label language="es">ASPECTO </label>
+		<label language="pt">ASPECTO</label>
+		<loinc/>
+		<short>SPA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4102</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:3</modifiers>
+		<label language="fr">VOLUME</label>
+		<label language="en">VOLUME</label>
+		<label language="nl">VOLUME</label>
+		<label language="es">VOLUMEN</label>
+		<label language="pt">VOLUME</label>
+		<loinc/>
+		<short>SPV</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4103</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">DENSITE</label>
+		<label language="en">DENSITY</label>
+		<label language="nl">DENSITEIT</label>
+		<label language="es">DENSIDAD</label>
+		<label language="pt">DENSIDADE</label>
+		<loinc/>
+		<short>SPD</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4104</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">PH</label>
+		<label language="en">PH</label>
+		<label language="nl">PH</label>
+		<label language="es">PH</label>
+		<label language="pt">PH</label>
+		<loinc/>
+		<short>SPPH</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4105</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:3</modifiers>
+		<label language="fr">MORPHOLOGIE FORMES TYPIQUES</label>
+		<label language="en">MORPHOLOGY TYPICAL FORM</label>
+		<label language="nl">MORFOLOGIE TYP VORM</label>
+		<label language="es">MORFOLOGIA FORM TYP</label>
+		<label language="pt">MORFOLOGIA FORM TYP</label>
+		<loinc/>
+		<short>SPMT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4106</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:3</modifiers>
+		<label language="fr">MORPHOLOGIE FORMES ATYPIQUES</label>
+		<label language="en">MORPHOLOGIE ATYPICAL FORM</label>
+		<label language="nl">MORFOLOGIE ATYP VORM</label>
+		<label language="es">MORFOLOGIA FORM ATYP</label>
+		<label language="pt">MORFOLOGIA FORM ATYP</label>
+		<loinc/>
+		<short>SPMA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4107</code>
+		<type>7</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">COLORATION GRAM</label>
+		<label language="en">GRAM STAINING</label>
+		<label language="nl">GRAMKLEURING</label>
+		<label language="es">TINCION DE GRAM</label>
+		<label language="pt">COLORACAO DE GRAM</label>
+		<loinc/>
+		<short>SPG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4108</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MOBILITE A L'ARRIVEE</label>
+		<label language="en">MOBILITY AT SAMPLE RECEIVED</label>
+		<label language="nl">MOBILITEIT BIJ ONTVANGST STAAL</label>
+		<label language="es">MOVILIDAD EN LLEGADA</label>
+		<label language="pt">MOBILIDADE NA CHEGADA</label>
+		<loinc/>
+		<short>SPM0</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4109</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MOBILITE APRES 1H</label>
+		<label language="en">MOBILITY AFTER 1H</label>
+		<label language="nl">MOBILITEIT NA 1 UUR</label>
+		<label language="es">MOVILIDAD DESPUES DE 1 HORA</label>
+		<label language="pt">MOBILIDADE AP&#211;S 1 HORA</label>
+		<loinc/>
+		<short>SPM1</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4110</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MOBILITE APRES 4H</label>
+		<label language="en">MOBILITY AFTER 4H</label>
+		<label language="nl">MOBILITEIT NA 4 UUR</label>
+		<label language="es">MOVILIDAD DESPUES DE 4 HORAS</label>
+		<label language="pt">MOBILIDADE AP&#211;S 4 HORAS</label>
+		<loinc/>
+		<short>SPM4</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4111</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MOBILITE APRES 24H</label>
+		<label language="en">MOBILITE AFTER 24H</label>
+		<label language="nl">MOBILITEIT NA 24 UUR</label>
+		<label language="es">MOVILIDAD DESPUES DE 24 HORAS</label>
+		<label language="pt">MOBILIDADE AP&#211;S 24 HORAS</label>
+		<loinc/>
+		<short>SPM24</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4112</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>%</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MOBILITE APRES 12H</label>
+		<label language="en">MOBILITE AFTER 12H</label>
+		<label language="nl">MOBILITEIT NA 12 UUR</label>
+		<label language="es">MOVILIDAD DESPUES DE 12 HORAS</label>
+		<label language="pt">MOBILIDADE AP&#211;S 12 HORAS</label>
+		<loinc/>
+		<short>SPM12</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4115</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit>10e6/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">NUMERATION</label>
+		<label language="en">COUNT</label>
+		<label language="nl">TELLING</label>
+		<label language="es">CONDE</label>
+		<label language="pt">CONTAGEM</label>
+		<loinc/>
+		<short>SPMC</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4116</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">LEUCOCYTES/SPERME</label>
+		<label language="en">LEUCOCYTES/SPERM</label>
+		<label language="nl">LEUCOCYTEN/SPERM</label>
+		<label language="es">LEUCOCITOS/ESPERMA</label>
+		<label language="pt">LEUCOCITOS/ESPERMA</label>
+		<loinc/>
+		<short>SPML</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4117</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>text</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">COMPTE RENDU</label>
+		<label language="en">REPORT</label>
+		<label language="nl">VERSLAG</label>
+		<label language="es">INFORME</label>
+		<label language="pt">RELAT&#211;RIO</label>
+		<loinc/>
+		<short>SPMR</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4118</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP:,normal,a(b)norm</modifiers>
+		<label language="fr">LIQUEFACTION</label>
+		<label language="en">LIQUEFYING</label>
+		<label language="nl">VLOEIBAAR MAKEN</label>
+		<label language="es">LICUEFACCI&#211;N</label>
+		<label language="pt">LIQUEFAC&#199;&#195;O</label>
+		<loinc/>
+		<short>SPMLI</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4119</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP:,normal,a(b)norm</modifiers>
+		<label language="fr">VISCOSITY</label>
+		<label language="en">VISCOSITY</label>
+		<label language="nl">VISKOSITEIT</label>
+		<label language="es">VISCOSIDAD</label>
+		<label language="pt">VISCOSIDADE</label>
+		<loinc/>
+		<short>SPMVI</short>
+	</labanalysis>
+	<labanalysis>
+		<code>4120</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>sperm</group>
+		<unit/>
+		<editor>listbox</editor>
+		<modifiers>OP:,+,-</modifiers>
+		<label language="fr">COLORATION GRAM</label>
+		<label language="en">GRAM STAINING</label>
+		<label language="nl">GRAMKLEURING</label>
+		<label language="es">TINCION DE GRAM</label>
+		<label language="pt">COLORACAO DE GRAM</label>
+		<loinc/>
+		<short>SPMGR</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5010</code>
+		<type>1</type>
+		<sample>citrate</sample>
+		<group>carbohydrates</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="144">
+				<minval>60</minval>
+				<maxval>100</maxval>
+			</ref>
+			<ref gender="mf" minage="145" maxage="720">
+				<minval>74</minval>
+				<maxval>106</maxval>
+			</ref>
+			<ref gender="mf" minage="721" maxage="1080">
+				<minval>82</minval>
+				<maxval>115</maxval>
+			</ref>
+			<ref gender="mf" minage="1081" maxage="1500">
+				<minval>75</minval>
+				<maxval>121</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">GLYC&#201;MIE</label>
+		<label language="en">GLUCOSE</label>
+		<label language="nl">GLUCOSE</label>
+		<label language="es">GLUCOSA</label>
+		<label language="pt">GLICOSE</label>
+		<loinc>1557-8</loinc>
+		<short>GLU</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5020</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>renal</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>10</minval>
+				<maxval>50</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">UR&#201;E (AZOT&#201;MIE)</label>
+		<label language="en">UREA (AZOTEMIA)</label>
+		<label language="nl">UREUM</label>
+		<label language="es">UREA</label>
+		<label language="pt">UR&#201;IA</label>
+		<loinc>6299-2</loinc>
+		<short>URE</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5030</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>renal</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="3">
+				<minval>0.2</minval>
+				<maxval>0.4</maxval>
+			</ref>
+			<ref gender="mf" minage="4" maxage="144">
+				<minval>0.3</minval>
+				<maxval>0.7</maxval>
+			</ref>
+			<ref gender="mf" minage="145" maxage="204">
+				<minval>0.5</minval>
+				<maxval>1</maxval>
+			</ref>
+			<ref gender="f" minage="205" maxage="1500">
+				<minval>0.7</minval>
+				<maxval>1.1</maxval>
+			</ref>
+			<ref gender="m" minage="205" maxage="1500">
+				<minval>0.8</minval>
+				<maxval>1.3</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CR&#201;ATININE</label>
+		<label language="en">CREATININE</label>
+		<label language="nl">CREATININE</label>
+		<label language="es">CREATININA</label>
+		<label language="pt">CREATININE</label>
+		<loinc>2160-0</loinc>
+		<short>CREA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5040</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>liver</group>
+		<unit>U/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="6">
+				<minval>0</minval>
+				<maxval>84</maxval>
+			</ref>
+			<ref gender="mf" minage="7" maxage="12">
+				<minval>0</minval>
+				<maxval>89</maxval>
+			</ref>
+			<ref gender="mf" minage="13" maxage="36">
+				<minval>0</minval>
+				<maxval>56</maxval>
+			</ref>
+			<ref gender="mf" minage="37" maxage="72">
+				<minval>0</minval>
+				<maxval>39</maxval>
+			</ref>
+			<ref gender="mf" minage="73" maxage="144">
+				<minval>0</minval>
+				<maxval>50</maxval>
+			</ref>
+			<ref gender="f" minage="145" maxage="204">
+				<minval>0</minval>
+				<maxval>27</maxval>
+			</ref>
+			<ref gender="f" minage="205" maxage="1500">
+				<minval>0</minval>
+				<maxval>31</maxval>
+			</ref>
+			<ref gender="m" minage="145" maxage="204">
+				<minval>0</minval>
+				<maxval>35</maxval>
+			</ref>
+			<ref gender="m" minage="205" maxage="1500">
+				<minval>0</minval>
+				<maxval>37</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">SGOT</label>
+		<label language="en">SGOT</label>
+		<label language="nl">SGOT</label>
+		<label language="es">SGOT</label>
+		<label language="pt">SGOT</label>
+		<loinc>1920-8</loinc>
+		<short>SGOT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5050</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>liver</group>
+		<unit>U/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="6">
+				<minval>0</minval>
+				<maxval>60</maxval>
+			</ref>
+			<ref gender="mf" minage="7" maxage="12">
+				<minval>0</minval>
+				<maxval>57</maxval>
+			</ref>
+			<ref gender="mf" minage="13" maxage="36">
+				<minval>0</minval>
+				<maxval>39</maxval>
+			</ref>
+			<ref gender="mf" minage="37" maxage="72">
+				<minval>0</minval>
+				<maxval>29</maxval>
+			</ref>
+			<ref gender="mf" minage="73" maxage="144">
+				<minval>0</minval>
+				<maxval>39</maxval>
+			</ref>
+			<ref gender="f" minage="145" maxage="204">
+				<minval>0</minval>
+				<maxval>23</maxval>
+			</ref>
+			<ref gender="f" minage="205" maxage="1500">
+				<minval>0</minval>
+				<maxval>31</maxval>
+			</ref>
+			<ref gender="m" minage="145" maxage="204">
+				<minval>0</minval>
+				<maxval>26</maxval>
+			</ref>
+			<ref gender="m" minage="205" maxage="1500">
+				<minval>0</minval>
+				<maxval>41</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">SGPT</label>
+		<label language="en">SGPT</label>
+		<label language="nl">SGPT</label>
+		<label language="es">SGPT</label>
+		<label language="pt">SGPT</label>
+		<loinc>1742-6</loinc>
+		<short>SGPT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5060</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>liver</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0.1</minval>
+				<maxval>1</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">BILIRUBINE TOTALE</label>
+		<label language="en">BILIRUBIN TOTAL</label>
+		<label language="nl">BILIRUBINE TOTAAL</label>
+		<label language="es">BILIRUBINE TOTAL</label>
+		<label language="pt">BILIRRUBINA TOTAL</label>
+		<loinc>1975-2</loinc>
+		<short>BILT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5070</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>liver</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>0.5</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">BILIRUBINE DIRECTE</label>
+		<label language="en">BILIRUBIN DIRECT</label>
+		<label language="nl">BILIRUBINE DIRECT</label>
+		<label language="es">BILIRUBINE DIRECTO</label>
+		<label language="pt">BILIRRUBINA DIRETA</label>
+		<loinc>1968-7</loinc>
+		<short>BILD</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5080</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>fat</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>200</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CHOLESTEROL TOTAL</label>
+		<label language="en">CHOLESTEROL TOTAL</label>
+		<label language="nl">CHOLESTEROL TOTAAL</label>
+		<label language="es">COLESTEROL TOTAL</label>
+		<label language="pt">COLESTEROL TOTAL</label>
+		<loinc>2093-3</loinc>
+		<short>CHOT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5090</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>fat</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>35</minval>
+				<maxval>200</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CHOLESTEROL HDL</label>
+		<label language="en">CHOLESTEROL HDL</label>
+		<label language="nl">CHOLESTEROL HDL</label>
+		<label language="es">COLESTEROL HDL</label>
+		<label language="pt">COLESTEROL HDL</label>
+		<loinc>2085-9</loinc>
+		<short>HDL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5091</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>fat</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>130</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CHOLESTEROL LDL</label>
+		<label language="en">CHOLESTEROL LDL</label>
+		<label language="nl">CHOLESTEROL LDL</label>
+		<label language="es">COLESTEROL LDL</label>
+		<label language="pt">COLESTEROL LDL</label>
+		<loinc>2089-1</loinc>
+		<short>LDL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5100</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>fat</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="360">
+				<minval>35</minval>
+				<maxval>150</maxval>
+			</ref>
+			<ref gender="mf" minage="361" maxage="480">
+				<minval>35</minval>
+				<maxval>165</maxval>
+			</ref>
+			<ref gender="mf" minage="481" maxage="600">
+				<minval>35</minval>
+				<maxval>175</maxval>
+			</ref>
+			<ref gender="mf" minage="601" maxage="1500">
+				<minval>35</minval>
+				<maxval>180</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">TRIGLYCERIDES</label>
+		<label language="en">TRIGLYCERIDE</label>
+		<label language="nl">TRIGLYCERIDEN</label>
+		<label language="es">TRIGLIC&#201;RIDOS</label>
+		<label language="pt">TRIGLYCERIDE</label>
+		<loinc>3043-7</loinc>
+		<short>TRI</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5110</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>liver</group>
+		<unit>U/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="6">
+				<minval>0</minval>
+				<maxval>1076</maxval>
+			</ref>
+			<ref gender="mf" minage="7" maxage="12">
+				<minval>0</minval>
+				<maxval>1107</maxval>
+			</ref>
+			<ref gender="mf" minage="13" maxage="36">
+				<minval>0</minval>
+				<maxval>673</maxval>
+			</ref>
+			<ref gender="mf" minage="37" maxage="72">
+				<minval>0</minval>
+				<maxval>644</maxval>
+			</ref>
+			<ref gender="mf" minage="73" maxage="144">
+				<minval>0</minval>
+				<maxval>720</maxval>
+			</ref>
+			<ref gender="f" minage="145" maxage="204">
+				<minval>0</minval>
+				<maxval>448</maxval>
+			</ref>
+			<ref gender="f" minage="205" maxage="1500">
+				<minval>0</minval>
+				<maxval>240</maxval>
+			</ref>
+			<ref gender="m" minage="145" maxage="204">
+				<minval>0</minval>
+				<maxval>936</maxval>
+			</ref>
+			<ref gender="m" minage="205" maxage="1500">
+				<minval>0</minval>
+				<maxval>270</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">PHOSPHATASE ALCALINES</label>
+		<label language="en">ALKALINE PHOSPHATASE</label>
+		<label language="nl">ALKALISCHE FOSFATASEN</label>
+		<label language="es">FOSFATASAS ALKALINAS</label>
+		<label language="pt">FOSFATASE ALCALINA</label>
+		<loinc>6768-6</loinc>
+		<short>PAL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5130</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>liver</group>
+		<unit>U/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="6">
+				<minval>0</minval>
+				<maxval>204</maxval>
+			</ref>
+			<ref gender="mf" minage="7" maxage="12">
+				<minval>0</minval>
+				<maxval>34</maxval>
+			</ref>
+			<ref gender="mf" minage="13" maxage="36">
+				<minval>0</minval>
+				<maxval>18</maxval>
+			</ref>
+			<ref gender="mf" minage="37" maxage="72">
+				<minval>0</minval>
+				<maxval>23</maxval>
+			</ref>
+			<ref gender="mf" minage="73" maxage="144">
+				<minval>0</minval>
+				<maxval>17</maxval>
+			</ref>
+			<ref gender="f" minage="145" maxage="204">
+				<minval>0</minval>
+				<maxval>33</maxval>
+			</ref>
+			<ref gender="f" minage="205" maxage="1500">
+				<minval>0</minval>
+				<maxval>32</maxval>
+			</ref>
+			<ref gender="m" minage="145" maxage="204">
+				<minval>0</minval>
+				<maxval>45</maxval>
+			</ref>
+			<ref gender="m" minage="205" maxage="1500">
+				<minval>0</minval>
+				<maxval>49</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">GGT</label>
+		<label language="en">GGT</label>
+		<label language="nl">GGT</label>
+		<label language="es">GGT</label>
+		<label language="pt">GGT</label>
+		<loinc>2325-9</loinc>
+		<short>GGT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5140</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>proteines</group>
+		<unit>g/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>4</minval>
+				<maxval>5.5</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">ALBUMINE</label>
+		<label language="en">ALBUMINE</label>
+		<label language="nl">ALBUMINE</label>
+		<label language="es">ALBUMINA</label>
+		<label language="pt">ALBUMIN</label>
+		<loinc>1751-7</loinc>
+		<short>ALB</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5150</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>renal</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="144">
+				<minval>2</minval>
+				<maxval>5.5</maxval>
+			</ref>
+			<ref gender="f" minage="145" maxage="1500">
+				<minval>3.5</minval>
+				<maxval>7.2</maxval>
+			</ref>
+			<ref gender="m" minage="145" maxage="1500">
+				<minval>2.6</minval>
+				<maxval>6 </maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">ACIDE URIQUE</label>
+		<label language="en">URIC ACID</label>
+		<label language="nl">URINEZUUR</label>
+		<label language="es">ACIDO URICO</label>
+		<label language="pt">&#193;CIDO &#218;RICO</label>
+		<loinc>3084-1</loinc>
+		<short>URA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5160</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>biochemy</group>
+		<unit>U/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>100</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">AMYLASEMIE</label>
+		<label language="en">AMYLASE</label>
+		<label language="nl">AMYLASEN</label>
+		<label language="es">AMILASAS</label>
+		<label language="pt">AMYLASES</label>
+		<loinc>1798-8</loinc>
+		<short>AMY</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5170</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>biochemy</group>
+		<unit>U/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>7</minval>
+				<maxval>60</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">LIPASEMIE</label>
+		<label language="en">LIPASE</label>
+		<label language="nl">LIPASEN</label>
+		<label language="es">LIPASAS</label>
+		<label language="pt">LIPASES</label>
+		<loinc>2572-6</loinc>
+		<short>LIP</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5180</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>electrolytes</group>
+		<unit>meq/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>135</minval>
+				<maxval>145</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">SODIUM</label>
+		<label language="en">SODIUM</label>
+		<label language="nl">NATRIUM</label>
+		<label language="es">SODIO</label>
+		<label language="pt">S&#211;DIO</label>
+		<loinc>2951-2</loinc>
+		<short>SOD</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5190</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>electrolytes</group>
+		<unit>mEq/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>3.6</minval>
+				<maxval>5.5</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">POTASSIUM</label>
+		<label language="en">POTASSIUM</label>
+		<label language="nl">KALIUM</label>
+		<label language="es">POTASIO</label>
+		<label language="pt">POT&#193;SSIO</label>
+		<loinc>2823-3</loinc>
+		<short>POT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5200</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>electrolytes</group>
+		<unit>mEq/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="24">
+				<minval>4.5</minval>
+				<maxval>5.5</maxval>
+			</ref>
+			<ref gender="mf" minage="25" maxage="144">
+				<minval>4.4</minval>
+				<maxval>5.4</maxval>
+			</ref>
+			<ref gender="mf" minage="145" maxage="216">
+				<minval>4.2</minval>
+				<maxval>5.5</maxval>
+			</ref>
+			<ref gender="mf" minage="217" maxage="720">
+				<minval>4.3</minval>
+				<maxval>5</maxval>
+			</ref>
+			<ref gender="mf" minage="721" maxage="1080">
+				<minval>4.4</minval>
+				<maxval>5.1</maxval>
+			</ref>
+			<ref gender="mf" minage="1080" maxage="1500">
+				<minval>4.1</minval>
+				<maxval>4.8</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CALCIUM</label>
+		<label language="en">CALCIUM</label>
+		<label language="nl">CALCIUM</label>
+		<label language="es">CALCIO</label>
+		<label language="pt">C&#193;LCIO</label>
+		<loinc>2000-8</loinc>
+		<short>CAL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5210</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>electrolytes</group>
+		<unit>mEq/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="72">
+				<minval>1.4</minval>
+				<maxval>1.9</maxval>
+			</ref>
+			<ref gender="mf" minage="73" maxage="144">
+				<minval>1.4</minval>
+				<maxval>1.72</maxval>
+			</ref>
+			<ref gender="mf" minage="145" maxage="240">
+				<minval>1.4</minval>
+				<maxval>1.82</maxval>
+			</ref>
+			<ref gender="mf" minage="241" maxage="720">
+				<minval>1.32</minval>
+				<maxval>2.14</maxval>
+			</ref>
+			<ref gender="mf" minage="721" maxage="1080">
+				<minval>1.32</minval>
+				<maxval>1.98</maxval>
+			</ref>
+			<ref gender="mf" minage="1080" maxage="1500">
+				<minval>1.4</minval>
+				<maxval>1.9</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">MAGNESIUM</label>
+		<label language="en">MAGNESIUM</label>
+		<label language="nl">MAGNESIUM</label>
+		<label language="es">MAGNESIO</label>
+		<label language="pt">MAGN&#201;SIO</label>
+		<loinc>2601-3</loinc>
+		<short>MAG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5220</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>proteines</group>
+		<unit>g/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="12">
+				<minval>4.8</minval>
+				<maxval>7.6</maxval>
+			</ref>
+			<ref gender="mf" minage="13" maxage="168">
+				<minval>6</minval>
+				<maxval>8</maxval>
+			</ref>
+			<ref gender="mf" minage="169" maxage="1500">
+				<minval>6.6</minval>
+				<maxval>8.7</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">PROTEINES TOTALES</label>
+		<label language="en">TOTAL PROTEINES</label>
+		<label language="nl">TOTAAL EIWITTEN</label>
+		<label language="es">PROTE&#205;NAS TOTALES</label>
+		<label language="pt">PROTEIN TOTAL</label>
+		<loinc/>
+		<short>PROTT</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5230</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>carbohydrates</group>
+		<unit>%</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>4</minval>
+				<maxval>6</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">HBA1C</label>
+		<label language="en">HBA1C</label>
+		<label language="nl">HBA1C</label>
+		<label language="es">HBA1C</label>
+		<label language="pt">HBA1C</label>
+		<loinc>41995-2</loinc>
+		<short>HBA1C</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5240</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>electrolytes</group>
+		<unit>mEq/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="168">
+				<minval>95</minval>
+				<maxval>113</maxval>
+			</ref>
+			<ref gender="mf" minage="169" maxage="1080">
+				<minval>98</minval>
+				<maxval>108</maxval>
+			</ref>
+			<ref gender="mf" minage="1081" maxage="1500">
+				<minval>98</minval>
+				<maxval>111</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CHLORE</label>
+		<label language="en">CHLORIDE</label>
+		<label language="nl">CHLORIDES</label>
+		<label language="es">CLORUROS</label>
+		<label language="pt">CLORETOS</label>
+		<loinc>2069-3</loinc>
+		<short>CHL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5250</code>
+		<type>1</type>
+		<sample>edta</sample>
+		<group>liver</group>
+		<unit>U/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="6">
+				<minval>658</minval>
+				<maxval>1097</maxval>
+			</ref>
+			<ref gender="mf" minage="7" maxage="24">
+				<minval>418</minval>
+				<maxval>998</maxval>
+			</ref>
+			<ref gender="mf" minage="25" maxage="144">
+				<minval>255</minval>
+				<maxval>684</maxval>
+			</ref>
+			<ref gender="mf" minage="145" maxage="1500">
+				<minval>219</minval>
+				<maxval>439</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">LDH</label>
+		<label language="en">LDH</label>
+		<label language="nl">LDH</label>
+		<label language="es">LDH</label>
+		<label language="pt">LDH</label>
+		<loinc>2537-9</loinc>
+		<short>LDH</short>
+	</labanalysis>
+	<labanalysis>
+		<code>5251</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>biochemy</group>
+		<unit>mg/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>1</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CRP</label>
+		<label language="en">CRP</label>
+		<label language="nl">CRP</label>
+		<label language="es">CRP</label>
+		<label language="pt">CRP</label>
+		<loinc>1988-5</loinc>
+		<short>CRP</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6010</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>pregnancy</group>
+		<unit>pg/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">ESTRADIOL</label>
+		<label language="en">ESTRADIOL</label>
+		<label language="nl">ESTRADIOL</label>
+		<label language="es">ESTRADIOL</label>
+		<label language="pt">ESTRADIOL</label>
+		<loinc>2243-4</loinc>
+		<short>E2</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6020</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>pregnancy</group>
+		<unit>ng/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">PROGESTERONE</label>
+		<label language="en">PROGESTERONE</label>
+		<label language="nl">PROGESTERON</label>
+		<label language="es">PROGESTERONA</label>
+		<label language="pt">PROGESTERONA</label>
+		<loinc>2839-9</loinc>
+		<short>PROG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6030</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>pregnancy</group>
+		<unit>ng/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">PROLACTINE</label>
+		<label language="en">PROLACTIN</label>
+		<label language="nl">PROLACTINE</label>
+		<label language="es">PROLACTINA</label>
+		<label language="pt">PROLACTINA</label>
+		<loinc>2842-3</loinc>
+		<short>PROL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6040</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>pregnancy</group>
+		<unit>mU/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FSH</label>
+		<label language="en">FSH</label>
+		<label language="nl">FSH</label>
+		<label language="es">FSH</label>
+		<label language="pt">FSH</label>
+		<loinc>15067-2</loinc>
+		<short>FSH</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6050</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>pregnancy</group>
+		<unit>mU/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">LH</label>
+		<label language="en">LH</label>
+		<label language="nl">LH</label>
+		<label language="es">LH</label>
+		<label language="pt">LH</label>
+		<loinc>2579-1</loinc>
+		<short>LH</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6060</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>endocrinology</group>
+		<unit>ng/ml</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0.59</minval>
+				<maxval>1.74</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">T3</label>
+		<label language="en">T3</label>
+		<label language="nl">T3</label>
+		<label language="es">T3</label>
+		<label language="pt">T3</label>
+		<loinc>3053-6</loinc>
+		<short>T3</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6070</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>endocrinology</group>
+		<unit>&#181;g/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>5</minval>
+				<maxval>13</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">T4</label>
+		<label language="en">T4</label>
+		<label language="nl">T4</label>
+		<label language="es">T4</label>
+		<label language="pt">T4</label>
+		<loinc>3026-2</loinc>
+		<short>T4</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6080</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>endocrinology</group>
+		<unit>mU/ml</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0.15</minval>
+				<maxval>5.50</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">TSH</label>
+		<label language="en">TSH</label>
+		<label language="nl">TSH</label>
+		<label language="es">TSH</label>
+		<label language="pt">TSH</label>
+		<loinc>3016-3</loinc>
+		<short>TSH</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6090</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>endocrinology</group>
+		<unit>ng/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">TESTOSTERONE</label>
+		<label language="en">TESTOSTERONE</label>
+		<label language="nl">TESTOSTERON</label>
+		<label language="es">TESTOSTERONA</label>
+		<label language="pt">TESTOSTERONA</label>
+		<loinc>2986-8</loinc>
+		<short>TTO</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6100</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>endocrinology</group>
+		<unit>pg/ml</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0.85</minval>
+				<maxval>1.86</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FT3</label>
+		<label language="en">FT3</label>
+		<label language="nl">FT3</label>
+		<label language="es">FT3</label>
+		<label language="pt">FT3</label>
+		<loinc>3051-0</loinc>
+		<short>FT3</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6110</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>endocrinology</group>
+		<unit>ng/dl</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0.85</minval>
+				<maxval>1.86</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FT4</label>
+		<label language="en">FT4</label>
+		<label language="nl">FT4</label>
+		<label language="es">FT4</label>
+		<label language="pt">FT4</label>
+		<loinc>3024-7</loinc>
+		<short>FT4</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6120</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>pregnancy</group>
+		<unit>ng/ml</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="1500">
+				<minval>0</minval>
+				<maxval>1.5</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">BETA HCG</label>
+		<label language="en">BETA HCG</label>
+		<label language="nl">BETA HCG</label>
+		<label language="es">BETA HCG</label>
+		<label language="pt">BETA HCG</label>
+		<loinc>2111-3</loinc>
+		<short>BHCG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6130</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>endocrinology</group>
+		<unit>mg/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FPSA</label>
+		<label language="en">FPSA</label>
+		<label language="nl">FPSA</label>
+		<label language="es">FPSA</label>
+		<label language="pt">FPSA</label>
+		<loinc>10886-0</loinc>
+		<short>FPSA</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6131</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>endocrinology</group>
+		<unit>&#181;g/dl</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CORTISOL</label>
+		<label language="en">CORTISOL</label>
+		<label language="nl">CORTISOL</label>
+		<label language="es">CORTISOL</label>
+		<label language="pt">CORTISOL</label>
+		<loinc>2143-6</loinc>
+		<short>CTSL</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6132</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>hematology</group>
+		<unit>&#181;g/l</unit>
+		<refs>
+			<ref gender="mf" minage="0" maxage="2">
+				<minval>25</minval>
+				<maxval>600</maxval>
+			</ref>
+			<ref gender="mf" minage="3" maxage="6">
+				<minval>50</minval>
+				<maxval>200</maxval>
+			</ref>
+			<ref gender="mf" minage="7" maxage="180">
+				<minval>7</minval>
+				<maxval>142</maxval>
+			</ref>
+			<ref gender="f" minage="181" maxage="1500">
+				<minval>10</minval>
+				<maxval>260</maxval>
+			</ref>
+			<ref gender="m" minage="181" maxage="1500">
+				<minval>46</minval>
+				<maxval>637</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FERRITINE</label>
+		<label language="en">FERRITIN</label>
+		<label language="nl">FERRITINE</label>
+		<label language="es">FERITINA</label>
+		<label language="pt">FERRITINA</label>
+		<loinc>2276-4</loinc>
+		<short>FEI</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6133</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>hematology</group>
+		<unit>&#181;g/dl</unit>
+		<refs>
+			<ref gender="f" minage="0" maxage="1500">
+				<minval>37</minval>
+				<maxval>145</maxval>
+			</ref>
+			<ref gender="m" minage="0" maxage="1500">
+				<minval>59</minval>
+				<maxval>158</maxval>
+			</ref>
+		</refs>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">FER</label>
+		<label language="en">IRON</label>
+		<label language="nl">IJZER</label>
+		<label language="es">HIERRO</label>
+		<label language="pt">HIERRO</label>
+		<loinc>2498-4</loinc>
+		<short>FE</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6140</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>tumormarkers</group>
+		<unit>u/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CA125II</label>
+		<label language="en">CA125II</label>
+		<label language="nl">CA125II</label>
+		<label language="es">CA125II</label>
+		<label language="pt">CA125II</label>
+		<loinc>2006-5</loinc>
+		<short>CA125</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6150</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>tumormarkers</group>
+		<unit>u/ml</unit>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CA15-3</label>
+		<label language="en">CA15-3</label>
+		<label language="nl">CA15-3</label>
+		<label language="es">CA15-3</label>
+		<label language="pt">CA15-3</label>
+		<loinc>2007-3</loinc>
+		<short>CA15</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6160</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CMV IGM</label>
+		<label language="en">CMV IGM</label>
+		<label language="nl">CMV IGM</label>
+		<label language="es">CMV IGM</label>
+		<label language="pt">CMV IGM</label>
+		<loinc>5127-6</loinc>
+		<short>CMVM</short>
+	</labanalysis>
+	<labanalysis>
+		<code>6170</code>
+		<type>1</type>
+		<sample>serum</sample>
+		<group>serology</group>
+		<unit/>
+		<editor>numeric</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">CMV IGG</label>
+		<label language="en">CMV IGG</label>
+		<label language="nl">CMV IGG</label>
+		<label language="es">CMV IGG</label>
+		<label language="pt">CMV IGG</label>
+		<loinc>5125-0</loinc>
+		<short>CMVG</short>
+	</labanalysis>
+	<labanalysis>
+		<code>8030</code>
+		<type>3</type>
+		<sample>other</sample>
+		<group>bacteriology</group>
+		<unit/>
+		<editor>antibiogram</editor>
+		<modifiers>DV:;SZ:</modifiers>
+		<label language="fr">ANTIBIOGRAMME</label>
+		<label language="en">ANTIBIOGRAM</label>
+		<label language="nl">ANTIBIOGRAM</label>
+		<label language="es">ANTIBIOGRAMA</label>
+		<label language="pt">ANTIBIOGRAMA</label>
+		<loinc/>
+		<short>ABGM</short>
+	</labanalysis>
+</labanalyses>

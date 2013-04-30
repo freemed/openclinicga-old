@@ -40,7 +40,7 @@
 				}
 
 				if(sLine.indexOf("#contextPathSubstitute#") > 0){
-					sLine = sLine.replaceAll("#contextPathSubstitute#",sCONTEXTPATH);
+					sLine = sLine.replaceAll("#contextPathSubstitute#",sCONTEXTPATH.replaceAll("/", ""));
 				}
 
 				htmlWriter.write(sLine);
@@ -108,5 +108,5 @@
     java.net.InetAddress localHost = java.net.InetAddress.getLocalHost();
     String sIP = localHost.getHostAddress();
 	
-    alterHtmlFile(sSourcePath,sTargetPath,jsonFileId,sIP);
+    alterHtmlFile(sSourcePath,sTargetPath,jsonFileId,MedwanQuery.getInstance().getConfigString("datacenterHostname","www.globalhealthbarometer.net"));
 %>

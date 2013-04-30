@@ -82,7 +82,7 @@
             String sl =getTranNoLink("labanalysis.short",sLabID,tmpLang);
             shortLabelValues.put(tmpLang,sl.equalsIgnoreCase(sLabID)?ll:sl);
             LabAnalysis la = LabAnalysis.getLabAnalysisByLabID(sLabID);
-            ll=getTranNoLink("labanalysis.refcomment",la.getLabcode(),tmpLang);
+            ll=getTranExists("labanalysis.refcomment",la.getLabcode(),tmpLang);
             resultRefCommentValues.put(tmpLang,ll);
         }
     }

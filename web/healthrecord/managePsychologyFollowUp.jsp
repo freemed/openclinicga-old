@@ -10,8 +10,8 @@
 	            + "</td>"
 	            + "<td>&nbsp;" + sTmpPsychologyDate + "</td>"
 	            + "<td>&nbsp;" + sTmpPsychologyTime + "</td>"
-	            + "<td>&nbsp;" + sTmpPsychologyObservation + "</td>"
-	            + "<td>&nbsp;" + sTmpPsychologyConclusion + "</td>"
+	            + "<td>" + sTmpPsychologyObservation + "</td>"
+	            + "<td>" + sTmpPsychologyConclusion + "</td>"
 	            + "</tr>";
 	}
 
@@ -25,7 +25,7 @@
 	if(transaction!=null){
         tran = (TransactionVO) transaction;
         if (tran != null) {
-            sPsychology = getItemType(tran.getItems(), sPREFIX+"ITEM_TYPE_PSYCHOLOGY_OBSERVATION");
+            sPsychology = getItemType(tran.getItems(), sPREFIX+"ITEM_TYPE_PSYCHOLOGY_OBSERVATION").replaceAll("\n","<br/>").replaceAll("\r","");
         }
 	}
 	
@@ -139,8 +139,8 @@
 	                <td class="admin2"></td>
 	                <td class="admin2"><%=writeDateField("PsychologyDate", "transactionForm","",sWebLanguage)%></td>
 	                <td class="admin2"><input type="text" class="text" name="PsychologyTime" size="8" onblur="validateText(this);limitLength(this);"></td>
-	                <td class="admin2"><input type="text" class="text" name="PsychologyObservation" size="80" onblur="validateText(this);limitLength(this);"></td>
-	                <td class="admin2"><input type="text" class="text" name="PsychologyConclusion" size="80" onblur="validateText(this);limitLength(this);"></td>
+	                <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" name="PsychologyObservation" cols="80" onblur="validateText(this);limitLength(this);"></textarea></td>
+	                <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" name="PsychologyConclusion" cols="80" onblur="validateText(this);limitLength(this);"></textarea></td>
 	                <td class="admin2">
 	                    <input type="button" class="button" name="ButtonAddPsychology" onclick="addPsychology()" value="<%=getTran("Web","add",sWebLanguage)%>">
 	                    <input type="button" class="button" name="ButtonUpdatePsychology" onclick="updatePsychology()" value="<%=getTran("Web","edit",sWebLanguage)%>">
@@ -208,11 +208,11 @@
 	      tr.appendChild(td);
 	
 	      td = tr.insertCell(3);
-	      td.innerHTML =  "&nbsp;"+document.getElementById("transactionForm").PsychologyObservation.value;
+	      td.innerHTML =  document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
 	      tr.appendChild(td);
 	
 	      td = tr.insertCell(4);
-	      td.innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyConclusion.value;
+	      td.innerHTML = document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
 	      tr.appendChild(td);
 	
 	      // reset
@@ -251,9 +251,10 @@
 
 	  document.getElementById("transactionForm").PsychologyDate.value = getCelFromRowString(row,0);
 	  document.getElementById("transactionForm").PsychologyTime.value = getCelFromRowString(row,1);
-	  document.getElementById("transactionForm").PsychologyObservation.value = getCelFromRowString(row,2);
-	  document.getElementById("transactionForm").PsychologyConclusion.value = getCelFromRowString(row,3);
-
+	  document.getElementById("transactionForm").PsychologyObservation.value = getCelFromRowString(row,2).replace(new RegExp("<br/>", "g"),"\n");
+	  document.getElementById("transactionForm").PsychologyConclusion.value = getCelFromRowString(row,3).replace(new RegExp("<br/>", "g"),"\n");
+	  resizeTextarea(document.getElementById("transactionForm").PsychologyObservation,10);
+	  resizeTextarea(document.getElementById("transactionForm").PsychologyConclusion,10);
 	  editPsychologyRowid = rowid;
 	  document.getElementById("transactionForm").ButtonUpdatePsychology.disabled = false;
 	}
@@ -264,8 +265,8 @@
 	    newRow = editPsychologyRowid.id+"="
 		         +document.getElementById("transactionForm").PsychologyDate.value+"£"
 		       	 +document.getElementById("transactionForm").PsychologyTime.value+"£"
-	             +document.getElementById("transactionForm").PsychologyObservation.value+"£"
-	             +document.getElementById("transactionForm").PsychologyConclusion.value;
+	             +document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"")+"£"
+	             +document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
 
 	    sPsychology = replaceRowInArrayString(sPsychology,newRow,editPsychologyRowid.id);
 
@@ -275,8 +276,8 @@
 	                            +"<a href='javascript:editPsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
   	    row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyDate.value;
   	    row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyTime.value;
-	    row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyObservation.value;
-	    row.cells[4].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyConclusion.value;
+	    row.cells[3].innerHTML = document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
+	    row.cells[4].innerHTML = document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
 
 	    // reset
 	    clearPsychologyFields();

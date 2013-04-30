@@ -2,10 +2,34 @@
                 be.mxs.common.util.io.MessageReaderMedidoc,
                 java.util.*,be.openclinic.finance.*,
                 javazoom.upload.MultipartFormDataRequest,
-                javazoom.upload.UploadFile,
+                javazoom.upload.UploadFile,org.dom4j.*,org.dom4j.io.*,be.openclinic.medical.*,
                 java.io.*,be.mxs.common.util.system.*,be.mxs.common.util.db.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%!
+	void storeAgeGender(String type,int id,double minAge, double maxAge, String gender, double minVal, double maxVal, String comment ){
+		try{
+			Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+			PreparedStatement ps = conn.prepareStatement("insert into AgeGenderControl(rowid,type,id,minAge,maxAge,gender,frequency,tolerance,updatetime,comment) values(?,?,?,?,?,?,?,?,?,?)");
+			ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("AgeGenderControlID"));
+			ps.setString(2,type);
+			ps.setInt(3,id);
+			ps.setDouble(4,minAge);
+			ps.setDouble(5, maxAge);
+			ps.setString(6, gender);
+			ps.setDouble(7,	minVal);
+			ps.setDouble(8, maxVal);
+			ps.setTimestamp(9,new java.sql.Timestamp(new java.util.Date().getTime()));
+			ps.setString(10,comment);
+			ps.execute();
+			ps.close();
+			conn.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+%>
 <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
     <jsp:setProperty name="upBean" property="folderstore" value="tmp" />
     <jsp:setProperty name="upBean" property="parser" value="<%= MultipartFormDataRequest.CFUPARSER %>"/>
@@ -20,6 +44,7 @@
 					<option value="prestationscsv"><%=getTran("web","prestations.csv",sWebLanguage) %></option>
 					<option value="servicescsv"><%=getTran("web","services.csv",sWebLanguage) %></option>
 					<option value="labelscsv"><%=getTran("web","labels.csv",sWebLanguage) %></option>
+					<option value="labxml"><%=getTran("web","lab.xml",sWebLanguage) %></option>
 				</select>
 			</td>
 			<td class='admin2'><input class="text" type="checkbox" name="erase" value="1"/> <%=getTran("web","delete.table.before.load",sWebLanguage)%></td>
@@ -191,6 +216,117 @@
 							}
 						}
 						reader.close();
+						reloadSingleton(session);
+		                f.delete();
+						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");
+					}
+					else if(mrequest.getParameter("filetype").equalsIgnoreCase("labxml")){
+						System.out.println("1");
+						if(mrequest.getParameter("erase")!=null){
+							System.out.println("2");
+							ObjectCacheFactory.getInstance().resetObjectCache();
+							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+							PreparedStatement ps = conn.prepareStatement("delete from Labanalysis");
+							ps.execute();
+							ps.close();
+							ps = conn.prepareStatement("delete from oc_labels where oc_label_type in ('labanalysis','labprofiles','labprofile','labanalysis.short','labanalysis.group','labanalysis.refcomment')");
+							ps.execute();
+							ps.close();
+							ps = conn.prepareStatement("delete from labprofiles");
+							ps.execute();
+							ps.close();
+							ps = conn.prepareStatement("delete from labprofilesanalysis");
+							ps.execute();
+							ps.close();
+							ps = conn.prepareStatement("delete from agegendercontrol where type='LabAnalysis'");
+							ps.execute();
+							ps.close();
+							conn.close();
+							UpdateSystem.updateCounters();
+						}						String type,id,language,label;
+						System.out.println("3");
+						//Read file as a prestations csv file
+		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
+						BufferedReader br = new BufferedReader(new FileReader(f));
+						SAXReader reader=new SAXReader(false);
+						org.dom4j.Document document=reader.read(br);
+						Element root = document.getRootElement();
+						Iterator i = root.elementIterator("labanalysis");
+						lines=0;
+						while(i.hasNext()){
+							lines++;
+							Element element = (Element)i.next();
+							LabAnalysis analysis = new LabAnalysis();
+							analysis.setLabcode(element.elementText("code"));
+							analysis.setLabtype(element.elementText("type"));
+							analysis.setMonster(element.elementText("sample"));
+							analysis.setLabgroup(element.elementText("group"));
+							analysis.setUnit(element.elementText("unit"));
+							analysis.setEditor(element.elementText("editor"));
+							analysis.setEditorparameters(element.elementText("modifiers"));
+							analysis.setMedidoccode(element.elementText("loinc"));
+							analysis.setUpdatetime(new Timestamp(new java.util.Date().getTime()));
+							analysis.setUpdateuserid(Integer.parseInt(activeUser.userid));
+							analysis.setLabId(MedwanQuery.getInstance().getOpenclinicCounter("LabAnalysisID"));
+							analysis.insert();
+							Iterator labels = element.elementIterator("label");
+							while(labels.hasNext()){
+								Element lbl = (Element)labels.next();
+								MedwanQuery.getInstance().storeLabel("labanalysis", analysis.getLabId()+"", lbl.attributeValue("language"), lbl.getText(), Integer.parseInt(activeUser.userid));
+								MedwanQuery.getInstance().storeLabel("labanalysis.short", analysis.getLabId()+"", lbl.attributeValue("language"), checkString(element.elementText("short")), Integer.parseInt(activeUser.userid));
+								MedwanQuery.getInstance().storeLabel("labanalysis.refcomment", analysis.getLabId()+"", lbl.attributeValue("language"), checkString(lbl.elementText("refcomment")), Integer.parseInt(activeUser.userid));
+							}
+							//Now check the reference values
+							Element refs = element.element("refs");
+							if(refs != null){
+								Iterator r = refs.elementIterator("ref");
+								while(r.hasNext()){
+									Element ref = (Element)r.next();
+									storeAgeGender("LabAnalysis",analysis.getLabId(),Double.parseDouble(ref.attributeValue("minage")),Double.parseDouble(ref.attributeValue("maxage")),ref.attributeValue("gender"),Double.parseDouble(ref.elementText("minval")),Double.parseDouble(ref.elementText("maxval")),checkString(ref.elementText("comment")));
+								}
+							}
+						}
+						i = root.elementIterator("labprofile");
+						while(i.hasNext()){
+							lines++;
+							Element element = (Element)i.next();
+							LabProfile profile = new LabProfile();
+							profile.setProfilecode(element.elementText("code").toUpperCase());
+							profile.setProfileID(MedwanQuery.getInstance().getOpenclinicCounter("LabProfileID"));
+							profile.setUpdatetime(new Timestamp(new java.util.Date().getTime()));
+							profile.setUpdateuserid(Integer.parseInt(activeUser.userid));
+							profile.insert();
+							Iterator as = element.elementIterator("labanalysis");
+							while(as.hasNext()){
+								Element analysisElement = (Element)as.next();
+								LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(analysisElement.getText());
+								if(analysis!=null){
+									LabProfileAnalysis an = new LabProfileAnalysis();
+									an.setLabID(analysis.getLabId());
+									an.setProfileID(profile.getProfileID());
+									an.setUpdatetime(new Timestamp(new java.util.Date().getTime()));
+									an.setUpdateuserid(Integer.parseInt(activeUser.userid));
+									an.insert();
+								}
+							}
+							Iterator labels = element.elementIterator("label");
+							while(labels.hasNext()){
+								Element lbl = (Element)labels.next();
+								MedwanQuery.getInstance().storeLabel("labprofiles", profile.getProfileID()+"", lbl.attributeValue("language"), lbl.getText(), Integer.parseInt(activeUser.userid));
+							}
+							
+						}
+						i = root.elementIterator("labanalysisgroup");
+						while(i.hasNext()){
+							lines++;
+							Element element = (Element)i.next();
+							Iterator labels = element.elementIterator("label");
+							while(labels.hasNext()){
+								Element lbl = (Element)labels.next();
+								MedwanQuery.getInstance().storeLabel("labanalysis.group", element.elementText("code")+"", lbl.attributeValue("language"), lbl.getText(), Integer.parseInt(activeUser.userid));
+							}
+						}
+						br.close();
 						reloadSingleton(session);
 		                f.delete();
 						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");

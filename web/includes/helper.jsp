@@ -332,6 +332,11 @@
         return ScreenHelper.getTranNoLink(sType, sID, sLanguage);
     }
 
+    //--- GET TRAN NO LINK ------------------------------------------------------------------------
+    public String getTranExists(String sType, String sID, String sLanguage) {
+        return ScreenHelper.getTranExists(sType, sID, sLanguage);
+    }
+
     //--- GET LABEL -------------------------------------------------------------------------------
     public String getLabel(String sType, String sID, String sLanguage, String sObject) {
         return "<label for='" + sObject + "'>" + getTran(sType, sID, sLanguage) + "</label>";

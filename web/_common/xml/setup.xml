@@ -9,7 +9,7 @@
 		<config key="zipcodetable" value="BelgiumZipcodes"/>
 		<config key="DefaultLanguage" value="fr"/>
 		<config key="PatientLanguages" value="fr,nl,de,en,es,pt"/>
-		<config key="supportedLanguages" value="fr,en,es,pt"/>
+		<config key="supportedLanguages" value="fr,en,es,pt,nl"/>
 		<config key="mxsref" value="BE"/>
 		<config key="priceFormat" value="#,##0.00"/>
 		<config key="priceFormatInsurar" value="#,##0.00"/>

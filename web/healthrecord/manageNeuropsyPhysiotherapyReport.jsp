@@ -132,7 +132,7 @@
         <tr>
             <td class="admin"/>
             <td class="admin2">
-                <%=getButtonsHtml(request,activeUser,activePatient,"web.neuropsyphysiotherapyreport",sWebLanguage)%>
+                <%=getButtonsHtml(request,activeUser,activePatient,"occup.neuropsyphysiotherapyreport",sWebLanguage)%>
             </td>
         </tr>
     </table>

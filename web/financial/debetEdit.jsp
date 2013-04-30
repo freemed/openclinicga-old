@@ -30,7 +30,6 @@ System.out.println(0);
 	        }
     	}
     }
-    System.out.println(0.1);
 
     if (sEditDebetUID.length() > 0) {
         debet = Debet.get(sEditDebetUID);
@@ -62,7 +61,6 @@ System.out.println(0);
             debet.setEncounterUid(checkString(encounter.getUid()));
         }
     }
-    System.out.println(0.2);
 
 %>
 <form name='EditForm' id="EditForm" method='POST'>
@@ -108,7 +106,6 @@ System.out.println(0);
                 <select class="text" id='EditInsuranceUID' name="EditInsuranceUID" onchange="changeInsurance()">
                     <option/>
                     <%
-System.out.println(1);
                         Vector vInsurances = Insurance.getCurrentInsurances(activePatient.personid);
                         if (vInsurances!=null){
                             boolean bInsuranceSelected = false;
@@ -163,7 +160,6 @@ System.out.println(1);
 	                            }
 							}
                         }
-System.out.println(2);
                         
                     %>
                 </select>&nbsp;
@@ -188,7 +184,6 @@ System.out.println(2);
               </td>
         </tr>
         <%
-        System.out.println(3);
         	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
         %>
         <tr>

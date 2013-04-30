@@ -96,5 +96,7 @@
 		<Menu labelid="permissions" accessrights="system.permissions" url="/main.do?Page=permissions/index.jsp"/>
     </Menu>
     <Menu labelid="immo" accessrights="system.immo.select" url="/main.do?Page=util/listImmoLabels.jsp"/>
-    <Menu labelid="help" url="javascript:showmanual();"/>
+    <Menu labelid="info">
+		<Menu labelid="help" url="javascript:showmanual();"/>
+	</Menu>
 </Menus>
