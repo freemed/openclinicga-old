@@ -67,7 +67,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         String sFooter=adminPerson.lastname.toUpperCase()+", "+adminPerson.firstname.toUpperCase()+" - "+sId+" - ";
         String sFooter2=ScreenHelper.getTran("labresult", "footer", adminPerson.language);
         Font font = FontFactory.getFont(FontFactory.HELVETICA,7);
-        PDFFooter footer = new PDFFooter(sFooter+"\n"+sFooter2+"\n");
+        PDFFooter footer = new PDFFooter(sFooter+" - "+sFooter2);
         docWriter.setPageEvent(footer);
     }
 
@@ -97,7 +97,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
             doc.setPageSize(PageSize.A4);
-            doc.setMargins(10,10,10,10);
+            doc.setMargins(10,10,10,30);
             if(labrequestids.size()>0){
             	addFooter((String)labrequestids.elementAt(0));
             }
@@ -210,9 +210,10 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
             }
             ((TreeMap)groups.get(getTran("labanalysis.group",requestedLabAnalysis.getLabgroup()))).put(requestedLabAnalysis.getAnalysisCode()+"$"+LabAnalysis.labelForCode(requestedLabAnalysis.getAnalysisCode(),user.person.language),requestedLabAnalysis.getAnalysisCode());
         }
-
         Iterator groupsIterator = groups.keySet().iterator();
+        int counter=0;
         while(groupsIterator.hasNext()){
+        	counter++;
             String groupname=(String)groupsIterator.next();
             cell=createLabelCourier(" ",12,100,Font.NORMAL);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -431,81 +432,83 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                }
                 }
             }
+            cell=createBorderlessCell(5);
+            table.addCell(cell);
+            cell=createBorderlessCell(90);
+            cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT+(counter==1?PdfPCell.TOP:0)+(counter==groups.keySet().size()?PdfPCell.BOTTOM:0));
+            cell.addElement(subTable);
+            table.addCell(cell);
+            cell=createBorderlessCell(5);
+            table.addCell(cell);
+            subTable = new PdfPTable(100);
+            subTable.setWidthPercentage(100);
         }
-        cell=createBorderlessCell(5);
-        table.addCell(cell);
-        cell=createBorderlessCell(90);
-        cell.setBorder(PdfPCell.BOX);
-        cell.addElement(subTable);
-        table.addCell(cell);
-        cell=createBorderlessCell(5);
-        table.addCell(cell);
         doc.add(table);
     }
     
     private String getAntibiotic(String id){
     	if(id.equalsIgnoreCase("1")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","penicillineg",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","penicillineg",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("2")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","oxacilline",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","oxacilline",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("3")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","ampicilline",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","ampicilline",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("4")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","amoxicacclavu",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","amoxicacclavu",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("5")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","cefalotine",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","cefalotine",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("6")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","mecillinam",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","mecillinam",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("7")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","cefotaxime",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","cefotaxime",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("8")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","gentamicine",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","gentamicine",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("9")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","amikacine",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","amikacine",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("10")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","chloramphenicol",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","chloramphenicol",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("11")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","tetracycline",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","tetracycline",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("12")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","colistine",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","colistine",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("13")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","erythromycine",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","erythromycine",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("14")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","lincomycine",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","lincomycine",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("15")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","pristinamycine",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","pristinamycine",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("16")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","cotrimoxazole",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","cotrimoxazole",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("17")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","nitrofurane",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","nitrofurane",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("18")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","acnalidixique",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","acnalidixique",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("19")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","ciprofloxacine",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","ciprofloxacine",sPrintLanguage);
     	}
     	else if(id.equalsIgnoreCase("20")){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","imipenem",sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","imipenem",sPrintLanguage);
     	}
     	else if("*21*22*23*24*25*26*27*28*29*30*31*32*33*".indexOf("*"+id+"*")>-1){
-    		return MedwanQuery.getInstance().getLabel("labanalysis","ab"+(Integer.parseInt(id)-20),sPrintLanguage);
+    		return MedwanQuery.getInstance().getLabel("web","ab"+(Integer.parseInt(id)-20),sPrintLanguage);
     	}
     	else {
     		return "?";
