@@ -162,7 +162,7 @@
                         <td>
                             <%
                                 hMenu = new Hashtable();
-                            hMenu.put(getTran("Web.manage", "diagnostics", sWebLanguage), "main.do?Page=system/diagnostics.jsp");
+                            hMenu.put(getTran("Web.manage", "memoryprofile", sWebLanguage), "main.do?Page=util/profile.jsp");
                             hMenu.put(getTran("Web.manage", "quicklist", sWebLanguage), "main.do?Page=system/manageQuickList.jsp");
                             hMenu.put(getTran("Web.manage", "countarchivelabels", sWebLanguage), "main.do?Page=util/countArchiveLabels.jsp");
                             if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
