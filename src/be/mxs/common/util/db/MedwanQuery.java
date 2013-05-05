@@ -91,7 +91,95 @@ public class MedwanQuery {
     private Hashtable datacenterparametertypes=new Hashtable();
     private Hashtable countersInUse=new Hashtable();
 
-    public Hashtable getDatacenterparametertypes() {
+    public Hashtable getConfig() {
+		return config;
+	}
+
+	public void setConfig(Hashtable config) {
+		this.config = config;
+	}
+
+	public Hashtable getActivities() {
+		return activities;
+	}
+
+	public void setActivities(Hashtable activities) {
+		this.activities = activities;
+	}
+
+	public Hashtable getLabelsCache() {
+		return labelsCache;
+	}
+
+	public void setLabelsCache(Hashtable labelsCache) {
+		this.labelsCache = labelsCache;
+	}
+
+	public SortedMap getLabelsCacheDates() {
+		return labelsCacheDates;
+	}
+
+	public void setLabelsCacheDates(SortedMap labelsCacheDates) {
+		this.labelsCacheDates = labelsCacheDates;
+	}
+
+	public Hashtable getForwards() {
+		return forwards;
+	}
+
+	public void setForwards(Hashtable forwards) {
+		this.forwards = forwards;
+	}
+
+	public Hashtable getSessionValues() {
+		return sessionValues;
+	}
+
+	public void setSessionValues(Hashtable sessionValues) {
+		this.sessionValues = sessionValues;
+	}
+
+	public Hashtable getServices() {
+		return services;
+	}
+
+	public void setServices(Hashtable services) {
+		this.services = services;
+	}
+
+	public Hashtable getBarcodeids() {
+		return barcodeids;
+	}
+
+	public void setBarcodeids(Hashtable barcodeids) {
+		this.barcodeids = barcodeids;
+	}
+
+	public Hashtable getProgressValues() {
+		return progressValues;
+	}
+
+	public void setProgressValues(Hashtable progressValues) {
+		this.progressValues = progressValues;
+	}
+
+	public Hashtable getCountersInUse() {
+		return countersInUse;
+	}
+
+	public void setCountersInUse(Hashtable countersInUse) {
+		this.countersInUse = countersInUse;
+	}
+
+	public void setLabels(Hashtable labels) {
+		this.labels = labels;
+	}
+
+	public void setObjectCache(ObjectCache objectCache) {
+		this.objectCache = objectCache;
+	}
+
+	public Hashtable getDatacenterparametertypes() {
 		return datacenterparametertypes;
 	}
 

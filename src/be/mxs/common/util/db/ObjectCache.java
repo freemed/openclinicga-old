@@ -35,6 +35,10 @@ public class ObjectCache {
     	}
     }
     
+    public int size(){
+    	return objectsTable.size();
+    }
+    
     public void removeObject(String type, String uid){
     	objectsTable.remove(type+"."+uid);
     }
