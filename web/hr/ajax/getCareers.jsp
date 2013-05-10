@@ -56,9 +56,8 @@
 	                  "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(career.end)+"</td>"+
 	                  "<td class='hand' style='padding-left:5px'>"+career.position+"</td>"+
 	                  "<td class='hand' style='padding-left:5px'>"+sServiceName+"</td>"+
-	                  "<td class='hand' style='padding-left:5px'>"+career.grade+"</td>"+
-	                  "<td class='hand' style='padding-left:5px'>"+career.status+"</td>"+
-	                  "<td class='hand' style='padding-left:5px'>"+career.comment+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+getTran("hr.grade",career.grade,sWebLanguage)+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+getTran("hr.status",career.status,sWebLanguage)+"</td>"+
 	                 "</tr>");
 	    }
 	
@@ -84,13 +83,12 @@
 <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
     <%-- header --%>
     <tr class="admin" style="padding-left: 1px;">
-        <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","careerBegin",sWebLanguage))%></td>
-        <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","careerEnd",sWebLanguage))%></td>
-        <td width="150" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","position",sWebLanguage))%></td>
-        <td width="200" nowrap><%=HTMLEntities.htmlentities(getTran("web","service",sWebLanguage))%></td>
-        <td width="80" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","grade",sWebLanguage))%></td>
-        <td width="80" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","status",sWebLanguage))%></td>
-        <td width="*" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","comment",sWebLanguage))%></td>
+        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","careerBegin",sWebLanguage))%></td>
+        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","careerEnd",sWebLanguage))%></td>
+        <td width="20%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","position",sWebLanguage))%></td>
+        <td width="40%" nowrap><%=HTMLEntities.htmlentities(getTran("web","service",sWebLanguage))%></td>
+        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","grade",sWebLanguage))%></td>
+        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","status",sWebLanguage))%></td>
     </tr>
     
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
