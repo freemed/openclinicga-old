@@ -11,12 +11,12 @@
         <Menu labelid="createArchiveFile" accessrights="patient.archive.select" url="javascript:createArchiveFile();" patientselected="true"/>
     </Menu>
     <Menu labelid="hr" accessrights="hr.select">
-		<Menu labelid="career" accessrights="hr.career.select" url="/hr/manage_career.jsp" patientselected="true"/>
-		<Menu labelid="disciplinaryrecord" accessrights="hr.disciplinaryrecord.select" url="/hr/manage_disciplinaryrecord.jsp" patientselected="true"/>
-		<Menu labelid="contracts" accessrights="hr.contracts.select" url="/hr/manage_contracts.jsp" patientselected="true"/>
-		<Menu labelid="leave" accessrights="hr.leave.select" url="/hr/manage_leave.jsp" patientselected="true"/>
-		<Menu labelid="salary" accessrights="hr.salary.select" url="/hr/manage_salary.jsp" patientselected="true"/>
-		<Menu labelid="workschedule" accessrights="hr.workschedule.select" url="/hr/manage_workschedule.jsp" patientselected="true"/>
+		<Menu labelid="career" accessrights="hr.career.select" url="/main.do?Page=hr/manage_career.jsp" patientselected="true"/>
+		<Menu labelid="disciplinaryrecord" accessrights="hr.disciplinaryrecord.select" url="/main.do?Page=hr/manage_disciplinaryrecord.jsp" patientselected="true"/>
+		<Menu labelid="contracts" accessrights="hr.contracts.select" url="/main.do?Page=hr/manage_contracts.jsp" patientselected="true"/>
+		<Menu labelid="leave" accessrights="hr.leave.select" url="/main.do?Page=hr/manage_leave.jsp" patientselected="true"/>
+		<Menu labelid="salary" accessrights="hr.salary.select" url="/main.do?Page=hr/manage_salary.jsp" patientselected="true"/>
+		<Menu labelid="workschedule" accessrights="hr.workschedule.select" url="/main.do?Page=hr/manage_workschedule.jsp" patientselected="true"/>
     </Menu>
     <Menu labelid="curative" accessrights="curative.select" patientselected="true" url="/main.do?Page=curative/index.jsp"/>
     <Menu labelid="nursing" accessrights="nursing.select" patientselected="true" url="/main.do?Page=pharmacy/manageAdministrations.jsp"/>

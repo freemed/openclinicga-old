@@ -64,6 +64,8 @@
             sRequestId = ""+(100000+(int)(Math.random()*1000000000));
         }
     }
+
+    Debug.println("*** UNBLOCK CODE ("+sRequestId+") : "+new DecimalFormat("000000").format((int)((Math.floor(((Integer.parseInt(sRequestId)%97)/5.25)*(Integer.parseInt(sRequestId)/525))%7871))));
 %>
 
 <html>
