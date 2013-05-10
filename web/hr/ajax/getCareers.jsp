@@ -52,13 +52,13 @@
 	        
 	        hSort.put(career.begin.getTime()+"="+career.getUid(),
 	        		  " onclick=\"displayCareer('"+career.getUid()+"');\">"+
-	                  "<td class='hand'>&nbsp;"+ScreenHelper.getSQLDate(career.begin)+"</td>"+
-	                  "<td class='hand'>&nbsp;"+ScreenHelper.getSQLDate(career.end)+"</td>"+
-	                  "<td class='hand'>&nbsp;"+career.position+"</td>"+
-	                  "<td class='hand'>&nbsp;"+sServiceName+"</td>"+
-	                  "<td class='hand'>&nbsp;"+career.grade+"</td>"+
-	                  "<td class='hand'>&nbsp;"+career.status+"</td>"+
-	                  "<td class='hand'>&nbsp;"+career.comment+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(career.begin)+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(career.end)+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+career.position+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+sServiceName+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+career.grade+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+career.status+"</td>"+
+	                  "<td class='hand' style='padding-left:5px'>"+career.comment+"</td>"+
 	                 "</tr>");
 	    }
 	
