@@ -122,7 +122,7 @@
             <tr>
                 <td class="admin" nowrap><%=getTran("web.hr","comment",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea class="text" name="comment" cols="55" rows="4"><%=checkString(career.comment)%></textarea>
+                    <textarea class="text" name="comment" cols="80" rows="4" maxLength="255"><%=checkString(career.comment)%></textarea>
                 </td>
             </tr>
                 
@@ -142,32 +142,6 @@
                                   document.getElementById("buttonDelete").style.visibility = "hidden";
                                   document.getElementById("buttonNew").style.visibility = "hidden";
                                 </script>
-                            <%
-                        }
-                    
-                        // print button for existing invoices
-                        if(checkString(career.getUid()).length() > 0){
-                            String sPrintLanguage = activeUser.person.language;
-                            if(sPrintLanguage.length()==0){
-                                sPrintLanguage = sWebLanguage;
-                            }
-                            
-                            %>
-                                <%=getTran("web.occup","printLanguage",sWebLanguage)%>
-                                <select class="text" name="PrintLanguage">
-                                    <%
-                                        String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
-                                        StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages,",");
-                                        String tmpLang;
-                                        
-                                        while(tokenizer.hasMoreTokens()){
-                                            tmpLang = tokenizer.nextToken();                        
-                                            %><option value="<%=tmpLang%>" <%=(tmpLang.equalsIgnoreCase(sPrintLanguage)?"selected":"")%>><%=getTran("web.language",tmpLang,sWebLanguage)%></option><%
-                                        }
-                                    %>
-                                </select>
-                        
-                                <input class="button" type="button" name="buttonPrint" value="<%=getTranNoLink("web","print",sWebLanguage)%>" onclick="doPrintPdf('<%=career.getUid()%>');">
                             <%
                         } 
                     %>
