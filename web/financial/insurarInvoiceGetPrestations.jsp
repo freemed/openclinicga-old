@@ -256,6 +256,7 @@
         <td width="100"><%=HTMLEntities.htmlentities(getTran("web","amount",sWebLanguage))%></td>
     </tr>
 <%
+	String sWarning="";
 	String sServiceUid = checkString(request.getParameter("EditInvoiceService"));
 	if(sServiceUid.length()>0){
 		sServiceUid = Service.getChildIdsAsString(sServiceUid);
@@ -265,11 +266,12 @@
     String sEditEnd = checkString(request.getParameter("EditEnd"));
     String sClass = "";
     InsurarInvoice insurarInvoice = null;
+    String s=""; 
+    Vector vDebets=new Vector(),vUnassignedDebets=new Vector();;
     if (sEditInsurarInvoiceUID.length() > 0) {
         insurarInvoice = InsurarInvoice.get(sEditInsurarInvoiceUID);
-        Vector vDebets = insurarInvoice.getDebets();
-        String s = addDebets(vDebets, sClass, sWebLanguage, true);
-        out.print(s);
+        vDebets = insurarInvoice.getDebets();
+        s = addDebets(vDebets, sClass, sWebLanguage, true);
     }
 
     if ((insurarInvoice==null)||(!checkString(insurarInvoice.getStatus()).equalsIgnoreCase("closed") && !checkString(insurarInvoice.getStatus()).equalsIgnoreCase("canceled"))) {
@@ -284,11 +286,21 @@
             end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
         }
         catch(Exception e){}
-        Vector vUnassignedDebets = Debet.getUnassignedInsurarDebets(sInsurarUid,begin,end);
-        String s = addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,sEditBegin,sEditEnd,sServiceUid);
-        out.print(s);
+        vUnassignedDebets = Debet.getUnassignedInsurarDebets(sInsurarUid,begin,end,MedwanQuery.getInstance().getConfigInt("maximumUnassignedInsurerDebets",30000));
+        if(vUnassignedDebets.size()>=MedwanQuery.getInstance().getConfigInt("maximumUnassignedInsurerDebets",30000)){
+        	//The limit has been reached. Warn the user
+        	sWarning = getTranNoLink("web","warn.maximum.unassignedinsurerdebets.reached",sWebLanguage);
+        	sWarning=sWarning.replaceAll("#COUNT#", vUnassignedDebets.size()+"");
+        	sWarning=sWarning.replaceAll("#FROM#", new SimpleDateFormat("dd/MM/yyyy").format(((Debet)vUnassignedDebets.elementAt(0)).getDate()));
+        	sWarning=sWarning.replaceAll("#TO#", new SimpleDateFormat("dd/MM/yyyy").format(((Debet)vUnassignedDebets.elementAt(vUnassignedDebets.size()-1)).getDate()));
+        	s= "<tr><td bgcolor='black' colspan='6'><font style='color: white; font-size: 14px;'>"+sWarning+"</font></td></tr>"+s;
+        }
+        s += addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,sEditBegin,sEditEnd,sServiceUid);
     }
     else {
     }
+   	s += "<tr><td bgcolor='grey' colspan='6'><font style='color: white;'>"+(vUnassignedDebets.size()+vDebets.size())+" "+getTranNoLink("web","records.loaded",sWebLanguage)+"</font></td></tr>";
+    out.print(s);
 %>
 </table>
+

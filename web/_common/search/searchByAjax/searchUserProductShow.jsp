@@ -220,20 +220,20 @@
     <%
     } else {
     %>
-    <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
+    <table width="100%" class="sortable" id="searchresults">
         <%-- header --%>
         <tr class="admin">
-            <td width="25%"><%=HTMLEntities.htmlentities(getTran("web", "product", sWebLanguage))%>
+            <td><%=HTMLEntities.htmlentities(getTran("web", "product", sWebLanguage))%>
             </td>
-            <td width="10%"><%=HTMLEntities.htmlentities(getTran("web", "unit", sWebLanguage))%>
+            <td><%=HTMLEntities.htmlentities(getTran("web", "unit", sWebLanguage))%>
             </td>
-            <td width="10%" style="text-align:right;"><%=
+            <td><%=
                 HTMLEntities.htmlentities(getTran("web", "unitprice", sWebLanguage))%></td>
-            <td width="20%"><%=HTMLEntities.htmlentities(getTran("web", "supplier", sWebLanguage))%>
+            <td><%=HTMLEntities.htmlentities(getTran("web", "supplier", sWebLanguage))%>
             </td>
-            <td width="20%"><%=HTMLEntities.htmlentities(getTran("Web", "ServiceStock", sWebLanguage))%>
+            <td><%=HTMLEntities.htmlentities(getTran("Web", "ServiceStock", sWebLanguage))%>
             </td>
-            <td width="15%"><%=HTMLEntities.htmlentities(getTran("web", "productGroup", sWebLanguage))%></td>
+            <td><%=HTMLEntities.htmlentities(getTran("web", "productGroup", sWebLanguage))%></td>
         </tr>
 
         <tbody onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">

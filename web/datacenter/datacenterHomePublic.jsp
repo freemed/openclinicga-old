@@ -12,6 +12,7 @@
 		int invoices;
 		int labs;
 		int id;
+		String softwareversion;
 	}
 
 	public int countCities(SortedMap countries, String country){
@@ -120,6 +121,8 @@
             	<label><h3><%=getTran("web","datacenter.intro",sWebLanguage).replaceAll("OpenClinic", "<a href='http://sourceforge.net/projects/open-clinic'>OpenClinic</a>") %> <%=getTran("web","datacenter.intro2",sWebLanguage)%></h3></label>
             	<table width="100%" class="content" cellpadding="0" cellspacing="1" style="padding:0px;">
 			<%
+				String toggleCountryCode="",toggleCountryIdx="";
+				String me=checkString((String)session.getAttribute("me"));
 				SiteData summarySite=new SiteData();
 				SortedMap countries = new TreeMap();
 				SortedMap cities = null, sites=null;
@@ -133,13 +136,11 @@
 				PreparedStatement ps=conn.prepareStatement(sSql);
 				long month=30*24*3600;
 				month=month*1000;
-				ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()-month));
+				ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()-MedwanQuery.getInstance().getConfigInt("gbhPublicInactivityPeriodInMonths",3)*month));
 				ResultSet rs = ps.executeQuery();
 				int serverid,activeServer=-1;
-				
 				while(rs.next()){
 					serverid=rs.getInt("dc_monitorserver_serverid");
-					
 					if(serverid!=activeServer){
 						activeServer=serverid;
 						
@@ -165,6 +166,10 @@
 						siteData.invoices=rs.getInt("dc_monitorvalue_patientinvoicecount");
 						siteData.debets=rs.getInt("dc_monitorvalue_debetcount");
 						siteData.id=activeServer;
+						if(me.length()>0 && me.equalsIgnoreCase(checkString(rs.getString("dc_monitorserver_serveruid")))){
+							toggleCountryCode=country;
+						}
+						siteData.softwareversion = checkString(rs.getString("dc_monitorserver_softwareversion"));
 						sites.put(activeServer,siteData);
 						
 						summarySite.patients+=siteData.patients;
@@ -192,7 +197,9 @@
 				while(countriesIter.hasNext()){
 					sCountryCode = (String)countriesIter.next();
 					countryIdx++;
-					
+					if(toggleCountryCode.equals(sCountryCode)){
+						toggleCountryIdx=countryIdx+"";
+					}
 					sCountryName = getTranNoLink("country",sCountryCode,sWebLanguage).toUpperCase();
 										
 					// run though cities in country, counting totals
@@ -220,7 +227,7 @@
 
 					output.append("<tr style='padding:0px;' bgcolor='#dddddd'>")
 					       .append("<td colspan='1' width='25%' nowrap>")
-					        .append("<img src='"+sCONTEXTPATH+"/_img/plus.png' style='vertical-align:-3px;' id='plus_"+countryIdx+"' onClick=\"toggleSites('"+sCountryCode+"','"+countryIdx+"');\"/> <b>"+sCountryName+"</b>")
+					        .append("<img src='"+sCONTEXTPATH+"/_img/plus.png' style='vertical-align:-3px;' id='plus_"+countryIdx+"' onClick=\"toggleSites('"+sCountryCode+"','"+countryIdx+"');\"/> <b>"+(sCountryCode.equals("B")?"BE":sCountryCode)+" - "+sCountryName+"</b>")
 					       .append("</td>")
 					       .append("<td align='right' width='15%'>"+countSites(countries,sCountryCode)+" "+getTran("web","sites",sWebLanguage)+" "+getTran("web","datacenter.in",sWebLanguage).toLowerCase()+" "+countCities(countries,sCountryCode)+" "+getTran("web","cities",sWebLanguage)+"</td>")
 					       .append("<td align='right' width='10%'>"+deci.format(countryTotal.patients)+"</td>")
@@ -306,6 +313,7 @@
         
   <script>
     var gisWin = null;
+    var me='<%=checkString((String)session.getAttribute("me"))%>';
 
     <%-- OPEN GIS MAP --%>
     function openGISMap(siteId,parameter,mapType){    	
@@ -386,7 +394,7 @@
 	    var url = "<c:url value='/datacenter/ajax/getSitesForCountryHtml.jsp'/>?ts="+new Date().getTime();
         new Ajax.Request(url,{
           method: "GET",
-          parameters: "CountryCode="+countryCode,
+          parameters: "CountryCode="+countryCode+"&me="+me,
           onSuccess: function(resp){
         	dataDIV.innerHTML = trim(resp.responseText);
           },
@@ -571,6 +579,9 @@
         );
     }
     
+    if(me.length>0){
+    	toggleSites('<%=toggleCountryCode%>','<%=toggleCountryIdx%>');
+    }
     </script>
 </body>
 

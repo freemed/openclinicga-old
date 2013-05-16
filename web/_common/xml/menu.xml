@@ -93,6 +93,10 @@
         <Menu labelid="datacenter" accessrights="datacenter.select" url="/main.do?Page=datacenter/menu.jsp"/>
         <Menu labelid="executive" accessrights="executive.select">
             <Menu labelid="executive.bedoccupancy" accessrights="occup.bedoccupation.select" url="/main.do?Page=statistics/bedoccupancyStatus.jsp"/>
+            <Menu labelid="accountancy" accessrights="accountancy.select" url="/accountancy/index.jsp"/>
+            <Menu labelid="payroll" accessrights="payroll.select" url="/payroll/index.jsp"/>
+            <Menu labelid="maintenance" accessrights="maintenance.select" url="/maintenance/index.jsp"/>
+            <Menu labelid="capital" accessrights="capital.select" url="/capital/index.jsp"/>
         </Menu>
         <Menu labelid="printlabel" accessrights="system.printlabel" patientselected="true" url="javascript:printPatientLabel();"/>
         <Menu labelid="ministats" url="/main.do?Page=system/getConnectedUsers.jsp&amp;nousers=true"/>

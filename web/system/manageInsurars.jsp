@@ -56,7 +56,8 @@
            sEditCoverSupplements       = checkString(request.getParameter("EditCoverSupplements")),
            sEditInsurarDefaultInsurarInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultInsurarInvoiceModel")),
       	   sEditInsurarDefaultPatientInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
-     	   sEditInsurarAllowedReductions       = checkString(request.getParameter("EditInsurarAllowedReductions")),
+      	   sEditInsurarAllowedReductions       = checkString(request.getParameter("EditInsurarAllowedReductions")),
+    	   sEditInsurarRequiresAffiliateID       = checkString(request.getParameter("EditInsurarRequiresAffiliateID")),
            sEditInsurarType       = checkString(request.getParameter("EditInsurarType"));
 
     // DEBUG //////////////////////////////////////////////////////////////////
@@ -107,9 +108,15 @@
     	if(sEditAuthorizationNeeded.length()>0 && !insurar.getUid().equalsIgnoreCase("-1")){
     		MedwanQuery.getInstance().setConfigString("InsuranceAgentAuthorizationNeededFor",MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").replaceAll("\\*"+sEditInsurarId.replaceAll("\\.","\\\\.")+"\\*", "")+"*"+sEditInsurarId+"*");
     	}
+    	else if(sEditAuthorizationNeeded.length()==0){
+    		MedwanQuery.getInstance().setConfigString("InsuranceAgentAuthorizationNeededFor",MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").replaceAll("\\*"+sEditInsurarId.replaceAll("\\.","\\\\.")+"\\*", ""));
+    	}
 
     	if(sEditAcceptationNeeded.length()>0 && !insurar.getUid().equalsIgnoreCase("-1")){
     		MedwanQuery.getInstance().setConfigString("InsuranceAgentAcceptationNeededFor",MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").replaceAll("\\*"+sEditInsurarId.replaceAll("\\.","\\\\.")+"\\*", "")+"*"+sEditInsurarId+"*");
+    	}
+    	else if(sEditAcceptationNeeded.length()==0){
+    		MedwanQuery.getInstance().setConfigString("InsuranceAgentAcceptationNeededFor",MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").replaceAll("\\*"+sEditInsurarId.replaceAll("\\.","\\\\.")+"\\*", ""));
     	}
 
         insurar.setName(checkString(request.getParameter("EditInsurarName")));
@@ -137,6 +144,14 @@
 			e.printStackTrace();
 		}
 		insurar.setCoverSupplements(nCoverSupplements);
+		int nRequireAffiliateID=0;
+		try{
+			nRequireAffiliateID=Integer.parseInt(sEditInsurarRequiresAffiliateID);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		insurar.setRequireAffiliateID(nRequireAffiliateID);
         //*** save categories ***
         if(sCategoriesToSave.length() > 0){
             String catName, catLabel, catPatientShare, sOneCategory, catUid;
@@ -507,6 +522,12 @@
                         <td class="admin"><%=getTran("web","coversupplements",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="checkbox" class="text" name="EditCoverSupplements" <%=insurar.getCoverSupplements()==1?"checked":"" %> value="1"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","requireaffiliateid",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditInsurarRequiresAffiliateID" <%=insurar.getRequireAffiliateID()==1?"checked":"" %> value="1"/>
                         </td>
                     </tr>
                     <tr>

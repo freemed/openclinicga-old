@@ -138,6 +138,10 @@ background:url( ../../_img/buttons_transparent.png ) left 0 no-repeat; */
     background-position:left -184px;
 }
 
+#topmenu ul li.menu_hr a {
+    background-position:left -118px;
+}
+
 #topmenu ul li.menu_person a {
     background-position:left -184px;
 }
@@ -154,7 +158,7 @@ background:url( ../../_img/buttons_transparent.png ) left 0 no-repeat; */
     background-position:left  -269px ;
 }
 
-#topmenu ul li.menu_help a {
+#topmenu ul li.menu_info a {
    background-position:left  -297px ;
 }
 #topmenu ul li.menu_curative a {

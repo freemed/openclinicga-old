@@ -1188,7 +1188,7 @@
 	// revert one month
 	long month = 30*24*3600;
 	month = month*1000;	
-	ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()-month));
+	ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()-MedwanQuery.getInstance().getConfigInt("gbhPublicInactivityPeriodInMonths",3)*month));
 
 	rs = ps.executeQuery();
 	int serverid, activeServer = -1;
@@ -1199,7 +1199,7 @@
         if(serverid!=activeServer){
         	activeServer = serverid;
         	
-        	String country = getTranNoLink("country",rs.getString("dc_monitorserver_country"),sWebLanguage).toUpperCase();
+        	String country = getTranNoLink("country",rs.getString("dc_monitorserver_country").replaceAll("ZR","CD").replaceAll("BE","B"),sWebLanguage).toUpperCase();
         	if(countries.get(country)==null){
                 countries.put(country,new TreeMap());
         	}
@@ -1215,7 +1215,7 @@
         	SiteData siteData = new SiteData();
         	siteData.id = activeServer;
         	siteData.country = country; 
-        	siteData.countryCode = rs.getString("dc_monitorserver_country");
+        	siteData.countryCode = rs.getString("dc_monitorserver_country").replaceAll("ZR","CD").replaceAll("BE","B");
             siteData.city = city;
         	siteData.dataDate = ScreenHelper.stdDateFormat.format(rs.getTimestamp("dc_monitorvalue_date"));
         	siteData.dataType = sParameter;

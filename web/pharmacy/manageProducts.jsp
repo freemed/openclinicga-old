@@ -503,13 +503,13 @@
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td width="22">&nbsp;</td>
-                            <td width="25%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
-                            <td width="15%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_UNIT');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_UNIT")?"<"+sSortDir+">":"")%><%=getTran("Web","Unit",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_UNIT")?"</"+sSortDir+">":"")%></a></td>
-                            <td width="1%"><a href="#" title="<%=sortTran%>" class="underlined"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_UNITPRICE")?"<"+sSortDir+">":"")%><%=getTran("Web","unitprice",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_UNITPRICE")?"</"+sSortDir+">":"")%></a></td>
+                            <td>&nbsp;</td>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_UNIT');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_UNIT")?"<"+sSortDir+">":"")%><%=getTran("Web","Unit",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_UNIT")?"</"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_UNITPRICE")?"<"+sSortDir+">":"")%><%=getTran("Web","unitprice",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_UNITPRICE")?"</"+sSortDir+">":"")%></a></td>
                             <td/>
-                            <td width="28%"><%=getTran("Web","supplier",sWebLanguage)%></td>
-                            <td width="20%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"</"+sSortDir+">":"")%></a></td>
+                            <td><%=getTran("Web","supplier",sWebLanguage)%></td>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"</"+sSortDir+">":"")%></a></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=productsHtml%>

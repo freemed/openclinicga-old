@@ -78,7 +78,7 @@
     <input type="hidden" name="ReturnProductUnitField" value="<%=sReturnProductUnitField%>">
     <input type="hidden" name="ReturnUnitsPerTimeUnitField" value="<%=sReturnUnitsPerTimeUnitField%>">
 
-    <table width="100%" cellspacing="0" cellpadding="0" class="menu">
+    <table width="100%" class="menu">
         <%-- TITLE --%>
         <tr class="admin">
             <td colspan="7"><%=getTran("web.manage", "searchinproductcatalog", sWebLanguage)%>
@@ -87,44 +87,50 @@
 
         <%-- SEARCH FIELDS --%>
         <tr height="25">
-            <%-- productname --%>
-            <td>&nbsp;<%=getTran("Web", "product", sWebLanguage)%>&nbsp;</td>
-            <td>
-                <input type="text" id="SearchProductName" name="SearchProductName" class="text"
-                       value="<%=sSearchProductName%>" size="30" onkeyup="delayedSearch();">&nbsp;
-            </td>
-
-            <%-- supplier --%>
-            <td><%=getTran("Web", "supplier", sWebLanguage)%>&nbsp;</td>
-            <td nowrap>
-                <input type="hidden" name="SearchSupplierUid" id="SearchSupplierUid" value="<%=sSearchSupplierUid%>">
-                <input type="text" name="SearchSupplierName" class="text" value="<%=sSearchSupplierName%>" size="30"
-                       READONLY onchange="delayedSearch();">
-
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
-                     alt="<%=getTran("Web","select",sWebLanguage)%>"
-                     onclick="searchSupplier('SearchSupplierUid','SearchSupplierName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
-                     alt="<%=getTran("Web","clear",sWebLanguage)%>"
-                     onclick="productForm.SearchSupplierUid.value='';productForm.SearchSupplierName.value='';">&nbsp;
-            </td>
-
-            <%-- product group --%>
-            <td><%=getTran("Web", "productgroup", sWebLanguage)%>&nbsp;</td>
-            <td>
-                <select class="text" name="SearchProductGroup" id="SearchProductGroup" onChange="delayedSearch();">
-                    <option value=""></option>
-                    <%
-                        Vector groups = Product.getProductGroups();
-                        for (int n = 0; n < groups.size(); n++) {
-                            out.println("<option value='" + groups.elementAt(n) + "' " + (sSearchProductGroup.equalsIgnoreCase((String) groups.elementAt(n)) ? "selected" : "") + ">" + groups.elementAt(n) + "</option>");
-                        }
-                    %>
-                </select>&nbsp;
-            </td>
-
+	        <td colspan="4">
+	        	<table width="100%">
+	        		<tr>
+			            <%-- productname --%>
+			            <td>&nbsp;<%=getTran("Web", "product", sWebLanguage)%>&nbsp;</td>
+			            <td>
+			                <input type="text" id="SearchProductName" name="SearchProductName" class="text"
+			                       value="<%=sSearchProductName%>" size="30" onkeyup="delayedSearch();">&nbsp;
+			            </td>
+			
+			            <%-- supplier --%>
+			            <td><%=getTran("Web", "supplier", sWebLanguage)%>&nbsp;</td>
+			            <td nowrap>
+			                <input type="hidden" name="SearchSupplierUid" id="SearchSupplierUid" value="<%=sSearchSupplierUid%>">
+			                <input type="text" name="SearchSupplierName" class="text" value="<%=sSearchSupplierName%>" size="30"
+			                       READONLY onchange="delayedSearch();">
+			
+			                <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
+			                     alt="<%=getTran("Web","select",sWebLanguage)%>"
+			                     onclick="searchSupplier('SearchSupplierUid','SearchSupplierName');">
+			                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
+			                     alt="<%=getTran("Web","clear",sWebLanguage)%>"
+			                     onclick="productForm.SearchSupplierUid.value='';productForm.SearchSupplierName.value='';">&nbsp;
+			            </td>
+					</tr>
+					<tr>
+			            <%-- product group --%>
+			            <td><%=getTran("Web", "productgroup", sWebLanguage)%>&nbsp;</td>
+			            <td colspan="3">
+			                <select class="text" name="SearchProductGroup" id="SearchProductGroup" onChange="delayedSearch();">
+			                    <option value=""></option>
+			                    <%
+			                        Vector groups = Product.getProductGroups();
+			                        for (int n = 0; n < groups.size(); n++) {
+			                            out.println("<option value='" + groups.elementAt(n) + "' " + (sSearchProductGroup.equalsIgnoreCase((String) groups.elementAt(n)) ? "selected" : "") + ">" + getTranNoLink("product.productgroup",(String)groups.elementAt(n),sWebLanguage) + "</option>");
+			                        }
+			                    %>
+			                </select>&nbsp;
+			            </td>
+			        </tr>
+				</table>
+			</td>
             <%-- BUTTONS --%>
-            <td style="text-align:right;" nowrap>
+            <td style="text-align:right;" nowrap colspan="3">
                 <input class="button" type="button" onClick="doFind();" name="findButton"
                        value="<%=getTran("Web","find",sWebLanguage)%>">
                 <input class="button" type="button" onClick="clearSearchFields();" name="clearButton"

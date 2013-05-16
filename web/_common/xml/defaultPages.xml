@@ -19,4 +19,24 @@
             main.do?Page=curative/manageExaminations.jsp
         </page>
     </defaultPage>
+     <defaultPage type='accountancy'>
+        <page>
+            accountancy/index.jsp
+        </page>
+    </defaultPage>
+     <defaultPage type='maintenance'>
+        <page>
+            maintenance/index.jsp
+        </page>
+    </defaultPage>
+     <defaultPage type='payroll'>
+        <page>
+            payroll/index.jsp
+        </page>
+    </defaultPage>
+     <defaultPage type='capital'>
+        <page>
+            capital/index.jsp
+        </page>
+    </defaultPage>
 </defaultPages>

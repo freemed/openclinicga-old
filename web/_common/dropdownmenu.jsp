@@ -222,7 +222,10 @@
                         for (int i = 0; i < vMenus.size(); i++) {
                             menu = (Menu) vMenus.elementAt(i);
                             String subs = "";
-                            if (menu.menus.size() > 0) {
+                            if(menu.patientselected.equalsIgnoreCase("true")&!bMenu){
+                            	continue;
+                            }
+                            else if (menu.menus.size() > 0) {
                                 for (int y = 0; y < menu.menus.size(); y++) {
                                     subMenu = (Menu) menu.menus.elementAt(y);
                                     subs += subMenu.makeMenu(bMenu, sWebLanguage, menu.labelid, activeUser, (y == menu.menus.size() - 1),activePatient);
@@ -566,6 +569,12 @@
     <%-- show admin popup --%>
     function showdrugsoutbarcode(){
     	openPopup("pharmacy/drugsOutBarcode.jsp&ts=<%=getTs()%>",700,500);
+    }
+    function showglobalhealthbarometer(){
+    	window.open("http://www.globalhealthbarometer.net/globalhealthbarometer/datacenter/datacenterHomePublic.jsp?me=<%=MedwanQuery.getInstance().getConfigString("globalHealthBarometerUID","")%>&ts=<%=getTs()%>");
+    }
+    function showsourceforge(){
+    	window.open("http://sourceforge.net/projects/open-clinic");
     }
     function showAdminPopup() {
         openPopup("/_common/patient/patientdataPopup.jsp&ts=<%=getTs()%>");

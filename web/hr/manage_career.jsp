@@ -66,7 +66,7 @@
                 <td class="admin" nowrap><%=getTran("web.hr","careerBegin",sWebLanguage)%>&nbsp;* - <%=getTran("web.hr","end",sWebLanguage)%></td>
                 <td class="admin2">
                     <%=writeDateField("careerBegin","EditForm",ScreenHelper.getSQLDate(career.begin),sWebLanguage)%>&nbsp;&nbsp;<%=getTran("web","until",sWebLanguage)%>&nbsp;&nbsp; 
-                    <%=writeDateField("careerEnd","EditForm",ScreenHelper.getSQLDate(career.begin),sWebLanguage)%>            
+                    <%=writeDateField("end","EditForm",ScreenHelper.getSQLDate(career.begin),sWebLanguage)%>            
                 </td>                        
             </tr>
             

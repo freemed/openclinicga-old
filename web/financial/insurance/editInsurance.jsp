@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.Insurance,be.openclinic.finance.InsuranceCategory,be.mxs.common.util.system.*" %>
+<%@ page import="be.openclinic.finance.*,be.mxs.common.util.system.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <script>
 	function searchInsuranceCategory(){
@@ -55,47 +55,57 @@
     String sEditInsuranceInsurarName = "";
     String sEditInsuranceComment = checkString(request.getParameter("EditInsuranceComment"));
 
+	boolean bCanSave=true;
     if (sAction.equals("SAVE")) {
-        if(sEditInsuranceCategoryLetter.length()==0){
-            sEditInsurarUID="";
+        if(sEditInsurarUID.length()!=0){
+        	Insurar insurar = Insurar.get(sEditInsurarUID);
+        	if(insurar!=null && insurar.getRequireAffiliateID()==1 && sEditInsuranceNr.length()==0){
+        		out.println("<script>alert('"+getTranNoLink("web","requireaffiliateid",sWebLanguage)+"');</script>");
+        		bCanSave=false;
+        	}
         }
-        Insurance insurance = new Insurance();
-        if (sEditInsuranceUID.length() > 0) {
-            insurance = Insurance.get(sEditInsuranceUID);
-        } else {
-            insurance.setCreateDateTime(getSQLTime());
+        if(bCanSave){
+	        if(sEditInsuranceCategoryLetter.length()==0){
+	            sEditInsurarUID="";
+	        }
+	        Insurance insurance = new Insurance();
+	        if (sEditInsuranceUID.length() > 0) {
+	            insurance = Insurance.get(sEditInsuranceUID);
+	        } else {
+	            insurance.setCreateDateTime(getSQLTime());
+	        }
+	
+	        if (sEditInsuranceStart.length() > 0) {
+	            insurance.setStart(new Timestamp(ScreenHelper.getSQLDate(sEditInsuranceStart).getTime()));
+	        }
+	        if (sEditInsuranceStop.length() > 0) {
+	            insurance.setStop(new Timestamp(ScreenHelper.getSQLDate(sEditInsuranceStop).getTime()));
+	        }
+	        insurance.setInsuranceNr(sEditInsuranceNr);
+	        insurance.setType(sEditInsuranceType);
+	        insurance.setMember(sEditInsuranceMember);
+	        insurance.setMemberImmat(sEditInsuranceMemberImmat);
+	        insurance.setMemberEmployer(sEditInsuranceMemberEmployer);
+	        insurance.setStatus(sEditInsuranceStatus);
+	        insurance.setInsuranceCategoryLetter(sEditInsuranceCategoryLetter);
+	        insurance.setComment(new StringBuffer(sEditInsuranceComment));
+	        insurance.setUpdateDateTime(getSQLTime());
+	        insurance.setUpdateUser(activeUser.userid);
+	        insurance.setPatientUID(activePatient.personid);
+	        insurance.setInsurarUid(sEditInsurarUID);
+	        insurance.setExtraInsurarUid(sEditExtraInsurarUID);
+	        insurance.setExtraInsurarUid2(sEditExtraInsurarUID2);
+	        insurance.store();
+	        if(sEditAuthorization.length()>0){
+	        	Pointer.storePointer("AUTH."+sEditInsurarUID+"."+activePatient.personid+"."+new SimpleDateFormat("yyyyMM").format(new java.util.Date()), new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date(new java.util.Date().getTime()+24*3600*1000))+";"+activeUser.userid);
+	        }
+	        out.println("<script>doSearchBack();</script>");
         }
-
-        if (sEditInsuranceStart.length() > 0) {
-            insurance.setStart(new Timestamp(ScreenHelper.getSQLDate(sEditInsuranceStart).getTime()));
-        }
-        if (sEditInsuranceStop.length() > 0) {
-            insurance.setStop(new Timestamp(ScreenHelper.getSQLDate(sEditInsuranceStop).getTime()));
-        }
-        insurance.setInsuranceNr(sEditInsuranceNr);
-        insurance.setType(sEditInsuranceType);
-        insurance.setMember(sEditInsuranceMember);
-        insurance.setMemberImmat(sEditInsuranceMemberImmat);
-        insurance.setMemberEmployer(sEditInsuranceMemberEmployer);
-        insurance.setStatus(sEditInsuranceStatus);
-        insurance.setInsuranceCategoryLetter(sEditInsuranceCategoryLetter);
-        insurance.setComment(new StringBuffer(sEditInsuranceComment));
-        insurance.setUpdateDateTime(getSQLTime());
-        insurance.setUpdateUser(activeUser.userid);
-        insurance.setPatientUID(activePatient.personid);
-        insurance.setInsurarUid(sEditInsurarUID);
-        insurance.setExtraInsurarUid(sEditExtraInsurarUID);
-        insurance.setExtraInsurarUid2(sEditExtraInsurarUID2);
-        insurance.store();
-        if(sEditAuthorization.length()>0){
-        	Pointer.storePointer("AUTH."+sEditInsurarUID+"."+activePatient.personid+"."+new SimpleDateFormat("yyyyMM").format(new java.util.Date()), new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date(new java.util.Date().getTime()+24*3600*1000))+";"+activeUser.userid);
-        }
-        out.println("<script>doSearchBack();</script>");
         out.flush();
     }
 
-    if (sEditInsuranceUID.length() > 0) {
-        Insurance insurance = Insurance.get(sEditInsuranceUID);
+    if (sEditInsuranceUID.length() > 0 && bCanSave) {
+    	Insurance insurance = Insurance.get(sEditInsuranceUID);
 
         sEditInsuranceNr = insurance.getInsuranceNr();
         sEditInsuranceType = insurance.getType();
@@ -107,11 +117,6 @@
         sEditInsurarUID = insurance.getInsurarUid();
         sEditExtraInsurarUID = insurance.getExtraInsurarUid();
         sEditExtraInsurarUID2 = insurance.getExtraInsurarUid2();
-        InsuranceCategory insuranceCategory = InsuranceCategory.get(insurance.getInsurarUid(),sEditInsuranceCategoryLetter);
-        if(insuranceCategory.getLabel().length()>0){
-            sEditInsuranceInsurarName = insuranceCategory.getInsurar().getName();
-            sEditInsuranceCategory = insuranceCategory.getCategory()+": "+insuranceCategory.getLabel();
-        }
         if (insurance.getStart() != null) {
             sEditInsuranceStart = new SimpleDateFormat("dd/MM/yyyy").format(insurance.getStart());
         } else {
@@ -122,9 +127,20 @@
         } else {
             sEditInsuranceStop = "";
         }
-
         sEditInsuranceComment = insurance.getComment().toString();
+        InsuranceCategory insuranceCategory = InsuranceCategory.get(sEditInsurarUID,sEditInsuranceCategoryLetter);
+        if(insuranceCategory.getLabel().length()>0){
+            sEditInsuranceInsurarName = insuranceCategory.getInsurar().getName();
+            sEditInsuranceCategory = insuranceCategory.getCategory()+": "+insuranceCategory.getLabel();
+        }
     }
+    else if (sEditInsurarUID.length()>0 && sEditInsuranceCategoryLetter.length()>0){
+        InsuranceCategory insuranceCategory = InsuranceCategory.get(sEditInsurarUID,sEditInsuranceCategoryLetter);
+        if(insuranceCategory.getLabel().length()>0){
+            sEditInsuranceInsurarName = insuranceCategory.getInsurar().getName();
+            sEditInsuranceCategory = insuranceCategory.getCategory()+": "+insuranceCategory.getLabel();
+        }
+    }        
 %>
 <form name="EditInsuranceForm" id="EditInsuranceForm" method="POST" action="<c:url value='/main.do'/>?Page=financial/insurance/editInsurance.jsp&ts=<%=getTs()%>">
     <input type="hidden" name="EditInsuranceUID" value="<%=sEditInsuranceUID%>"/>

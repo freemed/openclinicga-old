@@ -8,7 +8,9 @@
     String sWebLanguage = null;
     User activeUser = null;
     AdminPerson activePatient = null;
-    
+    if(request.getParameter("me")!=null){
+    	session.setAttribute("me", request.getParameter("me"));
+    }
    
 
     //***** session timed out *********************************************************************

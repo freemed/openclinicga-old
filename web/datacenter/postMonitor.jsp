@@ -22,6 +22,7 @@
 	String centerType = notNull(request.getParameter("centerType"),"");
 	String centerLevel = notNull(request.getParameter("centerLevel"),"");
 	String centerBeds = notNull(request.getParameter("centerBeds"),"");
+	String softwareVersion = notNull(request.getParameter("softwareVersion"),"");
 	java.util.Date date = new SimpleDateFormat("yyyyMMdd").parse(notNull(request.getParameter("date"),"19000101"));
 	int patientCount = Integer.parseInt(notNull(request.getParameter("patientCount"),"0"));
 	int visitCount = Integer.parseInt(notNull(request.getParameter("visitCount"),"0"));
@@ -48,7 +49,7 @@
 				//Update existing data
 				rs.close();
 				ps.close();
-				sSql="update dc_monitorservers set dc_monitorserver_name=?,dc_monitorserver_country=?,dc_monitorserver_city=?,dc_monitorserver_contact=?,dc_monitorserver_email=?,dc_monitorserver_type=?,dc_monitorserver_level=?,dc_monitorserver_beds=?,dc_monitorserver_updatetime=? where dc_monitorserver_serveruid=?";
+				sSql="update dc_monitorservers set dc_monitorserver_name=?,dc_monitorserver_country=?,dc_monitorserver_city=?,dc_monitorserver_contact=?,dc_monitorserver_email=?,dc_monitorserver_type=?,dc_monitorserver_level=?,dc_monitorserver_beds=?,dc_monitorserver_updatetime=?,dc_monitorserver_softwareversion=? where dc_monitorserver_serveruid=?";
 				ps=conn.prepareStatement(sSql);
 				ps.setString(1,centerName);
 				ps.setString(2,centerCountry.length()>0?centerCountry.toUpperCase():oldCenterCountry.toUpperCase());
@@ -59,7 +60,8 @@
 				ps.setString(7,centerLevel);
 				ps.setString(8,centerBeds);
 				ps.setTimestamp(9,new java.sql.Timestamp(new java.util.Date().getTime()));
-				ps.setString(10,centerUid);
+				ps.setString(10,softwareVersion);
+				ps.setString(11,centerUid);
 				int n= ps.executeUpdate();
 				ps.close();
 			}
@@ -67,7 +69,7 @@
 				//Create server
 				rs.close();
 				ps.close();
-				sSql="insert into dc_monitorservers(dc_monitorserver_serverid,dc_monitorserver_serveruid,dc_monitorserver_name,dc_monitorserver_country,dc_monitorserver_city,dc_monitorserver_contact,dc_monitorserver_email,dc_monitorserver_type,dc_monitorserver_level,dc_monitorserver_beds,dc_monitorserver_updatetime) values(?,?,?,?,?,?,?,?,?,?,?)";
+				sSql="insert into dc_monitorservers(dc_monitorserver_serverid,dc_monitorserver_serveruid,dc_monitorserver_name,dc_monitorserver_country,dc_monitorserver_city,dc_monitorserver_contact,dc_monitorserver_email,dc_monitorserver_type,dc_monitorserver_level,dc_monitorserver_beds,dc_monitorserver_updatetime,dc_monitorserver_softwareversion) values(?,?,?,?,?,?,?,?,?,?,?,?)";
 				ps=conn.prepareStatement(sSql);
 				serverid=MedwanQuery.getInstance().getOpenclinicCounter("DC_MONITORSERVER_SERVERID");
 				ps.setInt(1,serverid);
@@ -81,6 +83,7 @@
 				ps.setString(9,centerLevel);
 				ps.setString(10,centerBeds);
 				ps.setTimestamp(11,new java.sql.Timestamp(new java.util.Date().getTime()));
+				ps.setString(12,softwareVersion);
 				ps.execute();
 				ps.close();
 			}

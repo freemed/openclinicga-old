@@ -36,10 +36,10 @@
     // header
     sHtml.append("<tr class='admin'>")
             .append(" <td nowrap>" + getTranNoLink("web", "product", sWebLanguage) + "</td>")
-            .append(" <td width='10%'>" + getTranNoLink("web", "unit", sWebLanguage) + "</td>")
-            .append(" <td width='12%' style='text-align:right;'>" + getTranNoLink("web", "unitprice", sWebLanguage) + " </td>")
-            .append(" <td width='31%'>" + getTranNoLink("web", "supplier", sWebLanguage) + "</td>")
-            .append(" <td width='27%'>" + getTranNoLink("web", "productGroup", sWebLanguage) + "</td>")
+            .append(" <td>" + getTranNoLink("web", "unit", sWebLanguage) + "</td>")
+            .append(" <td>" + getTranNoLink("web", "unitprice", sWebLanguage) + " </td>")
+            .append(" <td>" + getTranNoLink("web", "supplier", sWebLanguage) + "</td>")
+            .append(" <td>" + getTranNoLink("web", "productGroup", sWebLanguage) + "</td>")
             .append("</tr>");
 
     // tbody
@@ -126,7 +126,7 @@
     html = HTMLEntities.htmlentities(html);
 
 %>
-<table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
+<table width="100%" class="sortable" id="searchresults">
     <%=html.toString()%>
 </table>
 <%

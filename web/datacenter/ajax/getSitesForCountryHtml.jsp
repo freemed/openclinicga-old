@@ -16,11 +16,14 @@
 		int debets;
 		int invoices;
 		int labs;
+		String uid;
+		String softwareversion;
 	}
 %>
 
 <%
     String sCountryCode = checkString(request.getParameter("CountryCode"));
+	String me = checkString(request.getParameter("me"));
 
     // fetch siteData for specified country
 	SortedMap cities = new TreeMap(), sites = null;
@@ -81,6 +84,8 @@
 				siteData.labs       = rs.getInt("dc_monitorvalue_labanalysescount");
 				siteData.invoices   = rs.getInt("dc_monitorvalue_patientinvoicecount");
 				siteData.debets     = rs.getInt("dc_monitorvalue_debetcount");
+				siteData.uid     = rs.getString("dc_monitorserver_serveruid");
+				siteData.softwareversion = checkString(rs.getString("dc_monitorserver_softwareversion"));
 				
 				sites.put(activeServer,siteData);				
 				siteData.id = siteCount++;
@@ -105,8 +110,8 @@
 				while(sitesIter.hasNext()){
 					siteData = (SiteData)sites.get(sitesIter.next());
 						
-					out.println("<tr bgcolor='#eeeeee'>"+
-					              "<td width='30%' style='padding-left:40px;'>["+siteData.id+"] "+sCity+"</td>"+
+					out.println("<tr bgcolor='"+(siteData.uid.equalsIgnoreCase(me)?"#E66EAC":"#eeeeee")+"'>"+
+					              "<td width='30%' style='padding-left:40px;'>["+siteData.id+"] "+sCity+(siteData.softwareversion.length()>0?" (v"+siteData.softwareversion+")":" (&lt;v4016022)")+"</td>"+
 							      //"<td width='10%'>ID #"+siteData.id+"</td>"+
 							      "<td align='right' width='10%'>"+ScreenHelper.stdDateFormat.format(siteData.date)+"</td>"+
 							      "<td align='right' width='10%'>"+deci.format(siteData.patients)+"</td>"+

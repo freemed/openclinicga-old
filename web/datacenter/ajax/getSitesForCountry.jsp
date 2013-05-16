@@ -16,6 +16,7 @@
 		int debets;
 		int invoices;
 		int labs;
+		String softwareversion;
 	}
 %>
 
@@ -72,7 +73,7 @@
 				siteData.labs       = rs.getInt("dc_monitorvalue_labanalysescount");
 				siteData.invoices   = rs.getInt("dc_monitorvalue_patientinvoicecount");
 				siteData.debets     = rs.getInt("dc_monitorvalue_debetcount");
-				
+				siteData.softwareversion = checkString(rs.getString("dc_monitorserver_softwareversion"));
 				sites.put(activeServer,siteData);
 			}
 		}
@@ -106,7 +107,8 @@
 					  "admissions":"<%=deci.format(siteData.admissions)%>",
 					  "labs":"<%=deci.format(siteData.labs)%>",
 					  "invoices":"<%=deci.format(siteData.invoices)%>",
-				      "debets":"<%=deci.format(siteData.debets)%>"
+				      "debets":"<%=deci.format(siteData.debets)%>",
+				      "softwareversion":"<%=siteData.softwareversion%>"
 				    },
 				}
 				<%

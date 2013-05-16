@@ -1,6 +1,6 @@
 <%@page import="be.mxs.common.util.io.MessageReader,
                 be.mxs.common.util.io.MessageReaderMedidoc,
-                java.util.*,be.openclinic.finance.*,
+                java.util.*,be.openclinic.finance.*,be.openclinic.pharmacy.*,
                 javazoom.upload.MultipartFormDataRequest,
                 javazoom.upload.UploadFile,org.dom4j.*,org.dom4j.io.*,be.openclinic.medical.*,
                 java.io.*,be.mxs.common.util.system.*,be.mxs.common.util.db.*"%>
@@ -45,6 +45,7 @@
 					<option value="servicescsv"><%=getTran("web","services.csv",sWebLanguage) %></option>
 					<option value="labelscsv"><%=getTran("web","labels.csv",sWebLanguage) %></option>
 					<option value="labxml"><%=getTran("web","lab.xml",sWebLanguage) %></option>
+					<option value="drugsxml"><%=getTran("web","drugs.xml",sWebLanguage) %></option>
 				</select>
 			</td>
 			<td class='admin2'><input class="text" type="checkbox" name="erase" value="1"/> <%=getTran("web","delete.table.before.load",sWebLanguage)%></td>
@@ -68,6 +69,7 @@
 	            if (files != null && !files.isEmpty()){
 	                UploadFile file = (UploadFile) files.get("filename");
 	                sFileName= new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new java.util.Date())+".ext";
+	                System.out.println(upBean.getFolderstore()+"/"+sFileName);
 	                file.setFileName(sFileName);
 	                upBean.store(mrequest, "filename");
 					if(mrequest.getParameter("filetype").equalsIgnoreCase("prestationscsv")){
@@ -330,6 +332,75 @@
 						reloadSingleton(session);
 		                f.delete();
 						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");
+					}					
+					else if(mrequest.getParameter("filetype").equalsIgnoreCase("drugsxml")){
+						System.out.println("1");
+						if(mrequest.getParameter("erase")!=null){
+							ObjectCacheFactory.getInstance().resetObjectCache();
+							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+							PreparedStatement ps = conn.prepareStatement("delete from oc_products");
+							ps.execute();
+							ps.close();
+							System.out.println("2");
+							ps = conn.prepareStatement("delete from oc_labels where oc_label_type in ('product.productgroup','product.unit')");
+							ps.execute();
+							ps.close();
+							System.out.println("3");
+							conn.close();
+							UpdateSystem.updateCounters();
+						}						
+						System.out.println("4");
+						String type,id,language,label;
+						//Read file as a prestations csv file
+		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
+						BufferedReader br = new BufferedReader(new FileReader(f));
+						SAXReader reader=new SAXReader(false);
+						org.dom4j.Document document=reader.read(br);
+						Element root = document.getRootElement();
+						Iterator i = root.elementIterator("drug");
+						lines=0;
+						while(i.hasNext()){
+							lines++;
+							Element element = (Element)i.next();
+							Product product = new Product();
+							product.setUid("-1");
+							product.setCreateDateTime(new Timestamp(new java.util.Date().getTime()));
+							product.setName(element.elementText("name"));
+							product.setPackageUnits(1);
+							product.setProductGroup(element.elementText("group"));
+							product.setSupplierUid("TEC.PHA");
+							product.setUnit(element.elementText("form"));
+							product.setUpdateDateTime(new Timestamp(new java.util.Date().getTime()));
+							product.setUpdateUser(activeUser.userid);
+							product.store();
+						}
+						System.out.println("5");
+						i = root.elementIterator("druggroup");
+						while(i.hasNext()){
+							lines++;
+							Element element = (Element)i.next();
+							Iterator labels = element.elementIterator("label");
+							while(labels.hasNext()){
+								Element lbl = (Element)labels.next();
+								MedwanQuery.getInstance().storeLabel("product.productgroup", element.elementText("code")+"", lbl.attributeValue("language"), (element.elementText("code")+"............................").substring(0,11)+" "+lbl.getText(), Integer.parseInt(activeUser.userid));
+							}
+						}
+						System.out.println("6");
+						i = root.elementIterator("drugform");
+						while(i.hasNext()){
+							lines++;
+							Element element = (Element)i.next();
+							Iterator labels = element.elementIterator("label");
+							while(labels.hasNext()){
+								Element lbl = (Element)labels.next();
+								MedwanQuery.getInstance().storeLabel("product.unit", element.elementText("code")+"", lbl.attributeValue("language"), lbl.getText(), Integer.parseInt(activeUser.userid));
+							}
+						}
+						System.out.println("7");
+						br.close();
+						reloadSingleton(session);
+		                f.delete();
+						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");
 					}
 	            }
 	        }
@@ -349,6 +420,9 @@
 		}
 		else if(document.getElementById("filetype").value=="labelscsv"){
 			document.getElementById("structure").innerHTML="Required structure (* are mandatory):<br/><b>Type* ; ID* ; Language* ; Label*</b>";
+		}
+		else {
+			document.getElementById("structure").innerHTML="";
 		}
 	}
 	

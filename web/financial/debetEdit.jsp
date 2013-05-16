@@ -266,7 +266,7 @@ System.out.println(0);
         <tr>
             <td class='admin'><%=getTran("web","quantity",sWebLanguage)%></td>
             <td class='admin2'>
-                <input class='text' type='text' name='EditQuantity' id='EditQuantity' value='<%=debet.getQuantity()%>' size='4' onkeyup='changePrestation(false);'>
+                <input class='text' type='text' name='EditQuantity' id='EditQuantity' value='<%=debet.getQuantity()%>' size='4' onpaste='window.setTimeout("changePrestation(false);",100)' onkeyup='changePrestation(false);' onclick='window.setTimeout("changePrestation(false);",100)'>
             </td>
         </tr>
         <tr><td colspan='2' class='admin2' id='prestationcontent'>
@@ -367,13 +367,13 @@ System.out.println(0);
             		}
             	}
             	if(canSave1 && debet!=null && debet.getInsurarInvoiceUid()!=null){
-            		InsurarInvoice invoice = InsurarInvoice.get(debet.getInsurarInvoiceUid());
+            		InsurarInvoice invoice = InsurarInvoice.getWithoutDebetsOrCredits(debet.getInsurarInvoiceUid());
             		if(invoice!=null && invoice.getStatus()!=null && !invoice.getStatus().equalsIgnoreCase("open")){
             			canSave2=false;
             		}
             	}
             	if(canSave1 && canSave2 && debet!=null && debet.getExtraInsurarInvoiceUid()!=null){
-            		ExtraInsurarInvoice invoice = ExtraInsurarInvoice.get(debet.getExtraInsurarInvoiceUid());
+            		ExtraInsurarInvoice invoice = ExtraInsurarInvoice.getWithoutDebetsOrCredits(debet.getExtraInsurarInvoiceUid());
             		if(invoice!=null && invoice.getStatus()!=null && !invoice.getStatus().equalsIgnoreCase("open")){
             			canSave3=false;
             		}

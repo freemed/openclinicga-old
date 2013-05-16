@@ -258,7 +258,22 @@
                       response.sendRedirect(request.getParameter("startPage"));
                   }
             	  ad_conn.close();
-                  response.sendRedirect("main.do?CheckService=true&CheckMedicalCenter=true&ts="+getTs());
+            	  //Check the default application for this user
+            	  if(user.getParameter("DefaultPage").equalsIgnoreCase("accountancy")){
+            		  response.sendRedirect("accountancy/index.jsp?ts="+getTs());
+            	  }
+            	  else if(user.getParameter("DefaultPage").equalsIgnoreCase("capital")){
+            		  response.sendRedirect("capital/index.jsp?ts="+getTs());
+            	  }
+            	  else if(user.getParameter("DefaultPage").equalsIgnoreCase("payroll")){
+            		  response.sendRedirect("payroll/index.jsp?ts="+getTs());
+            	  }
+            	  else if(user.getParameter("DefaultPage").equalsIgnoreCase("maintenance")){
+            		  response.sendRedirect("maintenance/index.jsp?ts="+getTs());
+            	  }
+            	  else {
+            		  response.sendRedirect("main.do?CheckService=true&CheckMedicalCenter=true&ts="+getTs());
+            	  }
               }
               //--- wrong password or wrong login ---
               else {
