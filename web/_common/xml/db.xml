@@ -2,13 +2,249 @@
 <!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Frank Verbeke (Post Factum bvba) -->
 <!DOCTYPE model SYSTEM "openwork.dtd">
 <model name="OpenCklinic" date="21/12/2010" version="4.0.52">
-        <table name="Applications" db="openclinic" sync="NONE">
+    <table name="Applications" db="openclinic" sync="NONE">
 		<columns>
 			<column name="ScreenId" dbtype="varchar" javatype="string" size="255"/>
 			<column name="UpdateTime" dbtype="datetime" javatype="date"/>
 		</columns>
 	</table>
+	
+    <!-- ########################################################################################## -->
     <!-- ###################################  OPENCLINIC TABLES ################################### -->
+    <!-- ########################################################################################## -->
+    
+    <!-- ####################################### HR TABLES ######################################## -->
+    <table name="HR_CAREERS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="HR_CAREER_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="HR_CAREER_OBJECTID" dbtype="int" javatype="integer"/>
+	    <column name="HR_CAREER_PERSONID" dbtype="int" javatype="integer"/>  
+	     
+        <column name="HR_CAREER_BEGIN" dbtype="datetime" javatype="date"/>	
+        <column name="HR_CAREER_END" dbtype="datetime" javatype="date"/>      
+    	<column name="HR_CAREER_CONTRACTUID" dbtype="varchar" javatype="string" size="50"/>
+ 	    <column name="HR_CAREER_POSITION" dbtype="varchar" javatype="string" size="255"/>   
+ 	    <column name="HR_CAREER_SERVICEUID" dbtype="varchar" javatype="string" size="255"/>
+    	<column name="HR_CAREER_GRADE" dbtype="varchar" javatype="string" size="255"/>
+    	<column name="HR_CAREER_STATUS" dbtype="varchar" javatype="string" size="255"/>  
+  	    <column name="HR_CAREER_COMMENT" dbtype="text" javatype="string"/>   
+  	     
+	    <column name="HR_CAREER_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="HR_CAREER_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="HR_CAREER_OBJECTID">
+          <indexcolumn order="ASC" name="HR_CAREER_OBJECTID"/>
+        </index>
+        <index name="HR_CAREER_PERSONID">
+          <indexcolumn "ASC" name="HR_CAREER_PERSONID"/>
+        </index>
+        <index name="HR_CAREER_CONTRACTUID">
+          <indexcolumn order="ASC" name="HR_CAREER_CONTRACTUID"/>
+        </index>
+      </indexes>
+    </table>
+    
+    <table name="HR_DISCIPLINARY_RECORDS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="HR_DISCREC_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="HR_DISCREC_OBJECTID" dbtype="int" javatype="integer"/>
+	    <column name="HR_DISCREC_PERSONID" dbtype="int" javatype="integer"/> 
+	       
+        <column name="HR_DISCREC_DATE" dbtype="datetime" javatype="date"/>     
+    	<column name="HR_DISCREC_TITLE" dbtype="varchar" javatype="string" size="255"/>  
+  	    <column name="HR_DISCREC_DESCRIPTION" dbtype="text" javatype="string"/>    
+ 	    <column name="HR_DISCREC_DECISION" dbtype="varchar" javatype="string" size="50"/>   
+ 	    <column name="HR_DISCREC_DURATION" dbtype="int" javatype="integer"/>
+ 	    <column name="HR_DISCREC_DECISIONBY" dbtype="varchar" javatype="string" size="100"/>
+  	    <column name="HR_DISCREC_FOLLOWUP" dbtype="text" javatype="string"/>   
+  	     
+	    <column name="HR_DISCREC_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="HR_DISCREC_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="HR_DISCREC_OBJECTID">
+          <indexcolumn order="ASC" name="HR_DISCREC_OBJECTID"/>
+        </index>
+        <index name="HR_DISCREC_PERSONID">
+          <indexcolumn "ASC" name="HR_DISCREC_PERSONID"/>
+        </index>
+      </indexes>
+    </table>
+    
+    <table name="HR_CONTRACTS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="HR_CONTRACT_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="HR_CONTRACT_OBJECTID" dbtype="int" javatype="integer"/>
+	    <column name="HR_CONTRACT_PERSONID" dbtype="int" javatype="integer"/>
+	        
+        <column name="HR_CONTRACT_BEGINDATE" dbtype="datetime" javatype="date"/>   
+        <column name="HR_CONTRACT_ENDDATE" dbtype="datetime" javatype="date"/>        
+    	<column name="HR_CONTRACT_FUNCTIONCODE" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="HR_CONTRACT_FUNCTIONTITLE" dbtype="varchar" javatype="string" size="255"/>    	
+  	    <column name="HR_CONTRACT_FUNCTIONDESCRIPTION" dbtype="text" javatype="string"/>
+    	<column name="HR_CONTRACT_REF1" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="HR_CONTRACT_REF2" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="HR_CONTRACT_REF3" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="HR_CONTRACT_REF4" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="HR_CONTRACT_REF5" dbtype="varchar" javatype="string" size="50"/>
+        
+	    <column name="HR_CONTRACT_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="HR_CONTRACT_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="HR_CONTRACT_OBJECTID">
+          <indexcolumn order="ASC" name="HR_CONTRACT_OBJECTID"/>
+        </index>
+        <index name="HR_CONTRACT_PERSONID">
+          <indexcolumn "ASC" name="HR_CONTRACT_PERSONID"/>
+        </index>
+      </indexes>
+    </table>
+    
+    <table name="HR_LEAVE" db="openclinic" sync="NONE">
+      <columns>
+        <column name="HR_LEAVE_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="HR_LEAVE_OBJECTID" dbtype="int" javatype="integer"/>
+	    <column name="HR_LEAVE_PERSONID" dbtype="int" javatype="integer"/>
+	        
+        <column name="HR_LEAVE_BEGINDATE" dbtype="datetime" javatype="date"/>   
+        <column name="HR_LEAVE_ENDDATE" dbtype="datetime" javatype="date"/>  
+        <column name="HR_LEAVE_DURATION" dbtype="float" javatype="float"/>
+    	<column name="HR_LEAVE_TYPE" dbtype="varchar" javatype="string" size="50"/>
+        <column name="HR_LEAVE_REQUESTDATE" dbtype="datetime" javatype="date"/>   
+        <column name="HR_LEAVE_AUTHORIZATIONDATE" dbtype="datetime" javatype="date"/>
+    	<column name="HR_LEAVE_AUTHORIZEDBY" dbtype="varchar" javatype="string" size="255"/>
+    	<column name="HR_LEAVE_EPISODECODE" dbtype="varchar" javatype="string" size="50"/>
+  	    <column name="HR_LEAVE_COMMENT" dbtype="text" javatype="string"/>
+        
+	    <column name="HR_LEAVE_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="HR_LEAVE_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="HR_LEAVE_OBJECTID">
+          <indexcolumn order="ASC" name="HR_LEAVE_OBJECTID"/>
+        </index>
+        <index name="HR_LEAVE_PERSONID">
+          <indexcolumn "ASC" name="HR_LEAVE_PERSONID"/>
+        </index>
+      </indexes>
+    </table>  
+    
+    <table name="HR_TRAINING" db="openclinic" sync="NONE">
+      <columns>
+        <column name="HR_TRAINING_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="HR_TRAINING_OBJECTID" dbtype="int" javatype="integer"/>
+	    <column name="HR_TRAINING_PERSONID" dbtype="int" javatype="integer"/>
+	        
+        <column name="HR_TRAINING_BEGINDATE" dbtype="datetime" javatype="date"/>   
+        <column name="HR_TRAINING_ENDDATE" dbtype="datetime" javatype="date"/>  
+    	<column name="HR_TRAINING_INSTITUTE" dbtype="varchar" javatype="string" size="255"/>
+    	<column name="HR_TRAINING_TYPE" dbtype="varchar" javatype="string" size="50"/>    
+    	<column name="HR_TRAINING_LEVEL" dbtype="varchar" javatype="string" size="50"/>    
+    	<column name="HR_TRAINING_DIPLOMA" dbtype="varchar" javatype="string" size="255"/>
+        <column name="HR_TRAINING_DIPLOMADATE" dbtype="datetime" javatype="date"/>
+    	<column name="HR_TRAINING_DIPLOMACODE1" dbtype="varchar" javatype="string" size="255"/>
+    	<column name="HR_TRAINING_DIPLOMACODE2" dbtype="varchar" javatype="string" size="255"/>
+    	<column name="HR_TRAINING_DIPLOMACODE3" dbtype="varchar" javatype="string" size="255"/>
+  	    <column name="HR_TRAINING_COMMENT" dbtype="text" javatype="string"/>
+        
+	    <column name="HR_TRAINING_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="HR_TRAINING_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="HR_TRAINING_OBJECTID">
+          <indexcolumn order="ASC" name="HR_TRAINING_OBJECTID"/>
+        </index>
+        <index name="HR_TRAINING_PERSONID">
+          <indexcolumn "ASC" name="HR_TRAINING_PERSONID"/>
+        </index>
+      </indexes>
+    </table>    
+    
+    <table name="HR_SKILLS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="HR_SKILL_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="HR_SKILL_OBJECTID" dbtype="int" javatype="integer"/>
+	    <column name="HR_SKILL_PERSONID" dbtype="int" javatype="integer"/>
+	        
+        <column name="HR_SKILL_LANGUAGES" dbtype="varchar" javatype="string" size="255"/>
+        <column name="HR_SKILL_DRIVINGLICENSE" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="HR_SKILL_IT_OFFICE" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="HR_SKILL_IT_INTERNET" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="HR_SKILL_IT_OTHER" dbtype="text" javatype="string"/>
+    	<column name="HR_SKILL_COMMUNICATION" dbtype="varchar" javatype="string" size="50"/>
+        <column name="HR_SKILL_STRESS" dbtype="varchar" javatype="string" size="50"/>
+  	    <column name="HR_SKILL_COMMENT" dbtype="text" javatype="string"/>
+        
+	    <column name="HR_SKILL_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="HR_SKILL_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="HR_SKILL_OBJECTID">
+          <indexcolumn order="ASC" name="HR_SKILL_OBJECTID"/>
+        </index>
+        <index name="HR_SKILL_PERSONID">
+          <indexcolumn "ASC" name="HR_SKILL_PERSONID"/>
+        </index>
+      </indexes>
+    </table> 
+    
+    <table name="HR_WORKSCHEDULE" db="openclinic" sync="NONE">
+      <columns>
+        <column name="HR_WORKSCHEDULE_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="HR_WORKSCHEDULE_OBJECTID" dbtype="int" javatype="integer"/>
+	    <column name="HR_WORKSCHEDULE_PERSONID" dbtype="int" javatype="integer"/>
+	        
+        <column name="HR_WORKSCHEDULE_BEGINDATE" dbtype="datetime" javatype="date"/>   
+        <column name="HR_WORKSCHEDULE_ENDDATE" dbtype="datetime" javatype="date"/>   
+    	<column name="HR_WORKSCHEDULE_FTE" dbtype="int" javatype="integer"/> 
+    	<column name="HR_WORKSCHEDULE_SCHEDULE" dbtype="text" javatype="string"/>
+        
+	    <column name="HR_WORKSCHEDULE_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="HR_WORKSCHEDULE_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="HR_WORKSCHEDULE_OBJECTID">
+          <indexcolumn order="ASC" name="HR_WORKSCHEDULE_OBJECTID"/>
+        </index>
+        <index name="HR_WORKSCHEDULE_PERSONID">
+          <indexcolumn "ASC" name="HR_WORKSCHEDULE_PERSONID"/>
+        </index>
+      </indexes>
+    </table>      
+         
+    <table name="HR_SALARIES" db="openclinic" sync="NONE">
+      <columns>
+        <column name="HR_SALARY_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="HR_SALARY_OBJECTID" dbtype="int" javatype="integer"/>
+	    <column name="HR_SALARY_PERSONID" dbtype="int" javatype="integer"/>
+	        
+        <column name="HR_SALARY_CONTRACTUID" dbtype="varchar" javatype="string" size="50"/>
+        <column name="HR_SALARY_BEGINDATE" dbtype="datetime" javatype="date"/>   
+        <column name="HR_SALARY_ENDDATE" dbtype="datetime" javatype="date"/> 
+		<column name="HR_SALARY_SALARY" dbtype="float" javatype="float"/>
+        <column name="HR_SALARY_SALARYPERIOD" dbtype="varchar" javatype="string" size="50"/>
+    	<column name="HR_SALARY_BENEFITS" dbtype="text" javatype="string"/>
+    	<column name="HR_SALARY_BONUSES" dbtype="text" javatype="string"/>
+    	<column name="HR_SALARY_OTHERINCOME" dbtype="text" javatype="string"/>
+    	<column name="HR_SALARY_DEDUCTIONS" dbtype="text" javatype="string"/>
+    	<column name="HR_SALARY_COMMENT" dbtype="text" javatype="string"/>
+        
+	    <column name="HR_SALARY_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="HR_SALARY_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="HR_SALARY_OBJECTID">
+          <indexcolumn order="ASC" name="HR_SALARY_OBJECTID"/>
+        </index>
+        <index name="HR_SALARY_PERSONID">
+          <indexcolumn "ASC" name="HR_SALARY_PERSONID"/>
+        </index>
+      </indexes>
+    </table>  
+    
+    <!-- ####################################### VARIA TABLES ##################################### -->
     <table name="OC_POINTERS" db="openclinic" sync="NONE">
     	<columns>
     		<column name="OC_POINTER_KEY" dbtype="varchar" javatype="string" size="255"/>
