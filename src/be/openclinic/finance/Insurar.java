@@ -67,6 +67,23 @@ public class Insurar extends OC_Object {
 		setModifier(1,n+"");
 	}
 	
+	public int getRequireAffiliateID(){
+		int n=0;
+		if(getModifiers()!=null){
+			try{
+				n=Integer.parseInt(getModifiers().split(";")[2]);
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return n;
+	}
+	
+	public void setRequireAffiliateID(int n){
+		setModifier(2,n+"");
+	}
+	
 	
 	
 	public void setModifier(int index,String value){

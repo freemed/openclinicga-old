@@ -608,9 +608,12 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
         if(displayPatientName){
             String insuranceMemberNumber="";
             try{
-                Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(debet.getEncounter().getPatientUID());
+                Insurance insurance = debet.getInsurance();
                 if(insurance!=null && insurance.getInsuranceNr().length()>0){
-                    insuranceMemberNumber = "# "+insurance.getInsuranceNr();
+                    insuranceMemberNumber = "#"+insurance.getInsuranceNr();
+                    if(insurance.getMember().length()>0){
+                    	insuranceMemberNumber+=" ("+getTran("insurance.status","affiliate")+": "+insurance.getMember()+")";
+                    }
                 }
             }
             catch(Exception e){
@@ -657,9 +660,12 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
         if(displayPatientName){
             String insuranceMemberNumber="";
             try{
-                Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(debet.getEncounter().getPatientUID());
+                Insurance insurance = debet.getInsurance();
                 if(insurance!=null && insurance.getInsuranceNr().length()>0){
-                    insuranceMemberNumber = "# "+insurance.getInsuranceNr();
+                    insuranceMemberNumber = "#"+insurance.getInsuranceNr();
+                    if(insurance.getMember().length()>0){
+                    	insuranceMemberNumber+=" ("+getTran("insurance.status","affiliate")+": "+insurance.getMember()+")";
+                    }
                 }
             }
             catch(Exception e){

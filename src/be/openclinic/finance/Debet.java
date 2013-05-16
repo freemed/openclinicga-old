@@ -803,10 +803,58 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         }
         return vDebets;
     }
+    
     public static Vector getUnassignedInsurarDebets(String sInsurarUid) {
         return getUnassignedInsurarDebets(sInsurarUid, new Date(0), new Date());
     }
+    
+    public static int countUnassignedInsurarDebets(String sInsurarUid, Date begin, Date end){
+    	int count=0;
+    	String sSelect = "";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector vUnassignedDebets = new Vector();
+        String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
+        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            sSelect = "SELECT count(*) as total FROM OC_DEBETS d, OC_INSURANCES i"
+                    + " WHERE i.OC_INSURANCE_INSURARUID = ?"
+                    + " AND d.OC_DEBET_CREDITED=0"
+                    + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_INSURANCEUID,'" + serverid + "','')") + " = i.oc_insurance_objectid"
+                    + " AND (d.OC_DEBET_INSURARINVOICEUID = ' ' or d.OC_DEBET_INSURARINVOICEUID = '' or d.OC_DEBET_INSURARINVOICEUID is null)"
+                    + " AND d.OC_DEBET_DATE>=?"
+                    + " AND d.OC_DEBET_DATE<=?";
+            ps = loc_conn.prepareStatement(sSelect);
+            ps.setString(1, sInsurarUid);
+            ps.setDate(2, new java.sql.Date(begin.getTime()));
+            ps.setDate(3, new java.sql.Date(end.getTime()));
+            rs = ps.executeQuery();
+            if (rs.next()) {
+            	count=rs.getInt("total");
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Debug.println("OpenClinic => Debet.java => countUnassignedInsurarDebets => " + e.getMessage() + " = " + sSelect);
+        }
+        finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                loc_conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return count;
+    }
+
     public static Vector getUnassignedInsurarDebets(String sInsurarUid, Date begin, Date end) {
+    	return getUnassignedInsurarDebets(sInsurarUid,begin,end,0);
+    }
+
+    public static Vector getUnassignedInsurarDebets(String sInsurarUid, Date begin, Date end, int limit) {
         String sSelect = "";
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -824,13 +872,14 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                     + " AND d.OC_DEBET_DATE>=?"
                     + " AND d.OC_DEBET_DATE<=?"
                     + " AND " + MedwanQuery.getInstance().convert("int", "replace(d.OC_DEBET_PRESTATIONUID,'" + serverid + "','')") + "=p.OC_PRESTATION_OBJECTID"
-                    + " AND " + MedwanQuery.getInstance().convert("int", "e.OC_ENCOUNTER_PATIENTUID") + "=a.personid";
+                    + " AND " + MedwanQuery.getInstance().convert("int", "e.OC_ENCOUNTER_PATIENTUID") + "=a.personid" 
+                    + " ORDER BY d.OC_DEBET_DATE";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sInsurarUid);
             ps.setDate(2, new java.sql.Date(begin.getTime()));
             ps.setDate(3, new java.sql.Date(end.getTime()));
             rs = ps.executeQuery();
-            while (rs.next()) {
+            while (rs.next() && (limit==0 || vUnassignedDebets.size()<limit)) {
                 Debet debet = new Debet();
                 debet.setUid(rs.getString("OC_DEBET_SERVERID") + "." + rs.getString("OC_DEBET_OBJECTID"));
                 debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
@@ -932,6 +981,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         }
         return vUnassignedDebets;
     }
+    
     public static Vector getUnassignedInsurarDebetsWithoutPatientInvoice(String sInsurarUid, Date begin, Date end) {
         String sSelect = "";
         PreparedStatement ps = null;

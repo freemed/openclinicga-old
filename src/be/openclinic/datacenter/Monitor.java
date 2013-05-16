@@ -86,6 +86,7 @@ public class Monitor implements Runnable{
             	vNvp.add(new NameValuePair("centerLevel",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterLevel","")));
             	vNvp.add(new NameValuePair("centerBeds",MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterBeds","")));
             	vNvp.add(new NameValuePair("date",new SimpleDateFormat("yyyyMMdd").format(new java.util.Date())));
+            	vNvp.add(new NameValuePair("softwareVersion",MedwanQuery.getInstance().getConfigString("updateVersion","")));
     			sDoc = MedwanQuery.getInstance().getConfigString("datacenterTemplateSource",MedwanQuery.getInstance().getConfigString("templateSource")) + "globalhealthbarometer.xml";
 	            reader = new SAXReader(false);
 	            document = reader.read(new URL(sDoc));
@@ -117,9 +118,11 @@ public class Monitor implements Runnable{
     			vNvp.copyInto(nvp);
     			method.setQueryString(nvp);
     			int statusCode = client.executeMethod(method);
-    			System.out.println("result="+method.getResponseBodyAsString());
-    			if(method.getResponseBodyAsString().contains("<OK>")){
+    			String resultstring=method.getResponseBodyAsString();
+    			System.out.println("result="+resultstring);
+    			if(resultstring.contains("<OK>")){
     				MedwanQuery.getInstance().setConfigString("lastGlobalHealthBarometerMonitor", new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()));
+    				System.out.println("lastGlobalHealthBarometerMonitor updated to "+MedwanQuery.getInstance().getConfigString("lastGlobalHealthBarometerMonitor","19000101"));
     			}
     		}
     		Date lastCouncilValidation = new SimpleDateFormat("yyyyMMdd").parse(MedwanQuery.getInstance().getConfigString("lastProfessionalCouncilValidation","19000101"));

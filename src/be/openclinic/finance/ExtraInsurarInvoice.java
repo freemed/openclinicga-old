@@ -96,6 +96,59 @@ public class ExtraInsurarInvoice extends Invoice {
         return insurarInvoice;
     }
 
+    //--- GET -------------------------------------------------------------------------------------
+    public static ExtraInsurarInvoice getWithoutDebetsOrCredits(String uid){
+        ExtraInsurarInvoice insurarInvoice = new ExtraInsurarInvoice();
+
+        if(uid!=null && uid.length()>0){
+            String [] ids = uid.split("\\.");
+
+            if (ids.length==2){
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                String sSelect = "SELECT * FROM OC_EXTRAINSURARINVOICES WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
+                Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+                try{
+                    ps = oc_conn.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
+                    rs = ps.executeQuery();
+
+                    if(rs.next()){
+                        insurarInvoice.setUid(uid);
+                        insurarInvoice.setDate(rs.getTimestamp("OC_INSURARINVOICE_DATE"));
+                        insurarInvoice.setInvoiceUid(rs.getInt("OC_INSURARINVOICE_ID")+"");
+                        insurarInvoice.setInsurarUid(rs.getString("OC_INSURARINVOICE_INSURARUID"));
+                        insurarInvoice.setCreateDateTime(rs.getTimestamp("OC_INSURARINVOICE_CREATETIME"));
+                        insurarInvoice.setUpdateDateTime(rs.getTimestamp("OC_INSURARINVOICE_UPDATETIME"));
+                        insurarInvoice.setUpdateUser(rs.getString("OC_INSURARINVOICE_UPDATEUID"));
+                        insurarInvoice.setVersion(rs.getInt("OC_INSURARINVOICE_VERSION"));
+                        insurarInvoice.setBalance(rs.getDouble("OC_INSURARINVOICE_BALANCE"));
+                        insurarInvoice.setStatus(rs.getString("OC_INSURARINVOICE_STATUS"));
+                    }
+                    rs.close();
+                    ps.close();
+
+                }
+                catch(Exception e){
+                    Debug.println("OpenClinic => InsurarInvoice.java => get => "+e.getMessage());
+                    e.printStackTrace();
+                }
+                finally{
+                    try{
+                        if(rs!=null)rs.close();
+                        if(ps!=null)ps.close();
+                        oc_conn.close();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return insurarInvoice;
+    }
+
     public static ExtraInsurarInvoice getViaInvoiceUID(String sInvoiceID){
         ExtraInsurarInvoice insurarInvoice = new ExtraInsurarInvoice();
         PreparedStatement ps = null;

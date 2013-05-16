@@ -100,9 +100,9 @@ public class CsvInvoiceRama {
 	                	recordnumber+=debet.getInsurance().getInsuranceNr();
 	                }
 	                Prestation prestation = debet.getPrestation();
-	                double rAmount = Math.round(debet.getAmount());
-	                double rInsurarAmount = Math.round(debet.getInsurarAmount());
-	                double rExtraInsurarAmount = Math.round(debet.getExtraInsurarAmount());
+	                double rAmount = debet.getAmount();
+	                double rInsurarAmount = debet.getInsurarAmount();
+	                double rExtraInsurarAmount = debet.getExtraInsurarAmount();
 	                double rTotal=rAmount+rInsurarAmount+rExtraInsurarAmount;
 	                if(prestation!=null && prestation.getReferenceObject()!=null && prestation.getReferenceObject().getObjectType()!=null && prestation.getReferenceObject().getObjectType().length()>0){
 	                	String sCat=prestation.getReferenceObject().getObjectType();

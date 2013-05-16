@@ -427,6 +427,13 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
                 rightTable.addCell(createValueCell(":   "+sData,7));
             }
 
+            //*** natreg ***
+            sData = patient.getAdminID("natreg")==null?"":patient.getAdminID("natreg").value;
+            if(sData.length() > 0){
+                rightTable.addCell(createValueCell(getTran("web","natreg"),2));
+                rightTable.addCell(createValueCell(":   "+sData,7));
+            }
+
             cell = createCell(new PdfPCell(rightTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
             cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
             patientTable.addCell(cell);
@@ -521,8 +528,14 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             table.setWidthPercentage(pageWidth);
             // "printed by" info
             table.addCell(createCell(new PdfPCell(getPrintedByInfo()),2,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
-            table.addCell(createValueCell(MedwanQuery.getInstance().getConfigInt("enableInvoiceVerification",0)==1?getTran("verifiersignature")+"\n\n"+invoice.getVerifier():getTran("patientsignature"),1));
-            table.addCell(createValueCell(getTran("careproviderSignature"),1));
+            if(MedwanQuery.getInstance().getConfigInt("enableInvoiceVerification",0)==1){
+	            table.addCell(createValueCell(getTran("careproviderSignature"),1));
+	            table.addCell(createValueCell(getTran("verifiersignature")+"\n\n"+checkString(invoice.getVerifier()),1));
+            }
+            else {
+	            table.addCell(createValueCell(getTran("patientsignature"),1));
+	            table.addCell(createValueCell(getTran("careproviderSignature"),1));
+            }
             doc.add(table);
         }
         catch(Exception e){
