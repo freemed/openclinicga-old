@@ -655,7 +655,13 @@ public class ScreenHelper {
     }
 
     //--- WRITE DATE FIELD ------------------------------------------------------------------------
-    static public String writeDateField(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR) {
+    static public String writeDateField(String sName, String sForm, String sValue, boolean allowPastDates,
+    		                            boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR){
+    	return writeDateField(sName,sForm,sValue,allowPastDates,allowFutureDates,sWebLanguage,sCONTEXTDIR,"");    	
+    }
+    
+    static public String writeDateField(String sName, String sForm, String sValue, boolean allowPastDates, 
+    		                            boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR, String sExtraOnBlur){
         String gfPopType = "1"; // default
         if(allowPastDates && allowFutureDates){
             gfPopType = "1";
@@ -664,26 +670,31 @@ public class ScreenHelper {
           if(allowFutureDates){ gfPopType = "3"; }
           else if(allowPastDates) { gfPopType = "2"; }
         }
-        String sExtra="";
+        
+        String sExtraCondition = "";
         if(!allowFutureDates){
-        	sExtra=" || isFutureDate(this.value)";
+        	sExtraCondition = " || isFutureDate(this.value)";
         }
-        return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)"+sExtra+"){dateError(this);}'>"
+        
+        return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)"+sExtraCondition+"){dateError(this);}else{"+sExtraOnBlur+"}'>"
               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTran("Web","Select",sWebLanguage)+"' onclick='gfPop"+gfPopType+".fPopCalendar(document."+sForm+"."+sName+");return false;'>"
               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTran("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
     }
-     static public String newWriteDateTimeField(String sName, java.util.Date dValue, String sWebLanguage, String sCONTEXTDIR) {
+    
+    static public String newWriteDateTimeField(String sName, java.util.Date dValue, String sWebLanguage, String sCONTEXTDIR) {
         return "<input id='" + sName + "' type='text' maxlength='10' class='text' name='" + sName + "' value='" + getSQLDate(dValue) + "' size='12' onblur='if(!checkDate(this)){alert(\"" + HTMLEntities.htmlentities(getTran("Web.Occup", "date.error", sWebLanguage)) + "\");this.value=\"\";}'>"
                 + "&nbsp;<img name='popcal' class='link' src='" + sCONTEXTDIR + "/_img/icon_agenda.gif' alt='" + HTMLEntities.htmlentities(getTran("Web", "Select", sWebLanguage)) + "' onclick='gfPop1.fPopCalendar($(\"" + sName + "\"));return false;'>"
                 + "&nbsp;<img class='link' src='" + sCONTEXTDIR + "/_img/icon_compose.gif' alt='" + HTMLEntities.htmlentities(getTran("Web", "PutToday", sWebLanguage)) + "' onclick=\"putTime($('" + sName + "Time'));getToday($('" + sName + "'));\">"
                 + "&nbsp;" + writeTimeField(sName + "Time", formatSQLDate(dValue, "HH:mm"))
                 + "&nbsp;" + getTran("web.occup", "medwan.common.hour", sWebLanguage);
     }
+    
     static public String planningDateTimeField(String sName, String dValue, String sWebLanguage, String sCONTEXTDIR) {
         return "<input id='" + sName + "' type='text' maxlength='10' class='text' name='" + sName + "' value='" + dValue + "' size='12' onblur='if(!checkDate(this)){alert(\"" + HTMLEntities.htmlentities(getTran("Web.Occup", "date.error", sWebLanguage)) + "\");this.value=\"\";}'>"
                 + "&nbsp;<img name='popcal' class='link' src='" + sCONTEXTDIR + "/_img/icon_agenda.gif' alt='" + HTMLEntities.htmlentities(getTran("Web", "Select", sWebLanguage)) + "' onclick='gfPop1.fPopCalendar($(\"" + sName + "\"));return false;'>"
                 + "&nbsp;<img class='link' src='" + sCONTEXTDIR + "/_img/icon_compose.gif' alt='" + HTMLEntities.htmlentities(getTran("Web", "PutToday", sWebLanguage)) + "' onclick=\"getToday($('" + sName + "'));\">";
     }
+    
     //--- WRITE DATEE FIELD WITHOUT TODAY ---------------------------------------------------------
     static public String writeDateFieldWithoutToday(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR) {
         String gfPopType = "1"; // default
@@ -845,7 +856,7 @@ public class ScreenHelper {
                     }
 
                     if(showLabelID){
-                        sOptions+= ">"+sLabelID+" - "+sLabelValue+"</option>";
+                        sOptions+= ">"+sLabelValue+" ("+sLabelID+")</option>";
                     }
                     else{
                         sOptions+= ">"+sLabelValue+"</option>";

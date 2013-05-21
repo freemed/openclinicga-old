@@ -297,6 +297,7 @@ public class HTMLEntities {
         javascriptEscape.put("&copy;", "\\u00A9");
         javascriptEscape.put("&reg;", "\\u00AE");
         javascriptEscape.put("&euro;", "\\u20AC");
+        //javascriptEscape.put("&pound;", "\\u00A3");
     }
     /**
      * Map to convert extended characters in html entities.

@@ -11,34 +11,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-
-import net.admin.AdminPerson;
 
 
 public class Career extends OC_Object {
     public int serverId;
-    public int objectId;
+    public int objectId;    
+    public int personId;
     
-    public String personUid;
     public java.util.Date begin;
     public java.util.Date end;
+    public String contractUid;
     public String position;
     public String serviceUid;
     public String grade;
     public String status;
     public String comment;
     
-    // OC_Object.updateDateTime
-    // OC_Object.updateUser
-    
     
     //--- CONSTRUCTOR ---
     public Career(){
         serverId = -1;
-        objectId = -1;
+        objectId = -1;        
+        personId = -1;
         
-        personUid = "";
+        contractUid = "";
         begin = null;
         end = null;
         position = "";
@@ -60,11 +56,11 @@ public class Career extends OC_Object {
         try{            
             if(getUid().equals("-1")){
                 // insert new career
-                sSql = "INSERT INTO hr_careers (HR_CAREER_SERVERID,HR_CAREER_OBJECTID,HR_CAREER_PERSONUID,"+
-                       "  HR_CAREER_BEGIN,HR_CAREER_END,HR_CAREER_POSITION,HR_CAREER_SERVICEUID,"+
-                       "  HR_CAREER_GRADE,HR_CAREER_STATUS,HR_CAREER_COMMENT,"+
-                       "  HR_CAREER_UPDATETIME,HR_CAREER_UPDATEUID)"+ // update-info
-                       " VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                sSql = "INSERT INTO hr_careers (HR_CAREER_SERVERID,HR_CAREER_OBJECTID,HR_CAREER_PERSONID,"+
+                       "  HR_CAREER_CONTRACTUID,HR_CAREER_BEGIN,HR_CAREER_END,HR_CAREER_POSITION,"+
+                       "  HR_CAREER_SERVICEUID,HR_CAREER_GRADE,HR_CAREER_STATUS,HR_CAREER_COMMENT,"+
+                       "  HR_CAREER_UPDATETIME,HR_CAREER_UPDATEID)"+ // update-info
+                       " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 13
                 ps = oc_conn.prepareStatement(sSql);
                 
                 int serverId = MedwanQuery.getInstance().getConfigInt("serverId"),
@@ -74,7 +70,8 @@ public class Career extends OC_Object {
                 int psIdx = 1;
                 ps.setInt(psIdx++,serverId);
                 ps.setInt(psIdx++,objectId);
-                ps.setString(psIdx++,personUid);
+                ps.setInt(psIdx++,personId);
+                ps.setString(psIdx++,contractUid);
                 ps.setDate(psIdx++,new java.sql.Date(begin.getTime()));
 
                 // end date might be unspecified
@@ -98,9 +95,9 @@ public class Career extends OC_Object {
             else{
                 // update existing record
                 sSql = "UPDATE hr_careers SET"+
-                       "  HR_CAREER_BEGIN = ?, HR_CAREER_END = ?, HR_CAREER_POSITION = ?, HR_CAREER_SERVICEUID = ?,"+
-                       "  HR_CAREER_GRADE = ?, HR_CAREER_STATUS = ?, HR_CAREER_COMMENT = ?,"+
-                       "  HR_CAREER_UPDATETIME = ?, HR_CAREER_UPDATEUID = ?"+ // update-info
+                       "  HR_CAREER_BEGIN = ?, HR_CAREER_END = ?, HR_CAREER_CONTRACTUID = ?, HR_CAREER_POSITION = ?,"+
+                       "  HR_CAREER_SERVICEUID = ?, HR_CAREER_GRADE = ?, HR_CAREER_STATUS = ?, HR_CAREER_COMMENT = ?,"+
+                       "  HR_CAREER_UPDATETIME = ?, HR_CAREER_UPDATEID = ?"+ // update-info
                        " WHERE (HR_CAREER_SERVERID = ? AND HR_CAREER_OBJECTID = ?)"; // identification
                 ps = oc_conn.prepareStatement(sSql);
 
@@ -114,7 +111,8 @@ public class Career extends OC_Object {
                 else{
                     ps.setDate(psIdx++,null);
                 }
-                
+
+                ps.setString(psIdx++,contractUid);
                 ps.setString(psIdx++,position);
                 ps.setString(psIdx++,serviceUid);
                 ps.setString(psIdx++,grade);
@@ -122,6 +120,7 @@ public class Career extends OC_Object {
                 ps.setString(psIdx++,comment);
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx++,userUid);
+                
                 ps.setInt(psIdx++,Integer.parseInt(getUid().substring(0,getUid().indexOf("."))));
                 ps.setInt(psIdx,Integer.parseInt(getUid().substring(getUid().indexOf(".")+1)));
                 
@@ -156,7 +155,7 @@ public class Career extends OC_Object {
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         
         try{
-            String sSql = "DELETE FROM hr_careers" +
+            String sSql = "DELETE FROM hr_careers"+
                           " WHERE (HR_CAREER_SERVERID = ? AND HR_CAREER_OBJECTID = ?)";
             ps = oc_conn.prepareStatement(sSql);
             ps.setInt(1,Integer.parseInt(sCareerUid.substring(0,sCareerUid.indexOf("."))));
@@ -207,19 +206,20 @@ public class Career extends OC_Object {
             if(rs.next()){
                 career = new Career();
                 career.setUid(rs.getString("HR_CAREER_SERVERID")+"."+rs.getString("HR_CAREER_OBJECTID"));
-                
-                career.personUid  = rs.getString("HR_CAREER_PERSONUID");
-                career.begin      = rs.getDate("HR_CAREER_BEGIN");
-                career.end        = rs.getDate("HR_CAREER_END");
-                career.position   = ScreenHelper.checkString(rs.getString("HR_CAREER_POSITION"));
-                career.serviceUid = ScreenHelper.checkString(rs.getString("HR_CAREER_SERVICEUID"));
-                career.grade      = ScreenHelper.checkString(rs.getString("HR_CAREER_GRADE"));
-                career.status     = ScreenHelper.checkString(rs.getString("HR_CAREER_STATUS"));
-                career.comment    = ScreenHelper.checkString(rs.getString("HR_CAREER_COMMENT")); 
+
+                career.personId    = rs.getInt("HR_CAREER_PERSONID");
+                career.contractUid = ScreenHelper.checkString(rs.getString("HR_CAREER_CONTRACTUID"));
+                career.begin       = rs.getDate("HR_CAREER_BEGIN");
+                career.end         = rs.getDate("HR_CAREER_END");
+                career.position    = ScreenHelper.checkString(rs.getString("HR_CAREER_POSITION"));
+                career.serviceUid  = ScreenHelper.checkString(rs.getString("HR_CAREER_SERVICEUID"));
+                career.grade       = ScreenHelper.checkString(rs.getString("HR_CAREER_GRADE"));
+                career.status      = ScreenHelper.checkString(rs.getString("HR_CAREER_STATUS"));
+                career.comment     = ScreenHelper.checkString(rs.getString("HR_CAREER_COMMENT")); 
                 
                 // parent
                 career.setUpdateDateTime(rs.getTimestamp("HR_CAREER_UPDATETIME"));
-                career.setUpdateUser(rs.getString("HR_CAREER_UPDATEUID"));
+                career.setUpdateUser(rs.getString("HR_CAREER_UPDATEID"));
             }
         }
         catch(Exception e){
@@ -241,12 +241,12 @@ public class Career extends OC_Object {
     }
         
     //--- GET LIST --------------------------------------------------------------------------------
-    public static List getList(){
+    public static List<Career> getList(){
     	return getList(new Career());     	
     }
     
-    public static List getList(Career findItem){
-        List foundObjects = new LinkedList();
+    public static List<Career> getList(Career findItem){
+        List<Career> foundObjects = new LinkedList();
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -254,7 +254,14 @@ public class Career extends OC_Object {
         
         try{
         	// compose query
-            String sSql = "SELECT * FROM hr_careers";
+            String sSql = "SELECT * FROM hr_careers WHERE 1=1"; // 'where' facilitates further composition of query
+
+            if(findItem.personId > -1){
+                sSql+= " AND HR_CAREER_PERSONID = "+findItem.personId;
+            }
+            if(ScreenHelper.checkString(findItem.contractUid).length() > 0){
+                sSql+= " AND HR_CAREER_CONTRACTUID = '"+findItem.contractUid+"'";
+            }
             if(ScreenHelper.checkString(findItem.position).length() > 0){
                 sSql+= " AND HR_CAREER_POSITION LIKE '%"+findItem.position+"%'";
             }
@@ -272,10 +279,18 @@ public class Career extends OC_Object {
             }
             sSql+= " ORDER BY HR_CAREER_BEGIN ASC";
             
-            // set question marks
             ps = oc_conn.prepareStatement(sSql);
             
+            /*
+            // set question marks
             int psIdx = 1;
+            
+            if(findItem.personId > -1){
+            	ps.setInt(psIdx++,findItem.personId);
+            }
+            if(ScreenHelper.checkString(findItem.contractUid).length() > 0){
+            	ps.setString(psIdx++,findItem.contractUid);
+            }
             if(ScreenHelper.checkString(findItem.position).length() > 0){
             	ps.setString(psIdx++,findItem.position);
             }
@@ -291,6 +306,7 @@ public class Career extends OC_Object {
             if(ScreenHelper.checkString(findItem.comment).length() > 0){
             	ps.setString(psIdx++,findItem.comment);
             }
+            */
             
             // execute query
             rs = ps.executeQuery();
@@ -299,19 +315,20 @@ public class Career extends OC_Object {
             while(rs.next()){
                 item = new Career();                
                 item.setUid(rs.getString("HR_CAREER_SERVERID")+"."+rs.getString("HR_CAREER_OBJECTID"));
-                
-                item.personUid  = rs.getString("HR_CAREER_PERSONUID");
-                item.begin      = rs.getDate("HR_CAREER_BEGIN");
-                item.end        = rs.getDate("HR_CAREER_END");
-                item.position   = ScreenHelper.checkString(rs.getString("HR_CAREER_POSITION"));
-                item.serviceUid = ScreenHelper.checkString(rs.getString("HR_CAREER_SERVICEUID"));
-                item.grade      = ScreenHelper.checkString(rs.getString("HR_CAREER_GRADE"));
-                item.status     = ScreenHelper.checkString(rs.getString("HR_CAREER_STATUS"));
-                item.comment    = ScreenHelper.checkString(rs.getString("HR_CAREER_COMMENT")); 
+
+                item.personId    = rs.getInt("HR_CAREER_PERSONID");
+                item.contractUid = ScreenHelper.checkString(rs.getString("HR_CAREER_CONTRACTUID"));
+                item.begin       = rs.getDate("HR_CAREER_BEGIN");
+                item.end         = rs.getDate("HR_CAREER_END");
+                item.position    = ScreenHelper.checkString(rs.getString("HR_CAREER_POSITION"));
+                item.serviceUid  = ScreenHelper.checkString(rs.getString("HR_CAREER_SERVICEUID"));
+                item.grade       = ScreenHelper.checkString(rs.getString("HR_CAREER_GRADE"));
+                item.status      = ScreenHelper.checkString(rs.getString("HR_CAREER_STATUS"));
+                item.comment     = ScreenHelper.checkString(rs.getString("HR_CAREER_COMMENT")); 
                 
                 // parent
                 item.setUpdateDateTime(rs.getTimestamp("HR_CAREER_UPDATETIME"));
-                item.setUpdateUser(rs.getString("HR_CAREER_UPDATEUID"));
+                item.setUpdateUser(rs.getString("HR_CAREER_UPDATEID"));
                 
                 foundObjects.add(item);
             }
