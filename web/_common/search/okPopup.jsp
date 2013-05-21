@@ -17,7 +17,8 @@
     }
 %>
 <script type="text/javascript">window.resizeTo(400,300);</script>
-<body class="Geenscroll">
+
+<body class="Geenscroll" >
 <table width="100%" height="100%">
     <tr>
         <td align="center" style="padding:1px">
@@ -25,7 +26,7 @@
             <img src="<c:url value='/_img/warning.gif'/>"/> <%=questionTran%>
             <br><br><br>
 
-            <input type="button" name="buttonOk" class="button" value="&nbsp;&nbsp;<%=getTran("web.occup","medwan.common.ok",sWebLanguage)%>&nbsp;&nbsp;" onclick="doClose(1);"/>
+            <input type="button" name="buttonOk" id="buttonOk" class="button" value="&nbsp;&nbsp;<%=getTran("web.occup","medwan.common.ok",sWebLanguage)%>&nbsp;&nbsp;" onclick="doClose(1);"/>
             <br><br>
         </td>
     </tr>

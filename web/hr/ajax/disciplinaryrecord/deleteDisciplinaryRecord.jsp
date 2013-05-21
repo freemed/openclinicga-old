@@ -1,23 +1,20 @@
 <%@page import="be.mxs.common.util.system.HTMLEntities,
-                be.openclinic.hr.Career,
-                java.util.*"%>
+                be.openclinic.hr.DisciplinaryRecord"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sCareerUid = checkString(request.getParameter("CareerUid"));
+    String sDisRecUid = checkString(request.getParameter("DisRecUid"));
        
 	/// DEBUG /////////////////////////////////////////////////////////////////
 	if(Debug.enabled){
-	    Debug.println("");
-	    Debug.println("****************** deleteCareer.jsp ******************");
-	    Debug.println("sCareerUid : "+sCareerUid);
-	    Debug.println("");
+	    Debug.println("\n********** deleteDisciplinaryRecord.jsp ***********");
+	    Debug.println("sDisRecUid : "+sDisRecUid+"\n");
 	}
 	///////////////////////////////////////////////////////////////////////////
 
     
-    boolean errorOccurred = Career.delete(sCareerUid);
+    boolean errorOccurred = DisciplinaryRecord.delete(sDisRecUid);
 	String sMessage = "";
     
     if(!errorOccurred){

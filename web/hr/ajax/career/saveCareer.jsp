@@ -5,10 +5,12 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sEditCareerUid = checkString(request.getParameter("EditCareerUid"));
+    String sEditCareerUid = checkString(request.getParameter("EditCareerUid")),
+           sPersonId      = checkString(request.getParameter("PersonId"));
 
 	String sCareerBegin = checkString(request.getParameter("careerBegin")),
 	       sCareerEnd   = checkString(request.getParameter("careerEnd")),
+	       sContractUid = checkString(request.getParameter("contractUid")),
 	       sPosition    = checkString(request.getParameter("position")),
 	       sServiceUid  = checkString(request.getParameter("serviceUid")),
 	       sGrade       = checkString(request.getParameter("grade")),
@@ -17,22 +19,23 @@
        
 	/// DEBUG /////////////////////////////////////////////////////////////////
 	if(Debug.enabled){
-	    Debug.println("");
-	    Debug.println("******************* saveCareer.jsp *******************");
+	    Debug.println("\n****************** saveCareer.jsp ******************");
 	    Debug.println("sEditCareerUid : "+sEditCareerUid);
+	    Debug.println("sPersonId      : "+sPersonId);
 	    Debug.println("sCareerBegin   : "+sCareerBegin);
 	    Debug.println("sCareerEnd     : "+sCareerEnd);
+	    Debug.println("sContractUid   : "+sContractUid);
 	    Debug.println("sPosition      : "+sPosition);
 	    Debug.println("sServiceUid    : "+sServiceUid);
 	    Debug.println("sGrade         : "+sGrade);
 	    Debug.println("sStatus        : "+sStatus);
-	    Debug.println("sComment       : "+sComment);
-	    Debug.println("");
+	    Debug.println("sComment       : "+sComment+"\n");
 	}
 	///////////////////////////////////////////////////////////////////////////
 
 
     Career career = new Career();
+    career.personId = Integer.parseInt(sPersonId);
 	String sMessage = "";
 	
     if(sEditCareerUid.length() > 0){
@@ -49,7 +52,8 @@
     if(sCareerEnd.length() > 0){
         career.end = ScreenHelper.stdDateFormat.parse(sCareerEnd);
     }
-    
+
+    career.contractUid = sContractUid;
     career.position = sPosition;
     career.serviceUid = sServiceUid;
     career.grade = sGrade;

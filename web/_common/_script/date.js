@@ -442,7 +442,9 @@ function getTime(sObject){
 }
 
 function keypressTime(oObject){
-    if(window.event.keyCode>47 && window.event.keyCode<58 && oObject.value.length==2){
-        oObject.value=oObject.value+':';
+  if(window.event.keyCode>47 && window.event.keyCode<58 && oObject.value.length==2){
+  	if(oObject.value.indexOf(":") < 0){
+      oObject.value+= ":";
     }
+  }
 }

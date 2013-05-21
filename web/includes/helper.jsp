@@ -25,6 +25,7 @@
                  be.dpms.medwan.common.model.vo.authentication.UserVO,java.util.regex.*,be.mxs.common.util.db.MedwanQuery" %>
 <%@ page import="net.admin.system.AccessLog" %>
 <%@ page import="java.util.*" %>
+
 <%!
     String sAPPTITLE = "Openclinic";
     String sWEBTITLE = "MXS - "+MedwanQuery.getInstance().getConfigString("edition").toUpperCase();
@@ -351,6 +352,21 @@
     public String writeDateField(String sName, String sForm, String sValue, String sWebLanguage) {
         return ScreenHelper.writeDateField(sName, sForm, sValue, true, true, sWebLanguage, sCONTEXTPATH);
     }
+    
+    //--- WRITE DATE FIELD ------------------------------------------------------------------------
+    public String writeDateField(String sName, String sForm, String sValue, String sWebLanguage, String sExtra) {
+        return ScreenHelper.writeDateField(sName, sForm, sValue, true, true, sWebLanguage, sCONTEXTPATH, sExtra);
+    }
+    
+    //--- WRITE FUTURE DATE FIELD (only future dates) ---------------------------------------------
+    public String writeFutureDateField(String sName, String sForm, String sValue, String sWebLanguage) {
+        return ScreenHelper.writeDateField(sName, sForm, sValue, false, true, sWebLanguage, sCONTEXTPATH);
+    }
+    
+    //--- WRITE PAST DATE FIELD (only past dates) -------------------------------------------------
+    public String writePastDateField(String sName, String sForm, String sValue, String sWebLanguage) {
+        return ScreenHelper.writeDateField(sName, sForm, sValue, true, false, sWebLanguage, sCONTEXTPATH);
+    }
 
     //--- CHECK PERMISSION (screen is a parent window) --------------------------------------------
     public String checkPermission(String sScreen, String sPermission, User activeUser) {
@@ -399,7 +415,9 @@
     }
 
     public String writeTableHeader(String sType, String sID, String sLanguage, String sPage) {
-        String tableHeader = "<table  width='100%' cellspacing='0' class='list' style='border-bottom:0px;'>" + " <tr class='admin'>" + "  <td id='tableHeaderTitle'>" + getTran(sType, sID, sLanguage) + "</td>";
+        String tableHeader = "<table  width='100%' cellspacing='0' class='list' style='border-bottom:none;'>"+
+                              "<tr class='admin'>"+
+                               "<td id='tableHeaderTitle'>"+getTran(sType, sID, sLanguage)+"</td>";
 
         if (sPage.trim().length() > 0) {
             tableHeader += "<td align='right'>";
@@ -411,13 +429,13 @@
             // sPage is a javascript function (like "doBack()")
             else {
                 tableHeader += "<a class='previousButton' alt='"+getTran("Web", "Back", sLanguage)+"' title='"+getTran("Web", "Back", sLanguage)+"' href='javascript:" + sPage + "'>&nbsp;</a>";
-                }
+            }
 
             tableHeader += "</td>";
         }
 
         tableHeader += " </tr>" +
-                "</table>";
+                       "</table>";
 
         return tableHeader;
     }

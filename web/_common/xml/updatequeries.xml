@@ -150,4 +150,30 @@
   	<Query id="QUERY.Examinations.1" db="openclinic" date="20/09/2012">
 		delete from Examinations where transactionType in ('be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DOSIMETRY','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MEDICAL_DECONTAMINATION','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_INTERNAL_EXPOSITION','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DRIVING_LICENCE_DECLARATION','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR_MOBILE_UNIT','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PRESCRIPTION') 	
   	</Query>
+  	
+  	<Query id="QUERY.hr.contract.enableLegalReferenceCode.1" db="openclinic" date="13/05/2013" dbserver="MySQL">  	    
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableLegalReferenceCode1','1',4,now())	  	 	
+  	</Query>
+  	<Query id="QUERY.hr.contract.enableLegalReferenceCode.2" db="openclinic" date="13/05/2013" dbserver="MySQL">  	    
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableLegalReferenceCode2','1',4,now())	  	 	
+  	</Query>
+  	<Query id="QUERY.hr.contract.enableLegalReferenceCode.3" db="openclinic" date="13/05/2013" dbserver="MySQL">  	    
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableLegalReferenceCode3','1',4,now())	  	 	
+  	</Query>
+  	<Query id="QUERY.hr.contract.enableLegalReferenceCode.4" db="openclinic" date="13/05/2013" dbserver="MySQL">  	    
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableLegalReferenceCode4','1',4,now())	  	 	
+  	</Query>
+  	<Query id="QUERY.hr.contract.enableLegalReferenceCode.5" db="openclinic" date="13/05/2013" dbserver="MySQL">  	    
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableLegalReferenceCode5','1',4,now())	  	 	
+  	</Query>
+  	
+  	<Query id="QUERY.hr.training.enableDiplomaCode.1" db="openclinic" date="14/05/2013" dbserver="MySQL">  	    
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableDiplomaCode1','1',4,now())	  	 	
+  	</Query>  	
+  	<Query id="QUERY.hr.training.enableDiplomaCode.2" db="openclinic" date="14/05/2013" dbserver="MySQL">  	    
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableDiplomaCode2','1',4,now())	  	 	
+  	</Query>  	
+  	<Query id="QUERY.hr.training.enableDiplomaCode.3" db="openclinic" date="14/05/2013" dbserver="MySQL">  	    
+	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableDiplomaCode3','1',4,now())	  	 	
+  	</Query>  	
 </Queries>

@@ -80,7 +80,7 @@ function setDecimalLength(sObject, iLength){
 }
 
 function isNumberLimited(sObject,min,max){
-  if(isNumber(sObject) && sObject.value.length>0){
+  if(sObject.value.length>0 && isNumber(sObject)){
     if(sObject.value*1<min || sObject.value*1>max){
       return false;
     }
@@ -101,7 +101,7 @@ function isNumber(sObject){
   var dotCount = 0;
 
   for(var i=0; i < string.length; i++){
-    if (vchar.indexOf(string.charAt(i)) == -1)	{
+    if(vchar.indexOf(string.charAt(i)) == -1){
       sObject.value = "";
       //sObject.focus();
       return false;
@@ -258,4 +258,70 @@ function RTrim(value){
 
 function trim(value){
   return LTrim(RTrim(value));
+}
+
+function setDecimalLength(inputField,iLength,addZeroes){
+  if(addZeroes==null) addZeroes = false;
+
+  if(addZeroes && iLength > 0){
+    inputField.value = inputField.value+".";
+
+    for(var i=0; i<iLength; i++){
+      inputField.value = inputField.value+"0";
+    }
+  }
+
+  inputField.value = inputField.value.replace(",",".");
+  var commaIdx = inputField.value.indexOf(".");
+
+  if(commaIdx > -1){
+    var integer  = inputField.value.substring(0,commaIdx);
+    var decimals = inputField.value.substring(commaIdx+1);
+
+    if(decimals.length > iLength){
+      decimals = decimals.substring(0,iLength);
+    }
+    inputField.value = integer+"."+decimals;
+  }
+  else{
+    inputField.value = parseInt(inputField.value);
+  }
+}
+
+function formatDecimalValue(iValue,iLength,addZeroes){
+  if(addZeroes==null) addZeroes = false;
+  iValue = (iValue+"");
+  iValue = replaceAll(iValue,",",".");
+  
+  var commaIdx = iValue.indexOf(".");
+  var decimals = 0;
+  if(commaIdx > -1){
+    decimals = iValue.length - (commaIdx+1);
+  }
+  
+  if(addZeroes && iLength > decimals){
+    if(decimals==0) iValue = iValue+".";
+
+    for(var i=decimals; i<iLength; i++){
+  	  iValue = iValue+"0";
+    }
+  }
+
+  var commaIdx = iValue.indexOf(".");
+  if(commaIdx > -1){
+    var integer  = iValue.substring(0,commaIdx);
+    var decimals = iValue.substring(commaIdx+1);
+
+    if(decimals.length > iLength){
+      decimals = decimals.substring(0,iLength);
+    }
+    iValue = integer+"."+decimals;
+  }
+  else{
+    iValue = parseInt(iValue);
+  }
+
+  iValue = (""+iValue).replace(".",",");
+  
+  return iValue;
 }
