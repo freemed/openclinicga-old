@@ -39,6 +39,10 @@ public class EndPageCard extends PdfPageEventHelper {
 			// these are the canvases we are going to use
             PdfContentByte under = writer.getDirectContentUnder();
             under.addImage(watermarkImg);
+            under.setRGBColorFill(0xFF, 0x00, 0x00);
+            under.circle(115, 70, 25);
+            under.fill();
+            
         }
         catch(Exception e) {
             throw new ExceptionConverter(e);
