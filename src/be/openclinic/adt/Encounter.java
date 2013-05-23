@@ -862,6 +862,49 @@ public class Encounter extends OC_Object {
 	    return transferHistory;
     }
 
+    public Vector getFullTransferHistory() {
+        Vector transferHistory = new Vector();
+        if(getUid()!=null){
+	        PreparedStatement ps = null;
+	        ResultSet rs = null;
+	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	
+	        try {
+	            String sSelect = "SELECT * from OC_ENCOUNTER_SERVICES" +
+	                    " where" +
+	                    " OC_ENCOUNTER_SERVERID=? AND" +
+	                    " OC_ENCOUNTER_OBJECTID=? " +
+	                    " ORDER BY OC_ENCOUNTER_SERVICEBEGINDATE ASC";
+	            ps = oc_conn.prepareStatement(sSelect);
+	            ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
+	            ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
+	            rs = ps.executeQuery();
+	            while (rs.next()) {
+	                EncounterService encounterService = new EncounterService();
+	                encounterService.begin = rs.getTimestamp("OC_ENCOUNTER_SERVICEBEGINDATE");
+	                encounterService.end = rs.getTimestamp("OC_ENCOUNTER_SERVICEENDDATE");
+	                encounterService.bedUID = rs.getString("OC_ENCOUNTER_BEDUID");
+	                encounterService.serviceUID = rs.getString("OC_ENCOUNTER_SERVICEUID");
+	                encounterService.managerUID = rs.getString("OC_ENCOUNTER_MANAGERUID");
+	                transferHistory.add(encounterService);
+	            }
+	        }
+	        catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        finally {
+	            try {
+	                if (rs != null) rs.close();
+	                if (ps != null) ps.close();
+	                oc_conn.close();
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+        }
+	    return transferHistory;
+    }
+
     public static Encounter get(String uid) {
         Encounter encounter = (Encounter)MedwanQuery.getInstance().getObjectCache().getObject("encounter",uid);
         if(encounter!=null){
@@ -1897,6 +1940,11 @@ public class Encounter extends OC_Object {
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
                 if (sTmp.length() > 0) {
                     eTmp.setCategories(sTmp);
+                }
+                
+                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID"));
+                if (sTmp.length() > 0) {
+                    eTmp.setUpdateUser(sTmp);
                 }
                 
                 vEncounters.addElement(eTmp);
