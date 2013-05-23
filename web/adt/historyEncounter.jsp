@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.adt.Encounter,java.util.Vector" %>
+<%@ page import="be.openclinic.adt.*,be.openclinic.adt.Encounter.*,java.util.Vector" %>
 <%@ page import="be.openclinic.medical.ReasonForEncounter" %>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -63,10 +63,35 @@
             sBedName = "";
         }
 
-        if (checkString(eTmp.getServiceUID()).length() > 0) {
-            sServiceUID = checkString(eTmp.getServiceUID());
-        } else {
-            sServiceUID = "";
+        String sServices = "",sBeds="",sManagers="";
+        Vector th = eTmp.getFullTransferHistory();
+        for(int n=0;n<th.size();n++){
+        	EncounterService es = (EncounterService)th.elementAt(n);
+            if (checkString(es.serviceUID).length() > 0) {
+                sServices+=(sServices.length()>0?"<BR/>":"")+(n+1)+": "+getTran("service",es.serviceUID,sWebLanguage)+" ("+new SimpleDateFormat("dd/MM/yyyy").format(es.begin)+")";
+            }
+            else{
+                sServices+=(sServices.length()>0?"<BR/>":"")+(n+1)+": "+"-";
+            }
+            if (checkString(es.bedUID).length() > 0) {
+            	Bed bed = Bed.get(es.bedUID);
+            	if(bed!=null){
+            		sBeds+=(sBeds.length()>0?"<BR/>":"")+(n+1)+": "+bed.getName();
+            	}
+                else{
+                    sBeds+=(sBeds.length()>0?"<BR/>":"")+(n+1)+": "+"-";
+                }
+            }
+            else{
+                sBeds+=(sBeds.length()>0?"<BR/>":"")+(n+1)+": "+"-";
+            }
+            if (checkString(es.managerUID).length() > 0) {
+                sManagers+=(sManagers.length()>0?"<BR/>":"")+(n+1)+": "+MedwanQuery.getInstance().getUserName(Integer.parseInt(es.managerUID));
+            }
+            else{
+                sManagers+=(sManagers.length()>0?"<BR/>":"")+(n+1)+": "+"-";
+            }
+        	
         }
 		
         if (eTmp.getUpdateUser()!=null){
@@ -93,9 +118,9 @@
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + eTmp.getUid() + "</td>" +
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sBegin + "</td>" +
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sEnd + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sManagerName + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + getTran("Service", sServiceUID, sWebLanguage) + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sBedName + "</td>"+
+                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sManagers + "</td>" +
+                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sServices + "</td>" +
+                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sBeds + "</td>"+
 		        "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sUpdateUser + "</td>");
         if(activeUser.getAccessRight("problemlist.select")){
             sbResults.append("<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + ReasonForEncounter.getReasonsForEncounterAsHtml(eTmp.getUid(),sWebLanguage) + "</td>");
