@@ -43,7 +43,7 @@
 		// revert one month
 		long monthMillis = 30*24*3600;
 		monthMillis*= 1000;	
-		ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()-monthMillis));	
+		ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date().getTime()-3*monthMillis));	
 		ps.setString(2,sCountryCode);
 		
 		rs = ps.executeQuery();
