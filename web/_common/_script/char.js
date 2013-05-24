@@ -260,31 +260,36 @@ function trim(value){
   return LTrim(RTrim(value));
 }
 
-function setDecimalLength(inputField,iLength,addZeroes){
+function setDecimalLength(inputField,decimalCount,addZeroes){
   if(addZeroes==null) addZeroes = false;
 
-  if(addZeroes && iLength > 0){
-    inputField.value = inputField.value+".";
+  if(inputField.value.length > 0){
+    inputField.value = inputField.value.replace(",",".");
 
-    for(var i=0; i<iLength; i++){
-      inputField.value = inputField.value+"0";
+    if(addZeroes && decimalCount > 0){
+      if(inputField.value.indexOf(".") < 0){
+        inputField.value = inputField.value+".";
+      }
+
+      for(var i=0; i<decimalCount; i++){
+        inputField.value = inputField.value+"0";
+      }
     }
-  }
 
-  inputField.value = inputField.value.replace(",",".");
-  var commaIdx = inputField.value.indexOf(".");
+    var commaIdx = inputField.value.indexOf(".");
 
-  if(commaIdx > -1){
-    var integer  = inputField.value.substring(0,commaIdx);
-    var decimals = inputField.value.substring(commaIdx+1);
+    if(commaIdx > -1){
+      var integer  = inputField.value.substring(0,commaIdx);
+      var decimals = inputField.value.substring(commaIdx+1);
 
-    if(decimals.length > iLength){
-      decimals = decimals.substring(0,iLength);
+      if(decimals.length > decimalCount){
+        decimals = decimals.substring(0,decimalCount);
+      }
+      inputField.value = integer+"."+decimals;
     }
-    inputField.value = integer+"."+decimals;
-  }
-  else{
-    inputField.value = parseInt(inputField.value);
+    else{
+      inputField.value = parseInt(inputField.value);
+    }
   }
 }
 

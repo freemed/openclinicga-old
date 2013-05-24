@@ -17,7 +17,7 @@
     }
 %>
 
-<body class="Geenscroll" >
+<body class="Geenscroll">
 <table width="100%" height="100%">
     <tr>
         <td align="center">
@@ -33,6 +33,9 @@
 </table>
 
 <script>
+  document.getElementById("buttonYes").focus();
+
+  <%-- DO CLOSE --%>
   function doClose(iReturn){
     window.returnValue = iReturn;
     window.close();

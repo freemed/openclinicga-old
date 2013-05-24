@@ -8,41 +8,41 @@
     String sEditSkillUid = checkString(request.getParameter("EditSkillUid")),
            sPersonId     = checkString(request.getParameter("PersonId"));
 
-	String sLanguages           = checkString(request.getParameter("languages")),
-		   sDrivingLicense      = checkString(request.getParameter("drivingLicense")),
-		   sItOffice            = checkString(request.getParameter("itOffice")),
-		   sItInternet          = checkString(request.getParameter("itInternet")),
-		   sItOther             = checkString(request.getParameter("itOther")),
-		   sCommunicationSkills = checkString(request.getParameter("communicationSkills")),
-		   sStressResistance    = checkString(request.getParameter("stressResistance")),
-	       sComment             = checkString(request.getParameter("comment"));
+    String sLanguages           = checkString(request.getParameter("languages")),
+           sDrivingLicense      = checkString(request.getParameter("drivingLicense")),
+           sItOffice            = checkString(request.getParameter("itOffice")),
+           sItInternet          = checkString(request.getParameter("itInternet")),
+           sItOther             = checkString(request.getParameter("itOther")),
+           sCommunicationSkills = checkString(request.getParameter("communicationSkills")),
+           sStressResistance    = checkString(request.getParameter("stressResistance")),
+           sComment             = checkString(request.getParameter("comment"));
     
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n****************** saveSkill.jsp ******************");
-	    Debug.println("sEditSkillUid        : "+sEditSkillUid);
-	    Debug.println("sPersonId            : "+sPersonId);
-	    Debug.println("sLanguages           : "+sLanguages);
-	    Debug.println("sDrivingLicense      : "+sDrivingLicense);
-	    Debug.println("sItOffice            : "+sItOffice);
-	    Debug.println("sItInternet          : "+sItInternet);
-	    Debug.println("sItOther             : "+sItOther);
-	    Debug.println("sCommunicationSkills : "+sCommunicationSkills);
-	    Debug.println("sStressResistance    : "+sStressResistance);
-	    Debug.println("sComment             : "+sComment+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n****************** saveSkill.jsp ******************");
+        Debug.println("sEditSkillUid        : "+sEditSkillUid);
+        Debug.println("sPersonId            : "+sPersonId);
+        Debug.println("sLanguages           : "+sLanguages);
+        Debug.println("sDrivingLicense      : "+sDrivingLicense);
+        Debug.println("sItOffice            : "+sItOffice);
+        Debug.println("sItInternet          : "+sItInternet);
+        Debug.println("sItOther             : "+sItOther);
+        Debug.println("sCommunicationSkills : "+sCommunicationSkills);
+        Debug.println("sStressResistance    : "+sStressResistance);
+        Debug.println("sComment             : "+sComment+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
 
     Skill skill = new Skill();
     skill.personId = Integer.parseInt(sPersonId);
-	String sMessage = "";
-	
+    String sMessage = "";
+    
     if(sEditSkillUid.length() > 0){
-    	skill.setUid(sEditSkillUid);
+        skill.setUid(sEditSkillUid);
     }
     else{
-    	skill.setUid("-1");
+        skill.setUid("-1");
         skill.setCreateDateTime(getSQLTime());
     }
 
@@ -60,7 +60,7 @@
     boolean errorOccurred = skill.store(activeUser.userid);
     
     if(!errorOccurred){
-        sMessage = getTran("web","dataIsSaved",sWebLanguage);
+        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
         sMessage = getTran("web","error",sWebLanguage);

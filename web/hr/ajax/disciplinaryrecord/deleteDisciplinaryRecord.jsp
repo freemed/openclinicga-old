@@ -6,16 +6,16 @@
 <%
     String sDisRecUid = checkString(request.getParameter("DisRecUid"));
        
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n********** deleteDisciplinaryRecord.jsp ***********");
-	    Debug.println("sDisRecUid : "+sDisRecUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n********** deleteDisciplinaryRecord.jsp ***********");
+        Debug.println("sDisRecUid : "+sDisRecUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = DisciplinaryRecord.delete(sDisRecUid);
-	String sMessage = "";
+    String sMessage = "";
     
     if(!errorOccurred){
         sMessage = getTran("web","dataIsDeleted",sWebLanguage);

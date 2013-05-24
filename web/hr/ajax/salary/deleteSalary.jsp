@@ -1,20 +1,20 @@
 <%@page import="be.mxs.common.util.system.HTMLEntities,
-                be.openclinic.hr.Contract"%>
+                be.openclinic.hr.Salary"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sContractUid = checkString(request.getParameter("ContractUid"));
+    String sSalaryUid = checkString(request.getParameter("SalaryUid"));
        
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n**************** deleteContract.jsp ***************");
-        Debug.println("sContractUid : "+sContractUid+"\n");
+        Debug.println("\n***************** deleteSalary.jsp ****************");
+        Debug.println("sSalaryUid : "+sSalaryUid+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////
 
     
-    boolean errorOccurred = Contract.delete(sContractUid);
+    boolean errorOccurred = Salary.delete(sSalaryUid);
     String sMessage = "";
     
     if(!errorOccurred){

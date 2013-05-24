@@ -8,43 +8,43 @@
     String sEditLeaveUid = checkString(request.getParameter("EditLeaveUid")),
            sPersonId      = checkString(request.getParameter("PersonId"));
 
-	String sBegin       = checkString(request.getParameter("begin")),
-	       sEnd         = checkString(request.getParameter("end")),
-	       sDuration    = checkString(request.getParameter("duration")),
-	       sType        = checkString(request.getParameter("type")),
-	       sRequestDate       = checkString(request.getParameter("requestDate")),
-	       sAuthorizationDate = checkString(request.getParameter("authorizationDate")),
-	       sAuthorizedBy      = checkString(request.getParameter("authorizedBy")),
-	       sEpisodeCode       = checkString(request.getParameter("episodeCode")),
-	       sComment           = checkString(request.getParameter("comment"));
-	
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n****************** saveLeave.jsp ******************");
-	    Debug.println("sEditLeaveUid : "+sEditLeaveUid);
-	    Debug.println("sPersonId     : "+sPersonId);
-	    Debug.println("sBegin        : "+sBegin);
-	    Debug.println("sEnd          : "+sEnd);
-	    Debug.println("sDuration     : "+sDuration);
-	    Debug.println("sType         : "+sType);
-	    Debug.println("sRequestDate       : "+sRequestDate);
-	    Debug.println("sAuthorizationDate : "+sAuthorizationDate);
-	    Debug.println("sAuthorizedBy      : "+sAuthorizedBy);
-	    Debug.println("sEpisodeCode       : "+sEpisodeCode);
-	    Debug.println("sComment           : "+sComment+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    String sBegin       = checkString(request.getParameter("begin")),
+           sEnd         = checkString(request.getParameter("end")),
+           sDuration    = checkString(request.getParameter("duration")),
+           sType        = checkString(request.getParameter("type")),
+           sRequestDate       = checkString(request.getParameter("requestDate")),
+           sAuthorizationDate = checkString(request.getParameter("authorizationDate")),
+           sAuthorizedBy      = checkString(request.getParameter("authorizedBy")),
+           sEpisodeCode       = checkString(request.getParameter("episodeCode")),
+           sComment           = checkString(request.getParameter("comment"));
+    
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n****************** saveLeave.jsp ******************");
+        Debug.println("sEditLeaveUid : "+sEditLeaveUid);
+        Debug.println("sPersonId     : "+sPersonId);
+        Debug.println("sBegin        : "+sBegin);
+        Debug.println("sEnd          : "+sEnd);
+        Debug.println("sDuration     : "+sDuration);
+        Debug.println("sType         : "+sType);
+        Debug.println("sRequestDate       : "+sRequestDate);
+        Debug.println("sAuthorizationDate : "+sAuthorizationDate);
+        Debug.println("sAuthorizedBy      : "+sAuthorizedBy);
+        Debug.println("sEpisodeCode       : "+sEpisodeCode);
+        Debug.println("sComment           : "+sComment+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
 
     Leave leave = new Leave();
     leave.personId = Integer.parseInt(sPersonId);
-	String sMessage = "";
-	
+    String sMessage = "";
+    
     if(sEditLeaveUid.length() > 0){
-    	leave.setUid(sEditLeaveUid);
+        leave.setUid(sEditLeaveUid);
     }
     else{
-    	leave.setUid("-1");
+        leave.setUid("-1");
         leave.setCreateDateTime(getSQLTime());
     }
 
@@ -73,7 +73,7 @@
     boolean errorOccurred = leave.store(activeUser.userid);
     
     if(!errorOccurred){
-        sMessage = getTran("web","dataIsSaved",sWebLanguage);
+        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
         sMessage = getTran("web","error",sWebLanguage);

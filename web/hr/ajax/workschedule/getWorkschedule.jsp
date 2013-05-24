@@ -107,7 +107,7 @@
 
     if(workschedule!=null){
         String sScheduleXml = checkString(workschedule.scheduleXml);
-        Debug.println("#####################################################################\n"+sScheduleXml+"\n#########################################################");
+        Debug.println("\n#####################################################################\n"+sScheduleXml+"\n#########################################################\n");
            
         if(sScheduleXml.length() > 0){
             // parse weekSchedule from xml            
@@ -157,16 +157,13 @@
       }
       else if(workschedule.type.equalsIgnoreCase("week")){
           String sWeekSchedule = workschedule.getScheduleElementValue(workschedule.type,"WeekSchedule").replaceAll("\"","'");
-          System.out.println("\nsWeekSchedule 11111111111111111 : "+sWeekSchedule); ///////////
 
           // parse weekSchedule from xml           
           SAXReader reader = new SAXReader(false);
           Document document = reader.read(new StringReader(sWeekSchedule));
           Element weekSchedule = document.getRootElement();
 
-          sWeekSchedule = parseWeekschedule(weekSchedule);
-          System.out.println("\nsWeekSchedule 2222222222222 : "+sWeekSchedule); ///////////
-          
+          sWeekSchedule = parseWeekschedule(weekSchedule);          
           
           %>
             "weekScheduleType":"<%=HTMLEntities.htmlentities(weekSchedule.attributeValue("scheduleType"))%>",

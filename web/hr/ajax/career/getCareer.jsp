@@ -5,26 +5,28 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-	String sCareerUid = checkString(request.getParameter("CareerUid"));
+    String sCareerUid = checkString(request.getParameter("CareerUid"));
 
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n****************** getCareer.jsp *******************");
-	    Debug.println("sCareerUid : "+sCareerUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n****************** getCareer.jsp *******************");
+        Debug.println("sCareerUid : "+sCareerUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     Career career = Career.get(sCareerUid);
 
-	String sServiceName = "";
-	if(checkString(career.serviceUid).length() > 0){
-		sServiceName = getTran("service",career.serviceUid,sWebLanguage);	
-	}
-	
-	String sContractName = "";
-	if(checkString(career.contractUid).length() > 0){
-		sContractName = getTranNoLink("contract",career.contractUid,sWebLanguage);	
-	}
+    String sServiceName = "";
+    if(checkString(career.serviceUid).length() > 0){
+        sServiceName = getTran("service",career.serviceUid,sWebLanguage);    
+    }
+    
+    // contractName == contractId (not uid)
+    String sContractName = "";
+    if(checkString(career.contractUid).length() > 0){
+        //sContractName = getTranNoLink("contract",career.contractUid,sWebLanguage);
+        sContractName = career.contractUid.substring(career.contractUid.indexOf(".")+1);
+    }
 %>
 
 {

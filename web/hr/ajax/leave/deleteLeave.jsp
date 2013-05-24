@@ -6,16 +6,16 @@
 <%
     String sLeaveUid = checkString(request.getParameter("LeaveUid"));
        
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n***************** deleteLeave.jsp *****************");
-	    Debug.println("sLeaveUid : "+sLeaveUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n***************** deleteLeave.jsp *****************");
+        Debug.println("sLeaveUid : "+sLeaveUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = Leave.delete(sLeaveUid);
-	String sMessage = "";
+    String sMessage = "";
     
     if(!errorOccurred){
         sMessage = getTran("web","dataIsDeleted",sWebLanguage);

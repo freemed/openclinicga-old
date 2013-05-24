@@ -17,22 +17,20 @@
         Debug.println("no parameters\n");
     }
     ///////////////////////////////////////////////////////////////////////////
-
-    Training training = new Training();    
 %>            
 
 <%=writeTableHeader("web","training",sWebLanguage,"")%><br>
 <div id="divTrainings" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditTrainingUid" name="EditTrainingUid" value="<%=checkString(training.getUid())%>">
+    <input type="hidden" id="EditTrainingUid" name="EditTrainingUid" value="-1">
                 
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- begin (*) --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","begin",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2"> 
-                <%=writeDateField("begin","EditForm",ScreenHelper.getSQLDate(training.begin),sWebLanguage)%>            
+                <%=writeDateField("begin","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
         
@@ -40,7 +38,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","end",sWebLanguage)%></td>
             <td class="admin2"> 
-                <%=writeDateField("end","EditForm",ScreenHelper.getSQLDate(training.end),sWebLanguage)%>            
+                <%=writeDateField("end","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
         
@@ -48,7 +46,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","trainingInstitute",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2">
-                <input type="text" class="text" id="institute" name="institute" size="50" maxLength="255" value="<%=checkString(training.institute)%>">
+                <input type="text" class="text" id="institute" name="institute" size="50" maxLength="255" value="">
             </td>
         </tr>
         
@@ -56,7 +54,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","trainingType",sWebLanguage)%></td>
             <td class="admin2">
-                <input type="text" class="text" id="type" name="type" size="50" maxLength="50" value="<%=checkString(training.type)%>">
+                <input type="text" class="text" id="type" name="type" size="50" maxLength="50" value="">
             </td>
         </tr>
          
@@ -66,7 +64,7 @@
             <td class="admin2">
                 <select class="text" id="level" name="level">
                     <option/>
-                    <%=ScreenHelper.writeSelect("hr.training.level",checkString(training.level),sWebLanguage)%>
+                    <%=ScreenHelper.writeSelect("hr.training.level","",sWebLanguage)%>
                 </select>
             </td>
         </tr>
@@ -75,7 +73,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","titleOrDiploma",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2"> 
-                <input type="text" class="text" id="diploma" name="diploma" size="80" maxLength="255" value="<%=checkString(training.diploma)%>">
+                <input type="text" class="text" id="diploma" name="diploma" size="80" maxLength="255" value="">
             </td>
         </tr>
         
@@ -83,7 +81,7 @@
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","diplomaDate",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2"> 
-                <%=writeDateField("diplomaDate","EditForm",ScreenHelper.getSQLDate(training.diplomaDate),sWebLanguage)%>            
+                <%=writeDateField("diplomaDate","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
                     
@@ -97,13 +95,13 @@
                             <td class="admin2">                                                    
                                 <select class="text" id="diplomaCode<%=i%>" name="diplomaCode<%=i%>">
                                     <option/>
-                                    <%=ScreenHelper.writeSelect("hr.training.diplomacode"+i,checkString(training.getDiplomaCode(i)),sWebLanguage)%>
+                                    <%=ScreenHelper.writeSelect("hr.training.diplomacode"+i,"",sWebLanguage)%>
                                 </select>
                             </td>
                         </tr>
                     <%
                 }
-               }
+            }
         %>            
             
         
@@ -111,7 +109,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","comment",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea class="text" name="comment" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"><%=checkString(training.comment)%></textarea>
+                <textarea class="text" name="comment" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
             </td>
         </tr>
             
@@ -144,8 +142,8 @@
       if(okToSubmit){ 
         <%-- begin can not be after end --%>
         if(document.getElementById("end").value.length > 0){
-          var begin = makeDate(document.getElementById("begin").value);
-          var end = makeDate(document.getElementById("end").value);
+          var begin = makeDate(document.getElementById("begin").value),
+              end   = makeDate(document.getElementById("end").value);
       
           if(begin > end){
             okToSubmit = false;
@@ -158,8 +156,8 @@
       if(okToSubmit){
         <%-- diplomaDate can not be before begin --%>
         if(document.getElementById("diplomaDate").value.length > 0 && document.getElementById("begin").value.length > 0){
-          var diplomaDate = makeDate(document.getElementById("diplomaDate").value);
-          var begin = makeDate(document.getElementById("begin").value);
+          var diplomaDate = makeDate(document.getElementById("diplomaDate").value),
+              begin       = makeDate(document.getElementById("begin").value);
       
           if(begin > diplomaDate){
             okToSubmit = false;
@@ -172,8 +170,8 @@
       if(okToSubmit){
         <%-- diplomaDate can not be after end --%>
         if(document.getElementById("diplomaDate").value.length > 0 && document.getElementById("end").value.length > 0){
-          var diplomaDate = makeDate(document.getElementById("diplomaDate").value);
-          var end = makeDate(document.getElementById("end").value);
+          var diplomaDate = makeDate(document.getElementById("diplomaDate").value),
+              end         = makeDate(document.getElementById("end").value);
       
           if(end > diplomaDate){
             okToSubmit = false;
@@ -185,7 +183,7 @@
       
       if(okToSubmit){
         document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
-        var url= "<c:url value='/hr/ajax/training/saveTraining.jsp'/>?ts="+new Date().getTime();
+        var url = "<c:url value='/hr/ajax/training/saveTraining.jsp'/>?ts="+new Date().getTime();
 
         document.getElementById("buttonSave").disabled = true;
         document.getElementById("buttonDelete").disabled = true;
@@ -193,7 +191,7 @@
         
         // does not function when put inside ajax call
         var sParameters = "EditTrainingUid="+EditForm.EditTrainingUid.value+
-                            "&PersonId=<%=activePatient.personid%>"+
+                           "&PersonId=<%=activePatient.personid%>"+
                           "&begin="+document.getElementById("begin").value+
                           "&end="+document.getElementById("end").value+
                           "&institute="+document.getElementById("institute").value+
@@ -206,7 +204,7 @@
          sParameters+= "&diplomaCode1="+document.getElementById("diplomaCode1").value;
        }
        if(document.getElementById("diplomaCode2")!=null){
-           sParameters+= "&diplomaCode2="+document.getElementById("diplomaCode2").value;
+         sParameters+= "&diplomaCode2="+document.getElementById("diplomaCode2").value;
        }
        if(document.getElementById("diplomaCode3")!=null){
          sParameters+= "&diplomaCode3="+document.getElementById("diplomaCode3").value;
@@ -223,8 +221,9 @@
               $("divMessage").innerHTML = data.message;
 
               loadTrainings();
+              newTraining();
               
-              EditForm.EditTrainingUid.value = data.newUid;
+              //EditForm.EditTrainingUid.value = data.newUid;
               document.getElementById("buttonSave").disabled = false;
               document.getElementById("buttonDelete").disabled = false;
               document.getElementById("buttonNew").disabled = false;
@@ -250,23 +249,13 @@
     
   <%-- LOAD TRAININGS --%>
   function loadTrainings(){
-    document.getElementById("divTrainings").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
-    var url= "<c:url value='/hr/ajax/training/getTrainings.jsp'/>?ts="+new Date().getTime();
+    document.getElementById("divTrainings").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";  
+    
+    var url = "<c:url value='/hr/ajax/training/getTrainings.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {
         method: "GET",
         parameters: "PatientId=<%=activePatient.personid%>",
-                    //"&begin=<%=training.begin%>"+
-                    //"&end=<%=training.end%>"+                            
-                    //"&institute=<%=training.institute%>"+
-                    //"&type=<%=training.type%>"+
-                    //"&level=<%=training.level%>"+
-                    //"&diploma=<%=training.diploma%>"+
-                    //"&diplomaDate=<%=training.diplomaDate%>"+
-                    //"&diplomaCode1=<%=training.diplomaCode1%>"+
-                    //"&diplomaCode2=<%=training.diplomaCode2%>"+
-                    //"&diplomaCode3=<%=training.diplomaCode3%>"+
-                    //"&comment=<%=training.comment%>",
         onSuccess: function(resp){
           $("divTrainings").innerHTML = resp.responseText;
           sortables_init();
@@ -280,7 +269,7 @@
 
   <%-- DISPLAY TRAINING --%>
   function displayTraining(trainingUid){          
-    var url= "<c:url value='/hr/ajax/training/getTraining.jsp'/>?ts="+new Date().getTime();
+    var url = "<c:url value='/hr/ajax/training/getTraining.jsp'/>?ts="+new Date().getTime();
     
     new Ajax.Request(url,
       {
@@ -318,9 +307,9 @@
   
   <%-- DELETE TRAINING --%>
   function deleteTraining(){  
-    var answer = confirmDialog("web","areYouSureToDelete");
+    var answer = yesnoDialog("web","areYouSureToDelete"); 
     if(answer==1){                 
-      var url= "<c:url value='/hr/ajax/training/deleteTraining.jsp'/>?ts="+new Date().getTime();
+      var url = "<c:url value='/hr/ajax/training/deleteTraining.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
@@ -334,8 +323,8 @@
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;
 
-            newTraining();
             loadTrainings();
+            newTraining();
           
             document.getElementById("buttonSave").disabled = false;
             document.getElementById("buttonDelete").disabled = false;
@@ -372,23 +361,6 @@
     resizeAllTextareas(8);
   }
   
-  <%-- UPDATE ROW STYLES --%>
-  function updateRowStyles(){
-    for(var i=1; i<searchresults.rows.length; i++){
-      searchresults.rows[i].className = "";
-      searchresults.rows[i].style.cursor = "hand";
-    }
-
-    for(var i=1; i<searchresults.rows.length; i++){
-      if(i%2==0){
-        searchresults.rows[i].className = "list";
-      }
-      else{
-        searchresults.rows[i].className = "list1";
-      }
-    }
-  }
-    
   EditForm.begin.focus();
   loadTrainings();
   resizeAllTextareas(8);

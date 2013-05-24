@@ -10,6 +10,8 @@
 <%=sJSSTRINGFUNCTIONS%>
 <%=sJSSORTTABLE%>
 
+<script src="<%=sCONTEXTPATH%>/hr/includes/commonFunctions.js"></script>
+
 <%
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -17,12 +19,10 @@
         Debug.println("no parameters\n");
     }
     ///////////////////////////////////////////////////////////////////////////
-
-    Skill skill = new Skill();
 %>  
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditSkillUid" name="EditSkillUid" value="<%=checkString(skill.getUid())%>">
+    <input type="hidden" id="EditSkillUid" name="EditSkillUid" value="-1">
     
     <%=writeTableHeader("web","skills",sWebLanguage,"")%>
                     
@@ -31,7 +31,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","languages",sWebLanguage)%></td>
             <td class="admin2" style="padding:10px;padding-left:5px;">
-                <input type="hidden" id="languages" name="languages" value="<%=checkString(skill.languages)%>">
+                <input type="hidden" id="languages" name="languages" value="">
                                         
                 <table width="100%" class="sortable" id="tblLS" cellspacing="1" headerRowCount="2"> 
                     <%-- header --%>                        
@@ -109,7 +109,7 @@
             <td class="admin2">
                 <select class="text" id="drivingLicense" name="drivingLicense">
                     <option/>
-                    <%=ScreenHelper.writeSelectUnsorted("hr.skills.drivinglicense",checkString(skill.drivingLicense),sWebLanguage)%>
+                    <%=ScreenHelper.writeSelectUnsorted("hr.skills.drivinglicense","",sWebLanguage)%>
                 </select>
             </td>
         </tr>
@@ -125,7 +125,7 @@
                         <td class="admin2">
                             <select class="text" id="itOffice" name="itOffice">
                                 <option/>
-                                <%=ScreenHelper.writeSelectUnsorted("hr.skills.range1",checkString(skill.itOffice),sWebLanguage)%>
+                                <%=ScreenHelper.writeSelectUnsorted("hr.skills.range1","",sWebLanguage)%>
                             </select>
                         </td>
                     </tr>
@@ -136,7 +136,7 @@
                         <td class="admin2">
                             <select class="text" id="itInternet" name="itInternet">
                                 <option/>
-                                <%=ScreenHelper.writeSelectUnsorted("hr.skills.range1",checkString(skill.itInternet),sWebLanguage)%>
+                                <%=ScreenHelper.writeSelectUnsorted("hr.skills.range1","",sWebLanguage)%>
                             </select>
                         </td>
                     </tr>
@@ -145,7 +145,7 @@
                     <tr>
                         <td class="admin"><%=getTran("web.hr","itOther",sWebLanguage)%>&nbsp;</td>
                         <td class="admin2">
-                            <textarea class="text" name="itOther" cols="60" rows="3" onKeyup="resizeTextarea(this,8);"><%=checkString(skill.itOther)%></textarea>
+                            <textarea class="text" name="itOther" cols="60" rows="3" onKeyup="resizeTextarea(this,8);"></textarea>
                         </td>
                     </tr>
                 </table>
@@ -158,7 +158,7 @@
             <td class="admin2">
                 <select class="text" id="communicationSkills" name="communicationSkills">
                     <option/>
-                    <%=ScreenHelper.writeSelectUnsorted("hr.skills.range2",checkString(skill.drivingLicense),sWebLanguage)%>
+                    <%=ScreenHelper.writeSelectUnsorted("hr.skills.range2","",sWebLanguage)%>
                 </select>
             </td>
         </tr>
@@ -169,7 +169,7 @@
             <td class="admin2">
                 <select class="text" id="stressResistance" name="stressResistance">
                     <option/>
-                    <%=ScreenHelper.writeSelectUnsorted("hr.skills.range2",checkString(skill.drivingLicense),sWebLanguage)%>
+                    <%=ScreenHelper.writeSelectUnsorted("hr.skills.range2","",sWebLanguage)%>
                 </select>
             </td>
         </tr>
@@ -178,7 +178,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","comment",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea class="text" name="comment" cols="82" rows="4" onKeyup="resizeTextarea(this,8);"><%=checkString(skill.comment)%></textarea>
+                <textarea class="text" name="comment" cols="82" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
             </td>
         </tr>
             
@@ -219,7 +219,7 @@
          document.getElementById("languages").value = sLS.substring(0,255);
        
       document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
-      var url= "<c:url value='/hr/ajax/skills/saveSkill.jsp'/>?ts="+new Date().getTime();
+      var url = "<c:url value='/hr/ajax/skills/saveSkill.jsp'/>?ts="+new Date().getTime();
 
       <%-- disable buttons --%>
       document.getElementById("buttonSave").disabled = true;
@@ -241,7 +241,7 @@
           onSuccess: function(resp){
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;
-          
+                      
             EditForm.EditSkillUid.value = data.newUid;
             document.getElementById("buttonSave").disabled = false;
             document.getElementById("buttonClear").disabled = false;
@@ -256,7 +256,7 @@
     
   <%-- DISPLAY SKILL --%>
   function displaySkill(){          
-    var url= "<c:url value='/hr/ajax/skills/getSkill.jsp'/>?ts="+new Date().getTime();
+    var url = "<c:url value='/hr/ajax/skills/getSkill.jsp'/>?ts="+new Date().getTime();
     
     new Ajax.Request(url,
       {
@@ -307,7 +307,9 @@
       resizeAllTextareas(8);
     }
   }
-    
+
+  EditForm.ButtonUpdateLS.disabled = true;
+  
   displaySkill();
   resizeAllTextareas(8);
 
@@ -577,7 +579,7 @@
 
   <%-- DELETE LANGUAGE SKILL --%>
   function deleteLS(rowid){
-    var answer = confirmDialog("web","areYouSureToDelete");
+    var answer = yesnoDialog("web","areYouSureToDelete"); 
     if(answer==1){
       sLS = deleteRowFromArrayString(sLS,rowid.id);
       tblLS.deleteRow(rowid.rowIndex);
@@ -596,71 +598,5 @@
 
     editLSRowid = rowid;
     EditForm.ButtonUpdateLS.disabled = false;
-  }
-  
-  <%-- SET ROW STYLE --%>
-  function setRowStyle(row,rowIdx){
-	if(rowIdx%2==0){
-      for(var i=0; i<row.cells.length; i++){
-        row.cells[i].style.font = "10px arial #333333";
-        row.cells[i].style.padding = "5px 1px 1px 1px";
-        row.cells[i].style.backgroundColor = "#E0EBF2";
-      }
-    }
-	else{
-      for(var i=0; i<row.cells.length; i++){
-        row.cells[i].style.font = "10px arial #333333";
-        row.cells[i].style.padding = "5px 1px 1px 1px";
-        row.cells[i].style.backgroundColor = "#E9EEFF";
-      }
-	}
-  }
-          
-  <%-- DELETE ROW FROM ARRAY STRING --%>
-  function deleteRowFromArrayString(sArray,rowid){
-    var array = sArray.split("$");
-    
-    for(var i=0; i<array.length; i++){
-      if(array[i].indexOf(rowid) > -1){
-        array.splice(i,1);
-      }
-    }
-    
-    return array.join("$");
-  }
-
-  <%-- GET CELL FROM ROW STRING --%>
-  function getCelFromRowString(sRow,celid){
-    var row = sRow.split("|");
-    return row[celid];
-  }
-
-  <%-- GET ROW FROM ARRAY STRING --%>
-  function getRowFromArrayString(sArray,rowid){
-    var array = sArray.split("$");
-    var row = "";
-    
-    for(var i=0; i<array.length; i++){
-      if(array[i].indexOf(rowid) > -1){
-        row = array[i].substring(array[i].indexOf("=")+1);
-        break;
-      }
-    }
-    
-    return row;
-  }
-
-  <%-- REPLACE ROW IN ARRAY STRING --%>
-  function replaceRowInArrayString(sArray,newRow,rowid){
-    var array = sArray.split("$");
-    
-    for(var i=0; i<array.length; i++){
-      if(array[i].indexOf(rowid) > -1){
-        array.splice(i,1,newRow);
-        break;
-      }
-    }
-
-    return array.join("$");
   }
 </script>

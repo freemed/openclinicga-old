@@ -6,16 +6,16 @@
 <%
     String sCareerUid = checkString(request.getParameter("CareerUid"));
        
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n***************** deleteCareer.jsp *****************");
-	    Debug.println("sCareerUid : "+sCareerUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n***************** deleteCareer.jsp *****************");
+        Debug.println("sCareerUid : "+sCareerUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = Career.delete(sCareerUid);
-	String sMessage = "";
+    String sMessage = "";
     
     if(!errorOccurred){
         sMessage = getTran("web","dataIsDeleted",sWebLanguage);

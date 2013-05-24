@@ -17,8 +17,6 @@
         Debug.println("no parameters\n");
     }
     ///////////////////////////////////////////////////////////////////////////
-
-    Contract contract = new Contract();    
 %>            
 
     <%=writeTableHeader("web","contracts",sWebLanguage,"")%><br>
@@ -26,14 +24,14 @@
     <div id="divContracts" class="searchResults" style="width:100%;height:160px;"></div>
     
     <form name="EditForm" id="EditForm" method="POST">
-        <input type="hidden" id="EditContractUid" name="EditContractUid" value="<%=checkString(contract.getUid())%>">
+        <input type="hidden" id="EditContractUid" name="EditContractUid" value="-1">
                     
         <table class="list" border="0" width="100%" cellspacing="1">            
             <%-- contractId (read-only) --%>
             <tr>
                 <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","contractId",sWebLanguage)%></td>
                 <td class="admin2">
-                    <div id="contractId"><%=(contract.objectId==-1?getTran("web.hr","newContract",sWebLanguage):contract.objectId)%></div>                              
+                    <div id="contractId"><%=getTran("web.hr","newContract",sWebLanguage)%></div>                              
                 </td>                        
             </tr>   
                    
@@ -41,7 +39,7 @@
             <tr>
                 <td class="admin"><%=getTran("web.hr","beginDate",sWebLanguage)%>&nbsp;*&nbsp;</td>
                 <td class="admin2">
-                    <%=writeDateField("beginDate","EditForm",ScreenHelper.getSQLDate(contract.beginDate),sWebLanguage)%>          
+                    <%=writeDateField("beginDate","EditForm","",sWebLanguage)%>          
                 </td>                        
             </tr>
             
@@ -49,7 +47,7 @@
             <tr>
                 <td class="admin"><%=getTran("web.hr","endDate",sWebLanguage)%></td>
                 <td class="admin2">
-                    <%=writeDateField("endDate","EditForm",ScreenHelper.getSQLDate(contract.endDate),sWebLanguage)%>          
+                    <%=writeDateField("endDate","EditForm","",sWebLanguage)%>          
                 </td>                        
             </tr>
             
@@ -59,7 +57,7 @@
                 <td class="admin2">
                     <select class="text" id="functionCode" name="functionCode">
                         <option/>
-                        <%=ScreenHelper.writeSelect("hr.contract.functioncode",checkString(contract.functionCode),sWebLanguage)%>
+                        <%=ScreenHelper.writeSelect("hr.contract.functioncode","",sWebLanguage)%>
                     </select>
                 </td>
             </tr>
@@ -68,7 +66,7 @@
             <tr>
                 <td class="admin"><%=getTran("web.hr","functionTitle",sWebLanguage)%>&nbsp;*&nbsp;</td>
                 <td class="admin2">
-                    <input type="text" class="text" id="functionTitle" name="functionTitle" size="80" maxLength="255" value="<%=checkString(contract.functionTitle)%>">
+                    <input type="text" class="text" id="functionTitle" name="functionTitle" size="80" maxLength="255" value="">
                 </td>
             </tr>
                                     
@@ -76,7 +74,7 @@
             <tr>
                 <td class="admin"><%=getTran("web.hr","functionDescription",sWebLanguage)%>&nbsp;*&nbsp;</td>
                 <td class="admin2">
-                    <textarea class="text" name="functionDescription" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"><%=checkString(contract.functionDescription)%></textarea>
+                    <textarea class="text" name="functionDescription" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
                 </td>
             </tr>
                 
@@ -88,7 +86,7 @@
                             <tr>
                                 <td class="admin"><%=getTran("web.hr","legalReferenceCode",sWebLanguage)%> <%=i%></td>
                                 <td class="admin2">
-                                    <input type="text" class="text" id="ref<%=i%>" name="ref<%=i%>" size="30" maxLength="50" value="<%=checkString(contract.getLegalReferenceCode(i))%>">
+                                    <input type="text" class="text" id="ref<%=i%>" name="ref<%=i%>" size="30" maxLength="50" value="">
                                 </td>
                             </tr>
                         <%
@@ -134,36 +132,37 @@
                  
           if(okToSubmit){
             document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
-            var url= "<c:url value='/hr/ajax/contract/saveContract.jsp'/>?ts="+new Date().getTime();
+            var url = "<c:url value='/hr/ajax/contract/saveContract.jsp'/>?ts="+new Date().getTime();
 
             document.getElementById("buttonSave").disabled = true;
             document.getElementById("buttonDelete").disabled = true;
             document.getElementById("buttonNew").disabled = true;
             
-            var sPostBody = "EditContractUid="+EditForm.EditContractUid.value+
+            var sParameters = "EditContractUid="+EditForm.EditContractUid.value+
                               "&PersonId=<%=activePatient.personid%>"+
-                            "&beginDate="+document.getElementById("beginDate").value+
-                            "&endDate="+document.getElementById("endDate").value+
-                            "&functionCode="+document.getElementById("functionCode").value+
-                            "&functionTitle="+document.getElementById("functionTitle").value+
-                            "&functionDescription="+document.getElementById("functionDescription").value+
-                            (document.getElementById("ref1")==null?"":"&ref1="+document.getElementById("ref1").value)+
-                            (document.getElementById("ref2")==null?"":"&ref2="+document.getElementById("ref2").value)+
-                            (document.getElementById("ref3")==null?"":"&ref3="+document.getElementById("ref3").value)+
-                            (document.getElementById("ref4")==null?"":"&ref4="+document.getElementById("ref4").value)+
-                            (document.getElementById("ref5")==null?"":"&ref5="+document.getElementById("ref5").value);       
+                              "&beginDate="+document.getElementById("beginDate").value+
+                              "&endDate="+document.getElementById("endDate").value+
+                              "&functionCode="+document.getElementById("functionCode").value+
+                              "&functionTitle="+document.getElementById("functionTitle").value+
+                              "&functionDescription="+document.getElementById("functionDescription").value+
+                              (document.getElementById("ref1")==null?"":"&ref1="+document.getElementById("ref1").value)+
+                              (document.getElementById("ref2")==null?"":"&ref2="+document.getElementById("ref2").value)+
+                              (document.getElementById("ref3")==null?"":"&ref3="+document.getElementById("ref3").value)+
+                              (document.getElementById("ref4")==null?"":"&ref4="+document.getElementById("ref4").value)+
+                              (document.getElementById("ref5")==null?"":"&ref5="+document.getElementById("ref5").value);       
                               
             new Ajax.Request(url,
               {
                 method: "POST",
-                postBody: sPostBody,                          
+                postBody: sParameters,                          
                 onSuccess: function(resp){
                   var data = eval("("+resp.responseText+")");
                   $("divMessage").innerHTML = data.message;
 
                   loadContracts();
+                  newContract();
                   
-                  EditForm.EditContractUid.value = data.newUid;                  
+                  //EditForm.EditContractUid.value = data.newUid;                  
                   document.getElementById("buttonSave").disabled = false;
                   document.getElementById("buttonDelete").disabled = false;
                   document.getElementById("buttonNew").disabled = false;
@@ -188,21 +187,11 @@
       <%-- LOAD CONTRACTS --%>
       function loadContracts(){
         document.getElementById("divContracts").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
-        var url= "<c:url value='/hr/ajax/contract/getContracts.jsp'/>?ts="+new Date().getTime();
+        var url = "<c:url value='/hr/ajax/contract/getContracts.jsp'/>?ts="+new Date().getTime();
         new Ajax.Request(url,
           {
             method: "GET",
             parameters: "PatientId=<%=activePatient.personid%>",
-                        //"&beginDate=<%=contract.beginDate%>"+
-                        //"&endDate=<%=contract.endDate%>"+
-                        //"&functionCode=<%=contract.functionCode%>"+
-                        //"&functionTitle=<%=contract.functionTitle%>"+
-                        //"&functionDescription=<%=contract.functionDescription%>"+
-                        //"&ref1=<%=contract.ref1%>"+
-                        //"&ref2=<%=contract.ref2%>"+
-                        //"&ref3=<%=contract.ref3%>"+
-                        //"&ref4=<%=contract.ref4%>"+
-                        //"&ref5=<%=contract.ref5%>",
             onSuccess: function(resp){
               $("divContracts").innerHTML = resp.responseText;
               sortables_init();
@@ -216,7 +205,7 @@
 
       <%-- DISPLAY CONTRACT --%>
       function displayContract(contractUid){          
-        var url= "<c:url value='/hr/ajax/contract/getContract.jsp'/>?ts="+new Date().getTime();
+        var url = "<c:url value='/hr/ajax/contract/getContract.jsp'/>?ts="+new Date().getTime();
         
         new Ajax.Request(url,
           {
@@ -255,9 +244,9 @@
       
       <%-- DELETE CONTRACT --%>
       function deleteContract(){  
-        var answer = confirmDialog("web","areYouSureToDelete"); 
+        var answer = yesnoDialog("web","areYouSureToDelete");  
         if(answer==1){                 
-          var url= "<c:url value='/hr/ajax/contract/deleteContract.jsp'/>?ts="+new Date().getTime();
+          var url = "<c:url value='/hr/ajax/contract/deleteContract.jsp'/>?ts="+new Date().getTime();
 
           document.getElementById("buttonSave").disabled = true;
           document.getElementById("buttonDelete").disabled = true;
@@ -271,8 +260,8 @@
                 var data = eval("("+resp.responseText+")");
                 $("divMessage").innerHTML = data.message;
 
-                newContract();
                 loadContracts();
+                newContract();
               
                 document.getElementById("buttonSave").disabled = false;
                 if(document.getElementById("buttonDelete")!=null) document.getElementById("buttonDelete").disabled = false;
@@ -293,7 +282,7 @@
         document.getElementById("buttonNew").style.visibility = "hidden";
 
         $("EditContractUid").value = "-1";
-        $("contractId").innerHTML = "";
+        $("contractId").innerHTML = "<%=getTran("web.hr","newContract",sWebLanguage)%>";   
         $("beginDate").value = "";
         $("endDate").value = "";
         $("functionCode").value = "";
@@ -315,24 +304,7 @@
         openPopup("/_common/search/searchFunction.jsp&ts=<%=getTs()%>&VarCode="+functionCodeField);
         document.getElementById(functionCodeField).focus();
       }
-      
-      <%-- UPDATE ROW STYLES --%>
-      function updateRowStyles(){
-        for(var i=1; i<searchresults.rows.length; i++){
-          searchresults.rows[i].className = "";
-          searchresults.rows[i].style.cursor = "hand";
-        }
-
-        for(var i=1; i<searchresults.rows.length; i++){
-          if(i%2==0){
-            searchresults.rows[i].className = "list";
-          }
-          else{
-            searchresults.rows[i].className = "list1";
-          }
-        }
-      }
-        
+              
       EditForm.beginDate.focus();
       loadContracts();
       resizeAllTextareas(8);

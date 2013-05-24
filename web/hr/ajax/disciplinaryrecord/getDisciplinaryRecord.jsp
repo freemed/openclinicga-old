@@ -4,16 +4,16 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-	String sDiscRecUid = checkString(request.getParameter("DisRecUid"));
+    String sDiscRecUid = checkString(request.getParameter("DisRecUid"));
 
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n************* getDisciplinaryRecord.jsp ************");
-	    Debug.println("sDiscRecUid : "+sDiscRecUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n************* getDisciplinaryRecord.jsp ************");
+        Debug.println("sDiscRecUid : "+sDiscRecUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
-    DisciplinaryRecord disiplinaryRecord = DisciplinaryRecord.get(sDiscRecUid);	
+    DisciplinaryRecord disiplinaryRecord = DisciplinaryRecord.get(sDiscRecUid);    
 %>
 
 {

@@ -7,6 +7,8 @@
 <%@include file="../hr/includes/commonFunctions.jsp"%>
 <%=checkPermission("hr.workschedule.edit","edit",activeUser)%>
 
+<script src="<%=sCONTEXTPATH%>/hr/includes/commonFunctions.js"></script> 
+
 <%!
     //### INNER CLASS : PredefinedWeekSchedule ####################################################
     private class PredefinedWeekSchedule {
@@ -108,7 +110,7 @@
 <div id="divWorkschedules" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditScheduleUid" name="EditScheduleUid" value="">
+    <input type="hidden" id="EditScheduleUid" name="EditScheduleUid" value="-1">
                 
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- begin --%>
@@ -307,7 +309,51 @@
     <div id="divMessage" style="padding-top:10px;"></div>
 </form>
     
-<script>
+<script>  
+  <%-- CALCULATE HOURS PER WEEK --%>
+  function calculateHoursPerWeek(sTableArrayString){
+    var hoursPerWeek = 0, oneRow, hours;
+    
+    while(sTableArrayString.indexOf("$") > -1){
+      oneRow = sTableArrayString.substring(0,sTableArrayString.indexOf("$"));
+      oneRow = oneRow.substring(oneRow.indexOf("=")+1); // trim off index
+
+      sTableArrayString = sTableArrayString.substring(sTableArrayString.indexOf("$")+1);
+      
+      hours = oneRow.split("|")[3]; // duration
+      hours = hourToDecimal(hours);    
+      hoursPerWeek+= hours;
+    }
+    
+    return hoursPerWeek;
+  }
+  
+  <%-- HOUR TO DECIMAL --%>
+  function hourToDecimal(hourValue){
+    var hoursDeci = 0;
+    
+    if(hourValue.indexOf(":") > -1){ 
+      var hours = hourValue.split(":")[0],
+          mins  = hourValue.split(":")[1];
+
+      hoursDeci = (hours*1)+((mins*1)/60);
+    }
+    
+    return hoursDeci;
+  }
+  
+  <%-- DECIMAL TO HOUR --%>
+  function decimalToHour(hoursDeci){
+    hoursDeci = (hoursDeci+"").replace(",",".");
+    var hours = hoursDeci.substring(0,hoursDeci.indexOf("."));
+    var mins = ((hoursDeci.substring(hoursDeci.indexOf(".")+1))/100)*60;
+
+    if(hours<10) hours = "0"+hours;
+    if(mins<10) mins = "0"+mins;
+
+    return hours+":"+mins;
+  }
+  
   <%-- SAVE WORKSCHEDULE --%>
   function saveWorkschedule(){
     var okToSubmit = true;
@@ -328,13 +374,39 @@
       <%-- required fields depending on chosen schedule type --%>
       if(okToSubmit){
         <%-- schedule type --%>
-        if(document.getElementById("scheduleTypeDay").checked){
+        if(document.getElementById("scheduleTypeDay").checked){          
+          <%-- day : begin & end hour --%>
+          if(okToSubmit){
+            <%-- begin --%>
+            var aTimeBegin = document.getElementById("dayScheduleStart").value.split(":");
+            var startHour = aTimeBegin[0];
+            if(startHour.length==0) startHour = 0;
+            var startMinute = aTimeBegin[1];
+            if(startMinute.length==0) startMinute = 0;
+
+            <%-- end --%>
+            var aTimeEnd = document.getElementById("dayScheduleEnd").value.split(":");
+            var stopHour = aTimeEnd[0];
+            if(stopHour.length==0) stopHour = 0;
+            var stopMinute = aTimeEnd[1];
+            if(stopMinute.length==0) stopMinute = 0;
+
+            var dateFrom = new Date(2000,1,1,startHour,startMinute,0),
+                dateUntil = new Date(2000,1,1,stopHour,stopMinute,0);
+
+            if(dateFrom.getTime() > dateUntil.getTime()){
+              alertDialog("web.hr","beginHourMustComeBeforeEndHour");
+              document.getElementById("dayScheduleStart").focus();
+              okToSubmit = false;
+            }
+          }
+
           <%-- day : hours --%>
           if(okToSubmit){
             if(document.getElementById("dayScheduleHours").value.length==0){
-              okToSubmit = false;
               alertDialog("web.manage","dataMissing");
               document.getElementById("dayScheduleHours").focus();
+              okToSubmit = false;
             }
           }
         }  
@@ -342,10 +414,10 @@
           <%-- week : hours
           if(okToSubmit){
             if(document.getElementById("tbDuration").value.length==0){
-              okToSubmit = false;
               alertDialog("web.manage","dataMissing");
-              document.getElementById("tbDuration").focus();                      
-              }
+              document.getElementById("tbDuration").focus();  
+              okToSubmit = false;                    
+            }
           }
           --%>
         }
@@ -353,9 +425,9 @@
           <%-- month : hours --%>
           if(okToSubmit){
             if(document.getElementById("monthScheduleHours").value.length==0){
-              okToSubmit = false;
               alertDialog("web.manage","dataMissing");
               document.getElementById("monthScheduleHours").focus();    
+              okToSubmit = false;
             }
           }                
         }                
@@ -363,25 +435,34 @@
       
       if(okToSubmit){
         document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
-        var url= "<c:url value='/hr/ajax/workschedule/saveWorkschedule.jsp'/>?ts="+new Date().getTime();
+        var url = "<c:url value='/hr/ajax/workschedule/saveWorkschedule.jsp'/>?ts="+new Date().getTime();
 
         document.getElementById("buttonSave").disabled = true;
         document.getElementById("buttonDelete").disabled = true;
         document.getElementById("buttonNew").disabled = true;
         
+        <%-- parameters --%>
         var sParameters = "EditScheduleUid="+EditForm.EditScheduleUid.value+
                           "&PersonId=<%=activePatient.personid%>"+
                           "&begin="+document.getElementById("begin").value+
                           "&end="+document.getElementById("end").value+
-                          "&fte="+document.getElementById("fte").options[document.getElementById("fte").selectedIndex].text+
-                          "&dayStart="+document.getElementById("dayScheduleStart").value+ // type1 - day
-                          "&dayEnd="+document.getElementById("dayScheduleEnd").value+
-                          "&dayHours="+document.getElementById("dayScheduleHours").value+
-                          "&weekScheduleType="+document.getElementById("weekScheduleType").value+ // type2 - week
-                          "&weekSchedule="+sTB+
-                          "&monthScheduleType="+document.getElementById("monthScheduleType").value+ // type3 - month       
-                          "&monthHours="+document.getElementById("monthScheduleHours").value;
-                                                 
+                          "&fte="+document.getElementById("fte").options[document.getElementById("fte").selectedIndex].text;
+
+        if(document.getElementById("scheduleTypeDay").checked){
+          sParameters+= "&dayStart="+document.getElementById("dayScheduleStart").value+ // type1 - day
+                        "&dayEnd="+document.getElementById("dayScheduleEnd").value+
+                        "&dayHours="+document.getElementById("dayScheduleHours").value;
+        }
+        else if(document.getElementById("scheduleTypeWeek").checked){
+          sParameters+= "&weekScheduleType="+document.getElementById("weekScheduleType").value+ // type2 - week
+                        "&weekSchedule="+removeTRIndexes(sTB)+
+                        "&weekHours="+decimalToHour(calculateHoursPerWeek(sTB));
+        }
+        else if(document.getElementById("scheduleTypeMonth").checked){
+          sParameters+= "&monthScheduleType="+document.getElementById("monthScheduleType").value+ // type3 - month
+                        "&monthHours="+document.getElementById("monthScheduleHours").value;
+        }
+                                                  
         <%-- schedule type --%>
         if(document.getElementById("scheduleTypeDay").checked){
           sParameters+= "&scheduleType=day";
@@ -401,10 +482,10 @@
               var data = eval("("+resp.responseText+")");
               $("divMessage").innerHTML = data.message;
 
-              newWorkschedule();
               loadWorkschedules();
+              newWorkschedule();
               
-              EditForm.EditScheduleUid.value = data.newUid;
+              //EditForm.EditScheduleUid.value = data.newUid;
               document.getElementById("buttonSave").disabled = false;
               document.getElementById("buttonDelete").disabled = false;
               document.getElementById("buttonNew").disabled = false;
@@ -446,8 +527,8 @@
 
   <%-- DISPLAY WORKSCHEDULE --%>
   function displayWorkschedule(scheduleUid){          
-	hideAllSchedules();
-    var url= "<c:url value='/hr/ajax/workschedule/getWorkschedule.jsp'/>?ts="+new Date().getTime();
+    hideAllSchedules();
+    var url = "<c:url value='/hr/ajax/workschedule/getWorkschedule.jsp'/>?ts="+new Date().getTime();
     
     new Ajax.Request(url,
       {
@@ -491,8 +572,8 @@
               }
             }
               
-        	document.getElementById("timeBlocks").value = data.weekSchedule;
-        	displayTimeBlocks();
+            document.getElementById("timeBlocks").value = data.weekSchedule;
+            displayTimeBlocks();
           }
           else if(data.type=="month"){
             <%-- monthScheduleType --%>
@@ -521,9 +602,9 @@
   
   <%-- DELETE WORKSCHEDULE --%>
   function deleteWorkschedule(){
-    var answer = confirmDialog("web","areYouSureToDelete");  
+    var answer = yesnoDialog("web","areYouSureToDelete");   
     if(answer==1){                 
-      var url= "<c:url value='/hr/ajax/workschedule/deleteWorkschedule.jsp'/>?ts="+new Date().getTime();
+      var url = "<c:url value='/hr/ajax/workschedule/deleteWorkschedule.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
@@ -537,8 +618,8 @@
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;
 
-            newWorkschedule();
             loadWorkschedules();
+            newWorkschedule();
           
             document.getElementById("buttonSave").disabled = false;
             document.getElementById("buttonDelete").disabled = false;
@@ -564,7 +645,7 @@
     $("begin").value = "";
     $("end").value = "";
     $("fte").selectedIndex = 0;
-	$("timeBlocks").value = "";   
+    $("timeBlocks").value = "";   
     
     $("begin").focus();
     resizeAllTextareas(8);
@@ -673,7 +754,7 @@
   function clearWeekScheduleFields(){
     document.getElementById("weekScheduleType").selectedIndex = 0;
     document.getElementById("timeBlocks").value = "";
-	clearTimeBlockTable();
+    clearTimeBlockTable();
     displayTimeBlocks();
   }
   
@@ -847,59 +928,89 @@
   <%-- ADD TIME BLOCK --%>
   function addTB(){
     if(areRequiredTBFieldsFilled()){
-      iTBIndex++;
-
-      <%-- update arrayString --%>
-      sTB+="rowTB"+iTBIndex+"="+EditForm.tbDayIdx.selectedIndex+"|"+
-                                EditForm.tbBeginHour.value+"|"+
-                                EditForm.tbEndHour.value+"|"+
-                                EditForm.tbDuration.value+"$";
+      var okToAdd = true;
       
-      var tr = tblTB.insertRow(tblTB.rows.length);
-      tr.id = "rowTB"+iTBIndex;
+      <%-- check hours --%>
+      if(EditForm.tbBeginHour.value.length > 0 && EditForm.tbEndHour.value.length > 0){
+        <%-- begin --%>
+        var beginHour = EditForm.tbBeginHour.value.split(":")[0];
+        if(beginHour.length==0) beginHour = 0;
+        var beginMinute = EditForm.tbBeginHour.value.split(":")[1];
+        if(beginMinute.length==0) beginMinute = 0;
 
-      var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteTB(rowTB"+iTBIndex+")'>"+
-                      "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
-                     "</a> "+
-                     "<a href='javascript:editTB(rowTB"+iTBIndex+")'>"+
-                      "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
-                     "</a>";
-      tr.appendChild(td);
+        <%-- end --%>
+        var endHour = EditForm.tbEndHour.value.split(":")[0];
+        if(endHour.length==0) endHour = 0;
+        var endMinute = EditForm.tbEndHour.value.split(":")[1];
+        if(endMinute.length==0) endMinute = 0;
+        
+        var beginHour = new Date(2000,1,1,beginHour,beginMinute,0),
+            endHour   = new Date(2000,1,1,endHour,endMinute,0);
 
-      <%-- day name --%>
-      td = tr.insertCell(1);
-           if(EditForm.tbDayIdx.selectedIndex=="1") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day1",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="2") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day2",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day3",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day4",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day5",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day6",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day7",sWebLanguage)%>";
-      tr.appendChild(td);
+        if(beginHour.getTime() > endHour.getTime()){
+          okToAdd = false;
+        }
+      }
+    
+      if(okToAdd==true){
+        iTBIndex++;
 
-      td = tr.insertCell(2);
-      td.innerHTML = "&nbsp;"+EditForm.tbBeginHour.value;
-      tr.appendChild(td);
-
-      td = tr.insertCell(3);
-      td.innerHTML = "&nbsp;"+EditForm.tbEndHour.value;
-      tr.appendChild(td);
-
-      td = tr.insertCell(4);
-      td.innerHTML = "&nbsp;"+EditForm.tbDuration.value;
-      tr.appendChild(td);
+        <%-- update arrayString --%>
+        sTB+="rowTB"+iTBIndex+"="+EditForm.tbDayIdx.selectedIndex+"|"+
+                                  EditForm.tbBeginHour.value+"|"+
+                                  EditForm.tbEndHour.value+"|"+
+                                  EditForm.tbDuration.value+"$";
       
-      <%-- empty cell --%>
-      td = tr.insertCell(5);
-      td.innerHTML = "&nbsp;";
-      tr.appendChild(td);
+        var tr = tblTB.insertRow(tblTB.rows.length);
+        tr.id = "rowTB"+iTBIndex;
 
-      setRowStyle(tr,iTBIndex);
+        var td = tr.insertCell(0);
+        td.innerHTML = "<a href='javascript:deleteTB(rowTB"+iTBIndex+")'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                       "</a> "+
+                       "<a href='javascript:editTB(rowTB"+iTBIndex+")'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                       "</a>";
+        tr.appendChild(td);
+
+        <%-- day name --%>
+        td = tr.insertCell(1);
+             if(EditForm.tbDayIdx.selectedIndex=="1") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day1",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="2") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day2",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day3",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day4",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day5",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day6",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day7",sWebLanguage)%>";
+        tr.appendChild(td);
+
+        td = tr.insertCell(2);
+        td.innerHTML = "&nbsp;"+EditForm.tbBeginHour.value;
+        tr.appendChild(td);
+
+        td = tr.insertCell(3);
+        td.innerHTML = "&nbsp;"+EditForm.tbEndHour.value;
+        tr.appendChild(td);
+
+        td = tr.insertCell(4);
+        td.innerHTML = "&nbsp;"+EditForm.tbDuration.value;
+        tr.appendChild(td);
       
-      <%-- reset --%>
-      clearTBFields()
-      EditForm.ButtonUpdateTB.disabled = true;
+        <%-- empty cell --%>
+        td = tr.insertCell(5);
+        td.innerHTML = "&nbsp;";
+        tr.appendChild(td);
+
+        setRowStyle(tr,iTBIndex);
+      
+        <%-- reset --%>
+        clearTBFields()
+        EditForm.ButtonUpdateTB.disabled = true;
+      }
+      else{
+        alertDialog("web.hr","beginHourMustComeBeforeEndHour");
+        EditForm.tbBeginHour.focus();
+      }
     }
     else{
       alertDialog("web.manage","dataMissing");
@@ -920,42 +1031,72 @@
   <%-- UPDATE TIME BLOCK --%>
   function updateTB(){
     if(areRequiredTBFieldsFilled()){
-      <%-- update arrayString --%>
-      var newRow = editTBRowid.id+"="+EditForm.tbDayIdx.selectedIndex+"|"+
-                                      EditForm.tbBeginHour.value+"|"+
-                                      EditForm.tbEndHour.value+"|"+
-                                      EditForm.tbDuration.value;
+      var okToAdd = true;
+      
+      <%-- check hours --%>
+      if(EditForm.tbBeginHour.value.length > 0 && EditForm.tbEndHour.value.length > 0){
+        <%-- begin --%>
+        var beginHour = EditForm.tbBeginHour.value.split(":")[0];
+        if(beginHour.length==0) beginHour = 0;
+        var beginMinute = EditForm.tbBeginHour.value.split(":")[1];
+        if(beginMinute.length==0) beginMinute = 0;
 
-      sTB = replaceRowInArrayString(sTB,newRow,editTBRowid.id);
+        <%-- end --%>
+        var endHour = EditForm.tbEndHour.value.split(":")[0];
+        if(endHour.length==0) endHour = 0;
+        var endMinute = EditForm.tbEndHour.value.split(":")[1];
+        if(endMinute.length==0) endMinute = 0;
+        
+        var beginHour = new Date(2000,1,1,beginHour,beginMinute,0),
+            endHour   = new Date(2000,1,1,endHour,endMinute,0);
 
-      <%-- update table object --%>
-      var row = tblTB.rows[editTBRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='javascript:deleteTB("+editTBRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
-                               "</a> "+
-                               "<a href='javascript:editTB("+editTBRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
-                               "</a>";
+        if(beginHour.getTime() > endHour.getTime()){
+          okToAdd = false;
+        }
+      }
+    
+      if(okToAdd==true){        
+        <%-- update arrayString --%>
+        var newRow = editTBRowid.id+"="+EditForm.tbDayIdx.selectedIndex+"|"+
+                                        EditForm.tbBeginHour.value+"|"+
+                                        EditForm.tbEndHour.value+"|"+
+                                        EditForm.tbDuration.value;
 
-      <%-- day name --%>
-           if(EditForm.tbDayIdx.selectedIndex=="1") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day1",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="2") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day2",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="3") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day3",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="4") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day4",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="5") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day5",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="6") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day6",sWebLanguage)%>";
-      else if(EditForm.tbDayIdx.selectedIndex=="7") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day7",sWebLanguage)%>";
+        sTB = replaceRowInArrayString(sTB,newRow,editTBRowid.id);
 
-      row.cells[2].innerHTML = "&nbsp;"+EditForm.tbBeginHour.value;
-      row.cells[3].innerHTML = "&nbsp;"+EditForm.tbEndHour.value;
-      row.cells[4].innerHTML = "&nbsp;"+EditForm.tbDuration.value;
+        <%-- update table object --%>
+        var row = tblTB.rows[editTBRowid.rowIndex];
+        row.cells[0].innerHTML = "<a href='javascript:deleteTB("+editTBRowid.id+")'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                 "</a> "+
+                                 "<a href='javascript:editTB("+editTBRowid.id+")'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                 "</a>";
 
-      <%-- empty cell --%>
-      row.cells[5].innerHTML = "&nbsp;";
+        <%-- day name --%>
+             if(EditForm.tbDayIdx.selectedIndex=="1") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day1",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="2") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day2",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="3") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day3",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="4") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day4",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="5") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day5",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="6") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day6",sWebLanguage)%>";
+        else if(EditForm.tbDayIdx.selectedIndex=="7") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.workschedule.days","day7",sWebLanguage)%>";
 
-      <%-- reset --%>
-      clearTBFields();
-      EditForm.ButtonUpdateTB.disabled = true;
+        row.cells[2].innerHTML = "&nbsp;"+EditForm.tbBeginHour.value;
+        row.cells[3].innerHTML = "&nbsp;"+EditForm.tbEndHour.value;
+        row.cells[4].innerHTML = "&nbsp;"+EditForm.tbDuration.value;
+
+        <%-- empty cell --%>
+        row.cells[5].innerHTML = "&nbsp;";
+
+        <%-- reset --%>
+        clearTBFields();
+        EditForm.ButtonUpdateTB.disabled = true;
+      }
+      else{
+        alertDialog("web.hr","beginHourMustComeBeforeEndHour");
+        EditForm.tbBeginHour.focus();
+      }
     }
     else{
       alertDialog("web.manage","dataMissing");
@@ -973,12 +1114,6 @@
   
   <%-- ARE REQUIRED TB FIELDS FILLED --%>
   function areRequiredTBFieldsFilled(){
-    /*
-    return (EditForm.tbDayIdx.selectedIndex > 0 &&
-            EditForm.tbBeginHour.value.length > 0 &&
-            EditForm.tbEndHour.value.length > 0 &&
-            EditForm.tbDuration.value.length > 0);
-    */
     return (EditForm.tbDuration.value.length > 0);
   }
 
@@ -1001,7 +1136,7 @@
   
   <%-- DELETE TIME BLOCK --%>
   function deleteTB(rowid){
-    var answer = confirmDialog("web","areYouSureToDelete");
+    var answer = yesnoDialog("web","areYouSureToDelete"); 
     if(answer==1){
       sTB = deleteRowFromArrayString(sTB,rowid.id);
       tblTB.deleteRow(rowid.rowIndex);
@@ -1025,72 +1160,8 @@
     EditForm.ButtonUpdateTB.disabled = false;
   }
 
-  <%-- SET ROW STYLE --%>
-  function setRowStyle(row,rowIdx){
-    if(rowIdx%2==0){
-      for(var i=0; i<row.cells.length; i++){
-        row.cells[i].style.font = "10px arial #333333";
-        row.cells[i].style.padding = "5px 1px 1px 1px";
-        row.cells[i].style.backgroundColor = "#E0EBF2";
-      }
-    }
-    else{
-      for(var i=0; i<row.cells.length; i++){
-        row.cells[i].style.font = "10px arial #333333";
-        row.cells[i].style.padding = "5px 1px 1px 1px";
-        row.cells[i].style.backgroundColor = "#E9EEFF";
-      }
-    }
-  }
-          
-  <%-- DELETE ROW FROM ARRAY STRING --%>
-  function deleteRowFromArrayString(sArray,rowid){
-    var array = sArray.split("$");
-    
-    for(var i=0; i<array.length; i++){
-      if(array[i].indexOf(rowid) > -1){
-        array.splice(i,1);
-      }
-    }
-    
-    return array.join("$");
-  }
-
-  <%-- GET CELL FROM ROW STRING --%>
-  function getCelFromRowString(sRow,celid){
-    var row = sRow.split("|");
-    return row[celid];
-  }
-
-  <%-- GET ROW FROM ARRAY STRING --%>
-  function getRowFromArrayString(sArray,rowid){
-    var array = sArray.split("$");
-    var row = "";
-    
-    for(var i=0; i<array.length; i++){
-      if(array[i].indexOf(rowid) > -1){
-        row = array[i].substring(array[i].indexOf("=")+1);
-        break;
-      }
-    }
-    
-    return row;
-  }
-
-  <%-- REPLACE ROW IN ARRAY STRING --%>
-  function replaceRowInArrayString(sArray,newRow,rowid){
-    var array = sArray.split("$");
-    
-    for(var i=0; i<array.length; i++){
-      if(array[i].indexOf(rowid) > -1){
-        array.splice(i,1,newRow);
-        break;
-      }
-    }
-
-    return array.join("$");
-  }
-    
+  EditForm.ButtonUpdateTB.disabled = true;
+  
   EditForm.begin.focus();
   loadWorkschedules();
   resizeAllTextareas(8);

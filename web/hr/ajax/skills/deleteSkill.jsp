@@ -6,16 +6,16 @@
 <%
     String sSkillUid = checkString(request.getParameter("SkillUid"));
        
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n***************** deleteSkill.jsp *****************");
-	    Debug.println("sSkillUid : "+sSkillUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n***************** deleteSkill.jsp *****************");
+        Debug.println("sSkillUid : "+sSkillUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = Skill.delete(sSkillUid);
-	String sMessage = "";
+    String sMessage = "";
     
     if(!errorOccurred){
         sMessage = getTran("web","dataIsDeleted",sWebLanguage);

@@ -5,18 +5,18 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-	String sLeaveUid = checkString(request.getParameter("LeaveUid"));
+    String sLeaveUid = checkString(request.getParameter("LeaveUid"));
 
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n****************** getLeave.jsp *******************");
-	    Debug.println("sLeaveUid : "+sLeaveUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n****************** getLeave.jsp *******************");
+        Debug.println("sLeaveUid : "+sLeaveUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     Leave leave = Leave.get(sLeaveUid);
 
-	DecimalFormat deci = new DecimalFormat("0.##");
+    DecimalFormat deci = new DecimalFormat("0.##");
 %>
 
 {

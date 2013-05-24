@@ -6,16 +6,16 @@
 <%
     String sScheduleUid = checkString(request.getParameter("ScheduleUid"));
        
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n************** deleteWorkschedule.jsp *************");
-	    Debug.println("sScheduleUid : "+sScheduleUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n************** deleteWorkschedule.jsp *************");
+        Debug.println("sScheduleUid : "+sScheduleUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = Workschedule.delete(sScheduleUid);
-	String sMessage = "";
+    String sMessage = "";
     
     if(!errorOccurred){
         sMessage = getTran("web","dataIsDeleted",sWebLanguage);

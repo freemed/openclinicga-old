@@ -36,6 +36,9 @@
 </form>
 
 <script>
+  document.getElementById("buttonOk").focus();
+
+  <%-- DO CLOSE --%>
   function doClose(iReturn){
     window.returnValue = iReturn;
     window.close();

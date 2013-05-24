@@ -1,4 +1,3 @@
-<%@page import="javax.swing.text.html.HTML"%>
 <%@page import="be.mxs.common.util.system.HTMLEntities"%>
 <%@page import="org.dom4j.DocumentException,
                 java.util.Vector"%>
@@ -51,16 +50,16 @@
                 if(endMinute.length()==0) endMinute = "0";
 
                 try{
-	                java.util.Date dateFrom  = ScreenHelper.fullDateFormat.parse("01/01/2000 "+beginHour+":"+beginMinute),
-	                		       dateUntil = ScreenHelper.fullDateFormat.parse("01/01/2000 "+endHour+":"+endMinute);
-	
-	                long millisDiff = dateUntil.getTime() - dateFrom.getTime();
-	                int totalMinutes = (int)(millisDiff/(60*1000));
-	                
-	                int hour    = totalMinutes/60,
-	                    minutes = (totalMinutes%60);
-	
-	                sDuration = (hour<10?"0"+hour:hour)+":"+(minutes<10?"0"+minutes:minutes);
+                    java.util.Date dateFrom  = ScreenHelper.fullDateFormat.parse("01/01/2000 "+beginHour+":"+beginMinute),
+                                   dateUntil = ScreenHelper.fullDateFormat.parse("01/01/2000 "+endHour+":"+endMinute);
+    
+                    long millisDiff = dateUntil.getTime() - dateFrom.getTime();
+                    int totalMinutes = (int)(millisDiff/(60*1000));
+                    
+                    int hour    = totalMinutes/60,
+                        minutes = (totalMinutes%60);
+    
+                    sDuration = (hour<10?"0"+hour:hour)+":"+(minutes<10?"0"+minutes:minutes);
                 }
                 catch(Exception e){
                     if(Debug.enabled) e.printStackTrace();

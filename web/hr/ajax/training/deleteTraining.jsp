@@ -6,16 +6,16 @@
 <%
     String sTrainingUid = checkString(request.getParameter("TrainingUid"));
        
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n**************** deleteTraining.jsp ****************");
-	    Debug.println("sTrainingUid : "+sTrainingUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n**************** deleteTraining.jsp ****************");
+        Debug.println("sTrainingUid : "+sTrainingUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = Training.delete(sTrainingUid);
-	String sMessage = "";
+    String sMessage = "";
     
     if(!errorOccurred){
         sMessage = getTran("web","dataIsDeleted",sWebLanguage);

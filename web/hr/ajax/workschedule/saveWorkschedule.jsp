@@ -8,7 +8,7 @@
 
 <%!
     //--- TIMEBLOCKS TO WEEKSCHEDULE --------------------------------------------------------------
-    private Element timeblocksToWeekschedule(String sTimeBlocks, Element weekschedule){    
+    private Element timeblocksToWeekschedule(String sTimeBlocks, Element weekschedule){        
         if(sTimeBlocks.length() > 0){
             Element timeBlocksElem = weekschedule.addElement("TimeBlocks");
 
@@ -77,8 +77,8 @@
            sWeekHours        = checkString(request.getParameter("weekHours")),
 
            // type3 - month
-              sMonthScheduleType = checkString(request.getParameter("monthScheduleType")),
-              sMonthHours        = checkString(request.getParameter("monthHours"));
+           sMonthScheduleType = checkString(request.getParameter("monthScheduleType")),
+           sMonthHours        = checkString(request.getParameter("monthHours"));
 
 
     /// DEBUG /////////////////////////////////////////////////////////////////
@@ -132,64 +132,59 @@
     ///////////////////////////////////////////////////////////////////////////
     /// XML-BOUND DATA ////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    if(sScheduleType.length() > 0){
-	    StringBuffer sXML = new StringBuffer();
-	    
-	    org.dom4j.Document document = DocumentHelper.createDocument();
-	    Element wsElem = document.addElement("WorkSchedule"); 
-		    
-	    //*** type1 - day ***************************
-	    if(sScheduleType.equals("day")){
-	        Element daySchedule = wsElem.addElement("Schedule");    
-	        daySchedule.addAttribute("type",sScheduleType);
-	        
-	        if(sDayStart.length() > 0){
-	            daySchedule.addElement("BeginHour").setText(sDayStart);
-	        }
-	
-	        if(sDayEnd.length() > 0){
-	            daySchedule.addElement("EndHour").setText(sDayEnd);
-	        }
-	
-	        if(sDayHours.length() > 0){
-	            daySchedule.addElement("HoursPerDay").setText(sDayHours);
-	        }
-	    }
-	    //*** type2 - week **************************
-	    else if(sScheduleType.equals("week")){
-	        Element schedule = wsElem.addElement("Schedule");
-	        
-	        if(sWeekScheduleType.length() > 0){
-	        	schedule.addAttribute("type",sScheduleType);
-	        }
+    if(sScheduleType.length() > 0){           
+        org.dom4j.Document document = DocumentHelper.createDocument();
+        Element wsElem = document.addElement("WorkSchedule"); 
+            
+        //*** type1 - day ***************************
+        if(sScheduleType.equals("day")){
+            Element schedule = wsElem.addElement("Schedule");    
+            schedule.addAttribute("type",sScheduleType);
+            
+            if(sDayStart.length() > 0){
+                schedule.addElement("BeginHour").setText(sDayStart);
+            }
+    
+            if(sDayEnd.length() > 0){
+                schedule.addElement("EndHour").setText(sDayEnd);
+            }
+    
+            if(sDayHours.length() > 0){
+                schedule.addElement("HoursPerDay").setText(sDayHours);
+            }
+        }
+        //*** type2 - week **************************
+        else if(sScheduleType.equals("week")){
+            Element schedule = wsElem.addElement("Schedule");
+            schedule.addAttribute("type",sScheduleType);
 
-	        Element weekSchedule = schedule.addElement("WeekSchedule");
-	        weekSchedule.addAttribute("scheduleType",sWeekScheduleType);
-	        
-	        if(sWeekHours.length() > 0){
-	            weekSchedule.addElement("HoursPerWeek").setText(sWeekHours);
-	        }
-	
-	        if(sWeekSchedule.length() > 0){
-	            weekSchedule = timeblocksToWeekschedule(sWeekSchedule,weekSchedule);
-	        }
-	    }
-	    //*** type3 - month *************************
-	    else if(sScheduleType.equals("month")){
-	        Element monthSchedule = wsElem.addElement("Schedule");
-	        monthSchedule.addAttribute("type",sScheduleType);
-	
-	        if(sMonthScheduleType.length() > 0){
-	        	monthSchedule.addElement("PredefinedHoursPerMonth").setText(sMonthHours);
-	        }        
-	        if(sMonthHours.length() > 0){
-	        	monthSchedule.addElement("HoursPerMonth").setText(sMonthHours);
-	        }        
-	    }
-	    
-	    Debug.println("\n"+wsElem.asXML()+"\n");
-	    
-	    workschedule.scheduleXml = wsElem.asXML();
+            Element weekSchedule = schedule.addElement("WeekSchedule");
+            weekSchedule.addAttribute("scheduleType",sWeekScheduleType);
+            
+            if(sWeekHours.length() > 0){
+                weekSchedule.addElement("HoursPerWeek").setText(sWeekHours);
+            }
+    
+            if(sWeekSchedule.length() > 0){
+                weekSchedule = timeblocksToWeekschedule(sWeekSchedule,weekSchedule);
+            }
+        }
+        //*** type3 - month *************************
+        else if(sScheduleType.equals("month")){
+            Element schedule = wsElem.addElement("Schedule");
+            schedule.addAttribute("type",sScheduleType);
+    
+            if(sMonthScheduleType.length() > 0){
+                schedule.addElement("PredefinedHoursPerMonth").setText(sMonthHours);
+            }        
+            if(sMonthHours.length() > 0){
+                schedule.addElement("HoursPerMonth").setText(sMonthHours);
+            }        
+        }
+        
+        Debug.println("\n"+wsElem.asXML()+"\n");
+        
+        workschedule.scheduleXml = wsElem.asXML();
     }
     ///////////////////////////////////////////////////////////////////////////
     
@@ -199,7 +194,7 @@
     boolean errorOccurred = workschedule.store(activeUser.userid);
     
     if(!errorOccurred){
-        sMessage = getTran("web","dataIsSaved",sWebLanguage);
+        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
         sMessage = getTran("web","error",sWebLanguage);

@@ -5,18 +5,18 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-	String sPersonId = checkString(request.getParameter("PersonId"));
+    String sPersonId = checkString(request.getParameter("PersonId"));
 
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n****************** getSkill.jsp *******************");
-	    Debug.println("sPersonId : "+sPersonId+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n****************** getSkill.jsp *******************");
+        Debug.println("sPersonId : "+sPersonId+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     Skill skill = Skill.get(sPersonId);
-	
-	if(skill!=null){
+    
+    if(skill!=null){
         %>    
 {
   "skillUid":"<%=skill.getUid()%>",
@@ -31,7 +31,7 @@
 }
         <%
     }
-	else{
+    else{
         %>    
 {
   "skillUid":"-1",
@@ -45,5 +45,5 @@
   "comment":""
 }
         <%
-	}
+    }
 %>

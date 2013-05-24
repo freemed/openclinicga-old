@@ -295,9 +295,7 @@ table.list {
     border-width: 1px;
     border-color: #5d93cd;
     background-color: #ffffff;
-    border-top-color: #C1DEFF;
-    border-left-color: #C1DEFF;
-    border-bottom: none;
+    border-color: #C1DEFF;
 }
 
 tr.admin {
@@ -1402,7 +1400,7 @@ table.sortable a.sortheader {
 
 table.sortable {
     border: 1px solid #ddd;
-    margin-top: 2px;
+    margin-top: 0px;
 }
 
 table.sortable span.sortarrow {

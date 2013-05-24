@@ -157,7 +157,7 @@
         window.resizeTo(w, h);
         window.moveTo((screen.width - w) / 2, (screen.height - h) / 2);
     }
-    self.focus();
+    //self.focus();
     if (typeof focusfield != 'undefined') focusfield.focus();
     window.setTimeout('resizeMe();',200);
 </script>

@@ -5,14 +5,14 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-	String sContractUid = checkString(request.getParameter("ContractUid"));
+    String sContractUid = checkString(request.getParameter("ContractUid"));
 
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n***************** getContract.jsp ******************");
-	    Debug.println("sContractUid : "+sContractUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n***************** getContract.jsp ******************");
+        Debug.println("sContractUid : "+sContractUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     Contract contract = Contract.get(sContractUid);
 %>

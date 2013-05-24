@@ -8,48 +8,48 @@
     String sEditTrainingUid = checkString(request.getParameter("EditTrainingUid")),
            sPersonId        = checkString(request.getParameter("PersonId"));
 
-	String sBegin        = checkString(request.getParameter("begin")),
-	       sEnd          = checkString(request.getParameter("end")),
-	       sInstitute    = checkString(request.getParameter("institute")),
-	       sType         = checkString(request.getParameter("type")),
-	       sLevel        = checkString(request.getParameter("level")),
-	       sDiploma      = checkString(request.getParameter("diploma")),
-	       sDiplomaDate  = checkString(request.getParameter("diplomaDate")),
-	       sDiplomaCode1 = checkString(request.getParameter("diplomaCode1")),
-	       sDiplomaCode2 = checkString(request.getParameter("diplomaCode2")),
-	       sDiplomaCode3 = checkString(request.getParameter("diplomaCode3")),
-	       sComment      = checkString(request.getParameter("comment"));
+    String sBegin        = checkString(request.getParameter("begin")),
+           sEnd          = checkString(request.getParameter("end")),
+           sInstitute    = checkString(request.getParameter("institute")),
+           sType         = checkString(request.getParameter("type")),
+           sLevel        = checkString(request.getParameter("level")),
+           sDiploma      = checkString(request.getParameter("diploma")),
+           sDiplomaDate  = checkString(request.getParameter("diplomaDate")),
+           sDiplomaCode1 = checkString(request.getParameter("diplomaCode1")),
+           sDiplomaCode2 = checkString(request.getParameter("diplomaCode2")),
+           sDiplomaCode3 = checkString(request.getParameter("diplomaCode3")),
+           sComment      = checkString(request.getParameter("comment"));
 
 
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n***************** saveTraining.jsp *****************");
-	    Debug.println("sEditTrainingUid : "+sEditTrainingUid);
-	    Debug.println("sPersonId     : "+sPersonId);
-	    Debug.println("sBegin        : "+sBegin);
-	    Debug.println("sEnd          : "+sEnd);
-	    Debug.println("sInstitute    : "+sInstitute);
-	    Debug.println("sType         : "+sType);
-	    Debug.println("sLevel        : "+sLevel);
-	    Debug.println("sDiploma      : "+sDiploma);
-	    Debug.println("sDiplomaDate  : "+sDiplomaDate);
-	    Debug.println("sDiplomaCode1 : "+sDiplomaCode1);
-	    Debug.println("sDiplomaCode2 : "+sDiplomaCode2);
-	    Debug.println("sDiplomaCode3 : "+sDiplomaCode3);
-	    Debug.println("sComment      : "+sComment+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n***************** saveTraining.jsp *****************");
+        Debug.println("sEditTrainingUid : "+sEditTrainingUid);
+        Debug.println("sPersonId     : "+sPersonId);
+        Debug.println("sBegin        : "+sBegin);
+        Debug.println("sEnd          : "+sEnd);
+        Debug.println("sInstitute    : "+sInstitute);
+        Debug.println("sType         : "+sType);
+        Debug.println("sLevel        : "+sLevel);
+        Debug.println("sDiploma      : "+sDiploma);
+        Debug.println("sDiplomaDate  : "+sDiplomaDate);
+        Debug.println("sDiplomaCode1 : "+sDiplomaCode1);
+        Debug.println("sDiplomaCode2 : "+sDiplomaCode2);
+        Debug.println("sDiplomaCode3 : "+sDiplomaCode3);
+        Debug.println("sComment      : "+sComment+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
 
     Training training = new Training();
     training.personId = Integer.parseInt(sPersonId);
-	String sMessage = "";
-	
+    String sMessage = "";
+    
     if(sEditTrainingUid.length() > 0){
-    	training.setUid(sEditTrainingUid);
+        training.setUid(sEditTrainingUid);
     }
     else{
-    	training.setUid("-1");
+        training.setUid("-1");
         training.setCreateDateTime(getSQLTime());
     }
 
@@ -79,7 +79,7 @@
     boolean errorOccurred = training.store(activeUser.userid);
     
     if(!errorOccurred){
-        sMessage = getTran("web","dataIsSaved",sWebLanguage);
+        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
         sMessage = getTran("web","error",sWebLanguage);

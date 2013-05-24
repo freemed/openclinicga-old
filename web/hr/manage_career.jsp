@@ -23,7 +23,7 @@
 <div id="divCareers" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditCareerUid" name="EditCareerUid" value="">
+    <input type="hidden" id="EditCareerUid" name="EditCareerUid" value="-1">
                 
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- period (begin & end date) --%>
@@ -164,7 +164,7 @@
               loadCareers();
               newCareer();
               
-              EditForm.EditCareerUid.value = data.newUid;
+              //EditForm.EditCareerUid.value = data.newUid;
               document.getElementById("buttonSave").disabled = false;
               document.getElementById("buttonDelete").disabled = false;
               document.getElementById("buttonNew").disabled = false;

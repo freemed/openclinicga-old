@@ -5,14 +5,14 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-	String sTrainingUid = checkString(request.getParameter("TrainingUid"));
+    String sTrainingUid = checkString(request.getParameter("TrainingUid"));
 
-	/// DEBUG /////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n***************** getTraining.jsp ******************");
-	    Debug.println("sTrainingUid : "+sTrainingUid+"\n");
-	}
-	///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n***************** getTraining.jsp ******************");
+        Debug.println("sTrainingUid : "+sTrainingUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     Training training = Training.get(sTrainingUid);
 %>

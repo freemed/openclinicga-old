@@ -18,7 +18,7 @@
 %>
 <script type="text/javascript">window.resizeTo(400,300);</script>
 
-<body class="Geenscroll" >
+<body class="Geenscroll">
 <table width="100%" height="100%">
     <tr>
         <td align="center" style="padding:1px">
@@ -33,6 +33,9 @@
 </table>
 
 <script>
+  document.getElementById("buttonOk").focus();
+  
+  <%-- DO CLOSE --%>
   function doClose(iReturn){
     window.returnValue = iReturn;
     window.close();

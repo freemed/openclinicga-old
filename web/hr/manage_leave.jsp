@@ -17,22 +17,20 @@
         Debug.println("no parameters\n");
     }
     ///////////////////////////////////////////////////////////////////////////
-
-    Leave leave = new Leave();
 %>            
 
 <%=writeTableHeader("web","leave",sWebLanguage,"")%><br>
 <div id="divLeaves" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditLeaveUid" name="EditLeaveUid" value="<%=checkString(leave.getUid())%>">
+    <input type="hidden" id="EditLeaveUid" name="EditLeaveUid" value="-1">
                 
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- begin (*) --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","begin",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2"> 
-                <%=writeDateField("begin","EditForm",ScreenHelper.getSQLDate(leave.begin),sWebLanguage)%>            
+                <%=writeDateField("begin","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
         
@@ -40,7 +38,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","end",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2"> 
-                <%=writeDateField("end","EditForm",ScreenHelper.getSQLDate(leave.end),sWebLanguage,"calculateDuration();")%>            
+                <%=writeDateField("end","EditForm","",sWebLanguage,"calculateDuration();")%>            
             </td>                        
         </tr>
                         
@@ -48,7 +46,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","duration",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2">
-                <input type="text" class="text" id="duration" name="duration" size="3" maxLength="6" value="<%=(leave.duration > 0?leave.duration:"")%>" onKeyUp="if(isNumber(this))setDecimalLength(this,2,false);"> <%=getTran("web","days",sWebLanguage)%>
+                <input type="text" class="text" id="duration" name="duration" size="3" maxLength="6" value="" onKeyUp="if(isNumber(this))setDecimalLength(this,2,false);"> <%=getTran("web","days",sWebLanguage)%>
             </td>
         </tr>
                                   
@@ -58,7 +56,7 @@
             <td class="admin2">
                 <select class="text" id="grade" name="type">
                     <option/>
-                    <%=ScreenHelper.writeSelect("hr.leave.type",checkString(leave.type),sWebLanguage)%>
+                    <%=ScreenHelper.writeSelect("hr.leave.type","",sWebLanguage)%>
                 </select>
             </td>
         </tr>
@@ -67,7 +65,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","requestDate",sWebLanguage)%></td>
             <td class="admin2"> 
-                <%=writeDateField("requestDate","EditForm",ScreenHelper.getSQLDate(leave.requestDate),sWebLanguage)%>            
+                <%=writeDateField("requestDate","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
         
@@ -75,7 +73,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","authorizationDate",sWebLanguage)%></td>
             <td class="admin2"> 
-                <%=writeDateField("authorizationDate","EditForm",ScreenHelper.getSQLDate(leave.authorizationDate),sWebLanguage)%>            
+                <%=writeDateField("authorizationDate","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
         
@@ -83,7 +81,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","authorizedBy",sWebLanguage)%></td>
             <td class="admin2">
-                <input type="text" class="text" id="authorizedBy" name="authorizedBy" size="50" maxLength="255" value="<%=checkString(leave.authorizedBy)%>">
+                <input type="text" class="text" id="authorizedBy" name="authorizedBy" size="50" maxLength="255" value="">
             </td>
         </tr>
         
@@ -91,7 +89,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","episodeCode",sWebLanguage)%></td>
             <td class="admin2">
-                <input type="text" class="text" id="episodeCode" name="episodeCode" size="20" maxLength="50" value="<%=checkString(leave.episodeCode)%>">
+                <input type="text" class="text" id="episodeCode" name="episodeCode" size="20" maxLength="50" value="">
             </td>
         </tr>
         
@@ -99,7 +97,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","comment",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea class="text" name="comment" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"><%=checkString(leave.comment)%></textarea>
+                <textarea class="text" name="comment" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
             </td>
         </tr>
             
@@ -158,7 +156,7 @@
       
       if(okToSubmit){
         document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
-        var url= "<c:url value='/hr/ajax/leave/saveLeave.jsp'/>?ts="+new Date().getTime();
+        var url = "<c:url value='/hr/ajax/leave/saveLeave.jsp'/>?ts="+new Date().getTime();
 
         document.getElementById("buttonSave").disabled = true;
         document.getElementById("buttonDelete").disabled = true;
@@ -183,8 +181,9 @@
               $("divMessage").innerHTML = data.message;
               
               loadLeaves();
+              newLeave();
               
-              EditForm.EditLeaveUid.value = data.newUid;
+              //EditForm.EditLeaveUid.value = data.newUid;
               document.getElementById("buttonSave").disabled = false;
               document.getElementById("buttonDelete").disabled = false;
               document.getElementById("buttonNew").disabled = false;
@@ -210,20 +209,11 @@
   <%-- LOAD LEAVES --%>
   function loadLeaves(){
     document.getElementById("divLeaves").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
-    var url= "<c:url value='/hr/ajax/leave/getLeaves.jsp'/>?ts="+new Date().getTime();
+    var url = "<c:url value='/hr/ajax/leave/getLeaves.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {
         method: "GET",
         parameters: "PatientId=<%=activePatient.personid%>",
-                    //"&begin="+document.getElementById("begin").value+
-                    //"&end="+document.getElementById("end").value+
-                    //"&duration="+document.getElementById("duration").value+
-                    //"&type="+document.getElementById("type").value+
-                    //"&requestDate="+document.getElementById("requestDate").value+
-                    //"&authorizationDate="+document.getElementById("authorizationDate").value+
-                    //"&authorizedBy="+document.getElementById("authorizedBy").value+
-                    //"&episodeCode="+document.getElementById("episodeCode").value+
-                    //"&comment="+document.getElementById("comment").value, 
         onSuccess: function(resp){
           $("divLeaves").innerHTML = resp.responseText;
           sortables_init();
@@ -237,7 +227,7 @@
 
   <%-- DISPLAY LEAVES --%>
   function displayLeave(leaveUid){          
-    var url= "<c:url value='/hr/ajax/leave/getLeave.jsp'/>?ts="+new Date().getTime();
+    var url = "<c:url value='/hr/ajax/leave/getLeave.jsp'/>?ts="+new Date().getTime();
     
     new Ajax.Request(url,
       {
@@ -273,9 +263,9 @@
   
   <%-- DELETE LEAVES --%>
   function deleteLeave(){
-    var answer = confirmDialog("web","areYouSureToDelete");
+    var answer = yesnoDialog("web","areYouSureToDelete"); 
      if(answer==1){                 
-      var url= "<c:url value='/hr/ajax/leave/deleteLeave.jsp'/>?ts="+new Date().getTime();
+      var url = "<c:url value='/hr/ajax/leave/deleteLeave.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
@@ -289,8 +279,8 @@
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;
 
-            newLeave();
             loadLeaves();
+            newLeave();
           
             document.getElementById("buttonSave").disabled = false;
             document.getElementById("buttonDelete").disabled = false;
@@ -323,19 +313,6 @@
     
     $("begin").focus();
     resizeAllTextareas(8);
-  }
-  
-  <%-- UPDATE ROW STYLES --%>
-  function updateRowStyles(){
-    for(var i=1; i<searchresults.rows.length; i++){
-      searchresults.rows[i].className = "";
-      searchresults.rows[i].style.cursor = "hand";
-    }
-
-    for(var i=1; i<searchresults.rows.length; i++){
-      if(i%2==0) searchresults.rows[i].className = "list";
-      else       searchresults.rows[i].className = "list1";
-    }
   }
   
   <%-- CALCULATE DURATION --%>
