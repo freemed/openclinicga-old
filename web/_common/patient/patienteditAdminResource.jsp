@@ -10,6 +10,7 @@
             sCategoryDescr = getTranNoLink("admin.category",sCategory,sWebLanguage);
         }
 
+        String sGroup = checkString((String)activePatient.adminextends.get("usergroup"));
         String sStatut = checkString((String)activePatient.adminextends.get("statut"));
         String sStatutDescr = "<select name='RStatut' select-one class='text'><option value=''/>"
             +ScreenHelper.writeSelect("admin.statut",sStatut,sWebLanguage)+"</select>";
@@ -28,6 +29,15 @@
              <tr>
                 <td class="admin"><%=getTran("admin","statut",sWebLanguage)%></td>
                 <td class="admin2"><%=sStatutDescr%></td>
+            </tr>
+             <tr>
+                <td class="admin"><%=getTran("admin","group",sWebLanguage)%></td>
+                <td class="admin2">
+                	<select name="RGroup" class="text">
+                		<option value=''/>
+                		<%=ScreenHelper.writeSelect("usergroup",sGroup,sWebLanguage)%>
+                	</select>
+                </td>
             </tr>
         </table>
         <script type="text/javascript">
