@@ -29,8 +29,29 @@ public class PDFUserCardGeneratorNew extends PDFOfficialBasic {
     // declarations
     private final int pageWidth = 100;
     PdfWriter docWriter=null;
+    int red=-1;
+    int green=-1;
+    int blue=-1;
 
-    public void addHeader(){
+    public int getRed() {
+		return red;
+	}
+	public void setRed(int red) {
+		this.red = red;
+	}
+	public int getGreen() {
+		return green;
+	}
+	public void setGreen(int green) {
+		this.green = green;
+	}
+	public int getBlue() {
+		return blue;
+	}
+	public void setBlue(int blue) {
+		this.blue = blue;
+	}
+	public void addHeader(){
     }
     public void addContent(){
     }
@@ -62,7 +83,7 @@ public class PDFUserCardGeneratorNew extends PDFOfficialBasic {
         this.contextPath = sContextPath;
         this.projectDir = sProjectDir;
 
-        docWriter.setPageEvent(new EndPageCard(url,contextPath,projectDir));
+        docWriter.setPageEvent(new EndPageCard(url,contextPath,projectDir,red,green,blue));
         
 		try{
             doc.addProducer();
