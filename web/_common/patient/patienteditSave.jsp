@@ -83,7 +83,8 @@
 
         // resource
         String sRCategory = checkString(request.getParameter("RCategory")),
-               sRStatut = checkString(request.getParameter("RStatut"));
+                sRStatut = checkString(request.getParameter("RStatut")),
+		        sRGroup = checkString(request.getParameter("RGroup"));
         /// DEBUG /////////////////////////////////////////////////////////////
         Debug.println("=================================================");
         Debug.println("sName        = "+sName);
@@ -238,6 +239,13 @@
             }
             else {
                 activePatient.adminextends.remove("statut");
+            }
+
+            if (sRGroup.length()>0){
+                activePatient.adminextends.put("usergroup",sRGroup);
+            }
+            else {
+                activePatient.adminextends.remove("usergroup");
             }
 
             Debug.println("4");
