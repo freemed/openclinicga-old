@@ -13,7 +13,7 @@
     <Menu labelid="hr" accessrights="hr.select" patientselected="true">
 		<Menu labelid="skills" accessrights="hr.skills.select" url="/main.do?Page=hr/manage_skills.jsp" patientselected="true"/>
 		<Menu labelid="career" accessrights="hr.career.select" url="/main.do?Page=hr/manage_career.jsp" patientselected="true"/>
-		<Menu labelid="disciplinaryrecord" accessrights="hr.disciplinaryrecord.select" url="/main.do?Page=hr/manage_disciplinaryrecord.jsp" patientselected="true"/>
+		<Menu labelid="disciplinaryrecord" accessrights="hr.disciplinaryrecord.select" url="/main.do?Page=hr/manage_disciplinaryRecord.jsp" patientselected="true"/>
 		<Menu labelid="contracts" accessrights="hr.contracts.select" url="/main.do?Page=hr/manage_contracts.jsp" patientselected="true"/>
 		<Menu labelid="leave" accessrights="hr.leave.select" url="/main.do?Page=hr/manage_leave.jsp" patientselected="true"/>
 		<Menu labelid="training" accessrights="hr.training.select" url="/main.do?Page=/hr/manage_training.jsp" patientselected="true"/>
