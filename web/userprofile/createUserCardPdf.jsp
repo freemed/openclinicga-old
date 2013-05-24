@@ -13,8 +13,13 @@
         String type = checkString(request.getParameter("cardtype"));
         if(type.equalsIgnoreCase("new")){
         	PDFUserCardGeneratorNew pdfUserCardGenerator = new PDFUserCardGeneratorNew(activeUser, sProject);
-        	
-            baosPDF = pdfUserCardGenerator.generatePDFDocumentBytes(request, activePatient);
+        	String[] colors = checkString((String)activePatient.adminextends.get("usergroup")).split("\\.");
+        	if(colors.length==3){
+        		pdfUserCardGenerator.setRed(Integer.parseInt(colors[0]));
+        		pdfUserCardGenerator.setGreen(Integer.parseInt(colors[1]));
+        		pdfUserCardGenerator.setBlue(Integer.parseInt(colors[2]));
+        	}
+    		baosPDF = pdfUserCardGenerator.generatePDFDocumentBytes(request, activePatient);
         }
         else {
         	PDFUserCardGenerator pdfUserCardGenerator = new PDFUserCardGenerator(activeUser, sProject);
