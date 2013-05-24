@@ -16,11 +16,23 @@ public class EndPageCard extends PdfPageEventHelper {
 	String url;
 	String contextPath;
 	String projectDir;
+	int red=-1;
+	int green=-1;
+	int blue=-1;
 	
 	public EndPageCard(String url,String contextPath,String projectDir){
 		this.url=url;
 		this.contextPath=contextPath;
 		this.projectDir=projectDir;
+	}
+
+	public EndPageCard(String url,String contextPath,String projectDir,int red, int green,int blue){
+		this.url=url;
+		this.contextPath=contextPath;
+		this.projectDir=projectDir;
+		this.red=red;
+		this.green=green;
+		this.blue=blue;
 	}
 
     //--- ON END PAGE -----------------------------------------------------------------------------
@@ -39,8 +51,17 @@ public class EndPageCard extends PdfPageEventHelper {
 			// these are the canvases we are going to use
             PdfContentByte under = writer.getDirectContentUnder();
             under.addImage(watermarkImg);
-            under.setRGBColorFill(0xFF, 0x00, 0x00);
-            under.circle(115, 70, 25);
+            if(red>-1 && green>-1 && blue>-1){
+            	//Add colored stripes left and right 
+	            under.setRGBColorFill(red, green, blue);
+            	if(MedwanQuery.getInstance().getConfigString("userCardColorShape","").equalsIgnoreCase("rectangle")){
+		            under.rectangle(0, 0, 8, 109);
+		            under.rectangle(310*200/254-9, 0, 8, 109);
+            	}
+            	else if(MedwanQuery.getInstance().getConfigString("userCardColorShape","").equalsIgnoreCase("circle")){
+            		under.circle(MedwanQuery.getInstance().getConfigInt("userCardColorShapeX",115),MedwanQuery.getInstance().getConfigInt("userCardColorShapeY",60),MedwanQuery.getInstance().getConfigInt("userCardColorShapeSize",20));
+            	}
+            }
             under.fill();
             
         }
