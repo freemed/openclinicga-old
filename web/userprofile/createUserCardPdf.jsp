@@ -13,6 +13,7 @@
         String type = checkString(request.getParameter("cardtype"));
         if(type.equalsIgnoreCase("new")){
         	PDFUserCardGeneratorNew pdfUserCardGenerator = new PDFUserCardGeneratorNew(activeUser, sProject);
+        	
             baosPDF = pdfUserCardGenerator.generatePDFDocumentBytes(request, activePatient);
         }
         else {
