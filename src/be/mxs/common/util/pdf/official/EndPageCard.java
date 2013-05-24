@@ -53,6 +53,7 @@ public class EndPageCard extends PdfPageEventHelper {
             under.addImage(watermarkImg);
             if(red>-1 && green>-1 && blue>-1){
             	//Add colored stripes left and right 
+	            under.setRGBColorFill(red, green, blue);
             	if(MedwanQuery.getInstance().getConfigString("userCardColorShape","").equalsIgnoreCase("rectangle")){
 		            under.rectangle(0, 0, 8, 109);
 		            under.rectangle(310*200/254-9, 0, 8, 109);
