@@ -14,6 +14,7 @@
         if(type.equalsIgnoreCase("new")){
         	PDFUserCardGeneratorNew pdfUserCardGenerator = new PDFUserCardGeneratorNew(activeUser, sProject);
         	String[] colors = checkString((String)activePatient.adminextends.get("usergroup")).split("\\.");
+        	System.out.println(activePatient.adminextends.get("usergroup"));
         	if(colors.length==3){
         		pdfUserCardGenerator.setRed(Integer.parseInt(colors[0]));
         		pdfUserCardGenerator.setGreen(Integer.parseInt(colors[1]));
