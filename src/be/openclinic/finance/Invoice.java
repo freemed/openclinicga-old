@@ -3,6 +3,7 @@ package be.openclinic.finance;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.common.OC_Object;
 
+import java.util.HashSet;
 import java.util.Vector;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -91,4 +92,25 @@ public class Invoice extends OC_Object {
        this.balance = balance;
    }
 
+   public HashSet getServices(){
+	   HashSet services = new HashSet();
+	   for(int n=0;n<debets.size();n++){
+		   Debet debet = (Debet)debets.elementAt(n);
+		   if(ScreenHelper.checkString(debet.getServiceUid()).length()>0){
+			   services.add(debet.getServiceUid());
+		   }
+	   }
+	   return services;
+   }
+   
+   public Vector getDebetsForServiceUid(String serviceUid){
+	   Vector serviceDebets = new Vector();
+	   for(int n=0;n<debets.size();n++){
+		   Debet debet = (Debet)debets.elementAt(n);
+		   if(ScreenHelper.checkString(debet.getServiceUid()).equalsIgnoreCase(serviceUid)){
+			   serviceDebets.add(debet);
+		   }
+	   }
+	   return serviceDebets;
+   }
 }
