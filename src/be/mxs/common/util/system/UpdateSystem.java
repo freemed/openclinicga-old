@@ -385,7 +385,7 @@ public class UpdateSystem {
 	            identifiers = paramName.split("\\$");
 	            exists=false;
 	            langHashtable = MedwanQuery.getInstance().getLabels();
-	            if(langHashtable!=null && identifiers.length>1){
+	            if(langHashtable!=null && identifiers.length>2){
 	                typeHashtable = (Hashtable) langHashtable.get(identifiers[2]);
 	                if(typeHashtable!=null){
 	                    idHashtable = (Hashtable) typeHashtable.get(identifiers[0].toLowerCase());

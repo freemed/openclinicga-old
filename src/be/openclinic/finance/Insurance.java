@@ -336,97 +336,83 @@ public class Insurance extends OC_Object {
             if(this.getUid()!=null && this.getUid().length() >0){
                 ids = this.getUid().split("\\.");
                 if(ids.length == 2){
-                    if(ScreenHelper.checkString(getInsurarUid()).length()==0){
-                        sSelect = " DELETE FROM OC_INSURANCES " +
-                                " WHERE OC_INSURANCE_SERVERID = ? " +
-                                " AND OC_INSURANCE_OBJECTID = ?";
-                        ps = oc_conn.prepareStatement(sSelect);
-                        ps.setInt(1,Integer.parseInt(ids[0]));
-                        ps.setInt(2,Integer.parseInt(ids[1]));
+                    sSelect = " SELECT * FROM OC_INSURANCES " +
+                              " WHERE OC_INSURANCE_SERVERID = ? " +
+                              " AND OC_INSURANCE_OBJECTID = ?";
+                    ps = oc_conn.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
 
-                        ps.execute();
-                        ps.close();
-                        return;
+                    rs = ps.executeQuery();
+
+                    if(rs.next()){
+                        iVersion = rs.getInt("OC_INSURANCE_VERSION") + 1;
                     }
-                    else {
-                        sSelect = " SELECT * FROM OC_INSURANCES " +
-                                  " WHERE OC_INSURANCE_SERVERID = ? " +
-                                  " AND OC_INSURANCE_OBJECTID = ?";
-                        ps = oc_conn.prepareStatement(sSelect);
-                        ps.setInt(1,Integer.parseInt(ids[0]));
-                        ps.setInt(2,Integer.parseInt(ids[1]));
 
-                        rs = ps.executeQuery();
+                    rs.close();
+                    ps.close();
 
-                        if(rs.next()){
-                            iVersion = rs.getInt("OC_INSURANCE_VERSION") + 1;
-                        }
+                    sInsert = " INSERT INTO OC_INSURANCES_HISTORY(" +
+                                " OC_INSURANCE_SERVERID," +
+                                " OC_INSURANCE_OBJECTID," +
+                                " OC_INSURANCE_NR," +
+                                " OC_INSURANCE_INSURARUID," +
+                                " OC_INSURANCE_TYPE," +
+                                " OC_INSURANCE_START," +
+                                " OC_INSURANCE_STOP," +
+                                " OC_INSURANCE_COMMENT," +
+                                " OC_INSURANCE_CREATETIME," +
+                                " OC_INSURANCE_UPDATETIME," +
+                                " OC_INSURANCE_UPDATEUID," +
+                                " OC_INSURANCE_VERSION," +
+                                " OC_INSURANCE_PATIENTUID," +
+                                " OC_INSURANCE_INSURANCECATEGORYLETTER," +
+                                " OC_INSURANCE_MEMBER_IMMAT," +
+                                " OC_INSURANCE_MEMBER_EMPLOYER," +
+                                " OC_INSURANCE_STATUS," +
+                                " OC_INSURANCE_MEMBER," +
+                                " OC_INSURANCE_EXTRAINSURARUID," +
+                                " OC_INSURANCE_EXTRAINSURARUID2" +
+                                ")" +
 
-                        rs.close();
-                        ps.close();
+                              " SELECT OC_INSURANCE_SERVERID," +
+                                     " OC_INSURANCE_OBJECTID," +
+                                     " OC_INSURANCE_NR," +
+                                     " OC_INSURANCE_INSURARUID," +
+                                     " OC_INSURANCE_TYPE," +
+                                     " OC_INSURANCE_START," +
+                                     " OC_INSURANCE_STOP," +
+                                     " OC_INSURANCE_COMMENT," +
+                                     " OC_INSURANCE_CREATETIME," +
+                                     " OC_INSURANCE_UPDATETIME," +
+                                     " OC_INSURANCE_UPDATEUID,"  +
+                                     " OC_INSURANCE_VERSION," +
+                                     " OC_INSURANCE_PATIENTUID," +
+                                     " OC_INSURANCE_INSURANCECATEGORYLETTER," +
+                                     " OC_INSURANCE_MEMBER_IMMAT," +
+                                     " OC_INSURANCE_MEMBER_EMPLOYER," +
+                                     " OC_INSURANCE_STATUS," +
+                                     " OC_INSURANCE_MEMBER," +
+                                     " OC_INSURANCE_EXTRAINSURARUID," +
+                                     " OC_INSURANCE_EXTRAINSURARUID2" +
+                              " FROM OC_INSURANCES " +
+                              " WHERE OC_INSURANCE_SERVERID = ?" +
+                              " AND OC_INSURANCE_OBJECTID = ?";
+                    ps = oc_conn.prepareStatement(sInsert);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
+                    ps.executeUpdate();
+                    ps.close();
 
-                        sInsert = " INSERT INTO OC_INSURANCES_HISTORY(" +
-                                    " OC_INSURANCE_SERVERID," +
-                                    " OC_INSURANCE_OBJECTID," +
-                                    " OC_INSURANCE_NR," +
-                                    " OC_INSURANCE_INSURARUID," +
-                                    " OC_INSURANCE_TYPE," +
-                                    " OC_INSURANCE_START," +
-                                    " OC_INSURANCE_STOP," +
-                                    " OC_INSURANCE_COMMENT," +
-                                    " OC_INSURANCE_CREATETIME," +
-                                    " OC_INSURANCE_UPDATETIME," +
-                                    " OC_INSURANCE_UPDATEUID," +
-                                    " OC_INSURANCE_VERSION," +
-                                    " OC_INSURANCE_PATIENTUID," +
-                                    " OC_INSURANCE_INSURANCECATEGORYLETTER," +
-                                    " OC_INSURANCE_MEMBER_IMMAT," +
-                                    " OC_INSURANCE_MEMBER_EMPLOYER," +
-                                    " OC_INSURANCE_STATUS," +
-                                    " OC_INSURANCE_MEMBER," +
-                                    " OC_INSURANCE_EXTRAINSURARUID," +
-                                    " OC_INSURANCE_EXTRAINSURARUID2" +
-                                    ")" +
+                    sDelete = " DELETE FROM OC_INSURANCES " +
+                              " WHERE OC_INSURANCE_SERVERID = ? " +
+                              " AND OC_INSURANCE_OBJECTID = ? ";
 
-                                  " SELECT OC_INSURANCE_SERVERID," +
-                                         " OC_INSURANCE_OBJECTID," +
-                                         " OC_INSURANCE_NR," +
-                                         " OC_INSURANCE_INSURARUID," +
-                                         " OC_INSURANCE_TYPE," +
-                                         " OC_INSURANCE_START," +
-                                         " OC_INSURANCE_STOP," +
-                                         " OC_INSURANCE_COMMENT," +
-                                         " OC_INSURANCE_CREATETIME," +
-                                         " OC_INSURANCE_UPDATETIME," +
-                                         " OC_INSURANCE_UPDATEUID,"  +
-                                         " OC_INSURANCE_VERSION," +
-                                         " OC_INSURANCE_PATIENTUID," +
-                                         " OC_INSURANCE_INSURANCECATEGORYLETTER," +
-                                         " OC_INSURANCE_MEMBER_IMMAT," +
-                                         " OC_INSURANCE_MEMBER_EMPLOYER," +
-                                         " OC_INSURANCE_STATUS," +
-                                         " OC_INSURANCE_MEMBER," +
-                                         " OC_INSURANCE_EXTRAINSURARUID," +
-                                         " OC_INSURANCE_EXTRAINSURARUID2" +
-                                  " FROM OC_INSURANCES " +
-                                  " WHERE OC_INSURANCE_SERVERID = ?" +
-                                  " AND OC_INSURANCE_OBJECTID = ?";
-                        ps = oc_conn.prepareStatement(sInsert);
-                        ps.setInt(1,Integer.parseInt(ids[0]));
-                        ps.setInt(2,Integer.parseInt(ids[1]));
-                        ps.executeUpdate();
-                        ps.close();
-
-                        sDelete = " DELETE FROM OC_INSURANCES " +
-                                  " WHERE OC_INSURANCE_SERVERID = ? " +
-                                  " AND OC_INSURANCE_OBJECTID = ? ";
-
-                        ps = oc_conn.prepareStatement(sDelete);
-                        ps.setInt(1,Integer.parseInt(ids[0]));
-                        ps.setInt(2,Integer.parseInt(ids[1]));
-                        ps.executeUpdate();
-                        ps.close();
-                    }
+                    ps = oc_conn.prepareStatement(sDelete);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
+                    ps.executeUpdate();
+                    ps.close();
                 }
             }else{
                 ids = new String[] {MedwanQuery.getInstance().getConfigString("serverId"),MedwanQuery.getInstance().getOpenclinicCounter("OC_INSURANCES")+""};

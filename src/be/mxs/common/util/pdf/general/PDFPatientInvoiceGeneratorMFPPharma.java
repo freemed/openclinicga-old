@@ -83,9 +83,19 @@ public class PDFPatientInvoiceGeneratorMFPPharma extends PDFInvoiceGenerator {
             	doc.newPage();
             }
 
-            addHeading(invoice);
-            addPatientDataVisit(invoice);
-            printInvoicePharma(invoice);
+            //get list of patientinsurances
+            Vector insurances = Insurance.findInsurances("", "", "", "", "", patient.personid);
+            for(int n=0;n<insurances.size();n++){
+                Insurance insurance = (Insurance)insurances.elementAt(n);
+                if(insurance!=null){
+                    debets=invoice.getDebetsForInsurance(insurance.getUid());
+                    if(debets.size()>0){
+			            addHeading(invoice);
+			            addPatientDataVisit(invoice,debets,insurance);
+			            printInvoicePharma(invoice,debets);
+                    }
+                }
+            }
         }
 		catch(Exception e){
 			baosPDF.reset();
@@ -327,18 +337,13 @@ public class PDFPatientInvoiceGeneratorMFPPharma extends PDFInvoiceGenerator {
     }
 
     //--- ADD PATIENT DATA ------------------------------------------------------------------------
-    private void addPatientDataVisit(PatientInvoice invoice){
+    private void addPatientDataVisit(PatientInvoice invoice, Vector debets, Insurance insurance){
         PdfPTable table = new PdfPTable(100);
         table.setWidthPercentage(pageWidth);
         try{
         	AdminPerson person = invoice.getPatient();
-        	Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(person.personid);
-        	if(insurance==null){
-        		insurance=new Insurance();
-        	}
         	if(person!=null){
         		Encounter encounter=null;
-        		Vector debets=invoice.getDebets();
         		for(int n=0;n<debets.size();n++){
         			Debet debet = (Debet)debets.elementAt(n);
         			if(debet.getEncounter()!=null && (encounter==null || encounter.getBegin().before(debet.getEncounter().getBegin()))){
@@ -512,7 +517,7 @@ public class PDFPatientInvoiceGeneratorMFPPharma extends PDFInvoiceGenerator {
             e.printStackTrace();
         }
     }
-    private void printInvoicePharma(PatientInvoice invoice){
+    private void printInvoicePharma(PatientInvoice invoice,Vector debets){
         try {
             PdfPTable table = new PdfPTable(100);
             table.setWidthPercentage(pageWidth);
@@ -520,7 +525,6 @@ public class PDFPatientInvoiceGeneratorMFPPharma extends PDFInvoiceGenerator {
             String departments="";
         	//Find encounters
         	Hashtable encounters = new Hashtable();
-        	Vector debets = invoice.getDebets();
         	for(int n=0;n<debets.size();n++){
         		Debet debet = (Debet)debets.elementAt(n);
         		if(encounters.get(debet.getEncounterUid())==null){
@@ -578,7 +582,6 @@ public class PDFPatientInvoiceGeneratorMFPPharma extends PDFInvoiceGenerator {
             cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
 
-            debets = invoice.getDebets();
             double patientshare=0,insureramount=0,supplements=0;
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);

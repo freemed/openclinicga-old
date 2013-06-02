@@ -145,11 +145,18 @@ public class TransactionItem {
     public static void addTransactionItem(TransactionItem objTI){
         PreparedStatement ps = null;
 
-        String sInsert  = "INSERT INTO TransactionItems(transactionTypeId,itemTypeId,defaultValue,modifier) VALUES(?,?,?,?)";
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = oc_conn.prepareStatement(sInsert);
+            String sQuery= "DELETE from TransactionItems where transactionTypeId=? and itemTypeId=?"; 
+            ps = oc_conn.prepareStatement(sQuery);
+            ps.setString(1,objTI.getTransactionTypeId());
+            ps.setString(2,objTI.getItemTypeId());
+            ps.executeUpdate();
+            ps.close();
+            
+            sQuery  = "INSERT INTO TransactionItems(transactionTypeId,itemTypeId,defaultValue,modifier) VALUES(?,?,?,?)";
+            ps = oc_conn.prepareStatement(sQuery);
             ps.setString(1,objTI.getTransactionTypeId());
             ps.setString(2,objTI.getItemTypeId());
             ps.setString(3,objTI.getDefaultValue());

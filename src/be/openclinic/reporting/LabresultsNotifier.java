@@ -397,7 +397,7 @@ public class LabresultsNotifier {
 								
 						sResult=sResult+ "</body></html>";									
 						sResult=HTMLEntities.htmlentities(sResult);
-						String sLogo = "/projects/openclinic/web/_img/projectlogo.jpg";	
+						String sLogo = MedwanQuery.getInstance().getConfigString("projectLogo","/projects/openclinic/_img/projectlogo.jpg");	
 						sendHtmlMail.sendEmailWithImages(MedwanQuery.getInstance().getConfigString("PatientEdit.MailServer"), MedwanQuery.getInstance().getConfigString("labNotifierEmailSender","frank.verbeke@mxs.be"), sentto, sMailTitle + " " + transactionId, sResult, sLogo);														
 						setSpoolMessageSent(transactionId,transport);
 					}

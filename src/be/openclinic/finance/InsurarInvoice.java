@@ -61,6 +61,41 @@ public class InsurarInvoice extends Invoice {
     	return amount;
     }
     
+    public boolean hasDebetsForService(String serviceuid){
+    	return hasDebetsForService(this.getUid(),serviceuid);
+    }
+    
+    public static boolean hasDebetsForService(String invoiceuid,String serviceuid){
+    	boolean bHas=false;
+    	Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	PreparedStatement ps=null;
+    	ResultSet rs=null;
+        try{
+            ps = oc_conn.prepareStatement("select * from OC_DEBETS where OC_DEBET_INSURARINVOICEUID=? and OC_DEBET_SERVICEUID=?");
+            ps.setString(1,invoiceuid);
+            ps.setString(2,serviceuid);
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	bHas=true;
+            }
+            rs.close();
+            ps.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                oc_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return bHas;
+    }
     
     //--- GET -------------------------------------------------------------------------------------
     public static InsurarInvoice get(String uid){

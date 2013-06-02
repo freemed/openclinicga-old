@@ -101,14 +101,16 @@ public class sendHtmlMail {
 	        // add it
 	        multipart.addBodyPart(messageBodyPart);
 	        
-	        // second part (the image)
-	        messageBodyPart = new MimeBodyPart();
-	        DataSource fds = new FileDataSource(sImage);
-	        messageBodyPart.setDataHandler(new DataHandler(fds));
-	        messageBodyPart.setHeader("Content-ID","<image_logo>");
-	
-	        // add it
-	        multipart.addBodyPart(messageBodyPart);
+	        if(new java.io.File(sImage).exists()){
+		        // second part (the image)
+		        messageBodyPart = new MimeBodyPart();
+		        DataSource fds = new FileDataSource(sImage);
+		        messageBodyPart.setDataHandler(new DataHandler(fds));
+		        messageBodyPart.setHeader("Content-ID","<image_logo>");
+		
+		        // add it
+		        multipart.addBodyPart(messageBodyPart);
+	        }
 	
 	        // put everything together
 	        message.setContent(multipart);

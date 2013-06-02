@@ -44,12 +44,22 @@ public class SMTPSender extends Sender {
 			        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			        message.setSubject("datacenter.content: "+msgid); 
 			        message.setText(messageContent); 
+			        Debug.println("------------------------------------------------------------------------------------------");
+			        Debug.println("sending message from host "+properties.getProperty("mail.smtp.localhost")+" to host "+properties.getProperty("mail.smtp.host"));
+			        Debug.println("-- Message from   : "+from);
+			        Debug.println("-- Message to     : "+to);
+			        Debug.println("-- Server id      : "+datacenterServerId);
+			        Debug.println("-- Message id     : "+msgid);
+			        Debug.println("-- Message subject: "+message.getSubject());
+			        Debug.println("-- Message content: "+messageContent);
 			        Transport.send(message);
 					for (int n=0;n<messages.size();n++){
 						ExportMessage exportMessage = (ExportMessage) messages.elementAt(n);
 				        //Update message sentDateTime
 				        exportMessage.updateSentDateTime(sentDateTime);
 					}
+			        Debug.println("-- Message successfully sent");
+			        Debug.println("------------------------------------------------------------------------------------------");
 		 		}
 		        MedwanQuery.getInstance().setConfigString("lastDatacenterSMTPSenderActivity",new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 			}

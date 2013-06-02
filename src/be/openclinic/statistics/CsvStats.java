@@ -47,7 +47,7 @@ public class CsvStats {
                     if(n>0){
                         result.append(";");
                     }
-                    result.append(resultSet.getObject(n+1));
+                    result.append((resultSet.getObject(n+1)+"").replaceAll(";", ","));
                 }
                 result.append("\r\n");
             }

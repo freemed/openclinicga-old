@@ -840,7 +840,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
         // encounter
         Encounter debetEncounter = debet.getEncounter();
-        String sEncounterName = debetEncounter.getEncounterDisplayNameNoDate(this.sPrintLanguage);
+        String sEncounterName = debetEncounter.getUid()+", "+MedwanQuery.getInstance().getLabel("encountertype", debetEncounter.getType(), sPrintLanguage)+" ("+(debet.getServiceUid()!=null?debet.getServiceUid():debetEncounter.getServiceUID())+")";
 
         // prestation
         Prestation prestation = debet.getPrestation();
