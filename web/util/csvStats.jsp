@@ -50,6 +50,9 @@
                 " a.personid=b.personid " +
                 " order by userid";
     }
+    else if("prestation.list".equalsIgnoreCase(request.getParameter("query"))){
+        query="select OC_PRESTATION_CODE CODE, OC_PRESTATION_DESCRIPTION DESCRIPTION, OC_PRESTATION_PRICE DEFAULTPRICE, OC_PRESTATION_CATEGORIES TARIFFS,OC_PRESTATION_REFTYPE FAMILY,OC_PRESTATION_TYPE TYPE,OC_PRESTATION_INVOICEGROUP INVOICEGROUP,OC_PRESTATION_CLASS CLASS from oc_prestations where (OC_PRESTATION_INACTIVE is NULL OR OC_PRESTATION_INACTIVE<>1) ORDER BY OC_PRESTATION_CODE;";
+    }
     else if("debet.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select oc_debet_date as DATE, lastname as NOM,firstname as PRENOM,oc_prestation_description as PRESTATION,oc_debet_quantity as QUANTITE,"+MedwanQuery.getInstance().convert("int","oc_debet_amount")+" as PATIENT,"+MedwanQuery.getInstance().convert("int","oc_debet_insuraramount")+" as ASSUREUR,oc_label_value as SERVICE,oc_debet_credited as ANNULE,replace(oc_debet_patientinvoiceuid,'1.','') as FACT_PATIENT"+
         		" from oc_debets,oc_encounters,adminview,oc_prestations,servicesview,oc_labels"+
