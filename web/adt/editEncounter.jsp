@@ -763,7 +763,7 @@
     function categoryCheck(){
     	<%
     		if(MedwanQuery.getInstance().getConfigInt("encounterDiseaseCategoryMandatory",0)==0){
-    			out.println("return true");
+    			out.println("return true;");
     		}
     	%>
     	for(var n=0;n<EditEncounterForm.EditEncounterCategories.length;n++){
