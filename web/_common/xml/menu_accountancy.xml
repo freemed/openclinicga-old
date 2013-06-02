@@ -1,0 +1,11 @@
+<Menus>
+	<Menu labelid="system">
+		<Menu labelid="setup" accessrights="accountancy.setup.select" url="/accountancy/main.jsp?Page=accountancy/system/setup.jsp"/>
+		<Menu labelid="ledger" accessrights="accountancy.ledger.select" url="/accountancy/main.jsp?Page=accountancy/system/manageLedger.jsp"/>
+    </Menu>
+	<Menu labelid="journals">
+		<Menu labelid="salesjournal" accessrights="accountancy.salesjournal.select" url="/accountancy/main.jsp?Page=accountancy/journal/salesJournal.jsp"/>
+		<Menu labelid="purchasesjournal" accessrights="accountancy.purchasesjournal.select" url="/accountancy/main.jsp?Page=accountancy/journal/purchasesJournal.jsp"/>
+		<Menu labelid="generaljournal" accessrights="accountancy.otherjournal.select" url="/accountancy/main.jsp?Page=accountancy/journal/otherJournal.jsp"/>
+    </Menu>
+</Menus>
