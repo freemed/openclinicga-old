@@ -10,6 +10,7 @@
         <Menu labelid="Read_fingerprint" accessrights="patient.administration.select" url="javascript:readFingerprint();"/>
         <Menu labelid="createArchiveFile" accessrights="patient.archive.select" url="javascript:createArchiveFile();" patientselected="true"/>
     </Menu>
+    <!-- 
     <Menu labelid="hr" accessrights="hr.select" patientselected="true">
 		<Menu labelid="skills" accessrights="hr.skills.select" url="/main.do?Page=hr/manage_skills.jsp" patientselected="true"/>
 		<Menu labelid="career" accessrights="hr.career.select" url="/main.do?Page=hr/manage_career.jsp" patientselected="true"/>
@@ -20,6 +21,7 @@
 		<Menu labelid="salary" accessrights="hr.salary.select" url="/main.do?Page=hr/manage_salary.jsp" patientselected="true"/>
 		<Menu labelid="workschedule" accessrights="hr.workschedule.select" url="/main.do?Page=hr/manage_workschedule.jsp" patientselected="true"/>
     </Menu>
+     -->
     <Menu labelid="curative" accessrights="curative.select" patientselected="true" url="/main.do?Page=curative/index.jsp"/>
     <Menu labelid="nursing" accessrights="nursing.select" patientselected="true" url="/main.do?Page=pharmacy/manageAdministrations.jsp"/>
     <Menu labelid="applications">
@@ -93,7 +95,7 @@
         <Menu labelid="datacenter" accessrights="datacenter.select" url="/main.do?Page=datacenter/menu.jsp"/>
         <Menu labelid="executive" accessrights="executive.select">
             <Menu labelid="executive.bedoccupancy" accessrights="occup.bedoccupation.select" url="/main.do?Page=statistics/bedoccupancyStatus.jsp"/>
-            <Menu labelid="accountancy" accessrights="accountancy.select" url="/accountancy/index.jsp"/>
+            <Menu labelid="accountancy" accessrights="accountancy.select" url="/accountancy/main.jsp"/>
             <Menu labelid="payroll" accessrights="payroll.select" url="/payroll/index.jsp"/>
             <Menu labelid="maintenance" accessrights="maintenance.select" url="/maintenance/index.jsp"/>
             <Menu labelid="capital" accessrights="capital.select" url="/capital/index.jsp"/>
