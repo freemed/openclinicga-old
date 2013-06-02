@@ -410,14 +410,21 @@
 			                    %>
 		                            <option value="cmck" <%=defaultmodel.equalsIgnoreCase("cmck")?"selected":""%>><%=getTranNoLink("web","cmckmodel",sWebLanguage)%></option>
 	                        	<%
+	                				}
+			                    	if(MedwanQuery.getInstance().getConfigInt("enableHMK",0)==1){
+			                    %>
+		                            <option value="hmk" <%=defaultmodel.equalsIgnoreCase("hmk")?"selected":""%>><%=getTranNoLink("web","hmkmodel",sWebLanguage)%></option>
+	                        	<%
                     				}
 	                        	%>
 	                        </select>
 							<%if(!isInsuranceAgent){ %>
 	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf('<%=patientInvoice.getUid()%>');">
 	                        <%} %>
+	                        <%if(MedwanQuery.getInstance().getConfigInt("enableProformaPatientInvoice",1)==1 || activeUser.getAccessRight("financial.printproformapatientinvoice.select")){ %>
 	                        <input class="button" type="button" name="buttonPrint" value='PROFORMA' onclick="doPrintProformaPdf('<%=patientInvoice.getUid()%>');">
 	                        <%
+	                          }
 	                        	if(!isInsuranceAgent && MedwanQuery.getInstance().getConfigInt("javaPOSenabled",0)==1){
 	                        %>
 	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientReceipt('<%=patientInvoice.getUid()%>');">

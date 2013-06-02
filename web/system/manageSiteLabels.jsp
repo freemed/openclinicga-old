@@ -77,6 +77,7 @@
 	out.println(writeRow("labresult","personid"));
 	out.println(writeRow("urgency.destination","admission"));
 	out.println(writeRow("web","cardhospitalref"));
+	out.println(writeRow("web","cardfooter2"));
 	out.println(writeRow("web.occup","invoicedirector"));
 	out.println(writeRow("labresult","footer"));
 	out.println(writeRow("web","hospitalname"));

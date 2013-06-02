@@ -29,6 +29,15 @@ if(true){
             +ScreenHelper.writeTblFooter()+"<br>");
     }
 
+    if(activeUser.getAccessRight("statistics.select")){
+        String firstdayPreviousMonth="01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
+        String lastdayPreviousMonth=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
+        out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.technicalstats",sWebLanguage),sCONTEXTPATH)
+            +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("begintech","stats",firstdayPreviousMonth,sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("endtech","stats",lastdayPreviousMonth,sWebLanguage)+"&nbsp;</td></tr>"
+            +writeTblChildWithCode("javascript:labStatistics()",getTran("Web","statistics.lab",sWebLanguage))
+            +ScreenHelper.writeTblFooter()+"<br>");
+    }
+
    
     if(activeUser.getAccessRight("statistics.select")) {
         out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.activitystats",sWebLanguage),sCONTEXTPATH)
@@ -205,6 +214,10 @@ if(true){
     function agedistribution(){
 		var URL = "statistics/ageDistribution.jsp&start="+document.getElementById('begincnar').value+"&end="+document.getElementById('endcnar').value+"&ts=<%=getTs()%>";
 		openPopup(URL,200,650,"OpenClinic");
+    }
+    function labStatistics(){
+		var URL = "statistics/labStatistics.jsp&start="+document.getElementById('begintech').value+"&end="+document.getElementById('endtech').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
     }
     
 </script>

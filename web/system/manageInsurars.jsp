@@ -457,6 +457,7 @@
                             	<option value='ctams' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
                             	<option value='mfp' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
                             	<option value='cmck' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("cmck")?"selected":""%>><%=getTranNoLink("web","cmckmodel",sWebLanguage)%></option>
+                            	<option value='hmk' <%=checkString(insurar.getDefaultPatientInvoiceModel()).equalsIgnoreCase("hmk")?"selected":""%>><%=getTranNoLink("web","hmkmodel",sWebLanguage)%></option>
                             </select>
                         </td>
                     </tr>

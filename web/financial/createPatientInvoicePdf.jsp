@@ -24,6 +24,9 @@
         else if(sPrintModel.equalsIgnoreCase("cmck")){
         	pdfGenerator = new PDFPatientInvoiceGeneratorCMCK(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
         }
+        else if(sPrintModel.equalsIgnoreCase("hmk")){
+        	pdfGenerator = new PDFPatientInvoiceGeneratorHMK(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
+        }
         else if(sPrintModel.equalsIgnoreCase("mfp")){
         	pdfGenerator = new PDFPatientInvoiceGeneratorMFP(activeUser,invoice.getPatient(),sProject,sPrintLanguage,sProforma);
         }

@@ -155,6 +155,7 @@
         <permission type="web" id="closeunpaidinvoice">financial.closeunpaidinvoice</permission>
         <permission type="web" id="reimbursements">financial.reimbursement</permission>
         <permission type="web" id="renewexpiredcontributions">financial.renewexpiredcontributions</permission>
+        <permission type="web" id="print.proforma.patientinvoice">financial.printproformapatientinvoice</permission>
     </application>
     <application type="Web" id="executive">
         <permission type="web" id="bedoccupation">occup.bedoccupation</permission>
