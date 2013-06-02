@@ -90,6 +90,7 @@ if(true){
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"user.list\",\"admin\");",getTran("Web","statistics.download.userlist",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"service.list\",\"openclinic\");",getTran("Web","statistics.download.servicelist",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"debet.list\",\"openclinic\");",getTran("Web","statistics.download.debetlist",sWebLanguage))
+            +writeTblChildWithCodeNoButton("javascript:downloadStats(\"prestation.list\",\"openclinic\");",getTran("Web","statistics.download.prestationlist",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"wicketcredits.list\",\"openclinic\");",getTran("Web","statistics.download.wicketcredits",sWebLanguage))
             +(MedwanQuery.getInstance().getConfigInt("datacenterenabled",0)==1?writeTblChildWithCodeNoButton("javascript:downloadDatacenterStats(\"service.income.list\",\"stats\");",getTran("Web","statistics.download.serviceincomelist",sWebLanguage)):"")
             +ScreenHelper.writeTblFooter()+"<br>");
@@ -101,8 +102,19 @@ if(true){
             +writeTblChildWithCode("javascript:getClosedNonZeroInvoices()",getTran("Web","statistics.closednonzeroinvoicelists",sWebLanguage))
             +writeTblChildWithCode("javascript:getCanceledInvoices()",getTran("Web","statistics.canceledinvoicelists",sWebLanguage))
             +writeTblChildWithCode("javascript:getIssuedInsurerInvoices()",getTran("Web","statistics.issuedinsurerinvoices",sWebLanguage))
-            +(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1?writeTblChildWithCode("javascript:getMFPSummary()",getTran("Web","statistics.mfpsummary",sWebLanguage)):"")
             +ScreenHelper.writeTblFooter()+"<br>");
+         
+         if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
+	         out.print(ScreenHelper.writeTblHeader(getTran("Web","MFP",sWebLanguage),sCONTEXTPATH)
+                +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("beginmfp","stats","01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("endmfp","stats",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;</td></tr>"
+                +"<tr><td>"+getTran("Web","service",sWebLanguage)+"</td><td colspan='2'><input type='hidden' name='mfpserviceid' id='mfpserviceid' value='"+service+"'>"
+                +"<input class='text' type='text' name='mfpservicename' id='mfpservicename' readonly size='"+sTextWidth+"' value='"+serviceName+"' onblur=''>"
+                +"<img src='_img/icon_search.gif' class='link' alt='"+getTran("Web","select",sWebLanguage)+"' onclick='searchService(\"mfpserviceid\",\"mfpservicename\");'>"
+                +"<img src='_img/icon_delete.gif' class='link' alt='"+getTran("Web","clear",sWebLanguage)+"' onclick='mfpserviceid.value=\"\";mfpservicename.value=\"\";'>"
+                +"</td></tr>"
+	            +writeTblChildWithCode("javascript:getMFPSummary()",getTran("Web","statistics.mfpsummary",sWebLanguage))
+	            +ScreenHelper.writeTblFooter()+"<br>");
+         }
     }
 
     if(activeUser.getAccessRight("statistics.chin.select")){
@@ -130,7 +142,7 @@ if(true){
         var w=window.open("<c:url value='/statistics/createMonthlyReportPdf.jsp?'/>start="+document.getElementById('begin2').value+"&end="+document.getElementById('end2').value+"&ts=<%=getTs()%>");
     }
     function getMFPSummary(){
-        var URL="/statistics/createMFPSummary.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
+        var URL="/statistics/createMFPSummary.jsp&start="+document.getElementById('beginmfp').value+"&end="+document.getElementById('endmfp').value+"&serviceid="+document.getElementById('mfpserviceid').value+"&ts=<%=getTs()%>";
 		openPopup(URL,400,600,"OpenClinic");
     }
     function minisanteReportDH(){

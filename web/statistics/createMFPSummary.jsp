@@ -8,7 +8,9 @@
 	for(int n=invoices.size()-1;n>=0;n--){
 		InsurarInvoice invoice=(InsurarInvoice)invoices.elementAt(n);
 		if(invoice.getInsurarUid().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("MFP"))){
-			out.println("<tr><td class='admin'>"+(invoice.getStatus().equalsIgnoreCase("closed")?"<input type='checkbox' name='inv-"+invoice.getUid()+"' checked/>":getTran("finance.patientinvoice.status",invoice.getStatus(),sWebLanguage))+"</td><td class='admin'>"+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate())+"</td><td class='admin2'>"+invoice.getUid()+"</td><td class='admin2'>"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat")).format(invoice.getBalance())+" "+MedwanQuery.getInstance().getConfigString("currency")+"</tr>");
+			if(checkString(request.getParameter("serviceid")).length()==0 || invoice.hasDebetsForService(checkString(request.getParameter("serviceid")))){
+				out.println("<tr><td class='admin'>"+(invoice.getStatus().equalsIgnoreCase("closed")?"<input type='checkbox' name='inv-"+invoice.getUid()+"' checked/>":getTran("finance.patientinvoice.status",invoice.getStatus(),sWebLanguage))+"</td><td class='admin'>"+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate())+"</td><td class='admin2'>"+invoice.getUid()+"</td><td class='admin2'>"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat")).format(invoice.getBalance())+" "+MedwanQuery.getInstance().getConfigString("currency")+"</tr>");
+			}
 		}
 	}
 %>
