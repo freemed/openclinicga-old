@@ -660,7 +660,7 @@
             sPrintLanguage = activePatient.language;
         }
 
-        if (!sAccessRight.equalsIgnoreCase("readonly") && (activeUser.getAccessRight(sAccessRight + ".add") || activeUser.getAccessRight(sAccessRight + ".edit"))) {
+        if (!sAccessRight.equalsIgnoreCase("readonly") && ((activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0) || activeUser.getAccessRight(sAccessRight + ".add") || activeUser.getAccessRight(sAccessRight + ".edit"))) {
             html.append(getTran("Web.Occup", "PrintLanguage", sWebLanguage) + "&nbsp;")
                     .append("<select class='text' name='PrintLanguage'>");
 
