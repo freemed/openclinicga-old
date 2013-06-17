@@ -50,12 +50,18 @@
                                 String sLocalDbType = conn.getMetaData().getDatabaseProductName();
                                 if (queryElem.attribute("dbserver") == null || queryElem.attribute("dbserver").getValue().equalsIgnoreCase(sLocalDbType)) {
                                 	sQuery = queryElem.getTextTrim().replaceAll("@admin@", MedwanQuery.getInstance().getConfigString("admindbName","ocadmin"));
+                                	sQuery = queryElem.getTextTrim().replaceAll("@openclinic@", MedwanQuery.getInstance().getConfigString("openclinicdbName","openclinic"));
 	
 	                                if (sQuery.length() > 0) {
 	                                    try {
-	                                        ps = conn.prepareStatement(sQuery);
-	                                        ps.execute();
-	                                        ps.close();
+	                                    	String[] statements = sQuery.split(";");
+	                                    	for(int n=0;n<statements.length;n++){
+	                                    		if(statements[n].trim().length()>0){
+	    	                                        ps = conn.prepareStatement(statements[n].trim());
+	    	                                        ps.execute();
+	    	                                        ps.close();
+	                                    		}
+	                                    	}
 	
 	                                        // add configString query.id
 	                                        MedwanQuery.getInstance().setConfigString(queryElem.attribute("id").getValue(), "executed : first time");
