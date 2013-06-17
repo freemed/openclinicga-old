@@ -145,7 +145,7 @@
                     <tr>
                         <td class="admin"><%=getTran("web.hr","itOther",sWebLanguage)%>&nbsp;</td>
                         <td class="admin2">
-                            <textarea class="text" name="itOther" cols="60" rows="3" onKeyup="resizeTextarea(this,8);"></textarea>
+                            <textarea class="text" id="itOther" name="itOther" cols="60" rows="3" onKeyup="resizeTextarea(this,8);"></textarea>
                         </td>
                     </tr>
                 </table>
@@ -178,7 +178,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","comment",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea class="text" name="comment" cols="82" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
+                <textarea class="text" name="comment" id="comment" cols="82" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
             </td>
         </tr>
             
@@ -186,8 +186,8 @@
         <tr>     
             <td class="admin"/>
             <td class="admin2" colspan="2">
-                <input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveSkill();">&nbsp;
-                <input class="button" type="button" name="buttonClear" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearSkill();">
+                <input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveSkill();">&nbsp;
+                <input class="button" type="button" name="buttonClear" id="buttonClear" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearSkill();">
             </td>
         </tr>
     </table>
@@ -200,13 +200,11 @@
   <%-- SAVE SKILL --%>
   function saveSkill(){
     var maySubmit = true;
-    
      if(maySubmit && EditForm.lsLanguage.value.length > 0){
        if(!addLS()){
          maySubmit = false;
        }
      }
-
      if(maySubmit){
       <%-- compose string containing language skills --%>
          var sTmpBegin, sTmpEnd;
@@ -215,16 +213,13 @@
            sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=")+1);
            sLS = sLS.substring(0,sLS.indexOf("rowLS"))+sTmpEnd;
          }
-       
          document.getElementById("languages").value = sLS.substring(0,255);
        
       document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
       var url = "<c:url value='/hr/ajax/skills/saveSkill.jsp'/>?ts="+new Date().getTime();
-
       <%-- disable buttons --%>
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonClear").disabled = true;
-        
       new Ajax.Request(url,
         {
           method: "POST",

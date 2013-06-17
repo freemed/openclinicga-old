@@ -5,6 +5,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
+	System.out.println("A");
     String sEditSkillUid = checkString(request.getParameter("EditSkillUid")),
            sPersonId     = checkString(request.getParameter("PersonId"));
 
@@ -33,38 +34,38 @@
     }
     ///////////////////////////////////////////////////////////////////////////
 
-
-    Skill skill = new Skill();
-    skill.personId = Integer.parseInt(sPersonId);
-    String sMessage = "";
-    
-    if(sEditSkillUid.length() > 0){
-        skill.setUid(sEditSkillUid);
-    }
-    else{
-        skill.setUid("-1");
-        skill.setCreateDateTime(getSQLTime());
-    }
-
-    skill.languages = sLanguages;
-    skill.drivingLicense = sDrivingLicense;
-    skill.itOffice = sItOffice;
-    skill.itInternet = sItInternet;
-    skill.itOther = sItOther;
-    skill.communicationSkills = sCommunicationSkills;
-    skill.stressResistance = sStressResistance;
-    skill.comment = sComment;
-    skill.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
-    skill.setUpdateUser(activeUser.userid);
-    
-    boolean errorOccurred = skill.store(activeUser.userid);
-    
-    if(!errorOccurred){
-        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
-    }
-    else{
-        sMessage = getTran("web","error",sWebLanguage);
-    }
+	
+	    Skill skill = new Skill();
+	    skill.personId = Integer.parseInt(sPersonId);
+	    String sMessage = "";
+	    
+	    if(sEditSkillUid.length() > 0){
+	        skill.setUid(sEditSkillUid);
+	    }
+	    else{
+	        skill.setUid("-1");
+	        skill.setCreateDateTime(getSQLTime());
+	    }
+	
+	    skill.languages = sLanguages;
+	    skill.drivingLicense = sDrivingLicense;
+	    skill.itOffice = sItOffice;
+	    skill.itInternet = sItInternet;
+	    skill.itOther = sItOther;
+	    skill.communicationSkills = sCommunicationSkills;
+	    skill.stressResistance = sStressResistance;
+	    skill.comment = sComment;
+	    skill.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
+	    skill.setUpdateUser(activeUser.userid);
+	    
+	    boolean errorOccurred = skill.store(activeUser.userid);
+	    
+	    if(!errorOccurred){
+	        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
+	    }
+	    else{
+	        sMessage = getTran("web","error",sWebLanguage);
+	    }
 %>
 
 {

@@ -54,7 +54,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","type",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2">
-                <select class="text" id="grade" name="type">
+                <select class="text" id="type" name="type">
                     <option/>
                     <%=ScreenHelper.writeSelect("hr.leave.type","",sWebLanguage)%>
                 </select>
@@ -97,7 +97,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","comment",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea class="text" name="comment" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
+                <textarea class="text" name="comment" id="comment" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
             </td>
         </tr>
             
@@ -105,9 +105,9 @@
         <tr>     
             <td class="admin"/>
             <td class="admin2" colspan="2">
-                <input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveLeave();">&nbsp;
-                <input class="button" type="button" name="buttonDelete" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onclick="deleteLeave();" style="visibility:hidden;">&nbsp;
-                <input class="button" type="button" name="buttonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="newLeave();" style="visibility:hidden;">&nbsp;
+                <input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveLeave();">&nbsp;
+                <input class="button" type="button" name="buttonDelete" id="buttonDelete" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onclick="deleteLeave();" style="visibility:hidden;">&nbsp;
+                <input class="button" type="button" name="buttonNew" id="buttonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="newLeave();" style="visibility:hidden;">&nbsp;
             </td>
         </tr>
     </table>

@@ -46,7 +46,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","description",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea class="text" name="description" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
+                <textarea class="text" name="description" id="description" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
             </td>
         </tr>
                  
@@ -81,7 +81,7 @@
         <tr>
             <td class="admin"><%=getTran("web.hr","followUp",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea class="text" name="followUp" cols="80" rows="4" onKeyup="limitChars(this,6000);resizeTextarea(this,8);"></textarea>
+                <textarea class="text" name="followUp" id="followUp" cols="80" rows="4" onKeyup="limitChars(this,6000);resizeTextarea(this,8);"></textarea>
             </td>
         </tr>
             
@@ -89,9 +89,9 @@
         <tr>     
             <td class="admin"/>
             <td class="admin2" colspan="2">
-                <input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveDisRec();">&nbsp;
-                <input class="button" type="button" name="buttonDelete" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onclick="deleteDisRec();" style="visibility:hidden;">&nbsp;
-                <input class="button" type="button" name="buttonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="newDisRec();" style="visibility:hidden;">&nbsp;
+                <input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveDisRec();">&nbsp;
+                <input class="button" type="button" name="buttonDelete" id="buttonDelete" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onclick="deleteDisRec();" style="visibility:hidden;">&nbsp;
+                <input class="button" type="button" name="buttonNew" id="buttonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="newDisRec();" style="visibility:hidden;">&nbsp;
             </td>
         </tr>
     </table>
@@ -117,7 +117,6 @@
         document.getElementById("buttonSave").disabled = true;
         document.getElementById("buttonDelete").disabled = true;
         document.getElementById("buttonNew").disabled = true;
-        
         new Ajax.Request(url,
           {
             method: "POST",
@@ -132,8 +131,8 @@
                       "&followUp="+document.getElementById("followUp").value,
             onSuccess: function(resp){
               var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
 
+              $("divMessage").innerHTML = data.message;
               loadDisRecs();
               newDisRec();
               

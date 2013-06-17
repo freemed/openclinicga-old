@@ -61,10 +61,10 @@
     boolean errorOccurred = disRec.store(activeUser.userid);
     
     if(!errorOccurred){
-        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
+        sMessage = "<font color='green'>"+getTranNoLink("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
-        sMessage = getTran("web","error",sWebLanguage);
+        sMessage = getTranNoLink("web","error",sWebLanguage);
     }
 %>
 

@@ -74,7 +74,7 @@
             <tr>
                 <td class="admin"><%=getTran("web.hr","functionDescription",sWebLanguage)%>&nbsp;*&nbsp;</td>
                 <td class="admin2">
-                    <textarea class="text" name="functionDescription" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
+                    <textarea class="text" name="functionDescription" id="functionDescription" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
                 </td>
             </tr>
                 
@@ -98,9 +98,9 @@
             <tr>     
                 <td class="admin"/>
                 <td class="admin2" colspan="2">
-                    <input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveContract();">&nbsp;
-                    <input class="button" type="button" name="buttonDelete" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onclick="deleteContract();" style="visibility:hidden;">&nbsp;
-                    <input class="button" type="button" name="buttonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="newContract();" style="visibility:hidden;">&nbsp;
+                    <input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveContract();">&nbsp;
+                    <input class="button" type="button" name="buttonDelete" id="buttonDelete" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onclick="deleteContract();" style="visibility:hidden;">&nbsp;
+                    <input class="button" type="button" name="buttonNew" id="buttonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="newContract();" style="visibility:hidden;">&nbsp;
                 </td>
             </tr>
         </table>
@@ -113,7 +113,6 @@
       <%-- SAVE CONTRACT --%>
       function saveContract(){
         var okToSubmit = true;
-        
         if(document.getElementById("beginDate").value.length > 8 &&
            document.getElementById("functionTitle").value.length > 0 &&
            document.getElementById("functionDescription").value.length > 0
