@@ -111,14 +111,14 @@ public class PDFImmoLabelGenerator extends PDFOfficialBasic {
                 cell.setColspan(1);
                 cell.setPadding(0);
                 table.addCell(cell);
-                cell = new PdfPCell(new Paragraph(article.name.split("_")[0],FontFactory.getFont(FontFactory.COURIER,MedwanQuery.getInstance().getConfigInt("immofontsize",6),Font.BOLD)));
+                cell = new PdfPCell(new Paragraph(article.name.split("_")[0],FontFactory.getFont(FontFactory.COURIER,MedwanQuery.getInstance().getConfigInt("immofontsize",8),Font.BOLD)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 cell.setPadding(0);
                 table.addCell(cell);
-                cell = new PdfPCell(new Paragraph(article.name.split("_")[1],FontFactory.getFont(FontFactory.COURIER,MedwanQuery.getInstance().getConfigInt("immofontsize",6),Font.BOLD)));
+                cell = new PdfPCell(new Paragraph(article.name.split("_")[1],FontFactory.getFont(FontFactory.COURIER,MedwanQuery.getInstance().getConfigInt("immofontsize",8),Font.BOLD)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);

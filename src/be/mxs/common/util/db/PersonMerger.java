@@ -57,6 +57,8 @@ public class PersonMerger {
 
     //--- MERGE -----------------------------------------------------------------------------------
     public void merge(int keepPersonId, int removePersonId, boolean addPersonsToMergePersons) throws Exception {
+        adminConn = MedwanQuery.getInstance().getAdminConnection();
+        occupConn = MedwanQuery.getInstance().getOpenclinicConnection();
         int updates;
 
         if(Debug.enabled){
@@ -406,6 +408,8 @@ public class PersonMerger {
         }
 
         if(Debug.enabled) Debug.println("=================================================");
+        adminConn.close();
+        occupConn.close();
     }
 
 }

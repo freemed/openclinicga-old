@@ -363,7 +363,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
                 }
-                else {
+                else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("numeric")){
 	                cell=createLabelCourier(result,8,15,Font.BOLD);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
@@ -421,6 +421,15 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+                	if(ScreenHelper.checkString(requestedLabAnalysis.getResultComment()).length()>0){
+	                	cell=createLabelCourier("", 8, 45, fonttype);
+		                subTable.addCell(cell);
+	                	cell=createLabelCourier(requestedLabAnalysis.getResultComment(),8,55,Font.NORMAL);
+		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		                subTable.addCell(cell);
+                	}
+
 	                //Nu gaan we na of er een extra lijn met commentaar moet worden afgedrukt
 	                if(!MedwanQuery.getInstance().getLabel("labanalysis.refcomment",analysisCode,user.person.language).equals(analysisCode)){
 	                	cell=createLabelCourier("", 8, 45, fonttype);
@@ -430,6 +439,20 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 		                subTable.addCell(cell);
 	                }
+                }
+                else {
+                	cell=createLabelCourier(result,8,55,Font.NORMAL);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                subTable.addCell(cell);
+                	if(ScreenHelper.checkString(requestedLabAnalysis.getResultComment()).length()>0){
+	                	cell=createLabelCourier("", 8, 45, fonttype);
+		                subTable.addCell(cell);
+	                	cell=createLabelCourier(requestedLabAnalysis.getResultComment(),8,55,Font.NORMAL);
+		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		                subTable.addCell(cell);
+                	}
                 }
             }
             cell=createBorderlessCell(5);

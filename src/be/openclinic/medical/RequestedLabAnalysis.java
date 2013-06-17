@@ -1159,6 +1159,29 @@ public class RequestedLabAnalysis {
 		}
     }
 
+    public static void updateResultComment(int serverid,int transactionid, String analysiscode, String comment){
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sQuery="update RequestedLabAnalyses set resultcomment=? where serverid=? and transactionid=? and analysiscode=?";
+            PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+            ps.setString(1,comment);
+            ps.setInt(2,serverid);
+            ps.setInt(3,transactionid);
+            ps.setString(4,analysiscode);
+            ps.executeUpdate();
+            ps.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
     public static void setConfirmed(int serverid,int transactionid, boolean confirmed,String worklistAnalyses){
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{

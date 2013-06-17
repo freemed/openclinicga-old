@@ -63,7 +63,7 @@ public class Prestation extends OC_Object{
 				pct=Double.parseDouble(getModifiers().split(";")[0]);
 			}
 			catch(Exception e){
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		return pct;

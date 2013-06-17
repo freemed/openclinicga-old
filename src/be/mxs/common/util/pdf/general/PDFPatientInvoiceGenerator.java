@@ -61,7 +61,16 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             addPatientData();
             addEncounterData(invoice);
             //get list of patientinsurances
-            Vector insurances = Insurance.findInsurances("", "", "", "", "", patient.personid);
+            SortedMap sIns = new TreeMap();
+            for(int n=0;n<invoice.getDebets().size();n++){
+            	Debet debet = (Debet)invoice.getDebets().elementAt(n);
+            	if(debet.getInsuranceUid()!=null && sIns.get(debet.getInsuranceUid())==null){
+            		if(debet.getInsurance()!=null && debet.getInsurance().getUid()!=null){
+            			sIns.put(debet.getInsuranceUid(), debet.getInsurance());
+            		}
+            	}
+            }
+            Vector insurances = new Vector(sIns.values());
             for(int n=0;n<insurances.size();n++){
                 Insurance insurance = (Insurance)insurances.elementAt(n);
                 if(insurance!=null){
@@ -584,6 +593,31 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         table.addCell(createLabelCell(getTran("insurance","member"),2));
         table.addCell(createValueCell(":   "+ScreenHelper.checkString(insurance.getMember()),5));
 
+        //*** ROW 4 ***
+        // complementary insurar
+        Vector debets = invoice.getDebets();
+        HashSet insurances = new HashSet();
+        String extraInsurars="";
+        for (int n=0;n<debets.size();n++){
+        	Debet debet = (Debet)debets.elementAt(n);
+        	if(debet.getExtraInsurarUid()!=null){
+        		Insurar ins = Insurar.get(debet.getExtraInsurarUid());
+        		if(ins!=null && ins.getName()!=null && ins.getName().length()>0){
+        			insurances.add(ins.getName());
+        		}
+        	}
+        }
+        Iterator iIns = insurances.iterator();
+        while(iIns.hasNext()){
+        	if(extraInsurars.length()>0){
+        		extraInsurars+=", ";
+        	}
+        	extraInsurars+=(String)iIns.next();
+        }
+        if(extraInsurars.length()>0){
+	        table.addCell(createLabelCell(getTran("web","complementarycoverage"),2));
+	        table.addCell(createValueCell(":   "+extraInsurars,12));
+        }
         return table;
     }
 

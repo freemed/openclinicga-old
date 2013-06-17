@@ -144,7 +144,7 @@ public class LabRequest {
                 requestedLabAnalysis.setPatientId(rs.getString("patientid"));
                 requestedLabAnalysis.setRequestDate(new java.sql.Date(getRequestdate().getTime()));
                 requestedLabAnalysis.setRequestUserId(getUserid()+"");
-                requestedLabAnalysis.setResultComment(rs.getString("comment"));
+                requestedLabAnalysis.setResultComment(rs.getString("resultcomment"));
                 requestedLabAnalysis.setResultDate(rs.getTimestamp("resultdate"));
                 requestedLabAnalysis.setResultModifier(rs.getString("resultmodifier"));
                 requestedLabAnalysis.setResultProvisional(rs.getString("resultprovisional"));
@@ -209,7 +209,7 @@ public class LabRequest {
                 requestedLabAnalysis.setPatientId(rs.getString("patientid"));
                 requestedLabAnalysis.setRequestDate(new java.sql.Date(getRequestdate().getTime()));
                 requestedLabAnalysis.setRequestUserId(getUserid()+"");
-                requestedLabAnalysis.setResultComment(rs.getString("comment"));
+                requestedLabAnalysis.setResultComment(rs.getString("resultcomment"));
                 requestedLabAnalysis.setResultDate(rs.getTimestamp("resultdate"));
                 requestedLabAnalysis.setResultModifier(rs.getString("resultmodifier"));
                 requestedLabAnalysis.setResultProvisional(rs.getString("resultprovisional"));
@@ -363,7 +363,7 @@ public class LabRequest {
                 requestedLabAnalysis.setPatientId(rs.getString("patientid"));
                 requestedLabAnalysis.setRequestDate(new java.sql.Date(getRequestdate().getTime()));
                 requestedLabAnalysis.setRequestUserId(getUserid()+"");
-                requestedLabAnalysis.setResultComment(rs.getString("comment"));
+                requestedLabAnalysis.setResultComment(rs.getString("resultcomment"));
                 requestedLabAnalysis.setResultDate(rs.getTimestamp("resultdate"));
                 requestedLabAnalysis.setResultModifier(rs.getString("resultmodifier"));
                 requestedLabAnalysis.setResultProvisional(rs.getString("resultprovisional"));
@@ -428,7 +428,7 @@ public class LabRequest {
                 requestedLabAnalysis.setPatientId(rs.getString("patientid"));
                 requestedLabAnalysis.setRequestDate(new java.sql.Date(getRequestdate().getTime()));
                 requestedLabAnalysis.setRequestUserId(getUserid()+"");
-                requestedLabAnalysis.setResultComment(rs.getString("comment"));
+                requestedLabAnalysis.setResultComment(rs.getString("resultcomment"));
                 requestedLabAnalysis.setResultDate(rs.getTimestamp("resultdate"));
                 requestedLabAnalysis.setResultModifier(rs.getString("resultmodifier"));
                 requestedLabAnalysis.setResultProvisional(rs.getString("resultprovisional"));

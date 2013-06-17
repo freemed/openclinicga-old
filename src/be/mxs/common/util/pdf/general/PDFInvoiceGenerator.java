@@ -164,6 +164,26 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     }
 
     //--- CREATE UNDERLINED CELL (font underline) -------------------------------------------------
+    protected PdfPCell createUnderlinedTextCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        return cell;
+    }
+
+    //--- CREATE UNDERLINED CELL (font underline) -------------------------------------------------
+    protected PdfPCell createUnderlinedTextCell(String value, int colspan,int size){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,size,Font.UNDERLINE)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        return cell;
+    }
+
+    //--- CREATE UNDERLINED CELL (font underline) -------------------------------------------------
     protected PdfPCell createUnderlinedCell(String value, int colspan, int size){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,size,Font.NORMAL)));
         cell.setColspan(colspan);

@@ -459,8 +459,8 @@ public class LabAnalysis {
 
             // search on code ?
             if(sSearchCode.length() > 0){
-                sQuery.append("AND ("+lowerLabCode+" LIKE '"  + ScreenHelper.checkDbString(sSearchCode).toLowerCase()+"%'")
-                      .append("OR "+lowerLabelValue+" LIKE '" + ScreenHelper.checkDbString(sSearchCode).toLowerCase()+"%'" +
+                sQuery.append("AND ("+lowerLabCode+" LIKE '%"  + ScreenHelper.checkDbString(sSearchCode).toLowerCase()+"%'")
+                      .append("OR "+lowerLabelValue+" LIKE '%" + ScreenHelper.checkDbString(sSearchCode).toLowerCase()+"%'" +
                               " OR a.medidoccode = '" + ScreenHelper.checkDbString(sSearchCode).toLowerCase()+"')");
             }
 

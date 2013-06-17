@@ -2243,6 +2243,49 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     	return sDefaultServiceUid;
     }
     
+    public static boolean existsRecent(String prestationUid, String personid, long timeElapsed){
+    	boolean exists = false;
+    	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+    	String sSelect="select max(OC_DEBET_DATE) OC_DEBET_DATE from OC_DEBETS a,OC_ENCOUNTERS b where " +
+    			" OC_ENCOUNTER_OBJECTID=replace(OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND" +
+    			" OC_ENCOUNTER_PATIENTUID=? AND" +
+    			" OC_DEBET_PRESTATIONUID=?";
+    	System.out.println(sSelect);
+    	System.out.println("personid="+personid);
+    	System.out.println("prestationuid="+prestationUid);
+    	PreparedStatement ps=null;
+    	ResultSet rs = null;
+    	try{
+    		 ps = conn.prepareStatement(sSelect);
+    		 ps.setString(1, personid);
+    		 ps.setString(2, prestationUid);
+    		 rs=ps.executeQuery();
+    		 if(rs.next()){
+    			 Date lastdate = rs.getTimestamp("OC_DEBET_DATE");
+    			 if(lastdate!=null && new java.util.Date().getTime()-lastdate.getTime()<timeElapsed){
+    				 exists=true;
+    			 }
+    		 }
+    		 rs.close();
+    		 ps.close();
+    	}
+        catch (Exception e) {
+            e.printStackTrace();
+            Debug.println("OpenClinic => Debet.java => existsRecent => " + e.getMessage() + " = " + sSelect);
+        }
+        finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    	return exists;
+     }
+    
     public static void createAutomaticDebet(String uid, String personid,String prestationUid,java.util.Date date,int quantity,String userid){
         String type="";
         Insurance insurance=null;
@@ -2281,8 +2324,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
 	            dPatientAmount=quantity * (prestation.getPrice("C")+prestation.getSupplement());
 	            dInsurarAmount = 0;
 	        }
-	        dPatientAmount=Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount));
-	        dInsurarAmount=Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount));
+	        //dPatientAmount=Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount));
+	        //dInsurarAmount=Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount));
 	        //Create new Debet
 	        Debet debet = new Debet();
 	        debet.setAmount(dPatientAmount);

@@ -32,13 +32,13 @@ public class CsvInvoiceRama {
 	        	}
 	        }
 		}
-		String sOutput="#;DATE;INVOICEID;INSURAR REF;AFFILIATE NR;AFFILIATE;BENEFICIARY;CONS;LAB;IMA;HOS;ACT;MAT;OTH;MED;TOT 100%;TOT "+coverage+"%\r\n";
+		String sOutput="#;DATE;VOUCHER_ID;INVOICE_ID;BENEFICIARY_NR;BENEFICIARY_AGE;BENEFICIARY_SEX;BENEFICIARY_NAME;AFFILIATE_NAME;AFFILIATE_AFFECT;CONS;LAB;IMA;HOS;ACT;MAT;OTH;MED;TOT 100%;TOT "+coverage+"%\r\n";
 		if(invoiceuid!=null){
 	        Vector debets = InsurarInvoice.getDebetsForInvoiceSortByDate(invoiceuid);
 	        if(debets.size() > 0){
 	            // print debets
 	            Debet debet;
-	            String sPatientName="", sPrevPatientName = "",sPreviousInvoiceUID="";
+	            String sPatientName="", sPrevPatientName = "",sPreviousInvoiceUID="",beneficiarynr="",beneficiaryage="",beneficiarysex="",affiliatecompany="";
 	            Date date=null,prevdate=null;
 	            boolean displayPatientName=false,displayDate=false;
 	            SortedMap categories = new TreeMap(), totalcategories = new TreeMap();
@@ -58,7 +58,7 @@ public class CsvInvoiceRama {
 	                sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
 	                displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName) || (debet.getPatientInvoiceUid()!=null && debet.getPatientInvoiceUid().indexOf(".")>=0 && invoiceid.indexOf(debet.getPatientInvoiceUid().split("\\.")[1])<0 && invoiceid.length()>0);
 	                if(i>0 && (displayDate || displayPatientName)){
-	                    sOutput+=printDebet2(categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,insurarreference);
+	                    sOutput+=printDebet2(categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,insurarreference,beneficiarynr,beneficiaryage,beneficiarysex,affiliatecompany);
 	                	categories = new TreeMap();
 	                	total100pct=0;
 	                	total85pct=0;
@@ -70,6 +70,16 @@ public class CsvInvoiceRama {
 	                	adherent="";
 	                	recordnumber="";
 	                	insurarreference="";
+	                	beneficiarynr="";
+	                	beneficiaryage="";
+	                	beneficiarysex="";
+	                	affiliatecompany="";
+	                }
+	                if(debet.getEncounter()!=null && debet.getEncounter().getPatient()!=null){
+	                	beneficiarysex=debet.getEncounter().getPatient().gender;
+	                	if(debet.getEncounter().getPatient().dateOfBirth!=null){
+	                		beneficiaryage=debet.getEncounter().getPatient().dateOfBirth;
+	                	}
 	                }
 	                if(debet.getPatientInvoiceUid()!=null && debet.getPatientInvoiceUid().indexOf(".")>=0 && invoiceid.indexOf(debet.getPatientInvoiceUid().split("\\.")[1])<0){
 	                	if(invoiceid.length()>0){
@@ -86,6 +96,8 @@ public class CsvInvoiceRama {
 	                if(debet.getInsuranceUid()!=null){
 	                	Insurance insurance = Insurance.get(debet.getInsuranceUid());
 	                	debet.setInsurance(insurance);
+	                	beneficiarynr=insurance.getInsuranceNr();
+	                	affiliatecompany=insurance.getMemberEmployer();
 	                }
 	                if(debet.getInsurance()!=null && debet.getInsurance().getMember()!=null && adherent.indexOf(debet.getInsurance().getMember().toUpperCase())<0){
 	                	if(adherent.length()>0){
@@ -103,34 +115,34 @@ public class CsvInvoiceRama {
 	                double rAmount = debet.getAmount();
 	                double rInsurarAmount = debet.getInsurarAmount();
 	                double rExtraInsurarAmount = debet.getExtraInsurarAmount();
-	                double rTotal=rAmount+rInsurarAmount+rExtraInsurarAmount;
+	                int rTotal=(int)(rAmount+rInsurarAmount+rExtraInsurarAmount);
 	                if(prestation!=null && prestation.getReferenceObject()!=null && prestation.getReferenceObject().getObjectType()!=null && prestation.getReferenceObject().getObjectType().length()>0){
 	                	String sCat=prestation.getReferenceObject().getObjectType();
 	                    if(categories.get(sCat)==null){
-	                        categories.put(sCat,new Double(rTotal));
+	                        categories.put(sCat,"+"+rTotal);
 	                    }
 	                    else {
-	                        categories.put(sCat,new Double(((Double)categories.get(sCat)).doubleValue()+rTotal));
+	                        categories.put(sCat,categories.get(sCat)+"+"+rTotal);
 	                    }
 	                    if(totalcategories.get(sCat)==null){
-	                        totalcategories.put(sCat,new Double(rTotal));
+	                        totalcategories.put(sCat,"+"+rTotal);
 	                    }
 	                    else {
-	                        totalcategories.put(sCat,new Double(((Double)totalcategories.get(sCat)).doubleValue()+rTotal));
+	                        totalcategories.put(sCat,totalcategories.get(sCat)+"+"+rTotal);
 	                    }
 	                }
 	                else {
 	                    if(categories.get("OTHER")==null){
-	                        categories.put("OTHER",new Double(rTotal));
+	                        categories.put("OTHER","+"+rTotal);
 	                    }
 	                    else {
-	                        categories.put("OTHER",new Double(((Double)categories.get("OTHER")).doubleValue()+rTotal));
+	                        categories.put("OTHER",categories.get("OTHER")+"+"+rTotal);
 	                    }
 	                    if(totalcategories.get("OTHER")==null){
-	                        totalcategories.put("OTHER",new Double(rTotal));
+	                        totalcategories.put("OTHER","+"+rTotal);
 	                    }
 	                    else {
-	                        totalcategories.put("OTHER",new Double(((Double)totalcategories.get("OTHER")).doubleValue()+rTotal));
+	                        totalcategories.put("OTHER",totalcategories.get("OTHER")+"+"+rTotal);
 	                    }
 	                }                
 	                total100pct+=rTotal;
@@ -138,7 +150,7 @@ public class CsvInvoiceRama {
 	                prevdate = date;
 	                sPrevPatientName = sPatientName;
 	            }
-                sOutput+=printDebet2(categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,insurarreference);
+                sOutput+=printDebet2(categories,displayDate,prevdate!=null?prevdate:date,invoiceid,adherent,sPrevPatientName.split(";")[0],total100pct,total85pct,recordnumber,linecounter++,insurarreference,beneficiarynr,beneficiaryage,beneficiarysex,affiliatecompany);
 
 	        }
 		}
@@ -146,28 +158,31 @@ public class CsvInvoiceRama {
 	}
 	
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
-    private static String printDebet2(SortedMap categories, boolean displayDate, Date date, String invoiceid,String adherent,String beneficiary,double total100pct,double total85pct,String recordnumber,int linecounter,String insurarreference){
+    private static String printDebet2(SortedMap categories, boolean displayDate, Date date, String invoiceid,String adherent,String beneficiary,double total100pct,double total85pct,String recordnumber,int linecounter,String insurarreference,String beneficiarynr,String beneficiaryage,String beneficiarysex,String affiliatecompany){
     	String sOutput="";
         sOutput+=linecounter+";";
         sOutput+=new SimpleDateFormat("dd/MM/yyyy").format(date)+";";
-        sOutput+=invoiceid+";";
         sOutput+=insurarreference+";";
-        sOutput+=recordnumber+";";
-        sOutput+=adherent+";";
+        sOutput+=invoiceid+";";
+        sOutput+=beneficiarynr+";";
+        sOutput+=beneficiaryage+";";
+        sOutput+=beneficiarysex+";";
         sOutput+=beneficiary+";";
-        Double amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAconsultationCategory","Co"));
-        sOutput+=amount==null?"0;":priceFormatInsurar.format(amount)+";";
-        amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAlabCategory","L"));
-        sOutput+=amount==null?"0;":priceFormatInsurar.format(amount)+";";
-        amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAimagingCategory","R"));
-        sOutput+=amount==null?"0;":priceFormatInsurar.format(amount)+";";
-        amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAadmissionCategory","S"));
-        sOutput+=amount==null?"0;":priceFormatInsurar.format(amount)+";";
-        amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAactsCategory","A"));
-        sOutput+=amount==null?"0;":priceFormatInsurar.format(amount)+";";
-        amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAconsumablesCategory","C"));
-        sOutput+=amount==null?"0;":priceFormatInsurar.format(amount)+";";
-        double otherprice=0;
+        sOutput+=adherent+";";
+        sOutput+=affiliatecompany+";";
+        String amount = (String)categories.get(MedwanQuery.getInstance().getConfigString("RAMAconsultationCategory","Co"));
+        sOutput+=amount==null?"0;":amount+";";
+        amount = (String)categories.get(MedwanQuery.getInstance().getConfigString("RAMAlabCategory","L"));
+        sOutput+=amount==null?"0;":amount+";";
+        amount = (String)categories.get(MedwanQuery.getInstance().getConfigString("RAMAimagingCategory","R"));
+        sOutput+=amount==null?"0;":amount+";";
+        amount = (String)categories.get(MedwanQuery.getInstance().getConfigString("RAMAadmissionCategory","S"));
+        sOutput+=amount==null?"0;":amount+";";
+        amount = (String)categories.get(MedwanQuery.getInstance().getConfigString("RAMAactsCategory","A"));
+        sOutput+=amount==null?"0;":amount+";";
+        amount = (String)categories.get(MedwanQuery.getInstance().getConfigString("RAMAconsumablesCategory","C"));
+        sOutput+=amount==null?"0;":amount+";";
+        String otherprice="+0";
         String allcats=	"*"+MedwanQuery.getInstance().getConfigString("RAMAconsultationCategory","Co")+
 						"*"+MedwanQuery.getInstance().getConfigString("RAMAlabCategory","L")+
 						"*"+MedwanQuery.getInstance().getConfigString("RAMAimagingCategory","R")+
@@ -178,13 +193,13 @@ public class CsvInvoiceRama {
         Iterator iterator = categories.keySet().iterator();
         while (iterator.hasNext()){
         	String cat = (String)iterator.next();
-        	if(allcats.indexOf("*"+cat+"*")<0){
-        		otherprice+=((Double)categories.get(cat)).doubleValue();
+        	if(allcats.indexOf("*"+cat+"*")<0 && ((String)categories.get(cat)).length()>0){
+        		otherprice+="+"+(String)categories.get(cat);
         	}
         }
-        sOutput+=priceFormatInsurar.format(otherprice)+";";
-        amount = (Double)categories.get(MedwanQuery.getInstance().getConfigString("RAMAdrugsCategory","M"));
-        sOutput+=amount==null?"0;":priceFormatInsurar.format(amount)+";";
+        sOutput+=otherprice+";";
+        amount = (String)categories.get(MedwanQuery.getInstance().getConfigString("RAMAdrugsCategory","M"));
+        sOutput+=amount==null?"0;":amount+";";
         sOutput+=priceFormatInsurar.format(total100pct)+";";
         sOutput+=priceFormatInsurar.format(total85pct)+"\r\n";
         return sOutput;
