@@ -14,7 +14,7 @@
     String sEditInvoiceVerifier = checkString(request.getParameter("EditInvoiceVerifier"));
     String sEditInsurarReferenceDate = checkString(request.getParameter("EditInsurarReferenceDate"));
     String sEditReduction = checkString(request.getParameter("EditReduction"));
-
+	
     PatientInvoice patientinvoice = new PatientInvoice();
     AdminPerson invoicePatient=activePatient;
 

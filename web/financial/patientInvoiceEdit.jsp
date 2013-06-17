@@ -46,7 +46,7 @@
 %>
 <%
 	boolean isInsuranceAgent=false;
-	if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+activeUser.getParameter("insuranceagent")+"*")>-1){
+	if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0 && MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+activeUser.getParameter("insuranceagent")+"*")>-1){
 		//This is an insurance agent, limit the functionalities
 		isInsuranceAgent=true;
 	}
@@ -213,7 +213,7 @@
 	            <td class='admin2'>
 	                <%
 					if(isInsuranceAgent){
-						out.println("<input type='hidden' name='EditStatus' value='"+patientInvoice.getStatus()+"'/>"+getTran("finance.patientinvoice.status",checkString(patientInvoice.getStatus()),sWebLanguage));
+						out.println("<input type='hidden' id='invoiceStatus' name='EditStatus' value='"+patientInvoice.getStatus()+"'/>"+getTran("finance.patientinvoice.status",checkString(patientInvoice.getStatus()),sWebLanguage));
 					}
 					else {
 	                %>
@@ -286,6 +286,11 @@
 		        %>
 		        </tr>
 	        <%
+	        }
+	        else {
+				%>
+					<input type='hidden' name='EditInvoiceVerifier' id='EditInvoiceVerifier' value=''/>			                        
+		        <%
 	        }
   				boolean bReduction=false;
   				Insurance insurance = null;
@@ -430,6 +435,11 @@
 	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientReceipt('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                        	}
+	                        	if(!isInsuranceAgent && MedwanQuery.getInstance().getConfigInt("printPDFreceiptenabled",0)==1){
+	                        %>
+	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt.pdf",sWebLanguage)%>' onclick="doPrintPatientReceiptPdf('<%=patientInvoice.getUid()%>');">
+	                        <%
+	                        	}
 	                        %>
 	                        <%
 	                            if (!isInsuranceAgent && !(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
@@ -468,7 +478,7 @@
 	        else {
 				bInvoiceSeries=true;
 	        }
-	        if ((document.getElementById('EditDate').value.length>8)&&(document.getElementById('invoiceStatus').selectedIndex>-1)&&bInvoiceSeries){
+	        if ((document.getElementById('EditDate').value.length>8)&&(!document.getElementById('invoiceStatus').selectedIndex || document.getElementById('invoiceStatus').selectedIndex>-1)&&bInvoiceSeries){
 	            var invoiceDate = new Date(document.getElementById('EditDate').value.substring(6)+"/"+document.getElementById('EditDate').value.substring(3,5)+"/"+document.getElementById('EditDate').value.substring(0,2));
 	            if(invoiceDate> new Date()){
 	                var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=dateinfuture";
@@ -525,17 +535,24 @@
 		            var today = new Date();
 		            var url= '<c:url value="/financial/patientInvoiceSave.jsp"/>?ts='+today;
 		            document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+		            var status="";
+		            if(document.getElementById('invoiceStatus').selectedIndex){
+		            	status=document.getElementById("invoiceStatus").options[document.getElementById("invoiceStatus").selectedIndex].value;
+		            }
+		            else{
+		            	status=document.getElementById('invoiceStatus').value;
+		            }
 		            new Ajax.Request(url,{
 		                  method: "POST",
 		                  postBody: 'EditDate=' + document.getElementById('EditDate').value
 		                          +'&EditPatientInvoiceUID=' + EditForm.EditPatientInvoiceUID.value
 		                          +'&EditInvoiceUID=' + EditForm.EditInvoiceUID.value
-		                          +'&EditStatus=' + document.getElementById('invoiceStatus').value
+		                          +'&EditStatus=' + status
 		                          +'&EditCBs='+sCbs
 		                          +'&EditInvoiceSeries='+sInvoiceSeries
 		                          +'&EditInsurarReference='+EditForm.EditInsurarReference.value
 		                          +'&EditInsurarReferenceDate='+EditForm.EditInsurarReferenceDate.value
-		                          +'&EditInvoiceVerifier='+EditForm.EditInvoiceVerifier.value
+		                          +'&EditInvoiceVerifier='+document.getElementById('EditInvoiceVerifier').value
 		                          +'&EditReduction='+red
 		                          +'&EditBalance=' + document.getElementById('EditBalance').value,
 		                  onSuccess: function(resp){
@@ -617,10 +634,20 @@
 	    }
 	
 	    function doPrintProformaPdf(invoiceUid){
-	      var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=yes&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintModel="+EditForm.PrintModel.value;
-	      window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+  	        var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=yes&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintModel="+EditForm.PrintModel.value;
+	        window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
 	    }
-	
+		
+	    function doPrintPatientReceiptPdf(invoiceUid){
+	        if (("<%=sClosed%>"!="closed")&&("<%=sClosed%>"!="canceled")){
+	            alert("<%=getTranNoLink("web","closetheinvoicefirst",sWebLanguage)%>");
+	        }
+	        else {
+	            var url = "<c:url value='/financial/createPatientInvoiceReceiptPdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
+	            window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+            }
+	    }
+		
 	    function setPatientInvoice(sUid){
 	        FindForm.FindPatientInvoiceUID.value = sUid;
 	        FindForm.submit();
@@ -720,7 +747,12 @@
 	    function doCancel(invoiceUid){
 	        if(confirm("<%=getTran("Web","AreYouSure",sWebLanguage)%>")){
 	            //Factuur als 'geannuleerd' registreren
-	            document.getElementById("invoiceStatus").options[document.getElementById("invoiceStatus").selectedIndex].value='canceled';
+	            if(document.getElementById('invoiceStatus').selectedIndex){
+	            	document.getElementById("invoiceStatus").options[document.getElementById("invoiceStatus").selectedIndex].value='canceled';
+	            }
+	            else{
+	            	document.getElementById('invoiceStatus').value='canceled';
+	            }
 	            doSave();
 	        }
 	    }

@@ -14,12 +14,13 @@
     String sCoverageInsurance2 = checkString(request.getParameter("CoverageInsurance2"));
     String sPrestationServiceUid = checkString(request.getParameter("PrestationServiceUid"));
     String sPrestationServiceName= checkString(request.getParameter("PrestationServiceName"));
-    String prestationcontent="",pa="",pi="", pc1="",pc2="";
+    String prestationcontent="",pa="",pi="", pc1="",pc2="",pbi="";
     if(sQuantity.length()==0){
         sQuantity="0";
     }
     int quantity=Integer.parseInt(sQuantity);
     Insurance bestInsurance = null;
+    double baseInsurar=0;
     Debet debet=null;
     Encounter encounter=Encounter.getActiveEncounter(activePatient.personid);
    	if(sEditDebetUID.length()>0){
@@ -43,8 +44,12 @@
         prestationcontent ="<table width='100%' id='mytable'>";
         prestationcontent+="<tr><td><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
-        "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>"+
-        "<td><b>"+getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage)+"</b></td>"+
+        "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>";
+		if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+			prestationcontent+="<td><b>"+getTran("web.finance","base.insurar",sWebLanguage)+"</b></td>";
+		}
+		prestationcontent+="<td><b>"+getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage)+"</b></td>"+
+        "<td><b>"+getTranNoLink("web","service",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTranNoLink("web","service",sWebLanguage)+"</b></td>"+
         "</tr>";
 		for(int n=0;n<prestations.length;n++){
@@ -53,9 +58,11 @@
 	        if (insurance != null) {
 	            bestInsurance=insurance;
 	            type = insurance.getType();
+        		baseInsurar=0;
 
 	            if (prestation != null) {
 	                double dPrice = prestation.getPrice(type);
+	                baseInsurar=dPrice*quantity;
                     if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==1){
                     	dPrice+=prestation.getSupplement();
                     }
@@ -110,12 +117,21 @@
 
 	        pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount2);
 	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount2);
+	      	if(baseInsurar>0){
+	      		pbi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(baseInsurar);
+	      	}
+	      	else{
+	      		pbi="";
+	      	}
 	      	pc1=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage1);
 	      	pc2=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage2);
 	        prestationcontent+="<tr>";
 	        prestationcontent+="<td><input type='hidden' name='PPQ_"+prestation.getUid()+"' value='"+quantity+"'/>"+quantity+" x <input type='hidden' name='PPC_"+prestation.getUid()+"'/>"+checkString(prestation.getCode())+": "+prestation.getDescription()+"</td>";
 	        prestationcontent+="<td "+(sCoverageInsurance2.length()>0?"class='strikeonly'":"")+"><input type='hidden' name='PPP_"+prestation.getUid()+"' value='"+pa+"'/>"+pa+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 	        prestationcontent+="<td><input type='hidden' name='PPI_"+prestation.getUid()+"' value='"+pi+"'/>"+pi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+			if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+				prestationcontent+="<td>"+pbi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+			}
 	        prestationcontent+="<td><input type='hidden' name='PPE_"+prestation.getUid()+"' value='"+pc1+"'/>"+pc1+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 			String sServiceName = sPrestationServiceName;
 	        if(prestation.getServiceUid()!=null && prestation.getServiceUid().length()>0){
@@ -134,8 +150,10 @@
 	        if(prestation!=null && prestation.getAnesthesiaPercentage()>0){
 	        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""));
 	        	if(anesthesiaPrestation!=null){
+	        		baseInsurar=0;
 	    	        if (insurance != null) {
     	                double dPrice = prestation.getPrice(type)*(prestation.getAnesthesiaPercentage()/100);
+    	                baseInsurar=dPrice*quantity;
                         if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==1){
                         	dPrice+=prestation.getSupplement()*(prestation.getAnesthesiaPercentage()/100);
                         }
@@ -189,12 +207,21 @@
 
 	    	        pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount2);
 	    	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount2);
+	    	      	if(baseInsurar>0){
+	    	      		pbi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(baseInsurar);
+	    	      	}
+	    	      	else{
+	    	      		pbi="";
+	    	      	}
 	    	      	pc1=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage1);
 	    	      	pc2=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage2);
 	    	        prestationcontent+="<tr>";
 	    	        prestationcontent+="<td><input type='hidden' name='PPQ_"+anesthesiaPrestation.getUid()+"£"+prestation.getUid()+"' value='"+quantity+"'/>"+quantity+" x <input type='hidden' name='PPU_"+anesthesiaPrestation.getUid()+"£"+prestation.getUid()+"'/><input type='hidden' name='PPC_"+anesthesiaPrestation.getUid()+"'/>"+checkString(anesthesiaPrestation.getCode())+": "+anesthesiaPrestation.getDescription()+"</td>";
 	    	        prestationcontent+="<td "+(sCoverageInsurance2.length()>0?"class='strikeonly'":"")+"><input type='hidden' name='PPP_"+anesthesiaPrestation.getUid()+"' value='"+pa+"'/>"+pa+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 	    	        prestationcontent+="<td><input type='hidden' name='PPI_"+anesthesiaPrestation.getUid()+"' value='"+pi+"'/>"+pi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+	    			if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+	    				prestationcontent+="<td>"+pbi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+	    			}
 	    	        prestationcontent+="<td><input type='hidden' name='PPE_"+anesthesiaPrestation.getUid()+"' value='"+pc1+"'/>"+pc1+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 	    			sServiceName = sPrestationServiceName;
 	    	        if(anesthesiaPrestation.getServiceUid()!=null && anesthesiaPrestation.getServiceUid().length()>0){
@@ -227,13 +254,14 @@
             bestInsurance=insurance;
             type = insurance.getType();
 
+        	baseInsurar=0;
             if (prestation != null) {
                 double dPrice = prestation.getPrice(type);
+                baseInsurar=dPrice*quantity;
                 if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==1){
                 	dPrice+=prestation.getSupplement();
                 }
                 double dInsuranceMaxPrice = prestation.getInsuranceTariff(insurance.getInsurar().getUid(),insurance.getInsuranceCategoryLetter());
-                System.out.println("dInsuranceMaxPrice="+dInsuranceMaxPrice);
                 if(encounter!=null && encounter.getType().equalsIgnoreCase("admission") && prestation.getMfpAdmissionPercentage()>0){
                 	dInsuranceMaxPrice = prestation.getInsuranceTariff(insurance.getInsurar().getUid(),"*H");
                 }
@@ -281,19 +309,34 @@
 
         pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount);
       	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount);
+      	if(baseInsurar>0){
+      		pbi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(baseInsurar);
+      	}
+      	else{
+      		pbi="";
+      	}
       	pc1=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage1);
       	pc2=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage2);
         prestationcontent ="<table width='100%' id='mytable'>";
         prestationcontent+="<tr><td><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
-        "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>"+
-        "<td><b>"+getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage)+"</b></td>"+
+        "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>";
+        System.out.println("1: "+MedwanQuery.getInstance().getConfigInt("enableMFP",0));
+        System.out.println("2: "+MedwanQuery.getInstance().getConfigString("MFP","0"));
+        System.out.println("3: "+insurance.getInsurarUid());
+		if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+			prestationcontent+="<td><b>"+getTran("web.finance","base.insurar",sWebLanguage)+"</b></td>";
+		}
+		prestationcontent+="<td><b>"+getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTranNoLink("web","service",sWebLanguage)+"</b></td>"+
         "</tr>";
         prestationcontent+="<tr>";
         prestationcontent+="<td><input type='hidden' name='PPC_"+prestation.getUid()+"'/>"+checkString(prestation.getCode())+": "+prestation.getDescription()+"</td>";
         prestationcontent+="<td "+(sCoverageInsurance2.length()>0?"class='strikeonly'":"")+"><input type='hidden' name='PPP_"+prestation.getUid()+"' value='"+pa+"'/>"+pa+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
         prestationcontent+="<td><input type='hidden' name='PPI_"+prestation.getUid()+"' value='"+pi+"'/>"+pi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+		if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+			prestationcontent+="<td>"+pbi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+		}
         prestationcontent+="<td><input type='hidden' name='PPE_"+prestation.getUid()+"' value='"+pc1+"'/>"+pc1+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 		String sServiceName = sPrestationServiceName;
         if(prestation.getServiceUid()!=null && prestation.getServiceUid().length()>0){
@@ -312,8 +355,10 @@
         if(prestation!=null && prestation.getAnesthesiaPercentage()>0 && (sEditDebetUID.length()==0 || sEditDebetUID.split("\\.").length<2)){
         	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""));
         	if(anesthesiaPrestation!=null){
+        		baseInsurar=0;
     	        if (insurance != null) {
 	                double dPrice = prestation.getPrice(type)*(prestation.getAnesthesiaPercentage()/100);
+	                baseInsurar=dPrice*quantity;
                     if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==1){
                     	dPrice+=prestation.getSupplement()*(prestation.getAnesthesiaPercentage()/100);
                     }
@@ -364,12 +409,21 @@
     	        }
     	      	pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount2);
     	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount2);
+    	      	if(baseInsurar>0){
+    	      		pbi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(baseInsurar);
+    	      	}
+    	      	else{
+    	      		pbi="";
+    	      	}
     	      	pc1=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage1);
     	      	pc2=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage2);
     	        prestationcontent+="<tr>";
     	        prestationcontent+="<td><input type='hidden' name='PPU_"+anesthesiaPrestation.getUid()+"£"+prestation.getUid()+"'/><input type='hidden' name='PPC_"+anesthesiaPrestation.getUid()+"'/>"+checkString(anesthesiaPrestation.getCode())+": "+anesthesiaPrestation.getDescription()+"</td>";
     	        prestationcontent+="<td "+(sCoverageInsurance2.length()>0?"class='strikeonly'":"")+"><input type='hidden' name='PPP_"+anesthesiaPrestation.getUid()+"' value='"+pa+"'/>"+pa+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
     	        prestationcontent+="<td><input type='hidden' name='PPI_"+anesthesiaPrestation.getUid()+"' value='"+pi+"'/>"+pi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+    			if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+    				prestationcontent+="<td>"+pbi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+    			}
     	        prestationcontent+="<td><input type='hidden' name='PPE_"+anesthesiaPrestation.getUid()+"' value='"+pc1+"'/>"+pc1+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
     			sServiceName = sPrestationServiceName;
     	        if(anesthesiaPrestation.getServiceUid()!=null && anesthesiaPrestation.getServiceUid().length()>0){
@@ -406,8 +460,12 @@
         prestationcontent ="<table width='100%' id='mytable'>";
         prestationcontent+="<tr><td><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
-        "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>"+
-        "<td><b>"+getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage)+"</b></td>"+
+        "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>";
+		if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+			prestationcontent+="<td><b>"+getTran("web.finance","base.insurar",sWebLanguage)+"</b></td>";
+		}
+		prestationcontent+="<td><b>"+getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage)+"</b></td>"+
+        "<td><b>"+getTranNoLink("web","service",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTranNoLink("web","service",sWebLanguage)+"</b></td>"+
         "</tr>";
 		while(rs.next()){
@@ -415,9 +473,10 @@
 	        if (insurance != null) {
 	            bestInsurance=insurance;
 	            type = insurance.getType();
-
+				baseInsurar=0;
 	            if (prestation != null) {
 	                double dPrice = prestation.getPrice(type);
+	                baseInsurar=dPrice*quantity;
                     if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==1){
                     	dPrice+=prestation.getSupplement();
                     }
@@ -472,12 +531,21 @@
 
 	        pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount2);
 	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount2);
+	      	if(baseInsurar>0){
+	      		pbi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(baseInsurar);
+	      	}
+	      	else{
+	      		pbi="";
+	      	}
 	      	pc1=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage1);
 	      	pc2=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage2);
 	        prestationcontent+="<tr>";
 	        prestationcontent+="<td><input type='hidden' name='PPC_"+prestation.getUid()+"'/>"+checkString(prestation.getCode())+": "+prestation.getDescription()+"</td>";
 	        prestationcontent+="<td "+(sCoverageInsurance2.length()>0?"class='strikeonly'":"")+"><input type='hidden' name='PPP_"+prestation.getUid()+"' value='"+pa+"'/>"+pa+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 	        prestationcontent+="<td><input type='hidden' name='PPI_"+prestation.getUid()+"' value='"+pi+"'/>"+pi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+			if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+				prestationcontent+="<td>"+pbi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+			}
 	        prestationcontent+="<td><input type='hidden' name='PPE_"+prestation.getUid()+"' value='"+pc1+"'/>"+pc1+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 			String sServiceName = sPrestationServiceName;
 	        if(prestation.getServiceUid()!=null && prestation.getServiceUid().length()>0){
@@ -496,8 +564,10 @@
 	        if(prestation!=null && prestation.getAnesthesiaPercentage()>0){
 	        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""));
 	        	if(anesthesiaPrestation!=null){
+	        		baseInsurar=0;
 	    	        if (insurance != null) {
 		                double dPrice = prestation.getPrice(type)*(prestation.getAnesthesiaPercentage()/100);
+		                baseInsurar=dPrice*quantity;
                         if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==1){
                         	dPrice+=prestation.getSupplement()*(prestation.getAnesthesiaPercentage()/100);
                         }
@@ -551,12 +621,21 @@
 
 	    	        pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount2);
 	    	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount2);
+	    	      	if(baseInsurar>0){
+	    	      		pbi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(baseInsurar);
+	    	      	}
+	    	      	else{
+	    	      		pbi="";
+	    	      	}
 	    	      	pc1=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage1);
 	    	      	pc2=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage2);
 	    	        prestationcontent+="<tr>";
 	    	        prestationcontent+="<td><input type='hidden' name='PPU_"+anesthesiaPrestation.getUid()+"£"+prestation.getUid()+"'/><input type='hidden' name='PPC_"+anesthesiaPrestation.getUid()+"'/>"+checkString(anesthesiaPrestation.getCode())+": "+anesthesiaPrestation.getDescription()+"</td>";
 	    	        prestationcontent+="<td "+(sCoverageInsurance2.length()>0?"class='strikeonly'":"")+"><input type='hidden' name='PPP_"+anesthesiaPrestation.getUid()+"' value='"+pa+"'/>"+pa+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 	    	        prestationcontent+="<td><input type='hidden' name='PPI_"+anesthesiaPrestation.getUid()+"' value='"+pi+"'/>"+pi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+	    			if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
+	    				prestationcontent+="<td>"+pbi+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+	    			}
 	    	        prestationcontent+="<td><input type='hidden' name='PPE_"+anesthesiaPrestation.getUid()+"' value='"+pc1+"'/>"+pc1+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
 	    			sServiceName = sPrestationServiceName;
 	    	        if(anesthesiaPrestation.getServiceUid()!=null && anesthesiaPrestation.getServiceUid().length()>0){
@@ -579,7 +658,6 @@
         oc_conn.close();
         prestationcontent+="</table>";
     }
-    System.out.println("dInsurarAmount="+dInsurarAmount);
 %>
 {
 "PrestationContent":"<%=prestationcontent%>",
