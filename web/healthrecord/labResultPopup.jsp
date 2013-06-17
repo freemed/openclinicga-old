@@ -1,3 +1,4 @@
+<%@page import="be.openclinic.medical.LabAnalysis"%>
 <%@page import="be.openclinic.medical.RequestedLabAnalysis"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
@@ -71,7 +72,7 @@
     <%-- ANALYSIS NAME (uneditable) --%>
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.manage","labanalysis.cols.name",sWebLanguage)%></td>
-        <td class="admin2"><%=getTran("labanalysis",analysis.getAnalysisCode(),sWebLanguage)%></td>
+        <td class="admin2"><%=LabAnalysis.labelForCode(analysis.getAnalysisCode(), sWebLanguage) %></td>
     </tr>
     <%-- ANALYSIS MONSTER (uneditable) --%>
     <tr>
