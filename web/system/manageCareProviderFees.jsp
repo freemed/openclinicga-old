@@ -12,7 +12,7 @@
 		feeamount="0";
 	}
 	String userid = checkString(request.getParameter("EditCareProvider"));
-	
+
 	if(request.getParameter("submit")!=null && userid.length()>0 && feetype.length()>0 && feeamount.length()>0 && (feetype.equals("prestation")||feetype.equals("prestationtype")||feetype.equals("invoicegroup")?feeid.length()>0:true)){
 		//Save these fee data
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
@@ -105,7 +105,7 @@
 				PreparedStatement ps = conn.prepareStatement("select distinct OC_PRESTATION_INVOICEGROUP from OC_PRESTATIONS order by OC_PRESTATION_INVOICEGROUP");
 				ResultSet rs=ps.executeQuery();
 				while(rs.next()){
-					String g=rs.getString("OC_PRESTATION_INVOICEGROUP").toUpperCase();
+					String g=checkString(rs.getString("OC_PRESTATION_INVOICEGROUP")).toUpperCase();
 					s+="<option value='"+g+"'>"+g+"</option>";
 				}
 				rs.close();

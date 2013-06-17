@@ -12,6 +12,7 @@
     while (tokenizer.hasMoreTokens()) {
         tmpLang = tokenizer.nextToken();
         String val=checkString(request.getParameter("EditLabelValue"+tmpLang.toUpperCase())).replaceAll("<BR>","\n").replaceAll("<PLUS>","+");
+        System.out.println("val="+val);
         hTranslations.put(tmpLang.toUpperCase(),val);
     }
 
@@ -63,7 +64,7 @@
                     label.type = editLabelType;
                     label.id = editLabelID;
                     label.language = tmpLang;
-                    label.value = checkString((String)hTranslations.get(tmpLang.toUpperCase()));
+                    label.value = ((String)hTranslations.get(tmpLang.toUpperCase()));
                     label.updateUserId = activeUser.userid;
                     label.showLink = editShowLink;
 
@@ -113,6 +114,7 @@
                 label.updateUserId = activeUser.userid;
                 labelExists = label.exists();
 
+                System.out.println("Saving "+label.value);
                 // INSERT
                 if (!labelExists) {
                     label.saveToDB();

@@ -69,25 +69,28 @@
 			<%
 				for(int i=0;i<cols;i++){
 			%>
-					<td class='admin2' width='1%'><input name="prest.<%=i%>.<%=n%>" id="prest.<%=i%>.<%=n%>" type="text" class="text" value="<%=getItemValue(sPrestations,i,n)%>"/></td>
+					<td class='admin2' width='1%' nowrap>
+						<input name="prest.<%=i%>.<%=n%>" id="prest.<%=i%>.<%=n%>" type="text" class="text" value="<%=getItemValue(sPrestations,i,n)%>"/>
+						<img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation('<%=i+"."+n%>');">
+					</td>
 			<%
 					String val=getItemValue(sPrestations,i,n);
 					if(val.length()>0){
 						if(val.startsWith("$")){
-							out.println("<td width='"+(100/cols)+"%' class='admin'>"+val.substring(1)+"<hr/></td>");
+							out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin'>"+val.substring(1)+"<hr/></td>");
 						}
 						else {
 							Prestation prestation = Prestation.getByCode(val);
 							if(prestation!=null && prestation.getDescription()!=null){
-								out.println("<td width='"+(100/cols)+"%' class='admin2'>"+prestation.getDescription()+"</td>");
+								out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'>"+prestation.getDescription()+"</td>");
 							}
 							else {
-								out.println("<td width='"+(100/cols)+"%' class='admin2'><font color='red'>Code not found</font></td>");
+								out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'><font color='red'>Code not found</font></td>");
 							}
 						}
 					}
 					else {
-						out.println("<td width='"+(100/cols)+"%' class='admin2'>&nbsp;</td>");
+						out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'>&nbsp;</td>");
 					}
 				}
 			%>
@@ -98,3 +101,10 @@
 	</table>
 	<input type="submit" class="button" name="submit" value="<%=getTran("web","save",sWebLanguage)%>"/>
 </form>
+<script>
+function searchPrestation(id){
+	document.getElementById('prest.'+id).value='';
+	document.getElementById('prestname.'+id).value='';
+    openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldCode=prest."+id+"&ReturnFieldDescrHtml=prestname."+id);
+}
+</script>

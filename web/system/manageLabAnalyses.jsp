@@ -603,7 +603,11 @@
 				        <option value="text" <%="text".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","text",sWebLanguage)%></option>
 				        <option value="numeric" <%="numeric".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","numeric",sWebLanguage)%></option>
 				        <option value="listbox" <%="listbox".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","listbox",sWebLanguage)%></option>
+				        <option value="listboxcomment" <%="listboxcomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","listboxcomment",sWebLanguage)%></option>
 				        <option value="radiobutton" <%="radiobutton".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","radiobutton",sWebLanguage)%></option>
+				        <option value="radiobuttoncomment" <%="radiobuttoncomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","radiobuttoncomment",sWebLanguage)%></option>
+				        <option value="checkbox" <%="checkbox".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","checkbox",sWebLanguage)%></option>
+				        <option value="checkboxcomment" <%="checkboxcomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","checkboxcomment",sWebLanguage)%></option>
 				        <option value="antibiogram" <%="antibiogram".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogram",sWebLanguage)%></option>
 				      </select>
 				</td>
@@ -671,14 +675,14 @@
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.unavailable",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="checkbox" cols="80" rows="2" value="1" <%=nEditUnavailable==1?"checked":""%> name="EditUnavailable"/>
+      <input type="checkbox" value="1" <%=nEditUnavailable==1?"checked":""%> name="EditUnavailable"/>
     </td>
   </tr>
   <%-- LIMITED VISIBILITY --%>
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.limitedvisibility",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="checkbox" cols="80" rows="2" value="1" <%=nEditLimitedVisibility==1?"checked":""%> name="EditLimitedVisibility"/>
+      <input type="checkbox" value="1" <%=nEditLimitedVisibility==1?"checked":""%> name="EditLimitedVisibility"/>
     </td>
   </tr>
 </table>
@@ -710,13 +714,13 @@
 			"<input type='text' name='EPSize' id='EPSize' class='text' value='"+getParameter(parameters,"SZ")+"' size='5'>"+
 			"</td></tr>";
 	  	}
-  	  	else if($("EditLabEditor").value=="listbox"){
+  	  	else if($("EditLabEditor").value=="listbox" || $("EditLabEditor").value=="listboxcomment"){
   	  		content="<tr><td class='admin2'><%=getTranNoLink("web","options",sWebLanguage)%></td>"+
 			"<td class='admin2'>"+
 			"<input type='text' name='EPOptions' id='EPOptions' class='text' value='"+getParameter(parameters,"OP")+"' size='50'>"+
 			"</td></tr>";
 	  	}
-  	  	else if($("EditLabEditor").value=="radiobutton"){
+  	  	else if($("EditLabEditor").value=="radiobutton" || $("EditLabEditor").value=="radiobuttoncomment" || $("EditLabEditor").value=="checkbox" || $("EditLabEditor").value=="checkboxcomment"){
   	  		content="<tr><td class='admin2'><%=getTranNoLink("web","options",sWebLanguage)%></td>"+
 			"<td class='admin2'>"+
 			"<input type='text' name='EPOptions' id='EPOptions' class='text' value='"+getParameter(parameters,"OP")+"' size='50'>"+
@@ -733,10 +737,13 @@
   	  	else if(document.getElementById("EditLabEditor").value=="numeric"){
   	  	  	parameters="DV:"+$("EPDefaultValue").value+";SZ:"+$("EPSize").value;
   	  	}
-  	  	else if(document.getElementById("EditLabEditor").value=="listbox"){
+  	  	else if(document.getElementById("EditLabEditor").value=="listbox" || document.getElementById("EditLabEditor").value=="listboxcomment"){
   	  	  	parameters="OP:"+$("EPOptions").value;
   	  	}
-  	  	else if(document.getElementById("EditLabEditor").value=="radiobutton"){
+  	  	else if(document.getElementById("EditLabEditor").value=="radiobutton" || document.getElementById("EditLabEditor").value=="radiobuttoncomment"){
+  	  	  	parameters="OP:"+$("EPOptions").value;
+  	  	}
+  	  	else if(document.getElementById("EditLabEditor").value=="checkbox" || document.getElementById("EditLabEditor").value=="checkboxcomment"){
   	  	  	parameters="OP:"+$("EPOptions").value;
   	  	}
   	  	$("EditLabEditorParameters").value=parameters;

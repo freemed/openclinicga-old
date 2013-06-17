@@ -1,3 +1,4 @@
+<%@page import="be.mxs.common.util.system.HTMLEntities"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <script src='<%=sCONTEXTPATH%>/_common/_script/prototype.js'></script>
@@ -281,20 +282,20 @@
         if(formComplete()){
             var today = new Date();
             var url= path + '/system/manageTranslationsStore.jsp?ts=' + today;
-            new Ajax.Request(url,{
+            var pb = 'Action='+sAction+'&EditLabelID=' + transactionForm.EditLabelID.value
+					            +'&EditLabelType=' + transactionForm.EditLabelType.value
+					            +'&EditOldLabelID=' + transactionForm.EditOldLabelID.value
+					            +'&EditOldLabelType=' + transactionForm.EditOldLabelType.value
+					    <%
+					    tokenizer = new StringTokenizer(supportedLanguages,",");
+					    while(tokenizer.hasMoreTokens()){
+					        tmpLang = tokenizer.nextToken();
+					        out.print("+'&EditLabelValue"+tmpLang.toUpperCase()+"=' + encodeURIComponent(transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value)");
+					    }
+					    %>
+					new Ajax.Request(url,{
                     method: "POST",
-                    postBody: 'Action='+sAction+'&EditLabelID=' + transactionForm.EditLabelID.value
-                            +'&EditLabelType=' + transactionForm.EditLabelType.value
-                            +'&EditOldLabelID=' + transactionForm.EditOldLabelID.value
-                            +'&EditOldLabelType=' + transactionForm.EditOldLabelType.value
-                    <%
-                    tokenizer = new StringTokenizer(supportedLanguages,",");
-                    while(tokenizer.hasMoreTokens()){
-                        tmpLang = tokenizer.nextToken();
-                        out.print("+'&EditLabelValue"+tmpLang.toUpperCase()+"=' + transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value");
-                    }
-                    %>
-                ,
+                    postBody: pb ,
                     onSuccess: function(resp){
                         $('divMessage').innerHTML = resp.responseText;
                         doFind();
