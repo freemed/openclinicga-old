@@ -1,0 +1,30 @@
+<country id="RW">
+	<line>
+		<label language="fr">II. Consultations externes</title>
+		<label language="en">II. Out-patient consultations</title>
+	</line>
+	<line>
+		<label>II.A.1</label>
+		<encounterCounter flags="N" gender="M" minage="0" maxage="60"/>
+		<encounterCounter flags="N" gender="F" minage="0" maxage="60"/>
+		<encounterCounter flags="N" gender="M" minage="60" maxage="240"/>
+		<encounterCounter flags="N" gender="F" minage="60" maxage="240"/>
+		<encounterCounter flags="N" gender="M" minage="240" maxage="99999"/>
+		<encounterCounter flags="N" gender="F" minage="240" maxage="99999"/>
+	</line>
+	<line>
+		<label>II.A.2</label>
+		<encounterCounter flags="n" gender="M" minage="0" maxage="60"/>
+		<encounterCounter flags="n" gender="F" minage="0" maxage="60"/>
+		<encounterCounter flags="n" gender="M" minage="60" maxage="240"/>
+		<encounterCounter flags="n" gender="F" minage="60" maxage="240"/>
+		<encounterCounter flags="n" gender="M" minage="240" maxage="99999"/>
+		<encounterCounter flags="n" gender="F" minage="240" maxage="99999"/>
+	</line>
+	<line>
+		<label>II.B.1</label>
+		<encounterCounter flags="N,I"/>
+		<encounterCounter flags="N,NP"/>
+		<encounterCounter flags="N,NP,IND"/>
+	</line>
+</country>

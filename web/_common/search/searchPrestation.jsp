@@ -14,6 +14,7 @@
     String sReturnFieldUid = checkString(request.getParameter("ReturnFieldUid")),
             sReturnFieldCode = checkString(request.getParameter("ReturnFieldCode")),
             sReturnFieldDescr = checkString(request.getParameter("ReturnFieldDescr")),
+            sReturnFieldDescrHtml = checkString(request.getParameter("ReturnFieldDescrHtml")),
             sReturnFieldType = checkString(request.getParameter("ReturnFieldType")),
             sReturnFieldPrice = checkString(request.getParameter("ReturnFieldPrice"));
 
@@ -137,6 +138,9 @@
         }
         if ("<%=sReturnFieldDescr%>".length > 0) {
             window.opener.document.getElementsByName("<%=sReturnFieldDescr%>")[0].value = descr;
+        }
+        if ("<%=sReturnFieldDescrHtml%>".length > 0) {
+            window.opener.document.getElementById("<%=sReturnFieldDescrHtml%>").innerHTML = descr;
         }
         if ("<%=sReturnFieldType%>".length > 0) {
             window.opener.document.getElementsByName("<%=sReturnFieldType%>")[0].value = type;

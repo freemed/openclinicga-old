@@ -18,6 +18,7 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_BIOMETRY"                             path="/main.do?Page=/healthrecord/pediatryBiometry.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PEDIATRY_DELIVERY"                    path="/main.do?Page=/healthrecord/pediatryDelivery.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PEDIATRY_CONSULTATION"                path="/main.do?Page=/healthrecord/pediatryConsultation.jsp"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_CDO"                     path="/main.do?Page=/healthrecord/manageOphtalmologyCDO.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_DSW"                     path="/main.do?Page=/healthrecord/manageOphtalmologyErgovision.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_CONSULTATION"            path="/main.do?Page=/healthrecord/ophtalmologyConsultation.jsp"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_OPERATION_PROTOCOL"      path="/main.do?Page=/healthrecord/ophtalmologyOperationProtocol.jsp"/>
