@@ -13,7 +13,7 @@
         sEnd="31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
     }
 
-    String sql = "select firstname,lastname,dateofbirth,oc_encounter_begindate,oc_encounter_serviceuid,oc_encounter_objectid,personid"+
+    String sql ="select firstname,lastname,dateofbirth,oc_encounter_begindate,oc_encounter_serviceuid,oc_encounter_objectid,personid"+
 				" from adminview a,oc_encounters_view b"+
 				" where "+
 				" a.personid=b.oc_encounter_patientuid and "+
@@ -21,6 +21,16 @@
 				" oc_encounter_begindate <=? and "+
 				" oc_encounter_type='visit' and "+
 				" oc_encounter_serviceuid like ?"+
+				" union"+
+    			" select firstname,lastname,dateofbirth,oc_debet_date as oc_encounter_begindate,oc_debet_serviceuid as oc_encounter_serviceuid,oc_encounter_objectid,personid"+
+				" from adminview a,oc_encounters b,oc_debets c"+
+				" where "+
+				" a.personid=b.oc_encounter_patientuid and "+
+				" oc_debet_date >=? and "+
+				" oc_debet_date <=? and "+
+				" oc_debet_encounteruid='"+MedwanQuery.getInstance().getConfigInt("serverId")+".'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "oc_encounter_objectid")+" and"+
+				" oc_encounter_type='visit' and "+
+				" oc_debet_serviceuid like ?"+
 				" order by oc_encounter_objectid";
 				System.out.println(sql);
 	Hashtable insurars = new Hashtable();
@@ -32,6 +42,9 @@
 	e.setTime(e.getTime()+l);
 	ps.setTimestamp(2,new java.sql.Timestamp(e.getTime()));
 	ps.setString(3,checkString(request.getParameter("statserviceid"))+"%");
+	ps.setDate(4,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sBegin).getTime()));
+	ps.setTimestamp(5,new java.sql.Timestamp(e.getTime()));
+	ps.setString(6,checkString(request.getParameter("statserviceid"))+"%");
 	ResultSet rs = ps.executeQuery();
 	int counter=0;
 	int encounteruid=0;
