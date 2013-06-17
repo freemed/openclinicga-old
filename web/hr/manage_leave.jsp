@@ -321,14 +321,14 @@
     
     if(document.getElementById("begin").value.length > 0 && document.getElementById("end").value.length > 0){
       var beginDate = makeDate(document.getElementById("begin").value);
-      var endDate = makeDate(document.getElementById("end").value); 
+      var endDate = makeDate(document.getElementById("end").value);
 
       <%-- begin can not be after end --%>
       if(beginDate <= endDate){              
         <%-- calculate --%>
         var difMillis = (endDate.getTime()-beginDate.getTime());
         var diffDays = (difMillis/(24*60*60*1000));
-        sDuration = diffDays;
+        sDuration = diffDays+1;
       }
       else{
         alertDialog("web","beginMustComeBeforeEnd");
