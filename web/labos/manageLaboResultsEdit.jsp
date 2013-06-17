@@ -29,6 +29,7 @@
     if (request.getParameter("submit") != null) {
         bSaved = true;
         Enumeration e = request.getParameterNames();
+        Hashtable composedResults = new Hashtable();
         while (e.hasMoreElements()) {
             String name = (String) e.nextElement();
             if (name.startsWith("result.")) {
@@ -36,12 +37,37 @@
                 String value = request.getParameter(name);
                 RequestedLabAnalysis.updateValue(Integer.parseInt(v[1]), Integer.parseInt(v[2]), v[3], value);
                 RequestedLabAnalysis.setFinalValidation(Integer.parseInt(v[1]), Integer.parseInt(v[2]), Integer.parseInt(activeUser.userid), "'"+v[3]+"'");
-            } else if (name.startsWith("resultAntibio.")) {
+            } 
+            else if (name.startsWith("resultmultiple.")) {
+                String[] v = name.split("\\.");
+                String value = request.getParameter(name);
+                if(composedResults.get(v[1]+"."+v[2]+"."+v[3])==null){
+                	composedResults.put(v[1]+"."+v[2]+"."+v[3],value);
+                }
+                else{
+                	composedResults.put(v[1]+"."+v[2]+"."+v[3],(String)composedResults.get(v[1]+"."+v[2]+"."+v[3])+","+value);
+                }
+            } 
+            else if (name.startsWith("resultcomment.")) {
+                String[] v = name.split("\\.");
+                String value = request.getParameter(name);
+                RequestedLabAnalysis.updateResultComment(Integer.parseInt(v[1]), Integer.parseInt(v[2]), v[3], value);
+            } 
+            else if (name.startsWith("resultAntibio.")) {
                 RequestedLabAnalysis.setAntibiogrammes(name, request.getParameter(name), activeUser.userid);
-            } else if (name.startsWith("validateAntibio.")) {
+            } 
+            else if (name.startsWith("validateAntibio.")) {
                 String[] v = name.split("\\.");
                 RequestedLabAnalysis.setForcedFinalValidation(Integer.parseInt(v[1]), Integer.parseInt(v[2]), Integer.parseInt(activeUser.userid), "'"+v[3]+"'");
             }
+        }
+        Enumeration cr = composedResults.keys();
+        while(cr.hasMoreElements()){
+            String name=(String)cr.nextElement();
+        	String[] v = name.split("\\.");
+            String value = (String)composedResults.get(name);
+            RequestedLabAnalysis.updateValue(Integer.parseInt(v[0]), Integer.parseInt(v[1]), v[2], value);
+            RequestedLabAnalysis.setFinalValidation(Integer.parseInt(v[0]), Integer.parseInt(v[1]), Integer.parseInt(activeUser.userid), "'"+v[2]+"'");
         }
     }
     SortedMap requestList = new TreeMap();
@@ -147,6 +173,25 @@
 									result=requestedLabAnalysis.getResultValue();
 								}
 	                        }
+	                        else if (analysis.getEditor().equals("listboxcomment")){
+								if(bEditable){
+									result="<select class='text' name='result." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "'>";
+									String[] options = analysis.getEditorparametersParameter("OP").split(",");
+									for(int n=0;n<options.length;n++){
+										String key=options[n];
+										String label=key;
+										if(key.split("\\|").length>1){
+											label=key.split("\\|")[1];
+											key=key.split("\\|")[0];
+										}
+										result+="<option value='"+key+"' "+(key.equals(requestedLabAnalysis.getResultValue())?"selected":"")+">"+label+"</option>";
+									}
+									result+="</select>"+u;
+								} else {
+									result=requestedLabAnalysis.getResultValue();
+								}
+								result+="<br/><input type='text' name='resultcomment." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()+"' value='"+requestedLabAnalysis.getResultComment()+"' class='text'/>";
+	                        }
 	                        else if (analysis.getEditor().equals("radiobutton")){
 								if(bEditable){
 									String[] options = analysis.getEditorparametersParameter("OP").split(",");
@@ -162,6 +207,56 @@
 								} else {
 									result=requestedLabAnalysis.getResultValue();
 								}
+	                        }
+	                        else if (analysis.getEditor().equals("radiobuttoncomment")){
+								if(bEditable){
+									String[] options = analysis.getEditorparametersParameter("OP").split(",");
+									for(int n=0;n<options.length;n++){
+										String key=options[n];
+										String label=key;
+										if(key.split("\\|").length>1){
+											label=key.split("\\|")[1];
+											key=key.split("\\|")[0];
+										}
+										result+="<input type='radio' ondblclick='this.checked=!this.checked' name='result." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "' value='"+key+"' "+(key.equals(requestedLabAnalysis.getResultValue())?"checked":"")+"/>"+(label.trim().length()>0?label:"?")+" ";
+									}
+								} else {
+									result=requestedLabAnalysis.getResultValue();
+								}
+								result+="<br/><input type='text' name='resultcomment." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()+"' value='"+requestedLabAnalysis.getResultComment()+"' class='text'/>";
+	                        }
+	                        else if (analysis.getEditor().equals("checkbox")){
+								if(bEditable){
+									String[] options = analysis.getEditorparametersParameter("OP").split(",");
+									for(int n=0;n<options.length;n++){
+										String key=options[n];
+										String label=key;
+										if(key.split("\\|").length>1){
+											label=key.split("\\|")[1];
+											key=key.split("\\|")[0];
+										}
+										result+="<input type='checkbox' ondblclick='this.checked=!this.checked' name='resultmultiple." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "."+n+ "' value='"+key+"' "+((","+requestedLabAnalysis.getResultValue()+",").contains(","+key+",")?"checked":"")+"/>"+(label.trim().length()>0?label:"?")+" ";
+									}
+								} else {
+									result=requestedLabAnalysis.getResultValue();
+								}
+	                        }
+	                        else if (analysis.getEditor().equals("checkboxcomment")){
+								if(bEditable){
+									String[] options = analysis.getEditorparametersParameter("OP").split(",");
+									for(int n=0;n<options.length;n++){
+										String key=options[n];
+										String label=key;
+										if(key.split("\\|").length>1){
+											label=key.split("\\|")[1];
+											key=key.split("\\|")[0];
+										}
+										result+="<input type='checkbox' name='resultmultiple." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "."+n+ "' value='"+key+"' "+((","+requestedLabAnalysis.getResultValue()+",").contains(","+key+",")?"checked":"")+"/>"+(label.trim().length()>0?label:"?")+" ";
+									}
+								} else {
+									result=requestedLabAnalysis.getResultValue();
+								}
+								result+="<br/><input type='text' name='resultcomment." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()+"' value='"+requestedLabAnalysis.getResultComment()+"' class='text'/>";
 	                        }
 	                        else if(analysis.getEditor().equals("antibiogram")) {
 	                        	result = getComplexResult(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()), sWebLanguage,requestedLabAnalysis.getFinalvalidationdatetime());                        	//result = getComplexResult(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()), sWebLanguage);
