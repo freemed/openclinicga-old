@@ -2309,20 +2309,24 @@ public class ScreenHelper {
             e.printStackTrace();
         }
     }
-
-    public static String padLeft(String s,String padCharacter,int size){
-        int i=s.length();
-        for(int n=0;n<size-i;n++){
-            s=padCharacter+s;
+    
+    //--- PAD LEFT --------------------------------------------------------------------------------
+    public static String padLeft(String s, String padCharacter, int size){
+        int i = s.length();
+        for(int n = 0; n<size-i; n++){
+            s = padCharacter+s;
         }
+        
         return s;
     }
 
-    public static String padRight(String s,String padCharacter,int size){
-        int i=s.length();
-        for(int n=0;n<size-i;n++){
-            s=s+padCharacter;
+    //--- PAD RIGHT -------------------------------------------------------------------------------
+    public static String padRight(String s, String padCharacter, int size){
+        int i = s.length();
+        for(int n = 0; n<size-i; n++){
+            s = s+padCharacter;
         }
+        
         return s;
     }
 
