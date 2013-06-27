@@ -28,7 +28,7 @@
     Debug.println("sVarText     : " + sVarText);
     Debug.println("sFindText    : " + sFindText);
     Debug.println("sLabelType   : " + sLabelType);
-    Debug.println("sLabelLang   : " + sLabelLang+sWebLanguage);
+    Debug.println("sLabelLang   : " + sLabelLang);
     Debug.println("showLabelID  : " + showLabelID);
     Debug.println("defaultValue : " + defaultValue + "\n");
     /////////////////////////////////////////////////////////////////

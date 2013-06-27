@@ -41,7 +41,12 @@ function ts_makeSortable(table){
     if(cell.innerHTML.toLowerCase().indexOf("<select ") < 0){
       var txt = ts_getInnerText(cell);
       txt = trim(txt);
-
+      
+      var lastValidCharIdx = getLastValidCharIdx(txt);
+      if(lastValidCharIdx > -1){
+    	txt = txt.substring(0,lastValidCharIdx+1);
+      }
+      
       // type to use for sorting the colum might be specified, so try to fetch it
       var sortType = "";
       if(cell.innerHTML.indexOf("<SORTTYPE:") > -1){
@@ -49,8 +54,8 @@ function ts_makeSortable(table){
       }
 
       // indicate column that is sorted on pageload
-      var sortedASC = false;
-      var sortedDESC = false;
+      var sortedASC = false, sortedDESC = false;
+      
       if(cell.innerHTML.indexOf("<ASC>") > -1){
         sortedASC = true;
         INITIAL_SORT_DIR = "up";
@@ -64,21 +69,11 @@ function ts_makeSortable(table){
         var content;
         if(cell.style.textAlign=="right"){
           content = "<a href='#' id='"+table.id+"_lnk"+i+"' class='sortheader' onclick=\"ts_resortTable(this,"+i+",true,"+headerRowCount+","+bottomRowCount+",'"+sortType+"');return false;\">"+
-                    "<span id='span"+i+"' class='sortarrow'>";
-
-          if(sortedDESC) content+= "&darr;";
-          if(sortedASC) content+= "&uarr;";
-
-          content+= "</span>"+txt+"</a>";
+                    "<span id='span"+i+"' class='sortarrow'></span>"+txt+"</a>";
         }
         else{
           content = "<a href='#' id='"+table.id+"_lnk"+i+"' class='sortheader' onclick=\"ts_resortTable(this,"+i+",true,"+headerRowCount+","+bottomRowCount+",'"+sortType+"');return false;\">"+
-                    txt+"<span id='span"+i+"' class='sortarrow'>";
-
-          if(sortedDESC) content+= "&darr;";
-          if(sortedASC)  content+= "&uarr;";
-
-          content+= "</span></a>";
+                    txt+"<span id='span"+i+"' class='sortarrow'></span></a>";
         } 
   
         cell.innerHTML = content;
@@ -133,7 +128,6 @@ function ts_resortTable(lnk,clid,changeDirection,headerRowCount,bottomRowCount,s
       span = lnk.childNodes[ci];
     }
   }
-  var spantext = ts_getInnerText(span);
   var td = lnk.parentNode;
   var column = clid || td.cellIndex;
   var table = getParent(td,"TABLE");
@@ -161,7 +155,7 @@ function ts_resortTable(lnk,clid,changeDirection,headerRowCount,bottomRowCount,s
     sortfn = ts_sort_caseinsensitive;
     if(itm.match(/^\d\d[\/-]\d\d[\/-]\d\d\d\d$/)) sortfn = ts_sort_date;
     if(itm.match(/^\d\d[\/-]\d\d[\/-]\d\d$/)) sortfn = ts_sort_date;
-    if(itm.match(/^[£$]/)) sortfn = ts_sort_currency;
+    if(itm.match(/^[Â£$]/)) sortfn = ts_sort_currency;
     if(itm.match(/^[\d\.]+$/)) sortfn = ts_sort_numeric;
   }
 
@@ -188,14 +182,14 @@ function ts_resortTable(lnk,clid,changeDirection,headerRowCount,bottomRowCount,s
 
   var ARROW;
   if(sortDir=="up"){
-    ARROW = "&darr;&nbsp;";
+    ARROW = "&darr;";
     if(changeDirection==true){
       newRows.reverse();
       span.setAttribute("sortdir","down");
     }
   }
   else if(sortDir=="down"){
-    ARROW = "&uarr;&nbsp;";
+    ARROW = "&uarr;";
     if(changeDirection==true){
       span.setAttribute("sortdir","up");
     }
@@ -371,4 +365,24 @@ function RTrim(value){
 
 function trim(value){
   return LTrim(RTrim(value));
+}
+
+// remove existing arrows to prevent build-up of arrows when table is reused by ajax
+function getLastValidCharIdx(txt){
+  txt = txt.trim();
+  txt = txt.toLowerCase();
+  
+  var validChars = "abcdefghijklmnopqrstuvwxyz* ";
+  var lastValidCharIdx = -1;
+  
+  for(var i=0; i<txt.length; i++){
+    if(validChars.indexOf(txt.charAt(i))==-1){
+      break;	
+    }	  
+    else{
+      lastValidCharIdx = i;
+    }
+  }
+  
+  return lastValidCharIdx;
 }

@@ -196,49 +196,51 @@ function isNumberNegativeAllowed(inputField){
   return true;
 }
 
-function checkMinMax(iMin, iMax, oObject, iDefault){
+function checkMinMax(iMin,iMax,oObject,iDefault){
   isNumber(oObject);
 
-  if (oObject.value.length>0) {
-    if (iMin != "") {
-      if (oObject.value < iMin) {
+  if(oObject.value.length>0){
+    if(iMin!="") {
+      if(oObject.value < iMin){
         oObject.value=iDefault;
         oObject.focus();
         return false;
       }
     }
 
-    if (iMax != "") {
-      if (oObject.value > iMax) {
+    if(iMax!=""){
+      if(oObject.value > iMax){
         oObject.value=iDefault;
         oObject.focus();
         return false;
       }
     }
   }
+  
   return true;
 }
 
-function checkMinMaxOpen(iMin, iMax, oObject){
-  if (oObject.value.length>0) {
-    if (iMin != "") {
-      if (oObject.value < iMin) {
+function checkMinMaxOpen(iMin,iMax,oObject){
+  if(oObject.value.length>0){
+    if(iMin!=""){
+      if(oObject.value < iMin){
         return false;
       }
     }
 
-    if (iMax != "") {
-      if (oObject.value > iMax) {
+    if(iMax!=""){
+      if(oObject.value > iMax){
         return false;
       }
     }
   }
+  
   return true;
 }
 
-function textCounter(field,cntfield,maxlimit) {
-  if (field.value.length > maxlimit){
-    field.value = field.value.substring(0, maxlimit);
+function textCounter(field,cntfield,maxlimit){
+  if(field.value.length > maxlimit){
+    field.value = field.value.substring(0,maxlimit);
   }
   else{
     // update 'characters left' counter
@@ -329,4 +331,32 @@ function formatDecimalValue(iValue,iLength,addZeroes){
   iValue = (""+iValue).replace(".",",");
   
   return iValue;
+}
+
+function formatNumber(value,decimals){
+  value+= "";
+  value = replaceAll(value,",",".");
+
+  var sInt, sDec;
+  if(value.indexOf(".") > -1){
+    sInt = value.substring(0,value.indexOf("."));
+    sDec = value.substring(value.indexOf(".")+1);
+
+    if(sDec.length > decimals){
+      sDec = sDec.substring(0,decimals);      
+    }
+    else if(sDec.length < decimals){
+      while(sDec.length < decimals){
+        sDec+= "0";
+      }
+    }
+  }
+  else{
+    sInt = value;
+    sDec = "00";
+  }  
+    
+  value = sInt+"."+sDec;
+    
+  return value;
 }
