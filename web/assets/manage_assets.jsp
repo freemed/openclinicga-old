@@ -130,6 +130,7 @@
           onSuccess: function(resp){
             $("divAssets").innerHTML = resp.responseText;
             sortables_init();
+            newAsset();
           },
           onFailure: function(resp){
             $("divMessage").innerHTML = "Error in 'assets/ajax/asset/getAssets.jsp' : "+resp.responseText.trim();
@@ -285,7 +286,7 @@
 	                        <td class="admin"/>
 	                        <%-- 1 - documentId --%>
 	                        <td class="admin"> 
-	                            <input type="text" class="text" id="pdID" name="pdID" size="15" maxLength="13" value="">
+	                            <input type="text" class="text" id="pdID" name="pdID" size="15" maxLength="12" value="">
 	                        </td>
 	                        <%-- 2 - buttons --%>
 	                        <td class="admin" nowrap>
@@ -542,7 +543,7 @@
             <tr>
                 <td class="admin"><%=getTran("web.assets","loanReimbursementAmount",sWebLanguage)%>&nbsp;</td>
                 <td class="admin2">
-                    <span id="loanReimbursementAmount" class="searchResults" style="color:black;padding:3px;width:70px;height:20px;border:1px solid #ccc;background:#f0f0f0;"><%-- javascript --%></span>&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;
+                    <span id="loanReimbursementAmount" class="searchResults" style="color:black;padding:3px;width:70px;height:20px;border:1px solid #ccc;background:#f0f0f0;text-align:right;"><%-- javascript --%></span>&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;
                 </td>
             </tr>
             
@@ -582,7 +583,7 @@
 	                            <td class="admin"/>
 	                            <%-- 1 - documentId --%>
 	                            <td class="admin"> 
-	                                <input type="text" class="text" id="ldID" name="ldID" size="15" maxLength="13" value="">&nbsp;
+	                                <input type="text" class="text" id="ldID" name="ldID" size="15" maxLength="12" value="">&nbsp;
 	                            </td>
 	                            <%-- 2 - buttons --%>
 	                            <td class="admin" nowrap>
@@ -638,7 +639,14 @@
     <div id="divMessage" style="padding-top:10px;"></div>
 </form>
     
-<script> 
+<script>
+  <%
+      String sAgent = request.getHeader("User-Agent").toLowerCase();
+      if(sAgent.contains("msie")){
+          out.print("document.getElementById('residualValueHistoryDiv').style.display = 'none';");
+      }
+  %>
+  
   <%-- CALCULATE RP TOTAL --%>
   function calculateRPTotal(inputField,format){
     if(isNumber(inputField)){
@@ -667,6 +675,7 @@
     
     if(docId.length > 0){
       docId = replaceAll(docId,"-","");
+      docId = replaceAll(docId,".","");
       
       if(docId.length==11 && !isNaN(docId)){
         var partOne = 1*docId.substr(0,9),
@@ -778,7 +787,7 @@
                       //*** loan ***
                       "&loanDate="+document.getElementById("loanDate").value+
                       "&loanAmount="+document.getElementById("loanAmount").value+
-                      "&loanInterestRate="+document.getElementById("loanInterestRate").value+
+                      "&loanInterestRate="+replaceAll(document.getElementById("loanInterestRate").value,"%","[percent]")+
                       "&loanReimbursementPlan="+document.getElementById("loanReimbursementPlan").value+
                       "&loanReimbursementAmount="+document.getElementById("loanReimbursementAmount").innerHTML+
                       "&loanComment="+document.getElementById("loanComment").value+
@@ -787,7 +796,7 @@
                       "&saleDate="+document.getElementById("saleDate").value+
                       "&saleValue="+document.getElementById("saleValue").value+
                       "&saleClient="+document.getElementById("saleClient").value;
-      
+        
         new Ajax.Request(url,
           {   
             method: "POST",
@@ -797,8 +806,7 @@
               $("divMessage").innerHTML = data.message;
               
               enableButtons();
-              searchAssets();
-              newAsset();       
+              searchAssets();   
             },
             onFailure: function(resp){
               $("divMessage").innerHTML = "Error in 'assets/ajax/asset/saveAsset.jsp' : "+resp.responseText.trim();
@@ -883,13 +891,18 @@
           $("annuity").value = data.annuity.unhtmlEntities();
           $("characteristics").value = replaceAll(data.characteristics.unhtmlEntities(),"<br>","\n");
           $("accountingCode").value = data.accountingCode.unhtmlEntities();
+          
           $("gains").value = data.gains.unhtmlEntities();
           displayGains();
           $("losses").value = data.losses.unhtmlEntities();
           displayLosses();
           
           if(data.residualValueHistory.length > 0){
-            $("residualValueHistoryDiv").style.visibility = "visible";
+	        <%
+			    if(sAgent.contains("msie")){
+			        %>$("residualValueHistoryDiv").style.display = "block";<%
+                }
+            %>
             $("residualValueHistory").innerHTML = replaceAll(data.residualValueHistory.unhtmlEntities(),"<br>","\n");
           }
           
@@ -964,7 +977,6 @@
 
             enableButtons();
             searchAssets();
-            newAsset();   
           },
           onFailure: function(resp){
             $("divMessage").innerHTML = "Error in 'assets/ajax/asset/deleteAsset.jsp' : "+resp.responseText.trim();
@@ -975,7 +987,7 @@
   }
   
   <%-- NEW ASSET --%>
-  function newAsset(){   
+  function newAsset(){
     clearAllTables();
     
     <%-- hide irrelevant buttons --%>
@@ -1002,7 +1014,11 @@
     clearLOTable();
 
     $("residualValueHistory").innerHTML = "";
-    $("residualValueHistoryDiv").style.visibility = "hidden";
+    <%
+        if(sAgent.contains("msie")){
+            %>$("residualValueHistoryDiv").style.display = "none";<%
+        }
+    %>
             
     //*** loan ***
     $("loanDate").value = "";
@@ -1632,6 +1648,8 @@
   
   <%-- ADD PURCHASE DOCUMENT --%>
   function addPD(){
+  	EditForm.pdID.value = formatDocumentID(EditForm.pdID.value); 
+  	
     if(sPD.indexOf(EditForm.pdID.value) > -1){
       alertDialog("web.assets","documentAlreadySelected");
       //EditForm.pdID.focus();
@@ -2104,6 +2122,8 @@
   
   <%-- ADD LOAN DOCUMENT --%>
   function addLD(){
+    EditForm.ldID.value = formatDocumentID(EditForm.ldID.value);
+      
     if(sLD.indexOf(EditForm.ldID.value) > -1){
       alertDialog("web.assets","documentAlreadySelected");
       //EditForm.ldID.focus();
@@ -2168,6 +2188,22 @@
       return false;
     }
   }  
+  
+  <%-- FORMAT DOCUMENT ID --%>
+  function formatDocumentID(docID){
+    docID = replaceAll(docID,"-","");
+    docID = replaceAll(docID,".","");
+
+    if(docID.length==11){
+      var part1 = docID.substr(0,9),
+	      part2 = docID.substr(9,2);
+	
+      return part1+"-"+part2;
+	}
+	else{
+      return docID;
+	}
+  }
   
   <%-- COUNT SELECTED LDS --%>
   function countSelectedLDs(){

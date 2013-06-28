@@ -262,7 +262,10 @@
 
     asset.code = sCode;
     asset.parentUid = sParentUid;
+    sDescription = sDescription.replaceAll("\r","");
+    sDescription = sDescription.replaceAll("\r\n","<br>");
     asset.description = sDescription.replaceAll("\n","<br>");
+    
     asset.serialnumber = sSerialnumber;
     if(sQuantity.length() > 0){
         asset.quantity = Double.parseDouble(sQuantity);
@@ -276,6 +279,9 @@
     asset.purchaseDocuments = sPurchaseDocuments;
     asset.writeOffMethod = sWriteOffMethod;
     asset.annuity = sAnnuity;
+    
+    sCharacteristics = sCharacteristics.replaceAll("\r","");
+    sCharacteristics = sCharacteristics.replaceAll("\r\n","<br>");
     asset.characteristics = sCharacteristics.replaceAll("\n","<br>");
     asset.accountingCode = sAccountingCode;
     
@@ -288,6 +294,8 @@
     if(sLoanAmount.length() > 0){
         asset.loanAmount = Double.parseDouble(sLoanAmount);
     }
+    
+    System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@ sLoanInterestRate : "+sLoanInterestRate); ///////////
     if(sLoanInterestRate.length() > 0){
         asset.loanInterestRate = sLoanInterestRate;
     }
@@ -298,13 +306,17 @@
         asset.loanReimbursementAmount = Integer.parseInt(sLoanReimbursementAmount);
     }
     */
-    
+
+    sLoanComment = sLoanComment.replaceAll("\r","");
+    sLoanComment = sLoanComment.replaceAll("\r\n","<br>");
     asset.loanComment = sLoanComment.replaceAll("\n","<br>");
     asset.loanDocuments = sLoanDocuments;
     
     if(sSaleValue.length() > 0){
         asset.saleValue = Double.parseDouble(sSaleValue);
-    }
+    } 
+    sSaleClient = sSaleClient.replaceAll("\r",""); 
+    sSaleClient = sSaleClient.replaceAll("\r\n","<br>");
     asset.saleClient = sSaleClient.replaceAll("\n","<br>");      
     
     asset.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));

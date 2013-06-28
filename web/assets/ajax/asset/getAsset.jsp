@@ -168,7 +168,7 @@
   "code":"<%=HTMLEntities.htmlentities(asset.code)%>",
   "parentUid":"<%=HTMLEntities.htmlentities(asset.parentUid)%>",
   "parentCode":"<%=(asset.parentUid.length()>0?HTMLEntities.htmlentities(asset.getParentCode(asset.parentUid)):"")%>",
-  "description":"<%=HTMLEntities.htmlentities(asset.description.replaceAll("\r\n","<br>"))%>",
+  "description":"<%=HTMLEntities.htmlentities(asset.description.replaceAll("\r","").replaceAll("\r\n","<br>"))%>",
   "serialnumber":"<%=HTMLEntities.htmlentities(asset.serialnumber)%>",
   "quantity":"<%=deci.format(asset.quantity).replaceAll(",",".")%>",
   "assetType":"<%=HTMLEntities.htmlentities(asset.assetType)%>",
@@ -187,7 +187,7 @@
   "purchaseDocuments":"<%=HTMLEntities.htmlentities(asset.purchaseDocuments)%>",
   "writeOffMethod":"<%=HTMLEntities.htmlentities(asset.writeOffMethod)%>",
   "annuity":"<%=HTMLEntities.htmlentities(asset.annuity)%>",
-  "characteristics":"<%=HTMLEntities.htmlentities(asset.characteristics.replaceAll("\r\n","<br>"))%>",
+  "characteristics":"<%=HTMLEntities.htmlentities(asset.characteristics.replaceAll("\r","").replaceAll("\r\n","<br>"))%>",
   "accountingCode":"<%=HTMLEntities.htmlentities(asset.accountingCode)%>",
   <%
       if(asset.gains.length() > 0){
@@ -215,7 +215,7 @@
       }
   %>
   "loanAmount":"<%=(asset.loanAmount>-1?deci.format(asset.loanAmount).replaceAll(",","."):"")%>",
-  "loanInterestRate":"<%=HTMLEntities.htmlentities(asset.loanInterestRate)%>",
+  "loanInterestRate":"<%=HTMLEntities.htmlentities(asset.loanInterestRate.replaceAll("\\[percent]","%"))%>",
   <%
       if(asset.loanReimbursementPlan.length() > 0){
           %>"loanReimbursementPlan":"<%=HTMLEntities.htmlentities(parseLoanReimbursementPlans(asset.loanReimbursementPlan))%>",<%        
@@ -225,7 +225,7 @@
       }
   %>
   "loanReimbursementAmount":"<%=(reimbursementAmount>-1?deci.format(reimbursementAmount).replaceAll(",","."):"")%>",
-  "loanComment":"<%=HTMLEntities.htmlentities(asset.loanComment.replaceAll("\r\n","<br>"))%>",
+  "loanComment":"<%=HTMLEntities.htmlentities(asset.loanComment.replaceAll("\r","").replaceAll("\r\n","<br>"))%>",
   "loanDocuments":"<%=HTMLEntities.htmlentities(asset.loanDocuments)%>",
   <%
       if(asset.saleDate!=null){
@@ -236,5 +236,5 @@
       }
   %>
   "saleValue":"<%=(asset.saleValue>-1?deci.format(asset.saleValue).replaceAll(",","."):"")%>",
-  "saleClient":"<%=HTMLEntities.htmlentities(asset.saleClient.replaceAll("\r\n","<br>"))%>"
+  "saleClient":"<%=HTMLEntities.htmlentities(asset.saleClient.replaceAll("\r","").replaceAll("\r\n","<br>"))%>"
 }

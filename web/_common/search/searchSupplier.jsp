@@ -27,6 +27,7 @@
         
     // inner search
     String sAction = checkString(request.getParameter("Action"));
+    sAction = "search"; // display all records by default
     
     String sCode      = checkString(request.getParameter("searchCode")),
            sName      = checkString(request.getParameter("searchName")),
