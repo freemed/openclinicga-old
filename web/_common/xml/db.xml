@@ -12,97 +12,6 @@
     <!-- ########################################################################################## -->
     <!-- ###################################  OPENCLINIC TABLES ################################### -->
     <!-- ########################################################################################## -->
-
-    <!-- ####################################### ACCOUNTANCY TABLES ######################################## -->
-    
-    <table name="AC_JOURNAL" db="ocadmin" sync="NONE">
-    	<columns>
-	    	<column name="AC_JOURNAL_ID" dbtype="int" javatype="integer"/>
-	    	<column name="AC_JOURNAL_TYPE" dbtype="varchar" javatype="string" size="50"/>
-	    	<column name="AC_JOURNAL_LABEL" dbtype="varchar" javatype="string" size="255"/>
-	        <column name="AC_JOURNAL_DATE" dbtype="datetime" javatype="date"/>      
-	        <column name="AC_JOURNAL_COMMENT" dbtype="varchar" javatype="string" size="255"/>      
-		    <column name="AC_JOURNAL_UPDATETIME" dbtype="datetime" javatype="date"/>
-	    	<column name="AC_JOURNAL_UPDATEUID" dbtype="int" javatype="integer"/>
-    	</columns>
-	    <indexes>
-	    	<index name="AC_JOURNAL_ID">
-	    		<indexcolumn order="ASC" name="AC_JOURNAL_ID"/>
-	    	</index>
-	    	<index name="AC_JOURNAL_DATE">
-	    		<indexcolumn order="ASC" name="AC_JOURNAL_DATE"/>
-	    	</index>
-	    </indexes>
-    </table>
-    
-    <table name="AC_JOURNALITEMS" db="ocadmin" sync="NONE">
-    	<columns>
-	        <column name="AC_JOURNALITEM_JOURNALID" dbtype="int" javatype="integer"/>
-	    	<column name="AC_JOURNALITEM_TYPE" dbtype="varchar" javatype="string" size="50"/>
-	    	<column name="AC_JOURNALITEM_VALUE" dbtype="varchar" javatype="string" size="255"/>
-    	</columns>
-	    <indexes>
-	    	<index name="AC_JOURNALITEM_JOURNALID">
-	    		<indexcolumn order="ASC" name="AC_JOURNALITEM_JOURNALID"/>
-	    	</index>
-	    </indexes>
-    </table>
-    
-    <table name="AC_CURRENCY" db="ocadmin" sync="NONE">
-    	<columns>
-	        <column name="AC_CURRENCY_ID" dbtype="int" javatype="integer"/>
-	    	<column name="AC_CURRENCY_CODE" dbtype="varchar" javatype="string" size="50"/>
-	    	<column name="AC_CURRENCY_LABEL" dbtype="varchar" javatype="string" size="255"/>
-		    <column name="AC_CURRENCY_UPDATETIME" dbtype="datetime" javatype="date"/>
-	    	<column name="AC_CURRENCY_UPDATEUID" dbtype="int" javatype="integer"/>
-    	</columns>
-	    <indexes>
-	    	<index name="AC_CURRENCY_ID">
-	    		<indexcolumn order="ASC" name="AC_CURRENCY_ID"/>
-	    	</index>
-	    </indexes>
-    </table>
-    
-    <table name="AC_ACCOUNTS" db="ocadmin" sync="NONE">
-    	<columns>
-	        <column name="AC_ACCOUNT_ID" dbtype="int" javatype="integer"/>
-	    	<column name="AC_ACCOUNT_TYPE" dbtype="varchar" javatype="string" size="50"/>
-	    	<column name="AC_ACCOUNT_CODE" dbtype="varchar" javatype="string" size="50"/>
-	    	<column name="AC_ACCOUNT_NAME" dbtype="varchar" javatype="string" size="255"/>
-		    <column name="AC_ACCOUNT_UPDATETIME" dbtype="datetime" javatype="date"/>
-	    	<column name="AC_ACCOUNT_UPDATEUID" dbtype="int" javatype="integer"/>
-    	</columns>
-	    <indexes>
-	    	<index name="AC_ACCOUNT_ID">
-	    		<indexcolumn order="ASC" name="AC_ACCOUNT_ID"/>
-	    	</index>
-	    </indexes>
-    </table>
-    
-    <table name="AC_POSTINGS" db="ocadmin" sync="NONE">
-    	<columns>
-	    	<column name="AC_POSTING_ID" dbtype="int" javatype="integer"/>
-	    	<column name="AC_POSTING_ACCOUNTID" dbtype="int" javatype="integer"/>
-	    	<column name="AC_POSTING_JOURNALID" dbtype="int" javatype="integer"/>
-	    	<column name="AC_POSTING_MONEYID" dbtype="int" javatype="integer"/>
-	    	<column name="AC_POSTING_AMOUNT" dbtype="float" javatype="float"/>
-		    <column name="AC_POSTING_UPDATETIME" dbtype="datetime" javatype="date"/>
-	    	<column name="AC_POSTING_UPDATEUID" dbtype="int" javatype="integer"/>
-    	</columns>
-	    <indexes>
-	    	<index name="AC_POSTING_ID">
-	    		<indexcolumn order="ASC" name="AC_POSTING_ID"/>
-	    	</index>
-	    	<index name="AC_POSTING_ACCOUNTID">
-	    		<indexcolumn order="ASC" name="AC_POSTING_ACCOUNTID"/>
-	    	</index>
-	    	<index name="AC_POSTING_JOURNALID">
-	    		<indexcolumn order="ASC" name="AC_POSTING_JOURNALID"/>
-	    	</index>
-	    </indexes>
-    </table>
-    
-    
     
     <!-- ####################################### HR TABLES ######################################## -->
     <table name="HR_CAREERS" db="openclinic" sync="NONE">
@@ -128,7 +37,7 @@
           <indexcolumn order="ASC" name="HR_CAREER_OBJECTID"/>
         </index>
         <index name="HR_CAREER_PERSONID">
-          <indexcolumn order="ASC" name="HR_CAREER_PERSONID"/>
+          <indexcolumn "ASC" name="HR_CAREER_PERSONID"/>
         </index>
         <index name="HR_CAREER_CONTRACTUID">
           <indexcolumn order="ASC" name="HR_CAREER_CONTRACTUID"/>
@@ -158,7 +67,7 @@
           <indexcolumn order="ASC" name="HR_DISCREC_OBJECTID"/>
         </index>
         <index name="HR_DISCREC_PERSONID">
-          <indexcolumn order="ASC" name="HR_DISCREC_PERSONID"/>
+          <indexcolumn "ASC" name="HR_DISCREC_PERSONID"/>
         </index>
       </indexes>
     </table>
@@ -188,7 +97,7 @@
           <indexcolumn order="ASC" name="HR_CONTRACT_OBJECTID"/>
         </index>
         <index name="HR_CONTRACT_PERSONID">
-          <indexcolumn order="ASC" name="HR_CONTRACT_PERSONID"/>
+          <indexcolumn "ASC" name="HR_CONTRACT_PERSONID"/>
         </index>
       </indexes>
     </table>
@@ -217,7 +126,7 @@
           <indexcolumn order="ASC" name="HR_LEAVE_OBJECTID"/>
         </index>
         <index name="HR_LEAVE_PERSONID">
-          <indexcolumn order="ASC" name="HR_LEAVE_PERSONID"/>
+          <indexcolumn "ASC" name="HR_LEAVE_PERSONID"/>
         </index>
       </indexes>
     </table>  
@@ -248,7 +157,7 @@
           <indexcolumn order="ASC" name="HR_TRAINING_OBJECTID"/>
         </index>
         <index name="HR_TRAINING_PERSONID">
-          <indexcolumn order="ASC" name="HR_TRAINING_PERSONID"/>
+          <indexcolumn "ASC" name="HR_TRAINING_PERSONID"/>
         </index>
       </indexes>
     </table>    
@@ -276,7 +185,7 @@
           <indexcolumn order="ASC" name="HR_SKILL_OBJECTID"/>
         </index>
         <index name="HR_SKILL_PERSONID">
-          <indexcolumn order="ASC" name="HR_SKILL_PERSONID"/>
+          <indexcolumn "ASC" name="HR_SKILL_PERSONID"/>
         </index>
       </indexes>
     </table> 
@@ -300,7 +209,7 @@
           <indexcolumn order="ASC" name="HR_WORKSCHEDULE_OBJECTID"/>
         </index>
         <index name="HR_WORKSCHEDULE_PERSONID">
-          <indexcolumn order="ASC" name="HR_WORKSCHEDULE_PERSONID"/>
+          <indexcolumn "ASC" name="HR_WORKSCHEDULE_PERSONID"/>
         </index>
       </indexes>
     </table>      
@@ -330,11 +239,100 @@
           <indexcolumn order="ASC" name="HR_SALARY_OBJECTID"/>
         </index>
         <index name="HR_SALARY_PERSONID">
-          <indexcolumn order="ASC" name="HR_SALARY_PERSONID"/>
+          <indexcolumn "ASC" name="HR_SALARY_PERSONID"/>
         </index>
       </indexes>
     </table>  
     
+    <!-- ####################################### ASSETS TABLES #################################### -->
+    <table name="OC_ASSETS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="OC_ASSET_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="OC_ASSET_OBJECTID" dbtype="int" javatype="integer"/>	     
+        <column name="OC_ASSET_CODE" dbtype="varchar" javatype="string" size="50"/> 
+        <column name="OC_ASSET_PARENTUID" dbtype="varchar" javatype="string" size="50"/> 
+        <column name="OC_ASSET_DESCRIPTION" dbtype="varchar" javatype="string" size="255"/>          
+    	<column name="OC_ASSET_SERIAL" dbtype="varchar" javatype="string" size="255"/> 
+ 	    <column name="OC_ASSET_QUANTITY" dbtype="float" javatype="float"/>  	
+ 	    <column name="OC_ASSET_TYPE" dbtype="varchar" javatype="string" size="50"/>
+    	<column name="OC_ASSET_SUPPLIERUID" dbtype="varchar" javatype="string" size="255"/>
+    	<column name="OC_ASSET_PURCHASEDATE" dbtype="datetime" javatype="date"/>
+  	    <column name="OC_ASSET_PURCHASEPRICE" dbtype="float" javatype="float"/>  	       
+  	    <column name="OC_ASSET_PURCHASERECEIPTBY" dbtype="varchar" javatype="string" size="255"/> 
+  	    <column name="OC_ASSET_PURCHASEDOCS" dbtype="varchar" javatype="string" size="255"/>
+  	    <column name="OC_ASSET_WRITEOFFMETHOD" dbtype="varchar" javatype="string" size="50"/>
+  	    <column name="OC_ASSET_ANNUITY" dbtype="varchar" javatype="string" size="50"/>
+  	    <column name="OC_ASSET_CHARACTERISTICS" dbtype="text" javatype="string"/>  	       
+  	    <column name="OC_ASSET_ACCOUNTINGCODE" dbtype="varchar" javatype="string" size="50"/>  
+  	    <column name="OC_ASSET_GAINS" dbtype="text" javatype="string"/>   
+  	    <column name="OC_ASSET_LOSSES" dbtype="text" javatype="string"/>   
+  	    <column name="OC_ASSET_LOANDATE" dbtype="datetime" javatype="date"/>  	       
+  	    <column name="OC_ASSET_LOANAMOUNT" dbtype="float" javatype="float"/> 
+  	    <column name="OC_ASSET_LOANINTERESTRATE" dbtype="varchar" javatype="string" size="50"/>
+  	    <column name="OC_ASSET_LOANREIMBURSEMENTPLAN" dbtype="text" javatype="string"/>   
+  	    <column name="OC_ASSET_LOANCOMMENT" dbtype="text" javatype="string"/>  	       
+  	    <column name="OC_ASSET_LOANDOCS" dbtype="varchar" javatype="string" size="255"/>   
+  	    <column name="OC_ASSET_SALEDATE" dbtype="datetime" javatype="date"/>
+  	    <column name="OC_ASSET_SALEVALUE" dbtype="float" javatype="float"/> 
+  	    <column name="OC_ASSET_SALECLIENT" dbtype="varchar" javatype="string" size="255"/> 
+  	     
+	    <column name="OC_ASSET_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="OC_ASSET_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="OC_ASSET_OBJECTID">
+          <indexcolumn order="ASC" name="OC_ASSET_OBJECTID"/>
+        </index>
+        <index name="OC_ASSET_CODE">
+          <indexcolumn "ASC" name="OC_ASSET_CODE"/>
+        </index>
+        <index name="OC_ASSET_SERIAL">
+          <indexcolumn order="ASC" name="OC_ASSET_SERIAL"/>
+        </index>
+        <index name="OC_ASSET_PURCHASEDATE">
+          <indexcolumn order="ASC" name="OC_ASSET_PURCHASEDATE"/>
+        </index>
+      </indexes>
+    </table>
+    
+    <table name="OC_SUPPLIERS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="OC_SUPPLIER_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="OC_SUPPLIER_OBJECTID" dbtype="int" javatype="integer"/>
+	     
+        <column name="OC_SUPPLIER_CODE" dbtype="varchar" javatype="string" size="50"/>
+        <column name="OC_SUPPLIER_NAME" dbtype="varchar" javatype="string" size="255"/> 
+    	<column name="OC_SUPPLIER_ADDRESS" dbtype="varchar" javatype="string" size="255"/> 
+ 	    <column name="OC_SUPPLIER_CITY" dbtype="varchar" javatype="string" size="255"/> 
+ 	    <column name="OC_SUPPLIER_ZIPCODE" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="OC_SUPPLIER_COUNTRY" dbtype="varchar" javatype="string" size="10"/> 
+    	<column name="OC_SUPPLIER_VAT" dbtype="varchar" javatype="string" size="50"/>  
+  	    <column name="OC_SUPPLIER_TAXID" dbtype="varchar" javatype="string" size="50"/>     
+  	    <column name="OC_SUPPLIER_CONTACT" dbtype="varchar" javatype="string" size="255"/>   
+  	    <column name="OC_SUPPLIER_TELEPHONE" dbtype="varchar" javatype="string" size="50"/>    
+  	    <column name="OC_SUPPLIER_EMAIL" dbtype="varchar" javatype="string" size="50"/> 
+  	    <column name="OC_SUPPLIER_ACCOUNTINGCODE" dbtype="varchar" javatype="string" size="50"/>   
+  	    <column name="OC_SUPPLIER_COMMENT" dbtype="varchar" javatype="string" size="255"/>    
+  	     
+	    <column name="OC_SUPPLIER_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="OC_SUPPLIER_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="OC_SUPPLIER_OBJECTID">
+          <indexcolumn order="ASC" name="OC_SUPPLIER_OBJECTID"/>
+        </index>
+        <index name="OC_SUPPLIER_CODE">
+          <indexcolumn "ASC" name="OC_SUPPLIER_CODE"/>
+        </index>
+        <index name="OC_SUPPLIER_NAME">
+          <indexcolumn order="ASC" name="OC_SUPPLIER_NAME"/>
+        </index>
+        <index name="OC_SUPPLIER_VAT">
+          <indexcolumn order="ASC" name="OC_SUPPLIER_VAT"/>
+        </index>
+      </indexes>
+    </table>
+        
     <!-- ####################################### VARIA TABLES ##################################### -->
     <table name="OC_POINTERS" db="openclinic" sync="NONE">
     	<columns>
