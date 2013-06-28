@@ -58,9 +58,9 @@
             asset = (Asset)assets.get(i);
 
             // shorten description
-            sDescription = asset.description;
+            sDescription = asset.description.replaceAll("<br>"," ");
             if(sDescription.length() > 50){
-                sDescription = sDescription.substring(0,100)+"..";
+                sDescription = sDescription.substring(0,50)+"..";
             }
             
             hSort.put(asset.code+"="+asset.getUid(),

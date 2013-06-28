@@ -262,7 +262,7 @@
 
     asset.code = sCode;
     asset.parentUid = sParentUid;
-    asset.description = sDescription;
+    asset.description = sDescription.replaceAll("\n","<br>");
     asset.serialnumber = sSerialnumber;
     if(sQuantity.length() > 0){
         asset.quantity = Double.parseDouble(sQuantity);
@@ -276,11 +276,12 @@
     asset.purchaseDocuments = sPurchaseDocuments;
     asset.writeOffMethod = sWriteOffMethod;
     asset.annuity = sAnnuity;
-    asset.characteristics = sCharacteristics;
+    asset.characteristics = sCharacteristics.replaceAll("\n","<br>");
     asset.accountingCode = sAccountingCode;
+    
     asset.gains = sGains;
-    asset.losses = sLosses;
     asset.gains = gainsToXML(sGains);
+    asset.losses = sLosses;
     asset.losses = lossesToXML(sLosses);
     
     //*** loan ***
@@ -298,13 +299,13 @@
     }
     */
     
-    asset.loanComment = sLoanComment;
+    asset.loanComment = sLoanComment.replaceAll("\n","<br>");
     asset.loanDocuments = sLoanDocuments;
     
     if(sSaleValue.length() > 0){
         asset.saleValue = Double.parseDouble(sSaleValue);
     }
-    asset.saleClient = sSaleClient;      
+    asset.saleClient = sSaleClient.replaceAll("\n","<br>");      
     
     asset.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
     asset.setUpdateUser(activeUser.userid);

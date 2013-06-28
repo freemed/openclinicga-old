@@ -862,7 +862,6 @@
         method: "GET",
         parameters: "AssetUid="+assetUid,
         onSuccess: function(resp){
-        	alert(trim(resp.responseText)); ///////////////////
           var data = eval("("+resp.responseText+")");
 
           $("EditAssetUid").value = assetUid.unhtmlEntities();
