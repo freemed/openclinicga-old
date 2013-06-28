@@ -13,6 +13,95 @@
     <!-- ###################################  OPENCLINIC TABLES ################################### -->
     <!-- ########################################################################################## -->
     
+    <!-- ####################################### ACCOUNTANCY TABLES ######################################## -->
+    
+    <table name="AC_JOURNAL" db="ocadmin" sync="NONE">
+    	<columns>
+	    	<column name="AC_JOURNAL_ID" dbtype="int" javatype="integer"/>
+	    	<column name="AC_JOURNAL_TYPE" dbtype="varchar" javatype="string" size="50"/>
+	    	<column name="AC_JOURNAL_LABEL" dbtype="varchar" javatype="string" size="255"/>
+	        <column name="AC_JOURNAL_DATE" dbtype="datetime" javatype="date"/>      
+	        <column name="AC_JOURNAL_COMMENT" dbtype="varchar" javatype="string" size="255"/>      
+		    <column name="AC_JOURNAL_UPDATETIME" dbtype="datetime" javatype="date"/>
+	    	<column name="AC_JOURNAL_UPDATEUID" dbtype="int" javatype="integer"/>
+    	</columns>
+	    <indexes>
+	    	<index name="AC_JOURNAL_ID">
+	    		<indexcolumn order="ASC" name="AC_JOURNAL_ID"/>
+	    	</index>
+	    	<index name="AC_JOURNAL_DATE">
+	    		<indexcolumn order="ASC" name="AC_JOURNAL_DATE"/>
+	    	</index>
+	    </indexes>
+    </table>
+    
+    <table name="AC_JOURNALITEMS" db="ocadmin" sync="NONE">
+    	<columns>
+	        <column name="AC_JOURNALITEM_JOURNALID" dbtype="int" javatype="integer"/>
+	    	<column name="AC_JOURNALITEM_TYPE" dbtype="varchar" javatype="string" size="50"/>
+	    	<column name="AC_JOURNALITEM_VALUE" dbtype="varchar" javatype="string" size="255"/>
+    	</columns>
+	    <indexes>
+	    	<index name="AC_JOURNALITEM_JOURNALID">
+	    		<indexcolumn order="ASC" name="AC_JOURNALITEM_JOURNALID"/>
+	    	</index>
+	    </indexes>
+    </table>
+    
+    <table name="AC_CURRENCY" db="ocadmin" sync="NONE">
+    	<columns>
+	        <column name="AC_CURRENCY_ID" dbtype="int" javatype="integer"/>
+	    	<column name="AC_CURRENCY_CODE" dbtype="varchar" javatype="string" size="50"/>
+	    	<column name="AC_CURRENCY_LABEL" dbtype="varchar" javatype="string" size="255"/>
+		    <column name="AC_CURRENCY_UPDATETIME" dbtype="datetime" javatype="date"/>
+	    	<column name="AC_CURRENCY_UPDATEUID" dbtype="int" javatype="integer"/>
+    	</columns>
+	    <indexes>
+	    	<index name="AC_CURRENCY_ID">
+	    		<indexcolumn order="ASC" name="AC_CURRENCY_ID"/>
+	    	</index>
+	    </indexes>
+    </table>
+    
+    <table name="AC_ACCOUNTS" db="ocadmin" sync="NONE">
+    	<columns>
+	        <column name="AC_ACCOUNT_ID" dbtype="int" javatype="integer"/>
+	    	<column name="AC_ACCOUNT_TYPE" dbtype="varchar" javatype="string" size="50"/>
+	    	<column name="AC_ACCOUNT_CODE" dbtype="varchar" javatype="string" size="50"/>
+	    	<column name="AC_ACCOUNT_NAME" dbtype="varchar" javatype="string" size="255"/>
+		    <column name="AC_ACCOUNT_UPDATETIME" dbtype="datetime" javatype="date"/>
+	    	<column name="AC_ACCOUNT_UPDATEUID" dbtype="int" javatype="integer"/>
+    	</columns>
+	    <indexes>
+	    	<index name="AC_ACCOUNT_ID">
+	    		<indexcolumn order="ASC" name="AC_ACCOUNT_ID"/>
+	    	</index>
+	    </indexes>
+    </table>
+    
+    <table name="AC_POSTINGS" db="ocadmin" sync="NONE">
+    	<columns>
+	    	<column name="AC_POSTING_ID" dbtype="int" javatype="integer"/>
+	    	<column name="AC_POSTING_ACCOUNTID" dbtype="int" javatype="integer"/>
+	    	<column name="AC_POSTING_JOURNALID" dbtype="int" javatype="integer"/>
+	    	<column name="AC_POSTING_MONEYID" dbtype="int" javatype="integer"/>
+	    	<column name="AC_POSTING_AMOUNT" dbtype="float" javatype="float"/>
+		    <column name="AC_POSTING_UPDATETIME" dbtype="datetime" javatype="date"/>
+	    	<column name="AC_POSTING_UPDATEUID" dbtype="int" javatype="integer"/>
+    	</columns>
+	    <indexes>
+	    	<index name="AC_POSTING_ID">
+	    		<indexcolumn order="ASC" name="AC_POSTING_ID"/>
+	    	</index>
+	    	<index name="AC_POSTING_ACCOUNTID">
+	    		<indexcolumn order="ASC" name="AC_POSTING_ACCOUNTID"/>
+	    	</index>
+	    	<index name="AC_POSTING_JOURNALID">
+	    		<indexcolumn order="ASC" name="AC_POSTING_JOURNALID"/>
+	    	</index>
+	    </indexes>
+    </table>
+    
     <!-- ####################################### HR TABLES ######################################## -->
     <table name="HR_CAREERS" db="openclinic" sync="NONE">
       <columns>
