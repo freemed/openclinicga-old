@@ -350,6 +350,7 @@
   	    <column name="OC_ASSET_PURCHASERECEIPTBY" dbtype="varchar" javatype="string" size="255"/> 
   	    <column name="OC_ASSET_PURCHASEDOCS" dbtype="varchar" javatype="string" size="255"/>
   	    <column name="OC_ASSET_WRITEOFFMETHOD" dbtype="varchar" javatype="string" size="50"/>
+  	    <column name="OC_ASSET_WRITEOFFPERIOD" dbtype="int" javatype="integer"/>
   	    <column name="OC_ASSET_ANNUITY" dbtype="varchar" javatype="string" size="50"/>
   	    <column name="OC_ASSET_CHARACTERISTICS" dbtype="text" javatype="string"/>  	       
   	    <column name="OC_ASSET_ACCOUNTINGCODE" dbtype="varchar" javatype="string" size="50"/>  
