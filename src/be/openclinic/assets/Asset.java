@@ -36,6 +36,7 @@ public class Asset extends OC_Object {
     public String receiptBy;
     public String purchaseDocuments;
     public String writeOffMethod;
+    public int writeOffPeriod; // years
     public String annuity;
     public String characteristics;
     public String accountingCode;
@@ -77,6 +78,7 @@ public class Asset extends OC_Object {
         receiptBy = "";
         purchaseDocuments = "";
         writeOffMethod = "";
+        writeOffPeriod = -1;
         annuity = "";
         characteristics = "";
         accountingCode = "";
@@ -100,7 +102,7 @@ public class Asset extends OC_Object {
         
     //--- STORE -----------------------------------------------------------------------------------
     public boolean store(String userUid){
-    	boolean errorOccurred = false;
+        boolean errorOccurred = false;
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sSql;
@@ -108,16 +110,16 @@ public class Asset extends OC_Object {
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
                 
         try{            
-            if(getUid().equals("-1")){            	  
+            if(getUid().equals("-1")){                  
                 // insert new asset
                 sSql = "INSERT INTO oc_assets(OC_ASSET_SERVERID,OC_ASSET_OBJECTID,OC_ASSET_CODE,"+
-                	   " OC_ASSET_PARENTUID,OC_ASSET_DESCRIPTION,OC_ASSET_SERIAL,OC_ASSET_QUANTITY,OC_ASSET_TYPE,"+
-                	   " OC_ASSET_SUPPLIERUID,OC_ASSET_PURCHASEDATE,OC_ASSET_PURCHASEPRICE,OC_ASSET_PURCHASERECEIPTBY,"+
-                	   " OC_ASSET_PURCHASEDOCS,OC_ASSET_WRITEOFFMETHOD,OC_ASSET_ANNUITY,OC_ASSET_CHARACTERISTICS,"+
-                	   " OC_ASSET_ACCOUNTINGCODE,OC_ASSET_GAINS,OC_ASSET_LOSSES,OC_ASSET_LOANDATE,OC_ASSET_LOANAMOUNT,"+
-                	   " OC_ASSET_LOANINTERESTRATE,OC_ASSET_LOANREIMBURSEMENTPLAN,OC_ASSET_LOANCOMMENT,OC_ASSET_LOANDOCS,"+
-                	   " OC_ASSET_SALEDATE,OC_ASSET_SALEVALUE,OC_ASSET_SALECLIENT,OC_ASSET_UPDATETIME,OC_ASSET_UPDATEID)"+
-                       " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 30
+                       " OC_ASSET_PARENTUID,OC_ASSET_DESCRIPTION,OC_ASSET_SERIAL,OC_ASSET_QUANTITY,OC_ASSET_TYPE,"+
+                       " OC_ASSET_SUPPLIERUID,OC_ASSET_PURCHASEDATE,OC_ASSET_PURCHASEPRICE,OC_ASSET_PURCHASERECEIPTBY,"+
+                       " OC_ASSET_PURCHASEDOCS,OC_ASSET_WRITEOFFMETHOD,OC_ASSET_WRITEOFFPERIOD,OC_ASSET_ANNUITY,OC_ASSET_CHARACTERISTICS,"+
+                       " OC_ASSET_ACCOUNTINGCODE,OC_ASSET_GAINS,OC_ASSET_LOSSES,OC_ASSET_LOANDATE,OC_ASSET_LOANAMOUNT,"+
+                       " OC_ASSET_LOANINTERESTRATE,OC_ASSET_LOANREIMBURSEMENTPLAN,OC_ASSET_LOANCOMMENT,OC_ASSET_LOANDOCS,"+
+                       " OC_ASSET_SALEDATE,OC_ASSET_SALEVALUE,OC_ASSET_SALECLIENT,OC_ASSET_UPDATETIME,OC_ASSET_UPDATEID)"+
+                       " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 31
                 ps = oc_conn.prepareStatement(sSql);
                 
                 int serverId = MedwanQuery.getInstance().getConfigInt("serverId"),
@@ -147,6 +149,7 @@ public class Asset extends OC_Object {
                 ps.setString(psIdx++,receiptBy);
                 ps.setString(psIdx++,purchaseDocuments);
                 ps.setString(psIdx++,writeOffMethod);
+                ps.setInt(psIdx++,writeOffPeriod);
                 ps.setString(psIdx++,annuity);
                 ps.setString(psIdx++,characteristics);
                 ps.setString(psIdx++,accountingCode);
@@ -190,12 +193,12 @@ public class Asset extends OC_Object {
                 // update existing record
                 sSql = "UPDATE oc_assets SET"+
                        "  OC_ASSET_CODE = ?, OC_ASSET_PARENTUID = ?, OC_ASSET_DESCRIPTION = ?, OC_ASSET_SERIAL = ?,"+
-                	   "  OC_ASSET_QUANTITY = ?, OC_ASSET_TYPE = ?, OC_ASSET_SUPPLIERUID = ?, OC_ASSET_PURCHASEDATE = ?,"+
+                       "  OC_ASSET_QUANTITY = ?, OC_ASSET_TYPE = ?, OC_ASSET_SUPPLIERUID = ?, OC_ASSET_PURCHASEDATE = ?,"+
                        "  OC_ASSET_PURCHASEPRICE = ?, OC_ASSET_PURCHASERECEIPTBY = ?, OC_ASSET_PURCHASEDOCS = ?,"+
-                	   "  OC_ASSET_WRITEOFFMETHOD = ?, OC_ASSET_ANNUITY = ?, OC_ASSET_CHARACTERISTICS = ?,"+
+                       "  OC_ASSET_WRITEOFFMETHOD = ?, OC_ASSET_WRITEOFFPERIOD = ?, OC_ASSET_ANNUITY = ?, OC_ASSET_CHARACTERISTICS = ?,"+
                        "  OC_ASSET_ACCOUNTINGCODE = ?, OC_ASSET_GAINS = ?, OC_ASSET_LOSSES = ?, OC_ASSET_LOANDATE = ?,"+
                        "  OC_ASSET_LOANAMOUNT = ?, OC_ASSET_LOANINTERESTRATE = ?, OC_ASSET_LOANREIMBURSEMENTPLAN = ?,"+
-                	   "  OC_ASSET_LOANCOMMENT = ?, OC_ASSET_LOANDOCS = ?, OC_ASSET_SALEDATE = ?, OC_ASSET_SALEVALUE = ?,"+
+                       "  OC_ASSET_LOANCOMMENT = ?, OC_ASSET_LOANDOCS = ?, OC_ASSET_SALEDATE = ?, OC_ASSET_SALEVALUE = ?,"+
                        "  OC_ASSET_SALECLIENT = ?, OC_ASSET_UPDATETIME = ?, OC_ASSET_UPDATEID = ?"+ // update-info
                        " WHERE (OC_ASSET_SERVERID = ? AND OC_ASSET_OBJECTID = ?)"; // identification
                 ps = oc_conn.prepareStatement(sSql);
@@ -221,6 +224,7 @@ public class Asset extends OC_Object {
                 ps.setString(psIdx++,receiptBy);
                 ps.setString(psIdx++,purchaseDocuments);
                 ps.setString(psIdx++,writeOffMethod);
+                ps.setInt(psIdx++,writeOffPeriod);
                 ps.setString(psIdx++,annuity);
                 ps.setString(psIdx++,characteristics);
                 ps.setString(psIdx++,accountingCode);
@@ -266,8 +270,8 @@ public class Asset extends OC_Object {
             }            
         }
         catch(Exception e){
-        	errorOccurred = true;
-        	if(Debug.enabled) e.printStackTrace();
+            errorOccurred = true;
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -286,7 +290,7 @@ public class Asset extends OC_Object {
     
     //--- DELETE ----------------------------------------------------------------------------------
     public static boolean delete(String sAssetUid){
-    	boolean errorOccurred = false;
+        boolean errorOccurred = false;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -302,8 +306,8 @@ public class Asset extends OC_Object {
             ps.executeUpdate();
         }
         catch(Exception e){
-        	errorOccurred = true;
-        	if(Debug.enabled) e.printStackTrace();
+            errorOccurred = true;
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -322,11 +326,11 @@ public class Asset extends OC_Object {
     
     //--- GET -------------------------------------------------------------------------------------
     public static Asset get(Asset asset){
-    	return get(asset.getUid());
+        return get(asset.getUid());
     }
        
     public static Asset get(String sAssetUid){
-    	Asset asset = null;
+        Asset asset = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -359,6 +363,7 @@ public class Asset extends OC_Object {
                 asset.receiptBy         = ScreenHelper.checkString(rs.getString("OC_ASSET_PURCHASERECEIPTBY"));
                 asset.purchaseDocuments = ScreenHelper.checkString(rs.getString("OC_ASSET_PURCHASEDOCS"));
                 asset.writeOffMethod    = ScreenHelper.checkString(rs.getString("OC_ASSET_WRITEOFFMETHOD"));
+                asset.writeOffPeriod    = rs.getInt("OC_ASSET_WRITEOFFPERIOD");
                 asset.annuity           = ScreenHelper.checkString(rs.getString("OC_ASSET_ANNUITY"));
                 asset.characteristics   = ScreenHelper.checkString(rs.getString("OC_ASSET_CHARACTERISTICS"));
                 asset.accountingCode    = ScreenHelper.checkString(rs.getString("OC_ASSET_ACCOUNTINGCODE"));
@@ -385,7 +390,7 @@ public class Asset extends OC_Object {
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -404,7 +409,7 @@ public class Asset extends OC_Object {
         
     //--- GET LIST --------------------------------------------------------------------------------
     public static List<Asset> getList(){
-    	return getList(new Asset());     	
+        return getList(new Asset());         
     }
     
     public static List<Asset> getList(Asset findItem){
@@ -416,7 +421,7 @@ public class Asset extends OC_Object {
         SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyyMMdd");
         
         try{
-        	//*** compose query ***************************
+            //*** compose query ***************************
             String sSql = "SELECT * FROM oc_assets WHERE 1=1"; // 'where' facilitates further composition of query
 
             // search-criteria 
@@ -461,7 +466,7 @@ public class Asset extends OC_Object {
             Asset asset;
             
             while(rs.next()){
-            	asset = new Asset();
+                asset = new Asset();
                 asset.setUid(rs.getString("OC_ASSET_SERVERID")+"."+rs.getString("OC_ASSET_OBJECTID"));
                 asset.serverId = Integer.parseInt(rs.getString("OC_ASSET_SERVERID"));
                 asset.objectId = Integer.parseInt(rs.getString("OC_ASSET_OBJECTID"));
@@ -478,6 +483,7 @@ public class Asset extends OC_Object {
                 asset.receiptBy         = ScreenHelper.checkString(rs.getString("OC_ASSET_PURCHASERECEIPTBY"));
                 asset.purchaseDocuments = ScreenHelper.checkString(rs.getString("OC_ASSET_PURCHASEDOCS"));
                 asset.writeOffMethod    = ScreenHelper.checkString(rs.getString("OC_ASSET_WRITEOFFMETHOD"));
+                asset.writeOffPeriod    = rs.getInt("OC_ASSET_WRITEOFFPERIOD");
                 asset.annuity           = ScreenHelper.checkString(rs.getString("OC_ASSET_ANNUITY"));
                 asset.characteristics   = ScreenHelper.checkString(rs.getString("OC_ASSET_CHARACTERISTICS"));
                 asset.accountingCode    = ScreenHelper.checkString(rs.getString("OC_ASSET_ACCOUNTINGCODE"));
@@ -506,7 +512,7 @@ public class Asset extends OC_Object {
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -524,62 +530,97 @@ public class Asset extends OC_Object {
     }
     
     //--- CALCULATE RESIDUAL VALUE HISTORY --------------------------------------------------------
-    // todo : OPTIMIZE ALGORITHM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public String calculateResidualValueHistory(){
-    	String sHistory = "";
-    	
-    	if(this.purchaseDate!=null && this.purchasePrice > 0 && this.loanAmount > 0){
-    		sHistory = "<table cellpadding='1' cellspacing='0' border='0'>";
-    				    
-	    	// 1st day of every fiscal year until value=0
-	    	double value = this.purchasePrice;
-	    	int startYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(this.purchaseDate));
-	    	DecimalFormat deci = new DecimalFormat("0.00");
-	    	
-	    	while(value >= this.loanAmount){
-	            value-= this.loanAmount;
-	            startYear++;
-
-	    		sHistory+= "<tr>"+
-	    		            "<td>"+startYear+" : </td>"+
-	    		            "<td style='text-align:right;'>"+ScreenHelper.padLeft(deci.format(value)," ",8)+"</td>"+
-	    		           "</tr>";
-	    	}
-	    	
-    		sHistory+= "</table>";
-    	}
-    	
-    	return sHistory;
-    }
-    
-    //--- CALCULATE REIMBURSEMENT AMOUNT ----------------------------------------------------------
-    // todo : OPTIMIZE ALGORITHM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public double calculateReimbursementAmount(){
-        double amount = -1;
+    // todo : OPTIMIZE ALGORITHM ?????????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public String calculateResidualValueHistory(String sWebLanguage){
+        String sHistory = "";
         
-        if(this.loanReimbursementPlan.length() > 0){
-        	amount = 0;
-        	
-	        // sum the total amount of each part of the reimbursement plan
-	        Vector plans = parseLoanReimbursementPlans(this.loanReimbursementPlan);
- 
-	        String sCapital, sInterest;
-	        Element planElem;
-	        double planTotal;
-	        
-	        for(int i=0; i<plans.size(); i++){
-	        	planElem = (Element)plans.get(i);
-	
-	        	sCapital  = ScreenHelper.checkString(planElem.elementText("Capital"));
-	        	sInterest = ScreenHelper.checkString(planElem.elementText("Interest"));
-	        	
-	        	planTotal = (Double.parseDouble(sCapital) * Double.parseDouble(sInterest)) / 100;
-	        	
-	        	amount+= planTotal;
-	        }
+        if(this.purchaseDate!=null && this.purchasePrice > 0 && this.writeOffPeriod > 0){
+            double writeOffAmount = this.purchasePrice / this.writeOffPeriod;
+            DecimalFormat deci = new DecimalFormat("0.00");
+            		
+            sHistory = "<table cellpadding='1' cellspacing='1' border='0' style='background:#fff;'>";
+            
+            // 1st day of every fiscal year until value=0
+            double value = this.purchasePrice;
+            int startYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(this.purchaseDate));
+            int year = startYear;
+            
+            int colCount = 0;
+            int maxColCount = MedwanQuery.getInstance().getConfigInt("assets.residualvaluehistory.maxcolcount",4);
+            while(value >= writeOffAmount && colCount <= this.writeOffPeriod){
+                value-= writeOffAmount;
+                year++;
+
+                if(colCount%maxColCount==0){
+                	colCount = 0;
+                	sHistory+= "<tr>"; // new row when 4 columns have been drawn
+                }
+                colCount++;
+
+	            sHistory+= "<td style='background:#ccc'>&nbsp;"+year+"&nbsp;:&nbsp;</td>"+
+	                       "<td style='background:#C3D9FF;text-align:right;width:90px'>"+ScreenHelper.padLeft(deci.format(value)," ",8)+" "+MedwanQuery.getInstance().getConfigParam("currency","")+"</td>";
+
+	            // add empty 'cols'
+	            if(writeOffAmount > value){
+		            for(int i=0; i<(maxColCount-colCount); i++){
+		                sHistory+= "<td style='background:#C3D9FF;'>&nbsp;</td>";
+		            }
+	            }
+	            
+                if(colCount%maxColCount==0){
+                	sHistory+= "</tr>";
+                }
+            }
+
+            // fill last row, if needed
+            if(colCount > 0){
+	            for(int i=0; i<(maxColCount-colCount); i++){
+	                sHistory+= "<td style='background:#C3D9FF;'>&nbsp;</td>";
+	            }
+            }
+            
+            sHistory+= "</table>";
         }
         
-        return amount;
+        return sHistory;
+    }
+    
+    //--- CALCULATE REIMBURSEMENT TOTALS ----------------------------------------------------------
+    public double[] calculateReimbursementTotals(){
+        double capitalTotal = -1, interestTotal = -1, totalAmount = -1;
+        
+        if(this.loanReimbursementPlan.length() > 0){
+        	// init
+        	capitalTotal = 0;
+        	interestTotal = 0;
+        	totalAmount = 0;
+            
+            // sum the total amount of each part of the reimbursement plan
+            Vector plans = parseLoanReimbursementPlans(this.loanReimbursementPlan);
+ 
+            String sCapital, sInterest;
+            double capital, interest, planAmount;
+            Element planElem;
+            
+            for(int i=0; i<plans.size(); i++){
+                planElem = (Element)plans.get(i);
+    
+                sCapital  = ScreenHelper.checkString(planElem.elementText("Capital"));
+                sInterest = ScreenHelper.checkString(planElem.elementText("Interest"));
+                
+                // single plan
+                capital = Double.parseDouble(sCapital);
+                interest = Double.parseDouble(sInterest);                
+                planAmount = (capital+interest);
+                
+                // all plans
+                capitalTotal+= Double.parseDouble(sCapital);
+                interestTotal+= Double.parseDouble(sInterest);
+                totalAmount+= planAmount;
+            }
+        }
+        
+        return new double[]{capitalTotal,interestTotal,totalAmount};
     }
     
     //--- PARSE LOAN REIMBURSEMENT PLANS ----------------------------------------------------------
@@ -593,7 +634,7 @@ public class Asset extends OC_Object {
         </ReimbursementPlans>
     */    
     private Vector parseLoanReimbursementPlans(String sLoanReimbursementPlans){
-    	Vector plans = new Vector();
+        Vector plans = new Vector();
 
         if(sLoanReimbursementPlans.length() > 0){
             try{
@@ -610,16 +651,16 @@ public class Asset extends OC_Object {
                     String[] plan;
                     
                     while(plansIter.hasNext()){
-                    	planElem = (Element)plansIter.next();
+                        planElem = (Element)plansIter.next();
                                                 
-                    	//sTmpDate     = ScreenHelper.checkString(planElem.elementText("Date"));
-                    	//sTmpCapital  = ScreenHelper.checkString(planElem.elementText("Capital"));
-                    	//sTmpInterest = ScreenHelper.checkString(planElem.elementText("Interest"));
+                        //sTmpDate     = ScreenHelper.checkString(planElem.elementText("Date"));
+                        //sTmpCapital  = ScreenHelper.checkString(planElem.elementText("Capital"));
+                        //sTmpInterest = ScreenHelper.checkString(planElem.elementText("Interest"));
                         
-                    	//plan = new String[]{sTmpDate,sTmpCapital,sTmpInterest};
+                        //plan = new String[]{sTmpDate,sTmpCapital,sTmpInterest};
                         //plans.add(plan);
-                    	
-                    	plans.add(planElem);
+                        
+                        plans.add(planElem);
                     }
                 }
             }
@@ -634,7 +675,7 @@ public class Asset extends OC_Object {
 
     //--- GET SUPPLIER NAME -----------------------------------------------------------------------
     public String getSupplierName(String sSupplierUid){
-	    String sSupplierName = ""; 
+        String sSupplierName = ""; 
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -643,18 +684,18 @@ public class Asset extends OC_Object {
         try{
             String sSql = "SELECT OC_SUPPLIER_NAME"+
                           " FROM oc_suppliers"+
-        	              "  WHERE (OC_SUPPLIER_SERVERID = ? AND OC_SUPPLIER_OBJECTID = ?)";            
+                          "  WHERE (OC_SUPPLIER_SERVERID = ? AND OC_SUPPLIER_OBJECTID = ?)";            
             ps = oc_conn.prepareStatement(sSql);
             ps.setInt(1,Integer.parseInt(sSupplierUid.substring(0,sSupplierUid.indexOf("."))));
             ps.setInt(2,Integer.parseInt(sSupplierUid.substring(sSupplierUid.indexOf(".")+1)));
             
             rs = ps.executeQuery();            
             if(rs.next()){
-            	sSupplierName = ScreenHelper.checkString(rs.getString("OC_SUPPLIER_NAME"));
+                sSupplierName = ScreenHelper.checkString(rs.getString("OC_SUPPLIER_NAME"));
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -667,13 +708,13 @@ public class Asset extends OC_Object {
                 Debug.printProjectErr(se,Thread.currentThread().getStackTrace());
             }
         }
-	    
-	    return sSupplierName;
+        
+        return sSupplierName;
     }
     
     //--- GET PARENT CODE -------------------------------------------------------------------------
     public String getParentCode(String sAssetUid){
-    	String sParentCode = ""; 
+        String sParentCode = ""; 
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -682,18 +723,18 @@ public class Asset extends OC_Object {
         try{
             String sSql = "SELECT OC_ASSET_CODE"+
                           " FROM oc_assets"+
-        	              "  WHERE (OC_ASSET_SERVERID = ? AND OC_ASSET_OBJECTID = ?)";            
+                          "  WHERE (OC_ASSET_SERVERID = ? AND OC_ASSET_OBJECTID = ?)";            
             ps = oc_conn.prepareStatement(sSql);
             ps.setInt(1,Integer.parseInt(sAssetUid.substring(0,sAssetUid.indexOf("."))));
             ps.setInt(2,Integer.parseInt(sAssetUid.substring(sAssetUid.indexOf(".")+1)));
             
             rs = ps.executeQuery();            
             if(rs.next()){
-            	sParentCode = ScreenHelper.checkString(rs.getString("OC_ASSET_CODE"));
+                sParentCode = ScreenHelper.checkString(rs.getString("OC_ASSET_CODE"));
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -706,8 +747,8 @@ public class Asset extends OC_Object {
                 Debug.printProjectErr(se,Thread.currentThread().getStackTrace());
             }
         }
-	    
-    	return sParentCode;
+        
+        return sParentCode;
     }
     
 }
