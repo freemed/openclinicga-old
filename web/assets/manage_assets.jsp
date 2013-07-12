@@ -265,37 +265,39 @@
                 <input type="hidden" id="purchaseDocuments" name="purchaseDocuments" value="">
                                     
                 <div id="pdScroller" style="overflow:none;width:263px;height:50px;border:none;">   
-	                <table width="23%" class="sortable" id="tblPD" cellspacing="1" headerRowCount="2"> 
-	                    <%-- header --%>                        
-	                    <tr class="admin">
-	                        <%-- 0 - empty --%>
-	                        <td width="40" nowrap/>
-	                        <%-- 1 - type --%>
-	                        <td width="10%" nowrap style="padding-left:0px;">
-	                            <%=getTran("web.assets","documentId",sWebLanguage)%>&nbsp;*&nbsp;
-	                        </td>    
-	                        <%-- 2 - empty --%>
-	                        <td width="*" nowrap>&nbsp;</td>      
-	                    </tr>
-	        
-	                    <%-- content by ajax and javascript --%>
-	                    
-	                    <%-- add-row --%>                          
-	                    <tr>
-	                        <%-- 0 - empty --%>
-	                        <td class="admin"/>
-	                        <%-- 1 - documentId --%>
-	                        <td class="admin"> 
-	                            <input type="text" class="text" id="pdID" name="pdID" size="15" maxLength="12" value="">
-	                        </td>
-	                        <%-- 2 - buttons --%>
-	                        <td class="admin" nowrap>
-	                            <input type="button" class="button" name="ButtonAddPD" id="ButtonAddPD" value="<%=getTran("web","add",sWebLanguage)%>" onclick="if(isValidDocumentId(document.getElementById('pdID')))addPD();">
-	                            <input type="button" class="button" name="ButtonUpdatePD" id="ButtonUpdatePD" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updatePD();" disabled>&nbsp;
-	                        </td>    
-	                    </tr>
-	                </table>
-	            </div>                    
+                    <table width="23%" class="sortable" id="tblPD" cellspacing="1" headerRowCount="2"> 
+                        <%-- header --%>                        
+                        <tr class="admin">
+                            <%-- 0 - empty --%>
+                            <td width="40" nowrap/>
+                            <%-- 1 - type --%>
+                            <td width="10%" nowrap style="padding-left:0px;">
+                                <%=getTran("web.assets","documentId",sWebLanguage)%>&nbsp;*&nbsp;
+                            </td>    
+                            <%-- 2 - empty --%>
+                            <td width="*" nowrap>&nbsp;</td>      
+                        </tr>
+            
+                        <%-- content by ajax and javascript --%>
+                        
+                        <%-- add-row --%>                          
+                        <tr>
+                            <%-- 0 - empty --%>
+                            <td class="admin"/>
+                            <%-- 1 - documentId --%>
+                            <td class="admin"> 
+                                <input type="text" class="text" id="pdID" name="pdID" size="15" maxLength="12" value="">
+                            </td>
+                            <%-- 2 - buttons --%>
+                            <td class="admin" nowrap>
+                                <input type="button" class="button" name="ButtonAddPD" id="ButtonAddPD" value="<%=getTran("web","add",sWebLanguage)%>" onclick="if(isValidDocumentId(document.getElementById('pdID')))addPD();">
+                                <input type="button" class="button" name="ButtonUpdatePD" id="ButtonUpdatePD" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updatePD();" disabled>&nbsp;
+                            </td>    
+                        </tr>
+                    </table>
+                    
+                    <div id="purchaseDocumentMsgDiv" style="padding-top:10px;"></div>
+                </div>                    
             </td>
         </tr>        
         
@@ -307,6 +309,14 @@
                     <option/>
                     <%=ScreenHelper.writeSelect("assets.writeOffMethod","",sWebLanguage)%>
                 </select>
+            </td>
+        </tr>
+        
+        <%-- WRITE OFF PERIOD --%>
+        <tr>
+            <td class="admin"><%=getTran("web.assets","writeOffPeriod",sWebLanguage)%>&nbsp;</td>
+            <td class="admin2">
+                <input type="text" class="text" id="writeOffPeriod" name="writeOffPeriod" size="2" maxLength="2" value="" onKeyUp="isNumber(this);">&nbsp;<%=getTran("web","year",sWebLanguage).toLowerCase()%>&nbsp;
             </td>
         </tr>
 
@@ -435,7 +445,7 @@
         <tr id="residualValueHistoryDiv" style="visibility:visible;">
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.assets","residualValueHistory",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <div id="residualValueHistory" class="searchResults" style="color:black;padding:3px;width:120px;height:100px;border:1px solid #ccc;background:#f9f9f9;">
+                <div id="residualValueHistory" class="admin">
                     <%-- javascript --%>
                 </div>
             </td>
@@ -538,15 +548,7 @@
                     </table>                    
                 </td>
             </tr>        
-            
-            <%-- LOAN REIMBURSEMENT AMOUNT --%>
-            <tr>
-                <td class="admin"><%=getTran("web.assets","loanReimbursementAmount",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <span id="loanReimbursementAmount" class="searchResults" style="color:black;padding:3px;width:70px;height:20px;border:1px solid #ccc;background:#f0f0f0;text-align:right;"><%-- javascript --%></span>&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;
-                </td>
-            </tr>
-            
+                        
             <%-- LOAN COMMENT --%>                
             <tr>
                 <td class="admin"><%=getTran("web.assets","comment",sWebLanguage)%>&nbsp;</td>
@@ -562,37 +564,39 @@
                     <input type="hidden" id="loanDocuments" name="loanDocuments" value="">
                               
                     <div id="ldScroller" style="overflow:none;width:270px;height:50px;border:none;">           
-	                    <table width="45%" class="sortable" id="tblLD" cellspacing="1" headerRowCount="2"> 
-	                        <%-- header --%>                        
-	                        <tr class="admin">
-	                            <%-- 0 - empty --%>
-	                            <td width="40" nowrap/>
-	                            <%-- 1 - documentId --%>
-	                            <td width="100" nowrap style="padding-left:0px;">
-	                                <%=getTran("web.assets","documentId",sWebLanguage)%>&nbsp;*&nbsp;
-	                            </td>    
-	                            <%-- 2 - empty --%>
-	                            <td width="*" nowrap>&nbsp;</td>      
-	                        </tr>
-	            
-	                        <%-- content by ajax and javascript --%>
-	                        
-	                        <%-- add-row --%>                          
-	                        <tr>
-	                            <%-- 0 - empty --%>
-	                            <td class="admin"/>
-	                            <%-- 1 - documentId --%>
-	                            <td class="admin"> 
-	                                <input type="text" class="text" id="ldID" name="ldID" size="15" maxLength="12" value="">&nbsp;
-	                            </td>
-	                            <%-- 2 - buttons --%>
-	                            <td class="admin" nowrap>
-	                                <input type="button" class="button" name="ButtonAddLD" id="ButtonAddLD" value="<%=getTran("web","add",sWebLanguage)%>" onclick="if(isValidDocumentId(document.getElementById('ldID')))addLD();">
-	                                <input type="button" class="button" name="ButtonUpdateLD" id="ButtonUpdateLD" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateLD();" disabled>&nbsp;
-	                            </td>    
-	                        </tr>
-	                    </table>
-	                </div>                    
+                        <table width="45%" class="sortable" id="tblLD" cellspacing="1" headerRowCount="2"> 
+                            <%-- header --%>                        
+                            <tr class="admin">
+                                <%-- 0 - empty --%>
+                                <td width="40" nowrap/>
+                                <%-- 1 - documentId --%>
+                                <td width="100" nowrap style="padding-left:0px;">
+                                    <%=getTran("web.assets","documentId",sWebLanguage)%>&nbsp;*&nbsp;
+                                </td>    
+                                <%-- 2 - empty --%>
+                                <td width="*" nowrap>&nbsp;</td>      
+                            </tr>
+                
+                            <%-- content by ajax and javascript --%>
+                            
+                            <%-- add-row --%>                          
+                            <tr>
+                                <%-- 0 - empty --%>
+                                <td class="admin"/>
+                                <%-- 1 - documentId --%>
+                                <td class="admin"> 
+                                    <input type="text" class="text" id="ldID" name="ldID" size="15" maxLength="12" value="">&nbsp;
+                                </td>
+                                <%-- 2 - buttons --%>
+                                <td class="admin" nowrap>
+                                    <input type="button" class="button" name="ButtonAddLD" id="ButtonAddLD" value="<%=getTran("web","add",sWebLanguage)%>" onclick="if(isValidDocumentId(document.getElementById('ldID')))addLD();">
+                                    <input type="button" class="button" name="ButtonUpdateLD" id="ButtonUpdateLD" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateLD();" disabled>&nbsp;
+                                </td>    
+                            </tr>
+                        </table>
+                    
+                        <div id="loanDocumentMsgDiv" style="padding-top:10px;"></div>      
+                    </div>              
                 </td>
             </tr>        
         
@@ -658,7 +662,7 @@
           interest = document.getElementById("rpInterest").value;
     
       if(capital.length > 0 && interest.length > 0){          
-        document.getElementById("rpTotal").innerHTML = formatNumber(capital*interest/100,2);      
+        document.getElementById("rpTotal").innerHTML = formatNumber((capital*1)+(interest*1),2);      
       }
       else{
         document.getElementById("rpTotal").innerHTML = "";
@@ -778,6 +782,7 @@
                       "&receiptBy="+document.getElementById("receiptBy").value+
                       "&purchaseDocuments="+document.getElementById("purchaseDocuments").value+
                       "&writeOffMethod="+document.getElementById("writeOffMethod").value+
+                      "&writeOffPeriod="+document.getElementById("writeOffPeriod").value+
                       "&annuity="+document.getElementById("annuity").value+
                       "&characteristics="+document.getElementById("characteristics").value+
                       "&accountingCode="+document.getElementById("accountingCode").value+
@@ -789,7 +794,6 @@
                       "&loanAmount="+document.getElementById("loanAmount").value+
                       "&loanInterestRate="+replaceAll(document.getElementById("loanInterestRate").value,"%","[percent]")+
                       "&loanReimbursementPlan="+document.getElementById("loanReimbursementPlan").value+
-                      "&loanReimbursementAmount="+document.getElementById("loanReimbursementAmount").innerHTML+
                       "&loanComment="+document.getElementById("loanComment").value+
                       "&loanDocuments="+document.getElementById("loanDocuments").value+
                     
@@ -888,6 +892,7 @@
           $("purchaseDocuments").value = data.purchaseDocuments.unhtmlEntities();
           displayPurchaseDocuments();
           $("writeOffMethod").value = data.writeOffMethod.unhtmlEntities();
+          $("writeOffPeriod").value = data.writeOffPeriod;
           $("annuity").value = data.annuity.unhtmlEntities();
           $("characteristics").value = replaceAll(data.characteristics.unhtmlEntities(),"<br>","\n");
           $("accountingCode").value = data.accountingCode.unhtmlEntities();
@@ -898,12 +903,12 @@
           displayLosses();
           
           if(data.residualValueHistory.length > 0){
-	        <%
-			    if(sAgent.contains("msie")){
-			        %>$("residualValueHistoryDiv").style.display = "block";<%
+            <%
+                if(sAgent.contains("msie")){
+                    %>$("residualValueHistoryDiv").style.display = "block";<%
                 }
             %>
-            $("residualValueHistory").innerHTML = replaceAll(data.residualValueHistory.unhtmlEntities(),"<br>","\n");
+            $("residualValueHistory").innerHTML = data.residualValueHistory.unhtmlEntities();
           }
           
           //*** loan ***
@@ -912,8 +917,10 @@
           $("loanInterestRate").value = data.loanInterestRate.unhtmlEntities();
           $("loanReimbursementPlan").value = data.loanReimbursementPlan.unhtmlEntities();
           displayReimbursementPlans();
+          $("loanReimbursementCapitalTotal").innerHTML = data.loanReimbursementCapitalTotal.unhtmlEntities();
+          $("loanReimbursementInterestTotal").innerHTML = data.loanReimbursementInterestTotal.unhtmlEntities();
           $("loanReimbursementAmount").innerHTML = data.loanReimbursementAmount.unhtmlEntities();
-          //calculateTotalReimbursementAmount();
+          //calculateReimbursementTotals();
           $("loanComment").value = replaceAll(data.loanComment.unhtmlEntities(),"<br>","\n");
           $("loanDocuments").value = data.loanDocuments.unhtmlEntities();
           displayLoanDocuments();
@@ -987,8 +994,9 @@
   }
   
   <%-- NEW ASSET --%>
-  function newAsset(){
-    clearAllTables();
+  function newAsset(){ 
+    displayReimbursementTotals(0,0,0);
+    clearAllTables();   
     
     <%-- hide irrelevant buttons --%>
     document.getElementById("buttonDelete").style.visibility = "hidden";
@@ -1007,6 +1015,7 @@
     $("receiptBy").value = "";
     clearPDTable();
     $("writeOffMethod").value = "";
+    $("writeOffPeriod").value = "";
     $("annuity").value = "";
     $("characteristics").value = "";
     $("accountingCode").value = "";
@@ -1025,6 +1034,8 @@
     $("loanAmount").value = "";
     $("loanInterestRate").value = "";
     clearRPTable();
+    $("loanReimbursementCapitalTotal").innerHTML = "";
+    $("loanReimbursementInterestTotal").innerHTML = "";
     $("loanReimbursementAmount").innerHTML = "";
     $("loanComment").value = "";
     clearLDTable();
@@ -1078,8 +1089,8 @@
     document.getElementById("buttonNew").disabled = false;
   }
   
-  <%-- CALCULATE TOTAL REIMBURSEMENT AMOUNT --%>
-  function calculateTotalReimbursementAmount(){
+  <%-- CALCULATE REIMBURSEMENT TOTALS --%>
+  function calculateReimbursementTotals(){
     var sPlans = sRP;
 
     <%-- compose string containing reimbursement plan --%>
@@ -1089,7 +1100,7 @@
       sPlans = sPlans.substring(0,sPlans.indexOf("rowRP"))+sTmpEnd;
     }
     
-    var totalAmount = 0;
+    var totalCapital = 0, totalInterest = 0, totalAmount = 0;
     
     if(sPlans.indexOf("$") > -1){
       var sTmpRP = sPlans;
@@ -1115,13 +1126,19 @@
           sTmpInterest = sTmpRP.substring(0,sTmpRP.indexOf("$"));
           sTmpRP = sTmpRP.substring(sTmpRP.indexOf("$")+1);
         }
-        
-        totalAmount+= parseInt(sTmpCapital)*sTmpInterest/100;
+
+        totalCapital+= parseInt(sTmpCapital);
+        totalInterest+= parseInt(sTmpInterest);
+        totalAmount+= parseInt(sTmpCapital)+parseInt(sTmpInterest);
       }
-      
+
+      $("loanReimbursementCapitalTotal").innerHTML = formatNumber(totalCapital,2);
+      $("loanReimbursementInterestTotal").innerHTML = formatNumber(totalInterest,2);
       $("loanReimbursementAmount").innerHTML = formatNumber(totalAmount,2);
     }
     else{
+      document.getElementById("loanReimbursementCapitalTotal").innerHTML = "";
+      document.getElementById("loanReimbursementInterestTotal").innerHTML = "";
       document.getElementById("loanReimbursementAmount").innerHTML = "";
     }
   }
@@ -1590,6 +1607,48 @@
     EditForm.ButtonUpdateLO.disabled = false;
   }
   
+  <%-- MAKE DOCUMENT LINK --%>
+  function makeDocumentLink(documentId,msgDivId){
+     return "<a href='javascript:void(0);' onClick=\"displayDocument('"+documentId+"','"+msgDivId+"');\">"+documentId+"</a>";
+  }
+  
+  <%-- DISPLAY DOCUMENT --%>
+  function displayDocument(documentId,msgDivId){
+    <%
+        String sDocumentBase = MedwanQuery.getInstance().getConfigParam("documentBase","");
+        if(sDocumentBase.length() > 0){  
+            sDocumentBase = sDocumentBase.replaceAll("\\\\","/");
+            
+            %>
+              var url = "<c:url value='/assets/ajax/asset/getDocumentInfo.jsp'/>?ts="+new Date().getTime();
+            
+              new Ajax.Request(url,
+                {
+                  method: "GET",
+                  parameters: "DocumentId="+documentId,
+                  onSuccess: function(resp){
+                    var data = eval("("+resp.responseText+")");
+
+                    if(data.message=="ok"){
+                      openPopup("<%=sDocumentBase%>/"+data.documentName);
+                    }
+                    else{
+                      $(msgDivId).innerHTML = data.message;
+                    }
+                  },
+                  onFailure: function(resp){
+                    $(msgDivId).innerHTML = "Error in 'assets/ajax/asset/getDocumentInfo.jsp' : "+resp.responseText.trim();
+                  }  
+                }
+              );
+            <%
+        }
+        else{
+            %>alertDialog("web","documentBaseNotConfigured");<%
+        }
+    %>
+  }
+  
 
   <%---------------------------------------------------------------------------------------------%>
   <%-- JS 3 : PURCHASE DOCUMENTS FUNCTIONS (PD) -------------------------------------------------%>
@@ -1598,6 +1657,7 @@
   
   <%-- DISPLAY PURCHASE DOCUMENTS --%>
   function displayPurchaseDocuments(){
+    $("purchaseDocumentMsgDiv").innerHTML = "";
     sPD = document.getElementById("purchaseDocuments").value;
         
     if(sPD.indexOf("$") > -1){
@@ -1622,6 +1682,7 @@
   
   <%-- DISPLAY PURCHASE DOCUMENT --%>
   function displayPurchaseDocument(iPDIndex,sID){
+    $("purchaseDocumentMsgDiv").innerHTML = "";
     var tr = tblPD.insertRow(tblPD.rows.length);
     tr.id = "rowPD"+iPDIndex;
 
@@ -1635,7 +1696,7 @@
     tr.appendChild(td);
 
     td = tr.insertCell(1);
-    td.innerHTML = "&nbsp;"+sID;
+    td.innerHTML = "&nbsp;"+makeDocumentLink(sID,"purchaseDocumentMsgDiv");
     tr.appendChild(td);
                
     <%-- empty cell --%>
@@ -1648,8 +1709,15 @@
   
   <%-- ADD PURCHASE DOCUMENT --%>
   function addPD(){
-  	EditForm.pdID.value = formatDocumentID(EditForm.pdID.value); 
-  	
+    $("purchaseDocumentMsgDiv").innerHTML = "";
+    
+    if(EditForm.pdID.value.length==0){
+      EditForm.pdID.focus(); 
+      return;
+    }
+    
+      EditForm.pdID.value = formatDocumentID(EditForm.pdID.value); 
+      
     if(sPD.indexOf(EditForm.pdID.value) > -1){
       alertDialog("web.assets","documentAlreadySelected");
       //EditForm.pdID.focus();
@@ -1676,7 +1744,7 @@
         tr.appendChild(td);
 
         td = tr.insertCell(1);
-        td.innerHTML = "&nbsp;"+EditForm.pdID.value;
+        td.innerHTML = "&nbsp;"+makeDocumentLink(EditForm.pdID.value,"purchaseDocumentMsgDiv");
         tr.appendChild(td);
                   
         <%-- empty cell --%>
@@ -1723,6 +1791,8 @@
 
   <%-- UPDATE PURCHASE DOCUMENT --%>
   function updatePD(){
+    $("purchaseDocumentMsgDiv").innerHTML = "";
+        
     if(areRequiredPDFieldsFilled()){
       <%-- update arrayString --%>
       var newRow = editPDRowid.id+"="+EditForm.pdID.value;
@@ -1738,8 +1808,8 @@
                                 "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                                "</a>";
 
-      row.cells[1].innerHTML = "&nbsp;"+EditForm.pdID.value;
-                        
+      row.cells[1].innerHTML = "&nbsp;"+makeDocumentLink(EditForm.pdID.value,"purchaseDocumentMsgDiv");
+                                            
       <%-- empty cell --%>
       row.cells[2].innerHTML = "&nbsp;";
 
@@ -1762,11 +1832,13 @@
 
   <%-- CLEAR PURCHASE DOCUMENT FIELDS --%>
   function clearPDFields(){
+    $("purchaseDocumentMsgDiv").innerHTML = "";
     EditForm.pdID.value = "";
   }
 
   <%-- CLEAR PURCHASE DOCUMENT TABLE --%>
   function clearPDTable(){
+    $("purchaseDocumentMsgDiv").innerHTML = "";
     $("purchaseDocuments").value = "";
     var table = document.getElementById("tblPD");
     
@@ -1777,6 +1849,8 @@
   
   <%-- DELETE PURCHASE DOCUMENT --%>
   function deletePD(rowid){
+    $("purchaseDocumentMsgDiv").innerHTML = "";
+        
     var answer = yesnoDialog("web","areYouSureToDelete");
     if(answer==1){
       sPD = deleteRowFromArrayString(sPD,rowid.id);
@@ -1789,6 +1863,7 @@
 
   <%-- EDIT PURCHASE DOCUMENT --%>
   function editPD(rowid){
+    $("purchaseDocumentMsgDiv").innerHTML = "";
     var row = getRowFromArrayString(sPD,rowid.id);
 
     EditForm.pdID.value = getCelFromRowString(row,0);
@@ -1833,7 +1908,7 @@
           sTmpRP = sTmpRP.substring(sTmpRP.indexOf("$")+1);
         }
         
-        var sTotal = formatNumber(sTmpCapital*sTmpInterest/100,2);
+        var sTotal = formatNumber(sTmpCapital+sTmpInterest,2);
         
         sRP+= "rowRP"+iRPIndex+"="+sTmpDate+"|"+sTmpCapital+"|"+sTmpInterest+"$";
         displayReimbursementPlan(iRPIndex++,sTmpDate,sTmpCapital,sTmpInterest,sTotal);
@@ -1843,7 +1918,7 @@
   
   <%-- DISPLAY REIMBURSEMENT PLAN --%>
   function displayReimbursementPlan(iRPIndex,sDate,sCapital,sInterest,sTotal){
-    var tr = tblRP.insertRow(tblRP.rows.length);
+    var tr = tblRP.insertRow(tblRP.rows.length-1);
     tr.id = "rowRP"+iRPIndex;
 
     var td = tr.insertCell(0);
@@ -1882,6 +1957,52 @@
     setRowStyle(tr,iRPIndex-1);
   }
   
+  <%-- DISPLAY REIMBURSEMENT TOTALS --%>
+  function displayReimbursementTotals(capitalTotal,interestTotal,amountTotal){
+    var tr = tblRP.insertRow(tblRP.rows.length);  
+    tr.id = "totalRP"+iRPIndex;
+
+    <%-- empty cell --%>
+    var td = tr.insertCell(0);
+    td.style.backgroundColor = "#C3D9FF";
+    td.innerHTML = "&nbsp;";  
+    tr.appendChild(td);
+
+    <%-- empty cell --%>
+    td = tr.insertCell(1);
+    td.style.backgroundColor = "#C3D9FF";
+    td.innerHTML = "<%=getTranNoLink("web","totals",sWebLanguage)%>&nbsp;";
+    td.align = "right";        
+    tr.appendChild(td);
+
+    <%-- capital total --%>
+    td = tr.insertCell(2);
+    td.style.backgroundColor = "#C3D9FF";
+    td.align = "right";            
+    td.innerHTML = "&nbsp;<span id='loanReimbursementCapitalTotal' style='searchResults' style='vertical-align:-3px;color:#505050;padding:3px;width:50px;height:18px;border:1px solid #ccc;background:#f0f0f0;'>"+capitalTotal+"</span> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;";
+    tr.appendChild(td);
+
+    <%-- interest total --%>
+    td = tr.insertCell(3);
+    td.style.backgroundColor = "#C3D9FF";
+    td.align = "right";
+    td.innerHTML = "&nbsp;<span id='loanReimbursementInterestTotal' style='searchResults' style='vertical-align:-3px;color:#505050;padding:3px;width:50px;height:18px;border:1px solid #ccc;background:#f0f0f0;'>"+interestTotal+"</span> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;";
+    tr.appendChild(td);
+
+    <%-- amount total --%>
+    td = tr.insertCell(4);
+    td.style.backgroundColor = "#C3D9FF";
+    td.align = "right";
+    td.innerHTML = "&nbsp;<span id='loanReimbursementAmount' style='searchResults' style='vertical-align:-3px;color:#505050;padding:3px;width:50px;height:18px;border:1px solid #ccc;background:#f0f0f0;'>"+amountTotal+"</span> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;";
+    tr.appendChild(td);
+               
+    <%-- empty cell --%>
+    td = tr.insertCell(5);
+    td.style.backgroundColor = "#C3D9FF";
+    td.innerHTML = "&nbsp;";
+    tr.appendChild(td);    
+  }
+  
   <%-- ADD REIMBURSEMENT PLAN --%>
   function addRP(){
     if(countSelectedRPs() <= 20){
@@ -1891,7 +2012,7 @@
         <%-- update arrayString --%>
         sRP+="rowRP"+iRPIndex+"="+EditForm.rpDate.value+"|"+EditForm.rpCapital.value+"|"+EditForm.rpInterest.value+"$";
         
-        var tr = tblRP.insertRow(tblRP.rows.length);
+        var tr = tblRP.insertRow(tblRP.rows.length-1);
         tr.id = "rowRP"+iRPIndex;
 
         var td = tr.insertCell(0);
@@ -1933,7 +2054,7 @@
         clearRPFields()
         EditForm.ButtonUpdateRP.disabled = true;
       
-        calculateTotalReimbursementAmount();
+        calculateReimbursementTotals();
       }
       else{
         alertDialog("web.manage","dataMissing");
@@ -1997,7 +2118,7 @@
       clearRPFields();
       EditForm.ButtonUpdateRP.disabled = true;
       
-      calculateTotalReimbursementAmount();
+      calculateReimbursementTotals();
     }
     else{
       alertDialog("web.manage","dataMissing");
@@ -2021,18 +2142,21 @@
     EditForm.rpDate.value = "";
     EditForm.rpCapital.value = "";
     EditForm.rpInterest.value = "";  
+    
     document.getElementById("rpTotal").innerHTML = "";
   }
 
   <%-- CLEAR REIMBURSEMENT PLAN TABLE --%>
   function clearRPTable(){
     $("loanReimbursementPlan").value = "";
-    var table = document.getElementById("tblRP");
     
-    for(var i=table.rows.length; i>2; i--){
+    var table = document.getElementById("tblRP");    
+    for(var i=table.rows.length-1; i>2; i--){
       table.deleteRow(i-1);
     }
 
+    document.getElementById("loanReimbursementCapitalTotal").innerHTML = "";
+    document.getElementById("loanReimbursementInterestTotal").innerHTML = "";
     document.getElementById("loanReimbursementAmount").innerHTML = "";
   }
   
@@ -2045,7 +2169,7 @@
 
       updateRowStylesSpecificTable("tblRP",2);
       clearRPFields();
-      calculateTotalReimbursementAmount();
+      calculateReimbursementTotals();
     }
   }
 
@@ -2058,7 +2182,7 @@
     EditForm.rpInterest.value = getCelFromRowString(row,2);
 
     <%-- calculate total --%>
-    document.getElementById("rpTotal").innerHTML = formatNumber(EditForm.rpCapital.value*EditForm.rpInterest.value/100,2); 
+    document.getElementById("rpTotal").innerHTML = formatNumber(EditForm.rpCapital.value+EditForm.rpInterest.value,2); 
         
     editRPRowid = rowid;
     EditForm.ButtonUpdateRP.disabled = false;
@@ -2096,6 +2220,8 @@
   
   <%-- DISPLAY LOAN DOCUMENT --%>
   function displayLoanDocument(iLDIndex,sID){
+    $("loanDocumentMsgDiv").innerHTML = "";
+	
     var tr = tblLD.insertRow(tblLD.rows.length);
     tr.id = "rowLD"+iLDIndex;
 
@@ -2109,7 +2235,7 @@
     tr.appendChild(td);
 
     td = tr.insertCell(1);
-    td.innerHTML = "&nbsp;"+sID;
+    td.innerHTML = "&nbsp;"+makeDocumentLink(sID,"loanDocumentMsgDiv");
     tr.appendChild(td);
                
     <%-- empty cell --%>
@@ -2122,6 +2248,13 @@
   
   <%-- ADD LOAN DOCUMENT --%>
   function addLD(){
+    $("loanDocumentMsgDiv").innerHTML = "";
+	    
+    if(EditForm.ldID.value.length==0){
+      EditForm.ldID.focus(); 
+      return;
+    }
+    
     EditForm.ldID.value = formatDocumentID(EditForm.ldID.value);
       
     if(sLD.indexOf(EditForm.ldID.value) > -1){
@@ -2150,7 +2283,7 @@
         tr.appendChild(td);
 
         td = tr.insertCell(1);
-        td.innerHTML = "&nbsp;"+EditForm.ldID.value;
+        td.innerHTML = "&nbsp;"+makeDocumentLink(EditForm.ldID.value,"loanDocumentMsgDiv");
         tr.appendChild(td);
                   
         <%-- empty cell --%>
@@ -2196,13 +2329,13 @@
 
     if(docID.length==11){
       var part1 = docID.substr(0,9),
-	      part2 = docID.substr(9,2);
-	
+          part2 = docID.substr(9,2);
+    
       return part1+"-"+part2;
-	}
-	else{
+    }
+    else{
       return docID;
-	}
+    }
   }
   
   <%-- COUNT SELECTED LDS --%>
@@ -2213,6 +2346,8 @@
   
   <%-- UPDATE LOAN DOCUMENT --%>
   function updateLD(){
+    $("loanDocumentMsgDiv").innerHTML = "";
+    
     if(areRequiredLDFieldsFilled()){        
       <%-- update arrayString --%>
       var newRow = editLDRowid.id+"="+EditForm.ldID.value;
@@ -2228,7 +2363,7 @@
                                 "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                                "</a>";
 
-      row.cells[1].innerHTML = "&nbsp;"+EditForm.ldID.value;
+      row.cells[1].innerHTML = "&nbsp;"+makeDocumentLink(EditForm.ldID.value,"loanDocumentMsgDiv");
                         
       <%-- empty cell --%>
       row.cells[2].innerHTML = "&nbsp;";
@@ -2252,14 +2387,16 @@
 
   <%-- CLEAR LOAN DOCUMENT FIELDS --%>
   function clearLDFields(){
+    $("loanDocumentMsgDiv").innerHTML = "";
     EditForm.ldID.value = "";  
   }
 
   <%-- CLEAR LOAN DOCUMENT TABLE --%>
   function clearLDTable(){
+    $("loanDocumentMsgDiv").innerHTML = "";
     $("loanDocuments").value = "";
-    var table = document.getElementById("tblLD");
     
+    var table = document.getElementById("tblLD");    
     for(var i=table.rows.length; i>2; i--){
       table.deleteRow(i-1);
     }
@@ -2267,6 +2404,8 @@
   
   <%-- DELETE LOAN DOCUMENT --%>
   function deleteLD(rowid){
+    $("loanDocumentMsgDiv").innerHTML = "";
+	    
     var answer = yesnoDialog("web","areYouSureToDelete");
     if(answer==1){
       sLD = deleteRowFromArrayString(sLD,rowid.id);
@@ -2279,6 +2418,7 @@
 
   <%-- EDIT LOAN DOCUMENT --%>
   function editLD(rowid){
+    $("loanDocumentMsgDiv").innerHTML = "";
     var row = getRowFromArrayString(sLD,rowid.id);
 
     EditForm.ldID.value = getCelFromRowString(row,0);
@@ -2287,5 +2427,6 @@
     EditForm.ButtonUpdateLD.disabled = false;
   }
   
+  newAsset();
   resizeAllTextareas(8);
 </script>

@@ -159,7 +159,11 @@
     ///////////////////////////////////////////////////////////////////////////
 
     Asset asset = Asset.get(sAssetUid);
-    double reimbursementAmount = asset.calculateReimbursementAmount();
+    
+    double[] totals = asset.calculateReimbursementTotals();
+    double reimbursementCapitalTotal  = totals[0],
+           reimbursementInterestTotal = totals[1],
+           reimbursementAmount        = totals[2];
     
     DecimalFormat deci = new DecimalFormat("0.00"); // do not display zeroes
 %>
@@ -186,6 +190,7 @@
   "receiptBy":"<%=HTMLEntities.htmlentities(asset.receiptBy)%>",
   "purchaseDocuments":"<%=HTMLEntities.htmlentities(asset.purchaseDocuments)%>",
   "writeOffMethod":"<%=HTMLEntities.htmlentities(asset.writeOffMethod)%>",
+  "writeOffPeriod":"<%=(asset.writeOffPeriod>-1?asset.writeOffPeriod:"")%>",
   "annuity":"<%=HTMLEntities.htmlentities(asset.annuity)%>",
   "characteristics":"<%=HTMLEntities.htmlentities(asset.characteristics.replaceAll("\r","").replaceAll("\r\n","<br>"))%>",
   "accountingCode":"<%=HTMLEntities.htmlentities(asset.accountingCode)%>",
@@ -205,7 +210,7 @@
           %>"losses":"",<% // empty
       }
   %>
-  "residualValueHistory":"<%=HTMLEntities.htmlentities(asset.calculateResidualValueHistory())%>",
+  "residualValueHistory":"<%=HTMLEntities.htmlentities(asset.calculateResidualValueHistory(sWebLanguage))%>",
   <%
       if(asset.loanDate!=null){
           %>"loanDate":"<%=ScreenHelper.stdDateFormat.format(asset.loanDate)%>",<%        
@@ -224,6 +229,8 @@
           %>"loanReimbursementPlan":"",<% // empty
       }
   %>
+  "loanReimbursementCapitalTotal":"<%=(reimbursementCapitalTotal>-1?deci.format(reimbursementCapitalTotal).replaceAll(",","."):"")%>",
+  "loanReimbursementInterestTotal":"<%=(reimbursementInterestTotal>-1?deci.format(reimbursementInterestTotal).replaceAll(",","."):"")%>",
   "loanReimbursementAmount":"<%=(reimbursementAmount>-1?deci.format(reimbursementAmount).replaceAll(",","."):"")%>",
   "loanComment":"<%=HTMLEntities.htmlentities(asset.loanComment.replaceAll("\r","").replaceAll("\r\n","<br>"))%>",
   "loanDocuments":"<%=HTMLEntities.htmlentities(asset.loanDocuments)%>",

@@ -180,6 +180,7 @@
            sReceiptBy     = checkString(request.getParameter("receiptBy")),
            sPurchaseDocuments = checkString(request.getParameter("purchaseDocuments")),
            sWriteOffMethod    = checkString(request.getParameter("writeOffMethod")),
+           sWriteOffPeriod    = checkString(request.getParameter("writeOffPeriod")),
            sAnnuity           = checkString(request.getParameter("annuity")),
            sCharacteristics   = checkString(request.getParameter("characteristics")),
            sAccountingCode    = checkString(request.getParameter("accountingCode")),
@@ -216,6 +217,7 @@
         Debug.println("sReceiptBy         : "+sReceiptBy);
         Debug.println("sPurchaseDocuments : "+sPurchaseDocuments);
         Debug.println("sWriteOffMethod    : "+sWriteOffMethod);
+        Debug.println("sWriteOffPeriod    : "+sWriteOffPeriod);
         Debug.println("sAnnuity           : "+sAnnuity);
         Debug.println("sCharacteristics   : "+sCharacteristics);
         Debug.println("sAccountingCode    : "+sAccountingCode);
@@ -278,6 +280,9 @@
     asset.receiptBy = sReceiptBy;
     asset.purchaseDocuments = sPurchaseDocuments;
     asset.writeOffMethod = sWriteOffMethod;
+    if(sWriteOffPeriod.length() > 0){
+        asset.writeOffPeriod = Integer.parseInt(sWriteOffPeriod);
+    }
     asset.annuity = sAnnuity;
     
     sCharacteristics = sCharacteristics.replaceAll("\r","");
@@ -295,13 +300,12 @@
         asset.loanAmount = Double.parseDouble(sLoanAmount);
     }
     
-    System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@ sLoanInterestRate : "+sLoanInterestRate); ///////////
     if(sLoanInterestRate.length() > 0){
         asset.loanInterestRate = sLoanInterestRate;
     }
     asset.loanReimbursementPlan = reimbursementPlanToXML(sLoanReimbursementPlan);
     
-    /* // calculated
+    /* // --> calculated
     if(sLoanReimbursementAmount.length() > 0){
         asset.loanReimbursementAmount = Integer.parseInt(sLoanReimbursementAmount);
     }
