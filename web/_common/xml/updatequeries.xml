@@ -176,4 +176,8 @@
   	<Query id="QUERY.hr.training.enableDiplomaCode.3" db="openclinic" date="14/05/2013" dbserver="MySQL">  	    
 	  	insert into oc_config(oc_key,oc_value,updateuserid,updatetime) values('enableDiplomaCode3','1',4,now())	  	 	
   	</Query>  	
+  	<Query id="QUERY.kigarama" db="admin" date="17/06/2013" dbserver="MySQL">  	    
+	  	delete from rwandazipcodes where zipcode='050513';
+	  	insert into rwandazipcodes(zipcode,district,city) values('050513','KIREHE','KIGARAMA')	  	 	
+  	</Query>  	
 </Queries>

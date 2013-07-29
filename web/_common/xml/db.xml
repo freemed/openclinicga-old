@@ -2211,6 +2211,7 @@
             <column name="OC_PATIENTINVOICE_INSURARREFERENCEDATE" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_ACCEPTATIONUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_VERIFIER" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_PATIENTINVOICE_COMMENT" dbtype="varchar" javatype="string" size="255"/>
         </columns>
 		<indexes>
 			<index name="OC_PATIENTINVOICE_OBJECTID">
@@ -2243,6 +2244,7 @@
             <column name="OC_PATIENTINVOICE_INSURARREFERENCEDATE" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_ACCEPTATIONUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PATIENTINVOICE_VERIFIER" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_PATIENTINVOICE_COMMENT" dbtype="varchar" javatype="string" size="255"/>
         </columns>
     </table>
 
