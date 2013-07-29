@@ -105,6 +105,9 @@ public class User extends OC_Object {
                 PreparedStatement ps = dbOpenClinic.prepareStatement(sSql);
                 int year = Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1;
                 java.util.Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+year);
+                if(startDate.before(new SimpleDateFormat("dd/MM/yyyy").parse(MedwanQuery.getInstance().getConfigString("resetUserDebetsDate","01/01/1900")))){
+                	startDate=new SimpleDateFormat("dd/MM/yyyy").parse(MedwanQuery.getInstance().getConfigString("resetUserDebetsDate","01/01/1900"));
+                }
                 ps.setDate(1, new java.sql.Date(startDate.getTime()));
                 ps.setInt(2,Integer.parseInt(userid));
                 ResultSet rs = ps.executeQuery();

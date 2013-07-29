@@ -57,6 +57,10 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             PatientInvoice invoice = PatientInvoice.get(sInvoiceUid);
 
             addReceipt(invoice);
+            if(MedwanQuery.getInstance().getConfigInt("pageBreakAfterReceiptForDefaultInvoice",0)==1){
+            	doc.newPage();
+            }
+
             addHeading(invoice);
             addPatientData();
             addEncounterData(invoice);
@@ -278,7 +282,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         for(int n=0;n<debets.size();n++){
             Debet debet = (Debet)debets.elementAt(n);
             String extraInsurar="";
-            if(debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
+            if(MedwanQuery.getInstance().getConfigInt("enableExtraInsurarDataForDebetsDefaultInvoice",1)==1 && debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
                 Insurar exIns = Insurar.get(debet.getExtraInsurarUid());
                 if(exIns!=null){
                     extraInsurar=" >>> "+ScreenHelper.checkString(exIns.getName());
@@ -892,7 +896,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         invoiceTable.addCell(createValueCell(sDebetDate,2));
         invoiceTable.addCell(createValueCell(sEncounterName,4));
         String extraInsurar="";
-        if(debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
+        if(MedwanQuery.getInstance().getConfigInt("enableExtraInsurarDataForDebetsDefaultInvoice",1)==1 && debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
             Insurar exIns = Insurar.get(debet.getExtraInsurarUid());
             if(exIns!=null){
                 extraInsurar=" >>> "+ScreenHelper.checkString(exIns.getName());
