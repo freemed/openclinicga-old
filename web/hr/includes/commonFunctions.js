@@ -31,6 +31,15 @@ function setRowStyle(row,rowIdx){
     }
   }
 }
+
+//-- UPDATE ROW STYLES SPECIFIC TABLE --
+function updateRowStylesSpecificTable(tableId,headerRowCount){
+  var tbl = document.getElementById(tableId);
+  
+  for(var i=headerRowCount; i<tbl.rows.length; i++){
+    setRowStyle(tbl.rows[i],i);
+  }
+}
           
 //-- DELETE ROW FROM ARRAY STRING --
 function deleteRowFromArrayString(sArray,rowid){
@@ -82,13 +91,14 @@ function replaceRowInArrayString(sArray,newRow,rowid){
 
 //-- UPDATE ROW STYLES --
 function updateRowStyles(){
-  for(var i=1; i<searchresults.rows.length; i++){
-    searchresults.rows[i].className = "";
-    searchresults.rows[i].style.cursor = "hand";
-  }
+  if(document.getElementById("searchresults")!=null){
+    for(var i=1; i<searchresults.rows.length; i++){
+      searchresults.rows[i].className = "";
+      searchresults.rows[i].style.cursor = "hand";
+    }
 
-  for(var i=1; i<searchresults.rows.length; i++){
-    if(i%2==0) searchresults.rows[i].className = "list";
-    else       searchresults.rows[i].className = "list1";
+    for(var i=1; i<searchresults.rows.length; i++){
+      setRowStyle(searchresults.rows[i],i);
+    }
   }
 }
