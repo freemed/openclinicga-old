@@ -16,7 +16,12 @@
         PatientInvoice invoice = PatientInvoice.get(sInvoiceUid);
         sProject = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
         PDFInvoiceGenerator pdfGenerator;
-       	pdfGenerator = new PDFPatientInvoiceReceiptGenerator(activeUser,invoice.getPatient(),sProject,sPrintLanguage);
+        if(MedwanQuery.getInstance().getConfigInt("enablePatientInvoiceReceiptCPLR",0)==1){
+        	pdfGenerator = new PDFPatientInvoiceReceiptGeneratorCPLR(activeUser,invoice.getPatient(),sProject,sPrintLanguage);
+        }
+        else{
+        	pdfGenerator = new PDFPatientInvoiceReceiptGenerator(activeUser,invoice.getPatient(),sProject,sPrintLanguage);
+        }
         baosPDF = pdfGenerator.generatePDFDocumentBytes(request,sInvoiceUid);
 
         StringBuffer sbFilename = new StringBuffer();

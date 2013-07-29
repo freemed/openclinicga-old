@@ -14,6 +14,7 @@
     String sEditInvoiceVerifier = checkString(request.getParameter("EditInvoiceVerifier"));
     String sEditInsurarReferenceDate = checkString(request.getParameter("EditInsurarReferenceDate"));
     String sEditReduction = checkString(request.getParameter("EditReduction"));
+    String sEditComment = checkString(request.getParameter("EditComment"));
 	
     PatientInvoice patientinvoice = new PatientInvoice();
     AdminPerson invoicePatient=activePatient;
@@ -40,6 +41,7 @@
     patientinvoice.setInsurarreference(sEditInsurarReference);
     patientinvoice.setInsurarreferenceDate(sEditInsurarReferenceDate);
     patientinvoice.setVerifier(sEditInvoiceVerifier);
+    patientinvoice.setComment(sEditComment);
 	if(!sEditInvoiceSeries.equalsIgnoreCase("") && checkString(patientinvoice.getNumber()).length()==0){
 		patientinvoice.setNumber(sEditInvoiceSeries+"."+MedwanQuery.getInstance().getOpenclinicCounter(sEditInvoiceSeries));
 	}
@@ -169,6 +171,7 @@
 {
 "Message":"<%=HTMLEntities.htmlentities(sMessage)%>",
 "EditPatientInvoiceUID":"<%=patientinvoice.getUid()%>",
+"EditComment":"<%=checkString(patientinvoice.getComment())%>",
 "EditInsurarReference":"<%=patientinvoice.getInsurarreference()%>",
 "EditInsurarReferenceDate":"<%=patientinvoice.getInsurarreferenceDate()%>",
 "EditInvoiceUID":"<%=patientinvoice.getInvoiceUid()%>"

@@ -53,7 +53,7 @@
 
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
 	PatientInvoice patientInvoice;
-    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", sInsurarReferenceDate="", sVerifier="";
+    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", sInsurarReferenceDate="", sVerifier="",sEditComment="";
 
     if (sFindPatientInvoiceUID.length() > 0) {
         patientInvoice = PatientInvoice.getViaInvoiceUID(sFindPatientInvoiceUID);
@@ -75,6 +75,7 @@
             sInsurarReference=checkString(patientInvoice.getInsurarreference());
             sInsurarReferenceDate=checkString(patientInvoice.getInsurarreferenceDate());
             sVerifier=checkString(patientInvoice.getVerifier());
+            sEditComment=checkString(patientInvoice.getComment());
         }
         else{
         	out.println(getTran("web","invoice.does.not.exist",sWebLanguage)+": "+sFindPatientInvoiceUID);
@@ -187,10 +188,11 @@
 	
 	                %>
 	            </td>
-	            <td class="admin" nowrap><%=getTran("web.finance","insurarreference",sWebLanguage)%></td>
+	            <td class="admin" nowrap><%=getTran("web.finance","insurarreference",sWebLanguage)%><BR/><%=getTran("web.finance","otherreference",sWebLanguage)%></td>
 	            <td class="admin2">
 	                <input type="text" size="40" class="text" id="EditInsurarReference" name="EditInsurarReference" value="<%=sInsurarReference%>">
-	                <%=getTran("web","date",sWebLanguage)%>: <%=writeDateField("EditInsurarReferenceDate","EditForm",sInsurarReferenceDate,sWebLanguage)%>
+	                <%=getTran("web","date",sWebLanguage)%>: <%=writeDateField("EditInsurarReferenceDate","EditForm",sInsurarReferenceDate,sWebLanguage)%><BR/>
+	                <input type="text" size="40" class="text" id="EditComment" name="EditComment" value="<%=sEditComment%>">
 	            </td>
 	        </tr>
 	        <%
@@ -554,6 +556,7 @@
 		                          +'&EditInsurarReferenceDate='+EditForm.EditInsurarReferenceDate.value
 		                          +'&EditInvoiceVerifier='+document.getElementById('EditInvoiceVerifier').value
 		                          +'&EditReduction='+red
+		                          +'&EditComment='+document.getElementById('EditComment').value
 		                          +'&EditBalance=' + document.getElementById('EditBalance').value,
 		                  onSuccess: function(resp){
 		                      var label = eval('('+resp.responseText+')');
@@ -561,6 +564,7 @@
 		                      $('EditPatientInvoiceUID').value=label.EditPatientInvoiceUID;
 		                      $('EditInvoiceUID').value=label.EditInvoiceUID;
 		                      $('EditInvoiceUIDText').value=label.EditInvoiceUID;
+		                      $('EditComment').value=label.EditComment;
 		                      $('EditInsurarReference').value=label.EditInsurarReference;
 		                      $('EditInsurarReferenceDate').value=label.EditInsurarReferenceDate;
 		                      $('FindPatientInvoiceUID').value=label.EditInvoiceUID;
