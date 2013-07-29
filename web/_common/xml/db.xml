@@ -126,7 +126,7 @@
           <indexcolumn order="ASC" name="HR_CAREER_OBJECTID"/>
         </index>
         <index name="HR_CAREER_PERSONID">
-          <indexcolumn "ASC" name="HR_CAREER_PERSONID"/>
+          <indexcolumn order="ASC" name="HR_CAREER_PERSONID"/>
         </index>
         <index name="HR_CAREER_CONTRACTUID">
           <indexcolumn order="ASC" name="HR_CAREER_CONTRACTUID"/>
@@ -156,7 +156,7 @@
           <indexcolumn order="ASC" name="HR_DISCREC_OBJECTID"/>
         </index>
         <index name="HR_DISCREC_PERSONID">
-          <indexcolumn "ASC" name="HR_DISCREC_PERSONID"/>
+          <indexcolumn order="ASC" name="HR_DISCREC_PERSONID"/>
         </index>
       </indexes>
     </table>
@@ -186,7 +186,7 @@
           <indexcolumn order="ASC" name="HR_CONTRACT_OBJECTID"/>
         </index>
         <index name="HR_CONTRACT_PERSONID">
-          <indexcolumn "ASC" name="HR_CONTRACT_PERSONID"/>
+          <indexcolumn order="ASC" name="HR_CONTRACT_PERSONID"/>
         </index>
       </indexes>
     </table>
@@ -215,7 +215,7 @@
           <indexcolumn order="ASC" name="HR_LEAVE_OBJECTID"/>
         </index>
         <index name="HR_LEAVE_PERSONID">
-          <indexcolumn "ASC" name="HR_LEAVE_PERSONID"/>
+          <indexcolumn order="ASC" name="HR_LEAVE_PERSONID"/>
         </index>
       </indexes>
     </table>  
@@ -246,7 +246,7 @@
           <indexcolumn order="ASC" name="HR_TRAINING_OBJECTID"/>
         </index>
         <index name="HR_TRAINING_PERSONID">
-          <indexcolumn "ASC" name="HR_TRAINING_PERSONID"/>
+          <indexcolumn order="ASC" name="HR_TRAINING_PERSONID"/>
         </index>
       </indexes>
     </table>    
@@ -274,7 +274,7 @@
           <indexcolumn order="ASC" name="HR_SKILL_OBJECTID"/>
         </index>
         <index name="HR_SKILL_PERSONID">
-          <indexcolumn "ASC" name="HR_SKILL_PERSONID"/>
+          <indexcolumn order="ASC" name="HR_SKILL_PERSONID"/>
         </index>
       </indexes>
     </table> 
@@ -298,7 +298,7 @@
           <indexcolumn order="ASC" name="HR_WORKSCHEDULE_OBJECTID"/>
         </index>
         <index name="HR_WORKSCHEDULE_PERSONID">
-          <indexcolumn "ASC" name="HR_WORKSCHEDULE_PERSONID"/>
+          <indexcolumn order="ASC" name="HR_WORKSCHEDULE_PERSONID"/>
         </index>
       </indexes>
     </table>      
@@ -328,7 +328,7 @@
           <indexcolumn order="ASC" name="HR_SALARY_OBJECTID"/>
         </index>
         <index name="HR_SALARY_PERSONID">
-          <indexcolumn "ASC" name="HR_SALARY_PERSONID"/>
+          <indexcolumn order="ASC" name="HR_SALARY_PERSONID"/>
         </index>
       </indexes>
     </table>  
@@ -374,7 +374,7 @@
           <indexcolumn order="ASC" name="OC_ASSET_OBJECTID"/>
         </index>
         <index name="OC_ASSET_CODE">
-          <indexcolumn "ASC" name="OC_ASSET_CODE"/>
+          <indexcolumn order="ASC" name="OC_ASSET_CODE"/>
         </index>
         <index name="OC_ASSET_SERIAL">
           <indexcolumn order="ASC" name="OC_ASSET_SERIAL"/>
@@ -412,7 +412,7 @@
           <indexcolumn order="ASC" name="OC_SUPPLIER_OBJECTID"/>
         </index>
         <index name="OC_SUPPLIER_CODE">
-          <indexcolumn "ASC" name="OC_SUPPLIER_CODE"/>
+          <indexcolumn order="ASC" name="OC_SUPPLIER_CODE"/>
         </index>
         <index name="OC_SUPPLIER_NAME">
           <indexcolumn order="ASC" name="OC_SUPPLIER_NAME"/>
