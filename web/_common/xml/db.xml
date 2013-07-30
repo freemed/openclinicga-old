@@ -422,6 +422,61 @@
         </index>
       </indexes>
     </table>
+    
+    <table name="OC_MAINTENANCEPLANS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="OC_MAINTENANCEPLAN_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="OC_MAINTENANCEPLAN_OBJECTID" dbtype="int" javatype="integer"/>
+	     
+        <column name="OC_MAINTENANCEPLAN_NAME" dbtype="varchar" javatype="string" size="255"/>
+        <column name="OC_MAINTENANCEPLAN_ASSETUID" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="OC_MAINTENANCEPLAN_STARTDATE" dbtype="datetime" javatype="date"/> 
+ 	    <column name="OC_MAINTENANCEPLAN_FREQUENCY" dbtype="int" javatype="integer" />
+ 	    <column name="OC_MAINTENANCEPLAN_OPERATOR" dbtype="varchar" javatype="string" size="255"/> 
+    	<column name="OC_MAINTENANCEPLAN_PLANMANAGER" dbtype="varchar" javatype="string" size="255"/> 
+    	<column name="OC_MAINTENANCEPLAN_INSTRUCTIONS" dbtype="text" javatype="string"/>     
+  	     
+	    <column name="OC_MAINTENANCEPLAN_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="OC_MAINTENANCEPLAN_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="OC_MAINTENANCEPLAN_OBJECTID">
+          <indexcolumn order="ASC" name="OC_MAINTENANCEPLAN_OBJECTID"/>
+        </index>
+        <index name="OC_MAINTENANCEPLAN_ASSETUID">
+          <indexcolumn order="ASC" name="OC_MAINTENANCEPLAN_ASSETUID"/>
+        </index>
+      </indexes>
+    </table>
+    
+    <table name="OC_MAINTENANCEOPERATIONS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="OC_MAINTENANCEOPERATION_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="OC_MAINTENANCEOPERATION_OBJECTID" dbtype="int" javatype="integer"/>
+	     
+        <column name="OC_MAINTENANCEOPERATION_NAME" dbtype="varchar" javatype="string" size="255"/>
+        <column name="OC_MAINTENANCEOPERATION_MAINTENANCEPLANUID" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="OC_MAINTENANCEOPERATION_DATE" dbtype="datetime" javatype="date"/>
+ 	    <column name="OC_MAINTENANCEOPERATION_OPERATOR" dbtype="varchar" javatype="string" size="255"/> 
+    	<column name="OC_MAINTENANCEOPERATION_RESULT" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="OC_MAINTENANCEOPERATION_COMMENT" dbtype="varchar" javatype="string" size="255"/> 
+    	<column name="OC_MAINTENANCEOPERATION_NEXTDATE" dbtype="datetime" javatype="date"/>     
+  	     
+	    <column name="OC_MAINTENANCEOPERATION_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="OC_MAINTENANCEOPERATION_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="OC_MAINTENANCEOPERATION_OBJECTID">
+          <indexcolumn order="ASC" name="OC_MAINTENANCEOPERATION_OBJECTID"/>
+        </index>
+        <index name="OC_MAINTENANCEOPERATION_MAINTENANCEPLANUID">
+          <indexcolumn order="ASC" name="OC_MAINTENANCEOPERATION_MAINTENANCEPLANUID"/>
+        </index>
+        <index name="OC_MAINTENANCEOPERATION_DATE">
+          <indexcolumn order="ASC" name="OC_MAINTENANCEOPERATION_DATE"/>
+        </index>
+      </indexes>
+    </table>
         
     <!-- ####################################### VARIA TABLES ##################################### -->
     <table name="OC_POINTERS" db="openclinic" sync="NONE">
