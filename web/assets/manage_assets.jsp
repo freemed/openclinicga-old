@@ -2221,7 +2221,7 @@
   <%-- DISPLAY LOAN DOCUMENT --%>
   function displayLoanDocument(iLDIndex,sID){
     $("loanDocumentMsgDiv").innerHTML = "";
-	
+    
     var tr = tblLD.insertRow(tblLD.rows.length);
     tr.id = "rowLD"+iLDIndex;
 
@@ -2249,7 +2249,7 @@
   <%-- ADD LOAN DOCUMENT --%>
   function addLD(){
     $("loanDocumentMsgDiv").innerHTML = "";
-	    
+        
     if(EditForm.ldID.value.length==0){
       EditForm.ldID.focus(); 
       return;
@@ -2405,7 +2405,7 @@
   <%-- DELETE LOAN DOCUMENT --%>
   function deleteLD(rowid){
     $("loanDocumentMsgDiv").innerHTML = "";
-	    
+        
     var answer = yesnoDialog("web","areYouSureToDelete");
     if(answer==1){
       sLD = deleteRowFromArrayString(sLD,rowid.id);
