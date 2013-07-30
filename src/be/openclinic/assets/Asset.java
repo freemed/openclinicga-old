@@ -99,6 +99,46 @@ public class Asset extends OC_Object {
         saleValue = -1;
         saleClient = "";       
     }
+    
+    //--- GET CODE --------------------------------------------------------------------------------
+    public static String getCode(String sAssetUID){
+    	String sAssetCode = "";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        
+        try{
+            String sSql = "SELECT OC_ASSET_CODE FROM OC_ASSETS"+
+                          " WHERE (OC_ASSET_SERVERID = ? AND OC_ASSET_OBJECTID = ?)";
+            ps = oc_conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(sAssetUID.substring(0,sAssetUID.indexOf("."))));
+            ps.setInt(2,Integer.parseInt(sAssetUID.substring(sAssetUID.indexOf(".")+1)));
+
+            // execute
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	sAssetCode = ScreenHelper.checkString(rs.getString("OC_ASSET_CODE"));
+            }
+        }
+        catch(Exception e){
+        	if(Debug.enabled) e.printStackTrace();
+            Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                Debug.printProjectErr(se,Thread.currentThread().getStackTrace());
+            }
+        }
+        
+    	return sAssetCode;
+    }
         
     //--- STORE -----------------------------------------------------------------------------------
     public boolean store(String userUid){

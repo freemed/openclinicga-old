@@ -71,7 +71,7 @@ public class Supplier extends OC_Object {
         try{            
             if(getUid().equals("-1")){            	  
                 // insert new supplier
-                sSql = "INSERT INTO OC_SUPPLIERs(OC_SUPPLIER_SERVERID,OC_SUPPLIER_OBJECTID,OC_SUPPLIER_CODE,OC_SUPPLIER_NAME,"+
+                sSql = "INSERT INTO OC_SUPPLIERS(OC_SUPPLIER_SERVERID,OC_SUPPLIER_OBJECTID,OC_SUPPLIER_CODE,OC_SUPPLIER_NAME,"+
                        "  OC_SUPPLIER_ADDRESS,OC_SUPPLIER_CITY,OC_SUPPLIER_ZIPCODE,OC_SUPPLIER_COUNTRY,OC_SUPPLIER_VAT,"+
                 	   "  OC_SUPPLIER_TAXID,OC_SUPPLIER_CONTACT,OC_SUPPLIER_TELEPHONE,OC_SUPPLIER_EMAIL,OC_SUPPLIER_ACCOUNTINGCODE,"+
                        "  OC_SUPPLIER_COMMENT,OC_SUPPLIER_UPDATETIME,OC_SUPPLIER_UPDATEID)"+
@@ -107,7 +107,7 @@ public class Supplier extends OC_Object {
             } 
             else{
                 // update existing record
-                sSql = "UPDATE OC_SUPPLIERs SET"+
+                sSql = "UPDATE OC_SUPPLIERS SET"+
                        "  OC_SUPPLIER_CODE = ?, OC_SUPPLIER_NAME = ?, OC_SUPPLIER_ADDRESS = ?, OC_SUPPLIER_CITY = ?,"+
                 	   "  OC_SUPPLIER_ZIPCODE = ?, OC_SUPPLIER_COUNTRY = ?, OC_SUPPLIER_VAT = ?, OC_SUPPLIER_TAXID = ?,"+
                        "  OC_SUPPLIER_CONTACT = ?, OC_SUPPLIER_TELEPHONE = ?, OC_SUPPLIER_EMAIL = ?, OC_SUPPLIER_ACCOUNTINGCODE = ?,"+
@@ -170,7 +170,7 @@ public class Supplier extends OC_Object {
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         
         try{
-            String sSql = "DELETE FROM OC_SUPPLIERs"+
+            String sSql = "DELETE FROM OC_SUPPLIERS"+
                           " WHERE (OC_SUPPLIER_SERVERID = ? AND OC_SUPPLIER_OBJECTID = ?)";
             ps = oc_conn.prepareStatement(sSql);
             ps.setInt(1,Integer.parseInt(ssupplierUid.substring(0,ssupplierUid.indexOf("."))));
@@ -210,7 +210,7 @@ public class Supplier extends OC_Object {
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         
         try{
-            String sSql = "SELECT * FROM OC_SUPPLIERs"+
+            String sSql = "SELECT * FROM OC_SUPPLIERS"+
                           " WHERE (OC_SUPPLIER_SERVERID = ? AND OC_SUPPLIER_OBJECTID = ?)";
             ps = oc_conn.prepareStatement(sSql);
             ps.setInt(1,Integer.parseInt(ssupplierUid.substring(0,ssupplierUid.indexOf("."))));
