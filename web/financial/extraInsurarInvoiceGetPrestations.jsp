@@ -114,7 +114,7 @@
         return sReturn.toString();
     }
 
-    private String addPeriodDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked,String sEditBegin,String sEditEnd) {
+    private String addPeriodDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked,String sEditBegin,String sEditEnd,String sServiceUid) {
         StringBuffer sReturn = new StringBuffer();
         Date begin = null, end =null;
         try{
@@ -161,6 +161,11 @@
                         }
                         if(end!=null & end.before(debet.getDate())){
                             continue;
+                        }
+                        if(sServiceUid.length()>0){
+                       		if(sServiceUid.indexOf("'"+debet.determineServiceUid()+"'")<0){
+                       			continue;
+                       		}
                         }
 
                         if(!oldname.equalsIgnoreCase(debet.getPatientName())){
@@ -251,6 +256,10 @@
         <td width="100"><%=HTMLEntities.htmlentities(getTran("web","amount",sWebLanguage))%></td>
     </tr>
 <%
+	String sServiceUid = checkString(request.getParameter("EditInvoiceService"));
+	if(sServiceUid.length()>0){
+		sServiceUid = Service.getChildIdsAsString(sServiceUid);
+	}
     String sEditInsurarInvoiceUID = checkString(request.getParameter("EditInsurarInvoiceUID"));
     String sEditBegin = checkString(request.getParameter("EditBegin"));
     String sEditEnd = checkString(request.getParameter("EditEnd"));
@@ -276,7 +285,7 @@
         }
         catch(Exception e){}
         Vector vUnassignedDebets = Debet.getUnassignedExtraInsurarDebets(sInsurarUid,begin,end);
-        out.print(addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,sEditBegin,sEditEnd));
+        out.print(addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,sEditBegin,sEditEnd,sServiceUid));
     }
     else {
     }

@@ -428,7 +428,7 @@
 							<%if(!isInsuranceAgent){ %>
 	                        <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf('<%=patientInvoice.getUid()%>');">
 	                        <%} %>
-	                        <%if(MedwanQuery.getInstance().getConfigInt("enableProformaPatientInvoice",1)==1 || activeUser.getAccessRight("financial.printproformapatientinvoice.select")){ %>
+	                        <%if(MedwanQuery.getInstance().getConfigInt("enableProformaPatientInvoice",0)==1 || activeUser.getAccessRight("financial.printproformapatientinvoice.select")){ %>
 	                        <input class="button" type="button" name="buttonPrint" value='PROFORMA' onclick="doPrintProformaPdf('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                          }

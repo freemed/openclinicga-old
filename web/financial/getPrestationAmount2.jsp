@@ -5,6 +5,12 @@
 <%
 	double dPatientAmount=0,dInsurarAmount=0,dPatientAmount2=0,dInsurarAmount2=0,dCoverage1,dCoverage2;
 	String sPrestationUIDs = checkString(request.getParameter("PrestationUIDs"));
+	String sDebetDate = checkString(request.getParameter("EditDate"));
+	java.util.Date dDebetDate=null;
+	try{
+		dDebetDate=new SimpleDateFormat("dd/MM/yyyy").parse(sDebetDate);
+	}
+	catch(Exception e){}
 	String sPrestationUID = checkString(request.getParameter("PrestationUID"));
 	String sEditDebetUID = checkString(request.getParameter("EditDebetUID"));
 	String sPrestationGroupUID = checkString(request.getParameter("PrestationGroupUID"));
@@ -53,7 +59,7 @@
         "<td><b>"+getTranNoLink("web","service",sWebLanguage)+"</b></td>"+
         "</tr>";
 		for(int n=0;n<prestations.length;n++){
-	        Prestation prestation = Prestation.get(prestations[n].split("=")[0]);
+	        Prestation prestation = Prestation.get(prestations[n].split("=")[0],dDebetDate);
 	        quantity=Integer.parseInt(prestations[n].split("=")[1]);
 	        if (insurance != null) {
 	            bestInsurance=insurance;
@@ -148,7 +154,7 @@
 	        
 	        //Check if anesthesia prestation must be added
 	        if(prestation!=null && prestation.getAnesthesiaPercentage()>0){
-	        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""));
+	        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""),dDebetDate);
 	        	if(anesthesiaPrestation!=null){
 	        		baseInsurar=0;
 	    	        if (insurance != null) {
@@ -249,7 +255,7 @@
         else {
             insurance = Insurance.get(sInsuranceUID);
         }
-        Prestation prestation = Prestation.get(sPrestationUID);
+        Prestation prestation = Prestation.get(sPrestationUID,dDebetDate);
         if (insurance != null) {
             bestInsurance=insurance;
             type = insurance.getType();
@@ -321,9 +327,6 @@
         prestationcontent+="<tr><td><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>";
-        System.out.println("1: "+MedwanQuery.getInstance().getConfigInt("enableMFP",0));
-        System.out.println("2: "+MedwanQuery.getInstance().getConfigString("MFP","0"));
-        System.out.println("3: "+insurance.getInsurarUid());
 		if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
 			prestationcontent+="<td><b>"+getTran("web.finance","base.insurar",sWebLanguage)+"</b></td>";
 		}
@@ -353,7 +356,7 @@
 
         //Check if anesthesia prestation must be added
         if(prestation!=null && prestation.getAnesthesiaPercentage()>0 && (sEditDebetUID.length()==0 || sEditDebetUID.split("\\.").length<2)){
-        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""));
+        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""),dDebetDate);
         	if(anesthesiaPrestation!=null){
         		baseInsurar=0;
     	        if (insurance != null) {
@@ -469,7 +472,7 @@
         "<td><b>"+getTranNoLink("web","service",sWebLanguage)+"</b></td>"+
         "</tr>";
 		while(rs.next()){
-	        Prestation prestation = Prestation.get(rs.getString("oc_prestationgroup_prestationuid"));
+	        Prestation prestation = Prestation.get(rs.getString("oc_prestationgroup_prestationuid"),dDebetDate);
 	        if (insurance != null) {
 	            bestInsurance=insurance;
 	            type = insurance.getType();
@@ -562,7 +565,7 @@
 
 	        //Check if anesthesia prestation must be added
 	        if(prestation!=null && prestation.getAnesthesiaPercentage()>0){
-	        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""));
+	        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""),dDebetDate);
 	        	if(anesthesiaPrestation!=null){
 	        		baseInsurar=0;
 	    	        if (insurance != null) {

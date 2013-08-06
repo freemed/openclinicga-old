@@ -127,6 +127,12 @@
                         <%=writeDateField("EditBegin", "EditForm", new SimpleDateFormat("01/MM/yyyy").format(previousmonth), sWebLanguage)%>
                         <%=getTran("web","to",sWebLanguage)%>
                         <%=writeDateField("EditEnd", "EditForm", new SimpleDateFormat("dd/MM/yyyy").format(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1), sWebLanguage)%>
+		               <input type="hidden" name="EditInvoiceService" id="EditInvoiceService" value="">
+                        <% if(insurarInvoice==null || insurarInvoice.getStatus()==null || insurarInvoice.getStatus().equalsIgnoreCase("open")){ %>
+			               <input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">
+			               <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
+			               <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
+						<%}%>                        
                         &nbsp;<input type="button" class="button" name="update" value="<%=getTran("web","update",sWebLanguage)%>" onclick="changeInsurar();"/>
                     </td>
                 </tr>
@@ -399,6 +405,7 @@ function changeInsurar() {
     var pb= 'InsurarUid=' + EditForm.EditInsurarUID.value
             + '&EditBegin=' + EditForm.EditBegin.value
             + '&EditEnd=' + EditForm.EditEnd.value
+            + '&EditInvoiceService=' + EditForm.EditInvoiceService.value
             + '&EditInsurarInvoiceUID=<%=checkString(insurarInvoice.getUid())%>';
 
     new Ajax.Request(url, {
@@ -438,6 +445,11 @@ function changeInsurar() {
     else {
         document.getElementById('period').style.visibility='hidden';
     }
+}
+
+function searchService(serviceUidField,serviceNameField){
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+    document.getElementById(serviceNameField).focus();
 }
 
 FindForm.FindInsurarInvoiceUID.focus();

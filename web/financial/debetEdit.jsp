@@ -98,7 +98,7 @@ System.out.println(0);
     <table class='list' border='0' width='100%' cellspacing='1'>
         <tr>
             <td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("Web","date",sWebLanguage)%> *</td>
-            <td class='admin2'><%=ScreenHelper.writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(debet.getDate()),true,false,sWebLanguage,sCONTEXTPATH)%></td>
+            <td class='admin2'><%=ScreenHelper.writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(debet.getDate()),true,false,sWebLanguage,sCONTEXTPATH,"changeInsurance();")%></td>
         </tr>
         <tr>
             <td class='admin'><%=getTran("Web","insurance",sWebLanguage)%> *</td>
@@ -424,6 +424,7 @@ System.out.println(0);
                 postBody: 'PrestationUIDs=' + prestations +
 	                '&EditDebetUID=' + EditForm.EditDebetUID.value+
     	            '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
+    	            '&EditDate=' + EditForm.EditDate.value+
                    '&CoverageInsurance=' + EditForm.coverageinsurance.value+
                    '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
                    '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
@@ -470,6 +471,7 @@ System.out.println(0);
 	 	 	              '&EditDebetUID=' + EditForm.EditDebetUID.value+
 	                      '&PrestationGroupUID=' + EditForm.EditPrestationGroup.value+
 	                      '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
+	       	              '&EditDate=' + EditForm.EditDate.value+
 	                      '&CoverageInsurance=' + EditForm.coverageinsurance.value+
 		                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
 		                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
@@ -512,6 +514,7 @@ System.out.println(0);
 	                +'&EditDebetUID=' + EditForm.EditDebetUID.value
                   	+'&PrestationUID=' + EditForm.EditPrestationName.value
 	                +'&CoverageInsurance=' + EditForm.coverageinsurance.value
+    	            +'&EditDate=' + EditForm.EditDate.value
                     +'&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value
                     +'&PrestationServiceName=' + EditForm.EditDebetServiceName.value
 	                   <%
