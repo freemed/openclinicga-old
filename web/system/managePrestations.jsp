@@ -38,6 +38,7 @@
            sEditPrestationCode  = checkString(request.getParameter("EditPrestationCode")),
            sEditPrestationDescr = checkString(request.getParameter("EditPrestationDescr")),
            sEditPrestationType  = checkString(request.getParameter("EditPrestationType")),
+           sEditPrestationUpdatetime  = checkString(request.getParameter("EditPrestationUpdatetime")),
            sEditPrestationCategories  = checkString(request.getParameter("EditPrestationCategories")),
            sEditPrestationFamily  = checkString(request.getParameter("EditPrestationFamily")),
            sEditPrestationInvoiceGroup  = checkString(request.getParameter("EditPrestationInvoiceGroup")),
@@ -74,7 +75,7 @@
 		   sEditPrestationMfpPercentage="0";
 	   }
 	   try{
-		   sEditPrestationMfpAdmissionPercentage =""+Integer.parseInt(sEditPrestationMfpAdmissionPercentage);
+		   sEditPrestationMfpAdmissionPercentage =""+Double.parseDouble(sEditPrestationMfpAdmissionPercentage);
 	   }
 	   catch(Exception e){
 		   sEditPrestationMfpAdmissionPercentage="0";
@@ -139,13 +140,17 @@
         prestation.setReferenceObject(new ObjectReference(sEditPrestationFamily,"0")); 
         prestation.setInvoiceGroup(sEditPrestationInvoiceGroup);
         prestation.setMfpPercentage(Integer.parseInt(sEditPrestationMfpPercentage));
-        prestation.setMfpAdmissionPercentage(Integer.parseInt(sEditPrestationMfpAdmissionPercentage));
+        prestation.setMfpAdmissionPercentage(Double.parseDouble(sEditPrestationMfpAdmissionPercentage));
         prestation.setAnesthesiaPercentage(Double.parseDouble(sEditPrestationAnesthesiaPercentage));
         prestation.setSupplement(Double.parseDouble(sEditPrestationSupplement));
         prestation.setInactive(Integer.parseInt(sEditPrestationInactive));
         prestation.setPerformerUid(sEditCareProvider);
         prestation.setPrestationClass(sEditPrestationClass);
         prestation.setServiceUid(sEditPrestationServiceUid);
+        try{
+        	prestation.setUpdateDateTime(new SimpleDateFormat("dd/MM/yyyy").parse(sEditPrestationUpdatetime));
+        }
+        catch(Exception e){}
         prestation.store();
         //activeUser.addPrestation(prestation.getUid());
         sEditPrestationUid = prestation.getUid();
@@ -254,6 +259,12 @@
                 // ..or create a new one
                 prestation = new Prestation();
             }
+        	if(prestation.getUpdateDateTime()!=null){
+        		sEditPrestationUpdatetime=new SimpleDateFormat("dd/MM/yyyy").format(prestation.getUpdateDateTime());
+        	}
+        	else {
+        		sEditPrestationUpdatetime=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        	}
 
             if (checkString(prestation.getCategories()).length()>0){
                 sCategory = checkString(prestation.getCategories());
@@ -277,6 +288,12 @@
                     <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>">ID</td>
                         <td class="admin2"><%=checkString(prestation.getUid())%></td>
+                    </tr>
+                    <tr>
+                        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","validfrom",sWebLanguage)%>&nbsp;*&nbsp;</td>
+                        <td class="admin2">
+                        	<%=writeDateField("EditPrestationUpdatetime","transactionForm",sEditPrestationUpdatetime,sWebLanguage)%>
+                        </td>
                     </tr>
                     <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","code",sWebLanguage)%>&nbsp;*&nbsp;</td>
