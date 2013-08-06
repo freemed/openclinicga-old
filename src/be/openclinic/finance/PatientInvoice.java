@@ -24,8 +24,17 @@ public class PatientInvoice extends Invoice {
     private String acceptationUid;
     protected String insurarreference;
     protected String insurarreferenceDate;
+    protected String comment;
     
-    public String getInsurarreferenceDate() {
+    public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getInsurarreferenceDate() {
 		return insurarreferenceDate;
 	}
 
@@ -185,6 +194,9 @@ public class PatientInvoice extends Invoice {
         		e.printStackTrace();
         	}
         }
+        if(b>0 && b<Double.parseDouble(MedwanQuery.getInstance().getConfigString("minimumInvoiceBalance","1"))){
+        	b=0;
+        }
         return b;
     }
 
@@ -222,6 +234,7 @@ public class PatientInvoice extends Invoice {
                         patientInvoice.setInsurarreferenceDate(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCEDATE"));
                         patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                         patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
+                        patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
                     }
                     rs.close();
                     ps.close();
@@ -276,6 +289,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setInsurarreferenceDate(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCEDATE"));
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
+                patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
             }
             rs.close();
             ps.close();
@@ -379,9 +393,10 @@ public class PatientInvoice extends Invoice {
                           " OC_PATIENTINVOICE_INSURARREFERENCE," +
                           " OC_PATIENTINVOICE_INSURARREFERENCEDATE," +
                           " OC_PATIENTINVOICE_ACCEPTATIONUID," +
-                          " OC_PATIENTINVOICE_VERIFIER" +
+                          " OC_PATIENTINVOICE_VERIFIER," +
+                          " OC_PATIENTINVOICE_COMMENT" +
                         ") " +
-                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = oc_conn.prepareStatement(sSelect);
                 while(!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_PATIENTINVOICES","OC_PATIENTINVOICE_OBJECTID",ids[1])){
                     ids[1] = MedwanQuery.getInstance().getOpenclinicCounter("OC_INVOICES") + "";
@@ -402,6 +417,7 @@ public class PatientInvoice extends Invoice {
                 ps.setString(14,this.getInsurarreferenceDate());
                 ps.setString(15,this.getAcceptationUid());
                 ps.setString(16,this.getVerifier());
+                ps.setString(17, this.getComment());
                 ps.executeUpdate();
                 ps.close();
 
@@ -566,6 +582,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setInsurarreferenceDate(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCEDATE"));
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
+                patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
 
                 invoices.add(patientInvoice);
             }
@@ -657,6 +674,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setInsurarreferenceDate(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCEDATE"));
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
+                patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
 
                 invoices.add(patientInvoice);
             }
@@ -849,6 +867,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setInsurarreferenceDate(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCEDATE"));
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
+                patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
 
                 vPatientInvoices.add(patientInvoice);
             }

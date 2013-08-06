@@ -262,24 +262,36 @@ public class Prestation extends OC_Object{
     }
 
     public static void saveInsuranceTariff(String prestationUid, String insurarUid, String insuranceCategory,double price){
+    	if(prestationUid!=null){
+    		Prestation prestation = Prestation.get(prestationUid);
+    		if(prestation!=null){
+    			saveInsuranceTariff(prestationUid, insurarUid, insuranceCategory, price, prestation.getVersion());
+    		}
+    	}
+    }
+    
+    public static void saveInsuranceTariff(String prestationUid, String insurarUid, String insuranceCategory,double price,int version){
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
     	try{
     		String sSql = "delete from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and " +
     				" OC_TARIFF_INSURARUID=? and " +
-    				" OC_TARIFF_INSURANCECATEGORY=?";
+    				" OC_TARIFF_INSURANCECATEGORY=? and " +
+    				" OC_TARIFF_VERSION=?";
 			PreparedStatement ps = oc_conn.prepareStatement(sSql);
 			ps.setString(1, prestationUid);
 			ps.setString(2, insurarUid);
 			ps.setString(3, insuranceCategory);
+			ps.setInt(4, version);
 			ps.executeUpdate();
 			ps.close();
 			if(price>=0){
-	    		sSql = "insert into OC_TARIFFS(OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURARUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE) values (?,?,?,?)";
+	    		sSql = "insert into OC_TARIFFS(OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURARUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE,OC_TARIFF_VERSION) values (?,?,?,?,?)";
 				ps = oc_conn.prepareStatement(sSql);
 				ps.setString(1, prestationUid);
 				ps.setString(2, insurarUid);
 				ps.setString(3, insuranceCategory);
 				ps.setDouble(4, price);
+				ps.setInt(5, version);
 				ps.executeUpdate();
 				ps.close();
 			}
@@ -356,11 +368,13 @@ public class Prestation extends OC_Object{
     	try {
     		String sSql = "select * from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and " +
     				" OC_TARIFF_INSURARUID=? and " +
-    				" OC_TARIFF_INSURANCECATEGORY=?";
+    				" OC_TARIFF_INSURANCECATEGORY=? and " +
+    				" OC_TARIFF_VERSION=?";
     		PreparedStatement ps = oc_conn.prepareStatement(sSql);
     		ps.setString(1, this.getUid());
     		ps.setString(2, insurarUid);
     		ps.setString(3, insuranceCategory);
+    		ps.setInt(4,this.getVersion());
     		ResultSet rs = ps.executeQuery();
     		if(rs.next()){
     			System.out.println("1");
@@ -372,10 +386,12 @@ public class Prestation extends OC_Object{
     			ps.close();
         		sSql = "select * from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and " +
 				" OC_TARIFF_INSURARUID=? and " +
-				" (OC_TARIFF_INSURANCECATEGORY is null or OC_TARIFF_INSURANCECATEGORY='')";
+				" (OC_TARIFF_INSURANCECATEGORY is null or OC_TARIFF_INSURANCECATEGORY='') and " +
+				" OC_TARIFF_VERSION=?";
 				ps = oc_conn.prepareStatement(sSql);
 				ps.setString(1, this.getUid());
 				ps.setString(2, insurarUid);
+	    		ps.setInt(3,this.getVersion());
 				rs = ps.executeQuery();
 				if(rs.next()){
 	    			System.out.println("2");
@@ -695,6 +711,93 @@ public class Prestation extends OC_Object{
             }
         }
         MedwanQuery.getInstance().getObjectCache().putObject("prestation",prestation);
+        return prestation;
+    }
+
+    //--- GET active on Date-------------------------------------------------------------------------------------
+    public static Prestation get(String uid, java.util.Date date){
+    	if(date==null){
+    		return Prestation.get(uid);
+    	}
+        Prestation prestation = Prestation.get(uid);
+        if(prestation!=null && prestation.getUpdateDateTime()!=null && !prestation.getUpdateDateTime().after(date)){
+            return prestation;
+        }
+        prestation = new Prestation();
+
+        if(uid!=null && uid.length() > 0){
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            try{
+                String[] ids = uid.split("\\.");
+
+                if(ids.length == 2){
+                    String sSelect = "SELECT * FROM OC_PRESTATIONS_HISTORY"+
+                                     " WHERE OC_PRESTATION_SERVERID = ?"+
+                                     "  AND OC_PRESTATION_OBJECTID = ?" +
+                                     "  AND OC_PRESTATION_UPDATETIME<=?" +
+                                     "  ORDER BY OC_PRESTATION_UPDATETIME DESC,OC_PRESTATION_VERSION DESC";
+                    ps = oc_conn.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
+                    ps.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
+                    rs = ps.executeQuery();
+
+                    if(rs.next()){
+                        prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                        prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
+                        prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
+                        prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
+                        prestation.setCategories(rs.getString("OC_PRESTATION_CATEGORIES"));
+
+                        ObjectReference or = new ObjectReference();
+                        or.setObjectType(rs.getString("OC_PRESTATION_REFTYPE"));
+                        or.setObjectUid(rs.getString("OC_PRESTATION_REFUID"));
+                        prestation.setReferenceObject(or);
+
+                        prestation.setCreateDateTime(rs.getTimestamp("OC_PRESTATION_CREATETIME"));
+                        prestation.setUpdateDateTime(rs.getTimestamp("OC_PRESTATION_UPDATETIME"));
+                        prestation.setUpdateUser(rs.getString("OC_PRESTATION_UPDATEUID"));
+                        prestation.setVersion(rs.getInt("OC_PRESTATION_VERSION"));
+                        prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
+                        prestation.setInvoiceGroup(rs.getString("OC_PRESTATION_INVOICEGROUP"));
+                        prestation.setMfpPercentage(rs.getInt("OC_PRESTATION_MFPPERCENTAGE"));
+                        prestation.setSupplement(rs.getDouble("OC_PRESTATION_SUPPLEMENT"));
+                        prestation.setRenewalInterval(rs.getInt("OC_PRESTATION_RENEWALINTERVAL"));
+                        prestation.setCoveragePlan(rs.getString("OC_PRESTATION_COVERAGEPLAN"));
+                        prestation.setCoveragePlanCategory(rs.getString("OC_PRESTATION_COVERAGEPLANCATEGORY"));
+                        prestation.setVariablePrice(rs.getInt("OC_PRESTATION_VARIABLEPRICE"));
+                        prestation.setInactive(rs.getInt("OC_PRESTATION_INACTIVE"));
+                        prestation.setPerformerUid(rs.getString("OC_PRESTATION_PERFORMERUID"));
+                        prestation.setPrestationClass(rs.getString("OC_PRESTATION_CLASS"));
+                        prestation.setModifiers(rs.getString("OC_PRESTATION_MODIFIERS"));
+                        prestation.setServiceUid(rs.getString("OC_PRESTATION_SERVICEUID"));
+                    }
+                    else{
+                    	prestation=Prestation.get(uid);
+                    }
+                }
+                else{
+                	prestation=Prestation.get(uid);
+                }
+            }
+            catch(Exception e){
+                Debug.println("OpenClinic => Prestation.java => get active on date => "+e.getMessage());
+                e.printStackTrace();
+            }
+            finally{
+                try{
+                    if(ps!=null) ps.close();
+                    if(rs!=null) rs.close();
+                    oc_conn.close();
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
         return prestation;
     }
 
@@ -1143,7 +1246,6 @@ public class Prestation extends OC_Object{
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sSql;
-        boolean recordExists;
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -1151,178 +1253,124 @@ public class Prestation extends OC_Object{
                 ids = this.getUid().split("\\.");
 
                 if(ids.length == 2){
-                    //*** EXISTING RECORD ***
-                    recordExists = true;
-
-                    // raise version
-                    sSql = "SELECT OC_PRESTATION_VERSION FROM OC_PRESTATIONS"+
-                           " WHERE OC_PRESTATION_SERVERID = ? AND OC_PRESTATION_OBJECTID = ?";
-                    ps = oc_conn.prepareStatement(sSql);
-                    ps.setInt(1,Integer.parseInt(ids[0]));
-                    ps.setInt(2,Integer.parseInt(ids[1]));
-                    rs = ps.executeQuery();
-                    if(rs.next()){
-                        iVersion = rs.getInt("OC_PRESTATION_VERSION")+1;
-                        this.setVersion(iVersion);
-                    }
-                    rs.close();
-                    ps.close();
+                	//Eerst copiëren we het bestaande record naar de history
+                	sSql="insert into OC_PRESTATIONS_HISTORY(OC_PRESTATION_CODE,OC_PRESTATION_DESCRIPTION,OC_PRESTATION_PRICE,OC_PRESTATION_REFTYPE," +
+                			"OC_PRESTATION_REFUID,OC_PRESTATION_UPDATETIME,OC_PRESTATION_UPDATEUID,OC_PRESTATION_VERSION,OC_PRESTATION_TYPE,OC_PRESTATION_CATEGORIES," +
+                			"OC_PRESTATION_MFPPERCENTAGE,OC_PRESTATION_INVOICEGROUP,OC_PRESTATION_RENEWALINTERVAL,OC_PRESTATION_COVERAGEPLAN,OC_PRESTATION_COVERAGEPLANCATEGORY," +
+                			"OC_PRESTATION_VARIABLEPRICE,OC_PRESTATION_INACTIVE,OC_PRESTATION_PERFORMERUID,OC_PRESTATION_SUPPLEMENT,OC_PRESTATION_CLASS," +
+                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID) " +
+                			"" +
+                			"select OC_PRESTATION_CODE,OC_PRESTATION_DESCRIPTION,OC_PRESTATION_PRICE,OC_PRESTATION_REFTYPE," +
+                			"OC_PRESTATION_REFUID,OC_PRESTATION_UPDATETIME,OC_PRESTATION_UPDATEUID,OC_PRESTATION_VERSION,OC_PRESTATION_TYPE,OC_PRESTATION_CATEGORIES," +
+                			"OC_PRESTATION_MFPPERCENTAGE,OC_PRESTATION_INVOICEGROUP,OC_PRESTATION_RENEWALINTERVAL,OC_PRESTATION_COVERAGEPLAN,OC_PRESTATION_COVERAGEPLANCATEGORY," +
+                			"OC_PRESTATION_VARIABLEPRICE,OC_PRESTATION_INACTIVE,OC_PRESTATION_PERFORMERUID,OC_PRESTATION_SUPPLEMENT,OC_PRESTATION_CLASS," +
+                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID from OC_PRESTATIONS where " +
+                			"OC_PRESTATION_SERVERID=? and OC_PRESTATION_OBJECTID=?";
+                	ps=oc_conn.prepareStatement(sSql);
+                	ps.setInt(1, Integer.parseInt(ids[0]));
+                	ps.setInt(2, Integer.parseInt(ids[1]));
+                	ps.execute();
+                	ps.close();
+                	//Vervolgens deleten we het bestaande record uit OC_Prestations
+                	sSql="delete from OC_PRESTATIONS where OC_PRESTATION_SERVERID=? and OC_PRESTATION_OBJECTID=?";
+                	ps=oc_conn.prepareStatement(sSql);
+                	ps.setInt(1, Integer.parseInt(ids[0]));
+                	ps.setInt(2, Integer.parseInt(ids[1]));
+                	ps.execute();
+                	ps.close();
+                	this.setVersion(this.getVersion()+1);
                 }
                 else{
                     throw new Exception("EXISTING PRESTATION WITHOUT VALID UID !");
                 }
             }
             else{
-                recordExists = false;
-
-                //*** NON-EXISTING RECORD ***
                 ids = new String[]{
                           MedwanQuery.getInstance().getConfigString("serverId"),
                           MedwanQuery.getInstance().getOpenclinicCounter("OC_PRESTATIONS")+""
                       };
+                this.setVersion(1);
             }
 
-            if(ids.length == 2){
-                if(recordExists){
-                    //*** UPDATE ***
-                    sSql = "UPDATE OC_PRESTATIONS SET" +
-                           "  OC_PRESTATION_CODE = ?," +
-                           "  OC_PRESTATION_DESCRIPTION = ?," +
-                           "  OC_PRESTATION_PRICE = ?," +
-                           "  OC_PRESTATION_REFTYPE = ?," +
-                           "  OC_PRESTATION_REFUID = ?," +
-                           "  OC_PRESTATION_UPDATETIME = ?," +
-                           "  OC_PRESTATION_UPDATEUID = ?," +
-                           "  OC_PRESTATION_VERSION = ?," +
-                           "  OC_PRESTATION_TYPE = ?,"+
-                           "  OC_PRESTATION_CATEGORIES = ?,"+
-                           "  OC_PRESTATION_MFPPERCENTAGE = ?,"+
-                           "  OC_PRESTATION_INVOICEGROUP = ?,"+
-                           "  OC_PRESTATION_RENEWALINTERVAL=?," +
-                           "  OC_PRESTATION_COVERAGEPLAN=?," +
-                           "  OC_PRESTATION_COVERAGEPLANCATEGORY=?," +
-                           "  OC_PRESTATION_VARIABLEPRICE=?," +
-                           "  OC_PRESTATION_INACTIVE=?," +
-                           "  OC_PRESTATION_PERFORMERUID=?," +
-                           "  OC_PRESTATION_SUPPLEMENT=?," +
-                           "  OC_PRESTATION_CLASS=?," +
-                           "  OC_PRESTATION_MODIFIERS=?," +
-                           "  OC_PRESTATION_SERVICEUID=?" +
-                           " WHERE OC_PRESTATION_SERVERID = ?"+
-                           "  AND OC_PRESTATION_OBJECTID = ?";
-                    ps = oc_conn.prepareStatement(sSql);
-                    ps.setString(1,this.getCode());
-                    ps.setString(2,this.getDescription());
-                    ps.setDouble(3,this.getPrice());
-                    ps.setString(4,this.getReferenceObject().getObjectType());
-                    ps.setString(5,this.getReferenceObject().getObjectUid());
-                    ps.setTimestamp(6,new Timestamp(new java.util.Date().getTime())); // now
-                    ps.setString(7,this.getUpdateUser());
-                    ps.setInt(8,this.getVersion());
-                    ps.setString(9,this.getType());
-                    ps.setString(10,this.getCategories());
-                    ps.setInt(11,this.getMfpPercentage());
-                    ps.setString(12,this.getInvoiceGroup());
-                    ps.setInt(13, this.getRenewalInterval());
-                    ps.setString(14, this.getCoveragePlan());
-                    ps.setString(15, this.getCoveragePlanCategory());
-                    ps.setInt(16, this.getVariablePrice());
-                    ps.setInt(17, this.getInactive());
-                    ps.setString(18, this.getPerformerUid());
-                    ps.setDouble(19, this.getSupplement());
-                    ps.setString(20, this.getPrestationClass());
-                    ps.setString(21, this.getModifiers());
-                    ps.setString(22, this.getServiceUid());
-                    ps.setInt(23,Integer.parseInt(ids[0]));
-                    ps.setInt(24,Integer.parseInt(ids[1]));
-                    ps.executeUpdate();
-                    ps.close();
-                }
-                else{
-                    //*** INSERT ***
-                    sSql = "INSERT INTO OC_PRESTATIONS (" +
-                           "  OC_PRESTATION_SERVERID," +
-                           "  OC_PRESTATION_OBJECTID," +
-                           "  OC_PRESTATION_CODE," +
-                           "  OC_PRESTATION_DESCRIPTION," +
-                           "  OC_PRESTATION_PRICE," +
-                           "  OC_PRESTATION_REFTYPE," +
-                           "  OC_PRESTATION_REFUID," +
-                           "  OC_PRESTATION_CREATETIME," +
-                           "  OC_PRESTATION_UPDATETIME," +
-                           "  OC_PRESTATION_UPDATEUID," +
-                           "  OC_PRESTATION_VERSION," +
-                           "  OC_PRESTATION_TYPE," +
-                           "  OC_PRESTATION_CATEGORIES," +
-                           "  OC_PRESTATION_MFPPERCENTAGE," +
-                           "  OC_PRESTATION_INVOICEGROUP," +
-                           "  OC_PRESTATION_RENEWALINTERVAL," +
-                           "  OC_PRESTATION_COVERAGEPLAN," +
-                           "  OC_PRESTATION_COVERAGEPLANCATEGORY," +
-                           "  OC_PRESTATION_VARIABLEPRICE," +
-                           "  OC_PRESTATION_INACTIVE," +
-                           "  OC_PRESTATION_PERFORMERUID," +
-                           "  OC_PRESTATION_SUPPLEMENT," +
-                           "  OC_PRESTATION_CLASS," +
-                           "  OC_PRESTATION_MODIFIERS," +
-                           "  OC_PRESTATION_SERVICEUID)"+
-                           " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                    ps = oc_conn.prepareStatement(sSql);
-                    ps.setInt(1,Integer.parseInt(ids[0]));
-                    ps.setInt(2,Integer.parseInt(ids[1]));
-                    ps.setString(3,this.getCode());
-                    ps.setString(4,this.getDescription());
-                    ps.setDouble(5,this.getPrice());
-                    ps.setString(6,this.getReferenceObject().getObjectType());
-                    ps.setString(7,this.getReferenceObject().getObjectUid());
-                    ps.setTimestamp(8,new Timestamp(new java.util.Date().getTime())); // now
-                    ps.setTimestamp(9,new Timestamp(new java.util.Date().getTime())); // now
-                    ps.setString(10,this.getUpdateUser());
-                    ps.setInt(11,1); // first version
-                    ps.setString(12,this.getType());
-                    ps.setString(13,this.getCategories());
-                    ps.setInt(14,this.getMfpPercentage());
-                    ps.setString(15,this.getInvoiceGroup());
-                    ps.setInt(16, this.getRenewalInterval());
-                    ps.setString(17, this.getCoveragePlan());
-                    ps.setString(18, this.getCoveragePlanCategory());
-                    ps.setInt(19,this.getVariablePrice());
-                    ps.setInt(20, this.getInactive());
-                    ps.setString(21, this.getPerformerUid());
-                    ps.setDouble(22,this.getSupplement());
-                    ps.setString(23,this.getPrestationClass());
-                    ps.setString(24, this.getModifiers());
-                    ps.setString(25, this.getServiceUid());
-                    ps.executeUpdate();
-                    ps.close();
-                    setUid(ids[0]+"."+ids[1]);
-                }
-                //If MfpPercentage provided, create tariff
-                if(getMfpPercentage()>=0){
-                	Insurar insurar = Insurar.get(MedwanQuery.getInstance().getConfigString("MFP","-1"));
-                	if(insurar!=null && insurar.getUid()!=null){
-                		double price = getPrice(insurar.getType());
-                    	Vector cats=insurar.getInsuraceCategories();
-                    	for(int n=0;n<cats.size();n++){
-                    		InsuranceCategory cat = (InsuranceCategory)cats.elementAt(n);
-                    		saveInsuranceTariff(getUid(), insurar.getUid(), cat.getCategory(), price*getMfpPercentage()/100);
-                    	}
+            //*** INSERT ***
+            sSql = "INSERT INTO OC_PRESTATIONS (" +
+                   "  OC_PRESTATION_SERVERID," +
+                   "  OC_PRESTATION_OBJECTID," +
+                   "  OC_PRESTATION_CODE," +
+                   "  OC_PRESTATION_DESCRIPTION," +
+                   "  OC_PRESTATION_PRICE," +
+                   "  OC_PRESTATION_REFTYPE," +
+                   "  OC_PRESTATION_REFUID," +
+                   "  OC_PRESTATION_CREATETIME," +
+                   "  OC_PRESTATION_UPDATETIME," +
+                   "  OC_PRESTATION_UPDATEUID," +
+                   "  OC_PRESTATION_VERSION," +
+                   "  OC_PRESTATION_TYPE," +
+                   "  OC_PRESTATION_CATEGORIES," +
+                   "  OC_PRESTATION_MFPPERCENTAGE," +
+                   "  OC_PRESTATION_INVOICEGROUP," +
+                   "  OC_PRESTATION_RENEWALINTERVAL," +
+                   "  OC_PRESTATION_COVERAGEPLAN," +
+                   "  OC_PRESTATION_COVERAGEPLANCATEGORY," +
+                   "  OC_PRESTATION_VARIABLEPRICE," +
+                   "  OC_PRESTATION_INACTIVE," +
+                   "  OC_PRESTATION_PERFORMERUID," +
+                   "  OC_PRESTATION_SUPPLEMENT," +
+                   "  OC_PRESTATION_CLASS," +
+                   "  OC_PRESTATION_MODIFIERS," +
+                   "  OC_PRESTATION_SERVICEUID)"+
+                   " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            ps = oc_conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(ids[0]));
+            ps.setInt(2,Integer.parseInt(ids[1]));
+            ps.setString(3,this.getCode());
+            ps.setString(4,this.getDescription());
+            ps.setDouble(5,this.getPrice());
+            ps.setString(6,this.getReferenceObject().getObjectType());
+            ps.setString(7,this.getReferenceObject().getObjectUid());
+            ps.setTimestamp(8,new Timestamp(new java.util.Date().getTime())); // now
+            ps.setTimestamp(9,this.getUpdateDateTime()==null?new Timestamp(new java.util.Date().getTime()):new Timestamp(this.getUpdateDateTime().getTime())); // now
+            ps.setString(10,this.getUpdateUser());
+            ps.setInt(11,this.getVersion()); 
+            ps.setString(12,this.getType());
+            ps.setString(13,this.getCategories());
+            ps.setInt(14,this.getMfpPercentage());
+            ps.setString(15,this.getInvoiceGroup());
+            ps.setInt(16, this.getRenewalInterval());
+            ps.setString(17, this.getCoveragePlan());
+            ps.setString(18, this.getCoveragePlanCategory());
+            ps.setInt(19,this.getVariablePrice());
+            ps.setInt(20, this.getInactive());
+            ps.setString(21, this.getPerformerUid());
+            ps.setDouble(22,this.getSupplement());
+            ps.setString(23,this.getPrestationClass());
+            ps.setString(24, this.getModifiers());
+            ps.setString(25, this.getServiceUid());
+            ps.executeUpdate();
+            ps.close();
+            setUid(ids[0]+"."+ids[1]);
+            //If MfpPercentage provided, create tariff
+            if(getMfpPercentage()>=0){
+            	Insurar insurar = Insurar.get(MedwanQuery.getInstance().getConfigString("MFP","-1"));
+            	if(insurar!=null && insurar.getUid()!=null){
+            		double price = getPrice(insurar.getType());
+                	Vector cats=insurar.getInsuraceCategories();
+                	for(int n=0;n<cats.size();n++){
+                		InsuranceCategory cat = (InsuranceCategory)cats.elementAt(n);
+                		saveInsuranceTariff(getUid(), insurar.getUid(), cat.getCategory(), price*getMfpPercentage()/100,this.getVersion());
                 	}
-                }
-                if(getMfpAdmissionPercentage()>=0){
-                	Insurar insurar = Insurar.get(MedwanQuery.getInstance().getConfigString("MFP","-1"));
-                	if(insurar!=null && insurar.getUid()!=null){
-                		double price = getPrice(insurar.getType());
-                    	Vector cats=insurar.getInsuraceCategories();
-                    	for(int n=0;n<cats.size();n++){
-                    		InsuranceCategory cat = (InsuranceCategory)cats.elementAt(n);
-                    		saveInsuranceTariff(getUid(), insurar.getUid(),"*H", price*getMfpAdmissionPercentage()/100);
-                    	}
-                	}
-                }
+            	}
             }
-            else{
-                throw new Exception("PRESTATION WITHOUT VALID UID !");
+            if(getMfpAdmissionPercentage()>=0){
+            	Insurar insurar = Insurar.get(MedwanQuery.getInstance().getConfigString("MFP","-1"));
+            	if(insurar!=null && insurar.getUid()!=null){
+            		double price = getPrice(insurar.getType());
+                	Vector cats=insurar.getInsuraceCategories();
+                	for(int n=0;n<cats.size();n++){
+                		InsuranceCategory cat = (InsuranceCategory)cats.elementAt(n);
+                		saveInsuranceTariff(getUid(), insurar.getUid(),"*H", price*getMfpAdmissionPercentage()/100,this.getVersion());
+                	}
+            	}
             }
         }
         catch(Exception e){

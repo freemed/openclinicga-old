@@ -3912,7 +3912,7 @@ public class MedwanQuery {
             Occuprs.close();
             Occupstatement.close();
             personalVaccinationsInfoVO.setVaccinationsInfoVO(personalVaccinations);
-            String activeVaccinations = MedwanQuery.getInstance().getConfigString("activeVaccinations","*504*506*517*525*526*527*529*530*531*539*");
+            String activeVaccinations = MedwanQuery.getInstance().getConfigString("activeVaccinations","*504*506*517*525*526*527*529*530*531*539*1017*1019*1020*1021*1022*1024*1025*1026*1027*");
             String id="";
             Occupstatement = OccupdbConnection.prepareStatement("select * from Examinations where transactionType like 'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION%' and (messageKey like '%Other' or messageKey not in (" + sStartedVaccinations + "))");
             Occuprs = Occupstatement.executeQuery();

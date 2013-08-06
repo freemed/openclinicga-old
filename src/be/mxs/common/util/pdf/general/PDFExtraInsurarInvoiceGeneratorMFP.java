@@ -129,9 +129,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             	emp="?";
             	invoiceUid=ScreenHelper.checkString(debet.getPatientInvoiceUid());
             	Encounter encounter = debet.getEncounter();
-            	if(encounter!=null && debet.getDate()!=null && encounter.getServiceUID(debet.getDate())!=null){
-            		serviceUid = encounter.getServiceUID(debet.getDate());
-            	}
+            	serviceUid=debet.determineServiceUid();
             	if(debet.getInsurance()!=null && debet.getInsurance().getInsuranceCategory()!=null){
             		employer=debet.getInsurance().getInsuranceCategory().getLabel();
             		card=debet.getInsurance().getInsuranceNr();

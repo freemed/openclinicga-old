@@ -371,6 +371,9 @@ public class PatientCredit extends OC_Object {
             if(this.getInvoiceUid()!=null && this.getInvoiceUid().length() > 0){
                 PatientInvoice invoice = PatientInvoice.get(this.getInvoiceUid());
                 invoice.setBalance(invoice.getBalance()-this.getAmount());
+                if(invoice.getBalance()>0 && invoice.getBalance()<Double.parseDouble(MedwanQuery.getInstance().getConfigString("minimumInvoiceBalance","1"))){
+                	invoice.setBalance(0);
+                }
                 if(invoice.getBalance()==0){
                     invoice.setStatus(MedwanQuery.getInstance().getConfigString("patientInvoiceClosedStatus","closed"));
                 }

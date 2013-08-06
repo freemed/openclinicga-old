@@ -61,31 +61,106 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             	doc.newPage();
             }
 
-            addHeading(invoice);
-            addPatientData();
-            addEncounterData(invoice);
-            //get list of patientinsurances
-            SortedMap sIns = new TreeMap();
-            for(int n=0;n<invoice.getDebets().size();n++){
-            	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet.getInsuranceUid()!=null && sIns.get(debet.getInsuranceUid())==null){
-            		if(debet.getInsurance()!=null && debet.getInsurance().getUid()!=null){
-            			sIns.put(debet.getInsuranceUid(), debet.getInsurance());
-            		}
+            //Print a separate invoice for every service that was linked to at least one debet
+            String serviceuid="";
+            SortedSet services = new TreeSet();
+            Vector debets = invoice.getDebets();
+            for(int n=0;n<debets.size();n++){
+            	Debet debet = (Debet)debets.elementAt(n);
+            	serviceuid = debet.determineServiceUid();
+            	if(serviceuid!=null && !services.contains(serviceuid)){
+            		services.add(serviceuid);
             	}
             }
-            Vector insurances = new Vector(sIns.values());
-            for(int n=0;n<insurances.size();n++){
-                Insurance insurance = (Insurance)insurances.elementAt(n);
-                if(insurance!=null){
-                    Vector debets=invoice.getDebetsForInsurance(insurance.getUid());
-                    if(debets.size()>0){
-                        addInsuranceData(insurance,invoice);
-                        printDebets(invoice,debets);
-                    }
-                }
+            if(MedwanQuery.getInstance().getConfigInt("defaultPatientInvoiceSeparatePagesPerService",0)==1){
+	            int pages=0;
+	            Iterator iServices = services.iterator();
+	            while(iServices.hasNext()){
+	            	if(pages>0){
+	            		doc.newPage();
+	            	}
+	            	pages++;
+	            	serviceuid = (String)iServices.next();
+	            	//Now we create a debets vector that only contains the debets for this service
+	            	debets = new Vector();
+	                for(int n=0;n<invoice.getDebets().size();n++){
+	                	Debet debet = (Debet)invoice.getDebets().elementAt(n);
+	                	if(debet.determineServiceUid().equalsIgnoreCase(serviceuid)){
+	                		debets.add(debet);
+	                	}
+	                }
+	
+	                addHeading(invoice);
+		            addPatientData();
+		            addEncounterData(invoice,serviceuid);
+		            //get list of patientinsurances
+		            SortedMap sIns = new TreeMap();
+		            for(int n=0;n<debets.size();n++){
+		            	Debet debet = (Debet)debets.elementAt(n);
+		            	if(debet.getInsuranceUid()!=null && sIns.get(debet.getInsuranceUid())==null){
+		            		if(debet.getInsurance()!=null && debet.getInsurance().getUid()!=null){
+		            			sIns.put(debet.getInsuranceUid(), debet.getInsurance());
+		            		}
+		            	}
+		            }
+		            Vector insurances = new Vector(sIns.values());
+		            for(int n=0;n<insurances.size();n++){
+		                Insurance insurance = (Insurance)insurances.elementAt(n);
+		                if(insurance!=null){
+		                    Vector insdebets= new Vector();
+		                    for(int i=0;i<debets.size();i++){
+		                    	Debet debet = (Debet)debets.elementAt(i);
+		                    	if(debet.getInsuranceUid()!=null && debet.getInsuranceUid().equalsIgnoreCase(insurance.getUid())){
+		                    		insdebets.add(debet);
+		                    	}
+		                    }
+		                    if(insdebets.size()>0){
+		                        addInsuranceData(insurance,invoice);
+		                        printDebets(invoice,insdebets);
+		                    }
+		                }
+		            }
+	            }
+	            if(pages>1 && MedwanQuery.getInstance().getConfigInt("pageBreakAfterMultipleServicePagesForDefaultInvoice",0)==1){
+	            	doc.newPage();
+	            }
+	            printInvoice(invoice,invoice.getDebets());
             }
-            printInvoice(invoice,invoice.getDebets());
+            else {
+                addHeading(invoice);
+	            addPatientData();
+	            addEncounterData(invoice,null);
+	            debets=invoice.getDebets();
+	            //get list of patientinsurances
+	            SortedMap sIns = new TreeMap();
+	            for(int n=0;n<debets.size();n++){
+	            	Debet debet = (Debet)debets.elementAt(n);
+	            	if(debet.getInsuranceUid()!=null && sIns.get(debet.getInsuranceUid())==null){
+	            		if(debet.getInsurance()!=null && debet.getInsurance().getUid()!=null){
+	            			sIns.put(debet.getInsuranceUid(), debet.getInsurance());
+	            		}
+	            	}
+	            }
+	            Vector insurances = new Vector(sIns.values());
+	            for(int n=0;n<insurances.size();n++){
+	                Insurance insurance = (Insurance)insurances.elementAt(n);
+	                if(insurance!=null){
+	                    Vector insdebets= new Vector();
+	                    for(int i=0;i<debets.size();i++){
+	                    	Debet debet = (Debet)debets.elementAt(i);
+	                    	if(debet.getInsuranceUid()!=null && debet.getInsuranceUid().equalsIgnoreCase(insurance.getUid())){
+	                    		insdebets.add(debet);
+	                    	}
+	                    }
+	                    if(insdebets.size()>0){
+	                        addInsuranceData(insurance,invoice);
+	                        printDebets(invoice,insdebets);
+	                    }
+	                }
+	            }
+	            printInvoice(invoice,invoice.getDebets());
+
+            }
         }
 		catch(Exception e){
 			baosPDF.reset();
@@ -106,8 +181,15 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 		return baosPDF;
 	}
     
-    private void addEncounterData(PatientInvoice invoice){
+    private void addEncounterData(PatientInvoice invoice,String serviceuid){
         try {
+        	String servicename="?";
+        	if(serviceuid!=null){
+	        	Service service = Service.getService(serviceuid);
+	        	if(service!=null && service.getLabel(sPrintLanguage)!=null && service.getLabel(sPrintLanguage).length()>0){
+	        		servicename=service.getLabel(sPrintLanguage);
+	        	}
+        	}
 	    	PdfPTable wrappertable = new PdfPTable(2);
 	    	wrappertable.setWidthPercentage(pageWidth);
 	    	SortedMap encounters = new TreeMap();
@@ -123,6 +205,14 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 	    			table = new PdfPTable(100);
 	    	        table.setWidthPercentage(pageWidth);
 	    			if(encounter.getType()!=null && encounter.getType().equalsIgnoreCase("admission")){
+		    			if(serviceuid!=null){
+		    				cell= createValueCell(getTran("web","service")+":",15);
+			    			cell.setBorder(PdfPCell.NO_BORDER);
+			    			table.addCell(cell);
+			    			cell= createValueCell(servicename,85);
+			    			cell.setBorder(PdfPCell.NO_BORDER);
+			    			table.addCell(cell);
+		    			}
 		    			cell= createValueCell(getTran("web","begindate")+":",15);
 		    			cell.setBorder(PdfPCell.NO_BORDER);
 		    			table.addCell(cell);
@@ -143,12 +233,28 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 		    			table.addCell(cell);
 	    			}
 	    			else {
-		    			cell= createValueCell(getTran("web","begindate")+":",20);
-		    			cell.setBorder(PdfPCell.NO_BORDER);
-		    			table.addCell(cell);
-	        			cell= createValueCell(encounter.getBegin()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()),80);
-		    			cell.setBorder(PdfPCell.NO_BORDER);
-		    			table.addCell(cell);
+	    				if(serviceuid!=null){
+			    			cell= createValueCell(getTran("web","service")+":",20);
+			    			cell.setBorder(PdfPCell.NO_BORDER);
+			    			table.addCell(cell);
+			    			cell= createValueCell(servicename,30);
+			    			cell.setBorder(PdfPCell.NO_BORDER);
+			    			table.addCell(cell);
+			    			cell= createValueCell(getTran("web","begindate")+":",20);
+			    			cell.setBorder(PdfPCell.NO_BORDER);
+			    			table.addCell(cell);
+		        			cell= createValueCell(encounter.getBegin()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()),30);
+			    			cell.setBorder(PdfPCell.NO_BORDER);
+			    			table.addCell(cell);
+	    				}
+	    				else {
+			    			cell= createValueCell(getTran("web","begindate")+":",20);
+			    			cell.setBorder(PdfPCell.NO_BORDER);
+			    			table.addCell(cell);
+		        			cell= createValueCell(encounter.getBegin()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()),80);
+			    			cell.setBorder(PdfPCell.NO_BORDER);
+			    			table.addCell(cell);
+	    				}
 	    			}
 	    			cell = createGrayCell(getTran("encountertype",encounter.getType()).toUpperCase(), 1);
 	    			wrappertable.addCell(cell);
@@ -643,14 +749,30 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             cell = createUnderlinedCell(getTran("web","encounter"),1);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
             cell.setPaddingRight(2);
             table.addCell(cell);
 
             cell = createUnderlinedCell(getTran("web","prestation"),1);
             singleCellHeaderTable = new PdfPTable(1);
             singleCellHeaderTable.addCell(cell);
-            cell = createCell(new PdfPCell(singleCellHeaderTable),8,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),7,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+            cell.setPaddingRight(2);
+            table.addCell(cell);
+
+            cell = createUnderlinedCell("#",1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            singleCellHeaderTable = new PdfPTable(1);
+            singleCellHeaderTable.addCell(cell);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+            cell.setPaddingRight(2);
+            table.addCell(cell);
+
+            cell = createUnderlinedCell(getTran("web","unitprice.abbreviation"),1);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            singleCellHeaderTable = new PdfPTable(1);
+            singleCellHeaderTable.addCell(cell);
+            cell = createCell(new PdfPCell(singleCellHeaderTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
             cell.setPaddingRight(2);
             table.addCell(cell);
 
@@ -878,7 +1000,8 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
         // encounter
         Encounter debetEncounter = debet.getEncounter();
-        String sEncounterName = debetEncounter.getUid()+", "+MedwanQuery.getInstance().getLabel("encountertype", debetEncounter.getType(), sPrintLanguage)+" ("+(debet.getServiceUid()!=null?debet.getServiceUid():debetEncounter.getServiceUID())+")";
+        //String sEncounterName = debetEncounter.getUid()+", "+MedwanQuery.getInstance().getLabel("encountertype", debetEncounter.getType(), sPrintLanguage)+" ("+(debet.getServiceUid()!=null?debet.getServiceUid():debetEncounter.getServiceUID())+")";
+        String sEncounterName = debetEncounter.getUid();
 
         // prestation
         Prestation prestation = debet.getPrestation();
@@ -894,7 +1017,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
         // row
         invoiceTable.addCell(createValueCell(sDebetDate,2));
-        invoiceTable.addCell(createValueCell(sEncounterName,4));
+        invoiceTable.addCell(createValueCell(sEncounterName,2));
         String extraInsurar="";
         if(MedwanQuery.getInstance().getConfigInt("enableExtraInsurarDataForDebetsDefaultInvoice",1)==1 && debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
             Insurar exIns = Insurar.get(debet.getExtraInsurarUid());
@@ -905,7 +1028,11 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
                 }
             }
         }
-        invoiceTable.addCell(createValueCell(sPrestationCode+debet.getQuantity()+" x "+sPrestationDescr+extraInsurar,8));
+        invoiceTable.addCell(createValueCell(sPrestationCode+sPrestationDescr+extraInsurar,7));
+        cell=createValueCell(debet.getQuantity()+"",1);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        invoiceTable.addCell(cell);
+        invoiceTable.addCell(createPriceCell((debetAmountPatient+debetAmountInsurar+debetAmountExtraInsurar)/debet.getQuantity(),2));
         invoiceTable.addCell(createPriceCell(debetAmountPatient,2));
         invoiceTable.addCell(createPriceCell(debetAmountInsurar,2));
         invoiceTable.addCell(createPriceCell(debetAmountExtraInsurar,2));

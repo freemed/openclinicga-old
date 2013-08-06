@@ -351,8 +351,8 @@ public class PDFPatientInvoiceGeneratorMFPPharma extends PDFInvoiceGenerator {
         			}
         		}
         		
-        		String natreg="";
-        		if(person.getAdminID("natreg")!=null){
+        		String natreg=ScreenHelper.checkString(insurance.getMemberImmat());
+        		if(natreg.length()==0 && person.getAdminID("natreg")!=null){
         			natreg=person.getAdminID("natreg").value+"";
         		}
 	        	cell=createLabelCell(getTran("web","mfp.immat")+":",10);

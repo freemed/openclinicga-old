@@ -241,7 +241,21 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                 cell = createUnderlinedCell(getTran("web","prestation"),1);
                 singleCellHeaderTable = new PdfPTable(1);
                 singleCellHeaderTable.addCell(cell);
-                cell = createCell(new PdfPCell(singleCellHeaderTable),8,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),6,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell.setPaddingRight(2);
+                table.addCell(cell);
+
+                cell = createUnderlinedCell("#",1);
+                singleCellHeaderTable = new PdfPTable(1);
+                singleCellHeaderTable.addCell(cell);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell.setPaddingRight(2);
+                table.addCell(cell);
+
+                cell = createUnderlinedCell(getTran("web","unitprice.abbreviation"),1);
+                singleCellHeaderTable = new PdfPTable(1);
+                singleCellHeaderTable.addCell(cell);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
                 cell.setPaddingRight(2);
                 table.addCell(cell);
 
@@ -249,7 +263,7 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 singleCellHeaderTable = new PdfPTable(1);
                 singleCellHeaderTable.addCell(cell);
-                cell = createCell(new PdfPCell(singleCellHeaderTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),2,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
                 table.addCell(cell);
 
                 cell=new PdfPCell(table);
@@ -338,7 +352,21 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                     cell = createUnderlinedCell(getTran("web","prestation"),1);
                     singleCellHeaderTable = new PdfPTable(1);
                     singleCellHeaderTable.addCell(cell);
-                    cell = createCell(new PdfPCell(singleCellHeaderTable),95,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                    cell = createCell(new PdfPCell(singleCellHeaderTable),65,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                    cell.setPaddingRight(2);
+                    table.addCell(cell);
+
+                    cell = createUnderlinedCell("#",1);
+                    singleCellHeaderTable = new PdfPTable(1);
+                    singleCellHeaderTable.addCell(cell);
+                    cell = createCell(new PdfPCell(singleCellHeaderTable),10,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                    cell.setPaddingRight(2);
+                    table.addCell(cell);
+
+                    cell = createUnderlinedCell(getTran("web","unitprice.abbreviation"),1);
+                    singleCellHeaderTable = new PdfPTable(1);
+                    singleCellHeaderTable.addCell(cell);
+                    cell = createCell(new PdfPCell(singleCellHeaderTable),20,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
                     cell.setPaddingRight(2);
                     table.addCell(cell);
 
@@ -432,7 +460,21 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                 cell = createUnderlinedCell(getTran("web","prestation"),1);
                 singleCellHeaderTable = new PdfPTable(1);
                 singleCellHeaderTable.addCell(cell);
-                cell = createCell(new PdfPCell(singleCellHeaderTable),95,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),65,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell.setPaddingRight(2);
+                table.addCell(cell);
+
+                cell = createUnderlinedCell("#",1);
+                singleCellHeaderTable = new PdfPTable(1);
+                singleCellHeaderTable.addCell(cell);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),10,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
+                cell.setPaddingRight(2);
+                table.addCell(cell);
+
+                cell = createUnderlinedCell(getTran("web","unitprice.abbreviation"),1);
+                singleCellHeaderTable = new PdfPTable(1);
+                singleCellHeaderTable.addCell(cell);
+                cell = createCell(new PdfPCell(singleCellHeaderTable),20,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
                 cell.setPaddingRight(2);
                 table.addCell(cell);
 
@@ -625,8 +667,10 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
         invoiceTable.addCell(createValueCell(sDebetDate,2));
         invoiceTable.addCell(createValueCell(sEncounterName,4));
         invoiceTable.addCell(createValueCell(debet.getPatientInvoiceUid()==null?"":debet.getPatientInvoiceUid().replaceAll("1\\.", ""),2));
-        invoiceTable.addCell(createValueCell(sPrestationCode+debet.getQuantity()+" x "+sPrestationDescr,8));
-        invoiceTable.addCell(createPriceCellInsurar(debetAmount,3));
+        invoiceTable.addCell(createValueCell(sPrestationCode+sPrestationDescr,6));
+        invoiceTable.addCell(createValueCell(debet.getQuantity()+"",1));
+        invoiceTable.addCell(createValueCell(priceFormat.format(debetAmount/debet.getQuantity()),2));
+        invoiceTable.addCell(createPriceCellInsurar(debetAmount,2));
     }
 
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
@@ -677,7 +721,9 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
         invoiceTable.addCell(createEmptyCell(30));
         invoiceTable.addCell(createValueCell(sEncounterName,35));
         invoiceTable.addCell(createValueCell(ScreenHelper.checkString(debet.getPatientInvoiceUid()).replaceAll("1\\.",""),15));
-        invoiceTable.addCell(createValueCell(sPrestationCode+debet.getQuantity()+" x "+sPrestationDescr,95));
+        invoiceTable.addCell(createValueCell(sPrestationCode+sPrestationDescr,65));
+        invoiceTable.addCell(createValueCell(debet.getQuantity()+"",10));
+        invoiceTable.addCell(createValueCell(priceFormat.format(debetAmount/debet.getQuantity()),20));
         invoiceTable.addCell(createPriceCellInsurar(debetAmount,25));
     }
 
