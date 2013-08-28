@@ -21,7 +21,7 @@
 %>            
 
 <form name="SearchForm" id="SearchForm" method="POST">
-    <%=writeTableHeader("web","suppliers",sWebLanguage,"doBack();")%>
+    <%=writeTableHeader("web","suppliers",sWebLanguage,"")%>
                 
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- search CODE --%>
@@ -54,7 +54,6 @@
             <td class="admin2" colspan="2">
                 <input class="button" type="button" name="buttonSearch" id="buttonSearch" value="<%=getTranNoLink("web","search",sWebLanguage)%>" onclick="searchSuppliers();">&nbsp;
                 <input class="button" type="button" name="buttonClear" id="buttonClear" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
-                <input class="button" type="button" name="buttonBack" id="buttonBack" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">&nbsp;
             </td>
         </tr>
     </table>
@@ -419,7 +418,6 @@
     document.getElementById("buttonSave").disabled = true;
     document.getElementById("buttonDelete").disabled = true;
     document.getElementById("buttonNew").disabled = true;
-    document.getElementById("buttonBack").disabled = true;    
   }
   
   <%-- ENABLE BUTTONS --%>
@@ -427,12 +425,6 @@
     document.getElementById("buttonSave").disabled = false;
     document.getElementById("buttonDelete").disabled = false;
     document.getElementById("buttonNew").disabled = false;
-    document.getElementById("buttonBack").disabled = false;
-  }
-  
-  <%-- DO BACK --%>
-  function doBack(){
-    window.location.href= "<c:url value='/main.do'/>?Page=system/menu.jsp&ts=<%=getTs()%>";
   }
             
   //EditForm.code.focus();
