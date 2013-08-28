@@ -907,7 +907,7 @@ function updateHeaderDates(beginweek)
         sDates+="day_"+year+"_"+month+"_"+date;
         dayDateArray[no] = month + '|' + date;
         var time = tmpDate2.getTime();
-        time = time + (1000 * 60 * 60 * 24);
+        time = time + (1000 * 60 * 60 * 25);
         tmpDate2.setTime(time);
         var endweek = new Date();
         endweek.setDate(beginweek.getDate() + 7);
@@ -942,7 +942,7 @@ function updateCountedHeaderDates(beginweek,userid)
         sDates+="day_"+year+"_"+month+"_"+date;
         dayDateArray[no] = month + '|' + date;
         var time = tmpDate2.getTime();
-        time = time + (1000 * 60 * 60 * 24);
+        time = time + (1000 * 60 * 60 * 25);
         tmpDate2.setTime(time);
         var endweek = new Date();
         endweek.setDate(beginweek.getDate() + 7);
