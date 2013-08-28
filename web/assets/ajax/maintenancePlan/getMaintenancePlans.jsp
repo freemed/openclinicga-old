@@ -64,11 +64,11 @@
 
             hSort.put(plan.name+"="+plan.getUid(),
                       " onclick=\"displayMaintenancePlan('"+plan.getUid()+"');\">"+
-                      "<td class='hand' style='padding-left:5px'>"+plan.name+"</td>"+
+                      "<td class='hand' style='padding-left:5px'>"+checkString(plan.name)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+getAssetCode(plan.assetUID)+"</td>"+
-                      "<td class='hand' style='padding-left:5px'>"+ScreenHelper.stdDateFormat.format(plan.startDate)+"</td>"+
+                      "<td class='hand' style='padding-left:5px'>"+(plan.startDate!=null?ScreenHelper.stdDateFormat.format(plan.startDate):"")+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+plan.frequency+"&nbsp;"+getTran("web","days",sWebLanguage)+"</td>"+
-                      "<td class='hand' style='padding-left:5px'>"+plan.operator+"</td>"+
+                      "<td class='hand' style='padding-left:5px'>"+checkString(plan.operator)+"</td>"+
                      "</tr>");
         }
         
