@@ -59,7 +59,7 @@
 	        </Menu>
         </Menu>
         <Menu labelid="financial" accessrights="financial.select">
-            <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
+            <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit.select" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
             <Menu labelid="insurarCreditEdit" accessrights="financial.insurarcreditedit" url="/main.do?Page=financial/insurarCreditEdit.jsp"/>
             <Menu labelid="debetEdit" patientselected="true" accessrights="financial.debet.edit" url="/main.do?Page=financial/debetEdit.jsp"/>
             <Menu labelid="patientInvoiceEdit" patientselected="true" accessrights="financial.patientinvoice.edit" url="/main.do?Page=financial/patientInvoiceEdit.jsp"/>
@@ -70,9 +70,9 @@
             <Menu labelid="updateInvoice" accessrights="financial.invoiceupdate.edit" url="/main.do?Page=financial/updateInvoice.jsp"/>
         </Menu>
         <Menu labelid="wicket" accessrights="financial.wicket.select">
-            <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
-            <Menu labelid="manageWicketCredit" accessrights="financial.wicket" url="/main.do?Page=financial/wicket/manageWicketOperationCredit.jsp"/>
-            <Menu labelid="manageWicketDebet" accessrights="financial.wicket" url="/main.do?Page=financial/wicket/manageWicketOperationDebet.jsp"/>
+            <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit.select" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
+            <Menu labelid="manageWicketCredit" accessrights="financial.wicketoperation.select" url="/main.do?Page=financial/wicket/manageWicketOperationCredit.jsp"/>
+            <Menu labelid="manageWicketDebet" accessrights="financial.wicketoperation.select" url="/main.do?Page=financial/wicket/manageWicketOperationDebet.jsp"/>
             <Menu labelid="manageWicketOverview" accessrights="financial.wicketoverview" url="/main.do?Page=financial/wicket/wicketOverview.jsp"/>
         </Menu>
         <Menu labelid="examenstechniques" accessrights="technicalexaminations.select">
