@@ -10,7 +10,7 @@
     String sEditStatus = checkString(request.getParameter("EditStatus"));
     String sEditBalance = checkString(request.getParameter("EditBalance"));
     String sEditCBs = checkString(request.getParameter("EditCBs"));
-
+	System.out.println("sEditCBs="+sEditCBs);
     InsurarInvoice insurarinvoice = new InsurarInvoice();
     insurarinvoice.setBalance(Double.parseDouble(sEditBalance.replace(",",".")));
 

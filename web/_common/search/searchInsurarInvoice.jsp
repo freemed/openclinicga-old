@@ -182,7 +182,7 @@
 
         if ("<%=sReturnFieldInvoiceBalance%>".length > 0) {
             if (sInvoiceBalance > 0 && window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value * 1 == 0) {
-                window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+                window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance*1, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
             }
         }
 

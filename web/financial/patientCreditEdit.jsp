@@ -6,7 +6,7 @@
 <%@ page import="be.openclinic.finance.PatientInvoice" %>
 <%@ page import="be.mxs.common.util.system.HTMLEntities" %>
 <%@include file="/includes/validateUser.jsp"%>
-<%=checkPermission("financial.patientCreditEdit","edit",activeUser)%>
+<%=checkPermission("financial.patientCreditEdit","select",activeUser)%>
 <%=sJSSTRINGFUNCTIONS%>
 <%=sJSPROTOTYPE%>
 <%
@@ -120,7 +120,7 @@ if (sFindPatientCreditUID.length() > 0) {
             // get wicket credit belonging to this patientCredit, if any specified
             WicketCredit wicketCredit = null;
             if(sEditCreditUid.length() > 0){
-                wicketCredit = WicketCredit.getByReferenceUid(sEditCreditUid);
+                wicketCredit = WicketCredit.getByReferenceUid(sEditCreditUid,"PatientCredit");
             }
 
             // create wicket credit if not found or not specified
@@ -592,11 +592,11 @@ if (sScreenType.equals("")){
     EditForm.EditCreditEncounterName.value = encName;
     EditForm.EditCreditDescription.value = descr;
     EditForm.EditCreditInvoiceUid.value = invoiceUid;
-    if(EditForm.EditCreditWicketUid.value==wicketuid){
+    if(<%=(activeUser.getAccessRight("financial.patientcreditedit.edit")?"true":"false")%> && EditForm.EditCreditWicketUid.value==wicketuid){
         document.getElementById("buttonSave").style.visibility='visible';
         document.getElementById("EditCreditWicketUid").style.visibility='visible';
     }
-    else {
+    else if(document.getElementById("buttonSave")){
         document.getElementById("buttonSave").style.visibility='hidden';
         document.getElementById("EditCreditWicketUid").style.visibility='hidden';
     }
@@ -613,7 +613,9 @@ if (sScreenType.equals("")){
   }
 
   function clearEditFields(){
-    document.getElementById("buttonSave").style.visibility='visible';
+	if(document.getElementById("buttonSave")){
+		document.getElementById("buttonSave").style.visibility='visible';
+	}
     document.getElementById("EditCreditWicketUid").style.visibility='visible';
     EditForm.EditCreditUid.value = "";
     EditForm.EditCreditDate.value = "<%=getDate()%>";

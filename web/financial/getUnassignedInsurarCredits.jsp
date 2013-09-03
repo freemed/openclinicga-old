@@ -1,9 +1,7 @@
-<%@page import="be.openclinic.finance.InsurarCredit,
+<%@page import="be.openclinic.finance.*,
                 be.mxs.common.util.system.HTMLEntities,
                 java.text.DecimalFormat,
                 java.util.*"%>
-<%@ page import="be.openclinic.finance.Insurar" %>
-<%@ page import="be.openclinic.finance.InsurarInvoice" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%!
@@ -43,15 +41,25 @@
                             	invoiceref = invoice.getUid().split("\\.")[1] + " (" + (invoice.getBalance()==0?"0 ":new DecimalFormat("###,###,###,###").format(-invoice.getBalance()) + " ") + MedwanQuery.getInstance().getConfigString("currency", "EUR") + ")";
                             }
                         }
+                        String wicketUid="",wicketName="";
+                        WicketCredit wicketCredit = WicketCredit.getByReferenceUid(credit.getUid(),"InsurarCredit");
+                        if(wicketCredit!=null && wicketCredit.getUid()!=null && wicketCredit.getUid().length()>1){
+                            wicketUid=wicketCredit.getWicketUID();
+                            Wicket wicket=Wicket.get(wicketUid);
+                            if(wicket!=null && wicket.getService()!=null){
+                            	wicketName=checkString(wicket.getService().getLabel(sWebLanguage));
+                            }
+                        }
 
                         hSort.put(credit.getDate().getTime() + "=" + credit.getUid(),
-                                " onclick=\"selectCredit('" + credit.getUid() + "','" + ScreenHelper.formatDate(credit.getDate()) + "','" + credit.getAmount() + "','" + credit.getType() + "','" + HTMLEntities.htmlentities(credit.getComment()) + "','" + checkString(credit.getInvoiceUid()) + "');\">" +
+                                " onclick=\"selectCredit('" + credit.getUid() + "','" + ScreenHelper.formatDate(credit.getDate()) + "','" + credit.getAmount() + "','" + credit.getType() + "','" + HTMLEntities.htmlentities(credit.getComment()) + "','" + checkString(credit.getInvoiceUid())+"','"+wicketUid+"');\">" +
                                         "<td>" + ScreenHelper.formatDate(credit.getDate()) + "</td>" +
                                         "<td align='right'>" + priceFormat.format(credit.getAmount()) + "&nbsp;" + sCurrency + "&nbsp;&nbsp;</td>" +
                                         "<td>" + HTMLEntities.htmlentities(insurar) + "</td>" +
                                         "<td>" + HTMLEntities.htmlentities(sCreditType) + "</td>" +
                                         "<td>" + HTMLEntities.htmlentities(invoiceref) + "</td>" +
                                         "<td>" + HTMLEntities.htmlentities(credit.getComment()) + "</td>" +
+                                        "<td>" + HTMLEntities.htmlentities(wicketName) + "</td>" +
                                         "</tr>"
                         );
                     }
@@ -107,6 +115,7 @@ try{
                 <td width="200"><%=HTMLEntities.htmlentities(getTran("web","type",sWebLanguage))%></td>
                 <td ><%=HTMLEntities.htmlentities(getTran("web","invoice",sWebLanguage))%></td>
                 <td><%=HTMLEntities.htmlentities(getTran("web","description",sWebLanguage))%></td>
+                <td width="*"><%=HTMLEntities.htmlentities(getTran("web","wicket",sWebLanguage))%></td>
             </tr>
             <tbody onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
                 <%=addUnassignedCredits(vCredits,sWebLanguage)%>

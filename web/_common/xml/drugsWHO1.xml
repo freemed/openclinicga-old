@@ -1,0 +1,2532 @@
+<drugs>
+	<drug>
+		<group>01.01.01</group>
+		<name>HALOTHANE </name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>01.01.01</group>
+		<name>ISOFLURANE </name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>01.01.01</group>
+		<name>OXYGENE </name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>01.01.01</group>
+		<name>PROTOXYDE D'AZOTE </name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>01.01.02</group>
+		<name>KETAMINE 5 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.01.02</group>
+		<name>KETAMINE 50MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.01.02</group>
+		<name>PROPOFOL 10MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.01.02</group>
+		<name>PROPOFOL 20MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>BUPIVACA&#207;NE 0,25%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>BUPIVACA&#207;NE 0,5% EN AMPOULE DE 4 ML A MELANGER AVEC UNE SOLUTI</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>BUPIVACA&#207;NE 0,50%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>BUPIVACAINE 0,50%/4ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>EPHEDRINE 30 MG/ML EN AMPOULE DE 1 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCA&#207;NE + EPINEPHRINE (ADRENALINE) 1%,</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCA&#207;NE + EPINEPHRINE (ADRENALINE) 2%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCA&#207;NE + EPINEPHRINE (ADRENALINE) 2%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCA&#207;NE 1%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCAINE 2%</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCA&#207;NE 2%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCAINE 4%</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCAINE 5%/2ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCAINE+EPINEPHRINE (ADRENALINE) 1%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.02</group>
+		<name>LIDOCAINE+EPINEPHRINE (ADRENALINE) 2%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.03</group>
+		<name>ATROPINE 1 MG/1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.03</group>
+		<name>MIDAZOLAM 1 MG/1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>01.03</group>
+		<name>MIDAZOLAM 15 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>01.03</group>
+		<name>MIDAZOLAM 2 MG/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>01.03</group>
+		<name>MIDAZOLAM 2MG/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>01.03</group>
+		<name>MIDAZOLAM 7,5MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>01.03</group>
+		<name>MORPHINE 10 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>ACIDE FOLIQUE 1 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>ACIDE FOLIQUE 4 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>ACIDE&#160;FOLIQUE&#160; 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>HYDROXOCOBALAMINE 1MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>SELS FERREUX 25 MG/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>SELS FERREUX 60 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>SELS&#160;FERREUX&#160; CORRESPONDANT&#160;A&#160;25&#160;MG&#160;DE&#160;FER&#160;/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>SELS&#160;FERREUX&#160; CORRESPONDANT&#160;A&#160;60&#160;MG&#160;DE&#160;FER</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.01</group>
+		<name>SELS&#160;FERREUX&#160;+&#160;ACIDE&#160;FOLIQUE&#160;&#160; 60&#160;MG&#160;DE&#160;FER&#160;+&#160;400&#160;MICROGRAMMES&#160;D&#8217;ACIDE&#160;FOLIQUE</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>ACIDE&#160;TRANEXAMIQUE&#160; 100&#160;MG/ML&#160;EN&#160;AMPOULE&#160;DE&#160;10&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>HEPARINE SODIQUE 1000 UI/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>HEPARINE SODIQUE 5000 UI/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>HEPARINE&#160;SODIQUE&#160; 20&#160;000&#160;UI/ML&#160;EN&#160;AMPOULE&#160;DE&#160;1&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>PHYTOMENADIONE 1 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>PHYTOMENADIONE 10 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>PHYTOMENADIONE 10 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>SLFATE DE POTAMINE 10 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>WARFARINE 0,5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>WARFARINE 1 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>WARFARINE 2 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>WARFARINE 5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.02</group>
+		<name>WARFARINE&#160;&#160; 0,5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.03</group>
+		<name>DEFEROXAMINE 500 MG</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>10.03</group>
+		<name>HYDROXYCARBAMIDE 1 G</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.03</group>
+		<name>HYDROXYCARBAMIDE 200 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>10.03</group>
+		<name>HYDROXYCARBAMIDE 5500 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>11.01</group>
+		<name>DEXTRAN&#160;70 6%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>11.02</group>
+		<name>CONCENTRE&#160;DE&#160;COMPLEXE&#160;DE&#160;FACTEUR&#160;IX&#160;(FACTEURS&#160;DE&#160;COAGULATION,&#160;II,&#160;VII,&#160;IX,&#160;X)&#160;&#160; </name>
+		<form>dried</form>
+	</drug>
+	<drug>
+		<group>11.02</group>
+		<name>CONCENTRE&#160;DE&#160;FACTEUR&#160;VIII&#160;&#160; </name>
+		<form>dried</form>
+	</drug>
+	<drug>
+		<group>11.02</group>
+		<name>IMMUNOGLOBULINES&#160;HUMAINES&#160;NORMALES&#160; SOLUTION&#160;DE&#160;PROTEINES&#160;10%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>11.02</group>
+		<name>IMMUNOGLOBULINES&#160;HUMAINES&#160;NORMALES&#160; SOLUTION&#160;DE&#160;PROTEINES&#160;15%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>11.02</group>
+		<name>IMMUNOGLOBULINES&#160;HUMAINES&#160;NORMALES&#160; SOLUTION&#160;DE&#160;PROTEINES&#160;16%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>11.02</group>
+		<name>IMMUNOGLOBULINES&#160;HUMAINES&#160;NORMALES&#160; SOLUTION&#160;DE&#160;PROTEINES&#160;5%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.01</group>
+		<name>BISOPROLOL 1,25&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.01</group>
+		<name>BISOPROLOL 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.01</group>
+		<name>DINITRATE&#160;D?ISOSORBIDE&#160;&#160; 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.01</group>
+		<name>TRINITRATE&#160;DE&#160;GLYCERYLE 500&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.01</group>
+		<name>VERAPAMIL 40&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.01</group>
+		<name>VERAPAMIL 80&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>AMIODARONE 100&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>AMIODARONE 200&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>AMIODARONE 400&#160;MG&#160;</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>AMIODARONE 50&#160;MG/ML&#160;EN&#160;AMPOULE&#160;DE&#160;3&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>BISOPROLOL 1,25&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>BISOPROLOL 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>DIGOXINE 250&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>DIGOXINE 250&#160;MICROGRAMMES/ML&#160;EN&#160;AMPOULE&#160;DE&#160;2&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>DIGOXINE 50&#160;MICROGRAMMES/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>DIGOXINE 62,5&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>EPINEPHRINE&#160;(ADRENALINE)&#160; 100&#160;MICROGRAMMES/ML&#160;EN&#160;AMPOULE&#160;DE&#160;10&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>VERAPAMIL 2,5&#160;MG&#160;/ML&#160;EN&#160;AMPOULE&#160;DE&#160;2&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>VERAPAMIL 40&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.02</group>
+		<name>VERAPAMIL 80&#160;MG&#160;</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>AMLODIPINE 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>BISOPROLOL 1,25&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>BISOPROLOL 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>ENALAPRIL 2,5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>ENALAPRIL 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>HYDRALAZINE 20&#160;MG&#160;EN&#160;AMPOULE</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>HYDRALAZINE 25&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>HYDRALAZINE 50&#160;MG&#160;</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>HYDROCHLOROTHIAZIDE 12,5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>HYDROCHLOROTHIAZIDE 25&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>HYDROCHLOROTHIAZIDE 50&#160;MG/5&#160;ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>12.03</group>
+		<name>METHYLDOPA 250&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>BISOPROLOL 1,25&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>BISOPROLOL 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>DIGOXINE 250 MICROGRAMMES/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>DIGOXINE 250&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>DIGOXINE 250&#160;MICROGRAMMES/ML&#160;EN&#160;AMPOULE&#160;DE&#160;2&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>DIGOXINE 50 MICROGRAMMES/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>DIGOXINE 50&#160;MICROGRAMMES/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>DIGOXINE 62,5&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>DOPAMINE 40 MG/  5ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>ENALAPRIL 2,5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>ENALAPRIL 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>FUROSEMIDE 10 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>FUROSEMIDE 10&#160;MG/ML&#160;EN&#160;AMPOULE&#160;DE&#160;2&#160;ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>FUROSEMIDE 20 MG/5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>FUROSEMIDE 20&#160;MG/5&#160;ML&#160;</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>FUROSEMIDE 40&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.04</group>
+		<name>HYDROCHLOROTHIAZIDE 50&#160;MG/5&#160;ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>12.05</group>
+		<name>ACIDE&#160;ACETYLSALICYLIQUE 100&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.05</group>
+		<name>STREPTOKINASE&#160; 1,5&#160;MILLION&#160;UI&#160;EN&#160;FLACON</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>12.06</group>
+		<name>SIMVASTATINE 10&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.06</group>
+		<name>SIMVASTATINE 20&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.06</group>
+		<name>SIMVASTATINE 40&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>12.06</group>
+		<name>SIMVASTATINE 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>13.01</group>
+		<name>MICONAZOLE 2%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.01</group>
+		<name>MICONAZOLE 2%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.01</group>
+		<name>SULFURE&#160;DE&#160;SELENIUM&#160; 2%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>13.01</group>
+		<name>TERBINAFINE 1%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.01</group>
+		<name>TERBINAFINE 1%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.01</group>
+		<name>THIOSULFATE&#160;DE&#160;SODIUM&#160; 15%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>13.02</group>
+		<name>MUPIROCINE 2%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.02</group>
+		<name>MUPIROCINE 2%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.02</group>
+		<name>PERMANGANATE DE POTASSIUM 1/10 000</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>13.02</group>
+		<name>SULFADIAZINE ARGENTIQUE 1%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.03</group>
+		<name>BETAMETHASONE 0,10%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.03</group>
+		<name>BETAMETHASONE 0,10%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.03</group>
+		<name>CALAMINE </name>
+		<form>lotion</form>
+	</drug>
+	<drug>
+		<group>13.03</group>
+		<name>HYDROCORTISONE 1%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.03</group>
+		<name>HYDROCORTISONE 1%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>ACIDE SALICYLIQUE 5%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>DITHRANOL 0,10%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>DITHRANOL 2%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>FLUOROURACIL 5%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>GOUDRON DE HOUILLE 5%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>PEROXYDE DE BENZOYLE 5%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>PEROXYDE DE BENZOYLE 5%</name>
+		<form>lotion</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>RESINE DE PODOPHYLLE 10%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>RESINE DE PODOPHYLLE 25%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>UREE 10%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>UREE 10%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>UREE 5%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>13.04</group>
+		<name>UREE 5%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>13.05</group>
+		<name>BENZOATE DE BENZYLE 25%</name>
+		<form>lotion</form>
+	</drug>
+	<drug>
+		<group>13.05</group>
+		<name>PERMETHRIME 1%</name>
+		<form>lotion</form>
+	</drug>
+	<drug>
+		<group>13.05</group>
+		<name>PERMETHRIME 5%</name>
+		<form>creme</form>
+	</drug>
+	<drug>
+		<group>14.01</group>
+		<name>FLUORESCEINE 1%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>14.01</group>
+		<name>TROPICAMIDE 0,50%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>14.02</group>
+		<name>AMIDOTRIZOATE 140 MG A 420 MG D&#8217;IODE /ML EN AMPOULE DE 20 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>14.02</group>
+		<name>IOHEXOL 140 MG A 350 MG D&#8217;IODE/ML EN AMPOULES DE 10 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>14.02</group>
+		<name>IOHEXOL 140 MG A 350 MG D&#8217;IODE/ML EN AMPOULES DE 20 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>14.02</group>
+		<name>IOHEXOL 140 MG A 350 MG D&#8217;IODE/ML EN AMPOULES DE 5 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>14.02</group>
+		<name>IOTROXATE DE MEGLUMINE 5 G D&#8217;IODE DANS 100 ML A 250 ML</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>14.02</group>
+		<name>IOTROXATE DE MEGLUMINE 8 G D&#8217;IODE DANS 100 ML A 250 ML</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>14.02</group>
+		<name>SULFATE DE BARYUM </name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>15.01</group>
+		<name>CHLORHEXIDINE 20%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>15.01</group>
+		<name>CHLORHEXIDINE 5%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>15.01</group>
+		<name>ETHANOL 70%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>15.01</group>
+		<name>POLYVIDONE IODEE 10%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>15.02</group>
+		<name>CHLOROXYLENOL 4,80%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>15.02</group>
+		<name>COMPOSEE CHLOREE 0,10%</name>
+		<form>powder</form>
+	</drug>
+	<drug>
+		<group>15.02</group>
+		<name>GLUTARAL 2%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>AMILORIDE 5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 10 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 10 MG/ML EN AMPOULE DE 2 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 20 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 20 MG/5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 40 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>HYDROCHLOROTHIAZIDE 25 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>HYDROCHLOROTHIAZIDE 25 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>MANNITOL 10%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>MANNITOL 20%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>SPIRONOLACTONE 10 MG/5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>SPIRONOLACTONE 25 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>SPIRONOLACTONE 25 MG/5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>SPIRONOLACTONE 5 MG/5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 10 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 10 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 20 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 20 MG/5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>FUROSEMIDE 40 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>HYDROCHLOROTHIAZIDE 25 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>MANNITOL 10%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>MANNITOL 20%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>SPIRONOLACTONE 10 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>SPIRONOLACTONE 25 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>SPIRONOLACTONE 25 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>16</group>
+		<name>SPIRONOLACTONE 5 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17</group>
+		<name>ENZYMES PANCREATIQUES </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>HYDROXYDE D'ALUMINIUM 320 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>HYDROXYDE D'ALUMINIUM 500 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>HYDROXYDE DE MAGNESIUM 550 MG/10ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>OMEPRAZOLE 10 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>OMEPRAZOLE 20 MG</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>OMEPRAZOLE 20 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>OMEPRAZOLE 40 MG</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>OMEPRAZOLE 40 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>OMEPRAZOLE SACHETS DE 20 MG</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>OMEPRAZOLE SACHETS DE 40 MG</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>RANITIDINE 150 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>RANITIDINE 25 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>RANITIDINE 75 MG/5 ML (SOUS FORME DE CHLORHYDRATE)</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.01</group>
+		<name>RANITIDINE 75 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 0,5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 0,5 MG/5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 0,5 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 0,75 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 1,5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 2 MG/5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 2 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 4 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>DEXAMETHASONE 4 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>METOCLOPRAMIDE 10&#160;MG&#160;</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>METOCLOPRAMIDE 5 MG/2ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>METOCLOPRAMIDE 5MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>METOCLOPRAMIDE 5&#160;MG&#160;/ML&#160;EN&#160;AMPOULE&#160;DE&#160;2&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDANSETRON 2&#160;MG&#160;DE&#160;BASE/ML&#160;EN&#160;AMPOULE&#160;DE&#160;2&#160;ML&#160;</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDANSETRON 4&#160;MG&#160;DE&#160;BASE/5&#160;ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDANSETRON EQ&#160;24&#160;MG&#160;DE&#160;BASE</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDANSETRON EQ&#160;4&#160;MG&#160;DE&#160;BASE</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDANSETRON EQ&#160;8&#160;MG&#160;DE&#160;BASE</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDASETRON 2 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDASETRON 4 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDASETRON 4 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>17.02</group>
+		<name>ONDASETRON 8 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.03</group>
+		<name>HYDROCORTISONE&#160; </name>
+		<form>enema</form>
+	</drug>
+	<drug>
+		<group>17.03</group>
+		<name>HYDROCORTISONE&#160; 25&#160;MG&#160;</name>
+		<form>suppository</form>
+	</drug>
+	<drug>
+		<group>17.03</group>
+		<name>SULFASALAZINE&#160; </name>
+		<form>enema</form>
+	</drug>
+	<drug>
+		<group>17.03</group>
+		<name>SULFASALAZINE&#160; 500&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.03</group>
+		<name>SULFASALAZINE&#160; 500&#160;MG</name>
+		<form>suppository</form>
+	</drug>
+	<drug>
+		<group>17.04</group>
+		<name>SENE 7,5&#160;MG&#160;</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS DE REHYDRATATION ORALE </name>
+		<form>powder</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 1,5&#160;G/L&#160;&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 10&#160;MMOL/L&#160;&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 13,5&#160;G/L&#160;&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 1&#160;L</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 2,6&#160;G/L&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 2,9&#160;G/L&#160;&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 200&#160;ML</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 20&#160;MEQ&#160;OU&#160;MMOL/L&#160;&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 245&#160;MOSM/L&#160;&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 500&#160;ML</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 65&#160;MEQ&#160;OU&#160;MMOL/L&#160;&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 75&#160;MEQ&#160;OU MMOL/L</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE&#160; 75&#160;MEQ&#160;&#160;</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>17.05.02</group>
+		<name>SLFATE DE ZINC 20 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.01</group>
+		<name>FLUDROCORTISONE 100&#160;MICROGRAMMES&#160;</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.01</group>
+		<name>HYDROCORTISONE 10&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.01</group>
+		<name>HYDROCORTISONE 20&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.01</group>
+		<name>HYDROCORTISONE 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.02</group>
+		<name>TESTOSTERONE 200&#160;MG&#160;EN&#160;AMPOULE&#160;DE&#160;1&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>18.03.01</group>
+		<name>ETHINYLESTRADIOL&#160;+&#160;&#160;LEVONORGESTREL&#160;&#160; 30&#160;MICROGRAMMES&#160;+&#160;150&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.03.01</group>
+		<name>ETHINYLESTRADIOL&#160;+&#160;&#160;NORETHISTERONE 35&#160;MICROGRAMMES&#160;+&#160;1&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.03.01</group>
+		<name>LEVONORGESTREL 30&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.03.01</group>
+		<name>LEVONORGESTREL 750&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.03.02</group>
+		<name>ACETATE&#160;DE&#160;MEDROXYPROGESTERONE&#160; 150&#160;MG/ML&#160;EN&#160;FLACON&#160;DE&#160;1&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>18.03.02</group>
+		<name>ACETATE&#160;DE&#160;MEDROXYPROGESTERONE&#160;+&#160;CYPIONATE&#160;D?ESTRADIOL&#160;&#160; 25&#160;MG&#160;+&#160;5&#160;MG</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>18.03.02</group>
+		<name>ENANTATE&#160;DE&#160;NORETHISTERONE&#160; 200&#160;MG/ML&#160;EN&#160;AMPOULE&#160;DE&#160;1&#160;ML</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>18.03.03</group>
+		<name>DISPOSITIF&#160;CUPROCONTRACEPTIF </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>18.03.04</group>
+		<name>DIAPHRAGME&#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>18.03.04</group>
+		<name>IMPLANT&#160;LIBERANT&#160;DU&#160;LEVONORGESTREL </name>
+		<form>implantl</form>
+	</drug>
+	<drug>
+		<group>18.03.04</group>
+		<name>PRESERVATIF&#160;MASCULIN&#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>18.04</group>
+		<name>ESTROGENES </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>18.05</group>
+		<name>GLIBENCLAMIDE 2,5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.05</group>
+		<name>GLIBENCLAMIDE 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.05</group>
+		<name>GLUCAGON 1 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>18.05</group>
+		<name>INSULINE&#160;D?ACTION&#160;INTERMEDIAIRE&#160;&#160; 100&#160;UI/ML&#160;EN FLACON&#160;DE&#160;10&#160;ML&#160;</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>18.05</group>
+		<name>INSULINE&#160;D?ACTION&#160;INTERMEDIAIRE&#160;&#160; 40&#160;UI/ML&#160;EN&#160;FLACON&#160;DE&#160;10&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>18.05</group>
+		<name>METFORMINE 500 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.06</group>
+		<name>CLOMIFENE&#160; 50&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.07</group>
+		<name>ACETATE&#160;DE&#160;MEDROXYPROGESTERONE&#160; 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.08</group>
+		<name>IODURE&#160;DE&#160;POTASSIUM&#160; 60&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.08</group>
+		<name>LEVOTHYROXINE 100 MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.08</group>
+		<name>LEVOTHYROXINE 25 MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.08</group>
+		<name>LEVOTHYROXINE 50 MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.08</group>
+		<name>PROPYLTHIOURACIL 50&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>18.08</group>
+		<name>SOLUTION DE LUGOL 130 MG/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>19.01</group>
+		<name>PPD </name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.01</group>
+		<name>TUBERCULINE,&#160;DERIVE&#160;PROTEINIQUE&#160;PURIFIE&#160;(PPD)&#160; </name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>ANTITOXINE DIPHTERIQUE 10 000 UI</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>ANTITOXINE DIPHTERIQUE 20 000 UI</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>IG ANTIRABIQUE 150 UI/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>IG ANTIVEINEUSE </name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>IG HUMAINE ANTITETANIQUE 500 UI</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>IMMUNOGLOBULINES&#160;ANTIVENIMEUSES&#160; </name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>IMMUNOGLOBULINES&#160;HUMAINES&#160;ANTITETANIQUES&#160; 500&#160;UI&#160;EN&#160;FLACON</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>IMMUNOGLOBULINES&#160;HUMAINES&#160;ANTI?D&#160;&#160; 250&#160;MICROGRAMMES&#160;EN&#160;FLACON&#160;UNIDOSE</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.02</group>
+		<name>&#160;IMMUNOGLOBULINES&#160;ANTIRABIQUES&#160;&#160; 150&#160;UI/ML&#160;EN&#160;FLACON</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIAMARIL&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTICHOLERIQUE&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTICOQUELUCHEUX&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIDIPHTERIQUE&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIENCEPHALITE&#160;JAPONAISE&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIGRIPPAL&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIMENINGOCOCCIQUE&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIOURLIEN&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIPNEUMOCOCCIQUE&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIPOLIOMYELITIQUE&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIRABIQUE&#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIROTAVIRUS&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIROUGEOLEUX&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIRUB&#201;OLEUX&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTITETANIQUE&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTITYPHO&#207;DIQUE&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTIVARICELLEUX&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTI?HAEMOPHILUS&#160;INFLUENZAE&#160;TYPE&#160;B&#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTI?HEPATITE&#160;A&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;ANTI?HEPATITE&#160;B&#160; &#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>19.03</group>
+		<name>VACCIN&#160;PAR&#160;LE&#160;BCG&#160; </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>ACIDE ACETYL SALICYLIQUE 100MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>ACIDE ACETYL SALICYLIQUE 150MG</name>
+		<form>suppository</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>ACIDE ACETYL SALICYLIQUE 500MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>ACIDE ACETYL SALICYLIQUE 50MG</name>
+		<form>suppository</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>IBUPROFEN 200 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>IBUPROFEN 400 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>IBUPROFENE 200MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>PARACETAMOL 100 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>PARACETAMOL 100 MG</name>
+		<form>suppository</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>PARACETAMOL 125 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>02.01</group>
+		<name>PARACETAMOL 500 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.02</group>
+		<name>CODEINE 30MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.02</group>
+		<name>MORPHINE 10 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.02</group>
+		<name>MORPHINE 10 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.02</group>
+		<name>MORPHINE 10MG AMPOULE DE 1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>02.02</group>
+		<name>MORPHINE 10MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>02.02</group>
+		<name>MORPHINE 30 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.02</group>
+		<name>MORPHINE 60 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.03</group>
+		<name>ALLOPURINOL 100MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>AZATHIOPRIME 50MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>CHLOROQUINE 100MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>CHLOROQUINE 150MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>HYDROXYCHLOROQUINE 200 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>HYDROXYCHLOROQUINE 200MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>METHOTREXATE 2,5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>METHOTREXATE 2,5MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>PENICILLAMINE 250MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>02.04</group>
+		<name>SULFASALAZINE 500MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>ATRACURIUM&#160; 10&#160;MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>NEOSTIGMINE 15&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>NEOSTIGMINE 2,5&#160;MG&#160;(METHYLSULFATE)&#160;EN&#160;AMPOULE&#160;DE&#160;1&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>NEOSTIGMINE 500&#160;MICROGRAMMES&#160;EN&#160;AMPOULE&#160;DE&#160;1&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>PYRIDOSTIGMINE 1 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>PYRIDOSTIGMINE 60 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>SUXAMETHONIUM </name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>SUXAMETHONIUM 50 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>VECURONIUM 10 MG</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>&#160;PYRIDOSTIGMINE&#160; 1&#160;MG&#160;EN&#160;AMPOULE&#160;DE&#160;1&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>&#160;PYRIDOSTIGMINE&#160; 60&#160;MG&#160;</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>20</group>
+		<name>&#160;VECURONIUM&#160; 10&#160;MG&#160;(BROMURE)&#160;EN&#160;FLACON</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>21.01</group>
+		<name>ACICLOVIR 3%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>21.01</group>
+		<name>GENTAMICINE 0,30%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.01</group>
+		<name>TETRACYCLINE 1%</name>
+		<form>ointment</form>
+	</drug>
+	<drug>
+		<group>21.02</group>
+		<name>PREDNISOLONE 0,50%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.03</group>
+		<name>TETRACAINE 0,50%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.03</group>
+		<name>&#160;TETRACA&#207;NE&#160; 0,5%&#160;(CHLORHYDRATE)</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.04</group>
+		<name>ACETAZOLAMIDE 250&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>21.04</group>
+		<name>PILOCARPINE 2%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.04</group>
+		<name>PILOCARPINE &#160;4%&#160;(CHLORHYDRATE&#160;OU&#160;NITRATE)</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.04</group>
+		<name>TIMOLOL&#160; 0,25%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.04</group>
+		<name>TIMOLOL&#160; 0,5%&#160;(SOUS&#160;FORME&#160;D?HYDROGENOMALEATE)</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.05</group>
+		<name>ADRENALINE 2%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.05</group>
+		<name>ATROPINE 0,10%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.05</group>
+		<name>ATROPINE 0,5%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.05</group>
+		<name>ATROPINE 1%</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>21.05</group>
+		<name>EPINEPHRINE&#160;(ADRENALINE)&#160; 2%&#160;(SOUS&#160;FORME&#160;DE&#160;CHLORHYDRATE)</name>
+		<form>collyrium</form>
+	</drug>
+	<drug>
+		<group>22.01</group>
+		<name>ERGOMETRINE 200&#160;MICROGRAMMES&#160;(HYDROGENOMALEATE)&#160;EN&#160;AMPOULE&#160;DE&#160;</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>22.01</group>
+		<name>MIFEPRISTONE-&#160;MISOPROSTOL&#160; &#160;200&#160;MG&#160;- COMPRIME&#160;200&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>22.01</group>
+		<name>MISOPROSTOL 200&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>22.01</group>
+		<name>MISOPROSTOL 25&#160;MICROGRAMMES</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>22.01</group>
+		<name>OXYTOCINE 10&#160;UI&#160;EN&#160;1&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>22.02</group>
+		<name>NIFEDIPINE&#160; 10&#160;MG</name>
+		<form>capsule</form>
+	</drug>
+	<drug>
+		<group>226.02</group>
+		<name>CHLORURE DE POTASSIUM 15%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>23</group>
+		<name>SOLUTION POUR DIALYSE </name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>23</group>
+		<name>SOLUTION&#160;POUR&#160;DIALYSE&#160;P&#201;RITON&#201;ALE (DE&#160;COMPOSITION&#160;APPROPRIEE)&#160; </name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>CHLORPROMAZINE 10 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>CHLORPROMAZINE 100 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>CHLORPROMAZINE 25 MG</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>CHLORPROMAZINE 25 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>CHLORPROMAZINE 25 MG/2ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>CHLORPROMAZINE 50 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>FLUPHENAZINE&#160; 25&#160;MG&#160;(DECANOATE&#160;OU&#160;ENANTATE)&#160;EN&#160;AMPOULE&#160;DE&#160;1&#160;ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>HALOPERIDOL 0,5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>HALOPERIDOL 2 MG/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>HALOPERIDOL 2&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>HALOPERIDOL 5&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.01</group>
+		<name>HALOPERIDOL 5&#160;MG&#160;EN&#160;AMPOULE&#160;DE&#160;1&#160;ML&#160;</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>24.02.01</group>
+		<name>AMITRIPTYLINE 25&#160;MG&#160;(CHLORHYDRATE)</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.02.01</group>
+		<name>FLUOXETINE 20 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.02.02</group>
+		<name>ACIDE&#160;VALPRO&#207;QUE&#160;(VALPROATE&#160;DE&#160;SODIUM) 200&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.02.02</group>
+		<name>ACIDE&#160;VALPRO&#207;QUE&#160;(VALPROATE&#160;DE&#160;SODIUM) 500&#160;MG&#160;(VALPROATE&#160;DE&#160;SODIUM)</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.02.02</group>
+		<name>CARBAMAZEPINE 100&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.02.02</group>
+		<name>CARBAMAZEPINE 200&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.02.02</group>
+		<name>CARBONATE&#160;DE&#160;LITHIUM&#160; 300&#160;MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>24.03</group>
+		<name>CLOMIPRAMINE 10&#160;MG</name>
+		<form>capsule</form>
+	</drug>
+	<drug>
+		<group>24.03</group>
+		<name>CLOMIPRAMINE 25&#160;MG&#160;(CHLORHYDRATE)</name>
+		<form>capsule</form>
+	</drug>
+	<drug>
+		<group>24.03</group>
+		<name>TRAITEMENT&#160;DE&#160;SUBSTITUTION&#160;NICOTINIQUE&#160;(TSN)&#160;&#160; 2&#160;MG</name>
+		<form>chewinggum</form>
+	</drug>
+	<drug>
+		<group>24.03</group>
+		<name>TRAITEMENT&#160;DE&#160;SUBSTITUTION&#160;NICOTINIQUE&#160;(TSN)&#160;&#160; 4&#160;MG&#160;(SOUS&#160;FORME&#160;DE&#160;POLACRILEX).&#160;</name>
+		<form>chewinggum</form>
+	</drug>
+	<drug>
+		<group>24.03</group>
+		<name>TRAITEMENT&#160;DE&#160;SUBSTITUTION&#160;NICOTINIQUE&#160;(TSN)&#160;&#160; 5&#160;MG&#160;A&#160;30&#160;MG/16&#160;HEURES</name>
+		<form>transdermal</form>
+	</drug>
+	<drug>
+		<group>24.03</group>
+		<name>TRAITEMENT&#160;DE&#160;SUBSTITUTION&#160;NICOTINIQUE&#160;(TSN)&#160;&#160; 7&#160;MG&#160;A&#160;21&#160;MG/24&#160;HEURES</name>
+		<form>transdermal</form>
+	</drug>
+	<drug>
+		<group>24.03</group>
+		<name>&#160;METHADONE&#160; 10&#160;MG/5&#160;ML&#160;(CHLORHYDRATE)</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>24.03</group>
+		<name>&#160;METHADONE&#160; 5&#160;MG/5&#160;ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>ADRENALINE 1 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>BECLOMETASONE&#160; 100&#160;MICROGRAMMES PAR DOSE</name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>BROMURE&#160;D&#8217;IPRATROPIUM&#160;&#160; 20&#160;MICROGRAMMES&#160;PAR&#160;DOSE</name>
+		<form>aerosol</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>BUDDESONIDE 100 MICROGRAMMES</name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>BUDDESONIDE 200 MICROGRAMMES</name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>EPINEPHRINE&#160;(ADRENALINE)&#160; 1&#160;MG&#160;(SOUS&#160;FORME&#160;DE&#160;CHLORHYDRATE&#160;OU&#160;D?HYDROGENOTAR</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>SALBUTAMOL 100 MICROGRAMMES</name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>SALBUTAMOL 50 MICROGRAMMES/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>SALBUTAMOL&#160; 5&#160;MG&#160;(SOUS&#160;FORME&#160;DE&#160;SULFATE)/ML</name>
+		<form>aerosol</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>&#160;BECLOMETASONE&#160; 50&#160;MICROGRAMMES&#160;</name>
+		<form>aerosol</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>&#160;BUDESONIDE&#160; 100&#160;MICROGRAMMES&#160;PAR&#160;DOSE</name>
+		<form>aerosol</form>
+	</drug>
+	<drug>
+		<group>25.01</group>
+		<name>&#160;BUDESONIDE&#160; 200&#160;MICROGRAMMES&#160;PAR&#160;DOSE</name>
+		<form>aerosol</form>
+	</drug>
+	<drug>
+		<group>26.01</group>
+		<name>CHLORURE DE POTASSIUM </name>
+		<form>powder</form>
+	</drug>
+	<drug>
+		<group>26.01</group>
+		<name>SELS&#160;DE&#160;REHYDRATATION&#160;ORALE </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>CHLORURE DE POTASSIUM 7,50%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>CHLORURE DE SODIUM 0,90%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>CHLORURE&#160;DE&#160;POTASSIUM&#160;&#160; 11,2%&#160;EN&#160;AMPOULE&#160;DE&#160;20&#160;ML&#160;&#160;</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>CHLORURE&#160;DE&#160;POTASSIUM&#160;&#160; 15%&#160;(CORRESPONDANT&#160;A&#160;K&#160;2&#160;MMOL/ML&#160;ET&#160;CL&#160;2&#160;MMOL/ML)</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>CHLORURE&#160;DE&#160;POTASSIUM&#160;&#160; 7,5%&#160;(CORRESPONDANT&#160;A&#160;K&#160;1&#160;MMOL/ML&#160;ET&#160;CL)</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>CHLORURE&#160;DE&#160;SODIUM&#160; 0,9% ISOTONIQUE</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>GLUCOSE 10%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>GLUCOSE 5%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>GLUCOSE 50%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>GLUCOSE AVEC CHLORURE DE SODIUM 4% GLUCOSE, 0,18% CHLORURE DE SODIUM</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>GLUCOSE AVEC CHLORURE DE SODIUM 5% GLUCOSE, 0,45% CHLORURE DE SODIUM</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>GLUCOSE AVEC CHLORURE DE SODIUM 5% GLUCOSE, 0,9% CHLORURE DE SODIUM</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>GLUCOSE+CHLORURE DE SODIUM 5%+0,45%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>GLUCOSE+CHLORURE DE SODIUM 5%+0,9%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>HYDROGENOCARBONATE DE SODIUM 1,4% ISOTONIQUE</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>HYDROGENOCARBONATE DE SODIUM 1,40%</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>HYDROGENOCARBONATE DE SODIUM 8,4%/10ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.02</group>
+		<name>LACTATE DE SODIUM (SOLUTIONCOMPOSEE) </name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.03</group>
+		<name>EAU POUR PREPARATION INJECTABLE 10 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.03</group>
+		<name>EAU POUR PREPARATION INJECTABLE 2 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>26.03</group>
+		<name>EAU POUR PREPARATION INJECTABLE 5 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>ACIDE ASCORBIQUE 50 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>CHOLECALCIFEROL 1000 UI</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>CHOLECALCIFEROL 400 UI</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>CHOLECALCIFEROL 400 UI/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>CHOLECALCIFEROL 400 UI/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>ERGOCALCIFEROL 1,25 MG (50 000 UI)</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>ERGOCALCIFEROL 250 MICROGRAMMES/ML (10 000 UI/ML)</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>FLUORURE DE SODIUM </name>
+		<form>other</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>GLUCONATE DE CALCIUM 100 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 0,5 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 0,5 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 0,5 ML (240 MG D'IODE)</name>
+		<form>iodiumoil</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 0,57 ML (308 MG D'IODE)</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 1 ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 1 ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 1 ML (480 MG D'IODE)</name>
+		<form>iodiumoil</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 200 MG</name>
+		<form>capsule</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>IODINE 220 MG</name>
+		<form>capsule</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>NICOTINAMIDE 50 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>PYRIDOXINE 25 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RETINOL 10 000 UI</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RETINOL 10 000 UI</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RETINOL 100 000 UI</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RETINOL 100 000 UI</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RETINOL 100 000 UI</name>
+		<form>capsule</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RETINOL 100 000 UI</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RETINOL 200 000 UI</name>
+		<form>capsule</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RETINOL 50 000 UI</name>
+		<form>capsule</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>RIBOFLAVINE 5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>27</group>
+		<name>THIAMINE 50 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>28</group>
+		<name>ACIDE ACETIQUE 2%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>28</group>
+		<name>BUDDESONIDE 100 MICROGRAMMES</name>
+		<form>pulverisation</form>
+	</drug>
+	<drug>
+		<group>28</group>
+		<name>CIPROFLOXACINE 0,30%</name>
+		<form>solution</form>
+	</drug>
+	<drug>
+		<group>28</group>
+		<name>XYLOMETAZOLINE 0,05%</name>
+		<form>pulverisation</form>
+	</drug>
+	<drug>
+		<group>29</group>
+		<name>CITRATE DE CAFEINE 20 MG/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>29</group>
+		<name>CITRATE DE CAFEINE 20 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>29</group>
+		<name>IBUPROFENE 5 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>29</group>
+		<name>PROSTAGLANDINE E 0,5 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>29</group>
+		<name>PROSTAGLANDINE E 1 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>29</group>
+		<name>SURFACTANT 25 MG/ML</name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>29</group>
+		<name>SURFACTANT 80 MG/ML</name>
+		<form>inhalation</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>CHLORPHENAMINE 10 MG/1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>CHLORPHENAMINE 10MG AMPOULE DE 1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>CHLORPHENAMINE 2 MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>CHLORPHENAMINE 2MG/5ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>CHLORPHENAMINE 4 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>CHLORPHENAMINE 4MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>DEXAMETHASON 4 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>DEXAMETHASONE 4MG/ML AMPOULE DE 1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>EPINEPHRINE (ADRENALINE) 1 MG/1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>EPINEPHRINE (ADRENALINE) 1MG EN AMPOULE DE 1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>HYDROCORTISONE 100 MG</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>HYDROCORTISONE 100MG</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>PREDNISOLONE 25 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>PREDNISOLONE 25MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>PREDNISOLONE 5 MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>PREDNISOLONE 5 MG/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>PREDNISOLONE 5MG</name>
+		<form>tablet</form>
+	</drug>
+	<drug>
+		<group>03</group>
+		<name>PREDNISOLONE 5MG/ML</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>04.01</group>
+		<name>CHARBON ACTIF </name>
+		<form>powder</form>
+	</drug>
+	<drug>
+		<group>04.02</group>
+		<name>ACETYLCYSTEINE 10%</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>04.02</group>
+		<name>ACETYLCYSTEINE 20%</name>
+		<form>oralsolution</form>
+	</drug>
+	<drug>
+		<group>04.02</group>
+		<name>ACETYLCYSTEINE 200 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>04.02</group>
+		<name>ATROPINE 1 MG/1ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>04.02</group>
+		<name>CALCIUM EDETATE DE SODIUM 200 MG/ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>04.02</group>
+		<name>CHLORURE DE METYLTHIONINIUM (BLEU DE METYLENE) 10MG/ML AMPOULE DE 10ML</name>
+		<form>injectable</form>
+	</drug>
+	<drug>
+		<group>04.02</group>
+		<name>DEFEROXAMINE 500 MG</name>
+		<form>injectable</form>
+	</drug>
+</drugs>

@@ -4,130 +4,123 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%!
     private String addDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked) {
-        StringBuffer sReturn = new StringBuffer();
-
-        if (vDebets != null) {
-            Debet debet;
-            Prestation prestation;
-            String sEncounterName, sPrestationDescription, sPatientName,sDate;
-            String oldname="",oldencounter="",olddate="";
-            String sChecked = "";
-            Hashtable hSort = new Hashtable();
-
-            if (bChecked) {
-                sChecked = " checked";
-            }
-            int count=0,count2=0;
-
-            //Firts we will sort the records
-            for (int i=0;i<vDebets.size(); i++){
-                debet = (Debet) vDebets.elementAt(i);
-                if(debet!=null){
-    				count2++;
-                    hSort.put(debet.getPatientName()+"="+debet.getDate().getTime() + "=" + debet.getUid(),debet);
-                }
-            }
-            Vector keys = new Vector(hSort.keySet());
-            Collections.sort(keys);
-            Iterator it = keys.iterator();
-            while (it.hasNext()){
-                debet = (Debet) hSort.get(it.next());
-                if (checkString(debet.getUid()).length() > 0) {
-
-                    if (debet != null) {
-                    	count++;
-                        if(!oldname.equalsIgnoreCase(debet.getPatientName())){
-                            sPatientName = debet.getPatientName();
-                            oldname=sPatientName;
-                            if (debet.getEncounter()!=null){
-                                sEncounterName=debet.getEncounter().getEncounterDisplayNameService(sWebLanguage);
-                            }
-                            else{
-                                sEncounterName=debet.getEncounterUid();
-                            }
-                            oldencounter=sEncounterName;
-                            sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
-                            olddate=sDate;
-                        }
-                        else {
-                            sPatientName="";
-                            if(!oldencounter.equalsIgnoreCase(debet.getEncounter().getEncounterDisplayNameService(sWebLanguage))){
-                                sPatientName = debet.getPatientName();
-                                oldname=sPatientName;
-                                if (debet.getEncounter()!=null){
-                                    sEncounterName=debet.getEncounter().getEncounterDisplayNameService(sWebLanguage);
-                                }
-                                else{
-                                    sEncounterName=debet.getEncounterUid();
-                                }
-                                oldencounter=sEncounterName;
-                                sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
-                                olddate=sDate;
-                            }
-                            else {
-                                sEncounterName="";
-                                if(!olddate.equalsIgnoreCase(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()))){
-                                    sPatientName = debet.getPatientName();
-                                    oldname=sPatientName;
-                                    if (debet.getEncounter()!=null){
-                                        sEncounterName=debet.getEncounter().getEncounterDisplayNameService(sWebLanguage);
-                                    }
-                                    else{
-                                        sEncounterName=debet.getEncounterUid();
-                                    }
-                                    oldencounter=sEncounterName;
-                                    sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
-                                    olddate=sDate;
-                                }
-                                else {
-                                    sDate="";
-                                }
-                            }
-                        }
-
-                        sPrestationDescription = "";
-
-                        if (checkString(debet.getPrestationUid()).length() > 0) {
-                            prestation = debet.getPrestation();
-
-                            if (prestation != null) {
-                                sPrestationDescription = checkString(prestation.getDescription());
-                            }
-                        }
-
-                        if (sClass.equals("")) {
-                            sClass = "1";
-                        } else {
-                            sClass = "";
-                        }
-                        sReturn.append("<tr class='list" + sClass + "'><td><1>" + debet.getUid() + "=" + debet.getInsurarAmount() + "<2>" + sChecked + "></td>"
-                                        + "<td>" + HTMLEntities.htmlentities(sPatientName) + "</td>"
-                                        + "<td>" + HTMLEntities.htmlentities(sDate) + "</td>"
-                                        + "<td>" + HTMLEntities.htmlentities(sEncounterName) + "</td>"
-                                        + "<td>" +debet.getQuantity()+" x "+ HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
-                                        + "<td >" + new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(debet.getInsurarAmount()) + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
-                                        + "</tr>");
-                    }
-                }
-            }
-
-        }
+	StringBuffer sReturn = new StringBuffer();
+		try{
+	        if (vDebets != null) {
+	            Debet debet;
+	            Prestation prestation;
+	            String sEncounterName, sPrestationDescription, sPatientName,sDate;
+	            String oldname="",oldencounter="",olddate="";
+	            String sChecked = "";
+	            Hashtable hSort = new Hashtable();
+	
+	            if (bChecked) {
+	                sChecked = " checked";
+	            }
+	            int count=0,count2=0;
+	
+	            //Firts we will sort the records
+	            for (int i=0;i<vDebets.size(); i++){
+	                debet = (Debet) vDebets.elementAt(i);
+	                if(debet!=null){
+	    				count2++;
+	                    hSort.put(debet.getPatientName()+"="+debet.getDate().getTime() + "=" + debet.getUid(),debet);
+	                }
+	            }
+	            Vector keys = new Vector(hSort.keySet());
+	            Collections.sort(keys);
+	            Iterator it = keys.iterator();
+	            while (it.hasNext()){
+	                debet = (Debet) hSort.get(it.next());
+	                if (checkString(debet.getUid()).length() > 0) {
+	
+	                    if (debet != null) {
+	                    	count++;
+	                        if(!oldname.equalsIgnoreCase(debet.getPatientName())){
+	                            sPatientName = debet.getPatientName();
+	                            oldname=sPatientName;
+	                            if (debet.getEncounter()!=null){
+	                                sEncounterName=debet.getEncounter().getEncounterDisplayNameService(sWebLanguage);
+	                            }
+	                            else{
+	                                sEncounterName=debet.getEncounterUid();
+	                            }
+	                            oldencounter=sEncounterName;
+	                            sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+	                            olddate=sDate;
+	                        }
+	                        else {
+	                            sPatientName="";
+	                            if(!oldencounter.equalsIgnoreCase(debet.getEncounter().getEncounterDisplayNameService(sWebLanguage))){
+	                                sPatientName = debet.getPatientName();
+	                                oldname=sPatientName;
+	                                if (debet.getEncounter()!=null){
+	                                    sEncounterName=debet.getEncounter().getEncounterDisplayNameService(sWebLanguage);
+	                                }
+	                                else{
+	                                    sEncounterName=debet.getEncounterUid();
+	                                }
+	                                oldencounter=sEncounterName;
+	                                sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+	                                olddate=sDate;
+	                            }
+	                            else {
+	                                sEncounterName="";
+	                                if(!olddate.equalsIgnoreCase(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()))){
+	                                    sPatientName = debet.getPatientName();
+	                                    oldname=sPatientName;
+	                                    if (debet.getEncounter()!=null){
+	                                        sEncounterName=debet.getEncounter().getEncounterDisplayNameService(sWebLanguage);
+	                                    }
+	                                    else{
+	                                        sEncounterName=debet.getEncounterUid();
+	                                    }
+	                                    oldencounter=sEncounterName;
+	                                    sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+	                                    olddate=sDate;
+	                                }
+	                                else {
+	                                    sDate="";
+	                                }
+	                            }
+	                        }
+	
+	                        sPrestationDescription = "";
+	
+	                        if (checkString(debet.getPrestationUid()).length() > 0) {
+	                            prestation = debet.getPrestation();
+	
+	                            if (prestation != null) {
+	                                sPrestationDescription = checkString(prestation.getDescription());
+	                            }
+	                        }
+	
+	                        if (sClass.equals("")) {
+	                            sClass = "1";
+	                        } else {
+	                            sClass = "";
+	                        }
+	                        sReturn.append("<tr class='list" + sClass + "'><td><1>" + debet.getUid() + "=" + debet.getInsurarAmount() + "<2>" + sChecked + "></td>"
+	                                        + "<td>" + HTMLEntities.htmlentities(sPatientName) + "</td>"
+	                                        + "<td>" + HTMLEntities.htmlentities(sDate) + "</td>"
+	                                        + "<td>" + HTMLEntities.htmlentities(sEncounterName) + "</td>"
+	                                        + "<td>" +debet.getQuantity()+" x "+ HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
+	                                        + "<td >" + new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(debet.getInsurarAmount()) + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+	                                        + "</tr>");
+	                    }
+	                }
+	            }
+	
+	        }
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
         return sReturn.toString();
     }
 
-    private String addPeriodDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked,String sEditBegin,String sEditEnd,String sServiceUid) {
+    private String addPeriodDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked,java.util.Date begin,java.util.Date end,String sServiceUid) {
         StringBuffer sReturn = new StringBuffer();
-        Date begin = null, end =null;
-        try{
-            begin = new SimpleDateFormat("dd/MM/yyyy").parse(sEditBegin);
-        }
-        catch(Exception e){
-        }
-        try{
-            end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
-        }
-        catch(Exception e){
-        }
 
         if (vDebets != null) {
             Debet debet;
@@ -267,7 +260,7 @@
     String sClass = "";
     InsurarInvoice insurarInvoice = null;
     String s=""; 
-    Vector vDebets=new Vector(),vUnassignedDebets=new Vector();;
+    Vector vDebets=new Vector(),vUnassignedDebets=new Vector();
     if (sEditInsurarInvoiceUID.length() > 0) {
         insurarInvoice = InsurarInvoice.get(sEditInsurarInvoiceUID);
         vDebets = insurarInvoice.getDebets();
@@ -284,6 +277,7 @@
         catch(Exception e){}
         try{
             end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
+            end = new java.util.Date(end.getTime()+(24*3600*1000)-1);
         }
         catch(Exception e){}
         vUnassignedDebets = Debet.getUnassignedInsurarDebets(sInsurarUid,begin,end,MedwanQuery.getInstance().getConfigInt("maximumUnassignedInsurerDebets",30000));
@@ -295,7 +289,7 @@
         	sWarning=sWarning.replaceAll("#TO#", new SimpleDateFormat("dd/MM/yyyy").format(((Debet)vUnassignedDebets.elementAt(vUnassignedDebets.size()-1)).getDate()));
         	s= "<tr><td bgcolor='black' colspan='6'><font style='color: white; font-size: 14px;'>"+sWarning+"</font></td></tr>"+s;
         }
-        s += addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,sEditBegin,sEditEnd,sServiceUid);
+        s += addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,begin,end,sServiceUid);
     }
     else {
     }

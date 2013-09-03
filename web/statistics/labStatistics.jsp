@@ -83,7 +83,7 @@
 				sResults.append("<td nowrap class='text' width='20%'>"+getTran("web","standarddeviation",sWebLanguage)+": <b>"+new DecimalFormat("0.00").format(basicStatistics.sampleStdDeviation())+"</b></td>");
 				sResults.append("</tr>");
 			}
-			else if(_labEditor.equalsIgnoreCase("listbox") || _labEditor.equalsIgnoreCase("radiobutton")){
+			else if(_labEditor.equalsIgnoreCase("listbox") || _labEditor.equalsIgnoreCase("radiobutton")||_labEditor.equalsIgnoreCase("listboxcomment") || _labEditor.equalsIgnoreCase("radiobuttoncomment")){
 				String[] options = new String[0];
 				try {
 					options=_labEditorParameters.split(":")[1].split(","); 

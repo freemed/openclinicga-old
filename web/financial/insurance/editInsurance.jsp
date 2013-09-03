@@ -262,7 +262,14 @@
                 <%=getTran("web","start",sWebLanguage)%>
             </td>
             <td class="admin2">
-                <%=writeDateField("EditInsuranceStart","EditInsuranceForm",sEditInsuranceStart,sWebLanguage)%>
+                <%
+                	if(sEditInsuranceUID.length()==0 || activeUser.getAccessRight("financial.modifyinsurancebegin.select")){
+                		out.println(writeDateField("EditInsuranceStart","EditInsuranceForm",sEditInsuranceStart,sWebLanguage));
+                	}
+                	else {
+                		out.println(sEditInsuranceStart);
+                	}
+                %>
             </td>
         </tr>
         <%-- stop --%>

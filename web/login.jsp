@@ -169,9 +169,9 @@
         <br/><center>GA Open Source Edition by:
         <% if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("rw")) { %>
         <img src="_img/rwandaflag.jpg" height="15px" width="30px" alt="Rwanda"/>
-        <a href="http://mxs.rwandamed.org" target="_new"><b>MXS Central Africa SARL</b></a>
+        <a href="http://mxs.rwandamed.org" target="_new"><b>The Open-IT Group Ltd</b></a>
         <BR/> PO Box 3242 - Kigali Rwanda Tel +250 07884 32 435 -
-        <a href="mailto:mxs@rwandamed.org">mxs@rwandamed.org</a>
+        <a href="mailto:mxs@rwandamed.org">openit@rwandamed.org</a>
         <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("bi")) { %>
         <img src="_img/burundiflag.jpg" height="15px" width="30px" alt="Burundi"/>
         <a href="http://www.openit-burundi.net" target="_new"><b>Open-IT Burundi SPRL</b></a>

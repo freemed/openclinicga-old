@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.PatientInvoice,be.openclinic.finance.InsurarInvoice,java.util.*,java.text.DecimalFormat" %>
+<%@ page import="be.openclinic.finance.*,java.util.*,java.text.DecimalFormat" %>
 <%@ page import="be.openclinic.finance.ExtraInsurarInvoice" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
@@ -39,8 +39,9 @@
             <td><%=getTran("web.finance","invoicetype",sWebLanguage)%></td>
             <td colspan="4">
                 <input type="radio" id="FindTypePatient" onDblClick="uncheckRadio(this);" name="FindInvoiceType" value="patient" <%if (sFindInvoiceType.equalsIgnoreCase("patient")){out.print("checked");}%>><%=getLabel("web","patient",sWebLanguage,"FindTypePatient")%>
-                       <input type="radio" onDblClick="uncheckRadio(this);" id="FindTypeInsurar" name="FindInvoiceType" value="insurar" <%if (sFindInvoiceType.equalsIgnoreCase("insurar") || sFindInvoiceType.equalsIgnoreCase("")){out.print("checked");}%>><%=getLabel("web","insurar",sWebLanguage,"FindTypeInsurar")%>
-                       <input type="radio" onDblClick="uncheckRadio(this);" id="FindExtraInvoiceType" name="FindInvoiceType" value="extrainsurar" <%if (sFindInvoiceType.equalsIgnoreCase("extrainsurar")){out.print("checked");}%>><%=getLabel("web","extrainsurar",sWebLanguage,"FindExtraInvoiceType")%>
+                <input type="radio" onDblClick="uncheckRadio(this);" id="FindTypeInsurar" name="FindInvoiceType" value="insurar" <%if (sFindInvoiceType.equalsIgnoreCase("insurar") || sFindInvoiceType.equalsIgnoreCase("")){out.print("checked");}%>><%=getLabel("web","insurar",sWebLanguage,"FindTypeInsurar")%>
+                <input type="radio" onDblClick="uncheckRadio(this);" id="FindExtraInvoiceType" name="FindInvoiceType" value="extrainsurar" <%if (sFindInvoiceType.equalsIgnoreCase("extrainsurar")){out.print("checked");}%>><%=getLabel("web","extrainsurar",sWebLanguage,"FindExtraInvoiceType")%>
+                <input type="radio" onDblClick="uncheckRadio(this);" id="FindExtraInvoiceType" name="FindInvoiceType" value="extrainsurar2" <%if (sFindInvoiceType.equalsIgnoreCase("extrainsurar2")){out.print("checked");}%>><%=getLabel("web","complementarycoverage2",sWebLanguage,"FindExtraInvoiceType")%>
             </td>
         </tr>
         <tr>
@@ -57,6 +58,7 @@
         Vector vPatients = new Vector();
         Vector vInsurars = new Vector();
         Vector vExtraInsurars = new Vector();
+        Vector vExtraInsurars2 = new Vector();
 
         if ((sFindInvoiceType.equalsIgnoreCase("patient")) || (sFindInvoiceType.equals(""))) {
             vPatients = PatientInvoice.searchInvoices(sFindDateBegin, sFindDateEnd, sFindInvoiceId, sFindAmountMin, sFindAmountMax);
@@ -64,7 +66,9 @@
             vInsurars = InsurarInvoice.searchInvoices(sFindDateBegin, sFindDateEnd, sFindInvoiceId, sFindAmountMin, sFindAmountMax);
         }else if (sFindInvoiceType.equalsIgnoreCase("extrainsurar")) {
             vExtraInsurars = ExtraInsurarInvoice.searchInvoices(sFindDateBegin, sFindDateEnd, sFindInvoiceId, sFindAmountMin, sFindAmountMax);
-        }
+	    }else if (sFindInvoiceType.equalsIgnoreCase("extrainsurar2")) {
+	        vExtraInsurars2 = ExtraInsurarInvoice2.searchInvoices(sFindDateBegin, sFindDateEnd, sFindInvoiceId, sFindAmountMin, sFindAmountMax);
+	    }
         Hashtable hInvoices = new Hashtable();
         PatientInvoice patientInvoice;
         for (int i=0;i<vPatients.size();i++){
@@ -91,16 +95,24 @@
                 hInvoices.put(new Integer(extrainsurarInvoice.getInvoiceUid()),extrainsurarInvoice);
             }
         }
+        ExtraInsurarInvoice2 extrainsurarInvoice2;
+        for (int i=0;i<vExtraInsurars2.size();i++){
+            extrainsurarInvoice2 = (ExtraInsurarInvoice2)vExtraInsurars2.elementAt(i);
+
+            if (extrainsurarInvoice2!=null){
+                hInvoices.put(new Integer(extrainsurarInvoice2.getInvoiceUid()),extrainsurarInvoice2);
+            }
+        }
 %>
         <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
             <tr class="admin">
-                <td width="100"><%=getTran("web.finance","invoiceid",sWebLanguage)%></td>
-                <td width="80"><%=getTran("web","date",sWebLanguage)%></td>
+                <td><%=getTran("web.finance","invoiceid",sWebLanguage)%></td>
+                <td><%=getTran("web","date",sWebLanguage)%></td>
                 <td><%=getTran("web","destination",sWebLanguage)%></td>
-                <td width="80"><%=getTran("web.finance","invoicetype",sWebLanguage)%></td>
-                <td width="100"><%=getTran("Web","amount",sWebLanguage)+" "+MedwanQuery.getInstance().getConfigParam("currency", "€")%></td>
-                <td width="100"><%=getTran("Web.finance","payed",sWebLanguage)%></td>
-                <td width="105"><%=getTran("web.finance","patientinvoice.status",sWebLanguage)%></td>
+                <td><%=getTran("web.finance","invoicetype",sWebLanguage)%></td>
+                <td><%=getTran("Web","amount",sWebLanguage)+" "+MedwanQuery.getInstance().getConfigParam("currency", "€")%></td>
+                <td><%=getTran("Web.finance","payed",sWebLanguage)%></td>
+                <td><%=getTran("web.finance","patientinvoice.status",sWebLanguage)%></td>
             </tr>
             <tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
             <%
@@ -139,6 +151,13 @@
                         sRowAmount = new DecimalFormat("#0.00").format(extrainsurarInvoice.getBalance());
                         sRowStatus = extrainsurarInvoice.getStatus();
                         sRowType = getTran("web","extrainsurar",sWebLanguage);
+                    }else if (object.getClass().getName().equals("be.openclinic.finance.ExtraInsurarInvoice2")) {
+                        extrainsurarInvoice2 = (ExtraInsurarInvoice2) object;
+                        sRowDate = ScreenHelper.getSQLDate(extrainsurarInvoice2.getDate());
+                        sRowDestination = extrainsurarInvoice2.getInsurar().getName();
+                        sRowAmount = new DecimalFormat("#0.00").format(extrainsurarInvoice2.getBalance());
+                        sRowStatus = extrainsurarInvoice2.getStatus();
+                        sRowType = getTran("web","complementarycoverage2",sWebLanguage);
                     }
 
                     if (sRowStatus.equalsIgnoreCase("closed")||sRowStatus.equalsIgnoreCase("canceled")){
@@ -206,8 +225,11 @@
             else if(sType=="<%=getTran("web","insurar",sWebLanguage)%>"){
                 openPopup("/financial/insuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
             }
-             else if(sType=="<%=getTran("web","extrainsurar",sWebLanguage)%>"){
+            else if(sType=="<%=getTran("web","extrainsurar",sWebLanguage)%>"){
                 openPopup("/financial/extraInsuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
+            }
+            else if(sType=="<%=getTran("web","complementarycoverage2",sWebLanguage)%>"){
+                openPopup("/financial/extraInsuranceInvoiceEdit2.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
             }
         }
     </script>

@@ -1,6 +1,6 @@
 <%@ page import="be.openclinic.finance.Wicket,be.openclinic.finance.WicketCredit,java.util.Vector" %>
 <%@include file="/includes/validateUser.jsp"%>
-<%=checkPermission("financial.wicketoperation","edit",activeUser)%>
+<%=checkPermission("financial.wicketoperation","select",activeUser)%>
 <script src='<%=sCONTEXTPATH%>/_common/_script/prototype.js'></script>
 <%
     String sShowReturn                          = checkString(request.getParameter("ShowReturn"));
@@ -119,11 +119,17 @@
             </td>
         </tr>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input class='button' type="button" name="EditSaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+        	<%
+    		System.out.println("accessright = "+activeUser.getAccessRight("financial.wicketoperation.edit"));
+    		System.out.println("sEditWicketOperationUID.length() = "+sEditWicketOperationUID.length());
+        		if(activeUser.getAccessRight("financial.wicketoperation.edit") || sEditWicketOperationUID.length()==0){
+        	%>
+            	<input class='button' type="button" name="EditSaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
             <%
+        		}
                 if(sEditWicketOperationUID.length()>0){
             %>
-            <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf(document.getElementById('EditWicketOperationUID').value);">
+            	<input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf(document.getElementById('EditWicketOperationUID').value);">
             <%
                 }
                 if(bShow){

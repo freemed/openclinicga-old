@@ -48,7 +48,7 @@
                             }
                         }
                         String wicketUid="",wicketName="";
-                        WicketCredit wicketCredit = WicketCredit.getByReferenceUid(credit.getUid());
+                        WicketCredit wicketCredit = WicketCredit.getByReferenceUid(credit.getUid(),"PatientCredit");
                         if(wicketCredit!=null && wicketCredit.getUid()!=null && wicketCredit.getUid().length()>1){
                             wicketUid=wicketCredit.getWicketUID();
                             Wicket wicket=Wicket.get(wicketUid);

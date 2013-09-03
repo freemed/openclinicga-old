@@ -1,4 +1,4 @@
-<%@page import="be.openclinic.finance.InsurarCredit, be.openclinic.finance.Insurar"%>
+<%@page import="be.openclinic.finance.InsurarCredit, be.openclinic.finance.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="/includes/ajaxRequirements.jsp"%>
 <%=checkPermission("financial.insurarCreditEdit","edit",activeUser)%>
@@ -12,7 +12,8 @@
            sEditCreditInvoiceNr  = checkString(request.getParameter("EditCreditInvoiceNr")),
            sEditCreditAmount     = checkString(request.getParameter("EditCreditAmount")),
            sEditCreditType       = checkString(request.getParameter("EditCreditType")),
-           sEditCreditDescr      = checkString(request.getParameter("EditCreditDescription"));
+           sEditCreditDescr      = checkString(request.getParameter("EditCreditDescription")),
+		   sEditCreditWicketUid  = checkString(request.getParameter("EditCreditWicketUid"));
     
     String sFindDateBegin        = checkString(request.getParameter("FindDateBegin")),
            sFindDateEnd          = checkString(request.getParameter("FindDateEnd")),
@@ -37,6 +38,13 @@
 
     String sEditCreditInsurarName, msg = "";
 
+    // set default wicket if no wicket specified
+    if(sEditCreditWicketUid.length()==0){
+        sEditCreditWicketUid = activeUser.getParameter("defaultwicket");
+    }
+    if(sEditCreditWicketUid.length()==0){
+        sEditCreditWicketUid = checkString((String)session.getAttribute("defaultwicket"));
+    }
     //--- SAVE ------------------------------------------------------------------------------------
     if(sAction.equals("save")){
         InsurarCredit credit;
@@ -60,6 +68,52 @@
         credit.store(Integer.parseInt(activeUser.userid));
 
         msg = getTran("web","dataIsSaved",sWebLanguage);
+
+        //*** update wicket credit ********************************************
+        if(sEditCreditWicketUid.length() > 0){
+            // get wicket credit belonging to this insurarCredit, if any specified
+            WicketCredit wicketCredit = null;
+            if(sEditCreditUid.length() > 0){
+                wicketCredit = WicketCredit.getByReferenceUid(sEditCreditUid,"InsurarCredit");
+            }
+
+            // create wicket credit if not found or not specified
+            if(wicketCredit==null || wicketCredit.getUid()==null || wicketCredit.getUid().length()==0){
+                wicketCredit = new WicketCredit();
+
+                wicketCredit.setWicketUID(sEditCreditWicketUid);
+                session.setAttribute("defaultwicket",sEditCreditWicketUid);
+                wicketCredit.setCreateDateTime(ScreenHelper.getSQLDate(sEditCreditDate));
+                wicketCredit.setUserUID(Integer.parseInt(activeUser.userid));
+            }
+
+            wicketCredit.setOperationDate(new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(sEditCreditDate).getTime()));
+            wicketCredit.setOperationType(sEditCreditType);
+            wicketCredit.setAmount(Double.parseDouble(sEditCreditAmount));
+
+            // set credit comment + invoice number as default comment
+            if(wicketCredit.getComment()==null || (wicketCredit.getComment()!=null && wicketCredit.getComment().toString().length()==0)){
+                wicketCredit.setComment(Insurar.get(credit.getInsurarUid()).getName()+(ScreenHelper.checkString(credit.getComment()).length()==0?"":" ("+ScreenHelper.checkString(credit.getComment())+")")+" - "+sEditCreditInvoiceUid.replaceAll("1\\.",""));
+            }
+
+            wicketCredit.setInvoiceUID(sEditCreditInvoiceUid);
+
+            // reference to patientCredit
+            ObjectReference objRef = new ObjectReference();
+            objRef.setObjectType("InsurarCredit");
+            objRef.setObjectUid(credit.getUid());
+            wicketCredit.setReferenceObject(objRef);
+
+            wicketCredit.setUpdateDateTime(getSQLTime());
+            wicketCredit.setUpdateUser(activeUser.userid);
+
+            wicketCredit.store();
+
+            // recalculate wicket balance
+            Wicket wicket = Wicket.get(sEditCreditWicketUid);
+            wicket.recalculateBalance();
+        }
+
     }
 
     //--- LOAD SPECIFIED CREDIT -------------------------------------------------------------------
@@ -137,7 +191,7 @@
     <br>
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="EditCreditUid" value="<%=sEditCreditUid%>">
+    <input type="hidden" name="EditCreditUid" id="EditCreditUid" value="<%=sEditCreditUid%>">
     <table class="list"width="100%" cellspacing="1">
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
@@ -182,10 +236,79 @@
             <td class="admin"><%=getTran("web","description",sWebLanguage)%></td>
             <td class="admin2"><%=writeTextarea("EditCreditDescription","","","",sEditCreditDescr)%></td>
         </tr>
+        <%
+            Vector userWickets = Wicket.getWicketsForUser(activeUser.userid);
+            if(userWickets.size() > 0){
+                %>
+                    <tr>
+                        <td class="admin"><%=getTran("wicket","wicket",sWebLanguage)%>&nbsp;*</td>
+                        <td class="admin2">
+                            <select class="text" id="EditCreditWicketUid" name="EditCreditWicketUid">
+                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <%
+                                    Iterator iter = userWickets.iterator();
+                                    Wicket wicket;
+
+                                    while(iter.hasNext()){
+                                        wicket = (Wicket) iter.next();
+
+                                        %>
+                                          <option value="<%=wicket.getUid()%>" <%=sEditCreditWicketUid.equals(wicket.getUid())?" selected":""%>>
+                                              <%=wicket.getUid()%>&nbsp;<%=getTran("service",wicket.getServiceUID(),sWebLanguage)%>
+                                          </option>
+                                        <%
+                                    }
+                                %>
+                            </select>
+                        </td>
+                    </tr>
+                <%
+            }
+            else {
+            %>
+            <input type="hidden" name="EditCreditWicketUid">
+            <%
+            }
+        %>
         <tr>
             <td class="admin"/>
             <td class="admin2">
                 <input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
+                <div id="printsection" name="printsection" style="visibility: hidden">
+                    <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>
+
+                    <%
+                        String sPrintLanguage = activeUser.person.language;
+
+                        if (sPrintLanguage.length()==0){
+                            sPrintLanguage = sWebLanguage;
+                        }
+
+                        String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
+                    %>
+
+                    <select class="text" name="PrintLanguage" id="PrintLanguage">
+                        <%
+                            String tmpLang;
+                            StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages, ",");
+                            while (tokenizer.hasMoreTokens()) {
+                                tmpLang = tokenizer.nextToken();
+
+                                %><option value="<%=tmpLang%>"<%if (tmpLang.equalsIgnoreCase(sPrintLanguage)){out.print(" selected");}%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
+                            }
+                        %>
+                    </select>
+
+                    <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf(document.getElementById('EditCreditUid').value);">
+                    <%
+                    	if(MedwanQuery.getInstance().getConfigInt("javaPOSenabled",0)==1){
+                    %>
+                    <input class="button" type="button" name="buttonPrintPOS" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientPaymentReceipt();">
+                    <%
+                    	}
+                    %>
+                    
+                </div>
             </td>
         </tr>
     </table>
@@ -289,7 +412,8 @@
       }
   }
 
-  function selectCredit(creditUid,creditDate,amount,type,descr, invoiceUid){
+  function selectCredit(creditUid,creditDate,amount,type,descr, invoiceUid, wicketuid){
+    EditForm.EditCreditWicketUid.value=wicketuid;
     EditForm.EditCreditUid.value = creditUid;
     EditForm.EditCreditDate.value = creditDate;
     EditForm.EditCreditAmount.value = amount;
@@ -305,6 +429,8 @@
     }
     EditForm.EditCreditInsurarUid.value = EditForm.FindCreditInsurarUid.value;
     EditForm.EditCreditInsurarName.value = EditForm.FindCreditInsurarName.value;
+    document.getElementById('printsection').style.visibility='visible';
+    document.getElementById('PrintLanguage').show();
   }
 
   function clearEditFields(){
@@ -317,6 +443,8 @@
     EditForm.EditCreditAmount.value = "";
     EditForm.EditCreditType.value = "<%=MedwanQuery.getInstance().getConfigString("defaultInsurarCreditType","insurance.payment")%>";
     EditForm.EditCreditDescription.value = "";
+    document.getElementById('printsection').style.visibility='hidden';
+    document.getElementById('PrintLanguage').hide();
   }
 
   function doBack(){
@@ -329,7 +457,38 @@
       EditForm.FindAmountMin.value = "";
       EditForm.FindAmountMax.value = "";
   }
+  
+  function doPrintPdf(creditUid){
+      var url = "<c:url value='/financial/createInsurarPaymentReceiptPdf.jsp'/>?CreditUid="+creditUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
+      window.open(url,"PaymentReceiptPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+  }
+
+  function doPrintPatientPaymentReceipt(){
+  	  var params = '';
+      var today = new Date();
+      var url= '<c:url value="/financial/printInsurarPaymentReceiptOffline.jsp"/>?credituid='+document.getElementById('EditCreditUid').value+'&ts='+today+'&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>';
+      new Ajax.Request(url,{
+				method: "GET",
+              parameters: params,
+              onSuccess: function(resp){
+              	var label = eval('('+resp.responseText+')');
+              	if(label.message.length>0){
+                  	alert(label.message.unhtmlEntities());
+                  };
+              },
+				onFailure: function(){
+					alert("Error printing receipt");
+              }
+          }
+		);
+  }
+  
 
   EditForm.EditCreditDate.focus();
   loadUnassignedCredits(EditForm.FindCreditInsurarUid.value);
+  if(document.getElementById('EditCreditUid').value.length>0){
+      document.getElementById('printsection').style.visibility='visible';
+      document.getElementById('PrintLanguage').show();
+  }
+
 </script>

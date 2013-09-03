@@ -41,7 +41,8 @@
                     hMenu.put(getTran("Web.Manage", "prestations", sWebLanguage), "main.do?Page=system/managePrestations.jsp");
                     hMenu.put(getTran("Web.Manage", "prestationgroups", sWebLanguage), "main.do?Page=system/managePrestationGroups.jsp");
                     hMenu.put(getTran("Web.Manage", "tariffs", sWebLanguage), "main.do?Page=system/manageTariffs.jsp");
-                  //  hMenu.put(getTran("Web.Manage", "prestationcodes", sWebLanguage), "main.do?Page=system/managePrestationCodes.jsp");
+                  	hMenu.put(getTran("Web.Manage", "managelabprocedures", sWebLanguage), "main.do?Page=system/manageLabProcedures.jsp");
+                  	hMenu.put(getTran("Web.Manage", "managelabreagents", sWebLanguage), "main.do?Page=system/manageLabReagents.jsp");
                     hMenu.put(getTran("Web.Manage", "ManageMedicalCenters", sWebLanguage), "main.do?Page=system/manageMedicalCenters.jsp");
                     hMenu.put(getTran("Web.Manage", "ManageLabAnalyses", sWebLanguage), "main.do?Page=system/manageLabAnalyses.jsp");
                     hMenu.put(getTran("Web.Manage", "ManageLabProfiles", sWebLanguage), "main.do?Page=system/manageLabProfiles.jsp");

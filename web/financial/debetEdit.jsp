@@ -129,7 +129,7 @@ System.out.println(0);
 	                                        }
 	                                    }
 
-	                                    out.print("/>"+insurance.getInsurar().getName()+"</option>");
+	                                    out.print("/>"+insurance.getInsurar().getName()+" ("+insurance.getInsuranceCategory().getCategory()+": "+insurance.getInsuranceCategory().getPatientShare()+"/"+(100-Integer.parseInt(insurance.getInsuranceCategory().getPatientShare()))+")"+ "</option>");
 	                                }
 	                            }
 							}
@@ -683,8 +683,10 @@ System.out.println(0);
         EditForm.EditPatientInvoiceUID.value = "";
         EditForm.EditInsuranceInvoiceUID.value = "";
         EditForm.EditQuantity.value = "1";
-        EditForm.EditDebetServiceUid.value="<%=sDefaultServiceUid%>";
-        EditForm.EditDebetServiceName.value="<%=sDefaultServiceName%>";
+        if(1==<%=MedwanQuery.getInstance().getConfigInt("resetServiceUidForNewDebet",0)%>){
+	        EditForm.EditDebetServiceUid.value="<%=sDefaultServiceUid%>";
+	        EditForm.EditDebetServiceName.value="<%=sDefaultServiceName%>";
+        }
         EditForm.buttonSave.disabled=false;
         document.getElementById('groups').style.visibility='visible';
 

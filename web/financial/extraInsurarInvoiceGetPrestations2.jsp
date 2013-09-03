@@ -114,20 +114,8 @@
         return sReturn.toString();
     }
 
-    private String addPeriodDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked,String sEditBegin,String sEditEnd, String sServiceUid) {
+    private String addPeriodDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked,java.util.Date begin,java.util.Date end, String sServiceUid) {
         StringBuffer sReturn = new StringBuffer();
-        Date begin = null, end =null;
-        try{
-            begin = new SimpleDateFormat("dd/MM/yyyy").parse(sEditBegin);
-        }
-        catch(Exception e){
-        }
-        try{
-            end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
-        }
-        catch(Exception e){
-        }
-
         if (vDebets != null) {
             Debet debet;
             Prestation prestation;
@@ -282,10 +270,11 @@
         catch(Exception e){}
         try{
             end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
+            end = new java.util.Date(end.getTime()+(24*3600*1000)-1);
         }
         catch(Exception e){}
         Vector vUnassignedDebets = Debet.getUnassignedExtraInsurarDebets2(sInsurarUid,begin,end);
-        out.print(addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,sEditBegin,sEditEnd,sServiceUid));
+        out.print(addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,begin,end,sServiceUid));
     }
     else {
     }

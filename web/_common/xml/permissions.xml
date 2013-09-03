@@ -145,6 +145,7 @@
         <permission type="balance" id="balancehistory">financial.balancehistory</permission>
         <permission type="balance" id="addDebet">financial.debettransaction</permission>
         <permission type="balance" id="addCredit">financial.credittransaction</permission>
+        <permission type="web" id="financial.wicketoperation">financial.wicketoperation</permission>
         <permission type="web" id="patientCreditEdit">financial.patientcreditedit</permission>
         <permission type="web" id="insurarCreditEdit">financial.insurarcreditedit</permission>
         <permission type="web" id="debeteedit">financial.debet</permission>
@@ -156,6 +157,7 @@
         <permission type="web" id="reimbursements">financial.reimbursement</permission>
         <permission type="web" id="renewexpiredcontributions">financial.renewexpiredcontributions</permission>
         <permission type="web" id="print.proforma.patientinvoice">financial.printproformapatientinvoice</permission>
+        <permission type="web" id="financial.modifyinsurancebegin">financial.modifyinsurancebegin</permission>
     </application>
     <application type="Web" id="executive">
         <permission type="web" id="bedoccupation">occup.bedoccupation</permission>

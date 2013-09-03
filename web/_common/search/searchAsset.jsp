@@ -52,7 +52,7 @@
     }
     ///////////////////////////////////////////////////////////////////////////
    
-    boolean showAllRecordsOnEmptySearch = true;
+    boolean showAllAssetsOnEmptySearch = true;
     String msg = "";    
       
     // search fields 
@@ -135,7 +135,7 @@
     
     if(sAction.equals("search")){
 	    if(sCode.length() > 0 || sDescription.length() > 0 || sSerialnumber.length() > 0 || sAssetType.length() > 0 ||
-	       sSupplierUid.length() > 0 || sPurchasePeriodBegin.length() > 0 || sPurchasePeriodEnd.length() > 0 || showAllRecordsOnEmptySearch){
+	       sSupplierUid.length() > 0 || sPurchasePeriodBegin.length() > 0 || sPurchasePeriodEnd.length() > 0 || showAllAssetsOnEmptySearch){
 		    Asset findItem = new Asset();
 		    findItem.code = sCode;
 		    findItem.description = sDescription;

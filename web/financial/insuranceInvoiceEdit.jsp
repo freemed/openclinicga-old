@@ -318,7 +318,7 @@ function countCredits(){
     var tot=0;
     for (i = 0; i < EditForm.elements.length; i++) {
         var elm = EditForm.elements[i];
-        if (elm.name.indexOf('cbInsurarInvoice') > -1) {
+        if (elm.name.indexOf('cbCredit') > -1) {
             if (elm.checked) {
                 var amount = elm.name.split("=")[1];
                 tot = tot + parseFloat(amount);
@@ -330,7 +330,7 @@ function countCredits(){
 
 function updateBalance(){
     EditForm.EditBalance.value = countDebets()+countCredits();
-    EditForm.EditBalance.value = format_number(EditForm.EditBalance.value, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+    EditForm.EditBalance.value = format_number(EditForm.EditBalance.value*1, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 }
 
 function selectAll(sStartsWith, bValue, buttonDisable, buttonEnable, bAdd) {
