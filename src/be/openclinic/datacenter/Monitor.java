@@ -128,7 +128,6 @@ public class Monitor implements Runnable{
     		Date lastCouncilValidation = new SimpleDateFormat("yyyyMMdd").parse(MedwanQuery.getInstance().getConfigString("lastProfessionalCouncilValidation","19000101"));
     		if(new java.util.Date().getTime()-lastCouncilValidation.getTime()>=day){
 				if(MedwanQuery.getInstance().getConfigInt("enableProfessionalCouncilRegistrationValidation",1)==1){
-					System.out.println("Starting up council validations");
 					UpdateSystem.validateCouncilRegistrations();
 				}
     		}

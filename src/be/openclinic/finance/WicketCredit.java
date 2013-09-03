@@ -165,6 +165,63 @@ public class WicketCredit extends OC_Object{
     }
 
     //--- GET BY REFERENCE UID --------------------------------------------------------------------
+    public static WicketCredit getByReferenceUid(String sReferenceUid,String type){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        WicketCredit wicketCredit = new WicketCredit();
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT * FROM OC_WICKET_CREDITS"+
+                             " WHERE OC_WICKET_CREDIT_REFERENCEUID = ? and OC_WICKET_CREDIT_REFERENCETYPE=?";
+            ps = oc_conn.prepareStatement(sSelect);
+            ps.setString(1,sReferenceUid);
+            ps.setString(2, type);
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                wicketCredit.setUid(ScreenHelper.checkString(rs.getString("OC_WICKET_CREDIT_SERVERID"))+"."+
+                                    ScreenHelper.checkString(rs.getString("OC_WICKET_CREDIT_OBJECTID")));
+
+                wicketCredit.setWicketUID(ScreenHelper.checkString(rs.getString("OC_WICKET_CREDIT_WICKETUID")));
+                wicketCredit.setCreateDateTime(rs.getTimestamp("OC_WICKET_CREDIT_CREATETIME"));
+                wicketCredit.setUpdateDateTime(rs.getTimestamp("OC_WICKET_CREDIT_UPDATETIME"));
+                wicketCredit.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_WICKET_CREDIT_UPDATEUID")));
+                wicketCredit.setAmount(rs.getDouble("OC_WICKET_CREDIT_AMOUNT"));
+                wicketCredit.setOperationType(ScreenHelper.checkString(rs.getString("OC_WICKET_CREDIT_TYPE")));
+                wicketCredit.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("OC_WICKET_CREDIT_COMMENT"))));
+                wicketCredit.setOperationDate(rs.getTimestamp("OC_WICKET_CREDIT_OPERATIONDATE"));
+                wicketCredit.setVersion(rs.getInt("OC_WICKET_CREDIT_VERSION"));
+                wicketCredit.setUserUID(rs.getInt("OC_WICKET_CREDIT_USERUID"));
+                wicketCredit.setInvoiceUID(rs.getString("OC_WICKET_CREDIT_INVOICEUID"));
+
+                // reference
+                ObjectReference or = new ObjectReference();
+                or.setObjectType(ScreenHelper.checkString(rs.getString("OC_WICKET_CREDIT_REFERENCETYPE")));
+                or.setObjectUid(ScreenHelper.checkString(rs.getString("OC_WICKET_CREDIT_REFERENCEUID")));
+                wicketCredit.setReferenceObject(or);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!= null) rs.close();
+                if(ps!= null) ps.close();
+                oc_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return wicketCredit;
+    }
+
+
+    //--- GET BY REFERENCE UID --------------------------------------------------------------------
     public static WicketCredit getByReferenceUid(String sReferenceUid){
         PreparedStatement ps = null;
         ResultSet rs = null;

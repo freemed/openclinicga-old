@@ -4,7 +4,6 @@ import java.io.*;
 
 import sun.net.ftp.FtpClient;
 import java.util.Vector;
-import java.io.*;
 
 /**
   * This is a basic wrapper around the sun.net.ftp.FtpClient

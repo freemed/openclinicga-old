@@ -142,15 +142,11 @@ public class SaveLabAnalysesAction extends Action {
                     labAnalysis.setComment(comment);
                     labAnalysis.store(false); // object does not exist, so insert
                 }
-                System.out.println("1");
                 if(MedwanQuery.getInstance().getConfigInt("enableAutomaticLabInvoicing",0)==1){
-                    System.out.println("2");
                     LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
                     if(a!=null && a.getPrestationcode()!=null && a.getPrestationcode().length()>0){
-                        System.out.println("3");
                     	//Now check if the prestation was not coded yet in the past 24 hours
                     	if(!Debet.existsRecent(a.getPrestationcode(),sPatientId,24*3600*1000)){
-                            System.out.println("4");
                     		Debet.createAutomaticDebet("LAB."+sServerId+"."+sTransactionId+"."+analysisCode, sPatientId, a.getPrestationcode(), sUserId);
                     	}
         		    }

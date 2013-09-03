@@ -621,6 +621,19 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     				}
     			}
     			if(!bDone){
+            		//2b. controleren of er een percentage voor deze prestatie werd geconfigureerd voor deze gebruiker
+	    			for(int i=0;i<rules.size();i++){
+	    				String[] rule = ((String)rules.elementAt(i)).split(";");
+	    				if(rule[0].equalsIgnoreCase("prestationpct") && rule[1].equalsIgnoreCase(debet.getPrestationUid())){
+	    					amount=(float)(debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())*Float.parseFloat(rule[2])/100;
+	    					calculation=rule[2]+"%";
+	    					reason="1b"; //prestation based percentage defined for user
+	    					bDone=true;
+	    					break;
+	    				}
+	    			}
+    			}
+	    		if(!bDone){
             		//3. controleren of er een fee werd geconfigureerd voor het prestatietype
         			for(int i=0;i<rules.size();i++){
         				String[] rule = ((String)rules.elementAt(i)).split(";");
@@ -876,8 +889,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                     + " ORDER BY d.OC_DEBET_DATE";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sInsurarUid);
-            ps.setDate(2, new java.sql.Date(begin.getTime()));
-            ps.setDate(3, new java.sql.Date(end.getTime()));
+            ps.setTimestamp(2, new java.sql.Timestamp(begin.getTime()));
+            ps.setTimestamp(3, new java.sql.Timestamp(end.getTime()));
             rs = ps.executeQuery();
             while (rs.next() && (limit==0 || vUnassignedDebets.size()<limit)) {
                 Debet debet = new Debet();
@@ -1129,8 +1142,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                     + " AND " + MedwanQuery.getInstance().convert("int", "e.OC_ENCOUNTER_PATIENTUID") + "=a.personid";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sInsurarUid);
-            ps.setDate(2, new java.sql.Date(begin.getTime()));
-            ps.setDate(3, new java.sql.Date(end.getTime()));
+            ps.setTimestamp(2, new java.sql.Timestamp(begin.getTime()));
+            ps.setTimestamp(3, new java.sql.Timestamp(end.getTime()));
             rs = ps.executeQuery();
             while (rs.next()) {
                 Debet debet = new Debet();
@@ -1248,8 +1261,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                     + " AND " + MedwanQuery.getInstance().convert("int", "e.OC_ENCOUNTER_PATIENTUID") + "=a.personid";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sInsurarUid);
-            ps.setDate(2, new java.sql.Date(begin.getTime()));
-            ps.setDate(3, new java.sql.Date(end.getTime()));
+            ps.setTimestamp(2, new java.sql.Timestamp(begin.getTime()));
+            ps.setTimestamp(3, new java.sql.Timestamp(end.getTime()));
             rs = ps.executeQuery();
             while (rs.next()) {
                 Debet debet = new Debet();
@@ -2249,10 +2262,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     	String sSelect="select max(OC_DEBET_DATE) OC_DEBET_DATE from OC_DEBETS a,OC_ENCOUNTERS b where " +
     			" OC_ENCOUNTER_OBJECTID=replace(OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND" +
     			" OC_ENCOUNTER_PATIENTUID=? AND" +
-    			" OC_DEBET_PRESTATIONUID=?";
-    	System.out.println(sSelect);
-    	System.out.println("personid="+personid);
-    	System.out.println("prestationuid="+prestationUid);
+    			" OC_DEBET_PRESTATIONUID=? AND" +
+    			" OC_DEBET CREDITED=0";
     	PreparedStatement ps=null;
     	ResultSet rs = null;
     	try{
@@ -2290,13 +2301,14 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         String type="";
         Insurance insurance=null;
         insurance = Insurance.getMostInterestingInsuranceForPatient(personid);
+        String sCoverageInsurance=ScreenHelper.checkString(insurance.getExtraInsurarUid());
+        String sCoverageInsurance2=ScreenHelper.checkString(insurance.getExtraInsurarUid2());
         Encounter encounter = Encounter.getActiveEncounter(personid);
         Prestation prestation = Prestation.get(prestationUid);
-        double dPatientAmount=0,dInsurarAmount=0;
+        double dPatientAmount=0,dInsurarAmount=0,dExtraInsurarAmount=0,dExtraInsurarAmount2=0;
         if(encounter!=null && prestation!=null){
 	        if (insurance != null) {
 	            type = insurance.getType();
-	
 	            if (prestation != null) {
 	                double dPrice = prestation.getPrice(type);
 	                if(insurance.getInsurar()!=null && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==1){
@@ -2319,13 +2331,31 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
 	                    }
 	                }
 	            }
+		        //Now we have the patient share and the insurance share, let's calculate complementary insurances
+		        if(sCoverageInsurance.length()>0){
+		        	Insurar insurar = Insurar.get(sCoverageInsurance);
+		        	if(insurar!=null){
+		        		if(insurar.getCoverSupplements()==1 && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==0){
+		        			dExtraInsurarAmount=dPatientAmount;
+		        		}
+		        		else{
+		        			dExtraInsurarAmount=dPatientAmount-quantity * prestation.getSupplement();
+		        		}
+		    			dPatientAmount=dPatientAmount-dExtraInsurarAmount;
+		        	}
+		        }
+		        if(dPatientAmount>0 && sCoverageInsurance2.length()>0){
+		        	Insurar insurar = Insurar.get(sCoverageInsurance2);
+		        	if(insurar!=null){
+		        		dExtraInsurarAmount2=dPatientAmount;
+		        	}
+		        }
 	        }
 	        else {
 	            dPatientAmount=quantity * (prestation.getPrice("C")+prestation.getSupplement());
 	            dInsurarAmount = 0;
 	        }
-	        //dPatientAmount=Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount));
-	        //dInsurarAmount=Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount));
+
 	        //Create new Debet
 	        Debet debet = new Debet();
 	        debet.setAmount(dPatientAmount);
@@ -2334,6 +2364,11 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
 	        debet.setEncounterUid(encounter.getUid());
 	        debet.setInsuranceUid(insurance.getUid());
 	        debet.setInsurarAmount(dInsurarAmount);
+	        debet.setExtraInsurarUid(sCoverageInsurance);
+	        debet.setExtraInsurarAmount(dExtraInsurarAmount);
+	        if(dExtraInsurarAmount2>0){
+	        	debet.setExtraInsurarUid2(sCoverageInsurance2);
+	        }
 	        debet.setPrestationUid(prestation.getUid());
 	        debet.setQuantity(quantity);
 	        debet.setUpdateDateTime(new java.util.Date());

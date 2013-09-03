@@ -1,4 +1,4 @@
-package be.openclinic.accountancy;
+package be.openclinic.accounting;
 
 import java.util.Date;
 import be.openclinic.common.AC_Object;
