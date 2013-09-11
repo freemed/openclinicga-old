@@ -85,7 +85,7 @@
 <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
     <%-- header --%>
     <tr class="admin" style="padding-left: 1px;">
-        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","date",sWebLanguage))%></td>
+        <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","date",sWebLanguage))%></asc></td>
         <td width="30%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","title",sWebLanguage))%></td>
         <td width="60%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","decision",sWebLanguage))%></td>
         <%--<td width="40%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","decisionBy",sWebLanguage))%></td> --%>
