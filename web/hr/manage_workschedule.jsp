@@ -11,12 +11,25 @@
 
 <%!
     //### INNER CLASS : PredefinedWeekSchedule ####################################################
-    private class PredefinedWeekSchedule {
+    private class PredefinedWeekSchedule implements Comparable {
         public String id;
         public String type;  
         public String xml;
         
         Vector timeBlocks = new Vector();
+
+        //--- COMPARE TO ------------------------------------------------------
+        public int compareTo(Object o){
+            int comp;
+            if(o.getClass().isInstance(this)){
+                comp = this.type.compareTo(((PredefinedWeekSchedule)o).type);
+            }
+            else{
+                throw new ClassCastException();
+            }
+
+            return comp;
+        }
     }
 
     //--- WRITE WEEK SCHEDULE OPTIONS -------------------------------------------------------------
@@ -116,7 +129,7 @@
         <%-- begin --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","begin",sWebLanguage)%>&nbsp;</td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("begin","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -124,7 +137,7 @@
         <%-- end --%>
         <tr>
             <td class="admin"><%=getTran("web.hr","end",sWebLanguage)%>&nbsp;</td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("end","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -150,161 +163,157 @@
             </td>
         </tr>
         
-        <tr>
-        	<td class="admin"/>
-        	<td class="admin2">
-        		<table width="100%">
-			        <%-- type1 - daySchedule ----------------------------------------%>
-			        <tr id="dayScheduleTr" style="display:none;">
-			            <td class="admin2" style="padding:5px;">
-			                <table width="40%" cellpadding="0" cellspacing="1" class="list">
-			                    <%-- startHour --%>
-			                    <tr>
-			                        <td class="admin" width="150" nowrap><%=getTran("web.hr","startHour",sWebLanguage)%>&nbsp;</td>
-			                        <td class="admin2">
-			                            <input type="text" class="text" id="dayScheduleStart" name="dayScheduleStart" size="5" maxLength="5" value="" onKeypress="keypressTime(this);" onBlur="checkTime(this);calculateInterval('dayScheduleStart','dayScheduleEnd','dayScheduleHours');">
-			                        </td>
-			                    </tr>
-			                    
-			                    <%-- endHour --%>
-			                    <tr>
-			                        <td class="admin" nowrap><%=getTran("web.hr","endHour",sWebLanguage)%>&nbsp;</td>
-			                        <td class="admin2">
-			                            <input type="text" class="text" id="dayScheduleEnd" name="dayScheduleEnd" size="5" maxLength="5" value="" onKeypress="keypressTime(this);" onBlur="checkTime(this);calculateInterval('dayScheduleStart','dayScheduleEnd','dayScheduleHours');">
-			                        </td>
-			                    </tr>                    
-			                    
-			                    <%-- hours (*) --%>
-			                    <tr>
-			                        <td class="admin" nowrap><%=getTran("web.hr","hoursPerDay",sWebLanguage)%>&nbsp;*&nbsp;</td>
-			                        <td class="admin2" nowrap>
-			                            <input type="text" class="text" id="dayScheduleHours" name="dayScheduleHours" size="4" maxLength="3" onKeypress="keypressTime(this);" onBlur="checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>
-			                        </td>
-			                    </tr>
-			                </table>
-			            </td>
-			        </tr>
-			                
-			        <%-- type2 - weekSchedule ---------------------------------------%>
-			        <tr id="weekScheduleTr" style="display:none;">
-			            <td class="admin2" style="padding:5px;">
-			                <table width="40%" cellpadding="0" cellspacing="1" class="list">
-			                    <%-- weekScheduleType (predefines weekSchedule) --%>
-			                    <tr>
-			                        <td class="admin" width="150" nowrap><%=getTran("web.hr","weekScheduleType",sWebLanguage)%>&nbsp;</td>
-			                        <td class="admin2">
-			                            <select class="text" id="weekScheduleType" name="weekScheduleType" onChange="setTimeBlocksString(this.options[this.selectedIndex].value);">
-			                                <option/>
-			                                <%=writeWeekScheduleOptions(request,"",sWebLanguage)%>
-			                            </select>
-			                        </td>
-			                    </tr>
-			                                    
-			                    <%-- weekSchedule/timeBlocks (multi-add) --%>
-			                    <tr>
-			                        <td class="admin" nowrap><%=getTran("web.hr","timeBlocks",sWebLanguage)%></td>
-			                        <td class="admin2">
-			                            <input type="hidden" id="timeBlocks" name="timeBlocks" value="">
-			                                                 
-			                            <table width="100%" class="sortable" id="tblTB" cellspacing="1" headerRowCount="2"> 
-			                                <%-- header --%>                        
-			                                <tr class="admin">
-			                                    <%-- 0 - empty --%>
-			                                    <td width="40" nowrap/>
-			                                    <%-- 1 - timeBlockDay --%>
-			                                    <td width="100" nowrap style="padding-left:0px;">
-			                                        <%=getTran("web.hr","timeBlockDay",sWebLanguage)%>&nbsp;
-			                                    </td>
-			                                    <%-- 2 - timeBlockStart --%>
-			                                    <td width="70" nowrap style="padding-left:0px;">
-			                                        <%=getTran("web.hr","timeBlockStart",sWebLanguage)%>&nbsp;
-			                                    </td>
-			                                    <%-- 3 - timeBlockEnd --%>
-			                                    <td width="70" nowrap style="padding-left:0px;">
-			                                        <%=getTran("web.hr","timeBlockEnd",sWebLanguage)%>&nbsp;
-			                                    </td>    
-			                                    <%-- 4 - timeBlockHours --%>
-			                                    <td width="80" nowrap style="padding-left:0px;">
-			                                        <%=getTran("web.hr","timeBlockHours",sWebLanguage)%>&nbsp;*&nbsp;
-			                                    </td>    
-			                                    <%-- 5 - empty --%>
-			                                    <td width="100" nowrap/>    
-			                                </tr>
-			                    
-			                                <%-- content by ajax and javascript --%>
-			                                
-			                                <%-- add-row --%>                          
-			                                <tr>
-			                                    <%-- 0 - empty --%>
-			                                    <td class="admin"/>
-			                                    <%-- 1 - tbDayIdx --%>
-			                                    <td class="admin"> 
-			                                        <select class="text" id="tbDayIdx" name="tbDayIdx">
-			                                            <option/>
-			                                            <%=ScreenHelper.writeSelectUnsorted("hr.workschedule.days","",sWebLanguage)%>
-			                                        </select>&nbsp;
-			                                    </td>
-			                                    <%-- 2 - tbBeginHour --%>
-			                                    <td class="admin"> 
-			                                        <input type="text" class="text" id="tbBeginHour" name="tbBeginHour" size="5" maxLength="5" value="" onKeypress="keypressTime(this);" onBlur="checkTime(this);calculateInterval('tbBeginHour','tbEndHour','tbDuration');">&nbsp;
-			                                    </td>
-			                                    <%-- 3 - tbEndHour --%>
-			                                    <td class="admin">
-			                                        <input type="text" class="text" id="tbEndHour" name="tbEndHour" size="5" maxLength="5" value="" onKeypress="keypressTime(this);" onBlur="checkTime(this);calculateInterval('tbBeginHour','tbEndHour','tbDuration');">&nbsp;
-			                                    </td>    
-			                                    <%-- 4 - tbDuration --%>
-			                                    <td class="admin"> 
-			                                        <input type="text" class="text" id="tbDuration" name="tbDuration" size="4" maxLength="5" onKeypress="keypressTime(this);" onBlur="checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>&nbsp;
-			                                    </td>
-			                                    <%-- 5 - buttons --%>
-			                                    <td class="admin">
-			                                        <input type="button" class="button" name="ButtonAddTB" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addTB();">
-			                                        <input type="button" class="button" name="ButtonUpdateTB" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateTB();">&nbsp;
-			                                    </td>    
-			                                </tr>
-			                            </table>                    
-			                        </td>
-			                    </tr>
-			                </table>
-			            </td>
-			        </tr>
-			           
-			        <%-- type3 - monthSchedule --------------------------------------%>  
-			        <tr id="monthScheduleTr" style="display:none;">
-			            <td class="admin2" style="padding:5px;">
-			                <table width="40%" cellpadding="0" cellspacing="1" class="list">
-			                    <%-- monthScheduleType (predefines total hours per month) --%>
-			                    <tr>
-			                        <td class="admin" width="150" nowrap><%=getTran("web.hr","monthScheduleType",sWebLanguage)%>&nbsp;</td>
-			                        <td class="admin2">
-			                            <select class="text" id="monthScheduleType" name="monthScheduleType" onChange="setMonthScheduleHours(this.options[this.selectedIndex].value);"> 
-			                                <option/>
-			                                <%=ScreenHelper.writeSelect("hr.workschedule.monthscheduletype","",sWebLanguage,true)%>
-			                            </select>
-			                        </td>
-			                    </tr>    
-			                    
-			                    <%-- hours (*) --%>
-			                    <tr>
-			                        <td class="admin"><%=getTran("web.hr","hoursPerMonth",sWebLanguage)%>&nbsp;*&nbsp;</td>
-			                        <td class="admin2" nowrap>
-			                            <input type="text" class="text" id="monthScheduleHours" name="monthScheduleHours" size="4" maxLength="3" onKeypress="keypressTime(this);" onBlur="checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>
-			                        </td>
-			                    </tr>
-			                </table>
-			            </td>
-			        </tr>
-			    </table>
-			</td>
-		</tr>
+        <%-- type1 - daySchedule ----------------------------------------%>
+        <tr id="dayScheduleTr" style="display:none;">
+            <td class="admin"/>
+            <td class="admin2" style="padding:5px;">
+                <table width="40%" cellpadding="0" cellspacing="1" class="list">
+                    <%-- startHour --%>
+                    <tr>
+                        <td class="admin" width="150" nowrap><%=getTran("web.hr","startHour",sWebLanguage)%>&nbsp;</td>
+                        <td class="admin2">
+                            <input type="text" class="text" id="dayScheduleStart" name="dayScheduleStart" size="2" maxLength="5" value="" onKeypress="keypressTime(this);" onBlur="checkTime(this);calculateInterval('dayScheduleStart','dayScheduleEnd','dayScheduleHours');">
+                        </td>
+                    </tr>
+                    
+                    <%-- endHour --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("web.hr","endHour",sWebLanguage)%>&nbsp;</td>
+                        <td class="admin2">
+                            <input type="text" class="text" id="dayScheduleEnd" name="dayScheduleEnd" size="2" maxLength="5" value="" onKeypress="keypressTime(this);" onBlur="checkTime(this);calculateInterval('dayScheduleStart','dayScheduleEnd','dayScheduleHours');">
+                        </td>
+                    </tr>                    
+                    
+                    <%-- hours (*) --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("web.hr","hoursPerDay",sWebLanguage)%>&nbsp;*&nbsp;</td>
+                        <td class="admin2">
+                            <input type="text" class="text" id="dayScheduleHours" name="dayScheduleHours" size="2" maxLength="3" onKeypress="keypressTime(this);" onBlur="checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+                
+        <%-- type2 - weekSchedule ---------------------------------------%>
+        <tr id="weekScheduleTr" style="display:none;">
+            <td class="admin" width="<%=sTDAdminWidth%>">&nbsp;</td>
+            <td class="admin2" style="padding:5px;">
+                <table width="40%" cellpadding="0" cellspacing="1" class="list">
+                    <%-- weekScheduleType (predefines weekSchedule) --%>
+                    <tr>
+                        <td class="admin" width="150" nowrap><%=getTran("web.hr","weekScheduleType",sWebLanguage)%>&nbsp;</td>
+                        <td class="admin2">
+                            <select class="text" id="weekScheduleType" name="weekScheduleType" onChange="setTimeBlocksString(this.options[this.selectedIndex].value);">
+                                <option/>
+                                <%=writeWeekScheduleOptions(request,"",sWebLanguage)%>
+                            </select>
+                        </td>
+                    </tr>
+                                    
+                    <%-- weekSchedule/timeBlocks (multi-add) --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("web.hr","timeBlocks",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="hidden" id="timeBlocks" name="timeBlocks" value="">
+                                                 
+                            <table width="100%" class="sortable" id="tblTB" cellspacing="1" headerRowCount="2"> 
+                                <%-- header --%>                        
+                                <tr class="admin">
+                                    <%-- 0 - empty --%>
+                                    <td width="40" nowrap/>
+                                    <%-- 1 - timeBlockDay --%>
+                                    <td width="100" nowrap style="padding-left:0px;">
+                                        <%=getTran("web.hr","timeBlockDay",sWebLanguage)%>&nbsp;
+                                    </td>
+                                    <%-- 2 - timeBlockStart --%>
+                                    <td width="70" nowrap style="padding-left:0px;">
+                                        <%=getTran("web.hr","timeBlockStart",sWebLanguage)%>&nbsp;
+                                    </td>
+                                    <%-- 3 - timeBlockEnd --%>
+                                    <td width="70" nowrap style="padding-left:0px;">
+                                        <%=getTran("web.hr","timeBlockEnd",sWebLanguage)%>&nbsp;
+                                    </td>    
+                                    <%-- 4 - timeBlockHours --%>
+                                    <td width="80" nowrap style="padding-left:0px;">
+                                        <%=getTran("web.hr","timeBlockHours",sWebLanguage)%>&nbsp;*&nbsp;
+                                    </td>    
+                                    <%-- 5 - empty --%>
+                                    <td width="100" nowrap/>    
+                                </tr>
+                    
+                                <%-- content by ajax and javascript --%>
+                                
+                                <%-- add-row --%>                          
+                                <tr>
+                                    <%-- 0 - empty --%>
+                                    <td class="admin"/>
+                                    <%-- 1 - tbDayIdx --%>
+                                    <td class="admin"> 
+                                        <select class="text" id="tbDayIdx" name="tbDayIdx">
+                                            <option/>
+                                            <%=ScreenHelper.writeSelectUnsorted("hr.workschedule.days","",sWebLanguage)%>
+                                        </select>&nbsp;
+                                    </td>
+                                    <%-- 2 - tbBeginHour --%>
+                                    <td class="admin" nowrap> 
+                                        <input type="text" class="text" id="tbBeginHour" name="tbBeginHour" size="2" maxLength="5" value="" onKeypress="keypressTime(this);" onBlur="checkTime(this);calculateInterval('tbBeginHour','tbEndHour','tbDuration');">&nbsp;
+                                    </td>
+                                    <%-- 3 - tbEndHour --%>
+                                    <td class="admin" nowrap>
+                                        <input type="text" class="text" id="tbEndHour" name="tbEndHour" size="2" maxLength="5" value="" onKeypress="keypressTime(this);" onBlur="checkTime(this);calculateInterval('tbBeginHour','tbEndHour','tbDuration');">&nbsp;
+                                    </td>    
+                                    <%-- 4 - tbDuration --%>
+                                    <td class="admin" nowrap> 
+                                        <input type="text" class="text" id="tbDuration" name="tbDuration" size="2" maxLength="5" onKeypress="keypressTime(this);" onBlur="checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>&nbsp;
+                                    </td>
+                                    <%-- 5 - buttons --%>
+                                    <td class="admin" nowrap>
+                                        <input type="button" class="button" name="ButtonAddTB" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addTB();">
+                                        <input type="button" class="button" name="ButtonUpdateTB" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateTB();" disabled>&nbsp;
+                                    </td>    
+                                </tr>
+                            </table>                    
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+           
+        <%-- type3 - monthSchedule --------------------------------------%>  
+        <tr id="monthScheduleTr" style="display:none;">
+            <td class="admin"/>
+            <td class="admin2" style="padding:5px;">
+                <table width="40%" cellpadding="0" cellspacing="1" class="list">
+                    <%-- monthScheduleType (predefines total hours per month) --%>
+                    <tr>
+                        <td class="admin" width="150" nowrap><%=getTran("web.hr","monthScheduleType",sWebLanguage)%>&nbsp;</td>
+                        <td class="admin2">
+                            <select class="text" id="monthScheduleType" name="monthScheduleType" onChange="setMonthScheduleHours(this.options[this.selectedIndex].value);"> 
+                                <option/>
+                                <%=ScreenHelper.writeSelect("hr.workschedule.monthscheduletype","",sWebLanguage,true)%>
+                            </select>
+                        </td>
+                    </tr>    
+                    
+                    <%-- hours (*) --%>
+                    <tr>
+                        <td class="admin"><%=getTran("web.hr","hoursPerMonth",sWebLanguage)%>&nbsp;*&nbsp;</td>
+                        <td class="admin2">
+                            <input type="text" class="text" id="monthScheduleHours" name="monthScheduleHours" size="2" maxLength="3" onKeypress="keypressTime(this);" onBlur="checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
             
         <%-- BUTTONS --%>
         <tr>     
             <td class="admin"/>
             <td class="admin2" colspan="2">
-                <input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveWorkschedule();">&nbsp;
-                <input class="button" type="button" name="buttonDelete" id="buttonDelete" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onclick="deleteWorkschedule();" style="visibility:hidden;">&nbsp;
-                <input class="button" type="button" name="buttonNew" id="buttonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="newWorkschedule();" style="visibility:hidden;">&nbsp;
+                <input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveWorkschedule();">&nbsp;
+                <input class="button" type="button" name="buttonDelete" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onclick="deleteWorkschedule();" style="visibility:hidden;">&nbsp;
+                <input class="button" type="button" name="buttonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="newWorkschedule();" style="visibility:hidden;">&nbsp;
             </td>
         </tr>
     </table>
@@ -349,14 +358,88 @@
   <%-- DECIMAL TO HOUR --%>
   function decimalToHour(hoursDeci){
     hoursDeci = (hoursDeci+"").replace(",",".");
+	if(hoursDeci.indexOf(".")==-1){
+	  hoursDeci = hoursDeci+".0";
+	}
+	
     var hours = hoursDeci.substring(0,hoursDeci.indexOf("."));
     var mins = ((hoursDeci.substring(hoursDeci.indexOf(".")+1))/100)*60;
+    if((""+mins).length > 2) mins = (""+mins).substring(0,2);
 
     if(hours<10) hours = "0"+hours;
     if(mins<10) mins = "0"+mins;
 
     return hours+":"+mins;
   }
+  
+  <%-- CHECK INTERFERENCE --%>
+  function checkInterference(){
+	var interference = false;
+	    
+    var beginDate = null;
+    if(document.getElementById("begin").value.length > 0){
+      beginDate = makeDate(document.getElementById("begin").value);
+    }
+
+    var endDate = null;
+    if(document.getElementById("end").value.length > 0){
+      endDate = makeDate(document.getElementById("end").value);
+    }
+       
+    for(var i=0; i<periodsWithSchedule.length && interference==false; i++){
+      var scheduleUid = periodsWithSchedule[i].split("_")[0];
+  	
+      <%-- do not consider the period of the schedule currently being edited --%>
+      if(scheduleUid!=EditForm.EditScheduleUid.value){        	
+        var periodBegin = periodsWithSchedule[i].split("_")[1],
+       	    periodEnd   = periodsWithSchedule[i].split("_")[2];
+
+     	<%-- begin- and end of period specified --%>
+     	if((periodBegin!=null && periodBegin.length > 0) && (periodEnd!=null && periodEnd.length > 0)){
+          var periodBeginDate = makeDate(periodBegin),
+              periodEndDate   = makeDate(periodEnd);
+
+          //alert("begin- and end of period specified"); /////////
+          //alert("beginDate : "+beginDate+" <= periodEndDate : "+periodEndDate); ////////
+          //alert("endDate : "+endDate+" > periodBeginDate : "+periodBeginDate); ////////
+          if((beginDate==null || (beginDate!=null && (beginDate <= periodEndDate))) && (endDate==null || (endDate!=null && endDate > periodBeginDate))){
+            alertDialog("web","periodsInterfere");
+            document.getElementById("begin").focus();
+            okToSubmit = false;                	
+            interference = true;  
+          }
+        }
+        <%-- only begin of period specified --%>
+        else if(periodBegin.length > 0){
+          var periodBeginDate = makeDate(periodBegin);
+
+          //alert("only begin of period specified"); /////////
+          //alert("endDate : "+endDate+" >= periodBeginDate : "+periodBeginDate); ////////
+          if(endDate==null || (endDate!=null && endDate >= periodBeginDate)){
+            alertDialog("web","periodsInterfere");
+            document.getElementById("begin").focus();
+            okToSubmit = false;
+            interference = true;                  	
+          }
+        }
+        <%-- only end of period specified --%>
+        else if(periodEnd.length > 0){
+          var periodEndDate = makeDate(periodEnd);
+
+          //alert("only end of period specified"); /////////
+          //alert("beginDate : "+beginDate+" <= periodEndDate : "+periodEndDate); ////////
+          if(beginDate==null || (beginDate!=null && beginDate <= periodEndDate)){
+            alertDialog("web","periodsInterfere");
+            document.getElementById("begin").focus();
+            okToSubmit = false;
+            interference = true;                  	
+          }
+        }
+      }
+    }
+    
+    return interference;
+  } 
   
   <%-- SAVE WORKSCHEDULE --%>
   function saveWorkschedule(){
@@ -373,6 +456,11 @@
           alertDialog("web","beginMustComeBeforeEnd");
           document.getElementById("begin").focus();
         }  
+      }
+
+      <%-- periods can not interfere (max 1 schedule at all times) --%>
+      if(okToSubmit){
+    	okToSubmit = !checkInterference();
       }
       
       <%-- required fields depending on chosen schedule type --%>
@@ -486,6 +574,14 @@
               var data = eval("("+resp.responseText+")");
               $("divMessage").innerHTML = data.message;
 
+              if(document.getElementById("EditScheduleUid").value=="-1"){
+            	addSchedulePeriod(document.getElementById("EditScheduleUid").value);
+              }
+              else{
+            	var sPeriod = document.getElementById("begin").value+"_"+document.getElementById("end").value;
+                updateSchedulePeriod(document.getElementById("EditScheduleUid").value,sPeriod);
+              }
+              
               loadWorkschedules();
               newWorkschedule();
               
@@ -514,9 +610,10 @@
     document.getElementById("divWorkschedules").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
     var url = "<c:url value='/hr/ajax/workschedule/getWorkschedules.jsp'/>?ts="+new Date().getTime();
   
-    new Ajax.Request(url,
+    new Ajax.Updater("divWorkschedules",url,
       {
         method: "GET",
+        evalScripts: true,
         parameters: "PatientId=<%=activePatient.personid%>",
         onSuccess: function(resp){
           $("divWorkschedules").innerHTML = resp.responseText;
@@ -527,8 +624,46 @@
         }
       }
     );
+  }  
+  
+  var periodsWithSchedule = new Array();
+
+  <%-- ADD SCHEDULE PERIOD --%>
+  function addSchedulePeriod(scheduleUid,sPeriod){
+	var scheduleFound = false;
+	
+    for(var i=0; i<periodsWithSchedule.length && scheduleFound==false; i++){
+      if(periodsWithSchedule[i].indexOf(scheduleUid+"_")==0){
+    	  scheduleFound = true;
+      }
+    }
+
+    if(scheduleFound==false){
+      periodsWithSchedule.push(scheduleUid+"_"+sPeriod);
+    }
   }
 
+  <%-- REMOVE SCHEDULE PERIOD --%>
+  function removeSchedulePeriod(scheduleUid){
+	for(var i=0; periodsWithSchedule.length; i++){
+      if(periodsWithSchedule[i].indexOf(scheduleUid+"_")==0){
+    	periodsWithSchedule.splice(i,1);
+      	break;
+      }
+	}
+  }
+
+  <%-- UPDATE SCHEDULE PERIOD --%>
+  function updateSchedulePeriod(scheduleUid,sPeriod){
+	for(var i=0; periodsWithSchedule.length; i++){
+	  if(periodsWithSchedule[i].indexOf(scheduleUid+"_")==0){
+	  	periodsWithSchedule.splice(i,1);
+	  	periodsWithSchedule.push(scheduleUid+"_"+sPeriod);
+	   	break;
+	  }
+    }
+  }
+  
   <%-- DISPLAY WORKSCHEDULE --%>
   function displayWorkschedule(scheduleUid){          
     hideAllSchedules();
@@ -622,6 +757,7 @@
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;
 
+            removeSchedulePeriod(document.getElementById("EditScheduleUid").value);
             loadWorkschedules();
             newWorkschedule();
           
@@ -760,6 +896,12 @@
     document.getElementById("timeBlocks").value = "";
     clearTimeBlockTable();
     displayTimeBlocks();
+
+    <%-- clear add-fields --%>
+	document.getElementById("tbDayIdx").selectedIndex = 0;
+	document.getElementById("tbBeginHour").value = "";
+	document.getElementById("tbEndHour").value = "";
+	document.getElementById("tbDuration").value = "";
   }
   
   <%-- CLEAR MONTH SCHEDULE FIELDS --%>
