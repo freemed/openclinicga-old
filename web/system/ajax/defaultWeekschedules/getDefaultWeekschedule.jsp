@@ -162,12 +162,12 @@
 <%
     String sWeekScheduleId = checkString(request.getParameter("WeekScheduleId"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG //////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*********** getWeekScheduleFromXML.jsp ************");
+        Debug.println("\n******** system/ajax/getWeekScheduleFromXML.jsp ********");
         Debug.println("sWeekScheduleId : "+sWeekScheduleId+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
     Vector weekSchedules = parsePredefinedWeekSchedulesFromXMLConfigValue();
     PredefinedWeekSchedule weekSchedule;
