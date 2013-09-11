@@ -15,8 +15,7 @@
     ///////////////////////////////////////////////////////////////////////////
 
     Leave leave = Leave.get(sLeaveUid);
-
-    DecimalFormat deci = new DecimalFormat("0.##");
+    DecimalFormat deci = new DecimalFormat(MedwanQuery.getInstance().getConfigParam("priceFormat","0.00"));
 %>
 
 {

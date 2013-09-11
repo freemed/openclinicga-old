@@ -38,7 +38,7 @@
     findObject.comment = sComment;
     
     List leaves = Leave.getList(findObject);
-    DecimalFormat deci = new DecimalFormat("0.##");
+    DecimalFormat deci = new DecimalFormat(MedwanQuery.getInstance().getConfigParam("priceFormat","0.00"));
     String sReturn = "";
     
     if(leaves.size() > 0){
@@ -84,7 +84,7 @@
 <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
     <%-- header --%>
     <tr class="admin" style="padding-left: 1px;">
-        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></td>
+        <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></asc></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","end",sWebLanguage))%></td>
         <td width="15%" nowrap><%=HTMLEntities.htmlentities(getTran("web","duration",sWebLanguage))%></td>
         <td width="20%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","type",sWebLanguage))%></td>
