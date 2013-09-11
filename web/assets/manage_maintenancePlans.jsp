@@ -74,10 +74,10 @@
     new Ajax.Request(url,
       {        
         method: "GET",
-        parameters: "name="+SearchForm.searchName.value+
-                    "&assetUID="+SearchForm.searchAssetUID.value+
-                    //"&assetCode="+SearchForm.searchAssetCode.value+
-                    "&operator="+SearchForm.searchOperator.value,
+        parameters: "name="+encodeURIComponent(SearchForm.searchName.value)+
+                    "&assetUID="+encodeURIComponent(SearchForm.searchAssetUID.value)+
+                    //"&assetCode="+encodeURIComponent(SearchForm.searchAssetCode.value)+
+                    "&operator="+encodeURIComponent(SearchForm.searchOperator.value),
         onSuccess: function(resp){
           $("divMaintenancePlans").innerHTML = resp.responseText;
           sortables_init();
@@ -112,7 +112,7 @@
 <div id="divMaintenancePlans" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditPlanUid" name="EditPlanUid" value="-1">
+    <input type="hidden" id="EditPlanUID" name="EditPlanUID" value="-1">
                 
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- name (*) --%>
@@ -218,7 +218,7 @@
         document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
         disableButtons();
         
-        var sParams = "EditPlanUid="+EditForm.EditPlanUid.value+
+        var sParams = "EditPlanUID="+EditForm.EditPlanUID.value+
                       "&name="+EditForm.name.value+
                       "&assetUID="+EditForm.assetUID.value+
                       "&startDate="+EditForm.startDate.value+
@@ -293,7 +293,7 @@
         onSuccess: function(resp){
           var data = eval("("+resp.responseText+")");
           
-          $("EditPlanUid").value = data.planUID;
+          $("EditPlanUID").value = data.planUID;
           $("name").value = data.name.unhtmlEntities();
           $("assetUID").value = data.assetUID;
           $("assetCode").value = data.assetCode;

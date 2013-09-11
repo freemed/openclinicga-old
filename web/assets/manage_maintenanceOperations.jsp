@@ -108,11 +108,11 @@
       new Ajax.Request(url,
         {
           method: "GET",
-          parameters: "planUID="+SearchForm.searchMaintenancePlanUID.value+
-                      "&periodPerformedBegin="+SearchForm.searchPeriodPerformedBegin.value+
-                      "&periodPerformedEnd="+SearchForm.searchPeriodPerformedEnd.value+
-                      "&operator="+SearchForm.searchOperator.value+
-                      "&result="+SearchForm.searchResult.value,
+          parameters: "planUID="+encodeURIComponent(SearchForm.searchMaintenancePlanUID.value)+
+                      "&periodPerformedBegin="+encodeURIComponent(SearchForm.searchPeriodPerformedBegin.value)+
+                      "&periodPerformedEnd="+encodeURIComponent(SearchForm.searchPeriodPerformedEnd.value)+
+                      "&operator="+encodeURIComponent(SearchForm.searchOperator.value)+
+                      "&result="+encodeURIComponent(SearchForm.searchResult.value),
           onSuccess: function(resp){
             $("divMaintenanceOperations").innerHTML = resp.responseText;
             sortables_init();
@@ -140,7 +140,7 @@
 <div id="divMaintenanceOperations" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditOperationUid" name="EditOperationUid" value="-1">
+    <input type="hidden" id="EditOperationUID" name="EditOperationUID" value="-1">
                 
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- MAINTENANCE PLAN (*) --%>
@@ -246,7 +246,7 @@
         document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
         disableButtons();
         
-        var sParams = "EditOperationUid="+EditForm.EditOperationUid.value+
+        var sParams = "EditOperationUID="+EditForm.EditOperationUID.value+
                       "&maintenancePlanUID="+EditForm.maintenancePlanUID.value+
                       "&date="+EditForm.date.value+
                       "&operator="+EditForm.operator.value+
@@ -314,17 +314,17 @@
   }
 
   <%-- DISPLAY MAINTENANCE OPERATION --%>
-  function displayMaintenanceOperation(operationUid){
+  function displayMaintenanceOperation(operationUID){
     var url = "<c:url value='/assets/ajax/maintenanceOperation/getMaintenanceOperation.jsp'/>?ts="+new Date().getTime();
     
     new Ajax.Request(url,
       {
         method: "GET",
-        parameters: "OperationUid="+operationUid,
+        parameters: "OperationUID="+operationUID,
         onSuccess: function(resp){
           var data = eval("("+resp.responseText+")");
 
-          $("EditOperationUid").value = operationUid;
+          $("EditOperationUID").value = operationUID;
           $("maintenancePlanUID").value = data.maintenancePlanUID;
           $("maintenancePlanName").value = data.maintenancePlanName.unhtmlEntities();
           $("date").value = data.date;
@@ -357,7 +357,7 @@
       new Ajax.Request(url,
         {
           method: "GET",
-          parameters: "OperationUid="+document.getElementById("EditOperationUid").value,
+          parameters: "OperationUID="+document.getElementById("EditOperationUID").value,
           onSuccess: function(resp){
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;

@@ -64,11 +64,11 @@
         <tr>
             <td class="admin"><%=getTran("web.assets","supplier",sWebLanguage)%></td>
             <td class="admin2">
-                <input type="hidden" name="searchSupplierUid" id="searchSupplierUid" value="">
+                <input type="hidden" name="searchSupplierUID" id="searchSupplierUID" value="">
                 <input type="text" class="text" name="searchSupplierName" id="searchSupplierName" readonly size="30" value="">
                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectSupplier('searchSupplierUid','searchSupplierName');">
+                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectSupplier('searchSupplierUID','searchSupplierName');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearSupplierSearchFields();">
             </td>
         </tr>
@@ -117,16 +117,19 @@
       document.getElementById("divAssets").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Searching";
   
       var url = "<c:url value='/assets/ajax/asset/getAssets.jsp'/>?ts="+new Date().getTime();
+
+      var params = "code="+encodeURIComponent(SearchForm.searchCode.value)+
+                   "&description="+encodeURIComponent(SearchForm.searchDescription.value)+
+                   "&serialnumber="+encodeURIComponent(SearchForm.searchSerialnumber.value)+
+                   "&assetType="+encodeURIComponent(SearchForm.searchAssetType.value)+
+                   "&supplierUID="+encodeURIComponent(SearchForm.searchSupplierUID.value)+
+                   "&purchasePeriodBegin="+encodeURIComponent(SearchForm.searchPurchaseBegin.value)+
+                   "&purchasePeriodEnd="+encodeURIComponent(SearchForm.searchPurchaseEnd.value);
+      
       new Ajax.Request(url,
         {
           method: "GET",
-          parameters: "code="+SearchForm.searchCode.value+
-                      "&description="+SearchForm.searchDescription.value+
-                      "&serialnumber="+SearchForm.searchSerialnumber.value+
-                      "&assetType="+SearchForm.searchAssetType.value+
-                      "&supplierUid="+SearchForm.searchSupplierUid.value+
-                      "&purchasePeriodBegin="+SearchForm.searchPurchaseBegin.value+
-                      "&purchasePeriodEnd="+SearchForm.searchPurchaseEnd.value,
+          parameters: params,
           onSuccess: function(resp){
             $("divAssets").innerHTML = resp.responseText;
             sortables_init();
@@ -153,7 +156,7 @@
 
   <%-- CLEAR SUPPLIER SEARCH FIELDS --%>
   function clearSupplierSearchFields(){
-    document.getElementById("searchSupplierUid").value = "";  
+    document.getElementById("searchSupplierUID").value = "";  
     document.getElementById("searchSupplierName").value = "";
   }
 </script>
@@ -161,7 +164,7 @@
 <div id="divAssets" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditAssetUid" name="EditAssetUid" value="-1">
+    <input type="hidden" id="EditAssetUID" name="EditAssetUID" value="-1">
                 
     <table class="list" border="0" width="100%" cellspacing="1">
     
@@ -177,11 +180,11 @@
         <tr>
             <td class="admin"><%=getTran("web.assets","parent",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <input type="hidden" name="parentUid" id="parentUid" value="">
+                <input type="hidden" name="parentUID" id="parentUID" value="">
                 <input type="text" class="text" id="parentCode" name="parentCode" size="20" readonly value="">
                                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectParent('parentUid','parentCode');">
+                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectParent('parentUID','parentCode');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearParentFields();">
             </td>
         </tr>     
@@ -225,11 +228,11 @@
         <tr>
             <td class="admin"><%=getTran("web.assets","supplier",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <input type="hidden" name="supplierUid" id="supplierUid" value="">
+                <input type="hidden" name="supplierUID" id="supplierUID" value="">
                 <input type="text" class="text" name="supplierName" id="supplierName" readonly size="30" value="">
                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectSupplier('supplierUid','supplierName');">
+                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectSupplier('supplierUID','supplierName');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearSupplierFields();">
             </td>
         </tr>
@@ -385,7 +388,7 @@
                             <input type="text" class="text" id="gaValue" name="gaValue" size="8" maxLength="8" onKeyUp="isNumber(this);" onBlur="if(isNumber(this))setDecimalLength(this,2,true);" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;
                         </td>
                         <%-- 3 - buttons --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <input type="button" class="button" name="ButtonAddGA" id="ButtonAddGA" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addGA();">
                             <input type="button" class="button" name="ButtonUpdateGA" id="ButtonUpdateGA" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateGA();" disabled>&nbsp;
                         </td>    
@@ -432,7 +435,7 @@
                             <input type="text" class="text" id="loValue" name="loValue" size="8" maxLength="8" onKeyUp="isNumber(this)" onBlur="if(isNumber(this))setDecimalLength(this,2,true);" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;
                         </td>
                         <%-- 3 - buttons --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <input type="button" class="button" name="ButtonAddLO" id="ButtonAddLO" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addLO();">
                             <input type="button" class="button" name="ButtonUpdateLO" id="ButtonUpdateLO" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateLO();" disabled>&nbsp;
                         </td>    
@@ -443,7 +446,7 @@
 
         <%-- RESIDUAL VALUE HISTORY (calculated) --%>
         <tr id="residualValueHistoryDiv" style="visibility:visible;">
-            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.assets","residualValueHistory",sWebLanguage)%>&nbsp;</td>
+            <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("web.assets","residualValueHistory",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <div id="residualValueHistory" class="admin">
                     <%-- javascript --%>
@@ -453,7 +456,7 @@
                     
         <%-- LOAN (own table) -------------------------------------------------------------------%>
         <tr>
-            <td class="admin"><%=getTran("web.assets","loan",sWebLanguage)%>&nbsp;</td>
+            <td class="admin" nowrap><%=getTran("web.assets","loan",sWebLanguage)%>&nbsp;</td>
             <td class="admin2" style="padding:5px;">
                 <table style="border:1px solid #ddd;" cellspacing="0">
                 
@@ -464,7 +467,7 @@
         
             <%-- LOAN DATE --%>
             <tr>
-                <td class="admin" width="150"><%=getTran("web.assets","loanDate",sWebLanguage)%>&nbsp;</td>
+                <td class="admin" width="150" nowrap><%=getTran("web.assets","loanDate",sWebLanguage)%>&nbsp;</td>
                 <td class="admin2">
                     <%=writeDateField("loanDate","EditForm","",sWebLanguage)%>            
                 </td>                        
@@ -472,7 +475,7 @@
             
             <%-- LOAN AMOUNT --%>
             <tr>
-                <td class="admin"><%=getTran("web.assets","loanAmount",sWebLanguage)%>&nbsp;</td>
+                <td class="admin" nowrap><%=getTran("web.assets","loanAmount",sWebLanguage)%>&nbsp;</td>
                 <td class="admin2">
                     <input type="text" class="text" id="loanAmount" name="loanAmount" size="8" maxLength="8" value="" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;
                 </td>
@@ -480,7 +483,7 @@
                 
             <%-- LOAN INTEREST RATE (text!) --%>
             <tr>
-                <td class="admin"><%=getTran("web.assets","loadInterestRate",sWebLanguage)%>&nbsp;</td>
+                <td class="admin" nowrap><%=getTran("web.assets","loadInterestRate",sWebLanguage)%>&nbsp;</td>
                 <td class="admin2">
                     <input type="text" class="text" id="loanInterestRate" name="loanInterestRate" size="30" maxLength="30" value="">
                 </td>
@@ -551,7 +554,7 @@
                         
             <%-- LOAN COMMENT --%>                
             <tr>
-                <td class="admin"><%=getTran("web.assets","comment",sWebLanguage)%>&nbsp;</td>
+                <td class="admin" nowrap><%=getTran("web.assets","comment",sWebLanguage)%>&nbsp;</td>
                 <td class="admin2">
                     <textarea class="text" name="loanComment" id="loanComment" cols="80" rows="4" onKeyup="resizeTextarea(this,8);"></textarea>
                 </td>
@@ -606,7 +609,7 @@
                             
         <%-- SALE DATE --%>
         <tr>
-            <td class="admin"><%=getTran("web.assets","saleDate",sWebLanguage)%>&nbsp;</td>
+            <td class="admin" nowrap><%=getTran("web.assets","saleDate",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <%=writeDateField("saleDate","EditForm","",sWebLanguage)%>&nbsp;            
             </td>                        
@@ -614,7 +617,7 @@
         
         <%-- SALE VALUE --%>
         <tr>
-            <td class="admin"><%=getTran("web.assets","saleValue",sWebLanguage)%>&nbsp;</td>
+            <td class="admin" nowrap><%=getTran("web.assets","saleValue",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <input type="text" class="text" id="saleValue" name="saleValue" size="8" maxLength="8" value="" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>&nbsp;
             </td>
@@ -622,7 +625,7 @@
         
         <%-- SALE CLIENT --%>        
         <tr>
-            <td class="admin"><%=getTran("web.assets","saleClient",sWebLanguage)%>&nbsp;</td>
+            <td class="admin" nowrap><%=getTran("web.assets","saleClient",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <textarea class="text" name="saleClient" id="saleClient" cols="80" rows="4" onKeyup="resizeTextarea(this,8);limitChars(this,255);"></textarea>
             </td>
@@ -681,6 +684,10 @@
       docId = replaceAll(docId,"-","");
       docId = replaceAll(docId,".","");
       
+      while(docId.length<11){
+    	docId = "0"+docId;  
+      }
+    		  
       if(docId.length==11 && !isNaN(docId)){
         var partOne = 1*docId.substr(0,9),
             partTwo = 1*docId.substr(9,2);
@@ -701,18 +708,18 @@
   <%-- CLEAR ASSET FIELDS --%>
   function clearAssetFields(){
     document.getElementById("searchAsset").value = "";
-    document.getElementById("searchAssetUid").value = "";  
+    document.getElementById("searchAssetUID").value = "";  
   }
 
   <%-- CLEAR SUPPLIER FIELDS --%>
   function clearSupplierFields(){
-    document.getElementById("supplierUid").value = ""; 
+    document.getElementById("supplierUID").value = ""; 
     document.getElementById("supplierName").value = ""; 
   }
 
   <%-- CLEAR PARENT FIELDS --%>
   function clearParentFields(){
-    document.getElementById("parentUid").value = "";
+    document.getElementById("parentUID").value = "";
     document.getElementById("parentCode").value = "";  
   }
     
@@ -769,14 +776,14 @@
         }
         document.getElementById("loanDocuments").value = sLD;
         
-        var sParams = "EditAssetUid="+EditForm.EditAssetUid.value+
+        var sParams = "EditAssetUID="+EditForm.EditAssetUID.value+
                       "&code="+document.getElementById("code").value+
-                      "&parentUid="+document.getElementById("parentUid").value+
+                      "&parentUID="+document.getElementById("parentUID").value+
                       "&description="+document.getElementById("description").value+
                       "&serialnumber="+document.getElementById("serialnumber").value+
                       "&quantity="+document.getElementById("quantity").value+
                       "&assetType="+document.getElementById("assetType").value+
-                      "&supplierUid="+document.getElementById("supplierUid").value+
+                      "&supplierUID="+document.getElementById("supplierUID").value+
                       "&purchaseDate="+document.getElementById("purchaseDate").value+
                       "&purchasePrice="+document.getElementById("purchasePrice").value+
                       "&receiptBy="+document.getElementById("receiptBy").value+
@@ -859,7 +866,7 @@
   }
 
   <%-- DISPLAY ASSET --%>
-  function displayAsset(assetUid){
+  function displayAsset(assetUID){
     newAsset();
     var url = "<c:url value='/assets/ajax/asset/getAsset.jsp'/>?ts="+new Date().getTime();
 
@@ -872,19 +879,19 @@
     new Ajax.Request(url,
       {
         method: "GET",
-        parameters: "AssetUid="+assetUid,
+        parameters: "AssetUID="+assetUID,
         onSuccess: function(resp){
           var data = eval("("+resp.responseText+")");
 
-          $("EditAssetUid").value = assetUid.unhtmlEntities();
+          $("EditAssetUID").value = assetUID.unhtmlEntities();
           $("code").value = data.code.unhtmlEntities();
-          $("parentUid").value = data.parentUid.unhtmlEntities();
+          $("parentUID").value = data.parentUID.unhtmlEntities();
           $("parentCode").value = data.parentCode.unhtmlEntities();
           $("description").value = replaceAll(data.description.unhtmlEntities(),"<br>","\n");
           $("serialnumber").value = data.serialnumber.unhtmlEntities();
           $("quantity").value = data.quantity.unhtmlEntities();
           $("assetType").value = data.assetType.unhtmlEntities();
-          $("supplierUid").value = data.supplierUid.unhtmlEntities();
+          $("supplierUID").value = data.supplierUID.unhtmlEntities();
           $("supplierName").value = data.supplierName.unhtmlEntities();
           $("purchaseDate").value = data.purchaseDate.unhtmlEntities();
           $("purchasePrice").value = data.purchasePrice.unhtmlEntities();
@@ -977,7 +984,7 @@
       new Ajax.Request(url,
         {
           method: "GET",
-          parameters: "AssetUid="+document.getElementById("EditAssetUid").value,
+          parameters: "AssetUID="+document.getElementById("EditAssetUID").value,
           onSuccess: function(resp){
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;
@@ -1002,7 +1009,7 @@
     document.getElementById("buttonDelete").style.visibility = "hidden";
     document.getElementById("buttonNew").style.visibility = "hidden";
 
-    $("EditAssetUid").value = "-1";
+    $("EditAssetUID").value = "-1";
     $("code").value = "";
     clearParentFields();
     $("description").value = "";
@@ -1716,7 +1723,7 @@
       return;
     }
     
-      EditForm.pdID.value = formatDocumentID(EditForm.pdID.value); 
+    EditForm.pdID.value = formatDocumentID(EditForm.pdID.value); 
       
     if(sPD.indexOf(EditForm.pdID.value) > -1){
       alertDialog("web.assets","documentAlreadySelected");
@@ -2324,6 +2331,9 @@
   
   <%-- FORMAT DOCUMENT ID --%>
   function formatDocumentID(docID){
+	return docID;
+	
+	/*  
     docID = replaceAll(docID,"-","");
     docID = replaceAll(docID,".","");
 
@@ -2336,6 +2346,7 @@
     else{
       return docID;
     }
+    */
   }
   
   <%-- COUNT SELECTED LDS --%>

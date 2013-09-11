@@ -97,7 +97,7 @@
 <div id="divSuppliers" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
-    <input type="hidden" id="EditSupplierUid" name="EditSupplierUid" value="-1">
+    <input type="hidden" id="EditSupplierUID" name="EditSupplierUID" value="-1">
                 
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- code --%>
@@ -250,7 +250,7 @@
         document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
         disableButtons();
         
-        var sParams = "EditSupplierUid="+EditForm.EditSupplierUid.value+
+        var sParams = "EditSupplierUID="+EditForm.EditSupplierUID.value+
                       "&code="+EditForm.code.value+
                       "&name="+EditForm.name.value+
                       "&address="+EditForm.address.value+
@@ -319,17 +319,17 @@
   }
 
   <%-- DISPLAY SUPPLIER --%>
-  function displaySupplier(supplierUid){
+  function displaySupplier(supplierUID){
     var url = "<c:url value='/assets/ajax/supplier/getSupplier.jsp'/>?ts="+new Date().getTime();
     
     new Ajax.Request(url,
       {
         method: "GET",
-        parameters: "SupplierUid="+supplierUid,
+        parameters: "SupplierUID="+supplierUID,
         onSuccess: function(resp){
           var data = eval("("+resp.responseText+")");
           
-          $("EditSupplierUid").value = supplierUid.unhtmlEntities();
+          $("EditSupplierUID").value = supplierUID.unhtmlEntities();
           $("code").value = data.code.unhtmlEntities();
           $("name").value = data.name.unhtmlEntities();
           $("address").value = data.address.unhtmlEntities();
@@ -369,7 +369,7 @@
       new Ajax.Request(url,
         {
           method: "GET",
-          parameters: "SupplierUid="+document.getElementById("EditSupplierUid").value,
+          parameters: "SupplierUID="+document.getElementById("EditSupplierUID").value,
           onSuccess: function(resp){
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;
@@ -393,7 +393,7 @@
     document.getElementById("buttonDelete").style.visibility = "hidden";
     document.getElementById("buttonNew").style.visibility = "hidden";
 
-    $("EditSupplierUid").value = "-1";    
+    $("EditSupplierUID").value = "-1";    
     $("code").value = "";
     $("name").value = "";
     $("address").value = "";
