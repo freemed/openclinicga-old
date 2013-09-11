@@ -329,6 +329,7 @@ public class Config {
             if(rs.next()){
                 objConfig.setOc_key(ScreenHelper.checkString(rs.getString("oc_key")));
                 objConfig.setOc_value(new StringBuffer(ScreenHelper.checkString(rs.getString("oc_value"))));
+                                
                 objConfig.setUpdateuserid(rs.getInt("updateuserid"));
                 objConfig.setUpdatetime(rs.getTimestamp("updatetime"));
                 objConfig.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("comment"))));
