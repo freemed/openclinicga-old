@@ -6,12 +6,25 @@
 
 <%!
     //### INNER CLASS : PredefinedWeekSchedule ####################################################
-    private class PredefinedWeekSchedule {
+    private class PredefinedWeekSchedule implements Comparable {
         public String id;
         public String type;  
         public String xml;  
         
         Vector timeBlocks = new Vector();
+
+        //--- COMPARE TO ------------------------------------------------------
+        public int compareTo(Object o){
+            int comp;
+            if(o.getClass().isInstance(this)){
+                comp = this.type.compareTo(((PredefinedWeekSchedule)o).type);
+            }
+            else{
+                throw new ClassCastException();
+            }
+
+            return comp;
+        }
         
         //--- AS CONCAT VALUE -------------------------------------------------
         public String asConcatValue(){
@@ -73,11 +86,24 @@
     }
 
     //### INNER CLASS : TimeBlock #################################################################
-    private class TimeBlock {
+    private class TimeBlock implements Comparable {
         public String id;
         public String dayIdx;
         public String beginHour;
         public String endHour;
+        
+        //--- COMPARE TO ------------------------------------------------------
+        public int compareTo(Object o){
+            int comp;
+            if(o.getClass().isInstance(this)){
+                comp = this.dayIdx.compareTo(((TimeBlock)o).dayIdx);
+            }
+            else{
+                throw new ClassCastException();
+            }
+
+            return comp;
+        }
     }
 
     //--- PARSE PREDEFINED WEEK SCHEDULES ---------------------------------------------------------
@@ -162,7 +188,8 @@
                                     
                             schedule.timeBlocks.add(timeBlock);    
                         }
-                        
+
+                        Collections.sort(schedule.timeBlocks); // on day
                         schedules.add(schedule);
                     }
                 }

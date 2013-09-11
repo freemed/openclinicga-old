@@ -84,6 +84,8 @@
                       "<td class='hand' style='padding-left:5px'>"+getTran("web.hr",sScheduleType+"Schedule",sWebLanguage)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+sScheduleHours+"</td>"+
                      "</tr>");
+            
+            %><script>addSchedulePeriod('<%=workschedule.getUid()%>','<%=(workschedule.begin==null?"":ScreenHelper.getSQLDate(workschedule.begin))%>_<%=(workschedule.end==null?"":ScreenHelper.getSQLDate(workschedule.end))%>');</script><%
         }
     
         Vector keys = new Vector(hSort.keySet());
