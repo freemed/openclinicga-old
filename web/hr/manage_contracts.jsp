@@ -38,7 +38,7 @@
             <%-- beginDate --%>
             <tr>
                 <td class="admin"><%=getTran("web.hr","beginDate",sWebLanguage)%>&nbsp;*&nbsp;</td>
-                <td class="admin2">
+                <td class="admin2" nowrap>
                     <%=writeDateField("beginDate","EditForm","",sWebLanguage)%>          
                 </td>                        
             </tr>
@@ -46,7 +46,7 @@
             <%-- endDate --%>
             <tr>
                 <td class="admin"><%=getTran("web.hr","endDate",sWebLanguage)%></td>
-                <td class="admin2">
+                <td class="admin2" nowrap>
                     <%=writeDateField("endDate","EditForm","",sWebLanguage)%>          
                 </td>                        
             </tr>
@@ -217,15 +217,15 @@
               $("contractId").innerHTML = data.contractId;
               $("beginDate").value = data.beginDate;
               $("endDate").value = data.endDate;
-              $("functionCode").value = data.functionCode;
-              $("functionTitle").value = data.functionTitle;
-              $("functionDescription").value = replaceAll(data.functionDescription,"<br>","\n");
+              $("functionCode").value = data.functionCode.unhtmlEntities();
+              $("functionTitle").value = data.functionTitle.unhtmlEntities();
+              $("functionDescription").value = replaceAll(data.functionDescription.unhtmlEntities(),"<br>","\n");
 
-              if($("ref1")!=null) $("ref1").value = data.ref1;
-              if($("ref2")!=null) $("ref2").value = data.ref2;
-              if($("ref3")!=null) $("ref3").value = data.ref3;
-              if($("ref4")!=null) $("ref4").value = data.ref4;
-              if($("ref5")!=null) $("ref5").value = data.ref5;
+              if($("ref1")!=null) $("ref1").value = data.ref1.unhtmlEntities();
+              if($("ref2")!=null) $("ref2").value = data.ref2.unhtmlEntities();
+              if($("ref3")!=null) $("ref3").value = data.ref3.unhtmlEntities();
+              if($("ref4")!=null) $("ref4").value = data.ref4.unhtmlEntities();
+              if($("ref5")!=null) $("ref5").value = data.ref5.unhtmlEntities();
               
               document.getElementById("divMessage").innerHTML = ""; 
               resizeTextarea($("functionDescription"),10);

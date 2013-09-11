@@ -29,7 +29,7 @@
         <%-- begin (*) --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","begin",sWebLanguage)%>&nbsp;*&nbsp;</td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("begin","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -37,7 +37,7 @@
         <%-- end --%>
         <tr>
             <td class="admin"><%=getTran("web.hr","end",sWebLanguage)%></td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("end","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -80,7 +80,7 @@
         <%-- diplomaDate (*) --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","diplomaDate",sWebLanguage)%>&nbsp;*&nbsp;</td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("diplomaDate","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -281,15 +281,15 @@
           $("EditTrainingUid").value = trainingUid;
           $("begin").value = data.begin;
           $("end").value = data.end;
-          $("institute").value = data.institute;
-          $("type").value = data.type;
-          $("level").value = data.level;
-          $("diploma").value = data.diploma;
+          $("institute").value = data.institute.unhtmlEntities();
+          $("type").value = data.type.unhtmlEntities();
+          $("level").value = data.level.unhtmlEntities();
+          $("diploma").value = data.diploma.unhtmlEntities();
           $("diplomaDate").value = data.diplomaDate;
           if($("diplomaCode1")!=null) $("diplomaCode1").value = data.diplomaCode1;
           if($("diplomaCode2")!=null) $("diplomaCode2").value = data.diplomaCode2;
           if($("diplomaCode3")!=null) $("diplomaCode3").value = data.diplomaCode3;
-          $("comment").value = replaceAll(data.comment,"<br>","\n");
+          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
           
           document.getElementById("divMessage").innerHTML = ""; 
           resizeAllTextareas(8);

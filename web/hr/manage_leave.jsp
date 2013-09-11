@@ -29,15 +29,15 @@
         <%-- begin (*) --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","begin",sWebLanguage)%>&nbsp;*&nbsp;</td>
-            <td class="admin2"> 
-                <%=writeDateField("begin","EditForm","",sWebLanguage)%>            
+            <td class="admin2" nowrap> 
+                <%=writeDateField("begin","EditForm","",sWebLanguage,"calculateDuration();")%>            
             </td>                        
         </tr>
         
         <%-- end (*) --%>
         <tr>
             <td class="admin"><%=getTran("web.hr","end",sWebLanguage)%>&nbsp;*&nbsp;</td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("end","EditForm","",sWebLanguage,"calculateDuration();")%>            
             </td>                        
         </tr>
@@ -64,7 +64,7 @@
         <%-- requestDate --%>
         <tr>
             <td class="admin"><%=getTran("web.hr","requestDate",sWebLanguage)%></td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("requestDate","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -72,7 +72,7 @@
         <%-- authorizationDate --%>
         <tr>
             <td class="admin"><%=getTran("web.hr","authorizationDate",sWebLanguage)%></td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("authorizationDate","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -243,9 +243,9 @@
           $("type").value = data.type;
           $("requestDate").value = data.requestDate;
           $("authorizationDate").value = data.authorizationDate;
-          $("authorizedBy").value = data.authorizedBy;
-          $("episodeCode").value = data.episodeCode;
-          $("comment").value = replaceAll(data.comment,"<br>","\n");
+          $("authorizedBy").value = data.authorizedBy.unhtmlEntities();
+          $("episodeCode").value = data.episodeCode.unhtmlEntities();
+          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
 
           document.getElementById("divMessage").innerHTML = ""; 
           resizeAllTextareas(8);

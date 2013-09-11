@@ -29,7 +29,7 @@
         <%-- date --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.hr","date",sWebLanguage)%>&nbsp;*&nbsp;</td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("date","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -121,7 +121,7 @@
           {
             method: "POST",
             postBody: "EditDisRecUid="+EditForm.EditDisRecUid.value+
-                          "&PersonId=<%=activePatient.personid%>"+
+                      "&PersonId=<%=activePatient.personid%>"+
                       "&date="+document.getElementById("date").value+
                       "&title="+document.getElementById("title").value+
                       "&description="+document.getElementById("description").value+
@@ -191,14 +191,14 @@
 
           $("EditDisRecUid").value = disRecUid;
           $("date").value = data.date;
-          $("title").value = data.title;
-          $("description").value = replaceAll(data.description,"<br>","\n");
-          $("decision").value = data.decision;
+          $("title").value = data.title.unhtmlEntities();
+          $("description").value = replaceAll(data.description.unhtmlEntities(),"<br>","\n");
+          $("decision").value = data.decision.unhtmlEntities();
           if(data.duration > -1){
             $("duration").value = data.duration;
           }
-          $("decisionBy").value = data.decisionBy;
-          $("followUp").value = replaceAll(data.followUp,"<br>","\n");
+          $("decisionBy").value = data.decisionBy.unhtmlEntities();
+          $("followUp").value = replaceAll(data.followUp.unhtmlEntities(),"<br>","\n");
           
           document.getElementById("divMessage").innerHTML = ""; 
           resizeAllTextareas(8);

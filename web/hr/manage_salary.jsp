@@ -22,6 +22,7 @@
 %>            
 
 <%=writeTableHeader("web","salary",sWebLanguage,"")%><br>
+
 <div id="divSalaries" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
@@ -44,7 +45,7 @@
         <%-- begin date (*) --%>
         <tr>
             <td class="admin"><%=getTran("web.hr","begin",sWebLanguage)%>&nbsp;*&nbsp;</td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("beginDate","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
@@ -52,16 +53,30 @@
         <%-- end date --%>
         <tr>
             <td class="admin"><%=getTran("web.hr","end",sWebLanguage)%>&nbsp;</td>
-            <td class="admin2"> 
+            <td class="admin2" nowrap> 
                 <%=writeDateField("endDate","EditForm","",sWebLanguage)%>            
             </td>                        
         </tr>
                 
         <%-- gross salary (*) --%>
+        <%
+            // depends on configured currency-mask
+            int decimalLength = 2;
+            String sPriceFormat = MedwanQuery.getInstance().getConfigParam("priceFormat","");
+            if(sPriceFormat.length() > 0){
+            	int dotIdx = sPriceFormat.indexOf(".");
+            	if(dotIdx > -1){
+	            	decimalLength = sPriceFormat.length()-dotIdx; // number of characters behind the dot
+            	}
+            	else{
+            		decimalLength = 0;
+            	}
+            }
+        %>
         <tr>
             <td class="admin"><%=getTran("web.hr","grossSalary",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2">
-                <input type="text" class="text" id="salary" name="salary" size="6" maxLength="10" onKeyUp="isNumber(this)" onBlur="if(isNumber(this))setDecimalLength(this,2,true);" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
+                <input type="text" class="text" id="salary" name="salary" size="10" maxLength="14" onKeyUp="isNumber(this)" onBlur="if(isNumber(this))setDecimalLength(this,<%=decimalLength%>,true);" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
             </td>
         </tr>
                     
@@ -118,11 +133,11 @@
                         <%-- 0 - empty --%>
                         <td class="admin"/>
                         <%-- 1 - beBegin --%>
-                        <td class="admin"> 
+                        <td class="admin" nowrap> 
                             <%=writeDateField("beBegin","EditForm","",sWebLanguage)%>&nbsp; 
                         </td>
                         <%-- 2 - beEnd --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <%=writeDateField("beEnd","EditForm","",sWebLanguage)%>&nbsp;
                         </td>    
                         <%-- 3 - bePeriod --%>
@@ -141,12 +156,12 @@
                         </td>   
                         <%-- 5 - amount --%>
                         <td class="admin"> 
-                            <input type="text" class="text" id="beAmount" name="beAmount" size="6" maxLength="10" onKeyUp="isNumber(this)" onBlur="if(isNumber(this))setDecimalLength(this,2,true);" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
+                            <input type="text" class="text" id="beAmount" name="beAmount" size="10" maxLength="14" onKeyUp="isNumber(this)" onBlur="if(isNumber(this))setDecimalLength(this,<%=decimalLength%>,true);" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
                         </td>
                         <%-- 6 - buttons --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <input type="button" class="button" name="ButtonAddBE" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addBE();">
-                            <input type="button" class="button" name="ButtonUpdateBE" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateBE();">&nbsp;
+                            <input type="button" class="button" name="ButtonUpdateBE" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateBE();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>                    
@@ -199,11 +214,11 @@
                         <%-- 0 - empty --%>
                         <td class="admin"/>
                         <%-- 1 - boBegin --%>
-                        <td class="admin"> 
+                        <td class="admin" nowrap> 
                             <%=writeDateField("boBegin","EditForm","",sWebLanguage)%>&nbsp; 
                         </td>
                         <%-- 2 - boEnd --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <%=writeDateField("boEnd","EditForm","",sWebLanguage)%>&nbsp;
                         </td>    
                         <%-- 3 - boPeriod --%>
@@ -226,12 +241,12 @@
                         </td>
                         <%-- 6 - boAmount --%>
                         <td class="admin"> 
-                            <input type="text" class="text" id="boAmount" name="boAmount" size="6" maxLength="10" onKeyUp="isNumber(this)" onBlur="if(isNumber(this))setDecimalLength(this,2,true);" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
+                            <input type="text" class="text" id="boAmount" name="boAmount" size="10" maxLength="14" onKeyUp="isNumber(this)" onBlur="if(isNumber(this))setDecimalLength(this,<%=decimalLength%>,true);" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
                         </td>
                         <%-- 6 - buttons --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <input type="button" class="button" name="ButtonAddBO" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addBO();">
-                            <input type="button" class="button" name="ButtonUpdateBO" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateBO();">&nbsp;
+                            <input type="button" class="button" name="ButtonUpdateBO" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateBO();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>                    
@@ -280,11 +295,11 @@
                         <%-- 0 - empty --%>
                         <td class="admin"/>
                         <%-- 1 - oiBegin --%>
-                        <td class="admin"> 
+                        <td class="admin" nowrap> 
                             <%=writeDateField("oiBegin","EditForm","",sWebLanguage)%>&nbsp; 
                         </td>
                         <%-- 2 - oiEnd --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <%=writeDateField("oiEnd","EditForm","",sWebLanguage)%>&nbsp;
                         </td>    
                         <%-- 3 - oiPeriod --%>
@@ -303,12 +318,12 @@
                         </td>   
                         <%-- 5 - oiAmount --%>
                         <td class="admin"> 
-                            <input type="text" class="text" id="oiAmount" name="oiAmount" size="6" maxLength="10" onKeyUp="isNumber(this)" onBlur="if(isNumber(this)){setDecimalLength(this,2,true);calculateOtherIncome();}" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
+                            <input type="text" class="text" id="oiAmount" name="oiAmount" size="10" maxLength="14" onKeyUp="isNumber(this)" onBlur="if(isNumber(this)){setDecimalLength(this,<%=decimalLength%>,true);calculateOtherIncome();}" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
                         </td>
                         <%-- 6 - buttons --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <input type="button" class="button" name="ButtonAddOI" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addOI();">
-                            <input type="button" class="button" name="ButtonUpdateOI" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateOI();">&nbsp;
+                            <input type="button" class="button" name="ButtonUpdateOI" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateOI();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>                    
@@ -357,11 +372,11 @@
                         <%-- 0 - empty --%>
                         <td class="admin"/>
                         <%-- 1 - deBegin --%>
-                        <td class="admin"> 
+                        <td class="admin" nowrap> 
                             <%=writeDateField("deBegin","EditForm","",sWebLanguage)%>&nbsp; 
                         </td>
                         <%-- 2 - deEnd --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <%=writeDateField("deEnd","EditForm","",sWebLanguage)%>&nbsp;
                         </td>    
                         <%-- 3 - dePeriod --%>
@@ -380,12 +395,12 @@
                         </td>   
                         <%-- 5 - deAmount --%>
                         <td class="admin"> 
-                            <input type="text" class="text" id="deAmount" name="deAmount" size="6" maxLength="10" onKeyUp="isNumber(this)" onBlur="if(isNumber(this)){setDecimalLength(this,2,true);calculateDeduction();}" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
+                            <input type="text" class="text" id="deAmount" name="deAmount" size="10" maxLength="14" onKeyUp="isNumber(this)" onBlur="if(isNumber(this)){setDecimalLength(this,<%=decimalLength%>,true);calculateDeduction();}" value="">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","")%>&nbsp;
                         </td>
                         <%-- 6 - buttons --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <input type="button" class="button" name="ButtonAddDE" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addDE();">
-                            <input type="button" class="button" name="ButtonUpdateDE" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateDE();">&nbsp;
+                            <input type="button" class="button" name="ButtonUpdateDE" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateDE();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>                    
@@ -415,7 +430,69 @@
     <div id="divMessage" style="padding-top:10px;"></div>
 </form>
     
-<script>
+<script>   
+  <%-- CHECK INTERFERENCE --%>
+  function checkInterference(){
+	var interference = false;
+	    
+    var beginDate = null;
+    if(document.getElementById("beginDate").value.length > 0){
+      beginDate = makeDate(document.getElementById("beginDate").value);
+    }
+
+    var endDate = null;
+    if(document.getElementById("endDate").value.length > 0){
+      endDate = makeDate(document.getElementById("endDate").value);
+    }
+     
+    for(var i=0; i<periodsWithSalary.length && interference==false; i++){
+      var salaryUid = periodsWithSalary[i].split("_")[0];
+	
+      <%-- do not consider the period of the salary currently being edited --%>
+      if(salaryUid!=EditForm.EditSalaryUid.value){        	
+        var periodBegin = periodsWithSalary[i].split("_")[1],
+     	    periodEnd   = periodsWithSalary[i].split("_")[2];
+    
+   	    <%-- begin- and end of period specified --%>
+        if((periodBegin!=null && periodBegin.length > 0) && (periodEnd!=null && periodEnd.length > 0)){
+          var periodBeginDate = makeDate(periodBegin),
+              periodEndDate   = makeDate(periodEnd);
+
+          if((beginDate==null || (beginDate!=null && (beginDate <= periodEndDate))) && (endDate==null || (endDate!=null && endDate > periodBeginDate))){
+            alertDialog("web","periodsInterfere");
+            document.getElementById("beginDate").focus();
+            okToSubmit = false;                	
+            interference = true;  
+          }
+        } 
+        <%-- only begin of period specified --%>
+        else if(periodBegin.length > 0){
+          var periodBeginDate = makeDate(periodBegin);
+          
+          if(endDate==null || (endDate!=null && endDate >= periodBeginDate)){
+            alertDialog("web","periodsInterfere");
+            document.getElementById("beginDate").focus();
+            okToSubmit = false;
+            interference = true;                  	
+          }
+        }
+        <%-- only end of period specified --%>
+        else if(periodEnd.length > 0){
+          var periodEndDate = makeDate(periodEnd);
+
+          if(beginDate==null || (beginDate!=null && beginDate <= periodEndDate)){
+            alertDialog("web","periodsInterfere");
+            document.getElementById("beginDate").focus();
+            okToSubmit = false;
+            interference = true;                  	
+          }
+        }
+      }
+    }
+    
+    return interference;
+  } 
+  
   <%-- SAVE SALARY --%>
   function saveSalary(){
     var okToSubmit = true;
@@ -426,7 +503,7 @@
        document.getElementById("salaryPeriod").selectedIndex > 0
       ){     
       <%-- beginDate can not be after endDate --%>
-      if(document.getElementById("beginDate").value.length > 0){
+      if(document.getElementById("endDate").value.length > 0){
         var beginDate = makeDate(document.getElementById("beginDate").value),
             endDate   = makeDate(document.getElementById("endDate").value);
         
@@ -435,6 +512,11 @@
           document.getElementById("beginDate").focus();
           okToSubmit = false;
         }  
+      }
+
+      <%-- periods can not interfere (max 1 salary at all times) --%>
+      if(okToSubmit){
+        okToSubmit = !checkInterference();  
       }
       
       if(okToSubmit){
@@ -463,6 +545,14 @@
             onSuccess: function(resp){
               var data = eval("("+resp.responseText+")");
               $("divMessage").innerHTML = data.message;
+
+              if(document.getElementById("EditSalaryUid").value=="-1"){
+                addSalaryPeriod(document.getElementById("EditSalaryUid").value);
+              }
+              else{
+            	var sPeriod = document.getElementById("beginDate").value+"_"+document.getElementById("endDate").value;
+                updateSalaryPeriod(document.getElementById("EditSalaryUid").value,sPeriod);
+              }
               
               loadSalaries();
               newSalary();
@@ -494,9 +584,10 @@
   function loadSalaries(){
     document.getElementById("divSalaries").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
     var url = "<c:url value='/hr/ajax/salary/getSalaries.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
+    new Ajax.Updater("divSalaries",url,
+      { 
         method: "GET",
+        evalScripts: true,
         parameters: "PatientId=<%=activePatient.personid%>",
         onSuccess: function(resp){
           $("divSalaries").innerHTML = resp.responseText;
@@ -507,6 +598,44 @@
         }
       }
     );
+  }
+  
+  var periodsWithSalary = new Array();
+
+  <%-- ADD SALARY PERIOD --%>
+  function addSalaryPeriod(salaryUid,sPeriod){
+	var salaryFound = false;
+	
+    for(var i=0; i<periodsWithSalary.length && salaryFound==false; i++){
+      if(periodsWithSalary[i].indexOf(salaryUid+"_")==0){
+    	salaryFound = true;
+      }
+    }
+
+    if(salaryFound==false){
+      periodsWithSalary.push(salaryUid+"_"+sPeriod);
+    }
+  }
+
+  <%-- REMOVE SALARY PERIOD --%>
+  function removeSalaryPeriod(salaryUid){
+	for(var i=0; periodsWithSalary.length; i++){
+      if(periodsWithSalary[i].indexOf(salaryUid+"_")==0){
+    	periodsWithSalary.splice(i,1);
+      	break;
+      }
+	}
+  }
+
+  <%-- UPDATE SALARY PERIOD --%>
+  function updateSalaryPeriod(salaryUid,sPeriod){
+	for(var i=0; periodsWithSalary.length; i++){
+	  if(periodsWithSalary[i].indexOf(salaryUid+"_")==0){
+	  	periodsWithSalary.splice(i,1);
+	  	periodsWithSalary.push(salaryUid+"_"+sPeriod);
+	   	break;
+	  }
+    }
   }
 
   <%-- DISPLAY SALARY --%>
@@ -525,12 +654,12 @@
 
           $("EditSalaryUid").value = salaryUid;
           $("contract").value = data.contractUid;
-          $("contractName").value = data.contractName;
+          $("contractName").value = data.contractName.unhtmlEntities();
           $("beginDate").value = data.begin;
           $("endDate").value = data.end;
           $("salary").value = data.salary;
           $("salaryPeriod").value = data.salaryPeriod;
-          $("comment").value = replaceAll(data.comment,"<br>","\n");
+          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
           
           <%-- multi-selects / xmls --%>
           $("benefits").value = data.benefits;
@@ -574,9 +703,10 @@
             var data = eval("("+resp.responseText+")");
             $("divMessage").innerHTML = data.message;
 
+            removeSalaryPeriod(document.getElementById("EditSalaryUid").value);
             loadSalaries();
             newSalary();
-          
+            
             document.getElementById("buttonSave").disabled = false;
             document.getElementById("buttonDelete").disabled = false;
             document.getElementById("buttonNew").disabled = false;

@@ -44,7 +44,7 @@
                         </td>
                         <%-- 2 - spoken --%>
                         <td style="padding-left:0px;">
-                            <%=getTran("web.hr","languages.spoken",sWebLanguage)%>&nbsp;
+                            <%=getTran("web.hr","languages.spoken",sWebLanguage)%>&nbsp;*&nbsp;
                         </td>    
                         <%-- 3 - reading --%>
                         <td style="padding-left:0px;">
@@ -93,9 +93,9 @@
                             </select>&nbsp;
                         </td>
                         <%-- 5 - buttons --%>
-                        <td class="admin">
+                        <td class="admin" nowrap>
                             <input type="button" class="button" name="ButtonAddLS" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addLS();">
-                            <input type="button" class="button" name="ButtonUpdateLS" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateLS();">&nbsp;
+                            <input type="button" class="button" name="ButtonUpdateLS" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateLS();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>
@@ -200,20 +200,20 @@
   <%-- SAVE SKILL --%>
   function saveSkill(){
     var maySubmit = true;
-     if(maySubmit && EditForm.lsLanguage.value.length > 0){
-       if(!addLS()){
-         maySubmit = false;
-       }
-     }
-     if(maySubmit){
+    if(maySubmit && EditForm.lsLanguage.value.length > 0){
+      if(!addLS()){
+        maySubmit = false;
+      }
+    }
+    if(maySubmit){
       <%-- compose string containing language skills --%>
-         var sTmpBegin, sTmpEnd;
-         while(sLS.indexOf("rowLS") > -1){
-           sTmpBegin = sLS.substring(sLS.indexOf("rowLS"));
-           sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=")+1);
-           sLS = sLS.substring(0,sLS.indexOf("rowLS"))+sTmpEnd;
-         }
-         document.getElementById("languages").value = sLS.substring(0,255);
+      var sTmpBegin, sTmpEnd;
+      while(sLS.indexOf("rowLS") > -1){
+        sTmpBegin = sLS.substring(sLS.indexOf("rowLS"));
+        sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=")+1);
+        sLS = sLS.substring(0,sLS.indexOf("rowLS"))+sTmpEnd;
+      }
+      document.getElementById("languages").value = sLS.substring(0,255);
        
       document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
       var url = "<c:url value='/hr/ajax/skills/saveSkill.jsp'/>?ts="+new Date().getTime();
@@ -264,13 +264,13 @@
           $("languages").value = data.languages.unhtmlEntities();
           displayLanguageSkills();
           
-          $("drivingLicense").value = data.drivingLicense;
+          $("drivingLicense").value = data.drivingLicense.unhtmlEntities();
           $("itOffice").value = data.itOffice;
           $("itInternet").value = data.itInternet;
           $("itOther").value = replaceAll(data.itOther,"<br>","\n");
-          $("communicationSkills").value = data.communicationSkills;
+          $("communicationSkills").value = data.communicationSkills.unhtmlEntities();
           $("stressResistance").value = data.stressResistance;
-          $("comment").value = replaceAll(data.comment,"<br>","\n");
+          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
                         
           document.getElementById("divMessage").innerHTML = ""; 
           resizeAllTextareas(8);
@@ -326,7 +326,7 @@
         sTmpSpoken = "";
         sTmpReading = "";
         sTmpWriting = "";
-
+        
         if(sTmpLS.indexOf("|") > -1){
           sTmpLang = sTmpLS.substring(0,sTmpLS.indexOf("|"));
           sTmpLS = sTmpLS.substring(sTmpLS.indexOf("|")+1);
