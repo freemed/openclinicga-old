@@ -4,24 +4,24 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sPlanUid = checkString(request.getParameter("PlanUid"));
+    String sPlanUID = checkString(request.getParameter("PlanUID"));
        
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n************ deleteMaintenancePlan.jsp *************");
-        Debug.println("sPlanUid : "+sPlanUid+"\n");
+        Debug.println("sPlanUID : "+sPlanUID+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////
 
     
-    boolean errorOccurred = MaintenancePlan.delete(sPlanUid);
+    boolean errorOccurred = MaintenancePlan.delete(sPlanUID);
     String sMessage = "";
     
     if(!errorOccurred){
-        sMessage = getTran("web","dataIsDeleted",sWebLanguage);
+        sMessage = "<font color='green'>"+getTran("web","dataIsDeleted",sWebLanguage)+"</font>";
     }
     else{
-        sMessage = getTran("web","error",sWebLanguage);
+        sMessage = "<font color='red'>"+getTran("web","error",sWebLanguage)+"</font>";
     }
 %>
 

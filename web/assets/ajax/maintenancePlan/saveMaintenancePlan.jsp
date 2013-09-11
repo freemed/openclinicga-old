@@ -5,7 +5,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sEditPlanUid = checkString(request.getParameter("EditPlanUid"));
+    String sEditPlanUID = checkString(request.getParameter("EditPlanUID"));
 
     String sName           = ScreenHelper.checkString(request.getParameter("name")),
            sAssetUID       = ScreenHelper.checkString(request.getParameter("assetUID")),
@@ -19,7 +19,7 @@
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n************* saveMaintenanceplan.jsp *************");
-        Debug.println("sEditPlanUid  : "+sEditPlanUid);
+        Debug.println("sEditPlanUID  : "+sEditPlanUID);
         Debug.println("sAssetUID     : "+sAssetUID);
         Debug.println("sStartDate    : "+sStartDate);
         Debug.println("sFrequency    : "+sFrequency);
@@ -33,8 +33,8 @@
     MaintenancePlan plan = new MaintenancePlan();
     String sMessage = "";
     
-    if(sEditPlanUid.length() > 0){
-        plan.setUid(sEditPlanUid);
+    if(sEditPlanUID.length() > 0){
+        plan.setUid(sEditPlanUID);
     }
     else{
         plan.setUid("-1");
@@ -67,11 +67,11 @@
         sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
-        sMessage = getTran("web","error",sWebLanguage);
+        sMessage = "<font color='red'>"+getTran("web","error",sWebLanguage)+"</font>";
     }
 %>
 
 {
   "message":"<%=HTMLEntities.htmlentities(sMessage)%>",
-  "newUid":"<%=plan.getUid()%>"
+  "newUID":"<%=plan.getUid()%>"
 }
