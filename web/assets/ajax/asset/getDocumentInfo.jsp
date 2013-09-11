@@ -36,8 +36,8 @@
                 String sSql = "SELECT * FROM oc_assets"+
                               " WHERE (OC_ASSET_SERVERID = ? AND OC_ASSET_OBJECTID = ?)";
                 ps = oc_conn.prepareStatement(sSql);
-                ps.setInt(1,Integer.parseInt(sAssetUid.substring(0,sAssetUid.indexOf("."))));
-                ps.setInt(2,Integer.parseInt(sAssetUid.substring(sAssetUid.indexOf(".")+1)));
+                ps.setInt(1,Integer.parseInt(sAssetUID.substring(0,sAssetUID.indexOf("."))));
+                ps.setInt(2,Integer.parseInt(sAssetUID.substring(sAssetUID.indexOf(".")+1)));
 
                 // execute
                 rs = ps.executeQuery();

@@ -149,16 +149,16 @@
 %>
         
 <%
-    String sAssetUid = checkString(request.getParameter("AssetUid"));
+    String sAssetUID = checkString(request.getParameter("AssetUID"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n****************** getAsset.jsp ********************");
-        Debug.println("sAssetUid : "+sAssetUid+"\n");
+        Debug.println("sAssetUID : "+sAssetUID+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////
 
-    Asset asset = Asset.get(sAssetUid);
+    Asset asset = Asset.get(sAssetUID);
     
     double[] totals = asset.calculateReimbursementTotals();
     double reimbursementCapitalTotal  = totals[0],
@@ -170,13 +170,13 @@
 
 {
   "code":"<%=HTMLEntities.htmlentities(asset.code)%>",
-  "parentUid":"<%=HTMLEntities.htmlentities(asset.parentUid)%>",
+  "parentUID":"<%=HTMLEntities.htmlentities(asset.parentUid)%>",
   "parentCode":"<%=(asset.parentUid.length()>0?HTMLEntities.htmlentities(asset.getParentCode(asset.parentUid)):"")%>",
   "description":"<%=HTMLEntities.htmlentities(asset.description.replaceAll("\r","").replaceAll("\r\n","<br>"))%>",
   "serialnumber":"<%=HTMLEntities.htmlentities(asset.serialnumber)%>",
   "quantity":"<%=deci.format(asset.quantity).replaceAll(",",".")%>",
   "assetType":"<%=HTMLEntities.htmlentities(asset.assetType)%>",
-  "supplierUid":"<%=HTMLEntities.htmlentities(asset.supplierUid)%>",
+  "supplierUID":"<%=HTMLEntities.htmlentities(asset.supplierUid)%>",
   "supplierName":"<%=(asset.supplierUid.length()>0?HTMLEntities.htmlentities(asset.getSupplierName(asset.supplierUid)):"")%>",
   <%
       if(asset.purchaseDate!=null){

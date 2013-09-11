@@ -4,24 +4,24 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sAssetUid = checkString(request.getParameter("AssetUid"));
+    String sAssetUID = checkString(request.getParameter("AssetUID"));
        
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n**************** deleteAsset.jsp ******************");
-        Debug.println("sAssetUid : "+sAssetUid+"\n");
+        Debug.println("sAssetUID : "+sAssetUID+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////
 
     
-    boolean errorOccurred = Asset.delete(sAssetUid);
+    boolean errorOccurred = Asset.delete(sAssetUID);
     String sMessage = "";
     
     if(!errorOccurred){
-        sMessage = getTran("web","dataIsDeleted",sWebLanguage);
+        sMessage = "<font color='green'>"+getTran("web","dataIsDeleted",sWebLanguage)+"</font>";
     }
     else{
-        sMessage = getTran("web","error",sWebLanguage);
+        sMessage = "<font color='red'>"+getTran("web","error",sWebLanguage)+"</font>";
     }
 %>
 

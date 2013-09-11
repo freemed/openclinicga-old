@@ -13,10 +13,10 @@
            sDescription         = checkString(request.getParameter("description")),
            sSerialnumber        = checkString(request.getParameter("serialnumber")),
            sAssetType           = checkString(request.getParameter("assetType")),
-           sSupplierUid         = checkString(request.getParameter("supplierUid")),
+           sSupplierUID         = checkString(request.getParameter("supplierUID")),
            sPurchasePeriodBegin = checkString(request.getParameter("purchasePeriodBegin")),
            sPurchasePeriodEnd   = checkString(request.getParameter("purchasePeriodEnd"));
-
+    
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n****************** getAssets.jsp ******************");
@@ -24,7 +24,7 @@
         Debug.println("sDescription  : "+sDescription);
         Debug.println("sSerialnumber : "+sSerialnumber);
         Debug.println("sAssetType    : "+sAssetType);
-        Debug.println("sSupplierUid  : "+sSupplierUid);
+        Debug.println("sSupplierUID  : "+sSupplierUID);
         Debug.println("sPurchasePeriodBegin : "+sPurchasePeriodBegin);
         Debug.println("sPurchasePeriodEnd   : "+sPurchasePeriodEnd+"\n");
     }
@@ -36,7 +36,7 @@
     findObject.description = sDescription;
     findObject.serialnumber = sSerialnumber;
     findObject.assetType = sAssetType;
-    findObject.supplierUid = sSupplierUid;
+    findObject.supplierUid = sSupplierUID;
     
     if(sPurchasePeriodBegin.length() > 0){
         findObject.purchasePeriodBegin = ScreenHelper.stdDateFormat.parse(sPurchasePeriodBegin);

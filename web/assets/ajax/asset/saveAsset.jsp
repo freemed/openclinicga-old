@@ -166,15 +166,15 @@
 %>
 
 <%
-    String sEditAssetUid = checkString(request.getParameter("EditAssetUid"));
+    String sEditAssetUID = checkString(request.getParameter("EditAssetUID"));
 
     String sCode          = checkString(request.getParameter("code")),
-           sParentUid     = checkString(request.getParameter("parentUid")),
+           sParentUID     = checkString(request.getParameter("parentUID")),
            sDescription   = checkString(request.getParameter("description")),
            sSerialnumber  = checkString(request.getParameter("serialnumber")),
            sQuantity      = checkString(request.getParameter("quantity")),
            sAssetType     = checkString(request.getParameter("assetType")),
-           sSupplierUid   = checkString(request.getParameter("supplierUid")),           
+           sSupplierUID   = checkString(request.getParameter("supplierUID")),           
            sPurchaseDate  = checkString(request.getParameter("purchaseDate")),
            sPurchasePrice = checkString(request.getParameter("purchasePrice")),
            sReceiptBy     = checkString(request.getParameter("receiptBy")),
@@ -204,14 +204,14 @@
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n****************** saveAsset.jsp ******************");
-        Debug.println("sEditAssetUid      : "+sEditAssetUid);
+        Debug.println("sEditAssetUID      : "+sEditAssetUID);
         Debug.println("sCode              : "+sCode);
-        Debug.println("sParentUid         : "+sParentUid);
+        Debug.println("sParentUID         : "+sParentUID);
         Debug.println("sDescription       : "+sDescription);
         Debug.println("sSerialnumber      : "+sSerialnumber);
         Debug.println("sQuantity          : "+sQuantity);
         Debug.println("sAssetType         : "+sAssetType);
-        Debug.println("sSupplierUid       : "+sSupplierUid);
+        Debug.println("sSupplierUID       : "+sSupplierUID);
         Debug.println("sPurchaseDate      : "+sPurchaseDate);
         Debug.println("sPurchasePrice     : "+sPurchasePrice);
         Debug.println("sReceiptBy         : "+sReceiptBy);
@@ -243,8 +243,8 @@
     Asset asset = new Asset();
     String sMessage = "";
     
-    if(sEditAssetUid.length() > 0){
-        asset.setUid(sEditAssetUid);
+    if(sEditAssetUID.length() > 0){
+        asset.setUid(sEditAssetUID);
     }
     else{
         asset.setUid("-1");
@@ -263,7 +263,7 @@
     }
 
     asset.code = sCode;
-    asset.parentUid = sParentUid;
+    asset.supplierUid = sParentUID;
     sDescription = sDescription.replaceAll("\r","");
     sDescription = sDescription.replaceAll("\r\n","<br>");
     asset.description = sDescription.replaceAll("\n","<br>");
@@ -273,7 +273,7 @@
         asset.quantity = Double.parseDouble(sQuantity);
     }
     asset.assetType = sAssetType;
-    asset.supplierUid = sSupplierUid;
+    asset.supplierUid = sSupplierUID;
     if(sPurchasePrice.length() > 0){
         asset.purchasePrice = Double.parseDouble(sPurchasePrice);
     }
@@ -333,11 +333,11 @@
         sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
-        sMessage = getTran("web","error",sWebLanguage);
+        sMessage = "<font color='red'>"+getTran("web","error",sWebLanguage)+"</font>";
     }
 %>
 
 {
   "message":"<%=HTMLEntities.htmlentities(sMessage)%>",
-  "newUid":"<%=asset.getUid()%>"
+  "newUID":"<%=asset.getUid()%>"
 }
