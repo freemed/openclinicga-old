@@ -90,7 +90,7 @@
 <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
     <%-- header --%>
     <tr class="admin" style="padding-left: 1px;">
-        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></td>
+        <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></asc></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","end",sWebLanguage))%></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web","duration",sWebLanguage))%></td>
         <td width="20%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","position",sWebLanguage))%></td>
