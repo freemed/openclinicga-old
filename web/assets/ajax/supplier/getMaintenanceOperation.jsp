@@ -18,21 +18,21 @@
 %>
 
 <%
-    String sOperationUid = checkString(request.getParameter("OperationUid"));
+    String sOperationUID = checkString(request.getParameter("OperationUID"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n*********** getMaintenanceOperation.jsp ************");
-        Debug.println("sOperationUid : "+sOperationUid+"\n");
+        Debug.println("sOperationUID : "+sOperationUID+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////
 
-    MaintenanceOperation operation = MaintenanceOperation.get(sOperationUid);
+    MaintenanceOperation operation = MaintenanceOperation.get(sOperationUID);
     
     if(operation!=null){
         %>            
 {    
-  "operationUid":"<%=operation.getUid()%>",
+  "operationUID":"<%=operation.getUid()%>",
   "maintenancePlanUID":"<%=HTMLEntities.htmlentities(operation.maintenanceplanUID)%>",
   "maintenancePlanName":"<%=HTMLEntities.htmlentities(getPlanNameFromDB(operation.maintenanceplanUID))%>",
   <%
@@ -59,7 +59,7 @@
     }
     else{
         %>
-  "operationUid":"",
+  "operationUID":"",
   "maintenancePlanUID":"",
   "maintenancePlanName":"",
   "date":"",  
