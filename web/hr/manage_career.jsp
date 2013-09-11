@@ -221,13 +221,13 @@
           $("careerBegin").value = data.begin;
           $("careerEnd").value = data.end;
           $("contract").value = data.contractUid;
-          $("contractName").value = data.contractName;
-          $("position").value = data.position;
+          $("contractName").value = data.contractName.unhtmlEntities();
+          $("position").value = data.position.unhtmlEntities();
           $("service").value = data.serviceUid;
-          $("serviceName").value = data.serviceName;
-          $("grade").value = data.grade;
-          $("status").value = data.status;
-          $("comment").value = replaceAll(data.comment,"<br>","\n");
+          $("serviceName").value = data.serviceName.unhtmlEntities();
+          $("grade").value = data.grade.unhtmlEntities();
+          $("status").value = data.status.unhtmlEntities();
+          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
           
           document.getElementById("divMessage").innerHTML = ""; 
           resizeAllTextareas(8);
