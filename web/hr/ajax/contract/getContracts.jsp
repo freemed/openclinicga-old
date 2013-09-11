@@ -94,7 +94,7 @@
     <%-- header --%>
     <tr class="admin" style="padding-left: 1px;">
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","contractId",sWebLanguage))%></td>
-        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","beginDate",sWebLanguage))%></td>
+        <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","beginDate",sWebLanguage))%></asc></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","endDate",sWebLanguage))%></td>
         <td width="15%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","duration",sWebLanguage))%></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","functionCode",sWebLanguage))%></td>
