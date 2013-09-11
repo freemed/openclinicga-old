@@ -99,7 +99,7 @@ public class Salary extends OC_Object {
                 ps.setString(psIdx++,otherIncome);
                 ps.setString(psIdx++,deductions);
                 
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx,userUid);
                 
@@ -136,7 +136,7 @@ public class Salary extends OC_Object {
                 ps.setString(psIdx++,otherIncome);
                 ps.setString(psIdx++,deductions);
                 
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx++,userUid);
                 

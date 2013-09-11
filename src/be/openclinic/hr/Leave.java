@@ -96,9 +96,9 @@ public class Leave extends OC_Object {
                     ps.setDate(psIdx++,null);
                 }
                 
-                ps.setString(psIdx++,authorizedBy);
-                ps.setString(psIdx++,episodeCode);
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,authorizedBy.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,episodeCode.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx,userUid);
                 
@@ -137,9 +137,9 @@ public class Leave extends OC_Object {
                     ps.setDate(psIdx++,null);
                 }
 
-                ps.setString(psIdx++,authorizedBy);
-                ps.setString(psIdx++,episodeCode);
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,authorizedBy.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,episodeCode.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx++,userUid);
                 
@@ -340,7 +340,7 @@ public class Leave extends OC_Object {
             	ps.setString(psIdx++,findItem.status);
             }
             if(ScreenHelper.checkString(findItem.comment).length() > 0){
-            	ps.setString(psIdx++,findItem.comment);
+            	ps.setString(psIdx++,findItem.comment.replaceAll("\\'","´").replaceAll("\"","´"));
             }
             */
             
@@ -351,7 +351,7 @@ public class Leave extends OC_Object {
             while(rs.next()){
                 item = new Leave();                
                 item.setUid(rs.getString("HR_LEAVE_SERVERID")+"."+rs.getString("HR_LEAVE_OBJECTID"));
-                item.personId    = rs.getInt("HR_LEAVE_PERSONID");
+                item.personId = rs.getInt("HR_LEAVE_PERSONID");
                 
                 item.begin    = rs.getDate("HR_LEAVE_BEGINDATE");
                 item.end      = rs.getDate("HR_LEAVE_ENDDATE");

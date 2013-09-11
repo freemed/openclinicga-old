@@ -79,7 +79,7 @@ public class Skill extends OC_Object {
                 ps.setString(psIdx++,itOther);
                 ps.setString(psIdx++,communicationSkills);
                 ps.setString(psIdx++,stressResistance);
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx,userUid);
@@ -105,7 +105,7 @@ public class Skill extends OC_Object {
                 ps.setString(psIdx++,itOther);
                 ps.setString(psIdx++,communicationSkills);
                 ps.setString(psIdx++,stressResistance);
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx++,userUid);

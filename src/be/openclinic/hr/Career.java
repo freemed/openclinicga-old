@@ -86,7 +86,7 @@ public class Career extends OC_Object {
                 ps.setString(psIdx++,serviceUid);
                 ps.setString(psIdx++,grade);
                 ps.setString(psIdx++,status);
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx,userUid);
                 
@@ -117,7 +117,7 @@ public class Career extends OC_Object {
                 ps.setString(psIdx++,serviceUid);
                 ps.setString(psIdx++,grade);
                 ps.setString(psIdx++,status);
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx++,userUid);
                 
@@ -304,7 +304,7 @@ public class Career extends OC_Object {
             	ps.setString(psIdx++,findItem.status);
             }
             if(ScreenHelper.checkString(findItem.comment).length() > 0){
-            	ps.setString(psIdx++,findItem.comment);
+            	ps.setString(psIdx++,findItem.comment.replaceAll("\\'","´").replaceAll("\"","´"));
             }
             */
             

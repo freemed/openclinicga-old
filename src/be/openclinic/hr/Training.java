@@ -89,10 +89,10 @@ public class Training extends OC_Object {
                     ps.setDate(psIdx++,null);
                 }
                 
-                ps.setString(psIdx++,institute);
-                ps.setString(psIdx++,type);
-                ps.setString(psIdx++,level);
-                ps.setString(psIdx++,diploma);
+                ps.setString(psIdx++,institute.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,type.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,level.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,diploma.replaceAll("\\'","´").replaceAll("\"","´"));
 
                 // diplomaDate might be unspecified
                 if(diplomaDate!=null){
@@ -105,7 +105,7 @@ public class Training extends OC_Object {
                 ps.setString(psIdx++,diplomaCode1);
                 ps.setString(psIdx++,diplomaCode2);
                 ps.setString(psIdx++,diplomaCode3);
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx,userUid);
                 
@@ -133,10 +133,10 @@ public class Training extends OC_Object {
                     ps.setDate(psIdx++,null);
                 }
 
-                ps.setString(psIdx++,institute);
-                ps.setString(psIdx++,type);
-                ps.setString(psIdx++,level);
-                ps.setString(psIdx++,diploma);
+                ps.setString(psIdx++,institute.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,type.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,level.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,diploma.replaceAll("\\'","´").replaceAll("\"","´"));
 
                 // diplomaDate might be unspecified
                 if(diplomaDate!=null){
@@ -149,7 +149,7 @@ public class Training extends OC_Object {
                 ps.setString(psIdx++,diplomaCode1);
                 ps.setString(psIdx++,diplomaCode2);
                 ps.setString(psIdx++,diplomaCode3);
-                ps.setString(psIdx++,comment);
+                ps.setString(psIdx++,comment.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx++,userUid);
                 
@@ -351,7 +351,7 @@ public class Training extends OC_Object {
             	ps.setString(psIdx++,findItem.status);
             }
             if(ScreenHelper.checkString(findItem.comment).length() > 0){
-            	ps.setString(psIdx++,findItem.comment);
+            	ps.setString(psIdx++,findItem.comment.replaceAll("\\'","´").replaceAll("\"","´"));
             }
             */
             

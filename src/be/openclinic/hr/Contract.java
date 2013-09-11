@@ -86,13 +86,13 @@ public class Contract extends OC_Object {
                 }
                 
                 ps.setString(psIdx++,functionCode);
-                ps.setString(psIdx++,functionTitle);
-                ps.setString(psIdx++,functionDescription);
-                ps.setString(psIdx++,ref1);
-                ps.setString(psIdx++,ref2);
-                ps.setString(psIdx++,ref3);
-                ps.setString(psIdx++,ref4);
-                ps.setString(psIdx++,ref5);                
+                ps.setString(psIdx++,functionTitle.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,functionDescription.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ref1.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ref2.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ref3.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ref4.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ref5.replaceAll("\\'","´").replaceAll("\"","´"));                
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx,userUid);
                 
@@ -120,13 +120,13 @@ public class Contract extends OC_Object {
                 }
 
                 ps.setString(psIdx++,functionCode);
-                ps.setString(psIdx++,functionTitle);
-                ps.setString(psIdx++,functionDescription);
-                ps.setString(psIdx++,ScreenHelper.checkString(ref1));
-                ps.setString(psIdx++,ScreenHelper.checkString(ref2));
-                ps.setString(psIdx++,ScreenHelper.checkString(ref3));
-                ps.setString(psIdx++,ScreenHelper.checkString(ref4));
-                ps.setString(psIdx++,ScreenHelper.checkString(ref5));
+                ps.setString(psIdx++,functionTitle.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,functionDescription.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ScreenHelper.checkString(ref1).replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ScreenHelper.checkString(ref2).replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ScreenHelper.checkString(ref3).replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ScreenHelper.checkString(ref4).replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,ScreenHelper.checkString(ref5).replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx++,userUid);
                 

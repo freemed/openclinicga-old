@@ -70,12 +70,12 @@ public class DisciplinaryRecord extends OC_Object {
                 ps.setInt(psIdx++,objectId);
                 ps.setInt(psIdx++,personId);
                 ps.setDate(psIdx++,new java.sql.Date(date.getTime()));
-                ps.setString(psIdx++,title);
-                ps.setString(psIdx++,description);
-                ps.setString(psIdx++,decision);
+                ps.setString(psIdx++,title.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,description.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,decision.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setInt(psIdx++,duration);
-                ps.setString(psIdx++,decisionBy);
-                ps.setString(psIdx++,followUp);                
+                ps.setString(psIdx++,decisionBy.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,followUp.replaceAll("\\'","´").replaceAll("\"","´"));                
                 
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx,userUid);
@@ -93,11 +93,11 @@ public class DisciplinaryRecord extends OC_Object {
 
                 int psIdx = 1;
                 ps.setDate(psIdx++,new java.sql.Date(date.getTime()));
-                ps.setString(psIdx++,title);
-                ps.setString(psIdx++,description);
-                ps.setString(psIdx++,decision);
+                ps.setString(psIdx++,title.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,description.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,decision.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setInt(psIdx++,duration);
-                ps.setString(psIdx++,decisionBy);
+                ps.setString(psIdx++,decisionBy.replaceAll("\\'","´").replaceAll("\"","´"));
                 ps.setString(psIdx++,followUp);   
                 ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(psIdx++,userUid);
@@ -270,10 +270,10 @@ public class DisciplinaryRecord extends OC_Object {
             	ps.setInt(psIdx++,findItem.personId);
             }
             if(ScreenHelper.checkString(findItem.title).length() > 0){
-            	ps.setString(psIdx++,findItem.title);
+            	ps.setString(psIdx++,findItem.title.replaceAll("\\'","´").replaceAll("\"","´"));
             }
             if(ScreenHelper.checkString(findItem.description).length() > 0){
-            	ps.setString(psIdx++,findItem.description);
+            	ps.setString(psIdx++,findItem.description.replaceAll("\\'","´").replaceAll("\"","´"));
             }
             if(ScreenHelper.checkString(findItem.decision).length() > 0){
             	ps.setString(psIdx++,findItem.decision);
@@ -282,10 +282,10 @@ public class DisciplinaryRecord extends OC_Object {
             	ps.setInt(psIdx++,findItem.duration);
             }
             if(ScreenHelper.checkString(findItem.decisionBy).length() > 0){
-            	ps.setString(psIdx++,findItem.decisionBy);
+            	ps.setString(psIdx++,findItem.decisionBy.replaceAll("\\'","´").replaceAll("\"","´"));
             }
             if(ScreenHelper.checkString(findItem.followUp).length() > 0){
-            	ps.setString(psIdx++,findItem.followUp);
+            	ps.setString(psIdx++,findItem.followUp.replaceAll("\\'","´").replaceAll("\"","´"));
             }
             */
             
