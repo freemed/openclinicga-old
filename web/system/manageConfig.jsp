@@ -8,6 +8,7 @@
 <%
     String sAction = checkString(request.getParameter("Action"));
 
+System.out.println("******************************************* sAction : "+sAction); ////////////////
     String sFindKey = checkString(request.getParameter("FindKey"));
     String sFindValue = checkString(request.getParameter("FindValue"));
 
@@ -84,7 +85,7 @@
         if (sEditOc_key != null && sEditOc_key.length() > 0) {
             //*** update ***
             Config objConfig = Config.getConfig(sEditOc_key);
-
+            
             objConfig.setOc_value(new StringBuffer(sEditOc_value));
             objConfig.setUpdateuserid(Integer.parseInt(activeUser.userid));
             objConfig.setUpdatetime(getSQLTime());
@@ -130,17 +131,22 @@
 
     //--- SHOWDETAILS (= search one specific record to show later) ---------------------------------
     if (sAction.equals("Show")) {
+    	System.out.println("*********************** sAction *****************************"); ////////////////
         Config objConfig = Config.getConfig(sEditOc_key);
         if (objConfig.getDeletetime() != null) sEditDeleted = "on";
 
         sSelectedOc_key = sEditOc_key;
         sSelectedOc_value = objConfig.getOc_value().toString();
+        System.out.println("****************** sSelectedOc_value : "+sSelectedOc_value); //////////
         sSelectedComment = objConfig.getComment().toString();
         sSelectedDefaultvalue = objConfig.getDefaultvalue();
         sSelectedOverride = Integer.toString(objConfig.getOverride());
         sSelectedSQL_value = objConfig.getSql_value().toString();
         sSelectedSynchronize = objConfig.getSynchronize();
-        MedwanQuery.getInstance().reloadConfigValues();        out.print("<script>window.setTimeout('doSearch();',500);</script>");
+        
+        MedwanQuery.getInstance().reloadConfigValues();  
+        
+        out.print("<script>window.setTimeout('doSearch();',500);</script>");
     }
 
 %>
@@ -338,7 +344,7 @@
             method: "GET",
             parameters: params,
             onSuccess: function(resp){
-                $('divFindRecords').innerHTML=resp.responseText;
+                $('divFindRecords').innerHTML = resp.responseText;
             },
             onFailure: function(){
             }

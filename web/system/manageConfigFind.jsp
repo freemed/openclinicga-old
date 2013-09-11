@@ -13,7 +13,7 @@
     Iterator iter = vConfig.iterator();
     Config objConfig;
 
-    String sClass = "", styleRed;
+    String sClass = "", styleRed, sValue;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     while (iter.hasNext()) {
@@ -24,10 +24,16 @@
 
         if (objConfig.getDeletetime() != null) styleRed = "style='color:red'";
         else styleRed = "";
-
+        
+        // when tags noticed, display msg, otherwise the content is not shown as-is
+        sValue = objConfig.getOc_value().toString();
+        if(sValue.indexOf("<") > -1 || sValue.indexOf(">") > -1){
+        	sValue = "[html|xml : check value in textarea below]";
+        }
+        
         sOut.append("<tr class=\"list" + sClass + "\" " + styleRed + "  onclick=\"doShow('" + objConfig.getOc_key() + "');\">")
             .append(" <td>" + HTMLEntities.htmlentities(objConfig.getOc_key()) + "</td>")
-            .append(" <td>" + HTMLEntities.htmlentities(objConfig.getOc_value().toString()) + "</td>")
+            .append(" <td>" + HTMLEntities.htmlentities(sValue) + "</td>")
             .append(" <td>" + (objConfig.getUpdatetime() == null ? "" : dateFormat.format(objConfig.getUpdatetime())) + "</td>")
             .append("</tr>");
     }
