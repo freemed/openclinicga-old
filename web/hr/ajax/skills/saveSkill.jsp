@@ -5,7 +5,6 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-	System.out.println("A");
     String sEditSkillUid = checkString(request.getParameter("EditSkillUid")),
            sPersonId     = checkString(request.getParameter("PersonId"));
 
