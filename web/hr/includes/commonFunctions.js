@@ -1,5 +1,4 @@
 
-
 //-- REMOVE TR INDEXES --
 function removeTRIndexes(sTableArrayString){
   var oneRow, sArrayString = "";
