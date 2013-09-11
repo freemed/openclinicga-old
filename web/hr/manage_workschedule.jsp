@@ -2,6 +2,7 @@
                 org.dom4j.DocumentException,
                 java.util.Vector,
                 java.text.*"%>
+<%@page import="java.io.StringReader"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="../hr/includes/commonFunctions.jsp"%>
@@ -10,33 +11,112 @@
 <script src="<%=sCONTEXTPATH%>/hr/includes/commonFunctions.js"></script> 
 
 <%!
-    //### INNER CLASS : PredefinedWeekSchedule ####################################################
-    private class PredefinedWeekSchedule implements Comparable {
-        public String id;
-        public String type;  
-        public String xml;
-        
-        Vector timeBlocks = new Vector();
-
-        //--- COMPARE TO ------------------------------------------------------
-        public int compareTo(Object o){
-            int comp;
-            if(o.getClass().isInstance(this)){
-                comp = this.type.compareTo(((PredefinedWeekSchedule)o).type);
-            }
-            else{
-                throw new ClassCastException();
-            }
-
-            return comp;
-        }
-    }
+	//### INNER CLASS : PredefinedWeekSchedule ####################################################
+	private class PredefinedWeekSchedule implements Comparable {
+	    public String id;
+	    public String type;  
+	    public String xml;  
+	    
+	    Vector timeBlocks = new Vector();
+	
+	    //--- COMPARE TO ------------------------------------------------------
+	    public int compareTo(Object o){
+	        int comp;
+	        if(o.getClass().isInstance(this)){
+	            comp = this.type.compareTo(((PredefinedWeekSchedule)o).type);
+	        }
+	        else{
+	            throw new ClassCastException();
+	        }
+	
+	        return comp;
+	    }
+	    
+	    //--- AS CONCAT VALUE -------------------------------------------------
+	    public String asConcatValue(){
+	        String sConcatValue = "";
+	        
+	        TimeBlock timeBlock;
+	        for(int i=0; i<timeBlocks.size(); i++){
+	            timeBlock = (TimeBlock)timeBlocks.get(i);
+	            
+	            sConcatValue+= checkString(timeBlock.dayIdx)+"|"+
+	                           checkString(timeBlock.beginHour)+"|"+
+	                           checkString(timeBlock.endHour)+"|"+
+	                           calculateDuration(timeBlock.beginHour,timeBlock.endHour)+"$";
+	        }
+	        
+	        return sConcatValue;
+	    }
+	    
+	    //--- CALCULATE DURATION ----------------------------------------------
+	    private String calculateDuration(String sBeginHour, String sEndHour){
+	        String sDuration = "";
+	
+	        if(sBeginHour.length()>0 && sEndHour.length()>0){          
+	            // begin
+	            String[] beginParts = sBeginHour.split(":");
+	            String beginHour = checkString(beginParts[0]);
+	            if(beginHour.length()==0) beginHour = "0";
+	            String beginMinute = checkString(beginParts[1]);
+	            if(beginMinute.length()==0) beginMinute = "0";
+	
+	            // end
+	            String[] endParts = sEndHour.split(":");
+	            String endHour = checkString(endParts[0]);
+	            if(endHour.length()==0) endHour = "0";
+	            String endMinute = checkString(endParts[1]);
+	            if(endMinute.length()==0) endMinute = "0";
+	
+	            try{
+	                java.util.Date dateFrom  = ScreenHelper.fullDateFormat.parse("01/01/2000 "+beginHour+":"+beginMinute),
+	                               dateUntil = ScreenHelper.fullDateFormat.parse("01/01/2000 "+endHour+":"+endMinute);
+	
+	                long millisDiff = dateUntil.getTime() - dateFrom.getTime();
+	                int totalMinutes = (int)(millisDiff/(60*1000));
+	                
+	                int hour    = totalMinutes/60,
+	                    minutes = (totalMinutes%60);
+	
+	                sDuration = (hour<10?"0"+hour:hour)+":"+(minutes<10?"0"+minutes:minutes);
+	            }
+	            catch(Exception e){
+	                if(Debug.enabled) e.printStackTrace();
+	                Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
+	            }
+	        }
+	        
+	        return sDuration;
+	    }
+	   
+	}
+	
+	//### INNER CLASS : TimeBlock #################################################################
+	private class TimeBlock implements Comparable {
+	    public String id;
+	    public String dayIdx;
+	    public String beginHour;
+	    public String endHour;
+	    
+	    //--- COMPARE TO ------------------------------------------------------
+	    public int compareTo(Object o){
+	        int comp;
+	        if(o.getClass().isInstance(this)){
+	            comp = this.dayIdx.compareTo(((TimeBlock)o).dayIdx);
+	        }
+	        else{
+	            throw new ClassCastException();
+	        }
+	
+	        return comp;
+	    }
+	}
 
     //--- WRITE WEEK SCHEDULE OPTIONS -------------------------------------------------------------
     private String writeWeekScheduleOptions(HttpServletRequest request, String sSelectedScheduleId, String sWebLanguage){
         String sOptions = ""; // html
         
-        Vector weekSchedules = parsePredefinedWeekSchedules(request,sWebLanguage);
+        Vector weekSchedules = parsePredefinedWeekSchedulesFromXMLConfigValue();
         PredefinedWeekSchedule schedule;
         for(int i=0; i<weekSchedules.size(); i++){
             schedule = (PredefinedWeekSchedule)weekSchedules.get(i);
@@ -53,6 +133,7 @@
         return sOptions;
     }
 
+    /*
     //--- PARSE PREDEFINED WEEK SCHEDULES ---------------------------------------------------------
     private Vector parsePredefinedWeekSchedules(HttpServletRequest request, String sWebLanguage){
         Vector schedules = new Vector();
@@ -99,6 +180,58 @@
                 if(Debug.enabled) e.printStackTrace();
                 Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
             }
+        }
+
+        return schedules;
+    }
+    */
+    
+    //--- PARSE PREDEFINED WEEK SCHEDULES FROM XML CONFIGVALUE ------------------------------------
+    private Vector parsePredefinedWeekSchedulesFromXMLConfigValue(){
+        Vector schedules = new Vector();
+        
+        // read xml containing predefined weekSchedules
+        try{
+            SAXReader xmlReader = new SAXReader();
+        	String sXMLValue = MedwanQuery.getInstance().getConfigString("defaultWeekschedules");
+        	Document document = xmlReader.read(new StringReader(sXMLValue));
+            
+            if(document!=null){
+                Element root = document.getRootElement();
+                Iterator scheduleElems = root.elementIterator("WeekSchedule");
+
+                PredefinedWeekSchedule schedule;
+                Element scheduleElem, timeBlockElem;
+                while(scheduleElems.hasNext()){
+                    schedule = new PredefinedWeekSchedule();
+                    
+                    scheduleElem = (Element)scheduleElems.next();
+                    schedule.id = scheduleElem.attributeValue("id");
+                    schedule.type = scheduleElem.attributeValue("scheduleType");
+                    schedule.xml = scheduleElem.asXML();
+
+                    // timeblocks
+                    Iterator timeBlockElems = scheduleElem.element("TimeBlocks").elementIterator("TimeBlock");
+                    while(timeBlockElems.hasNext()){
+                        timeBlockElem = (Element)timeBlockElems.next();
+                        
+                        TimeBlock timeBlock = new TimeBlock();
+                        timeBlock.id        = checkString(timeBlockElem.attributeValue("id"));
+                        timeBlock.dayIdx    = checkString(timeBlockElem.elementText("DayIdx"));
+                        timeBlock.beginHour = checkString(timeBlockElem.elementText("BeginHour"));
+                        timeBlock.endHour   = checkString(timeBlockElem.elementText("EndHour"));
+                                
+                        schedule.timeBlocks.add(timeBlock);    
+                    }
+
+                    Collections.sort(schedule.timeBlocks); // on day     
+                    schedules.add(schedule);
+                }
+            }
+        }
+        catch(Exception e){
+            if(Debug.enabled) e.printStackTrace();
+            Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
 
         return schedules;
@@ -960,7 +1093,7 @@
     clearTimeBlockTable();
       
     document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
-    var url = "<c:url value='/hr/ajax/workschedule/getWeekScheduleFromXML.jsp'/>?ts="+new Date().getTime();
+    var url = "<c:url value='/hr/ajax/workschedule/getDefaultWeekschedule.jsp'/>?ts="+new Date().getTime();
       
     new Ajax.Request(url,
       {
@@ -975,7 +1108,7 @@
           displayTimeBlocks();
         },
         onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getWeekScheduleFromXML.jsp' : "+resp.responseText.trim();
+          $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getDefaultWeekschedule.jsp' : "+resp.responseText.trim();
         }
       }
     );      
