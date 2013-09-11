@@ -23,7 +23,7 @@
     List salaries = Salary.getList(findObject);
     String sReturn = "";
     
-    DecimalFormat deci = new DecimalFormat("0.00");
+    DecimalFormat deci = new DecimalFormat(MedwanQuery.getInstance().getConfigParam("priceFormat","0.00"));
     
     if(salaries.size() > 0){
         Hashtable hSort = new Hashtable();
@@ -48,6 +48,8 @@
                       "<td class='hand' style='padding-right:5px;text-align:right;'>"+deci.format(salary.salary)+"&nbsp;"+MedwanQuery.getInstance().getConfigParam("currency","")+"</td>"+
                       "<td class='hand' style='padding-left:5px'>&nbsp;</td>"+
                      "</tr>");
+            
+            %><script>addSalaryPeriod('<%=salary.getUid()%>','<%=(salary.begin==null?"":ScreenHelper.getSQLDate(salary.begin))%>_<%=(salary.end==null?"":ScreenHelper.getSQLDate(salary.end))%>');</script><%
         }
     
         Vector keys = new Vector(hSort.keySet());
@@ -75,7 +77,7 @@
 <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
     <%-- header --%>
     <tr class="admin" style="padding-left: 1px;">
-        <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></td>
+        <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></asc></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","end",sWebLanguage))%></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","contract",sWebLanguage))%></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","grossSalary",sWebLanguage))%></td>

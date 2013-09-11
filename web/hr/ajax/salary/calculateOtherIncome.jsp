@@ -34,7 +34,7 @@
     
     if(sFiscalCountry.length() > 0){
         Debug.println("Using config 'fiscalCountry' : "+sFiscalCountry);
-        DecimalFormat deci = new DecimalFormat("0.00");
+        DecimalFormat deci = new DecimalFormat(MedwanQuery.getInstance().getConfigParam("priceFormat","0.00"));
 
         // 2 - salary        
         if(sSalary.length() > 0){

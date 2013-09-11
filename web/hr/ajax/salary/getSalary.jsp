@@ -198,7 +198,7 @@
         sContractName = salary.contractUid.substring(salary.contractUid.indexOf(".")+1);
     }
 
-    DecimalFormat deci = new DecimalFormat("0.00");
+    DecimalFormat deci = new DecimalFormat(MedwanQuery.getInstance().getConfigParam("priceFormat","0.00"));
 %>
         
 {
