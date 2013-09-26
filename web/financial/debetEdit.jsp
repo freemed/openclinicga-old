@@ -343,6 +343,16 @@ System.out.println(0);
 			            <td class='admin2'>
 			                <input class='text' readonly type='text' name='EditInsuranceInvoiceUID' value='<%=checkString(debet.getInsurarInvoiceUid())%>' size='20'>
 			            </td>
+			        </tr>
+			        <tr>
+			            <td class='admin2'><%=getTran("web","complementarycoverage",sWebLanguage)%></td>
+			            <td class='admin2'>
+			                <input class='text' readonly type='text' name='EditComplementaryInsuranceInvoiceUID' value='<%=checkString(debet.getExtraInsurarInvoiceUid())%>' size='20'>
+			            </td>
+			            <td class='admin2'><%=getTran("web","complementarycoverage2",sWebLanguage)%></td>
+			            <td class='admin2'>
+			                <input class='text' readonly type='text' name='EditComplementaryInsuranceInvoiceUID2' value='<%=checkString(debet.getExtraInsurarInvoiceUid2())%>' size='20'>
+			            </td>
                 	</tr>
                 </table>
             </td>

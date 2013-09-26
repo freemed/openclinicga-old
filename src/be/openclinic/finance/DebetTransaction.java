@@ -131,7 +131,7 @@ public class DebetTransaction extends OC_Object implements Comparable{
         if(this.prestation == null){
 
             if (ScreenHelper.checkString(this.prestationUID).length() > 0){
-                this.setPrestation(Prestation.get(this.prestationUID));
+                this.setPrestation(Prestation.get(this.prestationUID,this.date));
             }
             else{
                 this.prestation = null;

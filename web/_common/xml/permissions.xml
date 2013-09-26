@@ -158,6 +158,8 @@
         <permission type="web" id="renewexpiredcontributions">financial.renewexpiredcontributions</permission>
         <permission type="web" id="print.proforma.patientinvoice">financial.printproformapatientinvoice</permission>
         <permission type="web" id="financial.modifyinsurancebegin">financial.modifyinsurancebegin</permission>
+        <permission type="web" id="financial.modifyinsuranceend">financial.modifyinsuranceend</permission>
+        <permission type="web" id="financial.printopeninvoice">financial.printopeninvoice</permission>
     </application>
     <application type="Web" id="executive">
         <permission type="web" id="bedoccupation">occup.bedoccupation</permission>

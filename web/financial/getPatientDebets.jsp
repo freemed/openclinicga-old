@@ -73,6 +73,8 @@
 		                            +"<td>"+patientAmount+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>"
 		                            +"<td>"+sCredited+"</td>"
 		                            +"<td>"+(debet.getInsurarInvoiceUid()==null?"":ScreenHelper.checkString(debet.getInsurarInvoiceUid()).replaceAll("1\\.",""))+"</td>"
+		                            +"<td>"+(debet.getExtraInsurarInvoiceUid()==null?"":ScreenHelper.checkString(debet.getExtraInsurarInvoiceUid()).replaceAll("1\\.",""))+"</td>"
+		                            +"<td>"+(debet.getExtraInsurarInvoiceUid2()==null?"":ScreenHelper.checkString(debet.getExtraInsurarInvoiceUid2()).replaceAll("1\\.",""))+"</td>"
 		                        +"</tr>");
             			}
             			else {
@@ -85,6 +87,8 @@
 		                            +"<td>"+patientAmount+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>"
 		                            +"<td>"+sCredited+"</td>"
 		                            +"<td>"+(debet.getInsurarInvoiceUid()==null?"":ScreenHelper.checkString(debet.getInsurarInvoiceUid()).replaceAll("1\\.",""))+"</td>"
+		                            +"<td>"+(debet.getExtraInsurarInvoiceUid()==null?"":ScreenHelper.checkString(debet.getExtraInsurarInvoiceUid()).replaceAll("1\\.",""))+"</td>"
+		                            +"<td>"+(debet.getExtraInsurarInvoiceUid2()==null?"":ScreenHelper.checkString(debet.getExtraInsurarInvoiceUid2()).replaceAll("1\\.",""))+"</td>"
 		                        +"</tr>");
             			}
                     }
@@ -138,6 +142,8 @@
         <td><%=getTran("web","amount",sWebLanguage)%></td>
         <td><%=getTran("web","credit",sWebLanguage)%></td>
         <td><%=getTran("web","insuranceinvoiceid",sWebLanguage)%></td>
+        <td><%=getTran("web","extrainsuranceinvoiceid",sWebLanguage)%></td>
+        <td><%=getTran("web","extrainsuranceinvoiceid2",sWebLanguage)%></td>
     </tr>
 <%
     String sClass = "";

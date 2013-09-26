@@ -28,7 +28,7 @@
     }
 </script>
 
-<%=checkPermission("financial.insurance","edit",activeUser)%>
+<%=checkPermission("financial.insurance","select",activeUser)%>
 
 <%
 	
@@ -278,7 +278,14 @@
                 <%=getTran("web","stop",sWebLanguage)%>
             </td>
             <td class="admin2">
-                <%=writeDateField("EditInsuranceStop","EditInsuranceForm",sEditInsuranceStop,sWebLanguage)%>
+                <%
+                	if(sEditInsuranceUID.length()==0 || activeUser.getAccessRight("financial.modifyinsuranceend.select")){
+                		out.println(writeDateField("EditInsuranceStop","EditInsuranceForm",sEditInsuranceStop,sWebLanguage));
+                	}
+                	else {
+                		out.println(sEditInsuranceStop);
+                	}
+                %>
             </td>
         </tr>
         <%-- comment --%>
@@ -292,7 +299,13 @@
         </tr>
         <tr id='authorization'></tr>
         <%=ScreenHelper.setFormButtonsStart()%>
+        <%
+        	if((sEditInsuranceUID.length()==0 && activeUser.getAccessRight("financial.insurance.add")) || activeUser.getAccessRight("financial.insurance.edit")){
+        %>
             <input class='button' type="button" name="EditSaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+        <%
+        	}
+        %>
             <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doSearchBack();">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>

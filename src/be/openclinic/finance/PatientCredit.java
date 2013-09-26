@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import net.admin.AdminPerson;
+
 
 
 public class PatientCredit extends OC_Object {
@@ -24,7 +26,11 @@ public class PatientCredit extends OC_Object {
     private String comment;
     private String sPatientUid;
 
-    public Date getDate() {
+    public AdminPerson getPatient() {
+    	return getEncounter().getPatient();
+	}
+
+	public Date getDate() {
         return date;
     }
 

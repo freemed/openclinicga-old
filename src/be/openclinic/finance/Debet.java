@@ -197,7 +197,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     public Prestation getPrestation() {
         if (this.prestation == null) {
             if (ScreenHelper.checkString(this.prestationUid).length() > 0) {
-                this.setPrestation(Prestation.get(this.prestationUid));
+                this.setPrestation(Prestation.get(this.prestationUid,this.date));
             } else {
                 this.prestation = null;
             }
@@ -2382,7 +2382,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
 	        
 	        //Check if anesthesia prestation must be added
 	        if(prestation!=null && prestation.getAnesthesiaPercentage()>0){
-	        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""));
+	        	Prestation anesthesiaPrestation = Prestation.get(MedwanQuery.getInstance().getConfigString("anesthesiaPrestationUid",""),date);
 	        	if(anesthesiaPrestation!=null){
 	                insurance = Insurance.getMostInterestingInsuranceForPatient(personid);
 	    	        if (insurance != null) {

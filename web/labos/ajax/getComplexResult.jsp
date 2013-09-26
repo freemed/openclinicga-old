@@ -164,7 +164,7 @@
         // EXTRA AB RESULTS
         String[] extraAb = new String[]{"ab1","ab2","ab3","ab4","ab5","ab6","ab7","ab8","ab9","ab10","ab11","ab12"};
         for(int i=0;i<extraAb.length;i++){
-            // IF AB AS A TRADUCTION THEN SHOW IT
+            // IF AB HAS A TRADUCTION THEN SHOW IT
             if(getTran("web",extraAb[i],sWebLanguage).indexOf("<a")<0){
     %>
     <tr>

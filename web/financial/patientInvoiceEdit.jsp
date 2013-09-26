@@ -628,13 +628,13 @@
 	    }
 	
 	    function doPrintPdf(invoiceUid){
-	        if (("<%=sClosed%>"!="closed")&&("<%=sClosed%>"!="canceled")){
+	        if (<%=activeUser.getAccessRight("financial.printopeninvoice.select")?"1":"0"%>==0 && ("<%=sClosed%>"!="closed")&&("<%=sClosed%>"!="canceled")){
 	            alert("<%=getTranNoLink("web","closetheinvoicefirst",sWebLanguage)%>");
 	        }
 	        else {
-	              var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=no&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintModel="+EditForm.PrintModel.value;
-	              window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-	          }
+	            var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=no&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintModel="+EditForm.PrintModel.value;
+	            window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	        }
 	    }
 	
 	    function doPrintProformaPdf(invoiceUid){

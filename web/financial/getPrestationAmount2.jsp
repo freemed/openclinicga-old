@@ -104,7 +104,7 @@
 	        if(sCoverageInsurance.length()>0){
 	        	Insurar insurar = Insurar.get(sCoverageInsurance);
 	        	if(insurar!=null){
-	        		if(insurar.getCoverSupplements()==1 && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==0){
+	        		if(insurar.getCoverSupplements()==1 || insurance.getInsurar().getCoverSupplements()==1){
 	        			dCoverage1=dPatientAmount2;
 	        		}
 	        		else{
@@ -194,7 +194,7 @@
 	    	        if(sCoverageInsurance.length()>0){
 	    	        	Insurar insurar = Insurar.get(sCoverageInsurance);
 	    	        	if(insurar!=null){
-	    	        		if(insurar.getCoverSupplements()==1 && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==0){
+	    	        		if(insurar.getCoverSupplements()==1 || insurance.getInsurar().getCoverSupplements()==1){
 	    	        			dCoverage1=dPatientAmount2;
 	    	        		}
 	    	        		else{
@@ -297,7 +297,7 @@
         if(sCoverageInsurance.length()>0){
         	Insurar insurar = Insurar.get(sCoverageInsurance);
         	if(insurar!=null){
-        		if(insurar.getCoverSupplements()==1 && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==0){
+        		if(insurar.getCoverSupplements()==1 || insurance.getInsurar().getCoverSupplements()==1){
         			dCoverage1=dPatientAmount;
         		}
         		else{
@@ -394,7 +394,7 @@
     	        if(sCoverageInsurance.length()>0){
     	        	Insurar insurar = Insurar.get(sCoverageInsurance);
     	        	if(insurar!=null){
-    	        		if(insurar.getCoverSupplements()==1 && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==0){
+    	        		if(insurar.getCoverSupplements()==1 || insurance.getInsurar().getCoverSupplements()==1){
     	        			dCoverage1=dPatientAmount2;
     	        		}
     	        		else{
@@ -515,7 +515,7 @@
 	        if(sCoverageInsurance.length()>0){
 	        	Insurar insurar = Insurar.get(sCoverageInsurance);
 	        	if(insurar!=null){
-	        		if(insurar.getCoverSupplements()==1 && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==0){
+	        		if(insurar.getCoverSupplements()==1 || insurance.getInsurar().getCoverSupplements()==1){
 	        			dCoverage1=dPatientAmount2;
 	        		}
 	        		else{
@@ -605,7 +605,7 @@
 	    	        if(sCoverageInsurance.length()>0){
 	    	        	Insurar insurar = Insurar.get(sCoverageInsurance);
 	    	        	if(insurar!=null){
-	    	        		if(insurar.getCoverSupplements()==1 && insurance.getInsurar().getNoSupplements()==0 && insurance.getInsurar().getCoverSupplements()==0){
+	    	        		if(insurar.getCoverSupplements()==1 || insurance.getInsurar().getCoverSupplements()==1){
 	    	        			dCoverage1=dPatientAmount2;
 	    	        		}
 	    	        		else{

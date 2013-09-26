@@ -1210,7 +1210,7 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
     	}
         cell=createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()),10);
         table.addCell(cell);
-        cell=createLabelCell(debet.getPrestation().getDescription(),30);
+        cell=createLabelCell(debet.getPrestation().getDescription()+" ("+debet.getPrestation().getMfpPercentage()+"%)",30);
         table.addCell(cell);
         cell=createValueCell(debet.getPrestation().getCode()+"",10);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);

@@ -418,6 +418,11 @@ if (sFindPatientCreditUID.length() > 0) {
                     <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientPaymentReceipt();">
                     <%
                     	}
+	                	if(MedwanQuery.getInstance().getConfigInt("printPDFreceiptenabled",0)==1){
+	                %>
+	                <input class="button" type="button" name="buttonPrintPdf" value='<%=getTranNoLink("Web","print.receipt.pdf",sWebLanguage)%>' onclick="doPrintPatientReceiptPdf();">
+	                <%
+	                	}
                     %>
                     
                 </div>
@@ -457,7 +462,12 @@ if (sFindPatientCreditUID.length() > 0) {
           }
 		);
   }
-  
+
+  function doPrintPatientReceiptPdf(){
+      var url = "<c:url value='/financial/createPatientPaymentReceiptPdf.jsp'/>?creditUid="+EditForm.EditCreditUid.value+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
+      window.open(url,"PatientPaymentPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+  }
+
   function checkForMaxAmount(amountField){
     if(EditForm.EditCreditMaxAmount.value.length > 0){
       if(EditForm.EditCreditAmount.value > EditForm.EditCreditMaxAmount.value){

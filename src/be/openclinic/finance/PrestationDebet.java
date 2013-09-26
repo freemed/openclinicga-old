@@ -178,7 +178,7 @@ public class PrestationDebet extends OC_Object implements Comparable {
     public Prestation getPrestation() {
         if (this.prestation == null) {
             if (ScreenHelper.checkString(this.prestationUid).length() > 0) {
-                this.setPrestation(Prestation.get(this.prestationUid));
+                this.setPrestation(Prestation.get(this.prestationUid,this.date));
             } else {
                 this.prestation = null;
             }

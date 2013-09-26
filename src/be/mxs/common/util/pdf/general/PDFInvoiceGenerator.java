@@ -48,6 +48,13 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         docWriter.setPageEvent(footer);
     }
 
+    protected void addFooterWithText(String s){
+        String sFooter = getConfigString("footer."+sProject);
+        sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
+        PDFFooter footer = new PDFFooter(sFooter+(sFooter.trim().length()>0?" - ":"")+s);
+        docWriter.setPageEvent(footer);
+    }
+
     //--- GET INVOICE ID --------------------------------------------------------------------------
     protected PdfPTable getInvoiceId(Invoice invoice){
         PdfPTable table = new PdfPTable(14);

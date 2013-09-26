@@ -45,7 +45,7 @@
         debet.setDate(ScreenHelper.getSQLDate(sEditDebetDate));
         debet.setBalance(Balance.get(sEditDebetBalanceUID));
         debet.setEncounter(encounter);
-        debet.setPrestation(Prestation.get(sEditDebetPrestationUID));
+        debet.setPrestation(Prestation.get(sEditDebetPrestationUID,debet.getDate()));
 
         ObjectReference or = new ObjectReference();
         or.setObjectType(sEditDebetSupplierType);
