@@ -367,6 +367,23 @@ public class HTMLEntities {
         }
         return buf.toString();
     }
+    
+    public static String xmlencode(String str){
+        if (str == null) {
+            return "";
+        }
+        StringBuffer buf = new StringBuffer(); //the otput string buffer
+        for (int i = 0; i < str.length(); ++i) {
+            char ch = str.charAt(i);
+            if (((int) ch) > 128) { //check if is an extended character
+                buf.append("&#" + ((int) ch) + ";"); //convert extended character
+            } else {
+                buf.append(ch); //append the character as is
+            }
+        }
+        return buf.toString();
+    }
+    
     /**
      * Convert HTML entities to special and extended unicode characters
      * equivalents.

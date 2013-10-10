@@ -52,7 +52,13 @@ public class SaveLabAnalysesAction extends Action {
         String token, analysisCode, comment;
         RequestedLabAnalysis labAnalysis;
         System.out.println("SAVING LAB");
-        if(sLabAnalysesToSave.indexOf("$")>-1 && Integer.parseInt(sTransactionId) > 0){
+        System.out.println("sLabAnalysesToSave="+sLabAnalysesToSave);
+        System.out.println("TransactionId="+sTransactionId);
+        System.out.println("index="+sLabAnalysesToSave.indexOf("$"));
+        System.out.println("parsed transactionid="+Integer.parseInt(sTransactionId));
+        
+        if(sLabAnalysesToSave.indexOf("$")>-1 && Integer.parseInt(sTransactionId) > -1){
+            System.out.println("1");
             // compose query, to use many times later on
             String sLowerLabelType = ScreenHelper.getConfigParam("lowerCompare","l.OC_LABEL_TYPE");
             StringBuffer sSelect = new StringBuffer();
@@ -61,6 +67,7 @@ public class SaveLabAnalysesAction extends Action {
                    .append(" WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","la.labID")+ " = l.OC_LABEL_ID")
                    .append("  AND "+sLowerLabelType+" = 'labanalysis'")
                    .append("  AND la.labcode = ? and deletetime is null");
+            System.out.println("2");
 
             // tokenize savedLabAnalyses specified in parameter
             StringTokenizer tokenizer = new StringTokenizer(sSavedLabAnalyses,"$");
@@ -71,9 +78,10 @@ public class SaveLabAnalysesAction extends Action {
                 // data from parameter
                 analysisCode = token.substring(0,token.indexOf("£"));
                 comment      = token.substring(token.indexOf("£")+1);
-
+                System.out.println("PUTTING saved analysis "+analysisCode);
                 savedAnalyses.put(analysisCode,comment);
             }
+            System.out.println("3");
 
             // tokenize labAnalysesToSave specified in parameter
             tokenizer = new StringTokenizer(sLabAnalysesToSave,"$");
@@ -84,9 +92,11 @@ public class SaveLabAnalysesAction extends Action {
                 // data from parameter
                 analysisCode = token.substring(0,token.indexOf("£"));
                 comment      = token.substring(token.indexOf("£")+1);
+                System.out.println("PUTTING analysis to save "+analysisCode);
 
                 analysesToSave.put(analysisCode,comment);
             }
+            System.out.println("4");
 
             // Delete analyses that are in savedAnalyses but not in analysesToSave.
             // Also delete analyses with the same code of which the comment differs.
@@ -96,6 +106,7 @@ public class SaveLabAnalysesAction extends Action {
 
             Enumeration savedAnalysesEnum = savedAnalyses.keys(),
                         analysesToSaveEnum;
+            System.out.println("5");
 
             // saved -> toSave
             while(savedAnalysesEnum.hasMoreElements()){
@@ -113,6 +124,7 @@ public class SaveLabAnalysesAction extends Action {
                 if(!analysisFound) analysesToDelete.add(savedCode);
                 analysisFound = false;
             }
+            System.out.println("6");
 
             // delete specified analyses
             String labCode;
@@ -131,6 +143,7 @@ public class SaveLabAnalysesAction extends Action {
                 analysisCode = (String)analysesToSaveEnum.nextElement();
                 comment      = (String)analysesToSave.get(analysisCode);
             	Hashtable allanalyses = LabAnalysis.getAllLabanalyses();
+                System.out.println("Saving analysis "+analysisCode);
 
                 if(!RequestedLabAnalysis.exists(Integer.parseInt(sServerId),Integer.parseInt(sTransactionId),analysisCode)){
                     // labRequest not found : insert in DB

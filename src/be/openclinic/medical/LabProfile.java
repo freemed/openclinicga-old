@@ -82,7 +82,7 @@ public class LabProfile {
         LabProfile objLabProf;
         String sLabel;
         StringBuffer sQuery = new StringBuffer();
-        sQuery.append("SELECT p.profileID,p.profilecode"+MedwanQuery.getInstance().concatSign()+"' '"+MedwanQuery.getInstance().concatSign()+"OC_LABEL_VALUE as OC_LABEL_VALUE")
+        sQuery.append("SELECT p.profileID,p.profilecode,p.profilecode"+MedwanQuery.getInstance().concatSign()+"' '"+MedwanQuery.getInstance().concatSign()+"OC_LABEL_VALUE as OC_LABEL_VALUE")
             .append(" FROM LabProfiles p, OC_LABELS l")
             .append(" WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","p.profileID")+" = l.OC_LABEL_ID")
             .append("  AND l.OC_LABEL_TYPE = 'labprofiles'")
@@ -98,6 +98,7 @@ public class LabProfile {
             while(rs.next()){
                 objLabProf = new LabProfile();
                 objLabProf.setProfileID(rs.getInt("profileID"));
+                objLabProf.setProfilecode(rs.getString("profilecode"));
                 sLabel = ScreenHelper.checkString(rs.getString("OC_LABEL_VALUE"));
                 hProfiles.put(sLabel,objLabProf);
             }
@@ -462,6 +463,57 @@ public class LabProfile {
                 hLabProfileData.put("labtype",ScreenHelper.checkString(rs.getString("labtype")));
                 hLabProfileData.put("labcodeother",ScreenHelper.checkString(rs.getString("labcodeother")));
                 hLabProfileData.put("comment",ScreenHelper.checkString(rs.getString("comment")));
+
+                vLabProfiles.addElement(hLabProfileData);
+            }
+            rs.close();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                oc_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return vLabProfiles;
+    }
+    
+    public static Vector searchLabProfilesDataByProfileCode(String sProfileCode){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String labcodeLower = MedwanQuery.getInstance().getConfigParam("lowerCompare","la.labcode"),
+                             commentLower = MedwanQuery.getInstance().getConfigParam("lowerCompare","lap.comment");
+
+        Vector vLabProfiles = new Vector();
+
+        String sSelect = "SELECT distinct lap.labID,la.labcode,la.labtype,la.labcodeother,lap.comment,la.monster"+
+                                " FROM LabProfiles lp, LabProfilesAnalysis lap, LabAnalysis la"+
+                                " WHERE lap.profileID = lp.profileID"+
+                                "  AND lap.labID = la.labID"+
+                                "  AND lp.profileCode = ? and la.deletetime is null"+
+                                " ORDER BY "+labcodeLower+","+commentLower;
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            ps = oc_conn.prepareStatement(sSelect);
+            ps.setString(1,sProfileCode);
+            rs = ps.executeQuery();
+
+            Hashtable hLabProfileData;
+
+            while(rs.next()){
+                hLabProfileData = new Hashtable();
+                hLabProfileData.put("labID",ScreenHelper.checkString(rs.getString("labID")));
+                hLabProfileData.put("labcode",ScreenHelper.checkString(rs.getString("labcode")));
+                hLabProfileData.put("labtype",ScreenHelper.checkString(rs.getString("labtype")));
+                hLabProfileData.put("labcodeother",ScreenHelper.checkString(rs.getString("labcodeother")));
+                hLabProfileData.put("comment",ScreenHelper.checkString(rs.getString("comment")));
+                hLabProfileData.put("monster",ScreenHelper.checkString(rs.getString("monster")));
 
                 vLabProfiles.addElement(hLabProfileData);
             }
