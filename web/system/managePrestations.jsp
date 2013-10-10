@@ -327,7 +327,7 @@
                     <tr>
                         <td class="admin"><%=getTran("web","family",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="text" class="text" name="EditPrestationFamily" size="10" maxlength="8" value="<%=prestation.getReferenceObject()==null?"":prestation.getReferenceObject().getObjectType()%>">
+                            <input type="text" class="text" name="EditPrestationFamily" size="<%=MedwanQuery.getInstance().getConfigInt("maxprestationfamilysize",10) %>" maxlength="<%=MedwanQuery.getInstance().getConfigInt("maxprestationfamilysize",10)-2 %>" value="<%=prestation.getReferenceObject()==null?"":prestation.getReferenceObject().getObjectType()%>">
                         </td>
                     </tr>
                     <tr>

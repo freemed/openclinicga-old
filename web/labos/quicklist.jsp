@@ -33,6 +33,10 @@
 					sLine+="<td class='admin' width='"+(100/cols)+"%'>"+val.substring(1)+"<hr/></td>";
 					hasContent=true;
 				}
+				else if(val.startsWith("^")){
+					sLine+="<td class='admin2' width='"+(100/cols)+"%'><input type='checkbox' name='analprof."+val.substring(1)+"' id='analprof."+val.substring(1)+"'/><img width='16px' src='_img/multiple.gif'/> - "+val.substring(1)+"</td>";
+					hasContent=true;
+				}
 				else {
 					hasContent=true;
 					labAnalysis = LabAnalysis.getLabAnalysisByLabcode(val);
@@ -65,8 +69,14 @@
 				}
 				selectedLabAnalyses=selectedLabAnalyses+allLabAnalyses[n].name.substring(5);
 			}
+			else if(allLabAnalyses[n].name.indexOf("analprof.")==0 && allLabAnalyses[n].checked){
+				if(selectedLabAnalyses.length>0){
+					selectedLabAnalyses=selectedLabAnalyses+";";
+				}
+				selectedLabAnalyses=selectedLabAnalyses+"^"+allLabAnalyses[n].name.substring(9);
+			}
 		}
-		window.opener.AddQuicklistAnalyses(selectedLabAnalyses);
+		window.opener.addQuickListAnalyses(selectedLabAnalyses);
 		window.close();
 	}
 	

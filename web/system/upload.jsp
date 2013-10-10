@@ -9,9 +9,9 @@
     
 %>
 <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
-    <jsp:setProperty name="upBean" property="folderstore" value="c:/temp/uploads" />
+    <jsp:setProperty name="upBean" property="folderstore" value="<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>" />
     <jsp:setProperty name="upBean" property="parser" value="<%= MultipartFormDataRequest.CFUPARSER %>"/>
-    <jsp:setProperty name="upBean" property="parsertmpdir" value="c:/temp"/>
+    <jsp:setProperty name="upBean" property="parsertmpdir" value="<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>"/>
 </jsp:useBean>
 <%!
     private String getFolder(String root){

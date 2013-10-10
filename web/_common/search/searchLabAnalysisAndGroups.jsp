@@ -1,27 +1,39 @@
-<%@ page import="be.openclinic.medical.LabAnalysis" %>
+<%@ page import="be.openclinic.medical.*" %>
 <%@ page import="java.util.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%!
+//--- WRITE ROW -------------------------------------------------------------------------------
+private String writeRow(String sID, String sType, String sCode, String sLabel, String sWebLanguage){
+    if (sLabel.startsWith("<")){
+        sLabel = "";
+    }
+
+    // translate labtype
+         if(sType.equals("1")) sType = getTran("Web.occup","labanalysis.type.blood",sWebLanguage);
+    else if(sType.equals("2")) sType = getTran("Web.occup","labanalysis.type.urine",sWebLanguage);
+    else if(sType.equals("3")) sType = getTran("Web.occup","labanalysis.type.other",sWebLanguage);
+    else if (sType.equals("4")) sType = getTran("Web.occup", "labanalysis.type.stool", sWebLanguage);
+    else if (sType.equals("5")) sType = getTran("Web.occup", "labanalysis.type.sputum", sWebLanguage);
+    else if (sType.equals("6")) sType = getTran("Web.occup", "labanalysis.type.smear", sWebLanguage);
+    else if (sType.equals("7")) sType = getTran("Web.occup", "labanalysis.type.liquid", sWebLanguage);
+
+    return "<tr>"+
+           " <td class='admin' width='60'><a href='#' onclick='selectLabAnalysis(\""+sID+"\",\""+sType+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTran("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
+           " <td class='admin2' width='70'>"+sType+"</td>"+
+           " <td class='admin2'>"+sLabel+"</td>"+
+           "</tr>";
+}
     //--- WRITE ROW -------------------------------------------------------------------------------
-    private String writeRow(String sID, String sType, String sCode, String sLabel, String sWebLanguage){
+    private String writeProfileRow(String sId, String sCode, String sLabel, String sWebLanguage){
         if (sLabel.startsWith("<")){
             sLabel = "";
         }
 
-        // translate labtype
-             if(sType.equals("1")) sType = getTran("Web.occup","labanalysis.type.blood",sWebLanguage);
-        else if(sType.equals("2")) sType = getTran("Web.occup","labanalysis.type.urine",sWebLanguage);
-        else if(sType.equals("3")) sType = getTran("Web.occup","labanalysis.type.other",sWebLanguage);
-        else if (sType.equals("4")) sType = getTran("Web.occup", "labanalysis.type.stool", sWebLanguage);
-        else if (sType.equals("5")) sType = getTran("Web.occup", "labanalysis.type.sputum", sWebLanguage);
-        else if (sType.equals("6")) sType = getTran("Web.occup", "labanalysis.type.smear", sWebLanguage);
-        else if (sType.equals("7")) sType = getTran("Web.occup", "labanalysis.type.liquid", sWebLanguage);
 
         return "<tr>"+
-               " <td class='admin' width='60'><a href='#' onclick='selectLabAnalysis(\""+sID+"\",\""+sType+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTran("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
-               " <td class='admin2' width='70'>"+sType+"</td>"+
-               " <td class='admin2'>"+sLabel+"</td>"+
+               " <td class='admin' width='60'><a href='#' onclick='selectLabAnalysisGroup(\""+sId+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTran("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
+               " <td class='admin2' width='250'><img width='16px' src='_img/multiple.gif'/> - "+sLabel+"</td>"+
                "</tr>";
     }
 %>
@@ -127,6 +139,16 @@
             showMsg = true;
         }
     }
+    StringBuffer sOut2 = new StringBuffer();
+    Hashtable labprofiles = LabProfile.getProfiles(sWebLanguage);
+    SortedMap lp = new TreeMap();
+    lp.putAll(labprofiles);
+    Iterator it = lp.keySet().iterator();
+    while(it.hasNext()){
+    	String key = (String)it.next();
+    	LabProfile profile = (LabProfile)lp.get(key);
+    	sOut2.append(writeProfileRow(profile.getProfileID()+"",profile.getProfilecode(),getTran("labprofiles",profile.getProfileID()+"",sWebLanguage),sWebLanguage));
+    }
 %>
 <form name="searchForm" method="POST" onSubmit="doFind();">
   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="menu">
@@ -161,7 +183,7 @@
     <%-- SEARCH RESULTS --%>
     <tr>
       <td class="white" valign="top">
-        <div class="search" style="overflow: auto;width:530px;height: 400px">
+        <div class="search" style="overflow: auto;width:530px;height: 200px">
           <table width="100%" cellspacing="1" cellpadding="0">
             <%-- HEADER --%>
             <tr class="admin">
@@ -179,6 +201,15 @@
             %>
           </table>
         </div>
+        <div class="search" style="overflow: auto;width:530px;height: 200px">
+          <table width="100%" cellspacing="1" cellpadding="0">
+          	<tr class="admin">
+          		<td width="60"><%=getTran("web","code",sWebLanguage)%></td>
+          		<td width="250"><%=getTran("web.manage","labanalysis.cols.labgroup",sWebLanguage)%></td>
+          	</tr>
+          	<%= sOut2 %>
+          </table>
+		</div>
       </td>
     </tr>
   </table>
@@ -201,27 +232,33 @@
 
     <%-- select labanalysis --%>
     function selectLabAnalysis(sID,sType,sCode,sText){
-      if (window.opener.document.getElementsByName('<%=sVarID%>')[0]) window.opener.document.getElementsByName('<%=sVarID%>')[0].value = sID;
-      if (window.opener.document.getElementsByName('<%=sVarType%>')[0]) window.opener.document.getElementsByName('<%=sVarType%>')[0].value = sType;
-      if (window.opener.document.getElementsByName('<%=sVarCode%>')[0]) window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sCode;
-      if (window.opener.document.getElementsByName('<%=sVarText%>')[0]) window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sText;
-      if (window.opener.document.getElementsByName('<%=sVarText%>')[0]) window.opener.document.getElementsByName('<%=sVarText%>')[0].title = sText;
-      if (window.opener.document.getElementById('<%=sVarTextHtml%>')) window.opener.document.getElementById('<%=sVarTextHtml%>').innerHTML = sText;
+        if (window.opener.document.getElementsByName('<%=sVarID%>')[0]) window.opener.document.getElementsByName('<%=sVarID%>')[0].value = sID;
+        if (window.opener.document.getElementsByName('<%=sVarType%>')[0]) window.opener.document.getElementsByName('<%=sVarType%>')[0].value = sType;
+        if (window.opener.document.getElementsByName('<%=sVarCode%>')[0]) window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sCode;
+        if (window.opener.document.getElementsByName('<%=sVarText%>')[0]) window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sText;
+        if (window.opener.document.getElementsByName('<%=sVarText%>')[0]) window.opener.document.getElementsByName('<%=sVarText%>')[0].title = sText;
+        if (window.opener.document.getElementById('<%=sVarTextHtml%>')) window.opener.document.getElementById('<%=sVarTextHtml%>').innerHTML = sText;
 
-      <%
-          if(sCodeOther.equals("1")){
-              %>
-              	if (window.opener.document.getElementsByName('LabComment')[0]) window.opener.document.getElementsByName('LabComment')[0].readOnly = false;
-              	if (window.opener.document.getElementsByName('LabComment')[0]) window.opener.document.getElementsByName('LabComment')[0].focus();
-              	if (window.opener.document.getElementsByName('LabCodeOther')[0]) window.opener.document.getElementsByName('LabCodeOther')[0].value = "1";
-              <%
-          }
-          else{
-              %>if (window.opener.document.getElementsByName('LabComment')[0]) window.opener.document.getElementsByName('LabComment')[0].readOnly = true;<%
-          }
-      %>
+        <%
+            if(sCodeOther.equals("1")){
+                %>
+                	if (window.opener.document.getElementsByName('LabComment')[0]) window.opener.document.getElementsByName('LabComment')[0].readOnly = false;
+                	if (window.opener.document.getElementsByName('LabComment')[0]) window.opener.document.getElementsByName('LabComment')[0].focus();
+                	if (window.opener.document.getElementsByName('LabCodeOther')[0]) window.opener.document.getElementsByName('LabCodeOther')[0].value = "1";
+                <%
+            }
+            else{
+                %>if (window.opener.document.getElementsByName('LabComment')[0]) window.opener.document.getElementsByName('LabComment')[0].readOnly = true;<%
+            }
+        %>
 
-      window.close();
-    }
+        window.close();
+      }
+    function selectLabAnalysisGroup(sID,sCode,sText){
+        if (window.opener.document.getElementsByName('<%=sVarCode%>')[0]) window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = "^"+sCode;
+        if (window.opener.document.getElementById('<%=sVarTextHtml%>')) window.opener.document.getElementById('<%=sVarTextHtml%>').innerHTML = "<img width='16px' src='_img/multiple.gif'/> - "+sText;
+
+        window.close();
+      }
   </script>
 </form>

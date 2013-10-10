@@ -31,43 +31,35 @@
 	}
 %>
 <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
-    <jsp:setProperty name="upBean" property="folderstore" value="tmp" />
-    <jsp:setProperty name="upBean" property="parser" value="<%= MultipartFormDataRequest.CFUPARSER %>"/>
-    <jsp:setProperty name="upBean" property="parsertmpdir" value="tmp"/>
+    <jsp:setProperty name="upBean" property="folderstore" value="<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>" />
+    <jsp:setProperty name="upBean" property="parser" value="<%= MultipartFormDataRequest.DEFAULTPARSER	 %>"/>
+  	<jsp:setProperty name="upBean" property="filesizelimit" value="8589934592"/>
+  	<jsp:setProperty name="upBean" property="overwrite" value="true"/>
+  	<jsp:setProperty name="upBean" property="dump" value="true"/>
+    <jsp:setProperty name="upBean" property="parsertmpdir" value="<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>"/>
 </jsp:useBean>
-<form name="readMessageForm" method="POST" enctype="multipart/form-data">
-	<table>
-		<tr>
-			<td class='admin'>
-				<%=getTran("web","filetype",sWebLanguage) %>
-				<select name="filetype" id="filetype" class="text" onchange="showstructure();">
-					<option value="prestationscsv"><%=getTran("web","prestations.csv",sWebLanguage) %></option>
-					<option value="servicescsv"><%=getTran("web","services.csv",sWebLanguage) %></option>
-					<option value="labelscsv"><%=getTran("web","labels.csv",sWebLanguage) %></option>
-					<option value="labxml"><%=getTran("web","lab.xml",sWebLanguage) %></option>
-					<option value="drugsxml"><%=getTran("web","drugs.xml",sWebLanguage) %></option>
-				</select>
-			</td>
-			<td class='admin2'><input class="text" type="checkbox" name="erase" value="1"/> <%=getTran("web","delete.table.before.load",sWebLanguage)%></td>
-			<td class='admin2'><input class="text" type="file" name="filename"/> <input class="button" type="submit" name="ButtonReadfile" value="<%=getTran("web","load",sWebLanguage)%>"/></td>
-		</tr>
-		<tr>
-			<td colspan="2"><div id="structure"/></td>
-		</tr>
-    </table>
-</form>
 <%
+	System.out.println("----------- 1");
 	int lines=0;
 	String sFileName = "";
 	MultipartFormDataRequest mrequest;
+	System.out.println("----------- max content length ="+MultipartFormDataRequest.MAXCONTENTLENGTHALLOWED);
+	System.out.println("----------- method="+request.getMethod());
+	System.out.println("----------- multipart="+MultipartFormDataRequest.isMultipartFormData(request));
 	if (MultipartFormDataRequest.isMultipartFormData(request)) {
+		System.out.println("----------- 2");
 	    // Uses MultipartFormDataRequest to parse the HTTP request.
 		mrequest = new MultipartFormDataRequest(request);
+		System.out.println("----------- 3");
 		if (mrequest.getParameter("ButtonReadfile")!=null){
 	        try{
+	        	System.out.println("----------- 4");
 	            Hashtable files = mrequest.getFiles();
+	        	System.out.println("----------- 5");
 	            if (files != null && !files.isEmpty()){
+	            	System.out.println("----------- 6");
 	                UploadFile file = (UploadFile) files.get("filename");
+	            	System.out.println("----------- 7");
 	                sFileName= new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new java.util.Date())+".ext";
 	                System.out.println(upBean.getFolderstore()+"/"+sFileName);
 	                file.setFileName(sFileName);
@@ -409,7 +401,32 @@
 	        }
 		}
 	}
+	else {
+		System.out.println("-----------------> Exit");
+	}
 %>
+<form name="readMessageForm" method="post" enctype="multipart/form-data">
+	<table>
+		<tr>
+			<td class='admin'>
+				<%=getTran("web","filetype",sWebLanguage) %>
+				<select name="filetype" id="filetype" class="text" onchange="showstructure();">
+					<option value="prestationscsv"><%=getTran("web","prestations.csv",sWebLanguage) %></option>
+					<option value="servicescsv"><%=getTran("web","services.csv",sWebLanguage) %></option>
+					<option value="labelscsv"><%=getTran("web","labels.csv",sWebLanguage) %></option>
+					<option value="labxml"><%=getTran("web","lab.xml",sWebLanguage) %></option>
+					<option value="drugsxml"><%=getTran("web","drugs.xml",sWebLanguage) %></option>
+				</select>
+			</td>
+			<td class='admin2'><input class="text" type="checkbox" name="erase" value="1"/> <%=getTran("web","delete.table.before.load",sWebLanguage)%></td>
+			<td class='admin2'><input class="text" type="file" name="filename"/> <input class="button" type="submit" name="ButtonReadfile" value="<%=getTran("web","load",sWebLanguage)%>"/></td>
+		</tr>
+		<tr>
+			<td colspan="2"><div id="structure"/></td>
+		</tr>
+    </table>
+</form>
+
 <script>
 	function showstructure(){
 		if(document.getElementById("filetype").value=="prestationscsv"){

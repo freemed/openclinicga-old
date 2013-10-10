@@ -22,6 +22,9 @@
 				if(parameterValue.startsWith("$")){
 					labanalyses.put(parameterName,parameterValue);
 				}
+				else if(parameterValue.startsWith("^")){
+					labanalyses.put(parameterName,parameterValue);
+				}
 				else {
 					LabAnalysis labAnalysis = LabAnalysis.getLabAnalysisByLabcode(parameterValue);
 					if (labAnalysis!=null && LabAnalysis.labelForCode(parameterValue, sWebLanguage)!=null){
@@ -79,6 +82,10 @@
 						if(val.startsWith("$")){
 							out.println("<td id='analysisname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin'>"+val.substring(1)+"<hr/></td>");
 						}
+						if(val.startsWith("^")){
+							//Todo: labprofile opzoeken!
+							out.println("<td id='analysisname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'><img width='16px' src='_img/multiple.gif'/> - "+val.substring(1)+"</td>");
+						}
 						else {
 							LabAnalysis labAnalysis = LabAnalysis.getLabAnalysisByLabcode(val);
 							if(labAnalysis!=null && LabAnalysis.labelForCode(val, sWebLanguage)!=null){
@@ -104,7 +111,7 @@
 <script>
 function searchLabAnalysis(id){
 	document.getElementById('anal.'+id).value='';
-	document.getElementById('analysisname.'+id).value='';
-    openPopup("/_common/search/searchLabAnalysis.jsp&ts=<%=getTs()%>&VarCode=anal."+id+"&VarTextHtml=analysisname."+id);
+	document.getElementById('analysisname.'+id).innerHTML='';
+    openPopup("/_common/search/searchLabAnalysisAndGroups.jsp&ts=<%=getTs()%>&VarCode=anal."+id+"&VarTextHtml=analysisname."+id);
 }
 </script>

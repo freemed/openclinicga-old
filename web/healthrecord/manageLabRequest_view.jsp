@@ -161,6 +161,7 @@
             <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" onBlur='checkDate(this)'>
             <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>&nbsp;&nbsp;&nbsp;
             <input type="button" class="button" name="ButtonSearchLA" value="<%=getTran("Web","add",sWebLanguage)%>" onclick='openSearchWindow();'/>
+            <input type="button" class="button" name="ButtonQuickList" value="<%=getTran("Web","quicklist",sWebLanguage)%>" onclick='openQuickListWindow();'/>
         </td>
     </tr>
 </table>
@@ -357,9 +358,13 @@
 
   <%-- OPEN SEARCH WINDOW --%>
   function openSearchWindow(){
-    maxSelectedLabAnalysesAlerted = false;
-    openPopup("/_common/search/searchLabAnalysisForPatient.jsp&VarID=LabID&VarType=LabType&VarCode=LabCode&VarText=LabLabel&selectedLabCodes="+transactionForm.selectedLabCodes.value,595,485);
-  }
+	    maxSelectedLabAnalysesAlerted = false;
+	    openPopup("/_common/search/searchLabAnalysisForPatient.jsp&VarID=LabID&VarType=LabType&VarCode=LabCode&VarText=LabLabel&selectedLabCodes="+transactionForm.selectedLabCodes.value,595,485);
+	  }
+
+  function openQuickListWindow(){
+	    openPopup("/labos/quicklist.jsp&selectedLabCodes="+transactionForm.selectedLabCodes.value,800,600);
+	  }
 
   <%-- CREATE OFFICIAL PDF --%>
   function createOfficialPdf(printLang){
@@ -575,6 +580,30 @@
     }
   }
 
+  function addQuickListAnalyses(sSelectedAnalyses){
+	//Hier gaan we nu de lijst van bijhorende analyses ophalen via Ajax
+        var params = 'newanalyses=' + sSelectedAnalyses
+              +"&existinganalyses="+transactionForm.selectedLabCodes.value;
+        var today = new Date();
+        var url= '<c:url value="/labos/getLabAnalyses.jsp"/>?ts='+today;
+		new Ajax.Request(url,{
+				method: "GET",
+                parameters: params,
+                onSuccess: function(resp){
+                    var label = eval('('+resp.responseText+')');
+                    var analysestoadd=label.analyses.split("£");
+                    for(n=0;n<analysestoadd.length;n++){
+                    	addLabAnalysis(analysestoadd[n].split("$")[0],analysestoadd[n].split("$")[1],analysestoadd[n].split("$")[2],analysestoadd[n].split("$")[3],analysestoadd[n].split("$")[4]);
+                    }
+                },
+				onFailure: function(){
+					alert("error");
+                }
+			}
+		);
+	
+  }
+  
   <%-- CALLED BY SEARCHPOPUP : ADD THE LABANALYSE, CHOSEN IN THE POPUP, TO THIS LABREQUEST --%>
   function addLabAnalysis(code,type,label,comment,monster){
     if(labAnalysisArray.length >= maxSelectedLabAnalyses){

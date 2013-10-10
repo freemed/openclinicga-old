@@ -1,3 +1,4 @@
+<%@page import="sun.security.util.Length"%>
 <%@page import="be.openclinic.adt.Encounter,
                 be.openclinic.finance.PatientCredit,
                 java.util.Vector,java.text.*,
@@ -378,7 +379,7 @@ if (sFindPatientCreditUID.length() > 0) {
             }
             else {
             %>
-            <input type="hidden" name="EditCreditWicketUid">
+            <input type="hidden" name="EditCreditWicketUid"/>
             <%
             }
         %>
@@ -501,8 +502,15 @@ if (sFindPatientCreditUID.length() > 0) {
                     EditForm.Action.value = "save";
                     EditForm.submit();
                 }
-        <%
+        	<%
             }
+          else {
+        	  %>
+                    EditForm.buttonSave.disabled = true;
+                    EditForm.Action.value = "save";
+                    EditForm.submit();
+        	  <%
+          }
         %>
     }
     else{
