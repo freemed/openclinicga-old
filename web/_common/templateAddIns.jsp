@@ -219,6 +219,38 @@ function checkAfter(afterId, beforeObj) {
                        "<img name='popcal' class='link' src='" + sImg + "' alt='<%=getTran("web","Select",sWebLanguage)%>'></a>" +
                        "&nbsp;<a href='javascript:void(0);' onClick='getToday(" + sObject + ");'>" +
                        "<img class='link' src='" + sDir + "/icon_compose.gif' alt='<%=getTran("web","putToday",sWebLanguage)%>'></a>");
+    } 
+    
+    <%-- GET MY DATE --%>
+    function getMyDate(sObject, sImg, sText, allowPastDates, allowFutureDates) {
+        sDir = sImg.substring(0, sImg.lastIndexOf("/")) + "";
+        gfPopType = "1";
+        // default mode
+
+        if (allowPastDates == undefined) {
+            allowPastDates = true;
+        }
+
+        if (allowFutureDates == undefined) {
+            allowFutureDates = true;
+        }
+
+        if (allowPastDates && allowFutureDates) {
+            var gfPopType = "1";
+        }
+        else {
+            if (allowFutureDates) {
+                var gfPopType = "3";
+            }
+            else if (allowPastDates) {
+                var gfPopType = "2";
+            }
+        }
+
+        return ("<a href='javascript:void(0);' onclick='if(self.gfPop" + gfPopType + ")gfPop" + gfPopType + ".fPopCalendar(document.getElementById(\"" + sObject + "\"));return false;' HIDEFOCUS>" +
+                "<img name='popcal' class='link' src='" + sImg + "' alt='<%=getTran("web","Select",sWebLanguage)%>'></a>" +
+                "&nbsp;<a href='javascript:void(0);' onClick='getToday(" + sObject + ");'>" +
+                "<img class='link' src='" + sDir + "/icon_compose.gif' alt='<%=getTran("web","putToday",sWebLanguage)%>'></a>");
     }
 
     function findZipcode(oZipcode, oCity, oButton) {
