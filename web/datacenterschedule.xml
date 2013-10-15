@@ -1,0 +1,137 @@
+<datacenter>
+	<exporters>
+		<!-- 	interval format:
+				simple interval: put interval time in milliseconds
+				daily: DAILY:hhmm;hhmm;hhmm (executes every day at times indicated by hhmm)
+				monthly: MONTHLY:d;hhmm,d;hhmm,d;hhmm (executes every month on days d at time indicated by hhmm)
+				yearly: YEARLY:M;d,M;d,M;d (executes on every month M on day d at 00h00)
+		-->
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.1.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.1.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.1.3" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.3" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.4" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.4.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.4.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.5" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.6" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.7" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.8" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.8.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.8.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.9" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.9.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.9.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.10" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.11" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.12" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.13" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.14" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.15" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.16" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.17" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterCore" param="core.18" interval="DAILY:0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.1" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.2" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.3" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.4" interval="DAILY:0000"/>
+		<module class="be.openclinic.datacenter.ExporterSystem" param="system.5" interval="DAILY:0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1.2" interval="MONTHLY:15;0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterEncounter" param="encounter.1" interval="DAILY:0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterPeople" param="people.patients" interval="DAILY:0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.0" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.0.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.0.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.1.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.1.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.2.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.2.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.3" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.3.1" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.3.2" interval="MONTHLY:15;0000"/>
+		<module class="be.openclinic.datacenter.ExporterFinancial" param="financial.4" interval="MONTHLY:15;0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterActivity" param="activity.1" interval="MONTHLY:15;0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterMortality" param="mortality.1" interval="MONTHLY:15;0000"/>
+	</exporters>
+	<senders>
+		<module class="be.openclinic.datacenter.SMTPSender" interval="30000"/>
+	</senders>
+	<receivers>
+		<module class="be.openclinic.datacenter.IMAP4Receiver"/>
+	</receivers>
+	<unusedreceivers>
+		<module class="be.openclinic.datacenter.POP3Receiver"/>
+	</unusedreceivers>
+	<parameters>
+		<parameter shortid="0" param="core.1" 	type="simplevalue"/>
+		<parameter shortid="1" param="core.1.1" type="simplevalue"/>
+		<parameter shortid="2" param="core.1.2" type="simplevalue"/>
+		<parameter shortid="3" param="core.1.3" type="simplevalue"/>
+		<parameter shortid="4" param="core.2" 	type="simplevalue"/>
+		<parameter shortid="5" param="core.3" 	type="simplevalue"/>
+		<parameter shortid="6" param="core.4" 	type="simplevalue"/>
+		<parameter shortid="7" param="core.4.1" type="simplevalue"/>
+		<parameter shortid="8" param="core.4.2" type="simplevalue"/>
+		<parameter shortid="9" param="core.5" 	type="simplevalue"/>
+		<parameter shortid="a" param="core.6" 	type="simplevalue"/>
+		<parameter shortid="b" param="core.7" 	type="simplevalue"/>
+		<parameter shortid="c" param="core.8" 	type="simplevalue"/>
+		<parameter shortid="d" param="core.8.1" type="simplevalue"/>
+		<parameter shortid="e" param="core.8.2" type="simplevalue"/>
+		<parameter shortid="f" param="core.9" 	type="simplevalue"/>
+		<parameter shortid="g" param="core.9.1" type="simplevalue"/>
+		<parameter shortid="h" param="core.9.2" type="simplevalue"/>
+		<parameter shortid="i" param="core.10" type="simplevalue"/>
+		<parameter shortid="j" param="core.11" type="simplevalue"/>
+		<parameter shortid="k" param="core.12" type="simplevalue"/>
+		<parameter shortid="l" param="core.13" type="simplevalue"/>
+		<parameter shortid="m" param="core.14" type="simplevalue"/>
+		<parameter shortid="n" param="core.15" type="simplevalue"/>
+		<parameter shortid="o" param="core.16" type="simplevalue"/>
+		<parameter shortid="p" param="core.17" type="simplevalue"/>
+		<parameter shortid="q" param="core.18" type="simplevalue"/>
+		<parameter shortid="r" param="system.1" type="simplevalue"/>
+		<parameter shortid="s" param="system.2" type="simplevalue"/>
+		<parameter shortid="t" param="system.3" type="simplevalue"/>
+		<parameter shortid="u" param="system.4" type="simplevalue"/>
+		<parameter shortid="v" param="system.5" type="simplevalue"/>
+		<parameter shortid="w" param="medical.1" type="diagnosis"/>
+		<parameter shortid="x" param="medical.1.1" type="admissiondiagnosis"/>
+		<parameter shortid="y" param="medical.1.2" type="visitdiagnosis"/>
+		<parameter shortid="z" param="encounter.1" type="bedoccupancy"/>
+		<parameter shortid="00" param="financial.0" type="financial"/>
+		<parameter shortid="01" param="financial.0.1" type="financial"/>
+		<parameter shortid="02" param="financial.0.2" type="financial"/>
+		<parameter shortid="03" param="financial.1" type="financial"/>
+		<parameter shortid="04" param="financial.1.1" type="financial"/>
+		<parameter shortid="05" param="financial.1.2" type="financial"/>
+		<parameter shortid="06" param="financial.2" type="financial"/>
+		<parameter shortid="07" param="financial.2.1" type="financial"/>
+		<parameter shortid="08" param="financial.2.2" type="financial"/>
+		<parameter shortid="09" param="financial.3" type="financial"/>
+		<parameter shortid="0a" param="financial.3.1" type="financial"/>
+		<parameter shortid="0b" param="financial.3.2" type="financial"/>
+		<parameter shortid="0c" param="financial.4" type="financial"/>
+		<parameter shortid="0d" param="activity.1" type="activity"/>
+		<parameter shortid="0e" param="mortality.1" type="mortality"/>
+		<parameter shortid="0f" param="people.patients" type="patient"/>
+	</parameters>
+	<errorcodes>
+		<error code="0" meaning="no errors"/>
+		<error code="1" meaning="tried to insert an already existing row in stats.DC_SIMPLEVALUES"/>
+		<error code="2" meaning="Diagnosis XML parsing error at import"/>
+	</errorcodes>
+</datacenter>
