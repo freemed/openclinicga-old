@@ -54,27 +54,59 @@
          
         return monthCount;   
     }  
-    
-    //--- DAYS BETWEEN ----------------------------------------------------------------------------
-    public long daysBetween(final Calendar startDate, final Calendar endDate){
+
+    //--- DAYS BETWEEN (params are Calendars) -----------------------------------------------------
+    public int daysBetween(final Calendar startCal, final Calendar endCal){
         int dayCount = 0;
-        Calendar cursor = (Calendar)startDate.clone();   
+        Calendar cursor = (Calendar)startCal.clone();   
          
         // test
-        Calendar test = (Calendar)startDate.clone();
+        Calendar test = (Calendar)startCal.clone();
         test.add(Calendar.DATE,1); 
-        if(test.after(endDate)) return dayCount;
+        if(test.after(endCal)) return dayCount;
 
         // next full unit
-        Calendar nfu = (Calendar)startDate.clone();
+        Calendar nfu = (Calendar)startCal.clone();
         
         // count        
-        while(cursor.getTimeInMillis() < endDate.getTimeInMillis()){   
+        while(cursor.getTimeInMillis() < endCal.getTimeInMillis()){   
             cursor.add(Calendar.DATE,1);   
 
             // next full unit
             nfu.add(Calendar.DATE,1); 
-            if(!nfu.after(endDate)) dayCount++;
+            if(!nfu.after(endCal)) dayCount++;
+            else                   break;
+        }
+         
+        return dayCount;   
+    }  
+    
+    //--- DAYS BETWEEN (params are Dates) ---------------------------------------------------------
+    public int daysBetween(final java.util.Date startDate, final java.util.Date endDate){
+    	Calendar startCal = Calendar.getInstance();
+    	startCal.setTime(startDate);
+    	
+    	Calendar endCal = Calendar.getInstance();
+    	endCal.setTime(endDate);
+    	
+        int dayCount = 0;
+        Calendar cursor = (Calendar)startCal.clone();   
+         
+        // test
+        Calendar test = (Calendar)startCal.clone();
+        test.add(Calendar.DATE,1); 
+        if(test.after(endCal)) return dayCount;
+
+        // next full unit
+        Calendar nfu = (Calendar)startCal.clone();
+        
+        // count        
+        while(cursor.getTimeInMillis() < endCal.getTimeInMillis()){   
+            cursor.add(Calendar.DATE,1);   
+
+            // next full unit
+            nfu.add(Calendar.DATE,1); 
+            if(!nfu.after(endCal)) dayCount++;
             else                    break;
         }
          
