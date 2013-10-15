@@ -5,95 +5,112 @@
 <%@include file="/_common/templateAddIns.jsp" %>
 <script type="text/javascript" src="<c:url value='/_common/_script/menu.js'/>"></script>
 
-<%!//### INNERCLASS MENU #########################################################################
-
+<%!
+    //### INNER CLASS : Menu ######################################################################
     public class Menu {
         public String labelid;
         public String accessrights;
         public String url;
         public String patientselected;
+        public String employeeselected;
         public String activeencounter;
         public Vector menus;
         public String target;
+        
         //--- CONSTRUCTOR -------------------------------------------------------------------------
-        public Menu() {
+        public Menu(){
             labelid = "";
             accessrights = "";
             url = "";
             patientselected = "";
+            employeeselected = "";
             menus = new Vector();
             target = "";
         }
+        
         //--- PARSE -------------------------------------------------------------------------------
-        public void parse(Element eMenu) {
+        public void parse(Element eMenu){
             this.accessrights = checkString(eMenu.attributeValue("accessrights")).toLowerCase();
             this.labelid = checkString(eMenu.attributeValue("labelid")).toLowerCase();
             this.patientselected = checkString(eMenu.attributeValue("patientselected"));
+            this.employeeselected = checkString(eMenu.attributeValue("employeeselected"));
             this.activeencounter = checkString(eMenu.attributeValue("activeencounter"));
             this.target = checkString(eMenu.attributeValue("target"));
 
             // replace ; by & if url is no javascript
-            if (checkString(eMenu.attributeValue("url")).indexOf("javascript:") > -1) {
+            if(checkString(eMenu.attributeValue("url")).indexOf("javascript:") > -1){
                 this.url = checkString(eMenu.attributeValue("url"));
-            } else {
+            }
+            else{
                 this.url = checkString(eMenu.attributeValue("url")).replaceAll(";", "&");
             }
+            
             Menu childMenu;
             Element eChildMenu;
             Iterator eMenus = eMenu.elementIterator("Menu");
-            while (eMenus.hasNext()) {
-                eChildMenu = (Element) eMenus.next();
+            while(eMenus.hasNext()){
+                eChildMenu = (Element)eMenus.next();
                 childMenu = new Menu();
                 childMenu.parse(eChildMenu);
                 this.menus.add(childMenu);
             }
         }
+        
         //--- MAKE MENU ---------------------------------------------------------------------------
-        public String makeMenu(boolean bMenu, String sWebLanguage, String sParentMenu, User user, boolean last,AdminPerson activePatient) {
+        public String makeMenu(boolean bMenu, String sWebLanguage, String sParentMenu, User user, boolean last, 
+        		               AdminPerson activePatient){
             String sReturn = "";
-            try {
-                if (this.accessrights.length() > 0) {
+            try{
+                if(this.accessrights.length() > 0){
                     // permission 'sa' can see everything
-                    //                   if (user.getParameter("sa").length() == 0){
-                    // screen and permission specified
-                    if (this.accessrights.toLowerCase().endsWith(".edit") ||
-                            this.accessrights.toLowerCase().endsWith(".add") ||
-                            this.accessrights.toLowerCase().endsWith(".select") ||
-                            this.accessrights.toLowerCase().endsWith(".delete")) {
-                        if (!user.getAccessRight(this.accessrights)) {
-                            return "";
-                        }
-                    }
-                    // only screen specified -> interprete as all permissions required
-                    // Manageing a page, means you can add, edit and delete.
-                    else {
-                        if (!user.getAccessRight((this.accessrights + ".edit")) ||
-                                !user.getAccessRight((this.accessrights + ".add")) ||
-                                //!user.getAccessRight((this.accessrights + ".select")) ||
-                                !user.getAccessRight((this.accessrights + ".delete"))) {
-                            return "";
-                        }
-                    }
-                    //                 }
+                    //if(user.getParameter("sa").length()==0){
+	                    // screen and permission specified
+	                    if(this.accessrights.toLowerCase().endsWith(".edit") ||
+	                       this.accessrights.toLowerCase().endsWith(".add") ||
+	                       this.accessrights.toLowerCase().endsWith(".select") ||
+	                       this.accessrights.toLowerCase().endsWith(".delete")){
+	                        if(!user.getAccessRight(this.accessrights)){
+	                            return "";
+	                        }
+	                    }
+	                    // only screen specified -> interprete as all permissions required
+	                    // Manageing a page, means you can add, edit and delete.
+	                    else{
+	                        if(!user.getAccessRight((this.accessrights + ".edit")) ||
+	                           !user.getAccessRight((this.accessrights + ".add")) ||
+	                           //!user.getAccessRight((this.accessrights + ".select")) ||
+	                          !user.getAccessRight((this.accessrights + ".delete"))){
+	                            return "";
+	                        }
+	                    }
+                    //}
                 }
+                
                 if(this.activeencounter.equalsIgnoreCase("true")){
                 	if(activePatient==null || Encounter.getActiveEncounter(activePatient.personid)==null){
                 		return "";
                 	}
                 }
-                if ((patientselected.equalsIgnoreCase("true")) && !bMenu) {
+
+                if((patientselected.equalsIgnoreCase("true")) && !bMenu){
                     return "";
                 }
-                if (this.url.length() > 0) {
+                if((employeeselected.equalsIgnoreCase("true")) && !bMenu){
+                    return "";
+                }
+                
+                if(this.url.length() > 0){
                     // leave url as-is if it contains a javascript call
-                    if (!this.url.startsWith("javascript:")) {
-                        if (this.url.startsWith("/")) {
-                            this.url = sCONTEXTPATH + this.url;
+                    if(!this.url.startsWith("javascript:")){
+                        if(this.url.startsWith("/")){
+                            this.url = sCONTEXTPATH+this.url;
                         }
-                        if (this.url.indexOf("?") > 0) this.url += "&ts=" + getTs();
-                        else this.url += "?ts=" + getTs();
+                        
+                        if(this.url.indexOf("?") > 0) this.url+= "&ts="+getTs();
+                        else                          this.url+= "?ts="+getTs();
                     }
-                    sReturn += "";
+                    
+                    sReturn+= "";
                 }
 
                 // menu has submenus
@@ -105,21 +122,25 @@
                         subMenu = (Menu) this.menus.elementAt(y);
                         subsubMenu += subMenu.makeMenu(bMenu, sWebLanguage, this.labelid, user, (y == this.menus.size() - 1),activePatient);
                     }
+                    
                     if (this.target.length() > 0) {
                         sReturn += "<li><a href='javascript:void(0); class='subparent''>" + sTranslation + "</a>";
                         sReturn += "<ul class='level3'>";
                         sReturn += (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
                         sReturn += "</ul></li>";
-                    } else {
+                    } 
+                    else {
                         sReturn += "<li><a href='javascript:void(0);' class='subparent'>" + sTranslation + "</a>";
                         sReturn += "<ul class='level3'>";
                         sReturn += (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
                         sReturn += "</ul></li>";
                     }
-                } else {
-                    if (this.target.length() > 0) {
+                } 
+                else {
+                    if(this.target.length() > 0){
                         sReturn += "<li><a href=\""+this.url+"\">" + sTranslation + "</a></li>";
-                    } else {
+                    }
+                    else{
                         sReturn += "<li><a href=\""+this.url+"\">" + sTranslation + "</a></li>";
                     }
                 }
@@ -127,14 +148,17 @@
             catch (Exception e) {
                 e.printStackTrace();
             }
+            
             return sReturn;
         }
-    }%>
-<%
- 
+    }
+%>
+
+<% 
     String sPage = checkString(request.getParameter("Page")).toLowerCase();
     String sPersonID = checkString(request.getParameter("personid"));
     String sPatientNew = checkString(request.getParameter("PatientNew"));
+   
     if (sPage.startsWith("start") || sPage.startsWith("_common/patientslist") || sPatientNew.equals("true")) {
         session.removeAttribute("activePatient");
         activePatient = null;
@@ -144,49 +168,61 @@
 <script type="text/javascript">
     window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
-<%} else if (sPersonID.length() > 0) {
+<%
+    } 
+    else if (sPersonID.length() > 0) {
         activePatient = AdminPerson.getAdminPerson(sPersonID);
         session.setAttribute("activePatient", activePatient);
 %>
 <script type="text/javascript">
     window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
-<%} else {
-    sPersonID = checkString(request.getParameter("PersonID"));
-    if (sPersonID.length() > 0) {
-        session.removeAttribute("activePatient");
-        activePatient = AdminPerson.getAdminPerson(sPersonID);
+<%
     }
-}
+    else {
+	    sPersonID = checkString(request.getParameter("PersonID"));
+	    if (sPersonID.length() > 0) {
+	        session.removeAttribute("activePatient");
+	        activePatient = AdminPerson.getAdminPerson(sPersonID);
+	    }
+	}
+    
 	//First check if user has access to the active patient
 	if(sPage.indexOf("novipaccess")<0 && activePatient!=null && "1".equalsIgnoreCase((String)activePatient.adminextends.get("vip")) && !activeUser.getAccessRight("vipaccess.select")){
 		//User has no access, redirect to warning screen
-		%>
-		<script>window.location.href='<c:url value="main.do?Page=novipaccess.jsp"/>';</script>
-		<%
+		%><script>window.location.href='<c:url value="main.do?Page=novipaccess.jsp"/>';</script><%
 		out.flush();
 	}
     session.setAttribute("activePatient", activePatient);
+  
     boolean bMenu = false;
     if ((activePatient != null) && (activePatient.lastname != null) && (activePatient.personid.trim().length() > 0)) {
         if (!sPage.equals("patientslist.jsp")) {
             bMenu = true;
         }
-    } else {
+    } 
+    else {
         activePatient = new AdminPerson();
-    }%>
+    }
+    
+    boolean isEmployee = activePatient.isEmployee();
+    Debug.println("dropdownmenu : isEmployee : "+isEmployee);
+%>
+
 <table width="100%" cellspacing="0" cellpadding="0">
     <tr>
         <td width="*">
             <div id="topmenu">
                 <ul class="level1" id="root">
-                    <%//-- menus ------------------------------------------------------------------------------------
+                    <%
+                        //-- menus ----------------------------------------------------------------
                         SAXReader xmlReader = new SAXReader();
                         String sMenu = checkString((String) session.getAttribute("MenuXML"));
                         Document document;
                         if (sMenu.length() > 0) {
                             document = xmlReader.read(new StringReader(sMenu));
-                        } else {
+                        }
+                        else {
                             String sMenuXML = MedwanQuery.getInstance().getConfigString("MenuXMLFile");
                             if (sMenuXML.length() == 0) sMenuXML = "menu.xml";
                             String sMenuXMLUrl = "http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR + "/_common/xml/" + sMenuXML+"&ts="+getTs();
@@ -222,7 +258,7 @@
                         for (int i = 0; i < vMenus.size(); i++) {
                             menu = (Menu) vMenus.elementAt(i);
                             String subs = "";
-                            if(menu.patientselected.equalsIgnoreCase("true")&!bMenu){
+                            if((menu.patientselected.equalsIgnoreCase("true")&!bMenu) || (menu.employeeselected.equalsIgnoreCase("true")&!isEmployee)){
                             	continue;
                             }
                             else if (menu.menus.size() > 0) {
@@ -238,7 +274,7 @@
                             }
                             // no submenus
                             else {
-                                if (!menu.patientselected.equalsIgnoreCase("true") || bMenu) {
+                                if(!menu.patientselected.equalsIgnoreCase("true") || bMenu) {
                                     if (menu.url.length() > 0) {
                                         if (menu.url.startsWith("/")) {
                                             menu.url = sCONTEXTPATH + menu.url;
@@ -270,11 +306,13 @@
         </td>
     </tr>
 </table>
-<script type="text/javascript">
+
+<script>
     <%-- OPEN HELP FILE --%>
     function openHelpFile() {
-        openPopup("<%=sHelp.replaceAll("@@language@@",activeUser.person.language)%>", 800, 600);
+      openPopup("<%=sHelp.replaceAll("@@language@@",activeUser.person.language)%>", 800, 600);
     }
+    
 	function newEncounter(){
 		<%
 			Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
