@@ -148,6 +148,62 @@ public class AdminPerson extends OC_Object{
     	return personid;
     }
     
+    //--- IS EMPLOYEE -------------------------------------------------------------------------
+    public boolean isEmployee(){
+        boolean isEmployee = false;  
+        
+        /*
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        Connection conn = MedwanQuery.getInstance().getAdminConnection();
+        
+        try{
+            // compose query
+            String sSql = "SELECT DISTINCT(a.personId) FROM admin a, adminextends e"+
+            		      " WHERE a.personId = e.personId"+
+            	          "  AND (e.labelid = 'category' OR e.labelid = 'statut')"+
+            		      "  AND "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(e.extendvalue) > 0"+
+            	          "  AND a.personid = ?";
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(this.personid));
+            rs = ps.executeQuery();
+            isEmployee = rs.next();  
+        }
+        catch(Exception e){
+            if(Debug.enabled) e.printStackTrace();
+            Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(SQLException se){
+                Debug.printProjectErr(se,Thread.currentThread().getStackTrace());
+            }
+        }
+        */
+
+        String sLabelID, sExtendValue;
+        Enumeration eExtends = this.adminextends.keys();
+        while(eExtends.hasMoreElements()){
+            sLabelID = (String)eExtends.nextElement();
+            
+            if(sLabelID.equalsIgnoreCase("category") || sLabelID.equalsIgnoreCase("statut")){
+                sExtendValue = (String)this.adminextends.get(sLabelID);
+                if(sExtendValue.length() > 0){
+                	isEmployee = true;
+                	break;
+                }
+            }
+        }
+        
+        return isEmployee;
+    }
+    
+    //--- HAS PENDING EXPORT REQUEST --------------------------------------------------------------
     public boolean hasPendingExportRequest(){
 		boolean hasRequest=false;
     	try {
