@@ -129,7 +129,7 @@ function isInteger(sObject){
   if(sObject.value.length==0) return false;
   sObject.value = sObject.value.replace(",",".");
   var string = sObject.value;
-  var vchar = "01234567890";
+  var vchar = "01234567890.";
   var dotCount = 0;
 
   for(var i=0; i < string.length; i++){
@@ -322,7 +322,12 @@ function formatDecimalValue(iValue,iLength,addZeroes){
     if(decimals.length > iLength){
       decimals = decimals.substring(0,iLength);
     }
-    iValue = integer+"."+decimals;
+    
+    iValue = integer;
+
+    if(decimals.length > 0){
+      iValue+= "."+decimals;
+    }
   }
   else{
     iValue = parseInt(iValue);
