@@ -13,7 +13,7 @@
     <!-- ###################################  OPENCLINIC TABLES ################################### -->
     <!-- ########################################################################################## -->
     
-    <!-- ####################################### ACCOUNTANCY TABLES ######################################## -->
+    <!-- ################################### ACCOUNTANCY TABLES ################################### -->
     
     <table name="AC_JOURNAL" db="ocadmin" sync="NONE">
     	<columns>
@@ -478,6 +478,50 @@
         </index>
       </indexes>
     </table>
+    
+    <!-- ############################# SALARY CALCULATIONS TABLES ########################### -->
+    <table name="OC_SALARYCALCULATIONS" db="openclinic" sync="NONE">
+      <columns>
+        <column name="OC_CALCULATION_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="OC_CALCULATION_OBJECTID" dbtype="int" javatype="integer"/>
+    	<column name="OC_CALCULATION_BEGIN" dbtype="datetime" javatype="date"/>
+    	<column name="OC_CALCULATION_END" dbtype="datetime" javatype="date"/>
+    	<column name="OC_CALCULATION_PERSONID" dbtype="int" javatype="integer"/> 
+    	<column name="OC_CALCULATION_SOURCE" dbtype="varchar(50)" javatype="String"/> 
+    	<column name="OC_CALCULATION_TYPE" dbtype="varchar(50)" javatype="String"/>  	     
+	    <column name="OC_CALCULATION_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="OC_CALCULATION_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="OC_CALCULATION_OBJECTID">
+          <indexcolumn order="ASC" name="OC_CALCULATION_OBJECTID"/>
+        </index>
+        <index name="OC_CALCULATION_PERSONID">
+          <indexcolumn order="ASC" name="OC_CALCULATION_PERSONID"/>
+        </index>
+      </indexes>
+    </table>
+    
+    <table name="OC_SALARYCALCULATIONCODES" db="openclinic" sync="NONE">
+      <columns>
+        <column name="OC_CALCULATIONCODE_SERVERID" dbtype="int" javatype="integer"/>
+    	<column name="OC_CALCULATIONCODE_OBJECTID" dbtype="int" javatype="integer"/>
+        <column name="OC_CALCULATIONCODE_CALCULATIONUID" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="OC_CALCULATIONCODE_DATE" dbtype="datetime" javatype="date"/>
+    	<column name="OC_CALCULATIONCODE_DURATION" dbtype="float" javatype="float"/> 
+        <column name="OC_CALCULATIONCODE_CODE" dbtype="varchar" javatype="string" size="50"/>  	     
+	    <column name="OC_CALCULATIONCODE_UPDATETIME" dbtype="datetime" javatype="date"/>
+    	<column name="OC_CALCULATIONCODE_UPDATEID" dbtype="int" javatype="integer"/>
+      </columns>
+      <indexes>
+        <index name="OC_CALCULATIONCODE_OBJECTID">
+          <indexcolumn order="ASC" name="OC_CALCULATIONCODE_OBJECTID"/>
+        </index>
+        <index name="OC_CALCULATIONCODE_CALCULATIONUID">
+          <indexcolumn order="ASC" name="OC_CALCULATIONCODE_CALCULATIONUID"/>
+        </index>
+      </indexes>
+    </table> 
         
 
     <!-- ####################################### VARIA TABLES ##################################### -->
