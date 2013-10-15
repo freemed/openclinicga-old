@@ -29,7 +29,7 @@ function initMonthScheduler(){
 }
 
 /* CREATE CALCULATION DIV */
-function createCalculationDiv(calculationUID,leftPos,topPos,width,height,source,contentHTML,
+function createCalculationDiv(calculationUID,leftPos,topPos,width,height,source,type,contentHTML,
                               totalDurationHours,totalDurationDays,dayOfCalculationIdx){  
   var div = document.createElement("DIV");
   div.title = calculationDivTitle;
@@ -46,11 +46,20 @@ function createCalculationDiv(calculationUID,leftPos,topPos,width,height,source,
     
   /* header */
   var header = document.createElement("DIV");
-  header.className = "calculationHeader";
-  if(source!="workschedule"){
-    header.style.background = "#6666AA";      
+  
+  if(type=="leave"){
+    header.className = "calHeaderLeave";
+    div.style.border = "1px solid #dd4444"; // red        
   }
-  header.innerHTML = "<span>&nbsp;"+totalDurationHours+hourShortTran+"</span>";
+  else{
+    header.className = "calHeaderWorkschedule";
+  }
+  
+  header.innerHTML = "<span class='calHeaderDuration'>"+totalDurationHours+hourShortTran+"</span>";
+
+  if(source!="script"){
+    header.innerHTML+= " <span class='calHeaderScriptNotice' title='"+manuallyEditedTran+"'><i>manual</i></span>";    
+  }
   
   var info = document.createElement("DIV");
   info.className = "deleteIcon";
@@ -143,6 +152,7 @@ function parseItemsFromServer(ajaxIndex){
         currentCalculationDiv = createCalculationDiv(itemsToBeCreated[i]["id"],
                                                      leftPxPos,topPxPos,calculationWidth,elHeight,
                                                      itemsToBeCreated[i]["source"],
+                                                     itemsToBeCreated[i]["type"],
                                                      itemsToBeCreated[i]["codes"],
                                                      itemsToBeCreated[i]["totalDurationHours"],
                                                      itemsToBeCreated[i]["totalDurationDays"],1);
@@ -153,6 +163,7 @@ function parseItemsFromServer(ajaxIndex){
         var calculation = new Array();
         calculation["id"] = itemsToBeCreated[i]["id"];
         calculation["source"] = itemsToBeCreated[i]["source"];
+        calculation["type"] = itemsToBeCreated[i]["type"];
         calculation["codes"] = itemsToBeCreated[i]["codes"];
         calculation["begin"] = itemsToBeCreated[i]["begin"];
         calculation["end"] = itemsToBeCreated[i]["end"];
@@ -203,7 +214,7 @@ function displayMonth(date){
 function hideCalculation(calculationUID){   
   ((calculations[calculationUID])["object"]).style.visibility = "hidden";
       
-  var obj = document.getElementById(calculId);
+  var obj = document.getElementById(calculationUID);
   obj.parentNode.removeChild(obj);
 }
 
@@ -363,9 +374,10 @@ function makeDate(fulldateStr){
 var Calculation = Class.create();
 
 Calculation.prototype = {
-  initialize: function(id,source,begin,end,codes,obj){
+  initialize: function(id,source,type,begin,end,codes,obj){
     this.id = id;
     this.source = source;
+    this.type = type;
     this.begin = begin;
     this.end = end;
     this.codes = codes;
