@@ -1,6 +1,7 @@
 package be.openclinic.hr;
 
 import be.openclinic.common.OC_Object;
+import be.openclinic.hr.Workschedule.TimeBlock;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
@@ -21,7 +22,7 @@ public class Leave extends OC_Object {
     public java.util.Date begin;
     public java.util.Date end;
     public double duration; // 2 decimals max
-    public String type;
+    public String type; // hr.leave.type
     public java.util.Date requestDate;
     public java.util.Date authorizationDate;
     public String authorizedBy;
@@ -44,6 +45,43 @@ public class Leave extends OC_Object {
         authorizedBy = "";
         episodeCode = "";
         comment = "";
+    }    
+    
+    //--- IS ACTIVE -------------------------------------------------------------------------------
+    public boolean isActive(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.util.Date()); // now
+        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.MILLISECOND,0);
+        
+        return isActive(cal.getTime()); // the very beginning of today
+    }
+    
+    public boolean isActive(java.util.Date date){
+        boolean isActive = false;
+                 
+        // both dates exist
+        if(this.begin!=null && this.end!=null){
+            if(this.begin.getTime() <= date.getTime() && this.end.getTime() >= date.getTime()){
+                isActive = true;
+            }
+        }
+        // only begin exists
+        else if(this.begin!=null){
+            if(this.begin.getTime() <= date.getTime()){
+                isActive = true;
+            }
+        }
+        // only end exists
+        else if(this.end!=null){
+            if(this.end.getTime() >= date.getTime()){
+                isActive = true;
+            }
+        }
+    
+        return isActive;
     }
         
     //--- STORE -----------------------------------------------------------------------------------
@@ -386,6 +424,27 @@ public class Leave extends OC_Object {
         }
         
         return foundObjects;
+    }
+    
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////                   VARIA                 ///////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //--- GET WORK DAYS ---------------------------------------------------------------------------
+    public boolean[] getWorkDays(){
+        boolean[] workDays = new boolean[7];
+        
+        // init to false (not working)
+        workDays[0] = false; // Sunday
+        workDays[1] = true;  // Monday
+        workDays[2] = true;  // Tuesday
+        workDays[3] = true;  // Wednesday
+        workDays[4] = true;  // Thursday
+        workDays[5] = true;  // Friday
+        workDays[6] = false; // Saturday
+        
+        return workDays;
     }
      
 }

@@ -49,10 +49,47 @@ public class Training extends OC_Object {
         diplomaCode3 = "";
         comment = "";
     }
+    
+    //--- IS ACTIVE -------------------------------------------------------------------------------
+    public boolean isActive(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.util.Date()); // now
+        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.MILLISECOND,0);
+        
+        return isActive(cal.getTime()); // the very beginning of today
+    }
+    
+    public boolean isActive(java.util.Date date){
+        boolean isActive = false;
+                 
+        // both dates exist
+        if(this.begin!=null && this.end!=null){
+            if(this.begin.getTime() <= date.getTime() && this.end.getTime() >= date.getTime()){
+                isActive = true;
+            }
+        }
+        // only begin exists
+        else if(this.begin!=null){
+            if(this.begin.getTime() <= date.getTime()){
+                isActive = true;
+            }
+        }
+        // only end exists
+        else if(this.end!=null){
+            if(this.end.getTime() >= date.getTime()){
+                isActive = true;
+            }
+        }
+    
+        return isActive;
+    }
         
     //--- STORE -----------------------------------------------------------------------------------
     public boolean store(String userUid){
-    	boolean errorOccurred = false;
+        boolean errorOccurred = false;
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sSql;
@@ -64,7 +101,7 @@ public class Training extends OC_Object {
                 // insert new training
                 sSql = "INSERT INTO hr_training (HR_TRAINING_SERVERID,HR_TRAINING_OBJECTID,HR_TRAINING_PERSONID,"+
                        "  HR_TRAINING_BEGINDATE,HR_TRAINING_ENDDATE,HR_TRAINING_INSTITUTE,HR_TRAINING_TYPE,HR_TRAINING_LEVEL,"+
-                	   "  HR_TRAINING_DIPLOMA,HR_TRAINING_DIPLOMADATE,HR_TRAINING_DIPLOMACODE1,HR_TRAINING_DIPLOMACODE2,"+
+                       "  HR_TRAINING_DIPLOMA,HR_TRAINING_DIPLOMADATE,HR_TRAINING_DIPLOMACODE1,HR_TRAINING_DIPLOMACODE2,"+
                        "  HR_TRAINING_DIPLOMACODE3,HR_TRAINING_COMMENT,"+
                        "  HR_TRAINING_UPDATETIME,HR_TRAINING_UPDATEID)"+ // update-info
                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 16
@@ -115,9 +152,9 @@ public class Training extends OC_Object {
                 // update existing record
                 sSql = "UPDATE hr_training SET"+
                        "  HR_TRAINING_BEGINDATE = ?, HR_TRAINING_ENDDATE = ?, HR_TRAINING_INSTITUTE = ?,"+
-                	   "  HR_TRAINING_TYPE = ?, HR_TRAINING_LEVEL = ?, HR_TRAINING_DIPLOMA = ?,"+
+                       "  HR_TRAINING_TYPE = ?, HR_TRAINING_LEVEL = ?, HR_TRAINING_DIPLOMA = ?,"+
                        "  HR_TRAINING_DIPLOMADATE = ?, HR_TRAINING_DIPLOMACODE1 = ?, HR_TRAINING_DIPLOMACODE2 = ?,"+
-                	   "  HR_TRAINING_DIPLOMACODE3 = ?, HR_TRAINING_COMMENT = ?,"+
+                       "  HR_TRAINING_DIPLOMACODE3 = ?, HR_TRAINING_COMMENT = ?,"+
                        "  HR_TRAINING_UPDATETIME = ?, HR_TRAINING_UPDATEID = ?"+ // update-info
                        " WHERE (HR_TRAINING_SERVERID = ? AND HR_TRAINING_OBJECTID = ?)"; // identification
                 ps = oc_conn.prepareStatement(sSql);
@@ -160,8 +197,8 @@ public class Training extends OC_Object {
             }            
         }
         catch(Exception e){
-        	errorOccurred = true;
-        	if(Debug.enabled) e.printStackTrace();
+            errorOccurred = true;
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -180,7 +217,7 @@ public class Training extends OC_Object {
     
     //--- DELETE ----------------------------------------------------------------------------------
     public static boolean delete(String sTrainingUid){
-    	boolean errorOccurred = false;
+        boolean errorOccurred = false;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -196,8 +233,8 @@ public class Training extends OC_Object {
             ps.executeUpdate();
         }
         catch(Exception e){
-        	errorOccurred = true;
-        	if(Debug.enabled) e.printStackTrace();
+            errorOccurred = true;
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -216,11 +253,11 @@ public class Training extends OC_Object {
     
     //--- GET -------------------------------------------------------------------------------------
     public static Training get(Training training){
-    	return get(training.getUid());
+        return get(training.getUid());
     }
        
     public static Training get(String sTrainingUid){
-    	Training training = null;
+        Training training = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -258,7 +295,7 @@ public class Training extends OC_Object {
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -277,7 +314,7 @@ public class Training extends OC_Object {
         
     //--- GET LIST --------------------------------------------------------------------------------
     public static List<Training> getList(){
-    	return getList(new Training());     	
+        return getList(new Training());         
     }
     
     public static List<Training> getList(Training findItem){
@@ -288,21 +325,21 @@ public class Training extends OC_Object {
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         
         try{
-        	// compose query
+            // compose query
             String sSql = "SELECT * FROM hr_training WHERE 1=1"; // 'where' facilitates further composition of query
 
             if(findItem.personId > -1){
                 sSql+= " AND HR_TRAINING_PERSONID = "+findItem.personId;
             }
-			if(findItem.begin!=null){
-			    sSql+= " AND HR_TRAINING_BEGINDATE = '"+ScreenHelper.stdDateFormat.format(findItem.begin)+"'";
-			}
-			if(findItem.end!=null){
-			    sSql+= " AND HR_TRAINING_ENDDATE = '"+ScreenHelper.stdDateFormat.format(findItem.end)+"'";
-			}
-			if(ScreenHelper.checkString(findItem.institute).length() > 0){
-			    sSql+= " AND HR_TRAINING_INSTITUTE = '"+findItem.institute+"'";
-			}
+            if(findItem.begin!=null){
+                sSql+= " AND HR_TRAINING_BEGINDATE = '"+ScreenHelper.stdDateFormat.format(findItem.begin)+"'";
+            }
+            if(findItem.end!=null){
+                sSql+= " AND HR_TRAINING_ENDDATE = '"+ScreenHelper.stdDateFormat.format(findItem.end)+"'";
+            }
+            if(ScreenHelper.checkString(findItem.institute).length() > 0){
+                sSql+= " AND HR_TRAINING_INSTITUTE = '"+findItem.institute+"'";
+            }
             if(ScreenHelper.checkString(findItem.type).length() > 0){
                 sSql+= " AND HR_TRAINING_TYPE = '"+findItem.type+"'";
             }
@@ -333,25 +370,25 @@ public class Training extends OC_Object {
             int psIdx = 1;
             
             if(findItem.personId > -1){
-            	ps.setInt(psIdx++,findItem.personId);
+                ps.setInt(psIdx++,findItem.personId);
             }
             if(ScreenHelper.checkString(findItem.contractUid).length() > 0){
-            	ps.setString(psIdx++,findItem.contractUid);
+                ps.setString(psIdx++,findItem.contractUid);
             }
             if(ScreenHelper.checkString(findItem.position).length() > 0){
-            	ps.setString(psIdx++,findItem.position);
+                ps.setString(psIdx++,findItem.position);
             }
             if(ScreenHelper.checkString(findItem.serviceUid).length() > 0){
-            	ps.setString(psIdx++,findItem.serviceUid);
+                ps.setString(psIdx++,findItem.serviceUid);
             }
             if(ScreenHelper.checkString(findItem.grade).length() > 0){
-            	ps.setString(psIdx++,findItem.grade);
+                ps.setString(psIdx++,findItem.grade);
             }
             if(ScreenHelper.checkString(findItem.status).length() > 0){
-            	ps.setString(psIdx++,findItem.status);
+                ps.setString(psIdx++,findItem.status);
             }
             if(ScreenHelper.checkString(findItem.comment).length() > 0){
-            	ps.setString(psIdx++,findItem.comment.replaceAll("\\'","´").replaceAll("\"","´"));
+                ps.setString(psIdx++,findItem.comment.replaceAll("\\'","´").replaceAll("\"","´"));
             }
             */
             
@@ -384,7 +421,7 @@ public class Training extends OC_Object {
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -403,13 +440,13 @@ public class Training extends OC_Object {
     
     //--- GET DIPLOMA CODE ------------------------------------------------------------------------
     public String getDiplomaCode(int idx){
-    	switch(idx){
-			case(1) : return this.diplomaCode1;
-			case(2) : return this.diplomaCode2;
-			case(3) : return this.diplomaCode3;
-	    }
-			
-		return ""; // not found
+        switch(idx){
+            case(1) : return this.diplomaCode1;
+            case(2) : return this.diplomaCode2;
+            case(3) : return this.diplomaCode3;
+        }
+            
+        return ""; // not found
     }
      
 }

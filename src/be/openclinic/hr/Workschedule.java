@@ -26,38 +26,41 @@ public class Workschedule extends OC_Object {
     public java.util.Date end;
     public int fte;
     public String scheduleXml;
+    
     public String type; // only for convenience
+    public Vector parsedTimeBlocks = null; // only for convenience
+    
 
     //#############################################################################################
     //### INNER CLASS : TimeBlock #################################################################
     //#############################################################################################
-	class TimeBlock {
-		//************************************************
-		//******** THIS IS JUST A DATA_CONTAINER *********
-		//************************************************
-		
-	    // <WeekSchedule scheduleType='weekSchedule.2'>
-	    //  <TimeBlocks>
-	    //   <TimeBlock><DayIdx>1</DayIdx><BeginHour>09:00</BeginHour><EndHour>17:36</EndHour><Duration>08:36</Duration></TimeBlock>
-	    //   <TimeBlock><DayIdx>2</DayIdx><BeginHour>09:00</BeginHour><EndHour>17:36</EndHour><Duration>08:36</Duration></TimeBlock>
-	    //   <TimeBlock><DayIdx>3</DayIdx><BeginHour>09:00</BeginHour><EndHour>17:36</EndHour><Duration>08:36</Duration></TimeBlock>
-	    //  </TimeBlocks>
-	    // </WeekSchedule>
-	   
-	    public String dayIdx;
-	    public String beginHour;
-	    public String endHour;
-	    public String duration;
-	    
-	    //--- CONSTRUCTOR ---
-	    public TimeBlock(){
-	    	dayIdx = "";
-	    	beginHour = "";        
-	    	endHour = "";
-	    	duration = "";
-	    }
-	           
-	}
+    class TimeBlock {
+        //************************************************
+        //******** THIS IS JUST A DATA_CONTAINER *********
+        //************************************************
+        
+        // <WeekSchedule scheduleType='weekSchedule.2'>
+        //  <TimeBlocks>
+        //   <TimeBlock><DayIdx>1</DayIdx><BeginHour>09:00</BeginHour><EndHour>17:36</EndHour><Duration>08:36</Duration></TimeBlock>
+        //   <TimeBlock><DayIdx>2</DayIdx><BeginHour>09:00</BeginHour><EndHour>17:36</EndHour><Duration>08:36</Duration></TimeBlock>
+        //   <TimeBlock><DayIdx>3</DayIdx><BeginHour>09:00</BeginHour><EndHour>17:36</EndHour><Duration>08:36</Duration></TimeBlock>
+        //  </TimeBlocks>
+        // </WeekSchedule>
+       
+        public String dayIdx;
+        public String beginHour;
+        public String endHour;
+        public String duration;
+        
+        //--- CONSTRUCTOR ---
+        public TimeBlock(){
+            dayIdx = "";
+            beginHour = "";        
+            endHour = "";
+            duration = "";
+        }
+               
+    }
     //#############################################################################################
     //#############################################################################################
     //#############################################################################################
@@ -77,83 +80,232 @@ public class Workschedule extends OC_Object {
     
     //--- IS ACTIVE -------------------------------------------------------------------------------
     public boolean isActive(){
-    	Calendar cal = Calendar.getInstance();
-    	cal.setTime(new java.util.Date()); // now
-    	cal.set(Calendar.HOUR_OF_DAY,0);
-    	cal.set(Calendar.MINUTE,0);
-    	cal.set(Calendar.SECOND,0);
-    	cal.set(Calendar.MILLISECOND,0);
-    	
-    	return isActive(cal.getTime()); // the very beginning of today
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.util.Date()); // now
+        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.MILLISECOND,0);
+        
+        return isActive(cal.getTime()); // the very beginning of today
     }
        
     public boolean isActive(java.util.Date date){
-    	boolean isActive = false;
-    	    	
-    	// both dates exist
-    	if(this.begin!=null && this.end!=null){
-    		if(this.begin.getTime() <= date.getTime() && this.end.getTime() >= date.getTime()){
-    		    isActive = true;
-    		}
-    	}
-    	// only begin exists
-    	else if(this.begin!=null){
-    		if(this.begin.getTime() <= date.getTime()){
-    		    isActive = true;
-    		}
-    	}
-    	// only end exists
-    	else if(this.end!=null){
-    		if(this.end.getTime() >= date.getTime()){
-    		    isActive = true;
-    		}
-    	}
+        boolean isActive = false;
+                
+        // both dates exist
+        if(this.begin!=null && this.end!=null){
+            if(this.begin.getTime() <= date.getTime() && this.end.getTime() >= date.getTime()){
+                isActive = true;
+            }
+        }
+        // only begin exists
+        else if(this.begin!=null){
+            if(this.begin.getTime() <= date.getTime()){
+                isActive = true;
+            }
+        }
+        // only end exists
+        else if(this.end!=null){
+            if(this.end.getTime() >= date.getTime()){
+                isActive = true;
+            }
+        }
 
-    	return isActive;
+        return isActive;
     }
     
-    //--- GET NOT WORK DAYS -----------------------------------------------------------------------
+    //--- GET WORK DAYS ---------------------------------------------------------------------------
     // only applicable for type = 'week'
     public boolean[] getWorkDays(){
-    	boolean[] workDays = new boolean[7];
-		
+        boolean[] workDays = new boolean[7];
+        
         // ATTENTION : you should set 'type' yourself --> getWorkscheduleType()
-    	if(this.type.equals("week")){
-    		// init to false (not working)
-    		workDays[0] = false; // Sunday
-    		workDays[1] = false; // Monday
-    		workDays[2] = false; // Tuesday
-    		workDays[3] = false; // Wednesday
-    		workDays[4] = false; // Thursday
-    		workDays[5] = false; // Friday
-    		workDays[6] = false; // Saturday
-    		
-    		try{
-	    		Vector timeBlocks = parseWeekschedule();
-	    		TimeBlock timeBlock;
-	    		
-		    	for(int t=0; t<timeBlocks.size(); t++){
-		    		timeBlock = (TimeBlock)timeBlocks.get(t);
-		    		workDays[Integer.parseInt(timeBlock.dayIdx)] = true;
-		    	}
-    		}
-    		catch(Exception e){
-            	if(Debug.enabled) e.printStackTrace();
+        if(this.type.equals("week")){
+            // init to false (not working)
+            workDays[0] = false; // Sunday
+            workDays[1] = false; // Monday
+            workDays[2] = false; // Tuesday
+            workDays[3] = false; // Wednesday
+            workDays[4] = false; // Thursday
+            workDays[5] = false; // Friday
+            workDays[6] = false; // Saturday
+            
+            try{
+                Vector timeBlocks = parseWeekschedule();
+                TimeBlock timeBlock;
+                
+                for(int t=0; t<timeBlocks.size(); t++){
+                    timeBlock = (TimeBlock)timeBlocks.get(t);
+                    workDays[Integer.parseInt(timeBlock.dayIdx)-1] = true;
+                }
+            }
+            catch(Exception e){
+                if(Debug.enabled) e.printStackTrace();
                 Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
-    		}
-    	}
-    	else{
+            }
+        }
+        else{
             // do not work in the weekend for daySchedule and monthSchedule
-    		workDays[0] = false; // Sunday
-    		workDays[1] = true; // Monday
-    		workDays[2] = true; // Tuesday
-    		workDays[3] = true; // Wednesday
-    		workDays[4] = true; // Thursday
-    		workDays[5] = true; // Friday
-    		workDays[6] = false; // Saturday
-    	}
+            workDays[0] = false; // Sunday
+            workDays[1] = true;  // Monday
+            workDays[2] = true;  // Tuesday
+            workDays[3] = true;  // Wednesday
+            workDays[4] = true;  // Thursday
+            workDays[5] = true;  // Friday
+            workDays[6] = false; // Saturday
+        }
 
-    	return workDays;
+        return workDays;
+    }
+    
+    //--- GET DURATION ----------------------------------------------------------------------------
+    // return duration of specified day (day-index of that day) according to workschedule (xml)
+    /*
+        *** DAY ***
+        <WorkSchedule>
+          <Schedule type="day">
+            <BeginHour>10:00</BeginHour>
+            <EndHour>15:00</EndHour>
+            <HoursPerDay>05:00</HoursPerDay>
+          </Schedule>
+        </WorkSchedule>
+        
+        *** WEEK ***
+        <WorkSchedule>
+          <Schedule type="week">
+            <WeekSchedule scheduleType="weekSchedule.0">
+              <HoursPerWeek>08:00</HoursPerWeek>
+              <TimeBlocks>
+                <TimeBlock>
+                  <DayIdx>7</DayIdx>
+                  <BeginHour>08:00</BeginHour>
+                  <EndHour>10:00</EndHour>
+                  <Duration>02:00</Duration>
+                </TimeBlock>
+                ...
+              </TimeBlocks>
+            </WeekSchedule>
+          </Schedule>
+        </WorkSchedule>
+        
+        *** MONTH ***
+        <WorkSchedule>
+          <Schedule type="month">
+            <PredefinedHoursPerMonth>160</PredefinedHoursPerMonth>
+            <HoursPerMonth>160</HoursPerMonth>
+          </Schedule>
+        </WorkSchedule>
+    */
+    public float getDuration(java.util.Date date){
+        float duration = -1;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int targetDayIdx = cal.get(Calendar.DAY_OF_WEEK); 
+        
+        //*** 1 : DAY *******************************************
+        
+        if(this.type.equals("day")){
+            String sHoursPerDay = this.getScheduleElementValue(this.type,"HoursPerDay");
+            
+            if(sHoursPerDay.length() > 0){
+                duration = toDecimalHour(sHoursPerDay);
+            }
+        }        
+        //*** 2 : WEEK ******************************************
+        else if(this.type.equals("week")){
+            try{
+                Vector timeBlocks = parseWeekschedule();
+                TimeBlock timeBlock;
+                
+                for(int t=0; t<timeBlocks.size(); t++){
+                    timeBlock = (TimeBlock)timeBlocks.get(t);
+                    
+                    // get duration when day-indexes equal
+                    if(Integer.parseInt(timeBlock.dayIdx)==targetDayIdx){                        
+                        duration = toDecimalHour(timeBlock.duration);
+                        break;
+                    }
+                }
+            }
+            catch(Exception e){
+                if(Debug.enabled) e.printStackTrace();
+                Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
+            }
+        }        
+        //*** 3 : MONTH *****************************************
+        else if(this.type.equals("month")){
+            String sHoursPerMonth = this.getScheduleElementValue(this.type,"HoursPerMonth");
+                         
+            if(sHoursPerMonth.length() > 0){
+                int workdaysInMonth = countWorkdaysInMonth(date);
+                duration = toDecimalHour(sHoursPerMonth)/workdaysInMonth;
+            }
+        }
+        
+        return duration;
+    }
+    
+    //---- COUNT WORKDAYS IN MONTH ----------------------------------------------------------------
+    private int countWorkdaysInMonth(java.util.Date month){
+        int workdayCount = 0;
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(month);
+        
+        // start at first midnight of that month 
+        cal.set(Calendar.DAY_OF_MONTH,1);
+        cal.set(Calendar.HOUR,0);
+        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.MILLISECOND,0);
+        
+        int daysInMonth = cal.getMaximum(Calendar.DAY_OF_MONTH);
+        
+        for(int i=0; i<daysInMonth; i++){ 
+        	// skip weekend
+            if(cal.get(Calendar.DAY_OF_WEEK)!=Calendar.SATURDAY && cal.get(Calendar.DAY_OF_WEEK)!=Calendar.SUNDAY){
+                workdayCount++;    
+            }
+            
+            cal.add(Calendar.DAY_OF_MONTH,1); // proceed one day
+        }
+        
+        return workdayCount;
+    }
+    
+    //--- TO DECIMAL HOUR -------------------------------------------------------------------------
+    // "04:15" --> 4,25f
+    private float toDecimalHour(String sHour){
+        float value = 0;
+        
+        if(sHour.length() > 0){
+            // ":" available
+            if(sHour.indexOf(":") > -1){
+                String[] hourParts = sHour.split(":");
+                
+                // 1 : parse hour-value
+                if(ScreenHelper.checkString(hourParts[0]).length() > 0){
+                    while(hourParts[0].startsWith("0") && hourParts[0].length() > 1){
+                        hourParts[0] = hourParts[0].substring(1);
+                    }
+                    value+= Float.parseFloat(hourParts[0]);    
+                }
+                
+                // 2 : parse minutes-value
+                if(ScreenHelper.checkString(hourParts[1]).length() > 0){
+                    while(hourParts[1].startsWith("0") && hourParts[1].length() > 1){
+                        hourParts[1] = hourParts[1].substring(1);
+                    }            
+                    value+= (Float.parseFloat(hourParts[1])/60f);    
+                }
+            }
+            else{
+                value = Float.parseFloat(sHour);
+            }
+        }
+        
+        return value;
     }
     
     //--- PARSE WEEKSCHEDULE ----------------------------------------------------------------------
@@ -167,59 +319,66 @@ public class Workschedule extends OC_Object {
     //
     // to a Vector of TimeBlocks
     public Vector parseWeekschedule() throws Exception {
-        Vector timeBlocks = new Vector();
-
-        // ATTENTION : you should set 'type' yourself --> getWorkscheduleType()
-        if(this.type.equals("week")){
-	        if(this.scheduleXml!=null && this.scheduleXml.length() > 0){
-				/*
-				    <WorkSchedule>
-				        <Schedule type="week">
-				            <WeekSchedule scheduleType="weekSchedule.2">
-				                <HoursPerWeek>07:00</HoursPerWeek>
-				                <TimeBlocks>
-				                    <TimeBlock><DayIdx>4</DayIdx><BeginHour>08:00</BeginHour><EndHour>09:00</EndHour><Duration>01:00</Duration></TimeBlock>
-				                    <TimeBlock><DayIdx>2</DayIdx><BeginHour>09:00</BeginHour><EndHour>15:00</EndHour><Duration>06:00</Duration></TimeBlock>
-				                </TimeBlocks>
-				            </WeekSchedule>
-				        </Schedule>
-				    </WorkSchedule>
-				*/
-	            
-                SAXReader reader = new SAXReader(false);
-	            Document document = reader.read(new StringReader(this.scheduleXml));
-	            Element rootElem = document.getRootElement(); // WorkSchedule
-	            Element workScheduleElem = rootElem.element("Schedule");
-                Element weekScheduleElem = workScheduleElem.element("WeekSchedule");
-                         
-	            Element timeBlockElems = weekScheduleElem.element("TimeBlocks");
-	            if(timeBlocks!=null){
-	                Iterator timeBlockIter = timeBlockElems.elementIterator("TimeBlock");
-	
-	                String sTmpDayIdx, sTmpBeginHour, sTmpEndHour, sTmpDuration;
-	                Element timeBlockElem;
-	                
-	                while(timeBlockIter.hasNext()){
-	                	timeBlockElem = (Element)timeBlockIter.next();
-	                                            
-	                    sTmpDayIdx    = ScreenHelper.checkString(timeBlockElem.elementText("DayIdx"));
-	                    sTmpBeginHour = ScreenHelper.checkString(timeBlockElem.elementText("BeginHour"));
-	                    sTmpEndHour   = ScreenHelper.checkString(timeBlockElem.elementText("EndHour"));
-	                    sTmpDuration  = ScreenHelper.checkString(timeBlockElem.elementText("Duration"));
-	                    
-	                    TimeBlock timeBlock = new TimeBlock();
-	                    timeBlock.dayIdx    = sTmpDayIdx;
-	                    timeBlock.beginHour = sTmpBeginHour;
-	                    timeBlock.endHour   = sTmpEndHour;
-	                    timeBlock.duration  = sTmpDuration;
-	                    
-	                    timeBlocks.add(timeBlock);
-	                }
-	            }
-	        }
-        }
-        else{
-        	Debug.println("WARNING : Workschedule.parseWeekschedule() only applicable for type = 'week' while type is '"+this.type+"'.");
+        // check whether data was already parsed, reuse when possible
+        Vector timeBlocks = parsedTimeBlocks;
+        
+        if(timeBlocks==null){
+            timeBlocks = new Vector();
+        
+            // ATTENTION : you should set 'type' yourself --> getWorkscheduleType()
+            if(this.type.equals("week")){
+                if(this.scheduleXml!=null && this.scheduleXml.length() > 0){
+                    /*
+                      <WorkSchedule>
+                        <Schedule type="week">
+                          <WeekSchedule scheduleType="weekSchedule.2">
+                            <HoursPerWeek>07:00</HoursPerWeek>
+                            <TimeBlocks>
+                              <TimeBlock><DayIdx>4</DayIdx><BeginHour>08:00</BeginHour><EndHour>09:00</EndHour><Duration>01:00</Duration></TimeBlock>
+                              <TimeBlock><DayIdx>2</DayIdx><BeginHour>09:00</BeginHour><EndHour>15:00</EndHour><Duration>06:00</Duration></TimeBlock>
+                            </TimeBlocks>
+                          </WeekSchedule>
+                        </Schedule>
+                      </WorkSchedule>
+                    */
+                    
+                    SAXReader reader = new SAXReader(false);
+                    Document document = reader.read(new StringReader(this.scheduleXml));
+                    Element rootElem = document.getRootElement(); // WorkSchedule
+                    Element workScheduleElem = rootElem.element("Schedule");
+                    Element weekScheduleElem = workScheduleElem.element("WeekSchedule");
+                             
+                    Element timeBlockElems = weekScheduleElem.element("TimeBlocks");
+                    if(timeBlocks!=null){
+                        Iterator timeBlockIter = timeBlockElems.elementIterator("TimeBlock");
+        
+                        String sTmpDayIdx, sTmpBeginHour, sTmpEndHour, sTmpDuration;
+                        Element timeBlockElem;
+                        
+                        while(timeBlockIter.hasNext()){
+                            timeBlockElem = (Element)timeBlockIter.next();
+                                                    
+                            sTmpDayIdx    = ScreenHelper.checkString(timeBlockElem.elementText("DayIdx"));
+                            sTmpBeginHour = ScreenHelper.checkString(timeBlockElem.elementText("BeginHour"));
+                            sTmpEndHour   = ScreenHelper.checkString(timeBlockElem.elementText("EndHour"));
+                            sTmpDuration  = ScreenHelper.checkString(timeBlockElem.elementText("Duration"));
+                            
+                            TimeBlock timeBlock = new TimeBlock();
+                            timeBlock.dayIdx    = sTmpDayIdx;
+                            timeBlock.beginHour = sTmpBeginHour;
+                            timeBlock.endHour   = sTmpEndHour;
+                            timeBlock.duration  = sTmpDuration;
+                            
+                            timeBlocks.add(timeBlock);
+                        }
+                    }
+                }
+            }
+            else{
+                Debug.println("WARNING : Workschedule.parseWeekschedule() only applicable for type = 'week' while type is '"+this.type+"'.");
+            }
+            
+            parsedTimeBlocks = timeBlocks; // store on class-level for future use
         }
         
         return timeBlocks;
@@ -227,7 +386,7 @@ public class Workschedule extends OC_Object {
             
     //--- STORE -----------------------------------------------------------------------------------
     public boolean store(String userUid){
-    	boolean errorOccurred = false;
+        boolean errorOccurred = false;
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sSql;
@@ -239,7 +398,7 @@ public class Workschedule extends OC_Object {
                 // insert new record
                 sSql = "INSERT INTO hr_workschedule (HR_WORKSCHEDULE_SERVERID,HR_WORKSCHEDULE_OBJECTID,HR_WORKSCHEDULE_PERSONID,"+
                        "  HR_WORKSCHEDULE_BEGINDATE,HR_WORKSCHEDULE_ENDDATE,HR_WORKSCHEDULE_FTE,HR_WORKSCHEDULE_SCHEDULE,"+
-                	   "  HR_WORKSCHEDULE_UPDATETIME, HR_WORKSCHEDULE_UPDATEID)"+ // update-info
+                       "  HR_WORKSCHEDULE_UPDATETIME, HR_WORKSCHEDULE_UPDATEID)"+ // update-info
                        " VALUES(?,?,?,?,?,?,?,?,?)"; // 9
                 ps = oc_conn.prepareStatement(sSql);
                 
@@ -279,7 +438,7 @@ public class Workschedule extends OC_Object {
                 // update existing record
                 sSql = "UPDATE hr_workschedule SET"+
                        "  HR_WORKSCHEDULE_BEGINDATE = ?, HR_WORKSCHEDULE_ENDDATE = ?,"+
-                	   "  HR_WORKSCHEDULE_FTE = ?, HR_WORKSCHEDULE_SCHEDULE = ?,"+
+                       "  HR_WORKSCHEDULE_FTE = ?, HR_WORKSCHEDULE_SCHEDULE = ?,"+
                        "  HR_WORKSCHEDULE_UPDATETIME = ?, HR_WORKSCHEDULE_UPDATEID = ?"+ // update-info
                        " WHERE (HR_WORKSCHEDULE_SERVERID = ? AND HR_WORKSCHEDULE_OBJECTID = ?)"; // identification
                 ps = oc_conn.prepareStatement(sSql);
@@ -315,8 +474,8 @@ public class Workschedule extends OC_Object {
             }            
         }
         catch(Exception e){
-        	errorOccurred = true;
-        	if(Debug.enabled) e.printStackTrace();
+            errorOccurred = true;
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -335,33 +494,82 @@ public class Workschedule extends OC_Object {
     
     //--- GET SCHEDULE ELEMENT VALUE --------------------------------------------------------------
     public String getScheduleElementValue(String scheduleType, String sElementName){
-    	String sValue = "";
-    	
-    	try{
-	    	// parse schedule from xml        	
-	        SAXReader reader = new SAXReader(false);
-	        Document document = reader.read(new StringReader(scheduleXml));
-	        Element scheduleElem = document.getRootElement();
-	            	
-	    	if(scheduleType.equalsIgnoreCase("day")){
-	    		sValue = ScreenHelper.checkString(scheduleElem.elementText(sElementName));
-	    	}
-	    	else if(scheduleType.equalsIgnoreCase("week")){
-	    		Element weekSchedule = scheduleElem.element("WeekSchedule");
-	    		if(weekSchedule!=null){
-	    		    sValue = weekSchedule.asXML();
-	    		}
-	    	}
-	    	else if(scheduleType.equalsIgnoreCase("month")){
-	    		sValue = ScreenHelper.checkString(scheduleElem.elementText(sElementName));
-	    	}
-    	}
-    	catch(Exception e){
-    		e.printStackTrace();
+        /*
+            *** DAY ***
+            <WorkSchedule>
+              <Schedule type="day">
+                <BeginHour>10:00</BeginHour>
+                <EndHour>15:00</EndHour>
+                <HoursPerDay>05:00</HoursPerDay>
+              </Schedule>
+            </WorkSchedule>
+            
+            *** WEEK ***
+            <WorkSchedule>
+              <Schedule type="week">
+                <WeekSchedule scheduleType="weekSchedule.0">
+                  <HoursPerWeek>08:00</HoursPerWeek>
+                  <TimeBlocks>
+                    <TimeBlock>
+                      <DayIdx>7</DayIdx>
+                      <BeginHour>08:00</BeginHour>
+                      <EndHour>10:00</EndHour>
+                      <Duration>02:00</Duration>
+                    </TimeBlock>
+                    ...
+                  </TimeBlocks>
+                </WeekSchedule>
+              </Schedule>
+            </WorkSchedule>
+            
+            *** MONTH ***
+            <WorkSchedule>
+              <Schedule type="month">
+                <PredefinedHoursPerMonth>160</PredefinedHoursPerMonth>
+                <HoursPerMonth>160</HoursPerMonth>
+              </Schedule>
+            </WorkSchedule>
+        */
+        
+        String sValue = "";
+        
+        try{
+            // parse schedule from xml            
+            SAXReader reader = new SAXReader(false);
+            Document document = reader.read(new StringReader(scheduleXml));
+            Element scheduleElem = document.getRootElement();
+                    
+            if(scheduleType.equalsIgnoreCase("day")){
+                Element schedule = scheduleElem.element("Schedule");
+                if(schedule!=null){
+                    sValue = ScreenHelper.checkString(schedule.elementText(sElementName));
+                }
+                else{
+                    sValue = ScreenHelper.checkString(scheduleElem.elementText(sElementName));
+                }
+            }
+            else if(scheduleType.equalsIgnoreCase("week")){
+                Element weekSchedule = scheduleElem.element("WeekSchedule");
+                if(weekSchedule!=null){
+                    sValue = weekSchedule.asXML();
+                }
+            }
+            else if(scheduleType.equalsIgnoreCase("month")){
+                Element schedule = scheduleElem.element("Schedule");
+                if(schedule!=null){
+                    sValue = ScreenHelper.checkString(schedule.elementText(sElementName));
+                }
+                else{
+                    sValue = ScreenHelper.checkString(scheduleElem.elementText(sElementName));
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
-    	}
-    	
-    	return sValue;
+        }
+        
+        return sValue;
     }
 
     
@@ -371,7 +579,7 @@ public class Workschedule extends OC_Object {
 
     //--- DELETE ----------------------------------------------------------------------------------
     public static boolean delete(String sScheduleUid){
-    	boolean errorOccurred = false;
+        boolean errorOccurred = false;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -387,8 +595,8 @@ public class Workschedule extends OC_Object {
             ps.executeUpdate();
         }
         catch(Exception e){
-        	errorOccurred = true;
-        	if(Debug.enabled) e.printStackTrace();
+            errorOccurred = true;
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -407,11 +615,11 @@ public class Workschedule extends OC_Object {
     
     //--- GET -------------------------------------------------------------------------------------
     public static Workschedule get(Workschedule schedule){
-    	return get(schedule.getUid());
+        return get(schedule.getUid());
     }
        
     public static Workschedule get(String sScheduleUid){
-    	Workschedule schedule = null;
+        Workschedule schedule = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -435,7 +643,7 @@ public class Workschedule extends OC_Object {
                 schedule.end         = rs.getDate("HR_WORKSCHEDULE_ENDDATE");
                 schedule.fte         = rs.getInt("HR_WORKSCHEDULE_FTE");
                 schedule.scheduleXml = ScreenHelper.checkString(rs.getString("HR_WORKSCHEDULE_SCHEDULE")); 
-            	//schedule.type        = getWorkscheduleType(schedule); // too time-consuming ?
+                //schedule.type        = getWorkscheduleType(schedule); // too time-consuming ?
                 
                 // parent
                 schedule.setUpdateDateTime(rs.getTimestamp("HR_WORKSCHEDULE_UPDATETIME"));
@@ -443,7 +651,7 @@ public class Workschedule extends OC_Object {
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -462,7 +670,7 @@ public class Workschedule extends OC_Object {
         
     //--- GET LIST --------------------------------------------------------------------------------
     public static List<Workschedule> getList(){
-    	return getList(new Workschedule());     	
+        return getList(new Workschedule());         
     }
     
     public static List<Workschedule> getList(Workschedule findItem){
@@ -473,7 +681,7 @@ public class Workschedule extends OC_Object {
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         
         try{
-        	// compose query
+            // compose query
             String sSql = "SELECT * FROM hr_workschedule WHERE 1=1"; // 'where' facilitates further composition of query
 
             if(findItem.personId > -1){
@@ -520,25 +728,25 @@ public class Workschedule extends OC_Object {
             Workschedule schedule;
             
             while(rs.next()){
-            	schedule = new Workschedule();                
-            	schedule.setUid(rs.getString("HR_WORKSCHEDULE_SERVERID")+"."+rs.getString("HR_WORKSCHEDULE_OBJECTID"));
+                schedule = new Workschedule();                
+                schedule.setUid(rs.getString("HR_WORKSCHEDULE_SERVERID")+"."+rs.getString("HR_WORKSCHEDULE_OBJECTID"));
 
-            	schedule.personId    = rs.getInt("HR_WORKSCHEDULE_PERSONID");
-            	schedule.begin       = rs.getDate("HR_WORKSCHEDULE_BEGINDATE");
-            	schedule.end         = rs.getDate("HR_WORKSCHEDULE_ENDDATE");
-            	schedule.fte         = rs.getInt("HR_WORKSCHEDULE_FTE");
-            	schedule.scheduleXml = ScreenHelper.checkString(rs.getString("HR_WORKSCHEDULE_SCHEDULE"));
-            	//schedule.type        = getWorkscheduleType(schedule); // too time-consuming ? 
+                schedule.personId    = rs.getInt("HR_WORKSCHEDULE_PERSONID");
+                schedule.begin       = rs.getDate("HR_WORKSCHEDULE_BEGINDATE");
+                schedule.end         = rs.getDate("HR_WORKSCHEDULE_ENDDATE");
+                schedule.fte         = rs.getInt("HR_WORKSCHEDULE_FTE");
+                schedule.scheduleXml = ScreenHelper.checkString(rs.getString("HR_WORKSCHEDULE_SCHEDULE"));
+                //schedule.type        = getWorkscheduleType(schedule); // too time-consuming ? 
                 
                 // parent
-            	schedule.setUpdateDateTime(rs.getTimestamp("HR_WORKSCHEDULE_UPDATETIME"));
-            	schedule.setUpdateUser(rs.getString("HR_WORKSCHEDULE_UPDATEID"));
+                schedule.setUpdateDateTime(rs.getTimestamp("HR_WORKSCHEDULE_UPDATETIME"));
+                schedule.setUpdateUser(rs.getString("HR_WORKSCHEDULE_UPDATEID"));
                 
                 foundObjects.add(schedule);
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
+            if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -557,26 +765,26 @@ public class Workschedule extends OC_Object {
 
     //--- GET WORKSCHEDULE TYPE -------------------------------------------------------------------
     public static String getWorkscheduleType(Workschedule schedule){
-    	String sType = "";
-    	
-    	try{
-	    	// parse weekSchedule from xml            
-	        SAXReader reader = new SAXReader(false);
-	        Document document = reader.read(new StringReader(schedule.scheduleXml));
-	        Element workScheduleElem = document.getRootElement();
-	        
-	        // attribute : type
-	        Element scheduleElem = workScheduleElem.element("Schedule");
-	        if(scheduleElem!=null){                 
-	            sType = ScreenHelper.checkString(scheduleElem.attributeValue("type"));
-	        }
-    	}
-	    catch(Exception e){
-	    	if(Debug.enabled) e.printStackTrace();
-	        Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
-	    }
-    	
-    	return sType;
+        String sType = "";
+        
+        try{
+            // parse weekSchedule from xml            
+            SAXReader reader = new SAXReader(false);
+            Document document = reader.read(new StringReader(schedule.scheduleXml));
+            Element workScheduleElem = document.getRootElement();
+            
+            // attribute : type
+            Element scheduleElem = workScheduleElem.element("Schedule");
+            if(scheduleElem!=null){                 
+                sType = ScreenHelper.checkString(scheduleElem.attributeValue("type"));
+            }
+        }
+        catch(Exception e){
+            if(Debug.enabled) e.printStackTrace();
+            Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
+        }
+        
+        return sType;
     }
      
 }

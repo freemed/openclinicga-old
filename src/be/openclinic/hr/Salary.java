@@ -50,6 +50,43 @@ public class Salary extends OC_Object {
         
         comment = "";
     }
+    
+    //--- IS ACTIVE -------------------------------------------------------------------------------
+    public boolean isActive(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.util.Date()); // now
+        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.MILLISECOND,0);
+        
+        return isActive(cal.getTime()); // the very beginning of today
+    }
+    
+    public boolean isActive(java.util.Date date){
+        boolean isActive = false;
+                 
+        // both dates exist
+        if(this.begin!=null && this.end!=null){
+            if(this.begin.getTime() <= date.getTime() && this.end.getTime() >= date.getTime()){
+                isActive = true;
+            }
+        }
+        // only begin exists
+        else if(this.begin!=null){
+            if(this.begin.getTime() <= date.getTime()){
+                isActive = true;
+            }
+        }
+        // only end exists
+        else if(this.end!=null){
+            if(this.end.getTime() >= date.getTime()){
+                isActive = true;
+            }
+        }
+    
+        return isActive;
+    }
         
     //--- STORE -----------------------------------------------------------------------------------
     public boolean store(String userUid){

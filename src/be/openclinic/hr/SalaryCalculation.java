@@ -27,7 +27,8 @@ public class SalaryCalculation extends OC_Object {
 	    	<column name="OC_CALCULATION_BEGIN" dbtype="datetime" javatype="date"/>
 	    	<column name="OC_CALCULATION_END" dbtype="datetime" javatype="date"/>
 	    	<column name="OC_CALCULATION_PERSONID" dbtype="int" javatype="integer"/>  
-	    	<column name="OC_CALCULATION_SOURCE" dbtype="varchar(50)" javatype="String"/>  	     
+	    	<column name="OC_CALCULATION_SOURCE" dbtype="varchar(50)" javatype="String"/>  
+	    	<column name="OC_CALCULATION_TYPE" dbtype="varchar(50)" javatype="String"/>  	     
 		    <column name="OC_CALCULATION_UPDATETIME" dbtype="datetime" javatype="date"/>
 	    	<column name="OC_CALCULATION_UPDATEID" dbtype="int" javatype="integer"/>
 	      </columns>
@@ -41,8 +42,10 @@ public class SalaryCalculation extends OC_Object {
     public java.util.Date begin;
     public java.util.Date end;
 
+    public String source; // 'script' or 'manual'
+    public String type; // 'leave' or 'workschedule'
+    
     public Vector codes; // not in DB
-    public String source; // not in DB, 'workschedule' or 'manual'
     
     //--- CONSTRUCTOR ---
     public SalaryCalculation(){
@@ -53,11 +56,14 @@ public class SalaryCalculation extends OC_Object {
         begin = null;
         end = null;
         
-        codes = new Vector();
         source = "";
+        type = "";
+
+        codes = new Vector();
     }
     
     //--- GET CODES FROM DB -----------------------------------------------------------------------
+    // the calculation codes belonging to this calculation
     public static Vector getCodesFromDB(String sSalCalUID){
     	Vector codes = new Vector();
     	
@@ -138,9 +144,10 @@ public class SalaryCalculation extends OC_Object {
             		periodBegin.add(Calendar.DATE,1); // proceed one day
             		
                     sSql = "INSERT INTO OC_SALARYCALCULATIONS (OC_CALCULATION_SERVERID,OC_CALCULATION_OBJECTID,"+
-                           "  OC_CALCULATION_BEGIN,OC_CALCULATION_END,OC_CALCULATION_PERSONID,OC_CALCULATION_SOURCE,"+
+                           "  OC_CALCULATION_BEGIN,OC_CALCULATION_END,OC_CALCULATION_PERSONID,"+
+                    	   "  OC_CALCULATION_SOURCE,OC_CALCULATION_TYPE,"+
                     	   "  OC_CALCULATION_UPDATETIME, OC_CALCULATION_UPDATEID)"+ // update-info
-                           " VALUES(?,?,?,?,?,?,?,?)"; // 8
+                           " VALUES(?,?,?,?,?,?,?,?,?)"; // 9
                     ps = oc_conn.prepareStatement(sSql);
                     
                     int serverId = MedwanQuery.getInstance().getConfigInt("serverId"),
@@ -170,6 +177,7 @@ public class SalaryCalculation extends OC_Object {
                     
                     ps.setInt(psIdx++,personId);
                     ps.setString(psIdx++,source);
+                    ps.setString(psIdx++,type);
 
                     ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
                     ps.setString(psIdx,sUserUid);
@@ -200,7 +208,8 @@ public class SalaryCalculation extends OC_Object {
             		
 	                sSql = "UPDATE OC_SALARYCALCULATIONS SET"+
 	                       "  OC_CALCULATION_BEGIN = ?, OC_CALCULATION_END = ?, OC_CALCULATION_PERSONID = ?,"+
-	                       "  OC_CALCULATION_SOURCE = ?, OC_CALCULATION_UPDATETIME = ?, OC_CALCULATION_UPDATEID = ?"+ // update-info
+	                       "  OC_CALCULATION_SOURCE = ?, OC_CALCULATION_TYPE = ?,"+
+	                       "  OC_CALCULATION_UPDATETIME = ?, OC_CALCULATION_UPDATEID = ?"+ // update-info
 	                       " WHERE (OC_CALCULATION_SERVERID = ? AND OC_CALCULATION_OBJECTID = ?)"; // identification
 	                ps = oc_conn.prepareStatement(sSql);
 	
@@ -225,6 +234,7 @@ public class SalaryCalculation extends OC_Object {
 	
 	                ps.setInt(psIdx++,personId);
                     ps.setString(psIdx++,source);
+                    ps.setString(psIdx++,type);
 	                ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
 	                ps.setString(psIdx++,sUserUid);
 	                
@@ -365,6 +375,7 @@ public class SalaryCalculation extends OC_Object {
 
                 calculation.personId = rs.getInt("OC_CALCULATION_PERSONID");
             	calculation.source   = rs.getString("OC_CALCULATION_SOURCE");
+            	calculation.type     = rs.getString("OC_CALCULATION_TYPE");
                 calculation.begin    = rs.getDate("OC_CALCULATION_BEGIN");
                 calculation.end      = rs.getDate("OC_CALCULATION_END");
                 
@@ -393,8 +404,8 @@ public class SalaryCalculation extends OC_Object {
         return calculation;
     }
     
-    //--- GET ON DATE -----------------------------------------------------------------------------
-    public static SalaryCalculation getOnDate(java.util.Date date){
+    //--- GET CALCULATION ON DATE -----------------------------------------------------------------
+    public static SalaryCalculation getCalculationOnDate(java.util.Date date){
     	SalaryCalculation calculation = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -415,6 +426,7 @@ public class SalaryCalculation extends OC_Object {
     	    	
                 calculation.personId = rs.getInt("OC_CALCULATION_PERSONID");
             	calculation.source   = rs.getString("OC_CALCULATION_SOURCE");
+            	calculation.type     = rs.getString("OC_CALCULATION_TYPE");
                 calculation.begin    = rs.getDate("OC_CALCULATION_BEGIN");
                 calculation.end      = rs.getDate("OC_CALCULATION_END");
                 
@@ -477,6 +489,14 @@ public class SalaryCalculation extends OC_Object {
                 sSql+= " AND OC_CALCULATION_END <= '"+sqlDateFormat.format(findItem.end)+"'";
             }
             
+            if(findItem.source.length() > 0){
+                sSql+= " AND OC_CALCULATION_SOURCE = '"+findItem.source+"'";
+            }
+            
+            if(findItem.type.length() > 0){
+                sSql+= " AND OC_CALCULATION_TYPE = '"+findItem.type+"'";
+            }
+            
             sSql+= " ORDER BY OC_CALCULATION_OBJECTID ASC";
             
             ps = oc_conn.prepareStatement(sSql);
@@ -491,6 +511,7 @@ public class SalaryCalculation extends OC_Object {
 
             	calculation.personId = rs.getInt("OC_CALCULATION_PERSONID");
             	calculation.source   = rs.getString("OC_CALCULATION_SOURCE");
+            	calculation.type     = rs.getString("OC_CALCULATION_TYPE");
             	calculation.begin    = rs.getDate("OC_CALCULATION_BEGIN");
             	calculation.end      = rs.getDate("OC_CALCULATION_END");
                 

@@ -3,6 +3,7 @@ package be.openclinic.hr;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
+import be.openclinic.system.Config;
 
 import java.util.*;
 import java.sql.*;
@@ -11,12 +12,18 @@ import net.admin.User;
 
 
 public class SalaryCalculationManager /*extends OC_Object*/ {
+
     
-    //--- CREATE SALARY CALCULATIONS --------------------------------------------------------------
-    // for each employee, create a salarycalculation for each day he is supposed to work in the 
-    // specified period, according to his workschedule(s).
-    public static int createSalaryCalculations(java.util.Date periodBegin, java.util.Date periodEnd,
-                                               User activeUser) throws Exception {        
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////                    FOR WORKSCHEDULES                       ////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+	
+    //--- CREATE SALARY CALCULATIONS FOR WORKSCHEDULES --------------------------------------------
+    // for each employee, create a salary calculation for each day he is supposed to work in the 
+    // specified period, according to his work schedule(s).
+    public static int[] createSalaryCalculationsForWorkschedules(java.util.Date periodBegin, 
+    		                                                     java.util.Date periodEnd,
+                                                                 User activeUser) throws Exception {        
         // currMonth : begin and end
         Calendar now = Calendar.getInstance();        
         int month = now.get(Calendar.MONTH)+1;
@@ -35,31 +42,34 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
         if(periodEnd==null) periodEnd = currMonthEnd;
 
         Debug.println("\n###############################################################################");
-        Debug.println("######################     createSalaryCalculations     #######################");
+        Debug.println("##############     createSalaryCalculationsForWorkschedules     ###############");
         Debug.println("###############################################################################");
         Debug.println("periodBegin : "+ScreenHelper.stdDateFormat.format(periodBegin));
         Debug.println("periodEnd   : "+ScreenHelper.stdDateFormat.format(periodEnd));
         
-        //Vector personIds = /*MedwanQuery.getInstance().*/getPersonIds(); // TODO ooooooooooooooooooooooooooo
-        Vector personIds = new Vector();
-        personIds.add(new Integer(9967)); // TODO ooooooooooooooooooooooooooooooooooooooooo
-        personIds.add(new Integer(9968)); // TODO ooooooooooooooooooooooooooooooooooooooooo
+        Vector personIds = getPersonIds(); 
+        Debug.println("personIds   : "+personIds.size());
         
-        int personId, calculationsCreated = 0;    
+        int personId;
+        int[] counters;
+        int calculationsCreated = 0, calculationsExisted = 0;
+        
         for(int i=0; i<personIds.size(); i++){
             personId = ((Integer)personIds.get(i)).intValue();
             
-            calculationsCreated+= createSalaryCalculationsForPerson(personId,periodBegin,periodEnd,activeUser);
+            counters = createSalaryCalculationsForWorkschedulesForPerson(personId,periodBegin,periodEnd,activeUser);
+            calculationsCreated+= counters[0];
+            calculationsExisted+= counters[1]; 
         }        
         
-        return calculationsCreated;
+        return new int[]{calculationsCreated,calculationsExisted};
     }
     
-    //--- CREATE SALARY CALCULATIONS FOR PERSON ---------------------------------------------------
-    // return : number of calculations created
-    public static int createSalaryCalculationsForPerson(int personId, java.util.Date begin, 
-                                                        java.util.Date end, User activeUser){
-        Debug.println("\n***** createSalaryCalculationsForPerson *****************************");
+    //--- CREATE SALARY CALCULATIONS FOR WORKSCHEDULES FOR PERSON ---------------------------------
+    // return : number of calculations created/existing
+    public static int[] createSalaryCalculationsForWorkschedulesForPerson(int personId, java.util.Date begin, 
+                                                                          java.util.Date end, User activeUser){
+        Debug.println("\n***** createSalaryCalculationsForWorkschedulesForPerson *************");
         Debug.println("personId : "+personId);
         Debug.println("begin    : "+ScreenHelper.stdDateFormat.format(begin));
         Debug.println("end      : "+ScreenHelper.stdDateFormat.format(end));
@@ -89,7 +99,7 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
                 workschedule.type = Workschedule.getWorkscheduleType(workschedule);
                 Debug.println("type : "+workschedule.type);
         
-                // for weekSchedules, write down the days in which the employee does not work
+                // for weekSchedules, write down the days in which the employee works
                 boolean[] workDays = workschedule.getWorkDays();
                 
                 Debug.println("\nworkDays : "); //////////
@@ -136,30 +146,34 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
                     cal.setTime(currDate);
                                     
                     if(workDays[cal.get(Calendar.DAY_OF_WEEK)-1]==false){
-                        System.out.println("[INFO] : "+ScreenHelper.stdDateFormat.format(currDate)+" ["+(cal.get(Calendar.DAY_OF_WEEK)-1)+"] is defined as a day not to work by the workschedule."); /////////
+                        System.out.println("[INFO] : "+ScreenHelper.stdDateFormat.format(currDate)+" [dayIdx "+(cal.get(Calendar.DAY_OF_WEEK)-1)+"] is defined by the workschedule, as a day not to work."); /////////
                         periodBegin.add(Calendar.DATE,1); // proceed one day                        
                     }
                     else{
-                        System.out.println("###### currDate : "+ScreenHelper.stdDateFormat.format(currDate)+" ["+(cal.get(Calendar.DAY_OF_WEEK)-1)+"] ###############"); /////////                
-                        periodBegin.add(Calendar.DATE,1); // proceed one day
-                                        
+                        System.out.println("###### currDate : "+ScreenHelper.stdDateFormat.format(currDate)+" [dayIdx "+(cal.get(Calendar.DAY_OF_WEEK)-1)+"] ###############"); /////////                
+                                       
                         // check existence of calculation
-                        calculation = SalaryCalculation.getOnDate(currDate);
+                        calculation = SalaryCalculation.getCalculationOnDate(currDate);
                         if(calculation==null){
+                        	// create new calculation
                             calculation = new SalaryCalculation();
                             calculation.setUid("-1"); // new
                             
                             calculation.personId = personId;
                             calculation.begin = currDate;
-                            calculation.end = currDate;
+                            calculation.end = currDate; // same as begin --> one calculation per day
                             String sSalCalUID = calculation.store(activeUser.userid); // first store calculation to obtain UID
                             
                             // add codes
-                            calculation.codes = getDefaultSalaryCodes(sSalCalUID);
+                            float duration = workschedule.getDuration(currDate);
+                            Debug.println("duration ("+ScreenHelper.stdDateFormat.format(currDate)+") : "+duration);
+                            
+                            calculation.codes = getDefaultWorkscheduleSalaryCodes(sSalCalUID,duration);
                             Debug.println(" Saving "+calculation.codes.size()+" codes");
                             
                             // save calculation
-                            calculation.source = "workschedule"; // color differs according to type (purple is manual, blue is by script)
+                            calculation.source = "script"; // color differs according to source (purple is 'manual', blue is 'script')
+                            calculation.type = "workschedule";
                             calculation.store(activeUser.userid); // save again, the calculation now contains codes
                             
                             calculationsCreated++;   
@@ -167,7 +181,9 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
                         else{
                             System.out.println(" A calculation on '"+ScreenHelper.stdDateFormat.format(currDate)+"' exists, no action taken"); //////////
                             calculationsExisted++;
-                        }                        
+                        }
+                        
+                        periodBegin.add(Calendar.DATE,1); // proceed one day                        
                     }
                 }            
             }
@@ -175,31 +191,247 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
 
         Debug.println("--> calculationsCreated : "+calculationsCreated);
         Debug.println("--> calculationsExisted : "+calculationsExisted);
-        return calculationsCreated;
+        return new int[]{calculationsCreated,calculationsExisted};
+    }
+
+    //--- GET DEFAULT WORKSCHEDULE SALARY CODES ---------------------------------------------------
+    private static Vector getDefaultWorkscheduleSalaryCodes(String sSalCalUID, float durationAccordingToSchedule){
+        Vector codes = new Vector();
+        
+        SalaryCalculationCode salCalCode = new SalaryCalculationCode();
+        salCalCode.setUid("-1"); // new
+        salCalCode.calculationUid = sSalCalUID;
+        salCalCode.code = MedwanQuery.getInstance().getConfigString("hr.salarycalculationcode.workday","workday");
+        salCalCode.duration = durationAccordingToSchedule;
+        codes.add(salCalCode);
+        
+        return codes;
     }
     
-    //--- GET PERSON IDS --------------------------------------------------------------------------
-    private Vector getPersonIds(){
-        Vector personIds = new Vector();
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////                      FOR LEAVES                            ////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        // TODO : how to obtain these employees ? //////////////////////////////////////////////////////////////// todo    
+    //--- CREATE SALARY CALCULATIONS FOR LEAVES ---------------------------------------------------
+    // for each employee, create a salary calculation for each day he is NOT supposed to work in the 
+    // specified period, according to his leave(s).
+    public static int[] createSalaryCalculationsForLeaves(java.util.Date periodBegin, 
+    		                                              java.util.Date periodEnd,
+                                                          User activeUser) throws Exception {        
+        // currMonth : begin and end
+        Calendar now = Calendar.getInstance();        
+        int month = now.get(Calendar.MONTH)+1;
+        String sMonth = Integer.toString(month);
+        if(month < 10){
+            sMonth = "0"+sMonth;
+        }
+        
+        String sCurrMonthBegin = "01/"+sMonth+"/"+now.get(Calendar.YEAR),
+               sCurrMonthEnd   = now.getActualMaximum(Calendar.DAY_OF_MONTH)+"/"+sMonth+"/"+now.get(Calendar.YEAR);
+
+        java.util.Date currMonthBegin = ScreenHelper.stdDateFormat.parse(sCurrMonthBegin),
+                       currMonthEnd   = ScreenHelper.stdDateFormat.parse(sCurrMonthEnd);
+
+        if(periodBegin==null) periodBegin = currMonthBegin;
+        if(periodEnd==null) periodEnd = currMonthEnd;
+
+        Debug.println("\n###############################################################################");
+        Debug.println("#################     createSalaryCalculationsForLeaves     ###################");
+        Debug.println("###############################################################################");
+        Debug.println("periodBegin : "+ScreenHelper.stdDateFormat.format(periodBegin));
+        Debug.println("periodEnd   : "+ScreenHelper.stdDateFormat.format(periodEnd));
+        
+        Vector personIds = getPersonIds(); 
+        Debug.println("personIds   : "+personIds.size());
+        
+        int personId, counters[];
+        int calculationsCreated = 0, calculationsExisted = 0, calculationsOverruled = 0;
+        
+        for(int i=0; i<personIds.size(); i++){
+            personId = ((Integer)personIds.get(i)).intValue();
+            
+            counters = createSalaryCalculationsForLeavesForPerson(personId,periodBegin,periodEnd,activeUser);
+            
+            calculationsCreated+= counters[0];
+            calculationsExisted+= counters[1]; 
+            calculationsOverruled+= counters[2];
+        }        
+        
+        return new int[]{calculationsCreated,calculationsExisted,calculationsOverruled};
+    }
+    
+    //--- CREATE SALARY CALCULATIONS FOR LEAVES FOR PERSON ----------------------------------------
+    // return : number of calculations created/existing/overruled
+    public static int[] createSalaryCalculationsForLeavesForPerson(int personId, java.util.Date begin, 
+                                                                          java.util.Date end, User activeUser){
+        Debug.println("\n***** createSalaryCalculationsForLeavesForPerson ********************");
+        Debug.println("personId : "+personId);
+        Debug.println("begin    : "+ScreenHelper.stdDateFormat.format(begin));
+        Debug.println("end      : "+ScreenHelper.stdDateFormat.format(end));
+        
+        int calculationsCreated = 0, calculationsExisted = 0, calculationsOverruled = 0;
+        
+        // search leaves : compose object to pass search-criteria with
+        Leave findObject = new Leave();
+        findObject.personId = personId; // required
+        findObject.begin = begin;
+        findObject.end = end;
+        List leaves = Leave.getList(findObject);
+        
+        // these are the leaves which apply to the specified person, in the specified period
+        Debug.println("--> found "+leaves.size()+" leaves (active in specified period)");
+        
+        if(leaves.size() > 0){
+            Leave leave;
+            SalaryCalculation calculation;
+        
+            // run through leaves, saving a salary calculation for each day in the specified period 
+            // in which the person is expected not to work according to the leave
+            for(int i=0; i<leaves.size(); i++){
+                Debug.println("\n### [Leave "+i+"] ###################################################");
+                
+                leave = (Leave)leaves.get(i);
+                Debug.println("type : "+leave.type);
+
+                boolean[] workDays = leave.getWorkDays();
+                
+                Debug.println("\nworkDays : "); //////////
+                for(int w=0; w<workDays.length; w++){
+                    Debug.println("workDays["+w+"] : "+workDays[w]);
+                }
+                Debug.println(""); //////////
+
+                //*** determine period to create salary calculations for ***
+                // period begin
+                Calendar periodBegin = Calendar.getInstance();    
+                periodBegin.setTime(begin);
+                        
+                if(leave.begin!=null && leave.begin.getTime() >= periodBegin.getTime().getTime()){
+                    periodBegin.setTime(leave.begin);
+                    Debug.println("leave begin : "+ScreenHelper.stdDateFormat.format(leave.begin));
+                }
+                else{
+                    // when the leave has no begin, or a begin before the specified period, use the beginning of specified period
+                    Debug.println("leave has no begin");
+                }
+
+                // period end
+                Calendar periodEnd = Calendar.getInstance();
+                periodEnd.setTime(end);
+                
+                if(leave.end!=null && leave.end.getTime() <= periodEnd.getTime().getTime()){
+                    periodEnd.setTime(leave.end);
+                    Debug.println("leave end : "+ScreenHelper.stdDateFormat.format(leave.end));
+                }
+                else{
+                    // when the leave has no end, or an end after the specified period, use the end of specified period
+                    Debug.println("leave has no end");
+                }
+
+                Debug.println("\nperiodBegin : "+ScreenHelper.stdDateFormat.format(periodBegin.getTime()));
+                Debug.println("periodEnd   : "+ScreenHelper.stdDateFormat.format(periodEnd.getTime())+"\n");
+
+                //*** create a salary calculation for each day in the leave ***
+                java.util.Date currDate;            
+                while(periodBegin.getTime().getTime() <= periodEnd.getTime().getTime()){
+                    currDate = periodBegin.getTime();
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(currDate);
+                                    
+                    if(workDays[cal.get(Calendar.DAY_OF_WEEK)-1]==false){
+                        System.out.println("[INFO] : "+ScreenHelper.stdDateFormat.format(currDate)+" [dayIdx "+(cal.get(Calendar.DAY_OF_WEEK)-1)+"] is defined by the leave, as a day not to work."); /////////
+                        periodBegin.add(Calendar.DATE,1); // proceed one day                        
+                    }
+                    else{
+                        System.out.println("###### currDate : "+ScreenHelper.stdDateFormat.format(currDate)+" [dayIdx "+(cal.get(Calendar.DAY_OF_WEEK)-1)+"] ###############"); /////////                
+                                       
+                        // check existence of calculation
+                        calculation = SalaryCalculation.getCalculationOnDate(currDate);
+                        if(calculation==null || calculation.type.equalsIgnoreCase("workschedule")){
+                            calculationsCreated++;
+                            
+                        	if(calculation!=null){
+                                calculationsOverruled++;
+                                SalaryCalculation.delete(calculation.getUid());
+                        	}     
+                            
+                        	// create new calculation
+                            calculation = new SalaryCalculation();
+                            calculation.setUid("-1"); // new
+                            
+                            calculation.personId = personId;
+                            calculation.begin = currDate;
+                            calculation.end = currDate; // same as begin --> one calculation per day
+                            String sSalCalUID = calculation.store(activeUser.userid); // first store calculation to obtain UID
+                            
+                            // add codes
+                            float duration = (float)leave.duration;
+                            Debug.println("duration ("+ScreenHelper.stdDateFormat.format(currDate)+") : "+duration);
+                            
+                            calculation.codes = getDefaultLeaveSalaryCodes(sSalCalUID,duration,leave.type);
+                            Debug.println(" Saving "+calculation.codes.size()+" codes");
+                            
+                            // save calculation
+                            calculation.source = "script"; // color differs according to source (purple is 'manual', blue is 'script')
+                            calculation.type = "leave";
+                            calculation.store(activeUser.userid); // save again, the calculation now contains codes 
+                        }
+                        else{
+                            System.out.println(" A calculation on '"+ScreenHelper.stdDateFormat.format(currDate)+"' existed; overruled because not of type 'leave'"); //////////
+                            calculationsExisted++;
+                        }
+                        
+                        periodBegin.add(Calendar.DATE,1); // proceed one day                        
+                    }
+                }            
+            }
+        }
+
+        Debug.println("--> calculationsCreated   : "+calculationsCreated);
+        Debug.println("--> calculationsExisted   : "+calculationsExisted);
+        Debug.println("--> calculationsOverruled : "+calculationsOverruled);
+        return new int[]{calculationsCreated,calculationsExisted,calculationsOverruled};
+    }
+    
+    //--- GET DEFAULT LEAVE SALARY CODES ----------------------------------------------------------
+    private static Vector getDefaultLeaveSalaryCodes(String sSalCalUID, float durationAccordingToLeave, String leaveType){
+        Vector codes = new Vector();
+        
+        SalaryCalculationCode salCalCode = new SalaryCalculationCode();
+        salCalCode.setUid("-1"); // new
+        salCalCode.calculationUid = sSalCalUID;
+        salCalCode.code = MedwanQuery.getInstance().getConfigString("hr.salarycalculationcode."+leaveType,leaveType);
+          // hr.salarycalculationcode.illness
+          // hr.salarycalculationcode.vacation
+        salCalCode.duration = durationAccordingToLeave;
+        codes.add(salCalCode);
+        
+        return codes;
+    }
+   
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////                         VARIA                              ////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //--- GET PERSON IDS --------------------------------------------------------------------------
+    // only personnel --> dossiers with category and/or statute
+    private static Vector getPersonIds(){
+        Vector personIds = new Vector();
+    
         PreparedStatement ps = null;
         ResultSet rs = null;
         
-        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getAdminConnection();
         
         try{
             // compose query
-            String sSql = "SELECT personId FROM OC_PERSONNEL";            
-            ps = oc_conn.prepareStatement(sSql);
-            
-            /*
-            // where
-            int psIdx = 1;
-            ps.setInt(psIdx++,Integer.parseInt(sSalCalUID.substring(0,sSalCalUID.indexOf("."))));
-            ps.setInt(psIdx,Integer.parseInt(sSalCalUID.substring(sSalCalUID.indexOf(".")+1)));
-            */
-            
+            String sSql = "SELECT DISTINCT(a.personId) FROM admin a, adminextends e"+
+            		      " WHERE a.personId = e.personId"+
+            	          "  AND (e.labelid = 'category' OR e.labelid = 'statut')"+
+            		      "  AND "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(e.extendvalue) > 0";
+            ps = conn.prepareStatement(sSql);                       
             rs = ps.executeQuery();
                         
             while(rs.next()){
@@ -214,7 +446,7 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
             try{
                 if(rs!=null) rs.close();
                 if(ps!=null) ps.close();
-                oc_conn.close();
+                conn.close();
             }
             catch(SQLException se){
                 Debug.printProjectErr(se,Thread.currentThread().getStackTrace());
@@ -222,35 +454,6 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
         }
         
         return personIds;
-    }
-
-    //--- GET DEFAULT SALARY CODES ----------------------------------------------------------------
-    private static Vector getDefaultSalaryCodes(String sSalCalUID){
-        Vector codes = new Vector();
-
-        // TODO : how to obtain these codes ? //////////////////////////////////////////////////////////////// todo        
-        SalaryCalculationCode salCalCode = new SalaryCalculationCode();
-        salCalCode.setUid("-1"); // new
-        salCalCode.calculationUid = sSalCalUID;
-        salCalCode.code = "100";
-        salCalCode.duration = 5.3f;
-        codes.add(salCalCode);
-        
-        salCalCode = new SalaryCalculationCode();
-        salCalCode.setUid("-1"); // new
-        salCalCode.calculationUid = sSalCalUID;
-        salCalCode.code = "101";
-        salCalCode.duration = 2f;
-        codes.add(salCalCode);
-        
-        salCalCode = new SalaryCalculationCode();
-        salCalCode.setUid("-1"); // new
-        salCalCode.calculationUid = sSalCalUID;
-        salCalCode.code = "102";
-        salCalCode.duration = 8.1f;
-        codes.add(salCalCode);
-        
-        return codes;
     }
     
 }

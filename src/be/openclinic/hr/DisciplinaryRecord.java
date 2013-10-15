@@ -37,9 +37,36 @@ public class DisciplinaryRecord extends OC_Object {
         title = "";
         description = "";
         decision = "";
-        duration = -1;
+        duration = -1; // days
         decisionBy = "";
         followUp = "";
+    }
+    
+    //--- IS ACTIVE -------------------------------------------------------------------------------
+    public boolean isActive(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.util.Date()); // now
+        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.MILLISECOND,0);
+        
+        return isActive(cal.getTime()); // the very beginning of today
+    }
+    
+    public boolean isActive(java.util.Date targetDate){
+        boolean isActive = false;
+                
+        // period = date + duration
+        if(this.date!=null && this.duration > -1){
+        	long millisInDuration = (3600L*1000L*24L)*(long)duration;
+        	
+            if((targetDate.getTime() >= this.date.getTime()) && (targetDate.getTime()-(this.date.getTime()+millisInDuration) < 0)){
+                isActive = true;
+            }
+        }
+    
+        return isActive;
     }
         
     //--- STORE -----------------------------------------------------------------------------------
