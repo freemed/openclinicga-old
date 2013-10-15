@@ -33,7 +33,7 @@
 </table>
 
 <script>
-  document.getElementById("buttonYes").focus();
+  //document.getElementById("buttonYes").focus();
 
   <%-- DO CLOSE --%>
   function doClose(iReturn){
