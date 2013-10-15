@@ -4,7 +4,7 @@ var SORT_COLUMN_INDEX;
 var INITIAL_SORT_DIR = "up";
 
 function sortables_init(){
-  // Find all tables with class sortable and make them sortable
+  // Find all tables with class 'sortable' and make them sortable
   if(!document.getElementsByTagName) return;
 
   var tbls = document.getElementsByTagName("table");
