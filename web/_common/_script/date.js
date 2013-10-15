@@ -1,7 +1,7 @@
 function isFutureDate(d){
-	var dateParts=d.split("/");
-	var date = new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
-	return date>new Date();
+    var dateParts=d.split("/");
+    var date = new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
+    return date>new Date();
 }
 
 function before(dateStr1,dateStr2){
@@ -211,7 +211,7 @@ function checkDate(sobject) {
         }
       }
       if (isDate(sDay,sMonth,sYear)) {
-    	  sobject.value = sDay+"/"+sMonth+"/"+sYear;
+          sobject.value = sDay+"/"+sMonth+"/"+sYear;
         return true;
       }
       else {
@@ -286,84 +286,84 @@ function checkLongDate(sobject) {
 function y2k(number) { return (number < 1000) ? number + 1900 : number; }
 
 function isDate (day,month,year) {
-	var datestatus = true;
-	if (month < 1 || month > 12)
-	{ 
-		datestatus=false;
-	}
-	if (day < 1 || day > 31)
-	{
-		datestatus=false;
-	}
+    var datestatus = true;
+    if (month < 1 || month > 12)
+    { 
+        datestatus=false;
+    }
+    if (day < 1 || day > 31)
+    {
+        datestatus=false;
+    }
 
-	if ((month==4 || month==6 || month==9 || month==11) && day==31)
-	{
-		datestatus=false;
-	}
+    if ((month==4 || month==6 || month==9 || month==11) && day==31)
+    {
+        datestatus=false;
+    }
 
-	if (month == 2)
-	{ // check for february 29th
-		var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-		if (day > 29 || (day==29 && !isleap))
-		{
-			datestatus=false;
-		}
-	}
-	return datestatus;
+    if (month == 2)
+    { // check for february 29th
+        var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+        if (day > 29 || (day==29 && !isleap))
+        {
+            datestatus=false;
+        }
+    }
+    return datestatus;
 }
 
 function getToday (sobject) {
     var today = new Date();
     var sDay = today.getDate()+"";
-	if (sDay.length < 2) {
-	  sDay = "0"+sDay;
-	}
+    if (sDay.length < 2) {
+      sDay = "0"+sDay;
+    }
     var sMonth = (today.getMonth()+1)+"";
-	if (sMonth.length < 2){
-	  sMonth = "0"+sMonth;
-	}
+    if (sMonth.length < 2){
+      sMonth = "0"+sMonth;
+    }
     
-	sobject.value = (sDay+"/"+sMonth+"/"+today.getFullYear());
+    sobject.value = (sDay+"/"+sMonth+"/"+today.getFullYear());
 
-	try{
-	    sobject.focus();
-	}
-	catch(er){}
-//	sobject.value = (today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getYear());
+    try{
+        sobject.focus();
+    }
+    catch(er){}
+//    sobject.value = (today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getYear());
 //    sobject.focus();
 }
 
 function writeToday () {
     var today = new Date();
     var sDay = today.getDate()+"";
-	if (sDay.length < 2) {
-	  sDay = "0"+sDay;
-	}
+    if (sDay.length < 2) {
+      sDay = "0"+sDay;
+    }
     var sMonth = (today.getMonth()+1)+"";
-	if (sMonth.length < 2){
-	  sMonth = "0"+sMonth;
-	}
+    if (sMonth.length < 2){
+      sMonth = "0"+sMonth;
+    }
 
-	document.write(sDay+"/"+sMonth+"/"+today.getYear());
+    document.write(sDay+"/"+sMonth+"/"+today.getYear());
 }
 
 function showD(element, imgS, imgH) {
-	document.getElementsByName(element)[0].style.display='';
-	document.getElementsByName(imgH)[0].style.display='';
-	document.getElementsByName(imgS)[0].style.display='none';
+    document.getElementsByName(element)[0].style.display='';
+    document.getElementsByName(imgH)[0].style.display='';
+    document.getElementsByName(imgS)[0].style.display='none';
 }
 
 function hideD(element, imgS, imgH) {
-	document.getElementsByName(element)[0].style.display='none';
-	document.getElementsByName(imgH)[0].style.display='none';
-	document.getElementsByName(imgS)[0].style.display='';
+    document.getElementsByName(element)[0].style.display='none';
+    document.getElementsByName(imgH)[0].style.display='none';
+    document.getElementsByName(imgS)[0].style.display='';
 }
 
 function addDays(sdate1,sbetween) {
     if ((sdate1.length>0)&&(sbetween.length>0)) {
         var iDaydate1 = sdate1.substring(0,sdate1.indexOf("/"));
-	    var iMonthdate1  = sdate1.substring(sdate1.indexOf("/")+1, sdate1.lastIndexOf("/"));
-	    var iYeardate1  = sdate1.substring(sdate1.lastIndexOf("/")+1,sdate1.length);
+        var iMonthdate1  = sdate1.substring(sdate1.indexOf("/")+1, sdate1.lastIndexOf("/"));
+        var iYeardate1  = sdate1.substring(sdate1.lastIndexOf("/")+1,sdate1.length);
         var date1 = new Date(iYeardate1, iMonthdate1-1, iDaydate1);
         var iBetween = sbetween*24*60-1;
         var endDate = new Date(date1.getTime() + iBetween  * 60 * 1000);
@@ -372,6 +372,33 @@ function addDays(sdate1,sbetween) {
     else {
         return "";
     }
+}
+
+function decimalToTime(textField){
+  var decimalValue = textField.value;
+  
+  if(decimalValue.length > 0){
+	decimalValue = replaceAll(decimalValue,".",",");  
+    var hourValue = "";
+
+    // hour-part
+    var intValue = parseInt(decimalValue);
+    if(intValue < 10) hourValue+= "0";
+    hourValue+= intValue;
+
+    // minute-part
+    if(decimalValue.indexOf(",") > -1){
+      hourValue+= ":";
+      
+      var commaValue = decimalValue.substring(decimalValue.indexOf(",")+1);
+      if(commaValue.length==1) commaValue*= 10;
+      commaValue = (parseInt(commaValue)/100)*60;
+      if(commaValue < 10) hourValue+= "0";
+      hourValue+= commaValue;
+    }
+
+    textField.value = hourValue;
+  }
 }
 
 function checkTime(sobject){
@@ -408,6 +435,7 @@ function checkTime(sobject){
     sobject.value = sReturn;
   }
 }
+
 function putTime(sObject){
     var today = new Date();
     iHour = today.getHours();
@@ -424,6 +452,7 @@ function putTime(sObject){
     }
     sObject.value = sReturn;
 }
+
 function getTime(sObject){
     var today = new Date();
     iHour = today.getHours();
@@ -443,8 +472,41 @@ function getTime(sObject){
 
 function keypressTime(oObject){
   if(window.event.keyCode>47 && window.event.keyCode<58 && oObject.value.length==2){
-  	if(oObject.value.indexOf(":") < 0){
-      oObject.value+= ":";
-    }
+	if(oObject.value.indexOf(",") < 0 && oObject.value.indexOf(".") < 0){
+      if(oObject.value.indexOf(":") < 0){
+        oObject.value+= ":";
+      }
+	}
   }
+}
+
+function dateToString(dDate){
+  var iDay = dDate.getDate();
+  var iMonth = dDate.getMonth()+1;
+
+  if(iDay < 10){
+    iDay = "0"+iDay;
+  }
+
+  if(iMonth < 10){
+    iMonth = "0"+iMonth;
+  }
+
+  return iDay+"/"+iMonth+"/"+y2k(dDate.getFullYear());
+}
+
+function formatDate(sDate){
+  var dDate = makeDate(sDate);
+  var iDay = dDate.getDate();
+  var iMonth = dDate.getMonth()+1;
+
+  if(iDay < 10){
+    iDay = "0"+iDay;
+  }
+
+  if(iMonth < 10){
+    iMonth = "0"+iMonth;
+  }
+
+  return iDay+"/"+iMonth+"/"+y2k(dDate.getFullYear());
 }
