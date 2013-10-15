@@ -258,7 +258,7 @@
         parameters: "PatientId=<%=activePatient.personid%>",
         onSuccess: function(resp){
           $("divTrainings").innerHTML = resp.responseText;
-          sortables_init();
+          setTimeout("sortables_init()",500);
         },
         onFailure: function(resp){
           $("divMessage").innerHTML = "Error in 'hr/ajax/training/getTrainings.jsp' : "+resp.responseText.trim();

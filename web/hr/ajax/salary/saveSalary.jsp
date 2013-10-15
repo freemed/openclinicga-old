@@ -273,7 +273,7 @@
            sContractUid  = checkString(request.getParameter("contractUid")),
            sSalary       = checkString(request.getParameter("salary")),
            sSalaryPeriod = checkString(request.getParameter("salaryPeriod")),
-             sComment      = checkString(request.getParameter("comment"));
+           sComment      = checkString(request.getParameter("comment"));
     
     // xmls
     String sBenefits    = checkString(request.getParameter("benefits")),

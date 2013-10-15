@@ -58,6 +58,7 @@
             contract = (Contract)contracts.get(i);
             
             hSort.put(contract.beginDate.getTime()+"="+contract.getUid(),
+                     (contract.isActive()?"style='background:#99cccc;'":"")+  
                       " onclick=\"displayContract('"+contract.getUid()+"');\">"+
                       "<td class='hand' style='padding-left:5px'>"+contract.objectId+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(contract.beginDate)+"</td>"+

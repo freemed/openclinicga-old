@@ -193,7 +193,7 @@
             parameters: "PatientId=<%=activePatient.personid%>",
             onSuccess: function(resp){
               $("divContracts").innerHTML = resp.responseText;
-              sortables_init();
+              setTimeout("sortables_init()",500);
             },
             onFailure: function(resp){
               $("divMessage").innerHTML = "Error in 'hr/ajax/contract/getContracts.jsp' : "+resp.responseText.trim();

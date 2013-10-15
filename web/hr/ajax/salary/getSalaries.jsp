@@ -41,6 +41,7 @@
             }
             
             hSort.put(salary.begin.getTime()+"="+salary.getUid(),
+                     (salary.isActive()?"style='background:#99cccc;'":"")+
                       " onclick=\"displaySalary('"+salary.getUid()+"');\">"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(salary.begin)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(salary.end)+"</td>"+

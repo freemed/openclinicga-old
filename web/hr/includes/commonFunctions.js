@@ -1,17 +1,14 @@
 
 //-- REMOVE TR INDEXES --
-function removeTRIndexes(sTableArrayString){
-  var oneRow, sArrayString = "";
-    
-  while(sTableArrayString.indexOf("$") > -1){
-    oneRow = sTableArrayString.substring(0,sTableArrayString.indexOf("$"));
-    oneRow = oneRow.substring(oneRow.indexOf("=")+1); // trim off index
-    
-    sTableArrayString = sTableArrayString.substring(sTableArrayString.indexOf("$")+1);
-    sArrayString+= oneRow+"$";
-  }
-
-  return sArrayString;
+function removeTRIndexes(sRows){
+  var rows = sRows.split("$");
+  sRows = "";
+      
+  for(var i=0; i<rows.length-1; i++){
+    sRows+= rows[i].split("=")[1]+"$";
+  }    
+     
+  return sRows;
 }
  
 //-- SET ROW STYLE --
@@ -91,7 +88,9 @@ function replaceRowInArrayString(sArray,newRow,rowid){
 
 //-- UPDATE ROW STYLES --
 function updateRowStyles(){
-  if(document.getElementById("searchresults")!=null){
+  var searchresults = document.getElementById("searchresults"); // FF
+  
+  if(searchresults!=null){
     for(var i=1; i<searchresults.rows.length; i++){
       searchresults.rows[i].className = "";
       searchresults.rows[i].style.cursor = "hand";
@@ -100,5 +99,20 @@ function updateRowStyles(){
     for(var i=1; i<searchresults.rows.length; i++){
       setRowStyle(searchresults.rows[i],i);
     }
+  }
+}
+
+//-- ADD DAYS --
+function addDays(date,days){  
+  var iDaysInMinutes = days*24*60-1;
+  date = new Date(date.getTime()+(iDaysInMinutes*60*1000));
+    
+  return date;
+}
+
+//-- REMOVE TRAILING ZEROS --
+function removeTrailingZeros(textField){
+  while(textField.value.startsWith("0")){
+    textField.value = textField.value.substring(1); 
   }
 }

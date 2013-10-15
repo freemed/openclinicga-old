@@ -216,7 +216,7 @@
         parameters: "PatientId=<%=activePatient.personid%>",
         onSuccess: function(resp){
           $("divLeaves").innerHTML = resp.responseText;
-          sortables_init();
+          setTimeout("sortables_init()",500);
         },
         onFailure: function(resp){
           $("divMessage").innerHTML = "Error in 'hr/ajax/leave/getLeaves.jsp' : "+resp.responseText.trim();
@@ -336,7 +336,7 @@
       }
     }        
 
-    document.getElementById("duration").value = sDuration;
+    document.getElementById("duration").value = formatDecimalValue(sDuration,0,false);
   }
     
   EditForm.begin.focus();

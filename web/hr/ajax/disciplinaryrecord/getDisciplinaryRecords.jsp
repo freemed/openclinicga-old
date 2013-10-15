@@ -52,6 +52,7 @@
             disRec = (DisciplinaryRecord)disRecs.get(i);
 
             hSort.put(disRec.date.getTime()+"="+disRec.getUid(),
+                     (disRec.isActive()?"style='background:#99cccc;'":"")+ 
                       " onclick=\"displayDisrec('"+disRec.getUid()+"');\">"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(disRec.date)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+checkString(disRec.title)+"</td>"+

@@ -90,7 +90,7 @@
         if(moreCodes > 2) maxCodes = 5;
         
         // list codes
-        String sDescr = "";
+        String sCodes = "";
         totalDurationHours = 0.0f;
         for(int j=0; j<calculation.codes.size() && j<maxCodes; j++){
             code = (SalaryCalculationCode)calculation.codes.get(j);
@@ -100,13 +100,14 @@
             if(sLabel.length() > 18){
             	sLabel = sLabel.substring(0,18)+"..";
             }
-            sDescr+= "<i>"+(code.duration<10?"&nbsp;&nbsp;"+code.duration:code.duration)+"h : "+sLabel+"</i><br>";
+            
+            sCodes+= "<i>"+(code.duration<10?"&nbsp;&nbsp;":"")+doubleFormat.format(code.duration)+"h : "+sLabel+"</i><br>";
             totalDurationHours+= code.duration;
         }
         
         // "x more codes.." when no space to list all codes
         if(moreCodes > 0){
-            sDescr+= moreCodes+" "+getTranNoLink("web","more",sWebLanguage)+"..";
+        	sCodes+= moreCodes+" "+getTranNoLink("web","more",sWebLanguage)+"..";
         }
         
         Debug.println(" --> Found "+calculation.codes.size()+" codes for calculation:"+calculation.getUid());
@@ -115,9 +116,10 @@
         sHtml.append("\n<item>")
 	          .append("\n<id>"+calculation.getUid()+"</id>")
 	          .append("\n<source>"+calculation.source+"</source>")
-	          .append("\n<codes>"+sDescr+"</codes>")
+	          .append("\n<type>"+calculation.type+"</type>")
+	          .append("\n<codes>"+sCodes+"</codes>")
 	          .append("\n<totalDurationHours>"+doubleFormat.format(totalDurationHours)+"</totalDurationHours>")
-	          .append("\n<totalDurationDays>"+totalDurationDays+"</totalDurationDays>")
+	          .append("\n<totalDurationDays>"+totalDurationDays+"</totalDurationDays>") // always one
 	          .append("\n<begin>"+usDateFormat.format(calculation.begin)+"</begin>")
 	          .append("\n<end>"+usDateFormat.format(calculation.end)+"</end>")
         .append("\n</item>");

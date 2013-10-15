@@ -1,12 +1,17 @@
 <%@page import="be.openclinic.hr.Workschedule,
                 org.dom4j.DocumentException,
                 java.util.Vector,
-                java.text.*"%>
-<%@page import="java.io.StringReader"%>
+                java.text.*,
+                java.io.StringReader"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="../hr/includes/commonFunctions.jsp"%>
 <%=checkPermission("hr.workschedule.edit","edit",activeUser)%>
+
+<%=sJSPROTOTYPE%>
+<%=sJSNUMBER%> 
+<%=sJSSTRINGFUNCTIONS%>
+<%=sJSSORTTABLE%>
 
 <script src="<%=sCONTEXTPATH%>/hr/includes/commonFunctions.js"></script> 
 
@@ -238,11 +243,6 @@
     }
 %>
 
-<%=sJSPROTOTYPE%>
-<%=sJSNUMBER%> 
-<%=sJSSTRINGFUNCTIONS%>
-<%=sJSSORTTABLE%>
-
 <%
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -253,6 +253,22 @@
 %>            
 
 <%=writeTableHeader("web","workschedule",sWebLanguage,"")%><br>
+
+<%-- mark greenblue when part of predefined weekschedule --%>
+<script>
+  <% Vector weekSchedules = parsePredefinedWeekSchedulesFromXMLConfigValue(); %>
+  var predefinedWeekSchedules = new Array(<%=weekSchedules.size()%>);
+  
+  <%
+	  PredefinedWeekSchedule schedule;
+	  for(int i=0; i<weekSchedules.size(); i++){
+	      schedule = (PredefinedWeekSchedule)weekSchedules.get(i);
+
+  	      %>predefinedWeekSchedules["<%=schedule.id%>"] = "<%=schedule.asConcatValue()%>";<%
+      }
+  %>
+</script>
+
 <div id="divWorkschedules" class="searchResults" style="width:100%;height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
@@ -321,7 +337,7 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("web.hr","hoursPerDay",sWebLanguage)%>&nbsp;*&nbsp;</td>
                         <td class="admin2">
-                            <input type="text" class="text" id="dayScheduleHours" name="dayScheduleHours" size="2" maxLength="3" onKeypress="keypressTime(this);" onBlur="checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>
+                            <input type="text" class="text" id="dayScheduleHours" name="dayScheduleHours" size="2" maxLength="5" onKeypress="keypressTime(this);" onBlur="decimalToTime(this);checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>
                         </td>
                     </tr>
                 </table>
@@ -433,7 +449,7 @@
                     <tr>
                         <td class="admin"><%=getTran("web.hr","hoursPerMonth",sWebLanguage)%>&nbsp;*&nbsp;</td>
                         <td class="admin2">
-                            <input type="text" class="text" id="monthScheduleHours" name="monthScheduleHours" size="2" maxLength="3" onKeypress="keypressTime(this);" onBlur="checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>
+                            <input type="text" class="text" id="monthScheduleHours" name="monthScheduleHours" size="2" maxLength="5" onKeypress="keypressTime(this);" onBlur="decimalToTime(this);checkTime(this);" value="">&nbsp;<%=getTran("web","hours",sWebLanguage)%>
                         </td>
                     </tr>
                 </table>
@@ -602,30 +618,33 @@
         if(document.getElementById("scheduleTypeDay").checked){          
           <%-- day : begin & end hour --%>
           if(okToSubmit){
-            <%-- begin --%>
-            var aTimeBegin = document.getElementById("dayScheduleStart").value.split(":");
-            var startHour = aTimeBegin[0];
-            if(startHour.length==0) startHour = 0;
-            var startMinute = aTimeBegin[1];
-            if(startMinute.length==0) startMinute = 0;
+            if(document.getElementById("dayScheduleStart").value.length > 0 &&
+               document.getElementById("dayScheduleEnd").value.length > 0){
+              <%-- begin --%>
+              var aTimeBegin = document.getElementById("dayScheduleStart").value.split(":");
+              var startHour = aTimeBegin[0];
+              if(startHour.length==0) startHour = 0;
+              var startMinute = aTimeBegin[1];
+              if(startMinute.length==0) startMinute = 0;
+            
+              <%-- end --%>
+              var aTimeEnd = document.getElementById("dayScheduleEnd").value.split(":");
+              var stopHour = aTimeEnd[0];
+              if(stopHour.length==0) stopHour = 0;
+              var stopMinute = aTimeEnd[1];
+              if(stopMinute.length==0) stopMinute = 0;
 
-            <%-- end --%>
-            var aTimeEnd = document.getElementById("dayScheduleEnd").value.split(":");
-            var stopHour = aTimeEnd[0];
-            if(stopHour.length==0) stopHour = 0;
-            var stopMinute = aTimeEnd[1];
-            if(stopMinute.length==0) stopMinute = 0;
+              var dateFrom = new Date(2000,1,1,startHour,startMinute,0),
+                  dateUntil = new Date(2000,1,1,stopHour,stopMinute,0);
 
-            var dateFrom = new Date(2000,1,1,startHour,startMinute,0),
-                dateUntil = new Date(2000,1,1,stopHour,stopMinute,0);
-
-            if(dateFrom.getTime() > dateUntil.getTime()){
-              alertDialog("web.hr","beginHourMustComeBeforeEndHour");
-              document.getElementById("dayScheduleStart").focus();
-              okToSubmit = false;
+              if(dateFrom.getTime() > dateUntil.getTime()){
+                alertDialog("web.hr","beginHourMustComeBeforeEndHour");
+                document.getElementById("dayScheduleStart").focus();
+                okToSubmit = false;
+              }
             }
           }
-
+            
           <%-- day : hours --%>
           if(okToSubmit){
             if(document.getElementById("dayScheduleHours").value.length==0){
@@ -679,7 +698,7 @@
                         "&dayHours="+document.getElementById("dayScheduleHours").value;
         }
         else if(document.getElementById("scheduleTypeWeek").checked){
-          sParameters+= "&weekScheduleType="+document.getElementById("weekScheduleType").value+ // type2 - week
+          sParameters+= "&weekScheduleType="+document.getElementById("weekScheduleType").options[document.getElementById("weekScheduleType").selectedIndex].value+ // type2 - week
                         "&weekSchedule="+removeTRIndexes(sTB)+
                         "&weekHours="+decimalToHour(calculateHoursPerWeek(sTB));
         }
@@ -750,7 +769,7 @@
         parameters: "PatientId=<%=activePatient.personid%>",
         onSuccess: function(resp){
           $("divWorkschedules").innerHTML = resp.responseText;
-          sortables_init();
+          setTimeout("sortables_init()",500);
         },
         onFailure: function(resp){
           $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getWorkschedules.jsp' : "+resp.responseText.trim();
@@ -943,7 +962,8 @@
   <%-- UPDATE ROW STYLES --%>
   function updateRowStyles(){
     <%-- searchresults --%>
-    if(document.getElementById("searchresults")!=null){
+    var searchresults = document.getElementById("searchresults"); // FF
+    if(searchresults!=null){
       for(var i=1; i<searchresults.rows.length; i++){
         searchresults.rows[i].className = "";
         searchresults.rows[i].style.cursor = "hand";
@@ -960,6 +980,7 @@
     }
 
     <%-- tblTB --%>
+    var tblTB = document.getElementById("tblTB"); // FF
     for(var i=2; i<tblTB.rows.length; i++){        
       setRowStyle(tblTB.rows[i],i);
     }
@@ -1154,13 +1175,27 @@
                                    sTmpBeginHour+"|"+
                                    sTmpEndHour+"|"+
                                    sTmpDuration+"$";
-        displayTimeBlock(iTBIndex++,sTmpDayIdx,sTmpBeginHour,sTmpEndHour,sTmpDuration);
+
+        <%-- mark greenblue when part of predefined weekschedule --%>
+        var isInDefaultSchedule = 0;
+        
+        var defaultSchedule;
+        for(i=0; i<predefinedWeekSchedules.length && isInDefaultSchedule==0; i++){
+          defaultSchedule = predefinedWeekSchedules["weekSchedule.0"];
+                    
+          if(defaultSchedule.indexOf(sTmpDayIdx+"|"+sTmpBeginHour+"|"+sTmpEndHour+"|"+sTmpDuration+"$") > -1){
+            isInDefaultSchedule = 1;        	
+          }
+        }
+        
+        displayTimeBlock(iTBIndex++,sTmpDayIdx,sTmpBeginHour,sTmpEndHour,sTmpDuration,isInDefaultSchedule);
       }
     }
   }
   
   <%-- DISPLAY TIME BLOCK --%>
-  function displayTimeBlock(iTBIndex,sTmpDayIdx,sTmpBeginHour,sTmpEndHour,sTmpDuration){
+  function displayTimeBlock(iTBIndex,sTmpDayIdx,sTmpBeginHour,sTmpEndHour,sTmpDuration,isInDefaultSchedule){
+    var tblTB = document.getElementById("tblTB"); // FF
     var tr = tblTB.insertRow(tblTB.rows.length);
     tr.id = "rowTB"+iTBIndex;
 
@@ -1202,6 +1237,13 @@
     tr.appendChild(td);
     
     setRowStyle(tr,iTBIndex);
+
+    <%-- mark greenblue when part of predefined weekschedule --%>
+    if(isInDefaultSchedule==1){
+      for(var i=0; i<tr.cells.length; i++){
+    	tr.cells[i].style.backgroundColor = "#99cccc";
+      }
+    }
   }
   
   <%-- ADD TIME BLOCK --%>
@@ -1239,7 +1281,8 @@
                                   EditForm.tbBeginHour.value+"|"+
                                   EditForm.tbEndHour.value+"|"+
                                   EditForm.tbDuration.value+"$";
-      
+
+        var tblTB = document.getElementById("tblTB"); // FF
         var tr = tblTB.insertRow(tblTB.rows.length);
         tr.id = "rowTB"+iTBIndex;
 
@@ -1344,6 +1387,7 @@
         sTB = replaceRowInArrayString(sTB,newRow,editTBRowid.id);
 
         <%-- update table object --%>
+        var tblTB = document.getElementById("tblTB"); // FF
         var row = tblTB.rows[editTBRowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteTB("+editTBRowid.id+")'>"+
                                   "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
@@ -1371,6 +1415,29 @@
         <%-- reset --%>
         clearTBFields();
         EditForm.ButtonUpdateTB.disabled = true;
+
+        <%-- mark greenblue when part of predefined weekschedule --%>
+        var isInDefaultSchedule = 0;
+        
+        var defaultSchedule;
+        for(i=0; i<predefinedWeekSchedules.length && isInDefaultSchedule==0; i++){
+          defaultSchedule = predefinedWeekSchedules["weekSchedule.0"];
+          
+          if(defaultSchedule.indexOf(EditForm.tbDayIdx.selectedIndex+"|"+EditForm.tbBeginHour.value+"|"+EditForm.tbEndHour.value+"|"+EditForm.tbDuration.value+"$") > -1){
+            isInDefaultSchedule = 1;        	
+          }
+        }
+        
+        if(isInDefaultSchedule==1){
+          <%-- all cells greenblue --%>
+          for(var i=0; i<tr.cells.length; i++){
+        	tr.cells[i].style.backgroundColor = "#99cccc";
+          }
+        }
+        else{
+          <%-- all cells default --%>      
+          setRowStyle(row,iTBIndex);
+        }
       }
       else{
         alertDialog("web.hr","beginHourMustComeBeforeEndHour");

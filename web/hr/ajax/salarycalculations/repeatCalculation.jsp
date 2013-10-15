@@ -52,27 +52,23 @@
     private Vector parseCodes(String sSalCalUID, String sCodes){
     	Vector codes = new Vector();
     	
-    	System.out.println("parseCodes : "+sCodes); /////////
     	String[] codesAsString = sCodes.split("\\$");
     	SalaryCalculationCode code;
     	String[] codeAsString;
     	
     	for(int i=0; i<codesAsString.length; i++){
     		codeAsString = codesAsString[i].split("\\|");
-        	System.out.println(" codeAsString : "+codeAsString[1]); /////////
     		
     		code = new SalaryCalculationCode();
     		code.setUid("-1"); // codes are always deleted and re-inserted
     		code.calculationUid = sSalCalUID;
      		code.duration = Float.parseFloat(codeAsString[0]); 
-        	System.out.println(" duration : "+code.duration); /////////
     	    code.code = codeAsString[1]; 
     	    //code.label = codeAsString[2];
     		
     		codes.add(code);
     	}
 
-    	System.out.println("codes : "+codes.size()); /////////
     	return codes;    	
     }
 %>
@@ -82,6 +78,7 @@
 
     String sBegin           = checkString(request.getParameter("Begin")),
            sEnd             = checkString(request.getParameter("End")),
+           sType            = checkString(request.getParameter("Type")),
            sIncludeWeekends = checkString(request.getParameter("IncludeWeekends")),
            sPersonId        = checkString(request.getParameter("PersonId")),
            sCodes           = checkString(request.getParameter("CalculationCodes"));
@@ -90,6 +87,7 @@
     if(Debug.enabled){
         Debug.println("\n******* hr/ajax/salarycalculation/repeatCalculation.jsp ******");
         Debug.println("sAction    : "+sAction);
+        Debug.println("sType      : "+sType);
         Debug.println("sPersonId  : "+sPersonId);
         Debug.println("sCodes     : "+sCodes+"\n");
     }
@@ -108,20 +106,15 @@
 
         Calendar periodBegin = Calendar.getInstance();
         periodBegin.setTime(startDate);
-        System.out.println("startDate : "+startDate); /////////
         
         Calendar periodEnd = Calendar.getInstance();
         periodEnd.setTime(endDate);
-        System.out.println("endDate : "+endDate); /////////
 
-        System.out.println("periodBegin : "+periodBegin.getTime()); /////////
-        System.out.println("periodEnd : "+periodEnd.getTime()); /////////
         java.util.Date currDate; 
         while(periodBegin.getTime().getTime() <= periodEnd.getTime().getTime()){
             currDate = periodBegin.getTime();
-            System.out.println("@@@@@@@@@@@@@@@@@ currDate : "+ScreenHelper.stdDateFormat.format(currDate)); ////////
             
-            calculation = SalaryCalculation.getOnDate(currDate);
+            calculation = SalaryCalculation.getCalculationOnDate(currDate);
             if(calculation==null){
 	            Calendar cal = Calendar.getInstance();
 	            cal.setTime(currDate);
@@ -130,14 +123,15 @@
 		        calculation = new SalaryCalculation();                
 		        calculation.setUid("-1"); // always new
 		        calculation.personId = Integer.parseInt(sPersonId);
-		        calculation.source = "manual";
+		        calculation.source = "manual"; // >< 'script'
+		        calculation.type = sType;
 		        
 		        // dates
 		        calculation.begin = currDate;			                    
 		        calculation.end = currDate; // same !
 	            
 		        String sSalCalUID = calculation.store(activeUser.userid); // first store calculation to obtain UID
-		        System.out.println("@@@ SAVED : sSalCalUID = "+sSalCalUID); //////////
+		        Debug.println("@@@ SAVED : sSalCalUID = "+sSalCalUID);
 		        
 		        // parse codes
 		        calculation.codes = parseCodes(sSalCalUID,sCodes);
@@ -146,7 +140,7 @@
 		        calculation.store(activeUser.userid); // save again, the calculation now contains codes
             }
             else{
-		        System.out.println("@@@ EXISTS : sSalCalUID = "+calculation.getUid()); //////////
+            	Debug.println("@@@ EXISTS : sSalCalUID = "+calculation.getUid());
             }
             
             periodBegin.add(Calendar.DATE,1); // proceed one day	
@@ -157,7 +151,8 @@
         calculation = new SalaryCalculation();
         calculation.setUid("-1"); // new
         calculation.personId = Integer.parseInt(sPersonId);
-        calculation.source = "manual";
+        calculation.source = "manual"; // >< 'script'
+        calculation.type = "workschedule"; // default
 
         calculation.begin = ScreenHelper.stdDateFormat.parse(sBegin);
         calculation.end = calculation.begin;
@@ -178,13 +173,29 @@
     	}
     	
         %>        
-            <table class="list" border="0" width="484" cellspacing="1">
+            <table class="list" border="0" width="534" cellspacing="1">
                 <input type="hidden" name="SalCalUID" value="-1">
                 <input type="hidden" id="Source" name="Source" value="manual">
             
+                <%-- 0 - calculation type (workschedule,leave) --%>
+                <%
+                    String sSelectedType = "workschedule";
+                    if(sType.length() > 0){
+                    	sSelectedType = sType;
+                    }
+                %>
+                <tr>
+                    <td width="100" class="admin"><%=HTMLEntities.htmlentities(getTran("web","type",sWebLanguage))%>&nbsp;*&nbsp;</td>
+                    <td class="admin2">
+		                <select class="text" id="Type" name="Type">
+		                    <%=ScreenHelper.writeSelect("hr.salarycalculation.type",sSelectedType,sWebLanguage)%>
+		                </select>
+                    </td>
+                </tr>
+                
                 <%-- 1 - calculation begin date (*) --%>
                 <tr>
-                    <td width="100" class="admin"><%=HTMLEntities.htmlentities(getTran("hr.salarycalculations","beginDate",sWebLanguage))%>&nbsp;*&nbsp;</td>
+                    <td class="admin"><%=HTMLEntities.htmlentities(getTran("hr.salarycalculations","beginDate",sWebLanguage))%>&nbsp;*&nbsp;</td>
                     <td class="admin2">
                         <input type="text" id="Begin" name="Begin" value="<%=sCalculationBegin%>" class="text" size="10" maxLength="10" onBlur="if(!checkDate(this)){this.focus();alertDialog('web.occup','date.error');}">
                         <span id="beginDateSelector"></span>
@@ -216,12 +227,12 @@
                              
                 <%-- 4 - calculation codes --%>
                 <tr>
-                    <td class="admin"><%=HTMLEntities.htmlentities(getTran("hr.salarycalculations","codes",sWebLanguage))%></td>
+                    <td class="admin"><%=HTMLEntities.htmlentities(getTran("hr.salarycalculations","codes",sWebLanguage))%>&nbsp;*&nbsp;</td>
                     <td class="admin2">
                         <table id="tblCC" cellpadding="0" cellspacing="0" width="98%" class="sortable" headerRowCount="2" style="border:1px solid #ccc;">
                             <%-- a - header --%>
                             <tr class="admin">
-                                <td width="20">&nbsp;</td>
+                                <td width="36">&nbsp;</td>
                                 <td width="100" style="padding-left:1px;"><%=getTran("web","duration",sWebLanguage)%></td>
                                 <td width="380" style="padding-left:1px;"><%=getTran("web","code",sWebLanguage)%></td>
                             </tr>
@@ -233,7 +244,7 @@
                                                                 
                                 <%-- duration (hours) --%>
                                 <td class="admin" nowrap>
-                                    <input type="text" class="text" id="addDuration" name="addDuration" size="3" maxLength="3" onKeyUp="removeTrailingZeros(this);if(!isInteger(this))this.value='';"></input>&nbsp;<%=getTran("web","hours",sWebLanguage)%>
+                                    <input type="text" class="text" id="addDuration" name="addDuration" size="3" maxLength="4" onKeyUp="removeTrailingZeros(this);if(!isInteger(this))this.value='';"></input>&nbsp;<%=getTran("web","hours",sWebLanguage)%>
                                 </td>
                                 
                                 <%-- code (and label) --%>
@@ -243,10 +254,11 @@
                                     <%-- code icon --%> 
                                     <img src="<c:url value='_img/icon_questionmark.gif'/>" class="link" style="border:1px solid #aaa;background:#eee;" alt="<%=getTranNoLink("hr.salarycalculations","searchCodes",sWebLanguage)%>" onclick="searchCalculationCodes();">
                                     
-                                    <%-- add button --%>
+                                    <%-- add/edit buttons --%>
                                     <%
                                         if(activeUser.getAccessRight("hr.salarycalculations.add")){
                                             %><input class="button" type="button" name="buttonAdd" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="addCC();">&nbsp;<%
+                                            %><input class="button" type="button" name="buttonUpdate" value="<%=getTranNoLink("web","update",sWebLanguage)%>" onclick="updateCC();" disabled>&nbsp;<%
                                         }
                                     %>
                                 </td>
@@ -287,10 +299,11 @@
 	                    <%
 	                        if(activeUser.getAccessRight("hr.salarycalculations.add") || activeUser.getAccessRight("hr.salarycalculations.edit")){
 	                            %><input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveRepeatCalculation();">&nbsp;<%
+	                            %><input class="button" type="button" name="buttonEdit" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="editCC();">&nbsp;<%
 	                        }
 	                    %>
 	                     
-	                    <input class="button" type="button" name="buttonClose" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="closeCalculation();">
+	                    <input class="button" type="button" name="buttonClose" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="closeCalculationForm();">
                     </td>
                 </tr>
             </table>

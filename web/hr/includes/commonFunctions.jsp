@@ -144,12 +144,12 @@
   <%-- ALERT DIALOG --%>
   function alertDialog(labelType,labelId){
     if(window.showModalDialog){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=ScreenHelper.getTs()%>&labelType="+labelType+"&labelID="+labelId;
+      var popupUrl = "<c:url value='/_common/search/okPopup.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelType="+labelType+"&labelID="+labelId;
       var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
       window.showModalDialog(popupUrl,"",modalities);
     }
     else{
-      alert(labelId);          
+      alert(labelId); // FF          
     }
   }
 
@@ -158,7 +158,7 @@
     var answer = "";
     
     if(window.showModalDialog){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=ScreenHelper.getTs()%>&labelType="+labelType+"&labelID="+labelId;
+      var popupUrl = "<c:url value='/_common/search/okPopup.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelType="+labelType+"&labelID="+labelId;
       var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
       answer = window.showModalDialog(popupUrl,"",modalities);
     }
@@ -166,7 +166,7 @@
       answer = window.confirm(labelId);          
     }
     
-    return answer;
+    return answer; // FF
   }
 
   <%-- YESNO DIALOG --%>
@@ -174,7 +174,7 @@
     var answer = "";
     
     if(window.showModalDialog){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=ScreenHelper.getTs()%>&labelType="+labelType+"&labelID="+labelId;
+      var popupUrl = "<c:url value='/_common/search/yesnoPopup.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelType="+labelType+"&labelID="+labelId;
       var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
       answer = window.showModalDialog(popupUrl,"",modalities);
     }
@@ -182,6 +182,6 @@
       answer = window.confirm(labelId);          
     }
     
-    return answer;
+    return answer; // FF
   }
 </script>

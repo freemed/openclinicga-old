@@ -11,27 +11,23 @@
     private Vector parseCodes(String sSalCalUID, String sCodes){
     	Vector codes = new Vector();
     	
-    	System.out.println("parseCodes : "+sCodes); /////////
     	String[] codesAsString = sCodes.split("\\$");
     	SalaryCalculationCode code;
     	String[] codeAsString;
-    	
+    	    	
     	for(int i=0; i<codesAsString.length; i++){
     		codeAsString = codesAsString[i].split("\\|");
-        	System.out.println(" codeAsString : "+codeAsString[1]); /////////
     		
     		code = new SalaryCalculationCode();
     		code.setUid("-1"); // codes are always deleted and re-inserted
     		code.calculationUid = sSalCalUID;
      		code.duration = Float.parseFloat(codeAsString[0]); 
-        	System.out.println(" duration : "+code.duration); /////////
     	    code.code = codeAsString[1]; 
     	    //code.label = codeAsString[2];
     		
     		codes.add(code);
     	}
 
-    	System.out.println("codes : "+codes.size()); /////////
     	return codes;    	
     }
 %>
@@ -44,6 +40,7 @@
            sEnd       = checkString(request.getParameter("End")),
            sPersonId  = checkString(request.getParameter("PersonId")),
            sSource    = checkString(request.getParameter("Source")),
+           sType      = checkString(request.getParameter("Type")),
            sCodes     = checkString(request.getParameter("CalculationCodes"));
     
     /// DEBUG ///////////////////////////////////////////////////////////////////////////
@@ -55,6 +52,7 @@
         Debug.println("sSalCalUID : "+sSalCalUID);
         Debug.println("sPersonId  : "+sPersonId);
         Debug.println("sSource    : "+sSource);
+        Debug.println("sType      : "+sType);
         Debug.println("sCodes     : "+sCodes+"\n");
     }
     /////////////////////////////////////////////////////////////////////////////////////
@@ -71,11 +69,11 @@
         calculation.setUid(sSalCalUID);
         calculation.personId = Integer.parseInt(sPersonId);
         calculation.source = sSource;
+        calculation.type = sType;
         calculation.begin = ScreenHelper.stdDateFormat.parse(sBegin);
         calculation.end = ScreenHelper.stdDateFormat.parse(sBegin);
         //calculation.end = ScreenHelper.stdDateFormat.parse(sEnd);
         sSalCalUID = calculation.store(activeUser.userid); // first store calculation to obtain UID
-        calculation.source = "manual";
         
         // parse codes
         calculation.codes = parseCodes(sSalCalUID,sCodes);
@@ -93,7 +91,8 @@
         sSalCalUID = "-1"; // new
         calculation.setUid(sSalCalUID);
         calculation.personId = Integer.parseInt(sPersonId);
-        calculation.source = "manual";
+        calculation.source = "manual"; // >< 'script'
+        calculation.type = "workschedule"; // default
 
         calculation.begin = ScreenHelper.stdDateFormat.parse(sBegin);
         calculation.end = calculation.begin;
@@ -127,13 +126,29 @@
         }
         
         %>        
-            <table class="list" border="0" width="484" <%=sHeight%> cellspacing="1">
+            <table class="list" border="0" width="534" <%=sHeight%> cellspacing="1">
                 <input type="hidden" name="SalCalUID" value="<%=sSalCalUID%>">
                 <input type="hidden" id="Source" name="Source" value="manual">
             
+                <%-- 0 - calculation type (workschedule,leave) --%>
+                <%
+                    String sSelectedType = "workschedule";
+                    if(calculation.type.length() > 0){
+                    	sSelectedType = calculation.type;
+                    }
+                %>
+                <tr>
+                    <td width="100" class="admin"><%=HTMLEntities.htmlentities(getTran("web","type",sWebLanguage))%>&nbsp;*&nbsp;</td>
+                    <td class="admin2">
+		                <select class="text" id="Type" name="Type">
+		                    <%=ScreenHelper.writeSelect("hr.salarycalculation.type",sSelectedType,sWebLanguage)%>
+		                </select>
+                    </td>
+                </tr>
+                                
                 <%-- 1 - calculation date --%>
                 <tr>
-                    <td width="100" class="admin"><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
+                    <td class="admin"><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
                     <td class="admin2"><%=sCalculationBegin%></td>
                 </tr>
                 
@@ -143,12 +158,12 @@
                              
                 <%-- 3 - calculation codes --%>
                 <tr>
-                    <td class="admin"><%=HTMLEntities.htmlentities(getTran("hr.salarycalculations","codes",sWebLanguage))%></td>
+                    <td class="admin"><%=HTMLEntities.htmlentities(getTran("hr.salarycalculations","codes",sWebLanguage))%>&nbsp;*&nbsp;</td>
                     <td class="admin2">
                         <table id="tblCC" cellpadding="0" cellspacing="0" width="98%" class="sortable" headerRowCount="2" style="border:1px solid #ccc;">
                             <%-- a - header --%>
                             <tr class="admin">
-                                <td width="20">&nbsp;</td>
+                                <td width="36">&nbsp;</td>
                                 <td width="100" style="padding-left:1px;"><%=getTran("web","duration",sWebLanguage)%></td>
                                 <td width="380" style="padding-left:1px;"><%=getTran("web","code",sWebLanguage)%></td>
                             </tr>
@@ -160,7 +175,7 @@
                                                                 
                                 <%-- duration (hours) --%>
                                 <td class="admin" nowrap>
-                                    <input type="text" class="text" id="addDuration" name="addDuration" size="3" maxLength="3" onKeyUp="removeTrailingZeros(this);if(!isInteger(this))this.value='';"></input>&nbsp;<%=getTran("web","hours",sWebLanguage)%>
+                                    <input type="text" class="text" id="addDuration" name="addDuration" size="3" maxLength="4" onKeyUp="removeTrailingZeros(this);if(!isInteger(this))this.value='';"></input>&nbsp;<%=getTran("web","hours",sWebLanguage)%>
                                 </td>
                                 
                                 <%-- code (and label) --%>
@@ -170,10 +185,11 @@
                                     <%-- code icon --%> 
                                     <img src="<c:url value='_img/icon_questionmark.gif'/>" class="link" style="border:1px solid #aaa;background:#eee;" alt="<%=getTranNoLink("hr.salarycalculations","searchCodes",sWebLanguage)%>" onclick="searchCalculationCodes();">
                                     
-                                    <%-- add button --%>
+                                    <%-- add/edit buttons --%>
                                     <%
                                         if(activeUser.getAccessRight("hr.salarycalculations.add")){
                                             %><input class="button" type="button" name="buttonAdd" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="addCC();">&nbsp;<%
+                                            %><input class="button" type="button" name="buttonUpdate" value="<%=getTranNoLink("web","update",sWebLanguage)%>" onclick="updateCC();" disabled>&nbsp;<%
                                         }
                                     %>
                                 </td>
@@ -191,12 +207,14 @@
                                  if(savedCodes.size() > 0){
                                      Hashtable hSort = new Hashtable();
                                      SalaryCalculationCode savedCode;
+
+                                     DecimalFormat doubleFormat = new DecimalFormat("#.##");
                                      
                                      // sorted on salary.beginDate
                                      for(int i=0; i<savedCodes.size(); i++){
                                     	 savedCode = (SalaryCalculationCode)savedCodes.get(i);
                                     	 
-                                    	 sCCConcatValues+= savedCode.duration+"|"+savedCode.code+"|"+getTranNoLink("salaryCalculationCode",savedCode.code,sWebLanguage)+"$";
+                                    	 sCCConcatValues+= doubleFormat.format(savedCode.duration)+"|"+savedCode.code+"|"+getTranNoLink("salaryCalculationCode",savedCode.code,sWebLanguage)+"$";
                                      }
                                  }                   
                             %>                          
@@ -235,7 +253,7 @@
 	                        }
 	                    %>
 	                     
-	                    <input class="button" type="button" name="buttonClose" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="closeCalculation();">
+	                    <input class="button" type="button" name="buttonClose" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="closeCalculationForm();">
                     </td>
                 </tr>
             </table>

@@ -67,6 +67,7 @@
             training = (Training)trainings.get(i);
 
             hSort.put(training.begin.getTime()+"="+training.getUid(),
+                     (training.isActive()?"style='background:#99cccc;'":"")+  
                       " onclick=\"displayTraining('"+training.getUid()+"');\">"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(training.begin)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(training.end)+"</td>"+

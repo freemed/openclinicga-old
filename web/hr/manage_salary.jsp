@@ -591,7 +591,7 @@
         parameters: "PatientId=<%=activePatient.personid%>",
         onSuccess: function(resp){
           $("divSalaries").innerHTML = resp.responseText;
-          sortables_init();
+          setTimeout("sortables_init()",500);
         },
         onFailure: function(resp){
           $("divMessage").innerHTML = "Error in 'hr/ajax/salary/getSalaries.jsp' : "+resp.responseText.trim();
@@ -915,6 +915,7 @@
   
   <%-- DISPLAY BENEFIT --%>
   function displayBenefit(iBEIndex,sBegin,sEnd,sPeriod,sType,sAmount){
+    var tblBE = document.getElementById("tblBE"); // FF
     var tr = tblBE.insertRow(tblBE.rows.length);
     tr.id = "rowBE"+iBEIndex;
 
@@ -988,7 +989,8 @@
                                   EditForm.bePeriod.value+"|"+
                                   EditForm.beType.value+"|"+
                                   EditForm.beAmount.value+"$";
-        
+
+        var tblBE = document.getElementById("tblBE"); // FF
         var tr = tblBE.insertRow(tblBE.rows.length);
         tr.id = "rowBE"+iBEIndex;
 
@@ -1084,6 +1086,7 @@
         sBE = replaceRowInArrayString(sBE,newRow,editBERowid.id);
 
         <%-- update table object --%>
+        var tblBE = document.getElementById("tblBE"); // FF
         var row = tblBE.rows[editBERowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteBE("+editBERowid.id+")'>"+
                                   "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
@@ -1252,6 +1255,7 @@
   
   <%-- DISPLAY BONUS --%>
   function displayBonus(iBOIndex,sBegin,sEnd,sPeriod,sType,sPercentage,sAmount){
+    var tblBO = document.getElementById("tblBO"); // FF
     var tr = tblBO.insertRow(tblBO.rows.length);
     tr.id = "rowBO"+iBOIndex;
 
@@ -1331,7 +1335,8 @@
                                   EditForm.boType.value+"|"+
                                   EditForm.boPercentage.value+"|"+
                                   EditForm.boAmount.value+"$";
-        
+
+        var tblBO = document.getElementById("tblBO"); // FF
         var tr = tblBO.insertRow(tblBO.rows.length);
         tr.id = "rowBO"+iBOIndex;
 
@@ -1434,6 +1439,7 @@
         sBO = replaceRowInArrayString(sBO,newRow,editBORowid.id);
 
         <%-- update table object --%>
+        var tblBO = document.getElementById("tblBO"); // FF
         var row = tblBO.rows[editBORowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteBO("+editBORowid.id+")'>"+
                                   "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
@@ -1600,6 +1606,7 @@
   
   <%-- DISPLAY OTHER INCOME --%>
   function displayOtherIncome(iOIIndex,sBegin,sEnd,sPeriod,sType,sAmount){
+    var tblOI = document.getElementById("tblOI"); // FF
     var tr = tblOI.insertRow(tblOI.rows.length);
     tr.id = "rowOI"+iOIIndex;
 
@@ -1673,7 +1680,8 @@
                                   EditForm.oiPeriod.value+"|"+
                                   EditForm.oiType.value+"|"+
                                   EditForm.oiAmount.value+"$";
-        
+
+	    var tblOI = document.getElementById("tblOI"); // FF
         var tr = tblOI.insertRow(tblOI.rows.length);
         tr.id = "rowOI"+iOIIndex;
 
@@ -1769,6 +1777,7 @@
         sOI = replaceRowInArrayString(sOI,newRow,editOIRowid.id);
 
         <%-- update table object --%>
+        var tblOI = document.getElementById("tblOI"); // FF
         var row = tblOI.rows[editOIRowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteOI("+editOIRowid.id+")'>"+
                                   "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
@@ -1930,6 +1939,7 @@
   
   <%-- DISPLAY DEDUCTION --%>
   function displayDeduction(iDEIndex,sBegin,sEnd,sPeriod,sType,sAmount){
+    var tblDE = document.getElementById("tblDE"); // FF
     var tr = tblDE.insertRow(tblDE.rows.length);
     tr.id = "rowDE"+iDEIndex;
 
@@ -2003,7 +2013,8 @@
                                   EditForm.dePeriod.value+"|"+
                                   EditForm.deType.value+"|"+
                                   EditForm.deAmount.value+"$";
-        
+
+        var tblDE = document.getElementById("tblDE"); // FF
         var tr = tblDE.insertRow(tblDE.rows.length);
         tr.id = "rowDE"+iDEIndex;
 
@@ -2099,6 +2110,7 @@
         sDE = replaceRowInArrayString(sDE,newRow,editDERowid.id);
 
         <%-- update table object --%>
+        var tblDE = document.getElementById("tblDE"); // FF
         var row = tblDE.rows[editDERowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteDE("+editDERowid.id+")'>"+
                                   "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+

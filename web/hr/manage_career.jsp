@@ -197,7 +197,7 @@
         parameters: "PatientId=<%=activePatient.personid%>",
         onSuccess: function(resp){
           $("divCareers").innerHTML = resp.responseText;
-          sortables_init();
+          setTimeout("sortables_init()",500);
         },
         onFailure: function(resp){
           $("divMessage").innerHTML = "Error in 'hr/ajax/career/getCareers.jsp' : "+resp.responseText.trim();

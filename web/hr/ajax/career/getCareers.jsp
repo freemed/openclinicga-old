@@ -56,6 +56,7 @@
             }
             
             hSort.put(career.begin.getTime()+"="+career.getUid(),
+                     (career.isActive()?"style='background:#99cccc;'":"")+ 
                       " onclick=\"displayCareer('"+career.getUid()+"');\">"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(career.begin)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(career.end)+"</td>"+

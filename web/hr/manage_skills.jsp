@@ -358,6 +358,7 @@
   
   <%-- DISPLAY LANGUAGE SKILL --%>
   function displayLanguageSkill(iLSIndex,sTmpLang,sTmpSpoken,sTmpReading,sTmpWriting){
+    var tblLS = document.getElementById("tblLS"); // FF
     var tr = tblLS.insertRow(tblLS.rows.length);
     tr.id = "rowLS"+iLSIndex;
 
@@ -425,7 +426,8 @@
                                   EditForm.lsSpoken.value+"|"+
                                   EditForm.lsReading.value+"|"+
                                   EditForm.lsWriting.value+"$";
-      
+
+        var tblLS = document.getElementById("tblLS"); // FF
         var tr = tblLS.insertRow(tblLS.rows.length);
         tr.id = "rowLS"+iLSIndex;
 
@@ -504,6 +506,7 @@
       sLS = replaceRowInArrayString(sLS,newRow,editLSRowid.id);
 
       <%-- update table object --%>
+      var tblLS = document.getElementById("tblLS"); // FF
       var row = tblLS.rows[editLSRowid.rowIndex];
       row.cells[0].innerHTML = "<a href='javascript:deleteLS("+editLSRowid.id+")'>"+
                                 "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+

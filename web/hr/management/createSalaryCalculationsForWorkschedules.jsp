@@ -1,62 +1,65 @@
 <%@page import="be.openclinic.hr.SalaryCalculationManager"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="../../hr/includes/commonFunctions.jsp"%>
+<%@include file="../../../hr/includes/commonFunctions.jsp"%>
 
 <%
     String sAction = checkString(request.getParameter("Action"));
  
     String sPeriodBegin = checkString(request.getParameter("PeriodBegin")),
            sPeriodEnd   = checkString(request.getParameter("PeriodEnd"));
-	 
+     
     if(sPeriodBegin.length()==0 || sPeriodEnd.length()==0){
-	    // currMonth : begin and end
-	    Calendar now = Calendar.getInstance();        
-	    int month = now.get(Calendar.MONTH)+1;
-	    String sMonth = Integer.toString(month);
-	    if(month < 10){
-	        sMonth = "0"+sMonth;
-	    }
-	    	    
-	    if(sPeriodBegin.length()==0){
+        // currMonth : begin and end
+        Calendar now = Calendar.getInstance();        
+        int month = now.get(Calendar.MONTH)+1;
+        String sMonth = Integer.toString(month);
+        if(month < 10){
+            sMonth = "0"+sMonth;
+        }
+                
+        if(sPeriodBegin.length()==0){
             String sCurrMonthBegin = "01/"+sMonth+"/"+now.get(Calendar.YEAR);
-	        sPeriodBegin = sCurrMonthBegin;
-	    }
-	    
-	    if(sPeriodEnd.length()==0){
+            sPeriodBegin = sCurrMonthBegin;
+        }
+        
+        if(sPeriodEnd.length()==0){
             String sCurrMonthEnd = now.getActualMaximum(Calendar.DAY_OF_MONTH)+"/"+sMonth+"/"+now.get(Calendar.YEAR);
-	        sPeriodEnd = sCurrMonthEnd;
-	    }
+            sPeriodEnd = sCurrMonthEnd;
+        }
     }
     
-	/// DEBUG ////////////////////////////////////////////////////////////////////////////////
-	if(Debug.enabled){
-	    Debug.println("\n**** hr/management/createSalaryCalculationsForWorkschedules.jsp ****");
-	    Debug.println("sAction      : "+sAction);
-	    Debug.println("sPeriodBegin : "+sPeriodBegin);
-	    Debug.println("sPeriodEnd   : "+sPeriodEnd+"\n");
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////
+    /// DEBUG ////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n**** hr/management/createSalaryCalculationsForWorkschedules.jsp ****");
+        Debug.println("sAction      : "+sAction);
+        Debug.println("sPeriodBegin : "+sPeriodBegin);
+        Debug.println("sPeriodEnd   : "+sPeriodEnd+"\n");
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////
 
-	String sMsg = "";
-	
-	
-	//*** CREATE **********************************************************************************
-	if(sAction.equals("create")){
-		java.util.Date periodBegin = null, periodEnd = null;
-		
-		if(sPeriodBegin.length() > 0){
-			periodBegin = ScreenHelper.stdDateFormat.parse(sPeriodBegin);
-		}
-		if(sPeriodEnd.length() > 0){
-			periodEnd = ScreenHelper.stdDateFormat.parse(sPeriodEnd);
-		}
-		
-		int calculationsCreated = SalaryCalculationManager.createSalaryCalculations(periodBegin,periodEnd,activeUser);
-		
-		sMsg = "Created <b>"+calculationsCreated+"</b> calculations<br><br>"+
-		       "<i>When only few calculations were created, they might exist already.</i><br>"+
-		       "<i>If no period specified, the period is the current month.</i>";
-	}
+    String sMsg = "";
+    
+    
+    //*** CREATE **********************************************************************************
+    if(sAction.equals("create")){
+        java.util.Date periodBegin = null, periodEnd = null;
+        
+        if(sPeriodBegin.length() > 0){
+            periodBegin = ScreenHelper.stdDateFormat.parse(sPeriodBegin);
+        }
+        if(sPeriodEnd.length() > 0){
+            periodEnd = ScreenHelper.stdDateFormat.parse(sPeriodEnd);
+        }
+        
+        int[] counters = SalaryCalculationManager.createSalaryCalculationsForWorkschedules(periodBegin,periodEnd,activeUser);
+        int calculationsCreated = counters[0],
+        	calculationsExisted = counters[1];
+        
+        sMsg = "Created <b>"+calculationsCreated+"</b> calculations;<br>"+
+               "<b>"+calculationsExisted+"</b> calculations already existed.<br><br>"+
+               "<i>When only few calculations were created, they might exist already.</i><br>"+
+               "<i>If no period specified, the period is the current month.</i>";
+    }
 %>
   
 <form name="EditForm" method="post" action="<c:url value='/main.do'/>?Page=hr/management/createSalaryCalculationsForWorkschedules.jsp&ts=<%=getTs()%>" onkeydown="if(enterEvent(event,13)){createCalculations();return false;}">
@@ -102,36 +105,32 @@
     <%
         // display message, if any
         if(sMsg.length() > 0){
-        	%><%=sMsg%><br><br><%
+            %><%=sMsg%><br><br><%
         }
     %>    
         
     <%-- link to hr/manage_workschedules --%>
-    <img src='<c:url value="/_img/pijl.gif"/>'>
-    <a href="<c:url value='/main.do'/>?Page=hr/manage_workschedule.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web","workschedule",sWebLanguage)%></a>&nbsp;    
-    <br>
+    <% 
+        if(activePatient!=null && activePatient.personid.length() > 0){
+            %>
+                <img src="<c:url value='/_img/pijl.gif'/>">
+                <a href="<c:url value='/main.do'/>?Page=hr/manage_workschedule.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web","workschedulesForActivePatient",sWebLanguage)%></a><br>
+            <%
+        }
+    %>     
     
-    <%-- link to hr/manageDefaultSalaryCodes --%>
-    <img src='<c:url value="/_img/pijl.gif"/>'>
-    <a href="<c:url value='/main.do'/>?Page=hr/manageDefaultSalaryCodes.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web.manage","manageDefaultWorkschedules",sWebLanguage)%></a>&nbsp;    
+    <%-- link to createSalaryCalculationsForLeaves --%>
+    <img src="<c:url value='/_img/pijl.gif'/>">
+    <a href="<c:url value='/main.do'/>?Page=hr/management/createSalaryCalculationsForLeaves.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web.manage","createSalaryCalculationsForLeaves",sWebLanguage)%></a>&nbsp;
+</form>     
 </form>
     
 <script>  
   <%-- CREATE CALCULATIONS --%>
   function createCalculations(){
     var answer = yesnoDialog("web","areYouSure");
-	if(answer==1){
+    if(answer==1){
       var okToSubmit = true;
-
-      /*
-      if(okToSubmit){
-        if(document.getElementById("weekScheduleType").value.length==0){
-          okToSubmit = false;
-          document.getElementById("weekScheduleType").focus();
-          alertDialog("web.manage","dataMissing");
-        }
-      }
-      */
     
       if(okToSubmit){
         EditForm.buttonCreate.disabled = true;

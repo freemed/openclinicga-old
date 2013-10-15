@@ -13,7 +13,7 @@
            sType         = checkString(request.getParameter("type")),
            sAuthorizedBy = checkString(request.getParameter("authorizedBy")),
            sEpisodeCode  = checkString(request.getParameter("episodeCode")),
-           sComment     = checkString(request.getParameter("comment"));
+           sComment      = checkString(request.getParameter("comment"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -50,6 +50,7 @@
             leave = (Leave)leaves.get(i);
             
             hSort.put(leave.begin.getTime()+"="+leave.getUid(),
+                      (leave.isActive()?"style='background:#99cccc;'":"")+  
                       " onclick=\"displayLeave('"+leave.getUid()+"');\">"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(leave.begin)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(leave.end)+"</td>"+

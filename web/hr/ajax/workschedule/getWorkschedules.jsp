@@ -76,7 +76,9 @@
                 }
             }
 
+            // sort on workschedule.getUid
             hSort.put(workschedule.getUid()+"="+workschedule.getUid(),
+                      (workschedule.isActive()?"style='background:#99cccc;'":"")+  
                       " onclick=\"displayWorkschedule('"+workschedule.getUid()+"');\">"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(workschedule.begin)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(workschedule.end)+"</td>"+
