@@ -59,6 +59,9 @@
                     hMenu.put(getTran("Web.Manage", "ManageProductMargins", sWebLanguage), "main.do?Page=system/manageProductMargins.jsp");
                     hMenu.put(getTran("Web.Manage", "ManageAssetSuppliers", sWebLanguage), "main.do?Page=assets/manage_suppliers.jsp");
                     hMenu.put(getTran("Web.Manage", "ManageDefaultWeekschedules", sWebLanguage), "main.do?Page=system/manageDefaultWeekschedules.jsp");
+                    hMenu.put(getTran("Web.Manage", "CreateSalaryCalculationsForWorkschedules", sWebLanguage), "main.do?Page=hr/management/createSalaryCalculationsForWorkschedules.jsp");
+                    hMenu.put(getTran("Web.Manage", "CreateSalaryCalculationsForLeaves", sWebLanguage), "main.do?Page=hr/management/createSalaryCalculationsForLeaves.jsp");
+                    hMenu.put(getTran("Web.Manage", "ManageDefaultSalaryCodes", sWebLanguage), "main.do?Page=hr/management/manageDefaultSalaryCodes.jsp");
                     out.print(ScreenHelper.writeTblHeader(getTran("Web", "Manage", sWebLanguage), sCONTEXTPATH)
                             + sortMenu(hMenu)
                             + ScreenHelper.writeTblFooter());
