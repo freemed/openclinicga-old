@@ -299,7 +299,6 @@
 	                    <%
 	                        if(activeUser.getAccessRight("hr.salarycalculations.add") || activeUser.getAccessRight("hr.salarycalculations.edit")){
 	                            %><input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveRepeatCalculation();">&nbsp;<%
-	                            %><input class="button" type="button" name="buttonEdit" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="editCC();">&nbsp;<%
 	                        }
 	                    %>
 	                     

@@ -5,8 +5,8 @@
 <%
     String sAction = checkString(request.getParameter("Action"));
  
-    String sPeriodBegin = checkString(request.getParameter("PeriodBegin")),
-           sPeriodEnd   = checkString(request.getParameter("PeriodEnd"));
+    String sPeriodBegin = checkString(request.getParameter("beginDate")),
+           sPeriodEnd   = checkString(request.getParameter("endDate"));
      
     if(sPeriodBegin.length()==0 || sPeriodEnd.length()==0){
         // currMonth : begin and end
@@ -107,7 +107,9 @@
         if(sMsg.length() > 0){
             %><%=sMsg%><br><br><%
         }
-    %>    
+    %>   
+    
+    <i><font color="red">Workschedules have no priority over leaves.</font></i><br><br>
         
     <%-- link to hr/manage_workschedules --%>
     <% 
@@ -131,7 +133,21 @@
     var answer = yesnoDialog("web","areYouSure");
     if(answer==1){
       var okToSubmit = true;
-    
+
+      if(okToSubmit){  
+        <%-- begin can not be after end --%>
+        if(document.getElementById("beginDate").value.length > 0 && document.getElementById("endDate").value.length > 0){
+          var beginDate = makeDate(document.getElementById("beginDate").value);
+          var endDate = makeDate(document.getElementById("endDate").value);
+      
+          if(beginDate.getTime() > endDate.getTime()){
+            okToSubmit = false;
+            alertDialog("web","beginMustComeBeforeEnd");
+            document.getElementById("beginDate").focus();
+          }
+        }  
+      }   
+      
       if(okToSubmit){
         EditForm.buttonCreate.disabled = true;
         EditForm.buttonBack.disabled = true;

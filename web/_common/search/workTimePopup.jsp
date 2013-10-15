@@ -14,7 +14,6 @@
         questionTran = labelValue;
     }
 %>
-<script type="text/javascript">window.resizeTo(400,300);</script>
 
 <table class="menu" width="100%" height="100%">
     <tr>
@@ -28,13 +27,17 @@
 
     <tr>
         <td colspan="2" align="center">
-            <input type="button" name="buttonOk" class="button" value="&nbsp;&nbsp;<%=getTran("web.occup","medwan.common.ok",sWebLanguage)%>&nbsp;&nbsp;" onclick="doClose(1);"/>
+            <input type="button" name="buttonOk" class="button" value="&nbsp;&nbsp;<%=getTranNoLink("web.occup","medwan.common.ok",sWebLanguage)%>&nbsp;&nbsp;" onclick="doClose(1);"/>
             <br><br>
         </td>
     </tr>
 </table>
 
 <script>
+  //document.getElementById("buttonOk").focus();
+  //window.resizeTo(400,300);
+  
+  <%-- DO CLOSE --%>
   function doClose(iReturn){
     window.returnValue = iReturn;
     window.close();

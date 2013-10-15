@@ -1,7 +1,7 @@
 <%@page import="be.openclinic.hr.Contract,
                 java.util.*"%>
-<%@page errorPage="/includes/error.jsp" %>
-<%@include file="/includes/validateUser.jsp" %>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
 
 <body style="padding:5px;">
@@ -32,7 +32,7 @@
         %>
             <br>
             
-            <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable" style="border:1px solid #cccccc;">
+            <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable" style="border:1px solid #ccc;">
                 <%-- header --%>
                 <tr class="admin">
                     <td class="admin" style="padding-left:0;" width="13%" nowrap><%=getTran("web.hr","contractId",sWebLanguage)%></td>
@@ -109,5 +109,7 @@
 
     window.close();
   }
+  
+  window.setTimeout("this.focus();",200); // bring to front
 </script>
 </body>

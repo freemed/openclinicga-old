@@ -16,7 +16,6 @@
         questionTran = labelValue;
     }
 %>
-<script type="text/javascript">window.resizeTo(400,300);</script>
 
 <body class="Geenscroll">
 <form name="promptForm" method="POST" onkeydown="if(enterEvent(event,13)){doClose(document.getElementById('promptField').value);}">
@@ -36,7 +35,8 @@
 </form>
 
 <script>
-  document.getElementById("buttonOk").focus();
+  //document.getElementById("buttonOk").focus();
+  //window.resizeTo(400,300);
 
   <%-- DO CLOSE --%>
   function doClose(iReturn){

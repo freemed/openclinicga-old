@@ -34,6 +34,7 @@
 
 <script>
   //document.getElementById("buttonYes").focus();
+  //window.resizeTo(400,300);
 
   <%-- DO CLOSE --%>
   function doClose(iReturn){

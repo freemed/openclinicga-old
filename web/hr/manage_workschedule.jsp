@@ -949,16 +949,6 @@
     document.getElementById(serviceNameField).focus();
   }
     
-  <%-- SEARCH CONTRACT --%>
-  function searchContract(contractUidField,contractIdField){
-    var url = "/_common/search/searchContract.jsp&ts=<%=getTs()%>"+
-              "&PersonId=<%=activePatient.personid%>"+
-              "&ReturnFieldContractUid="+contractUidField+
-              "&ReturnFieldContractId="+contractIdField;
-    openPopup(url);
-    document.getElementById(contractIdField).focus();
-  }
-  
   <%-- UPDATE ROW STYLES --%>
   function updateRowStyles(){
     <%-- searchresults --%>

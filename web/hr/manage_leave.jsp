@@ -132,7 +132,7 @@
           var beginDate = makeDate(document.getElementById("begin").value);
           var endDate = makeDate(document.getElementById("end").value);
       
-          if(beginDate > endDate){
+          if(beginDate.getTime() > endDate.getTime()){
             okToSubmit = false;
             alertDialog("web","beginMustComeBeforeEnd");
             document.getElementById("begin").focus();
@@ -146,7 +146,7 @@
           var reqDate = makeDate(document.getElementById("requestDate").value);
           var authDate = makeDate(document.getElementById("authorizationDate").value);
           
-          if(reqDate > authDate){
+          if(reqDate.getTime() > authDate.getTime()){
             okToSubmit = false;
             alertDialog("web","beginMustComeBeforeEnd");
             document.getElementById("requestDate").focus();
@@ -318,25 +318,26 @@
   <%-- CALCULATE DURATION --%>
   function calculateDuration(){
     var sDuration = "";
+    document.getElementById("duration").value = ""; // clear
     
     if(document.getElementById("begin").value.length > 0 && document.getElementById("end").value.length > 0){
       var beginDate = makeDate(document.getElementById("begin").value);
       var endDate = makeDate(document.getElementById("end").value);
 
       <%-- begin can not be after end --%>
-      if(beginDate <= endDate){              
+      if(beginDate.getTime() <= endDate.getTime()){              
         <%-- calculate --%>
         var difMillis = (endDate.getTime()-beginDate.getTime());
         var diffDays = (difMillis/(24*60*60*1000));
         sDuration = diffDays+1;
+
+        document.getElementById("duration").value = formatDecimalValue(sDuration,0,false);
       }
       else{
         alertDialog("web","beginMustComeBeforeEnd");
-        document.getElementById("begin").focus();
+        document.getElementById("end").focus();
       }
-    }        
-
-    document.getElementById("duration").value = formatDecimalValue(sDuration,0,false);
+    }
   }
     
   EditForm.begin.focus();
