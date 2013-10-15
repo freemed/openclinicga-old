@@ -331,6 +331,11 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
 
                 Debug.println("\nperiodBegin : "+ScreenHelper.stdDateFormat.format(periodBegin.getTime()));
                 Debug.println("periodEnd   : "+ScreenHelper.stdDateFormat.format(periodEnd.getTime())+"\n");
+                
+                String sLeaveDuration = MedwanQuery.getInstance().getConfigString("hr.salarycalculation.leaveduration","7,36");
+                sLeaveDuration = sLeaveDuration.replaceAll("\\,",".");
+                Debug.println("sLeaveDuration : "+sLeaveDuration+"\n");
+                float leaveDuration = Float.parseFloat(sLeaveDuration); // hours
 
                 //*** create a salary calculation for each day in the leave ***
                 java.util.Date currDate;            
@@ -365,11 +370,8 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
                             calculation.end = currDate; // same as begin --> one calculation per day
                             String sSalCalUID = calculation.store(activeUser.userid); // first store calculation to obtain UID
                             
-                            // add codes
-                            float duration = (float)leave.duration;
-                            Debug.println("duration ("+ScreenHelper.stdDateFormat.format(currDate)+") : "+duration);
-                            
-                            calculation.codes = getDefaultLeaveSalaryCodes(sSalCalUID,duration,leave.type);
+                            // add codes 
+                            calculation.codes = getDefaultLeaveSalaryCodes(sSalCalUID,leaveDuration,leave.type);
                             Debug.println(" Saving "+calculation.codes.size()+" codes");
                             
                             // save calculation
