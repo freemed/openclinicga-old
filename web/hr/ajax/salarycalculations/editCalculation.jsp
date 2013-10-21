@@ -21,7 +21,7 @@
     		code = new SalaryCalculationCode();
     		code.setUid("-1"); // codes are always deleted and re-inserted
     		code.calculationUid = sSalCalUID;
-     		code.duration = Float.parseFloat(codeAsString[0]); 
+     		code.duration = Float.parseFloat(codeAsString[0].replaceAll(",",".")); 
     	    code.code = codeAsString[1]; 
     	    //code.label = codeAsString[2];
     		
@@ -77,6 +77,7 @@
         
         // parse codes
         calculation.codes = parseCodes(sSalCalUID,sCodes);
+        System.out.println("calculation.codes : "+calculation.codes.size()); ////////////
         Debug.println("Saving "+calculation.codes.size()+" codes");
         
         calculation.store(activeUser.userid); // save again, the calculation now contains codes
