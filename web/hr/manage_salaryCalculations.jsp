@@ -130,7 +130,7 @@
             <%-- ARROWS --%>
             <td class="admin2" width="180" nowrap>                
                 <input type="button" class="button" name="buttonPrevious" value=" < " onclick="showPrevMonth();"/>
-                <input type="text" class="text" id="DisplayedMonth" name="DisplayedMonth" value="<%=sDisplayedMonth%>" size="10" maxLength="10"/>
+                <input type="text" class="text" id="DisplayedMonth" name="DisplayedMonth" value="<%=sDisplayedMonth%>" size="10" maxLength="10" onKeyUp="denySpecialCharacters(this);"/>
                 <input type="button" class="button" name="buttonNext" value=" > " onclick="showNextMonth();"/>                        
                                
                 <%-- only past dates --%>
