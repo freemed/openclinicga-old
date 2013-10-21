@@ -100,18 +100,13 @@
   <%-- DISPLAY CLIENT MSG - DATA IS DELETED --%>
   function displayClientMsgDataIsDeleted(){    
     showCalendar();	  
+    
     clientMsg.setValid("<%=getTranNoLink("web","dataIsDeleted",sWebLanguage)%>",null,1000);
   }
     
   <%-- DISPLAY CLIENT ERR --%>
   function displayClientErr(){
     clientMsg.setError("<%=getTranNoLink("web.control","dberror",sWebLanguage)%>",null,10000);
-  }
-  
-  <%-- ENTER EVENT --%>
-  function enterEvent(e,targetKey){
-    var eventKey = e.which?e.which:window.event.keyCode;
-    return (eventKey==targetKey);
   }
 </script>
 
