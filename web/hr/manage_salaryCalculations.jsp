@@ -348,7 +348,7 @@
                  "&Begin="+sDisplayedDate+
                  "&PersonId="+$("PersonId").value;
     
-    Modalbox.show(url,{title:"<%=getTranNoLink("web","salaryCalculation",sWebLanguage)%>",width:550,params:params,afterHide:function(){showCalendar();}},{evalScripts:true});
+    Modalbox.show(url,{title:"<%=getTranNoLink("web","salaryCalculation",sWebLanguage)%>",width:550,params:params},{evalScripts:true});
   }
   
   <%-- OPEN CALCULATION --%>
@@ -576,7 +576,7 @@
       new Ajax.Request(url,{
         evalScripts: true,
         parameters: params,
-        onComplete: displayClientMsgDataIsSaved()
+        onComplete: function(){setTimeout("displayClientMsgDataIsSaved()",500)} // wait for sql to save data
       });
     }
   }
