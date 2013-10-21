@@ -99,6 +99,7 @@
   
   <%-- DISPLAY CLIENT MSG - DATA IS DELETED --%>
   function displayClientMsgDataIsDeleted(){    
+    showCalendar();	  
     clientMsg.setValid("<%=getTranNoLink("web","dataIsDeleted",sWebLanguage)%>",null,1000);
   }
     
@@ -356,7 +357,7 @@
     var params = "Action=show"+
                  "&SalCalUID="+actualCalculationId;
     
-    Modalbox.show(url,{title:"<%=getTranNoLink("web","salaryCalculation",sWebLanguage)%>",width:550,params:params,afterHide:function(){showCalendar();}},{evalScripts:true});
+    Modalbox.show(url,{title:"<%=getTranNoLink("web","salaryCalculation",sWebLanguage)%>",width:550,params:params},{evalScripts:true});
   }
   
   <%-- CREATE CALCULATION --%>
@@ -491,7 +492,7 @@
       new Ajax.Request(url,{
         evalScripts: true,
         parameters: params,
-        onComplete: displayClientMsgDataIsSaved()
+        onComplete: function(){setTimeout("displayClientMsgDataIsSaved()",500)} // wait for sql to save data
       });
     }
   }
@@ -650,6 +651,7 @@
 
       td = tr.insertCell(1);
       var duration = document.getElementById("addDuration").value;
+      duration = replaceAll(duration,",",".");
       if(duration.indexOf(".")<0) duration = duration+".0";
       td.innerHTML = duration;
       tr.appendChild(td);
@@ -719,9 +721,11 @@
     tr.appendChild(td);
 
     td = tr.insertCell(1);
+    duration = replaceAll(duration,",",".");
+    if(duration.indexOf(".")<0) duration = duration+".0";
     td.innerHTML = duration;
     tr.appendChild(td);
-
+    
     td = tr.insertCell(2);
     td.innerHTML = code+" - "+label;
     tr.appendChild(td);
@@ -761,6 +765,7 @@
                                "</a>";
 
       var duration = document.getElementById("addDuration").value;
+      duration = replaceAll(duration,",",".");
       if(duration.indexOf(".")<0) duration = duration+".0";
       row.cells[1].innerHTML = duration;
       
