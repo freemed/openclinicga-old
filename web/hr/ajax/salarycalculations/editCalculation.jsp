@@ -209,7 +209,7 @@
                                      Hashtable hSort = new Hashtable();
                                      SalaryCalculationCode savedCode;
 
-                                     DecimalFormat doubleFormat = new DecimalFormat("#.##");
+                                     DecimalFormat doubleFormat = new DecimalFormat("0.0");
                                      
                                      // sorted on salary.beginDate
                                      for(int i=0; i<savedCodes.size(); i++){
