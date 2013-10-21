@@ -110,9 +110,9 @@ function addDays(date,days){
   return date;
 }
 
-//-- REMOVE TRAILING ZEROS --
+//-- REMOVE TRAILING ZEROS (except the first) --
 function removeTrailingZeros(textField){
-  while(textField.value.startsWith("0")){
+  while(textField.value.startsWith("00")){
     textField.value = textField.value.substring(1); 
   }
 }
