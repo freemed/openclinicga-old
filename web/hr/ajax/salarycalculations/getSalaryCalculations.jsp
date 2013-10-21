@@ -76,7 +76,7 @@
     SalaryCalculationCode code;
     String sLabel;
     
-    DecimalFormat doubleFormat = new DecimalFormat("#.##");
+    DecimalFormat doubleFormat = new DecimalFormat("#.00");
     float totalDurationHours = 0.0f;
     int totalDurationDays = 0;
     
