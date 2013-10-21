@@ -949,7 +949,7 @@
     document.getElementById(serviceNameField).focus();
   }
     
-  <%-- UPDATE ROW STYLES --%>
+  <%-- UPDATE ROW STYLES (custom for this page) --%>
   function updateRowStyles(){
     <%-- searchresults --%>
     var searchresults = document.getElementById("searchresults"); // FF
