@@ -4,9 +4,11 @@
 
 <%
     String sAction = checkString(request.getParameter("Action"));
- 
+    boolean ajaxMode = (checkString(request.getParameter("AjaxMode")).equalsIgnoreCase("true"));
+
     String sPeriodBegin = checkString(request.getParameter("beginDate")),
-           sPeriodEnd   = checkString(request.getParameter("endDate"));
+           sPeriodEnd   = checkString(request.getParameter("endDate")),
+           sPersonId    = checkString(request.getParameter("personId"));
      
     if(sPeriodBegin.length()==0 || sPeriodEnd.length()==0){
         // currMonth : begin and end
@@ -32,6 +34,8 @@
     if(Debug.enabled){
         Debug.println("\n******* hr/management/createSalaryCalculationsForLeaves.jsp *******");
         Debug.println("sAction      : "+sAction);
+        Debug.println("ajaxMode     : "+ajaxMode);
+        Debug.println("sPersonId    : "+sPersonId);
         Debug.println("sPeriodBegin : "+sPeriodBegin);
         Debug.println("sPeriodEnd   : "+sPeriodEnd+"\n");
     }
@@ -51,7 +55,16 @@
             periodEnd = ScreenHelper.stdDateFormat.parse(sPeriodEnd);
         }
         
-        int[] counters = SalaryCalculationManager.createSalaryCalculationsForLeaves(periodBegin,periodEnd,activeUser);
+        int[] counters;
+        if(sPersonId.length() > 0){
+            // one specific dossier
+        	counters = SalaryCalculationManager.createSalaryCalculationsForLeavesForPerson(Integer.parseInt(sPersonId),periodBegin,periodEnd,activeUser);
+        }
+        else{
+        	// all dossiers 
+            counters = SalaryCalculationManager.createSalaryCalculationsForLeaves(periodBegin,periodEnd,activeUser);        
+        }
+        
         int calculationsCreated   = counters[0],
             calculationsExisted   = counters[1],
             calculationsOverruled = counters[2];
@@ -62,8 +75,13 @@
                "<i>When only few calculations were created, they might exist already.</i><br>"+
                "<i>If no period specified, the period is the current month.</i>";
     }
-%>
-  
+
+    if(ajaxMode==true){
+    	// return message
+    	%><%=sMsg%><%
+    }
+    else{
+        %>   
 <form name="EditForm" method="post" action="<c:url value='/main.do'/>?Page=hr/management/createSalaryCalculationsForLeaves.jsp&ts=<%=getTs()%>" onkeydown="if(enterEvent(event,13)){createCalculations();return false;}">
     <%=writeTableHeader("web.manage","createSalaryCalculationsForLeaves",sWebLanguage,"")%>
     <input type="hidden" name="Action" value="">
@@ -87,9 +105,18 @@
         
         <%-- employees --%>
         <tr>
-            <td class="admin"><%=getTran("web.hr","employees",sWebLanguage)%>&nbsp;</td>
+            <td class="admin" style="vertical-align:top;"><%=getTran("web.hr","employees",sWebLanguage)%>&nbsp;</td>
             <td class="admin2" nowrap>
-                      
+                <%
+                    Vector employeeNames = new Vector(SalaryCalculationManager.getEmployeePersonIds().values()); 
+
+                    String sEmployeeName;
+	                for(int i=0; i<employeeNames.size(); i++){
+	                	sEmployeeName = (String)employeeNames.get(i);
+	                    
+	                	%><%=sEmployeeName%><br><%
+	                }        
+                %>
             </td>                        
         </tr>            
                                       
@@ -170,3 +197,6 @@
     window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=system/menu.jsp";
   }
 </script>
+        <%
+    }
+%>

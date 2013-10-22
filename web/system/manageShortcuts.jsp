@@ -1,12 +1,14 @@
 <%@page import="be.openclinic.system.Examination"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%
 	if(request.getParameter("submit")!=null){
 		for(int n=1;n<6;n++){
-			String	type = checkString(request.getParameter("FastEncounterType."+n));
-			String	origin = checkString(request.getParameter("FastEncounterOrigin."+n));
-			String	service = checkString(request.getParameter("FastEncounterService."+n));
-			String	manager = checkString(request.getParameter("FastEncounterManager."+n));
+			String type = checkString(request.getParameter("FastEncounterType."+n));
+			String origin = checkString(request.getParameter("FastEncounterOrigin."+n));
+			String service = checkString(request.getParameter("FastEncounterService."+n));
+			String manager = checkString(request.getParameter("FastEncounterManager."+n));
+			
 			String s="";
 			if(type.length()>0 && origin.length()>0 && service.length()>0){
 				s =type+";"+origin+";"+service;
@@ -16,21 +18,25 @@
 			}
 			MedwanQuery.getInstance().setConfigString("quickConsult"+n+"."+activeUser.userid,s);
 		}
+		
 		for (int n=1;n<6;n++){
 			String transaction = checkString(request.getParameter("FastTransaction."+n));
 			MedwanQuery.getInstance().setConfigString("quickTransaction"+n+"."+activeUser.userid,transaction);
 		}
 	}
 %>
+
 <form name='shortcutForm' method='post'>
-	<table>
+    <%-- 1 : ENCOUNTERS -------------------------------------------------------------------------%> 
+	<table class="list" cellpadding="0" cellspacing="1">
 		<tr class='admin'>
-			<td><%=getTran("web","shortcut",sWebLanguage) %></td>
+			<td width="80"><%=getTran("web","shortcut",sWebLanguage) %></td>
 			<td><%=getTran("web","type",sWebLanguage) %></td>
 			<td><%=getTran("web","origin",sWebLanguage) %></td>
 			<td><%=getTran("web","service",sWebLanguage) %></td>
 			<td><%=getTran("web","manager",sWebLanguage) %></td>
 		</tr>
+		
 		<tr>
 			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 1</td>
 			<td class='admin2'>
@@ -72,6 +78,7 @@
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterManager.1').value='';document.getElementById('FastEncounterManagerName.1').value='';">
 	        </td>
 		</tr>
+		
 		<tr>
 			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 2</td>
 			<td class='admin2'>
@@ -111,6 +118,7 @@
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterManager.2').value='';document.getElementById('FastEncounterManagerName.2').value='';">
 	        </td>
 	    </tr>
+	    
 		<tr>
 			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 3</td>
 			<td class='admin2'>
@@ -150,6 +158,7 @@
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterManager.3').value='';document.getElementById('FastEncounterManagerName.3').value='';">
 	        </td>
 	    </tr>
+	    
 		<tr>
 			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 4</td>
 			<td class='admin2'>
@@ -189,6 +198,7 @@
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterManager.4').value='';document.getElementById('FastEncounterManagerName.4').value='';">
 	        </td>
 	    </tr>
+	    
 		<tr>
 			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 5</td>
 			<td class='admin2'>
@@ -227,11 +237,18 @@
 	            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchManager('FastEncounterManager.5','FastEncounterManagerName.5');">
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterManager.5').value='';document.getElementById('FastEncounterManagerName.5').value='';">
 	        </td>
-	    </tr>	    	    	    
+	    </tr>	
+	</table>
+	
+	<br>
+	      
+    <%-- 2 : TRANSACTIONS -----------------------------------------------------------------------%> 	 
+	<table class="list" cellpadding="0" cellspacing="1">       	    	    
 		<tr class='admin'>
-			<td><%=getTran("web","shortcut",sWebLanguage) %></td>
+			<td width="80"><%=getTran("web","shortcut",sWebLanguage) %></td>
 			<td colspan=4><%=getTran("web","type",sWebLanguage) %></td>
 		</tr>
+		
 		<%
 	        String sKey, sID, sSelected="",sEditTranType;
 	        Vector vResults = Examination.searchAllExaminations();
@@ -251,7 +268,11 @@
 	
 	        Iterator it;
 	        Examination examination;
+            
+            // added by Stijn : display permissions
+            if(Debug.enabled) activeUser.displayAccessRights();
 		%>
+		
 		<tr>
 			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 1</td>
 			<td class='admin2' colspan='4'>
@@ -270,11 +291,18 @@
                             if (sEditTranType.equalsIgnoreCase(fasttransaction)) {
                                 sSelected = " selected";
                             }
-                            %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+
+                            // added by Stijn : check permission
+                            String sAccessRightForTransaction = MedwanQuery.getInstance().getAccessRightForTransaction(sEditTranType).toLowerCase();
+                            if(activeUser.getAccessRight(sAccessRightForTransaction+".select")){
+                                %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+                            }
                         }
                     %>
                 </select>
             </td>
+        </tr>
+        
 		<tr>
 			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 2</td>
 			<td class='admin2' colspan='4'>
@@ -293,12 +321,18 @@
                             if (sEditTranType.equals(fasttransaction)) {
                                 sSelected = " selected";
                             }
-                            %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+
+                            // added by Stijn : check permission
+                            String sAccessRightForTransaction = MedwanQuery.getInstance().getAccessRightForTransaction(sEditTranType).toLowerCase();
+                            if(activeUser.getAccessRight(sAccessRightForTransaction+".select")){
+                                %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+                            }
                         }
                     %>
                 </select>
             </td>
 		</tr>
+		
 		<tr>
 			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 3</td>
 			<td class='admin2' colspan='4'>
@@ -313,16 +347,23 @@
                             sKey = getTran("examination", sID, sWebLanguage);
                             examination = Examination.get(sID);
                             sEditTranType = examination.getTransactionType();
+                            
 							sSelected="";
                             if (sEditTranType.equals(fasttransaction)) {
                                 sSelected = " selected";
                             }
-                            %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+
+                            // added by Stijn : check permission
+                            String sAccessRightForTransaction = MedwanQuery.getInstance().getAccessRightForTransaction(sEditTranType).toLowerCase();
+                            if(activeUser.getAccessRight(sAccessRightForTransaction+".select")){
+                                %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+                            }
                         }
                     %>
                 </select>
             </td>
 		</tr>
+		
 		<tr>
 			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 4</td>
 			<td class='admin2' colspan='4'>
@@ -337,16 +378,23 @@
                             sKey = getTran("examination", sID, sWebLanguage);
                             examination = Examination.get(sID);
                             sEditTranType = examination.getTransactionType();
+                            
 							sSelected="";
                             if (sEditTranType.equals(fasttransaction)) {
                                 sSelected = " selected";
                             }
-                            %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+
+                            // added by Stijn : check permission
+                            String sAccessRightForTransaction = MedwanQuery.getInstance().getAccessRightForTransaction(sEditTranType).toLowerCase();
+                            if(activeUser.getAccessRight(sAccessRightForTransaction+".select")){
+                                %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+                            }
                         }
                     %>
                 </select>
             </td>
 		</tr>
+		
 		<tr>
 			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 5</td>
 			<td class='admin2' colspan='4'>
@@ -361,18 +409,26 @@
                             sKey = getTran("examination", sID, sWebLanguage);
                             examination = Examination.get(sID);
                             sEditTranType = examination.getTransactionType();
+                            
 							sSelected="";
                             if (sEditTranType.equals(fasttransaction)) {
                                 sSelected = " selected";
                             }
-                            %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+
+                            // added by Stijn : check permission
+                            String sAccessRightForTransaction = MedwanQuery.getInstance().getAccessRightForTransaction(sEditTranType).toLowerCase();
+                            if(activeUser.getAccessRight(sAccessRightForTransaction+".select")){
+                                %><option value="<%=sEditTranType%>"<%=sSelected%>><%=sKey%></option><%
+                            }
                         }
                     %>
                 </select>
             </td>
 		</tr>
 	</table>
+	<i><%=getTran("web","onlyPermittedTransactionsAreDisplayed",sWebLanguage)%></i>
 	<p/>
+	
 	<input type='submit' name='submit' value='<%=getTran("web","save",sWebLanguage) %>'/>
 </form>
 

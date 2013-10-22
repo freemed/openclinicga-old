@@ -28,22 +28,22 @@
                                 sTmpPersonid = checkString(request.getParameter("PersonID"));
                             }
                 if (sTmpPersonid.length() > 0) {
-                                boolean bFingerPrint = FingerPrint.exists(Integer.parseInt(sTmpPersonid));
-                                boolean bPicture = Picture.exists(Integer.parseInt(sTmpPersonid));
-                                boolean bBarcode = Barcode.exists(Integer.parseInt(sTmpPersonid));
-                                if (!bFingerPrint) {
-                                    %> <img class="link" onclick="enrollFingerPrint();"  border='0' src="<c:url value='/_img/icon_fingerprint.png'/>" alt="<%=getTranNoLink("web","enrollFingerPrint",sWebLanguage)%>"/><%
-                                }
-                                if (!bBarcode) {
-                                    %> <img class="link" onclick="printPatientCard();"  border='0' src="<c:url value='/_img/icon_barcode.gif'/>" alt="<%=getTranNoLink("web","printPatientCard",sWebLanguage)%>"/><%
-                                }
-                                //todo 1=1 to remove
-                                if(!bPicture || 1==1){
-                                    %> <img class="link" onclick="storePicture();"  border='0' src="<c:url value='/_img/icon_camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/><%
-                                }
-                                %>
-                                <!--<img src="<c:url value='/'/><%=sAPPDIR%>_img/logo2.jpg" border='0' class="logo">--><%
-                            }
+                    boolean bFingerPrint = FingerPrint.exists(Integer.parseInt(sTmpPersonid));
+                    boolean bPicture = Picture.exists(Integer.parseInt(sTmpPersonid));
+                    boolean bBarcode = Barcode.exists(Integer.parseInt(sTmpPersonid));
+                    if (!bFingerPrint) {
+                        %> <img class="link" onclick="enrollFingerPrint();"  border='0' src="<c:url value='/_img/icon_fingerprint_enroll.png'/>" alt="<%=getTranNoLink("web","enrollFingerPrint",sWebLanguage)%>"/><%
+                    }
+                    if (!bBarcode) {
+                        %> <img class="link" onclick="printPatientCard();"  border='0' src="<c:url value='/_img/icon_barcode.gif'/>" alt="<%=getTranNoLink("web","printPatientCard",sWebLanguage)%>"/><%
+                    }
+                    //todo 1=1 to remove
+                    if(!bPicture || 1==1){
+                        %> <img class="link" onclick="storePicture();"  border='0' src="<c:url value='/_img/icon_camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/><%
+                    }
+                    %>
+                    <!--<img src="<c:url value='/'/><%=sAPPDIR%>_img/logo2.jpg" border='0' class="logo">--><%
+                }
                 if(activePatient!=null && activePatient.personid!=null && activePatient.personid.length()>0 && MedwanQuery.getInstance().getConfigString("edition").equalsIgnoreCase("openpharmacy")){
                 	%>
                        <img class="link" onclick="showdrugsoutbarcode();"  border='0' src="<c:url value='/_img/icon_pharma.png'/>" alt="<%=getTranNoLink("web","drugsoutbarcode",sWebLanguage)%>"/>
@@ -84,7 +84,7 @@
                     %><!--<img id="ddIconHelp" src="<c:url value='/_img/icon_help.gif'/>" height="16" width="16" border="0" alt="Help" onclick="openHelpFile();" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>--><%
                 }
             %>
-<img class="link" id="ddIconFingerprint" onclick="readFingerprint();" title="<%=getTranNoLink("Web","Read_fingerprint",sWebLanguage)%>"  src="<c:url value='/_img/icon_fingerprint.png'/>" />
+<img class="link" id="ddIconFingerprint" onclick="readFingerprint();" title="<%=getTranNoLink("Web","Read_fingerprint",sWebLanguage)%>"  src="<c:url value='/_img/icon_fingerprint_read.png'/>" />
           
 <%
 	}

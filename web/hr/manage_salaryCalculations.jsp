@@ -124,7 +124,7 @@
             <td class="admin2" width="50"><%=getTran("web","month",sWebLanguage)%></td>
             
             <%-- ARROWS --%>
-            <td class="admin2" width="180" nowrap>                
+            <td class="admin2" width="150" nowrap>                
                 <input type="button" class="button" name="buttonPrevious" value=" < " onclick="showPrevMonth();"/>
                 <input type="text" class="text" id="DisplayedMonth" name="DisplayedMonth" value="<%=sDisplayedMonth%>" size="10" maxLength="10" onKeyUp="denySpecialCharacters(this);"/>
                 <input type="button" class="button" name="buttonNext" value=" > " onclick="showNextMonth();"/>                        
@@ -140,16 +140,19 @@
                 </div>
                 
                 <div style="float:left;height:20px;padding-left:20px;">
-                    <input type="button" name="buttonRepeat" class="button" value="<%=getTranNoLink("web","repeat",sWebLanguage)%>" onclick="repeatCalculation();"/>
-                </div>
-                
-                <%-- instructions --%>
-                <div style="float:left;height:20px;padding-left:20px;padding-top:3px;">
-                    <%=getTran("hr.salarycalculations","instructions",sWebLanguage)%>
+                    <input type="button" name="buttonRepeat" class="button" value="<%=getTranNoLink("web","repeat",sWebLanguage)%>" onclick="repeatCalculation();"/>&nbsp;
+                    <input type="button" name="buttonCreate" class="button" value="<%=getTranNoLink("web.manage","createSalaryCalculationsForLeavesAndWorkschedules",sWebLanguage)%>" onclick="createSalaryCalculationsForLeavesAndWorkschedules('<%=activePatient.personid%>');"/>
                 </div>
                 
                 <%-- ajax icon --%>
-                <div id="wait" style="width:140px;display:none">&nbsp;</div>                
+                <div id="wait" style="width:140px;display:none">&nbsp;</div>
+            </td>
+        </tr>
+
+        <%-- instructions --%>
+        <tr>                
+            <td class="admin2" colspan="3">                
+                <%=getTran("hr.salarycalculations","instructions",sWebLanguage)%>                 
             </td>
         </tr>
     </table>
@@ -330,6 +333,73 @@
   clientMsg.setDiv("monthScheduler_msgBox");
   
   <%--- CALCULATION -----------------------------------------------------------------------------%>
+
+  <%-- CREATE SALARY CALCULATIONS FOR LEAVES AND WORKSCHEDULES (for displayed month) --%>
+  function createSalaryCalculationsForLeavesAndWorkschedules(personId){
+    if(yesnoDialog("web","areYouSure")){
+      var dispMonth = makeDate("01/"+toMonthFormat($("DisplayedMonth").value));
+      var nextMonth = dispMonth.getMonth()+2;
+        
+      var url = "<c:url value='/hr/management/createSalaryCalculationsForLeavesAndWorkSchedules.jsp'/>?ts="+new Date().getTime();
+      var params = "Action=create"+
+			       "&AjaxMode=true"+
+			       "&personId="+personId+
+                   "&beginDate=01/"+(dispMonth.getMonth()+1)+"/"+dispMonth.getFullYear()+
+                   "&endDate=01/"+nextMonth+"/"+dispMonth.getFullYear();      
+      
+      new Ajax.Request(url,{
+        evalScripts: true,
+        parameters: params,
+        onComplete: function(resp){
+          displayClientMsgDataIsSaved();
+        }
+      });
+    }
+  }
+  
+  <%-- CREATE SALARY CALCULATIONS FOR WORKSCHEDULES (for displayed month)
+  function createSalaryCalculationsForWorkschedules(){
+    if(yesnoDialog("web","areYouSure")){
+      var url = "<c:url value='/hr/management/createSalaryCalculationsForWorkSchedules.jsp'/>?ts="+new Date().getTime();
+      var params = "Action=create"+
+			       "&AjaxMode=true"+
+			       "&beginDate=01/"+$("DisplayedMonth").value+
+			       "&endDate=01/"+$("DisplayedMonth").value;     
+        
+      new Ajax.Request(url,{
+        evalScripts: true,
+        parameters: params,
+        onComplete: function(resp){
+          var msg = resp.responseText;
+          clientMsg.setValid("<%=getTranNoLink("web.control","dataIsSaved",sWebLanguage)%>",null,1500);      
+          //clientMsg.setValid(resp.responseText,null,10000);
+        }
+      });
+    }
+  }
+  --%>
+  
+  <%-- CREATE SALARY CALCULATIONS FOR LEAVES (for displayed month)
+  function createSalaryCalculationsForLeaves(){
+    if(yesnoDialog("web","areYouSure")){
+      var url = "<c:url value='/hr/management/createSalaryCalculationsForLeaves.jsp'/>?ts="+new Date().getTime();
+      var params = "Action=create"+
+			       "&AjaxMode=true"+
+			       "&beginDate=01/"+$("DisplayedMonth").value+
+			       "&endDate=01/"+$("DisplayedMonth").value;     
+      
+      new Ajax.Request(url,{
+        evalScripts: true,
+        parameters: params,
+        onComplete: function(resp){
+          var msg = resp.responseText; 
+          clientMsg.setValid("<%=getTranNoLink("web.control","dataIsSaved",sWebLanguage)%>",null,1500);      
+          //clientMsg.setValid(resp.responseText,null,10000);
+        }
+      });
+    }
+  }
+  --%>
   
   <%-- REPEAT CALCULATION --%>
   function repeatCalculation(){ 
@@ -398,7 +468,7 @@
       new Ajax.Request(url,{
         evalScripts: true,
         parameters: params,
-        onComplete: function(request){
+        onComplete: function(resp){
           hideCalculation(source.calculationUID);
           displayClientMsgDataIsDeleted();
         }
@@ -416,7 +486,7 @@
       new Ajax.Request(url,{
         evalScripts: true,
         parameters: params,
-        onComplete: function(request){ 
+        onComplete: function(resp){ 
           hideCalculation(salCalUID);
           closeCalculationForm();
           displayClientMsgDataIsDeleted();

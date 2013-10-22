@@ -4,9 +4,11 @@
 
 <%
     String sAction = checkString(request.getParameter("Action"));
- 
+    boolean ajaxMode = (checkString(request.getParameter("AjaxMode")).equalsIgnoreCase("true"));
+
     String sPeriodBegin = checkString(request.getParameter("beginDate")),
-           sPeriodEnd   = checkString(request.getParameter("endDate"));
+           sPeriodEnd   = checkString(request.getParameter("endDate")),
+           sPersonId    = checkString(request.getParameter("personId"));
      
     if(sPeriodBegin.length()==0 || sPeriodEnd.length()==0){
         // currMonth : begin and end
@@ -32,6 +34,8 @@
     if(Debug.enabled){
         Debug.println("\n**** hr/management/createSalaryCalculationsForWorkschedules.jsp ****");
         Debug.println("sAction      : "+sAction);
+        Debug.println("ajaxMode     : "+ajaxMode);
+        Debug.println("sPersonId    : "+sPersonId);
         Debug.println("sPeriodBegin : "+sPeriodBegin);
         Debug.println("sPeriodEnd   : "+sPeriodEnd+"\n");
     }
@@ -51,17 +55,31 @@
             periodEnd = ScreenHelper.stdDateFormat.parse(sPeriodEnd);
         }
         
-        int[] counters = SalaryCalculationManager.createSalaryCalculationsForWorkschedules(periodBegin,periodEnd,activeUser);
+        int[] counters;
+        if(sPersonId.length() > 0){
+            // one specific dossier
+        	counters = SalaryCalculationManager.createSalaryCalculationsForWorkschedulesForPerson(Integer.parseInt(sPersonId),periodBegin,periodEnd,activeUser);
+        }
+        else{
+        	// all dossiers 
+            counters = SalaryCalculationManager.createSalaryCalculationsForWorkschedules(periodBegin,periodEnd,activeUser);        
+        }
+        
         int calculationsCreated = counters[0],
-        	calculationsExisted = counters[1];
+            calculationsExisted = counters[1];
         
         sMsg = "Created <b>"+calculationsCreated+"</b> calculations;<br>"+
                "<b>"+calculationsExisted+"</b> calculations already existed.<br><br>"+
                "<i>When only few calculations were created, they might exist already.</i><br>"+
                "<i>If no period specified, the period is the current month.</i>";
     }
-%>
-  
+    
+    if(ajaxMode==true){
+    	// return message
+    	%><%=sMsg%><%
+    }
+    else{
+        %>   
 <form name="EditForm" method="post" action="<c:url value='/main.do'/>?Page=hr/management/createSalaryCalculationsForWorkschedules.jsp&ts=<%=getTs()%>" onkeydown="if(enterEvent(event,13)){createCalculations();return false;}">
     <%=writeTableHeader("web.manage","createSalaryCalculationsForWorkschedules",sWebLanguage,"")%>
     <input type="hidden" name="Action" value="">
@@ -85,9 +103,18 @@
         
         <%-- employees --%>
         <tr>
-            <td class="admin"><%=getTran("web.hr","employees",sWebLanguage)%>&nbsp;</td>
+            <td class="admin" style="vertical-align:top;"><%=getTran("web.hr","employees",sWebLanguage)%>&nbsp;</td>
             <td class="admin2" nowrap>
-                      
+                <%
+                    Vector employeeNames = new Vector(SalaryCalculationManager.getEmployeePersonIds().values()); 
+
+                    String sEmployeeName;
+	                for(int i=0; i<employeeNames.size(); i++){
+	                	sEmployeeName = (String)employeeNames.get(i);
+	                    
+	                	%><%=sEmployeeName%><br><%
+	                }        
+                %>
             </td>                        
         </tr>            
                                       
@@ -124,8 +151,7 @@
     <%-- link to createSalaryCalculationsForLeaves --%>
     <img src="<c:url value='/_img/pijl.gif'/>">
     <a href="<c:url value='/main.do'/>?Page=hr/management/createSalaryCalculationsForLeaves.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web.manage","createSalaryCalculationsForLeaves",sWebLanguage)%></a>&nbsp;
-</form>     
-</form>
+</form>  
     
 <script>  
   <%-- CREATE CALCULATIONS --%>
@@ -163,3 +189,6 @@
     window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=system/menu.jsp";
   }
 </script>
+        <%
+    }
+%>
