@@ -436,13 +436,13 @@ public class Leave extends OC_Object {
         boolean[] workDays = new boolean[7];
         
         // init to false (not working)
-        workDays[0] = false; // Sunday
-        workDays[1] = true;  // Monday
-        workDays[2] = true;  // Tuesday
-        workDays[3] = true;  // Wednesday
-        workDays[4] = true;  // Thursday
-        workDays[5] = true;  // Friday
-        workDays[6] = false; // Saturday
+        workDays[0] = true;  // Monday
+        workDays[1] = true;  // Tuesday
+        workDays[2] = true;  // Wednesday
+        workDays[3] = true;  // Thursday
+        workDays[4] = true;  // Friday
+        workDays[5] = false; // Saturday
+        workDays[6] = false; // Sunday
         
         return workDays;
     }

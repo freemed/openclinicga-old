@@ -123,13 +123,13 @@ public class Workschedule extends OC_Object {
         // ATTENTION : you should set 'type' yourself --> getWorkscheduleType()
         if(this.type.equals("week")){
             // init to false (not working)
-            workDays[0] = false; // Sunday
-            workDays[1] = false; // Monday
-            workDays[2] = false; // Tuesday
-            workDays[3] = false; // Wednesday
-            workDays[4] = false; // Thursday
-            workDays[5] = false; // Friday
-            workDays[6] = false; // Saturday
+            workDays[0] = false; // Monday
+            workDays[1] = false; // Tuesday
+            workDays[2] = false; // Wednesday
+            workDays[3] = false; // Thursday
+            workDays[4] = false; // Friday
+            workDays[5] = false; // Saturday
+            workDays[6] = false; // Sunday
             
             try{
                 Vector timeBlocks = parseWeekschedule();
@@ -147,13 +147,13 @@ public class Workschedule extends OC_Object {
         }
         else{
             // do not work in the weekend for daySchedule and monthSchedule
-            workDays[0] = false; // Sunday
-            workDays[1] = true;  // Monday
-            workDays[2] = true;  // Tuesday
-            workDays[3] = true;  // Wednesday
-            workDays[4] = true;  // Thursday
-            workDays[5] = true;  // Friday
-            workDays[6] = false; // Saturday
+            workDays[0] = true;  // Monday
+            workDays[1] = true;  // Tuesday
+            workDays[2] = true;  // Wednesday
+            workDays[3] = true;  // Thursday
+            workDays[4] = true;  // Friday
+            workDays[5] = false; // Saturday
+            workDays[6] = false; // Sunday
         }
 
         return workDays;
@@ -201,10 +201,8 @@ public class Workschedule extends OC_Object {
         float duration = -1;
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        int targetDayIdx = cal.get(Calendar.DAY_OF_WEEK); 
         
-        //*** 1 : DAY *******************************************
-        
+        //*** 1 : DAY *******************************************        
         if(this.type.equals("day")){
             String sHoursPerDay = this.getScheduleElementValue(this.type,"HoursPerDay");
             
@@ -217,12 +215,15 @@ public class Workschedule extends OC_Object {
             try{
                 Vector timeBlocks = parseWeekschedule();
                 TimeBlock timeBlock;
+
+                int targetDayIdx = cal.get(Calendar.DAY_OF_WEEK)-2;        
+                if(targetDayIdx < 0) targetDayIdx = 6;
                 
                 for(int t=0; t<timeBlocks.size(); t++){
                     timeBlock = (TimeBlock)timeBlocks.get(t);
                     
                     // get duration when day-indexes equal
-                    if(Integer.parseInt(timeBlock.dayIdx)==targetDayIdx){                        
+                    if(Integer.parseInt(timeBlock.dayIdx)-1==targetDayIdx){                        
                         duration = toDecimalHour(timeBlock.duration);
                         break;
                     }

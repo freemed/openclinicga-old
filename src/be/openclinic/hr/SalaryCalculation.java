@@ -405,7 +405,7 @@ public class SalaryCalculation extends OC_Object {
     }
     
     //--- GET CALCULATION ON DATE -----------------------------------------------------------------
-    public static SalaryCalculation getCalculationOnDate(java.util.Date date){
+    public static SalaryCalculation getCalculationOnDate(java.util.Date date, int personId){
     	SalaryCalculation calculation = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -414,9 +414,11 @@ public class SalaryCalculation extends OC_Object {
         
         try{
             String sSql = "SELECT * FROM OC_SALARYCALCULATIONS"+
-                          " WHERE OC_CALCULATION_BEGIN = ?";
+                          " WHERE OC_CALCULATION_PERSONID = ?"+
+            		      "  AND OC_CALCULATION_BEGIN = ?";
             ps = oc_conn.prepareStatement(sSql);
-            ps.setDate(1,new java.sql.Date(date.getTime()));
+            ps.setInt(1,personId);
+            ps.setDate(2,new java.sql.Date(date.getTime()));
 
             // execute
             rs = ps.executeQuery();
@@ -424,7 +426,7 @@ public class SalaryCalculation extends OC_Object {
             	calculation = new SalaryCalculation();
                 calculation.setUid(rs.getString("OC_CALCULATION_SERVERID")+"."+rs.getString("OC_CALCULATION_OBJECTID"));
     	    	
-                calculation.personId = rs.getInt("OC_CALCULATION_PERSONID");
+                calculation.personId = personId;
             	calculation.source   = rs.getString("OC_CALCULATION_SOURCE");
             	calculation.type     = rs.getString("OC_CALCULATION_TYPE");
                 calculation.begin    = rs.getDate("OC_CALCULATION_BEGIN");

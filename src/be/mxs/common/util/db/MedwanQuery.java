@@ -90,6 +90,7 @@ public class MedwanQuery {
     private static BrokerScheduler brokerScheduler;
     private Hashtable datacenterparametertypes=new Hashtable();
     private Hashtable countersInUse=new Hashtable();
+    private Hashtable accessRightsForTransactionTypes = new Hashtable();
 
     public Hashtable getConfig() {
 		return config;
@@ -571,7 +572,8 @@ public class MedwanQuery {
             Element mapping;
             while (elements.hasNext()) {
                 mapping = (Element) elements.next();
-                forwards.put(mapping.attributeValue("id"), mapping.attributeValue("path"));
+                forwards.put(mapping.attributeValue("id"),mapping.attributeValue("path"));
+                accessRightsForTransactionTypes.put(mapping.attributeValue("id"),mapping.attributeValue("accessright"));
             }
         }
         catch (Exception e) {
@@ -2251,6 +2253,16 @@ public class MedwanQuery {
         }
         return items;
     }
+    
+    //--- GET ACCESSRIGHT FOR TRANSACTION ---------------------------------------------------------
+    public String getAccessRightForTransaction(String sTranType){
+    	String sAccessRight = checkString((String)accessRightsForTransactionTypes.get(sTranType));
+        Debug.println("getAccessRightForTransaction : '"+sTranType+"' --> '"+sAccessRight+"'");
+        
+    	return sAccessRight;
+    }
+    
+    //--- FIND ICPC CODES -------------------------------------------------------------------------
     public Vector findICPCCodes(String keywords, String language) {
         Vector codes = new Vector();
         Hashtable counters = new Hashtable();

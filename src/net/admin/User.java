@@ -10,6 +10,7 @@ import be.openclinic.system.Application;
 import java.security.MessageDigest;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -1105,6 +1106,28 @@ public class User extends OC_Object {
         }
     }
 
+    //--- DISPLAY ACCESSRIGHTS --------------------------------------------------------------------
+    public void displayAccessRights(){
+    	Vector sortedARs = new Vector(this.accessRights.keySet());
+    	Collections.sort(sortedARs);
+    	
+    	// header
+    	Debug.println("\nACCESSRIGHTS for user '"+this.person.lastname+", "+this.person.firstname+"' (id: "+this.userid+")");
+    	Debug.println("-------------------------------------------------------------------");
+    	
+    	Iterator arIter = sortedARs.iterator();
+    	Object key;
+    	while(arIter.hasNext()){
+    		key = arIter.next();
+    		Debug.println("   "+(String)key+" : "+this.accessRights.get(key));
+    	}
+    	
+    	// footer
+    	Debug.println("Found "+sortedARs.size()+" accessrights");   
+    	Debug.println("-------------------------------------------------------------------\n"); 	
+    }
+    
+    //--- GET FIRST USER NAME ---------------------------------------------------------------------
     public static String getFirstUserName(String sUserId){
         PreparedStatement ps = null;
         ResultSet rs = null;
