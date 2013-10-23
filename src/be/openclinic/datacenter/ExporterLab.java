@@ -31,7 +31,7 @@ public class ExporterLab extends Exporter {
 				//Find oldest diagnosis
 				Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 				try {
-					PreparedStatement ps = oc_conn.prepareStatement("select count(*) total,min(resultdate) as firstMonth from requestedlabanalyses");
+					PreparedStatement ps = oc_conn.prepareStatement("select count(*) total,min(resultdate) as firstMonth from requestedlabanalyses where finalvalidationdatetime is not null");
 					ResultSet rs = ps.executeQuery();
 					if(rs.next() && rs.getInt("total")>0){
 						firstMonth=new SimpleDateFormat("yyyyMM").format(rs.getDate("firstMonth"));
@@ -76,37 +76,40 @@ public class ExporterLab extends Exporter {
 							try {
 								Hashtable analyses = new Hashtable();
 								//First numerical results
-								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, analysiscode,avg(resultvalue) as average,"+MedwanQuery.getInstance().getConfigString("stdevFunction","stdev")+"(resultvalue)) as stddev from requestedlabanalyses a, labanalyses b where a.analysiscode=b.labcode and b.editor='numeric' group by analysiscode order by count(*) desc");
+								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, analysiscode,avg(resultvalue) as average,"+MedwanQuery.getInstance().getConfigString("stdevFunction","stdev")+"(resultvalue)) as stddev from requestedlabanalyses a, labanalysis b where a.analysiscode=b.labcode and b.editor='numeric' and finalvalidationdatetime is not null and finalvalidationdatetime between ? and ? group by analysiscode order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								ResultSet rs = ps.executeQuery();
 								while(rs.next()){
-									String sCode=rs.getString("labanalysiscode");
-									analyses.put(sCode, "<labtest editor='numeric' analysiscode='"+sCode+"' count='"+rs.getInt("total")+"' average='"+rs.getDouble("average")+"' standarddeviation='"+rs.getDouble("stdev")+"'/>");
-									bFound=true;
+									System.out.println("Found numeric");
+									String labcode=rs.getString("labanalysiscode");
+									sb.append("<labtest editor='numeric' code='"+labcode+"' count='"+rs.getInt("total")+"' average='"+rs.getDouble("average")+"' standarddeviation='"+rs.getDouble("stdev")+"' month='"+i+"' year='"+n+"'/>");
 								}
 								rs.close();
 								ps.close();
 								//then listbox results
-								ps = oc_conn.prepareStatement("select count(*) total, analysiscode, resultvalue from requestedlabanalyses a, labanalyses b where a.analysiscode=b.labcode and b.editor='listbox' group by analysiscode order by count(*) desc");
+								ps = oc_conn.prepareStatement("select count(*) total, analysiscode, resultvalue from requestedlabanalyses a, labanalysis b where a.analysiscode=b.labcode and b.editor='listbox' and finalvalidationdatetime is not null and finalvalidationdatetime between ? and ?  group by analysiscode,resultvalue order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								rs = ps.executeQuery();
 								while(rs.next()){
-									String sCode=rs.getString("labanalysiscode");
-									String sResult=rs.getString("resultvalue");
-									analyses.put(sCode+"."+sResult, "<labtest editor='listbox' analysiscode='"+sCode+"' result='"+sResult+"' count='"+rs.getInt("total")+"'/>");
+									System.out.println("Found listbox");
+									String labcode=rs.getString("labanalysiscode");
+									String resultvalue=rs.getString("resultvalue");
+									sb.append("<labtest editor='listbox' code='"+labcode+"' value='"+resultvalue+"' count='"+rs.getInt("total")+"' month='"+i+"' year='"+n+"'/>");
 								}
 								rs.close();
 								ps.close();
 								//then the other results
-								ps = oc_conn.prepareStatement("select count(*) total, analysiscode from requestedlabanalyses a, labanalyses b where a.analysiscode=b.labcode and b.editor not in ('listbox','numeric') group by analysiscode order by count(*) desc");
+								ps = oc_conn.prepareStatement("select count(*) total, analysiscode, editor from requestedlabanalyses a, labanalysis b where a.analysiscode=b.labcode and b.editor NOT in ('listbox','numeric') and finalvalidationdatetime is not null and finalvalidationdatetime between ? and ?  group by analysiscode,editor order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								rs = ps.executeQuery();
 								while(rs.next()){
-									String sCode=rs.getString("labanalysiscode");
-									analyses.put(rs.getString("analysiscode"), "<labtest editor='other' analysiscode='"+sCode+"' count='"+rs.getInt("total")+"'/>");
+									System.out.println("Found other");
+									String labcode=rs.getString("labanalysiscode");
+									String editor=rs.getString("editor");
+									sb.append("<labtest editor='"+editor+"' code='"+labcode+"' count='"+rs.getInt("total")+"' month='"+i+"' year='"+n+"'/>");
 								}
 								rs.close();
 								ps.close();
@@ -122,11 +125,9 @@ public class ExporterLab extends Exporter {
 							}
 						}
 					}
-					if(bFound){
-						sb.append("</mortalities>");
-						exportSingleValue(sb.toString(), "mortality.1");
-						MedwanQuery.getInstance().setConfigString("datacenterFirstMortalitySummaryMonth", new SimpleDateFormat("yyyyMM").format(new Date(lastDay.getTime()+2)));
-					}
+					sb.append("</labtests>");
+					exportSingleValue(sb.toString(), "lab.1");
+					MedwanQuery.getInstance().setConfigString("datacenterFirstLabSummaryMonth", new SimpleDateFormat("yyyyMM").format(new Date(lastDay.getTime()+2)));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
