@@ -65,6 +65,8 @@
 		<module class="be.openclinic.datacenter.ExporterActivity" param="activity.1" interval="MONTHLY:15;0000"/>
 
 		<module class="be.openclinic.datacenter.ExporterMortality" param="mortality.1" interval="MONTHLY:15;0000"/>
+
+		<module class="be.openclinic.datacenter.ExporterLab" param="lab.1" interval="MONTHLY:15;0000"/>
 	</exporters>
 	<senders>
 		<module class="be.openclinic.datacenter.SMTPSender" interval="30000"/>
@@ -128,6 +130,7 @@
 		<parameter shortid="0d" param="activity.1" type="activity"/>
 		<parameter shortid="0e" param="mortality.1" type="mortality"/>
 		<parameter shortid="0f" param="people.patients" type="patient"/>
+		<parameter shortid="0g" param="lab.1" type="lab"/>
 	</parameters>
 	<errorcodes>
 		<error code="0" meaning="no errors"/>
