@@ -22,7 +22,7 @@
         }
     }
     if (samples.size() == 0 && request.getParameter("transactionid") != null) {
-        Hashtable allsamples = LabRequest.getUnsampledRequest(Integer.parseInt(request.getParameter("serverid")), Integer.parseInt(request.getParameter("transactionid")), sWebLanguage).findAllSamples(sWebLanguage);
+        Hashtable allsamples = LabRequest.getUnsampledRequest(Integer.parseInt(request.getParameter("serverid")), Integer.parseInt(request.getParameter("transactionid"))+"", sWebLanguage).findAllSamples(sWebLanguage);
         Enumeration enumeration = allsamples.elements();
         while (enumeration.hasMoreElements()) {
             LabSample labSample = (LabSample)enumeration.nextElement();

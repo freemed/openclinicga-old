@@ -28,10 +28,15 @@
         %>
             <table border='0' width='100%' class="list" cellspacing="1">
         <%
-
-        out.print(inputRow("Web","Lastname","Lastname","Admin",activePatient.lastname,"T",true, true,sWebLanguage)
-            +inputRow("Web","Firstname","Firstname","Admin",activePatient.firstname,"T",true, true,sWebLanguage)
-            +inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"Dp",true,false,sWebLanguage)
+		boolean bCanModifyCore=true;
+        if(checkString(activePatient.personid).length()>0 && MedwanQuery.getInstance().getConfigInt("canmodifyexistingcoreadmindata",1)==0 && !activeUser.getAccessRight("patient.modifyexistingcoreadminrecord.select")){
+        	bCanModifyCore=false;
+        }
+        out.print(inputRow("Web","Lastname","Lastname","Admin",activePatient.lastname,"T",bCanModifyCore, true,sWebLanguage)
+            +inputRow("Web","Firstname","Firstname","Admin",activePatient.firstname,"T",bCanModifyCore, true,sWebLanguage)
+			+(bCanModifyCore?inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"Dp",true,false,sWebLanguage):
+            inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"T",bCanModifyCore, true,sWebLanguage)
+			)
             +inputRow("Web","NativeTown","NativeTown","Admin",activePatient.nativeTown,"T",true,true,sWebLanguage)
             +writeCountry(activePatient.nativeCountry, "NativeCountry", "Admin", "NativeCountryDescription", true, "NativeCountry",sWebLanguage)
             +"<tr><td class='admin'>"+getTran("web","personid",sWebLanguage)+"</td><td class='admin2'>"+activePatient.personid+"</td></tr>"
