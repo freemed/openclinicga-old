@@ -158,15 +158,17 @@
                  </div>
         </form>
     </div>
-    <div id="messages">
+    <div id="messages"><center>
 
         <%
             if (MedwanQuery.getInstance().getConfigInt("enableProductionWarning", 0) == 1) {
-        	out.print("<center>" + ScreenHelper.getTranDb("web", "productionsystemwarning", "EN") + "<br/></center>");
-        	//out.print("<center>" + ScreenHelper.getTranDb("web", "testsystemredirection", "EN") + "</center>");
-    	}
+        		out.print(ScreenHelper.getTranDb("web", "productionsystemwarning", "EN"));
+	    	}
+        	if(MedwanQuery.getInstance().getConfigInt("enableTestsystemRedirection", 0) == 1){
+            	out.print(ScreenHelper.getTranDb("web", "testsystemredirection", "EN"));
+        	}
         %>
-        <br/><center>GA Open Source Edition by:
+        </center><br/><center>GA Open Source Edition by:
         <% if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("rw")) { %>
         <img src="_img/rwandaflag.jpg" height="15px" width="30px" alt="Rwanda"/>
         <a href="http://mxs.rwandamed.org" target="_new"><b>The Open-IT Group Ltd</b></a>
