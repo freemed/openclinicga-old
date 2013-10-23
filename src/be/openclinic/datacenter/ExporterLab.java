@@ -81,36 +81,35 @@ public class ExporterLab extends Exporter {
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								ResultSet rs = ps.executeQuery();
 								while(rs.next()){
-									analyses.put(rs.getString("labanalysiscode"), "<labtest editor='numeric' count='"+rs.getInt("total")+"' average='"+rs.getDouble("average")+"' standarddeviation='"+rs.getDouble("stdev")+"'/>");
+									String sCode=rs.getString("labanalysiscode");
+									analyses.put(sCode, "<labtest editor='numeric' analysiscode='"+sCode+"' count='"+rs.getInt("total")+"' average='"+rs.getDouble("average")+"' standarddeviation='"+rs.getDouble("stdev")+"'/>");
 									bFound=true;
 								}
 								rs.close();
 								ps.close();
-								//then listboc results
+								//then listbox results
 								ps = oc_conn.prepareStatement("select count(*) total, analysiscode, resultvalue from requestedlabanalyses a, labanalyses b where a.analysiscode=b.labcode and b.editor='listbox' group by analysiscode order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								rs = ps.executeQuery();
 								while(rs.next()){
-									analyses.put(rs.getString("analysiscode")+"."+rs.getString("resultvalue"), "<labtest editor='listbox' count='"+rs.getInt("total")+"'/>");
+									String sCode=rs.getString("labanalysiscode");
+									String sResult=rs.getString("resultvalue");
+									analyses.put(sCode+"."+sResult, "<labtest editor='listbox' analysiscode='"+sCode+"' result='"+sResult+"' count='"+rs.getInt("total")+"'/>");
 								}
 								rs.close();
 								ps.close();
 								//then the other results
-								ps = oc_conn.prepareStatement("select count(*) total, resultvalue from requestedlabanalyses a, labanalyses b where a.analysiscode=b.labcode and b.editor='listbox' group by analysiscode,resultvalue order by count(*) desc");
+								ps = oc_conn.prepareStatement("select count(*) total, analysiscode from requestedlabanalyses a, labanalyses b where a.analysiscode=b.labcode and b.editor not in ('listbox','numeric') group by analysiscode order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								rs = ps.executeQuery();
 								while(rs.next()){
-									analyses.put(rs.getString("analysiscode"), "L;"+rs.getInt("total"));
+									String sCode=rs.getString("labanalysiscode");
+									analyses.put(rs.getString("analysiscode"), "<labtest editor='other' analysiscode='"+sCode+"' count='"+rs.getInt("total")+"'/>");
 								}
 								rs.close();
 								ps.close();
-								Enumeration e = deaths.keys();
-								while(e.hasMoreElements()){
-									String o = (String)e.nextElement();
-									sb.append("<diagnosismortality deaths='"+deaths.get(o)+"' all='"+alldiagnoses.get(o)+"' code='"+o+"' month='"+i+"' year='"+n+"'/>");
-								}
 							} catch (Exception e) {
 								e.printStackTrace();
 							}

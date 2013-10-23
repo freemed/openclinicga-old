@@ -262,14 +262,14 @@ public class LabRequest {
 
     }
 
-    public static LabRequest getUnsampledRequest(int serverid,int transactionid,String language){
+    public static LabRequest getUnsampledRequest(int serverid,String transactionid,String language){
         LabRequest labRequest = new LabRequest();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sQuery="select distinct a.serverid,a.transactionid,a.patientid,d.gender,d.firstname,d.lastname,b.userid,d.dateofbirth,b.updatetime from RequestedLabAnalyses a, Transactions b, AdminView d where a.serverid=b.serverid and a.transactionId=b.transactionId and a.patientid=d.personid and a.serverid=? and a.transactionid=?";
             PreparedStatement ps = oc_conn.prepareStatement(sQuery);
             ps.setInt(1,serverid);
-            ps.setInt(2,transactionid);
+            ps.setInt(2,Integer.parseInt(transactionid.split("\\.")[0]));
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 //For every transaction ID, let's create a Labrequest
@@ -916,7 +916,7 @@ public class LabRequest {
             	serverid=rs.getInt("serverid");
             	transactionid=rs.getInt("transactionid");
             	if(transactions.get(serverid+"."+transactionid)==null){
-            		requests.add(LabRequest.getUnsampledRequest(serverid,transactionid,language));
+            		requests.add(LabRequest.getUnsampledRequest(serverid,transactionid+"",language));
             		transactions.put(serverid+"."+transactionid, "1");
             	}
             }
@@ -955,7 +955,7 @@ public class LabRequest {
                 int serverid=rs.getInt("serverid");
                 int transactionid=rs.getInt("transactionid");
                 if(!activerequest.equalsIgnoreCase(serverid+"."+transactionid)){
-                    requests.add(LabRequest.getUnsampledRequest(serverid,transactionid,language));
+                    requests.add(LabRequest.getUnsampledRequest(serverid,transactionid+"",language));
                     activerequest=serverid+"."+transactionid;
                 }
             }

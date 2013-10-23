@@ -76,7 +76,7 @@ public class PDFLabSampleLabelGenerator extends PDFOfficialBasic {
                     doc.newPage();
                 }
                 Hashtable h = (Hashtable)samples.elementAt(n);
-                printSampleLabel(Integer.parseInt((String)h.get("serverid")),Integer.parseInt((String)h.get("transactionid")),(String)h.get("sample"));
+                printSampleLabel(Integer.parseInt((String)h.get("serverid")),Integer.parseInt((String)h.get("transactionid"))+"."+n,(String)h.get("sample"));
             }
 		}
 		catch(Exception e){
@@ -99,7 +99,7 @@ public class PDFLabSampleLabelGenerator extends PDFOfficialBasic {
     private void addPageHeader() throws Exception {
     }
 
-    protected void printSampleLabel(int serverid,int transactionid,String sample){
+    protected void printSampleLabel(int serverid,String transactionid,String sample){
         try {
             PdfContentByte cb = docWriter.getDirectContent();
             Barcode39 barcode39 = new Barcode39();
