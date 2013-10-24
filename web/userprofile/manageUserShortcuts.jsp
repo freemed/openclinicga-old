@@ -217,7 +217,7 @@
                         for(int i=0; i<icons.length; i++){
                             icon = (File)icons[i];
                                                             
-                            if(i%10==0){
+                            if(i%15==0){
                                 %><br><%
                             }
                             
