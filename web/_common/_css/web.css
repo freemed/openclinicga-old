@@ -1309,7 +1309,7 @@ SELECT.modified {
 
 img.link {
     cursor: pointer;
-    vertical-align: top;
+    vertical-align: -2px; /* top */
     border: none;
     padding: 2px;
     _padding: 0px;
