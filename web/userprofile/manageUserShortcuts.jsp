@@ -221,7 +221,7 @@
                                 %><br><%
                             }
                             
-                            %><img class="link" id="icon_<%=i%>" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=icon.getName()%>" onClick="selectIcon(this);" style="border:2px solid white;" filename="<%=icon.getName()%>" title="<%=icon.getName()%>"/>&nbsp;&nbsp;<%
+                            %><img class="link" id="icon_<%=i%>" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=icon.getName()%>" onClick="selectIcon(this);" style="border:2px solid white;width:16px;height:16px;" filename="<%=icon.getName()%>" title="<%=icon.getName()%>"/>&nbsp;&nbsp;<%
                         }
                     }
                     else{
