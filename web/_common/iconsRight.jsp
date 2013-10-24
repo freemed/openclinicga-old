@@ -191,7 +191,7 @@
 
    		Debug.println("--> okToDisplayIcon : "+okToDisplayIcon);
        	if(okToDisplayIcon){
-            %><img class="link" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=sIconName%>" onClick="<%=sIconOnClick%>" title="<%=sIconText%>"/>&nbsp;<%
+            %><img class="link" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=sIconName%>" onClick="<%=sIconOnClick%>" title="<%=sIconText%>" style="width:16px;height:16px;"/>&nbsp;<%
        	}
     } 
 
