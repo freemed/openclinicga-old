@@ -121,4 +121,13 @@
 		<Menu labelid="globalhealthbarometer" url="javascript:showglobalhealthbarometer();"/>
 		<Menu labelid="sourceforge" url="javascript:showsourceforge();"/>
 	</Menu>
+	
+	<!-- ######################### these are 'links' which are not to be displayed as a menu-item,      ########################## -->
+	<!-- ######################### but that are a choise (option) for user-defined-shortcut-icons.      ########################## -->
+	<!-- ######################### Through the extra attribute 'labeltype' you can specify a real label ########################## -->
+	<!-- ######################### (instead of a web-label duplicated for menu-items)                   ########################## -->
+    <Menu labelid="hidden">
+		<Menu labeltype="openclinic.chuk" labelid="actualrfe" url="javascript:openRFEList();"/>
+		<Menu labeltype="web" labelid="clinicalDocuments" url="javascript:newFastTransaction('@parameter1@');"/>
+	</Menu>
 </Menus>
