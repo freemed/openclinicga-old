@@ -648,7 +648,7 @@ public class User extends OC_Object {
                 ps.setString(2,parameter.value);
                 ps.setInt(3,Integer.parseInt(this.userid));
                 ps.setString(4,parameter.parameter);
-                ps.execute();
+                ps.executeUpdate();
                 ps.close();
             }
             else {
@@ -660,7 +660,7 @@ public class User extends OC_Object {
                 ps.setString(2,parameter.parameter);
                 ps.setString(3,parameter.value);
                 ps.setTimestamp(4,new Timestamp(new java.util.Date().getTime()));
-                ps.execute();
+                ps.executeUpdate();
                 ps.close();
             }
 
@@ -674,6 +674,74 @@ public class User extends OC_Object {
             return false;
         }
     }
+    
+    //--- UPDATE PARAMETER ------------------------------------------------------------------------
+    // allow for the id to change
+    public boolean updateParameter(String sOldParameterId, Parameter parameter) {
+    	boolean bReturn=false;
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=updateParameter(sOldParameterId,parameter,conn);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
+    public boolean updateParameter(String sOldParameterId, Parameter parameterObject, Connection connection) {
+        String sSelect = "";
+        try {
+            PreparedStatement ps=connection.prepareStatement("select * from UserParameters where userid=? and parameter=?");
+            ps.setInt(1,Integer.parseInt(this.userid));
+            ps.setString(2,sOldParameterId);
+            ResultSet rs=ps.executeQuery();
+            if (rs.next()){
+                rs.close();
+                ps.close();
+                
+                if(parameterObject.parameter.toLowerCase().equals("favorite")){
+                	// value is part of where
+                    sSelect = "UPDATE UserParameters SET active = 1, updatetime = ?, parameter = ?"+
+                              " WHERE "+MedwanQuery.getInstance().getConfigString("valueColumn")+" = ?"+
+                    		  "  AND userid = ? AND parameter = ?";
+                }
+                else{
+                	// value is NOT part of where
+                    sSelect = "UPDATE UserParameters SET active = 1, updatetime = ?, parameter = ?, "+
+                              MedwanQuery.getInstance().getConfigString("valueColumn")+" = ?"+
+                              " WHERE userid = ? AND parameter = ?";
+                }
+                
+                ps = connection.prepareStatement(sSelect);
+                ps.setTimestamp(1,new Timestamp(new java.util.Date().getTime()));
+                ps.setString(2,parameterObject.parameter);
+                ps.setString(3,parameterObject.value);
+                ps.setInt(4,Integer.parseInt(this.userid));
+                ps.setString(5,sOldParameterId);
+                ps.executeUpdate();
+                ps.close();
+            }
+            else {
+                sSelect = " INSERT INTO UserParameters(userid,parameter,"+MedwanQuery.getInstance().getConfigString("valueColumn")+" ,updatetime,active) VALUES (?,?,?,?,1)";
+                rs.close();
+                ps.close();
+                ps = connection.prepareStatement(sSelect);
+                ps.setInt(1,Integer.parseInt(this.userid));
+                ps.setString(2,parameterObject.parameter);
+                ps.setString(3,parameterObject.value);
+                ps.setTimestamp(4,new Timestamp(new java.util.Date().getTime()));
+                ps.executeUpdate();
+                ps.close();
+            }
+
+            if (ps!=null){
+                ps.close();
+            }
+            return true;
+        }
+        catch (Exception e) {
+            if(Debug.enabled) Debug.println("User updateParameter error: "+e.getMessage()+" "+sSelect);
+            return false;
+        }
+    }
+
 
     public boolean removeParameter(String sParameter) {
     	boolean bReturn=false;
@@ -709,6 +777,40 @@ public class User extends OC_Object {
         }
     }
 
+    //--- DELETE PARAMETER (delete from DB, not making it inactive) -------------------------------
+    public boolean deleteParameter(String sParameter) {
+    	boolean bReturn=false;
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+    	bReturn=deleteParameter(sParameter, conn);
+    	ScreenHelper.closeQuietly(conn, null, null);
+    	return bReturn;
+    }
+    
+    public boolean deleteParameter(String sParameter, Connection connection) {
+        try {
+            String sSelect = "DELETE FROM UserParameters WHERE userid = ? AND parameter = ? ";
+            PreparedStatement ps = connection.prepareStatement(sSelect);
+            ps.setInt(1,Integer.parseInt(this.userid));
+            ps.setString(2,sParameter);
+            ps.executeUpdate();
+            ps.close();
+
+            Parameter parameter;
+            Vector vTmp = (Vector)this.parameters.clone();
+            for(int i=0; i<vTmp.size(); i++) {
+                parameter = (Parameter)vTmp.elementAt(i);
+                if(parameter.parameter.trim().equalsIgnoreCase(sParameter.trim())) {
+                    this.parameters.removeElement(parameter);
+                }
+            }
+            return true;
+        }
+        catch (Exception e) {
+            if(Debug.enabled) Debug.println("User deleteParameter error: "+e.getMessage());
+            return false;
+        }
+    }
+    
     public boolean initializeService(){
         boolean bReturn = true;
         PreparedStatement ps = null;
@@ -1160,5 +1262,108 @@ public class User extends OC_Object {
         }
         return hName;
     }
+    
+    //--- DELETE PARAMETERS OF TYPE ---------------------------------------------------------------
+    public int deleteParametersOfType(String sParameterTypeBase){
+    	int recordsDeleted = 0;
+        PreparedStatement ps = null;
 
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            String sSql = "DELETE FROM UserParameters"+
+                          " WHERE userid = ?"+
+            		      "  AND parameter LIKE ?";
+                          //"  AND active = 1";
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(this.userid));
+            ps.setString(2,sParameterTypeBase+"%");
+            
+            recordsDeleted = ps.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(ps!=null)ps.close();
+                conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    	    	
+    	return recordsDeleted;
+    }
+    
+    //--- GET USER PARAMETERS BY TYPE -------------------------------------------------------------
+    public Vector getUserParametersByType(String sUserId, String sParameterTypeBase){
+    	Vector userParameters = new Vector();
+        
+    	Parameter parameter;
+    	for(int i=0; i<this.parameters.size(); i++){
+    		parameter = (Parameter)this.parameters.get(i);
+    		
+    		if(parameter.parameter.startsWith(sParameterTypeBase)){
+    			UserParameter userParameter = new UserParameter();
+    			userParameter.setActive(1);
+    			userParameter.setUserid(Integer.parseInt(sUserId));
+    			userParameter.setParameter(parameter.parameter);
+    			userParameter.setValue(parameter.value);
+    			    			
+    		    userParameters.add(userParameter);
+    		}
+    	}
+    	
+    	return userParameters;
+    }
+    
+    /*
+    //--- GET USER PARAMETERS BY TYPE (from DB) ---------------------------------------------------
+    public static Vector getParametersByType(String sUserId, String sParameterTypeBase){
+    	Vector userParameters = new Vector();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sSql = "SELECT parameter, value FROM UserParameters"+
+                      " WHERE userid = ?"+
+                      "  AND parameter LIKE ?"+
+                      "  AND active = 1";
+
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(sUserId));
+            ps.setString(2,sParameterTypeBase+"%");
+            rs = ps.executeQuery();
+
+            UserParameter parameter;
+            while(rs.next()){
+            	parameter = new UserParameter();
+            	parameter.setActive(1);
+            	parameter.setUserid(Integer.parseInt(sUserId));
+            	parameter.setParameter(rs.getString("parameter"));
+            	parameter.setValue(rs.getString("value"));
+            	
+            	userParameters.add(parameter);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+        return userParameters;
+    }
+    */
+    
 }

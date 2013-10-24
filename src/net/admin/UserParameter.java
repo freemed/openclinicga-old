@@ -139,6 +139,49 @@ public class UserParameter {
             }
         }
     }
+    
+    //--- SAVE USER PARAMETER ---------------------------------------------------------------------
+    // allow for the id to change
+    public static void saveUserParameter(String sOldParameter, String sNewParameter, String value, int userid){
+        PreparedStatement ps = null,ps2 = null;
+
+        String sUpdate = "UPDATE UserParametersView"+
+                         "  SET active = 1, parameter = ?"+
+                         " WHERE userid = ? AND parameter = ? AND myvalue = ?";
+
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sUpdate);
+            ps.setString(1,sNewParameter);
+            ps.setInt(2,userid);
+            ps.setString(3,sOldParameter);
+            ps.setString(4,value);
+
+            // not found : insert
+            if (ps.executeUpdate()==0) {
+                String sInsert = "INSERT INTO UserParameters VALUES (?,?,?,?,1)";
+                ps2 = ad_conn.prepareStatement(sInsert);
+                ps2.setInt(1,userid);
+                ps2.setString(2,sNewParameter);
+                ps2.setString(3,value);
+                ps2.setTimestamp(4, ScreenHelper.getSQLTime());
+                ps2.executeUpdate();
+                ps2.close();
+            }
+            ps.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(ps!=null)ps.close();
+                if(ps2!=null)ps.close();
+                ad_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     public static void updateParameter(String parameter, String value, String oldValue){
         PreparedStatement ps = null;
@@ -258,4 +301,5 @@ public class UserParameter {
         }
         return value;
     }
+    
 }
