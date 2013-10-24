@@ -305,7 +305,7 @@
     if(clickedIcon!=null){
       <%-- visually mark selected icon --%>
       if(clickedIcon.style.border=="white 2px solid"){
-        clickedIcon.style.border = "2px solid green";
+        clickedIcon.style.border = "2px solid darkblue";
       }
       else{
         clickedIcon.style.border = "2px solid white";
@@ -492,7 +492,7 @@
         
     <%-- visually mark edited shortcut icon --%>
     if(editedIcon.style.border=="white 2px solid"){
-      editedIcon.style.border = "2px solid green";
+      editedIcon.style.border = "2px solid darkblue";
     }
     else{
       editedIcon.style.border = "2px solid white";
