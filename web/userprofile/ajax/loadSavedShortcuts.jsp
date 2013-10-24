@@ -170,7 +170,7 @@
                     }
                 }
                 
-                %><img class="link" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=sIconName%>" onClick="editShortcut(this,'<%=sLongLabelId%>');" style="border:2px solid white;vertical-align:-4px;" link="<%=menuElem.attributeValue("url")%>" title="<%=sIconText%>"/>&nbsp;<%=sShortcutTitle%><br><%
+                %><img class="link" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=sIconName%>" onClick="editShortcut(this,'<%=sLongLabelId%>');" style="border:2px solid white;vertical-align:-4px;width:16px;height:16px;" link="<%=menuElem.attributeValue("url")%>" title="<%=sIconText%>"/>&nbsp;<%=sShortcutTitle%><br><%
             }
         }
     }
