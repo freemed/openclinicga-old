@@ -3,6 +3,7 @@
                 java.util.Vector" %>
 <%@page errorPage="/includes/error.jsp" %>
 <%@include file="/_common/templateAddIns.jsp" %>
+<%@include file="/includes/commonFunctions.jsp"%>
 <script type="text/javascript" src="<c:url value='/_common/_script/menu.js'/>"></script>
 
 <%!
@@ -262,15 +263,17 @@
                             	continue;
                             }
                             else if (menu.menus.size() > 0) {
-                                for (int y = 0; y < menu.menus.size(); y++) {
-                                    subMenu = (Menu) menu.menus.elementAt(y);
-                                    subs += subMenu.makeMenu(bMenu, sWebLanguage, menu.labelid, activeUser, (y == menu.menus.size() - 1),activePatient);
-                                }
-                                out.write("<li class='menu_"+menu.labelid+"'>");
-                                out.write("<a href='javascript:void(0)' class='parent'>" + getTranNoLink("Web", menu.labelid, sWebLanguage) + "</a>");
-                                out.write("<ul class='level2'>");
-                                out.write(subs);
-                                out.write("</ul></li>");
+                            	if(!menu.labelid.equalsIgnoreCase("hidden")){
+	                                for (int y = 0; y < menu.menus.size(); y++) {
+	                                    subMenu = (Menu) menu.menus.elementAt(y);
+	                                    subs += subMenu.makeMenu(bMenu, sWebLanguage, menu.labelid, activeUser, (y == menu.menus.size() - 1),activePatient);
+	                                }
+	                                out.write("<li class='menu_"+menu.labelid+"'>");
+	                                out.write("<a href='javascript:void(0)' class='parent'>" + getTranNoLink("Web", menu.labelid, sWebLanguage) + "</a>");
+	                                out.write("<ul class='level2'>");
+	                                out.write(subs);
+	                                out.write("</ul></li>");
+                            	}
                             }
                             // no submenus
                             else {
@@ -317,14 +320,10 @@
 		<%
 			Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
 			if (activeEncounter!=null && activeEncounter.getEnd()==null){
-		%>
-			alert('<%=getTranNoLink("web","close.active.encounter.first",sWebLanguage)%>');
-		<%
+		        %>alertDialog("web","close.active.encounter.first");<%
 			}
 			else{
-		%>
-			window.location.href='<c:url value="/main.do"/>?Page=adt/editEncounter.jsp&ts=<%=getTs()%>';
-		<%
+		      %>window.location.href = '<c:url value="/main.do"/>?Page=adt/editEncounter.jsp&ts=<%=getTs()%>';<%
 			}
 		%>
 	}
@@ -332,12 +331,10 @@
 		<%
 			activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
 			if (activeEncounter!=null && activeEncounter.getEnd()==null){
-		%>
-			alert('<%=getTranNoLink("web","close.active.encounter.first",sWebLanguage)%>');
-		<%
+		        %>alertDialog("web","close.active.encounter.first");<%
 			}
 			else{
-		%>
+		        %>
 		        var params = '';
 		        var today = new Date();
 		        var url = '<c:url value="/"/>/adt/newEncounter.jsp?ts=<%=getTs()%>&init='+init;
@@ -350,17 +347,18 @@
 		            onFailure: function() {
 		            }
 		        });
-		<%
+		        <%
 			}
 		%>
 	}
+	
 	function newFastTransaction(transactionType){
-		if(<%=Encounter.selectEncounters("","","","","","","","",activePatient.personid,"").size()%>>0){
-	        window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
-		}
-		else{
-			alert("<%=getTranNoLink("web","create.encounter.first",sWebLanguage)%>");
-		}
+	  if(<%=Encounter.selectEncounters("","","","","","","","",activePatient.personid,"").size()%>>0){
+	    window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
+	  }
+	  else{
+	    alertDialog("web","create.encounter.first");
+	  }
 	}
 	
     <%-- READ BARCODE --%>
@@ -613,6 +611,16 @@
     }
     function showsourceforge(){
     	window.open("http://sourceforge.net/projects/open-clinic");
+    }
+    function openRFEList(){
+        <%
+            if(activePatient!=null && activePatient.personid.length() > 0){
+	            Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
+	            if(encounter!=null){
+	            	%>openPopup('healthrecord/findRFE.jsp&field=rfe&encounterUid=<%=encounter.getUid()%>&ts=<%=getTs()%>',700,400);<%
+	            }
+            }
+        %>
     }
     function showAdminPopup() {
         openPopup("/_common/patient/patientdataPopup.jsp&ts=<%=getTs()%>");
