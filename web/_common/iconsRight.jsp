@@ -136,7 +136,7 @@
        	// for links containing a regular url, add an open command
        	if(!sIconOnClick.toLowerCase().startsWith("javascript")){
       		sIconOnClick = "window.location.href = '"+sCONTEXTPATH+"/"+sIconOnClick+
-       				       "&ts="+getTs()+"');";
+       				       "&ts="+getTs()+"';";
    		}
        	
        	// replace placeholders for parameters
