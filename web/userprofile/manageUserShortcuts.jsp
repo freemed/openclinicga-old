@@ -2,6 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="/includes/commonFunctions.jsp"%>
 <%@page import="java.io.*"%>
+<%@page import="be.openclinic.common.IconsFilter"%>
 
 <%=checkPermission("userprofile.manageUserShortcuts","all",activeUser)%>
 
@@ -208,7 +209,8 @@
                 <%                        
                     File iconsDir = new File(sIconsDir); // c:/projects/openclinic/web
                     if(iconsDir.exists() && iconsDir.isDirectory()){ 
-                        File[] icons = iconsDir.listFiles();
+                        FileFilter iconsFilter = new IconsFilter();
+                        File[] icons = iconsDir.listFiles(iconsFilter);
                         Debug.println("Found "+icons.length+" icons");
                         
                         File icon;
