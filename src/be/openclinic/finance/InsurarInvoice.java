@@ -424,7 +424,63 @@ public class InsurarInvoice extends Invoice {
         return bStored;
     }
     
-    public void updateBalance(){
+    public static double getDebetAmount(String insurarInvoiceUid){
+    	double total=0;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	try{
+    		String sql = 	" select sum(oc_debet_insuraramount) total from oc_debets where oc_debet_insurarinvoiceuid=?";
+    		PreparedStatement ps = oc_conn.prepareStatement(sql);
+    		ps.setString(1,insurarInvoiceUid);
+    		ResultSet rs = ps.executeQuery();
+    		if(rs.next()){
+    			total = rs.getDouble("total");
+    		}
+    		else {
+                rs.close();
+                ps.close();
+    		}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return total;
+    }
+
+    public static double getCreditAmount(String insurarInvoiceUid){
+    	double total=0;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	try{
+    		String sql = 	"select sum(oc_insurarcredit_amount) total from oc_insurarcredits where oc_insurarcredit_invoiceuid=?";
+    		PreparedStatement ps = oc_conn.prepareStatement(sql);
+    		ps.setString(1,insurarInvoiceUid);
+    		ResultSet rs = ps.executeQuery();
+    		if(rs.next()){
+    			total = rs.getDouble("total");
+    		}
+    		else {
+                rs.close();
+                ps.close();
+    		}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return total;
+    }
+
+   public void updateBalance(){
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
     	try{
     		String sql = 	" select sum(total) total from ("+

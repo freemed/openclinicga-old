@@ -11,6 +11,7 @@ import java.util.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Statement;
 
@@ -95,6 +96,63 @@ public class ExtraInsurarInvoice2 extends Invoice {
         }
         return insurarInvoice;
     }
+
+    public static double getDebetAmount(String insurarInvoiceUid){
+    	double total=0;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	try{
+    		String sql = 	" select sum(oc_debet_extrainsuraramount2) total from oc_debets where oc_debet_extrainsurarinvoiceuid2=?";
+    		PreparedStatement ps = oc_conn.prepareStatement(sql);
+    		ps.setString(1,insurarInvoiceUid);
+    		ResultSet rs = ps.executeQuery();
+    		if(rs.next()){
+    			total = rs.getDouble("total");
+    		}
+    		else {
+                rs.close();
+                ps.close();
+    		}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return total;
+    }
+
+    public static double getCreditAmount(String insurarInvoiceUid){
+    	double total=0;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	try{
+    		String sql = 	"select sum(oc_insurarcredit_amount) total from oc_insurarcredits where oc_insurarcredit_invoiceuid=?";
+    		PreparedStatement ps = oc_conn.prepareStatement(sql);
+    		ps.setString(1,insurarInvoiceUid);
+    		ResultSet rs = ps.executeQuery();
+    		if(rs.next()){
+    			total = rs.getDouble("total");
+    		}
+    		else {
+                rs.close();
+                ps.close();
+    		}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return total;
+    }
+
 
     public static ExtraInsurarInvoice2 getViaInvoiceUID(String sInvoiceID){
         ExtraInsurarInvoice2 insurarInvoice = new ExtraInsurarInvoice2();

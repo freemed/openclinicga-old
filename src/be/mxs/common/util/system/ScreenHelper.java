@@ -715,10 +715,8 @@ public class ScreenHelper {
                                          boolean screenIsPopup, String sAPPFULLDIR) {
         sPermission = sPermission.toLowerCase();
         String jsAlert = "Error in checkPermission : no screen specified !";
-
         if (sScreen.trim().length()>0) {
             if (Application.isDisabled(sScreen)){
-            
             }
             else if (activeUser!=null && activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0){
                 jsAlert = "";
@@ -726,7 +724,9 @@ public class ScreenHelper {
             else{
                 // screen and permission specified
                 if (sPermission.length() > 0 && !sPermission.equals("all")){
-                    if(sPermission.equals("none")) jsAlert = "";
+                    if(sPermission.equals("none")) {
+                    	jsAlert = "";
+                    }
                     else if(activeUser.getAccessRight(sScreen+"."+sPermission)) {
                         jsAlert = "";
                     }
@@ -739,12 +739,12 @@ public class ScreenHelper {
                          activeUser.getAccessRight(sScreen + ".delete")) {
                     jsAlert = "";
                 }
+                if(Debug.enabled) System.out.println("3"); 
 
                 if(jsAlert.length() > 0){
                     String sMessage = getTranNoLink("web","nopermission",activeUser.person.language);
-
-                    jsAlert = "<script>"+
-                              "  var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
+                    jsAlert = "<script>"+(screenIsPopup?"window.close();":"window.history.go(-1);")+
+                              "var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
 
                     // display permission when in Debug mode
                     if(Debug.enabled) jsAlert+= " --> "+sScreen+(sPermission.length()==0?"":"."+sPermission);
@@ -752,7 +752,6 @@ public class ScreenHelper {
                     jsAlert+= "';"+
                               "  var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
                               "   var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
-                              (screenIsPopup?"window.close();":"window.history.go(-1);return false;")+
                               "</script>";
                 }
             }
