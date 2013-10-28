@@ -3,7 +3,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="../assets/includes/commonFunctions.jsp"%>
-<%=checkPermission("assets.edit","edit",activeUser)%>
+<%=checkPermission("assets","edit",activeUser)%>
 
 <%=sJSPROTOTYPE%>
 <%=sJSNUMBER%> 

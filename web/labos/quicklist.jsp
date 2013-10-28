@@ -1,6 +1,46 @@
 <%@ page import="be.openclinic.medical.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%!
+	public String getProfileNameForCode(String sCode,String sWebLanguage){
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    StringBuffer sQuery=new StringBuffer();
+	    String sName=sCode;
+	    sQuery.append("SELECT OC_LABEL_VALUE as name")
+	        .append(" FROM LabProfiles p, OC_LABELS l")
+	        .append(" WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","p.profileID")+" = l.OC_LABEL_ID")
+	        .append("  AND l.OC_LABEL_TYPE = 'labprofiles'")
+	        .append("  AND l.OC_LABEL_LANGUAGE = ?")
+	        .append("  AND p.deletetime IS NULL")
+	    	.append("  AND p.profilecode=?");
+	
+	    Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	    try{
+	        ps = loc_conn.prepareStatement(sQuery.toString());
+	        ps.setString(1,sWebLanguage.toLowerCase());
+	        ps.setString(2,sCode);
+	        rs = ps.executeQuery();
+	
+	        if(rs.next()){
+	        	sName=rs.getString("name");
+	        }
+	        rs.close();
+	        ps.close();
+	    }catch(Exception e){
+	        e.printStackTrace();
+	    }finally{
+	        try{
+	            if(rs!=null)rs.close();
+	            if(ps!=null)ps.close();
+	            loc_conn.close();
+	        }catch(Exception e){
+	            e.printStackTrace();
+	        }
+	    }
+	    return sName;
+		
+	}
+
 	public String getItemValue(String[] labanalyses,int column, int row){
 		for(int n=0;n<labanalyses.length;n++){
 			if(labanalyses[n].split("£").length==2 && labanalyses[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
@@ -34,7 +74,7 @@
 					hasContent=true;
 				}
 				else if(val.startsWith("^")){
-					sLine+="<td class='admin2' width='"+(100/cols)+"%'><input type='checkbox' name='analprof."+val.substring(1)+"' id='analprof."+val.substring(1)+"'/><img width='16px' src='_img/multiple.gif'/> - "+val.substring(1)+"</td>";
+					sLine+="<td class='admin2' width='"+(100/cols)+"%'><input type='checkbox' name='analprof."+val.substring(1)+"' id='analprof."+val.substring(1)+"'/><img width='16px' src='_img/multiple.gif'/> - "+getProfileNameForCode(val.substring(1),sWebLanguage)+"</td>";
 					hasContent=true;
 				}
 				else {

@@ -2,7 +2,7 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page errorPage="/includes/error.jsp" %>
 <%@ include file="/includes/validateUser.jsp" %>
-<%=checkPermission("financial.insuranceinvoice.edit", "edit", activeUser)%>
+<%=checkPermission("financial.insuranceinvoice", "edit", activeUser)%>
 <%=sJSPROTOTYPE%>
 <%=sJSNUMBER%>
 <%
@@ -211,9 +211,6 @@
                         <select class="text" name="PrintModel">
                             <option value="default" <%=defaultmodel.equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
                             <option value="rama" <%=defaultmodel.equalsIgnoreCase("rama")?"selected":""%>><%=getTranNoLink("web","ramamodel",sWebLanguage)%></option>
-                            <option value="ramanew" <%=defaultmodel.equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
-                            <option value="ctams" <%=defaultmodel.equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
-                            <option value="ramacsv" <%=defaultmodel.equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
 		                    <%
 		                    	if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
 		                    %>

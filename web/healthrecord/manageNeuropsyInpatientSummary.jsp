@@ -1,7 +1,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
-<%=checkPermission("occup.neuropsyphysiotherapyreport","select",activeUser)%>
+<%=checkPermission("occup.neuropsyinpatientsummary","select",activeUser)%>
 
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
@@ -93,7 +93,7 @@
         <tr>
             <td class="admin"/>
             <td class="admin2">
-                <%=getButtonsHtml(request,activeUser,activePatient,"web.neuropsyphysiotherapyreport",sWebLanguage)%>
+                <%=getButtonsHtml(request,activeUser,activePatient,"occup.neuropsyinpatientsummary",sWebLanguage)%>
             </td>
         </tr>
     </table>

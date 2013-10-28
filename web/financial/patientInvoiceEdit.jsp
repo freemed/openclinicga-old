@@ -1,7 +1,7 @@
 <%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.text.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%=checkPermission("financial.patientinvoice.edit","edit",activeUser)%>
+<%=checkPermission("financial.patientinvoice","edit",activeUser)%>
 <%=sJSPROTOTYPE%>
 <%=sJSNUMBER%> 
 <%=sJSSTRINGFUNCTIONS%>
@@ -84,7 +84,7 @@
     } else {
         patientInvoice = new PatientInvoice();
         patientInvoice.setDate(new java.util.Date());
-        patientInvoice.setStatus(MedwanQuery.getInstance().getConfigString("defaultInvoiceStatus","open"));
+        patientInvoice.setStatus(MedwanQuery.getInstance().getConfigString("defaultPatientInvoiceStatus","open"));
         sPatientId = activePatient.personid;
     }
 	if(patientInvoice!=null && patientInvoice.getDate()!=null){

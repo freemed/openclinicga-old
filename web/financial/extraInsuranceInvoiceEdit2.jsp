@@ -2,7 +2,7 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page errorPage="/includes/error.jsp" %>
 <%@ include file="/includes/validateUser.jsp" %>
-<%=checkPermission("financial.insuranceinvoice.edit", "edit", activeUser)%>
+<%=checkPermission("financial.insuranceinvoice", "edit", activeUser)%>
 <%=sJSPROTOTYPE%>
 <%=sJSNUMBER%>
 <%

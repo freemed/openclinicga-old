@@ -1,4 +1,3 @@
-<%@page import="sun.security.util.Length"%>
 <%@page import="be.openclinic.adt.Encounter,
                 be.openclinic.finance.PatientCredit,
                 java.util.Vector,java.text.*,

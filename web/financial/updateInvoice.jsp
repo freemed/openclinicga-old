@@ -30,11 +30,17 @@
         <tr>
             <td><%=getTran("web.finance","invoicetype",sWebLanguage)%></td>
             <td colspan="4">
-                <input type="radio" id="FindTypePatient" name="FindInvoiceType" value="patient" <%if (sFindInvoiceType.equalsIgnoreCase("patient")){out.print("checked");}%>><%=getLabel("web","patient",sWebLanguage,"FindTypePatient")%>
+				<%	if(activeUser.getAccessRight("financial.patientinvoiceupdate.edit")){ %>
+	                <input type="radio" id="FindTypePatient" name="FindInvoiceType" value="patient" <%if (sFindInvoiceType.equalsIgnoreCase("patient")||!activeUser.getAccessRight("financial.insurerinvoiceupdate.edit")){out.print("checked");}%>><%=getLabel("web","patient",sWebLanguage,"FindTypePatient")%>
+	            <%	}
+					if(activeUser.getAccessRight("financial.insurerinvoiceupdate.edit")){ 
+				%>
                 <input type="radio" id="FindTypeInsurar" name="FindInvoiceType" value="insurar" <%if (sFindInvoiceType.equalsIgnoreCase("insurar") || sFindInvoiceType.equalsIgnoreCase("")){out.print("checked");}%>><%=getLabel("web","insurar",sWebLanguage,"FindTypeInsurar")%>
                 <input type="radio" id="FindExtraInvoiceType" name="FindInvoiceType" value="extrainsurar" <%if (sFindInvoiceType.equalsIgnoreCase("extrainsurar")){out.print("checked");}%>><%=getLabel("web","extrainsurar",sWebLanguage,"FindTypeInsurar")%>
                 <input type="radio" id="FindExtraInvoiceType2" name="FindInvoiceType" value="complementarycoverage2" <%if (sFindInvoiceType.equalsIgnoreCase("complementarycoverage2")){out.print("checked");}%>><%=getLabel("web","complementarycoverage2",sWebLanguage,"FindTypeInsurar")%>
-            </td>
+                <%	} %>
+            </td>	
+            
         </tr>
         <tr>
             <td/>
