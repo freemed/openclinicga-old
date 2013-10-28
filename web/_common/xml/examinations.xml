@@ -1248,4 +1248,11 @@
 		<fr>Consultation ophtalmologique - mod&#232;le CDO</fr>
 		<en>Ophtalmology consultation - CDO model</en>
 	</Row>
+	<Row>
+		<id>1107</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EP</transactiontype>
+		<fr>Potentiels &#233;voqu&#233;s</fr>
+		<en>Evoked potentials</en>
+	</Row>
 </Examinations>

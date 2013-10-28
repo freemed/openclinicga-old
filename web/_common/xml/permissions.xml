@@ -60,10 +60,13 @@
         <permission type="Web.Occup" id="external.documents">occup.externaldocuments</permission>
         <permission type="web" id="emg">occup.emg</permission>
         <permission type="web" id="eeg">occup.eeg</permission>
+        <permission type="web" id="ep">occup.ep</permission>
         <permission type="web" id="ergotherapy">occup.ergotherapy</permission>
         <permission type="web" id="psychologyfollowup">occup.psychologyfollowup</permission>
         <permission type="web" id="meetingreport">occup.meetingreport</permission>
         <permission type="web" id="neuropsyphysiotherapyreport">occup.neuropsyphysiotherapyreport</permission>
+        <permission type="web" id="neuropsyinpatientsummary">occup.neuropsyinpatientsummary</permission>
+        <permission type="web" id="neuropsyoutpatientsummary">occup.neuropsyoutpatientsummary</permission>
     </application>
     <application type="Web" id="newexaminations">
         <permission type="web" id="globalexaminations">examinations.global</permission>
@@ -153,6 +156,8 @@
         <permission type="web" id="patientInvoiceEdit">financial.patientinvoice</permission>
         <permission type="web" id="insuranceInvoiceEdit">financial.insuranceinvoice</permission>
         <permission type="web" id="updateInvoice">financial.invoiceupdate</permission>
+        <permission type="web" id="updatePatientInvoice">financial.patientinvoiceupdate</permission>
+        <permission type="web" id="updateInsurerInvoice">financial.insurerinvoiceupdate</permission>
         <permission type="web" id="cancelclosedinvoice">financial.cancelclosedinvoice</permission>
         <permission type="web" id="closeunpaidinvoice">financial.closeunpaidinvoice</permission>
         <permission type="web" id="reimbursements">financial.reimbursement</permission>
