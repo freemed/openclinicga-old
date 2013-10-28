@@ -62,6 +62,7 @@
         <Menu labelid="financial" accessrights="financial.select">
             <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit.select" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
             <Menu labelid="insurarCreditEdit" accessrights="financial.insurarcreditedit" url="/main.do?Page=financial/insurarCreditEdit.jsp"/>
+            <Menu labelid="extrainsurarCreditEdit" accessrights="financial.insurarcreditedit" url="/main.do?Page=financial/extraInsurarCreditEdit.jsp"/>
             <Menu labelid="debetEdit" patientselected="true" accessrights="financial.debet.edit" url="/main.do?Page=financial/debetEdit.jsp"/>
             <Menu labelid="patientInvoiceEdit" patientselected="true" accessrights="financial.patientinvoice.edit" url="/main.do?Page=financial/patientInvoiceEdit.jsp"/>
             <Menu labelid="insuranceInvoiceEdit" accessrights="financial.insuranceinvoice.edit" url="/main.do?Page=financial/insuranceInvoiceEdit.jsp"/>
