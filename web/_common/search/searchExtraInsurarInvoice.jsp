@@ -179,35 +179,28 @@
         if ("<%=sReturnFieldInvoiceNr%>".length > 0) {
             window.opener.document.getElementsByName("<%=sReturnFieldInvoiceNr%>")[0].value = sInvoiceNr;
         }
-
         if ("<%=sReturnFieldInvoiceBalance%>".length > 0) {
-            if (sInvoiceBalance > 0 && window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value * 1 == 0) {
-                window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+            if (sInvoiceBalance > 0 && window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")) {
+            	window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance*1, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
             }
         }
-
         if ("<%=sReturnFieldInvoiceStatus%>".length > 0) {
             window.opener.document.getElementsByName("<%=sReturnFieldInvoiceStatus%>")[0].value = sInvoiceStatus;
         }
-
         if ("<%=sReturnFieldInsurarUid%>".length > 0) {
             window.opener.document.getElementsByName("<%=sReturnFieldInsurarUid%>")[0].value = sInsurarUid;
         }
-
         if ("<%=sReturnFieldInsurarName%>".length > 0) {
             window.opener.document.getElementsByName("<%=sReturnFieldInsurarName%>")[0].value = sInsurarName;
         }
-
-    <%
-    if (sFunction.length()>0){
-        out.print("window.opener."+sFunction+";");
-    }
-    %>
-
+	    <%
+	    if (sFunction.length()>0){
+	        out.print("window.opener."+sFunction+";");
+	    }
+	    %>
         if (window.opener.loadUnassignedCredits != null) {
             window.opener.loadUnassignedCredits(sInsurarUid);
         }
-
         window.close();
     }
 </script>
