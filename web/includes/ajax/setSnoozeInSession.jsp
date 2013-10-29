@@ -12,7 +12,7 @@
 
     //--- SET -------------------------------------------------------------------------------------
     if(sAction.equals("set")){
-        int snoozeTimeInMillis = MedwanQuery.getInstance().getConfigInt("messageCheckerSnoozeTimeInMinutes",1)*60*1000;
+        int snoozeTimeInMillis = MedwanQuery.getInstance().getConfigInt("messageCheckerSnoozeTimeInMinutes",5)*60*1000;
 	    session.setAttribute("snoozeDueTime",Long.toString((new java.util.Date().getTime()+snoozeTimeInMillis)));
     }
     //--- CLEAR -----------------------------------------------------------------------------------
