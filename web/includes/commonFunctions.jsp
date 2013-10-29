@@ -44,4 +44,20 @@
     
     return answer; // FF
   }
+  
+  <%-- YESNO DIALOG DIRECT TEXT --%>
+  function yesnoDialogDirectText(labelText){
+    var answer = "";
+    
+    if(window.showModalDialog){
+      var popupUrl = "<c:url value='/_common/search/yesnoPopup.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelValue="+labelText;
+      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      answer = window.showModalDialog(popupUrl,"",modalities);
+    }
+    else{
+      answer = window.confirm(labelId);          
+    }
+    
+    return answer; // FF
+  }
 </script>

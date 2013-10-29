@@ -452,7 +452,8 @@
 
         if (checkString(activeUser.getParameter("Timeout")).length() > 0) {
             sJS += Integer.parseInt(activeUser.getParameter("Timeout")) * 1000;
-        } else {
+        }
+        else {
             sJS += session.getMaxInactiveInterval() * 1000;
         }
 
