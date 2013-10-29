@@ -33,7 +33,7 @@
     	  }
     	  else{    		  
 			  long remainingMillisTillSnoozeDueTime = (new java.util.Date(snoozeDueTime).getTime()-new java.util.Date().getTime());
-	     	  //Debug.println(" --> remainingMillisTillSnoozeDueTime : "+remainingMillisTillSnoozeDueTime);
+	     	  Debug.println(" --> remainingMillisTillSnoozeDueTime : "+remainingMillisTillSnoozeDueTime);
 	    	  
 	    	  if(remainingMillisTillSnoozeDueTime < 0){
 	    		  %>checkForMessage();<%
