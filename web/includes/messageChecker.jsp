@@ -3,8 +3,8 @@
 <%=sJSPROTOTYPE%>   
    
 <%    
-    int snoozeTimeInMillis = MedwanQuery.getInstance().getConfigInt("messageCheckerSnoozeTimeInMinutes",1)*60*1000,
-        checkTimeInMillis  = MedwanQuery.getInstance().getConfigInt("messageCheckerTimeout",10*1000);
+    int snoozeTimeInMillis = MedwanQuery.getInstance().getConfigInt("messageCheckerSnoozeTimeInMinutes",5)*60*1000,
+        checkTimeInMillis  = MedwanQuery.getInstance().getConfigInt("messageCheckerTimeout",10*1000); // 10 seconds
 
 	/// DEBUG /////////////////////////////////////////////////////////////////
 	if(Debug.enabled){
