@@ -1,5 +1,6 @@
-<%@ page errorPage="/includes/error.jsp" %>
-<%@ include file="/includes/validateUser.jsp" %>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
+<%@include file="/includes/messageChecker.jsp"%>
 <%
 	// prevent caching
     response.setHeader("Content-Type", "text/html; charset=ISO-8859-1");
@@ -7,6 +8,7 @@
     response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
     response.addHeader("Cache-Control", "post-check=0, pre-check=0");
     response.setHeader("Pragma", "no-cache");
+    
     // WorkTime-message
     String sWorkTimeMessage = "";
     boolean alertWorkTimeMsg = false;
@@ -21,10 +23,12 @@
             if (sWorkTimeMessage.length() > 0 && !sWorkTimeMessage.equalsIgnoreCase("WorkTimeMessage")) {
                 alertWorkTimeMsg = true;
                 session.setAttribute("WorkTimeMessage", sWorkTimeMessage);
-            } else {
+            } 
+            else {
                 session.removeAttribute("WorkTimeMessage");
             }
-        } else {
+        }
+        else {
             // get message from session
             sWorkTimeMessage = checkString((String) session.getAttribute("WorkTimeMessage"));
         }
