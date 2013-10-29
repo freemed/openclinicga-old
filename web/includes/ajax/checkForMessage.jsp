@@ -2,7 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%   
-    String sSnoozeTimeInMinutes = MedwanQuery.getInstance().getConfigString("messageCheckerSnoozeTimeInMinutes","1");
+    String sSnoozeTimeInMinutes = MedwanQuery.getInstance().getConfigString("messageCheckerSnoozeTimeInMinutes","5");
     
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
