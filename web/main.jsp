@@ -1,6 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/messageChecker.jsp"%>
 <%
 	// prevent caching
     response.setHeader("Content-Type", "text/html; charset=ISO-8859-1");
@@ -46,8 +45,10 @@
     <%=sJSSCRPTACULOUS%>
     <%=sJSMODALBOX%>
     <%=sIcon%>
-
 </head>
+
+<%@include file="/includes/messageChecker.jsp"%>
+
 <body id="body" onresize="pageResize();">
 <%
     if (request.getParameter("exitmessage") != null) {
