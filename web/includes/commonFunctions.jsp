@@ -1,4 +1,4 @@
-<%@page import="be.mxs.common.util.system.ScreenHelper"%>                            
+<%@page import="be.mxs.common.util.system.ScreenHelper"%>
                 
 <script>  
   <%-- ALERT DIALOG --%>
