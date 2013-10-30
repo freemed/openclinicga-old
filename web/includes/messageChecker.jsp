@@ -1,7 +1,8 @@
 <%@page import="be.mxs.common.util.db.MedwanQuery,
-                be.mxs.common.util.system.ScreenHelper"%>                            
-<%=sJSPROTOTYPE%>   
-   
+                be.mxs.common.util.system.ScreenHelper,
+                be.mxs.common.util.system.Debug"%>
+<%@include file="commonFunctions.jsp"%>
+
 <%    
     int snoozeTimeInMillis = MedwanQuery.getInstance().getConfigInt("messageCheckerSnoozeTimeInMinutes",5)*60*1000,
         checkTimeInMillis  = MedwanQuery.getInstance().getConfigInt("messageCheckerTimeout",10*1000); // 10 seconds
@@ -60,17 +61,7 @@
         var data = eval("("+resp.responseText+")");
         
     	if(data.labelType.length > 0){	
-          if(yesnoDialogDirectText(data.message)==1){
-        	<%-- snooze --%>
-        	window.clearInterval(interval);
-      	    interval = window.setInterval("checkForMessage()",snoozeTimeInMillis);
-      	    setSnoozeInSession();
-          }
-          else{
-        	<%-- no snooze --%>
-      	    window.clearInterval(interval);
-      	    clearSnoozeInSession();
-          }
+          yesnoModalbox(data.message);
     	}
     	else{    	  
     	  <%-- continue --%>
@@ -81,7 +72,20 @@
     });
   }
     
-  <%-- SET SNOOZE IN SESSION --%>
+  <%-- DO SNOOZE (yes-button) --%>
+  function doSnooze(){
+    window.clearInterval(interval);
+    interval = window.setInterval("checkForMessage()",snoozeTimeInMillis);
+    setSnoozeInSession();
+  }
+  
+  <%-- DO NOT SNOOZE (no-button) --%>
+  function doNotSnooze(){
+	window.clearInterval(interval);
+	clearSnoozeInSession();
+  }
+    
+  <%-- SET SNOOZE IN SESSION (after doSnooze) --%>
   function setSnoozeInSession(){
     var url = "<c:url value='/includes/ajax/setSnoozeInSession.jsp'/>?ts="+new Date().getTime();
     var params = "Action=set";      
@@ -91,7 +95,7 @@
     });
   }
   
-  <%-- CLEAR SNOOZE IN SESSION --%>
+  <%-- CLEAR SNOOZE IN SESSION (after doNotSnooze) --%>
   function clearSnoozeInSession(){
     var url = "<c:url value='/includes/ajax/setSnoozeInSession.jsp'/>?ts="+new Date().getTime();
     var params = "Action=clear";      
@@ -99,5 +103,32 @@
     new Ajax.Request(url,{
       parameters: params
     });
+  }
+  
+  <%-- OBSERVERS for yesNoModalbox --%>
+  var yesObserver = doSnooze.bindAsEventListener(Modalbox);
+  var noObserver = doNotSnooze.bindAsEventListener(Modalbox);
+  
+  function setObservers(){
+	$("yesButton").observe("click",yesObserver);
+	$("noButton").observe("click",noObserver);
+  }
+  
+  function removeObservers(){
+	$("yesButton").stopObserving("click",yesObserver);
+	$("noButton").stopObserving("click",noObserver);
+  }
+  
+  <%-- YESNO MODALBOX (2 buttons) --%>
+  function yesnoModalbox(msg){
+    var html = "<div style='border:1px solid #bbccff;padding:1px;'>"+ // class="warning"
+                "<p>"+msg+"</p>"+
+                "<p style='text-align:center'>"+
+                 "<input type='button' class='button' id='yesButton' style='padding-left:7px;padding-right:7px' value='<%=getTranNoLink("web","yes",sWebLanguage)%>' onclick='Modalbox.hide();'/>"+
+                 "&nbsp;&nbsp;&nbsp;"+
+                 "<input type='button' class='button' id='noButton' style='padding-left:7px;padding-right:7px' value='<%=getTranNoLink("web","no",sWebLanguage)%>' onclick='Modalbox.hide();'/>"+
+                "</p>"+
+               "</div>";
+    Modalbox.show(html,{title:'<%=getTranNoLink("web","message",sWebLanguage)%>',width:300,afterLoad:setObservers,onHide:removeObservers});
   }
 </script>
