@@ -20,6 +20,9 @@
     
     // add snooze-question to message, if any
     if(sMessage.length() > 0){
+    	sMessage = "<font color='red'>"+sMessage+"</font>"; // actual message in red
+    	
+    	// fixed message below
     	sMessage+= "<br><br>"+getTranNoLink("web.manage","doYouWantToSnoozeThisAlert",sWebLanguage).replaceAll("#minutes#",sSnoozeTimeInMinutes);
     }
 %>
