@@ -322,7 +322,7 @@
     }
     
     if(sSalary.length() > 0){
-        salary.salary = Float.parseFloat(sSalary);
+        salary.salary = Float.parseFloat(sSalary.replace(",","."));
     }
     
     salary.salaryPeriod = sSalaryPeriod;
