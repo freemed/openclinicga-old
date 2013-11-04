@@ -97,8 +97,8 @@
         sUntil = "20";
     }
 
-    int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sFrom))).intValue();    // Start hour of week planner
-    int endHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sUntil))).intValue();    // End hour of weekplanner.
+    int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sFrom.replace(",",".")))).intValue();    // Start hour of week planner
+    int endHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sUntil.replace(",",".")))).intValue();    // End hour of weekplanner.
     int startMinOfWeekPlanner = (sFrom.split("\\.").length>1)?Integer.parseInt(sFrom.split("\\.")[1]):0;
     int endMinOfWeekPlanner = (sUntil.split("\\.").length>1)?Integer.parseInt(sUntil.split("\\.")[1]):0;
 

@@ -65,9 +65,9 @@
         Date plannedStart=appointment.getPlannedDate();
         Date plannedEnd=appointment.getPlannedEndDate();
 
-        int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sBegin))).intValue();    // Start hour of week planner
+        int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sBegin.replace(",",".")))).intValue();    // Start hour of week planner
 		
-        if (Integer.parseInt(new SimpleDateFormat("HH").format(plannedStart)) < startHourOfWeekPlanner || (Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) > (Float.parseFloat(sEnd) + 1) || ((Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) == (Float.parseFloat(sEnd) + 1)) && Integer.parseInt(new SimpleDateFormat("mm").format(plannedEnd)) > 0))) {
+        if (Integer.parseInt(new SimpleDateFormat("HH").format(plannedStart)) < startHourOfWeekPlanner || (Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) > (Float.parseFloat(sEnd.replace(",",".")) + 1) || ((Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) == (Float.parseFloat(sEnd) + 1)) && Integer.parseInt(new SimpleDateFormat("mm").format(plannedEnd)) > 0))) {
             hidden = fullDateFormat.format(plannedStart.getTime()) + " -> " + fullDateFormat.format(plannedEnd.getTime());
         }
         // user names

@@ -88,8 +88,8 @@
         sUntil = "20" ;
     }%>
     <script type="text/javascript">
-        var weekplannerStartHour = <%=Double.valueOf(Math.floor(Float.parseFloat(sFrom))).intValue()%>;
-        var weekplannerStopHour = <%=Double.valueOf(Math.ceil(Float.parseFloat(sUntil))).intValue()%>;
+        var weekplannerStartHour = <%=Double.valueOf(Math.floor(Float.parseFloat(sFrom.replace(",",".")))).intValue()%>;
+        var weekplannerStopHour = <%=Double.valueOf(Math.ceil(Float.parseFloat(sUntil.replace(",",".")))).intValue()%>;
         var itemRowHeight = <%=iZoom%>;
         var defaultAppointmentDuration = <%=sInterval%>;
         var patientName = '<%=(activePatient!=null)?activePatient.lastname+" "+activePatient.firstname:""%>';
@@ -138,8 +138,8 @@
         </div>
         <div id="weekScheduler_content">
             <div id="weekScheduler_hours">
-                <% int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sFrom))).intValue();    // Start hour of week planner
-                    int endHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sUntil))).intValue();    // End hour of weekplanner.
+                <% int startHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sFrom.replace(",",".")))).intValue();    // Start hour of week planner
+                    int endHourOfWeekPlanner = Double.valueOf(Math.floor(Float.parseFloat(sUntil.replace(",",".")))).intValue();    // End hour of weekplanner.
                     int endMinOfWeekPlanner = (sUntil.split("\\.").length>1)?Integer.parseInt(sUntil.split("\\.")[1]):0;
                     int iCalendarEnd = (endMinOfWeekPlanner==0)?endHourOfWeekPlanner-1:endHourOfWeekPlanner;
 
