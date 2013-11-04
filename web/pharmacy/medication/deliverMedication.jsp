@@ -771,7 +771,7 @@
 
     <%-- calculate totalDeliveryPrice --%>
     var packagePrice = parseFloat(replaceAll(document.getElementById("packagePrice_"+productStockUid).value,",","."));
-    var packages     = parseFloat(transactionForm.EditUnitsChanged.value);
+    var packages     = parseFloat(transactionForm.EditUnitsChanged.value.replace(",","."));
     document.getElementById('TotalDeliveryPrice').innerHTML = "<%=getTran("web","totalprice",sWebLanguage)%> : "+(packagePrice*packages).toFixed(2)+" <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>";
   }
 
