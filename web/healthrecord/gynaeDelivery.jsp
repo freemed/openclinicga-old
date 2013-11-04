@@ -1935,18 +1935,18 @@ if (itemAgeDateEcho!=null){
         return a - b;
     }
     function convertDilatationYtoDegree(s) {
-        y = parseFloat(s);
+        y = parseFloat(s.replace(",","."));
         t = 5;
         if (y > 0) {
             for (var i = 1; i <= y; i++) {
                 t--;
             }
-            y = parseFloat(t);
+            y = parseFloat(t.replace(",","."));
         } else if (y < 0) {
             for (var i = -1; i >= y; i--) {
                 t++;
             }
-            y = parseFloat(t);
+            y = parseFloat(t.replace(",","."));
         } else {
             y = parseFloat('5');
         }

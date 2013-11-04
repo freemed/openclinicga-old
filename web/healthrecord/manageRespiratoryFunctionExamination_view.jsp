@@ -42,7 +42,7 @@
 
   <%-- CALCULATE PEF -----------------------------------------------------------------------------%>
   function calculatePEFPercent(){
-    if (isNaN(parseFloat(document.getElementsByName('height')[0].value)) || document.getElementsByName('height')[0].value==0) {
+    if (isNaN(parseFloat(document.getElementsByName('height')[0].value.replace(",","."))) || document.getElementsByName('height')[0].value==0) {
       return;
     }
 
@@ -91,7 +91,7 @@
   <%-- CALCULATE VC ------------------------------------------------------------------------------%>
   function calculateVCPercent(){
     calculateTiffeneau();
-    if (isNaN(parseFloat(document.getElementsByName('height')[0].value)) || document.getElementsByName('height')[0].value==0){
+    if (isNaN(parseFloat(document.getElementsByName('height')[0].value.replace(",","."))) || document.getElementsByName('height')[0].value==0){
       return;
     }
 
@@ -126,7 +126,7 @@
   <%-- CALCULATE FEV1 ----------------------------------------------------------------------------%>
   function calculateFEV1Percent(){
     calculateTiffeneau();
-    if (isNaN(parseFloat(document.getElementsByName('height')[0].value)) || document.getElementsByName('height')[0].value==0) {
+    if (isNaN(parseFloat(document.getElementsByName('height')[0].value.replace(",","."))) || document.getElementsByName('height')[0].value==0) {
       return;
     }
 
@@ -160,7 +160,7 @@
 
   <%-- CALCULATE FVC -----------------------------------------------------------------------------%>
   function calculateFVCPercent(){
-    if (isNaN(parseFloat(document.getElementsByName('height')[0].value)) || document.getElementsByName('height')[0].value==0){
+    if (isNaN(parseFloat(document.getElementsByName('height')[0].value.replace(",","."))) || document.getElementsByName('height')[0].value==0){
       return;
     }
 
