@@ -368,6 +368,10 @@
         return ScreenHelper.writeDateField(sName, sForm, sValue, true, false, sWebLanguage, sCONTEXTPATH);
     }
 
+    public String checkPrestationToday(String sPersonId, boolean screenIsPopup, User activeUser, TransactionVO transaction) {
+    	return ScreenHelper.checkPrestationToday(sPersonId, sCONTEXTPATH, screenIsPopup, activeUser,transaction);
+    }
+
     //--- CHECK PERMISSION (screen is a parent window) --------------------------------------------
     public String checkPermission(String sScreen, String sPermission, User activeUser) {
         return ScreenHelper.checkPermission(sScreen, sPermission, activeUser, false, sCONTEXTPATH);

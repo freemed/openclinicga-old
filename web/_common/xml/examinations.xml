@@ -1255,4 +1255,11 @@
 		<fr>Potentiels &#233;voqu&#233;s</fr>
 		<en>Evoked potentials</en>
 	</Row>
+	<Row>
+		<id>1108</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_RMH_OUTPATIENT</transactiontype>
+		<fr>Consultation externe (RMH)</fr>
+		<en>Outpatient consultation (RMH)</en>
+	</Row>
 </Examinations>

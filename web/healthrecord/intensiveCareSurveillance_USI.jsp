@@ -137,6 +137,7 @@
 %>
 <%=checkPermission("occup.surveillance.USI","select",activeUser)%>
 <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
+	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
 <%
     Hashtable hListing = new Hashtable();
     hListing.put("1","");hListing.put("2","");hListing.put("3","LACTATE");hListing.put("4","GLUCOSE");hListing.put("5","PHYSIOLOGY");hListing.put("6","SHAEM");

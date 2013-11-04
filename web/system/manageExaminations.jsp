@@ -5,7 +5,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("system.manageexaminations","select",activeUser)%>
 <%
-    String msg = "", sEditPriority = "", sEditData = "", sEditTranType = "", sEditExamName = "";
+    String msg = "", sEditPriority = "", sEditData = "", sEditTranType = "", sEditExamName = "", sEditRequiredPrestation = "", sEditRequiredPrestationClass = "", sEditRequiredPrestationInvoiced = "", sEditRequiredPrestationClassInvoiced = "";
     boolean bQueryInsert = false;
     boolean bQueryUpdate = false;
 
@@ -30,7 +30,17 @@
         sEditData     = checkString(request.getParameter("EditData"));
         sEditTranType = checkString(request.getParameter("EditTransactionType"));
         sEditExamName = checkString(request.getParameter("EditExamName"));
+        sEditRequiredPrestation = checkString(request.getParameter("EditRequiredPrestation"));
+        sEditRequiredPrestationClass = checkString(request.getParameter("EditRequiredPrestationClass"));
+        sEditRequiredPrestationInvoiced = checkString(request.getParameter("EditRequiredPrestationInvoiced"));
+        sEditRequiredPrestationClassInvoiced = checkString(request.getParameter("EditRequiredPrestationClassInvoiced"));
 
+        if(sEditTranType.length()>0){
+        	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestation", sEditRequiredPrestation);
+        	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestationClass", sEditRequiredPrestationClass);
+        	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestation.invoiced", sEditRequiredPrestationInvoiced.length()>0?"1":"0");
+        	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestationClass.invoiced", sEditRequiredPrestationClassInvoiced.length()>0?"1":"0");
+        }
         if(sEditPriority.length()==0){
             sEditPriority = "0";
         }
@@ -224,11 +234,28 @@
                             <textarea onKeyup="resizeTextarea(this,10);" class="text" cols="130" rows="2" name="EditData"><%=sEditData%></textarea>
                         </td>
                     </tr>
-                                               <%-- transactionType --%>
+                    <%-- transactionType --%>
                     <tr>
                         <td class="admin"><%=getTran("Web.Translations","transactionType",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="text" class="normal" size="130" maxLength="255" name="EditTransactionType" value="<%=sEditTranType%>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","required.prestationcode",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="text" class="normal" size="20" maxLength="20" name="EditRequiredPrestation" value="<%=MedwanQuery.getInstance().getConfigString(sEditTranType+".requiredPrestation")%>">
+                            <input type="checkbox" class="test" name="EditRequiredPrestationInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType+".requiredPrestation.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage) %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","required.prestationclass",sWebLanguage)%></td>
+                        <td class="admin2">
+                        	<select class="text" name="EditRequiredPrestationClass">
+                        		<option value=""></option>
+                        		<%=ScreenHelper.writeSelect("prestation.class", MedwanQuery.getInstance().getConfigString(sEditTranType+".requiredPrestationClass"), sWebLanguage, false, true) %>
+                        	</select>
+                            <input type="checkbox" class="test" name="EditRequiredPrestationClassInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType+".requiredPrestationClass.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage) %>
                         </td>
                     </tr>
                     <tr>

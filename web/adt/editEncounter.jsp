@@ -560,7 +560,7 @@
 	                    	defaultStay=tmpEncounter.getService().stayprestationuid;
 	                    }
                     
-                        Vector prestations = Prestation.getPrestationsByClass("stay");
+                        Vector prestations = Prestation.getPrestationsByClass(MedwanQuery.getInstance().getConfigString("stayclass","stay"));
                         for (int n=0;n<prestations.size();n++){
                             Prestation prestation = (Prestation)prestations.elementAt(n);
                             if(prestation!=null){

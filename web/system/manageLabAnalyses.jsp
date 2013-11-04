@@ -14,8 +14,8 @@
            sLabType      = checkString(request.getParameter("LabType")),
            sLabCodeOther = checkString(request.getParameter("LabCodeOther")),
             sFindLabCode  = checkString(request.getParameter("FindLabCode")).toLowerCase(),
-            sEditLabUnit  = checkString(request.getParameter("EditLabUnit")).toLowerCase(),
-           sEditLabCode  = checkString(request.getParameter("EditLabCode")).toLowerCase();
+            sEditLabUnit  = checkString(request.getParameter("EditLabUnit")),
+           sEditLabCode  = checkString(request.getParameter("EditLabCode"));
     /*
     // DEBUG ////////////////////////////////////////////////////////////////////////////
     Debug.println("### ACTION = "+sAction+" ####################################");

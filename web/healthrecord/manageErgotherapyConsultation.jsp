@@ -22,6 +22,7 @@
 
 %>
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
+	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
 <%
 	String sDivErgotherapy="";
 	String sErgotherapy="";
