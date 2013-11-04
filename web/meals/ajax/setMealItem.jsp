@@ -19,7 +19,7 @@
         for (int i = 0; i < nutricientItems.length; i++) {
             String[] values = nutricientItems[i].split("-");
             nutricientItem = new NutricientItem(values[0]);
-            nutricientItem.quantity = Float.parseFloat(values[1]);
+            nutricientItem.quantity = Float.parseFloat(values[1].replace(",","."));
             item.nutricientItems.add(nutricientItem);
         }
     }

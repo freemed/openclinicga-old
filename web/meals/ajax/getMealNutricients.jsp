@@ -15,7 +15,7 @@
         for (int i = 0; i < mealitems.length; i++) {
             String[] values = mealitems[i].split("-");
             mealitem = new MealItem(values[0]);
-            mealitem.quantity = Float.parseFloat(values[1]);
+            mealitem.quantity = Float.parseFloat(values[1].replace(",","."));
             Iterator it = MealItem.get(mealitem).nutricientItems.iterator();
             while (it.hasNext()) {
                 NutricientItem nutricient = (NutricientItem) it.next();
