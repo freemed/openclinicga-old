@@ -280,15 +280,15 @@ try{
   }
 
   function compareTextAsFloat (option1, option2) {
-    var value1 = parseFloat(option1.text);
-    var value2 = parseFloat(option2.text);
+    var value1 = parseFloat(option1.text.replace(",","."));
+    var value2 = parseFloat(option2.text.replace(",","."));
 
     return value1 < value2 ? -1 : (value1 > value2 ? 1 : 0);
   }
 
   function compareValueAsFloat (option1, option2) {
-    var value1 = parseFloat(option1.value);
-    var value2 = parseFloat(option2.value);
+    var value1 = parseFloat(option1.value.replace(",","."));
+    var value2 = parseFloat(option2.value.replace(",","."));
 
     return value1 < value2 ? -1 : (value1  > value2 ? 1 : 0);
   }
