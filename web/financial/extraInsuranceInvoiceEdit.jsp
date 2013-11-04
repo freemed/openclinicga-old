@@ -292,7 +292,7 @@ function countDebets(){
         if (elm.name.indexOf('cbDebet') > -1) {
             if (elm.checked) {
                 var amount = elm.name.split("=")[1];
-                tot = tot + parseFloat(amount);
+                tot = tot + parseFloat(amount.replace(",","."));
             }
         }
     }
@@ -306,7 +306,7 @@ function countCredits(){
         if (elm.name.indexOf('cbInsurarInvoice') > -1) {
             if (elm.checked) {
                 var amount = elm.name.split("=")[1];
-                tot = tot + parseFloat(amount);
+                tot = tot + parseFloat(amount.replace(",","."));
             }
         }
     }
@@ -337,18 +337,18 @@ function doBalance(oObject, bAdd) {
 
     if (bAdd) {
         if (oObject.checked) {
-            EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value) + parseFloat(amount);
+            EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value.replace(",",".")) + parseFloat(amount.replace(",","."));
         }
         else {
-            EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value) - parseFloat(amount);
+            EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value.replace(",",".")) - parseFloat(amount.replace(",","."));
         }
     }
     else {
         if (oObject.checked) {
-            EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value) - parseFloat(amount);
+            EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value.replace(",",".")) - parseFloat(amount.replace(",","."));
         }
         else {
-            EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value) + parseFloat(amount);
+            EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value.replace(",",".")) + parseFloat(amount.replace(",","."));
         }
     }
     EditForm.EditBalance.value = format_number(EditForm.EditBalance.value, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);

@@ -608,10 +608,10 @@
 	    	var elements = document.getElementsByTagName("input");
 	    	for(var n=0;n<elements.length;n++){
 	    		if(elements[n].name.indexOf("cbDebet")==0 && elements[n].checked){
-	    			total+=parseFloat(elements[n].name.split("=")[1])*1;
+	    			total+=parseFloat(elements[n].name.split("=")[1].replace(",","."))*1;
 	    		}
 	    		else if(elements[n].name.indexOf("cbPatientInvoice")==0 && elements[n].checked){
-	    			paid+=parseFloat(elements[n].name.split("=")[1])*1;
+	    			paid+=parseFloat(elements[n].name.split("=")[1].replace(",","."))*1;
 	    		}
 	    	}
 	    	document.getElementById('invoiceValue').innerHTML='<b>'+total.toFixed(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>)+'</b>';
