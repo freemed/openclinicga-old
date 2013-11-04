@@ -1064,7 +1064,7 @@ public class Prestation extends OC_Object{
             if(sPrestationPrice.length() > 0)  {
                 float fPrice=0;
                 try{
-                	fPrice=Float.parseFloat(sPrestationPrice);
+                	fPrice=Float.parseFloat(sPrestationPrice.replaceAll(",","."));
                 }
                 catch(Exception e2){
                 	e2.printStackTrace();
@@ -1174,7 +1174,7 @@ public class Prestation extends OC_Object{
             if(sPrestationPrice.length() > 0)  {
                 float fPrice=0;
                 try{
-                	fPrice=Float.parseFloat(sPrestationPrice);
+                	fPrice=Float.parseFloat(sPrestationPrice.replaceAll(",","."));
                 }
                 catch(Exception e2){
                 	e2.printStackTrace();

@@ -230,7 +230,7 @@ public class PDFNurseExamination extends PDFGeneralBasic {
             // BMI (calculated) (on one row)
             if(weight.length()>0 && height.length()>0){
                 DecimalFormat deci = new DecimalFormat("0.0");
-                Float bmi = new Float(Float.parseFloat(weight)*10000 / (Float.parseFloat(height) * Float.parseFloat(height)));
+                Float bmi = new Float(Float.parseFloat(weight.replaceAll(",","."))*10000 / (Float.parseFloat(height.replaceAll(",",".")) * Float.parseFloat(height.replaceAll(",","."))));
                 table.addCell(createValueCell("BMI: "+deci.format(bmi),1));
             }
 

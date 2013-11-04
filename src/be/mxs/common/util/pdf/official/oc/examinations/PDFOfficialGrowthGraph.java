@@ -77,15 +77,15 @@ public abstract class PDFOfficialGrowthGraph extends PDFOfficialBasic {
                 int sex = Integer.parseInt(data.substring(0,1).trim()); // part after comma is ignored to obain integer ages ! (60 ipv 60.5)
 
                 if (sex == displayGender) {
-                    age = Float.parseFloat(data.substring(4,7).trim());
+                    age = Float.parseFloat(data.substring(4,7).trim().replaceAll(",","."));
 
-                    p3 = Float.parseFloat(data.substring(40,48).trim());    s3.add(age,p3);
-                    p5 = Float.parseFloat(data.substring(49,57).trim());    s5.add(age,p5);
-                    p25 = Float.parseFloat(data.substring(67,75).trim());   s25.add(age,p25);
-                    p50 = Float.parseFloat(data.substring(76,84).trim());   s50.add(age,p50);
-                    p75 = Float.parseFloat(data.substring(85,93).trim());   s75.add(age,p75);
-                    p95 = Float.parseFloat(data.substring(103,111).trim()); s95.add(age,p95);
-                    p97 = Float.parseFloat(data.substring(112).trim());     s97.add(age,p97);
+                    p3 = Float.parseFloat(data.substring(40,48).trim().replaceAll(",","."));    s3.add(age,p3);
+                    p5 = Float.parseFloat(data.substring(49,57).trim().replaceAll(",","."));    s5.add(age,p5);
+                    p25 = Float.parseFloat(data.substring(67,75).trim().replaceAll(",","."));   s25.add(age,p25);
+                    p50 = Float.parseFloat(data.substring(76,84).trim().replaceAll(",","."));   s50.add(age,p50);
+                    p75 = Float.parseFloat(data.substring(85,93).trim().replaceAll(",","."));   s75.add(age,p75);
+                    p95 = Float.parseFloat(data.substring(103,111).trim().replaceAll(",",".")); s95.add(age,p95);
+                    p97 = Float.parseFloat(data.substring(112).trim().replaceAll(",","."));     s97.add(age,p97);
                 }
 
                 data = in.readLine();

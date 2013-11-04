@@ -351,7 +351,7 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
                 String sLeaveDuration = MedwanQuery.getInstance().getConfigString("hr.salarycalculation.leaveduration","7,6");
                 sLeaveDuration = sLeaveDuration.replaceAll("\\,",".");
                 Debug.println("sLeaveDuration : "+sLeaveDuration+"\n");
-                float leaveDuration = Float.parseFloat(sLeaveDuration); // hours
+                float leaveDuration = Float.parseFloat(sLeaveDuration.replaceAll(",",".")); // hours
 
                 //*** create a salary calculation for each day in the leave ***
                 java.util.Date tmpDate;            

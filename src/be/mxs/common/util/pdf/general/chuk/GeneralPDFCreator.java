@@ -723,7 +723,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 if(sWeight.length()>0 && sHeight.length()>0){
                     try{
                         DecimalFormat deci = new DecimalFormat("0.0");
-                        Float bmi = new Float(Float.parseFloat(sWeight) *10000 / (Float.parseFloat(sHeight) * Float.parseFloat(sHeight)));
+                        Float bmi = new Float(Float.parseFloat(sWeight.replaceAll(",",".")) *10000 / (Float.parseFloat(sHeight.replaceAll(",",".")) * Float.parseFloat(sHeight.replaceAll(",","."))));
                         par.add(new Chunk("BMI: "+deci.format(bmi),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
                     }
                     catch(Exception e){

@@ -243,7 +243,7 @@ public class SyncTable {
             }
             else if (column.getType().equals("float")){
                 try{
-                    float f = Float.parseFloat(sData);
+                    float f = Float.parseFloat(sData.replaceAll(",","."));
                     ps.setFloat(iIndex,f);
                 }
                 catch(Exception e){

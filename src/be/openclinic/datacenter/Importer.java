@@ -398,9 +398,9 @@ public class Importer {
 						ps.setInt(4,Integer.parseInt(activity.attributeValue("year")));
 						ps.setInt(5,Integer.parseInt(activity.attributeValue("month")));
 						ps.setInt(6,Integer.parseInt(activity.attributeValue("users")));
-						ps.setFloat(7,Float.parseFloat(activity.attributeValue("mean").equalsIgnoreCase("infinity")?activity.attributeValue("median"):activity.attributeValue("mean")));
-						ps.setFloat(8,Float.parseFloat(activity.attributeValue("median")));
-						ps.setFloat(9,Float.parseFloat(activity.attributeValue("meanDeviation")));
+						ps.setFloat(7,Float.parseFloat(activity.attributeValue("mean").equalsIgnoreCase("infinity")?activity.attributeValue("median").replaceAll(",","."):activity.attributeValue("mean").replaceAll(",",".")));
+						ps.setFloat(8,Float.parseFloat(activity.attributeValue("median").replaceAll(",",".")));
+						ps.setFloat(9,Float.parseFloat(activity.attributeValue("meanDeviation").replaceAll(",",".")));
 						ps.execute();
 						ps.close();
 					}

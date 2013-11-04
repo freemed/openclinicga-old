@@ -290,7 +290,7 @@ public class Workschedule extends OC_Object {
                     while(hourParts[0].startsWith("0") && hourParts[0].length() > 1){
                         hourParts[0] = hourParts[0].substring(1);
                     }
-                    value+= Float.parseFloat(hourParts[0]);    
+                    value+= Float.parseFloat(hourParts[0].replaceAll(",","."));    
                 }
                 
                 // 2 : parse minutes-value
@@ -298,11 +298,11 @@ public class Workschedule extends OC_Object {
                     while(hourParts[1].startsWith("0") && hourParts[1].length() > 1){
                         hourParts[1] = hourParts[1].substring(1);
                     }            
-                    value+= (Float.parseFloat(hourParts[1])/60f);    
+                    value+= (Float.parseFloat(hourParts[1].replaceAll(",","."))/60f);    
                 }
             }
             else{
-                value = Float.parseFloat(sHour);
+                value = Float.parseFloat(sHour.replaceAll(",","."));
             }
         }
         
