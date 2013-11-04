@@ -72,7 +72,7 @@
         float iReturn = 0;
         if (sValue.trim().length() > 0) {
             try{
-                iReturn = Float.parseFloat(sValue);
+                iReturn = Float.parseFloat(sValue.replace(",","."));
             }
             catch (Exception e) {
                 iReturn = 0;
