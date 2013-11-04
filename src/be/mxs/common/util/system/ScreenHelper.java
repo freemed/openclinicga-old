@@ -4,9 +4,12 @@ import be.dpms.medwan.common.model.vo.authentication.UserVO;
 import be.dpms.medwan.common.model.vo.occupationalmedicine.ExaminationVO;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
+import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.webapp.wl.exceptions.SessionContainerFactoryException;
 import be.mxs.webapp.wl.session.SessionContainerFactory;
+import be.openclinic.adt.Encounter;
+import be.openclinic.finance.Prestation;
 import be.openclinic.system.Application;
 import net.admin.*;
 
@@ -755,6 +758,84 @@ public class ScreenHelper {
                               "</script>";
                 }
             }
+        }
+
+        return jsAlert;
+    }
+
+    //--- CHECK PERMISSION ------------------------------------------------------------------------
+    static public String checkPrestationToday(String sPersonId, String sAPPFULLDIR, boolean screenIsPopup, User activeUser, TransactionVO transaction) {
+        String jsAlert = "";
+        String sMessage ="";
+        String sEncounterUid="";
+        Encounter encounter = Encounter.getActiveEncounter(sPersonId);
+    	if(encounter!=null){
+    		sEncounterUid=encounter.getUid();
+    	}
+    	System.out.println("sEncounterUid="+sEncounterUid);
+    	System.out.println("transactionid="+transaction.getTransactionId());
+    	
+        if(sEncounterUid.length()>0 && sEncounterUid.split("\\.").length==2 && transaction.getTransactionId()<0 && MedwanQuery.getInstance().getConfigInt("activateOutpatientConsultationPrestationCheck",0)==1){
+        	String sPrestationCode=MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestation","");
+        	if(checkString(sPrestationCode).length()>0){
+    			Prestation prestation = Prestation.getByCode(sPrestationCode);
+    			if(prestation.getUid()!=null && prestation.getUid().split("\\.").length==2){
+	        		try{
+		        		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		        		String sQuery="select * from oc_debets where oc_debet_date>=? and oc_debet_encounteruid=? and oc_debet_prestationuid=?";
+		        		if(MedwanQuery.getInstance().getConfigInt(transaction.getTransactionType()+".requiredPrestation.invoiced",0)==1){
+		        			sQuery="select * from oc_debets where oc_debet_date>=? and oc_debet_encounteruid=? and oc_debet_prestationuid=? and oc_debet_patientinvoiceuid like '%.%'";
+		        		}
+		        		PreparedStatement ps = conn.prepareStatement(sQuery);
+		        		ps.setDate(1, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()));
+		        		ps.setString(2, sEncounterUid);
+		        		ps.setString(3, prestation.getUid());
+		        		ResultSet rs = ps.executeQuery();
+		        		if(!rs.next()){
+		        			sMessage = getTranNoLink("web","noactiveprestation",activeUser.person.language)+" `"+prestation.getCode()+": "+prestation.getDescription()+"`";
+		        		}
+		        		rs.close();
+		        		ps.close();
+		        		conn.close();
+	        		}
+	        		catch(Exception e){
+	        			e.printStackTrace();
+	        		}
+    			}
+        	}
+        	String sPrestationClass=MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestationClass","");
+            if(sMessage.length()>0 && checkString(sPrestationClass).length()>0){
+        		try{
+	        		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	        		String sQuery="select * from oc_debets a, oc_prestations b where a.oc_debet_date>=? and a.oc_debet_encounteruid=? and b.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and b.oc_prestation_class=?";
+	        		if(MedwanQuery.getInstance().getConfigInt(transaction.getTransactionType()+".requiredPrestationClass.invoiced",0)==1){
+	        			sQuery="select * from oc_debets a, oc_prestations b where a.oc_debet_date>=? and a.oc_debet_encounteruid=? and a.oc_debet_patientinvoiceuid like '%.%' and b.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and b.oc_prestation_class=?";
+	        		}
+	        		PreparedStatement ps = conn.prepareStatement(sQuery);
+	        		ps.setDate(1, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()));
+	        		ps.setString(2, sEncounterUid);
+	        		ps.setString(3, sPrestationClass);
+	        		ResultSet rs = ps.executeQuery();
+	        		if(!rs.next()){
+	        			sMessage = getTranNoLink("web","noactiveprestationclass",activeUser.person.language)+" `"+getTran("prestation.class",sPrestationClass,activeUser.person.language)+"`";
+	        		}
+	        		rs.close();
+	        		ps.close();
+	        		conn.close();
+        		}
+        		catch(Exception e){
+        			e.printStackTrace();
+        		}
+        	}
+        	if(checkString(sMessage).length()>0){
+	            jsAlert = "<script>"+(screenIsPopup?"window.close();":"window.history.go(-1);")+
+	                      "var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
+	
+	            jsAlert+= "';"+
+	                      "  var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
+	                      "   var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
+	                      "</script>";
+        	}
         }
 
         return jsAlert;
