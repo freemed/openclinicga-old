@@ -87,13 +87,13 @@
                     u=" ("+analysis.getUnit()+")";
                     String min=analysis.getResultRefMin(activePatient.gender,activePatient.getAge());
                     try{
-                        float f=Float.parseFloat(min);
+                        float f=Float.parseFloat(min.replace(",","."));
                         min=new DecimalFormat("#,###.###").format(f);
                     }
                     catch (Exception e){}
                     String max=analysis.getResultRefMax(activePatient.gender,activePatient.getAge());
                     try{
-                        float f=Float.parseFloat(max);
+                        float f=Float.parseFloat(max.replace(",","."));
                         max=new DecimalFormat("#,###.###").format(f);
                     }
                     catch (Exception e){}
