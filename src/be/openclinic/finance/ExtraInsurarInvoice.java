@@ -6,6 +6,10 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.adt.Encounter;
 import be.openclinic.common.ObjectReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Vector;
 import java.util.Date;
 import java.sql.Connection;
@@ -793,6 +797,7 @@ public class ExtraInsurarInvoice extends Invoice {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
+        SortedMap sortedDebets = new TreeMap();
         Vector debets = new Vector();
         String sSelect = "";
 
@@ -884,7 +889,7 @@ public class ExtraInsurarInvoice extends Invoice {
                 prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                 debet.setPrestation(prestation);
 
-                debets.add(debet);
+                sortedDebets.put(new SimpleDateFormat("yyyyMMdd").format(debet.getDate())+"."+debet.getPatientName()+"."+debet.getPatientInvoiceUid()+"."+debet.getUid(), debet);
             }
         }
         catch(Exception e){
@@ -900,6 +905,11 @@ public class ExtraInsurarInvoice extends Invoice {
             catch(Exception e){
                 e.printStackTrace();
             }
+        }
+
+        Iterator iDebets = sortedDebets.keySet().iterator();
+        while(iDebets.hasNext()){
+        	debets.add(sortedDebets.get(iDebets.next()));
         }
 
         return debets;

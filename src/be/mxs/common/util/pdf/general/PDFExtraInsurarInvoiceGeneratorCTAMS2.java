@@ -6,6 +6,7 @@ import com.itextpdf.text.*;
 import java.util.*;
 import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,12 +22,12 @@ import be.openclinic.adt.Encounter;
 import be.openclinic.adt.Encounter.EncounterService;
 import net.admin.*;
 
-public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
+public class PDFExtraInsurarInvoiceGeneratorCTAMS2 extends PDFInvoiceGenerator {
     String PrintType;
     double pageConsultationAmount=0,pageLabAmount=0,pageImagingAmount=0,pageAdmissionAmount=0,pageActsAmount=0,pageConsumablesAmount=0,pageOtherAmount=0,pageDrugsAmount=0,pageTotalAmount100=0,pageTotalAmount85=0;
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
-    public PDFInsurarInvoiceGeneratorCTAMS(User user, String sProject, String sPrintLanguage, String PrintType){
+    public PDFExtraInsurarInvoiceGeneratorCTAMS2(User user, String sProject, String sPrintLanguage, String PrintType){
         this.user = user;
         this.sProject = sProject;
         this.sPrintLanguage = sPrintLanguage;
@@ -58,7 +59,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             doc.open();
 
             // get specified invoice
-            InsurarInvoice invoice = InsurarInvoice.get(sInvoiceUid);
+            ExtraInsurarInvoice2 invoice = ExtraInsurarInvoice2.get(sInvoiceUid);
 
             addHeading(invoice);
             addInsurarData(invoice);
@@ -85,7 +86,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 		return baosPDF;
 	}
     
-    private void addSummaryData(InsurarInvoice invoice) throws Exception{
+    private void addSummaryData(ExtraInsurarInvoice2 invoice) throws Exception{
 		try{
 			int iAmbCount=0,iAdmCount=0;
 			double dAmbDrugs=0,dAdmDrugs=0,dAmbExa=0,dAdmExa=0,dAmbAct=0,dAdmAct=0,dAmbOther=0,dAdmOther=0,rInsurarAmount=0;
@@ -142,7 +143,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 		    	if(debet.getEncounter()!=null){
 		    		s=new SimpleDateFormat("yyy.MM.dd").format(debet.getDate())+"."+debet.getEncounter().getPatientUID()+"."+debet.getEncounter().getType();
 	                Prestation prestation = debet.getPrestation();
-	                rInsurarAmount = Math.round(debet.getInsurarAmount());
+	                rInsurarAmount = Math.round(debet.getExtraInsurarAmount());
 	                if(prestation!=null && prestation.getReferenceObject()!=null && prestation.getReferenceObject().getObjectType()!=null && prestation.getReferenceObject().getObjectType().length()>0){
 	                	sCat=prestation.getReferenceObject().getObjectType();
 	                }
@@ -372,7 +373,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
         doc.add(table);
     }
     //---- ADD HEADING (logo & barcode) -----------------------------------------------------------
-    private void addHeading(InsurarInvoice invoice) throws Exception {
+    private void addHeading(ExtraInsurarInvoice2 invoice) throws Exception {
         table = new PdfPTable(10);
         table.setWidthPercentage(pageWidth);
 
@@ -435,7 +436,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
     }
 
     //--- ADD INSURAR DATA ------------------------------------------------------------------------
-    private void addInsurarData(InsurarInvoice invoice){
+    private void addInsurarData(ExtraInsurarInvoice2 invoice){
         PdfPTable table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
 
@@ -443,7 +444,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
             Insurar insurar = invoice.getInsurar();
 
             String month="";
-            Vector debets = InsurarInvoice.getDebetsForInvoiceSortByDate(invoice.getUid());
+            Vector debets = ExtraInsurarInvoice2.getDebetsForInvoiceSortByDate(invoice.getUid());
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet!=null && debet.getDate()!=null){
@@ -467,7 +468,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
     }
 
     //--- PRINT INVOICE ---------------------------------------------------------------------------
-    protected void printInvoice(InsurarInvoice invoice){
+    protected void printInvoice(ExtraInsurarInvoice2 invoice){
         try {
 
             // debets
@@ -498,7 +499,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 
     //--- GET DEBETS (prestations) ----------------------------------------------------------------
     // grouped by patient, sorted on date desc
-    private void getDebets(InsurarInvoice invoice) throws DocumentException{
+    private void getDebets(ExtraInsurarInvoice2 invoice) throws DocumentException{
     	
     	PdfPTable tableParent = new PdfPTable(1);
         tableParent.setWidthPercentage(pageWidth);
@@ -508,7 +509,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
         //Nu gaan we aan elke debet als datum de patientfactuurdatum geven
         Hashtable patientInvoices = new Hashtable();
         Debet debet;
-        Date date;
+        Date date=null;
         PatientInvoice patientInvoice;
         SortedMap sortedDebets = new TreeMap();
         for(int n=0;n<debets.size();n++){
@@ -567,7 +568,12 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
                     	svc=debet.getEncounter().getService().getLabel(user.person.language);
                     	service=svc.substring(0,svc.length()>16?16:svc.length());
                     }
-	                date = debet.getDate();
+	                try {
+						date = stdDateFormat.parse(stdDateFormat.format(debet.getDate()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	                displayDate = !date.equals(prevdate);
 	                sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
 	                displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName) || (debet.getPatientInvoiceUid()!=null && debet.getPatientInvoiceUid().indexOf(".")>=0 && invoiceid.indexOf(debet.getPatientInvoiceUid().split("\\.")[1])<0 && invoiceid.length()>0);
@@ -767,13 +773,13 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	                    }
 	                }                
 	                pageTotalAmount100+=rTotal;
-	                pageTotalAmount85+=rInsurarAmount;
+	                pageTotalAmount85+=rAmount;
 	                total100pct+=rTotal;
-	                total85pct+=rInsurarAmount;
+	                total85pct+=rAmount;
 	                generaltotal100pct+=rTotal;
-	                generaltotal85pct+=rInsurarAmount;
+	                generaltotal85pct+=rAmount;
 	                daytotal100pct+=rTotal;
-	                daytotal85pct+=rInsurarAmount;
+	                daytotal85pct+=rAmount;
 	                prevdate = date;
 	                sPrevPatientName = sPatientName;
 		    	}
@@ -1232,16 +1238,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
         cell = createCell(new PdfPCell(singleCellHeaderTable),100,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER);
         table.addCell(cell);
 
-        int coverage=85;
-        if(insurar!=null && insurar.getInsuraceCategories()!=null && insurar.getInsuraceCategories().size()>0){
-        	try{
-        		coverage=100-Integer.parseInt(((InsuranceCategory)insurar.getInsuraceCategories().elementAt(0)).getPatientShare());
-        	}
-        	catch(Exception e){
-        		e.printStackTrace();
-        	}
-        }
-        cell = createUnderlinedCell("TOT\n"+coverage+"%",1,7);
+        cell = createUnderlinedCell("TOT\nx%",1,7);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         singleCellHeaderTable = new PdfPTable(1);
         singleCellHeaderTable.addCell(cell);

@@ -2,11 +2,10 @@ package be.mxs.common.util.pdf.general;
 
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.*;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
 
 import java.util.*;
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 
@@ -500,7 +499,12 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                     table = new PdfPTable(200);
                     table.setWidthPercentage(pageWidth);
                     debet = (Debet)debets.get(i);
-                    date = debet.getDate();
+                    try {
+						date = stdDateFormat.parse(stdDateFormat.format(debet.getDate()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                     displayDate = !date.equals(prevdate);
                     sPatientName = debet.getPatientName();
                     displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName);

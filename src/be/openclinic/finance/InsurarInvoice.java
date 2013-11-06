@@ -6,7 +6,10 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.adt.Encounter;
 import be.openclinic.common.ObjectReference;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -933,6 +936,8 @@ public class InsurarInvoice extends Invoice {
         ResultSet rs = null;
 
         Vector debets = new Vector();
+        
+        SortedMap sortedDebets = new TreeMap();
         String sSelect = "";
 
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -1021,9 +1026,9 @@ public class InsurarInvoice extends Invoice {
                 prestation.setVersion(rs.getInt("OC_PRESTATION_VERSION"));
                 prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
                 debet.setPrestation(prestation);
-
-
-                debets.add(debet);
+                
+                sortedDebets.put(new SimpleDateFormat("yyyyMMdd").format(debet.getDate())+"."+debet.getPatientName()+"."+debet.getPatientInvoiceUid()+"."+debet.getUid(), debet);
+                
             }
         }
         catch(Exception e){
@@ -1040,7 +1045,12 @@ public class InsurarInvoice extends Invoice {
                 e.printStackTrace();
             }
         }
-
+        
+        Iterator iDebets = sortedDebets.keySet().iterator();
+        while(iDebets.hasNext()){
+        	debets.add(sortedDebets.get(iDebets.next()));
+        }
+        
         return debets;
     }
     

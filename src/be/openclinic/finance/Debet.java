@@ -2263,7 +2263,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     			" OC_ENCOUNTER_OBJECTID=replace(OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND" +
     			" OC_ENCOUNTER_PATIENTUID=? AND" +
     			" OC_DEBET_PRESTATIONUID=? AND" +
-    			" OC_DEBET CREDITED=0";
+    			" OC_DEBET_CREDITED=0";
     	PreparedStatement ps=null;
     	ResultSet rs = null;
     	try{
