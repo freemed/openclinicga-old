@@ -7,6 +7,7 @@
     }
 %>
 <%
+	StringBuffer sb = new StringBuffer();
 	String serverid=checkString(request.getParameter("serverid"));
 	String location=DatacenterHelper.getServerLocation(Integer.parseInt(serverid));
 %>
@@ -208,10 +209,9 @@
         </div>
     </div>
 </div>
-
 <!-- financial -->
 <%
-		StringBuffer sb = new StringBuffer("");
+		sb = new StringBuffer("");
 		String financial;
 		Vector financials = DatacenterHelper.getFinancialMonths(Integer.parseInt(serverid));
 		for(int n=0;n<financials.size();n++){
@@ -220,7 +220,7 @@
 		}
 %>
 <div class="wrap-smallcontainer">
-   <div id="financial" class="container financial">
+   <div id="financial" class="container bedoccupancy">
        <h3 id="financial_title">
            <span class="icon financial"><%=getTranNoLink("datacenter","server.financial",sWebLanguage) %></span>
        </h3>
@@ -231,8 +231,6 @@
        </div>
    </div>
 </div>
-
-
 
  <!-- Diagnostics -->
 <div class="wrap-smallcontainer">
@@ -273,28 +271,30 @@
         </div>
     </div>
 </div>
-
-<!-- bedoccupancy -->
 <div class="wrap-smallcontainer leftcontainer">
-    <div id="bedoccupancy" class="container bedoccupancy">
-        <h3 id="bedoccupancy_title">
-            <span class="icon bedoccupancy" ><%=getTranNoLink("datacenter","server.bedoccupancy",sWebLanguage) %></span>
+    <div id="hr" class="container bedoccupancy">
+        <h3 id="hr_title">
+        	<span class="icon system"><%=getTranNoLink("datacenter","human.resources",sWebLanguage) %></span>
         </h3>
-
-        <div class="subcontent">
-            <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'bedoccupancy')"><span class="icon down">&nbsp;</span></a>
-            <!--<a class="expandcontent" href="javascript:void(0)" onclick="expandOrReduceContent(this,'bedoccupancy')"><span class="icon expand">&nbsp;</span></a>-->
-
-            <span class="important"><%=DatacenterHelper.getGlobalBedoccupancy(Integer.parseInt(serverid))+"%" %></span>
-            <div style="display:none;width:100%;float:left;clear:left;" id="bedoccupancy_ajax"><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
-
-        </div>
-    </div>
+        <%
+                sb = new StringBuffer("");
+        		diags = DatacenterHelper.getHRMonths(Integer.parseInt(serverid));
+                for(int n=0;n<diags.size();n++){
+                    diag=(String)diags.elementAt(n);
+                    sb.append("<option value='"+diag+"'>"+diag+"</option>");
+                }
+            %>
+       <div class="subcontent">
+            <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'hr')"><span class="icon down">&nbsp;</span></a>
+           <select name="hrmonth" id="hrmonth" class="text" onchange="loadHR('<%=serverid %>',this.value);"><%=sb.toString() %></select>
+           <div id="hr_ajax" style="display:none;width:100%;"><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
+       </div>
+   </div>
 </div>
 
  <!-- Mortality -->
 <div class="wrap-smallcontainer">
-    <div id="mortality" class="container smallcontainer financial">
+    <div id="mortality" class="container bedoccupancy">
         <h3 id="mortality_title">
             <span class="icon mortality"><%=getTranNoLink("datacenter","server.mortality",sWebLanguage) %></span>
         </h3>
@@ -313,6 +313,25 @@
         </div>
     </div>
 </div>
+
+<!-- bedoccupancy -->
+<div class="wrap-smallcontainer">
+    <div id="bedoccupancy" class="container bedoccupancy">
+        <h3 id="bedoccupancy_title">
+            <span class="icon bedoccupancy" ><%=getTranNoLink("datacenter","server.bedoccupancy",sWebLanguage) %></span>
+        </h3>
+
+        <div class="subcontent">
+            <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'bedoccupancy')"><span class="icon down">&nbsp;</span></a>
+            <!--<a class="expandcontent" href="javascript:void(0)" onclick="expandOrReduceContent(this,'bedoccupancy')"><span class="icon expand">&nbsp;</span></a>-->
+
+            <span class="important"><%=DatacenterHelper.getGlobalBedoccupancy(Integer.parseInt(serverid))+"%" %></span>
+            <div style="display:none;width:100%;float:left;clear:left;" id="bedoccupancy_ajax"><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
+
+        </div>
+    </div>
+</div>
+
 
 
 <script>
@@ -404,6 +423,29 @@
                 parameters: params,
                 onSuccess: function(resp){
                     $('mortality_ajax').innerHTML=resp.responseText;
+                    if(nextfunction){
+                    	window.setTimeout(nextfunction,5);
+                    }
+                },
+                onFailure: function(){
+                    if(nextfunction){
+                    	window.setTimeout(nextfunction,5);
+                    }
+                }
+            }
+        );
+    }
+
+    function loadHR(serverid,period,nextfunction){
+    	$('hr_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+        var params = 'serverid=' + serverid
+                +"&period="+ period;
+        var url= '<c:url value="/datacenter/loadHR.jsp"/>?ts=' + new Date();
+        new Ajax.Request(url,{
+                method: "GET",
+                parameters: params,
+                onSuccess: function(resp){
+                    $('hr_ajax').innerHTML=resp.responseText;
                     if(nextfunction){
                     	window.setTimeout(nextfunction,5);
                     }
@@ -510,4 +552,8 @@
     }
 	
 
+</script>
+<script>
+	loadHR('<%=serverid %>',document.getElementById('hrmonth').value);
+	loadDiagnoses('<%=serverid %>',document.getElementById('diagmonth').value);
 </script>
