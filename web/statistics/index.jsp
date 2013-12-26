@@ -11,6 +11,7 @@ if(true){
             +writeTblChildWithCode("javascript:oldandnewcases()",getTran("Web","statistics.oldandnewcases",sWebLanguage))
             +writeTblChildWithCode("javascript:newpatients()",getTran("Web","statistics.newpatients",sWebLanguage))
             +writeTblChildWithCode("javascript:agedistribution()",getTran("Web","statistics.agedistribution",sWebLanguage))
+            +writeTblChildWithCode("javascript:genderdistribution()",getTran("Web","statistics.genderdistribution",sWebLanguage))
             +ScreenHelper.writeTblFooter()+"<br>");
 	
 }
@@ -70,6 +71,7 @@ if(true){
                 +"</td></tr>"
                 +writeTblChildWithCode("javascript:patientslistvisits()",getTran("Web","statistics.patientslist.visits",sWebLanguage))
                 +writeTblChildWithCode("javascript:patientslistadmissions()",getTran("Web","statistics.patientslist.admissions",sWebLanguage))
+                +writeTblChildWithCode("javascript:patientslistsummary()",getTran("Web","statistics.patientslist.summary",sWebLanguage))
 	        +ScreenHelper.writeTblFooter()+"<br>");
         out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.servicestats",sWebLanguage),sCONTEXTPATH)
                 +writeTblChildNoButton("main.do?Page=statistics/hospitalStats.jsp",getTran("Web","statistics.hospitalstats.global",sWebLanguage))
@@ -123,6 +125,9 @@ if(true){
                 +"<img src='_img/icon_delete.gif' class='link' alt='"+getTran("Web","clear",sWebLanguage)+"' onclick='mfpserviceid.value=\"\";mfpservicename.value=\"\";'>"
                 +"</td></tr>"
 	            +writeTblChildWithCode("javascript:getMFPSummary()",getTran("Web","statistics.mfpsummary",sWebLanguage))
+	            +writeTblChildWithCode("javascript:getMFPUnsignedInvoices()",getTran("Web","statistics.mfpunsignedinvoices",sWebLanguage))
+	            +writeTblChildWithCode("javascript:getMFPAcceptedUnsignedInvoices()",getTran("Web","statistics.mfpacceptedunsignedinvoices",sWebLanguage))
+	            +writeTblChildWithCode("javascript:getMFPUnvalidatedInvoices()",getTran("Web","statistics.mfpunvalidatedinvoices",sWebLanguage))
 	            +ScreenHelper.writeTblFooter()+"<br>");
          }
     }
@@ -155,6 +160,18 @@ if(true){
         var URL="/statistics/createMFPSummary.jsp&start="+document.getElementById('beginmfp').value+"&end="+document.getElementById('endmfp').value+"&serviceid="+document.getElementById('mfpserviceid').value+"&ts=<%=getTs()%>";
 		openPopup(URL,400,600,"OpenClinic");
     }
+    function getMFPUnsignedInvoices(){
+        var URL="/statistics/findMFPUnsignedInvoices.jsp&start="+document.getElementById('beginmfp').value+"&end="+document.getElementById('endmfp').value+"&serviceid="+document.getElementById('mfpserviceid').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
+    function getMFPUnvalidatedInvoices(){
+        var URL="/statistics/findMFPUnvalidatedInvoices.jsp&start="+document.getElementById('beginmfp').value+"&end="+document.getElementById('endmfp').value+"&serviceid="+document.getElementById('mfpserviceid').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
+    function getMFPAcceptedUnsignedInvoices(){
+        var URL="/statistics/findMFPUnsignedInvoices.jsp&acceptedonly=1&start="+document.getElementById('beginmfp').value+"&end="+document.getElementById('endmfp').value+"&serviceid="+document.getElementById('mfpserviceid').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
     function minisanteReportDH(){
         var w=window.open("<c:url value='/statistics/createMonthlyReportPdfDH.jsp?'/>start="+document.getElementById('begin2').value+"&end="+document.getElementById('end2').value+"&ts=<%=getTs()%>");
     }
@@ -171,6 +188,10 @@ if(true){
     function patientslistadmissions(){
 		var URL = "statistics/patientslistadmissions.jsp&start="+document.getElementById('begin3b').value+"&end="+document.getElementById('end3b').value+"&statserviceid="+document.getElementById('statserviceid').value+"&ts=<%=getTs()%>";
 		openPopup(URL,800,600,"OpenClinic");
+    }
+    function patientslistsummary(){
+		var URL = "statistics/patientslistsummary.jsp&start="+document.getElementById('begin3b').value+"&end="+document.getElementById('end3b').value+"&statserviceid="+document.getElementById('statserviceid').value+"&ts=<%=getTs()%>";
+		openPopup(URL,1024,600,"OpenClinic");
     }
     function incomeVentilation(){
 		var URL = "statistics/incomeVentilation.jsp&start="+document.getElementById('begin3').value+"&end="+document.getElementById('end3').value+"&statserviceid="+document.getElementById('statserviceid').value+"&ts=<%=getTs()%>";
@@ -219,6 +240,10 @@ if(true){
     function agedistribution(){
 		var URL = "statistics/ageDistribution.jsp&start="+document.getElementById('begincnar').value+"&end="+document.getElementById('endcnar').value+"&ts=<%=getTs()%>";
 		openPopup(URL,200,650,"OpenClinic");
+    }
+    function genderdistribution(){
+		var URL = "statistics/genderGraph.jsp?start="+document.getElementById('begincnar').value+"&end="+document.getElementById('endcnar').value+"&ts=<%=getTs()%>";
+		window.open(URL);
     }
     function labStatistics(){
 		var URL = "statistics/labStatistics.jsp&start="+document.getElementById('begintech').value+"&end="+document.getElementById('endtech').value+"&ts=<%=getTs()%>";

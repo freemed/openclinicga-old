@@ -37,6 +37,66 @@
 	}
 	rs.close();
 	ps.close();
+	ps = conn.prepareStatement("select * from oc_extrainsurarinvoices where oc_insurarinvoice_date>=? and oc_insurarinvoice_date<=?");
+	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
+	ps.setDate(2,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(end).getTime()));
+	rs = ps.executeQuery();
+	while(rs.next()){
+		//We doorlopen elke factuur en zoeken de bijhorende betalingen op
+		String invoiceuid = rs.getString("OC_INSURARINVOICE_SERVERID")+"."+rs.getString("OC_INSURARINVOICE_OBJECTID");
+		double debetvalue=ExtraInsurarInvoice.getDebetAmount(invoiceuid);
+		double creditvalue=ExtraInsurarInvoice.getCreditAmount(invoiceuid);
+		String month=new SimpleDateFormat("MM/yyyy").format(rs.getDate("oc_insurarinvoice_date"));
+		String insurar=rs.getString("oc_insurarinvoice_insuraruid");
+		if(insurars.get(insurar)==null){
+			Insurar insurarObject = Insurar.get(insurar);
+			insurars.put(insurar,insurarObject.getName());
+		}
+		if(insurarcredits.get(month+"|"+insurar)==null){
+			insurarcredits.put(month+"|"+insurar,creditvalue);
+		}
+		else{
+			insurarcredits.put(month+"|"+insurar,(Double)insurarcredits.get(month+"|"+insurar)+creditvalue);
+		}
+		if(insurardebets.get(month+"|"+insurar)==null){
+			insurardebets.put(month+"|"+insurar,debetvalue);
+		}
+		else{
+			insurardebets.put(month+"|"+insurar,(Double)insurardebets.get(month+"|"+insurar)+debetvalue);
+		}
+	}
+	rs.close();
+	ps.close();
+	ps = conn.prepareStatement("select * from oc_extrainsurarinvoices2 where oc_insurarinvoice_date>=? and oc_insurarinvoice_date<=?");
+	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
+	ps.setDate(2,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(end).getTime()));
+	rs = ps.executeQuery();
+	while(rs.next()){
+		//We doorlopen elke factuur en zoeken de bijhorende betalingen op
+		String invoiceuid = rs.getString("OC_INSURARINVOICE_SERVERID")+"."+rs.getString("OC_INSURARINVOICE_OBJECTID");
+		double debetvalue=ExtraInsurarInvoice2.getDebetAmount(invoiceuid);
+		double creditvalue=ExtraInsurarInvoice2.getCreditAmount(invoiceuid);
+		String month=new SimpleDateFormat("MM/yyyy").format(rs.getDate("oc_insurarinvoice_date"));
+		String insurar=rs.getString("oc_insurarinvoice_insuraruid");
+		if(insurars.get(insurar)==null){
+			Insurar insurarObject = Insurar.get(insurar);
+			insurars.put(insurar,insurarObject.getName());
+		}
+		if(insurarcredits.get(month+"|"+insurar)==null){
+			insurarcredits.put(month+"|"+insurar,creditvalue);
+		}
+		else{
+			insurarcredits.put(month+"|"+insurar,(Double)insurarcredits.get(month+"|"+insurar)+creditvalue);
+		}
+		if(insurardebets.get(month+"|"+insurar)==null){
+			insurardebets.put(month+"|"+insurar,debetvalue);
+		}
+		else{
+			insurardebets.put(month+"|"+insurar,(Double)insurardebets.get(month+"|"+insurar)+debetvalue);
+		}
+	}
+	rs.close();
+	ps.close();
 	conn.close();
 	
 	out.println("<table width='100%'>");

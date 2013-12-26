@@ -53,7 +53,7 @@
 	StringBuffer sOut = new StringBuffer();
 	sOut.append("<tr class='admin'><td colspan='1'><b>").append(getTran("web","visits",sWebLanguage)).append("</b></td><td colspan='3'><b>")
 			.append(getTran("web","period",sWebLanguage)).append(": ").append(sBegin).append(" - ").append(sEnd).append("</b></td></tr>");
-	sOut.append("</table><table width='100%' border='0' class='sortable' id='searchresults'>");
+	sOut.append("</table><table width='100%' border='0' id='searchresults'>");
 	sOut.append("<tr><th><a href='#' class='underlined'>"+getTran("web","encounterid",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","name",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","dateofbirth",sWebLanguage)+
 			"</a></th><th><a href='#' class='underlined'>"+getTran("web","date",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","service",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","assureur",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","lastinvoice",sWebLanguage)+"</a></th></tr>");
 	while(rs.next()){
