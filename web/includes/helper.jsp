@@ -801,6 +801,10 @@
     String sJSFUSIONCHARTS  = "<script src='"+sCONTEXTPATH+"/_common/_script/FusionCharts.js'></script>";
     String sJSTREEMENU = "<script src='"+sCONTEXTPATH+"/_common/_script/treemenu/dhtmlxtree_std.js'></script>"+ // ".._compacted.js"
                          "<script src='"+sCONTEXTPATH+"/_common/_script/treemenu/dhtmlxcommon.js'></script>";
+	String sJSCOLORPICKER = "<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker-1.1.6.min.css' />"+
+	  						"<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker.css' />"+
+	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js' type='text/javascript'></script>"+
+	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jpicker-1.1.6.min.js' type='text/javascript'></script>";
 
     // varia
     String sTDAdminWidth = "200";

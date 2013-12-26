@@ -55,7 +55,7 @@
       answer = window.showModalDialog(popupUrl,"",modalities);
     }
     else{
-      answer = window.confirm(labelId);          
+      answer = window.confirm(labelText);          
     }
     
     return answer; // FF
