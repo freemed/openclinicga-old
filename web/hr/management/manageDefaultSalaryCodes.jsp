@@ -24,7 +24,7 @@
     		code = new SalaryCalculationCode();
     		code.setUid("-1"); // codes are always deleted and re-inserted
     		code.calculationUid = sSalCalUID;
-     		code.duration = Float.parseFloat(codeAsString[0]); 
+     		code.duration = Float.parseFloat(codeAsString[0].replace(",",".")); 
         	System.out.println(" duration : "+code.duration); /////////
     	    code.code = codeAsString[1]; 
     	    //code.label = codeAsString[2];
