@@ -119,7 +119,7 @@ public String getComplexResult(String id, Map map, String sWebLanguage) {
                     RequestedLabAnalysis requestedLabAnalysis=(RequestedLabAnalysis)labRequest.getAnalyses().get(analysisCode);
                     String result="";
                     if(requestedLabAnalysis!=null){
-                    	if(!requestedLabAnalysis.getLabgroup().equalsIgnoreCase("bacteriology")){
+                    	if(!analysis.getEditor().equalsIgnoreCase("antibiogram")){
                     		if(analysis.getLimitedVisibility()>0 && !activeUser.getAccessRight("labos.limitedvisibility.select")){
                     			result=getTran("web","invisible",sWebLanguage);	
                     		}

@@ -531,9 +531,9 @@
                 <tr>
                     <td class="admin"><%=getTran("gynaeco", "date.dr", sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="value" formatType="date" format="dd-mm-yyyy"/>" id="drdate" onBlur='checkDate(this);calculateGestAge();clearDr()' onChange='calculateGestAge();' onKeyUp='calculateGestAge();'/>
+                        <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="value" formatType="date" format="dd-mm-yyyy"/>" id="drdate" onblur='checkDate(this);calculateGestAge();clearDr()' onchange='calculateGestAge();' onfocus='calculateGestAge();' onkeyup='calculateGestAge();'/>
                         <script>writeMyDate("drdate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
-                        <input id="agedatedr" <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_DATE_DR")%> readonly type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="value"/>" onblur="isNumber(this)"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
+                        <input id="agedatedr" <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_DATE_DR")%> readonly type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="value"/>" > <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
                         <input id="drdeldate" <%=setRightClick("ITEM_TYPE_DELIVERY_DATE_DR")%> type="text" class="text" size="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_DR" property="value"/>" onblur="checkDate(this);">
                     </td>
                 </tr>
@@ -745,7 +745,6 @@
             d1 = document.getElementById('drdate').value.split("/");
             if (d1.length == 3) {
                 lmdate.setDate(d1[0]);
-
                 lmdate.setMonth(d1[1] - 1);
                 lmdate.setFullYear(d1[2]);
                 var timeElapsed = trandate.getTime() - lmdate.getTime();
@@ -787,15 +786,31 @@
                 ledate.setDate(d1[0]);
                 ledate.setMonth(d1[1] - 1);
                 ledate.setFullYear(d1[2]);
-                var timeElapsed = trandate.getTime() - ledate.getTime();
-                timeElapsed = timeElapsed / (1000 * 3600 * 24 * 7);
+                var te = trandate.getTime() - ledate.getTime();
+                var timeElapsed = te / (1000 * 3600 * 24 * 7);
                 if (!isNaN(timeElapsed) && document.getElementById("agedateecho").value.length > 0 && !isNaN(document.getElementById("agedateecho").value)) {
-                    age = (document.getElementById("agedateecho").value * 1 + Math.round(timeElapsed * 10) / 10)+"";
-                    if (age.indexOf(".")>-1){
-                        aAge = age.split(".");
+                    if (timeElapsed < 12) {
+                        document.getElementById('trimestre_r1').checked = true;
+                    }
+                    else if (timeElapsed < 24) {
+                        document.getElementById('trimestre_r2').checked = true;
+                    }
+                    else {
+                        document.getElementById('trimestre_r3').checked = true;
+                    }
+                    var age="";
+                	ag = (document.getElementById("agedateecho").value * 1 + Math.round(timeElapsed * 10) / 10)+"";
+                    if (ag.indexOf(".")>-1){
+                        aAge = ag.split(".");
                         age = aAge[0]+ " " +aAge[1];
                     }
+                    else{
+                    	age=ag+"";
+                    }
                     document.getElementById("ageactualecho").value = age;
+                    echodeldate=new Date();
+                    echodeldate.setTime(trandate.getTime()+(38-ag*1)*(1000 * 3600 * 24 * 7));
+                    document.getElementById("echodeldate").value = echodeldate.getDate() + "/" + (echodeldate.getMonth() + 1) + "/" + echodeldate.getFullYear();
                 }
             }
         }
@@ -815,7 +830,7 @@
             if (itemAgeDateEcho!=null){
                 Date dNow = ScreenHelper.getSQLDate(ScreenHelper.getDate());
                 long lNow = dNow.getTime()/1000/3600/24/7;
-                long lEcho = itemAgeDateEcho.getDate().getTime()/1000/3600/24/7;
+                long lEcho = Long.parseLong(itemAgeDateEcho.getValue());
 
                 if (lNow-lEcho < 43){
                     %>document.getElementById("agedateecho").value = "<%=lNow-lEcho%>";<%
@@ -860,4 +875,5 @@
         calculateGestAge();
     }
 </script>
+
 </logic:present>
