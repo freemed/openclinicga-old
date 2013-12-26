@@ -55,9 +55,12 @@
                 if (productStock != null && productStock.getProduct()!=null &&  productStock.getServiceStock()!=null) {
                     sProductName = productStock.getProduct().getName();
                     sServiceStockName = productStock.getServiceStock().getName();
-                    sSupplierUid = checkString(productStock.getProduct().getSupplierUid());
+                    sSupplierUid = checkString(productStock.getSupplierUid());
                     if (sSupplierUid.length() == 0) {
-                        sSupplierUid = checkString(productStock.getSupplierUid());
+                        sSupplierUid = checkString(productStock.getProduct().getSupplierUid());
+                    }
+                    if (sSupplierUid.length() == 0) {
+                        sSupplierUid = checkString(productStock.getServiceStock().getDefaultSupplierUid());
                     }
                 }
                 else {

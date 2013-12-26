@@ -2,7 +2,7 @@
                 java.text.DecimalFormat,
                 be.openclinic.pharmacy.ProductSchema,
                 be.openclinic.common.KeyValue,be.openclinic.finance.*,
-                java.util.Vector"%>
+                java.util.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
@@ -13,7 +13,7 @@
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
     private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
         StringBuffer html = new StringBuffer();
-        String sClass = "1", sProductUid, sUnit, sUnitPrice, sSupplierUid, sSupplierName, sProductGroup;
+        String sClass = "1", sProductUid, sUnit, sUnitPrice, sSupplierUid, sSupplierName, sProductGroup, sProductSubGroup;
         DecimalFormat deci = new DecimalFormat("0.00");
         String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
 
@@ -44,6 +44,12 @@
                 sProductGroup = getTranNoLink("product.productgroup", sProductGroup, sWebLanguage);
             }
 
+            // productSubGroup
+            sProductSubGroup = checkString(product.getProductSubGroup());
+            if (sProductSubGroup.length() > 0) {
+                sProductSubGroup = getTranNoLink("product.productsubgroup", sProductSubGroup, sWebLanguage);
+            }
+
             // alternate row-style
             if (sClass.equals("")) sClass = "1";
             else sClass = "";
@@ -57,6 +63,7 @@
                     .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sCurrency + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sSupplierName + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sProductGroup + "</td>")
+                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sProductSubGroup + "</td>")
                     .append("</tr>");
         }
 
@@ -87,7 +94,9 @@
             sEditMargin = checkString(request.getParameter("EditMargin")),
             sEditApplyLowerPrices = checkString(request.getParameter("EditApplyLowerPrices")),
             sEditAutomaticInvoicing = checkString(request.getParameter("EditAutomaticInvoicing")),
-            sEditProductGroup = checkString(request.getParameter("EditProductGroup"));
+            sEditProductGroup = checkString(request.getParameter("EditProductGroup")),
+		    sEditProductSubGroup = checkString(request.getParameter("EditProductSubGroup"));
+    String sEditProductSubGroupDescr="";
 
     String  sTime1 = checkString(request.getParameter("time1")),
             sTime2 = checkString(request.getParameter("time2")),
@@ -148,7 +157,7 @@
             sFindSupplierUid, sSelectedProductName = "", sSelectedUnit = "", sSelectedUnitPrice = "",
             sSelectedPackageUnits = "", sSelectedMinOrderPackages = "", sSelectedSupplierUid = "",
             sSelectedTimeUnit = "", sFindSupplierName, sSelectedTimeUnitCount = "", sAverageUnitPrice="0",
-            sSelectedUnitsPerTimeUnit = "", sSelectedSupplierName = "", sSelectedProductGroup = "", sSelectedBarcode="",
+            sSelectedUnitsPerTimeUnit = "", sSelectedSupplierName = "", sSelectedProductGroup = "", sSelectedProductSubGroup = "", sSelectedBarcode="",
             sSelectedPrestationCode="",sSelectedPrestationQuantity="", sSelectedMargin =MedwanQuery.getInstance().getConfigString("defaultProductsMargin",""), sSelectedApplyLowerPrices="",sSelectedAutomaticInvoicing="";
 
     // get data from form
@@ -196,6 +205,7 @@
         product.setTimeUnit(sEditTimeUnit);
         product.setUpdateUser(activeUser.userid);
         product.setProductGroup(sEditProductGroup);
+        product.setProductSubGroup(sEditProductSubGroup);
         product.setBarcode(sEditBarcode);
         product.setPrestationcode(sEditPrestationCode);
         if (sEditUnitPrice.length() > 0) product.setUnitPrice(Double.parseDouble(sEditUnitPrice));
@@ -327,6 +337,7 @@
                 sSelectedTimeUnitCount = (product.getTimeUnitCount() < 0 ? "" : product.getTimeUnitCount() + "");
                 sSelectedUnitsPerTimeUnit = (product.getUnitsPerTimeUnit() < 0 ? "" : product.getUnitsPerTimeUnit() + "");
                 sSelectedProductGroup = checkString(product.getProductGroup());
+                sSelectedProductSubGroup = checkString(product.getProductSubGroup());
                 sSelectedSupplierName = getTranNoLink("Service", sSelectedSupplierUid, sWebLanguage);
                 sSelectedBarcode = checkString(product.getBarcode());
                 sSelectedPrestationCode = checkString(product.getPrestationcode());
@@ -335,6 +346,7 @@
                 sSelectedMargin=product.getMargin()+"";
                 sSelectedApplyLowerPrices=product.isApplyLowerPrices()?"1":"0";
                 sSelectedAutomaticInvoicing=product.isAutomaticInvoicing()?"1":"0";
+                sEditProductSubGroup=product.getProductSubGroup();
             }
 
             productSchema = ProductSchema.getSingleProductSchema(product.getUid());
@@ -351,6 +363,7 @@
             sSelectedTimeUnitCount = sEditTimeUnitCount;
             sSelectedUnitsPerTimeUnit = sEditUnitsPerTimeUnit;
             sSelectedProductGroup = sEditProductGroup;
+            sSelectedProductSubGroup = sEditProductSubGroup;
             sSelectedSupplierName = sEditSupplierName;
             sSelectedBarcode = sEditBarcode;
             sSelectedPrestationCode = sEditPrestationCode;
@@ -378,6 +391,7 @@
             sSelectedAutomaticInvoicing="0";
 
             sSelectedProductGroup = sFindProductGroup;
+            sSelectedProductSubGroup = "";
             sSelectedSupplierName = sFindSupplierName;
         }
     }
@@ -510,6 +524,7 @@
                             <td/>
                             <td><%=getTran("Web","supplier",sWebLanguage)%></td>
                             <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"</"+sSortDir+">":"")%></a></td>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTSUBGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTSUBGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productSubGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTSUBGROUP")?"</"+sSortDir+">":"")%></a></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=productsHtml%>
@@ -608,16 +623,44 @@
                             <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditSupplierUid.value='';transactionForm.EditSupplierName.value='';">
                         </td>
                     </tr>
+                    <%
+                    	if(MedwanQuery.getInstance().getConfigInt("showProductGroup",1)==1){
+                    %>
                     <%-- productGroup --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","productGroup",sWebLanguage)%> *</td>
                         <td class="admin2">
-                            <select class="text" name="EditProductGroup">
+                            <select class="text" name="EditProductGroup" id="EditProductGroup">
                                 <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelect("product.productgroup",sSelectedProductGroup,sWebLanguage)%>
                             </select>
                         </td>
                     </tr>
+                    <%
+                    	}
+                    %>
+                    <%
+                    	if(MedwanQuery.getInstance().getConfigInt("showProductCategory",1)==1){
+                    %>
+                    <%-- productSubGroup --%>
+                    <%
+	                    if (sEditProductSubGroup.length()>0) {
+	                    	sEditProductSubGroupDescr = getTranNoLink("drug.category",sEditProductSubGroup,sWebLanguage);
+	                    }
+                    %>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","productSubGroup",sWebLanguage)%> *</td>
+                        <td class="admin2">
+		                    <div name="drugcategorydiv" id="drugcategorydiv"></div>
+		                    <input type="text" readonly class="text" name="EditProductSubGroupText" value="<%=sEditProductSubGroup+" "+sEditProductSubGroupDescr%>" size="120">
+		                    <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('EditProductSubGroup','EditProductSubGroupText');">
+		                    <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditProductSubGroup.value='';EditProductSubGroupText.value='';">
+		                    <input type="hidden" name="EditProductSubGroup" id="EditProductSubGroup" value="<%=sEditProductSubGroup%>" onchange="updateDrugCategoryParents(this.value)">
+                        </td>
+                    </tr>
+                    <%
+                    	}
+                    %>
                     <%-- prescription-rule --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","prescriptionrule",sWebLanguage)%>&nbsp;</td>
@@ -784,6 +827,45 @@
 </form>
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
+
+	function fillGroup(selectname,type,selectedvalue){
+		document.getElementById(selectname).options.length=0;
+		<%
+			Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
+			if(labelTypes!=null){
+				Hashtable labelIds = (Hashtable)labelTypes.get("product.productgroup");
+				if(labelIds!=null){
+					Enumeration e = labelIds.keys();
+					while (e.hasMoreElements()){
+						String type = (String)e.nextElement();
+						out.println("if(type=='"+type+"'){");
+						//Voor dit type gaan we nu de opties zetten
+						Hashtable options = (Hashtable)labelTypes.get("product.productsubgroup."+type.toLowerCase());
+						if(options!=null){
+							SortedMap treeset = new TreeMap();
+							Enumeration oe = options.elements();
+							while(oe.hasMoreElements()){
+								Label lbl = (Label)oe.nextElement();
+								treeset.put(lbl.value,lbl);
+							}
+							Iterator soe = treeset.keySet().iterator();
+							int counter=0;
+							while(soe.hasNext()){
+								Label lbl = (Label)treeset.get(soe.next());
+								String optionkey=lbl.id.replace("'", "´");
+								String optionvalue=lbl.value.replace("'", "´");
+								out.println("document.getElementById(selectname).options["+counter+"] = new Option('"+optionvalue+"','"+optionkey+"',false,selectedvalue=='"+optionkey+"');");
+								counter++;
+							}
+						}
+						//out.println("Array.prototype.sort.call(document.getElementById(selectname).options,function(a,b){return a.text < b.text ? -1 : a.text > b.text ? 1 : 0;});");
+						out.println("document.getElementById(selectname).onchange();");
+						out.println("}");
+					}
+				}
+			}
+		%>
+	}
   <%
       // default focus field
       if(displayEditFields){
@@ -1014,6 +1096,29 @@
     %>
     window.location.href = "<c:url value="/main.do"/>?Page=pharmacy/manageProducts.jsp&DisplaySearchFields=true&ts=<%=getTs()%>";
   }
+  
+  function searchCategory(CategoryUidField,CategoryNameField){
+      openPopup("/_common/search/searchDrugCategory.jsp&ts=<%=getTs()%>&VarCode="+CategoryUidField+"&VarText="+CategoryNameField);
+    }
+
+  function updateDrugCategoryParents(code){
+      document.getElementById('drugcategorydiv').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+      var params = 'code=' + code+'&language=<%=sWebLanguage%>';
+      var today = new Date();
+      var url= '<c:url value="/pharmacy/updateDrugCategoryParents.jsp"/>?ts='+today;
+		new Ajax.Request(url,{
+				method: "GET",
+              parameters: params,
+              onSuccess: function(resp){
+                  $('drugcategorydiv').innerHTML=resp.responseText;
+              },
+				onFailure: function(){
+				  $('drugcategorydiv').innerHTML="";
+              }
+			}
+		);
+  }
+  window.setTimeout("updateDrugCategoryParents(document.getElementById('EditProductSubGroup').value)",500);
 
   <%-- close "search in progress"-popup that might still be open --%>
   var popup = window.open("","Searching","width=1,height=1");

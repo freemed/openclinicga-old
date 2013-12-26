@@ -126,7 +126,7 @@
             java.util.Date tmpDate = productStock.getBegin();
             if (tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
 
-            int prescrCount = Prescription.getPrescrCountForProductStock(sProductUid, serviceUid);
+            double nPUMP = product.getLastYearsAveragePrice();
             int commandLevel = ProductOrder.getOpenOrderedQuantity(productStock.getUid());
 
             // alternate row-style
@@ -179,7 +179,7 @@
             html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + sMaximumLevel + "&nbsp;&nbsp;</td>")
                     .append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + sOrderLevel + "&nbsp;&nbsp;</td>")
                     .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sStockBegin + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + prescrCount + "</td>");
+                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + (nPUMP>0?new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(nPUMP)+" "+MedwanQuery.getInstance().getConfigString("currency","EUR"):"?") + "</td>");
 
             // 3 buttons
             html.append("<td style=\"text-align:right;\" nowrap>&nbsp;");
@@ -738,7 +738,7 @@
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_MAXIMUMLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MAXIMUMLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","maximumlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MAXIMUMLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_ORDERLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","orderlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"</"+sSortDir+">":"")%></a></td>
-                            <td><%=getTran("Web.manage","prescriptionCount",sWebLanguage)%></td>
+                            <td><%=getTran("Web.manage","PUMP",sWebLanguage)%></td>
                             <td/>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>

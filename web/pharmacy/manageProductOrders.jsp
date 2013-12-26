@@ -173,8 +173,10 @@
             sEditDateOrdered = checkString(request.getParameter("EditDateOrdered")),
             sEditDateDeliveryDue = checkString(request.getParameter("EditDateDeliveryDue")),
             sEditDateDelivered = checkString(request.getParameter("EditDateDelivered")),
-            sEditBatchUid = checkString(request.getParameter("EditBatchUid")),
-            sEditBatchExpire = checkString(request.getParameter("EditBatchExpire")),
+            sEditBatchNumber = checkString(request.getParameter("EditBatchNumber")),
+            sEditBatchComment = checkString(request.getParameter("EditBatchComment")),
+            sEditSupplier = checkString(request.getParameter("EditSupplier")),
+            sEditBatchEnd = checkString(request.getParameter("EditBatchEnd")),
             sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
             sEditProductStockDocumentUidText = "",
             sEditImportance = checkString(request.getParameter("EditImportance")); // (native|high|low)
@@ -329,26 +331,33 @@
 	            operation.setDate(new java.util.Date());
 	            operation.setDescription(MedwanQuery.getInstance().getConfigString("pharmacyOrderReceptionDescription","medicationreceipt.4"));
 	            operation.setProductStockUid(sEditProductStockUid);
-	            operation.setBatchNumber(sEditBatchUid);
-	            try{
-	            	operation.setBatchEnd(new SimpleDateFormat("dd/MM/yyyy").parse(sEditBatchExpire));
+	            if(sEditBatchNumber.length()>0){
+	            	//First we'll have a look if the batch doesn't already exist for this productStock
+	    			Batch batch = Batch.getByBatchNumber(sEditProductStockUid,sEditBatchNumber);   
+	            	if(batch==null){
+	    	        	batch = new Batch();
+	    	        	batch.setUid("-1");
+	    	        	batch.setProductStockUid(sEditProductStockUid);
+	    	        	batch.setBatchNumber(sEditBatchNumber);
+	    	            if(sEditBatchEnd.length()>0){
+	    	            	try {
+	    	            		batch.setEnd(new SimpleDateFormat("dd/MM/yyyy").parse(sEditBatchEnd));
+	    	            	}
+	    	            	catch(Exception e){
+	    	            		
+	    	            	}
+	    	            }
+	    	            batch.setComment(sEditBatchComment);
+	    	            batch.setLevel(0);
+	    	            batch.setCreateDateTime(new java.util.Date());
+	    	            batch.setUpdateDateTime(new java.util.Date());
+	    	            batch.setUpdateUser(activeUser.userid);
+	    	            batch.store();
+	            	}
+	            	operation.setBatchUid(batch.getUid());
 	            }
-	            catch(Exception e){}
 	            ProductStock productStock = ProductStock.get(sEditProductStockUid);
-	            ObjectReference sd=new ObjectReference("servicestock","");
-				if(productStock!=null){
-		            if (productStock.getSupplier() != null && productStock.getSupplier().defaultServiceStockUid != null && productStock.getSupplier().defaultServiceStockUid.length() > 0) {
-		                sd = new ObjectReference("servicestock",productStock.getSupplier().defaultServiceStockUid);
-		            }
-		            if(productStock.getProduct()!=null && request.getParameter("EditPrice")!=null){
-		            	try{
-		            		Pointer.storePointer("drugprice."+productStock.getProduct().getUid(),nPackagesDelivered+";"+Double.parseDouble(request.getParameter("EditPrice")));
-		            	}
-		            	catch(Exception e){
-		            		e.printStackTrace();
-		            	}
-		            }
-				}
+	            ObjectReference sd=new ObjectReference("supplier",sEditSupplier);
 	            operation.setSourceDestination(sd);
 	            operation.setDocumentUID(sEditProductStockDocumentUid);
 	            operation.setUnitsChanged(nPackagesDelivered);
@@ -356,6 +365,16 @@
 	            operation.setUpdateUser(activeUser.userid);
 	            operation.setOrderUID(sEditOrderUid);
 				operation.store();            
+				if(productStock!=null){
+		            if(productStock.getProduct()!=null && request.getParameter("EditPrice")!=null){
+		            	try{
+		            		Pointer.storePointer("drugprice."+productStock.getProduct().getUid()+"."+operation.getUid(),nPackagesDelivered+";"+Double.parseDouble(request.getParameter("EditPrice")));
+		            	}
+		            	catch(Exception e){
+		            		e.printStackTrace();
+		            	}
+		            }
+				}
         	}            
             order = ProductOrder.get(sEditOrderUid);
             order.setImportance(sEditImportance); // (native|high|low)
@@ -653,18 +672,18 @@
                             </td>
                         </tr>
                     </table>
-                    <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
+                    <table width='100%' cellspacing="0" cellpadding="0"  id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
                             <td nowrap>&nbsp;</td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DESCRIPTION');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%><%=getTran("Web","description",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%></a></td>
-                            <td><%=getTran("Web","servicestock",sWebLanguage)%></td>
-                            <td><%=getTran("Web","product",sWebLanguage)%></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_PACKAGESORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_PACKAGESDELIVERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesdelivered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DATEORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","dateordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_DATEDELIVERYDUE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE")?"<"+sSortDir+">":"")%><%=getTran("Web","datedeliverydue",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE")?"<"+sSortDir+">":"")%></a></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_ORDER_IMPORTANCE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%><%=getTran("Web","importance",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%></a></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","description",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","servicestock",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","product",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesordered",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesdelivered",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","dateordered",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","datedeliverydue",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=ordersHtml%>
@@ -713,18 +732,18 @@
                 if(foundOrderCount > 0){
                     String sortTran = getTran("web","clicktosort",sWebLanguage);
                     %>
-                    <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
+                    <table width="100%" cellspacing="0" cellpadding="0"  id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
                             <td nowrap>&nbsp;</td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DESCRIPTION');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%><%=getTran("Web","description",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION")?"<"+sSortDir+">":"")%></a></td>
-                            <td><%=getTran("Web","servicestock",sWebLanguage)%></td>
-                            <td><%=getTran("Web","product",sWebLanguage)%></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_PACKAGESORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_PACKAGESDELIVERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED")?"<"+sSortDir+">":"")%><%=getTran("Web","packagesdelivered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DATEORDERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%><%=getTran("Web","dateordered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_DATEDELIVERED');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERED")?"<"+sSortDir+">":"")%><%=getTran("Web","datedelivered",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERED")?"<"+sSortDir+">":"")%></a></td>
-                            <td><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSearch(<%=displayDeliveredOrders%>,'OC_ORDER_IMPORTANCE');"><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%><%=getTran("Web","importance",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_ORDER_IMPORTANCE")?"<"+sSortDir+">":"")%></a></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","description",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","servicestock",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","product",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesordered",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesdelivered",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","dateordered",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","datedelivered",sWebLanguage))%></td>
+                            <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=ordersHtml%>
@@ -784,6 +803,30 @@
                             <td class="admin"><%=getTran("Web","register.delivery",sWebLanguage)%>&nbsp;(max = <%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered %>)</td>
                             <td class="admin2">
                                 <input type="text" class="text" name="EditPackagesDelivered" value="<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>" size="5" maxLength="5" onKeyUp="if(!isNumberLimited(this,0,<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>)){alert('<%=getTran("web","number.out.of.limits",sWebLanguage)%>');this.value=''}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="admin"><%=getTran("Web","batch",sWebLanguage)%></td>
+                            <td class="admin2">
+                                <input type="text" class="text" name="EditBatchNumber" value="" size="25" maxLength="50"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="admin"><%=getTran("Web","batch.expiration",sWebLanguage)%></td>
+                            <td class="admin2">
+                                <%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="admin"><%=getTran("Web","batch.comment",sWebLanguage)%></td>
+                            <td class="admin2">
+                                <input type="text" class="text" name="EditBatchComment" value="" size="80" maxLength="255"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="admin"><%=getTran("Web","supplier",sWebLanguage)%></td>
+                            <td class="admin2">
+                                <input type="text" class="text" name="EditSupplier" value="" size="80" maxLength="255"/>
                             </td>
                         </tr>
                         <%-- Prices --%>
@@ -960,17 +1003,28 @@
             }
             //Also list all existing operations on this product order
             Vector operations = ProductStockOperation.searchProductStockOperations("", "", "", "", "", sEditOrderUid,"");
-			if(operations.size()>0){
+			System.out.println("operations="+operations);
+            if(operations.size()>0){
+    			System.out.println("operations.size()="+operations.size());
 	            out.println("<table width='100%'>");
 	            out.println("<tr class='admin'>");
-	            out.println("<td>"+getTran("web","date",sWebLanguage)+"</td>");
-	            out.println("<td>"+getTran("web","description",sWebLanguage)+"</td>");
-	            out.println("<td>"+getTran("web","PackagesDelivered",sWebLanguage)+"</td>");
-	            out.println("<td>"+getTran("web","productstockoperationdocument",sWebLanguage)+"</td>");
+	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))+"</td>");
+	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","description",sWebLanguage))+"</td>");
+	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","PackagesDelivered",sWebLanguage))+"</td>");
+	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","productstockoperationdocument",sWebLanguage))+"</td>");
+	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","batch",sWebLanguage))+"</td>");
+	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","batch.expiration",sWebLanguage))+"</td>");
+	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","supplier",sWebLanguage))+"</td>");
 	            out.println("</tr>");
+    			System.out.println("a");
 	            for(int n=0;n<operations.size();n++){
+	    			System.out.println("b");
 	            	ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
-	            	out.println("<tr><td class='admin'>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td><td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td><td class='admin2'>"+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getDocumentUID()+"</td></tr>");
+	    			System.out.println("c");
+	            	if(operation!=null){
+	            		out.println("<tr><td class='admin'>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td><td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td><td class='admin2'>"+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getDocumentUID()+"</td><td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td><td class='admin2'>"+(operation.getBatchEnd()!=null?new SimpleDateFormat("dd/MM/yyyy").format(operation.getBatchEnd()):"")+"</td><td class='admin2'>"+(operation.getSourceDestination()!=null?operation.getSourceDestination().getObjectUid():"")+"</td></tr>");
+	            	}
+	    			System.out.println("d");
 	            }
 	            out.println("</table>");
 			}
