@@ -1,16 +1,45 @@
-<%@page import="be.mxs.common.util.export.*"%>
-<%@ page import="java.util.*,org.dom4j.*,java.text.*,java.io.*" %>
+<%@include file="/includes/validateUser.jsp"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@page import="be.mxs.common.util.pdf.general.*,be.openclinic.common.*,java.io.*,com.itextpdf.text.*"%>
 <%
-	ExportMessage message = new ExportMessage(60);
-	message.createExportMessage();
-    response.setContentType("application/octet-stream; charset=windows-1252");
-    response.setHeader("Content-Disposition", "Attachment;Filename=\"export" + new SimpleDateFormat("yyyyMMddHHmmss").format(message.getStart()) + ".xml\"");
-    ServletOutputStream os = response.getOutputStream();
-    byte[] b = message.getDocument().asXML().replaceAll("&amp;","&").getBytes();
-    for (int n=0;n<b.length;n++) {
-        os.write(b[n]);
+ByteArrayOutputStream baosPDF = null;
+try {
+    // PDF generator
+    PDFGraphGenerator pdfGraphGenerator = new PDFGraphGenerator(activeUser, sProject);
+    Hashtable values=new Hashtable();
+    values.put("M","75");
+    values.put("F","25");
+    baosPDF = pdfGraphGenerator.generatePDFDocumentBytes(request, "piechart","test",values);
+    StringBuffer sbFilename = new StringBuffer();
+    sbFilename.append("filename_").append(System.currentTimeMillis()).append(".pdf");
+
+    StringBuffer sbContentDispValue = new StringBuffer();
+    sbContentDispValue.append("inline; filename=")
+            .append(sbFilename);
+
+    // prepare response
+    response.setHeader("Cache-Control", "max-age=30");
+    response.setContentType("application/pdf");
+    response.setHeader("Content-disposition", sbContentDispValue.toString());
+    response.setContentLength(baosPDF.size());
+
+    // write PDF to servlet
+    ServletOutputStream sos = response.getOutputStream();
+    baosPDF.writeTo(sos);
+    sos.flush();
+}
+catch (DocumentException dex) {
+    response.setContentType("text/html");
+    PrintWriter writer = response.getWriter();
+    writer.println(this.getClass().getName() + " caught an exception: " + dex.getClass().getName() + "<br>");
+    writer.println("<pre>");
+    dex.printStackTrace(writer);
+    writer.println("</pre>");
+}
+finally {
+    if (baosPDF != null) {
+        baosPDF.reset();
     }
-    os.flush();
-    os.close();
-	
+}
+
 %>
