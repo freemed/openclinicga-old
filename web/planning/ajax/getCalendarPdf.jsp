@@ -38,7 +38,8 @@
 
    
     PDFCalendarGenerator calendarGenerator = new PDFCalendarGenerator(activeUser, sProjectName, sWebLanguage);
-    String sHeader = getTranNoLink("web","calendar.health.professional",sWebLanguage)+": "+activeUser.person.lastname+" "+activeUser.person.firstname;
+    User calendarUser = User.get(Integer.parseInt(sUserId));
+    String sHeader = getTranNoLink("web","calendar.health.professional",sWebLanguage)+": "+(calendarUser==null?"":calendarUser.person.lastname+" "+calendarUser.person.firstname);
     if(isPatient){
         sHeader = getTranNoLink("web","appointment.list.patient",sWebLanguage)+" \n"+activePatient.lastname+" "+activePatient.firstname+" \n"+ activePatient.dateOfBirth+" ("+activePatient.personid+")";
     }
