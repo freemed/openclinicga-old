@@ -142,13 +142,11 @@
   }
   else{
       try {
-          Integer.parseInt(sUserLogin);
-
           Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
           if(ad_conn != null) {
               User user = new User();
               byte[] aUserPassword = user.encrypt(sUserPassword);
-
+			  System.out.println("Checking login>>>>>>>>>>>>>>>>>>>>>>>>>");
               if ((sAuto!=null && sAuto.equalsIgnoreCase("true") && user.initializeAuto(ad_conn, sUserLogin, sUserPassword)) || user.initialize(ad_conn, sUserLogin, aUserPassword)) {
                   GregorianCalendar myDate = new GregorianCalendar();
                   String sDay, sMonth, sYear, sDate;
