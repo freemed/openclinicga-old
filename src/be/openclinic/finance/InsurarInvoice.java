@@ -1053,6 +1053,129 @@ public class InsurarInvoice extends Invoice {
         
         return debets;
     }
+    //--- GET DEBETS FOR INVOICE ------------------------------------------------------------------
+    public static Vector getDebetsForInvoiceSortByServiceAndDate(String sInvoiceUid){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Vector debets = new Vector();
+        
+        SortedMap sortedDebets = new TreeMap();
+        String sSelect = "";
+
+        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            sSelect = "SELECT a.lastname, a.firstname, d.*,e.*,c.*"+
+                      " FROM OC_DEBETS d, OC_INSURARINVOICES i, OC_ENCOUNTERS e, AdminView a, OC_PRESTATIONS c"+
+                      "  WHERE d.OC_DEBET_INSURARINVOICEUID = ?"+
+                      "   AND i.OC_INSURARINVOICE_OBJECTID = replace(d.OC_DEBET_INSURARINVOICEUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+                      "   AND e.OC_ENCOUNTER_OBJECTID = replace(d.OC_DEBET_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+                      "   AND c.OC_PRESTATION_OBJECTID = replace(d.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+                      "   AND e.OC_ENCOUNTER_PATIENTUID = a.personid"+
+                      " ORDER BY OC_DEBET_SERVICEUID,OC_DEBET_DATE,lastname,firstname,OC_DEBET_PATIENTINVOICEUID";
+            ps = loc_conn.prepareStatement(sSelect);
+            ps.setString(1,sInvoiceUid);
+
+            rs = ps.executeQuery();
+            Debet debet;
+            while(rs.next()){
+                debet = new Debet();
+
+                debet.setUid(rs.getInt("OC_DEBET_SERVERID")+"."+rs.getInt("OC_DEBET_OBJECTID"));
+                debet.setDate(rs.getTimestamp("OC_DEBET_DATE"));
+                debet.setAmount(rs.getDouble("OC_DEBET_AMOUNT"));
+                debet.setInsurarAmount(rs.getDouble("OC_DEBET_INSURARAMOUNT"));
+                debet.setInsuranceUid(rs.getString("OC_DEBET_INSURANCEUID"));
+                debet.setExtraInsurarAmount(rs.getDouble("OC_DEBET_EXTRAINSURARAMOUNT"));
+                debet.setExtraInsurarUid(rs.getString("OC_DEBET_EXTRAINSURARUID"));
+                debet.setPrestationUid(rs.getString("OC_DEBET_PRESTATIONUID"));
+                debet.setEncounterUid(rs.getString("OC_DEBET_ENCOUNTERUID"));
+                debet.setSupplierUid(rs.getString("OC_DEBET_SUPPLIERUID"));
+                debet.setPatientInvoiceUid(rs.getString("OC_DEBET_PATIENTINVOICEUID"));
+                debet.setInsurarInvoiceUid(rs.getString("OC_DEBET_INSURARINVOICEUID"));
+                debet.setComment(rs.getString("OC_DEBET_COMMENT"));
+                debet.setCredited(rs.getInt("OC_DEBET_CREDITED"));
+                debet.setQuantity(rs.getInt("OC_DEBET_QUANTITY"));
+                debet.setServiceUid(rs.getString("OC_DEBET_SERVICEUID"));
+                debet.setPatientName(rs.getString("lastname")+", "+rs.getString("firstname"));
+
+                //*********************
+                //add Encounter object
+                //*********************
+                Encounter encounter = new Encounter();
+                encounter.setPatientUID(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID")));
+                encounter.setDestinationUID(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID")));
+
+                encounter.setUid(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID")));
+                encounter.setCreateDateTime(rs.getTimestamp("OC_ENCOUNTER_CREATETIME"));
+                encounter.setUpdateDateTime(rs.getTimestamp("OC_ENCOUNTER_UPDATETIME"));
+                encounter.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID")));
+                encounter.setVersion(rs.getInt("OC_ENCOUNTER_VERSION"));
+                encounter.setBegin(rs.getTimestamp("OC_ENCOUNTER_BEGINDATE"));
+                encounter.setEnd(rs.getTimestamp("OC_ENCOUNTER_ENDDATE"));
+                encounter.setType(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_TYPE")));
+                encounter.setOutcome(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME")));
+                encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
+                encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
+                encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+
+                //Now find the most recent service for this encounter
+                Encounter.EncounterService encounterService = encounter.getLastEncounterService();
+                if (encounterService != null) {
+                    encounter.setServiceUID(encounterService.serviceUID);
+                    encounter.setManagerUID(encounterService.managerUID);
+                    encounter.setBedUID(encounterService.bedUID);
+                }
+                debet.setEncounter(encounter);
+
+                //*********************
+                //add Prestation object
+                //*********************
+                Prestation prestation = new Prestation();
+                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
+                prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
+                prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
+                prestation.setCategories(rs.getString("OC_PRESTATION_CATEGORIES"));
+
+                ObjectReference or = new ObjectReference();
+                or.setObjectType(rs.getString("OC_PRESTATION_REFTYPE"));
+                or.setObjectUid(rs.getString("OC_PRESTATION_REFUID"));
+                prestation.setReferenceObject(or);
+
+                prestation.setCreateDateTime(rs.getTimestamp("OC_PRESTATION_CREATETIME"));
+                prestation.setUpdateDateTime(rs.getTimestamp("OC_PRESTATION_UPDATETIME"));
+                prestation.setUpdateUser(rs.getString("OC_PRESTATION_UPDATEUID"));
+                prestation.setVersion(rs.getInt("OC_PRESTATION_VERSION"));
+                prestation.setType(rs.getString("OC_PRESTATION_TYPE"));
+                debet.setPrestation(prestation);
+                
+                sortedDebets.put(new SimpleDateFormat("yyyyMMdd").format(debet.getDate())+"."+debet.getPatientName()+"."+debet.getPatientInvoiceUid()+"."+debet.getUid(), debet);
+                
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            Debug.println("OpenClinic => InsurarInvoice.java => getInsurarInvoicesWhereDifferentStatus => "+e.getMessage()+" = "+sSelect);
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                loc_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+        Iterator iDebets = sortedDebets.keySet().iterator();
+        while(iDebets.hasNext()){
+        	debets.add(sortedDebets.get(iDebets.next()));
+        }
+        
+        return debets;
+    }
     
     //--- GET DEBETS FOR INVOICE ------------------------------------------------------------------
     public static SortedMap getDebetsForInvoiceSortByService(String sInvoiceUid){

@@ -1405,7 +1405,7 @@ public class Prestation extends OC_Object{
             rs = ps.executeQuery();
 
             while(rs.next()){
-                prestations.add(Prestation.get(rs.getString("OC_PRESTATION_UID")));
+                prestations.add(Prestation.get(rs.getString("OC_PRESTATION_SERVERID")+"."+rs.getString("OC_PRESTATION_OBJECTID")));
             }
         }
         catch(Exception e){

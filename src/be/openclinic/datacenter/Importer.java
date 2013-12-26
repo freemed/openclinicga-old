@@ -121,6 +121,16 @@ public class Importer {
 						importMessage.sendError();
 					}
 				}
+				else if(parametertype.equalsIgnoreCase("hr")){
+					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
+					importMessage.setImportDateTime(new java.util.Date());
+					if(storeHR(importMessage)){
+						importMessage.updateImportDateTime(importMessage.getImportDateTime());
+					}
+					else if(importMessage.getError()>0){
+						importMessage.sendError();
+					}
+				}
 				else if(parametertype.equalsIgnoreCase("patient")){
 					ImportMessage importMessage = ImportMessage.get(rs.getInt("OC_IMPORT_UID"));
 					importMessage.setImportDateTime(new java.util.Date());
@@ -286,6 +296,64 @@ public class Importer {
 			importMessage.setError(2);
 			e.printStackTrace();
 		} catch (ParseException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return bSuccess;
+	}
+	
+	public static boolean storeHR(ImportMessage importMessage){
+		boolean bSuccess=false;
+		importMessage.setError(-1);
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps=null;
+		try{
+            SAXReader reader = new SAXReader(false);
+			Document document = reader.read(new ByteArrayInputStream(importMessage.data.getBytes("UTF-8")));
+			Element root = document.getRootElement();
+			if(root.getName().equalsIgnoreCase("data") && root.attributeValue("parameterid").equalsIgnoreCase("hr.1")){
+				Element hr = root.element("hr");
+				ps = conn.prepareStatement("delete from DC_HRVALUES where DC_HR_SERVERID=? and DC_HR_OBJECTID=?");
+				ps.setInt(1, importMessage.getServerId());
+				ps.setInt(2, importMessage.getObjectId());
+				ps.executeUpdate();
+				ps.close();
+				//First clear a possible existing value
+				ps = conn.prepareStatement("insert into DC_HRVALUES(DC_HR_SERVERID,DC_HR_OBJECTID,DC_HR_GROUP,DC_HR_YEAR,DC_HR_MONTH,DC_HR_COUNT) values(?,?,?,?,?,?)");
+				ps.setInt(1, importMessage.getServerId());
+				ps.setInt(2, importMessage.getObjectId());
+				ps.setString(3, hr.attributeValue("group"));
+				ps.setInt(4, Integer.parseInt(hr.attributeValue("month").substring(0,4)));
+				ps.setInt(5, Integer.parseInt(hr.attributeValue("month").substring(4,6)));
+				ps.setInt(6,Integer.parseInt(hr.attributeValue("count")));
+				ps.execute();
+				ps.close();
+				bSuccess=true;
+			}
+			
+		}
+		catch(SQLException e){
+			try {
+				if(ps!=null){
+					ps.close();
+				}
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			importMessage.setError(2);
+			e.printStackTrace();
+		} catch (DocumentException e) {
 			importMessage.setError(2);
 			e.printStackTrace();
 		}

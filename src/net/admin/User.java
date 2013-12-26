@@ -199,12 +199,11 @@ public class User extends OC_Object {
 
     public boolean initialize (Connection connection, String sLogin, byte[] aPassword) {
     	boolean bReturn = false;
-
          if ((sLogin!=null)&&(sLogin.trim().length()>0)&&(aPassword!=null)&&(aPassword.length>0)) {
              try  {
-                 String sSelect = "SELECT userid,personid, encryptedpassword, start, stop, project FROM Users WHERE userid = ? ";
+                 String sSelect = "SELECT a.userid,a.personid, a.encryptedpassword, a.start, a.stop, a.project FROM Users a, Userparameters b WHERE a.userid=b.userid and b.parameter='alias' and value = ? ";
                  PreparedStatement ps = connection.prepareStatement(sSelect);
-                 ps.setInt(1,Integer.parseInt(sLogin));
+                 ps.setString(1,sLogin);
                  ResultSet rs = ps.executeQuery();
                  if (rs.next()) {
                      this.userid = rs.getString("userid");
@@ -215,41 +214,42 @@ public class User extends OC_Object {
                      this.stop = ScreenHelper.getSQLDate(rs.getDate("stop"));
                      this.project = ScreenHelper.checkString(rs.getString("project"));
 
-                     if (!checkPassword(aPassword))  {
-                    	 rs.close();
-                    	 ps.close();
-                         return false;
-                     }
-                     sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND active = 1 ";
-                     rs.close();
-                     ps.close();
-                     ps = connection.prepareStatement(sSelect);
-                     ps.setInt(1,Integer.parseInt(this.userid));
-                     rs = ps.executeQuery();
-                     String sParameter, sValue;
-                     String sUserProfileID = "";
-                     while (rs.next()) {
-                         sParameter = rs.getString("parameter");
-                         sValue = ScreenHelper.checkString(rs.getString("value"));
+                     if (checkPassword(aPassword))  {
+                         sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND active = 1 ";
+                         rs.close();
+                         ps.close();
+                         ps = connection.prepareStatement(sSelect);
+                         ps.setInt(1,Integer.parseInt(this.userid));
+                         rs = ps.executeQuery();
+                         String sParameter, sValue;
+                         String sUserProfileID = "";
+                         while (rs.next()) {
+                             sParameter = rs.getString("parameter");
+                             sValue = ScreenHelper.checkString(rs.getString("value"));
 
-                         parameters.add(new Parameter(sParameter,sValue));
+                             parameters.add(new Parameter(sParameter,sValue));
 
-                         if (sParameter.equalsIgnoreCase("userprofileid")){
-                            sUserProfileID = sValue;
+                             if (sParameter.equalsIgnoreCase("userprofileid")){
+                                sUserProfileID = sValue;
+                             }
+                             else if (sParameter.equalsIgnoreCase("sa")){
+                                 accessRights.put("sa","true");
+                             }
                          }
-                         else if (sParameter.equalsIgnoreCase("sa")){
-                             accessRights.put("sa","true");
+                         rs.close();
+                         ps.close();
+
+                         if (this.person.initialize(connection,personid)) {
+                             bReturn = true;
                          }
-                     }
-                     rs.close();
-                     ps.close();
 
-                     if (this.person.initialize(connection,personid)) {
-                         bReturn = true;
+                         loadAccessRights(sUserProfileID,connection);
+                         initializeService();
                      }
-
-                     loadAccessRights(sUserProfileID,connection);
-                     initializeService();
+                     else {
+    	                 rs.close();
+    	                 ps.close();
+                     }
                  }
                  else {
 	                 rs.close();
@@ -258,9 +258,75 @@ public class User extends OC_Object {
              }
              catch(SQLException e) {
                  if(Debug.enabled) Debug.println("User initialize error: "+e.getMessage());
+                 e.printStackTrace();
              }
-
+             
              //initialize(Integer.parseInt(sLogin));
+             if(!bReturn){
+            	 try  {
+                     String sSelect = "SELECT userid,personid, encryptedpassword, start, stop, project FROM Users WHERE userid = ? ";
+                     PreparedStatement ps = connection.prepareStatement(sSelect);
+                 	
+                     ps.setInt(1,Integer.parseInt(sLogin));
+                     ResultSet rs = ps.executeQuery();
+                     if (rs.next()) {
+                         this.userid = rs.getString("userid");
+                         this.personid = rs.getString("personid");
+                         this.password = rs.getBytes("encryptedpassword");
+
+                         this.start = ScreenHelper.getSQLDate(rs.getDate("start"));
+                         this.stop = ScreenHelper.getSQLDate(rs.getDate("stop"));
+                         this.project = ScreenHelper.checkString(rs.getString("project"));
+
+                         if (checkPassword(aPassword))  {
+                        	 rs.close();
+                        	 ps.close();
+                             sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND active = 1 ";
+                             rs.close();
+                             ps.close();
+                             ps = connection.prepareStatement(sSelect);
+                             ps.setInt(1,Integer.parseInt(this.userid));
+                             rs = ps.executeQuery();
+                             String sParameter, sValue;
+                             String sUserProfileID = "";
+                             while (rs.next()) {
+                                 sParameter = rs.getString("parameter");
+                                 sValue = ScreenHelper.checkString(rs.getString("value"));
+
+                                 parameters.add(new Parameter(sParameter,sValue));
+
+                                 if (sParameter.equalsIgnoreCase("userprofileid")){
+                                    sUserProfileID = sValue;
+                                 }
+                                 else if (sParameter.equalsIgnoreCase("sa")){
+                                     accessRights.put("sa","true");
+                                 }
+                             }
+                             rs.close();
+                             ps.close();
+
+                             if (this.person.initialize(connection,personid)) {
+                                 bReturn = true;
+                             }
+
+                             loadAccessRights(sUserProfileID,connection);
+                             initializeService();                     
+                         }
+                         else {
+        	                 rs.close();
+        	                 ps.close();
+                         }
+                     }
+                     else {
+    	                 rs.close();
+    	                 ps.close();
+                     }
+                 }
+                 catch(SQLException e) {
+                     e.printStackTrace();
+                     if(Debug.enabled) Debug.println("User initialize error: "+e.getMessage());
+                 }
+             }
          }
          return bReturn;
      }
@@ -289,40 +355,39 @@ public class User extends OC_Object {
                      this.start = ScreenHelper.getSQLDate(rs.getDate("start"));
                      this.stop = ScreenHelper.getSQLDate(rs.getDate("stop"));
                      this.project = ScreenHelper.checkString(rs.getString("project"));
-                     if (!(hashPassword(this.password)==Integer.parseInt(aPassword)))  {
-                         return false;
-                     }
-                     sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND active = 1 ";
-                     rs.close();
-                     ps.close();
-                     ps = connection.prepareStatement(sSelect);
-                     ps.setInt(1,Integer.parseInt(this.userid));
-                     rs = ps.executeQuery();
-                     String sParameter, sValue;
-                     String sUserProfileID = "";
-                     while (rs.next()) {
-                         sParameter = rs.getString("parameter");
-                         sValue = ScreenHelper.checkString(rs.getString("value"));
+                     if (hashPassword(this.password)==Integer.parseInt(aPassword))  {
+                         sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND active = 1 ";
+                         rs.close();
+                         ps.close();
+                         ps = connection.prepareStatement(sSelect);
+                         ps.setInt(1,Integer.parseInt(this.userid));
+                         rs = ps.executeQuery();
+                         String sParameter, sValue;
+                         String sUserProfileID = "";
+                         while (rs.next()) {
+                             sParameter = rs.getString("parameter");
+                             sValue = ScreenHelper.checkString(rs.getString("value"));
 
-                         parameters.add(new Parameter(sParameter,sValue));
+                             parameters.add(new Parameter(sParameter,sValue));
 
-                         if (sParameter.equalsIgnoreCase("userprofileid")){
-                            sUserProfileID = sValue;
+                             if (sParameter.equalsIgnoreCase("userprofileid")){
+                                sUserProfileID = sValue;
+                             }
+                             else if (sParameter.equalsIgnoreCase("sa")){
+                                 accessRights.put("sa","true");
+                             }
                          }
-                         else if (sParameter.equalsIgnoreCase("sa")){
-                             accessRights.put("sa","true");
+                         rs.close();
+                         ps.close();
+
+
+                         if (this.person.initialize(connection,personid)) {
+                             bReturn = true;
                          }
+
+                         loadAccessRights(sUserProfileID,connection);
+                         initializeService();
                      }
-                     rs.close();
-                     ps.close();
-
-
-                     if (this.person.initialize(connection,personid)) {
-                         bReturn = true;
-                     }
-
-                     loadAccessRights(sUserProfileID,connection);
-                     initializeService();
                  }
                  else {
                      rs.close();
@@ -333,8 +398,9 @@ public class User extends OC_Object {
                  if(Debug.enabled) Debug.println("User initialize error: "+e.getMessage());
              }
 
-             //initialize(Integer.parseInt(sLogin));
+
          }
+
          return bReturn;
      }
     

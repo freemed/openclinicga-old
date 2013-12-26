@@ -20,6 +20,7 @@ import be.mxs.webapp.wl.servlet.http.RequestParameterParser;
 import be.mxs.webapp.wl.session.SessionContainerFactory;
 import be.openclinic.adt.Encounter;
 import be.openclinic.common.ObjectReference;
+import be.openclinic.finance.Debet;
 import be.openclinic.finance.Prestation;
 import be.openclinic.medical.Diagnosis;
 import net.admin.User;
@@ -277,7 +278,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                     }
                     //Sla de transactie op
                     returnedTransactionVO = MedwanQuery.getInstance().updateTransaction(sessionContainerWO.getPersonVO().personId.intValue(),oldTransaction);
-                    if (MedwanQuery.getInstance().getConfigInt("automatedDebet",1)==1){
+                    if (MedwanQuery.getInstance().getConfigInt("automatedDebet",0)==1){
                         ItemVO ctxt=returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT");
                         try{
                         	Prestation.registerPrestationsAsDebetTransactions("TRAN."+returnedTransactionVO.getTransactionType()+"."+(ctxt!=null?ctxt.getValue():""),null,returnedTransactionVO.getUpdateTime(),null,new ObjectReference("Person",returnedTransactionVO.getUser().getPersonVO().getPersonId()+""),new ObjectReference("Transaction",returnedTransactionVO.getObjectUid()),returnedTransactionVO.getUser().getUserId()+"",sessionContainerWO.getPersonVO().getPersonId()+"");
@@ -371,6 +372,34 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                                 }
                             }
                         }
+                    }
+                    else if(returnedTransactionVO.getTransactionType().equals("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR2")){
+                    	item = returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_TYPE");
+                    	if(item!=null && ScreenHelper.checkString(item.getValue()).length()>0){
+                            if(MedwanQuery.getInstance().getConfigInt("enableAutomaticImagingInvoicing",0)==1){
+                            	Debet.createAutomaticDebetByAlias("MIRPREST."+returnedTransactionVO.getTransactionId(), sessionContainerWO.getPersonVO().personId+"", "mir_type."+item.getValue(), sessionContainerWO.getUserVO().userId+"",24*3600*1000);
+                            }
+                    	}
+                    }
+                    else if(returnedTransactionVO.getTransactionType().equals("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPERATION_PROTOCOL")){
+                    	item = returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_SURGICAL_ACT1");
+                    	if(item!=null && ScreenHelper.checkString(item.getValue()).length()>0){
+                            if(MedwanQuery.getInstance().getConfigInt("enableAutomaticSurgeryInvoicing",0)==1){
+                            	Debet.createAutomaticDebetByAlias("SURGERYPREST."+returnedTransactionVO.getTransactionId(), sessionContainerWO.getPersonVO().personId+"", "surgicalacts."+item.getValue(), sessionContainerWO.getUserVO().userId+"",24*3600*1000);
+                            }
+                    	}
+                    	item = returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_SURGICAL_ACT2");
+                    	if(item!=null && ScreenHelper.checkString(item.getValue()).length()>0){
+                            if(MedwanQuery.getInstance().getConfigInt("enableAutomaticSurgeryInvoicing",0)==1){
+                            	Debet.createAutomaticDebetByAlias("SURGERYPREST."+returnedTransactionVO.getTransactionId(), sessionContainerWO.getPersonVO().personId+"", "surgicalacts."+item.getValue(), sessionContainerWO.getUserVO().userId+"",24*3600*1000);
+                            }
+                    	}
+                    	item = returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_SURGICAL_ACT3");
+                    	if(item!=null && ScreenHelper.checkString(item.getValue()).length()>0){
+                            if(MedwanQuery.getInstance().getConfigInt("enableAutomaticSurgeryInvoicing",0)==1){
+                            	Debet.createAutomaticDebetByAlias("SURGERYPREST."+returnedTransactionVO.getTransactionId(), sessionContainerWO.getPersonVO().personId+"", "surgicalacts."+item.getValue(), sessionContainerWO.getUserVO().userId+"",24*3600*1000);
+                            }
+                    	}
                     }
                     else if(returnedTransactionVO.getTransactionType().equals("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_LAB_REQUEST")){
                     	//Bewaar SMS en e-mail in user profiel

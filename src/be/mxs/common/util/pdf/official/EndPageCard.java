@@ -42,11 +42,11 @@ public class EndPageCard extends PdfPageEventHelper {
         try{
             // load image
             Image watermarkImg =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/cardheader3.png"));
-            watermarkImg.scaleToFit(310*200/254,310);
+            watermarkImg.scaleToFit(310*200*MedwanQuery.getInstance().getConfigInt("userCardHeaderZoom",100)/25400,310);
             //watermarkImg.setRotationDegrees(30);
             int[] transparencyValues = {100,100};
             //watermarkImg.setTransparency(transparencyValues);
-            watermarkImg.setAbsolutePosition(0,109);
+            watermarkImg.setAbsolutePosition(MedwanQuery.getInstance().getConfigInt("userCardHeaderAbsoluteX",0),MedwanQuery.getInstance().getConfigInt("userCardHeaderAbsoluteY",109));
 
 			// these are the canvases we are going to use
             PdfContentByte under = writer.getDirectContentUnder();

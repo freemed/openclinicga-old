@@ -12,6 +12,7 @@ import be.openclinic.finance.*;
 import java.util.Date;
 import java.util.Vector;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 import net.admin.AdminPerson;
@@ -678,9 +679,9 @@ public class ProductStockOperation extends OC_Object{
             				debet.setExtraInsurarUid(extrainsurar.getUid());
             			}
             		}
-            		debet.setAmount(patientamount*debet.getQuantity());
-            		debet.setInsurarAmount(insuraramount*debet.getQuantity());
-            		debet.setExtraInsurarAmount(extrainsuraramount*debet.getQuantity());
+            		debet.setAmount(Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientamount).replaceAll(",", "."))*debet.getQuantity());
+            		debet.setInsurarAmount(Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(insuraramount).replaceAll(",", "."))*debet.getQuantity());
+            		debet.setExtraInsurarAmount(Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(extrainsuraramount).replaceAll(",", "."))*debet.getQuantity());
             		debet.store();
             		MedwanQuery.getInstance().getObjectCache().removeObject("debet", debet.getUid());
             	}
@@ -1242,6 +1243,61 @@ public class ProductStockOperation extends OC_Object{
             String sSelect = "SELECT OC_OPERATION_SERVERID,OC_OPERATION_OBJECTID"+
                              " FROM OC_PRODUCTSTOCKOPERATIONS"+
                              " WHERE OC_OPERATION_DESCRIPTION LIKE 'medicationreceipt.%'";
+
+            if(sourceDestionationUid.length() > 0){
+                sSelect+= " AND OC_OPERATION_SRCDESTUID = ?";
+            }
+
+            // dates
+            if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
+            if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
+
+            // order by selected col or default col
+            sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
+
+            ps = oc_conn.prepareStatement(sSelect);
+
+            // set questionmark-values
+            int questionMarkIdx = 1;
+            if(sourceDestionationUid.length() > 0) ps.setString(questionMarkIdx++,sourceDestionationUid);
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
+
+            // execute
+            rs = ps.executeQuery();
+            while(rs.next()){
+                foundRecords.add(get(rs.getString("OC_OPERATION_SERVERID")+"."+rs.getString("OC_OPERATION_OBJECTID")));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+        return foundRecords;
+    }
+
+    //--- GET SUPPLIER RECEIPTS ----------------------------------------------------------------------------
+    public static Vector getSupplierReceipts(String sourceDestionationUid, java.util.Date dateFrom, java.util.Date dateUntil,
+                                     String sSortCol, String sSortDir){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector foundRecords = new Vector();
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT OC_OPERATION_SERVERID,OC_OPERATION_OBJECTID"+
+                             " FROM OC_PRODUCTSTOCKOPERATIONS"+
+                             " WHERE OC_OPERATION_DESCRIPTION LIKE 'medicationreceipt.%' AND OC_OPERATION_SRCDESTTYPE='supplier'";
 
             if(sourceDestionationUid.length() > 0){
                 sSelect+= " AND OC_OPERATION_SRCDESTUID = ?";

@@ -1155,17 +1155,14 @@ public class MedwanQuery {
         try {
             // check existence
             boolean labelFound = false;
-            String lcaseLabelType = getConfigParam("lowerCompare", "OC_LABEL_TYPE"),
-                    lcaseLabelID = getConfigParam("lowerCompare", "OC_LABEL_ID"),
-                    lcaseLabelLang = getConfigParam("lowerCompare", "OC_LABEL_LANGUAGE");
             String sSelect = "SELECT * FROM OC_LABELS " +
-                    " WHERE " + lcaseLabelType + " = ?" +
-                    "  AND " + lcaseLabelID + " = ?" +
-                    "  AND " + lcaseLabelLang + " = ?";
+                    " WHERE OC_LABEL_TYPE = ?" +
+                    "  AND OC_LABEL_ID = ?" +
+                    "  AND OC_LABEL_LANGUAGE = ?";
             ps = oc_conn.prepareStatement(sSelect);
-            ps.setString(1, labelType.toLowerCase());
-            ps.setString(2, labelId.toLowerCase());
-            ps.setString(3, labelLang.toLowerCase());
+            ps.setString(1, labelType);
+            ps.setString(2, labelId);
+            ps.setString(3, labelLang);
             rs = ps.executeQuery();
             if (rs.next()) labelFound = true;
             if (rs != null) rs.close();

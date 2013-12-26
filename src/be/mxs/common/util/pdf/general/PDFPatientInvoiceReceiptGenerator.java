@@ -84,7 +84,7 @@ public class PDFPatientInvoiceReceiptGenerator extends PDFInvoiceGenerator {
 	
 	        // logo
 	        try{
-	            Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
+	            Image img = Miscelaneous.getImage("JavaPOSImage1.gif",sProject);
 	            for(int n=0;n<debets.size();n++){
 	            	Debet debet = (Debet)debets.elementAt(n);
 	            	if(debet.getInsurance()!=null && debet.getInsurance().getInsurarUid()!=null && MedwanQuery.getInstance().getConfigString("insurancelogo."+debet.getInsurance().getInsurarUid(),"").length()>0){

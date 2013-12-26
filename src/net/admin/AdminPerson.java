@@ -1588,15 +1588,8 @@ public class AdminPerson extends OC_Object{
                             " OC_ENCOUNTER_PATIENTUID = " + MedwanQuery.getInstance().convert("varchar(255)","a.personid") + " AND";
 
         if (simmatnew.trim().length()>0) {
-            simmatnew = simmatnew.replaceAll("\\.","");
-            simmatnew = simmatnew.replaceAll("-","");
-            simmatnew = simmatnew.replaceAll("/","");
             sSQLWhere += " immatnew = '"+simmatnew+"' AND";
         }
-        /*
-        if (simmatold.trim().length()>0) {
-            sSQLWhere += " immatold = '"+simmatold+"' AND";
-        } */
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 
         if (sArchiveFileCode.trim().length()>0) {
@@ -1849,15 +1842,9 @@ public class AdminPerson extends OC_Object{
         String sSQLWhere  = " 1=1 AND";
 
         if (simmatnew.trim().length()>0) {
-            //simmatnew = simmatnew.replaceAll("\\.","");
-            //simmatnew = simmatnew.replaceAll("-","");
-            //simmatnew = simmatnew.replaceAll("/","");
             sSQLWhere += " immatnew like '"+simmatnew+"%' AND";
         }
 
-        /*if (simmatold.trim().length()>0) {
-            sSQLWhere += " immatold = '"+simmatold+"' AND";
-        }*/
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 
         if (sArchiveFileCode.trim().length()>0) {
@@ -1908,11 +1895,13 @@ public class AdminPerson extends OC_Object{
             if (sSQLWhere.trim().length()>0) {
                 String sSelect = sSQLSelect+" "+sSQLFrom+" WHERE "+sSQLWhere.substring(0,sSQLWhere.length()-3)+
                           " ORDER BY searchname ";
+                Debug.println(sSelect);
                 ps = ad_conn.prepareStatement(sSelect.trim());
 
                 if (sDateOfBirth.trim().length()>0) {
                     ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sDateOfBirth.replaceAll("-","/")).getTime()));
                 }
+                
                 rs = ps.executeQuery();
 
                 AdminPerson tempPat;

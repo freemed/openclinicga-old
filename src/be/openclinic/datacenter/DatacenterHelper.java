@@ -283,6 +283,61 @@ public class DatacenterHelper {
 		return v;
 	}
 	
+	public static Vector getHRs(int serverid, int year, int month){
+		Vector v = new Vector();
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery="select AVG(DC_HR_COUNT) DC_HR_COUNT, DC_HR_GROUP from DC_HRVALUES where DC_HR_SERVERID=? and DC_HR_YEAR=? and DC_HR_MONTH=? group by DC_HR_GROUP order by DC_HR_GROUP";
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ps.setInt(2,year);
+			ps.setInt(3,month);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				v.add(rs.getString("DC_HR_GROUP")+";"+rs.getString("DC_HR_COUNT"));
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return v;
+	}
+	
+	public static Vector getHRs(int serverid, int year){
+		Vector v = new Vector();
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery="select AVG(DC_HR_COUNT) DC_HR_COUNT, DC_GR_GROUP from DC_HRVALUES where DC_HR_SERVERID=? and DC_HR_YEAR=? group by DC_HR_GROUP order by DC_HR_GROUP";
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ps.setInt(2,year);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				v.add(rs.getString("DC_HR_GROUP")+";"+rs.getString("DC_HR_COUNT"));
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return v;
+	}
+	
 	public static Vector getMortalities(int serverid, int year, String codetype){
 		Vector v = new Vector();
 		Connection conn=MedwanQuery.getInstance().getStatsConnection();
@@ -315,7 +370,7 @@ public class DatacenterHelper {
 		String s="0";
 		Connection conn=MedwanQuery.getInstance().getStatsConnection();
 		try{
-			String sQuery="select * from DC_MORTALITYVALUES where DC_MORTALITYVALUE_SERVERID=? and DC_MORTALITYVALUE_YEAR=? and DC_MORTALITYVALUE_MONTH=? and DC_MORTALITYVALUE_CODETYPE is NULL";
+			String sQuery="select SUM(DC_MORTALITYVALUE_COUNT) DC_MORTALITYVALUE_COUNT from DC_MORTALITYVALUES where DC_MORTALITYVALUE_SERVERID=? and DC_MORTALITYVALUE_YEAR=? and DC_MORTALITYVALUE_MONTH=? and DC_MORTALITYVALUE_CODETYPE is NULL";
 			PreparedStatement ps = conn.prepareStatement(sQuery);
 			ps.setInt(1, serverid);
 			ps.setInt(2,year);
@@ -366,6 +421,61 @@ public class DatacenterHelper {
 		return s;
 	}
 	
+	public static String getTotalHRs(int serverid, int year){
+		String s="0";
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery="select SUM(DC_HR_COUNT) DC_HR_COUNT from (select AVG(DC_HR_COUNT) DC_HR_COUNT,DC_HR_GROUP from DC_HRVALUES where DC_HR_SERVERID=? and DC_HR_YEAR=? GROUP BY DC_HR_GROUP) aa";
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ps.setInt(2,year);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				s=rs.getString("DC_HR_COUNT");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return s;
+	}
+	
+	public static String getTotalHRs(int serverid, int year, int month){
+		String s="0";
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery="select SUM(DC_HR_COUNT) DC_HR_COUNT from (select distinct DC_HR_YEAR,DC_HR_MONTH,DC_HR_COUNT from DC_HRVALUES where DC_HR_SERVERID=? and DC_HR_YEAR=? and DC_HR_MONTH=?) aa";
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ps.setInt(2,year);
+			ps.setInt(3,month);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				s=rs.getString("DC_HR_COUNT");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return s;
+	}
+	
 	public static Vector getMortalities(int serverid, String period, String codetype){
 		if(period.split("\\.").length>1){
 			return getMortalities(serverid, Integer.parseInt(period.split("\\.")[0]), Integer.parseInt(period.split("\\.")[1]),codetype);
@@ -375,12 +485,30 @@ public class DatacenterHelper {
 		}
 	}
 	
+	public static Vector getHRs(int serverid, String period){
+		if(period.split("\\.").length>1){
+			return getHRs(serverid, Integer.parseInt(period.split("\\.")[0]), Integer.parseInt(period.split("\\.")[1]));
+		}
+		else {
+			return getHRs(serverid, Integer.parseInt(period.split("\\.")[0]));
+		}
+	}
+	
 	public static String getTotalMortalities(int serverid, String period){
 		if(period.split("\\.").length>1){
 			return getTotalMortalities(serverid, Integer.parseInt(period.split("\\.")[0]), Integer.parseInt(period.split("\\.")[1]));
 		}
 		else {
 			return getTotalMortalities(serverid, Integer.parseInt(period.split("\\.")[0]));
+		}
+	}
+	
+	public static String getTotalHRs(int serverid, String period){
+		if(period.split("\\.").length>1){
+			return getTotalHRs(serverid, Integer.parseInt(period.split("\\.")[0]), Integer.parseInt(period.split("\\.")[1]));
+		}
+		else {
+			return getTotalHRs(serverid, Integer.parseInt(period.split("\\.")[0]));
 		}
 	}
 	
@@ -682,6 +810,38 @@ public class DatacenterHelper {
 					v.add(year);
 				}
 				v.add(rs.getString("diagnosis"));
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return v;
+	}
+	
+	public static Vector getHRMonths(int serverid){
+		Vector v = new Vector();
+		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		try{
+			String sQuery="select distinct DC_HR_YEAR,"+MedwanQuery.getInstance().convert("varchar","DC_HR_YEAR")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar","DC_HR_MONTH")+" as month from DC_HRVALUES where DC_HR_SERVERID=? order by DC_HR_YEAR DESC,DC_HR_MONTH DESC";
+			PreparedStatement ps = conn.prepareStatement(sQuery);
+			ps.setInt(1, serverid);
+			ResultSet rs = ps.executeQuery();
+			String activeYear="",year="";
+			while(rs.next()){
+				year=rs.getString("DC_HR_YEAR");
+				if(!activeYear.equalsIgnoreCase(year)){
+					activeYear=year;
+					v.add(year);
+				}
+				v.add(rs.getString("month"));
 			}
 			rs.close();
 			ps.close();

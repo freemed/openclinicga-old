@@ -259,7 +259,8 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     	//We voegen orders voor éénzelfde product samen
     	Hashtable mergedOrders = new Hashtable();
     	for (int n=0;n<productOrders.size();n++){
-    		ProductOrder order = ProductOrder.get((String)productOrders.elementAt(n));
+    		String ouid=(String)productOrders.elementAt(n);
+    		ProductOrder order = ProductOrder.get(ouid);
     		if(order!=null && order.getProductStock()!=null && order.getProductStock().getProduct()!=null){
 	    		if(mergedOrders.get(order.getProductStock().getProduct().getUid())!=null){
 	    			//Productorder already exists, merge
@@ -326,7 +327,7 @@ public class PDFOrderTicketsGenerator extends PDFOfficialBasic {
     	cell.setColspan(100);
     	cell.setBorder(PdfPCell.BOX);
     	table.addCell(cell);
-    	
+
     	
     	doc.add(table);
     }

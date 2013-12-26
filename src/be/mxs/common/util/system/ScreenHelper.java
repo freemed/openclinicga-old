@@ -513,6 +513,35 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
+    static public String setCameroonAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+        String sCountry = "&nbsp;";
+        if (checkString(apc.country).trim().length()>0) {
+            sCountry = getTran("Country",apc.country,sLanguage);
+        }
+
+        String sProvince = "&nbsp;";
+        if (checkString(apc.province).trim().length()>0) {
+            sProvince = getTran("province",apc.province,sLanguage);
+        }
+        return(
+            setRow("Web.admin","addresschangesince",apc.begin,sLanguage)+
+            setRow("Web","region",apc.sanitarydistrict,sLanguage)+
+            setRow("Web","country.department",apc.district,sLanguage)+
+            setRow("Web","arrondissement",apc.sector,sLanguage)+
+            setRow("Web","sector",apc.quarter,sLanguage)+
+            setRow("Web","address",apc.address,sLanguage)+
+            setRow("Web","postcode",apc.zipcode,sLanguage)+
+            setRow("Web","country",sCountry,sLanguage)+
+            setRow("Web","email",apc.email,sLanguage)+
+            setRow("Web","telephone",apc.telephone,sLanguage)+
+            setRow("Web","mobile",apc.mobile,sLanguage)+
+            setRow("Web","function",apc.businessfunction,sLanguage)+
+            setRow("Web","business",apc.business,sLanguage)+
+            setRow("Web","comment",apc.comment,sLanguage)
+        );
+    }
+
+    //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
     static public String setOpenclinicAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
         String sCountry = "&nbsp;";
         if (checkString(apc.country).trim().length()>0) {
@@ -735,7 +764,7 @@ public class ScreenHelper {
                     }
                 }
                 // no permission specified -> interprete as all permissions required
-                // Manageing a page, means you can add, edit and delete.
+                // Managing a page, means you can add, edit and delete.
                 else if (activeUser.getAccessRight(sScreen + ".edit") &&
                          activeUser.getAccessRight(sScreen + ".add") &&
                          //activeUser.getAccessRight(sScreen + ".select") &&

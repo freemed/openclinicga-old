@@ -1,4 +1,4 @@
-package net.admin;
+package be.openclinic.pharmacy;
 
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
@@ -7,14 +7,16 @@ import java.util.*;
 import java.sql.*;
 import java.sql.Date;
 
-public class Category {
+import net.admin.Label;
+
+public class DrugCategory {
     public String code="";
     public String parentcode="";
     public Vector labels=new Vector();
-    public Date updatetime;
+    public java.util.Date updatetime;
     public String updateuserid;
 
-   public Category(){
+   public DrugCategory(){
         code = "";
         labels = new Vector();
         parentcode = "";
@@ -36,7 +38,7 @@ public class Category {
     public void delete(Connection connection){
         if (this.code!=null && this.code.length()>0){
             try {
-                PreparedStatement ps = connection.prepareStatement("delete from Categories where categoryid=?");
+                PreparedStatement ps = connection.prepareStatement("delete from DrugCategories where categoryid=?");
                 ps.setString(1,this.code);
                 ps.execute();
                 ps.close();
@@ -47,79 +49,41 @@ public class Category {
         }
     }
 
+    public void saveToDB(){
+    	try {
+        	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	saveToDB(conn);
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     public boolean saveToDB(Connection connection) {
-        boolean bReturn = true;
-
+        boolean bReturn = false;
         try {
             PreparedStatement ps;
-            ResultSet rs;
-
-            for (int i=0; (i<this.labels.size())&&(bReturn);i++) {
-                ((Label)(this.labels.elementAt(i))).saveToDB("admin.category",this.code);
-            }
-
             if (this.code.trim().length()>0) {
-                String sSelect;
-                sSelect = "SELECT categoryid FROM Categories WHERE UPPER(categoryid) = ?";
+                for (int i=0; (i<this.labels.size())&&(bReturn);i++) {
+                    ((Label)(this.labels.elementAt(i))).saveToDB("drug.category",this.code);
+                }
+
+                String sSelect = "DELETE FROM DrugCategories WHERE UPPER(categoryid) = ?";
                 ps = connection.prepareStatement(sSelect);
                 ps.setString(1,this.code.toUpperCase());
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    Hashtable hSelect = new Hashtable();
-                    if(this.parentcode.trim().length()>0) hSelect.put(" categoryparentid = ? ",this.parentcode);
+                ps.execute();
+                ps.close();
 
-                    if (hSelect.size()>0) {
-                        sSelect = "UPDATE Categories SET ";
-                        Enumeration e = hSelect.keys();
-                        boolean initialized=false;
-                        String sKey;
-                        while (e.hasMoreElements()){
-                            sKey = (String) e.nextElement();
-                            sSelect += (initialized?",":"")+sKey;
-                            initialized =true;
-                        }
-
-
-                        sSelect += (initialized?",":"")+" updatetime = ?";
-                        sSelect += " WHERE categoryid = ? ";
-                        rs.close();
-                        ps.close();
-                        ps = connection.prepareStatement(sSelect);
-
-                        int iIndex = 1;
-                        e = hSelect.keys();
-                        String sValue;
-                        while (e.hasMoreElements()){
-                            sKey = (String) e.nextElement();
-                            sValue = (String)hSelect.get(sKey);
-
-                            ps.setString(iIndex,sValue);
-
-                            iIndex++;
-                        }
-
-                        // updatetime
-                        ps.setTimestamp(iIndex,new Timestamp(new java.util.Date().getTime()));
-                        iIndex++;
-
-                        ps.setString(iIndex,this.code);
-                        ps.executeUpdate();
-                        ps.close();
-                    }
-                }
-                else {
-                    sSelect = "INSERT INTO Categories (categoryid, categoryparentid,updateuserid,updatetime)"+
-                              " VALUES (?,?,?,?)";
-                    rs.close();
-                    ps.close();
-                    ps = connection.prepareStatement(sSelect);
-                    ps.setString(1,this.code.toUpperCase());
-                    ps.setString(2,this.parentcode);
-                    ps.setInt(3, Integer.parseInt(this.updateuserid));
-                    ps.setTimestamp(4,new Timestamp(new java.util.Date().getTime()));
-                    ps.executeUpdate();
-                    ps.close();
-                }
+                sSelect = "INSERT INTO DrugCategories (categoryid, categoryparentid,updateuserid,updatetime)"+
+                          " VALUES (?,?,?,?)";
+                ps = connection.prepareStatement(sSelect);
+                ps.setString(1,this.code.toUpperCase());
+                ps.setString(2,this.parentcode);
+                ps.setInt(3, Integer.parseInt(this.updateuserid));
+                ps.setTimestamp(4,new Timestamp(new java.util.Date().getTime()));
+                ps.executeUpdate();
+                ps.close();
+                bReturn=true;
             }
         }
         catch(SQLException e){
@@ -129,15 +93,15 @@ public class Category {
         return bReturn;
     }
 
-    public static Category getCategory(String sCategoryID){
+    public static DrugCategory getCategory(String sCategoryID){
         if(sCategoryID==null){
             sCategoryID="NONEXISTING";
         }
-        Category category = new Category();
+        DrugCategory category = new DrugCategory();
 
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection ad_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            PreparedStatement ps = ad_conn.prepareStatement(" SELECT * FROM Categories WHERE categoryid = ? ");
+            PreparedStatement ps = ad_conn.prepareStatement(" SELECT * FROM DrugCategories WHERE categoryid = ? ");
             ps.setString(1,sCategoryID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
@@ -165,11 +129,11 @@ public class Category {
 
     //--- GET PARENT IDS --------------------------------------------------------------------------
     public static Vector getParentIds(String childId){
-        HashSet parentIds = new HashSet();
+        SortedSet parentIds = new TreeSet();
         String parentId;
 
         try{
-            Category category = Category.getCategory(childId);
+            DrugCategory category = DrugCategory.getCategory(childId);
             if(category!=null){
                 parentId = category.parentcode;
                 if(parentId!=null && parentId.trim().length()>0){
@@ -194,6 +158,35 @@ public class Category {
         return ids;
     }
 
+    public static Vector getParentIdsNoReverse(String childId){
+        SortedSet parentIds = new TreeSet();
+        String parentId;
+
+        try{
+            DrugCategory category = DrugCategory.getCategory(childId);
+            if(category!=null){
+                parentId = category.parentcode;
+                if(parentId!=null && parentId.trim().length()>0){
+                    parentIds.add(parentId);
+                    parentIds.addAll(getParentIds(parentId)); // recursion
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        // Set to Vector
+        Iterator iter = parentIds.iterator();
+        Vector ids = new Vector();
+        while(iter.hasNext()){
+            ids.add(iter.next());
+        }
+
+
+        return ids;
+    }
+
     //--- GET CHILD IDS ---------------------------------------------------------------------------
     public static Vector getChildIds(String parentId){
         HashSet childIds = new HashSet();
@@ -201,13 +194,13 @@ public class Category {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection ad_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             if(childId!=null && childId.trim().length()>0){
                 childIds.add(childId);
             }
 
-            String sSelect = "SELECT categoryid FROM Categories WHERE categoryparentid = ?";
+            String sSelect = "SELECT categoryid FROM DrugCategories WHERE categoryparentid = ?";
             ps = ad_conn.prepareStatement(sSelect);
             ps.setString(1,parentId);
 
@@ -249,11 +242,11 @@ public class Category {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sSelect = "SELECT categoryid FROM Categories WHERE categoryparentid = ?";
+        String sSelect = "SELECT categoryid FROM DrugCategories WHERE categoryparentid = ?";
         Vector vCategoryIDs = new Vector();
         String sCategoryID;
 
-    	Connection lad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection lad_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = lad_conn.prepareStatement(sSelect);
             ps.setString(1,sCode);
@@ -288,7 +281,7 @@ public class Category {
 
 
         String sQuery = "SELECT OC_LABEL_TYPE,OC_LABEL_ID FROM OC_LABELS"+
-                        " WHERE "+ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_TYPE")+" = 'admin.category'"+
+                        " WHERE "+ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_TYPE")+" = 'drug.category'"+
                         "  AND "+ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_LANGUAGE")+" LIKE ?"+
                         "  AND ("+ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_ID")+" LIKE ?"+
                         "   OR "+ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_ID")+" LIKE ?"+
@@ -332,15 +325,15 @@ public class Category {
         Vector vCategoryIDs = new Vector();
         String sID;
 
-        String sSelect = "SELECT categoryid FROM Categories WHERE categoryparentid IS NULL OR categoryparentid = ''";
+        String sSelect = "SELECT categoryid FROM DrugCategories WHERE categoryparentid IS NULL OR categoryparentid = ''";
 
-    	Connection lad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection lad_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = lad_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
 
             while(rs.next()){
-                sID = ScreenHelper.checkString(rs.getString("Categoryid"));
+                sID = ScreenHelper.checkString(rs.getString("categoryid"));
                 vCategoryIDs.addElement(sID);
             }
             rs.close();
@@ -383,15 +376,13 @@ public class Category {
         Vector vCategoryLabels = new Vector();
 
         if(this.code.length() > 0){
-            String supportedLanguages = ScreenHelper.getConfigString("supportedLanguages");
-            if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
-                supportedLanguages = supportedLanguages.toLowerCase();
+            String supportedLanguages = ScreenHelper.getConfigString("supportedLanguages","nl,fr").toLowerCase();
             Label label;
             String tmpLang;
             StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
             while(tokenizer.hasMoreTokens()){
                 tmpLang = tokenizer.nextToken();
-                label = new Label(tmpLang,ScreenHelper.getTranNoLink("admin.category",this.code,tmpLang));
+                label = new Label(tmpLang,ScreenHelper.getTranNoLink("drug.category",this.code,tmpLang));
                 vCategoryLabels.addElement(label);
             }
         }
@@ -402,9 +393,9 @@ public class Category {
     public static void manageCategorySave(Hashtable hCategory){
         PreparedStatement ps = null;
 
-        String sInsert = " INSERT INTO Categories (categoryid, categoryparentid, updateuserid, updatetime)" +
+        String sInsert = " INSERT INTO DrugCategories (categoryid, categoryparentid, updateuserid, updatetime)" +
                          " VALUES (?,?,?,?)";
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection ad_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = ad_conn.prepareStatement(sInsert);
             ps.setString(1, hCategory.get("categoryid").toString().toUpperCase());
@@ -428,10 +419,10 @@ public class Category {
     public static void manageCategoryUpdate(Hashtable hCategory){
         PreparedStatement ps = null;
 
-        String sUpdate = " UPDATE Categories SET categoryid = ?, categoryparentid = ?, updateuserid = ?, updatetime = ? " +
+        String sUpdate = " UPDATE DrugCategories SET categoryid = ?, categoryparentid = ?, updateuserid = ?, updatetime = ? " +
                          " WHERE categoryid = ?";
 
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection ad_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = ad_conn.prepareStatement(sUpdate);
 

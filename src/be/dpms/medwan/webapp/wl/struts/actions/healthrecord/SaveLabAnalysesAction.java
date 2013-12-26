@@ -3,6 +3,7 @@ package be.dpms.medwan.webapp.wl.struts.actions.healthrecord;
 import be.openclinic.finance.Debet;
 import be.openclinic.medical.LabAnalysis;
 import be.openclinic.medical.RequestedLabAnalysis;
+import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
@@ -88,7 +89,7 @@ public class SaveLabAnalysesAction extends Action {
             Hashtable analysesToSave = new Hashtable();
             while(tokenizer.hasMoreTokens()){
                 token = tokenizer.nextToken();
-
+                System.out.println("token="+token);
                 // data from parameter
                 analysisCode = token.substring(0,token.indexOf("£"));
                 comment      = token.substring(token.indexOf("£")+1);
@@ -137,6 +138,13 @@ public class SaveLabAnalysesAction extends Action {
                 }
             }
 
+            TransactionVO transaction = null;
+            try{
+            	transaction = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(sServerId), Integer.parseInt(sTransactionId));
+            }
+            catch(Exception e3){
+            	e3.printStackTrace();
+            }
             // save analyses to be saved
             analysesToSaveEnum = analysesToSave.keys();
             while(analysesToSaveEnum.hasMoreElements()){
@@ -157,9 +165,9 @@ public class SaveLabAnalysesAction extends Action {
                 }
                 if(MedwanQuery.getInstance().getConfigInt("enableAutomaticLabInvoicing",0)==1){
                     LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
-                    if(a!=null && a.getPrestationcode()!=null && a.getPrestationcode().length()>0){
+                    if(a!=null && a.getPrestationcode()!=null && a.getPrestationcode().length()>0 && a.getUnavailable()==0){
                     	//Now check if the prestation was not coded yet in the past 24 hours
-                    	if(!Debet.existsRecent(a.getPrestationcode(),sPatientId,24*3600*1000)){
+                    	if(!Debet.existsRecent(a.getPrestationcode(),sPatientId,24*3600*1000,transaction!=null?transaction.getUpdateTime():new java.util.Date())){
                     		Debet.createAutomaticDebet("LAB."+sServerId+"."+sTransactionId+"."+analysisCode, sPatientId, a.getPrestationcode(), sUserId);
                     	}
         		    }

@@ -80,6 +80,23 @@ public class Insurar extends OC_Object {
 		return n;
 	}
 	
+	public void setRequireValidation(int n){
+		setModifier(3,n+"");
+	}
+	
+	public int getRequireValidation(){
+		int n=0;
+		if(getModifiers()!=null){
+			try{
+				n=Integer.parseInt(getModifiers().split(";")[3]);
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return n;
+	}
+	
 	public void setRequireAffiliateID(int n){
 		setModifier(2,n+"");
 	}

@@ -1020,7 +1020,6 @@ public class Encounter extends OC_Object {
         ResultSet rs = null;
 
         String sSelect, sInsert, sDelete;
-        System.out.println("type="+getType());
         int iVersion = 1;
         String ids[];
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();

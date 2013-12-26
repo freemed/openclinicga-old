@@ -101,7 +101,7 @@ public class ExtraInsurarInvoice2 extends Invoice {
     	double total=0;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
     	try{
-    		String sql = 	" select sum(oc_debet_extrainsuraramount2) total from oc_debets where oc_debet_extrainsurarinvoiceuid2=?";
+    		String sql = 	" select sum(oc_debet_amount) total from oc_debets where oc_debet_extrainsurarinvoiceuid2=?";
     		PreparedStatement ps = oc_conn.prepareStatement(sql);
     		ps.setString(1,insurarInvoiceUid);
     		ResultSet rs = ps.executeQuery();

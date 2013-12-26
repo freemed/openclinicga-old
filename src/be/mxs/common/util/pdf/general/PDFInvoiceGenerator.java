@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import be.mxs.common.util.pdf.PDFBasic;
 import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.finance.Invoice;
+import be.openclinic.finance.PatientInvoice;
 
 public abstract class PDFInvoiceGenerator extends PDFBasic {
 
@@ -38,6 +39,13 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         String sFooter = getConfigString("footer."+sProject);
         sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
         PDFFooter footer = new PDFFooter(sFooter+"\n");
+        docWriter.setPageEvent(footer);
+    }
+
+    protected void addMFPFooter(PatientInvoice patientinvoice){
+        String sFooter = getConfigString("footer."+sProject);
+        sFooter = sFooter.replaceAll("<br>","\n").replaceAll("<BR>","\n");
+        PDFMFPFooter footer = new PDFMFPFooter(sFooter+"\n",patientinvoice.getAcceptationUid()!=null && patientinvoice.getAcceptationUid().length()>0);
         docWriter.setPageEvent(footer);
     }
 

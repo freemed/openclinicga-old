@@ -64,7 +64,7 @@ public class PDFLabSampleLabelGenerator extends PDFOfficialBasic {
             doc.addAuthor(user.person.firstname+" "+user.person.lastname);
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
-            Rectangle rectangle=new Rectangle(0,0,new Float(MedwanQuery.getInstance().getConfigInt("labLabelWidth",280)*72/254).floatValue(),new Float(MedwanQuery.getInstance().getConfigInt("labLabelHeight",890)*72/254).floatValue());
+            Rectangle rectangle=new Rectangle(0,0,new Float(MedwanQuery.getInstance().getConfigInt("labLabelWidth",190)*72/254).floatValue(),new Float(MedwanQuery.getInstance().getConfigInt("labLabelHeight",570)*72/254).floatValue());
             doc.setPageSize(rectangle.rotate());
             doc.setMargins(2,2,2,2);
             doc.setJavaScript_onLoad("print();\r");
@@ -108,6 +108,7 @@ public class PDFLabSampleLabelGenerator extends PDFOfficialBasic {
             Image image = barcode39.createImageWithBarcode(cb, null, null);
             //image.scaleAbsoluteHeight((new Float(MedwanQuery.getInstance().getConfigInt("labLabelHeight",120)*72/254).floatValue()-doc.topMargin()-doc.bottomMargin())*2/3);
             //image.scaleAbsoluteWidth((new Float(MedwanQuery.getInstance().getConfigInt("labLabelWidth",250)*72/254).floatValue()-doc.leftMargin()-doc.rightMargin())*2/3);
+            image.scaleToFit(MedwanQuery.getInstance().getConfigInt("labLabelScaleWidth",120),MedwanQuery.getInstance().getConfigInt("labLabelScaleHeight",40));
             table = new PdfPTable(3);
             table.setWidthPercentage(100);
             cell=new PdfPCell(image);

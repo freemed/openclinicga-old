@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import be.mxs.common.util.system.Miscelaneous;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.HTMLEntities;
+import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.finance.*;
@@ -269,7 +270,12 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 	    			}
 	    			cell = createGrayCell(getTran("encountertype",encounter.getType()).toUpperCase(), 1);
 	    			wrappertable.addCell(cell);
-	    			cell = createGrayCell(encounter.getService().getLabel(sPrintLanguage).toUpperCase(), 1);
+	    			String svc ="";
+	    			try{
+	    				svc=Service.getService(encounter.getServiceUID(invoice.getCreateDateTime())).getLabel(sPrintLanguage).toUpperCase();
+	    			}
+	    			catch(Exception d){}
+	    			cell = createGrayCell(svc, 1);
 	    			wrappertable.addCell(cell);
 	                cell = createCell(new PdfPCell(table),2,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
 	                cell.setPadding(cellPadding);
@@ -292,14 +298,6 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         // logo
         try{
             Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-            Vector debets = invoice.getDebets();
-            for(int n=0;n<debets.size();n++){
-            	Debet debet = (Debet)debets.elementAt(n);
-            	if(debet.getInsurance()!=null && debet.getInsurance().getInsurarUid()!=null && MedwanQuery.getInstance().getConfigString("insurancelogo."+debet.getInsurance().getInsurarUid(),"").length()>0){
-            		img = Miscelaneous.getImage(MedwanQuery.getInstance().getConfigString("insurancelogo."+debet.getInsurance().getInsurarUid(),""),sProject);
-            		break;
-            	}
-            }
             if(img==null){
                 cell = createEmptyCell(10);
                 receiptTable.addCell(cell);
@@ -333,21 +331,39 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         table.addCell(createValueCell(getTran("web","prestations"),1,8,Font.NORMAL));
         double totalDebet=0;
         double totalinsurardebet=0;
-        Hashtable services = new Hashtable();
-        String service="";
-        for(int n=0;n<invoice.getDebets().size();n++){
-            Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            if(debet!=null){
-            	if(debet.getEncounter()!=null && debet.getEncounter().getService()!=null){
-            		service=debet.getEncounter().getService().getLabel(sPrintLanguage);
-            	}
-	            if(service!=null){
-	            	services.put(service, "1");
-	            }
+
+    	//Find services
+    	Hashtable services = new Hashtable();
+		String serviceuid="";
+		Vector debets=invoice.getDebets();
+    	for(int n=0;n<debets.size();n++){
+    		Debet debet = (Debet)debets.elementAt(n);
+    		if(debet!=null & debet.getServiceUid()!=null){
+    			serviceuid=debet.getServiceUid();
+    		}
+    		else {
+    			serviceuid=debet.getEncounter().getServiceUID();
+    		}
+   			services.put(serviceuid, "1");
+   			if(debet!=null){
 	            totalDebet+=debet.getAmount();
 	            totalinsurardebet+=debet.getInsurarAmount();
-            }
-        }
+   			}
+    	}
+    	
+    	String departments="";
+    	Enumeration eServices = services.keys();
+    	while(eServices.hasMoreElements()){
+    		serviceuid = (String)eServices.nextElement();
+    		Service service = Service.getService(serviceuid);
+    		if(service!=null){
+    			if(departments.length()>0){
+    				departments+=", ";
+    			}
+    			departments+=service.getLabel(user.person.language);
+    		}
+    	}
+
         table.addCell(createPriceCell(totalDebet,1));
         table.addCell(createValueCell(getTran("web","cashiersignature"),3,8,Font.NORMAL));
         table.addCell(createValueCell(getTran("web","payments"),1,8,Font.NORMAL));
@@ -376,30 +392,13 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         receiptTable.addCell(cell);
         receiptTable.addCell(createEmptyCell(50));
         receiptTable.addCell(createValueCell(getTran("web","service"),10,8,Font.BOLD));
-        Enumeration es = services.keys();
-        int nLines=2;
-        while (es.hasMoreElements()){
-        	if(nLines==0){
-                receiptTable.addCell(createEmptyCell(10));
-                nLines=1;
-        	}
-        	else if(nLines==1){
-        		nLines=0;
-        	}
-        	else {
-        		nLines=1;
-        	}
-        	service=(String)es.nextElement();
-            receiptTable.addCell(createValueCell(service,20,7,Font.NORMAL));
-        }
-        receiptTable.addCell(createEmptyCell(50-((services.size() % 2)*20)));
+        receiptTable.addCell(createValueCell(departments,40,7,Font.NORMAL));
         receiptTable.addCell(createValueCell(getTran("web","prestations"),10,8,Font.BOLD));
-        Vector debets = invoice.getDebets();
-        nLines=2;
+        int nLines=2;
         for(int n=0;n<debets.size();n++){
             Debet debet = (Debet)debets.elementAt(n);
             String extraInsurar="";
-            if(MedwanQuery.getInstance().getConfigInt("enableExtraInsurarDataForDebetsDefaultInvoice",1)==1 && debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
+            if(debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
                 Insurar exIns = Insurar.get(debet.getExtraInsurarUid());
                 if(exIns!=null){
                     extraInsurar=" >>> "+ScreenHelper.checkString(exIns.getName());
@@ -426,6 +425,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
         receiptTable.addCell(createEmptyCell(50));
         doc.add(receiptTable);
     }
+
 
     //---- ADD HEADING (logo & barcode) -----------------------------------------------------------
     private void addHeading(PatientInvoice invoice) throws Exception {
@@ -658,13 +658,35 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             table.setWidthPercentage(pageWidth);
             // "printed by" info
             table.addCell(createCell(new PdfPCell(getPrintedByInfo()),2,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
+            if(invoice.getAcceptationUid()!=null && invoice.getAcceptationUid().length()>0){
+            	User validatinguser = User.get(Integer.parseInt(invoice.getAcceptationUid()));
+	            cell=createValueCell(getTran("web","validatedby")+": "+validatinguser.person.lastname.toUpperCase()+", "+validatinguser.person.firstname+" ("+validatinguser.userid+")",2);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            table.addCell(cell);
+            }
+            
+            cell=createValueCell("\n",2);
+            table.addCell(cell);
+
+
+    		String signatures="";
+    		Vector pointers=Pointer.getPointers("INVSIGN."+invoice.getUid());
+    		for(int n=0;n<pointers.size();n++){
+    			if(n>0){
+    				signatures+=", ";
+    			}
+    			signatures+=(String)pointers.elementAt(n);
+    		}
+    		if(signatures.length()>0){
+    			signatures="\n"+ScreenHelper.getTran("web.finance","signed.by",sPrintLanguage)+": "+signatures;
+    		}
             if(MedwanQuery.getInstance().getConfigInt("enableInvoiceVerification",0)==1){
-	            table.addCell(createValueCell(getTran("careproviderSignature"),1));
+	            table.addCell(createValueCell(getTran("careproviderSignature")+signatures,1));
 	            table.addCell(createValueCell(getTran("verifiersignature")+"\n\n"+checkString(invoice.getVerifier()),1));
             }
             else {
 	            table.addCell(createValueCell(getTran("patientsignature"),1));
-	            table.addCell(createValueCell(getTran("careproviderSignature"),1));
+	            table.addCell(createValueCell(getTran("careproviderSignature")+signatures,1));
             }
             doc.add(table);
         }
@@ -938,8 +960,18 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
             for(int i=0; i<creditDates.size(); i++){
                 creditDate = (String)creditDates.get(i);
                 credit = (PatientCredit)creditsHash.get(creditDate);
-                total+= credit.getAmount();
-                printCredit(table,credit);
+                if(credit.getAmount()>=0){
+	                total+= credit.getAmount();
+	                printCredit(table,credit);
+                }
+            }
+            for(int i=0; i<creditDates.size(); i++){
+                creditDate = (String)creditDates.get(i);
+                credit = (PatientCredit)creditsHash.get(creditDate);
+                if(credit.getAmount()<0){
+	                total+= credit.getAmount();
+	                printCredit(table,credit);
+                }
             }
 
             // spacer

@@ -27,6 +27,7 @@ public class Product extends OC_Object implements Comparable {
     private int timeUnitCount = -1;
     private double unitsPerTimeUnit = -1;
     private String productGroup;
+    private String productSubGroup;
     private String prescriptionInfo;
     private String barcode;
     private String prestationcode;
@@ -38,6 +39,14 @@ public class Product extends OC_Object implements Comparable {
 
     public boolean isAutomaticInvoicing() {
 		return automaticInvoicing;
+	}
+
+	public String getProductSubGroup() {
+		return productSubGroup;
+	}
+
+	public void setProductSubGroup(String productSubGroup) {
+		this.productSubGroup = productSubGroup;
 	}
 
 	public void setAutomaticInvoicing(boolean automaticInvoicing) {
@@ -147,7 +156,7 @@ public class Product extends OC_Object implements Comparable {
     	long year = 365*day;
     	double totalprice=0;
     	double count=0;
-    	Vector prices = Pointer.getPointers("drugprice."+getUid(), new java.util.Date(new java.util.Date().getTime()-year), new java.util.Date());
+    	Vector prices = Pointer.getLoosePointers("drugprice."+getUid(), new java.util.Date(new java.util.Date().getTime()-year), new java.util.Date());
     	for(int n=0; n<prices.size();n++){
     		String[] s = ((String)prices.elementAt(n)).split(";");
     		if(s.length>1){
@@ -249,6 +258,7 @@ public class Product extends OC_Object implements Comparable {
                     product.setPackageUnits(rs.getInt("OC_PRODUCT_PACKAGEUNITS"));
                     product.setSupplierUid(rs.getString("OC_PRODUCT_SUPPLIERUID"));
                     product.setProductGroup(rs.getString("OC_PRODUCT_PRODUCTGROUP"));
+                    product.setProductSubGroup(rs.getString("OC_PRODUCT_PRODUCTSUBGROUP"));
                     product.setPrescriptionInfo(rs.getString("OC_PRODUCT_PRESCRIPTIONINFO"));
                     product.setBarcode(rs.getString("OC_PRODUCT_BARCODE"));
                     product.setPrestationcode(rs.getString("OC_PRODUCT_PRESTATIONCODE"));
@@ -379,6 +389,7 @@ public class Product extends OC_Object implements Comparable {
 
                 // productGroup
                 product.setProductGroup(rs.getString("OC_PRODUCT_PRODUCTGROUP"));
+                product.setProductSubGroup(rs.getString("OC_PRODUCT_PRODUCTSUBGROUP"));
 
                 // OBJECT variables
                 product.setCreateDateTime(rs.getTimestamp("OC_PRODUCT_CREATETIME"));
@@ -465,8 +476,8 @@ public class Product extends OC_Object implements Comparable {
                       "  OC_PRODUCT_TIMEUNITCOUNT,OC_PRODUCT_UNITSPERTIMEUNIT,OC_PRODUCT_PRODUCTGROUP,"+
                       "  OC_PRODUCT_CREATETIME,OC_PRODUCT_UPDATETIME,OC_PRODUCT_UPDATEUID,OC_PRODUCT_VERSION,OC_PRODUCT_PRESCRIPTIONINFO," +
                       "  OC_PRODUCT_BARCODE,OC_PRODUCT_PRESTATIONCODE,OC_PRODUCT_PRESTATIONQUANTITY,OC_PRODUCT_MARGIN,OC_PRODUCT_APPLYLOWERPRICES," +
-                      "  OC_PRODUCT_AUTOMATICINVOICING)"+
-                      " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                      "  OC_PRODUCT_AUTOMATICINVOICING,OC_PRODUCT_PRODUCTSUBGROUP)"+
+                      " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
@@ -507,6 +518,8 @@ public class Product extends OC_Object implements Comparable {
             ps.setDouble(21, this.getMargin());
             ps.setInt(22, isApplyLowerPrices()?1:0);
             ps.setInt(23, isAutomaticInvoicing()?1:0);
+            if(this.getProductSubGroup()!=null) ps.setString(24,this.getProductSubGroup());
+            else                             ps.setString(24,"");                             
 
             ps.executeUpdate();
             
@@ -714,7 +727,38 @@ public class Product extends OC_Object implements Comparable {
 
         return groups;
     }
-    //--- FIND ------------------------------------------------------------------------------------
+
+    public static Vector getProductSubGroups(){
+        Vector groups = new Vector();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "select distinct OC_PRODUCT_PRODUCTSUBGROUP from OC_PRODUCTS order by OC_PRODUCT_PRODUCTSUBGROUP";
+            ps=oc_conn.prepareStatement(sSelect);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                groups.add(rs.getString("OC_PRODUCT_PRODUCTSUBGROUP"));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+        return groups;
+    }
+//--- FIND ------------------------------------------------------------------------------------
     public static Vector find(String sFindProductName, String sFindUnit, String sFindUnitPriceMin,
                               String sFindUnitPriceMax, String sFindPackageUnits, String sFindMinOrderPackages,
                               String sFindSupplierUid, String sFindProductGroup, String sSortCol, String sSortDir){
@@ -805,6 +849,97 @@ public class Product extends OC_Object implements Comparable {
         return foundObjects;
     }
 
+    public static Vector find(String sFindProductName, String sFindUnit, String sFindUnitPriceMin,
+            String sFindUnitPriceMax, String sFindPackageUnits, String sFindMinOrderPackages,
+            String sFindSupplierUid, String sFindProductGroup, String sFindProductSubGroup, String sSortCol, String sSortDir){
+		Vector foundObjects = new Vector();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+		try{
+		String sSelect = "SELECT "+MedwanQuery.getInstance().topFunction(MedwanQuery.getInstance().getConfigString("maxProductsToShow","100"))+" OC_PRODUCT_SERVERID,OC_PRODUCT_OBJECTID"+
+		           " FROM OC_PRODUCTS ";
+		
+		if(sFindProductName.length()>0 || sFindUnit.length()>0 || sFindUnitPriceMin.length()>0 ||
+		sFindUnitPriceMax.length()>0 || sFindPackageUnits.length()>0 || sFindMinOrderPackages.length()>0 ||
+		sFindSupplierUid.length()>0 || sFindProductGroup.length()>0 || sFindProductSubGroup.length()>0){
+		sSelect+= "WHERE ";
+		
+		if(sFindProductName.length() > 0){
+		  String sLowerProductName = MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_PRODUCT_NAME");
+		  sSelect+= sLowerProductName+" LIKE ? AND ";
+		}
+		
+		if(sFindUnit.length() > 0)             sSelect+= "OC_PRODUCT_UNIT = ? AND ";
+		if(sFindUnitPriceMin.length() > 0)     sSelect+= "OC_PRODUCT_UNITPRICE >= ? AND ";
+		if(sFindUnitPriceMax.length() > 0)     sSelect+= "OC_PRODUCT_UNITPRICE <= ? AND ";
+		if(sFindPackageUnits.length() > 0)     sSelect+= "OC_PRODUCT_PACKAGEUNITS = ? AND ";
+		if(sFindMinOrderPackages.length() > 0) sSelect+= "OC_PRODUCT_MINORDERPACKAGES = ? AND ";
+		if(sFindProductGroup.length() > 0)     sSelect+= "OC_PRODUCT_PRODUCTGROUP = ? AND ";
+		if(sFindProductSubGroup.length() > 0)     sSelect+= "OC_PRODUCT_PRODUCTSUBGROUP like ? AND ";
+		
+		if(sFindSupplierUid.length() > 0){
+		  //Hier moet de stock komen die het product in voorraad moet hebben
+			sSelect+="OC_PRODUCT_OBJECTID in (select replace(OC_STOCK_PRODUCTUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') from OC_PRODUCTSTOCKS where OC_STOCK_SERVICESTOCKUID='"+sFindSupplierUid+"') AND ";
+			/*
+			// search all service and its child-services
+		  Vector childIds = Service.getChildIds(sFindSupplierUid);
+		  String sChildIds = ScreenHelper.tokenizeVector(childIds,",","'");
+		  if(sChildIds.length() > 0){
+		      sSelect+= "OC_PRODUCT_SUPPLIERUID IN ("+sChildIds+") AND ";
+		  }
+		  else{
+		      sSelect+= "OC_PRODUCT_SUPPLIERUID IN ('') AND ";
+		  }
+		  */
+		}
+		
+		// remove last AND if any
+		if(sSelect.indexOf("AND ")>0){
+		  sSelect = sSelect.substring(0,sSelect.lastIndexOf("AND "));
+		}
+		}
+		
+		// order
+		sSelect+= "ORDER BY "+sSortCol+" "+sSortDir+MedwanQuery.getInstance().limitFunction(MedwanQuery.getInstance().getConfigString("maxProductsToShow","100"));
+		
+		ps = oc_conn.prepareStatement(sSelect);
+		
+		// set questionmark values
+		int questionMarkIdx = 1;
+		if(sFindProductName.length() > 0)      ps.setString(questionMarkIdx++,"%"+sFindProductName.toLowerCase()+"%");
+		if(sFindUnit.length() > 0)             ps.setString(questionMarkIdx++,sFindUnit);
+		if(sFindUnitPriceMin.length() > 0)     ps.setDouble(questionMarkIdx++,Double.parseDouble(sFindUnitPriceMin));
+		if(sFindUnitPriceMax.length() > 0)     ps.setDouble(questionMarkIdx++,Double.parseDouble(sFindUnitPriceMax));
+		if(sFindPackageUnits.length() > 0)     ps.setInt(questionMarkIdx++,Integer.parseInt(sFindPackageUnits));
+		if(sFindMinOrderPackages.length() > 0) ps.setInt(questionMarkIdx++,Integer.parseInt(sFindMinOrderPackages));
+		if(sFindProductGroup.length() > 0)     ps.setString(questionMarkIdx++,sFindProductGroup);
+		if(sFindProductSubGroup.length() > 0)     ps.setString(questionMarkIdx++,sFindProductSubGroup+"%");
+		
+		// execute
+		rs = ps.executeQuery();
+		
+		while(rs.next()){
+		foundObjects.add(get(rs.getString("OC_PRODUCT_SERVERID")+"."+rs.getString("OC_PRODUCT_OBJECTID")));
+		}
+		}
+		catch(Exception e){
+		e.printStackTrace();
+		}
+		finally{
+		try{
+		if(rs!=null) rs.close();
+		if(ps!=null) ps.close();
+		oc_conn.close();
+		}
+		catch(SQLException se){
+		se.printStackTrace();
+		}
+		}
+		
+		return foundObjects;
+		}
     public static boolean isInStock(String sProductUID,String sServiceUID){
     	boolean isInStock = false;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();

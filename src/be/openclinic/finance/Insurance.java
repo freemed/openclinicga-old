@@ -36,8 +36,17 @@ public class Insurance extends OC_Object {
     private int patientShare;
     private String extraInsurarUid;
     private String extraInsurarUid2;
+    private int defaultInsurance;
 
-    public String getExtraInsurarUid() {
+    public int getDefaultInsurance() {
+		return defaultInsurance;
+	}
+
+	public void setDefaultInsurance(int defaultInsurance) {
+		this.defaultInsurance = defaultInsurance;
+	}
+
+	public String getExtraInsurarUid() {
 		return extraInsurarUid;
 	}
 
@@ -305,6 +314,13 @@ public class Insurance extends OC_Object {
 
                         insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
                         insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
+                        insurance.setDefaultInsurance(rs.getInt("OC_INSURANCE_DEFAULT"));
+                        try{
+                        	insurance.setPatientShare(Integer.parseInt(insurance.getInsuranceCategory().getPatientShare()));
+                        }
+                        catch(Exception e1){
+                        	e1.printStackTrace();
+                        }
                     }
                 }catch(Exception e){
                     Debug.println("OpenClinic => Insurance.java => get => "+e.getMessage());
@@ -372,7 +388,8 @@ public class Insurance extends OC_Object {
                                 " OC_INSURANCE_STATUS," +
                                 " OC_INSURANCE_MEMBER," +
                                 " OC_INSURANCE_EXTRAINSURARUID," +
-                                " OC_INSURANCE_EXTRAINSURARUID2" +
+                                " OC_INSURANCE_EXTRAINSURARUID2," +
+                                " OC_INSURANCE_DEFAULT" +
                                 ")" +
 
                               " SELECT OC_INSURANCE_SERVERID," +
@@ -394,7 +411,8 @@ public class Insurance extends OC_Object {
                                      " OC_INSURANCE_STATUS," +
                                      " OC_INSURANCE_MEMBER," +
                                      " OC_INSURANCE_EXTRAINSURARUID," +
-                                     " OC_INSURANCE_EXTRAINSURARUID2" +
+                                     " OC_INSURANCE_EXTRAINSURARUID2," +
+                                     " OC_INSURANCE_DEFAULT" +
                               " FROM OC_INSURANCES " +
                               " WHERE OC_INSURANCE_SERVERID = ?" +
                               " AND OC_INSURANCE_OBJECTID = ?";
@@ -439,9 +457,10 @@ public class Insurance extends OC_Object {
                                       " OC_INSURANCE_STATUS," +
                                       " OC_INSURANCE_MEMBER," +
                                       " OC_INSURANCE_EXTRAINSURARUID," +
-                                      " OC_INSURANCE_EXTRAINSURARUID2" +
+                                      " OC_INSURANCE_EXTRAINSURARUID2," +
+                                      " OC_INSURANCE_DEFAULT" +
                                       ") " +
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1,Integer.parseInt(ids[0]));
@@ -470,6 +489,7 @@ public class Insurance extends OC_Object {
                 ps.setString(18,this.getMember());
                 ps.setString(19,this.getExtraInsurarUid());
                 ps.setString(20,this.getExtraInsurarUid2());
+                ps.setInt(21, this.getDefaultInsurance());
                 ps.executeUpdate();
                 ps.close();
                 this.setUid(ids[0] + "." + ids[1]);
@@ -552,6 +572,7 @@ public class Insurance extends OC_Object {
 
                 insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
                 insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
+                insurance.setDefaultInsurance(rs.getInt("OC_INSURANCE_DEFAULT"));
 
                 vInsurance.addElement(insurance);
             }
@@ -662,6 +683,7 @@ public class Insurance extends OC_Object {
 
                 insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
                 insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
+                insurance.setDefaultInsurance(rs.getInt("OC_INSURANCE_DEFAULT"));
 
                 vInsurances.addElement(insurance);
             }
@@ -718,12 +740,28 @@ public class Insurance extends OC_Object {
         return patientsPerCategory;
     }
 
+    public static Insurance getDefaultInsuranceForPatient(String sPatientUID){
+    	Vector insurances = Insurance.selectInsurances(sPatientUID, "");
+    	for(int n=0;n<insurances.size();n++){
+    		Insurance insurance = (Insurance)insurances.elementAt(n);
+    		if(insurance.getDefaultInsurance()==1){
+    			return insurance;
+    		}
+    	}
+    	return null;
+    }
+    
     //--- GET MOST INTERSTING INSURANCE FOR PATIENT -----------------------------------------------
     // active insurance for specified patient, with lowest patientshare
     public static Insurance getMostInterestingInsuranceForPatient(String sPatientUID){
-        PreparedStatement ps = null;
+    	
+    	PreparedStatement ps = null;
         ResultSet rs = null;
-        Insurance insurance = null;
+        Insurance insurance = getDefaultInsuranceForPatient(sPatientUID);
+        if(insurance!=null){
+        	insurance.setPatientShare(Integer.parseInt(insurance.getInsuranceCategory().getPatientShare()));
+        	return insurance;
+        }
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -763,6 +801,7 @@ public class Insurance extends OC_Object {
                 insurance.setPatientShare(rs.getInt("OC_INSURANCECATEGORY_PATIENTSHARE"));
                 insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
                 insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
+                insurance.setDefaultInsurance(rs.getInt("OC_INSURANCE_DEFAULT"));
                 
                 if(insurance.isAuthorized()){
                 	break;
@@ -834,6 +873,7 @@ public class Insurance extends OC_Object {
                 insurance.setPatientShare(rs.getInt("OC_INSURANCECATEGORY_PATIENTSHARE"));
                 insurance.setExtraInsurarUid(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID")));
                 insurance.setExtraInsurarUid2(ScreenHelper.checkString(rs.getString("OC_INSURANCE_EXTRAINSURARUID2")));
+                insurance.setDefaultInsurance(rs.getInt("OC_INSURANCE_DEFAULT"));
                 if(insurance.isAuthorized()){
                 	break;
                 }

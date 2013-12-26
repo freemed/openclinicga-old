@@ -29,17 +29,25 @@ public class PDFFooter extends PdfPageEventHelper {
 	}
 	
     //--- ON END PAGE -----------------------------------------------------------------------------
-    // add "duplicata" in background of each page of the PDF document.
-    //---------------------------------------------------------------------------------------------
     public void onEndPage (PdfWriter writer, Document document) {
     	pagecount++;
         Rectangle rect = document.getPageSize();
-        ColumnText.showTextAligned(writer.getDirectContent(),
-                Element.ALIGN_CENTER, new Phrase(sFooterText,FontFactory.getFont(FontFactory.HELVETICA,6)),
-                (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() + 26, 0);
-        ColumnText.showTextAligned(writer.getDirectContent(),
-                Element.ALIGN_CENTER, new Phrase(pagecount+"",FontFactory.getFont(FontFactory.HELVETICA,6)),
-                (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() + 18, 0);
+        if(MedwanQuery.getInstance().getConfigInt("patientinvoicefootertop",0)==1){
+	        ColumnText.showTextAligned(writer.getDirectContent(),
+	                Element.ALIGN_CENTER, new Phrase(sFooterText,FontFactory.getFont(FontFactory.HELVETICA,6)),
+	                (rect.getLeft() + rect.getRight()) / 2, rect.getTop() - 26, 0);
+	        ColumnText.showTextAligned(writer.getDirectContent(),
+	                Element.ALIGN_CENTER, new Phrase(pagecount+"",FontFactory.getFont(FontFactory.HELVETICA,6)),
+	                (rect.getLeft() + rect.getRight()) / 2, rect.getTop() - 18, 0);
+        }
+        else{
+	        ColumnText.showTextAligned(writer.getDirectContent(),
+	                Element.ALIGN_CENTER, new Phrase(sFooterText,FontFactory.getFont(FontFactory.HELVETICA,6)),
+	                (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() + 26, 0);
+	        ColumnText.showTextAligned(writer.getDirectContent(),
+	                Element.ALIGN_CENTER, new Phrase(pagecount+"",FontFactory.getFont(FontFactory.HELVETICA,6)),
+	                (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() + 18, 0);
+        }
     }
 
 }
