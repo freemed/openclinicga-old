@@ -15,6 +15,7 @@
     String sEditInsurarReferenceDate = checkString(request.getParameter("EditInsurarReferenceDate"));
     String sEditReduction = checkString(request.getParameter("EditReduction"));
     String sEditComment = checkString(request.getParameter("EditComment"));
+    String acceptationuid = checkString(request.getParameter("EditAcceptationUid"));
 	
     PatientInvoice patientinvoice = new PatientInvoice();
     AdminPerson invoicePatient=activePatient;
@@ -49,7 +50,6 @@
     patientinvoice.setCredits(new Vector());
     double dTotalCredits = 0;
     double dTotalDebets = 0;
-	String acceptationuid="";
     if (sEditCBs.length() > 0) {
         String[] aCBs = sEditCBs.split(",");
         String sID;
@@ -73,10 +73,6 @@
 
                     if (debet != null) {
                         dTotalDebets += debet.getAmount();
-                    }
-                    if(acceptationuid.length()==0 && debet.getInsurance()!=null && MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+debet.getInsurance().getInsurarUid()+"*")>-1 && activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").equalsIgnoreCase(debet.getInsurance().getInsurarUid())){
-						//This is a user agent which can accept debets on the invoice
-						acceptationuid=activeUser.userid;
                     }
                 } else if (checkString(aCBs[i]).startsWith("cbPatientInvoice")) {
                     sID = aCBs[i].substring(16);

@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.text.*" %>
+<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.text.*,be.mxs.common.util.system.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.patientinvoice","edit",activeUser)%>
@@ -50,13 +50,19 @@
 		//This is an insurance agent, limit the functionalities
 		isInsuranceAgent=true;
 	}
-
+	
+	String sExternalSignatureCode= checkString(request.getParameter("externalsignaturecode"));
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
-	PatientInvoice patientInvoice;
+	PatientInvoice patientInvoice=null;
     String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", sInsurarReferenceDate="", sVerifier="",sEditComment="";
 
     if (sFindPatientInvoiceUID.length() > 0) {
-        patientInvoice = PatientInvoice.getViaInvoiceUID(sFindPatientInvoiceUID);
+    	if(sFindPatientInvoiceUID.split("\\.").length==2){
+    		patientInvoice=patientInvoice.get(sFindPatientInvoiceUID);
+    	}
+    	else {
+    		patientInvoice = PatientInvoice.getViaInvoiceUID(sFindPatientInvoiceUID);
+    	}
         if (patientInvoice!=null && patientInvoice.getDate()!=null){
             sPatientInvoiceID = checkString(patientInvoice.getInvoiceUid());
             sPatientId = patientInvoice.getPatientUid();
@@ -135,7 +141,9 @@
 	                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPatientInvoice();">
 	                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear()">
 	                <input type="button" class="button" name="ButtonFind" value="<%=getTran("web","find",sWebLanguage)%>" onclick="doFind()">
+	                <% if(!isInsuranceAgent){ %>
 	                <input type="button" class="button" name="ButtonNew" value="<%=getTran("web","new",sWebLanguage)%>" onclick="doNew()">
+	                <% } %>
 	            </td>
 	        </tr>
 	    </table>
@@ -207,18 +215,33 @@
 	        </tr>
 	        <%	
 	        	}
+	        	if(patientInvoice!=null){
+	        		String signatures="";
+	        		Vector pointers=Pointer.getPointers("INVSIGN."+patientInvoice.getUid());
+	        		for(int n=0;n<pointers.size();n++){
+	        			if(n>0){
+	        				signatures+=", ";
+	        			}
+	        			signatures+=(String)pointers.elementAt(n);
+	        		}
+	        		if(signatures.length()>0){
+		    	        %>
+		    	        <tr>
+		    	        	<td class='admin'/><td class='admin2'/>
+		    	            <td class="admin" nowrap><%=getTran("web.finance","signed.by",sWebLanguage)%></td>
+		    	            <td class="admin2">
+		    	                <%=signatures %>
+		    	            </td>
+		    	        </tr>
+		    	        <%
+	        		}
+	        	}
 	        %>
 	        <tr>
 	            <td class='admin' nowrap><%=getTran("Web","date",sWebLanguage)%> *</td>
 	            <td class='admin2'><%=writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(patientInvoice.getDate()),sWebLanguage)%></td>
 	            <td class='admin' nowrap><%=getTran("Web.finance","patientinvoice.status",sWebLanguage)%> *</td>
 	            <td class='admin2'>
-	                <%
-					if(isInsuranceAgent){
-						out.println("<input type='hidden' id='invoiceStatus' name='EditStatus' value='"+patientInvoice.getStatus()+"'/>"+getTran("finance.patientinvoice.status",checkString(patientInvoice.getStatus()),sWebLanguage));
-					}
-					else {
-	                %>
 	                <select id="invoiceStatus" class="text" name="EditStatus" onchange="doStatus()"  <%=patientInvoice.getStatus().equalsIgnoreCase("closed") || patientInvoice.getStatus().equalsIgnoreCase("canceled")?"disabled":""%>>
 	                    <%
 	
@@ -230,9 +253,6 @@
 	                        }
 	                    %>
 	                </select>
-	                <%
-					}
-	                %>
 	            </td>
 	        </tr>
 	        <tr>
@@ -364,7 +384,7 @@
 	            <td class="admin"/>
 	            <td class="admin2" colspan='3'>
 	                <%
-	                if (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed")||checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
+	                if (!(isInsuranceAgent || checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed")||checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
 	                %>
 	                <input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave(this);">&nbsp;
 	                <%
@@ -454,6 +474,16 @@
                                	<input class="button" type="button" name="buttonPayment" value='<%=getTranNoLink("Web.finance","payment",sWebLanguage)%>' onclick="doPayment('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                            }
+	                        if(isInsuranceAgent && checkString(patientInvoice.getUid()).split("\\.").length==2 && checkString(patientInvoice.getAcceptationUid()).length()==0){
+	                        %>
+                               	<input class="button" type="button" name="buttonAcceptation" value='<%=getTranNoLink("Web.finance","validation",sWebLanguage)%>' onclick="doValidate('<%=patientInvoice.getUid()%>');">
+	                        <%
+	                        }
+	                        if(!isInsuranceAgent && activeUser.getAccessRight("occup.signinvoices.select")){
+		                        %>
+                               	<input class="button" type="button" name="buttonSignature" value='<%=getTranNoLink("Web.finance","signature",sWebLanguage)%>' onclick="doSign('<%=patientInvoice.getUid()%>');">
+	                        <%
+	                        }
 	                        %>
 	                    <%
 	                }
@@ -466,6 +496,49 @@
 	    <input type='hidden' id="EditPatientInvoiceUID" name='EditPatientInvoiceUID' value='<%=checkString(patientInvoice.getUid())%>'>
 	</form>
 	<script type="text/javascript">
+	
+		function doValidate(invoiceuid){
+	        var today = new Date();
+	        var url= '<c:url value="/financial/patientInvoiceValidate.jsp"/>?ts='+today;
+	        new Ajax.Request(url,{
+	              method: "POST",
+	              postBody: 'EditInvoiceUID=' + invoiceuid,
+	              onSuccess: function(resp){
+	                  $('FindPatientInvoiceUID').value=invoiceuid;
+	            	  doFind();
+	              },
+	              onFailure: function(){
+	                  $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
+	              }
+	          }
+	        );
+		}
+	
+		function doSign(invoiceuid){
+	        var today = new Date();
+	        var url= '<c:url value="/financial/patientInvoiceSign.jsp"/>?ts='+today;
+	        new Ajax.Request(url,{
+	              method: "POST",
+	              postBody: 'EditInvoiceUID=' + invoiceuid,
+	              onSuccess: function(resp){
+	                  $('FindPatientInvoiceUID').value=invoiceuid;
+	            	  doFind();
+	            	  <%=sExternalSignatureCode%>
+	            	  <%
+	            	  	if(sExternalSignatureCode.length()>0){
+	            	  %>
+	            	  		window.close();
+	            	  <%
+	            	  	}
+	            	  %>
+	              },
+	              onFailure: function(){
+	                  $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
+	              }
+	          }
+	        );
+		}
+	
 	    function doSave(){
 	        var bInvoiceSeries=false;
 	        var sInvoiceSeries="";

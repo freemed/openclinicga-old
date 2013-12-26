@@ -118,6 +118,11 @@
             // alternate row-style
             if(sClass.equals("")) sClass = "1";
             else                  sClass = "";
+            
+            String sModify="";
+            if(credit.getUserUID()!=Integer.parseInt(credit.getUpdateUser())){
+            	sModify=" ! "+getTran("web","modified.by",sWebLanguage)+" "+ScreenHelper.getFullUserName(credit.getUpdateUser())+" "+getTran("web","on",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(credit.getUpdateDateTime());
+            }
 
             sCreditsHtml.append("<tr class='list"+sClass+"'>")
                     .append("<td>"+stdDateFormat.format(credit.getOperationDate())+"</td>")
@@ -125,7 +130,7 @@
                          .append("<td style='text-align:right;'>"+priceFormat.format(credit.getAmount())+"&nbsp;&nbsp;</td>")
                          .append("<td>"+getTranNoLink("credit.type",credit.getOperationType(),sWebLanguage)+"</td>")
                          .append("<td>"+ScreenHelper.getFullUserName(Integer.toString(credit.getUserUID()))+"</td>")
-                         .append("<td>"+credit.getComment()+"</td>")
+                         .append("<td>"+credit.getComment()+sModify+"</td>")
                         .append("</tr>");
 
             dCreditsTotal+= credit.getAmount();

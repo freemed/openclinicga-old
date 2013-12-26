@@ -19,6 +19,9 @@
         if(sPrintModel.equalsIgnoreCase("mfp")){
         	pdfGenerator = new PDFExtraInsurarInvoiceGeneratorMFP2(activeUser,sProject,sPrintLanguage,sPrintType);
         }
+        else if(sPrintModel.equalsIgnoreCase("hmk")){
+        	pdfGenerator = new PDFExtraInsurarInvoiceGeneratorHMK2(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
         else {
         	pdfGenerator = new PDFExtraInsurarInvoiceGenerator2(activeUser,sProject,sPrintLanguage,sPrintType);
         }

@@ -98,7 +98,7 @@ System.out.println(0);
     <table class='list' border='0' width='100%' cellspacing='1'>
         <tr>
             <td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("Web","date",sWebLanguage)%> *</td>
-            <td class='admin2'><%=ScreenHelper.writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(debet.getDate()),true,false,sWebLanguage,sCONTEXTPATH,"changeInsurance();")%></td>
+            <td class='admin2'><%=ScreenHelper.writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(debet.getDate()),true,false,sWebLanguage,sCONTEXTPATH,"")%></td>
         </tr>
         <tr>
             <td class='admin'><%=getTran("Web","insurance",sWebLanguage)%> *</td>
@@ -155,7 +155,7 @@ System.out.println(0);
 	                                        }
 	                                    }
 	
-	                                    out.print("/>"+insurance.getInsurar().getName()+"</option>");
+	                                    out.print("/>"+insurance.getInsurar().getName()+" ("+insurance.getInsuranceCategory().getCategory()+": "+insurance.getInsuranceCategory().getPatientShare()+"/"+(100-Integer.parseInt(insurance.getInsuranceCategory().getPatientShare()))+")</option>");
 	                                }
 	                            }
 							}
@@ -212,6 +212,7 @@ System.out.println(0);
             <td class='admin2'>
                 <input type="hidden" name="tmpPrestationUID">
                 <input type="hidden" name="tmpPrestationName">
+                <input type="hidden" name="tmpPrestationPrice"/>
                 <input type="hidden" name="EditPrestationUID" value="<%=debet.getPrestationUid()%>">
 
                 <select class="text" name="EditPrestationName" id="EditPrestationName" onchange="document.getElementById('EditPrestationGroup').value='';changePrestation(false)">
@@ -463,55 +464,108 @@ System.out.println(0);
         EditForm.EditPrestationUID.value = EditForm.EditPrestationName.value;
 	}
 	
-	function changePrestation(bFirst){
-	  $('prestationids').value='';
-      if (EditForm.EditPrestationName.value.length==0 && EditForm.EditPrestationGroup.value.length==0){
-          EditForm.EditPrestationName.style.backgroundColor='#D1B589';
-          document.getElementById('prestationcontent').innerHTML='';
-      }
-      else {
-          EditForm.EditPrestationName.style.backgroundColor='white';
-          if (!bFirst){
-              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
-              var today = new Date();
-              var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
-              new Ajax.Request(url,{
-                      method: "POST",
-                      postBody: 'PrestationUID=' + EditForm.EditPrestationName.value +
-	 	 	              '&EditDebetUID=' + EditForm.EditDebetUID.value+
-	                      '&PrestationGroupUID=' + EditForm.EditPrestationGroup.value+
-	                      '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
-	       	              '&EditDate=' + EditForm.EditDate.value+
-	                      '&CoverageInsurance=' + EditForm.coverageinsurance.value+
-		                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
-		                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
-	                      <%
-				               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
-		        	       %>
-		                      '&CoverageInsurance2=' + EditForm.coverageinsurance2.value+
-		                  <%
-				               	}
-		                  %>
-	                      '&EditQuantity=' + EditForm.EditQuantity.value,
-                      onSuccess: function(resp){
-                          $('divMessage').innerHTML = "";
-                          var label = eval('('+resp.responseText+')');
-                          $('EditAmount').value=label.EditAmount*EditForm.EditQuantity.value;
-                          $('EditInsurarAmount').value=label.EditInsurarAmount;
-                          document.getElementById('prestationcontent').innerHTML=label.PrestationContent;
-		                  $('EditQuantity').style.visibility='visible';
-                          findPerformer();
-                      },
-                      onFailure: function(){
-                          $('divMessage').innerHTML = "Error in function changePrestation() => AJAX";
-                      }
-                  }
-              );
-          }
-      }
 
-      EditForm.EditPrestationUID.value = EditForm.EditPrestationName.value;
-}
+
+	function changePrestation(bFirst){
+		  $('prestationids').value='';
+	      if (EditForm.EditPrestationName.value.length==0 && EditForm.EditPrestationGroup.value.length==0){
+	          EditForm.EditPrestationName.style.backgroundColor='#D1B589';
+	          document.getElementById('prestationcontent').innerHTML='';
+	      }
+	      else {
+	          EditForm.EditPrestationName.style.backgroundColor='white';
+	          if (!bFirst){
+	              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
+	              var today = new Date();
+	              var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
+	              new Ajax.Request(url,{
+	                      method: "POST",
+	                      postBody: 'PrestationUID=' + EditForm.EditPrestationName.value +
+		 	 	              '&EditDebetUID=' + EditForm.EditDebetUID.value+
+		                      '&PrestationGroupUID=' + EditForm.EditPrestationGroup.value+
+		                      '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
+		       	              '&EditDate=' + EditForm.EditDate.value+
+		                      '&CoverageInsurance=' + EditForm.coverageinsurance.value+
+			                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
+			                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
+		                      <%
+					               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
+			        	       %>
+			                      '&CoverageInsurance2=' + EditForm.coverageinsurance2.value+
+			                  <%
+					               	}
+			                  %>
+		                      '&EditQuantity=' + EditForm.EditQuantity.value,
+	                      onSuccess: function(resp){
+	                          $('divMessage').innerHTML = "";
+	                          var label = eval('('+resp.responseText+')');
+	                          $('EditAmount').value=label.EditAmount*EditForm.EditQuantity.value;
+	                          $('EditInsurarAmount').value=label.EditInsurarAmount;
+	                          document.getElementById('prestationcontent').innerHTML=label.PrestationContent;
+			                  $('EditQuantity').style.visibility='visible';
+	                          findPerformer();
+	                      },
+	                      onFailure: function(){
+	                          $('divMessage').innerHTML = "Error in function changePrestation() => AJAX";
+	                      }
+	                  }
+	              );
+	          }
+	      }
+
+	      EditForm.EditPrestationUID.value = EditForm.EditPrestationName.value;
+	}
+
+	function changePrestationVariable(bFirst){
+		  $('prestationids').value='';
+	      if (EditForm.EditPrestationName.value.length==0 && EditForm.EditPrestationGroup.value.length==0){
+	          EditForm.EditPrestationName.style.backgroundColor='#D1B589';
+	          document.getElementById('prestationcontent').innerHTML='';
+	      }
+	      else {
+	          EditForm.EditPrestationName.style.backgroundColor='white';
+	          if (!bFirst){
+	              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
+	              var today = new Date();
+	              var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
+	              new Ajax.Request(url,{
+	                      method: "POST",
+	                      postBody: 'PrestationUID=' + EditForm.EditPrestationName.value +
+		                      '&EditPrice=' + EditForm.tmpPrestationPrice.value+
+		 	 	              '&EditDebetUID=' + EditForm.EditDebetUID.value+
+		                      '&PrestationGroupUID=' + EditForm.EditPrestationGroup.value+
+		                      '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
+		       	              '&EditDate=' + EditForm.EditDate.value+
+		                      '&CoverageInsurance=' + EditForm.coverageinsurance.value+
+			                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
+			                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
+		                      <%
+					               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
+			        	       %>
+			                      '&CoverageInsurance2=' + EditForm.coverageinsurance2.value+
+			                  <%
+					               	}
+			                  %>
+		                      '&EditQuantity=' + EditForm.EditQuantity.value,
+	                      onSuccess: function(resp){
+	                          $('divMessage').innerHTML = "";
+	                          var label = eval('('+resp.responseText+')');
+	                          $('EditAmount').value=label.EditAmount*EditForm.EditQuantity.value;
+	                          $('EditInsurarAmount').value=label.EditInsurarAmount;
+	                          document.getElementById('prestationcontent').innerHTML=label.PrestationContent;
+			                  $('EditQuantity').style.visibility='visible';
+	                          findPerformer();
+	                      },
+	                      onFailure: function(){
+	                          $('divMessage').innerHTML = "Error in function changePrestation() => AJAX";
+	                      }
+	                  }
+	              );
+	          }
+	      }
+
+	      EditForm.EditPrestationUID.value = EditForm.EditPrestationName.value;
+	}
 
   function changeInsurance(){
       if (EditForm.EditInsuranceUID.selectedIndex > 0){
@@ -659,7 +713,7 @@ System.out.println(0);
     	document.getElementById('EditPrestationGroup').value='';
         EditForm.tmpPrestationName.value = "";
         EditForm.tmpPrestationUID.value = "";
-        openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldUid=tmpPrestationUID&ReturnFieldDescr=tmpPrestationName&doFunction=changeTmpPrestation()");
+        openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldUid=tmpPrestationUID&ReturnFieldDescr=tmpPrestationName&ReturnFieldPrice=tmpPrestationPrice&doFunction=changeTmpPrestation()&doFunctionVariable=changeTmpPrestationVariable()");
     }
 
     function doCredit(){
@@ -676,6 +730,17 @@ System.out.println(0);
             EditForm.EditPrestationName.options[EditForm.EditPrestationName.options.length-1].value = EditForm.tmpPrestationUID.value;
             EditForm.EditPrestationName.options[EditForm.EditPrestationName.options.length-1].selected = true;
             changePrestation(false);
+            findPerformer();
+        }
+    }
+
+    function changeTmpPrestationVariable(){
+        if (EditForm.tmpPrestationUID.value.length>0){
+            EditForm.EditPrestationUID.value = EditForm.tmpPrestationUID.value;
+            EditForm.EditPrestationName.options[EditForm.EditPrestationName.options.length-1].text = EditForm.tmpPrestationName.value;
+            EditForm.EditPrestationName.options[EditForm.EditPrestationName.options.length-1].value = EditForm.tmpPrestationUID.value;
+            EditForm.EditPrestationName.options[EditForm.EditPrestationName.options.length-1].selected = true;
+            changePrestationVariable(false);
             findPerformer();
         }
     }

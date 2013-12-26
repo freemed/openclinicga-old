@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.Debet,be.openclinic.adt.Encounter,java.util.*,be.openclinic.finance.Prestation,be.mxs.common.util.system.HTMLEntities,be.openclinic.finance.InsurarInvoice" %>
+<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.util.*,be.mxs.common.util.system.HTMLEntities" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="be.openclinic.finance.ExtraInsurarInvoice2" %>
 <%@page errorPage="/includes/error.jsp"%>
@@ -273,7 +273,14 @@
             end = new java.util.Date(end.getTime()+(24*3600*1000)-1);
         }
         catch(Exception e){}
-        Vector vUnassignedDebets = Debet.getUnassignedExtraInsurarDebets2(sInsurarUid,begin,end);
+        Vector vUnassignedDebets=new Vector();
+		Insurar insurar = Insurar.get(sInsurarUid);
+        if(insurar!=null && insurar.getRequireValidation()==1){
+        	vUnassignedDebets = Debet.getUnassignedValidatedAndSignedExtraInsurarDebets2(sInsurarUid,begin,end);
+        }
+        else {
+        	vUnassignedDebets = Debet.getUnassignedExtraInsurarDebets2(sInsurarUid,begin,end);
+        }
         out.print(addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,begin,end,sServiceUid));
     }
     else {

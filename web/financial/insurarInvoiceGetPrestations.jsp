@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.finance.Debet,be.openclinic.adt.Encounter,java.util.*,be.openclinic.finance.Prestation,be.mxs.common.util.system.HTMLEntities,be.openclinic.finance.InsurarInvoice" %>
+<%@ page import="be.openclinic.adt.Encounter,java.util.*,be.openclinic.finance.*,be.mxs.common.util.system.HTMLEntities" %>
 <%@ page import="java.util.Date,java.text.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
@@ -280,7 +280,13 @@
             end = new java.util.Date(end.getTime()+(24*3600*1000)-1);
         }
         catch(Exception e){}
-        vUnassignedDebets = Debet.getUnassignedInsurarDebets(sInsurarUid,begin,end,MedwanQuery.getInstance().getConfigInt("maximumUnassignedInsurerDebets",30000));
+		Insurar insurar = Insurar.get(sInsurarUid);
+        if(insurar!=null && insurar.getRequireValidation()==1){
+        	vUnassignedDebets = Debet.getUnassignedValidatedAndSignedInsurarDebets(sInsurarUid,begin,end,MedwanQuery.getInstance().getConfigInt("maximumUnassignedInsurerDebets",30000));
+        }
+        else {
+            vUnassignedDebets = Debet.getUnassignedInsurarDebets(sInsurarUid,begin,end,MedwanQuery.getInstance().getConfigInt("maximumUnassignedInsurerDebets",30000));
+        }
         if(vUnassignedDebets.size()>=MedwanQuery.getInstance().getConfigInt("maximumUnassignedInsurerDebets",30000)){
         	//The limit has been reached. Warn the user
         	sWarning = getTranNoLink("web","warn.maximum.unassignedinsurerdebets.reached",sWebLanguage);

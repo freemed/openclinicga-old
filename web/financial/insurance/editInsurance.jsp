@@ -20,6 +20,9 @@
     	else if("<%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","$$").replaceAll("\\*","")%>"==document.getElementById('EditInsurarUID').value && document.getElementById('EditInsuranceStatus').value==''){
     		alert("<%=getTranNoLink("web","insurancestatus.mandatory",sWebLanguage)%>");
     	}
+    	else if(EditInsuranceForm.EditInsuranceStart && EditInsuranceForm.EditInsuranceStart.value.length<8){
+    		alert("<%=getTranNoLink("web","insurancedatestart.mandatory",sWebLanguage)%>");
+    	}
     	else {
             EditInsuranceForm.EditSaveButton.disabled = true;
             EditInsuranceForm.Action.value = "SAVE";
@@ -54,7 +57,10 @@
     String sEditInsuranceCategory = "";
     String sEditInsuranceInsurarName = "";
     String sEditInsuranceComment = checkString(request.getParameter("EditInsuranceComment"));
-
+    String sEditInsuranceDefault = checkString(request.getParameter("EditInsuranceDefault"));
+	if(sEditInsuranceDefault.length()==0){
+		sEditInsuranceDefault="0";
+	}
 	boolean bCanSave=true;
     if (sAction.equals("SAVE")) {
         if(sEditInsurarUID.length()!=0){
@@ -95,7 +101,20 @@
 	        insurance.setInsurarUid(sEditInsurarUID);
 	        insurance.setExtraInsurarUid(sEditExtraInsurarUID);
 	        insurance.setExtraInsurarUid2(sEditExtraInsurarUID2);
+	        insurance.setDefaultInsurance(Integer.parseInt(sEditInsuranceDefault));
 	        insurance.store();
+	        if(insurance.getDefaultInsurance()==1){
+	        	//Cancel defaults for other insurances of this patient
+	        	Vector insurances = Insurance.selectInsurances(activePatient.personid,"");
+	        	for(int n=0;n<insurances.size();n++){
+	        		Insurance ins = (Insurance)insurances.elementAt(n);
+	        		if(!ins.getUid().equals(insurance.getUid())){
+	        			ins.setDefaultInsurance(0);
+	        			ins.store();
+	        		}
+	        	}
+	        			
+	        }
 	        if(sEditAuthorization.length()>0){
 	        	Pointer.storePointer("AUTH."+sEditInsurarUID+"."+activePatient.personid+"."+new SimpleDateFormat("yyyyMM").format(new java.util.Date()), new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date(new java.util.Date().getTime()+24*3600*1000))+";"+activeUser.userid);
 	        }
@@ -133,6 +152,7 @@
             sEditInsuranceInsurarName = insuranceCategory.getInsurar().getName();
             sEditInsuranceCategory = insuranceCategory.getCategory()+": "+insuranceCategory.getLabel();
         }
+        sEditInsuranceDefault=insurance.getDefaultInsurance()+"";
     }
     else if (sEditInsurarUID.length()>0 && sEditInsuranceCategoryLetter.length()>0){
         InsuranceCategory insuranceCategory = InsuranceCategory.get(sEditInsurarUID,sEditInsuranceCategoryLetter);
@@ -259,6 +279,14 @@
         <%-- start --%>
         <tr>
             <td class="admin">
+                <%=getTran("web","default.insurance",sWebLanguage)%>
+            </td>
+            <td class="admin2">
+				<input type='checkbox' name='EditInsuranceDefault' id='EditInsuranceDefault' value='1' <%=sEditInsuranceDefault.equalsIgnoreCase("1")?"checked":"" %>/>
+            </td>
+        </tr>
+        <tr>
+            <td class="admin">
                 <%=getTran("web","start",sWebLanguage)%>
             </td>
             <td class="admin2">
@@ -267,7 +295,7 @@
                 		out.println(writeDateField("EditInsuranceStart","EditInsuranceForm",sEditInsuranceStart,sWebLanguage));
                 	}
                 	else {
-                		out.println(sEditInsuranceStart);
+                		out.println(sEditInsuranceStart+"<input type='hidden' name='EditInsuranceStart' id='EditInsuranceStart' value='"+sEditInsuranceStart+"'/>");
                 	}
                 %>
             </td>

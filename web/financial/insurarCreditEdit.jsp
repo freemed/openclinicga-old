@@ -329,7 +329,7 @@
     if(EditForm.EditCreditDate.value.length > 0 &&
        EditForm.EditCreditInsurarUid.value.length > 0 &&
        EditForm.EditCreditInsurarName.value.length > 0 &&
-       EditForm.EditCreditInvoiceUid.value.length > 0 &&
+       
        EditForm.EditCreditAmount.value.length > 0 &&
        EditForm.EditCreditType.value.length > 0){
        EditForm.Action.value = "save";

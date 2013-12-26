@@ -1,7 +1,7 @@
 <%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.text.*" %>
 <%@ include file="/includes/validateUser.jsp" %>
 <%!
-    private String addDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked, java.util.Date begin, java.util.Date end,User activeUser){
+    private String addDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked, java.util.Date begin, java.util.Date end,User activeUser,PatientInvoice patientInvoice){
         StringBuffer sReturn = new StringBuffer();
 
             if (vDebets!=null){
@@ -63,7 +63,8 @@
                         if(debet.getInsurance()!=null && debet.getInsurance().getInsurarUid()!=null){
                         	insuraruid=debet.getInsurance().getInsurarUid();
                         }
-                        if(MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insuraruid+"*")>-1 && (activeUser==null || activeUser.getParameter("insuranceagent")==null || !activeUser.getParameter("insuranceagent").equalsIgnoreCase(insuraruid))){
+                        //if(MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insuraruid+"*")>-1 && (activeUser==null || activeUser.getParameter("insuranceagent")==null || !activeUser.getParameter("insuranceagent").equalsIgnoreCase(insuraruid))){
+                        if(false){
 	                        sReturn.append( "<tr class='list"+sClass+"'>"
 		                            +"<td><input type='hidden' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' "+sChecked+" "+(sChecked.length()>0?" value='1'":"")+"/>"+(sChecked.length()>0?"<img src='"+sCONTEXTPATH+"/_img/checked.png'/>":"<img src='"+sCONTEXTPATH+"/_img/unchecked.png'/>")+"</td>"
 		                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
@@ -79,7 +80,9 @@
             			}
             			else {
 	                        sReturn.append( "<tr class='list"+sClass+"'>"
-		                            +"<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"
+		                            +((patientInvoice!=null && checkString(patientInvoice.getAcceptationUid()).length()>0) || (activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0)?
+	                        		("<td><input type='hidden' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' "+sChecked+" "+(sChecked.length()>0?" value='1'":"")+"/>"+(sChecked.length()>0?"<img src='"+sCONTEXTPATH+"/_img/checked.png'/>":"<img src='"+sCONTEXTPATH+"/_img/unchecked.png'/>")+"</td>"):
+		                            ("<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"))
 		                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
 		                            +"<td>"+(debet.getInsurance()==null || debet.getInsurance().getInsurar()==null?"":debet.getInsurance().getInsurar().getName())+"</td>"
 		                            +"<td>"+sEncounterName+"</td>"
@@ -115,6 +118,7 @@
 	}
 	catch(Exception e){
 	}
+
 	Vector vDebets = new Vector();
 	PatientInvoice patientInvoice=null;
 	if(sPatientInvoiceUid.length()>0){
@@ -123,17 +127,10 @@
 			vDebets = patientInvoice.getDebetStrings();
 		}
 	}
-	
+
  %>
 <table width="100%" class="list" cellspacing="2">
     <tr class="gray">
-		<%
-		if(false && activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0){
-		%>
-	        <td width="20"><%=getTran("web","authorizationabbreviation",sWebLanguage)%></td>
-	    <%
-	    }
-	    %>
         <td width="20"><%=getTran("web","invoiceabbreviation",sWebLanguage)%></td>
         <td width="80"><%=getTran("web","date",sWebLanguage)%></td>
         <td><%=getTran("web","insurar",sWebLanguage)%></td>
@@ -146,9 +143,14 @@
         <td><%=getTran("web","extrainsuranceinvoiceid2",sWebLanguage)%></td>
     </tr>
 <%
+	boolean isInsuranceAgent=false;
+	if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0 && MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+activeUser.getParameter("insuranceagent")+"*")>-1){
+		//This is an insurance agent, limit the functionalities
+		isInsuranceAgent=true;
+	}
     String sClass = "";
-    out.print(addDebets(vDebets,sClass,sWebLanguage, true,null,null,activeUser));
-    if (patientInvoice==null || (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed") || checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled")))){
+    out.print(addDebets(vDebets,sClass,sWebLanguage, true,null,null,activeUser,patientInvoice));
+    if (!isInsuranceAgent && (patientInvoice==null || checkString(patientInvoice.getAcceptationUid()).length()==0) && (patientInvoice==null || (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed") || checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))))){
         Vector vUnassignedDebets;
         if(sInvoiceService.length()==0){
         	vUnassignedDebets=Debet.getUnassignedPatientDebets(sPatientId);
@@ -156,9 +158,7 @@
         else {
         	vUnassignedDebets=Debet.getUnassignedPatientDebets(sPatientId,sInvoiceService);
         }
-		//if(activeUser.getParameter("insuranceagent")==null || activeUser.getParameter("insuranceagent").length()==0){
-	        out.print(addDebets(vUnassignedDebets,sClass,sWebLanguage, false,begin,end,activeUser));
-		//}
+        out.print(addDebets(vUnassignedDebets,sClass,sWebLanguage, false,begin,end,activeUser,patientInvoice));
     }
 %>
 </table>
