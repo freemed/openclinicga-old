@@ -1,6 +1,6 @@
 <%@page import="be.openclinic.adt.Encounter,
                 be.openclinic.adt.Bed,java.util.*,be.openclinic.finance.Prestation,be.openclinic.finance.Debet,be.openclinic.finance.Insurance,java.util.Date" %>
-<%@ page import="be.openclinic.medical.ReasonForEncounter" %>
+<%@ page import="be.openclinic.medical.ReasonForEncounter,be.mxs.common.util.system.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("adt.encounter","all",activeUser)%>
 <%!
@@ -27,6 +27,9 @@
     String sEditEncounterEnd = checkString(request.getParameter("EditEncounterEnd"));
     String sEditEncounterEndHour = checkString(request.getParameter("EditEncounterEndHour"));
     String sEditEncounterCategories = checkString(request.getParameter("EditEncounterCategories"));
+    if(sEditEncounterCategories.length()==0){
+    	sEditEncounterCategories=MedwanQuery.getInstance().getConfigString("defaultEncounterCategory","A");
+    }
 
     String sEditEncounterService = checkString(request.getParameter("EditEncounterService"));
     String sEditEncounterServiceName = checkString(request.getParameter("EditEncounterServiceName"));
@@ -51,6 +54,10 @@
     String sEditEncounterAccomodationPrestation = checkString(request.getParameter("EditEncounterAccomodationPrestation"));
     String sEditEncounterTransferDate = checkString(request.getParameter("EditEncounterTransferDate"));
     String sEditEncounterTransferHour = checkString(request.getParameter("EditEncounterTransferHour"));
+    String sEditEncounterAccidentRecordNumber = checkString(request.getParameter("EditEncounterAccidentRecordNumber"));
+    String sEditEncounterAccidentImmat = checkString(request.getParameter("EditEncounterAccidentImmat"));
+    String sEditEncounterAccidentInsurer = checkString(request.getParameter("EditEncounterAccidentInsurer"));
+    String sEditEncounterAccidentNumber = checkString(request.getParameter("EditEncounterAccidentNumber"));
     String sMaxTransferDate="";
 
     String sAction = checkString(request.getParameter("Action"));
@@ -237,6 +244,29 @@
             }
         }
 
+        //Accident de travail
+        if(sEditEncounterCategories.equalsIgnoreCase("C")){
+            Pointer.deletePointers("ENCOUNTER.ACCIDENT.IMMAT."+tmpEncounter.getUid());
+            if(sEditEncounterAccidentImmat.length()>0){
+            	Pointer.storePointer("ENCOUNTER.ACCIDENT.IMMAT."+tmpEncounter.getUid(), sEditEncounterAccidentImmat);
+            }
+            Pointer.deletePointers("ENCOUNTER.ACCIDENT.RECORDNUMBER."+tmpEncounter.getUid());
+            if(sEditEncounterAccidentRecordNumber.length()>0){
+            	Pointer.storePointer("ENCOUNTER.ACCIDENT.RECORDNUMBER."+tmpEncounter.getUid(), sEditEncounterAccidentRecordNumber);
+            }
+        }
+        //Accident de circulation
+        if(sEditEncounterCategories.equalsIgnoreCase("D")){
+            Pointer.deletePointers("ENCOUNTER.ACCIDENT.INSURER."+tmpEncounter.getUid());
+            if(sEditEncounterAccidentInsurer.length()>0){
+            	Pointer.storePointer("ENCOUNTER.ACCIDENT.INSURER."+tmpEncounter.getUid(), sEditEncounterAccidentInsurer);
+            }
+            Pointer.deletePointers("ENCOUNTER.ACCIDENT.NUMBER."+tmpEncounter.getUid());
+            if(sEditEncounterAccidentNumber.length()>0){
+            	Pointer.storePointer("ENCOUNTER.ACCIDENT.NUMBER."+tmpEncounter.getUid(), sEditEncounterAccidentNumber);
+            }
+        }
+
         sEditEncounterUID = checkString(tmpEncounter.getUid());
         if (sPopup.equalsIgnoreCase("yes")) {
 %>
@@ -317,6 +347,10 @@
             Debug.println(" BedUID: " + sEditEncounterBed);
             Debug.println(" BedName: " + sEditEncounterBedName);
         }
+        sEditEncounterAccidentNumber=Pointer.getPointer("ENCOUNTER.ACCIDENT.NUMBER."+tmpEncounter.getUid());
+        sEditEncounterAccidentRecordNumber=Pointer.getPointer("ENCOUNTER.ACCIDENT.RECORDNUMBER."+tmpEncounter.getUid());
+        sEditEncounterAccidentInsurer=Pointer.getPointer("ENCOUNTER.ACCIDENT.INSURER."+tmpEncounter.getUid());
+        sEditEncounterAccidentImmat=Pointer.getPointer("ENCOUNTER.ACCIDENT.IMMAT."+tmpEncounter.getUid());
     }
     else {
         sEditEncounterType = MedwanQuery.getInstance().getConfigString("defaultEncounterType","visit");
@@ -526,11 +560,34 @@
         <tr id="Destination" style="visibility: visible;">
             <td class="admin"><%=getTran("Web","category",sWebLanguage)%></td>
             <td class='admin2'>
-                <input type='radio' name='EditEncounterCategories' value='A' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("A")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.natural",sWebLanguage) %>&nbsp;
-                <input type='radio' name='EditEncounterCategories' value='B' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("B")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.professional",sWebLanguage) %>&nbsp;
-                <input type='radio' name='EditEncounterCategories' value='C' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("C")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.work",sWebLanguage) %>&nbsp;
-                <input type='radio' name='EditEncounterCategories' value='D' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("D")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.traffic",sWebLanguage) %>&nbsp;
-                <input type='radio' name='EditEncounterCategories' value='E' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("E")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.other",sWebLanguage) %>&nbsp;
+                <input type='radio' onchange='setcategoryfields()' name='EditEncounterCategories' value='A' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("A")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.natural",sWebLanguage) %>&nbsp;
+                <input type='radio' onchange='setcategoryfields()' name='EditEncounterCategories' value='B' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("B")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.professional",sWebLanguage) %>&nbsp;
+                <input type='radio' onchange='setcategoryfields()' id='EditEncounterCategoriesC' name='EditEncounterCategories' value='C' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("C")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.work",sWebLanguage) %>&nbsp;
+                <input type='radio' onchange='setcategoryfields()' id='EditEncounterCategoriesD' name='EditEncounterCategories' value='D' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("D")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.traffic",sWebLanguage) %>&nbsp;
+                <input type='radio' onchange='setcategoryfields()' name='EditEncounterCategories' value='E' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("E")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.other",sWebLanguage) %>&nbsp;
+            </td>
+        </tr>
+        <tr id="accidentinformation" style="visibility: visible;">
+            <td class="admin"><%=getTran("Web","accidentinformation",sWebLanguage)%></td>
+            <td class='admin2'>
+            	<table>
+            		<tr id="workaccidentinformation" style="visibility: visible;">
+            			<td class='admin2'>
+            				<%=getTran("Web","recordnumber",sWebLanguage)%>: <input class="text" type="text" name="EditEncounterAccidentRecordNumber" id="EditEncounterAccidentRecordNumber" size="40" value="<%=sEditEncounterAccidentRecordNumber%>">
+            			</td>
+            			<td class='admin2'>
+            				<%=getTran("Web","immatnumber",sWebLanguage)%>: <input class="text" type="text" name="EditEncounterAccidentImmat" id="EditEncounterAccidentImmat" size="40" value="<%=sEditEncounterAccidentImmat%>">
+            			</td>
+            		</tr>
+            		<tr id="trafficaccidentinformation" style="visibility: visible;">
+            			<td class='admin2'>
+            				<%=getTran("Web","insurer",sWebLanguage)%>: <input class="text" type="text" name="EditEncounterAccidentInsurer" id="EditEncounterAccidentInsurer" size="40" value="<%=sEditEncounterAccidentInsurer%>">
+            			</td>
+            			<td class='admin2'>
+            				<%=getTran("Web","accidentnumber",sWebLanguage)%>: <input class="text" type="text" name="EditEncounterAccidentNumber" id="EditEncounterAccidentNumber" size="40" value="<%=sEditEncounterAccidentNumber%>">
+            			</td>
+            		</tr>
+            	</table>
             </td>
         </tr>
         <%
@@ -685,6 +742,22 @@
         }
         openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarSelectDefaultStay=true&VarCode="+serviceUidField+"&VarText="+serviceNameField+sNeedsBeds);
         document.getElementById(serviceNameField).focus();
+    }
+    
+    function setcategoryfields(){
+    	if(document.getElementById('EditEncounterCategoriesC').checked){
+    		show('accidentinformation');
+    		show('workaccidentinformation');
+    		hide('trafficaccidentinformation');
+    	}
+    	else if(document.getElementById('EditEncounterCategoriesD').checked){
+    		show('accidentinformation');
+    		hide('workaccidentinformation');
+    		show('trafficaccidentinformation');
+    	}
+    	else{
+    		hide('accidentinformation');
+    	}
     }
 
     function searchBed(bedUidField,bedNameField){
@@ -961,4 +1034,5 @@
 
     calculateAccomodationDates();
     hide("transfer");
+    setcategoryfields();
 </script>
