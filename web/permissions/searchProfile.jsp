@@ -114,6 +114,10 @@
                             </span>
                         </td>
 
+                        <td>
+                                <u><%=getTran("Web","service",sWebLanguage)%></u>
+                        </td>
+
                         <td width="*">
                             <span onMouseOver="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onClick="transactionForm.OrderField.value='userid';transactionForm.submit();">
                                <u><%=getTran("Web.occup","medwan.authentication.login",sWebLanguage)%></u>
@@ -122,7 +126,7 @@
                     </tr>
 
                     <%
-                        String sPersonID, sLastname, sFirstname, sLogin, sClass = "", sOldPersonID = "";
+                        String sPersonID, sLastname, sFirstname, sLogin, sClass = "", sOldPersonID = "", sService="";
                         boolean bOK = false;
                         Vector vProfileOwners = new Vector();
                         if (sFindProfileID.length()>0) {
@@ -148,6 +152,14 @@
                                 if (!sPersonID.equals(sOldPersonID)) {
                                     sOldPersonID = sPersonID;
                                     sLastname+= " "+sFirstname;
+                                    User user = User.get(Integer.parseInt(sLogin));
+                                   	Service service = Service.getService(user.getParameter("defaultserviceid"));
+                                   	if(service!=null){
+                                   		sService = service.getLabel(sWebLanguage);
+                                   	}
+                                   	else {
+                                   		sService="";
+                                   	}
 
                                     // alternate row styles
                                     if (sClass.equals("")) sClass = "1";
@@ -156,6 +168,7 @@
                                     %>
                                         <tr class="list<%=sClass%>"  onClick="window.location.href = '<%=sCONTEXTPATH%>/main.do?Page=/permissions/userpermission.jsp&PersonID=<%=sPersonID%>&ts=<%=getTs()%>';">
                                             <td><%=sLastname%></td>
+                                            <td width="1%" nowrap><%=sService%></td>
                                             <td><%=sLogin%></td>
                                         </tr>
                                     <%

@@ -76,7 +76,7 @@
 
 <%
     String sDefaultPage, sDefaultWicket, sMyProfile, sProfiles = "", sTmpProfileID, sTmpProfileName,
-           sPasswordString = "", sMyProjects = "", sTmpProject;
+           sPasswordString = "", sMyProjects = "", sTmpProject, sAliasMessage="";
     String sProjectAccessAllSites = MedwanQuery.getInstance().getConfigString("ProjectAccessAllSites");
     String sAction = checkString(request.getParameter("Action"));
 
@@ -140,6 +140,7 @@
                 || (parameter.parameter.equalsIgnoreCase("medicalcentercode"))
                 || (parameter.parameter.equalsIgnoreCase("defaultserviceid"))
                 || (parameter.parameter.equalsIgnoreCase("userprofileid"))
+                || (parameter.parameter.equalsIgnoreCase("alias"))
                 || (parameter.parameter.equalsIgnoreCase("stop"))
                 || (parameter.parameter.equalsIgnoreCase("sa"))
                 || (parameter.parameter.equalsIgnoreCase("clearpassword"))
@@ -156,6 +157,7 @@
 
         thisUser.parameters.clear();
         thisUser.parameters = vOtherUserParams;
+        boolean bError=false;
 
         // add the user parameters managed on this page if they are specified
         while (e.hasMoreElements()) {
@@ -164,8 +166,49 @@
             sName = sName.toLowerCase();
 
             if ((sValue.length() > 0) && (sName.startsWith("edit"))) {
-                parameter = new Parameter(sName.substring(4), sValue);
-                thisUser.parameters.add(parameter);
+                boolean bCanSave=true;
+            	if(sName.startsWith("editalias")){
+                	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+                	PreparedStatement ps = conn.prepareStatement("select * from userparameters where userid<>? and parameter='alias' and value=?");
+                	ps.setInt(1,Integer.parseInt(thisUser.userid));
+                	ps.setString(2,sValue);
+                	ResultSet rs = ps.executeQuery();
+                	if(rs.next()){
+                		bCanSave=false;
+                		sAliasMessage="<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
+                		bError=true;
+                	}
+                	else{
+                		rs.close();
+                		ps.close();
+                		try{
+							Integer.parseInt(sValue);
+							bCanSave=false;
+                    		sAliasMessage="<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
+							bError=true;
+                		}
+                		catch(Exception ee){
+                			try{
+	                			ps = conn.prepareStatement("select * from userparameters where userid=?");
+		                    	ps.setInt(1,Integer.parseInt(sValue));
+		                    	rs = ps.executeQuery();
+		                    	if(rs.next()){
+		                    		bCanSave=false;
+		                    		sAliasMessage="<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
+		                    		bError=true;
+		                    	}
+                			}
+                			catch(Exception eee){}
+                		}
+                	}
+                	rs.close();
+                	ps.close();
+                	conn.close();
+                }
+            	if(bCanSave){
+	            	parameter = new Parameter(sName.substring(4), sValue);
+	                thisUser.parameters.add(parameter);
+            	}
             }
         }
 
@@ -204,7 +247,7 @@
         activePatient.store();
 
         // SAVE TO DB
-        if (thisUser.saveToDB()) {
+        if (!bError && thisUser.saveToDB()) {
             if (thisUser.userid.equals(activeUser.userid)) {
                 session.setAttribute("activeUser", thisUser);
             }
@@ -225,9 +268,12 @@
                 ScreenHelper.setIncludePage("index.jsp", pageContext);
             }
         }
+        else{
+        	sAction="view";
+        }
     }
     //--- ANY OTHER ACTION ------------------------------------------------------------------------
-    else {
+    if (!sAction.equals("save")) {
         sMyProfile = thisUser.getParameter("userprofileid");
         String sMyProfileDescription = "";
 
@@ -394,6 +440,13 @@
                 <%=writeMyCheckbox(getTran("Web.Permissions","SA",sWebLanguage),"EditSA", "sa", thisUser)%>
                 <%=writeMyCheckbox(getTran("Web.Permissions","ClearPassword",sWebLanguage),"EditClearPassword", "", thisUser)%>
 
+                <%-- organizationID --%>
+                <tr>
+                    <td class="admin"><%=getTran("Web.UserProfile","alias",sWebLanguage)%></td>
+                    <td class="admin2">
+                        <input type='text' class='text' name='Editalias' id='Editalias' value='<%=thisUser.getParameter("alias").trim()%>'> <%=sAliasMessage %>
+                    </td>
+                </tr>
                 <%-- organizationID --%>
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","organisationId",sWebLanguage)%></td>
