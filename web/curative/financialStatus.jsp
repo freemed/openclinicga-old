@@ -1,15 +1,11 @@
-<%@ page import="be.openclinic.finance.Balance,
+<%@ page import="be.openclinic.finance.*,
                 java.text.DecimalFormat" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-    Debug.println("financial start");
     Balance balance = Balance.getActiveBalance(activePatient.personid);
-    Debug.println("financial 1");
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
-    Debug.println("financial 2");
     double saldo = Balance.getPatientBalance(activePatient.personid);
-    Debug.println("financial 3");
 %>
 <table width="100%" cellpadding="0" cellspacing="0" class="list">
     <tr class="admin">
@@ -24,7 +20,28 @@
         <td><%=getTran("balance","out_of_balance_since",sWebLanguage)%>:
         <%=ScreenHelper.getSQLDate(balance.getCreateDateTime())%></td>
     </tr>
+    <%
+    	if(MedwanQuery.getInstance().getConfigInt("enableFinancialStatusPrestations",1)==1){
+		    %>
+			    <tr class='gray'>
+			    	<td colspan="3"><b><%=getTran("web","deliveries.in.last.24.hours",sWebLanguage)%></b></td>
+			    </tr>
+		   	<%
+	   		Vector debets = Debet.getPatientDebetPrestations(activePatient.personid, new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()), "", "", "");
+			int n=0;
+	   		for(;n<debets.size();n++){
+	   			if(n%3==0){
+	   				if(n>0){
+	   	   				out.println("</tr>");
+	   				}
+	   				out.println("<tr>");
+	   			}
+	   			String debet = (String)debets.elementAt(n);
+	   			out.println("<td>"+debet+"</td>");
+	   		}
+			if(n>0){
+				out.println("</tr>");
+			}
+    	}
+   	%>
 </table>
-<%
-    Debug.println("financial stop");
-%>
