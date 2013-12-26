@@ -1,0 +1,2 @@
+extract dpuareusdk_x64.tar.gz to <dir>
+in /usr/lib, execute ln -s <dir>/x64/libdp*
