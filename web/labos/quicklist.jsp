@@ -43,12 +43,21 @@
 
 	public String getItemValue(String[] labanalyses,int column, int row){
 		for(int n=0;n<labanalyses.length;n++){
-			if(labanalyses[n].split("£").length==2 && labanalyses[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
+			if(labanalyses[n].split("£").length>=2 && labanalyses[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
 				return labanalyses[n].split("£")[0];
 			}
 		}
 		return "";
 	}
+	public String getItemColor(String[] labanalyses,int column, int row){
+		for(int n=0;n<labanalyses.length;n++){
+			if(labanalyses[n].split("£").length>=3 && labanalyses[n].split("£")[2].split("\\.").length>0 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
+				return labanalyses[n].split("£")[2];
+			}
+		}
+		return "";
+	}
+
 %>
 <form name="transactionForm" id="transactionForm">
 	<table width="100%">
@@ -70,18 +79,18 @@
 					sLine+="<td width='"+(100/cols)+"%'/>";
 				}
 				else if(val.startsWith("$")){
-					sLine+="<td class='admin' width='"+(100/cols)+"%'>"+val.substring(1)+"<hr/></td>";
+					sLine+="<td bgcolor='"+getItemColor(sLabAnalyses,i,n)+"' width='"+(100/cols)+"%'>"+val.substring(1)+"<hr/></td>";
 					hasContent=true;
 				}
 				else if(val.startsWith("^")){
-					sLine+="<td class='admin2' width='"+(100/cols)+"%'><input type='checkbox' name='analprof."+val.substring(1)+"' id='analprof."+val.substring(1)+"'/><img width='16px' src='_img/multiple.gif'/> - "+getProfileNameForCode(val.substring(1),sWebLanguage)+"</td>";
+					sLine+="<td bgcolor='"+getItemColor(sLabAnalyses,i,n)+"' width='"+(100/cols)+"%'><input type='checkbox' name='analprof."+val.substring(1)+"' id='analprof."+val.substring(1)+"'/><img width='16px' src='_img/multiple.gif'/> - "+getProfileNameForCode(val.substring(1),sWebLanguage)+"</td>";
 					hasContent=true;
 				}
 				else {
 					hasContent=true;
 					labAnalysis = LabAnalysis.getLabAnalysisByLabcode(val);
 					if(labAnalysis!=null && LabAnalysis.labelForCode(val, sWebLanguage)!=null){
-						sLine+="<td width='"+(100/cols)+"%' class='admin2'><input type='checkbox' "+(sSelectedLabCodes.indexOf(val)>-1?"checked":"")+" name='anal."+labAnalysis.getLabId()+"' id='anal."+labAnalysis.getLabId()+"'/><b>"+val+"</b> - "+LabAnalysis.labelForCode(val, sWebLanguage)+"</td>";
+						sLine+="<td width='"+(100/cols)+"%' bgcolor='"+getItemColor(sLabAnalyses,i,n)+"'><input type='checkbox' "+(sSelectedLabCodes.indexOf(val)>-1?"checked":"")+" name='anal."+labAnalysis.getLabId()+"' id='anal."+labAnalysis.getLabId()+"'/><b>"+val+"</b> - "+LabAnalysis.labelForCode(val, sWebLanguage)+"</td>";
 					}
 					else {
 						sLine+="<td width='"+(100/cols)+"%'><font color='red'>Error loading "+val+"</font></td>";
