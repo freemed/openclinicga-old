@@ -58,6 +58,7 @@
       	   sEditInsurarDefaultPatientInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
       	   sEditInsurarAllowedReductions       = checkString(request.getParameter("EditInsurarAllowedReductions")),
     	   sEditInsurarRequiresAffiliateID       = checkString(request.getParameter("EditInsurarRequiresAffiliateID")),
+    	   sEditInsurarRequiresValidation       = checkString(request.getParameter("EditInsurarRequiresValidation")),
            sEditInsurarType       = checkString(request.getParameter("EditInsurarType"));
 
     // DEBUG //////////////////////////////////////////////////////////////////
@@ -152,6 +153,14 @@
 			e.printStackTrace();
 		}
 		insurar.setRequireAffiliateID(nRequireAffiliateID);
+		int nRequireValidation=0;
+		try{
+			nRequireValidation=Integer.parseInt(sEditInsurarRequiresValidation);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		insurar.setRequireValidation(nRequireValidation);
         //*** save categories ***
         if(sCategoriesToSave.length() > 0){
             String catName, catLabel, catPatientShare, sOneCategory, catUid;
@@ -477,6 +486,7 @@
 	                            <option value="ascoma" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
 	                            <option value="brarudi" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
 	                            <option value="ambusa" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
+	                            <option value="cplrcsv" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("cplrcsv")?"selected":""%>><%=getTranNoLink("web","cplrcsvmodel",sWebLanguage)%></option>
                         	<%
                    				}
                         	%>
@@ -541,6 +551,12 @@
                         <td class="admin"><%=getTran("web","acceptationneeded",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="checkbox" class="text" name="EditAcceptationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":"" %> value="1"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","requirevalidation",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditInsurarRequiresValidation" <%=insurar.getRequireValidation()==1?"checked":"" %> value="1"/>
                         </td>
                     </tr>
                     <%-- SELECTED CATEGORIES --%>

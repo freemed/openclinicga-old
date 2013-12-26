@@ -4,13 +4,22 @@
 <%!
 	public String getItemValue(String[] prestations,int column, int row){
 		for(int n=0;n<prestations.length;n++){
-			if(prestations[n].split("£").length==2 && prestations[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(prestations[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(prestations[n].split("£")[1].split("\\.")[1])==row){
+			if(prestations[n].split("£").length>=2 && prestations[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(prestations[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(prestations[n].split("£")[1].split("\\.")[1])==row){
 				return prestations[n].split("£")[0];
 			}
 		}
 		return "";
 	}
+	public String getItemColor(String[] prestations,int column, int row){
+		for(int n=0;n<prestations.length;n++){
+			if(prestations[n].split("£").length>=3 && prestations[n].split("£")[2].length()>0 && Integer.parseInt(prestations[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(prestations[n].split("£")[1].split("\\.")[1])==row){
+				return prestations[n].split("£")[2];
+			}
+		}
+		return "";
+	}
 %>
+
 <%
 	if(request.getParameter("submit")!=null){
 		Enumeration parameterNames = request.getParameterNames();
@@ -38,7 +47,7 @@
 			if(pars.length()>0){
 				pars+=";";
 			}
-			pars+=prestation+"£"+name.split("\\.")[1]+"."+name.split("\\.")[2];
+			pars+=prestation+"£"+name.split("\\.")[1]+"."+name.split("\\.")[2]+"£"+checkString(request.getParameter(name.replace("prest.", "prestcolor.")));
 		}
 		if(request.getParameter("UserQuickList")!=null){
 			MedwanQuery.getInstance().setConfigString("quickList."+activeUser.userid,pars);
@@ -54,6 +63,7 @@
 	}
 	int rows=MedwanQuery.getInstance().getConfigInt("quickListRows",20),cols=MedwanQuery.getInstance().getConfigInt("quickListCols",2);
 %>
+<%=getTran("web","click.code.field.to.choose.color",sWebLanguage) %>
 <form name="transactionForm" method="post">
 	<table width="100%">
 		<%
@@ -69,8 +79,9 @@
 			<%
 				for(int i=0;i<cols;i++){
 			%>
-					<td class='admin2' width='1%' nowrap>
-						<input name="prest.<%=i%>.<%=n%>" id="prest.<%=i%>.<%=n%>" type="text" class="text" value="<%=getItemValue(sPrestations,i,n)%>"/>
+					<td id="prest.<%=i%>.<%=n%>" bgcolor='<%=getItemColor(sPrestations,i,n)%>' width='1%' nowrap>
+						<input onclick="chooseColor('<%=i%>.<%=n%>');" name="prest.<%=i%>.<%=n%>" type="text" size="10" value="<%=getItemValue(sPrestations,i,n)%>"/>
+						<input name="prestcolor.<%=i%>.<%=n%>" id="prestcolor.<%=i%>.<%=n%>" class="Multiple" type="hidden" value="<%=getItemColor(sPrestations,i,n)%>"/>
 						<img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation('<%=i+"."+n%>');">
 					</td>
 			<%
@@ -82,15 +93,15 @@
 						else {
 							Prestation prestation = Prestation.getByCode(val);
 							if(prestation!=null && prestation.getDescription()!=null){
-								out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'>"+prestation.getDescription()+"</td>");
+								out.println("<td bgcolor='"+getItemColor(sPrestations,i,n)+"' id='prestname."+i+"."+n+"' width='"+(100/cols)+"%'>"+prestation.getDescription()+"</td>");
 							}
 							else {
-								out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'><font color='red'>Code not found</font></td>");
+								out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%'><font color='red'>Code not found</font></td>");
 							}
 						}
 					}
 					else {
-						out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'>&nbsp;</td>");
+						out.println("<td id='prestname."+i+"."+n+"' width='"+(100/cols)+"%'>&nbsp;</td>");
 					}
 				}
 			%>
@@ -106,5 +117,9 @@ function searchPrestation(id){
 	document.getElementById('prest.'+id).value='';
 	document.getElementById('prestname.'+id).value='';
     openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldCode=prest."+id+"&ReturnFieldDescrHtml=prestname."+id);
+}
+
+function chooseColor(id){
+    openPopup("/util/colorPicker.jsp&ts=<%=getTs()%>&colorfields=prest."+id+";prestname."+id+"&valuefield=prestcolor."+id+"&defaultcolor="+document.getElementById("prestcolor."+id).value);
 }
 </script>

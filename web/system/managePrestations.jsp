@@ -36,6 +36,7 @@
 
     String sEditPrestationUid   = checkString(request.getParameter("EditPrestationUid")),
            sEditPrestationCode  = checkString(request.getParameter("EditPrestationCode")),
+           sEditPrestationCodeAlias  = checkString(request.getParameter("EditPrestationCodeAlias")),
            sEditPrestationDescr = checkString(request.getParameter("EditPrestationDescr")),
            sEditPrestationType  = checkString(request.getParameter("EditPrestationType")),
            sEditPrestationUpdatetime  = checkString(request.getParameter("EditPrestationUpdatetime")),
@@ -47,10 +48,14 @@
            sEditPrestationAnesthesiaPercentage  = checkString(request.getParameter("EditPrestationAnesthesiaPercentage")),
            sEditPrestationSupplement  = checkString(request.getParameter("EditPrestationSupplement")),
            sEditPrestationClass  = checkString(request.getParameter("EditPrestationClass")),
+           sEditPrestationVariablePrice = checkString(request.getParameter("EditPrestationVariablePrice")),
            sEditPrestationInactive  = checkString(request.getParameter("EditPrestationInactive")),
            sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice")),
            sEditPrestationServiceUid = checkString(request.getParameter("EditPrestationServiceUid")),
 		   sEditCareProvider = checkString(request.getParameter("EditCareProvider"));
+		if(sEditPrestationVariablePrice.length()==0){
+			sEditPrestationVariablePrice="0";
+		}
 	   try{
 		   sEditPrestationPrice =""+Double.parseDouble(sEditPrestationPrice);
 	   }
@@ -137,7 +142,7 @@
         prestation.setType(sEditPrestationType);
         prestation.setCategories(sEditPrestationCategories);
         prestation.setPrice(Double.parseDouble(sEditPrestationPrice));
-        prestation.setReferenceObject(new ObjectReference(sEditPrestationFamily,"0")); 
+        prestation.setReferenceObject(new ObjectReference(sEditPrestationFamily,sEditPrestationCodeAlias)); 
         prestation.setInvoiceGroup(sEditPrestationInvoiceGroup);
         prestation.setMfpPercentage(Integer.parseInt(sEditPrestationMfpPercentage));
         prestation.setMfpAdmissionPercentage(Double.parseDouble(sEditPrestationMfpAdmissionPercentage));
@@ -145,6 +150,7 @@
         prestation.setSupplement(Double.parseDouble(sEditPrestationSupplement));
         prestation.setInactive(Integer.parseInt(sEditPrestationInactive));
         prestation.setPerformerUid(sEditCareProvider);
+        prestation.setVariablePrice(Integer.parseInt(sEditPrestationVariablePrice));
         prestation.setPrestationClass(sEditPrestationClass);
         prestation.setServiceUid(sEditPrestationServiceUid);
         try{
@@ -302,6 +308,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","code.alias",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="text" class="text" name="EditPrestationCodeAlias" size="80" maxlength="250" value="<%=prestation.getReferenceObject()==null?"":checkString(prestation.getReferenceObject().getObjectUid())%>">
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="admin"><%=getTran("web","description",sWebLanguage)%>&nbsp;*&nbsp;</td>
                         <td class="admin2">
                             <input type="text" class="text" name="EditPrestationDescr" size="80" maxlength="80" value="<%=checkString(prestation.getDescription())%>">
@@ -349,6 +361,9 @@
                         <td class="admin"><%=getTran("web","defaultprice",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="text" class="text" name="EditPrestationPrice" size="10" maxlength="10" value="<%=sPrice%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=sCurrency%>
+							<%if(MedwanQuery.getInstance().getConfigInt("allowVariablePrestationPrices",0)==1){ %>
+                            	&nbsp;<%=getTran("web","variable",sWebLanguage)%> <input type="checkbox" class="text" value="1" name="EditPrestationVariablePrice" id="EditPrestationVariablePrice" <%=prestation!=null && prestation.getVariablePrice()==1?"checked":"" %>/>
+                            <%} %>
                         </td>
                     </tr>
                     <%
@@ -491,7 +506,8 @@
 
   function newPrestation(){
     clearSearchFields();
-
+    if(document.getElementById("EditPrestationVariablePrice")) document.getElementById("EditPrestationVariablePrice").checked=false;
+    transactionForm.EditPrestationPrice="";
     transactionForm.EditPrestationUid.value = "-1";
     transactionForm.Action.value = "new";
     transactionForm.submit();

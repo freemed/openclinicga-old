@@ -4,8 +4,16 @@
 <%!
 	public String getItemValue(String[] labanalyses,int column, int row){
 		for(int n=0;n<labanalyses.length;n++){
-			if(labanalyses[n].split("£").length==2 && labanalyses[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
+			if(labanalyses[n].split("£").length>=2 && labanalyses[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
 				return labanalyses[n].split("£")[0];
+			}
+		}
+		return "";
+	}
+	public String getItemColor(String[] labanalyses,int column, int row){
+		for(int n=0;n<labanalyses.length;n++){
+			if(labanalyses[n].split("£").length>=3 && labanalyses[n].split("£")[2].split("\\.").length>0 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
+				return labanalyses[n].split("£")[2];
 			}
 		}
 		return "";
@@ -41,7 +49,7 @@
 			if(pars.length()>0){
 				pars+=";";
 			}
-			pars+=labanalysis+"£"+name.split("\\.")[1]+"."+name.split("\\.")[2];
+			pars+=labanalysis+"£"+name.split("\\.")[1]+"."+name.split("\\.")[2]+"£"+checkString(request.getParameter(name.replace("anal.", "analysiscolor.")));
 		}
 		if(request.getParameter("UserQuickLabList")!=null){
 			MedwanQuery.getInstance().setConfigString("quickLabList."+activeUser.userid,pars);
@@ -57,6 +65,8 @@
 	}
 	int rows=MedwanQuery.getInstance().getConfigInt("quickLabListRows",20),cols=MedwanQuery.getInstance().getConfigInt("quickLabListCols",2);
 %>
+<%=getTran("web","click.code.field.to.choose.color",sWebLanguage) %>
+
 <form name="transactionForm" method="post">
 	<table width="100%">
 		<%
@@ -72,8 +82,9 @@
 			<%
 				for(int i=0;i<cols;i++){
 			%>
-					<td class='admin2' width='1%' nowrap>
-						<input name="anal.<%=i%>.<%=n%>" id="anal.<%=i%>.<%=n%>" type="text" class="text" value="<%=getItemValue(sLabAnalyses,i,n)%>"/>
+					<td id="anal.<%=i%>.<%=n%>" bgcolor='<%=getItemColor(sLabAnalyses,i,n)%>' width='1%' nowrap>
+						<input onclick="chooseColor('<%=i%>.<%=n%>');" name="anal.<%=i%>.<%=n%>" type="text" class="text" value="<%=getItemValue(sLabAnalyses,i,n)%>"/>
+						<input name="analysiscolor.<%=i%>.<%=n%>" id="analysiscolor.<%=i%>.<%=n%>" type="hidden" value="<%=getItemColor(sLabAnalyses,i,n)%>"/>
 						<img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchLabAnalysis('<%=i+"."+n%>');">
 					</td>
 			<%
@@ -89,15 +100,15 @@
 						else {
 							LabAnalysis labAnalysis = LabAnalysis.getLabAnalysisByLabcode(val);
 							if(labAnalysis!=null && LabAnalysis.labelForCode(val, sWebLanguage)!=null){
-								out.println("<td id='analysisname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'>"+LabAnalysis.labelForCode(val, sWebLanguage)+"</td>");
+								out.println("<td id='analysisname."+i+"."+n+"' bgcolor='"+getItemColor(sLabAnalyses,i,n)+"' width='"+(100/cols)+"%'>"+LabAnalysis.labelForCode(val, sWebLanguage)+"</td>");
 							}
 							else {
-								out.println("<td id='analysisname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'><font color='red'>Code not found</font></td>");
+								out.println("<td id='analysisname."+i+"."+n+"' width='"+(100/cols)+"%'><font color='red' class='admin2'>Code not found</font></td>");
 							}
 						}
 					}
 					else {
-						out.println("<td id='analysisname."+i+"."+n+"' width='"+(100/cols)+"%' class='admin2'>&nbsp;</td>");
+						out.println("<td id='analysisname."+i+"."+n+"' bgcolor='"+getItemColor(sLabAnalyses,i,n)+"' width='"+(100/cols)+"%'>&nbsp;</td>");
 					}
 				}
 			%>
@@ -113,5 +124,9 @@ function searchLabAnalysis(id){
 	document.getElementById('anal.'+id).value='';
 	document.getElementById('analysisname.'+id).innerHTML='';
     openPopup("/_common/search/searchLabAnalysisAndGroups.jsp&ts=<%=getTs()%>&VarCode=anal."+id+"&VarTextHtml=analysisname."+id);
+}
+
+function chooseColor(id){
+    openPopup("/util/colorPicker.jsp&ts=<%=getTs()%>&colorfields=anal."+id+";analysisname."+id+"&valuefield=analysiscolor."+id+"&defaultcolor="+document.getElementById("analysiscolor."+id).value);
 }
 </script>

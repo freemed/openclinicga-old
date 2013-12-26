@@ -39,27 +39,17 @@
     <jsp:setProperty name="upBean" property="parsertmpdir" value="<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>"/>
 </jsp:useBean>
 <%
-	System.out.println("----------- 1");
 	int lines=0;
 	String sFileName = "";
 	MultipartFormDataRequest mrequest;
-	System.out.println("----------- max content length ="+MultipartFormDataRequest.MAXCONTENTLENGTHALLOWED);
-	System.out.println("----------- method="+request.getMethod());
-	System.out.println("----------- multipart="+MultipartFormDataRequest.isMultipartFormData(request));
 	if (MultipartFormDataRequest.isMultipartFormData(request)) {
-		System.out.println("----------- 2");
 	    // Uses MultipartFormDataRequest to parse the HTTP request.
 		mrequest = new MultipartFormDataRequest(request);
-		System.out.println("----------- 3");
 		if (mrequest.getParameter("ButtonReadfile")!=null){
 	        try{
-	        	System.out.println("----------- 4");
 	            Hashtable files = mrequest.getFiles();
-	        	System.out.println("----------- 5");
 	            if (files != null && !files.isEmpty()){
-	            	System.out.println("----------- 6");
 	                UploadFile file = (UploadFile) files.get("filename");
-	            	System.out.println("----------- 7");
 	                sFileName= new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new java.util.Date())+".ext";
 	                System.out.println(upBean.getFolderstore()+"/"+sFileName);
 	                file.setFileName(sFileName);
@@ -75,7 +65,7 @@
 							UpdateSystem.updateCounters();
 						}
 						int serverid=MedwanQuery.getInstance().getConfigInt("serverId"),objectid;
-						String code,name,price,category,prestationclass,mfppct,mfpadmissionpct;
+						String code,name,price,category,prestationclass,mfppct,mfpadmissionpct,tariffcode,tariffprice;
 						//Read file as a prestations csv file
 		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
 						BufferedReader reader = new BufferedReader(new FileReader(f));
@@ -90,6 +80,8 @@
 								category="";
 								mfppct="0";
 								mfpadmissionpct="0";
+								tariffcode="";
+								tariffprice="";
 								lines++;
 								code=line[0].trim();
 								name=line[1].trim();
@@ -102,11 +94,23 @@
 											mfppct=line[5];
 											if(line.length>6){
 												mfpadmissionpct=line[6];
+												if(line.length>7){
+													tariffcode=line[7];
+													if(line.length>8){
+														tariffprice=line[8];
+													}
+												}
 											}
 										}
 									}
 								}
 								Prestation prestation = new Prestation();
+								if(code!=null && code.length()>0 && !code.equalsIgnoreCase("#")){
+									prestation = Prestation.getByCode(code);
+									if(prestation==null){
+										prestation=new Prestation();
+									}
+								}
 								prestation.setCode(code);
 								prestation.setDescription(name);
 								prestation.setReferenceObject(new ObjectReference(category,""));
@@ -120,6 +124,7 @@
 								prestation.setVersion(1);
 								prestation.setMfpAdmissionPercentage(Integer.parseInt(mfpadmissionpct));
 								prestation.setMfpPercentage(Integer.parseInt(mfppct));
+								if(tariffcode.length()>0)
 								prestation.store();
 								if(code.equalsIgnoreCase("#")){
 									prestation.setCode(category+"."+prestation.getUid().split("\\.")[1]);
@@ -326,22 +331,15 @@
 						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");
 					}					
 					else if(mrequest.getParameter("filetype").equalsIgnoreCase("drugsxml")){
-						System.out.println("1");
 						if(mrequest.getParameter("erase")!=null){
 							ObjectCacheFactory.getInstance().resetObjectCache();
 							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							PreparedStatement ps = conn.prepareStatement("delete from oc_products");
 							ps.execute();
 							ps.close();
-							System.out.println("2");
-							ps = conn.prepareStatement("delete from oc_labels where oc_label_type in ('product.productgroup','product.unit')");
-							ps.execute();
-							ps.close();
-							System.out.println("3");
 							conn.close();
 							UpdateSystem.updateCounters();
 						}						
-						System.out.println("4");
 						String type,id,language,label;
 						//Read file as a prestations csv file
 		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
@@ -360,6 +358,7 @@
 							product.setName(element.elementText("name"));
 							product.setPackageUnits(1);
 							product.setProductGroup(element.elementText("group"));
+							product.setProductSubGroup(element.elementText("category"));
 							product.setSupplierUid("TEC.PHA");
 							product.setUnit(element.elementText("form"));
 							product.setUpdateDateTime(new Timestamp(new java.util.Date().getTime()));
@@ -367,18 +366,41 @@
 							product.store();
 						}
 						System.out.println("5");
-						i = root.elementIterator("druggroup");
+						i = root.elementIterator("drugcategory");
+						if(i.hasNext() && mrequest.getParameter("erase")!=null){
+							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+							PreparedStatement ps = conn.prepareStatement("delete from DrugCategories");
+							ps.execute();
+							ps = conn.prepareStatement("delete from oc_labels where oc_label_type ='drug.category'");
+							ps.execute();
+							ps.close();
+							conn.close();
+							UpdateSystem.updateCounters();
+						}
 						while(i.hasNext()){
 							lines++;
 							Element element = (Element)i.next();
+							DrugCategory category = new DrugCategory();
+							category.code=element.elementText("code");
+							category.parentcode=element.elementText("parentcode");
+							category.updatetime=new java.util.Date();
+							category.updateuserid=activeUser.userid;
+							category.saveToDB();
 							Iterator labels = element.elementIterator("label");
 							while(labels.hasNext()){
 								Element lbl = (Element)labels.next();
-								MedwanQuery.getInstance().storeLabel("product.productgroup", element.elementText("code")+"", lbl.attributeValue("language"), (element.elementText("code")+"............................").substring(0,11)+" "+lbl.getText(), Integer.parseInt(activeUser.userid));
+								MedwanQuery.getInstance().storeLabel("drug.category", element.elementText("code")+"", lbl.attributeValue("language"),lbl.getText(),Integer.parseInt(activeUser.userid));
 							}
 						}
-						System.out.println("6");
 						i = root.elementIterator("drugform");
+						if(i.hasNext() && mrequest.getParameter("erase")!=null){
+							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+							PreparedStatement ps = conn.prepareStatement("delete from oc_labels where oc_label_type ='product.unit'");
+							ps.execute();
+							ps.close();
+							conn.close();
+							UpdateSystem.updateCounters();
+						}
 						while(i.hasNext()){
 							lines++;
 							Element element = (Element)i.next();
@@ -388,7 +410,24 @@
 								MedwanQuery.getInstance().storeLabel("product.unit", element.elementText("code")+"", lbl.attributeValue("language"), lbl.getText(), Integer.parseInt(activeUser.userid));
 							}
 						}
-						System.out.println("7");
+						i = root.elementIterator("druggroup");
+						if(i.hasNext() && mrequest.getParameter("erase")!=null){
+							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+							PreparedStatement ps = conn.prepareStatement("delete from oc_labels where oc_label_type ='product.productgroup'");
+							ps.execute();
+							ps.close();
+							conn.close();
+							UpdateSystem.updateCounters();
+						}
+						while(i.hasNext()){
+							lines++;
+							Element element = (Element)i.next();
+							Iterator labels = element.elementIterator("label");
+							while(labels.hasNext()){
+								Element lbl = (Element)labels.next();
+								MedwanQuery.getInstance().storeLabel("product.productgroup", element.elementText("code")+"", lbl.attributeValue("language"), lbl.getText(), Integer.parseInt(activeUser.userid));
+							}
+						}
 						br.close();
 						reloadSingleton(session);
 		                f.delete();

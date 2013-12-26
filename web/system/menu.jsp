@@ -31,7 +31,8 @@
             <td>
                 <%
                     Hashtable hMenu = new Hashtable();
-                    hMenu.put(getTran("web.manage","ManageCategories",sWebLanguage),"main.do?Page=system/manageCategories.jsp");
+	                hMenu.put(getTran("web.manage","ManageCategories",sWebLanguage),"main.do?Page=system/manageCategories.jsp");
+	                hMenu.put(getTran("web.manage","ManageDrugCategories",sWebLanguage),"main.do?Page=system/manageDrugCategories.jsp");
                     hMenu.put(getTran("web.manage","ManageServices",sWebLanguage),"main.do?Page=system/manageServices.jsp");
                     hMenu.put(getTran("web.manage","ManageWickets",sWebLanguage),"main.do?Page=system/manageWickets.jsp");
                     hMenu.put(getTran("Web","ManageBeds",sWebLanguage),"main.do?Page=system/manageBeds.jsp");

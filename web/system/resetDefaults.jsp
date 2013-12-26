@@ -40,6 +40,7 @@
 					<option value='ml' <%="ml".equals(country)?"selected":""%>><%=getTran("country","ml",sWebLanguage).toUpperCase() %></option>
 					<option value='cd' <%="cd".equals(country)?"selected":""%>><%=getTran("country","cd",sWebLanguage).toUpperCase() %></option>
 					<option value='ci' <%="ci".equals(country)?"selected":""%>><%=getTran("country","ci",sWebLanguage).toUpperCase() %></option>
+					<option value='cm' <%="cm".equals(country)?"selected":""%>><%=getTran("country","cm",sWebLanguage).toUpperCase() %></option>
 					<option value='cg' <%="cg".equals(country)?"selected":""%>><%=getTran("country","cg",sWebLanguage).toUpperCase() %></option>
 					<option value='al' <%="al".equals(country)?"selected":""%>><%=getTran("country","al",sWebLanguage).toUpperCase() %></option>
 					<option value='tz' <%="tz".equals(country)?"selected":""%>><%=getTran("country","tz",sWebLanguage).toUpperCase() %></option>
