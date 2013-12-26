@@ -9,7 +9,14 @@
                  java.util.Vector" %>
 <%@ include file="/includes/validateUser.jsp" %>
 <%@ page errorPage="/includes/error.jsp" %>
-<body>
+<script>
+	function reloadOpener() {
+	    if (isModified && window.opener.document.getElementById('patientmedicationsummary') != undefined) {
+	        window.opener.location.reload();
+	    }
+	}
+</script>
+<body onbeforeunload="reloadOpener()">
 <script>var isModified = false;</script>
 <%=checkPermissionPopup("prescriptions.drugs", "select", activeUser)%>
 <%=sJSSORTTABLE%>
@@ -1502,7 +1509,7 @@ document.onmousedown = function(e) {
     }
 }
 </script>
-<script for=window event=onunload>
+<script for="window" event="onunload">
 	reloadOpener();
 </script>
 
