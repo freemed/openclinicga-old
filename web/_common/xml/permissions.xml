@@ -67,6 +67,10 @@
         <permission type="web" id="neuropsyphysiotherapyreport">occup.neuropsyphysiotherapyreport</permission>
         <permission type="web" id="neuropsyinpatientsummary">occup.neuropsyinpatientsummary</permission>
         <permission type="web" id="neuropsyoutpatientsummary">occup.neuropsyoutpatientsummary</permission>
+        <permission type="examination" id="1108">occup.outpatientfile</permission>
+        <permission type="examination" id="1089">occup.cnar.consultation</permission>
+        <permission type="examination" id="1095">occup.cnar.orthoprosthesis</permission>
+        <permission type="examination" id="1096">occup.cnar.mobile</permission>
     </application>
     <application type="Web" id="newexaminations">
         <permission type="web" id="globalexaminations">examinations.global</permission>
@@ -144,6 +148,7 @@
         <permission type="web" id="medicationschema">medication.medicationschema</permission>
     </application>
     <application type="Web" id="financial">
+        <permission type="web" id="occup.signinvoices">occup.signinvoices</permission>
         <permission type="balance" id="financial">financial</permission>
         <permission type="balance" id="manageBalances">financial.balance</permission>
         <permission type="balance" id="balancehistory">financial.balancehistory</permission>
@@ -155,6 +160,7 @@
         <permission type="web" id="debeteedit">financial.debet</permission>
         <permission type="web" id="patientInvoiceEdit">financial.patientinvoice</permission>
         <permission type="web" id="insuranceInvoiceEdit">financial.insuranceinvoice</permission>
+        <permission type="web" id="insurance">financial.insurance</permission>
         <permission type="web" id="updateInvoice">financial.invoiceupdate</permission>
         <permission type="web" id="updatePatientInvoice">financial.patientinvoiceupdate</permission>
         <permission type="web" id="updateInsurerInvoice">financial.insurerinvoiceupdate</permission>
@@ -209,7 +215,7 @@
         <permission type="web" id="printlabel">system.printlabel</permission>
         <permission type="web" id="managealerts">occup.managealerts</permission>
         <permission type="web.UserProfile" id="usersPerProfile">permissions.usersPerProfile</permission>
-        <permission type="web" id="insurance">financial.insurance</permission>
+        <permission type="web" id="insurance">system.insurance</permission>
         <permission type="web" id="insurancehistory">financial.insurancehistory</permission>
         <permission type="web.manage" id="manageWickets">financial.wicket</permission>
         <permission type="wicket" id="wicketoverview">financial.wicketoverview</permission>
@@ -225,6 +231,7 @@
         <permission type="web" id="export">pharmacy.export</permission>
         <permission type="web" id="import">pharmacy.import</permission>
         <permission type="web" id="manageProductStockDocuments">pharmacy.manageproductstockdocuments</permission>
+        <permission type="web" id="manageProductStocks">pharmacy.manageproductstocks</permission>
         <permission type="Web.manage" id="manageUserProducts">pharmacy.manageuserproducts</permission>
         <permission type="Web.manage" id="manageProducts">pharmacy.manageproducts</permission>
         <permission type="Web.manage" id="editproductUnit">pharmacy.editproductunit</permission>

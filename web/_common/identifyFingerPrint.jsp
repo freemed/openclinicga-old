@@ -39,17 +39,27 @@
 		PreparedStatement ps = conn.prepareStatement(sSql);
 		ResultSet rs = ps.executeQuery();
 		byte[] fingerprint=null;
+		System.out.println("Initializing candidates");
 		Engine.Candidate[] candidates=null;
+		System.out.println("Destroy reader collection");
 		UareUGlobal.DestroyReaderCollection();
+		System.out.println("Get fingerprint engine");
 		Engine engine = UareUGlobal.GetEngine();
+		System.out.println("Get importer");
 		Importer importer=UareUGlobal.GetImporter();
 		Fmd[] dbFmd=new Fmd[1];
 		while (rs.next()){
+			System.out.println("Got patient fingerprint");
 			fingerprint=rs.getBytes("template");
 			try{
+				System.out.println("1");
 				dbFmd[0]=importer.ImportFmd(fingerprint,Fmd.Format.ISO_19794_2_2005,Fmd.Format.ISO_19794_2_2005);
+				System.out.println("2");
 				Fmd thisFmd=importer.ImportFmd(hexStringToByteArray(fmd),Fmd.Format.ISO_19794_2_2005,Fmd.Format.ISO_19794_2_2005);
+				System.out.println("3");
 				candidates=engine.Identify(thisFmd,0,dbFmd,2147,1);
+				System.out.println("4");
+				System.out.println("candidates: "+candidates.length);
 				if(candidates.length>0){
 					if(request.getParameter("user")==null){
 						personid=rs.getString("personid");

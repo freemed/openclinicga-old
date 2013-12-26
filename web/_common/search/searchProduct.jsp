@@ -19,6 +19,7 @@
             sSearchSupplierUid = checkString(request.getParameter("SearchSupplierUid")),
             sSearchSupplierName = checkString(request.getParameter("SearchSupplierName")),
             sSearchProductGroup = checkString(request.getParameter("SearchProductGroup")),
+            sSearchProductSubGroup = checkString(request.getParameter("SearchProductSubGroup")),
             sSelectProductUid = checkString(request.getParameter("SelectProductUid"));
 
     // get data from calling url or hidden fields in form
@@ -115,7 +116,7 @@
 					<tr>
 			            <%-- product group --%>
 			            <td><%=getTran("Web", "productgroup", sWebLanguage)%>&nbsp;</td>
-			            <td colspan="3">
+			            <td>
 			                <select class="text" name="SearchProductGroup" id="SearchProductGroup" onChange="delayedSearch();">
 			                    <option value=""></option>
 			                    <%
@@ -126,6 +127,15 @@
 			                    %>
 			                </select>&nbsp;
 			            </td>
+			            <%-- product subgroup --%>
+			            <td><%=getTran("Web", "category", sWebLanguage)%>&nbsp;</td>
+                        <td>
+		                    <div name="drugcategorydiv" id="drugcategorydiv"></div>
+		                    <input type="text" readonly class="text" name="SearchProductSubGroupText" value="" size="120">
+		                    <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('SearchProductSubGroup','SearchProductSubGroupText');">
+		                    <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="SearchProductSubGroup.value='';SearchProductSubGroupText.value='';">
+		                    <input type="hidden" name="SearchProductSubGroup" id="SearchProductSubGroup" value="<%=sSearchProductSubGroup%>" onchange="delayedSearch();">
+                        </td>
 			        </tr>
 				</table>
 			</td>
@@ -189,6 +199,9 @@
 
 <script>
 window.resizeTo(1000, 540);
+function searchCategory(CategoryUidField,CategoryNameField){
+    openPopup("/_common/search/searchDrugCategory.jsp&ts=<%=getTs()%>&VarCode="+CategoryUidField+"&VarText="+CategoryNameField);
+  }
 
 var timerId = 0;
 var activeSearch = "", lastSearch = "";
@@ -411,6 +424,11 @@ if(sSearchSupplierUid.length() > 0){
 if(sSearchSupplierName.length() > 0){
 %>
     url += "&SearchSupplierName=<%=sSearchSupplierName%>";
+<%
+}
+if(sSearchProductSubGroup.length() > 0){
+%>
+    url += "&sSearchProductSubGroup=<%=sSearchProductSubGroup%>";
 <%
 }
 if(sSearchProductGroup.length() > 0){

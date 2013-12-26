@@ -77,8 +77,8 @@ MenuContainer.prototype = {
         this.root = parent instanceof Menu ? parent : parent.root;
         this.id = this.element.id;
         if (this.type == "menuContainer") {
-            if (this.element.hasClassName("level1")) this.menuType = "horizontal";
-            else if (this.element.hasClassName("level2")) this.menuType = "dropdown";
+            if (Element.hasClassName(this.element,"level1")) this.menuType = "horizontal";
+            else if (Element.hasClassName(this.element,"level2")) this.menuType = "dropdown";
             else this.menuType = "flyout";
             if (this.menuType == "flyout" || this.menuType == "dropdown") {
                 this.isOpen = false;

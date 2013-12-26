@@ -680,6 +680,28 @@
 	    	</index>
 	    </indexes>
 	</table>
+	<table name="DC_HRVALUES" db="stats" sync="NONE">
+		<columns>
+			<column name="DC_HR_SERVERID" dbtype="int" javatype="integer" />
+			<column name="DC_HR_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_HR_GROUP" dbtype="varchar" size="255" javatype="string"/>
+			<column name="DC_HR_YEAR" dbtype="int" javatype="integer"/>
+			<column name="DC_HR_MONTH" dbtype="int" javatype="integer"/>
+			<column name="DC_HR_COUNT" dbtype="int" javatype="integer"/>
+	    </columns>
+	    <indexes>
+	    	<index name="DC_HR_OBJECTID">
+	    		<indexcolumn order="ASC" name="DC_HR_OBJECTID"/>
+	    	</index>
+	    	<index name="DC_HR_GROUP">
+	    		<indexcolumn order="ASC" name="DC_HR_GROUP"/>
+	    	</index>
+	    	<index name="DC_HR_YEARMONTH">
+	    		<indexcolumn order="ASC" name="DC_HR_YEAR"/>
+	    		<indexcolumn order="ASC" name="DC_HR_MONTH"/>
+	    	</index>
+	    </indexes>
+	</table>
 	<table name="DC_ACTIVITYVALUES" db="stats" sync="NONE">
 		<columns>
 			<column name="DC_ACTIVITYVALUE_SERVERID" dbtype="int" javatype="integer" />
@@ -1203,6 +1225,22 @@
     		<column  name="OC_DIAGNOSIS_GROUPCODE" dbtype="varchar" javatype="string" size="20"/>
 		</columns>
 	</table>
+	<table name="DrugCategories" db="openclinic" sync="NONE">
+		<columns>
+			<column name="categoryid" dbtype="varchar" javatype="string" size="50"/>
+			<column name="categoryparentid" dbtype="varchar" javatype="string" size="50"/>
+			<column name="updateuserid" dbtype="int" javatype="integer"/>
+    		<column  name="updatetime" dbtype="datetime" javatype="date"/>
+		</columns>
+		<indexes>
+			<index name="categoryid">
+				<indexcolumn order="ASC" name="categoryid"/>
+			</index>
+			<index name="categoryparentid">
+				<indexcolumn order="ASC" name="categoryparentid"/>
+			</index>
+		</indexes>
+	</table>
 	<table name="OC_TARIFFS" db="openclinic" sync="NONE">
 		<columns>
     		<column  name="OC_TARIFF_INSURARUID" dbtype="varchar" javatype="string" size="20"/>
@@ -1661,6 +1699,7 @@
 			<column name="OC_PRODUCT_TIMEUNITCOUNT" dbtype="int" javatype="integer"/>
 			<column name="OC_PRODUCT_UNITSPERTIMEUNIT" dbtype="float" javatype="float"/>
 			<column name="OC_PRODUCT_PRODUCTGROUP" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_PRODUCT_PRODUCTSUBGROUP" dbtype="varchar" javatype="string" size="255"/>
 			<column name="OC_PRODUCT_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
 			<column name="OC_PRODUCT_UPDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
 			<column name="OC_PRODUCT_UPDATEUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
@@ -1725,6 +1764,7 @@
 			<column name="OC_PRODUCT_TIMEUNITCOUNT" dbtype="int" javatype="integer"/>
 			<column name="OC_PRODUCT_UNITSPERTIMEUNIT" dbtype="float" javatype="float"/>
 			<column name="OC_PRODUCT_PRODUCTGROUP" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_PRODUCT_PRODUCTSUBGROUP" dbtype="varchar" javatype="string" size="255"/>
 			<column name="OC_PRODUCT_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
 			<column name="OC_PRODUCT_UPDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
 			<column name="OC_PRODUCT_UPDATEUID" dbtype="varchar" javatype="string" size="255" nulls="0"/>
@@ -2372,6 +2412,7 @@
             <column name="OC_INSURANCE_STATUS" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_INSURANCE_EXTRAINSURARUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_INSURANCE_EXTRAINSURARUID2" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_INSURANCE_DEFAULT" dbtype="int" javatype="integer"/>
         </columns>
 		<indexes>
 			<index name="OC_INSURANCE_OBJECTID">
@@ -2408,6 +2449,7 @@
             <column name="OC_INSURANCE_STATUS" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_INSURANCE_EXTRAINSURARUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_INSURANCE_EXTRAINSURARUID2" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_INSURANCE_DEFAULT" dbtype="int" javatype="integer"/>
         </columns>
     </table>
 

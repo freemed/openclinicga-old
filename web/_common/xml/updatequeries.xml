@@ -190,5 +190,18 @@
   	<Query id="QUERY.prestationversions" db="openclinic" date="01/08/2013" dbserver="Microsoft SQL Server">  	    
 		update OC_TARIFFS set OC_TARIFF_VERSION=OC_PRESTATION_VERSION from OC_TARIFFS,OC_PRESTATIONS where 
 		replace(OC_TARIFF_PRESTATIONUID,'1.','')=OC_PRESTATION_OBJECTID and OC_TARIFF_VERSION IS NULL
-  	</Query>  	
+  	</Query>  
+  	<Query id='QUERY.en-icd10-quotes-en' db='openclinic' date='03/12/2013' dbserver='MySQL'>
+  		update icd10 set labelen=replace(labelen,'\\''','`') where labelen like '%\\''%'
+  	</Query>	
+  	<Query id='QUERY.en-icd10-quotes-en' db='openclinic' date='03/12/2013' dbserver='Microsoft SQL Server'>
+	  	update ICD10 set labelen=replace(labelen,'\'+CHAR(39),'`') where labelen like '%\'+CHAR(39)+'%'
+  	</Query>	
+  	<Query id='QUERY.en-icd10-quotes-nl' db='openclinic' date='03/12/2013' dbserver='MySQL'>
+  		update icd10 set labelnl=replace(labelnl,'''','`') where labelnl like '%''%'
+  	</Query>	
+  	<Query id='QUERY.en-icd10-quotes-nl' db='openclinic' date='03/12/2013' dbserver='Microsoft SQL Server'>
+	  	update ICD10 set labelnl=replace(labelnl,'\'+CHAR(39),'`') where labelnl like '%\'+CHAR(39)+'%'
+  	</Query>	
+  	
 </Queries>

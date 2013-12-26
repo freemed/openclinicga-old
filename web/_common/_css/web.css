@@ -610,6 +610,10 @@ A.menuItem:hover {
     color: #FF9A64;
 }
 
+.labelred {
+    color: red;
+}
+
 TD.menuItemGreen {
     color: #333333;
     font-family: arial, sans-serif;

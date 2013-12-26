@@ -115,7 +115,7 @@
         // parse 'parameter' of parameter
        	String[] iconTypes = userParameter.getParameter().split("\\$");
         String sSubtype = "";
-        if(iconTypes.length==3){
+        if(iconTypes.length>=3){
         	sSubtype = iconTypes[2]; 
         }
         

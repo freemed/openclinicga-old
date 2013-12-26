@@ -9,6 +9,7 @@
 <%
     String sSearchProductName = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductName"))),
             sSearchSupplierUid = checkString(request.getParameter("SearchSupplierUid")),
+            sSearchProductSubGroup = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductSubGroup"))),
             sSearchProductGroup = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductGroup")));
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
@@ -25,7 +26,7 @@
     int iMaxRecordsToShow = MedwanQuery.getInstance().getConfigInt("maxRecordsToShow", 100);
 
     // variables
-    String sClass = "1", sSupplierUid, sSupplierName, sUnitTran, sUnitPrice, sUnitsPerTimeUnit, sProductGroup, sProductName;
+    String sClass = "1", sSupplierUid, sSupplierName, sUnitTran, sUnitPrice, sUnitsPerTimeUnit, sProductGroup, sProductName, sProductSubGroup;
     DecimalFormat priceDeci = new DecimalFormat("0.00"),
             unitCountDeci = new DecimalFormat("#.#");
 
@@ -40,15 +41,15 @@
             .append(" <td>" + getTranNoLink("web", "unitprice", sWebLanguage) + " </td>")
             .append(" <td>" + getTranNoLink("web", "supplier", sWebLanguage) + "</td>")
             .append(" <td>" + getTranNoLink("web", "productGroup", sWebLanguage) + "</td>")
+            .append(" <td>" + getTranNoLink("web", "category", sWebLanguage) + "</td>")
             .append("</tr>");
 
     // tbody
     sHtml.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
     Vector products = new Vector();
-    if (sSearchProductName.length() > 0 || sSearchSupplierUid.length() > 0 || sSearchProductGroup.length() > 0) {
-        products = Product.find(sSearchProductName, "", "", "", "", "", sSearchSupplierUid, sSearchProductGroup, "OC_PRODUCT_NAME", "ASC");
+    if (sSearchProductName.length() > 0 || sSearchSupplierUid.length() > 0 || sSearchProductGroup.length() > 0 || sSearchProductSubGroup.length() > 0) {
+        products = Product.find(sSearchProductName, "", "", "", "", "", sSearchSupplierUid, sSearchProductGroup,sSearchProductSubGroup, "OC_PRODUCT_NAME", "ASC");
     }
-	System.out.println("supplier="+sSearchSupplierUid);
     // run thru found products
     Product product;
     int iTotal = 0;
@@ -95,6 +96,7 @@
 
         sProductName = checkString(product.getName());
         sProductName = sProductName.replaceAll("'", "");
+        sProductSubGroup = getTranNoLink("drug.category",product.getProductSubGroup(),sWebLanguage);
 
         //*** display product in one row ***
         sHtml.append("<tr title='" + chooseTran + "'  class='list" + sClass + "' onClick=\"selectProduct('" + product.getUid() + "','" + sProductName + "','" + product.getUnit() + "','" + sUnitsPerTimeUnit + "','" + sSupplierUid + "','" + sSupplierName + "','" + product.getPackageUnits() + "');\">")
@@ -103,6 +105,7 @@
                 .append(" <td align='right'" + (inStock ? "" : " class='strikeonly'") + ">" + sUnitPrice + " " + sCurrency + " </td>")
                 .append(" <td" + (inStock ? "" : " class='strikeonly'") + ">" + sSupplierName + "</td>")
                 .append(" <td" + (inStock ? "" : " class='strikeonly'") + ">" + sProductGroup + "</td>")
+                .append(" <td" + (inStock ? "" : " class='strikeonly'") + ">" + sProductSubGroup + "</td>")
                 .append("</tr>");
 
         iTotal++;

@@ -236,6 +236,26 @@
 		</labels>
 		<project>ci</project>
 	</country>
+	<country code="cm">
+		<config key="currency" value="XAF"/>
+		<config key="currencyPdf" value="XAF"/>
+		<config key="countrycode" value="CM"/>
+		<config key="DefaultCountry" value="CM"/>
+		<config key="defaultSearchCountry" value="CAMERO"/>
+		<config key="zipcodetable" value="cameroonzipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,en"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="CM"/>
+		<config key="priceFormat" value="#"/>
+		<config key="priceFormatInsurar" value="#"/>
+		<config key="currencyDecimals" value="0"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
+		<project>cm</project>
+	</country>
 	<country code="cg">
 		<config key="currency" value="XAF"/>
 		<config key="currencyPdf" value="XAF"/>

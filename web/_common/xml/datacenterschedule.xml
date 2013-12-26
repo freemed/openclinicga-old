@@ -44,6 +44,8 @@
 		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1.1" interval="MONTHLY:15;0000"/>
 		<module class="be.openclinic.datacenter.ExporterMedical" param="medical.1.2" interval="MONTHLY:15;0000"/>
 
+		<module class="be.openclinic.datacenter.ExporterHR" param="hr.1" interval="MONTHLY:15;0000"/>
+
 		<module class="be.openclinic.datacenter.ExporterEncounter" param="encounter.1" interval="DAILY:0000"/>
 
 		<module class="be.openclinic.datacenter.ExporterPeople" param="people.patients" interval="DAILY:0000"/>
@@ -131,6 +133,7 @@
 		<parameter shortid="0e" param="mortality.1" type="mortality"/>
 		<parameter shortid="0f" param="people.patients" type="patient"/>
 		<parameter shortid="0g" param="lab.1" type="lab"/>
+		<parameter shortid="0h" param="hr.1" type="hr"/>
 	</parameters>
 	<errorcodes>
 		<error code="0" meaning="no errors"/>

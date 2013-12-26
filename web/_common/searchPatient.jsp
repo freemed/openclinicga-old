@@ -92,7 +92,7 @@
 						out.print("<img src='_img/warning.gif'/> <font style='{font-size: 12px; font-weight: bold; vertical-align: top}'>"+getTran("web","died",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy").format(death)+"</font>");
 	            	}
 	            	else {
-	            		out.print(" ("+activePatient.getAge()+" "+getTran("web","years",sWebLanguage).toLowerCase()+")");
+	            		out.print(" ("+(activePatient.gender.equalsIgnoreCase("M")?getTran("web.occup","male",sWebLanguage):getTran("web.occup","female",sWebLanguage))+" - "+activePatient.getAge()+" "+getTran("web","years",sWebLanguage).toLowerCase()+")");
 	            	}
             	}
             	%>

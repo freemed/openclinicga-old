@@ -1,5 +1,44 @@
 <drugs>
-	<drugform>
+	<druggroup>
+		<code>01</code>
+		<label language="fr">MEDICAMENTS</label>
+		<label language="en">MEDICINES</label>
+		<label language="nl">GENEESMIDDELEN</label>
+		<label language="es"></label>
+		<label language="pt"></label>
+	</druggroup>
+	<druggroup>
+		<code>02</code>
+		<label language="fr">CONSOMMABLES</label>
+		<label language="en">CONSUMABLES</label>
+		<label language="nl">VERBRUIKSMIDDELEN</label>
+		<label language="es"></label>
+		<label language="pt"></label>
+	</druggroup>
+	<druggroup>
+		<code>03</code>
+		<label language="fr">PROTHESES</label>
+		<label language="en">PROSTHESES</label>
+		<label language="nl">PROTHESES</label>
+		<label language="es"></label>
+		<label language="pt"></label>
+	</druggroup>
+	<druggroup>
+		<code>04</code>
+		<label language="fr">PRODUITS DE NETTOYAGE</label>
+		<label language="en">CLEANING PRODUCTS</label>
+		<label language="nl">SCHOONMAAKMIDDELEN</label>
+		<label language="es"></label>
+		<label language="pt"></label>
+	</druggroup>
+	<druggroup>
+		<code>05</code>
+		<label language="fr">EQUIPEMENTS</label>
+		<label language="en">EQUIPMENT</label>
+		<label language="nl">MATERIAAL</label>
+		<label language="es"></label>
+		<label language="pt"></label>
+	</druggroup>	<drugform>
 		<code>aerosol</code>
 		<label language="fr">AEROSOL</label>
 		<label language="en">AEROSOL</label>
@@ -191,1076 +230,1210 @@
 		<label language="es">SUPOSITORIO</label>
 		<label language="pt">SUPPOSITORIO</label>
 	</drugform>
-	<druggroup>
+	<drugcategory>
 		<code>01</code>
+		<parentcode></parentcode>
 		<label language="fr">ANESTH&#201;SIQUES</label>
 		<label language="en">ANAESTHETICS</label>
 		<label language="nl">ANESTHETICA</label>
 		<label language="es">ANAESTHETICS</label>
 		<label language="pt">ANAESTHETICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>01.01</code>
+		<parentcode>01</parentcode>
 		<label language="fr">ANESTH&#201;SIQUES G&#201;N&#201;RAUX ET OXYG&#200;NE</label>
 		<label language="en">GENERAL ANAESTHETICS AND OXYGEN</label>
 		<label language="nl">ALGEMENE ANESTHESIE EN ZUURSTOF</label>
 		<label language="es">GENERAL ANAESTHETICS AND OXYGEN</label>
 		<label language="pt">GENERAL ANAESTHETICS AND OXYGEN</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>01.01.01</code>
+		<parentcode>01.01</parentcode>
 		<label language="fr">ANESTH&#201;SIQUES G&#201;N&#201;RAUX ET OXYG&#200;NE INHALABLES</label>
 		<label language="en">GENERAL ANAESTHETICS AND OXYGEN - INHALATIONAL MEDICINES</label>
 		<label language="nl">ALGEMENE ANESTHESIE EN ZUURSTOF - INHALATIE</label>
 		<label language="es">GENERAL ANAESTHETICS AND OXYGEN - INHALATIONAL MEDICINES</label>
 		<label language="pt">GENERAL ANAESTHETICS AND OXYGEN - INHALATIONAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>01.01.02</code>
+		<parentcode>01.01</parentcode>
 		<label language="fr">ANESTH&#201;SIQUES G&#201;N&#201;RAUX ET OXYG&#200;NE INJECTABLES</label>
 		<label language="en">GENERAL ANAESTHETICS AND OXYGEN - INJECTABLE MEDICINES</label>
 		<label language="nl">ALGEMENE ANESTHESIE EN ZUURSTOF - INSPUITBAAR</label>
 		<label language="es">GENERAL ANAESTHETICS AND OXYGEN - INJECTABLE MEDICINES</label>
 		<label language="pt">GENERAL ANAESTHETICS AND OXYGEN - INJECTABLE MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>01.02</code>
+		<parentcode>01</parentcode>
 		<label language="fr">ANESTH&#201;SIQUES LOCAUX</label>
 		<label language="en">LOCAL ANAESTHETICS</label>
 		<label language="nl">LOCALE ANESTHETICA</label>
 		<label language="es">LOCAL ANAESTHETICS</label>
 		<label language="pt">LOCAL ANAESTHETICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>01.03</code>
+		<parentcode>01</parentcode>
 		<label language="fr">PR&#201;M&#201;DICATION ANESTH&#201;SIQUE </label>
 		<label language="en">PREOPERATIVE MEDICATION AND SEDATION</label>
 		<label language="nl">PREOPERATOIRE MEDICATIE EN SEDATIE</label>
 		<label language="es">PREOPERATIVE MEDICATION AND SEDATION</label>
 		<label language="pt">PREOPERATIVE MEDICATION AND SEDATION</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>02</code>
+		<parentcode></parentcode>
 		<label language="fr">ANALGESIQUES, ANTIPYRETIQUES, ANTI-INFLAMMATOIRES</label>
 		<label language="en">ANALGESICS, ANTIPYRETICS, NON-STEROIDAL ANTI-INFLAMMATORY MEDICINES</label>
 		<label language="nl">ANALGETICA, ANTIPYRETICA, NSAID</label>
 		<label language="es">ANALGESICS, ANTIPYRETICS, NON-STEROIDAL ANTI-INFLAMMATORY MEDICINES</label>
 		<label language="pt">ANALGESICS, ANTIPYRETICS, NON-STEROIDAL ANTI-INFLAMMATORY MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>02.01</code>
+		<parentcode>02</parentcode>
 		<label language="fr">ANALG&#201;SIQUES NON OPIO&#207;DES ET ANTI-INFLAMMATOIRES NON ST&#201;RO&#207;DIENS</label>
 		<label language="en">NON-OPIOIDS AND NON-STEROIDAL ANTI-INFLAMMATORY MEDICINES</label>
 		<label language="nl">NIET-OPIO&#207;DEN EN NIET STERO&#207;DALE ANTI-INFLAMMATOIRE MIDDELEN</label>
 		<label language="es">NON-OPIOIDS AND NON-STEROIDAL ANTI-INFLAMMATORY MEDICINES</label>
 		<label language="pt">NON-OPIOIDS AND NON-STEROIDAL ANTI-INFLAMMATORY MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>02.02</code>
+		<parentcode>02</parentcode>
 		<label language="fr">ANALG&#201;SIQUES OPIO&#207;DES</label>
 		<label language="en">OPIOID ANALGESICS</label>
 		<label language="nl">OPIO&#207;DE ANALGETICA</label>
 		<label language="es">OPIOID ANALGESICS</label>
 		<label language="pt">OPIOID ANALGESICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>02.03</code>
+		<parentcode>02</parentcode>
 		<label language="fr">ANTIGOUTTEUX</label>
 		<label language="en">MEDICINES USED TO TREAT GOUT</label>
 		<label language="nl">GENEESMIDDELEN VOOR DE BEHANDELING VAN JICHT</label>
 		<label language="es">MEDICINES USED TO TREAT GOUT</label>
 		<label language="pt">MEDICINES USED TO TREAT GOUT</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>02.04</code>
+		<parentcode>02</parentcode>
 		<label language="fr">TRAITEMENT DE FOND DES AFFECTIONS RHUMATISMALES</label>
 		<label language="en">DISEASE MODIFYING AGENTS USED IN RHEUMATOID DISORDERS</label>
 		<label language="nl">ANT-REUMATO&#207;DE PRODUCTEN</label>
 		<label language="es">DISEASE MODIFYING AGENTS USED IN RHEUMATOID DISORDERS</label>
 		<label language="pt">DISEASE MODIFYING AGENTS USED IN RHEUMATOID DISORDERS</label>
-	</druggroup>
-	<druggroup>
-		<code>026.03</code>
-		<label language="fr">ANTIFONGIQUES</label>
-		<label language="en">ANTIFUNGAL MEDICINES</label>
-		<label language="nl">SCHIMMELWERENDE MIDDELEN</label>
-		<label language="es">ANTIFUNGAL MEDICINES</label>
-		<label language="pt">ANTIFUNGAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>03</code>
+		<parentcode></parentcode>
 		<label language="fr">ANTIALLERGIQUES ET ANTIANAPHYLACTIQUES</label>
 		<label language="en">ANTIALLERGICS AND MEDICINES USED IN ANAPHYLAXIS</label>
 		<label language="nl">ANTI-ALLERGICA EN MIDDELEN GEBRUIKT BY ANAFYLAXIS</label>
 		<label language="es">ANTIALLERGICS AND MEDICINES USED IN ANAPHYLAXIS</label>
 		<label language="pt">ANTIALLERGICS AND MEDICINES USED IN ANAPHYLAXIS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>04</code>
+		<parentcode></parentcode>
 		<label language="fr">ANTIDOTES ET AUTRES SUBSTANCES UTILISEES POUR LE TRAITEMENT DES INTOXICATIONS</label>
 		<label language="en">ANTIDOTES AND OTHER SUBSTANCES USED IN POISONINGS</label>
 		<label language="nl">ANTIDOTA EN ANDERE MIDDELEN BIJ VERGIFTIGING</label>
 		<label language="es">ANTIDOTES AND OTHER SUBSTANCES USED IN POISONINGS</label>
 		<label language="pt">ANTIDOTES AND OTHER SUBSTANCES USED IN POISONINGS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>04.01</code>
+		<parentcode>04</parentcode>
 		<label language="fr">ANTIDOTES NON-SP&#201;CIFIQUES</label>
 		<label language="en">NON-SPECIFIC ANTIDOTES</label>
 		<label language="nl">NIET-SPECIFIEKE ANTIDOTA</label>
 		<label language="es">NON-SPECIFIC ANTIDOTES</label>
 		<label language="pt">NON-SPECIFIC ANTIDOTES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>04.02</code>
+		<parentcode>04</parentcode>
 		<label language="fr">ANTIDOTES SP&#201;CIFIQUES</label>
 		<label language="en">SPECIFIC ANTIDOTES</label>
 		<label language="nl">SPECIFIEKE ANTIDOTA</label>
 		<label language="es">SPECIFIC ANTIDOTES</label>
 		<label language="pt">SPECIFIC ANTIDOTES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>05</code>
+		<parentcode></parentcode>
 		<label language="fr">ANTICONVULSANTS/ANTIEPILEPTIQUES</label>
 		<label language="en">ANTICONVULSANTS/ANTIEPILEPTICS</label>
 		<label language="nl">ANTI-CONVULSIVA / ANTI-EPILEPTICA</label>
 		<label language="es">ANTICONVULSANTS/ANTIEPILEPTICS</label>
 		<label language="pt">ANTICONVULSANTS/ANTIEPILEPTICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06</code>
+		<parentcode></parentcode>
 		<label language="fr">ANTI-INFECTIEUX</label>
 		<label language="en">ANTI-INFECTIVE MEDICINES</label>
 		<label language="nl">ANTI-INFECTIEUZE MIDDELEN</label>
 		<label language="es">ANTI-INFECTIVE MEDICINES</label>
 		<label language="pt">ANTI-INFECTIVE MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.01</code>
+		<parentcode>06</parentcode>
 		<label language="fr">ANTHELMINTHIQUES</label>
 		<label language="en">ANTHELMINTHICS</label>
 		<label language="nl">ANTI-HELMINTICA</label>
 		<label language="es">ANTHELMINTHICS</label>
 		<label language="pt">ANTHELMINTHICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.01.01</code>
+		<parentcode>06.01</parentcode>
 		<label language="fr">M&#201;DICAMENTS CONTRE LES HELMINTHES INTESTINAUX</label>
 		<label language="en">INTESTINAL ANTHELMINTHICS</label>
 		<label language="nl">INTESTINALE ANTI-HELMINTICA</label>
 		<label language="es">INTESTINAL ANTHELMINTHICS</label>
 		<label language="pt">INTESTINAL ANTHELMINTHICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.01.02</code>
+		<parentcode>06.01</parentcode>
 		<label language="fr">ANTIFILARIENS</label>
 		<label language="en">ANTIFILARIALS</label>
 		<label language="nl">ANTI-FILARIA</label>
 		<label language="es">ANTIFILARIALS</label>
 		<label language="pt">ANTIFILARIALS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.01.03</code>
+		<parentcode>06.01</parentcode>
 		<label language="fr">SCHISTOSOMICIDES (ANTIBILHARZIENS) ET ANTITR&#201;MATODES</label>
 		<label language="en">ANTISCHISTOSOMALS AND OTHER ANTITREMATODE MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN TEGEN SCHISTOSOMIASE EN ANDERE REMATODEN</label>
 		<label language="es">ANTISCHISTOSOMALS AND OTHER ANTITREMATODE MEDICINES</label>
 		<label language="pt">ANTISCHISTOSOMALS AND OTHER ANTITREMATODE MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.02</code>
+		<parentcode>06</parentcode>
 		<label language="fr">ANTIBACT&#201;RIENS</label>
 		<label language="en">ANTIBACTERIALS</label>
 		<label language="nl">ANTIBACTERI&#203;LE MIDDELEN</label>
 		<label language="es">ANTIBACTERIALS</label>
 		<label language="pt">ANTIBACTERIALS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.02.01</code>
+		<parentcode>06.02</parentcode>
 		<label language="fr">B&#202;TA-LACTAMINES</label>
 		<label language="en">BETA LACTAM MEDICINES</label>
 		<label language="nl">BETA LACTAM GENEESMIDDELEN</label>
 		<label language="es">BETA LACTAM MEDICINES</label>
 		<label language="pt">BETA LACTAM MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.02.02</code>
+		<parentcode>06.02</parentcode>
 		<label language="fr">AUTRES ANTIBACT&#201;RIENS</label>
 		<label language="en">OTHER ANTIBACTERIALS</label>
 		<label language="nl">ANDERE ANTI-BACTERI&#203;LE MIDDELEN</label>
 		<label language="es">OTHER ANTIBACTERIALS</label>
 		<label language="pt">OTHER ANTIBACTERIALS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.02.03</code>
+		<parentcode>06.02</parentcode>
 		<label language="fr">ANTIL&#201;PREUX</label>
 		<label language="en">ANTILEPROSY MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN TEGEN LEPRA</label>
 		<label language="es">ANTILEPROSY MEDICINES</label>
 		<label language="pt">ANTILEPROSY MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.02.04</code>
+		<parentcode>06.02</parentcode>
 		<label language="fr">ANTITUBERCULEUX</label>
 		<label language="en">ANTITUBERCULOSIS MEDICINES</label>
 		<label language="nl">ANTI-TUBERCULEUSE PRODUCTEN</label>
 		<label language="es">ANTITUBERCULOSIS MEDICINES</label>
 		<label language="pt">ANTITUBERCULOSIS MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
+		<code>06.03</code>
+		<parentcode>06</parentcode>
+		<label language="fr">ANTIFONGIQUES</label>
+		<label language="en">ANTIFUNGAL MEDICINES</label>
+		<label language="nl">SCHIMMELWERENDE MIDDELEN</label>
+		<label language="es">ANTIFUNGAL MEDICINES</label>
+		<label language="pt">ANTIFUNGAL MEDICINES</label>
+	</drugcategory>
+	<drugcategory>
 		<code>06.04</code>
+		<parentcode>06</parentcode>
 		<label language="fr">ANTIVIRAUX</label>
 		<label language="en">ANTIVIRAL MEDICINES</label>
 		<label language="nl">ANTIVIRALE MIDDELEN</label>
 		<label language="es">ANTIVIRAL MEDICINES</label>
 		<label language="pt">ANTIVIRAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.04.01</code>
+		<parentcode>06.04</parentcode>
 		<label language="fr">ANTIHERP&#201;TIQUES</label>
 		<label language="en">ANTIHERPES MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN TEGEN HERPES</label>
 		<label language="es">ANTIHERPES MEDICINES</label>
 		<label language="pt">ANTIHERPES MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.04.02</code>
+		<parentcode>06.04</parentcode>
 		<label language="fr">ANTIR&#201;TROVIRAUX</label>
 		<label language="en">ANTIRETROVIRALS</label>
 		<label language="nl">ANTI-RETROVIRALE MIDDELEN</label>
 		<label language="es">ANTIRETROVIRALS</label>
 		<label language="pt">ANTIRETROVIRALS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.04.02.01</code>
+		<parentcode>06.04.02</parentcode>
 		<label language="fr">INHIBITEURS NUCL&#201;OSIDIQUES/NUCL&#201;OTIDIQUES DE LA TRANSCRIPTASE INVERSE</label>
 		<label language="en">NUCLEOSIDE/NUCLEOTIDE REVERSE TRANSCRIPTASE INHIBITORS</label>
 		<label language="nl">NUCLEOSIDE/NUCLEOTIDE REVERSE TRANSCRIPTASE INHIBITOREN</label>
 		<label language="es">NUCLEOSIDE/NUCLEOTIDE REVERSE TRANSCRIPTASE INHIBITORS</label>
 		<label language="pt">NUCLEOSIDE/NUCLEOTIDE REVERSE TRANSCRIPTASE INHIBITORS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.04.02.02</code>
+		<parentcode>06.04.02</parentcode>
 		<label language="fr">INHIBITEURS NON NUCL&#201;OSIDIQUES DE LA TRANSCRIPTASE INVERSE</label>
 		<label language="en">NON-NUCLEOSIDE REVERSE TRANSCRIPTASE INHIBITORS</label>
 		<label language="nl">NIET-NUCLEOSIDE REVERSE TRANSCRIPTASE INHIBITOREN</label>
 		<label language="es">NON-NUCLEOSIDE REVERSE TRANSCRIPTASE INHIBITORS</label>
 		<label language="pt">NON-NUCLEOSIDE REVERSE TRANSCRIPTASE INHIBITORS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.04.02.03</code>
+		<parentcode>06.04.02</parentcode>
 		<label language="fr">INHIBITEURS DE PROT&#201;ASE</label>
 		<label language="en">PROTEASE INHIBITORS</label>
 		<label language="nl">PROTEASE INHIBITOREN</label>
 		<label language="es">PROTEASE INHIBITORS</label>
 		<label language="pt">PROTEASE INHIBITORS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.04.03</code>
+		<parentcode>06.04</parentcode>
 		<label language="fr">AUTRES ANTIVIRAUX</label>
 		<label language="en">OTHER ANTIVIRALS</label>
 		<label language="nl">ANDERE ANTVIRALE MIDDELEN</label>
 		<label language="es">OTHER ANTIVIRALS</label>
 		<label language="pt">OTHER ANTIVIRALS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05</code>
+		<parentcode>06</parentcode>
 		<label language="fr">ANTIPROTOZOAIRES</label>
 		<label language="en">ANTIPROTOZOAL MEDICINES</label>
 		<label language="nl">ANT-PROTOZOAIRE GENEESMIDDELEN</label>
 		<label language="es">ANTIPROTOZOAL MEDICINES</label>
 		<label language="pt">ANTIPROTOZOAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.01</code>
+		<parentcode>06.05</parentcode>
 		<label language="fr">ANTIAMIBIENS ET ANTIGIARDIENS</label>
 		<label language="en">ANTIAMOEBIC AND ANTIGIARDIASIS MEDICINES</label>
 		<label language="nl">ANTI-AMOEBICA EN ANTI-GARDIA GENEESMIDDELEN</label>
 		<label language="es">ANTIAMOEBIC AND ANTIGIARDIASIS MEDICINES</label>
 		<label language="pt">ANTIAMOEBIC AND ANTIGIARDIASIS MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.02</code>
+		<parentcode>06.05</parentcode>
 		<label language="fr">ANTILEISHMANIENS</label>
 		<label language="en">ANTILEISHMANIASIS MEDICINES</label>
 		<label language="nl">ANT-LEISHMANIASE PRODUCTEN</label>
 		<label language="es">ANTILEISHMANIASIS MEDICINES</label>
 		<label language="pt">ANTILEISHMANIASIS MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.03</code>
+		<parentcode>06.05</parentcode>
 		<label language="fr">ANTIPALUDIQUES</label>
 		<label language="en">ANTIMALARIAL MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN TEGEN MALARIA</label>
 		<label language="es">ANTIMALARIAL MEDICINES</label>
 		<label language="pt">ANTIMALARIAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.03.01</code>
+		<parentcode>06.05.03</parentcode>
 		<label language="fr">ANTIPALUDIQUES - TRAITEMENT CURATIF</label>
 		<label language="en">ANTIMALARIAL MEDICINES - FOR CURATIVE TREATMENT</label>
 		<label language="nl">GENEESMIDDELEN TEGEN MALARIA - CURATIEF</label>
 		<label language="es">ANTIMALARIAL MEDICINES - FOR CURATIVE TREATMENT</label>
 		<label language="pt">ANTIMALARIAL MEDICINES - FOR CURATIVE TREATMENT</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.03.02</code>
+		<parentcode>06.05.03</parentcode>
 		<label language="fr">ANTIPALUDIQUES - PROPHYLAXIE</label>
 		<label language="en">ANTIMALARIAL MEDICINES - FOR PROPHYLAXIS</label>
 		<label language="nl">GENEESMIDDELEN TEGEN MALARIA - PROFYLAXIS</label>
 		<label language="es">ANTIMALARIAL MEDICINES - FOR PROPHYLAXIS</label>
 		<label language="pt">ANTIMALARIAL MEDICINES - FOR PROPHYLAXIS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.04</code>
+		<parentcode>06.05</parentcode>
 		<label language="fr">M&#201;DICAMENTS CONTRE LA PNEUMOCYSTOSE ET LA TOXOPLASMOSE</label>
 		<label language="en">ANTIPNEUMOCYSTOSIS AND ANTITOXOPLASMOSIS MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN TEGEN PNEUMOCYSTOSE EN TOXOPLASMOSE</label>
 		<label language="es">ANTIPNEUMOCYSTOSIS AND ANTITOXOPLASMOSIS MEDICINES</label>
 		<label language="pt">ANTIPNEUMOCYSTOSIS AND ANTITOXOPLASMOSIS MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.05</code>
+		<parentcode>06.05</parentcode>
 		<label language="fr">TRYPANOCIDES</label>
 		<label language="en">ANTITRYPANOSOMAL MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN TEGEN TRYANOSOMIASE</label>
 		<label language="es">ANTITRYPANOSOMAL MEDICINES</label>
 		<label language="pt">ANTITRYPANOSOMAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.05.01</code>
+		<parentcode>06.05.05</parentcode>
 		<label language="fr">TRYPANOSOMIASE AFRICAINE</label>
 		<label language="en">AFRICAN TRYPANOSOMIASIS</label>
 		<label language="nl">AFRIKAANSE TRYPANOSOMIASE</label>
 		<label language="es">AFRICAN TRYPANOSOMIASIS</label>
 		<label language="pt">AFRICAN TRYPANOSOMIASIS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>06.05.05.02</code>
+		<parentcode>06.05.05</parentcode>
 		<label language="fr">TRYPANOSOMIASE AM&#201;RICAINE</label>
 		<label language="en">AMERICAN TRYPANOSOMIASIS</label>
 		<label language="nl">AMERKAANSE TRYPANOSOMIASE</label>
 		<label language="es">AMERICAN TRYPANOSOMIASIS</label>
 		<label language="pt">AMERICAN TRYPANOSOMIASIS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>07</code>
+		<parentcode></parentcode>
 		<label language="fr">ANTIMIGRAINEUX</label>
 		<label language="en">ANTIMIGRAINE MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN TEGEN MIGRAINE</label>
 		<label language="es">ANTIMIGRAINE MEDICINES</label>
 		<label language="pt">ANTIMIGRAINE MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>07.01</code>
+		<parentcode>06</parentcode>
 		<label language="fr">ANTIMIGRAINEUX - TRAITEMENT DE LA CRISE</label>
 		<label language="en">ANTIMIGRAINE MEDICINES - FOR TREATMENT OF ACUTE ATTACK</label>
 		<label language="nl">GENEESMIDDELEN TEGEN MIGRAINE - BIJ AANVAL</label>
 		<label language="es">ANTIMIGRAINE MEDICINES - FOR TREATMENT OF ACUTE ATTACK</label>
 		<label language="pt">ANTIMIGRAINE MEDICINES - FOR TREATMENT OF ACUTE ATTACK</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>07.02</code>
+		<parentcode>06</parentcode>
 		<label language="fr">ANTIMIGRAINEUX - PROPHYLAXIE</label>
 		<label language="en">ANTIMIGRAINE MEDICINES - FOR PROPHYLAXIS</label>
 		<label language="nl">GENEESMIDDELEN TEGEN MIGRAINE - PROFYLAXE</label>
 		<label language="es">ANTIMIGRAINE MEDICINES - FOR PROPHYLAXIS</label>
 		<label language="pt">ANTIMIGRAINE MEDICINES - FOR PROPHYLAXIS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>08</code>
+		<parentcode></parentcode>
 		<label language="fr">ANTINEOPLASIQUES, IMMUNOSUPPRESSEURS</label>
 		<label language="en">ANTINEOPLASTIC, IMMUNOSUPPRESSIVES</label>
 		<label language="nl">ANTI-NEOPLASTICA EN IMMUNOSUPPRESSIVA</label>
 		<label language="es">ANTINEOPLASTIC, IMMUNOSUPPRESSIVES</label>
 		<label language="pt">ANTINEOPLASTIC, IMMUNOSUPPRESSIVES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>08.01</code>
+		<parentcode>08</parentcode>
 		<label language="fr">IMMUNOD&#201;PRESSEURS</label>
 		<label language="en">IMMUNOSUPPRESSIVE MEDICINES</label>
 		<label language="nl">IMMUNOSUPPRESSIVA</label>
 		<label language="es">IMMUNOSUPPRESSIVE MEDICINES</label>
 		<label language="pt">IMMUNOSUPPRESSIVE MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>08.02</code>
+		<parentcode>08</parentcode>
 		<label language="fr">CYTOTOXIQUES ET M&#201;DICAMENTS ADJUVANTS</label>
 		<label language="en">CYTOTOXIC AND ADJUVANT MEDICINES</label>
 		<label language="nl">CYTOTOXISCHE PRODUCTEN EN ADJUVANS </label>
 		<label language="es">CYTOTOXIC AND ADJUVANT MEDICINES</label>
 		<label language="pt">CYTOTOXIC AND ADJUVANT MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>08.03</code>
+		<parentcode>08</parentcode>
 		<label language="fr">HORMONES ET ANTIHORMONES</label>
 		<label language="en">HORMONES AND ANTIHORMONES</label>
 		<label language="nl">HORMONEN EN ANTI-HORMONEN</label>
 		<label language="es">HORMONES AND ANTIHORMONES</label>
 		<label language="pt">HORMONES AND ANTIHORMONES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>08.04</code>
+		<parentcode>08</parentcode>
 		<label language="fr">M&#201;DICAMENTS DES SOINS PALLIATIFS</label>
 		<label language="en">MEDICINES USED IN PALLIATIVE CARE</label>
 		<label language="nl">PALLIATIEVE MIDDELEN</label>
 		<label language="es">MEDICINES USED IN PALLIATIVE CARE</label>
 		<label language="pt">MEDICINES USED IN PALLIATIVE CARE</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>09</code>
+		<parentcode></parentcode>
 		<label language="fr">ANTIPARKINSONIENS</label>
 		<label language="en">ANTIPARKINSONISM MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN TEGEN PARKINSON</label>
 		<label language="es">ANTIPARKINSONISM MEDICINES</label>
 		<label language="pt">ANTIPARKINSONISM MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>10</code>
+		<parentcode></parentcode>
 		<label language="fr">MEDICAMENTS UTILISES EN HEMATOLOGIE</label>
 		<label language="en">MEDICINES AFFECTING THE BLOOD</label>
 		<label language="nl">GENEESMIDDELEN GEBRUIKT IN DE HEMATOLOGIE</label>
 		<label language="es">MEDICINES AFFECTING THE BLOOD</label>
 		<label language="pt">MEDICINES AFFECTING THE BLOOD</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>10.01</code>
+		<parentcode>10</parentcode>
 		<label language="fr">ANTIAN&#201;MIQUES</label>
 		<label language="en">ANTIANAEMIA MEDICINES</label>
 		<label language="nl">ANTI-ANEMISCHE MIDDELEN</label>
 		<label language="es">ANTIANAEMIA MEDICINES</label>
 		<label language="pt">ANTIANAEMIA MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>10.02</code>
+		<parentcode>10</parentcode>
 		<label language="fr">M&#201;DICAMENTS DE L&#8217;H&#201;MOSTASE</label>
 		<label language="en">MEDICINES AFFECTING COAGULATION</label>
 		<label language="nl">GENEESMIDDELEN DIE DE COALGULATIE BE&#207;NVLOEDEN</label>
 		<label language="es">MEDICINES AFFECTING COAGULATION</label>
 		<label language="pt">MEDICINES AFFECTING COAGULATION</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>10.03</code>
+		<parentcode>10</parentcode>
 		<label language="fr">AUTRES M&#201;DICAMENTS POUR LE TRAITEMENT DES H&#201;MOGLOBINOPATHIES</label>
 		<label language="en">OTHER MEDICINES FOR HAEMOGLOBINOPATHIES</label>
 		<label language="nl">ANDERE GENEESMIDDELEN BIJ HEMOGLOBINE-STOORNISSEN</label>
 		<label language="es">OTHER MEDICINES FOR HAEMOGLOBINOPATHIES</label>
 		<label language="pt">OTHER MEDICINES FOR HAEMOGLOBINOPATHIES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>11</code>
+		<parentcode></parentcode>
 		<label language="fr">PRODUITS SANGUINS ET SUBSTITUTS DU PLASMA</label>
 		<label language="en">BLOOD PRODUCTS AND PLASMA SUBSTITUTES</label>
 		<label language="nl">BLOEDPRODUCTEN EN PLASMAVERVANGERS</label>
 		<label language="es">BLOOD PRODUCTS AND PLASMA SUBSTITUTES</label>
 		<label language="pt">BLOOD PRODUCTS AND PLASMA SUBSTITUTES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>11.01</code>
+		<parentcode>11</parentcode>
 		<label language="fr">SUBSTITUTS DU PLASMA</label>
 		<label language="en">PLASMA SUBSTITUTES</label>
 		<label language="nl">PLASMAVERVANGERS</label>
 		<label language="es">PLASMA SUBSTITUTES</label>
 		<label language="pt">PLASMA SUBSTITUTES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>11.02</code>
+		<parentcode>11</parentcode>
 		<label language="fr">FRACTIONS PLASMATIQUES POUR INDICATIONS PARTICULI&#200;RES</label>
 		<label language="en">PLASMA FRACTIONS FOR SPECIFIC USE</label>
 		<label language="nl">SPECIFIEKE PLASMAFRACTIES</label>
 		<label language="es">PLASMA FRACTIONS FOR SPECIFIC USE</label>
 		<label language="pt">PLASMA FRACTIONS FOR SPECIFIC USE</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>12</code>
+		<parentcode></parentcode>
 		<label language="fr">MEDICAMENTS UTILISES EN CARDIO-ANGEIOLOGIE</label>
 		<label language="en">CARDIOVASCULAR MEDICINES</label>
 		<label language="nl">CARDIOVASCULAIRE MIDDELEN</label>
 		<label language="es">CARDIOVASCULAR MEDICINES</label>
 		<label language="pt">CARDIOVASCULAR MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>12.01</code>
+		<parentcode>12</parentcode>
 		<label language="fr">ANTIANGOREUX</label>
 		<label language="en">ANTIANGINAL MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN BIJ ANGINA</label>
 		<label language="es">ANTIANGINAL MEDICINES</label>
 		<label language="pt">ANTIANGINAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>12.02</code>
+		<parentcode>12</parentcode>
 		<label language="fr">ANTIARYTHMIQUES</label>
 		<label language="en">ANTIARRHYTHMIC MEDICINES</label>
 		<label language="nl">ANTI-ARRITMICA</label>
 		<label language="es">ANTIARRHYTHMIC MEDICINES</label>
 		<label language="pt">ANTIARRHYTHMIC MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>12.03</code>
+		<parentcode>12</parentcode>
 		<label language="fr">ANTIHYPERTENSEURS</label>
 		<label language="en">ANTIHYPERTENSIVE MEDICINES</label>
 		<label language="nl">ANTI-HYPERTENSIVA</label>
 		<label language="es">ANTIHYPERTENSIVE MEDICINES</label>
 		<label language="pt">ANTIHYPERTENSIVE MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>12.04</code>
+		<parentcode>12</parentcode>
 		<label language="fr">M&#201;DICAMENTS DE L'INSUFFISANCE CARDIAQUE</label>
 		<label language="en">MEDICINES USED IN HEART FAILURE</label>
 		<label language="nl">GENEESMIDDELEN BIJ HARTFALEN</label>
 		<label language="es">MEDICINES USED IN HEART FAILURE</label>
 		<label language="pt">MEDICINES USED IN HEART FAILURE</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>12.05</code>
+		<parentcode>12</parentcode>
 		<label language="fr">ANTITHROMBOTIQUES</label>
 		<label language="en">ANTITHROMBOTIC MEDICINES</label>
 		<label language="nl">ANTI-THROMBOTICA</label>
 		<label language="es">ANTITHROMBOTIC MEDICINES</label>
 		<label language="pt">ANTITHROMBOTIC MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>12.06</code>
+		<parentcode>12</parentcode>
 		<label language="fr">HYPOLIP&#201;MIANTS</label>
 		<label language="en">LIPID-LOWERING AGENTS</label>
 		<label language="nl">LIPIDEN-VERLAGENDE MIDDELEN</label>
 		<label language="es">LIPID-LOWERING AGENTS</label>
 		<label language="pt">LIPID-LOWERING AGENTS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>13</code>
+		<parentcode></parentcode>
 		<label language="fr">MEDICAMENTS UTILISES EN DERMATOLOGIE</label>
 		<label language="en">DERMATOLOGICAL MEDICINES</label>
 		<label language="nl">DERMATOLOGISCHE PRODUCTEN</label>
 		<label language="es">DERMATOLOGICAL MEDICINES</label>
 		<label language="pt">DERMATOLOGICAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>13.01</code>
+		<parentcode>13</parentcode>
 		<label language="fr">ANTIFONGIQUES</label>
 		<label language="en">ANTIFUNGAL MEDICINES</label>
 		<label language="nl">ANTI-SCHIMMEL GENEESMIDDELEN</label>
 		<label language="es">ANTIFUNGAL MEDICINES</label>
 		<label language="pt">ANTIFUNGAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>13.02</code>
+		<parentcode>13</parentcode>
 		<label language="fr">ANTI-INFECTIEUX</label>
 		<label language="en">ANTI-INFECTIVE MEDICINES</label>
 		<label language="nl">GENEESMIDDELEN BIJ HUIDINFECTIES</label>
 		<label language="es">ANTI-INFECTIVE MEDICINES</label>
 		<label language="pt">ANTI-INFECTIVE MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>13.03</code>
+		<parentcode>13</parentcode>
 		<label language="fr">ANTI-INFLAMMATOIRES ET ANTIPRURIGINEUX</label>
 		<label language="en">ANTI-INFLAMMATORY AND ANTIPRURITIC MEDICINES</label>
 		<label language="nl">ONTSTEKINGSWERENDE EN JEUKWERENDE MEDICATIE</label>
 		<label language="es">ANTI-INFLAMMATORY AND ANTIPRURITIC MEDICINES</label>
 		<label language="pt">ANTI-INFLAMMATORY AND ANTIPRURITIC MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>13.04</code>
+		<parentcode>13</parentcode>
 		<label language="fr">M&#201;DICAMENTS DE LA DIFF&#201;RENCIATION ET DE LA PROLIF&#201;RATION CUTAN&#201;ES</label>
 		<label language="en">MEDICINES AFFECTING SKIN DIFFERENTIATION AND PROLIFERATION</label>
 		<label language="nl">GENEESMIDDELEN DIE DE HUIDDIFFERENTIATIE EN PROLIFERATIE BE&#207;NVLOEDEN</label>
 		<label language="es">MEDICINES AFFECTING SKIN DIFFERENTIATION AND PROLIFERATION</label>
 		<label language="pt">MEDICINES AFFECTING SKIN DIFFERENTIATION AND PROLIFERATION</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>13.05</code>
+		<parentcode>13</parentcode>
 		<label language="fr">SCABICIDES ET P&#201;DICULICIDES</label>
 		<label language="en">SCABICIDES AND PEDICULICIDES</label>
 		<label language="nl">SCABICIDEN EN LUISBESTRIJDINGSMIDDELEN</label>
 		<label language="es">SCABICIDES AND PEDICULICIDES</label>
 		<label language="pt">SCABICIDES AND PEDICULICIDES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>14</code>
+		<parentcode></parentcode>
 		<label language="fr">PRODUITS DE DIAGNOSTIC</label>
 		<label language="en">DIAGNOSTIC AGENTS</label>
 		<label language="nl">DIAGNOSTISCHE AGENTIA</label>
 		<label language="es">DIAGNOSTIC AGENTS</label>
 		<label language="pt">DIAGNOSTIC AGENTS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>14.01</code>
+		<parentcode>14</parentcode>
 		<label language="fr">PRODUITS DE DIAGNOSTIC - EN OPHTALMOLOGIE</label>
 		<label language="en">OPHTHALMIC MEDICINES</label>
 		<label language="nl">OPHTALMOLOGISCHE GENEESMIDDELEN</label>
 		<label language="es">OPHTHALMIC MEDICINES</label>
 		<label language="pt">OPHTHALMIC MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>14.02</code>
+		<parentcode>14</parentcode>
 		<label language="fr">PRODUITS DE DIAGNOSTIC - PRODUITS DE CONTRASTE</label>
 		<label language="en">RADIOCONTRAST MEDIA</label>
 		<label language="nl">CONTRASTMIDDELEN</label>
 		<label language="es">RADIOCONTRAST MEDIA</label>
 		<label language="pt">RADIOCONTRAST MEDIA</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>15</code>
+		<parentcode></parentcode>
 		<label language="fr">DESINFECTANTS ET ANTISEPTIQUES</label>
 		<label language="en">DISINFECTANTS AND ANTISEPTICS</label>
 		<label language="nl">DESINFECTANTIA EN ANTISEPTICA</label>
 		<label language="es">DISINFECTANTS AND ANTISEPTICS</label>
 		<label language="pt">DISINFECTANTS AND ANTISEPTICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>15.01</code>
+		<parentcode>15</parentcode>
 		<label language="fr">ANTISEPTIQUES</label>
 		<label language="en">ANTISEPTICS</label>
 		<label language="nl">ANTISEPTICA</label>
 		<label language="es">ANTISEPTICS</label>
 		<label language="pt">ANTISEPTICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>15.02</code>
+		<parentcode>15</parentcode>
 		<label language="fr">D&#201;SINFECTANTS</label>
 		<label language="en">DISINFECTANTS</label>
 		<label language="nl">DESINFECTANTIA</label>
 		<label language="es">DISINFECTANTS</label>
 		<label language="pt">DISINFECTANTS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>16</code>
+		<parentcode></parentcode>
 		<label language="fr">DIURETIQUES</label>
 		<label language="en">DIURETICS</label>
 		<label language="nl">DIURETICA</label>
 		<label language="es">DIURETICS</label>
 		<label language="pt">DIURETICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>17</code>
+		<parentcode></parentcode>
 		<label language="fr">MEDICAMENTS INDIQUES EN GASTROENTEROLOGIE</label>
 		<label language="en">GASTROINTESTINAL MEDICINES</label>
 		<label language="nl">GASTRO-INTESTINALE MIDDELEN</label>
 		<label language="es">GASTROINTESTINAL MEDICINES</label>
 		<label language="pt">GASTROINTESTINAL MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>17.01</code>
+		<parentcode>17</parentcode>
 		<label language="fr">ANTIULC&#201;REUX</label>
 		<label language="en">ANTIULCER MEDICINES</label>
 		<label language="nl">MIDDELEN TER BESTRIJDING VAN MAAGULCUS</label>
 		<label language="es">ANTIULCER MEDICINES</label>
 		<label language="pt">ANTIULCER MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>17.02</code>
+		<parentcode>17</parentcode>
 		<label language="fr">ANTI&#201;M&#201;TIQUES</label>
 		<label language="en">ANTIEMETIC MEDICINES</label>
 		<label language="nl">ANTI-EMETICA</label>
 		<label language="es">ANTIEMETIC MEDICINES</label>
 		<label language="pt">ANTIEMETIC MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>17.03</code>
+		<parentcode>17</parentcode>
 		<label language="fr">ANTI-INFLAMMATOIRES</label>
 		<label language="en">ANTI-INFLAMMATORY MEDICINES</label>
 		<label language="nl">ANTI-INFLAMMATOIRE MIDDELEN</label>
 		<label language="es">ANTI-INFLAMMATORY MEDICINES</label>
 		<label language="pt">ANTI-INFLAMMATORY MEDICINES</label>
-	</druggroup>
-	<druggroup>
-		<code>17.05</code>
-		<label language="fr">ANTIDIARRH&#201;IQUES</label>
-		<label language="en">MEDICINES USED IN DIARRHOEA</label>
-		<label language="nl">ANTI-DIARREICA</label>
-		<label language="es">MEDICINES USED IN DIARRHOEA</label>
-		<label language="pt">MEDICINES USED IN DIARRHOEA</label>
-	</druggroup>
-	<druggroup>
-		<code>17.05.01</code>
-		<label language="fr">R&#201;HYDRATATION ORALE</label>
-		<label language="en">ORAL REHYDRATION</label>
-		<label language="nl">ORALE HYDRATATIE</label>
-		<label language="es">ORAL REHYDRATION</label>
-		<label language="pt">ORAL REHYDRATION</label>
-	</druggroup>
-	<druggroup>
-		<code>17.05.02</code>
-		<label language="fr">ANTIDIARRH&#201;IQUES &#192; USAGE P&#201;DIATRIQUE</label>
-		<label language="en">MEDICINES FOR DIARRHOEA IN CHILDREN</label>
-		<label language="nl">GENEESMIDDELEN TEGEN DIARREE BIJ KINDEREN</label>
-		<label language="es">MEDICINES FOR DIARRHOEA IN CHILDREN</label>
-		<label language="pt">MEDICINES FOR DIARRHOEA IN CHILDREN</label>
-	</druggroup>
-	<druggroup>
-		<code>170.04</code>
+	</drugcategory>
+	<drugcategory>
+		<code>17.04</code>
+		<parentcode>17</parentcode>
 		<label language="fr">LAXATIFS</label>
 		<label language="en">LAXATIVES</label>
 		<label language="nl">LAXATIVA</label>
 		<label language="es">LAXATIVES</label>
 		<label language="pt">LAXATIVES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
+		<code>17.05</code>
+		<parentcode>17</parentcode>
+		<label language="fr">ANTIDIARRH&#201;IQUES</label>
+		<label language="en">MEDICINES USED IN DIARRHOEA</label>
+		<label language="nl">ANTI-DIARREICA</label>
+		<label language="es">MEDICINES USED IN DIARRHOEA</label>
+		<label language="pt">MEDICINES USED IN DIARRHOEA</label>
+	</drugcategory>
+	<drugcategory>
+		<code>17.05.01</code>
+		<parentcode>17.05</parentcode>
+		<label language="fr">R&#201;HYDRATATION ORALE</label>
+		<label language="en">ORAL REHYDRATION</label>
+		<label language="nl">ORALE HYDRATATIE</label>
+		<label language="es">ORAL REHYDRATION</label>
+		<label language="pt">ORAL REHYDRATION</label>
+	</drugcategory>
+	<drugcategory>
+		<code>17.05.02</code>
+		<parentcode>17.05</parentcode>
+		<label language="fr">ANTIDIARRH&#201;IQUES &#192; USAGE P&#201;DIATRIQUE</label>
+		<label language="en">MEDICINES FOR DIARRHOEA IN CHILDREN</label>
+		<label language="nl">GENEESMIDDELEN TEGEN DIARREE BIJ KINDEREN</label>
+		<label language="es">MEDICINES FOR DIARRHOEA IN CHILDREN</label>
+		<label language="pt">MEDICINES FOR DIARRHOEA IN CHILDREN</label>
+	</drugcategory>
+	<drugcategory>
 		<code>18</code>
+		<parentcode></parentcode>
 		<label language="fr">HORMONES, AUTRES MEDICAMENTS INDIQUES EN ENDOCRINOLOGIE</label>
 		<label language="en">HORMONES, OTHER ENDOCRINE MEDICINES AND CONTRACEPTIVES</label>
 		<label language="nl">HORMONEN EN ANDERE ENDOCRIENE GENEESMIDDELEN</label>
 		<label language="es">HORMONES, OTHER ENDOCRINE MEDICINES AND CONTRACEPTIVES</label>
 		<label language="pt">HORMONES, OTHER ENDOCRINE MEDICINES AND CONTRACEPTIVES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.01</code>
+		<parentcode>18</parentcode>
 		<label language="fr">HORMONES SURR&#201;NALIENNES ET CORTICO&#207;DES DE SYNTH&#200;SE</label>
 		<label language="en">ADRENAL HORMONES AND SYNTHETIC SUBSTITUTES</label>
 		<label language="nl">BIJNIERHORMONEN EN SYNTHETISCHE SUBSTITUTIE</label>
 		<label language="es">ADRENAL HORMONES AND SYNTHETIC SUBSTITUTES</label>
 		<label language="pt">ADRENAL HORMONES AND SYNTHETIC SUBSTITUTES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.02</code>
+		<parentcode>18</parentcode>
 		<label language="fr">ANDROG&#200;NES</label>
 		<label language="en">ANDROGENS</label>
 		<label language="nl">ANDROGENEN</label>
 		<label language="es">ANDROGENS</label>
 		<label language="pt">ANDROGENS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.03</code>
+		<parentcode>18</parentcode>
 		<label language="fr">CONTRACEPTIFS</label>
 		<label language="en">CONTRACEPTIVES</label>
 		<label language="nl">CONTRACEPTIVA</label>
 		<label language="es">CONTRACEPTIVES</label>
 		<label language="pt">CONTRACEPTIVES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.03.01</code>
+		<parentcode>18.03</parentcode>
 		<label language="fr">CONTRACEPTIFS HORMONAUX ORAUX</label>
 		<label language="en">ORAL HORMONAL CONTRACEPTIVES</label>
 		<label language="nl">ORALE HORMONALE CONTRACEPTIVA</label>
 		<label language="es">ORAL HORMONAL CONTRACEPTIVES</label>
 		<label language="pt">ORAL HORMONAL CONTRACEPTIVES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.03.02</code>
+		<parentcode>18.03</parentcode>
 		<label language="fr">CONTRACEPTIFS HORMONAUX INJECTABLES</label>
 		<label language="en">INJECTABLE HORMONAL CONTRACEPTIVES</label>
 		<label language="nl">INSPUITBARE HORMONALE CONTRACEPTIVA</label>
 		<label language="es">INJECTABLE HORMONAL CONTRACEPTIVES</label>
 		<label language="pt">INJECTABLE HORMONAL CONTRACEPTIVES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.03.03</code>
+		<parentcode>18.03</parentcode>
 		<label language="fr">DISPOSITIFS INTRA-UT&#201;RINS</label>
 		<label language="en">INTRAUTERINE DEVICES</label>
 		<label language="nl">INTRAUTERINE MIDDELEN</label>
 		<label language="es">INTRAUTERINE DEVICES</label>
 		<label language="pt">INTRAUTERINE DEVICES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.03.04</code>
+		<parentcode>18.03</parentcode>
 		<label language="fr">CONTRACEPTION LOCALE</label>
 		<label language="en">BARRIER METHODS</label>
 		<label language="nl">BARRI&#200;RE-METHODES</label>
 		<label language="es">BARRIER METHODS</label>
 		<label language="pt">BARRIER METHODS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.03.05</code>
+		<parentcode>18.03</parentcode>
 		<label language="fr">CONTRACEPTIFS IMPLANTABLES</label>
 		<label language="en">IMPLANTABLE CONTRACEPTIVES</label>
 		<label language="nl">IMPLANTEERBARE CONTRACEPTIVA</label>
 		<label language="es">IMPLANTABLE CONTRACEPTIVES</label>
 		<label language="pt">IMPLANTABLE CONTRACEPTIVES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.04</code>
+		<parentcode>18</parentcode>
 		<label language="fr">ESTROG&#200;NES</label>
 		<label language="en">ESTROGENS</label>
 		<label language="nl">OESTROGENEN</label>
 		<label language="es">ESTROGENS</label>
 		<label language="pt">ESTROGENS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.05</code>
+		<parentcode>18</parentcode>
 		<label language="fr">INSULINES ET AUTRES ANTIDIAB&#201;TIQUES</label>
 		<label language="en">INSULINS AND OTHER MEDICINES USED FOR DIABETES</label>
 		<label language="nl">INSULINE EN ANDERE ANTI-DIABETES MIDDELEN</label>
 		<label language="es">INSULINS AND OTHER MEDICINES USED FOR DIABETES</label>
 		<label language="pt">INSULINS AND OTHER MEDICINES USED FOR DIABETES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.06</code>
+		<parentcode>18</parentcode>
 		<label language="fr">INDUCTEURS DE L&#8217;OVULATION</label>
 		<label language="en">OVULATION INDUCERS</label>
 		<label language="nl">OVULATIE-INDUCTIE PREPARATEN</label>
 		<label language="es">OVULATION INDUCERS</label>
 		<label language="pt">OVULATION INDUCERS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.07</code>
+		<parentcode>18</parentcode>
 		<label language="fr">PROGESTATIFS</label>
 		<label language="en">PROGESTOGENS</label>
 		<label language="nl">PROGESTOGENEN</label>
 		<label language="es">PROGESTOGENS</label>
 		<label language="pt">PROGESTOGENS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>18.08</code>
+		<parentcode>18</parentcode>
 		<label language="fr">HORMONES THYRO&#207;DIENNES ET ANTITHYRO&#207;DIENS</label>
 		<label language="en">THYROID HORMONES AND ANTITHYROID MEDICINES</label>
 		<label language="nl">SCHILDKLIERHORMONEN EN ANTI-THYRO&#207;D MIDDELEN</label>
 		<label language="es">THYROID HORMONES AND ANTITHYROID MEDICINES</label>
 		<label language="pt">THYROID HORMONES AND ANTITHYROID MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>19</code>
+		<parentcode></parentcode>
 		<label language="fr">PREPARATIONS POUR L&#8217;IMMUNOLOGIE</label>
 		<label language="en">IMMUNOLOGICALS</label>
 		<label language="nl">IMMUNOLOGISCHE PRODUCTEN</label>
 		<label language="es">IMMUNOLOGICALS</label>
 		<label language="pt">IMMUNOLOGICALS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>19.01</code>
+		<parentcode>19</parentcode>
 		<label language="fr">PRODUITS DE DIAGNOSTIC</label>
 		<label language="en">DIAGNOSTIC AGENTS</label>
 		<label language="nl">DIAGNOSTISCHE AGENTIA</label>
 		<label language="es">DIAGNOSTIC AGENTS</label>
 		<label language="pt">DIAGNOSTIC AGENTS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>19.02</code>
+		<parentcode>19</parentcode>
 		<label language="fr">S&#201;RUMS ET IMMUNOGLOBULINES</label>
 		<label language="en">SERA AND IMMUNOGLOBULINS</label>
 		<label language="nl">SERA EN IMMUUNGLOBULINES</label>
 		<label language="es">SERA AND IMMUNOGLOBULINS</label>
 		<label language="pt">SERA AND IMMUNOGLOBULINS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>19.03</code>
+		<parentcode>19</parentcode>
 		<label language="fr">VACCINS</label>
 		<label language="en">VACCINES</label>
 		<label language="nl">VACCINS</label>
 		<label language="es">VACCINES</label>
 		<label language="pt">VACCINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>20</code>
+		<parentcode>20</parentcode>
 		<label language="fr">MYORELAXANTS (PERIPHERIQUES) ET INHIBITEURS DE LA CHOLINESTERASE</label>
 		<label language="en">MUSCLE RELAXANTS (PERIPHERALLY-ACTING)</label>
 		<label language="nl">SPIERVERSLPPENDE MIDDELEN</label>
 		<label language="es">MUSCLE RELAXANTS (PERIPHERALLY-ACTING)</label>
 		<label language="pt">MUSCLE RELAXANTS (PERIPHERALLY-ACTING)</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>21</code>
+		<parentcode></parentcode>
 		<label language="fr">PREPARATIONS POUR L&#8217;OPHTALMOLOGIE</label>
 		<label language="en">OPHTHALMOLOGICAL PREPARATIONS</label>
 		<label language="nl">OFTALMOLOGISCHE MIDDELEN</label>
 		<label language="es">OPHTHALMOLOGICAL PREPARATIONS</label>
 		<label language="pt">OPHTHALMOLOGICAL PREPARATIONS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>21.01</code>
+		<parentcode>21</parentcode>
 		<label language="fr">ANTI-INFECTIEUX OPHTALMOLOGIQUES</label>
 		<label language="en">OPHTALMOLOGY - ANTI-INFECTIVE AGENTS</label>
 		<label language="nl">OFTALMOLOGISCHE MIDDELEN - INFECTIEBESTRIJDENDE MIDDELEN</label>
 		<label language="es">OPHTALMOLOGY - ANTI-INFECTIVE AGENTS</label>
 		<label language="pt">OPHTALMOLOGY - ANTI-INFECTIVE AGENTS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>21.02</code>
+		<parentcode>21</parentcode>
 		<label language="fr">ANTI-INFLAMMATOIRES OPHTALMOLOGIQUES</label>
 		<label language="en">OPHTALMOLOGY - ANTI-INFLAMMATORY AGENTS</label>
 		<label language="nl">OFTALMOLOGISCHE MIDDELEN - ONTSTEKINGSWERENDE MIDDELEN</label>
 		<label language="es">OPHTALMOLOGY - ANTI-INFLAMMATORY AGENTS</label>
 		<label language="pt">OPHTALMOLOGY - ANTI-INFLAMMATORY AGENTS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>21.03</code>
+		<parentcode>21</parentcode>
 		<label language="fr">ANESTH&#201;SIQUES LOCAUX OPHTALMOLOGIQUES</label>
 		<label language="en">OPHTALMOLOGY - LOCAL ANAESTHETICS</label>
 		<label language="nl">OFTALMOLOGISCHE MIDDELEN - LOKALE ANESTHETICA</label>
 		<label language="es">OPHTALMOLOGY - LOCAL ANAESTHETICS</label>
 		<label language="pt">OPHTALMOLOGY - LOCAL ANAESTHETICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>21.04</code>
+		<parentcode>21</parentcode>
 		<label language="fr">MIOTIQUES ET ANTIGLAUCOMATEUX</label>
 		<label language="en">MIOTICS AND ANTIGLAUCOMA MEDICINES</label>
 		<label language="nl">MIOTICA EN GENEESMIDDELEN BIJ GLAUCOOM</label>
 		<label language="es">MIOTICS AND ANTIGLAUCOMA MEDICINES</label>
 		<label language="pt">MIOTICS AND ANTIGLAUCOMA MEDICINES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>21.05</code>
+		<parentcode>21</parentcode>
 		<label language="fr">MYDRIATIQUES</label>
 		<label language="en">MYDRIATICS</label>
 		<label language="nl">MYDRIATICA</label>
 		<label language="es">MYDRIATICS</label>
 		<label language="pt">MYDRIATICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>22</code>
+		<parentcode></parentcode>
 		<label language="fr">OCYTOCIQUES ET ANTIOCYTOCIQUES</label>
 		<label language="en">OXYTOCICS AND ANTIOXYTOCICS</label>
 		<label language="nl">OXYTOCINE EN ANTI-OXYTOCINE</label>
 		<label language="es">OXYTOCICS AND ANTIOXYTOCICS</label>
 		<label language="pt">OXYTOCICS AND ANTIOXYTOCICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>22.01</code>
+		<parentcode>22</parentcode>
 		<label language="fr">OCYTOCIQUES</label>
 		<label language="en">OXYTOCICS</label>
 		<label language="nl">OXYTOCINES</label>
 		<label language="es">OXYTOCICS</label>
 		<label language="pt">OXYTOCICS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>22.02</code>
+		<parentcode>22</parentcode>
 		<label language="fr">ANTIOCYTOCIQUES (TOCOLYTIQUES)</label>
 		<label language="en">ANTIOXYTOCICS (TOCOLYTICS)</label>
 		<label language="nl">TOCOLYTICA</label>
 		<label language="es">ANTIOXYTOCICS (TOCOLYTICS)</label>
 		<label language="pt">ANTIOXYTOCICS (TOCOLYTICS)</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>23</code>
+		<parentcode></parentcode>
 		<label language="fr">SOLUTIONS POUR DIALYSE PERITONEALE</label>
 		<label language="en">PERITONEAL DIALYSIS SOLUTION</label>
 		<label language="nl">PERITONEAAL DIALYSE</label>
 		<label language="es">PERITONEAL DIALYSIS SOLUTION</label>
 		<label language="pt">PERITONEAL DIALYSIS SOLUTION</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>24</code>
+		<parentcode></parentcode>
 		<label language="fr">MEDICAMENTS DES DESORDRES MENTAUX ET COMPORTEMENTAUX</label>
 		<label language="en">MEDICINES FOR MENTAL AND BEHAVIOURAL DISORDERS</label>
 		<label language="nl">GENEESMIDDELEN BIJ PSYCHIATRISCHE AANDOENINGEN</label>
 		<label language="es">MEDICINES FOR MENTAL AND BEHAVIOURAL DISORDERS</label>
 		<label language="pt">MEDICINES FOR MENTAL AND BEHAVIOURAL DISORDERS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>24.01</code>
+		<parentcode>24</parentcode>
 		<label language="fr">ANTIPSYCHOTIQUES</label>
 		<label language="en">MEDICINES USED IN PSYCHOTIC DISORDERS</label>
 		<label language="nl">PSYCHOTISCHE AANDOENINGEN</label>
 		<label language="es">MEDICINES USED IN PSYCHOTIC DISORDERS</label>
 		<label language="pt">MEDICINES USED IN PSYCHOTIC DISORDERS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>24.02</code>
+		<parentcode>24</parentcode>
 		<label language="fr">M&#201;DICAMENTS DES TROUBLES DE L&#8217;HUMEUR</label>
 		<label language="en">MEDICINES USED IN MOOD DISORDERS</label>
 		<label language="nl">STEMMINGSSTOORNISSEN</label>
 		<label language="es">MEDICINES USED IN MOOD DISORDERS</label>
 		<label language="pt">MEDICINES USED IN MOOD DISORDERS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>24.02.01</code>
+		<parentcode>24.02</parentcode>
 		<label language="fr">ANTID&#201;PRESSEURS</label>
 		<label language="en">MEDICINES USED IN DEPRESSIVE DISORDERS</label>
 		<label language="nl">DEPRESSIE</label>
 		<label language="es">MEDICINES USED IN DEPRESSIVE DISORDERS</label>
 		<label language="pt">MEDICINES USED IN DEPRESSIVE DISORDERS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>24.02.02</code>
+		<parentcode>24.02</parentcode>
 		<label language="fr">NORMOTHYMIQUES</label>
 		<label language="en">MEDICINES USED IN BIPOLAR DISORDERS</label>
 		<label language="nl">PIPOLAIRE STOORNISSEN</label>
 		<label language="es">MEDICINES USED IN BIPOLAR DISORDERS</label>
 		<label language="pt">MEDICINES USED IN BIPOLAR DISORDERS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>24.03</code>
+		<parentcode>24</parentcode>
 		<label language="fr">ANXIOLYTIQUES</label>
 		<label language="en">MEDICINES FOR ANXIETY DISORDERS</label>
 		<label language="nl">ANXIOLYTICA</label>
 		<label language="es">MEDICINES FOR ANXIETY DISORDERS</label>
 		<label language="pt">MEDICINES FOR ANXIETY DISORDERS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>24.04</code>
+		<parentcode>24</parentcode>
 		<label language="fr">M&#201;DICAMENTS DES TROUBLES OBSESSIONNELS COMPULSIFS</label>
 		<label language="en">MEDICINES USED FOR OBSESSIVE COMPULSIVE DISORDERS</label>
 		<label language="nl">OBSESSIEF-COMPULSIEVE STOORNISSEN</label>
 		<label language="es">MEDICINES USED FOR OBSESSIVE COMPULSIVE DISORDERS</label>
 		<label language="pt">MEDICINES USED FOR OBSESSIVE COMPULSIVE DISORDERS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>24.05</code>
+		<parentcode>24</parentcode>
 		<label language="fr">M&#201;DICAMENTS DES TROUBLES LI&#201;S &#192; L'USAGE DE SUBSTANCES PSYCHOACTIVES</label>
 		<label language="en">MEDICINES FOR DISORDERS DUE TO PSYCHOACTIVE SUBSTANCE USE</label>
 		<label language="nl">AANDOENINGEN TE WIJTEN AAN GEBRUIK VAN PSYCHOFARMACA</label>
 		<label language="es">MEDICINES FOR DISORDERS DUE TO PSYCHOACTIVE SUBSTANCE USE</label>
 		<label language="pt">MEDICINES FOR DISORDERS DUE TO PSYCHOACTIVE SUBSTANCE USE</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>25</code>
+		<parentcode></parentcode>
 		<label language="fr">MEDICAMENTS INDIQUES EN PNEUMOLOGIE</label>
 		<label language="en">MEDICINES ACTING ON THE RESPIRATORY TRACT</label>
 		<label language="nl">RESIRAOIRE GENEESMIDDELEN</label>
 		<label language="es">MEDICINES ACTING ON THE RESPIRATORY TRACT</label>
 		<label language="pt">MEDICINES ACTING ON THE RESPIRATORY TRACT</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>25.01</code>
+		<parentcode>25</parentcode>
 		<label language="fr">ANTIASTHMATIQUES ET TRAITEMENT DES BRONCHOPNEUMOPATHIES CHRONIQUES OBSTRUCTIVES</label>
 		<label language="en">ANTIASTHMATIC AND MEDICINES FOR CHRONIC OBSTRUCTIVE PULMONARY DISEASE</label>
 		<label language="nl">ANTI-ASTHMATICA EN GENEESMIDDELEN BIJ CHRONISCH OBSTRUCTIEF LONGLIJDEN</label>
 		<label language="es">ANTIASTHMATIC AND MEDICINES FOR CHRONIC OBSTRUCTIVE PULMONARY DISEASE</label>
 		<label language="pt">ANTIASTHMATIC AND MEDICINES FOR CHRONIC OBSTRUCTIVE PULMONARY DISEASE</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>26</code>
+		<parentcode></parentcode>
 		<label language="fr">CORRECTION DES TROUBLES HYDRO-ELECTROLYTIQUES ET ACIDO-BASIQUES</label>
 		<label language="en">SOLUTIONS CORRECTING WATER, ELECTROLYTE AND ACID-BASE DISTURBANCES</label>
 		<label language="nl">CORRECTIE VAN WATER- EN ELEKTROLYTENHUISHODUING</label>
 		<label language="es">SOLUTIONS CORRECTING WATER, ELECTROLYTE AND ACID-BASE DISTURBANCES</label>
 		<label language="pt">SOLUTIONS CORRECTING WATER, ELECTROLYTE AND ACID-BASE DISTURBANCES</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>26.01</code>
+		<parentcode>26</parentcode>
 		<label language="fr">CORRECTION DES TROUBLES HYDRO-ELECTROLYTIQUES - VOIE ORALE</label>
 		<label language="en">SOLUTIONS CORRECTING WATER, ELECTROLYTE - ORAL</label>
 		<label language="nl">CORRECTIE VAN WATER- EN ELEKTROLYTENHUISHODUING - ORALE MIDDELEN</label>
 		<label language="es">SOLUTIONS CORRECTING WATER, ELECTROLYTE - ORAL</label>
 		<label language="pt">SOLUTIONS CORRECTING WATER, ELECTROLYTE - ORAL</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>26.02</code>
+		<parentcode>26</parentcode>
 		<label language="fr">CORRECTION DES TROUBLES HYDRO-ELECTROLYTIQUES - VOIE PARENT&#201;RALE</label>
 		<label language="en">SOLUTIONS CORRECTING WATER, ELECTROLYTE - PERENTERAL</label>
 		<label language="nl">CORRECTIE VAN WATER- EN ELEKTROLYTENHUISHODUING - PERENTERALE MIDDELEN</label>
 		<label language="es">SOLUTIONS CORRECTING WATER, ELECTROLYTE - PERENTERAL</label>
 		<label language="pt">SOLUTIONS CORRECTING WATER, ELECTROLYTE - PERENTERAL</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>26.03</code>
+		<parentcode>26</parentcode>
 		<label language="fr">CORRECTION DES TROUBLES HYDRO-ELECTROLYTIQUES - DIVERS</label>
 		<label language="en">SOLUTIONS CORRECTING WATER, ELECTROLYTE - MISCELLANEOUS</label>
 		<label language="nl">CORRECTIE VAN WATER- EN ELEKTROLYTENHUISHODUING - ANDERE</label>
 		<label language="es">SOLUTIONS CORRECTING WATER, ELECTROLYTE - MISCELLANEOUS</label>
 		<label language="pt">SOLUTIONS CORRECTING WATER, ELECTROLYTE - MISCELLANEOUS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>27</code>
+		<parentcode></parentcode>
 		<label language="fr">VITAMINES ET ELEMENTS MINERAUX</label>
 		<label language="en">VITAMINS AND MINERALS</label>
 		<label language="nl">VITAMINEN EN MINERALEN</label>
 		<label language="es">VITAMINS AND MINERALS</label>
 		<label language="pt">VITAMINS AND MINERALS</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>28</code>
+		<parentcode></parentcode>
 		<label language="fr">ORL</label>
 		<label language="en">ENT</label>
 		<label language="nl">NKO</label>
 		<label language="es">ENT</label>
 		<label language="pt">ENT</label>
-	</druggroup>
-	<druggroup>
+	</drugcategory>
+	<drugcategory>
 		<code>29</code>
+		<parentcode></parentcode>
 		<label language="fr">MEDICAMENTS PROPRES AUX SOINS NEONATALS</label>
 		<label language="en">SPECIFIC MEDICINES FOR NEONATAL CARE</label>
 		<label language="nl">SPECIFIEKE MIDDELEN VOOR PASGEBORENEN</label>
 		<label language="es">SPECIFIC MEDICINES FOR NEONATAL CARE</label>
 		<label language="pt">SPECIFIC MEDICINES FOR NEONATAL CARE</label>
-	</druggroup>
+	</drugcategory>
 </drugs>

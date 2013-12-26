@@ -10,6 +10,7 @@
             sFindPrestationPrice = checkString(request.getParameter("FindPrestationPrice"));
 
     String sFunction = checkString(request.getParameter("doFunction"));
+	String sFunctionVariable = checkString(request.getParameter("doFunctionVariable"));
 
     String sReturnFieldUid = checkString(request.getParameter("ReturnFieldUid")),
             sReturnFieldCode = checkString(request.getParameter("ReturnFieldCode")),
@@ -149,11 +150,39 @@
             window.opener.document.getElementsByName("<%=sReturnFieldPrice%>")[0].value = price;
         }
 
-    <%
-    if (sFunction.length()>0){
-        out.print("window.opener."+sFunction+";");
+	    <%
+	    if (sFunction.length()>0){
+	        out.print("window.opener."+sFunction+";");
+	    }
+	    %>
+
+        window.close();
     }
-    %>
+    function setPrestationVariable(uid, code, descr, type, price) {
+    	price = prompt("<%=getTran("web","enterprice",sWebLanguage)%>",price);
+        if ("<%=sReturnFieldUid%>".length > 0) {
+            window.opener.document.getElementsByName("<%=sReturnFieldUid%>")[0].value = uid;
+        }
+        if ("<%=sReturnFieldCode%>".length > 0) {
+            window.opener.document.getElementsByName("<%=sReturnFieldCode%>")[0].value = code;
+        }
+        if ("<%=sReturnFieldDescr%>".length > 0) {
+            window.opener.document.getElementsByName("<%=sReturnFieldDescr%>")[0].value = descr;
+        }
+        if ("<%=sReturnFieldDescrHtml%>".length > 0) {
+            window.opener.document.getElementById("<%=sReturnFieldDescrHtml%>").innerHTML = descr;
+        }
+        if ("<%=sReturnFieldType%>".length > 0) {
+            window.opener.document.getElementsByName("<%=sReturnFieldType%>")[0].value = type;
+        }
+        if ("<%=sReturnFieldPrice%>".length > 0) {
+            window.opener.document.getElementsByName("<%=sReturnFieldPrice%>")[0].value = price;
+        }
+	    <%
+	    if (sFunctionVariable.length()>0){
+	        out.print("window.opener."+sFunctionVariable+";");
+	    }
+	    %>
 
         window.close();
     }

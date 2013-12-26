@@ -43,6 +43,7 @@
             <Menu labelid="drugsoutbarcode" patientselected="true" activeencounter="true" accessrights="medication.medicationdelivery" url="javascript:showdrugsoutbarcode();"/>
             <Menu labelid="patientdrugdeliveries" patientselected="true" activeencounter="true" accessrights="medication.medicationdelivery" url="/main.do?Page=pharmacy/patientDeliveries.jsp"/>
             <Menu labelid="manageUserProducts" accessrights="pharmacy.manageuserproducts.select" url="/main.do?Page=pharmacy/manageUserProducts.jsp"/>
+            <Menu labelid="manageDrugCategories" accessrights="pharmacy.manageproducts.select" url="/main.do?Page=system/manageDrugCategories.jsp"/>
             <Menu labelid="manageProducts" accessrights="pharmacy.manageproducts.select" url="/main.do?Page=pharmacy/manageProducts.jsp"/>
             <Menu labelid="manageServiceStocks" accessrights="pharmacy.manageservicestocks.select" url="/main.do?Page=pharmacy/manageServiceStocks.jsp"/>
             <Menu labelid="productOrderManagement" accessrights="pharmacy.order.select">
@@ -50,14 +51,12 @@
                 <Menu labelid="viewOrderTickets" accessrights="pharmacy.viewordertickets" url="/main.do?Page=pharmacy/viewOrderTickets.jsp"/>
             </Menu>
             <Menu labelid="manageProductStockDocuments" accessrights="pharmacy.manageproductstockdocuments" url="/main.do?Page=pharmacy/manageProductStockDocuments.jsp"/>
+            <Menu labelid="recalculatePrices" accessrights="pharmacy.recalculateprices" url="/main.do?Page=pharmacy/recalculatePrices.jsp"/>
             <Menu labelid="synchronization" accessrights="pharmacy.select">
 	            <Menu labelid="export" accessrights="pharmacy.export" url="javascript:downloadPharmacyExport();"/>
 	            <Menu labelid="import" accessrights="pharmacy.import" url="/main.do?Page=pharmacy/importFile.jsp"/>
 	        </Menu>
-            <Menu labelid="pharmacy.reports" accessrights="pharmacy.select">
-	            <Menu labelid="pharmacy.report.expiring.lots" accessrights="pharmacy.select" url="/main.do?Page=pharmacy/expiredLots.jsp"/>
-	            <Menu labelid="pharmacy.report.patientdeliveries" accessrights="pharmacy.select" url="/main.do?Page=pharmacy/patientDeliveries.jsp" patientselected="true"/>
-	        </Menu>
+            <Menu labelid="pharmacy.reports" accessrights="pharmacy.select" url="/main.do?Page=pharmacy/reports.jsp"/>
         </Menu>
         <Menu labelid="financial" accessrights="financial.select">
             <Menu labelid="patientCreditEdit" patientselected="true" accessrights="financial.patientcreditedit.select" url="/main.do?Page=financial/patientCreditEdit.jsp"/>
@@ -128,7 +127,7 @@
 	<!-- ######################### Through the extra attribute 'labeltype' you can specify a real label ########################## -->
 	<!-- ######################### (instead of a web-label duplicated for menu-items)                   ########################## -->
     <Menu labelid="hidden">
-		<Menu labeltype="openclinic.chuk" labelid="actualrfe" url="javascript:openRFEList();"/>
-		<Menu labeltype="web" labelid="clinicalDocuments" url="javascript:newFastTransaction('@parameter1@');"/>
+		<Menu labeltype="openclinic.chuk" labelid="actualrfe" patientselected="true" url="javascript:openRFEList();"/>
+		<Menu labeltype="web" labelid="clinicalDocuments" patientselected="true" url="javascript:newFastTransaction('@parameter1@');"/>
 	</Menu>
 </Menus>
