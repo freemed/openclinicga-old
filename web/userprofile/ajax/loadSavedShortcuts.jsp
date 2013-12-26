@@ -95,7 +95,8 @@
 %>
 
 <%
-	String sUserId = checkString(request.getParameter("UserId"));	       
+	String sUserId = checkString(request.getParameter("UserId"));	
+	boolean noaccessvalidation = checkString(request.getParameter("noaccessvalidation")).equals("1");
 	
 	/// DEBUG //////////////////////////////////////////////////////////////////////
 	if(Debug.enabled){
@@ -152,7 +153,7 @@
             }
      
             Debug.println("--> okToDisplayIcon : "+okToDisplayIcon);
-            if(okToDisplayIcon){
+            if(noaccessvalidation || okToDisplayIcon){
             	// labelType ?
                 sLabelType = "web"; // default
                 if(menuElem.attributeValue("labeltype")!=null){

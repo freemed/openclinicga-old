@@ -105,7 +105,7 @@
            sShortcutIcon     = checkString(request.getParameter("ShortcutIcon")),
            sShortcutIconText = checkString(request.getParameter("ShortcutIconText"));
 
-    String sIconsDir = MedwanQuery.getInstance().getConfigString("localProjectPath")+"/_img/shortcutIcons";
+    String sIconsDir = MedwanQuery.getInstance().getConfigString("localProjectPath","/projects/openclinic")+"/_img/shortcutIcons";
     
     /// DEBUG //////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -143,7 +143,7 @@
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","type",sWebLanguage)%>&nbsp;*&nbsp;</td>
         <td class="admin2">
-            <select name="ShortcutType" class="text" onchange="getSubtypes(this);">
+            <select name="ShortcutType" id="ShortcutType" class="text" onchange="getSubtypes(this);">
                 <option value="-1"><%=getTran("web","choose",sWebLanguage)%></option>
                 <%
                     /*
@@ -192,11 +192,7 @@
     </tr>
         
     <%-- SHORTCUT SUB-TYPE (hidden) --%>
-    <tr id="shortcutSubtypeTR" style="display:none;">
-        <td class="admin"><%=getTran("web","subtype",sWebLanguage)%>&nbsp;*&nbsp;</td>
-        <td class="admin2" id="shortcutSubtypeTD">
-            <%-- ajax --%>
-        </td>
+    <tr id="shortcutSubtypeTR" id="shortcutSubtypeTR">
     </tr>
 
     <%-- SHORTCUT ICON --%>
@@ -221,7 +217,7 @@
                                 %><br><%
                             }
                             
-                            %><img class="link" id="icon_<%=i%>" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=icon.getName()%>" onClick="selectIcon(this);" style="border:2px solid white;width:20px;height:20px;" filename="<%=icon.getName()%>" title="<%=icon.getName()%>"/>&nbsp;&nbsp;<%
+                            %><img class="link" id="icon_<%=i%>" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=icon.getName()%>" onClick="selectIcon(this);" style="border:2px solid white;width:20px;height:20px;" name="<%=icon.getName()%>" title="<%=icon.getName()%>"/>&nbsp;&nbsp;<%
                         }
                     }
                     else{
@@ -258,13 +254,12 @@
 
 <script>
   document.getElementById("msgDiv").innerHTML = "<%=getTran("web","maxIcons",sWebLanguage)%>:&nbsp;<%=MedwanQuery.getInstance().getConfigString("maxUserDefinedShortcuts","5")%>";
-
   var selectedShortcuts = new Array();
   var clickedIcon, editedIcon, prevFullShortcutType = "";
   var numberOfSavedShortcuts = 0;
   
   loadSavedShortcuts();
-  
+
   <%-- APPEND SELECTED SHORTCUTS --%>
   function appendSelectedShortcuts(shortcutType){
     selectedShortcuts.push(shortcutType);
@@ -274,7 +269,7 @@
   function loadSavedShortcuts(){
 	document.getElementById("savedShortcutsTD").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";     
     var url = "<c:url value='/userprofile/ajax/loadSavedShortcuts.jsp'/>?ts="+new Date().getTime();
-    var params = "UserId=<%=activeUser.userid%>";
+    var params = "UserId=<%=activeUser.userid%>&noaccessvalidation=1";
     
     new Ajax.Updater("savedShortcutsTD",url,{ 
       method: "GET",
@@ -288,10 +283,9 @@
       }
     });
   }
-  
   <%-- SELECT ICON --%>
   function selectIcon(icon){
-	clickedIcon = icon;
+	  clickedIcon = icon;
 	
     <%-- deselect all icons --%>
     var icons = document.getElementById("iconsDiv").getElementsByTagName("img");
@@ -301,10 +295,10 @@
     
     <%-- clear previous selected icon --%>
     document.getElementById("ShortcutIcon").value = "";
-    
+
     if(clickedIcon!=null){
-      <%-- visually mark selected icon --%>
-      if(clickedIcon.style.border=="white 2px solid"){
+    	<%-- visually mark selected icon --%>
+      if(clickedIcon.style.border.indexOf("white")>-1){
         clickedIcon.style.border = "2px solid darkblue";
       }
       else{
@@ -312,8 +306,7 @@
       }
     
       <%-- keep track of id of selected icon --%>
-      document.getElementById("ShortcutIcon").value = clickedIcon.filename;
-    
+      document.getElementById("ShortcutIcon").value = clickedIcon.name;
       var typeSelect = document.getElementById("ShortcutType");
       if(typeSelect.selectedIndex > 0){
         document.getElementById("ShortcutIconText").value = typeSelect.options[typeSelect.selectedIndex].text;
@@ -346,13 +339,11 @@
           var html = trim(resp.responseText);
           
           if(html.length > 0){
-            document.getElementById("shortcutSubtypeTR").style.display = "block";
+            document.getElementById("shortcutSubtypeTR").innerHTML = "<td class='admin'><%=getTran("web","subtype",sWebLanguage)%>&nbsp;*&nbsp;</td><td class='admin2'>"+resp.responseText+"</td>";
           }
           else{
-            document.getElementById("shortcutSubtypeTR").style.display = "none";
+            document.getElementById("shortcutSubtypeTR").innerHTML = "";
           }
-          
-          document.getElementById("shortcutSubtypeTD").innerHTML = resp.responseText;
 
           <%-- select the right subtype --%>
           if(tmpSubtype.length > 0){
@@ -377,7 +368,6 @@
   function saveShortcut(){
     var okToSave = true;
     var fullShortcutType;
- 
     var maxNumberOfShortcuts = "<%=MedwanQuery.getInstance().getConfigString("maxUserDefinedShortcuts","5")%>";
     if((numberOfSavedShortcuts < maxNumberOfShortcuts) || document.getElementById("EditMode").value=="true"){
       <%-- type --%>
@@ -440,11 +430,16 @@
         if(prevFullShortcutType.length==0){
           prevFullShortcutType = fullShortcutType;
         }
+        subtype="";
+        if(document.getElementById("ShortcutSubtype")){
+        	subtype=document.getElementById("ShortcutSubtype").value;
+        }
         
 	    var url = "<c:url value='/userprofile/ajax/saveShortcut.jsp'/>?ts="+new Date().getTime();
         var params = "UserId=<%=activeUser.userid%>"+
 				     "&PrevShortcutId="+prevFullShortcutType+
 				     "&ShortcutId="+fullShortcutType+
+				     "&ShortcutSubtypeId="+subtype+
                      "&IconName="+document.getElementById("ShortcutIcon").value+
                      "&IconText="+document.getElementById("ShortcutIconText").value;
         new Ajax.Request(url,{
@@ -470,7 +465,7 @@
     var fullType = type;
   
     <%-- add subtype, if any (only for documents) --%>
-    if(document.getElementById("shortcutSubtypeTR").style.display=="block"){       
+    if(document.getElementById("ShortcutSubtype")){       
       if(document.getElementById("ShortcutSubtype").selectedIndex > 0){
         var subtype = document.getElementById("ShortcutSubtype").options[document.getElementById("ShortcutSubtype").selectedIndex].value;
         fullType+= "$"+subtype;
@@ -521,7 +516,7 @@
           <%-- select the right icon --%>
           var icons = document.getElementById("iconsDiv").getElementsByTagName("img");
           for(var i=0; i<icons.length; i++){
-            if(icons[i].filename==data.iconName){
+            if(icons[i].name==data.iconName){
               selectIcon(icons[i]);
               break;
             }
@@ -535,7 +530,7 @@
   
   <%-- DELETE SHORTCUT --%>
   function deleteShortcut(){
-    if(yesnoDialog("web","areYouSureToDelete")==1){
+    if(yesnoDialogDirectText('<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>')==1){
       disableButtons();
      
       var select = document.getElementById("ShortcutType");

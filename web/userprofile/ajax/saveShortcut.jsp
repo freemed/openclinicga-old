@@ -103,7 +103,9 @@
 <%
     String sUserId         = checkString(request.getParameter("UserId")),
            sPrevShortcutId = checkString(request.getParameter("PrevShortcutId")),
+           sShortcutSubtypeId= checkString(request.getParameter("ShortcutSubtypeId")),
            sShortcutId     = checkString(request.getParameter("ShortcutId"));
+		   
 
     String sIconName = checkString(request.getParameter("IconName")),
   		   sIconText = checkString(request.getParameter("IconText"));
@@ -124,7 +126,7 @@
     ///////////////////////////////////////////////////////////////////////////
    
     net.admin.Parameter parameter = new net.admin.Parameter();
-    parameter.parameter = "usershortcut$"+sShortcutId;
+    parameter.parameter = "usershortcut$"+sShortcutId+"$"+sShortcutSubtypeId;
     parameter.value = sIconName+"$"+sIconOnClick+"$"+sIconText;
 
     // store in DB and update activeUser    
