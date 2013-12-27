@@ -6,7 +6,7 @@
 	String feeid = checkString(request.getParameter("feeid"));
 	String feeamount = checkString(request.getParameter("feeamount"));
 	try{
-		Float.parseFloat(feeamount);
+		Float.parseFloat(feeamount.replace(",","."));
 	}
 	catch(Exception e){
 		feeamount="0";
@@ -26,7 +26,7 @@
 		ps.setString(1,userid);
 		ps.setString(2,feetype);
 		ps.setString(3,feeid);
-		ps.setFloat(4,Float.parseFloat(feeamount));
+		ps.setFloat(4,Float.parseFloat(feeamount.replace(",",".")));
 		ps.execute();
 		ps.close();
 		conn.close();
