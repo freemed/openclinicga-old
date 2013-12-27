@@ -385,7 +385,18 @@ if (sFindPatientCreditUID.length() > 0) {
         <tr>
             <td class="admin"/>
             <td class="admin2">
-                <input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
+            	<%
+            	if(userWickets.size() > 0){
+            	%>
+                	<input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
+                <%
+            	}
+            	else {
+            	%>
+            		<font color='red'><%=getTran("web","nowicketassignedtouser",sWebLanguage) %></font>
+            	<%
+            	}
+                %>
                 <div id="printsection" name="printsection" style="visibility: hidden">
                     <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>
 

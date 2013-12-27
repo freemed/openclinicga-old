@@ -470,9 +470,12 @@
 	                                	<input class="button" type="button" name="buttonCancellation" value='<%=getTranNoLink("Web.finance","cancellation",sWebLanguage)%>' onclick="doCancel('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                            	}
+	                            	Vector userWickets = Wicket.getWicketsForUser(activeUser.userid);
+	                            	if(userWickets.size()>0){
 	                        %>
                                	<input class="button" type="button" name="buttonPayment" value='<%=getTranNoLink("Web.finance","payment",sWebLanguage)%>' onclick="doPayment('<%=patientInvoice.getUid()%>');">
 	                        <%
+	                            	}
 	                            }
 	                        if(isInsuranceAgent && checkString(patientInvoice.getUid()).split("\\.").length==2 && checkString(patientInvoice.getAcceptationUid()).length()==0){
 	                        %>
