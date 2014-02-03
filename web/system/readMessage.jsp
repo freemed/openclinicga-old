@@ -158,8 +158,8 @@
                 boolean dataExists=false;
                 //We will write all abnormal values to a temporary file. This file is to be sent to the prescribing physician
                 String sTempDir = "";
-                if(MedwanQuery.getInstance().getConfigString("tempDir").length() > 0){
-                    sTempDir = MedwanQuery.getInstance().getConfigString("tempDir");
+                if(MedwanQuery.getInstance().getConfigString("tempDirectory").length() > 0){
+                    sTempDir = MedwanQuery.getInstance().getConfigString("tempDirectory");
                 }
                 String shortFileName = new SimpleDateFormat("ddMMyyyyHHmmssSSS").format(new java.util.Date())+".html";
                 String sTempFileName = (sTempDir+"/").replaceAll("//","/")+shortFileName;
