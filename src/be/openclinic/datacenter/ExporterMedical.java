@@ -106,14 +106,14 @@ public class ExporterMedical extends Exporter {
 		else if(getParam().equalsIgnoreCase("medical.1.1")){
 			//Export a summary of all ICD-10 based KPGS codes per month
 			//First find first month for which a summary must be provided
-			String admissiontype=MedwanQuery.getInstance().getConfigString("datacenterAdmissionTypes","'admission'");
+			String admissiontype=MedwanQuery.getInstance().getConfigString("datacenterAdmissionTypes","admission");
 			StringBuffer sb = new StringBuffer("<diags>");
 			String firstMonth = MedwanQuery.getInstance().getConfigString("datacenterFirstAdmissionKPGSSummaryMonth","0");
 			if(firstMonth.equalsIgnoreCase("0")){
 				//Find oldest diagnosis
 				Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 				try {
-					PreparedStatement ps = oc_conn.prepareStatement("select count(*) total,min(OC_DIAGNOSIS_DATE) as firstMonth from OC_DIAGNOSES_VIEW, OC_ENCOUNTERS where replace(OC_DIAGNOSIS_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')=OC_ENCOUNTER_OBJECTID and OC_ENCOUNTER_TYPE in ("+admissiontype+")");
+					PreparedStatement ps = oc_conn.prepareStatement("select count(*) total,min(OC_DIAGNOSIS_DATE) as firstMonth from OC_DIAGNOSES_VIEW, OC_ENCOUNTERS where replace(OC_DIAGNOSIS_ENCOUNTERUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')=OC_ENCOUNTER_OBJECTID and OC_ENCOUNTER_TYPE in ('"+admissiontype+"')");
 					ResultSet rs = ps.executeQuery();
 					if(rs.next() && rs.getInt("total")>0){
 						firstMonth=new SimpleDateFormat("yyyyMM").format(rs.getDate("firstMonth"));
@@ -157,7 +157,7 @@ public class ExporterMedical extends Exporter {
 							Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							try {
 								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, oc_diagnosis_code from oc_encounters a, oc_diagnoses_view b where a.oc_encounter_objectid=replace(b.oc_diagnosis_encounteruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and"+
-										" oc_encounter_enddate >=? and oc_encounter_enddate <? and oc_diagnosis_codetype='icd10' and oc_encounter_type in ("+admissiontype+") group by oc_diagnosis_code order by count(*) desc");
+										" oc_encounter_enddate >=? and oc_encounter_enddate <? and oc_diagnosis_codetype='icd10' and oc_encounter_type in ('"+admissiontype+"') group by oc_diagnosis_code order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								ResultSet rs = ps.executeQuery();
