@@ -56,17 +56,17 @@
                 sValue = (otherIncome>-1?(deci.format(otherIncome)).replace(",","."):"");
             }
             else{
-                sMsg = "<font color='red'>No 'otherIncomeType' specified for bonus-calculation</font>";
+                sMsg = "<font color='red'>No 'otherIncomeType' specified for otherIncome-calculation</font>";
                 Debug.println("WARNING : No bonusType specified");
             }
         }
         else{
-            sMsg = "<font color='red'>No 'salary' specified for bonus-calculation</font>";
+            sMsg = "<font color='red'>No 'salary' specified for otherIncome-calculation</font>";
             Debug.println("WARNING : No salary specified");
         }
     }    
     else{
-        sMsg = "<font color='red'>No config 'fiscalCountry' configured for bonus-calculation</font>";
+        sMsg = "<font color='red'>No config 'fiscalCountry' configured for otherIncome-calculation</font>";
         Debug.println("WARNING : No config 'fiscalCountry' configured");
     }    
 %>
