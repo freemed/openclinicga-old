@@ -56,17 +56,17 @@
                 sValue = (deduction>-1?(deci.format(deduction)).replace(",","."):"");
             }
             else{
-                sMsg = "<font color='red'>No 'deductionType' specified for bonus-calculation</font>";
+                sMsg = "<font color='red'>No 'deductionType' specified for deduction-calculation</font>";
                 Debug.println("WARNING : No bonusType specified");
             }
         }
         else{
-            sMsg = "<font color='red'>No 'salary' specified for bonus-calculation</font>";
+            sMsg = "<font color='red'>No 'salary' specified for deduction-calculation</font>";
             Debug.println("WARNING : No salary specified");
         }
     }    
     else{
-        sMsg = "<font color='red'>No config 'fiscalCountry' configured for bonus-calculation</font>";
+        sMsg = "<font color='red'>No config 'fiscalCountry' configured for deduction-calculation</font>";
         Debug.println("WARNING : No config 'fiscalCountry' configured");
     }    
 %>
