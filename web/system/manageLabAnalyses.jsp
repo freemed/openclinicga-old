@@ -44,7 +44,6 @@
 
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
-    String supportedMonsters = MedwanQuery.getInstance().getConfigString("supportedMonsters");
     if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
     supportedLanguages = supportedLanguages.toLowerCase();
 
