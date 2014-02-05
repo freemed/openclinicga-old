@@ -226,9 +226,7 @@
                         String sExtension = sEditLocation.substring(sEditLocation.indexOf(".")+1).toLowerCase();
 
                         if (MedwanQuery.getInstance().getConfigString("image_extensions","gif,jpg,bmp").toLowerCase().indexOf(sExtension)>-1){
-                          %>
-                    <img id="myImg" src="<%=MedwanQuery.getInstance().getConfigString("documentsdir","adt/documents/")+"/"+sEditLocation%>" alt="" width="<%=MedwanQuery.getInstance().getConfigString("adt.bed.imagewidth","250")%>" border=1>
-                        <%
+                            %><img id="myImg" src="<%=MedwanQuery.getInstance().getConfigString("documentsdir","adt/documents/")+"/"+sEditLocation%>" alt="" width="<%=MedwanQuery.getInstance().getConfigString("adt.bed.imagewidth","250")%>" border=1><%
                         }
                     }
                     %>
