@@ -1085,10 +1085,10 @@
 <script>
   document.getElementById("focusField").focus();
 
-  toggleGraph('glycemyGraph');
-  toggleGraph('insulineRapidGraph');
-  toggleGraph('insulineSemiRapidGraph');
-  toggleGraph('insulineSlowGraph');
+  toggleGraph("glycemyGraph");
+  toggleGraph("insulineRapidGraph");
+  toggleGraph("insulineSemiRapidGraph");
+  toggleGraph("insulineSlowGraph");
 
   <%-- TOGGLE GRAPH --%>
   <%
@@ -1096,23 +1096,22 @@
              hideGraphTran = getTranNoLink("web","hideGraph",sWebLanguage);
   %>
   function toggleGraph(graphId){
-
     if($(graphId)){
-    var headerObj = document.getElementById('header_'+graphId);
-    var divObj = document.getElementById(graphId);
-    var imgObj = document.getElementById('img_'+graphId);
+      var headerObj = document.getElementById("header_"+graphId);
+      var divObj = document.getElementById(graphId);
+      var imgObj = document.getElementById("img_"+graphId);
 
-    if(divObj.style.display == 'none'){
-      divObj.style.display = 'block';
-      headerObj.title = "<%=hideGraphTran%>";
-      imgObj.src = "<%=sCONTEXTPATH%>/_img/minus.png";
+      if(divObj.style.display=="none"){
+        divObj.style.display = "block";
+        headerObj.title = "<%=hideGraphTran%>";
+        imgObj.src = "<%=sCONTEXTPATH%>/_img/minus.png";
+      }
+      else{
+        divObj.style.display = "none";
+        headerObj.title = "<%=showGraphTran%>";
+        imgObj.src = "<%=sCONTEXTPATH%>/_img/plus.png";
+      }
     }
-    else{
-      divObj.style.display = 'none';
-      headerObj.title = "<%=showGraphTran%>";
-      imgObj.src = "<%=sCONTEXTPATH%>/_img/plus.png";
-    }
-        }
   }
 </script>
 
