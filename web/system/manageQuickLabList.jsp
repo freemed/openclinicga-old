@@ -63,8 +63,11 @@
 	if(request.getParameter("UserQuickLabList")!=null){
 		sLabAnalyses = MedwanQuery.getInstance().getConfigString("quickLabList."+activeUser.userid,"").split(";");
 	}
-	int rows=MedwanQuery.getInstance().getConfigInt("quickLabListRows",20),cols=MedwanQuery.getInstance().getConfigInt("quickLabListCols",2);
+	
+	int rows = MedwanQuery.getInstance().getConfigInt("quickLabListRows",20),
+	    cols = MedwanQuery.getInstance().getConfigInt("quickLabListCols",2);
 %>
+
 <%=getTran("web","click.code.field.to.choose.color",sWebLanguage) %>
 
 <form name="transactionForm" method="post">
@@ -117,8 +120,10 @@
 			}
 		%>
 	</table>
+	
 	<input type="submit" class="button" name="submit" value="<%=getTran("web","save",sWebLanguage)%>"/>
 </form>
+
 <script>
 function searchLabAnalysis(id){
 	document.getElementById('anal.'+id).value='';
