@@ -97,14 +97,10 @@
                         <img src="<c:url value='/_img/icon_edit.gif'/>"  style="vertical-align:-4px;" class="link" alt="<%=getTran("web","edit",sWebLanguage)%>" onclick="goEdit('<%=activeEncounter.getUid()%>');">
                         <%
 	                        if(activeEncounter.getType().equalsIgnoreCase("admission") && activeEncounter.getDurationInDays()>Encounter.getAccountedAccomodationDays(activeEncounter.getUid())){
-	                            %>
-	                                <img class="link" src="<c:url value='/_img/money.gif'/>"  style="vertical-align:-4px;"/>
-	                            <%
+	                            %><img class="link" src="<c:url value='/_img/money.gif'/>"  style="vertical-align:-4px;"/><%
 	                        }
 	                        if(activeEncounter.getEnd()!=null){
-	                            %>
-	                                <img class="link" src="<c:url value='/_img/keywords.gif'/>"  style="vertical-align:-4px;"/>
-	                            <%
+	                            %><img class="link" src="<c:url value='/_img/keywords.gif'/>"  style="vertical-align:-4px;"/><%
 	                        }
                         %>
                     </td>
