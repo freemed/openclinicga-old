@@ -208,7 +208,7 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
         SalaryCalculationCode salCalCode = new SalaryCalculationCode();
         salCalCode.setUid("-1"); // new
         salCalCode.calculationUid = sSalCalUID;
-        salCalCode.code = MedwanQuery.getInstance().getConfigString("hr.salarycalculationcode.code","workday");
+        salCalCode.code = MedwanQuery.getInstance().getConfigString("hr.salarycalculationcode.workday","workday");
         salCalCode.duration = durationAccordingToSchedule;
         codes.add(salCalCode);
         
