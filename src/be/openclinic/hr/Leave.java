@@ -39,7 +39,7 @@ public class Leave extends OC_Object {
         begin = null;
         end = null;
         duration = -1;
-        type = "";
+        type = ""; // illness, vacation
         requestDate = null;
         authorizationDate = null;
         authorizedBy = "";
