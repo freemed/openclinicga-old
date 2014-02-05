@@ -12,7 +12,7 @@ public class IconsFilter implements FileFilter {
     public IconsFilter(){
         super();
 
-        // check which extension are configed to be accepted
+        // check which extension are configured to be accepted
         if(sExtensions.length()==0){
             sExtensions = sDefaultExtensions;
         }
