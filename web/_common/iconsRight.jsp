@@ -261,7 +261,6 @@
         <%
         
         String sHelp = MedwanQuery.getInstance().getConfigString("HelpFile");
-        sHelp = ""; // todo : remove to active icon 
         if(sHelp.length()>0){
             %><img id="ddIconHelp" src="<c:url value='/_img/icon_help.gif'/>" height="16" width="16" border="0" alt="Help" onclick="openHelpFile();" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
         }
