@@ -161,7 +161,7 @@
         
     <%-- default leave time --%>
     <%
-        String sLeaveDuration = MedwanQuery.getInstance().getConfigString("hr.salarycalculation.leaveduration","7,36");
+        String sLeaveDuration = MedwanQuery.getInstance().getConfigString("hr.salarycalculation.leaveduration","7,6");
     %>
     <i>The default leave-duration is configured in 'hr.salarycalculation.leaveduration' to '<%=sLeaveDuration%>'.</i><br><br>
       
