@@ -14,6 +14,7 @@
 			// trim off the second part (document-type)
 			sMenuPath = sMenuPath.substring(0,sMenuPath.indexOf("$"));
 		}
+        
         String[] pathParts = sMenuPath.split("\\.");
         int menuDepth = 0;
         Element menuElem = null;
@@ -176,10 +177,7 @@
 		                    sLabelType = "web"; // default
 		                    if(menuElem.attributeValue("labeltype")!=null){
 		                        sLabelType = (String)menuElem.attributeValue("labeltype");
-		                    }
-		                    System.out.println("sLabelType : "+sLabelType);/////////
-		                    System.out.println("sLabelId   : "+menuElem.attributeValue("labelid"));/////////
-		                    
+		                    }		                    
 		                        
 		                    sShortcutTitle = getTranNoLink(sLabelType,menuElem.attributeValue("labelid"),sWebLanguage);
 		                      
@@ -283,9 +281,10 @@
       }
     });
   }
+  
   <%-- SELECT ICON --%>
   function selectIcon(icon){
-	  clickedIcon = icon;
+	clickedIcon = icon;
 	
     <%-- deselect all icons --%>
     var icons = document.getElementById("iconsDiv").getElementsByTagName("img");
@@ -315,14 +314,13 @@
       var subTypeSelect = document.getElementById("ShortcutSubtype");
       if(subTypeSelect!=null){
         if(subTypeSelect.selectedIndex > 0){
-          //document.getElementById("ShortcutIconText").value+= " - "+subTypeSelect.options[subTypeSelect.selectedIndex].text;
           document.getElementById("ShortcutIconText").value = subTypeSelect.options[subTypeSelect.selectedIndex].text;
         }
       }
     }
   }
   
-  <%-- GET shortcut SUBTYPES --%>
+  <%-- GET SHORTCUT SUBTYPES --%>
   var tmpSubtype;
   
   function getSubtypes(select,subtypeToSelect){
@@ -459,7 +457,7 @@
     }
   }
   
-  <%-- GET FULL  SHORTCUT TYPE --%>
+  <%-- GET FULL SHORTCUT TYPE --%>
   function getFullShortcutType(){
     var type = document.getElementById("ShortcutType").options[document.getElementById("ShortcutType").selectedIndex].value;
     var fullType = type;
