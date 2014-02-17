@@ -502,10 +502,10 @@
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td width="30%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_OPERATION_DESCRIPTION');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DESCRIPTION")?"<"+sSortDir+">":"")%><%=getTran("Web","description",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DESCRIPTION")?"</"+sSortDir+">":"")%></a></td>
-                            <td width="8%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_OPERATION_DATE');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DATE")?"<"+sSortDir+">":"")%><%=getTran("Web","date",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DATE")?"</"+sSortDir+">":"")%></a></td>
+                            <td width="30%"><%=getTran("Web","description",sWebLanguage)%></td>
+                            <td width="8%"><SORTTYPE:DATE><%=getTran("Web","date",sWebLanguage)%></SORTTYPE:DATE></td>
                             <td width="25%"><%=getTran("Web","product",sWebLanguage)%></td>
-                            <td width="10%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_OPERATION_UNITSCHANGED');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_UNITSCHANGED")?"<"+sSortDir+">":"")%><%=getTran("Web","unitschanged",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_UNITSCHANGED")?"</"+sSortDir+">":"")%></a></td>
+                            <td width="10%"><%=getTran("Web","unitschanged",sWebLanguage)%></td>
                             <td width="*"><%=getTran("Web","username",sWebLanguage)%></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
