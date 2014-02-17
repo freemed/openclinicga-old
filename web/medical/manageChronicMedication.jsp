@@ -95,17 +95,18 @@
 
             //*** display medication in one row ***
             html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sMedicationUid + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sPrescriberFullName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sProductName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sDateBeginFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sPrescrRule.toLowerCase() + "</td>")
-                    .append("</tr>");
+                 .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sMedicationUid + "');\">")
+                 .append("<td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sPrescriberFullName + "</td>")
+                 .append("<td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sProductName + "</td>")
+                 .append("<td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sDateBeginFormatted + "</td>")
+                 .append("<td onclick=\"doShowDetails('" + sMedicationUid + "');\">" + sPrescrRule.toLowerCase() + "</td>")
+                .append("</tr>");
         }
 
         return html;
     }
 %>
+
 <%
     String sDefaultSortCol = "OC_CHRONICMED_BEGIN",
            sDefaultSortDir = "DESC";
@@ -131,19 +132,20 @@
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("################## sAction : "+sAction+" ################################");
-        Debug.println("* sEditMedicationUid      : "+sEditMedicationUid);
-        Debug.println("* sEditPrescriberUid      : "+sEditPrescriberUid);
-        Debug.println("* sEditProductUid         : "+sEditProductUid);
-        Debug.println("* sEditProductUnit        : "+sEditProductUnit);
-        Debug.println("* sEditDateBegin          : "+sEditDateBegin);
-        Debug.println("* sEditTimeUnit           : "+sEditTimeUnit);
-        Debug.println("* sEditTimeUnitCount      : "+sEditTimeUnitCount);
-        Debug.println("* sEditUnitsPerTimeUnit   : "+sEditUnitsPerTimeUnit);
-        Debug.println("* sEditPatientFullName    : "+sEditPatientFullName);
-        Debug.println("* sEditPrescriberFullName : "+sEditPrescriberFullName);
-        Debug.println("* sEditProductName        : "+sEditProductName);
-        Debug.println("* sEditComment            : "+sEditComment+"\n");
+        Debug.println("################### medical/manageChronicMedication.jsp #################");
+        Debug.println("sAction                 : "+sAction);
+        Debug.println("sEditMedicationUid      : "+sEditMedicationUid);
+        Debug.println("sEditPrescriberUid      : "+sEditPrescriberUid);
+        Debug.println("sEditProductUid         : "+sEditProductUid);
+        Debug.println("sEditProductUnit        : "+sEditProductUnit);
+        Debug.println("sEditDateBegin          : "+sEditDateBegin);
+        Debug.println("sEditTimeUnit           : "+sEditTimeUnit);
+        Debug.println("sEditTimeUnitCount      : "+sEditTimeUnitCount);
+        Debug.println("sEditUnitsPerTimeUnit   : "+sEditUnitsPerTimeUnit);
+        Debug.println("sEditPatientFullName    : "+sEditPatientFullName);
+        Debug.println("sEditPrescriberFullName : "+sEditPrescriberFullName);
+        Debug.println("sEditProductName        : "+sEditProductName);
+        Debug.println("sEditComment            : "+sEditComment+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
@@ -526,8 +528,8 @@
                         <tr>
                             <td class="admin" width="22" nowrap>&nbsp;</td>
                             <td class="admin" width="25%"><%=getTran("Web","prescriber",sWebLanguage)%></td>
-                            <td class="admin" width="20%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
-                            <td class="admin" width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_CHRONICMED_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_CHRONICMED_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_CHRONICMED_BEGIN")?"</"+sSortDir+">":"")%></a></td>
+                            <td class="admin" width="20%"><%=getTran("Web","productName",sWebLanguage)%></td>
+                            <td class="admin" width="10%"><%=getTran("Web","begindate",sWebLanguage)%></td>
                             <td class="admin" width="45%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
@@ -569,6 +571,7 @@
             <%
         }
     %>
+    
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
     <input type="hidden" name="SortCol" value="<%=sSortCol%>">
@@ -576,15 +579,15 @@
     <input type="hidden" name="EditMedicationUid" value="<%=sEditMedicationUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
 if (document.getElementById("popuptbl") == null){}
 else {
-
   window.resizeTo(900,380);
   window.moveTo(self.screen.width/25,self.screen.height/7);
-
 }
+
   <%
       // default focus field
       if(displayEditFields){
