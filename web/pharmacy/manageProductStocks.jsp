@@ -185,8 +185,8 @@
             html.append("<td style=\"text-align:right;\" nowrap>&nbsp;");
 
             // no buttons for unexisting product
-            if (product != null) {
-                if (productStock.getLevel() > 0) {
+            if(product != null){
+                if(productStock.getLevel() > 0){
                     html.append("<input type='button' title='" + changeLevelOutTran + "' class='button' style='width:30px;' value=\"" + outTran + "\" onclick=\"deliverProduct('" + sStockUid + "','" + sProductName + "','" + stockLevel + "');\">&nbsp;");
                 }
                 html.append("<input type='button' title='" + changeLevelInTran + "' class='button' style='width:30px;' value=\"" + inTran + "\" onclick=\"receiveProduct('" + sStockUid + "','" + sProductName + "');\">&nbsp;");
@@ -527,12 +527,12 @@
                         }
 
                         if(sServiceName.length() > 0){
-                        %>
-                        <tr>
-                            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","service",sWebLanguage)%>&nbsp;</td>
-                            <td class="admin2"><%=sServiceName%></td>
-                        </tr>
-                        <%
+	                        %>
+		                        <tr>
+		                            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","service",sWebLanguage)%>&nbsp;</td>
+		                            <td class="admin2"><%=sServiceName%></td>
+		                        </tr>
+	                        <%
                         }
 
                         // ServicestockName
@@ -541,18 +541,19 @@
                         if(serviceStock!=null) sServiceStockName = serviceStock.getName();
 
                         if(sServiceStockName.length() > 0){
-                        %>
-                        <tr>
-                            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","servicestock",sWebLanguage)%>&nbsp;</td>
-                            <td class="admin2"><%=sServiceStockName%></td>
-                        </tr>
-                        <%
+	                        %>
+		                        <tr>
+		                            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","servicestock",sWebLanguage)%>&nbsp;</td>
+		                            <td class="admin2"><%=sServiceStockName%></td>
+		                        </tr>
+	                        <%
                         }
                     %>
-                        <tr id='filtersection'>
-                            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","productstock",sWebLanguage)%>&nbsp;</td>
-                            <td class="admin2"><input type='text' class='text' name='filter' id='filter' onkeyup='showSearchResults(this.value)' value='' size='10'/></td>
-                        </tr>
+                    
+                    <tr id="filtersection">
+                        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","productstock",sWebLanguage)%>&nbsp;</td>
+                        <td class="admin2"><input type='text' class='text' name='filter' id='filter' onkeyup='showSearchResults(this.value)' value='' size='10'/></td>
+                    </tr>
                 </table>
                 
                 <%-- display message --%>
@@ -735,13 +736,13 @@
                             <td/>
                             <td/>
                             <td/>
-                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a> </td>
+                            <td><%=getTran("Web","productName",sWebLanguage)%></td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_LEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","level",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_COMMAND');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"<"+sSortDir+">":"")%><%=getTran("Web","openorders",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_MINIMUMLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MINIMUMLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","minimumlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MINIMUMLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_MAXIMUMLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MAXIMUMLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","maximumlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MAXIMUMLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
                             <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_ORDERLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","orderlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"</"+sSortDir+">":"")%></a></td>
+                            <td><%=getTran("Web","begindate",sWebLanguage)%></td>
                             <td><%=getTran("Web.manage","PUMP",sWebLanguage)%></td>
                             <td/>
                         </tr>
@@ -764,6 +765,7 @@
                             <%
                         }
                     %>
+                    
                     <%-- BUTTONS --%>
                     <%=ScreenHelper.alignButtonsStart()%>
                         <input class="button" type="button" name="calculateButton" value='<%=getTranNoLink("Web.manage","calculateOrder",sWebLanguage)%>' onclick="doCalculateOrder('<%=sEditServiceStockUid%>','<%=sServiceStockName%>');">
@@ -776,6 +778,7 @@
                 // no records found
                 %>
                     <%=getTran("web.manage","noproductsfound",sWebLanguage)%>
+                    
                     <%-- BUTTONS --%>
                     <%=ScreenHelper.alignButtonsStart()%>
                         <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
@@ -784,18 +787,21 @@
                 <%
             }
         }
+        
         // do not show service-stock-selector if serviceStock is yet specified
-        if(sEditServiceStockUid.length() == 0){
-        %>
-            <input type="hidden" name="EditServiceStockUid" id="EditServiceStockUid" value="<%=sSelectedServiceStockUid%>">
-            <input type="hidden" name="ServiceId" id="ServiceId" value="<%=sServiceId%>">
-        <%
-        } else {
-        %>
-            <input type="hidden" name="EditServiceStockUid" id="EditServiceStockUid" value="<%=sEditServiceStockUid%>">
-            <input type="hidden" name="ServiceId" id="ServiceId" value="<%=sServiceId%>">
-        <%
+        if(sEditServiceStockUid.length()==0){
+	        %>
+	            <input type="hidden" name="EditServiceStockUid" id="EditServiceStockUid" value="<%=sSelectedServiceStockUid%>">
+	            <input type="hidden" name="ServiceId" id="ServiceId" value="<%=sServiceId%>">
+	        <%
         }
+        else{
+	        %>
+	            <input type="hidden" name="EditServiceStockUid" id="EditServiceStockUid" value="<%=sEditServiceStockUid%>">
+	            <input type="hidden" name="ServiceId" id="ServiceId" value="<%=sServiceId%>">
+	        <%
+        }
+        
         //--- EDIT FIELDS -------------------------------------------------------------------------
         if(displayEditFields){
             %>
@@ -817,9 +823,7 @@
                         <%
                         }
                         else{
-                        %>
-                            <%-- hidden Service Stock --%>
-                        <%
+                            %><%-- hidden Service Stock --%><%
                         }
                     %>
                     <%-- Product --%>
