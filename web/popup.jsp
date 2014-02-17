@@ -10,79 +10,76 @@
     <%=sJSPROTOTYPE%>
     <%=sJSNUMBER%>
     <%=sJSTOGGLE%>
-    <script>
-        var ie = document.all
-        var ns6 = document.getElementById && !document.all
+    
+<script>
+  var ie = document.all
+  var ns6 = document.getElementById && !document.all
 
-        <%-- OPEN POPUP --%>
-        function openPopup(page, width, height, title) {
-            var url = "<c:url value="/popup.jsp"/>?Page=" + page;
-            if (width != undefined) url += "&PopupWidth=" + width;
-            if (height != undefined) url += "&PopupHeight=" + height;
-            if (title == undefined) {
-                if (page.indexOf("&") < 0) {
-                    title = page.replace("/", "_");
-                }
-                else {
-                    title = replaceAll(page.substring(1, page.indexOf("&")), "/", "_");
-                    title = replaceAll(title, ".", "_");
-                }
-            }
-            var w = window.open(url, title, "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no");
-            w.moveBy(2000, 2000);
+  <%-- OPEN POPUP --%>
+  function openPopup(page, width, height, title) {
+    var url = "<c:url value="/popup.jsp"/>?Page=" + page;
+    if(width != undefined) url += "&PopupWidth=" + width;
+    if(height != undefined) url += "&PopupHeight=" + height;
+    if(title == undefined){
+      if(page.indexOf("&") < 0) {
+        title = page.replace("/", "_");
+      }
+      else{
+        title = replaceAll(page.substring(1, page.indexOf("&")), "/", "_");
+        title = replaceAll(title, ".", "_");
+      }
+    }
+        
+    var w = window.open(url, title, "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no");
+    w.moveBy(2000, 2000);
+  }
+
+  function replaceAll(s, s1, s2){
+    while(s.indexOf(s1) > -1){
+      s = s.replace(s1,s2);
+    }
+    return s;
+  }
+
+  // *************************** SET ENTER KEY COMPATIBLE WITH FIREFOX *******//
+  var desKey = 13;
+  function enterEvent(e){
+    var key = e.which?e.which:window.event.keyCode;
+    //for compatibility FF IE
+    if(key == desKey){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  //*************************************************//
+  function ajaxChangeSearchResults(urlForm, SearchForm, moreParams){
+    document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
+    var url = urlForm;
+    var params = Form.serialize(SearchForm) + moreParams;
+    var myAjax = new Ajax.Updater("divFindRecords",url,
+      {
+        evalScripts:true,
+        method: "post",
+        parameters: params,
+        onload: function(){
+        },
+        onSuccess: function(resp){
+          document.getElementById("divFindRecords").innerHTML = trim(resp.responseText);
+        },
+        onFailure:function(){
+          $("divFindRecords").innerHTML = "Problem with ajax request !";
         }
-
-        function replaceAll(s, s1, s2) {
-            while (s.indexOf(s1) > -1) {
-                s = s.replace(s1, s2);
-            }
-            return s;
-        }
-
-
-      // *************************** SET ENTER KEY COMPATIBLE WITH FIREFOX *******//
-        var desKey = 13;
-              function enterEvent(e) {
-                  var key = e.which?e.which:window.event.keyCode;
-                  //for compatibility FF IE
-                  if (key == desKey) {
-
-                      return true;
-                  } else {
-                      return false;
-                  }
-              }
-
- //*************************************************//
-        function ajaxChangeSearchResults(urlForm, SearchForm, moreParams) {
-            document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
-            var url = urlForm;
-            var params = Form.serialize(SearchForm) + moreParams;
-            var myAjax = new Ajax.Updater(
-                    "divFindRecords", url,
-            {
-                evalScripts:true,
-                method: 'post',
-                parameters: params,
-                onload: function() {
-
-                },
-                onSuccess: function(resp) {
-
-
-                },
-                onFailure:function() {
-                    $('divFindRecords').innerHTML = "Problem with ajax request !!";
-
-                }
-
-            });
-
-        }
-    </script>
-    <title><%=sWEBTITLE + " " + sAPPTITLE%>
-    </title>
+      }
+    );
+  }
+</script>
+  
+    <title><%=sWEBTITLE + " " + sAPPTITLE%></title>
 </head>
+
 <%-- Start Floating Layer -----------------------------------------------------------------------%>
 <div id="FloatingLayer" style="position:absolute;width:250px;height:30px;visibility:hidden">
     <table width="100%" cellspacing="0" cellpadding="5" style="border:1px solid #aaa">
@@ -93,6 +90,7 @@
         </tr>
     </table>
 </div>
+
 <%-- End Floating layer -------------------------------------------------------------------------%>
 <body onload="resizeMe();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="popuptbl" height="100%">
