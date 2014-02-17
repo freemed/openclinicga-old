@@ -56,12 +56,15 @@ function ts_makeSortable(table){
       // indicate column that is sorted on pageload
       var sortedASC = false, sortedDESC = false;
       
+      var ARROW = "";
       if(cell.innerHTML.indexOf("<ASC>") > -1){
         sortedASC = true;
+        ARROW = "&uarr;";
         INITIAL_SORT_DIR = "up";
       }
       if(cell.innerHTML.indexOf("<DESC>") > -1){
         sortedDESC = true;
+        ARROW = "&darr;";
         INITIAL_SORT_DIR = "down";
       }
 
@@ -69,11 +72,11 @@ function ts_makeSortable(table){
         var content;
         if(cell.style.textAlign=="right"){
           content = "<a href='#' id='"+table.id+"_lnk"+i+"' class='sortheader' onclick=\"ts_resortTable(this,"+i+",true,"+headerRowCount+","+bottomRowCount+",'"+sortType+"');return false;\">"+
-                    "<span id='span"+i+"' class='sortarrow'></span>"+txt+"</a>";
+                    "<span id='span"+i+"' class='sortarrow'>"+ARROW+"</span>"+txt+"</a>";
         }
         else{
           content = "<a href='#' id='"+table.id+"_lnk"+i+"' class='sortheader' onclick=\"ts_resortTable(this,"+i+",true,"+headerRowCount+","+bottomRowCount+",'"+sortType+"');return false;\">"+
-                    txt+"<span id='span"+i+"' class='sortarrow'></span></a>";
+                    txt+"<span id='span"+i+"' class='sortarrow'>"+ARROW+"</span></a>";
         } 
   
         cell.innerHTML = content;
