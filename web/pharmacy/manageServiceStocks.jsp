@@ -13,13 +13,13 @@
         StringBuffer html = new StringBuffer();
 
         html.append("<tr id='rowAuthorizedUsers" + userIdx + "'>")
-                .append(" <td width='18'>")
-                .append("  <a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers" + userIdx + ")'>")
-                .append("   <img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' class='link'>")
-                .append("  </a>")
-                .append(" </td>")
-                .append(" <td>" + userName + "</td>")
-                .append("</tr>");
+             .append("<td width='18'>")
+              .append("<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers" + userIdx + ")'>")
+               .append("<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' class='link'>")
+              .append("</a>")
+             .append("</td>")
+             .append("<td>" + userName + "</td>")
+            .append("</tr>");
 
         return html.toString();
     }
@@ -34,9 +34,9 @@
 
         // frequently used translations
         String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage),
-                productStockTran = getTranNoLink("web.manage", "productstockmanagement", sWebLanguage),
-                calculateOrderTran = getTranNoLink("Web.manage", "calculateOrder", sWebLanguage);
+               deleteTran = getTranNoLink("Web", "delete", sWebLanguage),
+               productStockTran = getTranNoLink("web.manage", "productstockmanagement", sWebLanguage),
+               calculateOrderTran = getTranNoLink("Web.manage", "calculateOrder", sWebLanguage);
 
         // run thru found serviceStocks
         ServiceStock serviceStock;
@@ -80,18 +80,19 @@
                 html.append("<a href='javascript:bulkReceive(\""+serviceStock.getUid()+"\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a>");
             }
             html.append("</td>");
-            html.append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + serviceStock.getName() + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sServiceName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sManagerName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + productCount + "</td>");
+            html.append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + serviceStock.getName() + "</td>")
+                .append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sServiceName + "</td>")
+                .append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sManagerName + "</td>")
+                .append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + productCount + "</td>");
 
             // display "manage product stocks"-button when user is authorized
             if (serviceStock.isAuthorizedUser(activeUser.userid)) {
                 html.append("<td>")
-                        .append("  <input type='button' class='button' value='" + calculateOrderTran + "' onclick=\"doCalculateOrder('" + sServiceStockUid + "','" + sServiceName + "');\">&nbsp;")
-                        .append("<input type='button' class='button' value='" + productStockTran + "' onclick=\"displayProductStockManagement('" + sServiceStockUid + "','" + sServiceUid + "');\">&nbsp;")
-                        .append("</td>");
-            } else {
+                    .append("<input type='button' class='button' value='" + calculateOrderTran + "' onclick=\"doCalculateOrder('" + sServiceStockUid + "','" + sServiceName + "');\">&nbsp;")
+                    .append("<input type='button' class='button' value='" + productStockTran + "' onclick=\"displayProductStockManagement('" + sServiceStockUid + "','" + sServiceUid + "');\">&nbsp;")
+                    .append("</td>");
+            } 
+            else {
                 html.append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">&nbsp;</td>");
             }
 
@@ -133,18 +134,18 @@
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n\n################## sAction : "+sAction+" ############################");
-        Debug.println("* sEditStockUid        : "+sEditStockUid);
-        Debug.println("* sEditStockName       : "+sEditStockName);
-        Debug.println("* sEditServiceUid      : "+sEditServiceUid);
-        Debug.println("* sEditBegin           : "+sEditBegin);
-        Debug.println("* sEditEnd             : "+sEditEnd);
-        Debug.println("* sEditManagerUi       : "+sEditManagerUid);
-        Debug.println("* sEditDefSupplierUid  : "+sEditDefaultSupplierUid);
-        Debug.println("* sEditOrderPeriod     : "+sEditOrderPeriod);
-        Debug.println("* sEditServiceName     : "+sEditServiceName);
-        Debug.println("* sEditManagerName     : "+sEditManagerName);
-        Debug.println("* sEditDefSupplierName : "+sEditDefaultSupplierName+"\n");
+        Debug.println("\n#################### pharmacy/manageServiceStocks.jsp ##################");
+        Debug.println("sEditStockUid        : "+sEditStockUid);
+        Debug.println("sEditStockName       : "+sEditStockName);
+        Debug.println("sEditServiceUid      : "+sEditServiceUid);
+        Debug.println("sEditBegin           : "+sEditBegin);
+        Debug.println("sEditEnd             : "+sEditEnd);
+        Debug.println("sEditManagerUi       : "+sEditManagerUid);
+        Debug.println("sEditDefSupplierUid  : "+sEditDefaultSupplierUid);
+        Debug.println("sEditOrderPeriod     : "+sEditOrderPeriod);
+        Debug.println("sEditServiceName     : "+sEditServiceName);
+        Debug.println("sEditManagerName     : "+sEditManagerName);
+        Debug.println("sEditDefSupplierName : "+sEditDefaultSupplierName+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
@@ -532,7 +533,7 @@
                         <%-- clickable header --%>
                         <tr class="admin">
                             <td/>
-                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","name",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_NAME")?"</"+sSortDir+">":"")%></a></td>
+                            <td><%=getTran("Web","name",sWebLanguage)%></td>
                             <td><%=getTran("Web","service",sWebLanguage)%></td>
                             <td><%=getTran("Web","manager",sWebLanguage)%></td>
                             <td><%=getTran("Web.manage","productstockcount",sWebLanguage)%></td>
@@ -734,7 +735,7 @@
                         <%-- clickable header --%>
                         <tr class="admin">
                             <td width="22"/>
-                            <td width="20%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","name",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_NAME")?"</"+sSortDir+">":"")%></a></td>
+                            <td width="20%"><%=getTran("Web","name",sWebLanguage)%></td>
                             <td width="35%"><%=getTran("Web","service",sWebLanguage)%></td>
                             <td width="25%"><%=getTran("Web","manager",sWebLanguage)%></td>
                             <td width="15%"><%=getTran("Web.manage","productstockcount",sWebLanguage)%></td>
