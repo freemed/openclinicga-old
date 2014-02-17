@@ -276,7 +276,12 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN NO LINK ------------------------------------------------------------------------
-    static public String getTranNoLink(String sType, String sID, String sLanguage) {
+    static public String getTranNoLink(String sType, String sID, String sLanguage) {    	
+    	if(sID==null){
+    		Debug.println("WARNING - getTranNoLink : sID is null for sType:"+sType+" and sLanguage:"+sLanguage);
+    		return "";
+    	}
+    	
         String labelValue = "";
         if(sLanguage!=null && sLanguage.equalsIgnoreCase("f")){
         	sLanguage="fr";
