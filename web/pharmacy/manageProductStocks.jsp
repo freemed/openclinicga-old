@@ -263,7 +263,6 @@
 
     int foundStockCount = 0;
     StringBuffer stocksHtml = null;
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     // display options
     boolean displayEditFields = false, displayFoundRecordsLayout1 = false, displayFoundRecordsLayout2 = false;
@@ -271,22 +270,18 @@
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
     if(sDisplaySearchFields.length()==0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    if(Debug.enabled) Debug.println("@@@ displaySearchFields : "+displaySearchFields);
 
     String sDisplayLowStocks = checkString(request.getParameter("DisplayLowStocks"));
     if(sDisplayLowStocks.length()==0) sDisplayLowStocks = "false"; // default
     boolean displayLowStocks = sDisplayLowStocks.equalsIgnoreCase("true");
-    if(Debug.enabled) Debug.println("@@@ displayLowStocks : "+displayLowStocks);
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));
     if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-    if(Debug.enabled) Debug.println("@@@ sSortCol : "+sSortCol);
 
     // sortDir
     String sSortDir = checkString(request.getParameter("SortDir"));
     if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
-    if(Debug.enabled) Debug.println("@@@ sSortDir : "+sSortDir);
 
 
     //*********************************************************************************************
@@ -308,8 +303,8 @@
         if(sEditMinimumLevel.length() > 0) stock.setMinimumLevel(Integer.parseInt(sEditMinimumLevel));
         if(sEditMaximumLevel.length() > 0) stock.setMaximumLevel(Integer.parseInt(sEditMaximumLevel));
         if(sEditOrderLevel.length() > 0)   stock.setOrderLevel(Integer.parseInt(sEditOrderLevel));
-        if(sEditBegin.length() > 0)        stock.setBegin(stdDateFormat.parse(sEditBegin));
-        if(sEditEnd.length() > 0)          stock.setEnd(stdDateFormat.parse(sEditEnd));
+        if(sEditBegin.length() > 0)        stock.setBegin(ScreenHelper.stdDateFormat.parse(sEditBegin));
+        if(sEditEnd.length() > 0)          stock.setEnd(ScreenHelper.stdDateFormat.parse(sEditEnd));
 
         // does product exist ?
         String existingStockUid = stock.exists();
@@ -413,8 +408,8 @@
                                                  sFindSupplierUid,"",sSortCol,sSortDir);
 
         // display other layout if stocks of only one service are shown
-        if(sServiceId.length() == 0) stocksHtml = objectsToHtml1(productStocks,sWebLanguage);
-        else                         stocksHtml = objectsToHtml2(productStocks,sServiceId,sWebLanguage,activeUser);
+        if(sServiceId.length()==0) stocksHtml = objectsToHtml1(productStocks,sWebLanguage);
+        else                       stocksHtml = objectsToHtml2(productStocks,sServiceId,sWebLanguage,activeUser);
 
         foundStockCount = productStocks.size();
 
@@ -450,11 +445,11 @@
 
                 // format begin date
                 java.util.Date tmpDate = productStock.getBegin();
-                if(tmpDate!=null) sSelectedBegin = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedBegin = ScreenHelper.stdDateFormat.format(tmpDate);
 
                 // format end date
                 tmpDate = productStock.getEnd();
-                if(tmpDate!=null) sSelectedEnd = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedEnd = ScreenHelper.stdDateFormat.format(tmpDate);
 
                 // afgeleide data
                 sSelectedServiceStockName = productStock.getServiceStock().getName();
@@ -688,10 +683,10 @@
                         <tr class="admin">
                             <td/>
                             <td><%=getTran("Web","servicestock",sWebLanguage)%></td>
-                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_NAME');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"<"+sSortDir+">":"")%><%=getTran("Web","productName",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_NAME")?"</"+sSortDir+">":"")%></a></td>
-                            <td align="right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_LEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","level",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td align="right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_ORDERLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","orderlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td ><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_BEGIN")?"</"+sSortDir+">":"")%></a></td>
+                            <td><%=getTran("Web","productName",sWebLanguage)%></td>
+                            <td align="right"><%=getTran("Web","level",sWebLanguage)%>&nbsp;&nbsp;</td>
+                            <td align="right"><%=getTran("Web","orderlevel",sWebLanguage)%>&nbsp;&nbsp;</td>
+                            <td><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=stocksHtml%>
@@ -716,11 +711,11 @@
                 <%
             }
             else{
-            // no records found
-            %>
-                <%=getTran("web","norecordsfound",sWebLanguage)%>
-                <br><br>
-            <%
+	            // no records found
+	            %>
+	                <%=getTran("web","norecordsfound",sWebLanguage)%>
+	                <br><br>
+	            <%
             }
         }
 
@@ -737,12 +732,12 @@
                             <td/>
                             <td/>
                             <td><%=getTran("Web","productName",sWebLanguage)%></td>
-                            <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_LEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","level",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_LEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_COMMAND');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"<"+sSortDir+">":"")%><%=getTran("Web","openorders",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_COMMAND")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_MINIMUMLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MINIMUMLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","minimumlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MINIMUMLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_MAXIMUMLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MAXIMUMLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","maximumlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_MAXIMUMLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td style="text-align:right"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_STOCK_ORDERLEVEL');"><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"<"+sSortDir+">":"")%><%=getTran("Web","orderlevel",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_STOCK_ORDERLEVEL")?"</"+sSortDir+">":"")%></a>&nbsp;&nbsp;</td>
-                            <td><%=getTran("Web","begindate",sWebLanguage)%></td>
+                            <td style="text-align:right"><%=getTran("Web","level",sWebLanguage)%>&nbsp;&nbsp;</td>
+                            <td style="text-align:right"><%=getTran("Web","openorders",sWebLanguage)%>&nbsp;&nbsp;</td>
+                            <td style="text-align:right"><%=getTran("Web","minimumlevel",sWebLanguage)%>&nbsp;&nbsp;</td>
+                            <td style="text-align:right"><%=getTran("Web","maximumlevel",sWebLanguage)%>&nbsp;&nbsp;</td>
+                            <td style="text-align:right"><%=getTran("Web","orderlevel",sWebLanguage)%>&nbsp;&nbsp;</td>
+                            <td><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
                             <td><%=getTran("Web.manage","PUMP",sWebLanguage)%></td>
                             <td/>
                         </tr>
@@ -750,10 +745,12 @@
                             <%=stocksHtml%>
                         </tbody>
                     </table>
+                    
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundStockCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
                     </span>
+                    
                     <%
                         if(foundStockCount > 20){
                             // link to top of page
