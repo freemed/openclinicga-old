@@ -1069,8 +1069,8 @@
                                 <td width="22" nowrap>&nbsp;</td>
                                 <td width="25%"><%=getTran("Web","prescriber",sWebLanguage)%></td>
                                 <td width="20%"><%=getTran("Web","product",sWebLanguage)%></td>
-                                <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_PRESCR_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_BEGIN")?"</"+sSortDir+">":"")%></a></td>
-                                <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_PRESCR_END');"><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_END")?"<"+sSortDir+">":"")%><%=getTran("Web","enddate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_END")?"<"+sSortDir+">":"")%></a></td>
+                                <td width="10%"><%=getTran("Web","begindate",sWebLanguage)%></td>
+                                <td width="10%"><%=getTran("Web","enddate",sWebLanguage)%></td>
                                 <td width="35%"><%=getTran("Web","supplyingservice",sWebLanguage)%></td>
                             </tr>
                             <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
@@ -1127,8 +1127,8 @@
                                 <td width="22" nowrap>&nbsp;</td>
                                 <td width="25%"><%=getTran("Web","prescriber",sWebLanguage)%></td>
                                 <td width="20%"><%=getTran("Web","product",sWebLanguage)%></td>
-                                <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_PRESCR_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_BEGIN")?"</"+sSortDir+">":"")%></a></td>
-                                <td width="10%"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_PRESCR_END');"><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_END")?"<"+sSortDir+">":"")%><%=getTran("Web","enddate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_END")?"<"+sSortDir+">":"")%></a></td>
+                                <td width="10%"><%=getTran("Web","begindate",sWebLanguage)%></td>
+                                <td width="10%"><%=getTran("Web","enddate",sWebLanguage)%></td>
                                 <td width="35%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                             </tr>
 
