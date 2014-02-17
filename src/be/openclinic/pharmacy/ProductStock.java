@@ -431,44 +431,51 @@ public class ProductStock extends OC_Object implements Comparable {
     //--- EXISTS ----------------------------------------------------------------------------------
     // checks the database for a record with the same UNIQUE KEYS as 'this'.
     public String exists() {
-        if (Debug.enabled) Debug.println("@@@ PRODUCTSTOCK exists ? @@@");
         PreparedStatement ps = null;
         ResultSet rs = null;
         String uid = "";
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
             //***** check existence *****
-            String sSelect = "SELECT OC_STOCK_SERVERID,OC_STOCK_OBJECTID FROM OC_PRODUCTSTOCKS" +
-                    " WHERE OC_STOCK_SERVICESTOCKUID=?" +
-                    "  AND OC_STOCK_PRODUCTUID=?" +
-                    "  AND OC_STOCK_END=?";
-            ps = oc_conn.prepareStatement(sSelect);
-            int questionmarkIdx = 1;
-            ps.setString(questionmarkIdx++, this.getServiceStockUid());
-            ps.setString(questionmarkIdx++, this.getProductUid());
-            // date end
-            if (this.end != null) ps.setTimestamp(questionmarkIdx++, new java.sql.Timestamp(end.getTime()));
-            else ps.setNull(questionmarkIdx++, Types.TIMESTAMP);
+            String sSql = "SELECT OC_STOCK_SERVERID,OC_STOCK_OBJECTID FROM OC_PRODUCTSTOCKS"+
+                          " WHERE OC_STOCK_SERVICESTOCKUID = ?"+
+                          "  AND OC_STOCK_PRODUCTUID = ?";
+            if(this.end!=null) sSql+= " AND OC_STOCK_END = ?";
+            ps = oc_conn.prepareStatement(sSql);
+            
+            int qmIdx = 1;
+            ps.setString(qmIdx++,this.getServiceStockUid());
+            ps.setString(qmIdx++,this.getProductUid());
+            
+            if(this.end!=null) ps.setTimestamp(qmIdx++,new java.sql.Timestamp(end.getTime()));
+            
             rs = ps.executeQuery();
-            if (rs.next()) {
+            if(rs.next()){
                 uid = rs.getInt("OC_STOCK_SERVERID") + "." + rs.getInt("OC_STOCK_OBJECTID");
+                Debug.println("@@@ PRODUCTSTOCK exists ("+this.getServiceStockUid()+","+this.getProductUid()+") @@@");
+            }
+            else{
+                Debug.println("@@@ PRODUCTSTOCK does not exist ("+this.getServiceStockUid()+","+this.getProductUid()+") @@@");
             }
         }
-        catch (Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            try {
+        finally{
+            try{
                 if (rs != null) rs.close();
                 if (ps != null) ps.close();
                 oc_conn.close();
             }
-            catch (SQLException se) {
+            catch(SQLException se){
                 se.printStackTrace();
             }
         }
+        
         return uid;
     }
+    
     //--- CHANGED ---------------------------------------------------------------------------------
     // checks the database for a record with the same DATA as 'this'.
     public boolean changed() {
