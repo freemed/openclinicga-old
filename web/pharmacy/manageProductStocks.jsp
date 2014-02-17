@@ -232,21 +232,22 @@
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n\n################## sAction : "+sAction+" ############################");
-        Debug.println("* sEditStockUid          : "+sEditStockUid);
-        Debug.println("* sEditServiceStockUid   : "+sEditServiceStockUid);
-        Debug.println("* sEditProductUid        : "+sEditProductUid);
-        Debug.println("* sEditLevel             : "+sEditLevel);
-        Debug.println("* sEditMinimumLevel      : "+sEditMinimumLevel);
-        Debug.println("* sEditMaximumLevel      : "+sEditMaximumLevel);
-        Debug.println("* sEditOrderLevel        : "+sEditOrderLevel);
-        Debug.println("* sEditBegin             : "+sEditBegin);
-        Debug.println("* sEditEnd               : "+sEditEnd);
-        Debug.println("* sEditDefaultImportance : "+sEditDefaultImportance);
-        Debug.println("* sEditSupplierUid       : "+sEditSupplierUid);
-        Debug.println("* sEditServiceStockName  : "+sEditServiceStockName);
-        Debug.println("* sEditSupplierName      : "+sEditSupplierName);
-        Debug.println("* sEditProductName       : "+sEditProductName+"\n");
+        Debug.println("\n################### pharacy/manageProductStocks.jsp ##################");
+        Debug.println("sAction                : "+sAction);
+        Debug.println("sEditStockUid          : "+sEditStockUid);
+        Debug.println("sEditServiceStockUid   : "+sEditServiceStockUid);
+        Debug.println("sEditProductUid        : "+sEditProductUid);
+        Debug.println("sEditLevel             : "+sEditLevel);
+        Debug.println("sEditMinimumLevel      : "+sEditMinimumLevel);
+        Debug.println("sEditMaximumLevel      : "+sEditMaximumLevel);
+        Debug.println("sEditOrderLevel        : "+sEditOrderLevel);
+        Debug.println("sEditBegin             : "+sEditBegin);
+        Debug.println("sEditEnd               : "+sEditEnd);
+        Debug.println("sEditDefaultImportance : "+sEditDefaultImportance);
+        Debug.println("sEditSupplierUid       : "+sEditSupplierUid);
+        Debug.println("sEditServiceStockName  : "+sEditServiceStockName);
+        Debug.println("sEditSupplierName      : "+sEditSupplierName);
+        Debug.println("sEditProductName       : "+sEditProductName+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
@@ -254,9 +255,11 @@
            sFindMinimumLevel = "", sFindMaximumLevel = "", sFindOrderLevel = "", sFindBegin = "",
            sFindEnd = "", sFindDefaultImportance = "", sSelectedServiceStockUid = "", sSelectedProductUid = "",
            sSelectedLevel = "", sSelectedMinimumLevel = "", sSelectedMaximumLevel = "", sSelectedOrderLevel = "",
-           sSelectedBegin = "", sSelectedEnd = "", sSelectedDefaultImportance = MedwanQuery.getInstance().getConfigString("productStockDefaultImportance","type1native"), sSelectedServiceStockName = "",
+           sSelectedBegin = "", sSelectedEnd = "", sSelectedServiceStockName = "",
            sSelectedProductName = "", sFindSupplierUid = "", sFindSupplierName = "",
            sSelectedSupplierUid = "", sSelectedSupplierName = "";
+    
+    String sSelectedDefaultImportance = MedwanQuery.getInstance().getConfigString("productStockDefaultImportance","type1native");
 
     int foundStockCount = 0;
     StringBuffer stocksHtml = null;
@@ -291,7 +294,7 @@
     //*********************************************************************************************
 
     //--- SAVE ------------------------------------------------------------------------------------
-    if(sAction.equals("save") && sEditStockUid.length()>0){
+    if(sAction.equals("save") && sEditStockUid.length()>0){    	
         // create productStock
         ProductStock stock = new ProductStock();
         stock.setUid(sEditStockUid);
@@ -310,7 +313,8 @@
 
         // does product exist ?
         String existingStockUid = stock.exists();
-        boolean stockExists = existingStockUid.length()>0;
+        boolean stockExists = (existingStockUid.length()>0 && Double.parseDouble(existingStockUid)>-1);
+        Debug.println("stockExists : "+stockExists);
 
         if(sEditStockUid.equals("-1")){
             //***** insert new stock *****
