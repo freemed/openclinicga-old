@@ -84,8 +84,8 @@
                     <%-- HEADER --%>
                     <tr class="admin">
                         <td width="20">&nbsp;</td>
-                        <td width="150"><a href="#" class="underlined" onClick="doSort('accesstime');"><%=getTran("Web","accesstime",sWebLanguage)%></a></td>
-                        <td width="700"><a href="#" class="underlined" onClick="doSort('searchname');"><%=getTran("Web","user",sWebLanguage)%></a></td>
+                        <td width="150"><%=getTran("Web","accesstime",sWebLanguage)%></td>
+                        <td width="700"><%=getTran("Web","user",sWebLanguage)%></td>
                         <%-- link to bottom --%>
                         <td width="16" height="20" align="right">
                             <a href="#bottom" class="top"><img src="<c:url value='/_img/bottom.jpg'/>" class="link" style="vertical-align:bottom;" border="0"></a>
