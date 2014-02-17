@@ -63,15 +63,15 @@
                 if (product != null) {
                     sProductName = product.getName();
                 } else {
-                    sProductName = "<font color='red'>" + getTran("web", "nonexistingproduct", sWebLanguage) + "</font>";
+                    sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
                 }
             }
 
             //*** compose prescriptionrule (gebruiksaanwijzing) ***
             // unit-stuff
             sTimeUnit = prescr.getTimeUnit();
-            sTimeUnitCount = prescr.getTimeUnitCount() + "";
-            sUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit() + "";
+            sTimeUnitCount = prescr.getTimeUnitCount()+"";
+            sUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit()+"";
 
             // only compose prescriptio-rule if all data is available
             if (!sTimeUnitCount.equals("0") && !sUnitsPerTimeUnit.equals("0") && product != null) {
@@ -90,7 +90,8 @@
                 if (Integer.parseInt(sTimeUnitCount) == 1) {
                     sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", "");
                     timeUnitTran = getTran("prescription.timeunit", sTimeUnit, sWebLanguage);
-                } else {
+                }
+                else {
                     sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", sTimeUnitCount);
                     timeUnitTran = getTran("prescription.timeunits", sTimeUnit, sWebLanguage);
                 }
@@ -101,7 +102,8 @@
             sSupplyingServiceUid = checkString(prescr.getSupplyingServiceUid());
             if (sSupplyingServiceUid.length() > 0) {
                 sSupplyingServiceName = getTran("service", sSupplyingServiceUid, sWebLanguage);
-            } else {
+            }
+            else {
                 sSupplyingServiceName = "";
             }
 
@@ -110,13 +112,14 @@
             ServiceStock serviceStock = ServiceStock.get(sServiceStockUid);
             if (sServiceStockUid.length() > 0 && serviceStock != null) {
                 sServiceStockName = serviceStock.getName();
-            } else {
+            }
+            else {
                 sServiceStockName = "";
             }
 
             // alternate row-style
             if (sClass.equals("")) sClass = "1";
-            else sClass = "";
+            else                   sClass = "";
 			
             boolean available = Product.isInStock(prescr.getProductUid(), prescr.getServiceStockUid());
             double openQuantity = prescr.getRequiredPackages() - prescr.getDeliveredQuantity();
@@ -125,15 +128,15 @@
             }
 
             //*** display prescription in one row ***
-            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'>" + (((prescr == null || (prescr != null && prescr.getDeliveredQuantity() == 0))) && (activeUser.getAccessRight("prescriptions.drugs.delete")) ? "<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + prescr.getUid() + "');\">" : "") + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\"><b>" + sProductName + "</b></td>")
-                    .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateBeginFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateEndFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sPrescrRule.toLowerCase() + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + prescr.getDeliveredQuantity() + "</td>")
-                    .append(" <td " + (!available && openQuantity > 0 ? " class='strike'" : "") + (openQuantity > 0 ? " bgcolor='#ff9999'" : "") + ">" + (available && openQuantity > 0 ? "<a title='" + getTran("web", "deliver", sWebLanguage) + "' href=\"javascript:doDeliverMedication('" + prescr.getUid() + "');\"><font style='color: black;'>" : "<font style='color: black; text-decoration: line-through;'>") + openQuantity + "</font></a></td>")
-                    .append("</tr>");
+            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+                 .append("<td align='center'>"+(((prescr == null || (prescr != null && prescr.getDeliveredQuantity() == 0))) && (activeUser.getAccessRight("prescriptions.drugs.delete")) ? "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">" : "")+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\"><b>"+sProductName+"</b></td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateBeginFormatted+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateEndFormatted+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sPrescrRule.toLowerCase()+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+prescr.getDeliveredQuantity()+"</td>")
+                 .append("<td "+(!available && openQuantity > 0 ? " class='strike'" : "")+(openQuantity > 0 ? " bgcolor='#ff9999'" : "")+">"+(available && openQuantity > 0 ? "<a title='"+getTran("web", "deliver", sWebLanguage)+"' href=\"javascript:doDeliverMedication('"+prescr.getUid()+"');\"><font style='color: black;'>" : "<font style='color: black; text-decoration: line-through;'>")+openQuantity+"</font></a></td>")
+                .append("</tr>");
         }
 
         return html;
@@ -204,22 +207,23 @@
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        System.out.println("\n################## mngPrescrPopup : " + sAction + " ################");
-        System.out.println("* sEditPrescrUid            : " + sEditPrescrUid);
-        System.out.println("* sEditPrescriberUid        : " + sEditPrescriberUid);
-        System.out.println("* sEditProductUid           : " + sEditProductUid);
-        System.out.println("* sEditDateBegin            : " + sEditDateBegin);
-        System.out.println("* sEditDateEnd              : " + sEditDateEnd);
-        System.out.println("* sEditTimeUnit             : " + sEditTimeUnit);
-        System.out.println("* sEditTimeUnitCount        : " + sEditTimeUnitCount);
-        System.out.println("* sEditUnitsPerTimeUnit     : " + sEditUnitsPerTimeUnit);
-        System.out.println("* sEditSupplyingServiceUid  : " + sEditSupplyingServiceUid);
-        System.out.println("* sEditServiceStockUid      : " + sEditServiceStockUid);
-        System.out.println("* sEditPatientFullName      : " + sEditPatientFullName);
-        System.out.println("* sEditPrescriberFullName   : " + sEditPrescriberFullName);
-        System.out.println("* sEditProductName          : " + sEditProductName);
-        System.out.println("* sEditSupplyingServiceName : " + sEditSupplyingServiceName);
-        System.out.println("* sEditRequiredPackages     : " + sEditRequiredPackages + "\n");
+        System.out.println("\n############## medical/managePrescriptionsPopup.jsp ##############");
+        System.out.println("sAction                   : "+sAction);
+        System.out.println("sEditPrescrUid            : "+sEditPrescrUid);
+        System.out.println("sEditPrescriberUid        : "+sEditPrescriberUid);
+        System.out.println("sEditProductUid           : "+sEditProductUid);
+        System.out.println("sEditDateBegin            : "+sEditDateBegin);
+        System.out.println("sEditDateEnd              : "+sEditDateEnd);
+        System.out.println("sEditTimeUnit             : "+sEditTimeUnit);
+        System.out.println("sEditTimeUnitCount        : "+sEditTimeUnitCount);
+        System.out.println("sEditUnitsPerTimeUnit     : "+sEditUnitsPerTimeUnit);
+        System.out.println("sEditSupplyingServiceUid  : "+sEditSupplyingServiceUid);
+        System.out.println("sEditServiceStockUid      : "+sEditServiceStockUid);
+        System.out.println("sEditPatientFullName      : "+sEditPatientFullName);
+        System.out.println("sEditPrescriberFullName   : "+sEditPrescriberFullName);
+        System.out.println("sEditProductName          : "+sEditProductName);
+        System.out.println("sEditSupplyingServiceName : "+sEditSupplyingServiceName);
+        System.out.println("sEditRequiredPackages     : "+sEditRequiredPackages+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
@@ -266,8 +270,8 @@
         prescr.setUpdateUser(activeUser.userid);
 
         // if no service stock (and so no supplying service) specified :
-        Debug.println("*** activeUser.activeService.code                   = '" + activeUser.activeService.code + "'");/////////// todo
-        Debug.println("*** activeUser.activeService.defaultServiceStockUid = '" + activeUser.activeService.defaultServiceStockUid + "'");/////////// todo
+        Debug.println("*** activeUser.activeService.code                   = '"+activeUser.activeService.code+"'");/////////// todo
+        Debug.println("*** activeUser.activeService.defaultServiceStockUid = '"+activeUser.activeService.defaultServiceStockUid+"'");/////////// todo
 
         if (sEditServiceStockUid.length() == 0) {
             if (activePatient.isHospitalized()) {
@@ -297,8 +301,8 @@
         prescr.setSupplyingServiceUid(sEditSupplyingServiceUid);
 
         Debug.println("*********** SAVE PRESCRIPTION from popup : ");
-        Debug.println("              sEditServiceStockUid     = " + sEditServiceStockUid);///////////// todo
-        Debug.println("              sEditSupplyingServiceUid = " + sEditSupplyingServiceUid);///////////// todo
+        Debug.println("              sEditServiceStockUid     = "+sEditServiceStockUid);///////////// todo
+        Debug.println("              sEditSupplyingServiceUid = "+sEditSupplyingServiceUid);///////////// todo
 
         String existingPrescrUid = prescr.exists();
         boolean prescrExists = existingPrescrUid.length() > 0;
@@ -315,7 +319,7 @@
             else {
                 // show rejected data
                 sAction = "showDetailsAfterAddReject";
-                msg = "<font color='red'>" + getTran("web.manage", "prescriptionexists", sWebLanguage) + "</font>";
+                msg = "<font color='red'>"+getTran("web.manage", "prescriptionexists", sWebLanguage)+"</font>";
             }
         } else {
             //***** update existing record *****
@@ -341,7 +345,7 @@
                     // tried to update one prescription with exact the same data as an other prescription
                     // show rejected data
                     sAction = "showDetailsAfterUpdateReject";
-                    msg = "<font color='red'>" + getTran("web.manage", "prescriptionexists", sWebLanguage) + "</font>";
+                    msg = "<font color='red'>"+getTran("web.manage", "prescriptionexists", sWebLanguage)+"</font>";
                 }
             }
         }
@@ -385,11 +389,11 @@
                 if (tmpDate != null) sSelectedDateEnd = stdDateFormat.format(tmpDate);
 
                 sSelectedTimeUnit = checkString(prescr.getTimeUnit());
-                sSelectedTimeUnitCount = prescr.getTimeUnitCount() + "";
-                sSelectedUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit() + "";
+                sSelectedTimeUnitCount = prescr.getTimeUnitCount()+"";
+                sSelectedUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit()+"";
                 sSelectedSupplyingServiceUid = checkString(prescr.getSupplyingServiceUid());
                 sSelectedServiceStockUid = checkString(prescr.getServiceStockUid());
-                sSelectedRequiredPackages = prescr.getRequiredPackages() + "";
+                sSelectedRequiredPackages = prescr.getRequiredPackages()+"";
                 sSelectedPrescriberUid = prescr.getPrescriberUid();
 
                 // afgeleide data
@@ -416,7 +420,7 @@
                     sSelectedProductName = product.getName();
 
                     if (sSelectedProductName.length() == 0) {
-                        sSelectedProductName = "<font color='red'>" + getTran("web", "nonexistingproduct", sWebLanguage) + "</font>";
+                        sSelectedProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
                     }
                 }
             }
@@ -443,7 +447,7 @@
         } else {
             // showDetailsNew : set default values
             sSelectedPrescriberUid = activeUser.userid;
-            sSelectedPrescriberFullName = activeUser.person.lastname + " " + activeUser.person.firstname;
+            sSelectedPrescriberFullName = activeUser.person.lastname+" "+activeUser.person.firstname;
             sSelectedDateBegin = stdDateFormat.format(new java.util.Date());
             sSelectedTimeUnit = "type2day";
             sSelectedTimeUnitCount = "1";
@@ -464,7 +468,7 @@
 <table width="100%" cellspacing="0">
     <tr class="admin">
         <td>
-            &nbsp;&nbsp;<%="true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) ? getTran("Web.manage", "ManageServicePrescriptions", sWebLanguage) + "&nbsp;" + activeUser.activeService.getLabel(sWebLanguage) : getTran("Web.manage", "ManagePatientPrescriptions", sWebLanguage) + "&nbsp;" + activePatient.lastname + " " + activePatient.firstname%>
+            &nbsp;&nbsp;<%="true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) ? getTran("Web.manage", "ManageServicePrescriptions", sWebLanguage)+"&nbsp;"+activeUser.activeService.getLabel(sWebLanguage) : getTran("Web.manage", "ManagePatientPrescriptions", sWebLanguage)+"&nbsp;"+activePatient.lastname+" "+activePatient.firstname%>
         </td>
         <td align="right">
             <%
@@ -581,7 +585,7 @@
     if (sEditPrescrUid.length() > 0 && !sEditPrescrUid.equals("-1")) {
         prescr = Prescription.get(sEditPrescrUid);
         if (prescr != null && prescr.getProduct() != null) {
-            sUnitsPerPackage = prescr.getProduct().getPackageUnits() + "";
+            sUnitsPerPackage = prescr.getProduct().getPackageUnits()+"";
             if (prescriptionSchema.getTimequantities().size() == 0) {
                 prescriptionSchema.setTimequantities(ProductSchema.getSingleProductSchema(prescr.getProduct().getUid()).getTimequantities());
             }
@@ -728,7 +732,7 @@
        onclick="doBackToOverview();">
 <%
 } else if (sAction.equals("showDetailsNew") || sAction.equals("showDetailsAfterAddReject")) {
-    // new prescription : display saveButton with add-label + do not display delete button
+    // new prescription : display saveButton with add-label+do not display delete button
     if (activeUser.getAccessRight("prescriptions.drugs.add") || activeUser.getAccessRight("prescriptions.drugs.edit")) {
 %>
 <input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","add",sWebLanguage)%>'
@@ -796,29 +800,29 @@ function calculatePrescriptionPeriod() {
                 beginDate.setTime(beginDateInMillis);
 
                 var day = beginDate.getDate();
-                if (day < 10) day = "0" + day;
+                if (day < 10) day = "0"+day;
 
-                var month = beginDate.getMonth() + 1;
-                if (month < 10) month = "0" + month;
+                var month = beginDate.getMonth()+1;
+                if (month < 10) month = "0"+month;
 
-                transactionForm.EditDateBegin.value = day + "/" + month + "/" + beginDate.getFullYear();
+                transactionForm.EditDateBegin.value = day+"/"+month+"/"+beginDate.getFullYear();
             }
                     <%-- calculate endDate : add days to beginDate --%>
             else {
                 var beginDate = makeDate(beginDateStr);
-                var endDateInMillis = makeDate(beginDateStr).getTime() + (periodInDays * (24 * 3600 * 1000));
+                var endDateInMillis = makeDate(beginDateStr).getTime()+(periodInDays * (24 * 3600 * 1000));
                 var endDate = new Date();
                 endDate.setTime(endDateInMillis);
                 if (endDate.getTime() < beginDate.getTime()) {
                     endDate = beginDate;
                 }
                 var day = endDate.getDate();
-                if (day < 10) day = "0" + day;
+                if (day < 10) day = "0"+day;
 
-                var month = endDate.getMonth() + 1;
-                if (month < 10) month = "0" + month;
+                var month = endDate.getMonth()+1;
+                if (month < 10) month = "0"+month;
 
-                transactionForm.EditDateEnd.value = day + "/" + month + "/" + endDate.getFullYear();
+                transactionForm.EditDateEnd.value = day+"/"+month+"/"+endDate.getFullYear();
             }
         }
     }
@@ -840,7 +844,7 @@ function calculatePackagesNeeded(displayAlert) {
                 if (unitsPerPackage.length > 0 && unitsPerTimeUnit.length > 0 && timeUnitCount.length > 0 && timeUnit.length > 0) {
                     var beginDate = transactionForm.EditDateBegin.value;
                     var endDate = transactionForm.EditDateEnd.value;
-                    var periodInMillis = makeDate(endDate).getTime() + 24 * 3600 * 1000 - makeDate(beginDate).getTime();
+                    var periodInMillis = makeDate(endDate).getTime()+24 * 3600 * 1000 - makeDate(beginDate).getTime();
 
                     var millisInTimeUnit;
                     if (timeUnit == "type1hour") {
@@ -928,7 +932,7 @@ for(int i=0; i<unitTypes.size(); i++){
 <%-- open edit product unit popup --%>
 function openEditProductUnitPopup(productUid) {
     var url = "pharmacy/popups/editProductUnit.jsp" +
-              "&EditProductUid=" + productUid +
+              "&EditProductUid="+productUid +
               "&ts=<%=getTs()%>";
     openPopup(url);
 }
@@ -986,18 +990,11 @@ function isEndDateBeforeBeginDate() {
         <td class="admin" width="22" nowrap>&nbsp;</td>
         <td class="admin"><%=getTran("Web", "product", sWebLanguage)%>
         </td>
-        <td class="admin"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_PRESCR_BEGIN');"><%=
-            (sSortCol.equalsIgnoreCase("OC_PRESCR_BEGIN") ? "<" + sSortDir + ">" : "")%><%=getTran("Web", "begindate", sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_BEGIN") ? "</" + sSortDir + ">" : "")%>
-        </a></td>
-        <td class="admin"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_PRESCR_END');"><%=
-            (sSortCol.equalsIgnoreCase("OC_PRESCR_END") ? "<" + sSortDir + ">" : "")%><%=getTran("Web", "enddate", sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_END") ? "<" + sSortDir + ">" : "")%>
-        </a></td>
-        <td class="admin"><%=getTran("Web", "prescriptionrule", sWebLanguage)%>
-        </td>
-        <td class="admin" nowrap><%=getTran("Web", "delivered.quantity", sWebLanguage)%>
-        </td>
-        <td class="admin" nowrap><%=getTran("Web", "tobedelivered.quantity", sWebLanguage)%>
-        </td>
+        <td class="admin"><SORTTYPE:DATE><%=getTran("Web", "begindate", sWebLanguage)%></SORTTYPE:DATE></td>
+        <td class="admin"><SORTTYPE:DATE><%=getTran("Web", "enddate", sWebLanguage)%></SORTTYPE:DATE></td>
+        <td class="admin"><%=getTran("Web", "prescriptionrule", sWebLanguage)%></td>
+        <td class="admin" nowrap><%=getTran("Web", "delivered.quantity", sWebLanguage)%></td>
+        <td class="admin" nowrap><%=getTran("Web", "tobedelivered.quantity", sWebLanguage)%></td>
     </tr>
 
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
@@ -1016,7 +1013,7 @@ function isEndDateBeforeBeginDate() {
                       	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                         AdminPerson p = AdminPerson.getAdminPerson(ad_conn, patient);
                         ad_conn.close();
-                        out.print("<tr class='admin'><td colspan='25'>" + getTran("Web.manage", "ManagePatientPrescriptions", sWebLanguage) + "&nbsp;" + p.lastname + " " + p.firstname + "</td>");
+                        out.print("<tr class='admin'><td colspan='25'>"+getTran("Web.manage", "ManagePatientPrescriptions", sWebLanguage)+"&nbsp;"+p.lastname+" "+p.firstname+"</td>");
                         out.print(objectsToHtml(activePrescrs, sWebLanguage, activeUser));
                     }
                 }
@@ -1053,20 +1050,12 @@ function isEndDateBeforeBeginDate() {
     <%-- clickable header --%>
     <tr>
         <td class="admin" width="22" nowrap>&nbsp;</td>
-        <td class="admin"><%=getTran("Web", "product", sWebLanguage)%>
-        </td>
-        <td class="admin"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_PRESCR_BEGIN');"><%=
-            (sSortCol.equalsIgnoreCase("OC_PRESCR_BEGIN") ? "<" + sSortDir + ">" : "")%><%=getTran("Web", "begindate", sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_BEGIN") ? "</" + sSortDir + ">" : "")%>
-        </a></td>
-        <td class="admin"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_PRESCR_END');"><%=
-            (sSortCol.equalsIgnoreCase("OC_PRESCR_END") ? "<" + sSortDir + ">" : "")%><%=getTran("Web", "enddate", sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRESCR_END") ? "<" + sSortDir + ">" : "")%>
-        </a></td>
-        <td class="admin"><%=getTran("Web", "prescriptionrule", sWebLanguage)%>
-        </td>
-        <td class="admin" nowrap><%=getTran("Web", "delivered.quantity", sWebLanguage)%>
-        </td>
-        <td class="admin" nowrap><%=getTran("Web", "tobedelivered.quantity", sWebLanguage)%>
-        </td>
+        <td class="admin"><%=getTran("Web", "product", sWebLanguage)%></td>
+        <td class="admin"><SORTTYPE:DATE><%=getTran("Web", "begindate", sWebLanguage)%></SORTTYPE:DATE></td>
+        <td class="admin"><SORTTYPE:DATE><%=getTran("Web", "enddate", sWebLanguage)%></SORTTYPE:DATE></td>
+        <td class="admin"><%=getTran("Web", "prescriptionrule", sWebLanguage)%></td>
+        <td class="admin" nowrap><%=getTran("Web", "delivered.quantity", sWebLanguage)%></td>
+        <td class="admin" nowrap><%=getTran("Web", "tobedelivered.quantity", sWebLanguage)%></td>
     </tr>
 
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
@@ -1144,7 +1133,7 @@ transactionForm.EditPrescriberFullName.focus();
 %>
 
 function loadSchema() {
-    openPopup("/_common/search/updatePrescriptionSchema.jsp&productuid=" + document.getElementsByName("EditProductUid")[0].value);
+    openPopup("/_common/search/updatePrescriptionSchema.jsp&productuid="+document.getElementsByName("EditProductUid")[0].value);
 }
 
 <%-- DO ADD --%>
@@ -1310,29 +1299,29 @@ function doSort(sortCol) {
 function searchProduct(productUidField, productNameField, productUnitField, unitsPerTimeUnitField, unitsPerPackageField, productStockUidField, serviceStockUidField) {
     var url = "/_common/search/searchProduct.jsp&ts=<%=getTs()%>" +
               "&loadschema=true" +
-              "&ReturnProductUidField=" + productUidField +
-              "&ReturnProductNameField=" + productNameField +
+              "&ReturnProductUidField="+productUidField +
+              "&ReturnProductNameField="+productNameField +
               "&ReturnSupplierUidField=EditSupplyingServiceUid" +
               "&ReturnSupplierNameField=EditSupplyingServiceName";
 
     if (productUnitField != undefined) {
-        url += "&ReturnProductUnitField=" + productUnitField;
+        url += "&ReturnProductUnitField="+productUnitField;
     }
 
     if (unitsPerTimeUnitField != undefined) {
-        url += "&ReturnUnitsPerTimeUnitField=" + unitsPerTimeUnitField;
+        url += "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
     }
 
     if (unitsPerPackageField != undefined) {
-        url += "&ReturnUnitsPerPackageField=" + unitsPerPackageField;
+        url += "&ReturnUnitsPerPackageField="+unitsPerPackageField;
     }
 
     if (productStockUidField != undefined) {
-        url += "&ReturnProductStockUidField=" + productStockUidField;
+        url += "&ReturnProductStockUidField="+productStockUidField;
     }
 
     if (serviceStockUidField != undefined) {
-        url += "&ReturnServiceStockUidField=" + serviceStockUidField;
+        url += "&ReturnServiceStockUidField="+serviceStockUidField;
     }
 
     openPopup(url);
@@ -1340,32 +1329,32 @@ function searchProduct(productUidField, productNameField, productUnitField, unit
 
 <%-- popup : deliver medication --%>
 function doDeliverMedication(prescrUID) {
-    var url = "/pharmacy/medication/popups/deliverMedicationPopup.jsp&ts=<%=getTs()%>&EditPrescriptionUid=" + prescrUID + "&EditSrcDestType=patient&EditSrcDestName=<%=activePatient.firstname+" "+activePatient.lastname%>";
+    var url = "/pharmacy/medication/popups/deliverMedicationPopup.jsp&ts=<%=getTs()%>&EditPrescriptionUid="+prescrUID+"&EditSrcDestType=patient&EditSrcDestName=<%=activePatient.firstname+" "+activePatient.lastname%>";
     openPopup(url);
 }
 
 <%-- popup : search userProduct --%>
 function searchUserProduct(productUidField, productNameField, productUnitField, unitsPerTimeUnitField, unitsPerPackageField, productStockUidField, serviceStockUidField) {
-    var url = "/_common/search/searchUserProduct.jsp&ts=<%=getTs()%>&loadschema=true&ReturnProductUidField=" + productUidField + "&ReturnProductNameField=" + productNameField;
+    var url = "/_common/search/searchUserProduct.jsp&ts=<%=getTs()%>&loadschema=true&ReturnProductUidField="+productUidField+"&ReturnProductNameField="+productNameField;
 
     if (productUnitField != undefined) {
-        url += "&ReturnProductUnitField=" + productUnitField;
+        url += "&ReturnProductUnitField="+productUnitField;
     }
 
     if (unitsPerTimeUnitField != undefined) {
-        url += "&ReturnUnitsPerTimeUnitField=" + unitsPerTimeUnitField;
+        url += "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
     }
 
     if (unitsPerPackageField != undefined) {
-        url += "&ReturnUnitsPerPackageField=" + unitsPerPackageField;
+        url += "&ReturnUnitsPerPackageField="+unitsPerPackageField;
     }
 
     if (productStockUidField != undefined) {
-        url += "&ReturnProductStockUidField=" + productStockUidField;
+        url += "&ReturnProductStockUidField="+productStockUidField;
     }
 
     if (serviceStockUidField != undefined) {
-        url += "&ReturnServiceStockUidField=" + serviceStockUidField;
+        url += "&ReturnServiceStockUidField="+serviceStockUidField;
     }
 
     openPopup(url);
@@ -1374,26 +1363,26 @@ function searchUserProduct(productUidField, productNameField, productUnitField, 
 <%-- popup : search product in service stock --%>
 function searchProductInServiceStock(productUidField, productNameField, productUnitField, unitsPerTimeUnitField, unitsPerPackageField, productStockUidField, serviceStockUidField) {
     var url = "/_common/search/searchProductInStock.jsp&ts=<%=getTs()%>&loadschema=true&DisplayProductsOfPatientService=true" +
-              "&ReturnProductUidField=" + productUidField + "&ReturnProductNameField=" + productNameField;
+              "&ReturnProductUidField="+productUidField+"&ReturnProductNameField="+productNameField;
 
     if (productUnitField != undefined) {
-        url += "&ReturnProductUnitField=" + productUnitField;
+        url += "&ReturnProductUnitField="+productUnitField;
     }
 
     if (unitsPerTimeUnitField != undefined) {
-        url += "&ReturnUnitsPerTimeUnitField=" + unitsPerTimeUnitField;
+        url += "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
     }
 
     if (unitsPerPackageField != undefined) {
-        url += "&ReturnUnitsPerPackageField=" + unitsPerPackageField;
+        url += "&ReturnUnitsPerPackageField="+unitsPerPackageField;
     }
 
     if (productStockUidField != undefined) {
-        url += "&ReturnProductStockUidField=" + productStockUidField;
+        url += "&ReturnProductStockUidField="+productStockUidField;
     }
 
     if (serviceStockUidField != undefined) {
-        url += "&ReturnServiceStockUidField=" + serviceStockUidField;
+        url += "&ReturnServiceStockUidField="+serviceStockUidField;
     }
 
     openPopup(url);
@@ -1401,17 +1390,17 @@ function searchProductInServiceStock(productUidField, productNameField, productU
 
 <%-- popup : search supplying service --%>
 function searchSupplyingService(serviceUidField, serviceNameField) {
-    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
 }
 
 <%-- popup : search service stock --%>
 function searchServiceStock(serviceStockUidField, serviceStockNameField) {
-    openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=" + serviceStockUidField + "&ReturnServiceStockNameField=" + serviceStockNameField);
+    openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+serviceStockUidField+"&ReturnServiceStockNameField="+serviceStockNameField);
 }
 
 <%-- popup : search prescriber --%>
 function searchPrescriber(prescriberUidField, prescriberNameField) {
-    openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID=" + prescriberUidField + "&ReturnName=" + prescriberNameField + "&displayImmatNew=no");
+    openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+prescriberUidField+"&ReturnName="+prescriberNameField+"&displayImmatNew=no");
 }
 
 <%-- CLEAR MESSAGE --%>
@@ -1431,7 +1420,7 @@ function checkSaveButton(contextpath, sQuestion) {
 
     if (false && myButton != null) {
         if (bSaveHasNotChanged == false) {
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue=" + sQuestion;
+            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
             var modalitiesIE = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
 
             if (window.showModalDialog) {
@@ -1446,7 +1435,7 @@ function checkSaveButton(contextpath, sQuestion) {
         }
     }
     else if (sFormBeginStatus != myForm.innerHTML) {
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue=" + sQuestion;
+        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
         var modalitiesIE = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
 
         if (window.showModalDialog) {
@@ -1494,7 +1483,7 @@ document.onmousedown = function(e) {
     var n = !e?self.event.srcElement.name:e.target.name;
 
     if (document.layers) {
-        with (gfPop) var l = pageX, t = pageY, r = l + clip.width, b = t + clip.height;
+        with (gfPop) var l = pageX, t = pageY, r = l+clip.width, b = t+clip.height;
         if (n != "popcal" && (e.pageX > r || e.pageX < l || e.pageY > b || e.pageY < t)) {
             gfPop1.fHideCal();
             gfPop2.fHideCal();
