@@ -337,7 +337,7 @@
                         <td width="18"></td>
                         <td width="18"></td>
                         <td width="18"></td>
-                        <td width="12%">&nbsp;<a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('analysiscode');"><%=(sSortCol.equalsIgnoreCase("analysiscode")?"<"+sSortDir+">":"")%><%=getTran("Web.manage","labanalysis.cols.analysiscode",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("analysiscode")?"</"+sSortDir+">":"")%></a></td>
+                        <td width="12%">&nbsp;<%=getTran("Web.manage","labanalysis.cols.analysiscode",sWebLanguage)%></td>
 
                         <%
                             if(resultType.equals("")){
@@ -360,8 +360,8 @@
                             }
                         %>
 
-                        <td width="*">&nbsp;<a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('resultvalue');"><%=(sSortCol.equalsIgnoreCase("resultvalue")?"<"+sSortDir+">":"")%><%=getTran("Web.manage","labanalysis.cols.resultvalue",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("resultvalue")?"</"+sSortDir+">":"")%></a></td>
-                        <td width="*">&nbsp;<a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('resultdate');"><%=(sSortCol.equalsIgnoreCase("resultdate")?"<"+sSortDir+">":"")%><%=getTran("Web.manage","labanalysis.cols.resultdate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("resultdate")?"</"+sSortDir+">":"")%></a></td>
+                        <td width="*">&nbsp;<%=getTran("Web.manage","labanalysis.cols.resultvalue",sWebLanguage)%></td>
+                        <td width="*">&nbsp;<%=getTran("Web.manage","labanalysis.cols.resultdate",sWebLanguage)%></td>
                         <td width="10%">&nbsp;<%=getTran("Web.manage","labanalysis.cols.resultmodifier",sWebLanguage)%></td>
                     </tr>
 
