@@ -52,11 +52,11 @@
 
             //*** display prescription in one row ***
             html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + prescr.getUid() + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sCareDescr + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateBeginFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateEndFormatted + "</td>")
-                    .append("</tr>");
+                 .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + prescr.getUid() + "');\">")
+                 .append("<td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sCareDescr + "</td>")
+                 .append("<td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateBeginFormatted + "</td>")
+                 .append("<td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateEndFormatted + "</td>")
+                .append("</tr>");
         }
 
         return html;
@@ -134,8 +134,8 @@
                     <tr class="gray">
                         <td width="22" nowrap>&nbsp;</td>
                         <td><%=getTran("Web","care_type",sWebLanguage)%></td>
-                        <td width="100"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_CAREPRESCR_BEGIN');"><%=(sSortCol.equalsIgnoreCase("OC_CAREPRESCR_BEGIN")?"<"+sSortDir+">":"")%><%=getTran("Web","begindate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_CAREPRESCR_BEGIN")?"</"+sSortDir+">":"")%></a></td>
-                        <td width="100"><a href="#" class="underlined" title="<%=sortTran%>" onClick="doSort('OC_CAREPRESCR_END');"><%=(sSortCol.equalsIgnoreCase("OC_CAREPRESCR_END")?"<"+sSortDir+">":"")%><%=getTran("Web","enddate",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_CAREPRESCR_END")?"<"+sSortDir+">":"")%></a></td>
+                        <td width="100"><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
+                        <td width="100"><SORTTYPE:DATE><%=getTran("Web","enddate",sWebLanguage)%></SORTTYPE:DATE></td>
                     </tr>
                     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                         <%=prescriptionsHtml%>
