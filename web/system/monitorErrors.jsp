@@ -98,9 +98,9 @@
                     <%-- HEADER --%>
                     <tr class="admin">
                         <td width="20">&nbsp;</td>
-                        <td width="150"><a href="#" class="underlined" onClick="doSort('updatetime');"><%=getTran("Web","date",sWebLanguage)%></a></td>
-                        <td width="220"><a href="#" class="underlined" onClick="doSort('searchname');"><%=getTran("Web.Occup","medwan.authentication.login",sWebLanguage)%></a></td>
-                        <td width="*"><a href="#" class="underlined" onClick="doSort('errorpage');"><%=getTran("Web.Statistics","Page",sWebLanguage)%></a></td>
+                        <td width="150"><%=getTran("Web","date",sWebLanguage)%></td>
+                        <td width="220"><%=getTran("Web.Occup","medwan.authentication.login",sWebLanguage)%></td>
+                        <td width="*"><%=getTran("Web.Statistics","Page",sWebLanguage)%></td>
                     </tr>
                     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                     <%
