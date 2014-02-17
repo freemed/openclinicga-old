@@ -400,9 +400,9 @@ function delayedSearch() {
 
 <%-- DO FIND --%>
 function doFind() {
-
-    ajaxChangeSearchResults('_common/search/searchByAjax/searchProductShow.jsp', productForm, "&ts=" + new Date().getTime());
+  ajaxChangeSearchResults('_common/search/searchByAjax/searchProductShow.jsp', productForm, "&ts=" + new Date().getTime());
 }
+
 <%-- OPEN EDIT PRODUCT UNIT POPUP --%>
 function openEditProductUnitPopup(productUid) {
     var url = "pharmacy/popups/editProductUnit.jsp" +
