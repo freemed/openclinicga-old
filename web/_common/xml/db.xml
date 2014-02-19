@@ -525,6 +525,20 @@
         
 
     <!-- ####################################### VARIA TABLES ##################################### -->
+    <table name="AutoCompleteItemValues" db="openclinic" sync="NONE">
+    	<columns>
+    		<column name="type" dbtype="varchar" javatype="string" size="255"/>
+    		<column name="value" dbtype="varchar" javatype="string" size="255"/>
+			<column name="userid" dbtype="int" javatype="integer"/>
+			<column name="counter" dbtype="int" javatype="integer"/>
+			<column name="itemid" dbtype="int" javatype="integer"/>
+    	</columns>
+    	<indexes>
+    		<index name="itemid">
+    			<indexcolumn order="ASC" name="itemid"/>
+    		</index>
+    	</indexes>
+    </table>
     <table name="OC_POINTERS" db="openclinic" sync="NONE">
     	<columns>
     		<column name="OC_POINTER_KEY" dbtype="varchar" javatype="string" size="255"/>
