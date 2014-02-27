@@ -208,13 +208,26 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
         table.addCell(createValueCell(getTran("web","prestations"),1,8,Font.NORMAL));
         double totalDebet=0;
         double totalinsurardebet=0;
+        double totalextrainsurardebet=0;
 
     	//Find services
     	Hashtable services = new Hashtable();
-		String serviceuid="";
+		String serviceuid="",insurars="",extrainsurars="";
 		Vector debets=invoice.getDebets();
     	for(int n=0;n<debets.size();n++){
     		Debet debet = (Debet)debets.elementAt(n);
+    		if(debet.getInsurance()!=null && debet.getInsurance().getInsurar()!=null && debet.getInsurance().getInsurar().getName()!=null && insurars.indexOf(debet.getInsurance().getInsurar().getName())<0){
+    			if(insurars.length()>0){
+    				insurars+=", ";
+    			}
+    			insurars+=debet.getInsurance().getInsurar().getName();
+    		}
+    		if(debet.getExtraInsurar()!=null && debet.getExtraInsurar().getName()!=null && extrainsurars.indexOf(debet.getExtraInsurar().getName())<0){
+    			if(extrainsurars.length()>0){
+    				extrainsurars+=", ";
+    			}
+    			extrainsurars+=debet.getExtraInsurar().getName();
+    		}
     		if(debet!=null & debet.getServiceUid()!=null){
     			serviceuid=debet.getServiceUid();
     		}
@@ -225,6 +238,7 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
    			if(debet!=null){
 	            totalDebet+=debet.getAmount();
 	            totalinsurardebet+=debet.getInsurarAmount();
+	            totalextrainsurardebet+=debet.getExtraInsurarAmount();
    			}
     	}
     	
@@ -237,7 +251,7 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
     			if(departments.length()>0){
     				departments+=", ";
     			}
-    			departments+=service.getLabel(user.person.language);
+    			departments+=service.getFullyQualifiedName(user.person.language);
     		}
     	}
 
@@ -255,21 +269,55 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
         table.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(new Date()),3,8,Font.NORMAL));
         table.addCell(createValueCell(getTran("web.finance","balance"),1,8,Font.NORMAL));
         table.addCell(createPriceCell(invoice.getBalance(),1));
-        table.addCell(createEmptyCell(3));
-        table.addCell(createValueCell(getTran("web","insurar"),1,8,Font.ITALIC));
-        cell = new PdfPCell(new Paragraph(priceFormat.format(totalinsurardebet)+" "+sCurrency,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
-        cell.setColspan(1);
-        cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-        table.addCell(cell);
+        if(ScreenHelper.checkString(insurars).length()>0){
+	        table.addCell(createEmptyCell(3));
+	        table.addCell(createValueCell(getTran("web","insurar"),1,8,Font.ITALIC));
+	        cell = new PdfPCell(new Paragraph(priceFormat.format(totalinsurardebet)+" "+sCurrency,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+	        cell.setColspan(1);
+	        cell.setBorder(PdfPCell.NO_BORDER);
+	        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+        }
+        if(ScreenHelper.checkString(extrainsurars).length()>0){
+	        table.addCell(createEmptyCell(3));
+	        table.addCell(createValueCell(getTran("web","extrainsurar"),1,8,Font.ITALIC));
+	        cell = new PdfPCell(new Paragraph(priceFormat.format(totalextrainsurardebet)+" "+sCurrency,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+	        cell.setColspan(1);
+	        cell.setBorder(PdfPCell.NO_BORDER);
+	        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+        }
         cell = new PdfPCell(table);
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setColspan(40);
         receiptTable.addCell(cell);
+        if(ScreenHelper.checkString(insurars).length()>0){
+        	receiptTable.addCell(createValueCell(getTran("web","insurar"),10,8,Font.BOLD));
+        	receiptTable.addCell(createValueCell(insurars,24,7,Font.NORMAL));
+        	receiptTable.addCell(createValueCell(getTran("web","bc.insurar"),8,8,Font.ITALIC));
+	        cell = new PdfPCell(new Paragraph(invoice.getInsurarreference()+"",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+	        cell.setColspan(8);
+	        cell.setBorder(PdfPCell.NO_BORDER);
+	        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        receiptTable.addCell(cell);
+        }
+        if(ScreenHelper.checkString(extrainsurars).length()>0){
+        	receiptTable.addCell(createValueCell(getTran("web","extrainsurar"),10,8,Font.BOLD));
+        	receiptTable.addCell(createValueCell(extrainsurars,24,7,Font.NORMAL));
+        	receiptTable.addCell(createValueCell(getTran("web","bc.extrainsurar"),8,8,Font.ITALIC));
+	        cell = new PdfPCell(new Paragraph(invoice.getComment()+"",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+	        cell.setColspan(8);
+	        cell.setBorder(PdfPCell.NO_BORDER);
+	        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        receiptTable.addCell(cell);
+        }
         receiptTable.addCell(createEmptyCell(50));
         receiptTable.addCell(createValueCell(getTran("web","service"),10,8,Font.BOLD));
-        receiptTable.addCell(createValueCell(departments,40,7,Font.NORMAL));
+        receiptTable.addCell(createValueCell(departments,40,7,Font.BOLD));
         receiptTable.addCell(createValueCell(getTran("web","prestations"),10,8,Font.BOLD));
         int nLines=2;
         for(int n=0;n<debets.size();n++){
@@ -891,12 +939,13 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
 
-            double patientshare=0,insureramount=0,supplements=0;
+            double patientshare=0,insureramount=0,supplements=0,extrainsuraramount=0;
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet.getPrestation()!=null && debet.getQuantity()>0){
         			printDebet(debet,table);
         			patientshare+=debet.getAmount()+debet.getExtraInsurarAmount();
+        			extrainsuraramount+=debet.getExtraInsurarAmount();
         			insureramount+=debet.getInsurarAmount();
         			supplements+=debet.getPrestation().getSupplement()*debet.getQuantity();
             	}
@@ -941,7 +990,18 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             cell=createValueCell(getTran("web","mfp.patientshare"),30);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
-            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare),10,7,Font.BOLD);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare-extrainsuraramount),10,7,Font.BOLD);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createEmptyCell(40);
+            table.addCell(cell);
+            
+            cell=createEmptyCell(20);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.extrainsurer"),30);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(extrainsuraramount),10,7,Font.BOLD);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
             cell=createEmptyCell(40);
@@ -1158,12 +1218,13 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             cell.setBorder(PdfPCell.BOTTOM);
             table.addCell(cell);
 
-            double patientshare=0,insureramount=0,supplements=0;
+            double patientshare=0,insureramount=0,supplements=0,extrainsuraramount=0;
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
             	if(debet.getPrestation()!=null && debet.getQuantity()>0){
         			printDebet(debet,table);
         			patientshare+=debet.getAmount()+debet.getExtraInsurarAmount();
+        			extrainsuraramount+=debet.getExtraInsurarAmount();
         			insureramount+=debet.getInsurarAmount();
         	    	if(debet==null || debet.getInsurance()==null || debet.getInsurance().getInsurar()==null || debet.getInsurance().getInsurar().getNoSupplements()==0){
         	    		supplements+=debet.getPrestation().getSupplement()*debet.getQuantity();
@@ -1210,7 +1271,18 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             cell=createValueCell(getTran("web","mfp.patientshare"),30);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
-            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare),10,7,Font.BOLD);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(patientshare-extrainsuraramount),10,7,Font.BOLD);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createEmptyCell(40);
+            table.addCell(cell);
+            
+            cell=createEmptyCell(20);
+            table.addCell(cell);
+            cell=createValueCell(getTran("web","mfp.extrainsurer"),30);
+            cell.setBorder(PdfPCell.BOX);
+            table.addCell(cell);
+            cell=createValueCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(extrainsuraramount),10,7,Font.BOLD);
             cell.setBorder(PdfPCell.BOX);
             table.addCell(cell);
             cell=createEmptyCell(40);

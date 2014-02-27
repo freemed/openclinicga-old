@@ -114,7 +114,7 @@ public class PDFInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
         model=" Mod MFP.1";
 		SortedMap services = new TreeMap();
 		SortedMap invoices;
-        String serviceUid,invoiceUid,diseaseType,employer,card,immat,affiliate,emp;
+        String serviceUid,invoiceUid,diseaseType,employer,card,immat,affiliate,emp,status="?";
         Income income;
 		for(int n=0;n<debets.size();n++){
         	Debet debet = (Debet)debets.elementAt(n);
@@ -136,6 +136,9 @@ public class PDFInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             		immat=debet.getInsurance().getMemberImmat();
             		affiliate=debet.getInsurance().getMember();
             		emp=debet.getInsurance().getMemberEmployer();
+            		if(status.equalsIgnoreCase("?")){
+            			status=debet.getInsurance().getStatus();
+            		}
             	}
             	if(encounter!=null && encounter.getCategories()!=null){
             		diseaseType=encounter.getCategories();
@@ -248,7 +251,7 @@ public class PDFInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
                 	PatientInvoice iv = PatientInvoice.get(invoiceUid.split(";")[0]);
                 	if(iv!=null){
                 		if(iv.getPatient()!=null){
-                			beneficiary=iv.getPatient().lastname.toUpperCase()+", "+iv.getPatient().firstname;
+                			beneficiary=iv.getPatient().lastname.toUpperCase()+", "+iv.getPatient().firstname+" ("+ScreenHelper.getTranNoLink("insurance.status", status, sPrintLanguage)+")";
                 		}
                 	}
                 	counter++;

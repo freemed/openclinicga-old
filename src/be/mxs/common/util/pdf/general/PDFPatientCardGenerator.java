@@ -56,16 +56,13 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
         docWriter.setPageEvent(new EndPage());
         this.req = req;
 
-        String sURL = req.getRequestURL().toString();
-        if(sURL.indexOf("openclinic/") > 0){
-            sURL = sURL.substring(0,sURL.indexOf("openclinic/"));
-        }
+        String sURL = MedwanQuery.getInstance().getConfigString("imageSource","http://localhost/openclinic");
 
         String sContextPath = req.getContextPath()+"/";
         HttpSession session = req.getSession();
         String sProjectDir = (String)session.getAttribute("activeProjectDir");
 
-        this.url = sURL;
+        this.url = sURL+"/";
         this.contextPath = sContextPath;
         this.projectDir = sProjectDir;
 
@@ -108,7 +105,8 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
             table = new PdfPTable(4);
             table.setWidthPercentage(pageWidth);
             //Logo
-            Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_patientcard.gif"));
+            
+            Image image =Image.getInstance(new URL(url+projectDir+"/_img/logo_patientcard.gif"));
             image.scaleToFit(60*200/254,72);
             cell = new PdfPCell(image);
             cell.setBorder(PdfPCell.NO_BORDER);

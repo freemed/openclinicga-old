@@ -2,6 +2,7 @@ package be.openclinic.datacenter;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -42,7 +43,11 @@ public class POP3Receiver extends Receiver {
 			    	//Store the message in the oc_imports database here and delete it if successful
 		            SAXReader reader = new SAXReader(false);
 		            try{
-						Document document = reader.read(new ByteArrayInputStream(message[i].getContent().toString().getBytes("UTF-8")));
+					    String ms = new String(message[i].getContent().toString().getBytes("UTF-8"));
+					    if(ms.indexOf("</message>")>-1){
+					    	ms=ms.substring(0,ms.indexOf("</message>")+10);
+					    }
+						Document document = reader.read(new ByteArrayInputStream(ms.getBytes("UTF-8")));
 						Element root = document.getRootElement();
 						Iterator msgs = root.elementIterator("data");
 						Vector ackMessages=new Vector();

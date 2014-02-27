@@ -248,7 +248,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
                 	PatientInvoice iv = PatientInvoice.get(invoiceUid.split(";")[0]);
                 	if(iv!=null){
                 		if(iv.getPatient()!=null){
-                			beneficiary=iv.getPatient().lastname.toUpperCase()+", "+iv.getPatient().firstname;
+                			beneficiary=iv.getPatient().lastname.toUpperCase()+", "+iv.getPatient().firstname+" ("+iv.getPatientUid()+")";
                 		}
                 	}
                 	counter++;

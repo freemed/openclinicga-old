@@ -776,6 +776,7 @@ public class ScreenHelper {
                          activeUser.getAccessRight(sScreen + ".delete")) {
                     jsAlert = "";
                 }
+                
                 if(Debug.enabled) System.out.println("3"); 
 
                 if(jsAlert.length() > 0){
@@ -792,6 +793,30 @@ public class ScreenHelper {
                               "</script>";
                 }
             }
+        }
+
+        return jsAlert;
+    }
+
+    //--- CHECK PERMISSION ------------------------------------------------------------------------
+    static public String checkTransactionPermission(TransactionVO transaction, User activeUser, boolean screenIsPopup, String sAPPFULLDIR) {
+    	String jsAlert="";
+    	if(checkString(transaction.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")){
+    		try{
+	    		if(!(transaction.getUser().getUserId()+"").equalsIgnoreCase(activeUser.userid)){
+	                String sMessage = getTranNoLink("web","privatetransactionerror",activeUser.person.language);
+	                jsAlert = "<script>"+(screenIsPopup?"window.close();":"window.history.go(-1);")+
+	                          "var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
+	
+	                jsAlert+= "';"+
+	                          "  var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
+	                          "   var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
+	                          "</script>";
+	            }
+    		}
+    		catch(Exception e){
+    			e.printStackTrace();
+    		}
         }
 
         return jsAlert;

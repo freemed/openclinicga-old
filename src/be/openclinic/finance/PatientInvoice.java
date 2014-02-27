@@ -25,7 +25,151 @@ public class PatientInvoice extends Invoice {
     protected String insurarreference;
     protected String insurarreferenceDate;
     protected String comment;
+    protected String modifiers; //0=mfpdoctor,1=mfppost,2=mfpagent,3=drugreceiver,4=drugreceiverid,5=receiveridcarddate,6=receiveridcardplace
     
+	public String getModifiers() {
+		return modifiers;
+	}
+
+	public void setModifiers(String modifiers) {
+		this.modifiers = modifiers;
+	}
+
+	public void setModifier(int index,String value){
+		if(getModifiers()==null){
+			setModifiers("");
+		}
+		String[] m = getModifiers().split(";");
+		if(m.length<=index){
+			setModifiers(getModifiers()+"; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;".substring(0,(index+1-m.length)*2));
+			m = getModifiers().split(";");
+		}
+		m[index]=value;
+		modifiers="";
+		for(int n=0;n<m.length;n++){
+			modifiers+=m[n]+";";
+		}
+	}
+
+	public String getMfpDoctor(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[0];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setMfpDoctor(String s){
+		setModifier(0,s);
+	}
+
+	public String getMfpPost(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[1];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setMfpPost(String s){
+		setModifier(1,s);
+	}
+
+	public String getMfpAgent(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[2];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setMfpAgent(String s){
+		setModifier(2,s);
+	}
+
+	public String getMfpDrugReceiver(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[3];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setMfpDrugReceiver(String s){
+		setModifier(3,s);
+	}
+
+	public String getMfpDrugReceiverId(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[4];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setMfpDrugReceiverId(String s){
+		setModifier(4,s);
+	}
+
+	public String getMfpDrugIdCardDate(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[5];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setMfpDrugIdCardDate(String s){
+		setModifier(5,s);
+	}
+
+	public String getMfpDrugIdCardPlace(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[6];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setMfpDrugIdCardPlace(String s){
+		setModifier(6,s);
+	}
+
     public String getComment() {
 		return comment;
 	}
@@ -235,6 +379,7 @@ public class PatientInvoice extends Invoice {
                         patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                         patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
                         patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
+                        patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
                     }
                     rs.close();
                     ps.close();
@@ -290,6 +435,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
                 patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
+                patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
             }
             rs.close();
             ps.close();
@@ -394,9 +540,10 @@ public class PatientInvoice extends Invoice {
                           " OC_PATIENTINVOICE_INSURARREFERENCEDATE," +
                           " OC_PATIENTINVOICE_ACCEPTATIONUID," +
                           " OC_PATIENTINVOICE_VERIFIER," +
-                          " OC_PATIENTINVOICE_COMMENT" +
+                          " OC_PATIENTINVOICE_COMMENT," +
+                          " OC_PATIENTINVOICE_MODIFIERS" +
                         ") " +
-                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = oc_conn.prepareStatement(sSelect);
                 while(!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_PATIENTINVOICES","OC_PATIENTINVOICE_OBJECTID",ids[1])){
                     ids[1] = MedwanQuery.getInstance().getOpenclinicCounter("OC_INVOICES") + "";
@@ -418,6 +565,7 @@ public class PatientInvoice extends Invoice {
                 ps.setString(15,this.getAcceptationUid());
                 ps.setString(16,this.getVerifier());
                 ps.setString(17, this.getComment());
+                ps.setString(18, this.getModifiers());
                 ps.executeUpdate();
                 ps.close();
 
@@ -583,6 +731,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
                 patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
+                patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
 
                 invoices.add(patientInvoice);
             }
@@ -675,6 +824,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
                 patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
+                patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
 
                 invoices.add(patientInvoice);
             }
@@ -868,6 +1018,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
                 patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
+                patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
 
                 vPatientInvoices.add(patientInvoice);
             }
@@ -892,7 +1043,6 @@ public class PatientInvoice extends Invoice {
       public static boolean setStatusOpen(String sInvoiceID,String UserId){
 
         PreparedStatement ps = null;
-        ResultSet rs = null;
         boolean okQuery = false;
         String sSelect = "update OC_PATIENTINVOICES SET OC_PATIENTINVOICE_STATUS ='open',OC_PATIENTINVOICE_UPDATETIME=?,OC_PATIENTINVOICE_UPDATEUID=? WHERE OC_PATIENTINVOICE_OBJECTID = ? ";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -904,7 +1054,6 @@ public class PatientInvoice extends Invoice {
 
             okQuery = (ps.executeUpdate()>0);
 
-            rs.close();
             ps.close();
       }
         catch(Exception e){
@@ -913,7 +1062,6 @@ public class PatientInvoice extends Invoice {
         }
         finally{
             try{
-                if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
             }

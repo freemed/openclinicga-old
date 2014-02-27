@@ -276,6 +276,20 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                     if (oldTransaction.getTransactionType().equals("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DELIVERY")){
                     	previousTransaction = MedwanQuery.getInstance().loadTransaction(oldTransaction.getServerId(), oldTransaction.getTransactionId().intValue());
                     }
+
+                    String privatetransaction = ScreenHelper.checkString(request.getParameter("privatetransaction"));
+                    ItemVO privateItem=oldTransaction.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION");
+                    if(privateItem==null){
+                        privateItem = new ItemVO(new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier())
+                        , "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION"
+                        ,sessionContainerWO.getPersonVO().personId.intValue()+""
+                        ,new Date()
+                        ,new ItemContextVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()), "", ""));
+                    	oldTransaction.getItems().add(privateItem);
+                    }
+                    privateItem.setValue(privatetransaction);
+                    
+
                     //Sla de transactie op
                     returnedTransactionVO = MedwanQuery.getInstance().updateTransaction(sessionContainerWO.getPersonVO().personId.intValue(),oldTransaction);
                     if (MedwanQuery.getInstance().getConfigInt("automatedDebet",0)==1){
@@ -438,6 +452,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
 
                     //Bewaar de actieve diagnoses
                     MedwanQuery.getInstance().activateDiagnosis(sessionContainerWO.getPersonVO().personId.intValue(),sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue(),sessionContainerWO.getCurrentTransactionVO().getServerId(),sessionContainerWO.getCurrentTransactionVO().getUpdateTime());
+                    
                 }
                 else {
                     sessionContainerWO.setCurrentTransactionVO(oldTransaction);

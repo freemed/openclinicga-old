@@ -89,6 +89,9 @@ public abstract class PDFOfficialBasic extends PDFBasic {
         if(sURL.indexOf("openclinic",10) > 0){
             sURL = sURL.substring(0,sURL.indexOf("openclinic", 10));
         }
+        if(sURL.indexOf("openclinictest",10) > 0){
+            sURL = sURL.substring(0,sURL.indexOf("openclinictest", 10));
+        }
         if(sURL.indexOf("openinsurance",10) > 0){
             sURL = sURL.substring(0,sURL.indexOf("openinsurance", 10));
         }
