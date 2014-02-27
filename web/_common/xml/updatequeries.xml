@@ -203,5 +203,23 @@
   	<Query id='QUERY.en-icd10-quotes-nl' db='openclinic' date='03/12/2013' dbserver='Microsoft SQL Server'>
 	  	update ICD10 set labelnl=replace(labelnl,'\'+CHAR(39),'`') where labelnl like '%\'+CHAR(39)+'%'
   	</Query>	
+  	<Query id='QUERY.fr-icd10-labels-fr' db='openclinic' date='09/01/2014' dbserver='Microsoft SQL Server'>
+	  	update icd10 set labelfr=upper('MALADIES DES NERFS, RACINES ET PLEXUS NERVEUX') where code='06g';
+  	</Query>	
+  	<Query id='QUERY.fr-icd10-labels-fr' db='openclinic' date='09/01/2014' dbserver='Microsoft SQL Server'>
+		update icd10 set labelfr=upper('Polyneuropathies ET AUTRES TROUBLES du systeme nerveux peripherique') where code='06h';
+  	</Query>	
+  	<Query id='QUERY.fr-icd10-labels-fr' db='openclinic' date='09/01/2014' dbserver='Microsoft SQL Server'>
+		update icd10 set labelfr=upper('MALADIES DE JONCTION NEUROMUSCULAIRE ET MUSCLES') where code='06i';
+  	</Query>	
+  	<Query id='QUERY.fr-icd10-labels-fr' db='openclinic' date='09/01/2014' dbserver='MySQL'>
+	  	update icd10 set labelfr=upper('MALADIES DES NERFS, RACINES ET PLEXUS NERVEUX') where code='06g';
+  	</Query>	
+  	<Query id='QUERY.fr-icd10-labels-fr' db='openclinic' date='09/01/2014' dbserver='MySQL'>
+		update icd10 set labelfr=upper('Polyneuropathies ET AUTRES TROUBLES du systeme nerveux peripherique') where code='06h';
+  	</Query>	
+  	<Query id='QUERY.fr-icd10-labels-fr' db='openclinic' date='09/01/2014' dbserver='MySQL'>
+		update icd10 set labelfr=upper('MALADIES DE JONCTION NEUROMUSCULAIRE ET MUSCLES') where code='06i';
+  	</Query>	
   	
 </Queries>
