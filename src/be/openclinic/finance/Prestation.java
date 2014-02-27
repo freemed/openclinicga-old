@@ -38,7 +38,7 @@ public class Prestation extends OC_Object{
     private String performerUid;
     private String prestationClass;
     private String serviceUid;
-    private String modifiers; //0=anesthesiaPercentage,1=mfpadmissionpercentage
+    private String modifiers; //0=anesthesiaPercentage,1=mfpadmissionpercentage,2=flag1
     
     public String getServiceUid() {
 		return serviceUid;
@@ -88,6 +88,23 @@ public class Prestation extends OC_Object{
 	
 	public void setMfpAdmissionPercentage(double pct){
 		setModifier(1,pct+"");
+	}
+	
+	public String getFlag1(){
+		String flag="";
+		if(getModifiers()!=null){
+			try{
+				flag=getModifiers().split(";")[2];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return flag;
+	}
+	
+	public void setFlag1(String flag){
+		setModifier(2,flag);
 	}
 	
 	public void setModifier(int index,String value){
@@ -1258,13 +1275,13 @@ public class Prestation extends OC_Object{
                 			"OC_PRESTATION_REFUID,OC_PRESTATION_UPDATETIME,OC_PRESTATION_UPDATEUID,OC_PRESTATION_VERSION,OC_PRESTATION_TYPE,OC_PRESTATION_CATEGORIES," +
                 			"OC_PRESTATION_MFPPERCENTAGE,OC_PRESTATION_INVOICEGROUP,OC_PRESTATION_RENEWALINTERVAL,OC_PRESTATION_COVERAGEPLAN,OC_PRESTATION_COVERAGEPLANCATEGORY," +
                 			"OC_PRESTATION_VARIABLEPRICE,OC_PRESTATION_INACTIVE,OC_PRESTATION_PERFORMERUID,OC_PRESTATION_SUPPLEMENT,OC_PRESTATION_CLASS," +
-                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID) " +
+                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID,OC_PRESTATION_CREATETIME) " +
                 			"" +
                 			"select OC_PRESTATION_CODE,OC_PRESTATION_DESCRIPTION,OC_PRESTATION_PRICE,OC_PRESTATION_REFTYPE," +
                 			"OC_PRESTATION_REFUID,OC_PRESTATION_UPDATETIME,OC_PRESTATION_UPDATEUID,OC_PRESTATION_VERSION,OC_PRESTATION_TYPE,OC_PRESTATION_CATEGORIES," +
                 			"OC_PRESTATION_MFPPERCENTAGE,OC_PRESTATION_INVOICEGROUP,OC_PRESTATION_RENEWALINTERVAL,OC_PRESTATION_COVERAGEPLAN,OC_PRESTATION_COVERAGEPLANCATEGORY," +
                 			"OC_PRESTATION_VARIABLEPRICE,OC_PRESTATION_INACTIVE,OC_PRESTATION_PERFORMERUID,OC_PRESTATION_SUPPLEMENT,OC_PRESTATION_CLASS," +
-                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID from OC_PRESTATIONS where " +
+                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID,OC_PRESTATION_CREATETIME from OC_PRESTATIONS where " +
                 			"OC_PRESTATION_SERVERID=? and OC_PRESTATION_OBJECTID=?";
                 	ps=oc_conn.prepareStatement(sSql);
                 	ps.setInt(1, Integer.parseInt(ids[0]));

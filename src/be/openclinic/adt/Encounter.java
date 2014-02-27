@@ -39,8 +39,26 @@ public class Encounter extends OC_Object {
     private Date transferDate;
     private String situation;
     private String categories;
+    private int newcase;
+    private String etiology;
 
-    public String getCategories() {
+    public int getNewcase() {
+		return newcase;
+	}
+
+	public void setNewcase(int newcase) {
+		this.newcase = newcase;
+	}
+
+	public String getEtiology() {
+		return etiology;
+	}
+
+	public void setEtiology(String etiology) {
+		this.etiology = etiology;
+	}
+
+	public String getCategories() {
 		return categories;
 	}
 
@@ -945,6 +963,8 @@ public class Encounter extends OC_Object {
                         encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                         encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                         encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                        encounter.setNewcase(rs.getInt("OC_ENCOUNTER_NEWCASE"));
+                        encounter.setEtiology(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ETIOLOGY")));
                         
 
                         //Now find the most recent service for this encounter
@@ -1057,7 +1077,9 @@ public class Encounter extends OC_Object {
                             "OC_ENCOUNTER_DESTINATIONUID," +
                             "OC_ENCOUNTER_ORIGIN," +
                             "OC_ENCOUNTER_SITUATION," +
-                            "OC_ENCOUNTER_CATEGORIES) " +
+                            "OC_ENCOUNTER_CATEGORIES," +
+                            "OC_ENCOUNTER_NEWCASE," +
+                            "OC_ENCOUNTER_ETIOLOGY) " +
                             " SELECT OC_ENCOUNTER_SERVERID," +
                             " OC_ENCOUNTER_OBJECTID," +
                             " OC_ENCOUNTER_TYPE," +
@@ -1072,7 +1094,9 @@ public class Encounter extends OC_Object {
                             " OC_ENCOUNTER_DESTINATIONUID," +
                             " OC_ENCOUNTER_ORIGIN," +
                             " OC_ENCOUNTER_SITUATION," +
-                            " OC_ENCOUNTER_CATEGORIES" +
+                            " OC_ENCOUNTER_CATEGORIES," +
+                            " OC_ENCOUNTER_NEWCASE," +
+                            " OC_ENCOUNTER_ETIOLOGY" +
                             " FROM OC_ENCOUNTERS " +
                             " WHERE OC_ENCOUNTER_SERVERID = ?" +
                             " AND OC_ENCOUNTER_OBJECTID = ?";
@@ -1112,9 +1136,11 @@ public class Encounter extends OC_Object {
                         " OC_ENCOUNTER_DESTINATIONUID," +
                         " OC_ENCOUNTER_ORIGIN," +
                         " OC_ENCOUNTER_SITUATION," +
-                        " OC_ENCOUNTER_CATEGORIES" +
+                        " OC_ENCOUNTER_CATEGORIES," +
+                        " OC_ENCOUNTER_NEWCASE," +
+                        " OC_ENCOUNTER_ETIOLOGY" +
                         ") " +
-                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1, Integer.parseInt(ids[0]));
@@ -1147,6 +1173,8 @@ public class Encounter extends OC_Object {
                 ps.setString(13, this.getOrigin());
                 ps.setString(14, this.getSituation());
                 ps.setString(15, this.getCategories());
+                ps.setInt(16, this.getNewcase());
+                ps.setString(17, this.getEtiology());
                 ps.executeUpdate();
                 ps.close();
                 this.setUid(ids[0] + "." + ids[1]);
@@ -1317,7 +1345,9 @@ public class Encounter extends OC_Object {
                             "OC_ENCOUNTER_DESTINATIONUID," +
                             "OC_ENCOUNTER_ORIGIN," +
                             "OC_ENCOUNTER_SITUATION," +
-                            "OC_ENCOUNTER_CATEGORIES) " +
+                            "OC_ENCOUNTER_CATEGORIES," +
+                            "OC_ENCOUNTER_NEWCASE," +
+                            "OC_ENCOUNTER_ETIOLOGY) " +
                             " SELECT OC_ENCOUNTER_SERVERID," +
                             " OC_ENCOUNTER_OBJECTID," +
                             " OC_ENCOUNTER_TYPE," +
@@ -1332,7 +1362,9 @@ public class Encounter extends OC_Object {
                             " OC_ENCOUNTER_DESTINATIONUID," +
                             " OC_ENCOUNTER_ORIGIN," +
                             " OC_ENCOUNTER_SITUATION," +
-                            " OC_ENCOUNTER_CATEGORIES" +
+                            " OC_ENCOUNTER_CATEGORIES?" +
+                            " OC_ENCOUNTER_NEWCASE," +
+                            " OC_ENCOUNTER_ETIOLOGY" +
                             " FROM OC_ENCOUNTERS " +
                             " WHERE OC_ENCOUNTER_SERVERID = ?" +
                             " AND OC_ENCOUNTER_OBJECTID = ?";
@@ -1372,9 +1404,11 @@ public class Encounter extends OC_Object {
                         " OC_ENCOUNTER_DESTINATIONUID," +
                         " OC_ENCOUNTER_ORIGIN," +
                         " OC_ENCOUNTER_SITUATION," +
-                        " OC_ENCOUNTER_CATEGORIES" +
+                        " OC_ENCOUNTER_CATEGORIES," +
+                        " OC_ENCOUNTER_NEWCASE," +
+                        " OC_ENCOUNTER_ETIOLOGY" +
                         ") " +
-                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1, Integer.parseInt(ids[0]));
@@ -1407,6 +1441,8 @@ public class Encounter extends OC_Object {
                 ps.setString(13, this.getOrigin());
                 ps.setString(14, this.getSituation());
                 ps.setString(15, this.getCategories());
+                ps.setInt(16, this.getNewcase());
+                ps.setString(17, this.getEtiology());
                 ps.executeUpdate();
                 ps.close();
                 this.setUid(ids[0] + "." + ids[1]);
@@ -1567,6 +1603,9 @@ public class Encounter extends OC_Object {
                     encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                     encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                     encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                    encounter.setNewcase(rs.getInt("OC_ENCOUNTER_NEWCASE"));
+                    encounter.setEtiology(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ETIOLOGY")));
+
                     //Now find the most recent service for this encounter
                     EncounterService encounterService = encounter.getLastEncounterService();
                     if (encounterService != null) {
