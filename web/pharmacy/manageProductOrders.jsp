@@ -826,7 +826,10 @@
                         <tr>
                             <td class="admin"><%=getTran("Web","supplier",sWebLanguage)%></td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditSupplier" value="" size="80" maxLength="255"/>
+				               <input type="hidden" name="EditSupplierID" id="EditSupplierID" value="" onchange="">
+				               <input class="text" type="text" name="EditSupplier" id="EditSupplier" readonly size="<%=sTextWidth%>" value="" onblur="">
+				               <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditSupplierID','EditSupplier');">
+				               <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditSupplier.value='';EditSupplierID.value='';">
                             </td>
                         </tr>
                         <%-- Prices --%>
