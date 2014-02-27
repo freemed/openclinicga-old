@@ -51,6 +51,7 @@
            sEditPrestationVariablePrice = checkString(request.getParameter("EditPrestationVariablePrice")),
            sEditPrestationInactive  = checkString(request.getParameter("EditPrestationInactive")),
            sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice")),
+           sEditPrestationFlag1 = checkString(request.getParameter("EditPrestationFlag1")),
            sEditPrestationServiceUid = checkString(request.getParameter("EditPrestationServiceUid")),
 		   sEditCareProvider = checkString(request.getParameter("EditCareProvider"));
 		if(sEditPrestationVariablePrice.length()==0){
@@ -153,11 +154,16 @@
         prestation.setVariablePrice(Integer.parseInt(sEditPrestationVariablePrice));
         prestation.setPrestationClass(sEditPrestationClass);
         prestation.setServiceUid(sEditPrestationServiceUid);
+        prestation.setFlag1(sEditPrestationFlag1);
         try{
         	prestation.setUpdateDateTime(new SimpleDateFormat("dd/MM/yyyy").parse(sEditPrestationUpdatetime));
         }
         catch(Exception e){}
+		System.out.println("1 prestation.getDescription()="+prestation.getDescription());
+		System.out.println("1 sEditPrestationDescr="+sEditPrestationDescr);
         prestation.store();
+		System.out.println("2 prestation.getDescription()="+prestation.getDescription());
+		System.out.println("2 sEditPrestationDescr="+sEditPrestationDescr);
         //activeUser.addPrestation(prestation.getUid());
         sEditPrestationUid = prestation.getUid();
         msg = getTran("web","dataIsSaved",sWebLanguage);
@@ -250,7 +256,8 @@
 
             // load specified prestation
             if(sAction.equals("edit")){
-                prestation = Prestation.get(sEditPrestationUid);
+            	MedwanQuery.getInstance().getObjectCache().removeObject("prestation", sEditPrestationUid);
+            	prestation = Prestation.get(sEditPrestationUid);
                 if(prestation!=null){
                 	sEditPrestationServiceUid=prestation.getServiceUid();
                 	if(sEditPrestationServiceUid!=null && sEditPrestationServiceUid.length()>0){
@@ -357,6 +364,21 @@
                             </select>
                         </td>
                     </tr>
+                    <%
+                    	if(MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1){
+                    %>
+	                    <tr>
+	                        <td class="admin"><%=getTran("web","cnarclass",sWebLanguage)%></td>
+	                        <td class="admin2">
+	                            <select class="text" name="EditPrestationFlag1">
+	                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
+	                                <%=ScreenHelper.writeSelect("prestation.cnarclass",prestation.getFlag1(),sWebLanguage)%>
+	                            </select>
+	                        </td>
+	                    </tr>
+	                <%
+                    	}
+	                %>
                     <tr>
                         <td class="admin"><%=getTran("web","defaultprice",sWebLanguage)%></td>
                         <td class="admin2">

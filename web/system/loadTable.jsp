@@ -124,7 +124,9 @@
 								prestation.setVersion(1);
 								prestation.setMfpAdmissionPercentage(Integer.parseInt(mfpadmissionpct));
 								prestation.setMfpPercentage(Integer.parseInt(mfppct));
-								if(tariffcode.length()>0)
+								if(tariffcode.length()>0){
+									prestation.setCategoryPrice(tariffcode, tariffprice);
+								}
 								prestation.store();
 								if(code.equalsIgnoreCase("#")){
 									prestation.setCode(category+"."+prestation.getUid().split("\\.")[1]);
