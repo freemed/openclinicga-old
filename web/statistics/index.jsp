@@ -11,7 +11,6 @@ if(true){
             +writeTblChildWithCode("javascript:oldandnewcases()",getTran("Web","statistics.oldandnewcases",sWebLanguage))
             +writeTblChildWithCode("javascript:newpatients()",getTran("Web","statistics.newpatients",sWebLanguage))
             +writeTblChildWithCode("javascript:agedistribution()",getTran("Web","statistics.agedistribution",sWebLanguage))
-            +writeTblChildWithCode("javascript:genderdistribution()",getTran("Web","statistics.genderdistribution",sWebLanguage))
             +ScreenHelper.writeTblFooter()+"<br>");
 	
 }
