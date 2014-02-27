@@ -112,10 +112,9 @@
 	            sessionContainerWO.setUserVO(MedwanQuery.getInstance().getUser(activeUser.userid));
 	        }
         } else if (sWebLanguage.trim().length() == 0) {
-            sWebLanguage = "nl";
+            sWebLanguage = "fr";
             session.setAttribute(sAPPTITLE + "WebLanguage", sWebLanguage);
         }
-
     }
     if (activeUser == null) {
 %><script>//window.location.href="<c:url value='/relogin.do'/>?ts=<%=getTs()%>";</script><%

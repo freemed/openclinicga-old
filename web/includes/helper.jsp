@@ -181,7 +181,7 @@
 
     //--- CONTEXT HEADER --------------------------------------------------------------------------
     public String contextHeader(HttpServletRequest request, String language) {
-        return contextHeader(request, language, true);
+    	return contextHeader(request, language, true);
     }
 
     public String contextHeader(HttpServletRequest request, String language, String subTitle) {
@@ -297,6 +297,13 @@
             }
             result += "</select>&nbsp;";
             result += "<input id='confirm' type='button' value='OK' name='confirm' class='button' onclick=\"show('content-details');hide('confirm');\"/>";
+            
+            // private data checkbox
+            if(sessionContainerWO.getUserVO().userId.intValue()==transactionVO.getUser().userId.intValue()){
+            	result += "<input id='privatetransaction' name='privatetransaction' type='checkbox' value='1' "+(checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")?"checked":"")+"/>"+getTran("web","privatetransaction",language);
+            }else {
+            	result += "<input id='privatetransaction' name='privatetransaction' type='hidden' value='"+checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION"))+"'/>";
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -305,6 +312,7 @@
 
         return result;
     }
+    
     public String getLastTransactionAccess(String sTrans, String sWebLanguage,HttpServletRequest request){
       String sReturn = "";
         SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy '"+getTranNoLink("web.occup"," - ",sWebLanguage)+"' HH:mm:ss");
@@ -369,7 +377,9 @@
     }
 
     public String checkPrestationToday(String sPersonId, boolean screenIsPopup, User activeUser, TransactionVO transaction) {
-    	return ScreenHelper.checkPrestationToday(sPersonId, sCONTEXTPATH, screenIsPopup, activeUser,transaction);
+    	String s = ScreenHelper.checkPrestationToday(sPersonId, sCONTEXTPATH, screenIsPopup, activeUser,transaction);
+    	s+= ScreenHelper.checkTransactionPermission(transaction, activeUser, screenIsPopup, sCONTEXTPATH);
+    	return s;
     }
 
     //--- CHECK PERMISSION (screen is a parent window) --------------------------------------------
@@ -380,6 +390,11 @@
     //--- CHECK PERMISSION POPUP (screen is a popup) ----------------------------------------------
     public String checkPermissionPopup(String sScreen, String sPermission, User activeUser) {
         return ScreenHelper.checkPermission(sScreen, sPermission, activeUser, true, sCONTEXTPATH);
+    }
+
+    //--- CHECK PERMISSION (screen is a parent window) --------------------------------------------
+    public String checkTransactionPermission(TransactionVO transaction, User activeUser, boolean screenIsPopup, String sAPPFULLDIR) {
+        return ScreenHelper.checkTransactionPermission(transaction, activeUser, screenIsPopup, sAPPFULLDIR);
     }
 
     //--- WRITE JS BUTTONS ------------------------------------------------------------------------
