@@ -66,11 +66,12 @@
                     // alternate row looks
                     if (sClass.equals("")) sClass = "1";
                     else sClass = "";
-
+					
                     record = (RecordRowVO) recordRow;
                     sUserName = "";
                     if (record != null){
                         // get user names
+                        System.out.println("record.getTransactionId()="+record.getTransactionId());
                         Transaction transaction = Transaction.getTransaction(record.getTransactionId(), record.getServerId());
 
                         if (transaction != null){

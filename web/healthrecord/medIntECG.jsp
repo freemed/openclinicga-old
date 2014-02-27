@@ -31,7 +31,7 @@
         </tr>
 
         <%-- NOTHING TO MENTION (checkbox) --%>
-        <tr>
+        <tr id='parenttd'>
             <td class="admin" colspan="2">
                 <%=getLabel("Web.Occup","medwan.common.nothing-to-mention",sWebLanguage,"ecg-c1")%>
                 <input type="checkbox" id="ecg-c1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" onclick="if(this.checked){ document.getElementById('ecg-details').style.display= 'none'; } else { document.getElementById('ecg-details').style.display='block';}">
@@ -124,8 +124,8 @@
                     <%-- REMARK --%>
                     <tr>
                         <td class='admin'><%=getTran("Web.Occup","medwan.common.remark",sWebLanguage)%>&nbsp;</td>
-                        <td class="admin2" colspan="2">
-                            <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" <%=setRightClick("ITEM_TYPE_ECG_REMARK")%>  cols="75" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_REMARK" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_REMARK" property="value"/></textarea>
+                        <td class="admin2" colspan="1">
+                            <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" <%=setRightClick("ITEM_TYPE_ECG_REMARK")%>  rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_REMARK" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_REMARK" property="value"/></textarea>
                         </td>
                         <td class="admin2" colspan="3">
                             <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
