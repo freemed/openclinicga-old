@@ -1,3 +1,4 @@
+
 <%@page import="be.openclinic.pharmacy.Product,
                 java.text.DecimalFormat,
                 be.openclinic.pharmacy.ProductSchema,
@@ -61,10 +62,14 @@
                     .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sUnit + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sUnitPrice.replaceAll(",", ".") + "</td>")
                     .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sCurrency + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sSupplierName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sProductGroup + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sProductSubGroup + "</td>")
-                    .append("</tr>");
+                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sSupplierName + "</td>");
+            if(MedwanQuery.getInstance().getConfigInt("showProductGroup",1)==1){
+                    html.append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sProductGroup + "</td>");
+            }
+            if(MedwanQuery.getInstance().getConfigInt("showProductCategory",1)==1){
+                    html.append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sProductSubGroup + "</td>");
+            }
+            html.append("</tr>");
         }
 
         return html;
@@ -346,7 +351,7 @@
                 sSelectedMargin=product.getMargin()+"";
                 sSelectedApplyLowerPrices=product.isApplyLowerPrices()?"1":"0";
                 sSelectedAutomaticInvoicing=product.isAutomaticInvoicing()?"1":"0";
-                sEditProductSubGroup=product.getProductSubGroup();
+                sEditProductSubGroup=checkString(product.getProductSubGroup());
             }
 
             productSchema = ProductSchema.getSingleProductSchema(product.getUid());
@@ -523,8 +528,18 @@
                             <td><%=getTran("Web","unitprice",sWebLanguage)%></td>
                             <td/>
                             <td><%=getTran("Web","supplier",sWebLanguage)%></td>
-                            <td><%=getTran("Web","productGroup",sWebLanguage)%></td>
-                            <td><%=getTran("Web","productSubGroup",sWebLanguage)%></td>
+                            <%
+                            	if(MedwanQuery.getInstance().getConfigInt("showProductGroup",1)==1){
+                            %>
+                            	<td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"</"+sSortDir+">":"")%></a></td>
+                            <%
+                            	}
+	                            if(MedwanQuery.getInstance().getConfigInt("showProductCategory",1)==1){
+                            %>
+                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTSUBGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTSUBGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productSubGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTSUBGROUP")?"</"+sSortDir+">":"")%></a></td>
+                            <%
+	                            }
+                            %>
                         </tr>
                         <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                             <%=productsHtml%>
@@ -903,9 +918,6 @@
       else if(transactionForm.EditPackageUnits.value.length==0){
         transactionForm.EditPackageUnits.focus();
       }
-      else if(transactionForm.EditProductGroup.value.length==0){
-        transactionForm.EditProductGroup.focus();
-      }
     }
   }
 
@@ -917,8 +929,7 @@
     if(!transactionForm.EditProductName.value.length>0 ||
        !transactionForm.EditUnit.value.length>0 ||
        !transactionForm.EditUnitPrice.value.length>0 ||
-       !transactionForm.EditPackageUnits.value.length>0 ||
-       !transactionForm.EditProductGroup.value.length>0){
+       !transactionForm.EditPackageUnits.value.length>0) {
       maySubmit = false;
 
       var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
