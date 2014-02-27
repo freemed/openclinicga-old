@@ -12,7 +12,7 @@
              .append("<td class=\"admin2\">")
              .append("<a href='javascript:deleteCategory(rowCategory"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
              .append("</td>")
-             .append("<td class='admin2'>&nbsp;" + sCategoryName + "</td>")
+             .append("<td class='admin2'>&nbsp;" + getTranNoLink("insurance.types",sCategoryName,sWebLanguage) + "</td>")
              .append("<td class='admin2'>&nbsp;" + sPrice + "</td>")
              .append("<td class='admin2'>")
              .append("</td>")

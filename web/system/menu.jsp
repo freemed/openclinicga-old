@@ -179,6 +179,7 @@
                     hMenu = new Hashtable();
 	                hMenu.put(getTran("web.manage","memoryprofile",sWebLanguage),"main.do?Page=util/profile.jsp");
 	                hMenu.put(getTran("web.manage","quicklist",sWebLanguage),"main.do?Page=system/manageQuickList.jsp");
+	                hMenu.put(getTran("web.manage","quicklablist",sWebLanguage),"main.do?Page=system/manageQuickLabList.jsp");
 	                hMenu.put(getTran("web.manage","countarchivelabels",sWebLanguage),"main.do?Page=util/countArchiveLabels.jsp");
 	                if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
 	                	hMenu.put(getTran("web.manage","mfptariffs",sWebLanguage),"main.do?Page=util/setMFPTariffs.jsp");

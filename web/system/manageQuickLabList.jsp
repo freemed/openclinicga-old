@@ -60,7 +60,7 @@
 	}
 
 	String[] sLabAnalyses = MedwanQuery.getInstance().getConfigString("quickLabList","").split(";");
-	if(request.getParameter("UserQuickLabList")!=null){
+	if(request.getParameter("UserQuickLabList")!=null && MedwanQuery.getInstance().getConfigString("quickLabList."+activeUser.userid,"").length()>0){
 		sLabAnalyses = MedwanQuery.getInstance().getConfigString("quickLabList."+activeUser.userid,"").split(";");
 	}
 	
