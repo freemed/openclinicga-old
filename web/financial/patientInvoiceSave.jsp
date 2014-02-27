@@ -16,6 +16,13 @@
     String sEditReduction = checkString(request.getParameter("EditReduction"));
     String sEditComment = checkString(request.getParameter("EditComment"));
     String acceptationuid = checkString(request.getParameter("EditAcceptationUid"));
+    String sEditInvoiceDoctor=checkString(request.getParameter("EditInvoiceDoctor"));
+    String sEditInvoicePost=checkString(request.getParameter("EditInvoicePost"));
+    String sEditInvoiceAgent=checkString(request.getParameter("EditInvoiceAgent"));
+    String sEditInvoiceDrugsIdCard=checkString(request.getParameter("EditInvoiceDrugsIdCard"));
+    String sEditInvoiceDrugsRecipient=checkString(request.getParameter("EditInvoiceDrugsRecipient"));
+    String sEditInvoiceDrugsIdCardPlace=checkString(request.getParameter("EditInvoiceDrugsIdCardPlace"));
+    String sEditInvoiceDrugsIdCardDate=checkString(request.getParameter("EditInvoiceDrugsIdCardDate"));
 	
     PatientInvoice patientinvoice = new PatientInvoice();
     AdminPerson invoicePatient=activePatient;
@@ -43,6 +50,13 @@
     patientinvoice.setInsurarreferenceDate(sEditInsurarReferenceDate);
     patientinvoice.setVerifier(sEditInvoiceVerifier);
     patientinvoice.setComment(sEditComment);
+    patientinvoice.setMfpDoctor(sEditInvoiceDoctor);
+    patientinvoice.setMfpPost(sEditInvoicePost);
+    patientinvoice.setMfpAgent(sEditInvoiceAgent);
+    patientinvoice.setMfpDrugReceiver(sEditInvoiceDrugsRecipient);
+    patientinvoice.setMfpDrugReceiverId(sEditInvoiceDrugsIdCard);
+    patientinvoice.setMfpDrugIdCardDate(sEditInvoiceDrugsIdCardDate);
+    patientinvoice.setMfpDrugIdCardPlace(sEditInvoiceDrugsIdCardPlace);
 	if(!sEditInvoiceSeries.equalsIgnoreCase("") && checkString(patientinvoice.getNumber()).length()==0){
 		patientinvoice.setNumber(sEditInvoiceSeries+"."+MedwanQuery.getInstance().getOpenclinicCounter(sEditInvoiceSeries));
 	}
