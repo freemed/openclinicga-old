@@ -34,7 +34,7 @@
 				" order by oc_encounter_objectid";
 				System.out.println(sql);
 	Hashtable insurars = new Hashtable();
-    Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    Connection oc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
 	PreparedStatement ps = oc_conn.prepareStatement(sql);
 	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sBegin).getTime()));
 	long l = 24*3600*1000-1;
