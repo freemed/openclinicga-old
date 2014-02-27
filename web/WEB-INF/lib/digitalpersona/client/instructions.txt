@@ -1,0 +1,5 @@
+mxs.cer must be imported in Java Control Panel:
+Security Tab
+Manage Certificates
+Certificate type = Signer CA
+Import
