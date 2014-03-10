@@ -2,6 +2,7 @@
 <%@page import="java.util.GregorianCalendar,
                 java.util.Calendar,
                 net.admin.User"%>
+
 <%!
     //--- SAVE ERROR ------------------------------------------------------------------------------
     public void saveError(String sError, String sPage, User user) {
@@ -20,13 +21,11 @@
         java.sql.Timestamp ts = new java.sql.Timestamp(c.getTimeInMillis());
 
         // page
-        if (sPage==null){
-            sPage="";
-        }
+        if(sPage==null) sPage = "";
 
         // userid
         int iUserid = 0;
-        if (user!=null){
+        if(user!=null){
             iUserid = Integer.parseInt(user.userid);
         }
 
