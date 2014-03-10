@@ -192,7 +192,7 @@
         </center>
     </div>
 </div>
-<script type="text/javascript">
+<script>
     Event.observe(window, 'load', function() {
         changeInputColor();
         $("entranceform").login.focus();
