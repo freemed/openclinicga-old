@@ -319,17 +319,11 @@
 
         return result;
     }
-<<<<<<< .mine
     
     //--- GET LAST TRANSACTION ACCESS -------------------------------------------------------------
     public String getLastTransactionAccess(String sTrans, String sWebLanguage, HttpServletRequest request){
         String sReturn = "";
-      
-=======
-    
-    public String getLastTransactionAccess(String sTrans, String sWebLanguage,HttpServletRequest request){
-      String sReturn = "";
->>>>>>> .r999
+
         SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy '"+getTranNoLink("web.occup"," - ",sWebLanguage)+"' HH:mm:ss");
         java.util.List l =  AccessLog.getLastAccess(sTrans,2);
         if(l.size()>1){
