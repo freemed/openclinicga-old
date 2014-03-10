@@ -802,7 +802,7 @@
                         <tr>
                             <td class="admin"><%=getTran("Web","register.delivery",sWebLanguage)%>&nbsp;(max = <%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered %>)</td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditPackagesDelivered" value="<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>" size="5" maxLength="5" onKeyUp="if(!isNumberLimited(this,0,<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>)){alert('<%=getTran("web","number.out.of.limits",sWebLanguage)%>');this.value=''}">
+                                <input type="text" class="text" name="EditPackagesDelivered" value="<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>" size="5" maxLength="5" onKeyUp="if(!isNumberLimited(this,0,<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>)){alertDialog('web','number.out.of.limits');this.value=''}">
                             </td>
                         </tr>
                         <tr>
