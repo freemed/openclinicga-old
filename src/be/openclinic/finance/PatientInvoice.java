@@ -169,7 +169,7 @@ public class PatientInvoice extends Invoice {
 	public void setMfpDrugIdCardPlace(String s){
 		setModifier(6,s);
 	}
-
+	
     public String getComment() {
 		return comment;
 	}
@@ -240,8 +240,8 @@ public class PatientInvoice extends Invoice {
                 patient=AdminPerson.getAdminPerson(ad_conn,patientUid);
                 try {
 					ad_conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+				}
+                catch (SQLException e) {
 					e.printStackTrace();
 				}
             }
@@ -379,10 +379,7 @@ public class PatientInvoice extends Invoice {
                         patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                         patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
                         patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
-                        patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
                     }
-                    rs.close();
-                    ps.close();
 
                     patientInvoice.debets = Debet.getPatientDebetsViaInvoiceUid(patientInvoice.getPatientUid(),patientInvoice.getUid());
                     patientInvoice.credits = PatientCredit.getPatientCreditsViaInvoiceUID(patientInvoice.getUid());
@@ -403,9 +400,11 @@ public class PatientInvoice extends Invoice {
                 }
             }
         }
+        
         return patientInvoice;
     }
 
+    //--- GET VIA INVOICE UID ---------------------------------------------------------------------
     public static PatientInvoice getViaInvoiceUID(String sInvoiceID){
         PatientInvoice patientInvoice = new PatientInvoice();
 
@@ -418,6 +417,7 @@ public class PatientInvoice extends Invoice {
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1,Integer.parseInt(sInvoiceID));
             rs = ps.executeQuery();
+            
             if(rs.next()){
                 patientInvoice.setUid(rs.getInt("OC_PATIENTINVOICE_SERVERID")+"."+rs.getInt("OC_PATIENTINVOICE_OBJECTID"));
                 patientInvoice.setDate(rs.getDate("OC_PATIENTINVOICE_DATE"));
@@ -437,8 +437,6 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
                 patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
             }
-            rs.close();
-            ps.close();
 
             patientInvoice.debets = Debet.getPatientDebetsViaInvoiceUid(patientInvoice.getPatientUid(),patientInvoice.getUid());
             patientInvoice.credits = PatientCredit.getPatientCreditsViaInvoiceUID(patientInvoice.getUid());
@@ -457,19 +455,24 @@ public class PatientInvoice extends Invoice {
                 e.printStackTrace();
             }
         }
+        
         return patientInvoice;
     }
 
+    //--- GET DEBET STRINGS -----------------------------------------------------------------------
     public Vector getDebetStrings(){
         Vector d = new Vector();
+        
         if(debets!=null){
             for(int n=0;n<debets.size();n++){
                 d.add(((Debet)debets.elementAt(n)).getUid());
             }
         }
+        
         return d;
     }
 
+    //--- STORE -----------------------------------------------------------------------------------
     public boolean store(){
         boolean bStored = true;
         String ids[];
@@ -730,7 +733,7 @@ public class PatientInvoice extends Invoice {
                 patientInvoice.setInsurarreferenceDate(rs.getString("OC_PATIENTINVOICE_INSURARREFERENCEDATE"));
                 patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                 patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
-                patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
+                patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));   
                 patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
 
                 invoices.add(patientInvoice);
@@ -753,7 +756,9 @@ public class PatientInvoice extends Invoice {
         return invoices;
     }
 
-    public static Vector searchInvoices(String sInvoiceDateBegin, String sInvoiceDateEnd, String sInvoiceNr, String sInvoiceBalanceMin, String sInvoiceBalanceMax){
+    //--- SEARCH INVOICES -------------------------------------------------------------------------
+    public static Vector searchInvoices(String sInvoiceDateBegin, String sInvoiceDateEnd, String sInvoiceNr,
+    		                            String sInvoiceBalanceMin, String sInvoiceBalanceMax){
         Vector invoices = new Vector();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -985,15 +990,26 @@ public class PatientInvoice extends Invoice {
         return totalBalance;
     }
 
+    //--- GET PATIENT INVOICES ------------------------------------------------------------------- 
+    public static Vector getPatientInvoices(String sPatientUid){
+        return getPatientInvoicesWhereDifferentStatus(sPatientUid,"");    	
+    }
+
+    //--- GET PATIENT INVOICES WHERE DIFFERENT STATUS --------------------------------------------- 
     public static Vector getPatientInvoicesWhereDifferentStatus(String sPatientUid, String sStatus){
         Vector vPatientInvoices = new Vector();
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sSelect = "";
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            sSelect = "SELECT * FROM OC_PATIENTINVOICES WHERE OC_PATIENTINVOICE_PATIENTUID = ? AND OC_PATIENTINVOICE_STATUS not in ("+sStatus+")";
+            sSelect = "SELECT * FROM OC_PATIENTINVOICES"+
+                      " WHERE OC_PATIENTINVOICE_PATIENTUID = ?";
+            if(sStatus.length() > 0){
+                sSelect+= " AND OC_PATIENTINVOICE_STATUS NOT IN ("+sStatus+")";
+            }
+            sSelect+= " ORDER BY OC_PATIENTINVOICE_DATE ASC"; // reversed
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,sPatientUid);
 
@@ -1024,8 +1040,8 @@ public class PatientInvoice extends Invoice {
             }
         }
         catch(Exception e){
-            e.printStackTrace();
             Debug.println("OpenClinic => PatientInvoice.java => getPatientInvoicesWhereDifferentStatus => "+e.getMessage()+" = "+sSelect);
+            e.printStackTrace();
         }
         finally{
             try{
@@ -1040,28 +1056,32 @@ public class PatientInvoice extends Invoice {
 
         return vPatientInvoices;
     }
-      public static boolean setStatusOpen(String sInvoiceID,String UserId){
-
+    
+    //--- SET STATUS OPEN -------------------------------------------------------------------------
+    public static boolean setStatusOpen(String sInvoiceID, String UserId){
         PreparedStatement ps = null;
+        ResultSet rs = null;
         boolean okQuery = false;
-        String sSelect = "update OC_PATIENTINVOICES SET OC_PATIENTINVOICE_STATUS ='open',OC_PATIENTINVOICE_UPDATETIME=?,OC_PATIENTINVOICE_UPDATEUID=? WHERE OC_PATIENTINVOICE_OBJECTID = ? ";
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
+            String sSelect = "update OC_PATIENTINVOICES SET OC_PATIENTINVOICE_STATUS ='open',"+
+                             "  OC_PATIENTINVOICE_UPDATETIME=?, OC_PATIENTINVOICE_UPDATEUID=?"+
+            		         " WHERE OC_PATIENTINVOICE_OBJECTID = ?";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setTimestamp(1,new Timestamp(new java.util.Date().getTime())); // now
             ps.setString(2,UserId);
             ps.setInt(3,Integer.parseInt(sInvoiceID));
 
             okQuery = (ps.executeUpdate()>0);
-
-            ps.close();
-      }
+        }
         catch(Exception e){
             Debug.println("OpenClinic => PatientInvoice.java => setStatusOpen => "+e.getMessage());
             e.printStackTrace();
         }
         finally{
             try{
+                if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
             }
@@ -1069,6 +1089,8 @@ public class PatientInvoice extends Invoice {
                 e.printStackTrace();
             }
         }
+        
         return okQuery;
     }
+      
 }
