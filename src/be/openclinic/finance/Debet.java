@@ -679,8 +679,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         				}
         			}
     			}
+    			
     			if(!bDone){
-            		//6. geen fee regels geconfigureerd 
 					amount=0;
 					calculation="0";
 					reason="5"; //geen fee regels geconfigureerd 
@@ -689,7 +689,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     		}
     	}
     }
-    
+
+    //--- GET UNASSIGNED PATIENT DEBETS (1) -------------------------------------------------------
     public static Vector getUnassignedPatientDebets(String sPatientId) {
         String sSelect = "";
         PreparedStatement ps = null;
@@ -698,9 +699,12 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? AND d.OC_DEBET_CREDITED=0"
-                    + " AND (d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid")+")" 
-                    + " AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ') order by OC_DEBET_DATE DESC";
+            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d"+
+                      " WHERE e.OC_ENCOUNTER_PATIENTUID = ?"+
+            		  "  AND d.OC_DEBET_CREDITED = 0"+
+            		  "  AND (d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid")+")"+ 
+                      "  AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ')"+
+            		  " order by OC_DEBET_DATE DESC";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sPatientId);
             rs = ps.executeQuery();
@@ -722,8 +726,11 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 e.printStackTrace();
             }
         }
+        
         return vUnassignedDebets;
     }
+    
+    //--- GET UNASSIGNED PATIENT DEBETS (2) -------------------------------------------------------
     public static Vector getUnassignedPatientDebets(String sPatientId,String serviceUid) {
         String sSelect = "";
         PreparedStatement ps = null;
@@ -732,9 +739,13 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? AND d.OC_DEBET_CREDITED=0 and d.OC_DEBET_SERVICEUID=?"
-                    + " AND (d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid")+")" 
-                    + " AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ') order by OC_DEBET_DATE DESC";
+            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d"+
+                      " WHERE e.OC_ENCOUNTER_PATIENTUID = ?"+
+            		  "  AND d.OC_DEBET_CREDITED = 0"+
+                      "  AND d.OC_DEBET_SERVICEUID = ?"+
+                      "  AND (d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar","e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar","e.oc_encounter_objectid")+")"+ 
+                      "  AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ')"+
+                      " order by OC_DEBET_DATE DESC";
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1, sPatientId);
             ps.setString(2, serviceUid);
@@ -759,6 +770,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         }
         return vUnassignedDebets;
     }
+    
+    //--- GET PATIENT DEBETS VIA INVOICE UID ------------------------------------------------------
     public static Vector getPatientDebetsViaInvoiceUid(String sPatientId, String sInvoiceUid) {
         String sSelect = "";
         PreparedStatement ps = null;
@@ -2330,6 +2343,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     	return debet;
     }
     
+    //--- GET CONTRIBUTIONS -----------------------------------------------------------------------
     public static Vector getContributions(String sPatientId){
     	Vector contributions = new Vector();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -2364,13 +2378,22 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     	return contributions;
     }
     
+    //--- GET PATIENT DEBETS ----------------------------------------------------------------------
+    public static Vector getPatientDebets(String sPatientId){
+    	return getPatientDebets(sPatientId,"","","","");
+    }
+    
+    public static Vector getPatientDebets(String sPatientId, String sDateBegin, String sDateEnd){
+    	return getPatientDebets(sPatientId,sDateBegin,sDateEnd,"","");
+    }
+    
     public static Vector getPatientDebets(String sPatientId, String sDateBegin, String sDateEnd, String sAmountMin, String sAmountMax) {
         String sSelect = "";
         PreparedStatement ps = null;
         ResultSet rs = null;
         Vector vUnassignedDebets = new Vector();
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
             sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? "
                     + " AND d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid");
             if (sDateBegin.length() > 0) {
@@ -2381,9 +2404,11 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
             }
             if ((sAmountMin.length() > 0) && (sAmountMax.length() > 0)) {
                 sSelect += " AND d.OC_DEBET_AMOUNT >= ? AND OC_DEBET_AMOUNT <= ? ";
-            } else if (sAmountMin.length() > 0) {
+            }
+            else if (sAmountMin.length() > 0) {
                 sSelect += " AND d.OC_DEBET_AMOUNT >= ?  ";
-            } else if (sAmountMax.length() > 0) {
+            }
+            else if (sAmountMax.length() > 0) {
                 sSelect += " AND d.OC_DEBET_AMOUNT <= ?  ";
             }
             ps = oc_conn.prepareStatement(sSelect);
@@ -2398,11 +2423,14 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
             if ((sAmountMin.length() > 0) && (sAmountMax.length() > 0)) {
                 ps.setDouble(iIndex++, Double.parseDouble(sAmountMin));
                 ps.setDouble(iIndex++, Double.parseDouble(sAmountMax));
-            } else if (sAmountMin.length() > 0) {
+            }
+            else if (sAmountMin.length() > 0) {
                 ps.setDouble(iIndex++, Double.parseDouble(sAmountMin));
-            } else if (sAmountMax.length() > 0) {
+            }
+            else if (sAmountMax.length() > 0) {
                 ps.setDouble(iIndex++, Double.parseDouble(sAmountMax));
             }
+            
             rs = ps.executeQuery();
             while (rs.next()) {
                 vUnassignedDebets.add(rs.getInt("OC_DEBET_SERVERID") + "." + rs.getInt("OC_DEBET_OBJECTID"));
@@ -2422,8 +2450,11 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 e.printStackTrace();
             }
         }
+        
         return vUnassignedDebets;
     }
+    
+    //--- GET PATIENT DEBET PRESTATIONS -----------------------------------------------------------
     public static Vector getPatientDebetPrestations(String sPatientId, String sDateBegin, String sDateEnd, String sAmountMin, String sAmountMax) {
         String sSelect = "";
         PreparedStatement ps = null;
@@ -2485,6 +2516,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         return vUnassignedDebets;
     }
     
+    //--- GET PATIENT DEBETS TO INVOICE -----------------------------------------------------------
     public static Vector getPatientDebetsToInvoice() {
         String sSelect = "";
         PreparedStatement ps = null;
@@ -2527,6 +2559,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         }
         return vDebets;
     }
+    
     public static Vector getInsurarDebetsToInvoice() {
         String sSelect = "";
         PreparedStatement ps = null;
