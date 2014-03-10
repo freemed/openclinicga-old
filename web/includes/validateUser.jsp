@@ -1,22 +1,24 @@
 <%@page import="be.mxs.common.util.db.MedwanQuery"%>
-<%@ page import="net.admin.system.AccessLog" %>
+<%@page import="net.admin.system.AccessLog"%>
 <%@include file="/includes/helper.jsp"%>
 <%@include file="/includes/SingletonContainer.jsp"%>
+
 <%
+	if(request.getParameter("me")!=null){
+		session.setAttribute("me", request.getParameter("me"));
+	}   
+
 	response.setHeader("Content-Type", "text/html; charset=ISO-8859-1");
+
     String sProject = null;
     String sWebLanguage = null;
     User activeUser = null;
     AdminPerson activePatient = null;
-    if(request.getParameter("me")!=null){
-    	session.setAttribute("me", request.getParameter("me"));
-    }
-   
 
     //***** session timed out *********************************************************************
-    if (session == null || session.isNew()) {
+    if(session==null || session.isNew()){
         //*** AutoUserName ***
-        if (request.getParameter("AutoUserName") != null) {
+        if(request.getParameter("AutoUserName")!=null){
             // active user
             activeUser = new User();
             byte[] aUserPassword = activeUser.encrypt(request.getParameter("AutoUserPassword"));
@@ -72,13 +74,14 @@
             reloadSingleton(session);
         }
         //*** no AutoUserName ***
-        else {
-            if (request.getRequestURI().indexOf("search") > -1) {
+        else{
+            if (request.getRequestURI().indexOf("search") > -1){
                 // close search-popup and let its opener-window redirect to the login page.
                 out.print("<script>window.close();</script>");
                 out.print("<script>window.opener.location.href = '" + sCONTEXTPATH + "/relogin.do';</script>");
                 out.flush();
-            } else {
+            }
+            else{
                 response.sendRedirect(sCONTEXTPATH + "/relogin.do");
             }
         }
@@ -116,8 +119,9 @@
             session.setAttribute(sAPPTITLE + "WebLanguage", sWebLanguage);
         }
     }
-    if (activeUser == null) {
-%><script>//window.location.href="<c:url value='/relogin.do'/>?ts=<%=getTs()%>";</script><%
+    
+    if(activeUser==null){
+        %><script>window.location.href="<c:url value='/relogin.do'/>?ts=<%=getTs()%>";</script><%
     }
 %>
 
