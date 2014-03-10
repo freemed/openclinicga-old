@@ -14,8 +14,6 @@ import java.sql.ResultSet;
 
 import net.admin.AdminPerson;
 
-
-
 public class PatientCredit extends OC_Object {
     private Date date;
     private String invoiceUid;
@@ -26,51 +24,68 @@ public class PatientCredit extends OC_Object {
     private String comment;
     private String sPatientUid;
 
-    public AdminPerson getPatient() {
+    public AdminPerson getPatient(){
     	return getEncounter().getPatient();
 	}
 
-	public Date getDate() {
+	public Date getDate(){
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date){
         this.date = date;
     }
 
-    public String getInvoiceUid() {
+    public String getInvoiceUid(){
         return invoiceUid;
     }
 
-    public void setInvoiceUid(String invoiceUid) {
+    public void setInvoiceUid(String invoiceUid){
         this.invoiceUid = invoiceUid;
     }
 
-    public double getAmount() {
+    public double getAmount(){
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(double amount){
         this.amount = amount;
     }
 
-    public String getType() {
+    public String getType(){
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(String type){
         this.type = type;
     }
 
-    public String getEncounterUid() {
+    public String getEncounterUid(){
         return encounterUid;
     }
 
-    public void setEncounterUid(String encounterUid) {
+    public void setEncounterUid(String encounterUid){
         this.encounterUid = encounterUid;
     }
 
-    public Encounter getEncounter() {
+    public String getComment(){
+        return comment;
+    }
+
+    public void setComment(String comment){
+        this.comment = comment;
+    }
+
+    public String getPatientUid(){
+        return sPatientUid;
+    }
+
+    public void setPatientUid(String sPatientUid){
+        this.sPatientUid = sPatientUid;
+    }
+    
+    //--- GET ENCOUNTER ---------------------------------------------------------------------------
+    public Encounter getEncounter(){
         if(this.encounter == null){
             if(ScreenHelper.checkString(this.encounterUid).length() > 0){
                 this.setEncounter(Encounter.get(this.encounterUid));
@@ -82,28 +97,11 @@ public class PatientCredit extends OC_Object {
         return encounter;
     }
 
-    public void setEncounter(Encounter encounter) {
+    public void setEncounter(Encounter encounter){
         this.encounter = encounter;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getPatientUid() {
-        return sPatientUid;
-    }
-
-    public void setPatientUid(String sPatientUid) {
-        this.sPatientUid = sPatientUid;
-    }
-
-
-    //--- GET -------------------------------------------------------------------------------------
+    //--- GET PATIENT CREDIT ----------------------------------------------------------------------
     public static PatientCredit get(String uid){
         PatientCredit patientcredit = new PatientCredit();
 
@@ -116,7 +114,8 @@ public class PatientCredit extends OC_Object {
 
                 Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                 try{
-                    String sSelect = "SELECT * FROM OC_PATIENTCREDITS WHERE OC_PATIENTCREDIT_SERVERID = ? AND OC_PATIENTCREDIT_OBJECTID = ?";
+                    String sSelect = "SELECT * FROM OC_PATIENTCREDITS WHERE OC_PATIENTCREDIT_SERVERID = ?"+
+                                     " AND OC_PATIENTCREDIT_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -156,6 +155,7 @@ public class PatientCredit extends OC_Object {
         return patientcredit;
     }
 
+    //--- GET PATIENT CREDITS VIA INVOICE UID -----------------------------------------------------
     public static Vector getPatientCreditsViaInvoiceUID(String sInvoiceUid){
         String sSelect = "";
         PreparedStatement ps = null;
@@ -164,7 +164,8 @@ public class PatientCredit extends OC_Object {
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            sSelect = "SELECT * FROM OC_PATIENTCREDITS WHERE OC_PATIENTCREDIT_INVOICEUID = ? ORDER BY OC_PATIENTCREDIT_DATE DESC";
+            sSelect = "SELECT * FROM OC_PATIENTCREDITS WHERE OC_PATIENTCREDIT_INVOICEUID = ?"+
+                      " ORDER BY OC_PATIENTCREDIT_DATE DESC";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,sInvoiceUid);
             rs = ps.executeQuery();
@@ -190,13 +191,14 @@ public class PatientCredit extends OC_Object {
         return vCredits;
     }
 
+    //--- GET ENCOUNTER CREDITS -------------------------------------------------------------------
     public static Vector getEncounterCredits(String sEncounterUID){
         String sSelect = "";
         PreparedStatement ps = null;
         ResultSet rs = null;
         Vector vUnassignedCredits = new Vector();
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             sSelect = "SELECT * FROM OC_PATIENTCREDITS WHERE "
                 +" OC_PATIENTCREDIT_ENCOUNTERUID = ? ORDER BY OC_PATIENTCREDIT_DATE DESC";
@@ -225,17 +227,19 @@ public class PatientCredit extends OC_Object {
         return vUnassignedCredits;
     }
 
+    //--- GET UNASSIGNED PATIENT CREDITS ----------------------------------------------------------
     public static Vector getUnassignedPatientCredits(String sPatientId){
         String sSelect = "";
         PreparedStatement ps = null;
         ResultSet rs = null;
         Vector vUnassignedCredits = new Vector();
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_PATIENTCREDITS d WHERE e.OC_ENCOUNTER_PATIENTUID = ? "
-                +" AND e.oc_encounter_objectid=replace(d.OC_PATIENTCREDIT_ENCOUNTERUID,'"+ MedwanQuery.getInstance().getConfigString("serverId")+".','')"
-                +" AND (d.OC_PATIENTCREDIT_INVOICEUID is null or d.OC_PATIENTCREDIT_INVOICEUID='') ORDER BY OC_PATIENTCREDIT_DATE DESC";
+            sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_PATIENTCREDITS d WHERE e.OC_ENCOUNTER_PATIENTUID = ?"+
+                      "  AND e.oc_encounter_objectid = replace(d.OC_PATIENTCREDIT_ENCOUNTERUID,'"+ MedwanQuery.getInstance().getConfigString("serverId")+".','')"+
+                      "  AND (d.OC_PATIENTCREDIT_INVOICEUID is null or d.OC_PATIENTCREDIT_INVOICEUID='')"+
+                      " ORDER BY OC_PATIENTCREDIT_DATE DESC";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,sPatientId);
             rs = ps.executeQuery();
@@ -401,15 +405,22 @@ public class PatientCredit extends OC_Object {
         }
     }
 
+    //--- DELETE PATIENT INVOICE REDUCTIONS -------------------------------------------------------
     public static void deletePatientInvoiceReductions(String patientInvoiceUid){
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        PreparedStatement ps=null;
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        PreparedStatement ps = null;
+        
         try{
-        	ps = oc_conn.prepareStatement("delete from OC_PATIENTCREDITS where OC_PATIENTCREDIT_INVOICEUID=? and OC_PATIENTCREDIT_TYPE='reduction'");
+        	ps = oc_conn.prepareStatement("DELETE FROM OC_PATIENTCREDITS"+
+                                          " WHERE OC_PATIENTCREDIT_INVOICEUID = ?"+
+                                          "  AND OC_PATIENTCREDIT_TYPE = 'reduction'");
         	ps.setString(1, patientInvoiceUid);
         	ps.execute();
         	ps.close();
-        	ps = oc_conn.prepareStatement("delete from OC_PATIENTCREDITS where OC_PATIENTCREDIT_INVOICEUID is null and OC_PATIENTCREDIT_TYPE='reduction'");
+        	
+        	ps = oc_conn.prepareStatement("DELETE FROM OC_PATIENTCREDITS"+
+        	                              " WHERE OC_PATIENTCREDIT_INVOICEUID IS NULL"+
+        	                              "  AND OC_PATIENTCREDIT_TYPE = 'reduction'");
         	ps.execute();
         }
         catch(Exception e){
@@ -426,6 +437,14 @@ public class PatientCredit extends OC_Object {
         }
     }
     
+    //--- GET PATIENT CREDITS ---------------------------------------------------------------------
+    public static Vector getPatientCredits(String sPatientUid){
+        return getPatientCredits(sPatientUid,"","","","");   	
+    }
+    public static Vector getPatientCredits(String sPatientUid, String sDateBegin, String sDateEnd){
+        return getPatientCredits(sPatientUid,sDateBegin,sDateEnd,"","");   	
+    }
+    
     public static Vector getPatientCredits(String sPatientUid, String sDateBegin, String sDateEnd, String sAmountMin, String sAmountMax){
         String sSelect = "";
         PreparedStatement ps = null;
@@ -434,7 +453,7 @@ public class PatientCredit extends OC_Object {
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            sSelect = "SELECT a.* FROM OC_PATIENTCREDITS a,OC_ENCOUNTERS b WHERE "
+            sSelect = "SELECT DISTINCT oc_patientcredit_objectid, a.* FROM OC_PATIENTCREDITS a,OC_ENCOUNTERS b WHERE "
                     +" a.OC_PATIENTCREDIT_ENCOUNTERUID = "+ MedwanQuery.getInstance().convert("varchar(10)","b.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","b.oc_encounter_objectid")
                     +" AND b.OC_ENCOUNTER_PATIENTUID = ? ";
             if ((sDateBegin.length()>0)&&(sDateEnd.length()>0)){
@@ -456,7 +475,7 @@ public class PatientCredit extends OC_Object {
             else if (sAmountMax.length()>0){
                 sSelect +=" AND OC_PATIENTCREDIT_AMOUNT < ?  ";
             }
-
+           
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,sPatientUid);
             int iIndex = 2;
@@ -501,7 +520,9 @@ public class PatientCredit extends OC_Object {
                 e.printStackTrace();
             }
         }
+        
         return vUnassignedCredits;
     }
+    
 }
 

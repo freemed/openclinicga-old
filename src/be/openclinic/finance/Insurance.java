@@ -610,7 +610,7 @@ public class Insurance extends OC_Object {
         try{
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,sPatientUID);
-            ps.setTimestamp(2, new Timestamp(ScreenHelper.getSQLDate(ScreenHelper.getDate()).getTime()));
+            ps.setTimestamp(2,new Timestamp(ScreenHelper.getSQLDate(ScreenHelper.getDate()).getTime()));
 
             rs = ps.executeQuery();
 
@@ -620,24 +620,30 @@ public class Insurance extends OC_Object {
 
                 vInsurances.addElement(currentInsurance);
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vInsurances;
     }
 
-    public static Vector selectInsurances(String sPatientUID,String sSortColumn){
+    //--- SELECT INSURANCES -----------------------------------------------------------------------
+    public static Vector selectInsurances(String sPatientUID, String sSortColumn){
+        return selectInsurances(sPatientUID,sSortColumn,false); // active insurances
+    }
+
+    public static Vector selectInsurances(String sPatientUID, String sSortColumn, boolean closed){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -650,9 +656,15 @@ public class Insurance extends OC_Object {
             sSortAppend = " ORDER BY " + sSortColumn;
         }
 
-        String sSelect = "SELECT * FROM OC_INSURANCES WHERE OC_INSURANCE_PATIENTUID = ?" + sSortAppend;
+        String sSelect = "SELECT * FROM OC_INSURANCES"+
+                         " WHERE OC_INSURANCE_PATIENTUID = ?";
+        if(closed){
+            sSelect+= " AND OC_INSURANCE_STOP IS NOT NULL";	
+        }
+        
+        sSelect+= sSortAppend;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,sPatientUID);
@@ -687,20 +699,21 @@ public class Insurance extends OC_Object {
 
                 vInsurances.addElement(insurance);
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e) {
+        }
+        catch(Exception e) {
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vInsurances;
     }
 
