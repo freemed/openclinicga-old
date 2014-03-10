@@ -439,8 +439,6 @@
                 parameters: params,
                 onSuccess: function(resp){
                     $('divUnassignedDebets').innerHTML=resp.responseText;
-                },
-				onFailure: function(){
                 }
 			}
 		);

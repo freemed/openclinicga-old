@@ -404,8 +404,6 @@
             parameters: params,
             onSuccess: function(resp){
               $("divCredits").innerHTML = resp.responseText;
-            },
-            onFailure: function(){
             }
           }
         );

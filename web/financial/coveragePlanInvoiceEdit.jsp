@@ -37,7 +37,7 @@
         </tr>
     </table>
 </form>
-<script type="text/javascript">
+<script>
     FindForm.FindCoveragePlanInvoiceUID.focus();
 
     function searchCoveragePlanInvoice() {
@@ -222,7 +222,7 @@
 <div id="divMessage"></div>
 <input type='hidden' name='EditCoveragePlanInvoiceUID' id='EditCoveragePlanInvoiceUID' value='<%=checkString(coveragePlanInvoice.getUid())%>'>
 </form>
-<script type="text/javascript">
+<script>
 function doSave() {
 
     if ((EditForm.EditDate.value.length > 0) && (EditForm.EditStatus.selectedIndex > -1 && EditForm.EditInsurarUID.value.length>0)) {
@@ -366,8 +366,6 @@ function loadOpenCoveragePlanInvoices() {
         parameters: params,
         onSuccess: function(resp) {
             $('divOpenCoveragePlanInvoices').innerHTML = resp.responseText;
-        },
-        onFailure: function() {
         }
     }
             );
@@ -406,8 +404,6 @@ function changeCoveragePlan() {
             $('divPrestations').innerHTML = s;
             tot=tot+countDebets();
             document.getElementById('EditBalance').value=tot;
-        },
-        onFailure: function() {
         }
     }
             );
@@ -422,8 +418,6 @@ function changeCoveragePlan() {
             $('divCredits').innerHTML = resp.responseText;
             tot=tot-countCredits();
             document.getElementById('EditBalance').value=tot;
-        },
-        onFailure: function() {
         }
     }
             );

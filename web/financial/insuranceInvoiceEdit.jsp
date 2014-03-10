@@ -37,7 +37,7 @@
         </tr>
     </table>
 </form>
-<script type="text/javascript">
+<script>
     FindForm.FindInsurarInvoiceUID.focus();
 
     function searchInsurarInvoice() {
@@ -256,7 +256,7 @@
 <div id="divMessage"></div>
 <input type='hidden' name='EditInsurarInvoiceUID' id='EditInsurarInvoiceUID' value='<%=checkString(insurarInvoice.getUid())%>'>
 </form>
-<script type="text/javascript">
+<script>
 function doSave() {
 
     if ((EditForm.EditDate.value.length > 0) && (EditForm.EditStatus.selectedIndex > -1 && EditForm.EditInsurarUID.value.length>0)) {
@@ -410,8 +410,6 @@ function loadOpenInsurarInvoices() {
         parameters: params,
         onSuccess: function(resp) {
             $('divOpenInsurarInvoices').innerHTML = resp.responseText;
-        },
-        onFailure: function() {
         }
     }
             );
@@ -466,8 +464,6 @@ function changeInsurar() {
             $('divCredits').innerHTML = resp.responseText;
             tot=tot-countCredits();
             document.getElementById('EditBalance').value=format_number(tot, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
-        },
-        onFailure: function() {
         }
     }
             );

@@ -42,10 +42,10 @@ if (sFindPatientCreditUID.length() > 0) {
     String sAction = checkString(request.getParameter("Action"));
     String sScreenType = checkString(request.getParameter("ScreenType"));
 
-    String sFindDateBegin        = checkString(request.getParameter("FindDateBegin")),
-           sFindDateEnd          = checkString(request.getParameter("FindDateEnd")),
-           sFindAmountMin        = checkString(request.getParameter("FindAmountMin")),
-           sFindAmountMax        = checkString(request.getParameter("FindAmountMax"));
+    String sFindDateBegin = checkString(request.getParameter("FindDateBegin")),
+           sFindDateEnd   = checkString(request.getParameter("FindDateEnd")),
+           sFindAmountMin = checkString(request.getParameter("FindAmountMin")),
+           sFindAmountMax = checkString(request.getParameter("FindAmountMax"));
 
     String sEditCreditUid        = checkString(request.getParameter("EditCreditUid")),
            sEditCreditDate       = checkString(request.getParameter("EditCreditDate")),
@@ -55,23 +55,25 @@ if (sFindPatientCreditUID.length() > 0) {
            sEditCreditType       = checkString(request.getParameter("EditCreditType")),
            sEditCreditEncUid     = checkString(request.getParameter("EditCreditEncounterUid")),
            sEditCreditDescr      = checkString(request.getParameter("EditCreditDescription")),
-       	   sEditBalance      = checkString(request.getParameter("EditBalance")),
+       	   sEditBalance          = checkString(request.getParameter("EditBalance")),
            sEditCreditWicketUid  = checkString(request.getParameter("EditCreditWicketUid"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        System.out.println("\n################## patientCreditEdit : "+sAction+" ###############");
-        System.out.println("* sEditCreditUid        : "+sEditCreditUid);
-        System.out.println("* sEditCreditDate       : "+sEditCreditDate);
-        System.out.println("* sEditCreditInvoiceUid : "+sEditCreditInvoiceUid);
-        System.out.println("* sEditCreditInvoiceNr  : "+sEditCreditInvoiceNr);
-        System.out.println("* sEditCreditAmount     : "+sEditCreditAmount);
-        System.out.println("* sEditCreditType       : "+sEditCreditType);
-        System.out.println("* sEditCreditEncUid     : "+sEditCreditEncUid);
-        System.out.println("* sEditCreditDescr      : "+sEditCreditDescr);
-        System.out.println("* sEditCreditWicketUid  : "+sEditCreditWicketUid+"\n");
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n################## financial/patientCreditEdit.jsp ###############");
+        Debug.println("sAction               : "+sAction);
+        Debug.println("sEditCreditUid        : "+sEditCreditUid);
+        Debug.println("sEditCreditDate       : "+sEditCreditDate);
+        Debug.println("sEditCreditInvoiceUid : "+sEditCreditInvoiceUid);
+        Debug.println("sEditCreditInvoiceNr  : "+sEditCreditInvoiceNr);
+        Debug.println("sEditCreditAmount     : "+sEditCreditAmount);
+        Debug.println("sEditCreditType       : "+sEditCreditType);
+        Debug.println("sEditCreditEncUid     : "+sEditCreditEncUid);
+        Debug.println("sEditCreditDescr      : "+sEditCreditDescr);
+        Debug.println("sEditCreditWicketUid  : "+sEditCreditWicketUid+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
     AdminPerson adminPerson = activePatient;
     if(ScreenHelper.checkString(sEditCreditInvoiceUid).length()>0){
         PatientInvoice invoice = PatientInvoice.get(sEditCreditInvoiceUid);
@@ -89,6 +91,7 @@ if (sFindPatientCreditUID.length() > 0) {
     if(sEditCreditWicketUid.length()==0){
         sEditCreditWicketUid = checkString((String)session.getAttribute("defaultwicket"));
     }
+    
     //--- SAVE ------------------------------------------------------------------------------------
     if(sAction.equals("save")){
         // get or create credit
@@ -164,9 +167,9 @@ if (sFindPatientCreditUID.length() > 0) {
 
         if (sScreenType.length()>0){
             %>
-            <script type="text/javascript">
-                window.opener.doFind();
-                window.close();
+            <script>
+              window.opener.doFind();
+              window.close();
             </script>
             <%
         }
@@ -245,12 +248,12 @@ if (sFindPatientCreditUID.length() > 0) {
 
         String sBegin = "";
         if(encounter.getBegin()!=null){
-            sBegin = ", "+getSQLTimeStamp(new Timestamp(encounter.getBegin().getTime()));
+            sBegin = ", "+ScreenHelper.getSQLDate(encounter.getBegin());
         }
 
         String sEnd = "";
         if(encounter.getEnd()!=null){
-            sEnd = ", "+getSQLTimeStamp(new Timestamp(encounter.getEnd().getTime()));
+            sEnd = ", "+ScreenHelper.getSQLDate(encounter.getEnd());
         }
 
         sEditCreditEncName = sEditCreditEncUid+sBegin+sEnd+sType;
@@ -356,7 +359,7 @@ if (sFindPatientCreditUID.length() > 0) {
                         <td class="admin"><%=getTran("wicket","wicket",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
                             <select class="text" id="EditCreditWicketUid" name="EditCreditWicketUid">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value="" selected><%=getTran("web","choose",sWebLanguage)%></option>
                                 <%
                                     Iterator iter = userWickets.iterator();
                                     Wicket wicket;
@@ -365,7 +368,7 @@ if (sFindPatientCreditUID.length() > 0) {
                                         wicket = (Wicket) iter.next();
 
                                         %>
-                                          <option value="<%=wicket.getUid()%>" <%=sEditCreditWicketUid.equals(wicket.getUid())?" selected":""%>>
+                                          <option value="<%=wicket.getUid()%>" <%=sAction.length()==0 && sEditCreditWicketUid.equals(wicket.getUid())?" selected":""%>>
                                               <%=wicket.getUid()%>&nbsp;<%=getTran("service",wicket.getServiceUID(),sWebLanguage)%>
                                           </option>
                                         <%
@@ -591,7 +594,7 @@ if (sScreenType.equals("")){
               +"&FindAmountMax="+document.getElementById('FindAmountMax').value
               +"&encounterUID="+document.getElementById("EditCreditEncounterUid").value;
         var today = new Date();
-        var url= "<c:url value="/financial/getEncounterCredits.jsp"/>?ts="+today;
+        var url= "<c:url value='/financial/getEncounterCredits.jsp'/>?ts="+today;
         new Ajax.Request(url,
           {
             method: "GET",
@@ -637,7 +640,7 @@ if (sScreenType.equals("")){
     }
     document.getElementById('creditid').innerHTML=document.getElementById('EditCreditUid').value.split(".")[1];
     document.getElementById('printsection').style.visibility='visible';
-      document.getElementById('PrintLanguage').show();
+      document.getElementById('PrintLanguage').style.visibility='visible';
   }
 
   function clearEditFields(){
@@ -663,7 +666,7 @@ if (sScreenType.equals("")){
     EditForm.EditCreditEncounterName.value = "<%=encounter.getEncounterDisplayName(sWebLanguage)%>";
     EditForm.EditCreditDescription.value = "";
     document.getElementById('printsection').style.visibility='hidden';
-    document.getElementById('PrintLanguage').hide();
+    document.getElementById('PrintLanguage').style.visibility='hidden';
     document.getElementById('creditid').innerHTML="";
 
     <%
@@ -693,7 +696,7 @@ if (sScreenType.equals("")){
   if(document.getElementById('EditCreditUid').value.length>0){
       document.getElementById('creditid').innerHTML=document.getElementById('EditCreditUid').value.split(".")[1];
       document.getElementById('printsection').style.visibility='visible';
-      document.getElementById('PrintLanguage').show();
+      document.getElementById('PrintLanguage').style.visibility='visible';
   }
 <%
 if (sScreenType.equals("")){

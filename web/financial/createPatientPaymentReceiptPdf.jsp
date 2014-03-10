@@ -21,7 +21,6 @@
         else{
         	pdfGenerator = new PDFPatientPaymentReceiptGenerator(activeUser,credit.getPatient(),sProject,sPrintLanguage);
         }
-        System.out.println("sCreditUid="+sCreditUid);
         baosPDF = pdfGenerator.generatePDFDocumentBytes(request,sCreditUid);
 
         StringBuffer sbFilename = new StringBuffer();

@@ -192,7 +192,7 @@
         <%
     }
 %>
-<script type="text/javascript">
+<script>
 
         function doFind(){
             if ((document.getElementById("FindDateBegin").value.length>0)

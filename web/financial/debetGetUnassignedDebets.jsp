@@ -91,18 +91,19 @@
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
 <%
     String sFindDateBegin = checkString(request.getParameter("FindDateBegin")),
-           sFindDateEnd = checkString(request.getParameter("FindDateEnd")),
+           sFindDateEnd   = checkString(request.getParameter("FindDateEnd")),
            sFindAmountMin = checkString(request.getParameter("FindAmountMin")),
            sFindAmountMax = checkString(request.getParameter("FindAmountMax"));
 
     Vector vUnassignedDebets;
-    if ((sFindDateBegin.length()==0)&&(sFindDateEnd.length()==0)&&(sFindAmountMin.length()==0)&&(sFindAmountMax.length()==0)){
+    if(sFindDateBegin.length()==0 && sFindDateEnd.length()==0 && sFindAmountMin.length()==0 && sFindAmountMax.length()==0){
         vUnassignedDebets = Debet.getUnassignedPatientDebets(activePatient.personid);
     }
-    else {
-        vUnassignedDebets = Debet.getPatientDebets(activePatient.personid,sFindDateBegin,sFindDateEnd,sFindAmountMin, sFindAmountMax);
+    else{
+        vUnassignedDebets = Debet.getPatientDebets(activePatient.personid,sFindDateBegin,sFindDateEnd,sFindAmountMin,sFindAmountMax);
     }
-    out.print(addDebets(vUnassignedDebets, "", sWebLanguage));
+    
+    out.print(addDebets(vUnassignedDebets,"",sWebLanguage));
 %>
     </tbody>
 </table>

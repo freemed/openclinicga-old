@@ -226,7 +226,7 @@
 
                 <input onclick="setRefCheck();" type='radio' name='EditDebetRefType' id='EditReftransaction' readonly value='Transaction' <%=sEditCheckTransaction%>><label for='EditReftransaction'><%=getTran("web","transaction",sWebLanguage)%></label>
                 <input onclick="setRefCheck();" type='radio' name='EditDebetRefType' id='EditRefprescription' readonly value='MedicationDelivery' <%=sEditCheckPrescription%>><label for='EditRefprescription'><%=getTran("web","prescription",sWebLanguage)%></label>
-                <script type="text/javascript">
+                <script>
                     function setRefCheck(){
                         if('<%=sEditCheckTransaction.length()%>'.length>0){
                             document.getElementsByName('EditReftransaction')[0].checked=true;

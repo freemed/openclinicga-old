@@ -788,8 +788,6 @@ System.out.println(0);
                 parameters: params,
                 onSuccess: function(resp){
                     $('divUnassignedDebets').innerHTML=resp.responseText;
-                },
-				onFailure: function(){
                 }
 			}
 		);

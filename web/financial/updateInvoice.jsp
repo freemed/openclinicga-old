@@ -217,7 +217,7 @@
         <%
     }
 %>
-<script type="text/javascript">
+<script>
 
         function doFind(){
             if ($("FindInvoiceId").value.length>0){
