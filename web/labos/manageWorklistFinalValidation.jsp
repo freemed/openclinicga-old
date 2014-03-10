@@ -136,7 +136,7 @@
         %>
         </table>
         <input type="hidden" name="worklistAnalyses" value="<%=worklistAnalyses%>"/>
-        <script type="text/javascript">
+        <script>
             function setChecks(lineId,bValue){
                 <%
                     String[] analysis=worklistAnalyses.split(",");

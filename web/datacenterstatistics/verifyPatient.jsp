@@ -23,7 +23,7 @@
     if(rs.next()){
 	    if(rs.getInt("total")>0){
 	        %>
-	        <script type="text/javascript">
+	        <script>
 	            var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
 	            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=statistics.patientexists";
 	            var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","statistics.patientexists",sWebLanguage)%>");

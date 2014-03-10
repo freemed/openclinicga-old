@@ -18,7 +18,7 @@ java.util.Vector" %>
     String sSelectEncounterService = ScreenHelper.normalizeSpecialCharacters(sFindEncounterService);
     String sSelectEncounterBed     = ScreenHelper.normalizeSpecialCharacters(sFindEncounterBed);
 %>
-<script type="text/javascript">
+<script>
     <%-- SET encounter --%>
     function setEncounter(sEncounterUID,sEncounterName) {
       window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sEncounterUID;

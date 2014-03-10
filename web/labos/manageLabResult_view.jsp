@@ -126,7 +126,7 @@
     %>
 </table>
 
-<script type="text/javascript">
+<script>
     function printRequest(serverid,transactionid){
         window.open("<c:url value='/labos/createLabResultsPdf.jsp'/>?ts=<%=getTs()%>&print."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
     }

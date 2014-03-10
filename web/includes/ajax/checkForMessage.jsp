@@ -3,20 +3,21 @@
 
 <%   
     String sSnoozeTimeInMinutes = MedwanQuery.getInstance().getConfigString("messageCheckerSnoozeTimeInMinutes","5");
-    
-    /// DEBUG /////////////////////////////////////////////////////////////////
-    if(Debug.enabled){
-        Debug.println("\n*************** checkForMessage.jsp ***************");
-    }
-    ///////////////////////////////////////////////////////////////////////////
 
     String sMessage = ScreenHelper.getTranExists("systemMessages","mainMessage",sWebLanguage);
-    if(sMessage.length()==0){
-        Debug.println("--> NO MESSAGE SET ('systemMessages','mainMessage')\n");
+
+    /// DEBUG /////////////////////////////////////////////////////////////////
+    if(Debug.enabled && 1==2){
+        Debug.println("\n*************** checkForMessage.jsp ***************");
+        
+        if(sMessage.length()==0){
+            Debug.println("--> NO MESSAGE SET ('systemMessages','mainMessage')\n");
+        }
+        else{
+            Debug.println("--> sMessage : "+sMessage+"\n");
+        }
     }
-    else{
-        Debug.println("--> sMessage : "+sMessage+"\n");
-    }
+    ///////////////////////////////////////////////////////////////////////////
     
     // add snooze-question to message, if any
     if(sMessage.length() > 0){

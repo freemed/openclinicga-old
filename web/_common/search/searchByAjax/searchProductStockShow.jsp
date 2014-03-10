@@ -10,34 +10,35 @@
     String sAction = checkString(request.getParameter("Action"));
 
     // get data from form
-    String sSearchStockLevel = checkString(request.getParameter("SearchStockLevel")),
-            sSearchProductUid = checkString(request.getParameter("SearchProductUid")),
-            sSearchProductName = checkString(request.getParameter("SearchProductName")),
-            sSearchServiceUid = checkString(request.getParameter("SearchServiceUid")),
-            sSearchProductLevel = checkString(request.getParameter("SearchProductLevel")),
-            sSearchServiceName = checkString(request.getParameter("SearchServiceName"));
+    String sSearchStockLevel   = checkString(request.getParameter("SearchStockLevel")),
+           sSearchProductUid   = checkString(request.getParameter("SearchProductUid")),
+           sSearchProductName  = checkString(request.getParameter("SearchProductName")),
+           sSearchServiceUid   = checkString(request.getParameter("SearchServiceUid")),
+           sSearchProductLevel = checkString(request.getParameter("SearchProductLevel")),
+           sSearchServiceName  = checkString(request.getParameter("SearchServiceName"));
 
     // get data from calling url or hidden fields in form
-    String sReturnProductStockUidField = checkString(request.getParameter("ReturnProductStockUidField")),
-            sReturnProductStockNameField = checkString(request.getParameter("ReturnProductStockNameField")),
-            sReturnServiceStockUidField = checkString(request.getParameter("ReturnServiceStockUidField")),
-            sReturnServiceStockNameField = checkString(request.getParameter("ReturnServiceStockNameField")),
-            sReturnProductStockLevelField = checkString(request.getParameter("ReturnProductStockLevelField"));
+    String sReturnProductStockUidField   = checkString(request.getParameter("ReturnProductStockUidField")),
+           sReturnProductStockNameField  = checkString(request.getParameter("ReturnProductStockNameField")),
+           sReturnServiceStockUidField   = checkString(request.getParameter("ReturnServiceStockUidField")),
+           sReturnServiceStockNameField  = checkString(request.getParameter("ReturnServiceStockNameField")),
+           sReturnProductStockLevelField = checkString(request.getParameter("ReturnProductStockLevelField"));
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        Debug.println("################## sAction : " + sAction + " ################################");
-        Debug.println("* sSearchStockLevel  : " + sSearchStockLevel);
-        Debug.println("* sSearchProductUid  : " + sSearchProductUid);
-        Debug.println("* sSearchProductName : " + sSearchProductName);
-        Debug.println("* sSearchServiceUid  : " + sSearchServiceUid);
-        Debug.println("* sSearchServiceName : " + sSearchServiceName + "\n");
+    if(Debug.enabled){
+        Debug.println("################# searchByAjax/searchProductStockShow.jsp ################");
+        Debug.println("sAction            : " + sAction);
+        Debug.println("sSearchStockLevel  : " + sSearchStockLevel);
+        Debug.println("sSearchProductUid  : " + sSearchProductUid);
+        Debug.println("sSearchProductName : " + sSearchProductName);
+        Debug.println("sSearchServiceUid  : " + sSearchServiceUid);
+        Debug.println("sSearchServiceName : " + sSearchServiceName + "\n");
 
-        Debug.println("* sReturnProductStockUidField   : " + sReturnProductStockUidField);
-        Debug.println("* sReturnProductStockNameField  : " + sReturnProductStockNameField);
-        Debug.println("* sReturnServiceStockUidField   : " + sReturnServiceStockUidField);
-        Debug.println("* sReturnServiceStockNameField  : " + sReturnServiceStockNameField);
-        Debug.println("* sReturnProductStockLevelField : " + sReturnProductStockLevelField + "\n");
+        Debug.println("sReturnProductStockUidField   : " + sReturnProductStockUidField);
+        Debug.println("sReturnProductStockNameField  : " + sReturnProductStockNameField);
+        Debug.println("sReturnServiceStockUidField   : " + sReturnServiceStockUidField);
+        Debug.println("sReturnServiceStockNameField  : " + sReturnServiceStockNameField);
+        Debug.println("sReturnProductStockLevelField : " + sReturnProductStockLevelField + "\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 

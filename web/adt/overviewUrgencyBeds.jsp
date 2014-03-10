@@ -178,7 +178,7 @@
 %>
 </table>
 
-<script type="text/javascript">
+<script>
   <%-- TOGGLE DIVISION OVERVIEW --%>
   function toggleDivisionOverview(id){
     var obj    = document.getElementById(id);

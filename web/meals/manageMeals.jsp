@@ -22,7 +22,7 @@ public String writeTab(String sId, String sFocusField, String sLanguage) {
         return "</td></tr>";
     }
 %>
-<script type="text/javascript">
+<script>
     var sTabs = "";
     var activeTab = "";
 </script>
@@ -46,7 +46,7 @@ public String writeTab(String sId, String sFocusField, String sLanguage) {
     ScreenHelper.setIncludePage(customerInclude("meals/manageNutricientItems.jsp"), pageContext);%><%=writeTabEnd()%><%}%>
 </table>
 <div id="resultsByAjax">&nbsp;</div>
-<script type="text/javascript">
+<script>
     var aTabs = sTabs.split(',');
     <%-- ACTIVATE TAB -----------------------------------------------------------------------------%>
     function activateTab(sTab, initialize) {

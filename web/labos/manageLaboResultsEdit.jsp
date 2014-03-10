@@ -291,7 +291,7 @@
         <input class="button" type="submit" name="submit" value="<%=getTran("web","save",sWebLanguage)%>"/>
     </p>
 </form>
-<script type="text/javascript">
+<script>
     <%
         if(bSaved){
             out.write("closeModalbox('"+ getTranNoLink("web","saved",sWebLanguage)+"');");

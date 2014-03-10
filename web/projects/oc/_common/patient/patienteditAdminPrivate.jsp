@@ -5,7 +5,7 @@
 <%
     if((activePatient!=null)&&(request.getParameter("SavePatientEditForm")==null)) {
     %>
-<script type="text/javascript">
+<script>
 
 function changeRegion(){
     var today = new Date();
@@ -31,8 +31,6 @@ function changeRegion(){
                         }
                     }
                 }
-            },
-            onFailure: function(){
             }
         }
     );
@@ -62,8 +60,6 @@ function changeDistrict(){
                         }
                     }
                 }
-            },
-            onFailure: function(){
             }
         }
     );
@@ -91,8 +87,6 @@ function changeSector(){
                         }
                     }
                 }
-            },
-            onFailure: function(){
             }
         }
     );
@@ -109,8 +103,6 @@ function changeQuarter(){
             onSuccess: function(resp){
                 var zipcode = resp.responseText;
                 $("PZipcode").value = zipcode;
-            },
-            onFailure: function(){
             }
         }
     );

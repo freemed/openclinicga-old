@@ -1,6 +1,11 @@
 <%@page import="be.openclinic.adt.Encounter,
-                be.openclinic.adt.Bed,java.util.*,be.openclinic.finance.Prestation,be.openclinic.finance.Debet,be.openclinic.finance.Insurance,java.util.Date" %>
-<%@ page import="be.openclinic.medical.ReasonForEncounter,be.mxs.common.util.system.*" %>
+                be.openclinic.adt.Bed,java.util.*,
+                be.openclinic.finance.Prestation,
+                be.openclinic.finance.Debet,
+                be.openclinic.finance.Insurance,
+                java.util.Date,
+                be.openclinic.medical.ReasonForEncounter,
+                be.mxs.common.util.system.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("adt.encounter","all",activeUser)%>
 <%!
@@ -192,12 +197,12 @@
                 if (accountAccomodationDays != 0 ) {
                     Insurance insurance = Insurance.getMostInterestingInsuranceForPatient(activePatient.personid);
                     if(insurance==null){
-                        out.print("<script>alert('"+getTranNoLink("web","no_insurance_available",sWebLanguage)+"')</script>");
+                        out.print("<script>alertDialog('web','no_insurance_available');</script>");
                     }
                     else{
                         Prestation accomodationPrestation = Prestation.get(sEditEncounterAccomodationPrestation);
                         if(accomodationPrestation==null){
-                            out.print("<script>alert('"+getTranNoLink("web","no_accomodation_prestation_defined",sWebLanguage)+"')</script>");
+                            out.print("<script>alertDialog('web','no_accomodation_prestation_defined');</script>");
                         }
                         else {
                             Debet debet = new Debet();
@@ -334,19 +339,13 @@
         if(tmpEncounter.getManager() == null){
             sEditEncounterManager     = "";
             sEditEncounterManagerName = "";
-        }else{
+        }
+        else{
             sEditEncounterManager         = checkString(tmpEncounter.getManager().userid);
             sEditEncounterManagerName     = checkString(ScreenHelper.getFullUserName(tmpEncounter.getManager().userid));
         }
 
         sEditEncounterUID             = checkString(tmpEncounter.getUid());
-        if(Debug.enabled){
-            Debug.println("####### TEST #######");
-            Debug.println(" ServiceUID: " + sEditEncounterService);
-            Debug.println(" ServiceName: " + sEditEncounterServiceName);
-            Debug.println(" BedUID: " + sEditEncounterBed);
-            Debug.println(" BedName: " + sEditEncounterBedName);
-        }
         sEditEncounterAccidentNumber=Pointer.getPointer("ENCOUNTER.ACCIDENT.NUMBER."+tmpEncounter.getUid());
         sEditEncounterAccidentRecordNumber=Pointer.getPointer("ENCOUNTER.ACCIDENT.RECORDNUMBER."+tmpEncounter.getUid());
         sEditEncounterAccidentInsurer=Pointer.getPointer("ENCOUNTER.ACCIDENT.INSURER."+tmpEncounter.getUid());
@@ -435,9 +434,9 @@
                 <input class="text" name="EditEncounterEndHour" value="<%=sEditEncounterEndHour%>" size="5" onkeyup='calculateAccomodationDates();' onblur="checkTime(this);calculateAccomodationDates();" onkeypress="keypressTime(this)">
             </td>
         </tr>
-        <script type="text/javascript">
+        <script>
             function setTime(field){
-                document.getElementsByName(field)[0].value=new Date().getHours()+":"+new Date().getMinutes();
+                document.getElementsByName(field)[0].value=new Date().getHours()+":"+(new Date().getMinutes()>10?new Date().getMinutes():"0"+new Date().getMinutes());
             }
         </script>
         <tr>
@@ -633,7 +632,7 @@
         <%
             if(tmpEncounter!=null && checkString(tmpEncounter.getType()).equalsIgnoreCase("admission") && tmpEncounter.getDurationInDays()>accountedDays){
         %>
-                <script type="text/javascript">document.getElementById("notAccountedAccomodation").style.display="block";</script>
+                <script>document.getElementById("notAccountedAccomodation").style.display="block";</script>
         <%
             }
         %>
@@ -846,25 +845,28 @@
     	}
     	return false;
     }
+    
     <%-- back --%>
     function doBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
+      window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
     }
 
     <%-- check if enddate is after begindate --%>
     function checkDates(){
-        if(EditEncounterForm.EditEncounterEnd.value == ""){
-            return true;
-        }else{
-            var end = ParseDate(EditEncounterForm.EditEncounterEnd.value);
-            var begin = ParseDate(EditEncounterForm.EditEncounterBegin.value);
-            if(end < begin || end>new Date()){
-                return false;
-            }else{
-                calculateAccomodationDates();
-                return true;
-            }
+      if(EditEncounterForm.EditEncounterEnd.value == ""){
+        return true;
+      }
+      else{
+        var end = ParseDate(EditEncounterForm.EditEncounterEnd.value);
+        var begin = ParseDate(EditEncounterForm.EditEncounterBegin.value);
+        if(end < begin || end>new Date()){
+          return false;
         }
+        else{
+          calculateAccomodationDates();
+          return true;
+        }
+      }
     }
 
     function calculateAccomodationDates(){
@@ -883,6 +885,7 @@
         else if(EditEncounterForm.EditEncounterEnd.value.length==0){
             EditEncounterForm.EditEncounterEndHour.value="";
         }
+        
         if(EditEncounterForm.EditEncounterBegin.value.split("/").length==3){
             if(isDate(EditEncounterForm.EditEncounterBegin.value.split("/")[0],EditEncounterForm.EditEncounterBegin.value.split("/")[1],EditEncounterForm.EditEncounterBegin.value.split("/")[2])){
                 var begin = ParseDate(EditEncounterForm.EditEncounterBegin.value);
@@ -931,108 +934,98 @@
     }
 
     function ParseDate( str1 ){
-        // Parse the string in DD/MM/YYYY format
-        re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
-        var arr = re.exec( str1 );
-        return new Date( parseInt(arr[3]), parseInt(arr[2], 10) - 1, parseInt(arr[1], 10) );
+      // Parse the string in DD/MM/YYYY format
+      re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
+      var arr = re.exec( str1 );
+      return new Date( parseInt(arr[3]), parseInt(arr[2], 10) - 1, parseInt(arr[1], 10) );
     }
 
     <%-- check type and display right inputfields --%>
     function checkEncounterType(){
-        if(EditEncounterForm.EditEncounterType.value == "admission"){
-            //document.getElementById("Service").style.display = "block";
-            show("Bed");
-            show("alreadyAccountedAccomodation");
-            show("internaltransfers");
-            calculateAccomodationDates();
-        }else{
-            EditEncounterForm.EditEncounterBed.value="";
-            EditEncounterForm.EditEncounterBedName.value="";
-            setBedButton();
-            //document.getElementById("Service").style.display = "none";
-            hide("Bed");
-            document.getElementsByName('DoAccountAccomodationDays')[0].checked=false;
-            hide("notAccountedAccomodation");
-            hide("alreadyAccountedAccomodation");
-            show("internaltransfers");
-        }
+      if(EditEncounterForm.EditEncounterType.value == "admission"){
+        //document.getElementById("Service").style.display = "block";
+        show("Bed");
+        show("alreadyAccountedAccomodation");
+        show("internaltransfers");
+        calculateAccomodationDates();
+      }
+      else{
+        EditEncounterForm.EditEncounterBed.value="";
+        EditEncounterForm.EditEncounterBedName.value="";
+        setBedButton();
+        //document.getElementById("Service").style.display = "none";
+        hide("Bed");
+        document.getElementsByName('DoAccountAccomodationDays')[0].checked=false;
+        hide("notAccountedAccomodation");
+        hide("alreadyAccountedAccomodation");
+        show("internaltransfers");
+      }
     }
 
     function deleteService(sID){
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
+      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
+      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
 
-
-        if(answer==1){
-            var params = '';
-            var today = new Date();
-            var url= '<c:url value="/adt/ajaxActions/editEncounterDeleteService.jsp"/>?EncounterUID=<%=sEditEncounterUID%>&ServiceUID='+sID+'&ts='+today;
-            document.getElementById('divServices').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-            new Ajax.Request(url,{
-                    method: "GET",
-                    parameters: params,
-                    onSuccess: function(resp){
-                        $('divServices').innerHTML=resp.responseText;
-                    },
-                    onFailure: function(){
-                    }
-                }
-            );
-
-        }
+      if(answer==1){
+        var params = '';
+        var today = new Date();
+        var url= '<c:url value="/adt/ajaxActions/editEncounterDeleteService.jsp"/>?EncounterUID=<%=sEditEncounterUID%>&ServiceUID='+sID+'&ts='+today;
+        document.getElementById('divServices').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+        new Ajax.Request(url,{
+          method: "GET",
+          parameters: params,
+          onSuccess: function(resp){
+            $('divServices').innerHTML=resp.responseText;
+          }
+        });
+      }
     }
 
     function setTransfer(){
-        document.getElementById("EditEncounterTransferDate").value="<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>";
-        document.getElementById("EditEncounterTransferHour").value="<%=new SimpleDateFormat("HH:mm").format(new Date())%>";
-        show("transfer");
+      document.getElementById("EditEncounterTransferDate").value="<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>";
+      document.getElementById("EditEncounterTransferHour").value="<%=new SimpleDateFormat("HH:mm").format(new Date())%>";
+      show("transfer");
     }
 
     function deleteRFE(serverid,objectid){
-        if(confirm("<%=getTran("Web","AreYouSure",sWebLanguage)%>")){
-            var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=sEditEncounterUID%>&language=<%=sWebLanguage%>";
-            var today = new Date();
-            var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;
-            new Ajax.Request(url,{
-                    method: "GET",
-                    parameters: params,
-                    onSuccess: function(resp){
-                        rfe.innerHTML=resp.responseText;
-                    },
-                    onFailure: function(){
-                    }
-                }
-            );
-        }
+      if(yesnoDialog("Web","areYouSureToDelete")){
+        var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=sEditEncounterUID%>&language=<%=sWebLanguage%>";
+        var today = new Date();
+        var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;
+        new Ajax.Request(url,{
+          method: "GET",
+          parameters: params,
+          onSuccess: function(resp){
+            rfe.innerHTML=resp.responseText;
+          }
+        });
+      }
     }
 
-	function changeService(){
-            var today = new Date();
-            var url= '<c:url value="/adt/findServiceStayPrestation.jsp"/>?serviceid='+document.getElementById('EditEncounterService').value+'&ts='+today;
-            var params='';
-            new Ajax.Request(url,{
-                    method: "POST",
-                    parameters: params,
-                    onSuccess: function(resp){
-                        var stayprestation=resp.responseText;
-                        var stays=document.getElementById('EditEncounterAccomodationPrestation').options;
-                        for(var n=0;n<stays.length;n++){
-                        	if(stays[n].value==stayprestation){
-                        		stays[n].selected=true;
-                        	}
-                        	else {
-                        		stays[n].selected=false;
-                        	}
-                        }
-                    },
-                    onFailure: function(){
-                    }
-                }
-            );
-	}
+  function changeService(){
+    var today = new Date();
+    var url= '<c:url value="/adt/findServiceStayPrestation.jsp"/>?serviceid='+document.getElementById('EditEncounterService').value+'&ts='+today;
+    var params='';
+    new Ajax.Request(url,{
+      method: "POST",
+      parameters: params,
+      onSuccess: function(resp){
+        var stayprestation=resp.responseText;
+        var stays=document.getElementById('EditEncounterAccomodationPrestation').options;
+        for(var n=0;n<stays.length;n++){
+          if(stays[n].value==stayprestation){
+            stays[n].selected=true;
+          }
+          else{
+            stays[n].selected=false;
+          }
+        }
+      }
+    });
+  }
 
-    calculateAccomodationDates();
-    hide("transfer");
-    setcategoryfields();
+  calculateAccomodationDates();
+  hide("transfer");
+  setcategoryfields();
 </script>

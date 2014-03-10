@@ -11,11 +11,11 @@
            sSearchProductGroup = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductGroup")));
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        System.out.println("\n######################## getProducts ########################");
-        System.out.println("* sSearchProductName  : "+sSearchProductName);
-        System.out.println("* sSearchSupplierUid  : "+sSearchSupplierUid);
-        System.out.println("* sSearchProductGroup : "+sSearchProductGroup+"\n");
+    if(Debug.enabled){
+        Debug.println("\n########################## search/getProducts.jsp #####################");
+        Debug.println("sSearchProductName  : "+sSearchProductName);
+        Debug.println("sSearchSupplierUid  : "+sSearchSupplierUid);
+        Debug.println("sSearchProductGroup : "+sSearchProductGroup+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 

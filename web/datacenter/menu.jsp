@@ -10,7 +10,7 @@
 
 %>
 </form>
-<script type="text/javascript">
+<script>
     function downloadStats(query,db){
         var w=window.open("<c:url value='/util/csvStats.jsp?'/>query="+query+"&db="+db+"&begin="+document.getElementsByName('begin')[0].value+"&end="+document.getElementsByName('end')[0].value);
     }

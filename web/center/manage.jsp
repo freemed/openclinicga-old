@@ -2,7 +2,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.Date" %>
 <%@include file="/includes/validateUser.jsp" %>
-<script type="text/javascript">
+<script>
     var goToIndex = function(set) {
         if (set) {
             window.location.href = "<c:url value="/main.do"/>?Page=center/index.jsp&action=1&ts=<%=getTs()%>";
@@ -423,11 +423,8 @@
                         }
                     }
                 }
-            },
-            onFailure: function() {
             }
-        }
-                );
+        });
     }
     activateTab("identification");
 </script>

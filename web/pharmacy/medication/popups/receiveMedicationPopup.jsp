@@ -204,11 +204,7 @@
 	        <%
         }
         else{
-            %>
-              <script>
-                alert("<%=getTranNoLink("web",sResult,sWebLanguage)%>");
-              </script>
-            <%
+            %><script>alertDialog("web","<%=sResult%>");</script><%
             sAction = "showDetailsNew";
         }
     }
@@ -278,7 +274,7 @@
 
   function validateMaxFocus(o){
     if(o.value*1>setMaxQuantity){
-      alert('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
+      alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
       o.focus();
       return false;
     }
@@ -287,7 +283,7 @@
 
   function validateMax(o){
     if(o.value*1>setMaxQuantity){
-      alert('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
+      alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
       return false;
     }
     return true;

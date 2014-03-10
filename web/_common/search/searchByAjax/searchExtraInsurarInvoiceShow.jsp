@@ -27,21 +27,22 @@
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        System.out.println("\n################## searchInsurarInvoice : " + sAction + " ##############");
-        System.out.println("* sFindInvoiceInsurarUID     : " + sFindInvoiceInsurarUID);
-        System.out.println("* sFindInvoiceDate          : " + sFindInvoiceDate);
-        System.out.println("* sFindInvoiceNr            : " + sFindInvoiceNr);
-        System.out.println("* sFindInvoiceType (static) : I");
-        System.out.println("* sFunction                 : " + sFunction + "\n");
-        System.out.println("* sFindInvoiceBalanceMin    : " + sFindInvoiceBalanceMin);
-        System.out.println("* sFindInvoiceBalanceMax    : " + sFindInvoiceBalanceMax);
-        System.out.println("* sFindInvoiceStatus        : " + sFindInvoiceStatus + "\n");
-        System.out.println("* sReturnFieldInvoiceUid     : " + sReturnFieldInvoiceUid);
-        System.out.println("* sReturnFieldInvoiceNr      : " + sReturnFieldInvoiceNr);
-        System.out.println("* sReturnFieldInvoiceBalance : " + sReturnFieldInvoiceBalance);
-        System.out.println("* sReturnFieldInvoiceStatus  : " + sReturnFieldInvoiceStatus);
-        System.out.println("* sReturnFieldInsurarUid     : " + sReturnFieldInsurarUid);
-        System.out.println("* sReturnFieldInsurarName    : " + sReturnFieldInsurarName + "\n");
+        Debug.println("\n########### searchByAjax/searchExtraInsurarInvoiceShow.jsp #############");
+        Debug.println("sAction                    : " + sAction);
+        Debug.println("sFindInvoiceInsurarUID     : " + sFindInvoiceInsurarUID);
+        Debug.println("sFindInvoiceDate           : " + sFindInvoiceDate);
+        Debug.println("sFindInvoiceNr             : " + sFindInvoiceNr);
+        Debug.println("sFindInvoiceType (static)  : I");
+        Debug.println("sFunction                  : " + sFunction + "\n");
+        Debug.println("sFindInvoiceBalanceMin     : " + sFindInvoiceBalanceMin);
+        Debug.println("sFindInvoiceBalanceMax     : " + sFindInvoiceBalanceMax);
+        Debug.println("sFindInvoiceStatus         : " + sFindInvoiceStatus + "\n");
+        Debug.println("sReturnFieldInvoiceUid     : " + sReturnFieldInvoiceUid);
+        Debug.println("sReturnFieldInvoiceNr      : " + sReturnFieldInvoiceNr);
+        Debug.println("sReturnFieldInvoiceBalance : " + sReturnFieldInvoiceBalance);
+        Debug.println("sReturnFieldInvoiceStatus  : " + sReturnFieldInvoiceStatus);
+        Debug.println("sReturnFieldInsurarUid     : " + sReturnFieldInsurarUid);
+        Debug.println("sReturnFieldInsurarName    : " + sReturnFieldInsurarName + "\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 

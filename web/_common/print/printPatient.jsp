@@ -61,7 +61,7 @@
         <table width="100%" cellspacing="0" cellpadding="0">
             <tr>
                 <td class="white">
-                    <script type="text/javascript">
+                    <script>
                      window.resizeTo(900,600);
                         if(navigator.appName == "Netscape"){
                             document.write(window.opener.parent.document.getElementById("<%=request.getParameter("Field")%>").innerHTML);
@@ -75,7 +75,7 @@
         </table>
     </body>
 </html>
-<script type="text/javascript">
+<script>
         var sfSelect = document.getElementsByTagName("SELECT");
         for (var i=0; i<sfSelect.length; i++){
             sfSelect[i].style.visibility = "visible";

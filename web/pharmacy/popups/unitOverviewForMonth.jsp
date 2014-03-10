@@ -145,7 +145,7 @@
     </table>
 </div>
 </center>
-<script type="text/javascript">
+<script>
     <%-- SHOW UNITS FOR DAY --%>
     function showUnitsForDay(date,productStockUid){
       openPopup("pharmacy/popups/unitOverviewForDay.jsp&date="+date+"&productStockUid="+productStockUid+"&ts=<%=getTs()%>",900,550);

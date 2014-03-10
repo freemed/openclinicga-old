@@ -141,14 +141,14 @@
         SessionContainerWO sessionContainerWO = (SessionContainerWO) session.getAttribute("be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER");
         sessionContainerWO.setPersonVO(null);
        %>
-<script type="text/javascript">
+<script>
     window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
 <%} else if (sPersonID.length() > 0) {
         activePatient = AdminPerson.getAdminPerson(sPersonID);
         session.setAttribute("activePatient", activePatient);
 %>
-<script type="text/javascript">
+<script>
     window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
 <%} else {
@@ -270,7 +270,7 @@
         </td>
     </tr>
 </table>
-<script type="text/javascript">
+<script>
     <%-- OPEN HELP FILE --%>
     function openHelpFile() {
         openPopup("<%=sHelp.replaceAll("@@language@@",activeUser.person.language)%>", 800, 600);
@@ -280,7 +280,7 @@
 			Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
 			if (activeEncounter!=null && activeEncounter.getEnd()==null){
 		%>
-			alert('<%=getTranNoLink("web","close.active.encounter.first",sWebLanguage)%>');
+			alertDialog('web','close.active.encounter.first');
 		<%
 			}
 			else{
@@ -295,7 +295,7 @@
 			activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
 			if (activeEncounter!=null && activeEncounter.getEnd()==null){
 		%>
-			alert('<%=getTranNoLink("web","close.active.encounter.first",sWebLanguage)%>');
+		    alertDialog('web','close.active.encounter.first');
 		<%
 			}
 			else{
@@ -308,9 +308,7 @@
 		            parameters: params,
 		            onSuccess: function(resp) {
 						window.location.reload();
-		        	},
-		            onFailure: function() {
-		            }
+		        	}
 		        });
 		<%
 			}
@@ -321,7 +319,7 @@
 	        window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
 		}
 		else{
-			alert("<%=getTranNoLink("web","create.encounter.first",sWebLanguage)%>");
+		    alertDialog("web","create.encounter.first");
 		}
 	}
 	
@@ -477,9 +475,7 @@
 		       	if(label.server.length>0){
 		           	POSPrinterServer=label.server;
 		        };
-	        },
-			onFailure: function(){
-            }
+	        }
         }
 		);
 		return POSPrinterServer;
@@ -634,8 +630,6 @@
                 if (data.length > 1) {
                     redirectNationalBarcodeId(data[0], data[1], data[2]);
                 }
-            },
-            onFailure: function() {
             }
         });
     }

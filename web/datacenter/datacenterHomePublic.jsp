@@ -413,8 +413,6 @@
 	                method: "GET",
 	                parameters: "",
 	                onSuccess: function(resp){
-	                },
-	                onFailure: function(){
 	                }
 	            }
 	        );
@@ -572,8 +570,6 @@
                 parameters: "language="+language,
                 onSuccess: function(resp){
     				window.location.reload();
-                },
-                onFailure: function(){
                 }
             }
         );

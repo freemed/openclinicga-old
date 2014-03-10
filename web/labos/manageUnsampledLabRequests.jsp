@@ -24,7 +24,7 @@
             </td>
         </tr>
     </table>
-<script type="text/javascript">
+<script>
     function searchInfoService(sObject){
       if(sObject.value.length > 0){
         openPopup("/_common/search/serviceInformation.jsp&ServiceID="+sObject.value);

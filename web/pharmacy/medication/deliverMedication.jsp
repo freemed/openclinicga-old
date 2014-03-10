@@ -283,7 +283,7 @@
         else {
         %>
         <script>
-            alert('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
+            alertDialogMessage('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
         </script>
         <%
         sAction = "showDetailsNew";

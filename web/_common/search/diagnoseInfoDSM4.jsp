@@ -631,8 +631,6 @@
 		        onSuccess: function(resp) {
 		    		$("DiagnosisGravity_handle").innerHTML='<span style="width:30px">'+resp.responseText+'</span>';
 		            sliderGravity.setValue(resp.responseText);
-		        },
-		        onFailure: function() {
 		        }
 		    });
        }

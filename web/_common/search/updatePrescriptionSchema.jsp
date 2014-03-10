@@ -2,7 +2,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <p align="center">One moment please..</p>
-<script type="text/javascript">
+<script>
 <%
     String sProductUid = checkString(request.getParameter("productuid"));
     ProductSchema productSchema = ProductSchema.getSingleProductSchema(sProductUid);

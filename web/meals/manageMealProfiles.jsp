@@ -16,7 +16,7 @@
     </tr>
 </table>
 <div id="mealProfilesResultsByAjax">&nbsp;</div>
-<script type="text/javascript">
+<script>
     searchMealProfiles = function() {
         var id = "mealProfilesResultsByAjax";
         $(id).update("<div id='wait'>&nbsp;</div>");

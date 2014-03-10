@@ -54,7 +54,7 @@
 
 </form>
 <div id="resultsByAjax" >&nbsp;</div>
-<script type="text/javascript">
+<script>
     function searchService(){
         var id = "resultsByAjax";
         $(id).update("<div id='wait'>&nbsp;</div>");
@@ -69,9 +69,9 @@
     <%-- popup : deliver product --%>
   function deliverProduct(productStockUid,productName,stockLevel){
      if(stockLevel=="0"){
-         alert("<%=getTranNoLink("web","productstockoperation.insufficient.sourceproductstock",sWebLanguage)%>");
+         alertDialog("web","productstockoperation.insufficient.sourceproductstock");
      }
-      openPopup("pharmacy/medication/popups/deliverMedicationPopup.jsp&EditProductStockUid="+productStockUid+"&EditProductName="+productName+"&ts=<%=getTs()%>",750,400);
+     openPopup("pharmacy/medication/popups/deliverMedicationPopup.jsp&EditProductStockUid="+productStockUid+"&EditProductName="+productName+"&ts=<%=getTs()%>",750,400);
   }
   window.onload = function(){
     searchService();  

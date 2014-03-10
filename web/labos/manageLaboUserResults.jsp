@@ -25,7 +25,7 @@
         </tr>
     </table>
 </form>
-<script type="text/javascript">
+<script>
     function doBack(){
         window.location.href="<c:url value="/main.do"/>?Page=labos/index.jsp";
     }
@@ -98,7 +98,7 @@
             }
         %>
     </table>
-    <script type="text/javascript">
+    <script>
         function showRequest(serverid,transactionid){
             window.location.href="<c:url value='/main.do'/>?Page=labos/manageLabResult_view.jsp&ts=<%=getTs()%>&show."+serverid+"."+transactionid+"=1";
         }

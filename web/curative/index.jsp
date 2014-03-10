@@ -34,54 +34,63 @@
 	}
 
 %>
-<script type="text/javascript">
+<script>
     window.document.title="<%=sWEBTITLE+" "+getWindowTitle(request, sWebLanguage)%>";
 </script>
+
 <%-- ADMINISTRATIVE DATA --%>
 <table width="100%" class="list">
-    <tr><td colspan="10" class="titleadmin"><div style="float:left;vertical-align: middle"><%=getTran("web","administrative.data",sWebLanguage)+" "+sVip%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%></td></tr>
-<%
-    boolean bPicture=Picture.exists(Integer.parseInt(activePatient.personid));
-    if (bPicture) {
-        Picture picture = new Picture(Integer.parseInt(activePatient.personid));
-        try{
-            File file = new File(MedwanQuery.getInstance().getConfigString("DocumentsFolder", "c:/projects/openclinic/documents") + "/" + activeUser.userid + ".jpg");
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(picture.getPicture());
-            fileOutputStream.close();
-%>
-        <tr >
-            <td class="image" valign="top" width="143px"><img border='0'  width="100%" src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
-            <td valign="top">
-                <table width="100%"  >
-        <%
+    <tr>
+        <td colspan="10" class="titleadmin"><div style="float:left;vertical-align:middle"><%=getTran("web","administrative.data",sWebLanguage)+" "+sVip%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%></td>
+    </tr>
+	
+	<%
+	    boolean pictureExists = Picture.exists(Integer.parseInt(activePatient.personid));
+	    if(pictureExists){
+	        Picture picture = new Picture(Integer.parseInt(activePatient.personid));
+	        
+	        try{
+	        	String sDocumentsFolder = MedwanQuery.getInstance().getConfigString("DocumentsFolder","c:/projects/openclinic/documents");
+	            File file = new File(sDocumentsFolder+"/"+activeUser.userid+".jpg");
+	            FileOutputStream fileOutputStream = new FileOutputStream(file);
+	            fileOutputStream.write(picture.getPicture());
+	            fileOutputStream.close();
+	            
+	            // extra row and cell for picture
+	            %>
+			        <tr>
+			            <td class="image" valign="top" width="143px"><img border="0" width="100%" src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
+			            <td valign="top">
+			                <table width="100%">
+	            <%
+	        }
+	        catch(Exception e){
+	        	pictureExists = false;
+	        }
+	    }
+    %>
+    <tr><td colspan="2"><%conditionalInclude("curative/encounterStatus.jsp",pageContext,"adt.encounter.select",activeUser);%></td><tr>
+
+    <tr>
+        <td valign="top" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
+        <td><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
+    <tr>
+
+    <tr><td colspan="2"><%conditionalInclude("curative/planningStatus.jsp",pageContext,"planning.select",activeUser);%></td><tr>
+
+    <%
+        if(pictureExists){
+            %>
+                        </table>
+                    </td>
+                </tr>
+            <%
         }
-        catch (Exception e){
-            //picture.delete();
-            bPicture = false;
-        }
-    }
-%>
-                <tr><td colspan="2"><%conditionalInclude("curative/encounterStatus.jsp",pageContext,"adt.encounter.select",activeUser);%></td><tr>
-
-                <tr>
-                    <td valign="top" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
-                    <td><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
-                <tr>
-
-                <tr><td colspan="2"><%conditionalInclude("curative/planningStatus.jsp",pageContext,"planning.select",activeUser);%></td><tr>
-
-        <%
-    if (bPicture){
-        %>
-                </table>
-            </td>
-        </tr>
-        <%
-    }
-        %>
+    %>
 </table>
+
 <div style="height:2px;"></div>
+
 <%-- MEDICAL DATA --%>
 <% if(activeUser.getAccessRight("medical.select")){%>
     <table width="100%" class="list">
@@ -124,13 +133,14 @@
 %>
 <div id="responseByAjax">&nbsp;</div>
 <div id="weekSchedulerFormByAjax" style="display:none;position:absolute;background:white">&nbsp;</div>
+
 <script>
-	var getAccessHistory = function(nb){
-	    var url = "<c:url value='/curative/ajax/getHistoryAccess.jsp'/>?nb="+nb+"&ts="+new Date().getTime();
-	    Modalbox.show(url, {title: '<%=getTran("web", "history", sWebLanguage)%>', width: 420,height:370},{evalScripts: true} );
-	}
-    var getAdminHistory = function(nb){
-        var url = "<c:url value='/curative/ajax/getHistoryAdmin.jsp'/>?nb="+nb+"&ts="+new Date().getTime();
-        Modalbox.show(url, {title: '<%=getTran("web", "adminhistory", sWebLanguage)%>', width: 420,height:370},{evalScripts: true} );
-    }
+  var getAccessHistory = function(nb){
+	var url = "<c:url value='/curative/ajax/getHistoryAccess.jsp'/>?nb="+nb+"&ts="+new Date().getTime();
+    Modalbox.show(url,{title:'<%=getTran("web","history",sWebLanguage)%>',width:420,height:370},{evalScripts:true});
+  }
+  var getAdminHistory = function(nb){
+    var url = "<c:url value='/curative/ajax/getHistoryAdmin.jsp'/>?nb="+nb+"&ts="+new Date().getTime();
+    Modalbox.show(url,{title:'<%=getTran("web","adminhistory",sWebLanguage)%>',width:420,height:370},{evalScripts:true});
+  }
 </script>

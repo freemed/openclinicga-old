@@ -185,6 +185,18 @@
       alert(labelId);          
     }
   }
+  
+  <%-- ALERT DIALOG MESSAGE --%>
+  function alertDialogMessage(sMsg){
+    if(window.showModalDialog){
+      var popupUrl = "<c:url value='/_common/search/okPopup.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelValue="+sMsg;
+      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      window.showModalDialog(popupUrl,"",modalities);
+    }
+    else{
+      alert(labelId); // FF          
+    }
+  }
 
   <%-- CONFIRM DIALOG --%>
   function confirmDialog(labelType,labelId){

@@ -23,28 +23,25 @@
                                         while (iter.hasNext()) {
                                             recsFound = true;
                                             objInsurar = (Insurar) iter.next();
-                                            System.out.println("1");
                                             if(objInsurar!=null && objInsurar.getInsuraceCategories()!=null && (objInsurar.getContact()==null || !objInsurar.getContact().equals("plan.openinsurance"))){
 	                                            String cats = "";
 	                                            for (int n = 0; n < objInsurar.getInsuraceCategories().size(); n++) {
-	                                                System.out.println("2");
 	                                                InsuranceCategory insCat=(InsuranceCategory)objInsurar.getInsuraceCategories().elementAt(n);
 	                                                if (n > 0) {
 	                                                    cats += "<br/>";
 	                                                }
-	                                                System.out.println("3");
 	                                                cats += "<a href=\"javascript:setInsuranceCategory('" + insCat.getCategory() + "', '" + objInsurar.getUid()+"','" + objInsurar.getName().toUpperCase() + "','" +insCat.getCategory()+": "+insCat.getLabel()+"','"+objInsurar.getType()+"','"+getTran("insurance.types",objInsurar.getType(),sWebLanguage)+"');\">" +
 	                                                        insCat.getCategory()+" ("+insCat.getLabel()+" - "+insCat.getPatientShare()+"/"+(100-Integer.parseInt(insCat.getPatientShare()))+")</a>";
 	                                            }
+	                                            
 	                                            // alternate row-style
 	                                            if (sClass.equals("")) sClass = "1";
-	                                            else sClass = "";
-	                                            System.out.println("4");
+	                                            else                   sClass = "";
 
 	                                            results.append("<tr class='list" + sClass + "'>")
-	                                                    .append(" <td>" + objInsurar.getName().toUpperCase() + "</td>")
-	                                                    .append(" <td>" + cats + "</td>")
-	                                                    .append("</tr>");
+	                                                    .append("<td>" + objInsurar.getName().toUpperCase() + "</td>")
+	                                                    .append("<td>" + cats + "</td>")
+	                                                   .append("</tr>");
                                             }
                                         }
 

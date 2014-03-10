@@ -64,7 +64,7 @@
     }
 %>
 </table>
-<script type="text/javascript">
+<script>
     function selectTran(serverid,transactionid){
         window.location.href="<c:url value="/main.do"/>?Page=util/quickSelectTransaction.jsp&serverid="+serverid+"&transactionid="+transactionid;
     }

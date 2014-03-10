@@ -106,7 +106,7 @@
            sShortcutIcon     = checkString(request.getParameter("ShortcutIcon")),
            sShortcutIconText = checkString(request.getParameter("ShortcutIconText"));
 
-    String sIconsDir = MedwanQuery.getInstance().getConfigString("baseDirectory","/projects/openclinic")+"/_img/shortcutIcons";
+    String sIconsDir = MedwanQuery.getInstance().getConfigString("baseDirectory","c:/projects/openclinic")+"/_img/shortcutIcons";
     
     /// DEBUG //////////////////////////////////////////////////////////////////////
     if(Debug.enabled){

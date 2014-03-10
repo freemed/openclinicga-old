@@ -6,7 +6,7 @@
 
 <%
 try{
-// context
+    // context
     String contextSelector =(String)session.getAttribute("contextSelector");
     if(contextSelector==null){
         contextSelector = activeUser.activeService.code;
@@ -83,7 +83,8 @@ try{
                                         try{
                                             if ("1".equalsIgnoreCase(request.getParameter("showAll"))) {
                                                 transactions = sessionContainerWO.getHealthRecordVO().getTransactions().iterator();
-                                            } else {
+                                            } 
+                                            else {
                                                 transactions = sessionContainerWO.getTransactionsLimited().iterator();
                                             }
                                         }
@@ -120,10 +121,10 @@ try{
                                                 catch (Exception e){
                                                     e.printStackTrace();
                                                 }
+                                                
                                                 // alternate row-styles
-
-                                                if (sList.equals("")) sList = "1";
-                                                else sList = "";
+                                                if(sList.equals("")) sList = "1";
+                                                else                 sList = "";
                                     %>
                                                     <tr id="<%=sClass%>" class="list<%=sClass+sList%>" >
                                                         <td class="modal" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="deltran(<%=transactionVO.getTransactionId()%>,<%=transactionVO.getServerId()%>,<%=transactionVO.getUser().getUserId()%>)">
@@ -373,7 +374,7 @@ function newExamination(){
 		window.location.href="<c:url value='/main.do'/>?Page=curative/manageExaminations.jsp&ts=<%=getTs()%>";
 	}
 	else{
-		alert("<%=getTranNoLink("web","create.encounter.first",sWebLanguage)%>");
+	    alertDialog("web","create.encounter.first");
 	}
 }
 

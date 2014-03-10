@@ -47,4 +47,4 @@
         </td>
     </tr>
 </table>
-<script type="text/javascript"></script>
+<script></script>

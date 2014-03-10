@@ -103,48 +103,53 @@
 </form>
 
 <script>
-    window.resizeTo(830, 530);
-    document.serviceStockForm.SearchServiceStockName.focus();
+  window.resizeTo(830, 530);
+  document.serviceStockForm.SearchServiceStockName.focus();
 
-    <%-- select service stock --%>
-    function selectServiceStock(serviceStockUid, serviceStockName, supplyingServiceUid, supplyingServiceName) {
-    	window.opener.document.getElementsByName('<%=sReturnServiceStockUidField%>')[0].value = serviceStockUid;
-        window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0].value = serviceStockName;
-        window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0].onchange();
+  <%-- select service stock --%>
+  function selectServiceStock(serviceStockUid, serviceStockName, supplyingServiceUid, supplyingServiceName) {
+    window.opener.document.getElementsByName('<%=sReturnServiceStockUidField%>')[0].value = serviceStockUid;
+    window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0].value = serviceStockName;
+    if(window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0].onchange){
+      window.opener.document.getElementsByName('<%=sReturnServiceStockNameField%>')[0].onchange();
+    }
+    
     <%-- set SupplyingService --%>
-        var suppServUidField = window.opener.document.getElementsByName('EditSupplyingServiceUid')[0];
-        var suppServNameField = window.opener.document.getElementsByName('EditSupplyingServiceName')[0];
+    var suppServUidField = window.opener.document.getElementsByName('EditSupplyingServiceUid')[0];
+    var suppServNameField = window.opener.document.getElementsByName('EditSupplyingServiceName')[0];
 
-        if (suppServUidField != undefined && suppServNameField != undefined) {
-            window.opener.document.getElementsByName('EditSupplyingServiceUid')[0].value = supplyingServiceUid;
-            window.opener.document.getElementsByName('EditSupplyingServiceName')[0].value = supplyingServiceName;
-        }
-
-        window.close();
+    if (suppServUidField != undefined && suppServNameField != undefined) {
+      window.opener.document.getElementsByName('EditSupplyingServiceUid')[0].value = supplyingServiceUid;
+      window.opener.document.getElementsByName('EditSupplyingServiceName')[0].value = supplyingServiceName;
     }
 
-    <%-- popup : search service --%>
-    function searchService(serviceUidField, serviceNameField) {
-        openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
-    }
+    window.close();
+  }
 
-    <%-- popup : search manager --%>
-    function searchManager(managerUidField, managerNameField) {
-        openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID=" + managerUidField + "&ReturnName=" + managerNameField + "&displayImmatNew=no");
-    }
+  <%-- popup : search service --%>
+  function searchService(serviceUidField, serviceNameField) {
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
+  }
 
-    <%-- do find --%>
-    function doFind() {
-        serviceStockForm.Action.value = "find";
-        ajaxChangeSearchResults('_common/search/searchByAjax/searchServiceStockShow.jsp', serviceStockForm);
-    }
-    <%-- clear search fields --%>
-    function clearSearchFields() {
-        serviceStockForm.SearchServiceStockName.value = '';
-        serviceStockForm.SearchServiceName.value = '';
-        serviceStockForm.SearchServiceUid.value = '';
-        serviceStockForm.SearchManagerName.value = '';
-        serviceStockForm.SearchManagerUid.value = '';
-    }
-    doFind();
+  <%-- popup : search manager --%>
+  function searchManager(managerUidField, managerNameField) {
+    openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID=" + managerUidField + "&ReturnName=" + managerNameField + "&displayImmatNew=no");
+  }
+
+  <%-- do find --%>
+  function doFind() {
+    serviceStockForm.Action.value = "find";
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchServiceStockShow.jsp', serviceStockForm);
+  }
+  
+  <%-- clear search fields --%>
+  function clearSearchFields() {
+    serviceStockForm.SearchServiceStockName.value = '';
+    serviceStockForm.SearchServiceName.value = '';
+    serviceStockForm.SearchServiceUid.value = '';
+    serviceStockForm.SearchManagerName.value = '';
+    serviceStockForm.SearchManagerUid.value = '';
+  }
+ 
+  doFind();
 </script>

@@ -9,20 +9,22 @@
             if (MedwanQuery.getInstance().getConfigInt("exportEnabled") != 1 || !MedwanQuery.getInstance().hasUnvalidateActivities(Integer.parseInt(activePatient.personid))) {
                 prestationsVerified = 1;
             }
-        } else {
+        } 
+        else {
             // invalid personid
             prestationsVerified = 1;
         }
-    } else {
+    }
+    else {
         // no active patient
         prestationsVerified = 1;
     }
 
     out.print("<script>" +
-            "  if(document.getElementById('prestationsVerified')!=undefined && document.getElementById('prestationsVerified').type.toLowerCase()=='hidden'){" +
-            "    document.getElementById('prestationsVerified').value = '" + prestationsVerified + "'" +
-            "  }" +
-            "</script>");
+              "  if(document.getElementById('prestationsVerified')!=undefined && document.getElementById('prestationsVerified').type.toLowerCase()=='hidden'){" +
+              "    document.getElementById('prestationsVerified').value = '" + prestationsVerified + "'" +
+              "  }" +
+              "</script>");
 %>
 <script>
       // *************************** GET CLICKED ELEMENT COMPATIBLE WITH FIREFOX *******//
@@ -159,7 +161,7 @@ function checkAfter(afterId, beforeObj) {
 }
 
 </script>
-<script type="text/javascript">
+<script>
     var myForm = document;
 </script>
 <% response.setHeader("Content-Type", "text/html; charset=ISO-8859-1"); %>

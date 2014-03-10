@@ -75,26 +75,28 @@
         return ids;
     }
 %>
+
 <%
-    String sFindLastname = checkString(request.getParameter("FindLastname")),
-            sFindFirstname = checkString(request.getParameter("FindFirstname")),
-            sReturnPersonID = checkString(request.getParameter("ReturnPersonID")),
-            sReturnUserID = checkString(request.getParameter("ReturnUserID")),
-            sReturnName = checkString(request.getParameter("ReturnName")),
-            sSetGreenField = checkString(request.getParameter("SetGreenField"));
+    String sFindLastname   = checkString(request.getParameter("FindLastname")),
+           sFindFirstname  = checkString(request.getParameter("FindFirstname")),
+           sReturnPersonID = checkString(request.getParameter("ReturnPersonID")),
+           sReturnUserID   = checkString(request.getParameter("ReturnUserID")),
+           sReturnName     = checkString(request.getParameter("ReturnName")),
+           sSetGreenField  = checkString(request.getParameter("SetGreenField"));
+
     // options
     boolean displayImmatNew = !checkString(request.getParameter("displayImmatNew")).equalsIgnoreCase("no");
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        Debug.println("################## SEARCH USER ####################################");
-        Debug.println(" sFindLastname    : " + sFindLastname);
-        Debug.println(" sFindFirstname   : " + sFindFirstname);
-        Debug.println(" sReturnPersonID  : " + sReturnPersonID);
-        Debug.println(" sReturnUserID    : " + sReturnUserID);
-        Debug.println(" sReturnName      : " + sReturnName);
-        Debug.println(" sSetGreenField   : " + sSetGreenField);
-        Debug.println(" displayImmatNew  : " + displayImmatNew);
+        Debug.println("######################## searchByAjax/searchUserShow.jsp #################");
+        Debug.println("sFindLastname   : " + sFindLastname);
+        Debug.println("sFindFirstname  : " + sFindFirstname);
+        Debug.println("sReturnPersonID : " + sReturnPersonID);
+        Debug.println("sReturnUserID   : " + sReturnUserID);
+        Debug.println("sReturnName     : " + sReturnName);
+        Debug.println("sSetGreenField  : " + sSetGreenField);
+        Debug.println("displayImmatNew : " + displayImmatNew);
     }
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
 

@@ -1,7 +1,6 @@
 <%@ page import="be.openclinic.medical.*,java.util.*,be.mxs.common.util.system.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-	System.out.println("START AJAX");
 	String[] newanalyses=checkString(request.getParameter("newanalyses")).split(";");
 	String existinganalyses=checkString(request.getParameter("existinganalyses"));
 	
@@ -12,7 +11,7 @@
 			//Eerst kijken we of het een analyse is of een profiel
 			String analysislist = "";
 			if(newanalyses[n].startsWith("^")){
-				System.out.println("Seeking for profile "+newanalyses[n].substring(1));
+				Debug.println("Seeking for profile "+newanalyses[n].substring(1));
 				//Dit is een profiel, haal het op
 				Vector anals = LabProfile.searchLabProfilesDataByProfileCode(newanalyses[n].substring(1));
 				System.out.println("anals.size()="+anals.size());

@@ -8,37 +8,38 @@
     String sAction = checkString(request.getParameter("Action"));
 
     String sFindInvoicePatientId = checkString(request.getParameter("FindInvoicePatientId")),
-            sFindInvoiceDate = checkString(request.getParameter("FindInvoiceDate")),
-            sFindInvoiceNr = checkString(request.getParameter("FindInvoiceNr")),
+           sFindInvoiceDate = checkString(request.getParameter("FindInvoiceDate")),
+           sFindInvoiceNr = checkString(request.getParameter("FindInvoiceNr")),
 
-            sFindInvoiceBalanceMin = checkString(request.getParameter("FindInvoiceBalanceMin")),
-            sFindInvoiceBalanceMax = checkString(request.getParameter("FindInvoiceBalanceMax")),
-            sFindInvoiceStatus = checkString(request.getParameter("FindInvoiceStatus"));
+           sFindInvoiceBalanceMin = checkString(request.getParameter("FindInvoiceBalanceMin")),
+           sFindInvoiceBalanceMax = checkString(request.getParameter("FindInvoiceBalanceMax")),
+           sFindInvoiceStatus = checkString(request.getParameter("FindInvoiceStatus"));
 
     String sFunction = checkString(request.getParameter("doFunction"));
 
     String sReturnFieldInvoiceUid = checkString(request.getParameter("ReturnFieldInvoiceUid")),
-            sReturnFieldInvoiceNr = checkString(request.getParameter("ReturnFieldInvoiceNr")),
-            sReturnFieldInvoiceBalance = checkString(request.getParameter("ReturnFieldInvoiceBalance")),
-            sReturnFieldInvoiceMaxBalance = checkString(request.getParameter("ReturnFieldInvoiceMaxBalance")),
-            sReturnFieldInvoiceStatus = checkString(request.getParameter("ReturnFieldInvoiceStatus"));
+           sReturnFieldInvoiceNr = checkString(request.getParameter("ReturnFieldInvoiceNr")),
+           sReturnFieldInvoiceBalance = checkString(request.getParameter("ReturnFieldInvoiceBalance")),
+           sReturnFieldInvoiceMaxBalance = checkString(request.getParameter("ReturnFieldInvoiceMaxBalance")),
+           sReturnFieldInvoiceStatus = checkString(request.getParameter("ReturnFieldInvoiceStatus"));
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        System.out.println("\n############### searchPatientInvoice : " + sAction + " ##############");
-        System.out.println("* sFindInvoicePatientId     : " + sFindInvoicePatientId);
-        System.out.println("* sFindInvoiceDate          : " + sFindInvoiceDate);
-        System.out.println("* sFindInvoiceNr            : " + sFindInvoiceNr);
-        System.out.println("* sFindInvoiceType (static) : P");
-        System.out.println("* sFunction                 : " + sFunction + "\n");
-        System.out.println("* sFindInvoiceBalanceMin    : " + sFindInvoiceBalanceMin);
-        System.out.println("* sFindInvoiceBalanceMax    : " + sFindInvoiceBalanceMax);
-        System.out.println("* sFindInvoiceStatus        : " + sFindInvoiceStatus + "\n");
-        System.out.println("* sReturnFieldInvoiceUid        : " + sReturnFieldInvoiceUid);
-        System.out.println("* sReturnFieldInvoiceNr         : " + sReturnFieldInvoiceNr);
-        System.out.println("* sReturnFieldInvoiceBalance    : " + sReturnFieldInvoiceBalance);
-        System.out.println("* sReturnFieldInvoiceMaxBalance : " + sReturnFieldInvoiceMaxBalance);
-        System.out.println("* sReturnFieldInvoiceStatus     : " + sReturnFieldInvoiceStatus + "\n");
+        Debug.println("\n############### searchByAjax/searchPatientInvoiceShow.jsp ##############");
+        Debug.println("sAction                   : " + sAction);
+        Debug.println("sFindInvoicePatientId     : " + sFindInvoicePatientId);
+        Debug.println("sFindInvoiceDate          : " + sFindInvoiceDate);
+        Debug.println("sFindInvoiceNr            : " + sFindInvoiceNr);
+        Debug.println("sFindInvoiceType (static) : P");
+        Debug.println("sFunction                 : " + sFunction + "\n");
+        Debug.println("sFindInvoiceBalanceMin    : " + sFindInvoiceBalanceMin);
+        Debug.println("sFindInvoiceBalanceMax    : " + sFindInvoiceBalanceMax);
+        Debug.println("sFindInvoiceStatus        : " + sFindInvoiceStatus + "\n");
+        Debug.println("sReturnFieldInvoiceUid        : " + sReturnFieldInvoiceUid);
+        Debug.println("sReturnFieldInvoiceNr         : " + sReturnFieldInvoiceNr);
+        Debug.println("sReturnFieldInvoiceBalance    : " + sReturnFieldInvoiceBalance);
+        Debug.println("sReturnFieldInvoiceMaxBalance : " + sReturnFieldInvoiceMaxBalance);
+        Debug.println("sReturnFieldInvoiceStatus     : " + sReturnFieldInvoiceStatus + "\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
@@ -76,6 +77,7 @@
                 // alternate row-style
                 if (sClass.equals("")) sClass = "1";
                 else sClass = "";
+                
                 sHtml.append("<tr class='list" + sClass + "' " + " onmouseover=\"this.style.cursor='hand';\" " + " onmouseout=\"this.style.cursor='default';\" ")
                         .append(" onclick=\"selectInvoice('" + sInvoiceUid + "','" + sInvoiceDate + "','" + sInvoiceNr + "','" + invoice.getBalance() + "','" + HTMLEntities.htmlentities(sInvoiceStatus) + "');\">")
                         .append(" <td>" + sInvoiceDate + "</td>")

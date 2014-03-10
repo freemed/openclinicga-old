@@ -91,7 +91,7 @@
       <!-- ========================================================================================================= -->
       <action    path="/healthrecord/managePrintHistoryPopup"
                  type="be.dpms.medwan.webapp.wl.struts.actions.occupationalmedicine.ManagePrintHistoryAction">
-        <forward name="success"              path="/healthrecord/printHistoryPopup.jsp"/>
+        <forward name="success"              path="/popup.jsp?Page=healthrecord/printHistoryPopup.jsp"/>
       </action>
 
       <!-- Health Record - Save Lab Analyses Action -->

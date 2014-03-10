@@ -122,6 +122,7 @@
 <script>
   <%-- DO TODAY --%>
   function doToday(){
-    window.location.href = "<c:url value='/main.do'/>?Page=medical/manageCarePrescriptionsSchema.jsp&startdate=<%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())%>";
+    window.location.href = "<c:url value='/main.do'/>?Page=medical/manageCarePrescriptionsSchema.jsp"+
+    		               "&startdate=<%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())%>";
   }
 </script>

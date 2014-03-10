@@ -23,9 +23,7 @@
     }
 
     // delete
-    if(Debug.enabled){
-        Debug.println("saveDefaultValue.jsp: DELETE");
-    }
+    Debug.println("saveDefaultValue.jsp: DELETE");
     ItemTypeAttribute objItemTypeAttr = new ItemTypeAttribute();
     objItemTypeAttr.setItemType(sItemType);
     objItemTypeAttr.setName("DefaultValue");
@@ -44,9 +42,7 @@
     objItemTypeAttr.setUserid(Integer.parseInt(activeUser.userid));
     updatedRows = objItemTypeAttr.insert();
 
-    if(Debug.enabled){
-        Debug.println("saveDefaultValue.jsp: INSERT");
-    }
+    Debug.println("saveDefaultValue.jsp: INSERT");
     if (Debug.enabled) {
         Debug.println(updatedRows);
         Debug.println("2 = " + sItemValue);

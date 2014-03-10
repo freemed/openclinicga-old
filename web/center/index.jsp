@@ -25,7 +25,7 @@
     </table>
 </form>
 <div id="responseByAjax">&nbsp;</div>
-<script type="text/javascript">
+<script>
     var setSearch = function() {
         var params = "FindBegin=" + $F("FindBegin") + "&FindEnd=" + $F("FindEnd") + "&ts=" +<%=getTs()%>;
         var url = '<c:url value="/"/>center/ajax/searchServices.jsp';

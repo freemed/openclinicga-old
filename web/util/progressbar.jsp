@@ -127,8 +127,6 @@ function getProgressValue(){
             parameters: params,
             onSuccess: function(resp){
                 setProgress(resp.responseText);
-            },
-			onFailure: function(){
             }
 		}
 	);
@@ -142,8 +140,6 @@ function initProgressValue(){
 			method: "GET",
             parameters: params,
             onSuccess: function(resp){
-            },
-			onFailure: function(){
             }
 		}
 	);

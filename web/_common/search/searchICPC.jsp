@@ -7,10 +7,12 @@
     boolean bSubClasses=MedwanQuery.getInstance().getConfigInt("ICPCSubClasses",0)>0;
     String sListMode = checkString(request.getParameter("ListMode"));
     String sListChoice = checkString(request.getParameter("ListChoice"));
+    
     String sListLink = "";
     if(sListMode.equals("ALL")){
         sListLink = "MY_LIST";
-    }else{
+    }
+    else{
         sListLink = "ALL";
     }
 
@@ -26,7 +28,7 @@
                 <input class='button' type='button' name='cancel' onclick='window.close()' value='<%=getTran("Web","Close",sWebLanguage)%>'/>
             </td>
         </tr>
-        <script type="text/javascript">
+        <script>
             document.getElementsByName('keywords')[0].focus();
       </script>
 
@@ -210,7 +212,7 @@
 <%
     if(sListChoice.equals("TRUE")){
 %>
-<script type="text/javascript">
+<script>
     function selectMyCodes(){
         window.location.href="<c:url value='/'/>popup.jsp?Page=_common/search/searchICPC.jsp&returnField=<%=checkString(request.getParameter("returnField"))%>&returnField2=<%=checkString(request.getParameter("returnField2"))%>&ListMode=<%=sListLink%>&ListChoice=TRUE";
     }

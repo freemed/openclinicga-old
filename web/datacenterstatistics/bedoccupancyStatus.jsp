@@ -81,7 +81,7 @@
             +"<br/><center><input type='button' class='button' value='"+getTranNoLink("web","close",sWebLanguage)+"' onclick='window.close()'/></center>");
     }
 %>
-<script type="text/javascript">
+<script>
     function selectMyService(sServiceId){
         window.open("<c:url value="/popup.jsp"/>?Page=statistics/bedoccupancyStatus.jsp&ServiceID="+sServiceId+"&ts=<%=getTs()%>","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=300, height=400, menubar=no").moveTo((screen.width-800)/2,(screen.height-600)/2);
     }

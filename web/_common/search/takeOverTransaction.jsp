@@ -1,6 +1,6 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<script type="text/javascript">window.resizeTo(400,300);</script>
+<script>window.resizeTo(400,300);</script>
 <form name="takeOverForm" method="post" action="<c:url value='/popup.jsp'/>?Page=_common/search/takeOverTransaction.jsp&ts=<%=getTs()%>">
     <table width="100%" height="100%">
         <tr>

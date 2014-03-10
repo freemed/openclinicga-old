@@ -22,7 +22,7 @@
             sReturn = new String(decoder.decodeBuffer(sValue));
         }
         catch (Exception e) {
-            if(Debug.enabled) Debug.println("User decoding error: "+e.getMessage());
+            Debug.println("User decoding error: "+e.getMessage());
         }
 
         return sReturn;

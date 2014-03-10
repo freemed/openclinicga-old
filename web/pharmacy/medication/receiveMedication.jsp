@@ -136,12 +136,12 @@
     String sDisplayDoctorReceipts = checkString(request.getParameter("DisplayDoctorReceipts"));
     if(sDisplayDoctorReceipts.length()==0) sDisplayDoctorReceipts = "true"; // default
     boolean displayDoctorReceipts = sDisplayDoctorReceipts.equalsIgnoreCase("true");
-    if(Debug.enabled) Debug.println("@@@ displayDoctorReceipts : "+displayDoctorReceipts);
+    Debug.println("@@@ displayDoctorReceipts : "+displayDoctorReceipts);
 
     String sIsDoctorReceipt = checkString(request.getParameter("IsDoctorReceipt"));
     if(sIsDoctorReceipt.length()==0) sIsDoctorReceipt = "false"; // default
     boolean isDoctorReceipt = sIsDoctorReceipt.equalsIgnoreCase("true");
-    if(Debug.enabled) Debug.println("@@@ isDoctorReceipt : "+isDoctorReceipt);
+    Debug.println("@@@ isDoctorReceipt : "+isDoctorReceipt);
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));
@@ -198,7 +198,7 @@
         else {
         %>
         <script>
-            alert('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
+            alertDialogMessage('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
         </script>
         <%
         sAction = "showDetailsNew";

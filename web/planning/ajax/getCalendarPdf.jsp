@@ -8,7 +8,9 @@
 <%@ page import="java.io.ByteArrayOutputStream,be.mxs.common.util.pdf.general.*" %>
 <%@ page import="be.mxs.common.util.pdf.calendar.PDFCalendarGenerator" %>
 <%@include file="/includes/validateUser.jsp" %>
-<%=checkPermission("planning.user", "select", activeUser)%><%!private int testItemMargin(Vector v, Planning a) {
+<%=checkPermission("planning.user", "select", activeUser)%>
+
+<%!private int testItemMargin(Vector v, Planning a) {
     for (int i = 0; i < v.size(); i++) {
         Planning tempA = (Planning) v.get(i);
         long actualBegin = a.getPlannedDate().getTime();
@@ -22,7 +24,9 @@
         }
     }
     return a.getMargin();
-}%>
+}
+%>
+
 <%
     String sYear = checkString(request.getParameter("year"));
     String sUserId = checkString(request.getParameter("FindUserUID"));

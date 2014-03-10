@@ -36,8 +36,7 @@
         sbFilename.append("filename_").append(System.currentTimeMillis()).append(".pdf");
 
         StringBuffer sbContentDispValue = new StringBuffer();
-        sbContentDispValue.append("inline; filename=")
-                .append(sbFilename);
+        sbContentDispValue.append("inline; filename=").append(sbFilename);
 
         // prepare response
         response.setHeader("Cache-Control", "max-age=30");

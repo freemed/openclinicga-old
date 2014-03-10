@@ -285,7 +285,7 @@
         }
         else {
             %>
-            <script type="text/javascript">window.location.href="<c:url value='/main.do'/>?Page=<%=sNextPage%>&personid=<%=activePatient.personid%>";</script>
+            <script>window.location.href="<c:url value='/main.do'/>?Page=<%=sNextPage%>&personid=<%=activePatient.personid%>";</script>
             <%
         }
     } else {

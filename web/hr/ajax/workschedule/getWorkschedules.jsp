@@ -82,7 +82,7 @@
                       " onclick=\"displayWorkschedule('"+workschedule.getUid()+"');\">"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(workschedule.begin)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+ScreenHelper.getSQLDate(workschedule.end)+"</td>"+
-                      "<td class='hand' style='padding-left:5px'>"+workschedule.fte+"</td>"+
+                      "<td class='hand' style='padding-left:5px'>"+workschedule.fte+"%</td>"+
                       "<td class='hand' style='padding-left:5px'>"+getTran("web.hr",sScheduleType+"Schedule",sWebLanguage)+"</td>"+
                       "<td class='hand' style='padding-left:5px'>"+sScheduleHours+"</td>"+
                      "</tr>");

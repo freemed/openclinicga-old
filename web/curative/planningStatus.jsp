@@ -179,9 +179,9 @@
             }if($F("appointmentDateDay").trim().length==0){
                $("appointmentDateDay").focus();
             }
-             alert("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+             alertDialog("web.manage","datamissing");
         }else if(!goodTime()){
-            alert("<%=getTranNoLink("web.errors","appointment.must.10.min.least",sWebLanguage)%>");
+            alertDialog("web.errors","appointment.must.10.min.least");
         }else{
             var url = "<c:url value='/planning/ajax/editPlanning.jsp'/>?ts=<%=getTs()%>";
             var div = "responseByAjax";

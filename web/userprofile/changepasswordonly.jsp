@@ -1,9 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%
-
-%>
-<%-- First statement in page must be jsp.. --%>
 
 <html>
 <head>
@@ -14,26 +10,45 @@
     <br><br>
     <br><br>
     <br><br>
+    
 <%
-    //--- retrieve rules ---
-    int minimumChars;
-    try{ minimumChars = Integer.parseInt(MedwanQuery.getInstance().getConfigString("PasswordMinimumCharacters")); }
-    catch(Exception e){ minimumChars = -1; }
-
-    boolean lettersObliged   = MedwanQuery.getInstance().getConfigString("PasswordObligedLetters").equals("on");
-    boolean uppercaseObliged = MedwanQuery.getInstance().getConfigString("PasswordObligedUppercase").equals("on");
-    boolean lowercaseObliged = MedwanQuery.getInstance().getConfigString("PasswordObligedLowerCase").equals("on");
-    boolean numbersObliged   = MedwanQuery.getInstance().getConfigString("PasswordObligedNumbers").equals("on");
-
+	//--- retrieve rules ---
+	int minimumChars         = MedwanQuery.getInstance().getConfigInt("PasswordMinimumCharacters"),
+	    notReusablePasswords = MedwanQuery.getInstance().getConfigInt("PasswordNotReusablePasswords");
+	
+	boolean lettersObliged      = MedwanQuery.getInstance().getConfigString("PasswordObligedLetters").equals("on"),
+	        uppercaseObliged    = MedwanQuery.getInstance().getConfigString("PasswordObligedUppercase").equals("on"),
+	        lowercaseObliged    = MedwanQuery.getInstance().getConfigString("PasswordObligedLowerCase").equals("on"),
+	        numbersObliged      = MedwanQuery.getInstance().getConfigString("PasswordObligedNumbers").equals("on"),
+	        alfanumericsObliged = MedwanQuery.getInstance().getConfigString("PasswordObligedAlfanumerics").equals("on");
+	
+	boolean noReuseOfOldPwd = (notReusablePasswords > 0); 
+	
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n******************* userprofile/changepasswordonly.jsp *****************");
+		Debug.println("minimumChars         : "+minimumChars);
+		Debug.println("notReusablePasswords : "+notReusablePasswords);
+		
+		Debug.println("lettersObliged       : "+lettersObliged);
+		Debug.println("uppercaseObliged     : "+uppercaseObliged);
+		Debug.println("lowercaseObliged     : "+lowercaseObliged);
+		Debug.println("numbersObliged       : "+numbersObliged);
+		Debug.println("alfanumericsObliged  : "+alfanumericsObliged);
+		
+		Debug.println("--> noReuseOfOldPwd  : "+noReuseOfOldPwd+"\n");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
     //--- DISPLAY PASSWORDS -----------------------------------------------------------------------
     if(request.getParameter("SaveUserProfile")==null) {
         %>
             <form name='UserProfile' action='<c:url value='/changePassword.do'/>' method='post'>
+                <input type='hidden' name='SaveUserProfile' value='ok'/>
+                <input type='hidden' name='ts' value='<%=getTs()%>'/>
+                    
                 <table width='100%' align='center' cellspacing="1" class="list">
                     <%-- TITLE --%>
-                    <input type='hidden' name='SaveUserProfile' value='ok'/>
-                    <input type='hidden' name='ts' value='<%=getTs()%>'/>
                     <tr class="admin">
                         <td colspan="2">&nbsp;&nbsp;<%=(getTranNoLink("Web.UserProfile","ChangePassword",sWebLanguage))%>&nbsp;</td>
                     </tr>
@@ -61,87 +76,82 @@
                 <%=ScreenHelper.alignButtonsStart()%>
                     <input type='button' name='SaveUserProfile' class="button" value='<%=getTranNoLink("Web.UserProfile","Change",sWebLanguage)%>' OnClick='doSubmit();'>
                 <%=ScreenHelper.alignButtonsStop()%>
-
-                <%-- CHECK IF FIELDS ARE PROPERLY SUPPLIED WITH DATA --%>
-                <script>
-                  UserProfile.OldPassword.focus();
-
-                  function doSubmit(){
-                    if (UserProfile.OldPassword.value.length == 0) {
-                      UserProfile.OldPassword.focus();
-                    }
-                    else if (UserProfile.NewPassword1.value.length == 0) {
-                      UserProfile.NewPassword1.focus();
-                    }
-                    else if (UserProfile.NewPassword2.value.length == 0) {
-                      UserProfile.NewPassword2.focus();
-                    }
-                    else if (UserProfile.NewPassword1.value.length > 250) {
-                      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=PasswordTooLong";
-                      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","PasswordTooLong",sWebLanguage)%>");
-
-                      UserProfile.NewPassword1.focus();
-                    }
-                    else if (UserProfile.NewPassword2.value.length > 250) {
-                      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=PasswordTooLong";
-                      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","PasswordTooLong",sWebLanguage)%>");
-
-                      UserProfile.NewPassword2.focus();
-                    }
-                    else {
-                      UserProfile.submit();
-                    }
-                  }
-                </script>
             </form>
+
+            <%-- CHECK IF FIELDS ARE PROPERLY SUPPLIED WITH DATA --%>
+            <script>
+              UserProfile.OldPassword.focus();
+
+              function doSubmit(){
+                if (UserProfile.OldPassword.value.length==0){
+                  UserProfile.OldPassword.focus();
+                }
+                else if (UserProfile.NewPassword1.value.length==0){
+                  UserProfile.NewPassword1.focus();
+                }
+                else if (UserProfile.NewPassword2.value.length==0){
+                  UserProfile.NewPassword2.focus();
+                }
+                else if (UserProfile.NewPassword1.value.length > 250){
+                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=PasswordTooLong";
+                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","PasswordTooLong",sWebLanguage)%>");
+
+                  UserProfile.NewPassword1.focus();
+                }
+                else if (UserProfile.NewPassword2.value.length > 250){
+                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=PasswordTooLong";
+                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","PasswordTooLong",sWebLanguage)%>");
+
+                  UserProfile.NewPassword2.focus();
+                }
+                else{
+                  UserProfile.submit();
+                }
+              }
+            </script>
         <%
 
         //--- DISPLAY APPLIED RULES ---------------------------------------------------------------
         out.print("<p style='font-size:12px;'>");
 
+        // reuse of old password allowed ?
+        if(noReuseOfOldPwd){
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print(getTran("web.userProfile","PasswordNoReuseOfOldPwdAllowed",sWebLanguage).replaceAll("#numberOfPasswords#",Integer.toString(notReusablePasswords))+"<br>");
+        }
+        
         if(minimumChars > -1){
             String msg = getTran("Web.UserProfile","PasswordMinimumCharactersObliged",sWebLanguage);
             msg = msg.replaceFirst("#minChars#",minimumChars+"");
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(msg+"<br>");
         }
 
-        if(numbersObliged && lettersObliged){
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
+        if(numbersObliged){
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordNumbersObliged",sWebLanguage)+"<br>");
-
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
+        }
+        
+        if(lettersObliged){
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordLettersObliged",sWebLanguage)+"<br>");
         }
-        else{
-            if(numbersObliged){
-                out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
-                out.print(getTran("Web.UserProfile","PasswordNumbersObliged",sWebLanguage)+"<br>");
-            }
-            if(lettersObliged){
-                out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
-                out.print(getTran("Web.UserProfile","PasswordLettersObliged",sWebLanguage)+"<br>");
-            }
-        }
 
-        if(uppercaseObliged && lowercaseObliged){
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
+        if(uppercaseObliged){
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordUppercaseObliged",sWebLanguage)+"<br>");
-
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
+        }
+        
+        if(lowercaseObliged){
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordLowercaseObliged",sWebLanguage)+"<br>");
         }
-        else{
-            if(uppercaseObliged){
-                out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
-                out.print(getTran("Web.UserProfile","PasswordUppercaseObliged",sWebLanguage)+"<br>");
-            }
-            if(lowercaseObliged){
-                out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif'/>");
-                out.print(getTran("Web.UserProfile","PasswordLowercaseObliged",sWebLanguage)+"<br>");
-            }
+        
+        if(alfanumericsObliged){
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print(getTran("Web.UserProfile","PasswordAlfanumericsObliged",sWebLanguage)+"<br>");
         }
 
         out.print("</p>");
@@ -177,10 +187,28 @@
                  .append("    <font color='red'>");
 
         //--- retrieve passwords ---
-        String sOldPassword  = checkString(request.getParameter("OldPassword"));
-        String sNewPassword  = checkString(request.getParameter("NewPassword1"));
-        String sNewPassword1 = checkString(request.getParameter("NewPassword2"));
+        String sOldPassword  = checkString(request.getParameter("OldPassword")),
+               sNewPassword  = checkString(request.getParameter("NewPassword1")),
+               sNewPassword1 = checkString(request.getParameter("NewPassword2"));
 
+        // reuse of old pwd allowed ?
+        if(noReuseOfOldPwd){
+            // how many of the used passwords must be considered ?
+            int oldPwdCount = 10000; // all
+            if(notReusablePasswords > 0){
+                oldPwdCount = notReusablePasswords;
+            }
+
+            boolean passwordIsUsedBefore = User.isPasswordUsedBefore(sNewPassword1,activeUser,oldPwdCount);
+
+            if(passwordIsUsedBefore || sNewPassword1.equals(sOldPassword)){
+                rulesObeyed = false;
+                String msg = getTran("web.userProfile","PasswordNoReuseOfOldPwdAllowed",sWebLanguage).replaceAll("#numberOfPasswords#",Integer.toString(notReusablePasswords));
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append(msg).append("<br>");
+            }
+        }
+        
         //--- apply rules ---
         // minimum characters
         if(minimumChars > -1){
@@ -188,7 +216,7 @@
                 rulesObeyed = false;
                 String msg = getTran("Web.UserProfile","PasswordMinimumCharactersObliged",sWebLanguage);
                 msg = msg.replaceFirst("#minChars#",minimumChars+"");
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(msg).append("<br>");
             }
         }
@@ -197,13 +225,13 @@
         if(numbersObliged && lettersObliged){
             if(!ScreenHelper.containsNumber(sNewPassword)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordNumbersObliged",sWebLanguage)).append("<br>");
             }
 
             if(!ScreenHelper.containsLetter(sNewPassword)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordLettersObliged",sWebLanguage)).append("<br>");
             }
         }
@@ -212,7 +240,7 @@
             if(numbersObliged){
                 if(!ScreenHelper.containsNumber(sNewPassword)){
                     rulesObeyed = false;
-                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                     ruleErrors.append(getTran("Web.UserProfile","PasswordNumbersObliged",sWebLanguage)).append("<br>");
                 }
             }
@@ -221,7 +249,7 @@
             if(lettersObliged){
                 if(!ScreenHelper.containsLetter(sNewPassword)){
                     rulesObeyed = false;
-                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                     ruleErrors.append(getTran("Web.UserProfile","PasswordLettersObliged",sWebLanguage)).append("<br>");
                 }
             }
@@ -231,13 +259,13 @@
         if(uppercaseObliged && lowercaseObliged){
             if(!ScreenHelper.containsUppercase(sNewPassword)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordUppercaseObliged",sWebLanguage)).append("<br>");
             }
 
             if(!ScreenHelper.containsLowercase(sNewPassword)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordLowercaseObliged",sWebLanguage)).append("<br>");
             }
         }
@@ -246,7 +274,7 @@
             if(uppercaseObliged){
                 if(!ScreenHelper.containsUppercase(sNewPassword)){
                     rulesObeyed = false;
-                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                     ruleErrors.append(getTran("Web.UserProfile","PasswordUppercaseObliged",sWebLanguage)).append("<br>");
                 }
             }
@@ -255,16 +283,25 @@
             if(lowercaseObliged){
                 if(!ScreenHelper.containsLowercase(sNewPassword)){
                     rulesObeyed = false;
-                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                     ruleErrors.append(getTran("Web.UserProfile","PasswordLowercaseObliged",sWebLanguage)).append("<br>");
                 }
+            }
+        }
+
+        // alfanumerics obliged
+        if(alfanumericsObliged){
+            if(!ScreenHelper.containsAlfanumerics(sNewPassword1)){
+                rulesObeyed = false;
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append(getTran("Web.UserProfile","PasswordAlfanumericsObliged",sWebLanguage)).append("<br>");
             }
         }
 
         //--- compare passwords ---
         if(!sNewPassword.equals(sNewPassword1)){
             errorNewPassword = true;
-            allErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+            allErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
             allErrors.append("<b>").append(getTran("Web.UserProfile","ErrorNewPassword",sWebLanguage)).append("</b><br>");
         }
         else{
@@ -272,7 +309,7 @@
 
             if(!activeUser.checkPassword(aOldPassword)){
                 errorOldPassword = true;
-                allErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>&nbsp;");
+                allErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 allErrors.append("<b>").append(getTran("Web.UserProfile","ErrorOldPassword",sWebLanguage)).append("</b><br>");
             }
             else{
@@ -330,7 +367,7 @@
                  .append(" </table>")
                  .append("</p>");
 
-        	out.print(allErrors);
+        out.print(allErrors);
     }
 %>
 </body>

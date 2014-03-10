@@ -8,18 +8,17 @@
         Vector activeProblems = Problem.getActiveProblems(activePatient.personid);
         if (activeProblems.size() > 0) {
             sbProblemList.append("<table width='100%' cellspacing='0'>" +
-                    "<tr class='admin'>" +
-                    "<td>" + getTran("web.occup", "medwan.common.description", sWebLanguage) + "</td>" +
-                    "<td>" + getTran("web.occup", "medwan.common.datebegin", sWebLanguage) + "</td>" +
-                    "</tr>");
+                                  "<tr class='admin'>" +
+                                   "<td>" + getTran("web.occup", "medwan.common.description", sWebLanguage) + "</td>" +
+                                   "<td>" + getTran("web.occup", "medwan.common.datebegin", sWebLanguage) + "</td>" +
+                                  "</tr>");
         }
+        
         String sClass = "1";
         for (int n = 0; n < activeProblems.size(); n++) {
-            if (sClass.equals("")) {
-                sClass = "1";
-            } else {
-                sClass = "";
-            }
+            if(sClass.length()==0) sClass = "1";
+            else                   sClass = "";
+
             Problem activeProblem = (Problem) activeProblems.elementAt(n);
             String comment = "";
             if (activeProblem.getComment().trim().length() > 0) {
@@ -287,7 +286,7 @@
             }
 
 
-            if (tmpDate == null) {
+            if (tmpDate == null || tmpDate.after(new java.util.Date())) {
                 sResultsActive.append(sOutput);
                 iFoundActiveRecords++;
             } else {
@@ -483,7 +482,7 @@
     }
     if (sAction.equals("SAVE")) {
 %>
-<script type="text/javascript">
+<script>
     window.location.href = '<c:url value="/"/>popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>&PopupWidth=700&PopupHeight=500';
 </script>
 <%

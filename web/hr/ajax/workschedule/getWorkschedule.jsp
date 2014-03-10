@@ -107,7 +107,8 @@
 
     if(workschedule!=null){
         String sScheduleXml = checkString(workschedule.scheduleXml);
-        Debug.println("\n#####################################################################\n"+sScheduleXml+"\n#########################################################\n");
+        Debug.println("\n#####################################################################\n"+sScheduleXml+
+        		      "\n#########################################################\n");
            
         if(sScheduleXml.length() > 0){
             // parse weekSchedule from xml            

@@ -20,7 +20,7 @@
 <div id="barchart" style="width: 620px; height: 300px; position: relative;"></div>
     <div style="float:left;height:30px;font-size:15px;text-align:center;width:100%;"><%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%></div>
 </div>
-<script type="text/javascript">
+<script>
     setGraph(<%=sJsArray%>);
     Modalbox.setTitle("<%=HTMLEntities.htmlentities(getTran("datacenterserver", serverId + "", sWebLanguage)+"<br/>"+code+" "+MedwanQuery.getInstance().getCodeTran("ICD10Code"+code,sWebLanguage)+" ("+getTranNoLink("web",type,sWebLanguage)+")")%>");
 </script>

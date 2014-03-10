@@ -25,7 +25,7 @@
     strXML+="</graph>";
 
 %>
-<script type="text/javascript">
+<script>
         var myChart = new FusionCharts( "<c:url value="/FusionCharts/FCF_Pie2D.swf" />","myChartId", "<%=graphWidth%>", "250", "0", "0" );
                               myChart.setDataXML("<%=strXML%>");
                               myChart.setTransparent(true);

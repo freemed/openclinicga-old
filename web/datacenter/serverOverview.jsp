@@ -382,8 +382,6 @@
 		            parameters: params,
 		            onSuccess: function(resp){
 		                $('diagnostics_ajax').innerHTML=resp.responseText;
-		            },
-		            onFailure: function(){
 		            }
 		        }
 		    );

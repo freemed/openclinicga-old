@@ -101,7 +101,7 @@
                  			ScreenHelper.setIncludePage(pg,pageContext);
                         }
                        %>
-                     <script type="text/javascript">
+                     <script>
                         Event.observe(window, 'load', function() {
                           //  window.setInterval("keepAlive()",30000);
                         });
@@ -156,8 +156,6 @@
 	                method: "GET",
 	                parameters: "",
 	                onSuccess: function(resp){
-	                },
-	                onFailure: function(){
 	                }
 	            }
 	        );
@@ -318,8 +316,6 @@
                 parameters: "language="+language,
                 onSuccess: function(resp){
     				window.location.reload();
-                },
-                onFailure: function(){
                 }
             }
         );

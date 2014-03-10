@@ -1,6 +1,7 @@
 <%@page import="java.text.SimpleDateFormat,
                 be.openclinic.medical.CarePrescription,
-                be.openclinic.medical.CarePrescriptionSchema, java.util.*,java.util.Date" %>
+                be.openclinic.medical.CarePrescriptionSchema,
+                java.util.*,java.util.Date" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermissionPopup("prescriptions.care","select",activeUser)%>
@@ -10,29 +11,32 @@
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
     private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
         StringBuffer html = new StringBuffer();
-        String sClass = "1", sDateBeginFormatted, sDateEndFormatted, sCareDescr = "", sCareUid,
-                sPreviousCareUid = "";
+        String sClass = "1", sDateBeginFormatted, sDateEndFormatted, sCareDescr = "",
+        	   sCareUid, sPreviousCareUid = "", sPrescriber;
         SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date tmpDate;
 
         // frequently used translations
         String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
+               deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
 
         // run thru found prescriptions
         CarePrescription prescr;
         for (int i = 0; i < objects.size(); i++) {
             prescr = (CarePrescription) objects.get(i);
 
+            // prescriber
+            sPrescriber = User.getFullUserName(prescr.getPrescriberUid());
+            
             // format date begin
             tmpDate = prescr.getBegin();
             if (tmpDate != null) sDateBeginFormatted = stdDateFormat.format(tmpDate);
-            else sDateBeginFormatted = "";
+            else                 sDateBeginFormatted = "";
 
             // format date end
             tmpDate = prescr.getEnd();
             if (tmpDate != null) sDateEndFormatted = stdDateFormat.format(tmpDate);
-            else sDateEndFormatted = "";
+            else                 sDateEndFormatted = "";
 
             // only search product-name when different product-UID
             sCareUid = prescr.getCareUid();
@@ -41,21 +45,23 @@
 
                 if (sCareUid != null) {
                     sCareDescr = getTran("care_type",sCareUid, sWebLanguage);
-                } else {
-                    sCareDescr = "<font color='red'>" + getTran("web", "nonexistingcare", sWebLanguage) + "</font>";
+                }
+                else {
+                    sCareDescr = "<font color='red'>"+getTran("web", "nonexistingcare", sWebLanguage)+"</font>";
                 }
             }
 
             // alternate row-style
             if (sClass.equals("")) sClass = "1";
-            else sClass = "";
+            else                   sClass = "";
 
             //*** display prescription in one row ***
-            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                 .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + prescr.getUid() + "');\">")
-                 .append("<td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sCareDescr + "</td>")
-                 .append("<td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateBeginFormatted + "</td>")
-                 .append("<td onclick=\"doShowDetails('" + prescr.getUid() + "');\">" + sDateEndFormatted + "</td>")
+            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+                 .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sCareDescr+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sPrescriber+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateBeginFormatted+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateEndFormatted+"</td>")
                 .append("</tr>");
         }
 
@@ -86,7 +92,6 @@
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
-
     if (sAction.equals("delete") && sEditPrescrUid.length() > 0) {
         CarePrescription.delete(sEditPrescrUid);
         CarePrescriptionSchema prescriptionSchemaToDelete = CarePrescriptionSchema.getCarePrescriptionSchema(sEditPrescrUid);
@@ -134,8 +139,9 @@
                     <tr class="gray">
                         <td width="22" nowrap>&nbsp;</td>
                         <td><%=getTran("Web","care_type",sWebLanguage)%></td>
-                        <td width="100"><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
-                        <td width="100"><SORTTYPE:DATE><%=getTran("Web","enddate",sWebLanguage)%></SORTTYPE:DATE></td>
+                        <td width="120"><%=getTran("Web","prescriber",sWebLanguage)%></td>
+                        <td width="80"><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
+                        <td width="80"><SORTTYPE:DATE><%=getTran("Web","enddate",sWebLanguage)%></SORTTYPE:DATE></td>
                     </tr>
                     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                         <%=prescriptionsHtml%>
@@ -187,6 +193,7 @@
     <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditPrescrUid">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>              
   <%-- DO DELETE --%>
@@ -194,7 +201,6 @@
     var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
     var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
     var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
 
     if(answer==1){
       transactionForm.EditPrescrUid.value = prescriptionUid;
@@ -229,14 +235,15 @@
     transactionForm.Action.value = "sort";
     transactionForm.SortCol.value = sortCol;
 
-    if(transactionForm.SortDir.value == "ASC") transactionForm.SortDir.value = "DESC";
-    else                                       transactionForm.SortDir.value = "ASC";
+    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
+    else                                     transactionForm.SortDir.value = "ASC";
 
     transactionForm.submit();
   }
 
   <%-- popup : search product --%>
-  function searchProduct(productUidField,productNameField,productUnitField,unitsPerTimeUnitField,unitsPerPackageField,productStockUidField,serviceStockUidField){
+  function searchProduct(productUidField,productNameField,productUnitField,unitsPerTimeUnitField,
+		                 unitsPerPackageField,productStockUidField,serviceStockUidField){
     var url = "/_common/search/searchProduct.jsp&ts=<%=getTs()%>&loadschema=true&ReturnProductUidField="+productUidField+
               "&ReturnProductNameField="+productNameField;
 
@@ -261,31 +268,31 @@
   }
 
   <%-- CHECK SAVE BUTTON --%>
-  function checkSaveButton(contextpath, sQuestion) {
-      var bReturn = true;
+  function checkSaveButton(contextpath,sQuestion){
+    var bReturn = true;
 
-      if (myButton != null) {
-          if (!bSaveHasNotChanged) {
-              var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
-              var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-              var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
+    if(myButton != null){
+      if(!bSaveHasNotChanged){
+        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
+        var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
 
-              if (!answer == 1) {
-                  bReturn = false;
-              }
-          }
+        if(!answer==1){
+          bReturn = false;
+        }
       }
-      else if (sFormBeginStatus != myForm.innerHTML) {
-          var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
-          var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
+    }
+    else if(sFormBeginStatus!=myForm.innerHTML){
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
+      var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
 
-          if (!answer == 1) {
-              bReturn = false;
-          }
+      if(!answer==1){
+        bReturn = false;
       }
+    }
 
-      return bReturn;
+    return bReturn;
   }
 
   <%-- DO BACK --%>

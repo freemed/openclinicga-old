@@ -124,7 +124,7 @@
     </tr>
 </table>
 
-<script type="text/javascript">
+<script>
     function newpat() {
         window.open("<c:url value='/statistics/'/>verifyPatient.jsp?lastname=" + document.getElementsByName('patientLastname')[0].value + "&firstname=" + document.getElementsByName('patientFirstname')[0].value + "&dateofbirth=" + document.getElementsByName('patientDateOfBirth')[0].value, "verifypatient", "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveTo(-1000, -1000);
     }
@@ -390,7 +390,7 @@
 <input type="hidden" name="activePatientUID" value="<%=sPatientUID%>"/>
 </form>
 
-<script type="text/javascript">
+<script>
     function doSubmit() {
         var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
         var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);

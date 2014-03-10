@@ -15,4 +15,4 @@
     problem.setUpdateDateTime(new java.util.Date());
     problem.store();
 %>
-<script type="text/javascript">window.close();</script>
+<script>window.close();</script>

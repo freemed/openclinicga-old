@@ -175,29 +175,27 @@
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        System.out.println("\n################## searchUserProduct : " + sAction + " ###############");
-        System.out.println("* sSearchProductName  : " + sSearchProductName);
-        System.out.println("* sSearchProductGroup : " + sSearchProductGroup);
-        System.out.println("* sOpenerAction       : " + sOpenerAction);
-        System.out.println("* sSelectProductUid   : " + sSelectProductUid + "\n");
+        Debug.println("\n##################### searchUserProductShow.jsp ##################");
+        Debug.println("sAction             : " + sAction);
+        Debug.println("sSearchProductName  : " + sSearchProductName);
+        Debug.println("sSearchProductGroup : " + sSearchProductGroup);
+        Debug.println("sOpenerAction       : " + sOpenerAction);
+        Debug.println("sSelectProductUid   : " + sSelectProductUid + "\n");
 
-        System.out.println("* sReturnUnitsPerPackageField  : " + sReturnUnitsPerPackageField);
-        System.out.println("* sReturnProductUidField       : " + sReturnProductUidField);
-        System.out.println("* sReturnProductNameField      : " + sReturnProductNameField);
-        System.out.println("* sReturnProductUnitField      : " + sReturnProductUnitField);
-        System.out.println("* sReturnUnitsPerTimeUnitField : " + sReturnUnitsPerTimeUnitField);
-        System.out.println("* sReturnSupplierUidField      : " + sReturnSupplierUidField);
-        System.out.println("* sReturnSupplierNameField     : " + sReturnSupplierNameField);
-        System.out.println("* sReturnProductStockUidField  : " + sReturnProductStockUidField + "\n");
+        Debug.println("sReturnUnitsPerPackageField  : " + sReturnUnitsPerPackageField);
+        Debug.println("sReturnProductUidField       : " + sReturnProductUidField);
+        Debug.println("sReturnProductNameField      : " + sReturnProductNameField);
+        Debug.println("sReturnProductUnitField      : " + sReturnProductUnitField);
+        Debug.println("sReturnUnitsPerTimeUnitField : " + sReturnUnitsPerTimeUnitField);
+        Debug.println("sReturnSupplierUidField      : " + sReturnSupplierUidField);
+        Debug.println("sReturnSupplierNameField     : " + sReturnSupplierNameField);
+        Debug.println("sReturnProductStockUidField  : " + sReturnProductStockUidField + "\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
     int foundProductCount = 0;
     StringBuffer productsHtml = null;
 
-    //#############################################################################################
-    //### ACTIONS #################################################################################
-    //#############################################################################################
     //--- FIND ------------------------------------------------------------------------------------
     Vector userProducts = null;
     if (sAction.equals("find")) {
@@ -207,7 +205,6 @@
     }
 %>
 
-
 <div class="search">
     <%
         // display search results
@@ -215,8 +212,7 @@
             if (foundProductCount == 0) {
                 // 'no results' message
     %>
-    <div><%=HTMLEntities.htmlentities(getTran("web", "norecordsfound", sWebLanguage))%>
-    </div>
+    <div><%=HTMLEntities.htmlentities(getTran("web", "norecordsfound", sWebLanguage))%></div>
     <%
     } else {
     %>

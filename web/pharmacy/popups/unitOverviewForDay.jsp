@@ -115,7 +115,7 @@
 </table>
     </div>
 
-<script type="text/javascript">
+<script>
     <%-- SHOW UNITS FOR DAY --%>
     function showOperation(operationuid){
       openPopup("pharmacy/manageProductStockOperations.jsp&Action=find&EditOperationUid="+operationuid+"&ts=<%=getTs()%>",700,400);

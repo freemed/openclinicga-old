@@ -120,8 +120,6 @@
         </tr>
         <%=ScreenHelper.setFormButtonsStart()%>
         	<%
-    		System.out.println("accessright = "+activeUser.getAccessRight("financial.wicketoperation.edit"));
-    		System.out.println("sEditWicketOperationUID.length() = "+sEditWicketOperationUID.length());
         		if(activeUser.getAccessRight("financial.wicketoperation.edit") || sEditWicketOperationUID.length()==0){
         	%>
             	<input class='button' type="button" name="EditSaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
@@ -310,8 +308,6 @@
               postBody: 'EditWicketOperationWicket=<%=sEditWicketOperationWicket%>',
               onSuccess: function(resp){
                   $('divTodayCredits').innerHTML=resp.responseText;
-              },
-              onFailure: function(){
               }
           }
         );

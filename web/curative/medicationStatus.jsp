@@ -172,7 +172,7 @@
         <tr height="99%"><td/></tr>
     </tr>
 </table>
-<script type="text/javascript">
+<script>
     function showPrescription(uid){
         window.open('<c:url value='/popup.jsp'/>?Page=medical/managePrescriptionsPopup.jsp&Action=showDetails&EditPrescrUid='+uid+"&ts=<%=getTs()%>&PopupWidth=800",'Popup','toolbar=no, status=no, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no').moveBy(2000,2000);
     }

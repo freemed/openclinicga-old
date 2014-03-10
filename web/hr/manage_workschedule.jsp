@@ -349,7 +349,7 @@
             <td class="admin" width="<%=sTDAdminWidth%>">&nbsp;</td>
             <td class="admin2" style="padding:5px;">
                 <table width="40%" cellpadding="0" cellspacing="1" class="list">
-                    <%-- weekScheduleType (predefines weekSchedule) --%>
+                    <%-- weekScheduleType (predefined weekSchedule) --%>
                     <tr>
                         <td class="admin" width="150" nowrap><%=getTran("web.hr","weekScheduleType",sWebLanguage)%>&nbsp;</td>
                         <td class="admin2">
@@ -512,7 +512,7 @@
 	}
 	
     var hours = hoursDeci.substring(0,hoursDeci.indexOf("."));
-    var mins = ((hoursDeci.substring(hoursDeci.indexOf(".")+1))/100)*60;
+    var mins = ((hoursDeci.substring(hoursDeci.indexOf(".")+1))/10)*60;
     if((""+mins).length > 2) mins = (""+mins).substring(0,2);
 
     if(hours<10) hours = "0"+hours;

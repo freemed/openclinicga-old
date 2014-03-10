@@ -5,7 +5,7 @@
 </head>
 
 <body onload="javascript:res();">
-<script type="text/javascript">  
+<script>  
    	var _app = navigator.appName;
   	
   	function onErrorHandler() {

@@ -54,7 +54,7 @@
 	<div id="barchart2" style="width: 620px; height: 300px; position: relative;"></div>
     <div style="float:left;height:30px;font-size:15px;text-align:center;width:100%;"><%=ScreenHelper.getTranNoLink("web", "time", sWebLanguage)%></div>
 </div>
-<script type="text/javascript">
+<script>
     //setGraph4(<%=sJsArray%>,<%=sJsArray2%>,<%=sJsArray3%>,<%=sJsArray4%>,'<%=getTranNoLink("web","monthlymortalitypct",sWebLanguage)%>','<%=getTranNoLink("web","monthlymortalityabs",sWebLanguage)%>','<%=getTranNoLink("web","yearlymortalitypct",sWebLanguage)%>','<%=getTranNoLink("web","yearlymortalityabs",sWebLanguage)%>');
     setGraph2Named(<%=sJsArray%>,<%=sJsArray2%>,'barchart','<%=getTranNoLink("web","monthlymortalitypct",sWebLanguage)%>','<%=getTranNoLink("web","monthlymortalityabs",sWebLanguage)%>');
     setGraph2Named(<%=sJsArray3%>,<%=sJsArray4%>,'barchart2','<%=getTranNoLink("web","yearlymortalitypct",sWebLanguage)%>','<%=getTranNoLink("web","yearlymortalityabs",sWebLanguage)%>');

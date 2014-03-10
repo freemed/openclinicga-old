@@ -8,34 +8,35 @@ try{
 	String sAction = checkString(request.getParameter("Action"));
 
     String sFindPrestationRefName = checkString(request.getParameter("FindPrestationRefName")),
-            sFindPrestationCode = checkString(request.getParameter("FindPrestationCode")),
-            sFindPrestationDescr = checkString(request.getParameter("FindPrestationDescr")),
-            sFindPrestationType = checkString(request.getParameter("FindPrestationType")),
- 		   sFindPrestationSort = request.getParameter("FindPrestationSort")!=null?request.getParameter("FindPrestationSort"):"OC_PRESTATION_CODE",
-           sFindPrestationPrice = checkString(request.getParameter("FindPrestationPrice"));
+           sFindPrestationCode    = checkString(request.getParameter("FindPrestationCode")),
+           sFindPrestationDescr   = checkString(request.getParameter("FindPrestationDescr")),
+           sFindPrestationType    = checkString(request.getParameter("FindPrestationType")),
+ 		   sFindPrestationSort    = request.getParameter("FindPrestationSort")!=null?request.getParameter("FindPrestationSort"):"OC_PRESTATION_CODE",
+           sFindPrestationPrice   = checkString(request.getParameter("FindPrestationPrice"));
 
     String sFunction = checkString(request.getParameter("doFunction"));
 
-    String sReturnFieldUid = checkString(request.getParameter("ReturnFieldUid")),
-            sReturnFieldCode = checkString(request.getParameter("ReturnFieldCode")),
-            sReturnFieldDescr = checkString(request.getParameter("ReturnFieldDescr")),
-            sReturnFieldType = checkString(request.getParameter("ReturnFieldType")),
-            sReturnFieldPrice = checkString(request.getParameter("ReturnFieldPrice"));
+    String sReturnFieldUid   = checkString(request.getParameter("ReturnFieldUid")),
+           sReturnFieldCode  = checkString(request.getParameter("ReturnFieldCode")),
+           sReturnFieldDescr = checkString(request.getParameter("ReturnFieldDescr")),
+           sReturnFieldType  = checkString(request.getParameter("ReturnFieldType")),
+           sReturnFieldPrice = checkString(request.getParameter("ReturnFieldPrice"));
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        System.out.println("\n################## searchPrestation : " + sAction + " ###############");
-        System.out.println("* sFindPrestationRefName : " + sFindPrestationRefName);
-        System.out.println("* sFindPrestationCode    : " + sFindPrestationCode);
-        System.out.println("* sFindPrestationDescr   : " + sFindPrestationDescr);
-        System.out.println("* sFindPrestationType    : " + sFindPrestationType);
-        System.out.println("* sFindPrestationPrice   : " + sFindPrestationPrice);
-        System.out.println("* sFunction              : " + sFunction + "\n");
-        System.out.println("* sReturnFieldUid   : " + sReturnFieldUid);
-        System.out.println("* sReturnFieldCode  : " + sReturnFieldCode);
-        System.out.println("* sReturnFieldDescr : " + sReturnFieldDescr);
-        System.out.println("* sReturnFieldType  : " + sReturnFieldType);
-        System.out.println("* sReturnFieldPrice : " + sReturnFieldPrice + "\n");
+        Debug.println("\n############## searchByAjax/searchContributionShow.jsp ###########");
+        Debug.println("sAction                : " + sAction);
+        Debug.println("sFindPrestationRefName : " + sFindPrestationRefName);
+        Debug.println("sFindPrestationCode    : " + sFindPrestationCode);
+        Debug.println("sFindPrestationDescr   : " + sFindPrestationDescr);
+        Debug.println("sFindPrestationType    : " + sFindPrestationType);
+        Debug.println("sFindPrestationPrice   : " + sFindPrestationPrice);
+        Debug.println("sFunction              : " + sFunction + "\n");
+        Debug.println("sReturnFieldUid   : " + sReturnFieldUid);
+        Debug.println("sReturnFieldCode  : " + sReturnFieldCode);
+        Debug.println("sReturnFieldDescr : " + sReturnFieldDescr);
+        Debug.println("sReturnFieldType  : " + sReturnFieldType);
+        Debug.println("sReturnFieldPrice : " + sReturnFieldPrice + "\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 

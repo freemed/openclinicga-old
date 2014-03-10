@@ -10,7 +10,7 @@
 	<%=sJSCOLORPICKER %>
 </head>
 
-<script type="text/javascript">        
+<script>        
   $(document).ready(
     function()
     {

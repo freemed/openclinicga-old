@@ -5,7 +5,7 @@
 <%
     if((activePatient!=null)&&(request.getParameter("SavePatientEditForm")==null)) {
     %>
-<script type="text/javascript">
+<script>
 
 function changeRegion(){
     var today = new Date();

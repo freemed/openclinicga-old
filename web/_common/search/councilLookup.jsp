@@ -16,7 +16,6 @@
 	}
 	try{
 		int statusCode = client.executeMethod(method);
-		System.out.println("status code = "+statusCode);
 		if(statusCode==200){
 			String xml = method.getResponseBodyAsString();
 			org.dom4j.Document document=null;

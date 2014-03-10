@@ -362,7 +362,7 @@
     <%=sScript%>
 </form>
 
-<script type="text/javascript">
+<script>
     function setFocusToCode(){
         window.setTimeout("document.getElementById('FindCode').focus();",200);
     }

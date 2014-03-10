@@ -2,4 +2,4 @@
 <%
     Miscelaneous.startApplication(MedwanQuery.getInstance().getConfigString("readPictureApplication","cmd /c d:/projects/openclinic/web/util/storePicture.bat")+" "+request.getParameter("personid"),MedwanQuery.getInstance().getConfigString("readPictureDirectory","d:/projects/openclinic/web/util"));
 %>
-<script type="text/javascript">window.close();</script>
+<script>window.close();</script>

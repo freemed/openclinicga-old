@@ -183,8 +183,8 @@
 
             if (rs.next()){
                 String sFile = getFullContext(request)+customerInclude("/documents/"+rs.getString("filename").replaceAll("\\\\","/").replaceAll(MedwanQuery.getInstance().getConfigString("DocumentsFolder").replaceAll("\\\\","/"),"").replaceAll("//","/"));
-                if(Debug.enabled) Debug.println(sFile);
-                if(Debug.enabled) Debug.println("Looking via id for '"+sFile+"'");
+                Debug.println(sFile);
+                Debug.println("Looking via id for '"+sFile+"'");
                 outFDF.SetFile(sFile);
                 sPDFFile=sFile;
             }
@@ -196,7 +196,7 @@
         else if (request.getParameter("file")!=null){
             String sFileName = getFullContext(request)+customerInclude("/documents/"+request.getParameter("file")).replaceAll("//","/");
 
-            if(Debug.enabled) Debug.println("Looking via filename for '"+sFileName+"'");
+            Debug.println("Looking via filename for '"+sFileName+"'");
             outFDF.SetFile(sFileName);
             sPDFFile=sFileName;
         }

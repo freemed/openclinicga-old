@@ -27,7 +27,7 @@
         }
     %>
 </form>
-<script type="text/javascript">
+<script>
     function doBack(){
         window.location.href="<c:url value="/main.do"/>?Page=labos/index.jsp";
     }

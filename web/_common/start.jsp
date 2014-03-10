@@ -23,13 +23,13 @@
             <%
             out.flush();
 
-            if(Debug.enabled) Debug.println("\n*** Checking for updates ***");
+            Debug.println("\n*** Checking for updates ***");
 
             try{
                 boolean updateNeeded = updService.isUpdateNeeded("openclinic");
 
                 if(updateNeeded){
-                    if(Debug.enabled) Debug.println("\nUpdate needed to version "+updService.getNewVersionId());
+                    Debug.println("\nUpdate needed to version "+updService.getNewVersionId());
                     String msg = getTran("web.manage","doyouwantotupdateprogram",sWebLanguage);
                     msg = msg.replaceAll("#version#","\""+updService.getNewVersionId()+"\"");
 
@@ -42,7 +42,7 @@
                     <%
                 }
                 else{
-                    if(Debug.enabled) Debug.println("\nNo update needed or available");
+                    Debug.println("\nNo update needed or available");
                     out.flush();
                 }
             }
@@ -50,7 +50,7 @@
                 e.printStackTrace();
             }
 
-            if(Debug.enabled) Debug.println("*********** done ***********\n");
+            Debug.println("*********** done ***********\n");
         }
     }
 

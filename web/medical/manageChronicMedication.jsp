@@ -175,7 +175,7 @@
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
     if(sDisplaySearchFields.length()==0) sDisplaySearchFields = "false"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    if(Debug.enabled) Debug.println("@@@ displaySearchFields : "+displaySearchFields);
+    Debug.println("@@@ displaySearchFields : "+displaySearchFields);
 
     // search medication written by active user by default
     if(sAction.length()==0){
@@ -419,7 +419,7 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","begindate",sWebLanguage)%>&nbsp;*&nbsp;</td>
                         <td class="admin2">
-                            <input type="text" maxlength="10" class="text" name="EditDateBegin" value="<%=sSelectedDateBegin%>" size="12" onblur="if(!checkDate(this)){alert('<%=getTran("Web.Occup","date.error",sWebLanguage)%>');this.value='';}">
+                            <input type="text" maxlength="10" class="text" name="EditDateBegin" value="<%=sSelectedDateBegin%>" size="12" onblur="if(!checkDate(this)){alertDialog('Web.Occup','date.error');this.value='';}">
                             <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icon_agenda.gif" alt="<%=getTran("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.transactionForm.all['EditDateBegin']);return false;">
                             <img class="link" src="<%=sCONTEXTPATH%>/_img/icon_compose.gif" alt="<%=getTran("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.transactionForm.all['EditDateBegin']);">
                         </td>

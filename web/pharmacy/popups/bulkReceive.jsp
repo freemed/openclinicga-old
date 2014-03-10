@@ -105,7 +105,7 @@
 <script>
 	function validatemax(maxval,thisval){
 		if(maxval*1<thisval*1){
-			alert('<%=getTran("web","value.must.be",sWebLanguage)%> <= '+maxval);
+			alertDialogMessage('<%=getTran("web","value.must.be",sWebLanguage)%> <= '+maxval);
 			return false;
 		}
 	}
@@ -119,8 +119,6 @@
             parameters: params,
             onSuccess: function(resp){
 				window.location.reload();
-            },
-			onFailure: function(){
             }
         }
     	);

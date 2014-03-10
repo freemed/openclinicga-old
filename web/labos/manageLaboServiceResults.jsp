@@ -45,7 +45,7 @@
         </tr>
     </table>
 </form>
-<script type="text/javascript">
+<script>
     function doBack(){
         window.location.href="<c:url value="/main.do"/>?Page=labos/index.jsp";
     }
@@ -119,7 +119,7 @@
         %>
     </table>
     </body>
-    <script type="text/javascript">
+    <script>
         function showRequest(serverid,transactionid){
             window.open("<c:url value='/popup.jsp'/>?Page=labos/manageLabResult_view.jsp&ts=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
         }

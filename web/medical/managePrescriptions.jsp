@@ -713,7 +713,7 @@
                         <tr>
                             <td class="admin" nowrap><%=getTran("Web","begindate",sWebLanguage)%>&nbsp;*&nbsp;</td>
                             <td class="admin2">
-                                <input type="text" maxlength="10" class="text" name="EditDateBegin" value="<%=sSelectedDateBegin%>" size="12" onblur="if(!checkDate(this)){alert('<%=getTran("Web.Occup","date.error",sWebLanguage)%>');this.value='';}else{calculatePackagesNeeded(false);}if(isEndDateBeforeBeginDate()){displayEndBeforeBeginAlert();}" onKeyUp="if(this.value.length==10){calculatePackagesNeeded(false);}else{transactionForm.EditRequiredPackages.value='';}">
+                                <input type="text" maxlength="10" class="text" name="EditDateBegin" value="<%=sSelectedDateBegin%>" size="12" onblur="if(!checkDate(this)){alertDialog('Web.Occup','date.error');this.value='';}else{calculatePackagesNeeded(false);}if(isEndDateBeforeBeginDate()){displayEndBeforeBeginAlert();}" onKeyUp="if(this.value.length==10){calculatePackagesNeeded(false);}else{transactionForm.EditRequiredPackages.value='';}">
                                 <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icon_agenda.gif" alt="<%=getTran("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.transactionForm.all['EditDateBegin']);return false;">
                                 <img class="link" src="<%=sCONTEXTPATH%>/_img/icon_compose.gif" alt="<%=getTran("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.transactionForm.all['EditDateBegin']);calculatePackagesNeeded(false);">
                             </td>
@@ -722,7 +722,7 @@
                         <tr>
                             <td class="admin" nowrap><%=getTran("Web","enddate",sWebLanguage)%>&nbsp;*&nbsp;</td>
                             <td class="admin2">
-                                <input type="text" maxlength="10" class="text" name="EditDateEnd" value="<%=sSelectedDateEnd%>" size="12" onblur="if(!checkDate(this)){alert('<%=getTran("Web.Occup","date.error",sWebLanguage)%>');this.value='';}else{calculatePackagesNeeded(false);}if(isEndDateBeforeBeginDate()){displayEndBeforeBeginAlert();}" onKeyUp="if(this.value.length==10){calculatePackagesNeeded(false);}else{transactionForm.EditRequiredPackages.value='';}">
+                                <input type="text" maxlength="10" class="text" name="EditDateEnd" value="<%=sSelectedDateEnd%>" size="12" onblur="if(!checkDate(this)){alertDialog('Web.Occup','date.error');this.value='';}else{calculatePackagesNeeded(false);}if(isEndDateBeforeBeginDate()){displayEndBeforeBeginAlert();}" onKeyUp="if(this.value.length==10){calculatePackagesNeeded(false);}else{transactionForm.EditRequiredPackages.value='';}">
                                 <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icon_agenda.gif" alt="<%=getTran("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.transactionForm.all['EditDateEnd']);return false;">
                                 <img class="link" src="<%=sCONTEXTPATH%>/_img/icon_compose.gif" alt="<%=getTran("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.transactionForm.all['EditDateEnd']);calculatePackagesNeeded(false);">
                             </td>

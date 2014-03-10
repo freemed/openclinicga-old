@@ -163,12 +163,14 @@
     </tr>
     <%=sbResults%>
 </table>
+
 <input type='hidden' name='SortColumn' value=''>
 <%=ScreenHelper.alignButtonsStart()%>
     <%-- Buttons --%>
     <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
 <%=ScreenHelper.alignButtonsStop()%>
 </form>
+
 <script>
   function doSelect(id){
     window.location.href="<c:url value='/main.do'/>?Page=adt/editEncounter.jsp&EditEncounterUID=" + id + "&ts=<%=getTs()%>";
@@ -222,26 +224,26 @@
       }
     }
   }
-   function delRow(id){
+  
+  function delRow(id){
     var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=medwan.transaction.delete.information";
-      var answer =(window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-      if(answer==1){
-        new Ajax.Request('<c:url value="/adt/ajaxActions/deleteEncounter.jsp"/>?EditEncounterUID=' + id,{
-          onSuccess: function(resp){
-            if(resp.responseText.blank() && $(id)){
-                 $(id).parentNode.style.display = "none";
-            }
-            else{
-                var label = eval('('+resp.responseText+')');
-                if(label.Message=="exists"){
-                    alert("<%=getTranNoLink("web.errors","error.encounter.exists.in.other.data",sWebLanguage)%>");
-                }
-            }
-          }
-      }) ;
-
-     } 
-
+    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=medwan.transaction.delete.information";
+    var answer =(window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
+  
+    if(answer==1){
+      new Ajax.Request('<c:url value="/adt/ajaxActions/deleteEncounter.jsp"/>?EditEncounterUID=' + id,{
+       onSuccess: function(resp){
+         if(resp.responseText.blank() && $(id)){
+           $(id).parentNode.style.display = "none";
+         }
+         else{
+           var label = eval('('+resp.responseText+')');
+           if(label.Message=="exists"){
+             alertDialog("web.errors","error.encounter.exists.in.other.data");
+           }
+         }
+       }
+      });
+    } 
   }
 </script>

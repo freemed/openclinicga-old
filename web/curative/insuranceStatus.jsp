@@ -1,9 +1,10 @@
-<%@ page import="be.openclinic.finance.Insurance,java.util.Vector" %>
+<%@page import="be.openclinic.finance.Insurance,java.util.Vector" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
+
 <%
-Debug.println("insurance start");
+    Debug.println("insurance start");
     Vector vCurrentInsurances;
     vCurrentInsurances = Insurance.getCurrentInsurances(activePatient.personid);
     Iterator iter = vCurrentInsurances.iterator();
@@ -68,8 +69,9 @@ Debug.println("insurance start");
     Debug.println("insurance stop");
     %>
 </table>
+
 <script>
-    function doSelect(id){
-        window.location.href="<c:url value='/main.jsp'/>?Page=financial/insurance/editInsurance.jsp&EditInsuranceUID=" + id + "&ts=<%=getTs()%>";
-    }
+  function doSelect(id){
+    window.location.href = "<c:url value='/main.jsp'/>?Page=financial/insurance/editInsurance.jsp&EditInsuranceUID=" + id + "&ts=<%=getTs()%>";
+  }
 </script>

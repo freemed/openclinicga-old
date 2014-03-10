@@ -27,7 +27,7 @@
     </form>
 </table>
 <div id="mealsItemsResultsByAjax">&nbsp;</div>
-<script type="text/javascript">
+<script>
     function searchMealItems() {
         var id = "mealsItemsResultsByAjax";
         $(id).update("<div id='wait'>&nbsp;</div>");

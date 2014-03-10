@@ -173,7 +173,7 @@
         <a href="javascript:submitForm();" class="button"><span class="title"><%= getTran("web","save",sWebLanguage)%></span></a>
     </form>
 </div>
-<script type="text/javascript">
+<script>
     function submitForm(){
         $("transactionForm").submit();
     }

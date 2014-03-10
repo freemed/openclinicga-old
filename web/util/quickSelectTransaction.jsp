@@ -15,7 +15,7 @@
         sessionContainerWO.init(activePatient.personid);
         
 %>
-<script type="text/javascript">
+<script>
     window.location.href="<c:url value="/healthrecord/editTransaction.do"/>?be.mxs.healthrecord.createTransaction.transactionType=<%=tran.getTransactionType()%>&be.mxs.healthrecord.transaction_id=<%=tran.getTransactionId()%>&be.mxs.healthrecord.server_id=<%=tran.getServerId()%>";
 </script>
 <%

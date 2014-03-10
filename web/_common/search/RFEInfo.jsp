@@ -516,8 +516,6 @@
                     window.opener.opener.document.getElementById('<%=ScreenHelper.checkString(request.getParameter("field"))%>').innerHTML=resp.responseText;
                     window.opener.close();
                     window.close();
-                },
-				onFailure: function(){
                 }
 			}
 		);

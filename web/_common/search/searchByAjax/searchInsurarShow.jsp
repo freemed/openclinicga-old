@@ -14,18 +14,18 @@
             sReturnFieldContact = checkString(request.getParameter("ReturnFieldInsurarContact"));
     if (sAction.length() == 0 && sFindInsurarName.length() > 0) sAction = "search"; // default
 
-    // DEBUG //////////////////////////////////////////////////////////////////
+    // DEBUG //////////////////////////////////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        System.out.println("\n### searchInsurar #############################");
-        System.out.println("# sAction             : " + sAction);
-        System.out.println("# sFindInsurarUid     : " + sFindInsurarUid);
-        System.out.println("# sFindInsurarName    : " + sFindInsurarName);
-        System.out.println("# sFindInsurarContact : " + sFindInsurarContact + "\n");
-        System.out.println("# sReturnFieldUid     : " + sReturnFieldUid);
-        System.out.println("# sReturnFieldName    : " + sReturnFieldName);
-        System.out.println("# sReturnFieldContact : " + sReturnFieldContact + "\n");
+        Debug.println("\n################## searchByAjax/searchInsurarShow.jsp ##################");
+        Debug.println("sAction             : " + sAction);
+        Debug.println("sFindInsurarUid     : " + sFindInsurarUid);
+        Debug.println("sFindInsurarName    : " + sFindInsurarName);
+        Debug.println("sFindInsurarContact : " + sFindInsurarContact + "\n");
+        Debug.println("sReturnFieldUid     : " + sReturnFieldUid);
+        Debug.println("sReturnFieldName    : " + sReturnFieldName);
+        Debug.println("sReturnFieldContact : " + sReturnFieldContact + "\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "";
 %>

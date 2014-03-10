@@ -1,9 +1,6 @@
 function format_number(p,d){
-  return p.toFixed(d);
-  //var r;
-  //if(p<0){p=-p;r=format_number2(p,d);r="-"+r;}
-  //else   {r=format_number2(p,d);}
-  //return r;
+  //return p.toFixed(d);
+  return format_number2(p,d);
 }
 
 function format_number2(pnumber,decimals){

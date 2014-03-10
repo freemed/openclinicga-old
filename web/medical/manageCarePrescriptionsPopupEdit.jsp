@@ -11,14 +11,14 @@
     String sAction = checkString(request.getParameter("Action"));
 
     // retreive form data
-    String sEditPrescrUid = checkString(request.getParameter("EditPrescrUid")),
-            sEditPrescriberUid = checkString(request.getParameter("EditPrescriberUid")),
-            sEditCareUid = checkString(request.getParameter("EditCareUid")),
-            sEditDateBegin = checkString(request.getParameter("EditDateBegin")),
-            sEditDateEnd = checkString(request.getParameter("EditDateEnd")),
-            sEditTimeUnit = checkString(request.getParameter("EditTimeUnit")),
-            sEditTimeUnitCount = checkString(request.getParameter("EditTimeUnitCount")),
-            sEditUnitsPerTimeUnit = checkString(request.getParameter("EditUnitsPerTimeUnit"));
+    String sEditPrescrUid     = checkString(request.getParameter("EditPrescrUid")),
+           sEditPrescriberUid = checkString(request.getParameter("EditPrescriberUid")),
+           sEditCareUid       = checkString(request.getParameter("EditCareUid")),
+           sEditDateBegin     = checkString(request.getParameter("EditDateBegin")),
+           sEditDateEnd       = checkString(request.getParameter("EditDateEnd")),
+           sEditTimeUnit      = checkString(request.getParameter("EditTimeUnit")),
+           sEditTimeUnitCount = checkString(request.getParameter("EditTimeUnitCount")),
+           sEditUnitsPerTimeUnit = checkString(request.getParameter("EditUnitsPerTimeUnit"));
 
     String  sTime1 = checkString(request.getParameter("time1")),
             sTime2 = checkString(request.getParameter("time2")),
@@ -35,46 +35,47 @@
             sQuantity6 = checkString(request.getParameter("quantity6"));
 
     CarePrescriptionSchema prescriptionSchema = new CarePrescriptionSchema();
-    if (sTime1.length() > 0) {
+    if(sTime1.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime1, sQuantity1));
     }
-    if (sTime2.length() > 0) {
+    if(sTime2.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime2, sQuantity2));
     }
-    if (sTime3.length() > 0) {
+    if(sTime3.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime3, sQuantity3));
     }
-    if (sTime4.length() > 0) {
+    if(sTime4.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime4, sQuantity4));
     }
-    if (sTime5.length() > 0) {
+    if(sTime5.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime5, sQuantity5));
     }
-    if (sTime6.length() > 0) {
+    if(sTime6.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime6, sQuantity6));
     }
 
-    // afgeleide data
-    String sEditPrescriberFullName   = checkString(request.getParameter("EditPrescriberFullName"));
+    String sEditPrescriberFullName = checkString(request.getParameter("EditPrescriberFullName"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        Debug.println("################## sAction : " + sAction + " ################################");
-        Debug.println("* sEditPrescrUid            : " + sEditPrescrUid);
-        Debug.println("* sEditPrescriberUid        : " + sEditPrescriberUid);
-        Debug.println("* sEditCareUid              : " + sEditCareUid);
-        Debug.println("* sEditDateBegin            : " + sEditDateBegin);
-        Debug.println("* sEditDateEnd              : " + sEditDateEnd);
-        Debug.println("* sEditTimeUnit             : " + sEditTimeUnit);
-        Debug.println("* sEditTimeUnitCount        : " + sEditTimeUnitCount);
-        Debug.println("* sEditPrescriberFullName   : " + sEditPrescriberFullName);
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n############ medical/manageCarePrescriptionsPopupEdit.jsp #############");
+        Debug.println("sAction                 : "+sAction);
+        Debug.println("sEditPrescrUid          : "+sEditPrescrUid);
+        Debug.println("sEditPrescriberUid      : "+sEditPrescriberUid);
+        Debug.println("sEditCareUid            : "+sEditCareUid);
+        Debug.println("sEditDateBegin          : "+sEditDateBegin);
+        Debug.println("sEditDateEnd            : "+sEditDateEnd);
+        Debug.println("sEditTimeUnit           : "+sEditTimeUnit);
+        Debug.println("sEditTimeUnitCount      : "+sEditTimeUnitCount);
+        Debug.println("sEditPrescriberFullName : "+sEditPrescriberFullName+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "", sSelectedPrescriberUid = "", sSelectedCareUid = "",
-            sSelectedDateBegin = "", sSelectedDateEnd = "", sSelectedTimeUnit = "", sSelectedTimeUnitCount = "",
-            sSelectedUnitsPerTimeUnit = "", sSelectedPrescriberFullName = "";
-
+           sSelectedDateBegin = "", sSelectedDateEnd = "", sSelectedTimeUnit = "",
+           sSelectedTimeUnitCount = "", sSelectedUnitsPerTimeUnit = "", 
+           sSelectedPrescriberFullName = "";
+    
     // variables
     SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -83,31 +84,27 @@
     //*********************************************************************************************
 
     //--- SAVE ------------------------------------------------------------------------------------
-
-    if (sAction.equals("save")){
-
+    if(sAction.equals("save")){
         // create prescription
-        if (sEditPrescrUid.length()==0){
-            sEditPrescrUid = "-1";
-        }
+        if(sEditPrescrUid.length()==0) sEditPrescrUid = "-1";
         CarePrescription prescr = new CarePrescription();
         prescr.setUid(sEditPrescrUid);
         prescr.setPatientUid(activePatient.personid);
         prescr.setPrescriberUid(sEditPrescriberUid);
         prescr.setCareUid(sEditCareUid);
         prescr.setTimeUnit(sEditTimeUnit);
-        if (sEditDateBegin.length() > 0) prescr.setBegin(stdDateFormat.parse(sEditDateBegin));
-        if (sEditDateEnd.length() > 0) prescr.setEnd(stdDateFormat.parse(sEditDateEnd));
-        if (sEditTimeUnitCount.length() > 0) prescr.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
-        if (sEditUnitsPerTimeUnit.length() > 0) prescr.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
+        if(sEditDateBegin.length() > 0) prescr.setBegin(stdDateFormat.parse(sEditDateBegin));
+        if(sEditDateEnd.length() > 0) prescr.setEnd(stdDateFormat.parse(sEditDateEnd));
+        if(sEditTimeUnitCount.length() > 0) prescr.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
+        if(sEditUnitsPerTimeUnit.length() > 0) prescr.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
         prescr.setUpdateUser(activeUser.userid);
 
         String existingPrescrUid = prescr.exists();
         boolean prescrExists = existingPrescrUid.length() > 0;
 
-        if (sEditPrescrUid.equals("-1")) {
+        if(sEditPrescrUid.equals("-1")){
             //***** insert new prescription *****
-            if (!prescrExists) {
+            if(!prescrExists){
                 prescr.store(false);
                 prescriptionSchema.setCarePrescriptionUid(prescr.getUid());
                 prescriptionSchema.store();
@@ -115,14 +112,15 @@
                 msg = getTran("web", "dataissaved", sWebLanguage);
             }
             //***** reject new addition *****
-            else {
+            else{
                 // show rejected data
                 sAction = "showDetailsAfterAddReject";
                 msg = "<font color='red'>" + getTran("web.manage", "prescriptionexists", sWebLanguage) + "</font>";
             }
-        } else {
+        }
+        else{
             //***** update existing record *****
-            if (!prescrExists) {
+            if(!prescrExists){
                 prescr.store(false);
                 prescriptionSchema.setCarePrescriptionUid(prescr.getUid());
                 prescriptionSchema.store();
@@ -130,17 +128,16 @@
                 msg = getTran("web", "dataissaved", sWebLanguage);
             }
             //***** reject double record thru update *****
-            else {
-                if (sEditPrescrUid.equals(existingPrescrUid)) {
+            else{
+                if(sEditPrescrUid.equals(existingPrescrUid)){
                     // nothing : just updating a record with its own data
-                    if (prescr.changed()) {
-                        prescr.store(false);
-                        msg = getTran("web", "dataissaved", sWebLanguage);
-                    }
-
+                    prescr.store(false);
+                    msg = getTran("web", "dataissaved", sWebLanguage);
+                   
                     prescriptionSchema.setCarePrescriptionUid(prescr.getUid());
                     prescriptionSchema.store();
-                } else {
+                }
+                else{
                     // tried to update one prescription with exact the same data as an other prescription
                     // show rejected data
                     sAction = "showDetailsAfterUpdateReject";
@@ -171,7 +168,7 @@
         sSelectedPrescriberFullName = sEditPrescriberFullName;
     }
     //--- DELETE ----------------------------------------------------------------------------------
-    else if (sAction.equals("delete") && sEditPrescrUid.length() > 0) {
+    else if(sAction.equals("delete") && sEditPrescrUid.length() > 0){
         CarePrescription.delete(sEditPrescrUid);
         CarePrescriptionSchema prescriptionSchemaToDelete = CarePrescriptionSchema.getCarePrescriptionSchema(sEditPrescrUid);
         prescriptionSchemaToDelete.delete();
@@ -180,24 +177,26 @@
     }
 
     // get specified record
-    if ((sAction.equals("")) && (sEditPrescrUid.length()>0)) {
+    if((sAction.equals("")) && sEditPrescrUid.length()>0){
         CarePrescription prescr = CarePrescription.get(sEditPrescrUid);
-        if (prescr != null) {
-            if (checkString(prescr.getCareUid()) != null) {
+        if(prescr != null){
+            if(checkString(prescr.getCareUid()) != null){
                 sSelectedCareUid = prescr.getCareUid();
             }
+            
             // format begin date
             java.util.Date tmpDate = prescr.getBegin();
-            if (tmpDate != null) sSelectedDateBegin = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sSelectedDateBegin = stdDateFormat.format(tmpDate);
 
             // format end date
             tmpDate = prescr.getEnd();
-            if (tmpDate != null) sSelectedDateEnd = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sSelectedDateEnd = stdDateFormat.format(tmpDate);
 
             sSelectedTimeUnit = checkString(prescr.getTimeUnit());
             sSelectedTimeUnitCount = prescr.getTimeUnitCount() + "";
             sSelectedUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit() + "";
             sSelectedPrescriberUid = prescr.getPrescriberUid();
+            
             // afgeleide data
            	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             sSelectedPrescriberFullName = ScreenHelper.getFullUserName(sSelectedPrescriberUid, ad_conn);
@@ -205,7 +204,7 @@
         }
         prescriptionSchema = CarePrescriptionSchema.getCarePrescriptionSchema(prescr.getUid());
     }
-    else if (sAction.equals("")) {
+    else if(sAction.equals("")){
         // showDetailsNew : set default values
         sSelectedPrescriberUid = activeUser.userid;
         sSelectedPrescriberFullName = activeUser.person.lastname + " " + activeUser.person.firstname;
@@ -213,6 +212,18 @@
         sSelectedTimeUnit = "type2day";
         sSelectedTimeUnitCount = "1";
     }
+    
+    // only editable by prescriber
+    boolean editableByPrescriber = false;
+    if(activeUser.isAdmin()){
+    	editableByPrescriber = true; // always editable by administrator
+    }
+    else if(sEditPrescrUid.length() > 0){
+    	if(sSelectedPrescriberUid.equals(activeUser.userid)){
+    		editableByPrescriber = true;
+    	}
+    }
+    Debug.println("--> editableByPrescriber : "+editableByPrescriber);    
 %>
 <form name="transactionForm" id="transactionForm" method="post">
     <%-- page title --%>
@@ -231,13 +242,12 @@
     <%
         if(activePatient==null){
             // display message
-            %><%=getTran("web","firstselectaperson",sWebLanguage)%><%
+            %><%=getTran("web","firstSelectAPerson",sWebLanguage)%><%
         }
         else{
             //*************************************************************************************
             //*** process display options *********************************************************
             //*************************************************************************************
-
             DecimalFormat doubleFormat = new DecimalFormat("#.#");
             %>
             <table class="list" width="100%" cellspacing="1">
@@ -256,14 +266,14 @@
                     <td class="admin2">
                         <%-- Units Per Time Unit --%>
                         <input type="text" class="text" name="EditUnitsPerTimeUnit" value="<%=(sSelectedUnitsPerTimeUnit.length()>0?(doubleFormat.format(Double.parseDouble(sSelectedUnitsPerTimeUnit))).replaceAll(",","."):"")%>" size="5" maxLength="5" onKeyUp="isNumber(this);">
-                        <span id="EditUnitsPerTimeUnitLabel"></span>
+                        <%=getTran("web","times",sWebLanguage).toLowerCase()%>
 
                         <%-- Time Unit Count --%>
                         &nbsp;<%=getTran("web","per",sWebLanguage)%>
                         <input type="text" class="text" name="EditTimeUnitCount" value="<%=sSelectedTimeUnitCount%>" size="5" maxLength="5">
 
                         <%-- Time Unit (dropdown : Hour|Day|Week|Month) --%>
-                        <select class="text" name="EditTimeUnit" onChange="setEditUnitsPerTimeUnitLabel();setEditTimeUnitCount();">
+                        <select class="text" name="EditTimeUnit" onChange="setEditTimeUnitCount();">
                             <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
                             <%=ScreenHelper.writeSelectUnsorted("prescription.timeunit",sSelectedTimeUnit,sWebLanguage)%>
                         </select>
@@ -316,12 +326,12 @@
                                 <td><input class="text" type="text" name="time6" value="<%=prescriptionSchema.getTimeQuantity(5).getKey()%>" size="2"><%=getTran("web","abbreviation.hour",sWebLanguage)%></td>
                             </tr>
                             <tr>
-                                <td><input class="text" type="text" name="quantity1" value="<%=prescriptionSchema.getTimeQuantity(0).getValue()%>" size="2">#</td>
-                                <td><input class="text" type="text" name="quantity2" value="<%=prescriptionSchema.getTimeQuantity(1).getValue()%>" size="2">#</td>
-                                <td><input class="text" type="text" name="quantity3" value="<%=prescriptionSchema.getTimeQuantity(2).getValue()%>" size="2">#</td>
-                                <td><input class="text" type="text" name="quantity4" value="<%=prescriptionSchema.getTimeQuantity(3).getValue()%>" size="2">#</td>
-                                <td><input class="text" type="text" name="quantity5" value="<%=prescriptionSchema.getTimeQuantity(4).getValue()%>" size="2">#</td>
-                                <td><input class="text" type="text" name="quantity6" value="<%=prescriptionSchema.getTimeQuantity(5).getValue()%>" size="2">#</td>
+                                <td><input class="text" type="text" name="quantity1" value="<%=(prescriptionSchema.getTimeQuantity(0).getValue().equals("-1")?"":prescriptionSchema.getTimeQuantity(0).getValue())%>" size="2">#</td>
+                                <td><input class="text" type="text" name="quantity2" value="<%=(prescriptionSchema.getTimeQuantity(1).getValue().equals("-1")?"":prescriptionSchema.getTimeQuantity(1).getValue())%>" size="2">#</td>
+                                <td><input class="text" type="text" name="quantity3" value="<%=(prescriptionSchema.getTimeQuantity(2).getValue().equals("-1")?"":prescriptionSchema.getTimeQuantity(2).getValue())%>" size="2">#</td>
+                                <td><input class="text" type="text" name="quantity4" value="<%=(prescriptionSchema.getTimeQuantity(3).getValue().equals("-1")?"":prescriptionSchema.getTimeQuantity(3).getValue())%>" size="2">#</td>
+                                <td><input class="text" type="text" name="quantity5" value="<%=(prescriptionSchema.getTimeQuantity(4).getValue().equals("-1")?"":prescriptionSchema.getTimeQuantity(4).getValue())%>" size="2">#</td>
+                                <td><input class="text" type="text" name="quantity6" value="<%=(prescriptionSchema.getTimeQuantity(5).getValue().equals("-1")?"":prescriptionSchema.getTimeQuantity(5).getValue())%>" size="2">#</td>
                                 <td/>
                             </tr>
                         </table>
@@ -331,26 +341,27 @@
                     <td class="admin"/>
                     <td class="admin2">
                         <%
-                        if (activeUser.getAccessRight("prescriptions.care.add") || activeUser.getAccessRight("prescriptions.care.edit")){
-                        %>
-                        <input class="button" type="button" name="saveButton" id="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">
-                        <%
-                        }
-                        if ((activeUser.getAccessRight("prescriptions.care.delete"))&&(sEditPrescrUid.length()>0)){
-                        %>
-                        <input class="button" type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete('<%=sEditPrescrUid%>');">
-                        <%
-                        }
+                            if(editableByPrescriber){
+		                        if(activeUser.getAccessRight("prescriptions.care.add") || activeUser.getAccessRight("prescriptions.care.edit")){
+		                            %><input class="button" type="button" name="saveButton" id="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;<%
+		                        }
+		                        if((activeUser.getAccessRight("prescriptions.care.delete"))&&(sEditPrescrUid.length()>0)){
+		                            %><input class="button" type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete('<%=sEditPrescrUid%>');">&nbsp;<%
+		                        }
+                            }
+                            else{
+                            	%><font color="red"><%=getTran("web.occup","onlyEditableByPrescriber",sWebLanguage)%></font><%
+                            }
                         %>
                         <input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBack();">
                     </td>
                 </tr>
             </table>
+            
             <%-- indication of obligated fields --%>
             <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
             <%-- display message --%>
             <br><span id="msgArea">&nbsp;<%=msg%></span>
-            <%-- EDIT BUTTONS --%>
     <%
         }
     %>
@@ -359,7 +370,8 @@
     <input type="hidden" name="EditPrescrUid" value="<%=sEditPrescrUid%>">
     <input type="hidden" name="PopupHeight" value="400">
     <input type="hidden" name="PopupWidth" value="900">
- </form>
+</form>
+ 
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   transactionForm.EditPrescriberFullName.focus();
@@ -367,33 +379,30 @@
 
   function doChangeCareUID(){
     if(document.getElementById('EditCareUid').value.length>0){
-        var params = 'EditCareUid=' + document.getElementById('EditCareUid').value;
-        var url= path + '/medical/blurCareType.jsp?ts=<%=getTs()%>';
-        new Ajax.Request(url,{
-                method: "GET",
-                parameters: params,
-                onSuccess: function(resp){
-                    var label = eval('('+resp.responseText+')');
-                    $('EditUnitsPerTimeUnit').value=label.EditUnitsPerTimeUnit;
-                    $('EditTimeUnitCount').value=label.EditTimeUnitCount;
-                    $('EditTimeUnit').value=label.EditTimeUnit;
-                    $('time1').value=label.time1;
-                    $('time2').value=label.time2;
-                    $('time3').value=label.time3;
-                    $('time4').value=label.time4;
-                    $('time5').value=label.time5;
-                    $('time6').value=label.time6;
-                    $('quantity1').value=label.quantity1;
-                    $('quantity2').value=label.quantity2;
-                    $('quantity3').value=label.quantity3;
-                    $('quantity4').value=label.quantity4;
-                    $('quantity5').value=label.quantity5;
-                    $('quantity6').value=label.quantity6;
-                },
-                onFailure: function(){
-                }
-            }
-        );
+      var params = 'EditCareUid=' + document.getElementById('EditCareUid').value;
+      var url= path + '/medical/blurCareType.jsp?ts=<%=getTs()%>';
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: params,
+        onSuccess: function(resp){
+          var label = eval('('+resp.responseText+')');
+          $('EditUnitsPerTimeUnit').value=label.EditUnitsPerTimeUnit;
+          $('EditTimeUnitCount').value=label.EditTimeUnitCount;
+          $('EditTimeUnit').value=label.EditTimeUnit;
+          $('time1').value=label.time1;
+          $('time2').value=label.time2;
+          $('time3').value=label.time3;
+          $('time4').value=label.time4;
+          $('time5').value=label.time5;
+          $('time6').value=label.time6;
+          $('quantity1').value=label.quantity1;
+          $('quantity2').value=label.quantity2;
+          $('quantity3').value=label.quantity3;
+          $('quantity4').value=label.quantity4;
+          $('quantity5').value=label.quantity5;
+          $('quantity6').value=label.quantity6;
+        }
+      });
     }
   }
   <%--DISPLAY ALERT --%>
@@ -570,38 +579,39 @@
   }
 
   <%-- CHECK SAVE BUTTON --%>
-  function checkSaveButton(contextpath, sQuestion) {
-      var bReturn = true;
+  function checkSaveButton(contextpath, sQuestion){
+    var bReturn = true;
 
-      if (myButton != null) {
-          if (!bSaveHasNotChanged) {
-              var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
-              var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-              var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
+    if(myButton != null){
+      if(!bSaveHasNotChanged){
+        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
+        var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
 
-              if (!answer == 1) {
-                  bReturn = false;
-              }
-          }
+        if(!answer==1){
+          bReturn = false;
+        }
       }
-      else if (sFormBeginStatus != myForm.innerHTML) {
-          var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
-          var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
+    }
+    else if(sFormBeginStatus != myForm.innerHTML){
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
+      var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
 
-          if (!answer == 1) {
-              bReturn = false;
-          }
+      if(!answer==1){
+        bReturn = false;
       }
+    }
 
-      return bReturn;
+    return bReturn;
   }
 
   <%-- DO BACK --%>
   function doBack(){
-      if(checkSaveButton('<%=sCONTEXTPATH%>',"<%=getTranNoLink("web","areyousuretodiscard",sWebLanguage)%>")){
-          window.location.href="<c:url value='/popup.jsp'/>?Page=medical/manageCarePrescriptionsPopup.jsp&ts=<%=getTs()%>";
-      }
+    if(checkSaveButton('<%=sCONTEXTPATH%>',"<%=getTranNoLink("web","areyousuretodiscard",sWebLanguage)%>")){
+      window.location.href="<c:url value='/popup.jsp'/>?Page=medical/manageCarePrescriptionsPopup.jsp&ts=<%=getTs()%>";
+    }
   }
 </script>
+
 <%=writeJSButtons("transactionForm","saveButton")%>

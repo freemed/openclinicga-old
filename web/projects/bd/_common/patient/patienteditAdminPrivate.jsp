@@ -5,7 +5,7 @@
 <%
     if((activePatient!=null)&&(request.getParameter("SavePatientEditForm")==null)) {
     %>
-<script type="text/javascript">
+<script>
     function changeDistrict(){
       var today = new Date();
 
@@ -29,8 +29,6 @@
                           }
                       }
                   }
-              },
-              onFailure: function(){
               }
           }
       );
@@ -63,8 +61,6 @@
                     else if(prov=="05"){
                         setProvince("east");
                     }
-                },
-                onFailure: function(){
                 }
             }
         );

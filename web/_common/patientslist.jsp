@@ -5,18 +5,37 @@
 <%
     session.removeAttribute("activePatient");
     ScreenHelper.getSQLDate("");
-    String simmatnew = checkString(request.getParameter("findimmatnew")).toUpperCase(),
-            sArchiveFileCode = checkString(request.getParameter("findArchiveFileCode")).toUpperCase(),
-            sPersonID = checkString(request.getParameter("findPersonID")).toUpperCase(),
-            snatreg = checkString(request.getParameter("findnatreg")),
-            sName = checkString(request.getParameter("findName")).toUpperCase(),
-            sFirstname = checkString(request.getParameter("findFirstname")).toUpperCase(),
-            sDateOfBirth = checkString(request.getParameter("findDateOfBirth")),
-            sDistrict = checkString(request.getParameter("findDistrict")),
-            sUnit = checkString(request.getParameter("findUnit"));
+    
+    String simmatnew        = checkString(request.getParameter("findimmatnew")).toUpperCase(),
+           sArchiveFileCode = checkString(request.getParameter("findArchiveFileCode")).toUpperCase(),
+           sPersonID        = checkString(request.getParameter("findPersonID")).toUpperCase(),
+           snatreg          = checkString(request.getParameter("findnatreg")),
+           sName            = checkString(request.getParameter("findName")).toUpperCase(),
+           sFirstname       = checkString(request.getParameter("findFirstname")).toUpperCase(),
+           sDateOfBirth     = checkString(request.getParameter("findDateOfBirth")),
+           sDistrict        = checkString(request.getParameter("findDistrict")),
+           sUnit            = checkString(request.getParameter("findUnit"));
 
-    String sAction = checkString(request.getParameter("Action"));
-    String sRSIndex = checkString(request.getParameter("RSIndex"));
+    String sAction  = checkString(request.getParameter("Action")),
+           sRSIndex = checkString(request.getParameter("RSIndex"));
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n************************ _common/patientslist.jsp *********************");
+        Debug.println("sAction      : "+sAction);
+        Debug.println("sRSIndex     : "+sRSIndex);
+        Debug.println("simmatnew    : "+simmatnew);
+        Debug.println("sArchiveFileCode : "+sArchiveFileCode);
+        Debug.println("sPersonID    : "+sPersonID);
+        Debug.println("snatreg      : "+snatreg);
+        Debug.println("sName        : "+sName);
+        Debug.println("sFirstname   : "+sFirstname);
+        Debug.println("sDateOfBirth : "+sDateOfBirth);
+        Debug.println("sDistrict    : "+sDistrict);
+        Debug.println("sUnit        : "+sUnit+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
     List lResults = null;
     int iMaxResultSet = 100, iCounter = 0, iOverallCounter = 0;
 
@@ -80,7 +99,7 @@
             }
         }
         catch (DocumentException e) {
-            System.out.println("XML-Document Exception in patientslist.jsp");
+            Debug.println("XML-Document Exception in patientslist.jsp");
             bXMLDocumentError = true;
         }
 

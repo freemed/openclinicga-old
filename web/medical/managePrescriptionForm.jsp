@@ -69,7 +69,7 @@
     </tr>
 </table>
 
-<script type="text/javascript">
+<script>
 	function copytochronic(){
         var url = "<c:url value="/"/>medical/ajax/addChronicPrescription.jsp";
         new Ajax.Request(url,{
@@ -77,8 +77,6 @@
               postBody: "productuid="+document.getElementById("productuid").value,
               onSuccess: function(resp){
             	  findchronicproducts();
-              },
-              onFailure: function(){
               }
           });
 	}
@@ -146,8 +144,6 @@
                   else {
                       $('prescription').value += prescriptioninfo[2]+"\n";
                   }
-              },
-              onFailure: function(){
               }
           });
     }
@@ -168,8 +164,6 @@
                   else {
                       $('prescriptioninfo').value = prescriptioninfo[2];
                   }
-              },
-              onFailure: function(){
               }
           });
     }
@@ -180,8 +174,6 @@
               method: "POST",
               postBody: "productuid="+document.getElementById("productuid").value+"&prescriptioninfo="+document.getElementById("prescriptioninfo").value,
               onSuccess: function(resp){
-              },
-              onFailure: function(){
               }
           });
 
@@ -197,8 +189,6 @@
 	              method: "POST",
 	              postBody: "findproduct="+document.getElementById("findproduct").value+"&prescriptioninfo="+document.getElementById("prescriptioninfo").value,
 	              onSuccess: function(resp){
-	              },
-	              onFailure: function(){
 	              }
 	          });
         }

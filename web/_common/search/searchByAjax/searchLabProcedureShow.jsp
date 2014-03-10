@@ -3,7 +3,6 @@
 <%@ include file="/includes/validateUser.jsp" %>
 
 <%
-System.out.println("start");
 try{
 	String sAction = checkString(request.getParameter("Action"));
     String sFindLabProcedureName = checkString(request.getParameter("FindLabProcedureName"));

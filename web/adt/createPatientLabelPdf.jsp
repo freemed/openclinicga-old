@@ -82,6 +82,6 @@
 <%
     }
 %>
-<script type="text/javascript">
+<script>
     window.open("<c:url value='/'/>/util/setprinter.jsp?printer=labelprinter","Popup"+new Date().getTime(),"toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveBy(-1000,-1000);
 </script>

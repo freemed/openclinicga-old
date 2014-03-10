@@ -300,8 +300,6 @@
               postBody: 'EditWicketOperationWicket=<%=sEditWicketOperationWicket%>',
               onSuccess: function(resp){
                   $('divTodayDebets').innerHTML=resp.responseText;
-              },
-              onFailure: function(){
               }
           }
         );

@@ -1,6 +1,6 @@
-<%@ page import="java.util.*" %>
-<%@ page errorPage="/includes/error.jsp" %>
-<%@ include file="/includes/validateUser.jsp" %>
+<%@page import="java.util.*"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%!
     //--- SET FOCUS -------------------------------------------------------------------------------
     private String setFocus(String sField, String sDefaultFocus) {
@@ -11,6 +11,7 @@
         return "text";
     }
 %>
+
 <%
     String sNewimmat = checkString(request.getParameter("findimmatnew"));
     String sNatreg = checkString(request.getParameter("findnatreg"));
@@ -43,21 +44,22 @@
         // retreive service via Encounters, not via AdminWork
         Service as = ScreenHelper.getActiveDivision(activePatient.personid);
         if (as != null) sUnit = as.code;
-        else sUnit = "";
-    } else {
+        else            sUnit = "";
+    } 
+    else{
         sScript = "document.getElementById(\"SF\").find" + sDefaultFocus + ".focus();$(\"SF\").find" + sDefaultFocus + ".className=\"selected_bold\"";
     }
 
     // unitid and unitname
-    if (checkString(sUnit).trim().length() > 0) {
-        if (MedwanQuery.getInstance().getConfigString("showUnitID").equals("1")) {
+    if(checkString(sUnit).trim().length() > 0) {
+        if(MedwanQuery.getInstance().getConfigString("showUnitID").equals("1")) {
             sUnitText = sUnit + " " + getTran("service", sUnit, sWebLanguage);
-        } else {
+        } 
+        else{
             sUnitText = getTran("service", sUnit, sWebLanguage);
         }
     }
 %>
-<!-- End Ajax utocompletion ----->
 
 <table width="90%" onKeyDown='checkKeyDown(event);'>
     <form name="SF" method='post' action="<c:url value='/patientslist.do'/>?ts=<%=getTs()%>" id="SF">
@@ -179,183 +181,172 @@
 
                 out.print(sDistricts);
             %>
-
             </td>
-            <td align='right'>
-                <input class='button' type="button" name="findSearchPatient" id="findSearchPatient"
-                       onclick='doSPatient();' value='<%=getTran("Web","Find",sWebLanguage)%>'>&nbsp;
-                <button accesskey="<%=ScreenHelper.getAccessKey(getTran("AccessKey","Clear",sWebLanguage))%>"
-                        class='button' name="clearButton"
-                        onClick='clearPatient();return false;'><%=getTran("AccessKey", "Clear", sWebLanguage)%>
-                </button>
+            <td align="right">
+                <input class='button' type="button" name="findSearchPatient" id="findSearchPatient" onclick='doSPatient();' value='<%=getTran("Web","Find",sWebLanguage)%>'>&nbsp;
+                <button accesskey="<%=ScreenHelper.getAccessKey(getTran("AccessKey","Clear",sWebLanguage))%>" class='button' name="clearButton" onClick='clearPatient();return false;'><%=getTran("AccessKey", "Clear", sWebLanguage)%></button>
             </td>
         </tr>
     </form>
 </table>
-<script type="text/javascript">
-     Event.observe(window, 'load', function() {
-        <%=sScript%>
-     });
+
+<script>
+  Event.observe(window,'load',function(){
+    <%=sScript%>
+  });
+  
 <%
     // red background for patients who are not hospitalized
     if(activePatient!=null){
         if(!activePatient.isHospitalized()){
-            %>
-document.getElementById("SF").findUnitText.style.backgroundColor = '#ff9999';
-<%
+            %>document.getElementById("SF").findUnitText.style.backgroundColor = '#ff9999';<%
         }
     }
 %>
+
 <%-- enlarge searchfields if pagewidth is large --%>
 resizeSearchFields();
 
 <%-- Autocompletion code ---%>     
-function eventDateCallback(element, entry) {
-  //  alert(element.serialize("to"));
-    var serialized = "";
-     if(element.id=="ac1"){
-         serialized = "findFirstname="+element.value;
-         if($F("ac2").length>0){
-            serialized+="&findName="+$F("ac2")+"&field=findFirstname";
-         }
-
-     }else if(element.id=="ac2"){
-       serialized = "findName="+element.value;
-         if($F("ac1").length>0){
-            serialized+="&findFirstname="+$F("ac1")+"&field=findName";
-         }
-     }
-      return serialized;
-
+function eventDateCallback(element, entry){
+  var serialized = "";
+  if(element.id=="ac1"){
+    serialized = "findFirstname="+element.value;
+    if($F("ac2").length>0){
+      serialized+="&findName="+$F("ac2")+"&field=findFirstname";
+    }
+  }
+  else if(element.id=="ac2"){
+    serialized = "findName="+element.value;
+    if($F("ac1").length>0){
+      serialized+="&findFirstname="+$F("ac1")+"&field=findName";
+    }
+  }
+  return serialized;
 }
 
-new Ajax.Autocompleter('ac2',
-        'ac2update',
-        '_common/search/searchByAjax/patientslistShow.jsp',
-{   minChars: 1,
-    method: 'post',
-    afterUpdateElement: ac_return,
-    callback:eventDateCallback
+new Ajax.Autocompleter('ac2','ac2update','_common/search/searchByAjax/patientslistShow.jsp',{
+  minChars: 1,
+  method: 'post',
+  afterUpdateElement: ac_return,
+  callback:eventDateCallback
 });
 
-new Ajax.Autocompleter('ac1',
-        'ac1update',
-        '_common/search/searchByAjax/patientslistShow.jsp',
-{   minChars: 1,
-    method: 'post',
-    afterUpdateElement: ac_return,
-    callback:eventDateCallback
+new Ajax.Autocompleter('ac1','ac1update','_common/search/searchByAjax/patientslistShow.jsp',{
+  minChars: 1,
+  method: 'post',
+  afterUpdateElement: ac_return,
+  callback:eventDateCallback
 });
 
 function ac_return(field, item) {
-   // REGEX
-        var regex = new RegExp('[0123456789]*-idcache', 'i');
-        var nomimage = regex.exec(item.innerHTML);
-        var id = nomimage[0].replace('-idcache', '');
-        clearPatient();
-        document.getElementById("SF").findPersonID.value = id;
-       doSPatient();
-
+  // REGEX
+  var regex = new RegExp('[0123456789]*-idcache', 'i');
+  var nomimage = regex.exec(item.innerHTML);
+  var id = nomimage[0].replace('-idcache', '');
+  clearPatient();
+  document.getElementById("SF").findPersonID.value = id;
+  doSPatient();
 }
 <%-- End Autocompletion code ---%>
 
 function resizeSearchFields() {
-    var width = 1000;
-    if (document.body) {
-        width = (document.body.clientWidth);
-    } else {
-        width = (window.innerWidth);
-    }
-    var bigbigSize = 300;
-    var bigSize = 150;
-    var normalSize = 130;
-    var smallSize = 75;
-    if (width > 1100) {
-         bigbigSize = 400;
-         bigSize = 200;
-         normalSize = 150;
-         smallSize = 100;
-    }
+  var width = 1000;
+  if (document.body) {
+    width = (document.body.clientWidth);
+  }
+  else {
+    width = (window.innerWidth);
+  }
+  var bigbigSize = 300;
+  var bigSize = 150;
+  var normalSize = 130;
+  var smallSize = 75;
+  if (width > 1100) {
+    bigbigSize = 400;
+    bigSize = 200;
+    normalSize = 150;
+    smallSize = 100;
+  }
 
-    $("SF").findName.style.width = bigSize+"px";
-    $("SF").findFirstname.style.width = bigSize+"px";
-    $("SF").findDateOfBirth.style.width = smallSize+"px";
+  $("SF").findName.style.width = bigSize+"px";
+  $("SF").findFirstname.style.width = bigSize+"px";
+  $("SF").findDateOfBirth.style.width = smallSize+"px";
 
-    $("SF").findnatreg.style.width = bigSize+"px";
-    $("SF").findimmatnew.style.width = bigSize+"px";
-    $("SF").findArchiveFileCode.style.width = smallSize+"px";
-    $("SF").findPersonID.style.width = smallSize+"px";
-    $("SF").findDistrict.style.width = smallSize+"px";
+  $("SF").findnatreg.style.width = bigSize+"px";
+  $("SF").findimmatnew.style.width = bigSize+"px";
+  $("SF").findArchiveFileCode.style.width = smallSize+"px";
+  $("SF").findPersonID.style.width = smallSize+"px";
+  $("SF").findDistrict.style.width = smallSize+"px";
 
-    $("SF").findUnitText.style.width = bigbigSize+"px";
-
-    //alert("resizing searchfields: " + document.body.offsetWidth+" - "+$("SF").findName.size);
+  $("SF").findUnitText.style.width = bigbigSize+"px";
 }
 
-function showArchiveCode() {
-    openPopup("util/showArchiveLabel.jsp&ts=<%=getTs()%>", 20, 370);
+function showArchiveCode(){
+  openPopup("util/showArchiveLabel.jsp&ts=<%=getTs()%>", 20, 370);
 }
 
-function checkKeyDown(evt) {
-    evt = evt || window.event;
-    var kcode = evt.keyCode || evt.which;
-    if (kcode && kcode == 13) {
-        doSPatient();
-        return true;
-    } else {
-        return false;
-    }
+function checkKeyDown(evt){
+  evt = evt || window.event;
+  var kcode = evt.keyCode || evt.which;
+  if(kcode && kcode==13){
+    doSPatient();
+    return true;
+  } 
+  else{
+    return false;
+  }
 }
 
 
 <%-- search patient --%>
-function doSPatient() {
-    if (checkSaveButton("<%=sCONTEXTPATH%>", "<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")) {
-        if (document.getElementById("SF").findName.value.length > 0 ||
-            document.getElementById("SF").findFirstname.value.length > 0 ||
-            document.getElementById("SF").findDateOfBirth.value.length > 0 ||
-            document.getElementById("SF").findnatreg.value.length > 0 ||
-            document.getElementById("SF").findimmatnew.value.length > 0 ||
-            document.getElementById("SF").findArchiveFileCode.value.length > 0 ||
-            document.getElementById("SF").findPersonID.value.length > 0 ||
-            document.getElementById("SF").findDistrict.selectedIndex>-1 ||
-            document.getElementById("SF").findUnitText.value.length > 0) {
-            document.getElementById("SF").findSearchButtonClick.value = "Find";
-            document.getElementById("SF").findSearchPatient.disabled = true;
-            document.getElementById("SF").submit();
-        }
-        else {
-            document.getElementById("SF").find<%=sDefaultFocus%>.focus();
-        }
+function doSPatient(){
+  if(checkSaveButton("<%=sCONTEXTPATH%>", "<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")) {
+    if(document.getElementById("SF").findName.value.length > 0 ||
+      document.getElementById("SF").findFirstname.value.length > 0 ||
+      document.getElementById("SF").findDateOfBirth.value.length > 0 ||
+      document.getElementById("SF").findnatreg.value.length > 0 ||
+      document.getElementById("SF").findimmatnew.value.length > 0 ||
+      document.getElementById("SF").findArchiveFileCode.value.length > 0 ||
+      document.getElementById("SF").findPersonID.value.length > 0 ||
+      document.getElementById("SF").findDistrict.selectedIndex>-1 ||
+      document.getElementById("SF").findUnitText.value.length > 0) {
+      document.getElementById("SF").findSearchButtonClick.value = "Find";
+      document.getElementById("SF").findSearchPatient.disabled = true;
+      document.getElementById("SF").submit();
     }
+    else{
+      document.getElementById("SF").find<%=sDefaultFocus%>.focus();
+    }
+  }
 }
 
 <%-- clear patient --%>
-function clearPatient() {
-    if (checkSaveButton("<%=sCONTEXTPATH%>", "<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")) {
-        if (verifyPrestationCheck()) {
-            document.getElementById("SF").findimmatnew.value = "";
-            document.getElementById("SF").findArchiveFileCode.value = "";
-            document.getElementById("SF").findnatreg.value = "";
-            document.getElementById("SF").findName.value = "";
-            document.getElementById("SF").findFirstname.value = "";
-            document.getElementById("SF").findDateOfBirth.value = "";
-            document.getElementById("SF").findUnit.value = "";
-            document.getElementById("SF").findUnitText.value = "";
-            document.getElementById("SF").findPersonID.value = "";
-            document.getElementById("SF").findDistrict.selectedIndex = -1;
-            document.getElementById("SF").findUnitText.style.backgroundColor = "white";
+function clearPatient(){
+  if(checkSaveButton("<%=sCONTEXTPATH%>", "<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")) {
+    if(verifyPrestationCheck()){
+      document.getElementById("SF").findimmatnew.value = "";
+      document.getElementById("SF").findArchiveFileCode.value = "";
+      document.getElementById("SF").findnatreg.value = "";
+      document.getElementById("SF").findName.value = "";
+      document.getElementById("SF").findFirstname.value = "";
+      document.getElementById("SF").findDateOfBirth.value = "";
+      document.getElementById("SF").findUnit.value = "";
+      document.getElementById("SF").findUnitText.value = "";
+      document.getElementById("SF").findPersonID.value = "";
+      document.getElementById("SF").findDistrict.selectedIndex = -1;
+      document.getElementById("SF").findUnitText.style.backgroundColor = "white";
 
-            document.getElementById("SF").find<%=sDefaultFocus%>.focus();
-        }
+      document.getElementById("SF").find<%=sDefaultFocus%>.focus();
     }
+  }
 }
 
 <%-- search info service --%>
-function searchInfoService(sObject) {
-    if (sObject.value.length > 0) {
-        openPopup("/_common/search/serviceInformation.jsp&ServiceID=" + sObject.value);
-    }
+function searchInfoService(sObject){
+  if(sObject.value.length > 0){
+    openPopup("/_common/search/serviceInformation.jsp&ServiceID=" + sObject.value);
+  }
 }
 </script>
-<%=writeJSButtons("SF", "findSearchPatient")%>
+<%=writeJSButtons("SF","findSearchPatient")%>

@@ -183,7 +183,7 @@
         else {
         %>
         <script>
-            alert('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
+            alertDialogMessage('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
         </script>
         <%
         sAction = "showDetailsNew";
@@ -436,7 +436,7 @@
 
                       function validateMaxFocus(o){
                           if(o.value*1>setMaxQuantity){
-                              alert('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
+                        	  alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
                               o.focus();
                               return false;
                           }
@@ -445,7 +445,7 @@
 
                       function validateMax(o){
                           if(o.value*1>setMaxQuantity){
-                              alert('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
+                              alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
                               return false;
                           }
                           return true;
@@ -854,8 +854,6 @@ openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceS
 	                       var label = eval('('+resp.responseText+')');
 	                       $('EditEncounterUID').value=label.EncounterUid;
 	                       $('EditEncounterName').value=label.EncounterName;
-	                   },
-	   				onFailure: function(){
 	                   }
 	   			}
 	   		);

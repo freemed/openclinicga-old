@@ -268,7 +268,7 @@
                 <input type="hidden" id="purchaseDocuments" name="purchaseDocuments" value="">
                                     
                 <div id="pdScroller" style="overflow:none;width:263px;height:50px;border:none;">   
-                    <table width="23%" class="sortable" id="tblPD" cellspacing="1" headerRowCount="2"> 
+                    <table width="23%" class="sortable" id="tblPD" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
                         <%-- header --%>                        
                         <tr class="admin">
                             <%-- 0 - empty --%>
@@ -356,7 +356,7 @@
             <td class="admin2">
                 <input type="hidden" id="gains" name="gains" value="">
                                      
-                <table width="45%" class="sortable" id="tblGA" cellspacing="1" headerRowCount="2"> 
+                <table width="45%" class="sortable" id="tblGA" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
                     <%-- header --%>                        
                     <tr class="admin">
                         <%-- 0 - empty --%>
@@ -403,7 +403,7 @@
             <td class="admin2">
                 <input type="hidden" id="losses" name="losses" value="">
                                      
-                <table width="45%" class="sortable" id="tblLO" cellspacing="1" headerRowCount="2"> 
+                <table width="45%" class="sortable" id="tblLO" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
                     <%-- header --%>                        
                     <tr class="admin">
                         <%-- 0 - empty --%>
@@ -495,7 +495,7 @@
                 <td class="admin2">
                     <input type="hidden" id="loanReimbursementPlan" name="loanReimbursementPlan" value="">
                                          
-                    <table width="60%" class="sortable" id="tblRP" cellspacing="1" headerRowCount="2"> 
+                    <table width="60%" class="sortable" id="tblRP" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
                         <%-- header --%>                        
                         <tr class="admin">
                             <%-- 0 - empty --%>
@@ -567,7 +567,7 @@
                     <input type="hidden" id="loanDocuments" name="loanDocuments" value="">
                               
                     <div id="ldScroller" style="overflow:none;width:270px;height:50px;border:none;">           
-                        <table width="45%" class="sortable" id="tblLD" cellspacing="1" headerRowCount="2"> 
+                        <table width="45%" class="sortable" id="tblLD" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
                             <%-- header --%>                        
                             <tr class="admin">
                                 <%-- 0 - empty --%>

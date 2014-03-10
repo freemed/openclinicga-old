@@ -40,7 +40,7 @@
                 </td>
             </tr>
         </table>
-        <script type="text/javascript">
+        <script>
             function searchCategory(CategoryUidField,CategoryNameField){
                 openPopup("/_common/search/searchCategory.jsp&ts=<%=getTs()%>&VarCode="+CategoryUidField+"&VarText="+CategoryNameField);
               }
