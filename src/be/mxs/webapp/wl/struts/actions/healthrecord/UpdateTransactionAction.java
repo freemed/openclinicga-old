@@ -97,7 +97,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                 }
             }
             catch (Exception e){
-                if(Debug.enabled) Debug.println(e.getMessage());
+                Debug.println(e.getMessage());
             }
 
             Vector items = new Vector();
@@ -288,7 +288,6 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                     	oldTransaction.getItems().add(privateItem);
                     }
                     privateItem.setValue(privatetransaction);
-                    
 
                     //Sla de transactie op
                     returnedTransactionVO = MedwanQuery.getInstance().updateTransaction(sessionContainerWO.getPersonVO().personId.intValue(),oldTransaction);
@@ -342,7 +341,6 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                                 try {
 									ad_conn.close();
 								} catch (SQLException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 
@@ -452,7 +450,6 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
 
                     //Bewaar de actieve diagnoses
                     MedwanQuery.getInstance().activateDiagnosis(sessionContainerWO.getPersonVO().personId.intValue(),sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue(),sessionContainerWO.getCurrentTransactionVO().getServerId(),sessionContainerWO.getCurrentTransactionVO().getUpdateTime());
-                    
                 }
                 else {
                     sessionContainerWO.setCurrentTransactionVO(oldTransaction);
