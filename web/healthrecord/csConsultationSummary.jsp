@@ -596,7 +596,7 @@
   }
 
   function deleteRFE(serverid,objectid){
-      if(confirm("<%=getTran("Web","AreYouSure",sWebLanguage)%>")){
+    if(yesnoDialog("Web","areYouSureToDelete")){
           var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=encounter!=null?encounter.getUid():""%>&language=<%=sWebLanguage%>";
           var today = new Date();
           var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;
@@ -605,8 +605,6 @@
                   parameters: params,
                   onSuccess: function(resp){
                       rfe.innerHTML=resp.responseText;
-                  },
-                  onFailure: function(){
                   }
               }
           );

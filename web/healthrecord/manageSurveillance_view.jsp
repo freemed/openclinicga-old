@@ -930,7 +930,7 @@
 <%=ScreenHelper.contextFooter(request)%>
 </form>
 <%=writeJSButtons("transactionForm", "save")%>
-<script type="text/javascript">
+<script>
 var iSignesVitauxIndex = <%=iSignesVitauxTotal%>;
 var sSignesVitaux = "<%=sSignesVitaux%>";
 var editSignesVitauxRowid = "";

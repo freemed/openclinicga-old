@@ -151,7 +151,7 @@
             parName = (String)enumeration.nextElement();
             if (parName.indexOf("pdfpar-")>-1){
                 // Replace this parameter
-                if(Debug.enabled) Debug.println("Replacing "+parName+" with "+request.getParameter(parName));
+                Debug.println("Replacing "+parName+" with "+request.getParameter(parName));
                 outFDF.SetValue(parName,request.getParameter(parName));
             }
         }
@@ -169,15 +169,15 @@
             if(document!=null){
                 sFilename = document.getFilename();
                 String sFile = getFullContext(request)+customerInclude("/documents/"+sFilename.replaceAll("\\\\","/").replaceAll(MedwanQuery.getInstance().getConfigString("DocumentsFolder").replaceAll("\\\\","/"),"").replaceAll("//","/"));
-                if(Debug.enabled) Debug.println(sFile);
-                if(Debug.enabled) Debug.println("Looking via id for '"+sFile+"'");
+                Debug.println(sFile);
+                Debug.println("Looking via id for '"+sFile+"'");
                 outFDF.SetFile(sFile);
             }
         }
         else if (request.getParameter("file")!=null){
             String sFileName = getFullContext(request)+customerInclude("/documents/"+request.getParameter("file")).replaceAll("//","/");
 
-            if(Debug.enabled) Debug.println("Looking via filename for '"+sFileName+"'");
+            Debug.println("Looking via filename for '"+sFileName+"'");
             outFDF.SetFile(sFileName);
         }
 

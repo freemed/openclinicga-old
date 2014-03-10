@@ -3,7 +3,7 @@
 <%@include file="/includes/validateUser.jsp" %>
 <%@page errorPage="/includes/error.jsp" %>
 <%=checkPermission("occup.surveillance", "select", activeUser)%>
-<script type="text/javascript">
+<script>
     <%-- ACTIVATE TAB --%>
     function activateTab(iTab) {
         document.getElementById('tr1-view').style.display = 'none';
@@ -70,7 +70,7 @@
         <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}"/>
     </div>
 </form>
-<script type="text/javascript">
+<script>
     //*************  INIT OF ITEMTYPES ARRAY *******************//
     var itemsTypes = new Array();
     <%

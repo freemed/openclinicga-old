@@ -287,7 +287,7 @@
 <%=ScreenHelper.contextFooter(request)%>
 </form>
 <%=writeJSButtons("transactionForm", "save")%>
-<script type="text/javascript">
+<script>
     function setBP(oObject,sbp,dbp){
       if(oObject.value.length>0){
           if(!isNumberLimited(oObject,40,300)){

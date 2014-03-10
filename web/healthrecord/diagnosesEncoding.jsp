@@ -4,9 +4,9 @@
                 be.openclinic.medical.Diagnosis,
                 be.openclinic.system.Transaction,
                 be.openclinic.system.Item,
-                java.util.*" %>
-<%@ page import="be.openclinic.medical.PaperPrescription" %>
-<%@ page import="be.openclinic.medical.ReasonForEncounter" %>
+                java.util.*"%>
+<%@page import="be.openclinic.medical.PaperPrescription"%>
+<%@page import="be.openclinic.medical.ReasonForEncounter"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%
@@ -23,6 +23,7 @@
         	activeEncounterUid=activeEnc.getUid();
         }
     }
+    
     if(activeEncounterUid.length()>0){
         sRfe= ReasonForEncounter.getReasonsForEncounterAsHtml(activeEncounterUid,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
 		%>
@@ -38,6 +39,7 @@
 		<%
     }
 %>
+
 <table class="list" width="100%" cellspacing="1">
     <tr class="admin">
         <td align="center"><a href="javascript:openPopup('healthrecord/findICPC.jsp&PopupWidth=700&PopupHeight=400&ts=<%=getTs()%>&patientuid=<%=activePatient.personid %>')"><%=getTran("openclinic.chuk","diagnostic.document",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></a></td>
@@ -67,7 +69,8 @@
 			                     NC = (String) hDiagnosisInfo.get("NC");
 			                     serviceUid = (String) hDiagnosisInfo.get("ServiceUid");
 			                     flags = (String) hDiagnosisInfo.get("Flags");
-			                 } else {
+			                 }
+			                 else {
 			                     sGravity = "";
 			                     sCertainty = "";
 			                     POA = "";
@@ -75,7 +78,7 @@
 			                     serviceUid="";
 			                     flags="";
 			                 }
-			     			%><tr id="ICPCCode<%=item.getItemId()%>"><td width="1%" nowrap>
+			     			 %><tr id="ICPCCode<%=item.getItemId()%>"><td width="1%" nowrap>
 			                         <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="deleteDiagnosis('ICPCCode<%=item.getItemId()%>');"/>
 			                         </td><td width="1%">ICPC</td><td width="1%"><b><%=item.getType().replaceAll("ICPCCode","")%></b></td><td><b><%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")" %></i></b>
 			                         <input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/><input type='hidden' name='POAICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=POA%>"/><input type='hidden' name='NCICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=NC%>"/><input type='hidden' name='ServiceICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=serviceUid%>"/><input type='hidden' name='FlagsICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=flags%>"/>
@@ -92,7 +95,8 @@
 			                     NC = (String) hDiagnosisInfo.get("NC");
 			                     serviceUid = (String) hDiagnosisInfo.get("ServiceUid");
 			                     flags = (String) hDiagnosisInfo.get("Flags");
-			                 } else {
+			                 } 
+			                 else {
 			                     sGravity = "";
 			                     sCertainty = "";
 			                     POA = "";
@@ -100,6 +104,7 @@
 			                     serviceUid = "";
 			                     flags = "";
 			                 }
+			                 
 			                 %><tr id='ICD10Code<%=item.getItemId()%>'><td width="1%" nowrap>
 			                         <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="deleteDiagnosis('ICD10Code<%=item.getItemId()%>');"/>
 			                         </td><td width="1%">ICD10</td><td width="1%"><b><%=item.getType().replaceAll("ICD10Code","")%></b></td><td><b><%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")" %></i></b>
@@ -113,6 +118,7 @@
 	    </td>
     </tr>
 </table>
+
 <table class="list" width="100%" cellspacing="1">
     <tr class="admin">
         <td align="center"><%=getTran("openclinic.chuk","contact.diagnoses",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></td>
@@ -121,46 +127,44 @@
         <td>
 	        <table width='100%'>
 		        <%
-		        if(activeEncounterUid.length()>0){
-			         items = curTran.getItems().iterator();
-			
-			         sReferenceUID = curTran.getServerId() + "." + curTran.getTransactionId();
-			         sReferenceType = "Transaction";
-			         Vector d = Diagnosis.selectDiagnoses("","",activeEncounterUid,"","","","","","","","","","");
-
-			         for (int n=0;n<d.size();n++) {
-			        	 Diagnosis diag=(Diagnosis)d.elementAt(n);
-	                     sGravity = diag.getGravity()+"";
-	                     sCertainty = diag.getCertainty()+"";
-	                     POA = diag.getPOA();
-	                     NC = diag.getNC();
-	                     flags = diag.getFlags();
-		     		     if (diag.getCodeType().equalsIgnoreCase("icpc")){
-			     			%>
-		                         <tr><td width="1%">ICPC</td><td width="1%"><b><%=diag.getCode()%></b></td><td><b><%=MedwanQuery.getInstance().getCodeTran("icpccode"+diag.getCode(),sWebLanguage)%> <%=diag.getLateralisation()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")" %></i></b></td></tr>
-			                 <%
-			             }
-			             else if (diag.getCodeType().equalsIgnoreCase("icd10")){
-				     			%>
-		                         <tr><td width="1%">ICD10</td><td width="1%"><b><%=diag.getCode()%></b></td><td><b><%=MedwanQuery.getInstance().getCodeTran("icd10code"+diag.getCode(),sWebLanguage)%> <%=diag.getLateralisation()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")" %></i></b></td></tr>
-			                 <%
-			             }
-			         }
-		        }
-		        %>
+			        if(activeEncounterUid.length()>0){
+				         items = curTran.getItems().iterator();
+				
+				         sReferenceUID = curTran.getServerId() + "." + curTran.getTransactionId();
+				         sReferenceType = "Transaction";
+				         Vector d = Diagnosis.selectDiagnoses("","",activeEncounterUid,"","","","","","","","","","");
+	
+				         for(int n=0;n<d.size();n++){
+				        	 Diagnosis diag=(Diagnosis)d.elementAt(n);
+		                     sGravity = diag.getGravity()+"";
+		                     sCertainty = diag.getCertainty()+"";
+		                     POA = diag.getPOA();
+		                     NC = diag.getNC();
+		                     flags = diag.getFlags();
+		                     
+			     		     if (diag.getCodeType().equalsIgnoreCase("icpc")){
+				     			 %><tr><td width="1%">ICPC</td><td width="1%"><b><%=diag.getCode()%></b></td><td><b><%=MedwanQuery.getInstance().getCodeTran("icpccode"+diag.getCode(),sWebLanguage)%> <%=diag.getLateralisation()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")" %></i></b></td></tr><%
+				             }
+				             else if (diag.getCodeType().equalsIgnoreCase("icd10")){
+					     		 %><tr><td width="1%">ICD10</td><td width="1%"><b><%=diag.getCode()%></b></td><td><b><%=MedwanQuery.getInstance().getCodeTran("icd10code"+diag.getCode(),sWebLanguage)%> <%=diag.getLateralisation()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")" %></i></b></td></tr><%
+				             }
+				         }
+			        }
+			    %>
 	        </table>
 	    </td>
     </tr>
 </table>
+
 <table class="list" width="100%" cellspacing="1">
     <tr class="admin">
         <td align="center">SNOMED-CT</td>
     </tr>
     <tr>
-        <td id='snomedcodes'>
-	    </td>
+        <td id='snomedcodes'></td>
     </tr>
 </table>
+
 <script>
 	function readClipboard(){
 		var txt=window.clipboardData.getData("Text");
@@ -185,30 +189,29 @@
 			}
 		}
 	}
+	
 	window.setInterval("readClipboard();",1000);
 </script>
+
 <script>
   function deleteDiagnosis(itemid){
-      if(confirm("<%=getTran("Web","AreYouSure",sWebLanguage)%>")){
-    	  document.getElementById(itemid).innerHTML='';
-      }
+    if(yesnoDialog("Web","areYouSure")){
+   	  document.getElementById(itemid).innerHTML='';
+    }
   }
 
   function deleteRFE(serverid,objectid){
-      if(confirm("<%=getTran("Web","AreYouSure",sWebLanguage)%>")){
-          var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=activeEncounterUid%>&language=<%=sWebLanguage%>";
-          var today = new Date();
-          var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;
-          new Ajax.Request(url,{
-                  method: "GET",
-                  parameters: params,
-                  onSuccess: function(resp){
-                      rfe.innerHTML=resp.responseText;
-                  },
-                  onFailure: function(){
-                  }
-              }
-          );
-      }
+	if(yesnoDialog("Web","areYouSure")){
+      var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=activeEncounterUid%>&language=<%=sWebLanguage%>";
+      var today = new Date();
+      var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: params,
+          onSuccess: function(resp){
+          rfe.innerHTML=resp.responseText;
+        }
+      });
+    }
   }
 </script>

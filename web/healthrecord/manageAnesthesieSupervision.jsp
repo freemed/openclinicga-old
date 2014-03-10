@@ -226,7 +226,7 @@
 <%=ScreenHelper.contextFooter(request)%>
 </form>
 <%=writeJSButtons("transactionForm", "save")%>
-<script type="text/javascript">
+<script>
 var iSAIndex = <%=iSATotal%>;
 var sSA = "<%=sSA%>";
 var editSARowid = "";

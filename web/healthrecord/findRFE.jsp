@@ -131,11 +131,11 @@
         </form>
     <%
     }
-    %>
-<script type="text/javascript">
+%>
+    
+<script>
     window.setTimeout("document.getElementById('keywords').focus()",200);
     window.resizeTo(700,470);
-    document.getElementById('info').innerHTML='';
 
     function doFind(){
       if(RFEForm.keywords.value.length > 0){

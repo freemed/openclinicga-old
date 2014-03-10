@@ -1164,7 +1164,7 @@
 
 <%=writeJSButtons("transactionForm","saveButton")%>
 
-<script type="text/javascript">
+<script>
 var iSignesVitauxIndex = <%=iSignesVitauxTotal%>;
 var sSignesVitaux = "<%=sSignesVitaux%>";
 var editSignesVitauxRowid = "";

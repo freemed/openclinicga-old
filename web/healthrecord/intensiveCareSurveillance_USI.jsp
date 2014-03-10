@@ -215,7 +215,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)' <%if(usi_data_holders.size() > 0) out.print("readonly");%>>
-                <% if(usi_data_holders.size() == 0){%><script type="text/javascript">writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script><%}%>
+                <% if(usi_data_holders.size() == 0){%><script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script><%}%>
             </td>
         </tr>
     </table>
@@ -306,7 +306,7 @@
     <%=ScreenHelper.alignButtonsStop()%>
     <%=ScreenHelper.contextFooter(request)%>
 </form>
-<script type="text/javascript">
+<script>
     function doSubmit(){
         document.getElementById('transactionForm').save.disabled = true;
         document.getElementById('transactionForm').submit();

@@ -150,7 +150,7 @@ public String getComplexResult(String id, Map map, String sWebLanguage) {
     %>
 </table>
 </body>
-<script type="text/javascript">
+<script>
     function resizeMe(w,h){
         window.resizeTo(w,h);
         window.moveTo((screen.width-w)/2,(screen.height-h)/2)

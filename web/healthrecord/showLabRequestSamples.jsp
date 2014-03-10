@@ -5,7 +5,7 @@
     String transactionid=checkString(request.getParameter("transactionid"));
 %>
 <form name="samplesForm" method="post">
-<script type="text/javascript">
+<script>
     function showRequest(serverid,transactionid){
         window.open("<c:url value='/labos/manageLabResult_view.jsp'/>?ts=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
     }
@@ -51,7 +51,7 @@
 <%
     }
 %>
-<script type="text/javascript">
+<script>
     function printLabels(){
         samplesForm.action="<c:url value='/healthrecord/createLabSampleLabelPdf.jsp'/>";
         samplesForm.submit();

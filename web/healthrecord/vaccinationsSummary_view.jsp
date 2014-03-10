@@ -1,8 +1,11 @@
 <%@include file="/includes/validateUser.jsp"%>
+<%@page import="be.dpms.medwan.common.model.vo.occupationalmedicine.ExaminationVO"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%=checkPermission("occup.vaccinations", "select",activeUser)%>
+<%=checkPermission("occup.vaccinations","select",activeUser)%>
+
 <form name="vaccinationForm" method="POST" action='/healthrecord/updateTransaction.do?ts=<%=getTs()%>' focus='type'>
 <%=writeTableHeader("Web.Occup","be.mxs.healthrecord.vaccination.vaccination-card",sWebLanguage,sCONTEXTPATH+"/main.do?Page=curative/index.jsp&ts="+getTs())%>
+
 <table border='0' width='100%' align='center' cellspacing="1" class="list">
   <tr>
     <td>
@@ -17,6 +20,7 @@
           <td width="15%"><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.next-status",sWebLanguage)%></td>
           <td width="15%"><%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%></td>
         </tr>
+        
         <%--- RUN THRU VACCINATIONS IN SESSION ---%>
         <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="personalVaccinationsInfoVO">
           <logic:iterate id="vaccinationInfoVO" scope="session" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="personalVaccinationsInfoVO.vaccinationsInfoVO">
@@ -46,6 +50,7 @@
                   </logic:equal>
                 </logic:present>
               </td>
+              
               <%--- STATUS ---%>
               <td>
                 <mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="value" translate="false" toBean="vaccinationCurrentStatus" toScope="page"/>
@@ -58,6 +63,7 @@
                   </a>
                 </logic:notEqual>
               </td>
+              
               <%--- INFO ---%>
               <td align="center">
                 <mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_COMMENT" property="value" translate="true" toBean="comment" toScope="page"/>
@@ -67,6 +73,7 @@
                   </logic:notEqual>
                 </logic:present>
               </td>
+              
               <%--- DATE ---%>
               <td>
                 <mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="value" translate="false" toBean="date" toScope="page"/>
@@ -76,6 +83,7 @@
                   </logic:notEqual>
                 </logic:present>
               </td>
+              
                 <logic:notEqual name="vaccinationInfoVO" scope="page" property="nextStatus" value="-">
                   <mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE" property="value" translate="false" toBean="nextdate" toScope="page"/>
                   <logic:present name="nextdate">
@@ -102,6 +110,7 @@
   </tr>
   <tr><td>&nbsp;</td></tr>
   <tr><td>&nbsp;</td></tr>
+  
   <%--- OTHER VACCINATIONS -----------------------------------------------------------------------%>
   <tr class="admin">
     <td><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.autres-vaccins",sWebLanguage)%></td>
@@ -127,6 +136,7 @@
     </td>
   </tr>
   <tr><td>&nbsp;</td></tr>
+  
   <%--- 3 ARROWS ---------------------------------------------------------------------------------%>
   <tr>
     <bean:define id="flags" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="flags"/>

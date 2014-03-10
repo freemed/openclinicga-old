@@ -108,7 +108,7 @@
             iTeethTotal++;
 
             %>
-                <script type="text/javascript">
+                <script>
                     vSelectedHashtable.put("<%=sTmpTooth%>","<%=sTmpStatus%>");
                 </script>
             <%

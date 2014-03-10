@@ -351,7 +351,7 @@
               %>var maxSelectedLabAnalyses = <%=maxSelectedLabAnalyses%>;<%
           }
           catch(Exception e){
-              if(Debug.enabled) Debug.println("ERROR : Invalid value for configstring 'maxSelectedLabAnalyses'.");
+              Debug.println("ERROR : Invalid value for configstring 'maxSelectedLabAnalyses'.");
               %>var maxSelectedLabAnalyses = 10;<%
           }
       }

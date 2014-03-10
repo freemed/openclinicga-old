@@ -397,7 +397,7 @@
                                     }
                                 %>
                             </table>
-                            <script type="text/javascript">
+                            <script>
                                 function setCoord(oObject){
                                     if (oObject.style.backgroundColor == ''){
                                         oObject.style.backgroundColor='black';

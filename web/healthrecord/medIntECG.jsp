@@ -34,14 +34,14 @@
         <tr id='parenttd'>
             <td class="admin" colspan="2">
                 <%=getLabel("Web.Occup","medwan.common.nothing-to-mention",sWebLanguage,"ecg-c1")%>
-                <input type="checkbox" id="ecg-c1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" onclick="if(this.checked){ document.getElementById('ecg-details').style.display= 'none'; } else { document.getElementById('ecg-details').style.display='block';}">
+                <input type="checkbox" id="ecg-c1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" onclick="toggleECG(this);">
             </td>
         </tr>
 
         <%-- HIDDEN PART -----------------------------------------------------------------------------%>
         <tr>
-            <td colspan="2">
-                <table width='100%' border='0' cellspacing="1" cellpadding="0"  id="ecg-details">
+            <td colspan="2" width="100%">
+                <table width="100%" border="0" cellspacing="1" cellpadding="0" id="ecg-details">
                     <%-- NORMAL - ANORMAL --%>
                     <tr>
                         <td rowspan="13" width="<%=sTDAdminWidth%>" class='admin'><%=getTran("Web.Occup","medwan.common.result",sWebLanguage)%>&nbsp;</td>
@@ -127,7 +127,7 @@
                         <td class="admin2" colspan="1">
                             <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" <%=setRightClick("ITEM_TYPE_ECG_REMARK")%>  rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_REMARK" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_REMARK" property="value"/></textarea>
                         </td>
-                        <td class="admin2" colspan="3">
+                        <td class="admin2" colspan="2">
                             <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
                         </td>
                     </tr>
@@ -148,6 +148,25 @@
 </form>
 
 <script>
+  <%-- TOGGLE ECG --%>
+  function toggleECG(checkBox){
+    if(checkBox.checked){ 
+      if(navigator.appName=="Netscape"){ // FireFox
+        document.getElementById("ecg-details").style.visibility = "hidden";
+      }
+      else{
+      	document.getElementById("ecg-details").style.display = "none";  
+      }
+    }
+    else{
+      if(navigator.appName=="Netscape"){ // FireFox
+        document.getElementById("ecg-details").style.visibility = "visible";
+      }
+      else{
+        document.getElementById("ecg-details").style.display = "block";
+      }
+    }
+  }
 
   <%-- SUBMIT FORM --%>
   function submitForm(){

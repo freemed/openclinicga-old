@@ -107,7 +107,7 @@
             </td>
             <td class="admin2" colspan="4">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script type="text/javascript">writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
             </td>
         </tr>
         <tr>
@@ -331,7 +331,7 @@
         </tr>
     </table>
     <%=ScreenHelper.contextFooter(request)%>
-<script type="text/javascript">
+<script>
     if("<%=sTranOphtalmologyConsContext%>" == "0"){
         document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_CONTEXT" property="itemId"/>]>.value')[0].checked = true;
     }else if("<%=sTranOphtalmologyConsContext%>" == "1"){

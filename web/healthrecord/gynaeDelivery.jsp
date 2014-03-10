@@ -383,7 +383,7 @@
                     <option value="45">45</option>
                 </select>
                 <input id="ITEM_TYPE_DELIVERY_STARTHOUR" type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_STARTHOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_STARTHOUR" property="value"/>" onblur="checkTime(this)" onkeypress="keypressTime(this)">
-                <script type="text/javascript">
+                <script>
                     var setBeginHourIntSelect = function(){
 
                         var hours = $("beginHourSelect").options;

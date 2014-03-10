@@ -180,7 +180,7 @@
     </table>
 <%=ScreenHelper.contextFooter(request)%>
 </form>
-<script type="text/javascript">
+<script>
     function doSubmit(){
         document.transactionForm.save.disabled = true;
         document.transactionForm.submit();

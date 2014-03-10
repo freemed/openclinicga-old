@@ -43,7 +43,7 @@ try{
         }
         MedwanQuery.getInstance().updateTransaction(Integer.parseInt(activePatient.personid), (TransactionVO) transaction);
 %>
-        <script type="text/javascript">
+        <script>
             window.opener.location.href = "main.do?Page=curative/index.jsp&ts=<%=getTs()%>";
             window.close();
         </script>
@@ -65,7 +65,7 @@ try{
 
         MedwanQuery.getInstance().updateTransaction(Integer.parseInt(activePatient.personid),(TransactionVO)transaction);
 %>
-        <script type="text/javascript">
+        <script>
             window.opener.location.href = "main.do?Page=curative/index.jsp&ts=<%=getTs()%>";
             window.close();
         </script>
@@ -609,7 +609,7 @@ try{
                     <INPUT class="button" type="button" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
             </td>
         <tr>
-        <script type="text/javascript">
+        <script>
             if(document.getElementsByName("<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType()%>")[0].value == ""){
                 document.getElementsByName("<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType()%>")[0].value = "<%=ScreenHelper.formatSQLDate(ScreenHelper.getSQLTime(),"HH:mm")%>";
             }

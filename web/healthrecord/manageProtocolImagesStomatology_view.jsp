@@ -165,7 +165,7 @@
 <%=ScreenHelper.contextFooter(request)%>
 
 </form>
-<script type="text/javascript">
+<script>
 var iImagesInformationIndex = <%=iImagesInformationTotal%>;
 var sImagesInformation = "<%=sImagesInformation%>";
 var editImagesInformationRowid = "";
