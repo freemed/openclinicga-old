@@ -24,6 +24,44 @@ public class Examination {
     private int cost;
     private int income;
 
+    //--- CONSTRUCTOR (1) -------------------------------------------------------------------------
+    public Examination(){
+    	// empty
+    }
+    
+    //--- CONSTRUCTOR (2) -------------------------------------------------------------------------
+    public Examination(String transactionType){
+        this.transactionType = transactionType;
+        cost = 0;
+        income = 0;
+        
+        // set cost and income
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            PreparedStatement ps = oc_conn.prepareStatement("select * from ExaminationCosts where transactionType=?");
+            ps.setString(1,transactionType);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                cost = rs.getInt("cost");
+                income = rs.getInt("income");
+            }
+            rs.close();
+            ps.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        // close connection
+        try {
+			oc_conn.close();
+		}
+        catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+
+    //--- COST ------------------------------------------------------------------------------------
     public int getCost() {
         return cost;
     }
@@ -32,6 +70,7 @@ public class Examination {
         this.cost = cost;
     }
 
+    //--- INCOME ----------------------------------------------------------------------------------
     public int getIncome() {
         return income;
     }
@@ -39,39 +78,7 @@ public class Examination {
     public void setIncome(int income) {
         this.income = income;
     }
-
-    public Examination(String transactionType) {
-        this.transactionType = transactionType;
-        cost=0;
-        income=0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try{
-            PreparedStatement ps = oc_conn.prepareStatement("select * from ExaminationCosts where transactionType=?");
-            ps.setString(1,transactionType);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                cost=rs.getInt("cost");
-                income=rs.getInt("income");
-            }
-            rs.close();
-            ps.close();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        try {
-			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
-
-    public Examination(){
-        
-    }
-
-
+    
     public int getId() {
         return id;
     }
@@ -136,13 +143,13 @@ public class Examination {
         this.updateuserid = updateuserid;
     }
 
+    //--- ADD EXAMINATION -------------------------------------------------------------------------
     public static void addExamination(Examination objExam){
         PreparedStatement ps = null;
 
-        String sInsert = " INSERT INTO Examinations(updatetime,updateuserid,data,priority,transactionType,messageKey,id)"+
-                         " VALUES(?,?,?,?,?,'',?)";
-
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        String sInsert = "INSERT INTO Examinations(updatetime,updateuserid,data,priority,transactionType,messageKey,id)"+
+                         " VALUES(?,?,?,?,?,?,?)";
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sInsert);
             ps.setTimestamp(1,objExam.getUpdatetime());
@@ -150,30 +157,35 @@ public class Examination {
             ps.setBytes(3,objExam.getData());
             ps.setInt(4,objExam.getPriority());
             ps.setString(5,objExam.getTransactionType());
-            ps.setInt(6,objExam.getId());
+            ps.setString(6,ScreenHelper.checkString(objExam.getMessageKey()));
+            ps.setInt(7,objExam.getId());
 
             ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         MedwanQuery.getInstance().removeExamination(objExam.getId()+"");
     }
 
+    //--- SAVE EXAMINATION ------------------------------------------------------------------------
     public static void saveExamination(Examination objExam){
         PreparedStatement ps = null;
 
-        String sUpdate = " UPDATE Examinations SET updatetime=?, updateuserid=?, data=?, priority=?, transactionType=?"+
+        String sUpdate = "UPDATE Examinations SET updatetime = ?, updateuserid = ?, data = ?,"+
+                         "  priority = ?, transactionType = ?, messageKey = ?"+
                          " WHERE id = ?";
-
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sUpdate);
             ps.setTimestamp(1,objExam.getUpdatetime());
@@ -181,49 +193,60 @@ public class Examination {
             ps.setBytes(3,objExam.getData());
             ps.setInt(4,objExam.getPriority());
             ps.setString(5,objExam.getTransactionType());
-            ps.setInt(6,objExam.getId());
+            ps.setString(6,ScreenHelper.checkString(objExam.getMessageKey()));
+            ps.setInt(7,objExam.getId());
 
             ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         MedwanQuery.getInstance().removeExamination(objExam.getId()+"");
     }
 
+    //--- DELETE EXAMINATION ----------------------------------------------------------------------
     public static void deleteExamination(Examination objExam){
         PreparedStatement ps = null;
 
-        String sDelete = "UPDATE Examinations SET deletedate=?, updatetime=?, updateuserid=? WHERE id=?";
-
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        String sDelete = "UPDATE Examinations SET deletedate=?, updatetime=?, updateuserid=?"+
+                         " WHERE id=?";
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sDelete);
             ps.setTimestamp(1,objExam.getDeletedate());
             ps.setTimestamp(2,objExam.getUpdatetime());
             ps.setInt(3,objExam.getUpdateuserid());
             ps.setInt(4,objExam.getId());
-            ps.close();
-        }catch(Exception e){
+            
+            ps.executeUpdate();
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         MedwanQuery.getInstance().removeExamination(objExam.getId()+"");
     }
 
+    //--- SELECT EXAMINATIONS ---------------------------------------------------------------------
     public static Vector SelectExaminations(){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -233,7 +256,7 @@ public class Examination {
         Vector vExams = new Vector();
         Examination objExam;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
@@ -252,20 +275,25 @@ public class Examination {
 
                 vExams.addElement(objExam);
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vExams;
     }
 
+    //--- SEARCH ALL EXAMINATIONS -----------------------------------------------------------------
     public static Vector searchAllExaminations(){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -274,7 +302,7 @@ public class Examination {
 
         Vector vResults = new Vector();
         Hashtable hResults;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);
             rs = ps.executeQuery();
@@ -285,22 +313,25 @@ public class Examination {
                 hResults.put("transactionType",ScreenHelper.checkString(rs.getString("transactionType")));
                 vResults.addElement(hResults);
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vResults;
     }
 
+    //--- SEARCH EXAMINATION ----------------------------------------------------------------------
     public static String searchExamination(int id){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -308,7 +339,7 @@ public class Examination {
         String sSelect = "SELECT transactionType FROM Examinations where id = ?";
         String sValue = "";
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1,id);
@@ -317,19 +348,21 @@ public class Examination {
             if(rs.next()){
                 sValue = ScreenHelper.checkString(rs.getString("transactionType"));
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return sValue;
     }
 
@@ -339,7 +372,7 @@ public class Examination {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sSelect = "SELECT * FROM Examinations WHERE id = ?";
             ps = oc_conn.prepareStatement(sSelect);

@@ -147,7 +147,6 @@ public class Config {
         try {
 			co_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -208,7 +207,6 @@ public class Config {
         try {
 			co_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return vConfig;
@@ -240,7 +238,6 @@ public class Config {
         try {
 			co_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -283,7 +280,6 @@ public class Config {
         try {
 			co_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -306,7 +302,6 @@ public class Config {
         try {
 			co_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -351,7 +346,6 @@ public class Config {
         try {
 			co_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return objConfig;
@@ -381,7 +375,6 @@ public class Config {
         try {
 			co_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return hSQL;

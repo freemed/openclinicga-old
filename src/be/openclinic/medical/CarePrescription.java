@@ -33,8 +33,8 @@ public class CarePrescription extends OC_Object{
                 this.setPatient(AdminPerson.getAdminPerson(ad_conn,patientUid));
                 try {
 					ad_conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+				} 
+                catch (SQLException e) {
 					e.printStackTrace();
 				}
             }
@@ -55,8 +55,8 @@ public class CarePrescription extends OC_Object{
                 this.setPrescriber(AdminPerson.getAdminPerson(ad_conn,prescriberUid));
                 try {
 					ad_conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+				} 
+                catch (SQLException e) {
 					e.printStackTrace();
 				}
             }
@@ -229,7 +229,7 @@ public class CarePrescription extends OC_Object{
         try{
             if(this.getUid().equals("-1") && !prescrWithSameDataExists){
                 //***** INSERT *****
-                if(Debug.enabled) Debug.println("@@@ CAREPRECRIPTION insert @@@");
+                Debug.println("@@@ CAREPRECRIPTION insert @@@");
 
                 sSelect = "INSERT INTO OC_CAREPRESCRIPTIONS (OC_CAREPRESCR_SERVERID,OC_CAREPRESCR_OBJECTID,OC_CAREPRESCR_PATIENTUID,"+
                           "  OC_CAREPRESCR_PRESCRIBERUID,OC_CAREPRESCR_CAREUID,OC_CAREPRESCR_BEGIN,OC_CAREPRESCR_END,OC_CAREPRESCR_TIMEUNIT,"+
@@ -275,47 +275,45 @@ public class CarePrescription extends OC_Object{
                 ps.executeUpdate();
             }
             else{
-                if(!prescrWithSameDataExists){
-                    //***** UPDATE *****
-                    if(Debug.enabled) Debug.println("@@@ CAREPRECRIPTION update @@@");
+                //***** UPDATE *****
+                Debug.println("@@@ CAREPRECRIPTION update @@@");
 
-                    sSelect = "UPDATE OC_CAREPRESCRIPTIONS SET OC_CAREPRESCR_PATIENTUID=?, OC_CAREPRESCR_PRESCRIBERUID=?,"+
-                              "  OC_CAREPRESCR_CAREUID=?, OC_CAREPRESCR_BEGIN=?, OC_CAREPRESCR_END=?, OC_CAREPRESCR_TIMEUNIT=?,"+
-                              "  OC_CAREPRESCR_TIMEUNITCOUNT=?, OC_CAREPRESCR_UNITSPERTIMEUNIT=?,"+
-                              "  OC_CAREPRESCR_UPDATETIME=?, OC_CAREPRESCR_UPDATEUID=?, OC_CAREPRESCR_VERSION=(OC_CAREPRESCR_VERSION+1)"+
-                              " WHERE OC_CAREPRESCR_SERVERID=? AND OC_CAREPRESCR_OBJECTID=?";
+                sSelect = "UPDATE OC_CAREPRESCRIPTIONS SET OC_CAREPRESCR_PATIENTUID=?, OC_CAREPRESCR_PRESCRIBERUID=?,"+
+                          "  OC_CAREPRESCR_CAREUID=?, OC_CAREPRESCR_BEGIN=?, OC_CAREPRESCR_END=?, OC_CAREPRESCR_TIMEUNIT=?,"+
+                          "  OC_CAREPRESCR_TIMEUNITCOUNT=?, OC_CAREPRESCR_UNITSPERTIMEUNIT=?,"+
+                          "  OC_CAREPRESCR_UPDATETIME=?, OC_CAREPRESCR_UPDATEUID=?, OC_CAREPRESCR_VERSION=(OC_CAREPRESCR_VERSION+1)"+
+                          " WHERE OC_CAREPRESCR_SERVERID=? AND OC_CAREPRESCR_OBJECTID=?";
 
-                    ps = oc_conn.prepareStatement(sSelect);
-                    ps.setString(1,this.getPatientUid());
-                    ps.setString(2,this.getPrescriberUid());
-                    ps.setString(3,this.getCareUid());
+                ps = oc_conn.prepareStatement(sSelect);
+                ps.setString(1,this.getPatientUid());
+                ps.setString(2,this.getPrescriberUid());
+                ps.setString(3,this.getCareUid());
 
-                    // date begin
-                    if(this.begin!=null) ps.setTimestamp(4,new java.sql.Timestamp(this.begin.getTime()));
-                    else                 ps.setNull(4,Types.TIMESTAMP);
+                // date begin
+                if(this.begin!=null) ps.setTimestamp(4,new java.sql.Timestamp(this.begin.getTime()));
+                else                 ps.setNull(4,Types.TIMESTAMP);
 
-                    // date end
-                    if(this.end!=null) ps.setTimestamp(5,new java.sql.Timestamp(end.getTime()));
-                    else               ps.setNull(5,Types.TIMESTAMP);
+                // date end
+                if(this.end!=null) ps.setTimestamp(5,new java.sql.Timestamp(end.getTime()));
+                else               ps.setNull(5,Types.TIMESTAMP);
 
-                    if(this.getTimeUnit().length() > 0) ps.setString(6,this.getTimeUnit());
-                    else                                ps.setNull(6,Types.VARCHAR);
+                if(this.getTimeUnit().length() > 0) ps.setString(6,this.getTimeUnit());
+                else                                ps.setNull(6,Types.VARCHAR);
 
-                    if(this.getTimeUnitCount() > -1) ps.setInt(7,this.getTimeUnitCount());
-                    else                             ps.setNull(7,Types.INTEGER);
+                if(this.getTimeUnitCount() > -1) ps.setInt(7,this.getTimeUnitCount());
+                else                             ps.setNull(7,Types.INTEGER);
 
-                    if(this.getUnitsPerTimeUnit() > -1) ps.setDouble(8,this.getUnitsPerTimeUnit());
-                    else                                ps.setNull(8,Types.DOUBLE);
+                if(this.getUnitsPerTimeUnit() > -1) ps.setDouble(8,this.getUnitsPerTimeUnit());
+                else                                ps.setNull(8,Types.DOUBLE);
 
-                    // OBJECT variables
-                    ps.setTimestamp(9,new Timestamp(new java.util.Date().getTime())); // now
-                    ps.setString(10,this.getUpdateUser());
+                // OBJECT variables
+                ps.setTimestamp(9,new Timestamp(new java.util.Date().getTime())); // now
+                ps.setString(10,this.getUpdateUser());
 
-                    ps.setInt(11,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
-                    ps.setInt(12,Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".")+1)));
+                ps.setInt(11,Integer.parseInt(this.getUid().substring(0,this.getUid().indexOf("."))));
+                ps.setInt(12,Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".")+1)));
 
-                    ps.executeUpdate();
-                }
+                ps.executeUpdate();
             }
         }
         catch(Exception e){
@@ -336,8 +334,6 @@ public class CarePrescription extends OC_Object{
     //--- EXISTS ----------------------------------------------------------------------------------
     // checks the database for a record with the same UNIQUE KEYS as 'this'.
     public String exists(){
-        if(Debug.enabled) Debug.println("@@@ CAREPRECRIPTION exists ? @@@");
-
         PreparedStatement ps = null;
         ResultSet rs = null;
         String uid = "";
@@ -392,8 +388,6 @@ public class CarePrescription extends OC_Object{
     //--- CHANGED ---------------------------------------------------------------------------------
     // checks the database for a record with the same DATA as 'this'.
     public boolean changed(){
-        if(Debug.enabled) Debug.println("@@@ CAREPRECRIPTION changed ? @@@");
-
         PreparedStatement ps = null;
         ResultSet rs = null;
         boolean changed = true;

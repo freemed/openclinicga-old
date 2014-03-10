@@ -221,7 +221,7 @@ public class UserProduct implements Comparable {
     //--- EXISTS ----------------------------------------------------------------------------------
     // checks the database for a record with the same UNIQUE KEYS as 'this'.
     public String exists(){
-        if(Debug.enabled) Debug.println("@@@ USERPRODUCT exists ? @@@");
+        Debug.println("@@@ USERPRODUCT exists ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;

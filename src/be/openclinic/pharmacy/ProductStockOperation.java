@@ -353,7 +353,7 @@ public class ProductStockOperation extends OC_Object{
             if(this.getUid().equals("-1")){
             	isnew=true;
                 //***** INSERT *****
-                if(Debug.enabled) Debug.println("@@@ PRODUCTSTOCK-OPERATION insert @@@");
+                Debug.println("@@@ PRODUCTSTOCK-OPERATION insert @@@");
 
                 sSelect = "INSERT INTO OC_PRODUCTSTOCKOPERATIONS (OC_OPERATION_SERVERID, OC_OPERATION_OBJECTID,"+
                           "  OC_OPERATION_DESCRIPTION, OC_OPERATION_SRCDESTTYPE, OC_OPERATION_SRCDESTUID,"+
@@ -402,7 +402,7 @@ public class ProductStockOperation extends OC_Object{
             else{
                 //***** UPDATE *****
             	//Remark: OC_OPERATION_UID is never updated!!
-                if(Debug.enabled) Debug.println("@@@ PRODUCTSTOCK-OPERATION update @@@");
+                Debug.println("@@@ PRODUCTSTOCK-OPERATION update @@@");
 
                 sSelect = "UPDATE OC_PRODUCTSTOCKOPERATIONS SET OC_OPERATION_DESCRIPTION=?, OC_OPERATION_SRCDESTTYPE=?,"+
                           "  OC_OPERATION_SRCDESTUID=?, OC_OPERATION_DATE=?, OC_OPERATION_PRODUCTSTOCKUID=?, OC_OPERATION_UNITSCHANGED=?,"+
@@ -492,7 +492,7 @@ public class ProductStockOperation extends OC_Object{
             if(this.getUid().equals("-1")){
             	isnew=true;
                 //***** INSERT *****
-                if(Debug.enabled) Debug.println("@@@ PRODUCTSTOCK-OPERATION insert @@@");
+                Debug.println("@@@ PRODUCTSTOCK-OPERATION insert @@@");
 
                 sSelect = "INSERT INTO OC_PRODUCTSTOCKOPERATIONS (OC_OPERATION_SERVERID, OC_OPERATION_OBJECTID,"+
                           "  OC_OPERATION_DESCRIPTION, OC_OPERATION_SRCDESTTYPE, OC_OPERATION_SRCDESTUID,"+
@@ -541,7 +541,7 @@ public class ProductStockOperation extends OC_Object{
             else{
                 //***** UPDATE *****
             	//Remark: OC_OPERATION_UID is never updated!!
-                if(Debug.enabled) Debug.println("@@@ PRODUCTSTOCK-OPERATION update @@@");
+                Debug.println("@@@ PRODUCTSTOCK-OPERATION update @@@");
 
                 sSelect = "UPDATE OC_PRODUCTSTOCKOPERATIONS SET OC_OPERATION_DESCRIPTION=?, OC_OPERATION_SRCDESTTYPE=?,"+
                           "  OC_OPERATION_SRCDESTUID=?, OC_OPERATION_DATE=?, OC_OPERATION_PRODUCTSTOCKUID=?, OC_OPERATION_UNITSCHANGED=?,"+
@@ -581,7 +581,7 @@ public class ProductStockOperation extends OC_Object{
 
             //*** update this productStock-level ***
             int currentProductStockLevel = productStock.getLevel();
-            if(Debug.enabled) Debug.println("@@@ current ProductStockLevel = "+currentProductStockLevel);
+            Debug.println("@@@ current ProductStockLevel = "+currentProductStockLevel);
 
             String sourceBatchUid="?";
             String destinationBatchUid="?";
@@ -620,7 +620,7 @@ public class ProductStockOperation extends OC_Object{
                 }
             }
 
-            if(Debug.enabled) Debug.println("@@@ updated ProductStockLevel = "+productStock.getLevel());
+            Debug.println("@@@ updated ProductStockLevel = "+productStock.getLevel());
             if(productStock.getSupplierUid()==null){
                 productStock.setSupplierUid("");
             }

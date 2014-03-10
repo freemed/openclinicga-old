@@ -106,6 +106,7 @@ public class Scheduler implements Runnable{
 	}
 	
 	public void run() {
+		/*
         try {
         	while(!isStopped()){
         		if(MedwanQuery.getInstance().getConfigInt("datacenterEnabled",0)==1){
@@ -117,6 +118,7 @@ public class Scheduler implements Runnable{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	public static Date parseDeadline(String s){

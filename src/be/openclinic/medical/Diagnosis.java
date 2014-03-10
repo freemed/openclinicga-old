@@ -26,11 +26,9 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 /**
- * Created by IntelliJ IDEA.
  * User: Frank Verbeke
  * Date: 10-sep-2006
  * Time: 21:32:46
- * To change this template use Options | File Templates.
  */
 public class Diagnosis extends OC_Object{
     private Encounter encounter;

@@ -7,6 +7,7 @@ import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Vector;
 import java.util.Iterator;
 import java.sql.Connection;
@@ -24,11 +25,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
 /**
- * Created by IntelliJ IDEA.
  * User: Frank
  * Date: 12-jan-2009
- * Time: 16:02:34
- * To change this template use File | Settings | File Templates.
  */
 public class ReasonForEncounter extends OC_Object {
     private Encounter encounter;
@@ -40,6 +38,7 @@ public class ReasonForEncounter extends OC_Object {
     private Date date;
     private String flags;
 
+    //--- GETTERS AND SETTER ----------------------------------------------------------------------
     public String getFlags() {
         return flags;
     }
@@ -72,11 +71,6 @@ public class ReasonForEncounter extends OC_Object {
         this.date = date;
     }
 
-    public void setEncounter(Encounter encounter) {
-        this.encounter = encounter;
-        setEncounterUID(encounter.getUid());
-    }
-
     public String getEncounterUID(){
         return this.encounterUID;
     }
@@ -85,6 +79,12 @@ public class ReasonForEncounter extends OC_Object {
         this.encounterUID = encounterUID;
     }
 
+    //--- ENCOUNTER -------------------------------------------------------------------------------
+    public void setEncounter(Encounter encounter) {
+        this.encounter = encounter;
+        setEncounterUID(encounter.getUid());
+    }
+    
     public Encounter getEncounter(){
         if(encounter==null || !encounter.getUid().equalsIgnoreCase(getEncounterUID())){
             encounter = Encounter.get(encounterUID);
@@ -92,6 +92,7 @@ public class ReasonForEncounter extends OC_Object {
         return encounter;
     }
 
+    //--- GET AUTHOR ------------------------------------------------------------------------------
     public User getAuthor() {
         if(this.author == null || !this.author.userid.equalsIgnoreCase(getAuthorUID())){
             User tmpUser = new User();
@@ -100,10 +101,12 @@ public class ReasonForEncounter extends OC_Object {
                 if(bCheck){
                     this.setAuthor(tmpUser);
                 }
-            }else{
+            }
+            else{
                 this.author = null;
             }
         }
+        
         return author;
     }
 
@@ -112,6 +115,7 @@ public class ReasonForEncounter extends OC_Object {
         setAuthorUID(author.userid);
     }
 
+    //--- AUTHOR UID ------------------------------------------------------------------------------
     public String getAuthorUID() {
         return authorUID;
     }
@@ -120,6 +124,7 @@ public class ReasonForEncounter extends OC_Object {
         this.authorUID = authorUID;
     }
 
+    //--- DELETE (1) ------------------------------------------------------------------------------
     public void delete(){
         PreparedStatement ps;
         String sDelete;
@@ -143,14 +148,17 @@ public class ReasonForEncounter extends OC_Object {
         catch(Exception e){
             e.printStackTrace();
         }
-        try {
+        
+        // close connection
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch (SQLException e){
 			e.printStackTrace();
 		}
     }
 
+    //--- DELETE (2) ------------------------------------------------------------------------------
     public static void delete(int serverid,int objectid){
         PreparedStatement ps;
         String sDelete;
@@ -168,14 +176,17 @@ public class ReasonForEncounter extends OC_Object {
         catch(Exception e){
             e.printStackTrace();
         }
-        try {
+        
+        // close connection
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch (SQLException e){
 			e.printStackTrace();
 		}
     }
 
+    //--- STORE -----------------------------------------------------------------------------------
     public void store(){
         PreparedStatement ps;
         ResultSet rs;
@@ -226,9 +237,11 @@ public class ReasonForEncounter extends OC_Object {
                     ps.close();
 
                 }
-            }else{
+            }
+            else{
                 ids = new String[] {MedwanQuery.getInstance().getConfigString("serverId"),MedwanQuery.getInstance().getOpenclinicCounter("OC_RFE")+""};
             }
+            
             if(ids.length == 2){
                 sDelete = " DELETE FROM OC_RFE " +
                           " WHERE OC_RFE_ENCOUNTERUID = ? " +
@@ -280,14 +293,17 @@ public class ReasonForEncounter extends OC_Object {
             Debug.println("OpenClinic => ReasonForEncounter.java => store => "+e.getMessage());
             e.printStackTrace();
         }
-        try {
+        
+        // close connection
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch(SQLException e){
 			e.printStackTrace();
 		}
     }
 
+    //--- GET REASONS FOR ENCOUNTER BY ENCOUNTER UID ----------------------------------------------
     public static Vector getReasonsForEncounterByEncounterUid(String encounterUid){
         Vector reasonsForEncounter=new Vector();
         PreparedStatement ps;
@@ -321,20 +337,25 @@ public class ReasonForEncounter extends OC_Object {
             Debug.println("OpenClinic => ReasonForEncounter.java => get => "+e.getMessage());
             e.printStackTrace();
         }
-        try {
+        
+        // close connection
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch (SQLException e){
 			e.printStackTrace();
 		}
+        
         return reasonsForEncounter;
     }
 
+    //--- GET REASONS FOR ENCOUNTER AS HTML -------------------------------------------------------
     public static String getReasonsForEncounterAsHtml(Encounter encounter,String sWebLanguage,String deleteImg,String deleteFunction){
         if(encounter==null) return "";
         return getReasonsForEncounterAsHtml(encounter.getUid(),sWebLanguage,deleteImg,deleteFunction);
     }
 
+    //--- GET REASONS FOR ENCOUNTER AS HTML -------------------------------------------------------
     public static String getReasonsForEncounterAsHtml(String encounterUid,String sWebLanguage,String deleteImg,String deleteFunction){
         String s="<table>";
         Vector reasonsForEncounter = ReasonForEncounter.getReasonsForEncounterByEncounterUid(encounterUid);
@@ -351,21 +372,45 @@ public class ReasonForEncounter extends OC_Object {
         return s;
     }
 
-    public static String getReasonsForEncounterAsHtml(String encounterUid,String sWebLanguage){
-        String s="<table>";
+    //--- GET REASONS FOR ENCOUNTER AS HTML -------------------------------------------------------
+    public static String getReasonsForEncounterAsHtml(String encounterUid, String sWebLanguage){
         Vector reasonsForEncounter = ReasonForEncounter.getReasonsForEncounterByEncounterUid(encounterUid);
         if(reasonsForEncounter.size()==0) return "";
-        for(int n=0;n<reasonsForEncounter.size();n++){
-            ReasonForEncounter reasonForEncounter = (ReasonForEncounter)reasonsForEncounter.elementAt(n);
-            s+="<tr><td>"+reasonForEncounter.getCodeType().toUpperCase()+
-                    "</td><td><b>"+reasonForEncounter.getCode()+
-                    "</b></td><td><b>"+MedwanQuery.getInstance().getCodeTran(reasonForEncounter.getCodeType()+"code"+reasonForEncounter.getCode(),sWebLanguage)+
-                    "</b></td></tr>";
-        }
-        s+="</table>";
-        return s;
-    }
 
+        String sHtml = "<table>";
+        ReasonForEncounter reasonForEncounter;
+        for(int n=0; n<reasonsForEncounter.size(); n++){
+            reasonForEncounter = (ReasonForEncounter)reasonsForEncounter.elementAt(n);
+            
+            sHtml+= "<tr>"+
+                     "<td>"+reasonForEncounter.getCodeType().toUpperCase()+"</td>"+
+                     "<td><b>"+reasonForEncounter.getCode()+"</b></td>"+
+                     "<td><b>"+MedwanQuery.getInstance().getCodeTran(reasonForEncounter.getCodeType()+"code"+reasonForEncounter.getCode(),sWebLanguage)+"</b></td>"+
+                    "</tr>";
+        }
+        sHtml+= "</table>";
+        
+        return sHtml;
+    }
+    
+    //--- GET REASONS FOR ENCOUNTER AS TEXT -------------------------------------------------------
+    public static String getReasonsForEncounterAsText(String encounterUid, String sWebLanguage){
+        Vector reasonsForEncounter = ReasonForEncounter.getReasonsForEncounterByEncounterUid(encounterUid);
+        if(reasonsForEncounter.size()==0) return "";
+
+        String sText = "";
+        ReasonForEncounter reasonForEncounter;
+        for(int n=0; n<reasonsForEncounter.size(); n++){
+            reasonForEncounter = (ReasonForEncounter)reasonsForEncounter.elementAt(n);
+            
+            sText+= "("+reasonForEncounter.getCodeType().toUpperCase()+") "+reasonForEncounter.getCode()+" - "+
+                    MedwanQuery.getInstance().getCodeTran(reasonForEncounter.getCodeType()+"code"+reasonForEncounter.getCode(),sWebLanguage)+"\n";                    
+        }
+        
+        return sText;
+    }
+    
+    //--- GET REASON FOR ENCOUNTER ----------------------------------------------------------------
     public static ReasonForEncounter get(String uid){
         PreparedStatement ps;
         ResultSet rs;
@@ -402,21 +447,25 @@ public class ReasonForEncounter extends OC_Object {
 
                     rs.close();
                     ps.close();
-                }catch(Exception e){
+                }
+                catch(Exception e){
                     Debug.println("OpenClinic => ReasonForEncounter.java => get => "+e.getMessage());
                     e.printStackTrace();
                 }
-                try {
-					oc_conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                
+                // close connection
+                try{
+        			oc_conn.close();
+        		}
+                catch (SQLException e){
+        			e.printStackTrace();
+        		}
             }
         }
         return reasonForEncounter;
     }
 
+    //--- GET FLAGS (1) ---------------------------------------------------------------------------
     public static String getFlags(String codeType, String code){
         String flags = "";
         SAXReader reader = new SAXReader(false);
@@ -435,13 +484,15 @@ public class ReasonForEncounter extends OC_Object {
                     flags+=f.attributeValue("flag");
                 }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         return flags;
     }
 
+    //--- GET FLAGS (2) ---------------------------------------------------------------------------
     public static String getFlags(String codeType, String code, String flags){
         SAXReader reader = new SAXReader(false);
         String sDoc = MedwanQuery.getInstance().getConfigString("templateSource")+"/rfe.xml";
@@ -459,10 +510,12 @@ public class ReasonForEncounter extends OC_Object {
                     flags+=f.attributeValue("flag");
                 }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
         }
+        
         return flags;
     }
+    
 }

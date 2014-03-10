@@ -249,7 +249,7 @@ public class ChronicMedication extends OC_Object {
         try{
             if(this.getUid().equals("-1") && !medicationWithSameDataExists){
                 //***** INSERT *****
-                if(Debug.enabled) Debug.println("@@@ PRECRIPTION insert @@@");
+                Debug.println("@@@ PRECRIPTION insert @@@");
 
                 sSelect = "INSERT INTO OC_CHRONICMEDICATIONS (OC_CHRONICMED_SERVERID,OC_CHRONICMED_OBJECTID,"+
                           "  OC_CHRONICMED_PATIENTUID,OC_CHRONICMED_PRESCRIBERUID,OC_CHRONICMED_PRODUCTUID,"+
@@ -297,7 +297,7 @@ public class ChronicMedication extends OC_Object {
             else{
                 if(!medicationWithSameDataExists){
                     //***** UPDATE *****
-                    if(Debug.enabled) Debug.println("@@@ MEDICATION update @@@");
+                    Debug.println("@@@ MEDICATION update @@@");
 
                     sSelect = "UPDATE OC_CHRONICMEDICATIONS SET OC_CHRONICMED_PATIENTUID=?, OC_CHRONICMED_PRESCRIBERUID=?,"+
                               "  OC_CHRONICMED_PRODUCTUID=?, OC_CHRONICMED_BEGIN=?, OC_CHRONICMED_TIMEUNIT=?,"+
@@ -354,7 +354,7 @@ public class ChronicMedication extends OC_Object {
     //--- EXISTS ----------------------------------------------------------------------------------
     // checks the database for a record with the same UNIQUE KEYS as 'this'.
     public String exists(){
-        if(Debug.enabled) Debug.println("@@@ CHRONICMEDICATION exists ? @@@");
+        Debug.println("@@@ CHRONICMEDICATION exists ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -412,7 +412,7 @@ public class ChronicMedication extends OC_Object {
     //--- CHANGED ---------------------------------------------------------------------------------
     // checks the database for a record with the same DATA as 'this'.
     public boolean changed(){
-        if(Debug.enabled) Debug.println("@@@ CHRONICMEDICATION changed ? @@@");
+        Debug.println("@@@ CHRONICMEDICATION changed ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;

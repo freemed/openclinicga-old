@@ -457,7 +457,7 @@ public class Product extends OC_Object implements Comparable {
                 if(ps!=null) ps.close();
 
                 // delete product from current products
-                if(Debug.enabled) Debug.println("@@@ PRODUCT DELETE after TO-HISTORY-COPY @@@");
+                Debug.println("@@@ PRODUCT DELETE after TO-HISTORY-COPY @@@");
 
                 sSelect = "DELETE FROM OC_PRODUCTS WHERE OC_PRODUCT_SERVERID = ? AND OC_PRODUCT_OBJECTID = ?";
                 ps = oc_conn.prepareStatement(sSelect);
@@ -468,7 +468,7 @@ public class Product extends OC_Object implements Comparable {
             }
 
             // insert new version of product into current products
-            if(Debug.enabled) Debug.println("@@@ PRODUCT insert @@@");
+            Debug.println("@@@ PRODUCT insert @@@");
 
             sSelect = "INSERT INTO OC_PRODUCTS (OC_PRODUCT_SERVERID,OC_PRODUCT_OBJECTID,"+
                       "  OC_PRODUCT_NAME,OC_PRODUCT_UNIT,OC_PRODUCT_UNITPRICE,OC_PRODUCT_PACKAGEUNITS,"+
@@ -553,7 +553,7 @@ public class Product extends OC_Object implements Comparable {
     //--- EXISTS ----------------------------------------------------------------------------------
     // checks the database for a record with the same UNIQUE KEYS as 'this'.
     public String exists(){
-        if(Debug.enabled) Debug.println("@@@ PRODUCT exists ? @@@");
+        Debug.println("@@@ PRODUCT exists ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -597,7 +597,7 @@ public class Product extends OC_Object implements Comparable {
     //--- CHANGED ---------------------------------------------------------------------------------
     // checks the database for a record with the same DATA as 'this'.
     public boolean changed(){
-        if(Debug.enabled) Debug.println("@@@ PRODUCT changed ? @@@");
+        Debug.println("@@@ PRODUCT changed ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;

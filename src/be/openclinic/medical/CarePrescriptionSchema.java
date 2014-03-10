@@ -30,6 +30,7 @@ public class CarePrescriptionSchema {
         this.timequantities = timequantities;
     }
 
+    //--- GET TIME QUANTITY -----------------------------------------------------------------------
     public KeyValue getTimeQuantity(int n){
         if(n>timequantities.size()-1){
             return new KeyValue("","");
@@ -39,6 +40,7 @@ public class CarePrescriptionSchema {
         }
     }
 
+    //--- GET QUANTITY ----------------------------------------------------------------------------
     public int getQuantity(String time){
         try{
             for(int n=0;n<timequantities.size();n++){
@@ -54,6 +56,7 @@ public class CarePrescriptionSchema {
         return 0;
     }
 
+    //--- GET CARE PRESCRIPTION SCHEMA ------------------------------------------------------------
     public static CarePrescriptionSchema getCarePrescriptionSchema(String careprescriptionuid){
         CarePrescriptionSchema careprescriptionSchema=new CarePrescriptionSchema();
         try{
@@ -80,9 +83,11 @@ public class CarePrescriptionSchema {
         catch(Exception e){
             e.printStackTrace();
         }
+        
         return careprescriptionSchema;
     }
 
+    //--- STORE -----------------------------------------------------------------------------------
     public void store(){
         try{
             if(careprescriptionuid!=null && careprescriptionuid.length()>0 && careprescriptionuid.indexOf(".")>0){
@@ -111,6 +116,7 @@ public class CarePrescriptionSchema {
         }
     }
 
+    //--- DELETE ----------------------------------------------------------------------------------
     public void delete(){
         try{
             if(careprescriptionuid!=null && careprescriptionuid.length()>0 && careprescriptionuid.indexOf(".")>0){
@@ -128,6 +134,7 @@ public class CarePrescriptionSchema {
         }
     }
 
+    //--- GET CARE PRESCRIPTION -------------------------------------------------------------------
     public CarePrescription getCarePrescription(String careprescriptionUid){
         if(careprescriptionuid!=null && careprescriptionuid.length()>0 && careprescriptionuid.indexOf(".")>0){
             return CarePrescription.get(careprescriptionUid);

@@ -285,7 +285,7 @@ public class ProductOrder extends OC_Object{
         try{
             if(this.getUid().equals("-1") && !orderWithSameDataExists){
                 //***** INSERT *****
-                if(Debug.enabled) Debug.println("@@@ PRODUCTORDER insert @@@");
+                Debug.println("@@@ PRODUCTORDER insert @@@");
 
                 sSelect = "INSERT INTO OC_PRODUCTORDERS (OC_ORDER_SERVERID, OC_ORDER_OBJECTID,"+
                           "  OC_ORDER_DESCRIPTION, OC_ORDER_PRODUCTSTOCKUID, OC_ORDER_PACKAGESORDERED,"+
@@ -336,7 +336,7 @@ public class ProductOrder extends OC_Object{
             else{
                 if(!orderWithSameDataExists){
                     //***** UPDATE *****
-                    if(Debug.enabled) Debug.println("@@@ PRODUCTORDER update @@@");
+                    Debug.println("@@@ PRODUCTORDER update @@@");
 
                     sSelect = "UPDATE OC_PRODUCTORDERS SET "+
                               "  OC_ORDER_DESCRIPTION=?, OC_ORDER_PRODUCTSTOCKUID=?, OC_ORDER_PACKAGESORDERED=?,"+
@@ -397,7 +397,7 @@ public class ProductOrder extends OC_Object{
     //--- EXISTS ----------------------------------------------------------------------------------
     // checks the database for a record with the same UNIQUE KEYS as 'this'.
     public String exists(){
-        if(Debug.enabled) Debug.println("@@@ PRODUCTORDER exists ? @@@");
+        Debug.println("@@@ PRODUCTORDER exists ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -469,7 +469,7 @@ public class ProductOrder extends OC_Object{
     //--- CHANGED ---------------------------------------------------------------------------------
     // checks the database for a record with the same DATA as 'this'.
     public boolean changed(){
-        if(Debug.enabled) Debug.println("@@@ PRODUCTORDER changed ? @@@");
+        Debug.println("@@@ PRODUCTORDER changed ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;

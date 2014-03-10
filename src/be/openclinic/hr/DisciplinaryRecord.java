@@ -137,7 +137,6 @@ public class DisciplinaryRecord extends OC_Object {
         }
         catch(Exception e){
         	errorOccurred = true;
-        	if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{
@@ -155,7 +154,7 @@ public class DisciplinaryRecord extends OC_Object {
     }
     
     //--- DELETE ----------------------------------------------------------------------------------
-    public static boolean delete(String sDISCRECUid){
+    public static boolean delete(String sDiscRecUid){
     	boolean errorOccurred = false;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -166,8 +165,8 @@ public class DisciplinaryRecord extends OC_Object {
             String sSql = "DELETE FROM hr_disciplinary_records"+
                           " WHERE (HR_DISCREC_SERVERID = ? AND HR_DISCREC_OBJECTID = ?)";
             ps = oc_conn.prepareStatement(sSql);
-            ps.setInt(1,Integer.parseInt(sDISCRECUid.substring(0,sDISCRECUid.indexOf("."))));
-            ps.setInt(2,Integer.parseInt(sDISCRECUid.substring(sDISCRECUid.indexOf(".")+1)));
+            ps.setInt(1,Integer.parseInt(sDiscRecUid.substring(0,sDiscRecUid.indexOf("."))));
+            ps.setInt(2,Integer.parseInt(sDiscRecUid.substring(sDiscRecUid.indexOf(".")+1)));
             
             ps.executeUpdate();
         }
@@ -191,12 +190,12 @@ public class DisciplinaryRecord extends OC_Object {
     }
     
     //--- GET -------------------------------------------------------------------------------------
-    public static DisciplinaryRecord get(DisciplinaryRecord DISCREC){
-    	return get(DISCREC.getUid());
+    public static DisciplinaryRecord get(DisciplinaryRecord discRec){
+    	return get(discRec.getUid());
     }
        
-    public static DisciplinaryRecord get(String sDISCRECUid){
-    	DisciplinaryRecord DISCREC = null;
+    public static DisciplinaryRecord get(String sDiscRecUid){
+    	DisciplinaryRecord discRec = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -206,27 +205,27 @@ public class DisciplinaryRecord extends OC_Object {
             String sSql = "SELECT * FROM hr_disciplinary_records"+
                           " WHERE (HR_DISCREC_SERVERID = ? AND HR_DISCREC_OBJECTID = ?)";
             ps = oc_conn.prepareStatement(sSql);
-            ps.setInt(1,Integer.parseInt(sDISCRECUid.substring(0,sDISCRECUid.indexOf("."))));
-            ps.setInt(2,Integer.parseInt(sDISCRECUid.substring(sDISCRECUid.indexOf(".")+1)));
+            ps.setInt(1,Integer.parseInt(sDiscRecUid.substring(0,sDiscRecUid.indexOf("."))));
+            ps.setInt(2,Integer.parseInt(sDiscRecUid.substring(sDiscRecUid.indexOf(".")+1)));
 
             // execute
             rs = ps.executeQuery();
             if(rs.next()){
-            	DISCREC = new DisciplinaryRecord();
-            	DISCREC.setUid(rs.getString("HR_DISCREC_SERVERID")+"."+rs.getString("HR_DISCREC_OBJECTID"));
+            	discRec = new DisciplinaryRecord();
+            	discRec.setUid(rs.getString("HR_discRec_SERVERID")+"."+rs.getString("HR_DISCREC_OBJECTID"));
 
-            	DISCREC.personId    = rs.getInt("HR_DISCREC_PERSONID");
-                DISCREC.date        = rs.getDate("HR_DISCREC_DATE");
-                DISCREC.title       = ScreenHelper.checkString(rs.getString("HR_DISCREC_TITLE"));
-                DISCREC.description = ScreenHelper.checkString(rs.getString("HR_DISCREC_DESCRIPTION"));
-                DISCREC.decision    = ScreenHelper.checkString(rs.getString("HR_DISCREC_DECISION"));
-                DISCREC.duration    = rs.getInt("HR_DISCREC_DURATION");
-                DISCREC.decisionBy  = ScreenHelper.checkString(rs.getString("HR_DISCREC_DECISIONBY"));
-                DISCREC.followUp    = ScreenHelper.checkString(rs.getString("HR_DISCREC_FOLLOWUP")); 
+            	discRec.personId    = rs.getInt("HR_DISCREC_PERSONID");
+            	discRec.date        = rs.getDate("HR_DISCREC_DATE");
+            	discRec.title       = ScreenHelper.checkString(rs.getString("HR_DISCREC_TITLE"));
+            	discRec.description = ScreenHelper.checkString(rs.getString("HR_DISCREC_DESCRIPTION"));
+            	discRec.decision    = ScreenHelper.checkString(rs.getString("HR_DISCREC_DECISION"));
+            	discRec.duration    = rs.getInt("HR_DISCREC_DURATION");
+            	discRec.decisionBy  = ScreenHelper.checkString(rs.getString("HR_DISCREC_DECISIONBY"));
+            	discRec.followUp    = ScreenHelper.checkString(rs.getString("HR_DISCREC_FOLLOWUP")); 
                
                 // parent
-                DISCREC.setUpdateDateTime(rs.getTimestamp("HR_DISCREC_UPDATETIME"));
-                DISCREC.setUpdateUser(rs.getString("HR_DISCREC_UPDATEID"));
+            	discRec.setUpdateDateTime(rs.getTimestamp("HR_DISCREC_UPDATETIME"));
+            	discRec.setUpdateUser(rs.getString("HR_DISCREC_UPDATEID"));
             }
         }
         catch(Exception e){
@@ -244,7 +243,7 @@ public class DisciplinaryRecord extends OC_Object {
             }
         }
         
-        return DISCREC;
+        return discRec;
     }
         
     //--- GET LIST --------------------------------------------------------------------------------
@@ -287,8 +286,7 @@ public class DisciplinaryRecord extends OC_Object {
             sSql+= " ORDER BY HR_DISCREC_DATE ASC";
 
             ps = oc_conn.prepareStatement(sSql);
-            System.out.println(sSql);
-            
+                        
             /*
             // set question marks            
             int psIdx = 1;
@@ -341,7 +339,6 @@ public class DisciplinaryRecord extends OC_Object {
             }
         }
         catch(Exception e){
-        	if(Debug.enabled) e.printStackTrace();
             Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
         }
         finally{

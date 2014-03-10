@@ -16,6 +16,7 @@ public class CarePrescriptionAdministrationSchema {
     private String personuid;
     private Vector carePrescriptionSchemas=new Vector();
 
+    //### INNER CLASS : AdministrationSchemaLine ##################################################
     public class AdministrationSchemaLine{
         private CarePrescription careprescription;
         private Vector timeQuantities=new Vector();
@@ -59,6 +60,7 @@ public class CarePrescriptionAdministrationSchema {
             }
         }
     }
+    //#############################################################################################
 
     public Date getDate() {
         return date;
@@ -84,11 +86,13 @@ public class CarePrescriptionAdministrationSchema {
         this.carePrescriptionSchemas = vCarePrescriptionSchemas;
     }
 
+    //--- CONSTRUCTOR -----------------------------------------------------------------------------
     public CarePrescriptionAdministrationSchema(Date date, String personuid) {
         this.date = date;
         this.personuid = personuid;
         SortedMap schemaTimes = new TreeMap();
         Vector prescriptions= CarePrescription.find(personuid,"","",new SimpleDateFormat("dd/MM/yyyy").format(new Date(date.getTime()+24*3600*1000)),new SimpleDateFormat("dd/MM/yyyy").format(date),"","","");
+        
         //We inventariseren eerst alle noodzakelijke tijdstippen
         CarePrescription prescription;
         CarePrescriptionSchema prescriptionSchema;
@@ -103,6 +107,7 @@ public class CarePrescriptionAdministrationSchema {
                 schemaTimes.put(new Integer(keyValue.getKey()),"");
             }
         }
+        
         //Voor elk van de voorschriften gaan we nu de eenheden invullen die bij het betreffende uur horen
         AdministrationSchemaLine administrationSchemaLine;
         Iterator iterator;
@@ -120,6 +125,7 @@ public class CarePrescriptionAdministrationSchema {
         }
     }
 
+    //--- CONSTRUCTOR -----------------------------------------------------------------------------
     public CarePrescriptionAdministrationSchema(Date dateBegin, Date dateEnd, String personuid) {
         this.date = dateBegin;
         this.personuid = personuid;
@@ -130,6 +136,7 @@ public class CarePrescriptionAdministrationSchema {
         CarePrescriptionSchema prescriptionSchema;
         Vector timequantities;
         KeyValue keyValue;
+        
         for (int n=0;n<prescriptions.size();n++){
             prescription= (CarePrescription)prescriptions.elementAt(n);
             prescriptionSchema = CarePrescriptionSchema.getCarePrescriptionSchema(prescription.getUid());
@@ -139,6 +146,7 @@ public class CarePrescriptionAdministrationSchema {
                 schemaTimes.put(new Integer(keyValue.getKey()),"");
             }
         }
+        
         //Voor elk van de voorschriften gaan we nu de eenheden invullen die bij het betreffende uur horen
         AdministrationSchemaLine administrationSchemaLine;
         Iterator iterator;
@@ -146,6 +154,7 @@ public class CarePrescriptionAdministrationSchema {
         Connection dbConnection= MedwanQuery.getInstance().getOpenclinicConnection();
         PreparedStatement ps;
         ResultSet rs;
+        
         for (int n=0;n<prescriptions.size();n++){
             prescription= (CarePrescription)prescriptions.elementAt(n);
             prescriptionSchema = CarePrescriptionSchema.getCarePrescriptionSchema(prescription.getUid());
@@ -155,8 +164,8 @@ public class CarePrescriptionAdministrationSchema {
                 time = (Integer)iterator.next();
                 administrationSchemaLine.getTimeQuantities().add(new KeyValue(time.toString(),prescriptionSchema.getQuantity(time.toString())+""));
             }
+            
             //Nu zoeken we voor betreffende geneesmiddelen de toedieningen op
-
             try {
                 ps = dbConnection.prepareStatement("select * from OC_CAREPRESCRIPTION_ADMINISTRATION where OC_CAREPRESCR_SERVERID=? and OC_CAREPRESCR_OBJECTID=?");
                 ps.setInt(1, Util.getServerid(prescription.getUid()));
@@ -167,19 +176,22 @@ public class CarePrescriptionAdministrationSchema {
                 }
                 rs.close();
                 ps.close();
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 e.printStackTrace();
             }
             carePrescriptionSchemas.add(administrationSchemaLine);
         }
+        
         try {
 			dbConnection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch (SQLException e) {
 			e.printStackTrace();
 		}
     }
 
+    //--- STORE ADMINISTRATION --------------------------------------------------------------------
     public static void storeAdministration(String prescriptionUid,Date date,int time,int quantity){
         Connection dbConnection= MedwanQuery.getInstance().getOpenclinicConnection();
         try {
@@ -190,6 +202,7 @@ public class CarePrescriptionAdministrationSchema {
             ps.setInt(4,time);
             ps.execute();
             ps.close();
+            
             if(quantity>0){
                 ps = dbConnection.prepareStatement("insert into OC_CAREPRESCRIPTION_ADMINISTRATION (OC_CAREPRESCR_SERVERID,OC_CAREPRESCR_OBJECTID,OC_CARESCHEMA_DATE,OC_CARESCHEMA_TIME,OC_CARESCHEMA_QUANTITY) values(?,?,?,?,?)");
                 ps.setInt(1,Util.getServerid(prescriptionUid));
@@ -200,15 +213,17 @@ public class CarePrescriptionAdministrationSchema {
                 ps.execute();
                 ps.close();
             }
-
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
         }
+        
         try {
 			dbConnection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+        catch (SQLException e) {
 			e.printStackTrace();
 		}
     }
+    
 }

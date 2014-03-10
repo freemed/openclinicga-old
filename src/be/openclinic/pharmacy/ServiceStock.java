@@ -78,8 +78,8 @@ public class ServiceStock extends OC_Object {
                 this.setStockManager(AdminPerson.getAdminPerson(ad_conn, MedwanQuery.getInstance().getPersonIdFromUserId(Integer.parseInt(stockManagerUid)) + ""));
                 try {
 					ad_conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+				} 
+                catch (SQLException e) {
 					e.printStackTrace();
 				}
             }
@@ -197,7 +197,7 @@ public class ServiceStock extends OC_Object {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String sSelect = "SELECT * FROM OC_SERVICESTOCKS" +
-                    " WHERE OC_STOCK_SERVERID = ? AND OC_STOCK_OBJECTID = ?";
+                             " WHERE OC_STOCK_SERVERID = ? AND OC_STOCK_OBJECTID = ?";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1, Integer.parseInt(stockUid.substring(0, stockUid.indexOf("."))));
             ps.setInt(2, Integer.parseInt(stockUid.substring(stockUid.indexOf(".") + 1)));
@@ -229,14 +229,16 @@ public class ServiceStock extends OC_Object {
                 stock.setUpdateDateTime(rs.getTimestamp("OC_STOCK_UPDATETIME"));
                 stock.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_STOCK_UPDATEUID")));
                 stock.setVersion(rs.getInt("OC_STOCK_VERSION"));
-            } else {
+            } 
+            else {
                 throw new Exception("ERROR : SERVICESTOCK " + stockUid + " NOT FOUND");
             }
         }
         catch (Exception e) {
             if (e.getMessage().endsWith("NOT FOUND")) {
                 Debug.println(e.getMessage());
-            } else {
+            }
+            else {
                 e.printStackTrace();
             }
         }
@@ -252,13 +254,15 @@ public class ServiceStock extends OC_Object {
         }
         return stock;
     }
+    
     public boolean hasOpenDeliveries(){
     	return ProductStockOperation.getOpenServiceStockDeliveries(this.getUid()).size()>0;
     }
     
-   public Vector getOpenDeliveries(){
-   	return ProductStockOperation.getOpenServiceStockDeliveries(this.getUid());
-   }
+    public Vector getOpenDeliveries(){
+   	    return ProductStockOperation.getOpenServiceStockDeliveries(this.getUid());
+    }
+   
     //--- STORE -----------------------------------------------------------------------------------
     public void store() {
         PreparedStatement ps = null;

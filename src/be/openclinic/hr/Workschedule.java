@@ -305,7 +305,7 @@ public class Workschedule extends OC_Object {
                 value = Float.parseFloat(sHour.replaceAll(",","."));
             }
         }
-        
+
         return value;
     }
     
@@ -709,7 +709,7 @@ public class Workschedule extends OC_Object {
             
             sSql+= " ORDER BY HR_WORKSCHEDULE_OBJECTID ASC";
             
-            Debug.println("\n"+sSql+"\n");
+            //Debug.println("\n"+sSql+"\n");
             ps = oc_conn.prepareStatement(sSql);
 
             // dates

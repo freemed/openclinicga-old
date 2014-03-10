@@ -162,7 +162,7 @@ public class PaperPrescription extends OC_Object {
         try{
             if(this.getUid().equals("-1")){
                 //***** INSERT *****
-                if(Debug.enabled) Debug.println("@@@ PAPERPRESCRIPTION insert @@@");
+                Debug.println("@@@ PAPERPRESCRIPTION insert @@@");
 
                 sSelect = "INSERT INTO OC_PAPERPRESCRIPTIONS (OC_PP_SERVERID,OC_PP_OBJECTID,OC_PP_PATIENTUID,"+
                           "  OC_PP_PRESCRIBERUID,OC_PP_DATE,"+
@@ -195,7 +195,7 @@ public class PaperPrescription extends OC_Object {
             }
             else{
                 //***** UPDATE *****
-                if(Debug.enabled) Debug.println("@@@ PAPERPRESCRIPTION update @@@");
+                Debug.println("@@@ PAPERPRESCRIPTION update @@@");
 
                 sSelect = "UPDATE OC_PAPERPRESCRIPTIONS SET OC_PP_PATIENTUID=?, OC_PP_PRESCRIBERUID=?,"+
                           "  OC_PP_DATE=?,"+

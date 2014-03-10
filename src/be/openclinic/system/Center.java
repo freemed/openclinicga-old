@@ -345,7 +345,6 @@ public class Center extends OC_Object {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -395,7 +394,6 @@ public class Center extends OC_Object {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return l;
@@ -469,7 +467,6 @@ public class Center extends OC_Object {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return center;

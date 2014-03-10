@@ -42,13 +42,15 @@ public class Problem extends OC_Object {
         if(patient==null && patientuid!=null){
         	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             patient = AdminPerson.getAdminPerson(ad_conn,patientuid);
+           
             try {
 				ad_conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+			} 
+            catch (SQLException e) {
 				e.printStackTrace();
 			}
         }
+        
         return patient;
     }
 
@@ -183,9 +185,11 @@ public class Problem extends OC_Object {
                     ps.executeUpdate();
                     ps.close();
                 }
-            }else{
+            }
+            else{
                 ids = new String[] {MedwanQuery.getInstance().getConfigString("serverId"),MedwanQuery.getInstance().getOpenclinicCounter("OC_PROBLEMS")+""};
             }
+            
             if(ids.length == 2){
                 sInsert = " INSERT INTO OC_PROBLEMS" +
                                       "(" +
@@ -241,14 +245,16 @@ public class Problem extends OC_Object {
                 ps.close();
                 this.setUid(ids[0] + "." + ids[1]);
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             Debug.println("OpenClinic => Problem.java => store => "+e.getMessage());
             e.printStackTrace();
         }
+        
         try {
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+        catch (SQLException e) {
 			e.printStackTrace();
 		}
     }
@@ -257,16 +263,16 @@ public class Problem extends OC_Object {
         PreparedStatement ps;
         ResultSet rs;
 
-        Problem  problem= new Problem();
+        Problem  problem = new Problem();
 
         if(uid != null && uid.length() > 0){
             String sUids[] = uid.split("\\.");
             if(sUids.length == 2){
                 Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                 try{
-                    String sSelect = " SELECT * FROM OC_PROBLEMS " +
-                                     " WHERE OC_PROBLEM_SERVERID = ? " +
-                                     " AND OC_PROBLEM_OBJECTID = ?";
+                    String sSelect = "SELECT * FROM OC_PROBLEMS "+
+                                     " WHERE OC_PROBLEM_SERVERID = ?"+
+                                     "  AND OC_PROBLEM_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(sUids[0]));
                     ps.setInt(2,Integer.parseInt(sUids[1]));
@@ -290,16 +296,17 @@ public class Problem extends OC_Object {
                         problem.setCertainty(rs.getInt("OC_PROBLEM_CERTAINTY"));
                     }
                     rs.close();
-                    ps.close();
-                    
-                }catch(Exception e){
+                    ps.close();                    
+                }
+                catch(Exception e){
                     Debug.println("OpenClinic =>Problem.java => get => "+e.getMessage());
                     e.printStackTrace();
                 }
+                
                 try {
 					oc_conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+				}
+                catch (SQLException e) {
 					e.printStackTrace();
 				}
             }
@@ -307,13 +314,14 @@ public class Problem extends OC_Object {
         return problem;
     }
 
+    //--- DELETE ----------------------------------------------------------------------------------
     public void delete(){
         PreparedStatement ps;
 
         String ids[];
         String sInsert,sDelete;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             if(this.getUid() != null && this.getUid().length() > 0){
                 ids = this.getUid().split("\\.");
@@ -345,7 +353,6 @@ public class Problem extends OC_Object {
                     sDelete = " DELETE FROM OC_PROBLEMS " +
                               " WHERE OC_PROBLEM_SERVERID = ? " +
                               " AND OC_PROBLEM_OBJECTID = ? ";
-
                     ps = oc_conn.prepareStatement(sDelete);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -353,20 +360,23 @@ public class Problem extends OC_Object {
                     ps.close();
                 }
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-        try {
+
+        // close connection
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+        catch(SQLException e){
 			e.printStackTrace();
 		}
     }
 
-    public static Vector selectProblems(String serverID,String objectID,String codeType, String code, String comment,
-                                        String patientID, String beginDate, String endDate, String certainty,String gravity, String sortColumn){
-
+    public static Vector selectProblems(String serverID, String objectID, String codeType, String code, String comment,
+                                        String patientID, String beginDate, String endDate, String certainty,
+                                        String gravity, String sortColumn){
         Vector vProblems = new Vector();
 
         PreparedStatement ps;
@@ -390,13 +400,12 @@ public class Problem extends OC_Object {
             sSelect += " WHERE " + sConditions;
             sSelect = sSelect.substring(0,sSelect.length()-3);
         }
-
         if(sortColumn.length() > 0){
             sSelect += " ORDER BY " + sortColumn;
         }
 
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             int i = 1;
 
@@ -434,39 +443,120 @@ public class Problem extends OC_Object {
 
             rs.close();
             ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-        try {
+
+        // close connection
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch(SQLException e){
 			e.printStackTrace();
 		}
+        
         return vProblems;
     }
 
+    //--- GET ACTIVE PROBLEMS ---------------------------------------------------------------------
     public static Vector getActiveProblems(String personid){
         Vector activeProblems = new Vector();
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select * from OC_PROBLEMS where OC_PROBLEM_PATIENTUID=? and OC_PROBLEM_END is null ORDER BY OC_PROBLEM_BEGIN DESC");
+        
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try{
+        	String sSql = "SELECT * FROM OC_PROBLEMS"+
+                          " WHERE OC_PROBLEM_PATIENTUID = ?"+
+                          "  AND (OC_PROBLEM_END IS NULL OR OC_PROBLEM_END > ?)"+
+                          " ORDER BY OC_PROBLEM_BEGIN DESC";
+            ps = conn.prepareStatement(sSql);
             ps.setString(1,personid);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-                activeProblems.add(new Problem(rs.getString("OC_PROBLEM_PATIENTUID"),rs.getString("OC_PROBLEM_CODETYPE"),rs.getString("OC_PROBLEM_CODE"),rs.getString("OC_PROBLEM_COMMENT"),rs.getDate("OC_PROBLEM_BEGIN"),rs.getDate("OC_PROBLEM_END")));
+            ps.setDate(2,new java.sql.Date(new java.util.Date().getTime()));
+            rs = ps.executeQuery();
+            while(rs.next()){
+                activeProblems.add(new Problem(rs.getString("OC_PROBLEM_PATIENTUID"),
+                		                       rs.getString("OC_PROBLEM_CODETYPE"),
+                		                       rs.getString("OC_PROBLEM_CODE"),
+                		                       rs.getString("OC_PROBLEM_COMMENT"),
+                		                       rs.getDate("OC_PROBLEM_BEGIN"),
+                		                       rs.getDate("OC_PROBLEM_END")));
             }
-            rs.close();
-            ps.close();
-        } catch (SQLException e) {
+        } 
+        catch(SQLException e){
             e.printStackTrace();
         }
-        try {
-			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+            }
+            catch(Exception e){
+            	e.printStackTrace();
+            }
+        }
+        
+        // close connection
+        try{
+			conn.close();
+		} 
+        catch(SQLException e){
+        	e.printStackTrace();
 		}
+        
         return activeProblems;
     }
+
+    //--- GET INACTIVE PROBLEMS -------------------------------------------------------------------
+    public static Vector getInactiveProblems(String personid){
+        Vector inactiveProblems = new Vector();
+        
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try{
+        	String sSql = "SELECT * FROM OC_PROBLEMS"+
+                          " WHERE OC_PROBLEM_PATIENTUID = ?"+
+                          "  AND (OC_PROBLEM_END IS NOT NULL AND OC_PROBLEM_END <= ?"+ // difference
+                          " ORDER BY OC_PROBLEM_BEGIN DESC";
+            ps = conn.prepareStatement(sSql);
+            ps.setString(1,personid);
+            ps.setDate(2,new java.sql.Date(new java.util.Date().getTime()));
+            rs = ps.executeQuery();
+            while(rs.next()){
+                inactiveProblems.add(new Problem(rs.getString("OC_PROBLEM_PATIENTUID"),
+                		                         rs.getString("OC_PROBLEM_CODETYPE"),
+                		                         rs.getString("OC_PROBLEM_CODE"),
+                		                         rs.getString("OC_PROBLEM_COMMENT"),
+                		                         rs.getDate("OC_PROBLEM_BEGIN"),
+                		                         rs.getDate("OC_PROBLEM_END")));
+            }
+        } 
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+            }
+            catch(Exception e){
+            	e.printStackTrace();
+            }
+        }
+        
+        // close connection
+        try{
+			conn.close();
+		} 
+        catch(SQLException e){
+        	e.printStackTrace();
+		}
+        
+        return inactiveProblems;
+    }
+        
 }

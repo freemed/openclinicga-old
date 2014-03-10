@@ -1054,29 +1054,43 @@ public class DatacenterHelper {
 		}
 	}
 	
+	//--- GET PATIENT PICTURE ---------------------------------------------------------------------
 	public static byte[] getPatientPicture(String patientuid){
 		byte[] picture = null;
-		Connection conn=MedwanQuery.getInstance().getStatsConnection();
+		
+		Connection conn = MedwanQuery.getInstance().getStatsConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
 		try{
-			PreparedStatement ps = conn.prepareStatement("select DC_PATIENTRECORD_PICTURE from DC_PATIENTRECORDS where DC_PATIENTRECORD_SERVERID=? and DC_PATIENTRECORD_PERSONID=? ORDER BY DC_PATIENTRECORD_CREATEDATETIME DESC");
-			ps.setInt(1, Integer.parseInt(patientuid.split("\\.")[0]));
-			ps.setInt(2, Integer.parseInt(patientuid.split("\\.")[1]));
-			ResultSet rs = ps.executeQuery();
+			String sSql = "select DC_PATIENTRECORD_PICTURE from DC_PATIENTRECORDS"+
+		                  " where DC_PATIENTRECORD_SERVERID = ?"+
+		                  "  and DC_PATIENTRECORD_PERSONID = ?"+
+					      " ORDER BY DC_PATIENTRECORD_CREATEDATETIME DESC";
+			ps = conn.prepareStatement(sSql);
+			ps.setInt(1,Integer.parseInt(patientuid.split("\\.")[0]));
+			ps.setInt(2,Integer.parseInt(patientuid.split("\\.")[1]));
+			rs = ps.executeQuery();
+			
 			if(rs.next()){
-				picture=rs.getBytes("DC_PATIENTRECORD_PICTURE");
+				picture = rs.getBytes("DC_PATIENTRECORD_PICTURE");
 			}
-			rs.close();
-			ps.close();
-		} catch (SQLException e) {
+		}
+		catch(SQLException e){
 			e.printStackTrace();
 		}
-		finally {
-			try {
+		finally{
+			try{
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
 				conn.close();
-			} catch (SQLException e) {
+			} 
+			catch(SQLException e){
 				e.printStackTrace();
 			}
 		}
+		
 		return picture;
 	}
+	
 }

@@ -677,7 +677,7 @@ public class RequestedLabAnalysis {
 
             if(objectExists){
                 //***** UPDATE ********************************************************************
-                if(Debug.enabled) Debug.println("@@@ RequestedLabAnalysis update @@@");
+                Debug.println("@@@ RequestedLabAnalysis update @@@");
 
                 sSelect = "UPDATE RequestedLabAnalyses"+
                           " SET serverid=?, transactionid=?, patientid=?, analysiscode=?, "+
@@ -713,7 +713,7 @@ public class RequestedLabAnalysis {
             }
             else{
                 //***** INSERT ****************************************************************
-                if(Debug.enabled) Debug.println("@@@ RequestedLabAnalysis insert @@@");
+                Debug.println("@@@ RequestedLabAnalysis insert @@@");
 
                 sSelect = "INSERT INTO RequestedLabAnalyses (serverid,transactionid,patientid,analysiscode,"+
                           "  comment,resultvalue,resultunit,resultmodifier,resultcomment,resultrefmax,"+

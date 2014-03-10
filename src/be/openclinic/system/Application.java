@@ -19,7 +19,7 @@ public class Application {
             return md.digest(sValue.getBytes());
         }
         catch (Exception e) {
-            if(Debug.enabled) Debug.println("Application encryption error: "+e.getMessage());
+            Debug.println("Application encryption error: "+e.getMessage());
         }
         return null;
     }
@@ -31,7 +31,7 @@ public class Application {
             }
         }
         catch (Exception e) {
-	        if(Debug.enabled) Debug.println("Application checkPassword error: "+e.getMessage());
+	        Debug.println("Application checkPassword error: "+e.getMessage());
         }
         return false;
     }
@@ -72,7 +72,6 @@ public class Application {
             try {
 				oc_conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
@@ -95,7 +94,6 @@ public class Application {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

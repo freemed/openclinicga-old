@@ -50,8 +50,8 @@ public class Prescription extends OC_Object{
                 this.setPatient(AdminPerson.getAdminPerson(ad_conn,patientUid));
                 try {
 					ad_conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+				}
+                catch (SQLException e) {
 					e.printStackTrace();
 				}
             }
@@ -72,8 +72,8 @@ public class Prescription extends OC_Object{
                 this.setPrescriber(AdminPerson.getAdminPerson(ad_conn,MedwanQuery.getInstance().getPersonIdFromUserId(Integer.parseInt(prescriberUid))+""));
                 try {
 					ad_conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+				} 
+                catch (SQLException e) {
 					e.printStackTrace();
 				}
             }
@@ -322,7 +322,7 @@ public class Prescription extends OC_Object{
         try{
             if(this.getUid().equals("-1") && !prescrWithSameDataExists){
                 //***** INSERT *****
-                if(Debug.enabled) Debug.println("@@@ PRECRIPTION insert @@@");
+                Debug.println("@@@ PRECRIPTION insert @@@");
 
                 sSelect = "INSERT INTO OC_PRESCRIPTIONS (OC_PRESCR_SERVERID,OC_PRESCR_OBJECTID,OC_PRESCR_PATIENTUID,"+
                           "  OC_PRESCR_PRESCRIBERUID,OC_PRESCR_PRODUCTUID,OC_PRESCR_BEGIN,OC_PRESCR_END,OC_PRESCR_TIMEUNIT,"+
@@ -380,7 +380,7 @@ public class Prescription extends OC_Object{
             else{
                 if(!prescrWithSameDataExists){
                     //***** UPDATE *****
-                    if(Debug.enabled) Debug.println("@@@ PRECRIPTION update @@@");
+                    Debug.println("@@@ PRECRIPTION update @@@");
 
                     sSelect = "UPDATE OC_PRESCRIPTIONS SET OC_PRESCR_PATIENTUID=?, OC_PRESCR_PRESCRIBERUID=?,"+
                               "  OC_PRESCR_PRODUCTUID=?, OC_PRESCR_BEGIN=?, OC_PRESCR_END=?, OC_PRESCR_TIMEUNIT=?,"+
@@ -449,7 +449,7 @@ public class Prescription extends OC_Object{
     //--- EXISTS ----------------------------------------------------------------------------------
     // checks the database for a record with the same UNIQUE KEYS as 'this'.
     public String exists(){
-        if(Debug.enabled) Debug.println("@@@ PRECRIPTION exists ? @@@");
+        Debug.println("@@@ PRECRIPTION exists ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -517,7 +517,7 @@ public class Prescription extends OC_Object{
     //--- CHANGED ---------------------------------------------------------------------------------
     // checks the database for a record with the same DATA as 'this'.
     public boolean changed(){
-        if(Debug.enabled) Debug.println("@@@ PRECRIPTION changed ? @@@");
+        Debug.println("@@@ PRECRIPTION changed ? @@@");
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -637,7 +637,8 @@ public class Prescription extends OC_Object{
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sSelect = "SELECT * FROM OC_PRESCRIPTIONS"+
-                             " WHERE OC_PRESCR_PATIENTUID = ? AND (OC_PRESCR_END IS NULL OR OC_PRESCR_END >= ?)";
+                             " WHERE OC_PRESCR_PATIENTUID = ?"+
+            		         "  AND (OC_PRESCR_END IS NULL OR OC_PRESCR_END >= ?)";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,patientuid);
             long latencydays=1000*MedwanQuery.getInstance().getConfigInt("activeMedicationLatency",60);
@@ -820,11 +821,12 @@ public class Prescription extends OC_Object{
             }
 
             if(sSortCol.length()==0){
-                sSortCol="OC_PRESCR_BEGIN";
+                sSortCol = "OC_PRESCR_BEGIN";
             }
             if(sSortDir.length()==0){
-                sSortDir="ASC";
+                sSortDir = "ASC";
             }
+            
             // order by selected col or default col
             sSelect+= "ORDER BY "+sSortCol+" "+sSortDir;
             ps = oc_conn.prepareStatement(sSelect);
@@ -913,12 +915,14 @@ public class Prescription extends OC_Object{
         return isActive;
     }
 
+    //--- GET PRESCRIPTIONS BY PATIENT ------------------------------------------------------------
     public static Vector getPrescriptionsByPatient(String sPatientUID){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         String sSelect = "SELECT * FROM OC_PRESCRIPTIONS"+
-                         " WHERE OC_PRESCR_PATIENTUID = ? ORDER BY OC_PRESCR_BEGIN DESC";
+                         " WHERE OC_PRESCR_PATIENTUID = ?"+
+        		         "  ORDER BY OC_PRESCR_BEGIN DESC";
 
         Vector vPrescriptions = new Vector();
 
@@ -962,47 +966,48 @@ public class Prescription extends OC_Object{
 
                 vPrescriptions.addElement(prescr);
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vPrescriptions;
     }
 
+    //--- GET ACTIVE PRESCRIPTIONS BY PERIOD FOR STOCK --------------------------------------------
     public static Vector getActivePrescriptionsByPeriodForStock(String sServiceStockUid, Calendar untilDate){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-
         Vector vPrescriptions = new Vector();
 
-        String sSelect =    " SELECT OC_PRESCR_SERVERID, OC_PRESCR_OBJECTID, OC_PRESCR_BEGIN, OC_PRESCR_END," +
-                            "       OC_PRESCR_TIMEUNIT, OC_PRESCR_TIMEUNITCOUNT, OC_PRESCR_UNITSPERTIMEUNIT," +
-                            "       OC_PRESCR_PRODUCTUID" +
-                            " FROM OC_PRESCRIPTIONS " +
-                            "  WHERE OC_PRESCR_SERVICESTOCKUID = ?" +
-                            "   AND NOT (" +
-                            "        (OC_PRESCR_BEGIN < ? AND OC_PRESCR_END < ?)" + // begin < now && end < now == past prescriptions
-                            "       OR" +
-                            "        (OC_PRESCR_BEGIN > ? AND OC_PRESCR_END > ?)" + // begin > until && end > until == future prescriptions
-                            "       )" +
-                            "   OR (OC_PRESCR_SERVICESTOCKUID = ? AND (OC_PRESCR_END IS NULL AND OC_PRESCR_BEGIN < ?))"; // end is null && begin < until
+        String sSql = " SELECT OC_PRESCR_SERVERID, OC_PRESCR_OBJECTID, OC_PRESCR_BEGIN, OC_PRESCR_END,"+
+                      "       OC_PRESCR_TIMEUNIT, OC_PRESCR_TIMEUNITCOUNT, OC_PRESCR_UNITSPERTIMEUNIT,"+
+                      "       OC_PRESCR_PRODUCTUID"+
+                      " FROM OC_PRESCRIPTIONS "+
+                      "  WHERE OC_PRESCR_SERVICESTOCKUID = ?"+
+                      "   AND NOT ("+
+                      "        (OC_PRESCR_BEGIN < ? AND OC_PRESCR_END < ?)" + // begin < now && end < now == past prescriptions
+                      "       OR"+
+                      "        (OC_PRESCR_BEGIN > ? AND OC_PRESCR_END > ?)" + // begin > until && end > until == future prescriptions
+                      "       )"+
+                      "   OR (OC_PRESCR_SERVICESTOCKUID = ? AND (OC_PRESCR_END IS NULL AND OC_PRESCR_BEGIN < ?))"; // end is null && begin < until
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             Calendar now = new GregorianCalendar();
 
-            ps = oc_conn.prepareStatement(sSelect);
+            ps = oc_conn.prepareStatement(sSql);
 
             //*** set questionmarks ***
             int questionMarkIdx = 1;
@@ -1045,51 +1050,58 @@ public class Prescription extends OC_Object{
 
                 vPrescriptions.addElement(prescr);
             }
-
-
-
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vPrescriptions;
     }
 
+    //--- GET DELIVERED QUANTITY ------------------------------------------------------------------
     public double getDeliveredQuantity(){
-        double quantity=0;
-        PreparedStatement ps=null;
-        ResultSet rs=null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        double quantity = 0;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        
         try{
-            String sQuery="select sum(OC_OPERATION_UNITSCHANGED) as total from OC_PRODUCTSTOCKOPERATIONS " +
-                    " where OC_OPERATION_DESCRIPTION like 'medicationdelivery%' and OC_OPERATION_PRESCRIPTIONUID=?";
+            String sQuery = "select sum(OC_OPERATION_UNITSCHANGED) as total"+
+                            " from OC_PRODUCTSTOCKOPERATIONS "+
+                            "  where OC_OPERATION_DESCRIPTION like 'medicationdelivery%'"+
+                            "   and OC_OPERATION_PRESCRIPTIONUID = ?";
             ps = oc_conn.prepareStatement(sQuery);
             ps.setString(1,getUid());
             rs = ps.executeQuery();
             if(rs.next()){
-                quantity=rs.getDouble("total");
+                quantity = rs.getDouble("total");
             }
         }
         catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return quantity;
     }
 
 }
-
