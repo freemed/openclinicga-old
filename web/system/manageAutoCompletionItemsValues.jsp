@@ -162,17 +162,11 @@
         var url = urlForm;
         var params = Form.serialize(SearchForm) + moreParams;
 
-        var myAjax = new Ajax.Updater(
-                div, url,
+        var myAjax = new Ajax.Updater(div, url,
         {
             evalScripts:true,
             method: 'post',
             postBody: params,
-            onload: function() {
-            },
-            onSuccess: function(resp) {
-                // alert(resp.responseText);
-            },
             onFailure:function() {
                 $(div).innerHTML = "Problem with ajax request !!";
             }

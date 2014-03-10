@@ -114,7 +114,7 @@
                 label.updateUserId = activeUser.userid;
                 labelExists = label.exists();
 
-                System.out.println("Saving "+label.value);
+                Debug.println("Saving "+label.value);
                 // INSERT
                 if (!labelExists) {
                     label.saveToDB();

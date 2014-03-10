@@ -5,24 +5,26 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("system.manageexaminations","select",activeUser)%>
 <%
-    String msg = "", sEditPriority = "", sEditData = "", sEditTranType = "", sEditExamName = "", sEditRequiredPrestation = "", sEditRequiredPrestationClass = "", sEditRequiredPrestationInvoiced = "", sEditRequiredPrestationClassInvoiced = "";
+    String msg = "", sEditPriority = "", sEditData = "", sEditTranType = "", sEditExamName = "", 
+           sEditRequiredPrestation = "", sEditRequiredPrestationClass = "", sEditRequiredPrestationInvoiced = "",
+           sEditRequiredPrestationClassInvoiced = "";
     boolean bQueryInsert = false;
     boolean bQueryUpdate = false;
 
     String sAction = checkString(request.getParameter("Action")),
            sExamID = checkString(request.getParameter("FindExamID"));
 
-    //*** DEBUG ***************************************************************
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*** mngExaminations *********************");
-        Debug.println("*** sAction             : "+sAction);
-        Debug.println("*** sExamID             : "+sExamID);
-        Debug.println("*** EditPriority        : "+checkString(request.getParameter("EditPriority")));
-        Debug.println("*** EditData            : "+checkString(request.getParameter("EditData")));
-        Debug.println("*** EditTransactionType : "+checkString(request.getParameter("EditTransactionType")));
-        Debug.println("*** EditExamName        : "+checkString(request.getParameter("EditExamName")));
+        Debug.println("\n******************** system/manageExaminations.jsp ********************");
+        Debug.println("sAction             : "+sAction);
+        Debug.println("sExamID             : "+sExamID);
+        Debug.println("EditPriority        : "+checkString(request.getParameter("EditPriority")));
+        Debug.println("EditData            : "+checkString(request.getParameter("EditData")));
+        Debug.println("EditTransactionType : "+checkString(request.getParameter("EditTransactionType")));
+        Debug.println("EditExamName        : "+checkString(request.getParameter("EditExamName")));
     }
-    //*************************************************************************
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     //--- SAVE ------------------------------------------------------------------------------------
     if(sAction.equals("save")){
@@ -30,12 +32,13 @@
         sEditData     = checkString(request.getParameter("EditData"));
         sEditTranType = checkString(request.getParameter("EditTransactionType"));
         sEditExamName = checkString(request.getParameter("EditExamName"));
+       
         sEditRequiredPrestation = checkString(request.getParameter("EditRequiredPrestation"));
         sEditRequiredPrestationClass = checkString(request.getParameter("EditRequiredPrestationClass"));
         sEditRequiredPrestationInvoiced = checkString(request.getParameter("EditRequiredPrestationInvoiced"));
         sEditRequiredPrestationClassInvoiced = checkString(request.getParameter("EditRequiredPrestationClassInvoiced"));
 
-        if(sEditTranType.length()>0){
+        if(sEditTranType.length() > 0){
         	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestation", sEditRequiredPrestation);
         	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestationClass", sEditRequiredPrestationClass);
         	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestation.invoiced", sEditRequiredPrestationInvoiced.length()>0?"1":"0");
@@ -47,8 +50,8 @@
 
         //*** INSERT examination ***
         if(sExamID.equals("-1")){
-            boolean examinationWithSameNameExists = Label.existsBasedOnName("examination",sEditExamName,sWebLanguage);
-            boolean examinationWithSameTypeExists = (Examination.getByType(sEditTranType)!=null);
+            boolean examinationWithSameNameExists = Label.existsBasedOnName("examination",sEditExamName,sWebLanguage),
+                    examinationWithSameTypeExists = (Examination.getByType(sEditTranType)!=null);
 
             if(!examinationWithSameNameExists && !examinationWithSameTypeExists){
                 sExamID = MedwanQuery.getInstance().getOpenclinicCounter("ExaminationID")+"";
@@ -92,7 +95,15 @@
             objExam.setPriority(Integer.parseInt(sEditPriority));
             objExam.setTransactionType(sEditTranType);
             objExam.setId(Integer.parseInt(sExamID));
-
+            
+            // set messageKey for vaccinations
+            if(sEditTranType.startsWith(ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_VACCINATION")){	
+	            String sMessageKey = sEditTranType.substring(sEditTranType.indexOf("&vaccination=")+"&vaccination=".length());		
+				if(sMessageKey.length() > 0){
+	                objExam.setMessageKey(sMessageKey);
+				}
+            }
+            
             if(bQueryInsert){
                 Examination.addExamination(objExam);
             }
@@ -114,6 +125,7 @@
         msg = getTran("web.manage","examinationdeleted",sWebLanguage);
     }
 %>
+
 <form name="transactionForm" id="transactionForm" method="post" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <input type="hidden" name="Action" value="">
     <%=writeTableHeader("Web.manage","manageexaminations",sWebLanguage,"doBack();")%>

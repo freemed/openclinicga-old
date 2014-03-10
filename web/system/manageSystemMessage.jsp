@@ -127,7 +127,7 @@
 
   <%-- CLEAR ALL textareas --%>
   function clearAll(){
-	if(confirmDialog("web","areYouSure")==1){
+	if(yesnoDialog("Web","areYouSure")){
 	  <%
 	      for(int l=0; l<languages.length; l++){
 	          %>msgForm.Message<%=languages[l].toUpperCase()%>.value = "";<%

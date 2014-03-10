@@ -24,7 +24,7 @@
             updated = true;
         }
         catch(Exception e){
-            if(Debug.enabled) Debug.println(e.getMessage());
+        	Debug.println(e.getMessage());
         }
 
         return updated;
@@ -55,7 +55,7 @@
             if(ps!=null) ps.close();
         }
         catch(Exception e){
-            if(Debug.enabled) Debug.println(e.getMessage());
+        	Debug.println(e.getMessage());
         }
     }
 %>

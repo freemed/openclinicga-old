@@ -220,8 +220,6 @@
                     $('EditLabReagentProvider').value=label.Provider;
                     $('EditLabReagentProductUid').value=label.ProductUid;
                     $('productName').value=label.ProductName;
-                },
-				onFailure: function(){
                 }
 			}
 		);

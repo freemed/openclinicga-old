@@ -8,7 +8,6 @@
 <%
     String sAction = checkString(request.getParameter("Action"));
 
-System.out.println("******************************************* sAction : "+sAction); ////////////////
     String sFindKey = checkString(request.getParameter("FindKey"));
     String sFindValue = checkString(request.getParameter("FindValue"));
 
@@ -21,21 +20,23 @@ System.out.println("******************************************* sAction : "+sAct
     String sEditDeleted = checkString(request.getParameter("EditDeleted"));
     String sEditSynchronize = checkString(request.getParameter("EditSynchronize"));
 
-    /*
-    Debug.println("\n==========================================");
-    Debug.println("ACTION = "+sAction);
-    Debug.println("sFindKey          : "+sFindKey);
-    Debug.println("sFindValue        : "+sFindValue);
-    Debug.println("sEditOw_key       : "+sEditOw_key);
-    Debug.println("sEditOw_value     : "+sEditOw_value);
-    Debug.println("sEditDefaultvalue : "+sEditDefaultvalue);
-    Debug.println("sEditOverride     : "+sEditOverride);
-    Debug.println("sEditComment      : "+sEditComment);
-    Debug.println("sEditSQLvalue     : "+sEditSQLvalue);
-    Debug.println("sEditDeleted      : "+sEditDeleted);
-    Debug.println("sEditSynchronize  : "+sEditSynchronize);
-    Debug.println("==========================================\n");
-    */
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+	    Debug.println("\n************************* system/manageConfig.jsp **********************");
+	    Debug.println("sAction : "+sAction);
+	    Debug.println("sFindKey          : "+sFindKey);
+	    Debug.println("sFindValue        : "+sFindValue);
+	    Debug.println("sEditOc_key       : "+sEditOc_key);
+	    Debug.println("sEditOc_value     : "+sEditOc_value);
+	    Debug.println("sEditDefaultvalue : "+sEditDefaultvalue);
+	    Debug.println("sEditOverride     : "+sEditOverride);
+	    Debug.println("sEditComment      : "+sEditComment);
+	    Debug.println("sEditSQLvalue     : "+sEditSQLvalue);
+	    Debug.println("sEditDeleted      : "+sEditDeleted);
+	    Debug.println("sEditSynchronize  : "+sEditSynchronize+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
     boolean keyAllreadyExists = false;
     String msg = "";
     String sSelectedOc_key = "", sSelectedOc_value = "", sSelectedComment = "", sSelectedSynchronize = "",
@@ -68,7 +69,8 @@ System.out.println("******************************************* sAction : "+sAct
                 Config.addConfig(objConfig);
 
                 msg = "Key '" + sEditOc_key + "' " + getTran("Web", "added", sWebLanguage);
-            } else {
+            } 
+            else {
                 // record found
                 keyAllreadyExists = true;
                 msg = "Key '" + sEditOc_key + "' " + getTran("Web", "exists", sWebLanguage);
@@ -97,7 +99,8 @@ System.out.println("******************************************* sAction : "+sAct
 
             if (sEditDeleted.equals("on")) {
                 objConfig.setDeletetime(new Timestamp(new java.util.Date().getTime()));
-            } else {
+            } 
+            else {
                 objConfig.setDeletetime(null);
             }
 
@@ -114,11 +117,11 @@ System.out.println("******************************************* sAction : "+sAct
     else if (sAction.equals("Delete")) {
         if (sEditOc_key != null && sEditOc_key.length() > 0) {
             Config.deleteConfig(sEditOc_key);
-
             MedwanQuery.reload();
+            sEditDeleted = "";
 
             msg = "Key '" + sEditOc_key + "' " + getTran("Web", "deleted", sWebLanguage);
-            sAction = "Show";
+            sAction = "New";
 
             MedwanQuery.getInstance().reloadConfigValues();
         }
@@ -131,27 +134,27 @@ System.out.println("******************************************* sAction : "+sAct
 
     //--- SHOWDETAILS (= search one specific record to show later) ---------------------------------
     if (sAction.equals("Show")) {
-    	System.out.println("*********************** sAction *****************************"); ////////////////
         Config objConfig = Config.getConfig(sEditOc_key);
-        if (objConfig.getDeletetime() != null) sEditDeleted = "on";
-
-        sSelectedOc_key = sEditOc_key;
-        sSelectedOc_value = objConfig.getOc_value().toString();
-        System.out.println("****************** sSelectedOc_value : "+sSelectedOc_value); //////////
-        sSelectedComment = objConfig.getComment().toString();
-        sSelectedDefaultvalue = objConfig.getDefaultvalue();
-        sSelectedOverride = Integer.toString(objConfig.getOverride());
-        sSelectedSQL_value = objConfig.getSql_value().toString();
-        sSelectedSynchronize = objConfig.getSynchronize();
-        
-        MedwanQuery.getInstance().reloadConfigValues();  
+        if(objConfig!=null && objConfig.getOc_value()!=null){
+	        if(objConfig.getDeletetime()!=null) sEditDeleted = "on";
+	
+	        sSelectedOc_key = sEditOc_key;
+	        sSelectedOc_value = objConfig.getOc_value().toString();
+	        sSelectedComment = objConfig.getComment().toString();
+	        sSelectedDefaultvalue = objConfig.getDefaultvalue();
+	        sSelectedOverride = Integer.toString(objConfig.getOverride());
+	        sSelectedSQL_value = objConfig.getSql_value().toString();
+	        sSelectedSynchronize = objConfig.getSynchronize();
+	        
+	        MedwanQuery.getInstance().reloadConfigValues();  
+        }
         
         out.print("<script>window.setTimeout('doSearch();',500);</script>");
     }
 
 %>
 <form name="transactionForm" method="post"
-    <%                      
+    <%                    
         // enter button only works when searching (not when the edit fields are visible)
             %>onKeyDown='if(enterEvent(event,13)){doSearch();}'<%
     %>
@@ -268,6 +271,7 @@ System.out.println("******************************************* sAction : "+sAct
                                 %>
                                 <input class='button' type="button" name="SaveButton" value='<%=getTran("Web","Save",sWebLanguage)%>' onclick="doSave();">&nbsp;
                                 <input class="button" type="button" name="AddButton" value='<%=getTran("Web","Add",sWebLanguage)%>' onclick="doAdd();">&nbsp;
+                                <input class="button" type="button" name="DeleteButton" value='<%=getTran("Web","delete",sWebLanguage)%>' onclick="doDelete();">&nbsp;
                                 <%
                             }
                             else if(sAction.equals("New")){
@@ -300,56 +304,62 @@ System.out.println("******************************************* sAction : "+sAct
       //  }
     %>
 </form>
+
 <%-- SCRIPTS -------------------------------------------------------------------------------------%>
 <script>
-    function doSave(){
-      if(formComplete()){
-        transactionForm.Action.value = 'Save';
-        transactionForm.submit();
-      }
-    }
-
-    function doAdd(){
-      if(formComplete()){
-        transactionForm.Action.value = 'Add';
-        transactionForm.submit();
-      }
-    }
-
-    function formComplete(){
-      if(transactionForm.EditOc_key.value==""){
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web&labelID=someFieldsAreEmpty";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("Web","someFieldsAreEmpty",sWebLanguage)%>");
-
-        transactionForm.EditOc_key.focus();
-        return false;
-      }
-
-      return true;
-    }
-
-    function doShow(key){
-      transactionForm.EditOc_key.value = key;
-      transactionForm.Action.value = 'Show';
+  function doSave(){
+    if(formComplete()){
+      transactionForm.Action.value = 'Save';
       transactionForm.submit();
     }
+  }
+
+  function doAdd(){
+    if(formComplete()){
+      transactionForm.Action.value = 'Add';
+      transactionForm.submit();
+    }
+  }
+    
+  <%-- DO DELETE --%>
+  function doDelete(){
+    if(yesnoDialog("Web","areYouSureToDelete")){
+      transactionForm.Action.value = "Delete";
+      transactionForm.submit();
+    }
+  }
+
+  function formComplete(){
+    if(transactionForm.EditOc_key.value==""){
+      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web&labelID=someFieldsAreEmpty";
+      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("Web","someFieldsAreEmpty",sWebLanguage)%>");
+
+      transactionForm.EditOc_key.focus();
+      return false;
+    }
+
+    return true;
+  }
+
+  function doShow(key){
+    transactionForm.EditOc_key.value = key;
+    transactionForm.Action.value = 'Show';
+    transactionForm.submit();
+  }
 
   function doSearch(){
     var today = new Date();
-    var params = 'FindKey=' + document.getElementsByName('FindKey')[0].value
-            +"&FindValue="+ document.getElementsByName('FindValue')[0].value;
+    var params = 'FindKey=' + document.getElementsByName('FindKey')[0].value+
+                 "&FindValue="+ document.getElementsByName('FindValue')[0].value;
     var url= '<c:url value="/system/manageConfigFind.jsp"/>?ts=' + today;
     new Ajax.Request(url,{
-            method: "GET",
-            parameters: params,
-            onSuccess: function(resp){
-                $('divFindRecords').innerHTML = resp.responseText;
-            },
-            onFailure: function(){
-            }
-        }
-    );
+      method: "GET",
+      parameters: params,
+      onSuccess: function(resp){
+        $('divFindRecords').innerHTML = resp.responseText;
+      }
+    });
   }
 
   function doNew(){

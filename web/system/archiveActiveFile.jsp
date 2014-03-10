@@ -26,7 +26,7 @@
             out.print("<script defer>archiveForm.archiveButton.disabled = true;</script>");
             out.flush();
 
-            if(Debug.enabled) Debug.println("ActivePatient (personid "+activePatient.personid+") moved to AdminHistory");
+            Debug.println("ActivePatient (personid "+activePatient.personid+") moved to AdminHistory");
         }
     }
 %>

@@ -260,7 +260,7 @@
 <%
     }
 %>
-<script type="text/javascript">
+<script>
     var iAuthorizedUsersIdx = <%=authorisedUsersIdx%>;
     var sAuthorizedUsers = "<%=authorizedUsersJS%>";
     <%-- ADD AUTHORIZED USER --%>

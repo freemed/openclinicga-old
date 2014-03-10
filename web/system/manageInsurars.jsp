@@ -754,8 +754,6 @@
               letterAndCount = counts[i];
               $("catDiv_"+letterAndCount.split(":")[0]).innerHTML = letterAndCount.split(":")[1];
             }
-          },
-          onFailure: function(){
           }
         }
       );
@@ -782,7 +780,7 @@
             window.showModalDialog(popupUrl,"",modalities);
         }
         else {
-            alert('<%=getTranNoLink("web.manage","somefieldsareempty",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
+            alertDialogMessage('<%=getTranNoLink("web.manage","somefieldsareempty",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
     }
   }
@@ -858,7 +856,7 @@
             window.showModalDialog(popupUrl,"",modalities);
         }
         else {
-            alert('<%=getTranNoLink("web.manage","categoryExists",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
+            alertDialogMessage('<%=getTranNoLink("web.manage","categoryExists",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
 
       transactionForm.EditCategoryName.focus();
@@ -937,7 +935,7 @@
             window.showModalDialog(popupUrl,"",modalities);
         }
         else {
-            alert('<%=getTranNoLink("web.manage","countPatientsPerCategoryBeforeDelete",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
+        	alertDialogMessage('<%=getTranNoLink("web.manage","countPatientsPerCategoryBeforeDelete",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
       }
       else{
@@ -1134,7 +1132,7 @@
             window.showModalDialog(popupUrl,"",modalities);
         }
         else {
-            alert('<%=getTranNoLink("web.manage","dataMissing",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
+        	alertDialogMessage('<%=getTranNoLink("web.manage","dataMissing",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
     }
   }

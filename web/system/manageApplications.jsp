@@ -178,7 +178,7 @@
 
   function doSave(){
       if (profileForm.EditPassword.value.length==0){
-          alert("<%=getTran("web.occup","medwan.transaction.delete.wrong-password",sWebLanguage)%>");
+    	  alertDialogMessage("<%=getTran("web.occup","medwan.transaction.delete.wrong-password",sWebLanguage)%>");
       }
       else {
           profileForm.ActionField.value="save";

@@ -75,14 +75,35 @@
     // excluded label types
     String excludedLabelTypes = MedwanQuery.getInstance().getConfigString("excludedLabelTypesNew");
     if(excludedLabelTypes.length() == 0){
-        excludedLabelTypes = "labanalysis,labanalysis.short,labanalysis.monster,labanalysis.refcomment,labprofiles,activitycodes,worktime,patientsharecoverageinsurance,patientsharecoverageinsurance2,urgency.origin,encountertype,prestation.type,product.productgroup,insurance.types,labanalysis.group"; // default
+        excludedLabelTypes = "labanalysis,labanalysis.short,labanalysis.monster,labanalysis.refcomment,"+
+                             "labprofiles,activitycodes,worktime,patientsharecoverageinsurance,patientsharecoverageinsurance2,"+
+                             "urgency.origin,encountertype,prestation.type,product.productgroup,"+
+                             "insurance.types,labanalysis.group"; // default
     }
     excludedLabelTypes = excludedLabelTypes.toLowerCase();
+    
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n********************* system.syncLabelsWithIni.jsp *********************");
+    	Debug.println("action             : "+action);
+    	Debug.println("dataDirection      : "+dataDirection);
+    	Debug.println("findLabelType      : "+findLabelType);
+    	Debug.println("findLabelID        : "+findLabelID);
+    	Debug.println("findLabelLang      : "+findLabelLang);
+    	Debug.println("findLabelValue     : "+findLabelValue);
+    	Debug.println("findLabelDate      : "+findLabelDate);
+    	Debug.println("INIFILENAME        : "+INIFILENAME);
+    	Debug.println("supportedLanguages : "+supportedLanguages);
+    	Debug.println("excludedLabelTypes : "+excludedLabelTypes+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <a name="top"/>
+
 <form name="transactionForm" id="transactionForm" method="POST">
 <input type="hidden" name="action">
 <%=writeTableHeader("Web.manage","SynchronizeLabelsWithIni",sWebLanguage,"main.do?Page=system/menu.jsp")%>
+
 <%-- SELECT ACTION TABLE ------------------------------------------------------------------------%>
 <table width="100%" class="menu" cellspacing="1">
     <%-- DATA DIRECTION --%>
@@ -98,11 +119,13 @@
     <tr>
          <td colspan="2"><br></td>
     </tr>
+    
     <%-- FROM DATE --%>
     <tr width="<%=sTDAdminWidth%>">
         <td>&nbsp;<%=getTran("Web.control","from",sWebLanguage)%></td>
         <td><%=writeDateField("FindLabelDate","transactionForm",findLabelDate,sWebLanguage)%></td>
     </tr>
+    
     <%-- LABEL TYPE --%>
     <tr>
         <td>&nbsp;<%=getTran("Web","type",sWebLanguage)%></td>
@@ -131,6 +154,7 @@
             </select>
         </td>
     </tr>
+    
     <%-- LABEL ID --%>
     <tr>
         <td>&nbsp;<%=getTran("Web.Translations","labelid",sWebLanguage)%></td>
@@ -138,6 +162,7 @@
             <input type="text" class="text" name="FindLabelID" value="<%=findLabelID%>" size="<%=sTextWidth%>">
         </td>
     </tr>
+    
     <%-- LABEL LANGUAGE --%>
     <tr>
         <td>&nbsp;<%=getTran("Web","Language",sWebLanguage)%></td>
@@ -156,6 +181,7 @@
             </select>
         </td>
     </tr>
+    
     <%-- LABEL VALUE --%>
     <tr>
         <td>&nbsp;<%=getTran("Web.Translations","label",sWebLanguage)%></td>
@@ -163,11 +189,14 @@
             <input type="text" class="text" name="FindLabelValue" value="<%=findLabelValue%>" size="<%=sTextWidth%>">&nbsp;&nbsp;
         </td>
     </tr>
+    
     <%-- EXCLUDED TYPES --%>
     <tr height="22">
         <td>&nbsp;<%=getTran("web.translations","Excludedtypes",sWebLanguage)%></td>
-        <td><%=excludedLabelTypes%></td>
+        <td width="500"><%=excludedLabelTypes%></td>
     </tr>
+    
+    <%-- BUTTONS --%>
     <tr>
         <td/>
         <td>
@@ -324,6 +353,7 @@
 
                 for (int i = 0; i < recsToBeDeleted.size(); i++) {
                     lineID = (String) recsToBeDeleted.get(i);
+                    Debug.println("delete : "+lineID); 
                     ps.setString(1, lineID);
                     ps.executeUpdate();
                 }

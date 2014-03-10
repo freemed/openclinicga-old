@@ -297,10 +297,13 @@
                         <%=writeNumberfield("PasswordAvailability")%>
                         <%=writeNumberfield("PasswordMinimumCharacters")%>
                         <%=writeNumberfield("PasswordNoticeTime")%>
+                        <%=writeNumberfield("PasswordNotReusablePasswords")%>
+                        
                         <%=writeRadio("PasswordObligedLetters","on","",sWebLanguage)%>
                         <%=writeRadio("PasswordObligedLowerCase","on","",sWebLanguage)%>
                         <%=writeRadio("PasswordObligedNumbers","on","",sWebLanguage)%>
                         <%=writeRadio("PasswordObligedUppercase","on","",sWebLanguage)%>
+                        <%=writeRadio("PasswordObligedAlfanumerics","on","",sWebLanguage)%>
 
                         <% focusFields.add("PasswordAvailability"); %>
                     </table>
