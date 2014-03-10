@@ -27,22 +27,64 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ScreenHelper {
-    static public SimpleDateFormat stdDateFormat  = new SimpleDateFormat("dd/MM/yyyy");
-    static public SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    public static SimpleDateFormat hourFormat     = new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat stdDateFormat  = new SimpleDateFormat("dd/MM/yyyy");
+    public static SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    public static String ITEM_PREFIX = "be.mxs.common.model.vo.healthrecord.IConstants.";
 
-    static public String left(String s,int n){
+    //--- GET TODAY -------------------------------------------------------------------------------
+    public static java.util.Date getToday(){
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(new java.util.Date()); // now
+    	cal.set(Calendar.HOUR,0);
+    	cal.set(Calendar.MINUTE,0);
+    	cal.set(Calendar.SECOND,0);
+    	cal.set(Calendar.MILLISECOND,0);
+    	
+    	return cal.getTime(); // past midnight
+    }
+    
+    //--- GET TOMORROW ----------------------------------------------------------------------------
+    public static java.util.Date getTomorrow(){
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(new java.util.Date()); // now
+    	cal.set(Calendar.HOUR,0);
+    	cal.set(Calendar.MINUTE,0);
+    	cal.set(Calendar.SECOND,0);
+    	cal.set(Calendar.MILLISECOND,0);
+    	
+    	cal.add(Calendar.DAY_OF_YEAR,1);
+    	
+    	return cal.getTime(); // next midnight
+    }
+    
+    //--- LEFT ------------------------------------------------------------------------------------
+    public static String left(String s,int n){
     	if(s==null){
     		return "";
     	}
     	else if(s.length()<=n){
     		return s;
     	}
-    	else {
+    	else{
     		return s.substring(0,n-3)+"...";
     	}
     }
     
-    static public String getPriceFormat(double value){
+    //--- UPPERCASE FIRST LETTER ------------------------------------------------------------------
+    public static String uppercaseFirstLetter(String sValue){
+        String sFirstLetter;
+        if(sValue.length() > 0){
+            sFirstLetter = sValue.substring(0,1).toUpperCase();
+            sValue = sFirstLetter+sValue.substring(1);
+        }
+        
+        return sValue; 
+        
+    }
+    
+    //--- GET PRICE FORMAT ------------------------------------------------------------------------
+    public static String getPriceFormat(double value){
     	DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols();
     	formatSymbols.setGroupingSeparator(MedwanQuery.getInstance().getConfigString("decimalThousandsSeparator"," ").toCharArray()[0]);
     	return new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat"),formatSymbols).format(value);
@@ -70,27 +112,27 @@ public class ScreenHelper {
 	}
     
     //--- CUSTOMER INCLUDE ------------------------------------------------------------------------
-    static public String customerInclude(String fileName, String sAPPFULLDIR, String sAPPDIR){
-        if (fileName.indexOf("?")>0){
+    public static String customerInclude(String fileName, String sAPPFULLDIR, String sAPPDIR){
+        if(fileName.indexOf("?")>0){
             fileName=fileName.substring(0,fileName.indexOf("?"));
         }
 
-        if (new File((sAPPFULLDIR+"/"+sAPPDIR+"/"+fileName).replaceAll("//","/")).exists()){
-            if(Debug.enabled) Debug.println("Customer file "+(sAPPFULLDIR+"/"+sAPPDIR+"/"+fileName).replaceAll("//","/")+" found");
+        if(new File((sAPPFULLDIR+"/"+sAPPDIR+"/"+fileName).replaceAll("//","/")).exists()){
+            Debug.println("Customer file "+(sAPPFULLDIR+"/"+sAPPDIR+"/"+fileName).replaceAll("//","/")+" found");
             return ("/"+sAPPDIR+"/"+fileName).replaceAll("//","/");
         }
-        else {
-            if(Debug.enabled) Debug.println("Customer file "+(sAPPFULLDIR+"/"+sAPPDIR+"/"+fileName).replaceAll("//","/")+" not found, using "+("/"+fileName).replaceAll("//","/"));
+        else{
+            Debug.println("Customer file "+(sAPPFULLDIR+"/"+sAPPDIR+"/"+fileName).replaceAll("//","/")+" not found, using "+("/"+fileName).replaceAll("//","/"));
             return ("/"+fileName).replaceAll("//","/");
         }
     }
 
     //--- GET TRAN --------------------------------------------------------------------------------
-    static public String getTran(String sType, String sID, String sLanguage) {
+    public static String getTran(String sType, String sID, String sLanguage) {
         return getTran(sType,sID,sLanguage,false);
     }
 
-    static public String getTran(String sType, String sID, String sLanguage, boolean displaySimplePopup) {
+    public static String getTran(String sType, String sID, String sLanguage, boolean displaySimplePopup) {
         String labelValue = "";
 
         try{
@@ -114,7 +156,7 @@ public class ScreenHelper {
                     return labelValue;
                 }
             }
-            else {
+            else{
                 Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
                 if(langHashtable == null){
                     saveUnknownLabel(sType, sID, sLanguage);
@@ -173,11 +215,11 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN WITH LINK ----------------------------------------------------------------------
-    static public String getTranWithLink(String sType, String sID, String sLanguage) {
+    public static String getTranWithLink(String sType, String sID, String sLanguage) {
         return getTranWithLink(sType, sID, sLanguage, false);
     }
 
-    static public String getTranWithLink(String sType, String sID, String sLanguage, boolean displaySimplePopup) {
+    public static String getTranWithLink(String sType, String sID, String sLanguage, boolean displaySimplePopup) {
         String labelValue = "";
         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
 
@@ -194,7 +236,7 @@ public class ScreenHelper {
                     return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+labelValue+"</a>";
                 }
             }
-            else {
+            else{
                 Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
                 if(langHashtable == null){
                     saveUnknownLabel(sType, sID, sLanguage);
@@ -232,7 +274,7 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN DB -----------------------------------------------------------------------------
-    static public String getTranDb(String sType, String sID, String sLang){
+    public static String getTranDb(String sType, String sID, String sLang){
         String labelValue = "";
         if(sType!=null && sID!=null && sLang!=null){
 	        PreparedStatement ps = null;
@@ -276,7 +318,7 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN NO LINK ------------------------------------------------------------------------
-    static public String getTranNoLink(String sType, String sID, String sLanguage) {    	
+    public static String getTranNoLink(String sType, String sID, String sLanguage) {    	
     	if(sID==null){
     		Debug.println("WARNING - getTranNoLink : sID is null for sType:"+sType+" and sLanguage:"+sLanguage);
     		return "";
@@ -299,7 +341,7 @@ public class ScreenHelper {
 	            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
 	                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
 	            }
-	            else {
+	            else{
 	                Hashtable labels = MedwanQuery.getInstance().getLabels();
 	                if(labels==null){
 	                    saveUnknownLabel(sType,sID,sLanguage);
@@ -344,7 +386,7 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN NO LINK ------------------------------------------------------------------------
-    static public String getTranExists(String sType, String sID, String sLanguage) {
+    public static String getTranExists(String sType, String sID, String sLanguage) {
         String labelValue = "";
         if(sLanguage!=null && sLanguage.equalsIgnoreCase("f")){
         	sLanguage="fr";
@@ -365,7 +407,7 @@ public class ScreenHelper {
 	                	return "";
 	                }
 	            }
-	            else {
+	            else{
 	                Hashtable labels = MedwanQuery.getInstance().getLabels();
 	                if(labels==null){
 	                    saveUnknownLabel(sType,sID,sLanguage);
@@ -410,7 +452,7 @@ public class ScreenHelper {
     }
 
     //--- CONVERT HTML CODE TO CHAR ---------------------------------------------------------------
-    static public String convertHtmlCodeToChar(String text){
+    public static String convertHtmlCodeToChar(String text){
         text = text.replaceAll("&eacute;","é");
         text = text.replaceAll("&egrave;","è");
         text = text.replaceAll("&euml;","ë");
@@ -426,7 +468,7 @@ public class ScreenHelper {
     }
 
     //--- NORMALIZE SPECIAL CHARACTERS ------------------------------------------------------------
-    static public String normalizeSpecialCharacters(String sTest){
+    public static String normalizeSpecialCharacters(String sTest){
         sTest = sTest.replaceAll("'","");
         sTest = sTest.replaceAll("´",""); // difference !
         sTest = sTest.replaceAll(" ","");
@@ -448,7 +490,7 @@ public class ScreenHelper {
     }
 
     //--- GET CONFIG STRING -----------------------------------------------------------------------
-    static public String getConfigString(String key, Connection conn){
+    public static String getConfigString(String key, Connection conn){
         String cs = "";
 
         try{
@@ -468,12 +510,12 @@ public class ScreenHelper {
     }
 
     //--- GET CONFIG PARAM ------------------------------------------------------------------------
-    static public String getConfigParam(String key, String param, Connection conn){
+    public static String getConfigParam(String key, String param, Connection conn){
         return getConfigString(key,conn).replaceAll("<param>",param);
     }
 
     //--- GET CONFIG PARAM ------------------------------------------------------------------------
-    static public String getConfigParam(String key, String[] params, Connection conn){
+    public static String getConfigParam(String key, String[] params, Connection conn){
         String result = getConfigString(key,conn);
 
         for(int i=0; i<params.length; i++){
@@ -484,19 +526,19 @@ public class ScreenHelper {
     }
 
     //--- SET ROW ---------------------------------------------------------------------------------
-    static public String setRow(String sType, String sID, String sValue, String sLanguage) {
+    public static String setRow(String sType, String sID, String sValue, String sLanguage) {
         return "<tr><td class='admin'>"+getTran(sType,sID,sLanguage)+"</td><td class='admin2'>"+sValue+"</td></tr>";
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    static public String setMaliAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+    public static String setMaliAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
         String sCountry = "&nbsp;";
-        if (checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0) {
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if (checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0) {
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -518,14 +560,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    static public String setCameroonAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+    public static String setCameroonAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
         String sCountry = "&nbsp;";
-        if (checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0) {
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if (checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0) {
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -547,14 +589,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    static public String setOpenclinicAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+    public static String setOpenclinicAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
         String sCountry = "&nbsp;";
-        if (checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0) {
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if (checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0) {
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -577,14 +619,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    static public String setAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+    public static String setAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
         String sCountry = "&nbsp;";
-        if (checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0) {
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if (checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0) {
             sProvince = getTran("province",apc.province,sLanguage);
         }
         if(MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1){
@@ -601,7 +643,7 @@ public class ScreenHelper {
 		            setRow("Web","comment",apc.comment,sLanguage)
 	        );
         }
-        else {
+        else{
 	        return(
 	            setRow("Web.admin","addresschangesince",apc.begin,sLanguage)+
 	            setRow("Web","address",apc.address,sLanguage)+
@@ -623,14 +665,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    static public String setAdminPrivateContactBurundi(AdminPrivateContact apc, String sLanguage) {
+    public static String setAdminPrivateContactBurundi(AdminPrivateContact apc, String sLanguage) {
         String sCountry = "&nbsp;";
-        if (checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0) {
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if (checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0) {
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -652,14 +694,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    static public String setAdminPrivateContactCDO(AdminPrivateContact apc, String sLanguage) {
+    public static String setAdminPrivateContactCDO(AdminPrivateContact apc, String sLanguage) {
         String sCountry = "&nbsp;";
-        if (checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0) {
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if (checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0) {
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -675,7 +717,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE LOOSE DATE FIELD YEAR -------------------------------------------------------------
-    static public String writeLooseDateFieldYear(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR) {
+    public static String writeLooseDateFieldYear(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR) {
         String gfPopType = "1"; // default
         if(allowPastDates && allowFutureDates){
             gfPopType = "1";
@@ -692,12 +734,12 @@ public class ScreenHelper {
     }
 
     //--- WRITE DATE FIELD ------------------------------------------------------------------------
-    static public String writeDateField(String sName, String sForm, String sValue, boolean allowPastDates,
+    public static String writeDateField(String sName, String sForm, String sValue, boolean allowPastDates,
     		                            boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR){
     	return writeDateField(sName,sForm,sValue,allowPastDates,allowFutureDates,sWebLanguage,sCONTEXTDIR,"");    	
     }
     
-    static public String writeDateField(String sName, String sForm, String sValue, boolean allowPastDates, 
+    public static String writeDateField(String sName, String sForm, String sValue, boolean allowPastDates, 
     		                            boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR, String sExtraOnBlur){
         String gfPopType = "1"; // default
         if(allowPastDates && allowFutureDates){
@@ -718,7 +760,7 @@ public class ScreenHelper {
               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTran("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
     }
     
-    static public String newWriteDateTimeField(String sName, java.util.Date dValue, String sWebLanguage, String sCONTEXTDIR) {
+    public static String newWriteDateTimeField(String sName, java.util.Date dValue, String sWebLanguage, String sCONTEXTDIR) {
         return "<input id='" + sName + "' type='text' maxlength='10' class='text' name='" + sName + "' value='" + getSQLDate(dValue) + "' size='12' onblur='if(!checkDate(this)){alert(\"" + HTMLEntities.htmlentities(getTran("Web.Occup", "date.error", sWebLanguage)) + "\");this.value=\"\";}'>"
                 + "&nbsp;<img name='popcal' class='link' src='" + sCONTEXTDIR + "/_img/icon_agenda.gif' alt='" + HTMLEntities.htmlentities(getTran("Web", "Select", sWebLanguage)) + "' onclick='gfPop1.fPopCalendar($(\"" + sName + "\"));return false;'>"
                 + "&nbsp;<img class='link' src='" + sCONTEXTDIR + "/_img/icon_compose.gif' alt='" + HTMLEntities.htmlentities(getTran("Web", "PutToday", sWebLanguage)) + "' onclick=\"putTime($('" + sName + "Time'));getToday($('" + sName + "'));\">"
@@ -726,14 +768,14 @@ public class ScreenHelper {
                 + "&nbsp;" + getTran("web.occup", "medwan.common.hour", sWebLanguage);
     }
     
-    static public String planningDateTimeField(String sName, String dValue, String sWebLanguage, String sCONTEXTDIR) {
+    public static String planningDateTimeField(String sName, String dValue, String sWebLanguage, String sCONTEXTDIR) {
         return "<input id='" + sName + "' type='text' maxlength='10' class='text' name='" + sName + "' value='" + dValue + "' size='12' onblur='if(!checkDate(this)){alert(\"" + HTMLEntities.htmlentities(getTran("Web.Occup", "date.error", sWebLanguage)) + "\");this.value=\"\";}'>"
                 + "&nbsp;<img name='popcal' class='link' src='" + sCONTEXTDIR + "/_img/icon_agenda.gif' alt='" + HTMLEntities.htmlentities(getTran("Web", "Select", sWebLanguage)) + "' onclick='gfPop1.fPopCalendar($(\"" + sName + "\"));return false;'>"
                 + "&nbsp;<img class='link' src='" + sCONTEXTDIR + "/_img/icon_compose.gif' alt='" + HTMLEntities.htmlentities(getTran("Web", "PutToday", sWebLanguage)) + "' onclick=\"getToday($('" + sName + "'));\">";
     }
     
     //--- WRITE DATEE FIELD WITHOUT TODAY ---------------------------------------------------------
-    static public String writeDateFieldWithoutToday(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR) {
+    public static String writeDateFieldWithoutToday(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR) {
         String gfPopType = "1"; // default
         if(allowPastDates && allowFutureDates){
             gfPopType = "1";
@@ -748,19 +790,19 @@ public class ScreenHelper {
     }
 
     //--- CHECK PERMISSION ------------------------------------------------------------------------
-    static public String checkPermission(String sScreen, String sPermission, User activeUser,
+    public static String checkPermission(String sScreen, String sPermission, User activeUser,
                                          boolean screenIsPopup, String sAPPFULLDIR) {
         sPermission = sPermission.toLowerCase();
         String jsAlert = "Error in checkPermission : no screen specified !";
-        if (sScreen.trim().length()>0) {
-            if (Application.isDisabled(sScreen)){
+        if(sScreen.trim().length()>0) {
+            if(Application.isDisabled(sScreen)){
             }
-            else if (activeUser!=null && activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0){
+            else if(activeUser!=null && activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0){
                 jsAlert = "";
             }
             else{
                 // screen and permission specified
-                if (sPermission.length() > 0 && !sPermission.equals("all")){
+                if(sPermission.length() > 0 && !sPermission.equals("all")){
                     if(sPermission.equals("none")) {
                     	jsAlert = "";
                     }
@@ -770,13 +812,12 @@ public class ScreenHelper {
                 }
                 // no permission specified -> interprete as all permissions required
                 // Managing a page, means you can add, edit and delete.
-                else if (activeUser.getAccessRight(sScreen + ".edit") &&
+                else if(activeUser.getAccessRight(sScreen + ".edit") &&
                          activeUser.getAccessRight(sScreen + ".add") &&
                          //activeUser.getAccessRight(sScreen + ".select") &&
                          activeUser.getAccessRight(sScreen + ".delete")) {
                     jsAlert = "";
                 }
-                
                 if(Debug.enabled) System.out.println("3"); 
 
                 if(jsAlert.length() > 0){
@@ -798,7 +839,7 @@ public class ScreenHelper {
         return jsAlert;
     }
 
-    //--- CHECK PERMISSION ------------------------------------------------------------------------
+    //--- CHECK TRANSACTION PERMISSION ------------------------------------------------------------
     static public String checkTransactionPermission(TransactionVO transaction, User activeUser, boolean screenIsPopup, String sAPPFULLDIR) {
     	String jsAlert="";
     	if(checkString(transaction.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")){
@@ -821,9 +862,9 @@ public class ScreenHelper {
 
         return jsAlert;
     }
-
+    
     //--- CHECK PERMISSION ------------------------------------------------------------------------
-    static public String checkPrestationToday(String sPersonId, String sAPPFULLDIR, boolean screenIsPopup, User activeUser, TransactionVO transaction) {
+    public static String checkPrestationToday(String sPersonId, String sAPPFULLDIR, boolean screenIsPopup, User activeUser, TransactionVO transaction) {
         String jsAlert = "";
         String sMessage ="";
         String sEncounterUid="";
@@ -831,8 +872,6 @@ public class ScreenHelper {
     	if(encounter!=null){
     		sEncounterUid=encounter.getUid();
     	}
-    	System.out.println("sEncounterUid="+sEncounterUid);
-    	System.out.println("transactionid="+transaction.getTransactionId());
     	
         if(sEncounterUid.length()>0 && sEncounterUid.split("\\.").length==2 && transaction.getTransactionId()<0 && MedwanQuery.getInstance().getConfigInt("activateOutpatientConsultationPrestationCheck",0)==1){
         	String sPrestationCode=MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestation","");
@@ -901,14 +940,14 @@ public class ScreenHelper {
     }
 
     //--- WRITE SEARCH BUTTON ---------------------------------------------------------------------
-    static public String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
+    public static String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
                                            String sShowID, String sWebLanguage, String sCONTEXTDIR) {
         return "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTran("Web","select",sWebLanguage)+"'"
               +"onclick='openPopup(\"_common/search/searchScreen.jsp&LabelType="+sLabelType+"&VarCode="+sVarCode+"&VarText="+sVarText+"&ShowID="+sShowID+"\");'>"
               +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTran("Web","clear",sWebLanguage)+"' onclick=\""+sVarCode+".value='';"+sVarText+".value='';\">";
     }
 
-    static public String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
+    public static String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
                                            String sShowID,String sWebLanguage, String defaultValue, String sCONTEXTDIR) {
         return  "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTran("Web","select",sWebLanguage)+"'"
               +" onclick='openPopup(\"_common/search/searchScreen.jsp&LabelType="+sLabelType+"&VarCode="+sVarCode+"&VarText="+sVarText+"&ShowID="+sShowID+"&DefaultValue="+defaultValue+"\");'>"
@@ -916,11 +955,11 @@ public class ScreenHelper {
     }
 
     //--- WRITE SERVICE BUTTON --------------------------------------------------------------------
-    static public String writeServiceButton(String sButtonName, String sVarCode, String sVarText,String sWebLanguage, String sCONTEXTDIR) {
+    public static String writeServiceButton(String sButtonName, String sVarCode, String sVarText,String sWebLanguage, String sCONTEXTDIR) {
         return writeServiceButton(sButtonName,sVarCode,sVarText,false,sWebLanguage,sCONTEXTDIR);
     }
 
-    static public String writeServiceButton(String sButtonName, String sVarCode, String sVarText,
+    public static String writeServiceButton(String sButtonName, String sVarCode, String sVarText,
                                             boolean onlySelectContractWithDivision, String sWebLanguage, String sCONTEXTDIR) {
         return  "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTran("Web","select",sWebLanguage)+"'"
               +"onclick='openPopup(\"_common/search/searchService.jsp&VarCode="+sVarCode+"&VarText="+sVarText+"&onlySelectContractWithDivision="+onlySelectContractWithDivision+"\");'>"
@@ -928,27 +967,27 @@ public class ScreenHelper {
     }
 
     //--- WRITE SELECT (SORTED) -------------------------------------------------------------------
-    static public String writeSelect(String sLabelType, String sSelected,String sWebLanguage) {
+    public static String writeSelect(String sLabelType, String sSelected,String sWebLanguage) {
         return writeSelect(sLabelType,sSelected,sWebLanguage,false,true);
     }
 
-    static public String writeSelect(String sLabelType, String sSelected,String sWebLanguage, boolean showLabelID) {
+    public static String writeSelect(String sLabelType, String sSelected,String sWebLanguage, boolean showLabelID) {
         return writeSelect(sLabelType,sSelected,sWebLanguage,showLabelID,true);
     }
 
     //--- WRITE SELECT UNSORTED -------------------------------------------------------------------
-    static public String writeSelectUnsorted(String sLabelType, String sSelected, String sWebLanguage) {
+    public static String writeSelectUnsorted(String sLabelType, String sSelected, String sWebLanguage) {
         return writeSelect(sLabelType,sSelected,sWebLanguage,false,false);
     }
 
     //--- WRITE SELECT ----------------------------------------------------------------------------
-    static public String writeSelect(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted){
+    public static String writeSelect(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted){
         String sOptions = "";
         Label label;
         Iterator it;
 
         Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-        if (labelTypes!=null) {
+        if(labelTypes!=null) {
             Hashtable labelIds = (Hashtable)labelTypes.get(sLabelType.toLowerCase());
 
             if(labelIds!=null) {
@@ -990,7 +1029,7 @@ public class ScreenHelper {
                     }
 
                     sOptions+= "<option value='"+sLabelID+"'";
-                    if (sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
+                    if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
                         sOptions+= " selected";
                     }
 
@@ -1008,13 +1047,13 @@ public class ScreenHelper {
     }
 
     //--- WRITE SELECT ----------------------------------------------------------------------------
-    static public String writeSelectUpperCase(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted){
+    public static String writeSelectUpperCase(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted){
         String sOptions = "";
         Label label;
         Iterator it;
 
         Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-        if (labelTypes!=null) {
+        if(labelTypes!=null) {
             Hashtable labelIds = (Hashtable)labelTypes.get(sLabelType.toLowerCase());
 
             if(labelIds!=null) {
@@ -1056,7 +1095,7 @@ public class ScreenHelper {
                     }
 
                     sOptions+= "<option value='"+sLabelID+"'";
-                    if (sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
+                    if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
                         sOptions+= " selected";
                     }
 
@@ -1073,13 +1112,13 @@ public class ScreenHelper {
         return sOptions;
     }
 
-    static public String writeSelectExclude(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted, String sExclude){
+    public static String writeSelectExclude(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted, String sExclude){
         String sOptions = "";
         Label label;
         Iterator it;
 
         Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-        if (labelTypes!=null) {
+        if(labelTypes!=null) {
             Hashtable labelIds = (Hashtable)labelTypes.get(sLabelType.toLowerCase());
 
             if(labelIds!=null) {
@@ -1122,7 +1161,7 @@ public class ScreenHelper {
                     if(sExclude.indexOf(sLabelID)<0){
 
                         sOptions+= "<option value='"+sLabelID+"'";
-                        if (sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
+                        if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
                             sOptions+= " selected";
                         }
 
@@ -1141,7 +1180,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE ZIPCODE BUTTON --------------------------------------------------------------------
-    static public String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sCONTEXTDIR) {
+    public static String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sCONTEXTDIR) {
         String sSearch = sZipcode+".value";
 
         return "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTran("Web","select",sWebLanguage)+"' "
@@ -1149,7 +1188,7 @@ public class ScreenHelper {
               +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTran("Web","clear",sWebLanguage)+"' onclick=\""+sZipcode+".value='';"+sCity+".value='';\">";
     }
 
-    static public String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sDisplayLang, String sCONTEXTDIR) {
+    public static String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sDisplayLang, String sCONTEXTDIR) {
         String sSearch = sZipcode+".value";
 
         return "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTran("Web","select",sWebLanguage)+"' "
@@ -1158,7 +1197,7 @@ public class ScreenHelper {
     }
 
     //--- SAVE UNKNOWN LABEL ----------------------------------------------------------------------
-    static public void saveUnknownLabel(String sLabelType, String sLabelID, String sLabelLang) {
+    public static void saveUnknownLabel(String sLabelType, String sLabelID, String sLabelLang) {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -1208,27 +1247,27 @@ public class ScreenHelper {
     }
 
     //--- CHECK STRING ----------------------------------------------------------------------------
-    static public String checkString(String sString) {
+    public static String checkString(String sString) {
         // om geen 'null' weer te geven
-        if ((sString==null)||(sString.toLowerCase().equals("null"))) {
+        if((sString==null)||(sString.toLowerCase().equals("null"))) {
             return "";
         }
-        else {
+        else{
             sString = sString.trim();
         }
         return sString;
     }
 
     //--- GET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    static public AdminPrivateContact getActivePrivate(AdminPerson person) {
+    public static AdminPrivateContact getActivePrivate(AdminPerson person) {
         AdminPrivateContact apcActive = null;
         AdminPrivateContact apc;
 
         for (int i=0; i<person.privateContacts.size(); i++) {
             apc = ((AdminPrivateContact)(person.privateContacts.elementAt(i)));
-            if (apc.end==null || apc.end.trim().equals("")) {
+            if(apc.end==null || apc.end.trim().equals("")) {
                 try {
-                    if (apcActive==null || stdDateFormat.parse(apc.begin).after(stdDateFormat.parse(apcActive.begin))){
+                    if(apcActive==null || stdDateFormat.parse(apc.begin).after(stdDateFormat.parse(apcActive.begin))){
                         apcActive=apc;
                     }
                 }
@@ -1242,11 +1281,11 @@ public class ScreenHelper {
     }
 
     //--- REPLACE ---------------------------------------------------------------------------------
-    static public String replace(String sValue, String sSearch, String sReplace) {
+    public static String replace(String sValue, String sSearch, String sReplace) {
         String sResult = "", sLeft = sValue;
 
         int iIndex = sLeft.indexOf(sSearch);
-        if (iIndex > -1) {
+        if(iIndex > -1) {
             while (iIndex > -1) {
                 sResult += sLeft.substring(0,iIndex)+sReplace;
                 sLeft = sLeft.substring(iIndex+1,sLeft.length());
@@ -1254,7 +1293,7 @@ public class ScreenHelper {
             }
             sResult += sLeft;
         }
-        else {
+        else{
             sResult = sValue;
         }
 
@@ -1262,17 +1301,17 @@ public class ScreenHelper {
     }
 
     //--- GET TS ----------------------------------------------------------------------------------
-    static public String getTs() {
+    public static String getTs() {
         return new java.util.Date().hashCode()+"";
     }
 
     //--- GET DATE --------------------------------------------------------------------------------
-    static public String getDate() {
+    public static String getDate() {
         return stdDateFormat.format(new java.util.Date());
     }
 
     //--- FORMAT DATE -----------------------------------------------------------------------------
-    static public String formatDate(java.util.Date dDate) {
+    public static String formatDate(java.util.Date dDate) {
         String sDate = "";
         if(dDate!=null) {
             sDate = stdDateFormat.format(dDate);
@@ -1281,17 +1320,17 @@ public class ScreenHelper {
     }
 
     //--- GET DATE --------------------------------------------------------------------------------
-    static public java.util.Date getDate(java.util.Date date) throws Exception{
+    public static java.util.Date getDate(java.util.Date date) throws Exception{
         return stdDateFormat.parse(stdDateFormat.format(date));
     }
 
     //--- WRITE TABLE FOOTER ----------------------------------------------------------------------
-    static public String writeTblFooter() {
+    public static String writeTblFooter() {
         return "</table></td></tr></td></tr></table>";
     }
 
     //--- WRITE TABLE HEADER ----------------------------------------------------------------------
-    static public String writeTblHeader(String sHeader, String sCONTEXTDIR) {
+    public static String writeTblHeader(String sHeader, String sCONTEXTDIR) {
         return "<table border='0' cellspacing='0' cellpadding='0' class='menu' width='100%'>"+
                "<tr class='admin'><td width='100%'>&nbsp;&nbsp;"+sHeader+"&nbsp;&nbsp;</td></tr>"+
                "<tr><td><img src='"+sCONTEXTDIR+"/_img/pix_bl.gif' alt='' width='100' height='1' border='0'></td></tr>"+
@@ -1299,7 +1338,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
-    static public String writeTblChild(String sPath, String sHeader, String sCONTEXTDIR) {
+    public static String writeTblChild(String sPath, String sHeader, String sCONTEXTDIR) {
         return "<tr>"+
                " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
                " <td width='99%' nowrap>"+
@@ -1309,7 +1348,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
-    static public String writeTblChildNoButton(String sPath, String sHeader, String sCONTEXTDIR) {
+    public static String writeTblChildNoButton(String sPath, String sHeader, String sCONTEXTDIR) {
         return "<tr>"+
                " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
                " <td width='99%' nowrap>"+
@@ -1319,7 +1358,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
-    static public String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR) {
+    public static String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR) {
         return "<tr>"+
                " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
                " <td width='99%' nowrap>"+
@@ -1329,7 +1368,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
-    static public String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR) {
+    public static String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR) {
         return "<tr>"+
                " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
                " <td width='99%' nowrap>"+
@@ -1339,16 +1378,16 @@ public class ScreenHelper {
     }
 
     //--- GET ACCESS KEY --------------------------------------------------------------------------
-    static public String getAccessKey(String label){
+    public static String getAccessKey(String label){
         label=label.toLowerCase();
-        if (label.indexOf("<u>")>-1 && label.indexOf("</u>")>-1){
+        if(label.indexOf("<u>")>-1 && label.indexOf("</u>")>-1){
             return label.substring(label.indexOf("<u>")+3,label.indexOf("</u>"));
         }
         return "";
     }
 
     //--- SET RIGHT CLICK -------------------------------------------------------------------------
-    static public String setRightClick(String itemType){
+    public static String setRightClick(String itemType){
         return "onclick='this.className=\"selected\"' "+
                "onchange='this.className=\"selected\";setPopup(\"be.mxs.common.model.vo.healthrecord.IConstants."+itemType+"\",this.value)' "+
                "onkeyup='this.className=\"selected\";setPopup(\"be.mxs.common.model.vo.healthrecord.IConstants."+itemType+"\",this.value)' "+
@@ -1357,23 +1396,23 @@ public class ScreenHelper {
     }
 
     //--- SET RIGHT CLICK MINI --------------------------------------------------------------------
-    static public String setRightClickMini(String itemType){
+    public static String setRightClickMini(String itemType){
         return "onmouseover=\"this.style.cursor='help';setPopup('be.mxs.common.model.vo.healthrecord.IConstants."+itemType+"',this.value);activeItem=true;setItemsMenu(true);\" "+
                "onmouseout=\"this.style.cursor='default';activeItem=false;document.oncontextmenu=function(){return true};\" ";
     }
 
     //--- GET DEFAULTS ----------------------------------------------------------------------------
-    static public String getDefaults(HttpServletRequest request) throws SessionContainerFactoryException {
+    public static String getDefaults(HttpServletRequest request) throws SessionContainerFactoryException {
         // defaults
         String defaults = ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemDefaultsHTML();
         defaults += "<script>function loadDefaults(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if (document.getElementsByName('DefaultValue_'+document.all[n].name)[0]!=null) {"
-                    +"if (document.all[n].type=='text') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"if(document.getElementsByName('DefaultValue_'+document.all[n].name)[0]!=null) {"
+                    +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"}</script>";
@@ -1382,12 +1421,12 @@ public class ScreenHelper {
         defaults += ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemPreviousHTML();
         defaults += "<script>function loadPrevious(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if (document.getElementsByName('PreviousValue_'+document.all[n].name]!=null) {"
-                    +"if (document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"if(document.getElementsByName('PreviousValue_'+document.all[n].name]!=null) {"
+                    +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"}</script>";
@@ -1396,12 +1435,12 @@ public class ScreenHelper {
         defaults += ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemPreviousContextHTML();
         defaults += "<script>function loadPreviousContext(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if (document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0]!=null) {"
-                    +"if (document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if (document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if (document.all[n].options[m].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"if(document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0]!=null) {"
+                    +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"}</script>";
@@ -1410,34 +1449,34 @@ public class ScreenHelper {
     }
 
     //--- FORMAT SQL DATE -------------------------------------------------------------------------
-    static public String formatSQLDate(Date dDate, String sFormat) {
+    public static String formatSQLDate(Date dDate, String sFormat) {
         String sDate = "";
-        if (dDate!=null) {
+        if(dDate!=null) {
             sDate = new SimpleDateFormat(sFormat).format(dDate);
         }
         return sDate;
     }
 
-    static public String formatSQLDate(java.util.Date dDate, String sFormat) {
+    public static String formatSQLDate(java.util.Date dDate, String sFormat) {
         String sDate = "";
-        if (dDate!=null) {
+        if(dDate!=null) {
             sDate = new SimpleDateFormat(sFormat).format(dDate);
         }
         return sDate;
     }
 
     //--- GET SQL STRING --------------------------------------------------------------------------
-    static public String setSQLString(String sValue) {
-        if (sValue!=null && sValue.trim().length()>249) {
+    public static String setSQLString(String sValue) {
+        if(sValue!=null && sValue.trim().length()>249) {
             sValue = sValue.substring(0,249);
         }
         return sValue;
     }
 
     //--- GET SQL TIME ----------------------------------------------------------------------------
-    static public String getSQLTime(Time tTime) {
+    public static String getSQLTime(Time tTime) {
         String sTime = "";
-        if (tTime!=null) {
+        if(tTime!=null) {
             sTime = tTime.toString();
             sTime = sTime.substring(0,sTime.lastIndexOf(":"));
         }
@@ -1445,44 +1484,44 @@ public class ScreenHelper {
     }
 
     //--- GET SQL TIME ----------------------------------------------------------------------------
-    static public java.sql.Timestamp getSQLTime() {
+    public static java.sql.Timestamp getSQLTime() {
         return new java.sql.Timestamp(new java.util.Date().getTime()); // now
     }
 
     //--- GET SQL TIME STAMP ----------------------------------------------------------------------
-    static public String getSQLTimeStamp(java.sql.Timestamp timeStamp) {
+    public static String getSQLTimeStamp(java.sql.Timestamp timeStamp) {
         String ts = "";
-        if (timeStamp != null) {
+        if(timeStamp != null) {
             ts = fullDateFormat.format(new Date(timeStamp.getTime()));
         }
         return ts;
     }
 
     //--- GET SQL DATE ----------------------------------------------------------------------------
-    static public String getSQLDate(java.sql.Date dDate) {
+    public static String getSQLDate(java.sql.Date dDate) {
         String sDate = "";
-        if (dDate!=null) {
+        if(dDate!=null) {
             sDate = stdDateFormat.format(dDate);
         }
         return sDate;
     }
 
     //--- GET SQL DATE ----------------------------------------------------------------------------
-    static public String getSQLDate(java.util.Date dDate) {
+    public static String getSQLDate(java.util.Date dDate) {
         String sDate = "";
-        if (dDate!=null) {
+        if(dDate!=null) {
             sDate = stdDateFormat.format(dDate);
         }
         return sDate;
     }
 
     //--- GET SQL DATE ----------------------------------------------------------------------------
-    static public java.sql.Date getSQLDate(String sDate) {
+    public static java.sql.Date getSQLDate(String sDate) {
         try {
             if(sDate==null || sDate.trim().length()==0 || sDate.trim().length()<5 || sDate.equals("&nbsp;")) {
                 return null;
             }
-            else {
+            else{
                 sDate=sDate.replaceAll("-","/");
                 return new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sDate).getTime());
             }
@@ -1493,12 +1532,12 @@ public class ScreenHelper {
     }
 
     //--- GET DATE ADD ----------------------------------------------------------------------------
-    static public String getDateAdd(String sDate, String sAdd) {
+    public static String getDateAdd(String sDate, String sAdd) {
         try {
             if(sDate==null || sDate.trim().length()==0 || sDate.trim().length()<5 || sDate.equals("&nbsp;")) {
                 return null;
             }
-            else {
+            else{
                 sDate=sDate.replaceAll("-","/");
                 java.util.Date d=new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
                 return new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(d.getTime()+Long.parseLong(sAdd)*24*60*60000));
@@ -1510,19 +1549,19 @@ public class ScreenHelper {
     }
 
     //--- WRITE JS BUTTONS ------------------------------------------------------------------------
-    static public String writeJSButtons(String sMyForm, String sMyButton, String sCONTEXTDIR) {
+    public static String writeJSButtons(String sMyForm, String sMyButton, String sCONTEXTDIR) {
         return "<script>var myForm = document.getElementById('"+sMyForm+"'); var myButton = document.getElementById('"+sMyButton+"');</script>"+
                "<script src='"+sCONTEXTDIR+"/_common/_script/buttons.js'></script>";
     }
 
     public static void closeQuietly(Connection connection, Statement statement, ResultSet resultSet) {
-        if (resultSet != null) try { resultSet.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
-        if (statement != null) try { statement.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
-        if (connection != null) try { connection.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
+        if(resultSet != null) try { resultSet.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
+        if(statement != null) try { statement.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
+        if(connection != null) try { connection.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
     }
     
     //--- SET INCLUDE PAGE ------------------------------------------------------------------------
-    static public void setIncludePage(String sPage, PageContext pageContext) {
+    public static void setIncludePage(String sPage, PageContext pageContext) {
         // ? or &
         if(sPage.indexOf("?")<0){
             if(sPage.indexOf("&")>-1){
@@ -1531,7 +1570,7 @@ public class ScreenHelper {
                     sPage+= "&ts="+new java.util.Date().getTime();
                 }
             }
-            else {
+            else{
                 sPage+= "?ts="+new java.util.Date().getTime();
             }
 
@@ -1548,21 +1587,21 @@ public class ScreenHelper {
     }
 
     //--- WRITE TIME FIELD ------------------------------------------------------------------------
-    static public String writeTimeField(String sName, String sValue){
+    public static String writeTimeField(String sName, String sValue){
         return "<input id='"+sName+"' type='text' class='text' name='"+sName+"' value='"+sValue+"' onblur='checkTime(this)' size='5'>";
     }
 
     //--- GET SQL TIME STAMP ----------------------------------------------------------------------
-    static public void getSQLTimestamp(PreparedStatement ps, int iIndex, String sDate, String sTime) {
+    public static void getSQLTimestamp(PreparedStatement ps, int iIndex, String sDate, String sTime) {
         try{
-            if (sDate == null || sDate.trim().length()==0) {
+            if(sDate == null || sDate.trim().length()==0) {
                 ps.setNull(iIndex,Types.TIMESTAMP);
             }
             else{
-                if (sTime == null || sTime.trim().length()==0){
+                if(sTime == null || sTime.trim().length()==0){
                     ps.setDate(iIndex,getSQLDate(sDate));
                 }
-                else {
+                else{
                     ps.setTimestamp(iIndex,new Timestamp(fullDateFormat.parse(sDate+" "+sTime).getTime()));
                 }
             }
@@ -1575,9 +1614,9 @@ public class ScreenHelper {
         }
     }
 
-    static public void getSQLTimestamp(PreparedStatement ps, int iIndex, java.util.Date date) {
+    public static void getSQLTimestamp(PreparedStatement ps, int iIndex, java.util.Date date) {
         try{
-            if (date == null) {
+            if(date == null) {
                 ps.setNull(iIndex,Types.TIMESTAMP);
             }
             else{
@@ -1590,7 +1629,7 @@ public class ScreenHelper {
     }
 
     //--- GET COOKIE ------------------------------------------------------------------------------
-    static public String getCookie(String cookiename, HttpServletRequest request) {
+    public static String getCookie(String cookiename, HttpServletRequest request) {
         Cookie cookies[] = request.getCookies();
 
         if(cookies!=null){
@@ -1605,60 +1644,60 @@ public class ScreenHelper {
     }
 
     //--- SET COOKIE ------------------------------------------------------------------------------
-    static public void setCookie(String cookiename, String value, HttpServletResponse response) {
+    public static void setCookie(String cookiename, String value, HttpServletResponse response) {
         Cookie cookie = new Cookie(cookiename,value);
         cookie.setMaxAge(365);
         response.addCookie(cookie);
     }
 
     //--- CHECK DB STRING -------------------------------------------------------------------------
-    static public String checkDbString(String sString) {
+    public static String checkDbString(String sString) {
         sString=checkString(sString);
-        if (sString.trim().length()>0) {
+        if(sString.trim().length()>0) {
             sString = sString.replaceAll("'","´");
         }
         return sString;
     }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-    static public String alignButtonsStart() {
+    public static String alignButtonsStart() {
       return "<p align='center'>";
     }
 /////////////////////////////////////////////////////////////////////////////////////////////
-    static public String alignButtonsStop() {
+    public static String alignButtonsStop() {
       return "</p>";
     }
 /////////////////////////////////////////////////////////////////////////////////////////////
-    static public String setFormButtonsStart(){
+    public static String setFormButtonsStart(){
         return "<tr>" +
                     "<td class='admin'/>" +
                     "<td class='admin2'>";
     }
 /////////////////////////////////////////////////////////////////////////////////////////////
-    static public String setFormButtonsStop(){
+    public static String setFormButtonsStop(){
         return      "</td>" +
                 "</tr>";
     }
 ////////////////////////////////////////////////////////////////////////////////////////////
-    static public String setSearchFormButtonsStart(){
+    public static String setSearchFormButtonsStart(){
         return "<tr><td/><td>";
     }
 /////////////////////////////////////////////////////////////////////////////////////////////
-    static public String setSearchFormButtonsStop(){
+    public static String setSearchFormButtonsStop(){
         return "</td></tr>";
     }
     
-    static public String getFullPersonName(String personId){
+    public static String getFullPersonName(String personId){
     	Connection conn = MedwanQuery.getInstance().getAdminConnection();
     	String s=getFullPersonName(personId,conn);
     	ScreenHelper.closeQuietly(conn, null, null);
     	return s;
     }
 ////////////////////////////////////////////////////////////////////////////////////////////
-    static public String getFullPersonName(String personId,Connection dbConnection){
+    public static String getFullPersonName(String personId,Connection dbConnection){
         String sReturn = "";
 
-        if (checkString(personId).length()>0){
+        if(checkString(personId).length()>0){
             PreparedStatement ps = null;
             ResultSet rs = null;
 
@@ -1686,14 +1725,14 @@ public class ScreenHelper {
         return sReturn;
     }
 
-    static public String getFullUserName(String userId){
+    public static String getFullUserName(String userId){
     	Connection conn = MedwanQuery.getInstance().getAdminConnection();
     	String s = getFullUserName(userId, conn);
     	closeQuietly(conn, null, null);
     	return s;
     }
     
-    static public String getPrestationGroupOptions(){
+    public static String getPrestationGroupOptions(){
     	StringBuffer s=new StringBuffer();
 		String sSql="select * from oc_prestation_groups order by oc_group_description";
 		Connection oc_conn=null;
@@ -1715,7 +1754,7 @@ public class ScreenHelper {
     }
     
     //--- GET FULL USER NAME ----------------------------------------------------------------------
-    static public String getFullUserName(String userId, Connection conn){
+    public static String getFullUserName(String userId, Connection conn){
         String fullName = "";
         if(userId!=null && userId.length()>0){
         	PreparedStatement ps = null;
@@ -1866,7 +1905,18 @@ public class ScreenHelper {
 
         return false;
     }
+    
+    //--- CONTAINS ALFANUMERICS -------------------------------------------------------------------
+    public static boolean containsAlfanumerics(String text){
+        for(int i=0; i<text.length(); i++){
+            if(!Character.isDigit(text.charAt(i)) && !Character.isLetter(text.charAt(i))){
+                return true;
+            }
+        }
 
+        return false;
+    }
+    
     //--- GET CONFIG STRING -----------------------------------------------------------------------
     public static String getConfigString(String key) {
     	Connection co_conn = MedwanQuery.getInstance().getConfigConnection();
@@ -2216,7 +2266,7 @@ public class ScreenHelper {
         return otherExams;
     }
 
-    static public String writeDateTimeField(String sName, String sForm, java.util.Date dValue, String sWebLanguage, String sCONTEXTDIR) {
+    public static String writeDateTimeField(String sName, String sForm, java.util.Date dValue, String sWebLanguage, String sCONTEXTDIR) {
         return "<input type='text' maxlength='10' class='text' name='"+sName+"' value='"+getSQLDate(dValue)+"' size='12' onblur='if(!checkDate(this)){alert(\""+getTran("Web.Occup","date.error",sWebLanguage)+"\");this.value=\"\";}'>"
               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTran("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document."+sForm+".all[\""+sName+"\"]);return false;'>"
               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTran("Web","PutToday",sWebLanguage)+"' onclick=\"getToday(document."+sForm+".all['"+sName+"']);getTime(document."+sForm+".all['"+sName+"Time'])\">"
@@ -2224,10 +2274,10 @@ public class ScreenHelper {
               +"&nbsp;"+getTran("web.occup","medwan.common.hour",sWebLanguage);
     }
 
-    static public java.util.Date getSQLTime(String sTime) {
+    public static java.util.Date getSQLTime(String sTime) {
         java.util.Date date = null;
 
-        if (sTime.length()>0){
+        if(sTime.length()>0){
             try{
                 date = new SimpleDateFormat().parse(sTime);
             }
@@ -2368,7 +2418,7 @@ public class ScreenHelper {
 
         try {
             SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
-            if (sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue() > 0
+            if(sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue() > 0
                     || checkString(request.getParameter("be.mxs.healthrecord.transaction_id")).equalsIgnoreCase("currentTransaction")
                     || MedwanQuery.getInstance().getConfigString("doNotAskForContext").equalsIgnoreCase("on")) {
                 result += "<script>show('content-details');hide('confirm');</script>";
@@ -2385,18 +2435,20 @@ public class ScreenHelper {
     public static ItemVO getLastItem(HttpServletRequest request, String sType) {
         try {
             SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
-            if (sessionContainerWO.getHealthRecordVO() != null && sessionContainerWO.getCurrentTransactionVO() != null) {
+            if(sessionContainerWO.getHealthRecordVO() != null && sessionContainerWO.getCurrentTransactionVO() != null) {
                 ItemVO actualItem = sessionContainerWO.getCurrentTransactionVO().getItem(sType);
-                if (actualItem == null || actualItem.getItemId().intValue() < 0) {
+                if(actualItem == null || actualItem.getItemId().intValue() < 0) {
                     ItemVO lastItem = MedwanQuery.getInstance().getLastItemVO(sessionContainerWO.getHealthRecordVO().getHealthRecordId().toString(), sType);
-                    if (lastItem == null) {
-                        if (sessionContainerWO.getCurrentTransactionVO().getItem(sType) != null) {
+                    if(lastItem == null) {
+                        if(sessionContainerWO.getCurrentTransactionVO().getItem(sType) != null) {
                             return sessionContainerWO.getCurrentTransactionVO().getItem(sType);
                         }
-                    } else {
+                    } 
+                    else{
                         return lastItem;
                     }
-                } else {
+                } 
+                else{
                     return actualItem;
                 }
             }
@@ -2408,16 +2460,10 @@ public class ScreenHelper {
         // no last item found, so return a blank item
         return new ItemVO(null, "", "", null, null);
     }
-/*************************/
-    static public void writeMessage(String sMessage){
-//  writes an errormessage to the screen and/or file
-/*************************/
- 	    if(Debug.enabled) Debug.println(sMessage);
-    }
-
+    
     //--- CHECK SPECIAL CHARACTERS ----------------------------------------------------------------
     // this function is used by DBSynchroniser and AdminPerson
-    static public String checkSpecialCharacters(String sTest){
+    public static String checkSpecialCharacters(String sTest){
         sTest = sTest.replaceAll("'","");
         sTest = sTest.replaceAll(" ","");
         sTest = sTest.replaceAll("-","");
@@ -2435,9 +2481,11 @@ public class ScreenHelper {
 
         return sTest;
     }
-    static public void setSQLDate(PreparedStatement ps, int iIndex, String sDate) {
+    
+    //--- SET SQL DATE ----------------------------------------------------------------------------
+    public static void setSQLDate(PreparedStatement ps, int iIndex, String sDate) {
         try{
-            if ((sDate == null)||(sDate.trim().length()==0)) {
+            if((sDate == null)||(sDate.trim().length()==0)) {
                 ps.setNull(iIndex, Types.DATE);
             }
             else{
@@ -2502,4 +2550,5 @@ public class ScreenHelper {
 
         return serviceContexts;
     }
+    
 }
