@@ -4,6 +4,7 @@ import be.dpms.medwan.common.model.vo.administration.PersonVO;
 import be.dpms.medwan.common.model.vo.authentication.UserVO;
 import be.mxs.common.model.vo.IIdentifiable;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.adt.Encounter;
 import be.openclinic.common.IObjectReference;
 import be.openclinic.common.ObjectReference;
@@ -29,6 +30,41 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
     private Date timestamp;
     private SimpleDateFormat extDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
+    
+    //--- CONSTRUCTOR 1 ---------------------------------------------------------------------------
+    public TransactionVO(Integer transactionId, String transactionType, Date creationDate, Date updateTime,
+    		             int status, UserVO user, Collection itemsVO, int serverid, int version,
+    		             int versionserverid, Date timestamp) {
+        this.transactionId = transactionId;
+        this.transactionType = transactionType;
+        this.creationDate = creationDate;
+        this.updateTime = updateTime;
+        this.status = status;
+        this.user = user;
+        this.items = itemsVO;
+        this.serverId = serverid;
+        this.version = version;
+        this.versionserverid = versionserverid;
+        this.timestamp = timestamp;
+    }
+
+    //--- CONSTRUCTOR 2 ---------------------------------------------------------------------------
+    public TransactionVO(Integer transactionId, String transactionType, Date creationDate, Date updateTime, 
+    		             int status, UserVO user, Collection itemsVO) {
+        this.transactionId = transactionId;
+        this.transactionType = transactionType;
+        this.creationDate = creationDate;
+        this.updateTime = updateTime;
+        this.status = status;
+        this.user = user;
+        this.items = itemsVO;
+        this.serverId = MedwanQuery.getInstance().getConfigInt("serverId");
+        this.version = 1;
+        this.versionserverid = this.serverId;
+        this.timestamp = new Date();
+        //Debug.println("New serverId="+this.serverId);
+    }
+    
     public String getObjectType(){
         return "Transaction";
     }
@@ -43,35 +79,6 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
 
     public void setHealthrecordId(int healthrecordId) {
         this.healthrecordId = healthrecordId;
-    }
-
-    public TransactionVO(Integer transactionId, String transactionType, Date creationDate, Date updateTime, int status, UserVO user, Collection itemsVO,int serverid,int version, int versionserverid,Date timestamp) {
-        this.transactionId = transactionId;
-        this.transactionType = transactionType;
-        this.creationDate = creationDate;
-        this.updateTime = updateTime;
-        this.status = status;
-        this.user = user;
-        this.items = itemsVO;
-        this.serverId = serverid;
-        this.version = version;
-        this.versionserverid = versionserverid;
-        this.timestamp = timestamp;
-    }
-
-    public TransactionVO(Integer transactionId, String transactionType, Date creationDate, Date updateTime, int status, UserVO user, Collection itemsVO) {
-        this.transactionId = transactionId;
-        this.transactionType = transactionType;
-        this.creationDate = creationDate;
-        this.updateTime = updateTime;
-        this.status = status;
-        this.user = user;
-        this.items = itemsVO;
-        this.serverId = MedwanQuery.getInstance().getConfigInt("serverId");
-        this.version = 1;
-        this.versionserverid = this.serverId;
-        this.timestamp = new Date();
-        //Debug.println("New serverId="+this.serverId);
     }
 
     public int getServerId() {
@@ -146,10 +153,16 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         this.creationDate = creationDate;
     }
 
+
+    //--- GET CONTEXT ITEM ------------------------------------------------------------------------
+    public ItemVO getContextItem(){
+    	return getItem(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT");
+    }
+    
+    //--- SET UPDATE TIME -------------------------------------------------------------------------
     public void setUpdateTime(String sDate) {
 	  String sSeparator = "/";
-	  if (sDate.indexOf(sSeparator)<1)
-	  {
+	  if (sDate.indexOf(sSeparator)<1){
 	    sSeparator = "-";
 	  }
       int iDay = Integer.parseInt(sDate.substring(0,sDate.indexOf(sSeparator)));
@@ -201,6 +214,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         return transactionId.hashCode();
     }
 
+    //--- CREATE XML ------------------------------------------------------------------------------
     public void createXML(Element element){
         Element transaction = element.addElement("Transaction");
         Element header = transaction.addElement("Header");
@@ -224,6 +238,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         }
     }
 
+    //--- GET PRESTATIONS -------------------------------------------------------------------------
     public Vector getPrestations(){
         //We zoeken alle prestatiecodes op die werden gekoppeld aan deze transactie
         String sContext="";
@@ -239,6 +254,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         return prestations;
     }
 
+    //--- GET DEBET TRANSACTIONS ------------------------------------------------------------------
     public Vector getDebetTransactions(){
         int personid = MedwanQuery.getInstance().getPersonIdFromHealthrecordId(getHealthrecordId());
         PersonVO person = MedwanQuery.getInstance().getPerson(personid+"");
@@ -254,22 +270,23 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         return debetTransactions;
     }
 
+    //--- TO XML ----------------------------------------------------------------------------------
     public String toXML(){
         StringBuffer sXML=new StringBuffer();
         sXML.append("<Transaction>");
 
-        sXML.append("<Header>");
-        sXML.append("<TransactionId>"+transactionId+"</TransactionId>");
-        sXML.append("<TransactionType>"+transactionType+"</TransactionType>");
-        sXML.append("<CreationDate>"+extDateFormat.format(creationDate)+"</CreationDate>");
-        sXML.append("<UpdateTime>"+extDateFormat.format(updateTime)+"</UpdateTime>");
-        sXML.append("<TimeStamp>"+extDateFormat.format(timestamp)+"</TimeStamp>");
-        sXML.append("<Status>"+status+"</Status>");
-        sXML.append("<UserId>"+user.getUserId()+"</UserId>");
-        sXML.append("<ServerId>"+serverId+"</ServerId>");
-        sXML.append("<Version>"+version+"</Version>");
-        sXML.append("<VersionServerId>").append(versionserverid).append("</VersionServerId>");
-        sXML.append("</Header>");
+        sXML.append("<Header>")
+            .append("<TransactionId>"+transactionId+"</TransactionId>")
+            .append("<TransactionType>"+transactionType+"</TransactionType>")
+            .append("<CreationDate>"+extDateFormat.format(creationDate)+"</CreationDate>")
+            .append("<UpdateTime>"+extDateFormat.format(updateTime)+"</UpdateTime>")
+            .append("<TimeStamp>"+extDateFormat.format(timestamp)+"</TimeStamp>")
+            .append("<Status>"+status+"</Status>")
+            .append("<UserId>"+user.getUserId()+"</UserId>")
+            .append("<ServerId>"+serverId+"</ServerId>")
+            .append("<Version>"+version+"</Version>")
+            .append("<VersionServerId>").append(versionserverid).append("</VersionServerId>")
+            .append("</Header>");
 
         sXML.append("<Items>");
         Iterator iterator=items.iterator();
@@ -283,4 +300,75 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         sXML.append("</Transaction>");
         return sXML.toString();
     }
+    
+    //--- PRELOAD ---------------------------------------------------------------------------------
+    // load a limited number of items, depending on the transactiontype
+    // getItem() must be the one from MWQ !
+    public void preload(){
+        Vector items = new Vector();
+
+        //*** a : COMMON ITEMS ******************
+        ItemVO contextItem = MedwanQuery.getInstance().getItem(serverId,transactionId,IConstants.ITEM_TYPE_CONTEXT_CONTEXT);
+        if(contextItem!=null){
+        	items.add(contextItem);
+        }
+                
+        //*** b : SPECIFIC ITEMS ****************
+        // VACCINATION
+        if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_VACCINATION)){
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_TYPE"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NAME"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_STATUS"));
+        }
+        // CONTACT
+        if(this.getTransactionType().equalsIgnoreCase(ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_CONTACT")){
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTACTTYPE"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTACTPERSONS"));
+        }
+        // MIR2 (rx)
+        if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_MIR2)){
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_MIR2_SCREEN_FIXED_UNIT"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_MIR2_SCREEN_MOBILE_UNIT"));
+        }
+        // OPHTALMOLOGY
+        if(this.getTransactionType().startsWith(IConstants.TRANSACTION_TYPE_OPHTALMOLOGY)){
+            // ophta-type 
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_SCREEN_ERGOVISION"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_SCREEN_VISIOTEST"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_SCREEN_VISIOPHY"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_SCREEN_EXTERNAL"));
+            
+            // context
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT_ERGOVISION"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT_VISIOTEST"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT_VISIOPHY"));
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT_EXTERNAL"));
+        }
+        // OTHER EXAMINATION
+        if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_OTHER_REQUESTS)){
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,IConstants.ITEM_TYPE_SPECIALIST_TYPE));
+        }
+        // DOCUMENT
+        else if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_DOCUMENT)){
+            String sDocumentType = "";
+            
+            //*** a : for pdfs ***
+            // document type or document id
+            ItemVO documentType = MedwanQuery.getInstance().getItem(serverId,transactionId,IConstants.ITEM_TYPE_DOCUMENT_TYPE);
+            if(documentType==null){
+                documentType = MedwanQuery.getInstance().getItem(serverId,transactionId,"documentId");
+            }
+            items.add(documentType);
+            sDocumentType = documentType.getValue();
+            
+            // template (to purge language)
+            ItemVO templateType = MedwanQuery.getInstance().getItem(serverId,transactionId,"documentTemplateId");
+            if(templateType!=null){
+                items.add(templateType);
+            }
+        }
+        
+        this.setItems(items);
+    }
+    
 }

@@ -31,9 +31,6 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
-
-
-
 /**
  * User: Frank
  * Date: 1-mrt-2005
@@ -69,9 +66,7 @@ public abstract class PDFBasic {
         PdfPTable headerTable = new PdfPTable(10);
         headerTable.setWidthPercentage(100);
 
-        try {
-            doc.add(new Paragraph(" "));
-
+        try{
             // transaction date
             cell = new PdfPCell(new Paragraph(dateFormat.format(transactionVO.getUpdateTime()), FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
             cell.setColspan(1);
@@ -98,17 +93,13 @@ public abstract class PDFBasic {
             headerTable.addCell(cell);
 
             // new row : name of user who registered the transaction
-            cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.user").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-            cell.setColspan(4);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
-            headerTable.addCell(cell);
-
             User registeringUser = new User();
             registeringUser.initialize(transactionVO.user.getUserId().intValue());
             String username = registeringUser.person.lastname+" "+registeringUser.person.firstname;
-            cell = new PdfPCell(new Paragraph(username,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-            cell.setColspan(6);
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@ username : "+username); //////////////
+            
+            cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.user").toUpperCase()+" : "+username,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+            cell.setColspan(10);
             cell.setBorder(PdfPCell.BOX);
             cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
             headerTable.addCell(cell);
@@ -239,7 +230,7 @@ public abstract class PDFBasic {
         Vector list = new Vector();
         Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "SELECT itemTypeId FROM TransactionItems WHERE transactionTypeId = ? ";
+            String sSelect = "SELECT itemTypeId FROM TransactionItems WHERE transactionTypeId = ?";
             PreparedStatement ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1,sTransactionType);
             ResultSet rs = ps.executeQuery();
@@ -252,17 +243,20 @@ public abstract class PDFBasic {
         catch(Exception e){
             e.printStackTrace();
         }
-        try {
+        
+        try{
 			loc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch(SQLException e){
 			e.printStackTrace();
 		}
+        
         return list;
     }
 
-
+    //*********************************************************************************************
     //*** ROWS ************************************************************************************
+    //*********************************************************************************************
 
     //--- ADD ITEM ROW ----------------------------------------------------------------------------
     protected void addItemRow(PdfPTable table, String itemName, String itemValue){
@@ -277,7 +271,7 @@ public abstract class PDFBasic {
             table.setTotalWidth(100);
             cell = new PdfPCell(new Phrase());
             cell.setBorder(PdfPCell.NO_BORDER);
-            cell.setPaddingTop(height); //
+            cell.setPaddingTop(height);
             table.addCell(cell);
             doc.add(table);
         }
@@ -290,8 +284,9 @@ public abstract class PDFBasic {
         addBlankRow(5);
     }
 
-
+    //*********************************************************************************************
     //*** CELLS ***********************************************************************************
+    //*********************************************************************************************
 
     //--- EMPTY CELL ------------------------------------------------------------------------------
     protected PdfPCell emptyCell(int colspan){
@@ -443,7 +438,9 @@ public abstract class PDFBasic {
     }
 
 
+    //*********************************************************************************************
     //*** COLOR CELLS *****************************************************************************
+    //*********************************************************************************************
 
     //--- CREATE GREEN CELL -----------------------------------------------------------------------
     protected PdfPCell createGreenCell(String value, int colspan){
@@ -496,7 +493,7 @@ public abstract class PDFBasic {
     }
 
 
-    //--- CHECKSTRING -----------------------------------------------------------------------------
+    //--- CHECK STRING ----------------------------------------------------------------------------
     protected String checkString(String string){
         return ScreenHelper.checkString(string);
     }
@@ -538,7 +535,8 @@ public abstract class PDFBasic {
         try{
             Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         	Statement st = oc_conn.createStatement();
-            ResultSet Configrs = st.executeQuery("SELECT oc_value FROM OC_Config WHERE oc_key like '"+key+"' AND deletetime is null ORDER BY oc_key");
+            ResultSet Configrs = st.executeQuery("SELECT oc_value FROM OC_Config WHERE oc_key like '"+key+"'"+
+        	                                     " AND deletetime is null ORDER BY oc_key");
             while (Configrs.next()){
                 configString+= Configrs.getString("oc_value");
             }
@@ -562,14 +560,14 @@ public abstract class PDFBasic {
 
                 cell = new PdfPCell(tranTable);
                 cell.setVerticalAlignment(PdfPCell.TOP);
-                cell.setBorderColor(BaseColor.BLACK);
+                cell.setBorderColor(innerBorderColor);
 
                 outerTable.addCell(cell);
                 doc.add(outerTable);
-
+                
                 // new transaction table
                 tranTable = new PdfPTable(1);
-                tranTable.setWidthPercentage(100);
+                tranTable.setWidthPercentage(80);
             }
             catch(Exception e){
                 e.printStackTrace();

@@ -52,7 +52,8 @@ public class GeneralPDFCreator extends PDFCreator {
 
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
-    public GeneralPDFCreator(SessionContainerWO sessionContainerWO, User user, AdminPerson patient, String sProject, String sProjectDir, Date dateFrom, Date dateTo, String sPrintLanguage){
+    public GeneralPDFCreator(SessionContainerWO sessionContainerWO, User user, AdminPerson patient,
+                             String sProject, String sProjectDir, Date dateFrom, Date dateTo, String sPrintLanguage){
         this.user = user;
         this.patient = patient;
         this.sProject = sProject;
@@ -68,7 +69,14 @@ public class GeneralPDFCreator extends PDFCreator {
     }
 
     //--- GENERATE DOCUMENT BYTES -----------------------------------------------------------------
-    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application, boolean filterApplied, int partsOfTransactionToPrint) throws DocumentException {
+    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application)
+    		throws DocumentException {
+        return generatePDFDocumentBytes(req,application,false,2); // no filter, full transactions
+    }
+    
+    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application,
+    		                                              boolean filterApplied, int partsOfTransactionToPrint) 
+    		throws DocumentException {
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
 		PdfWriter docWriter = null;
         this.req = req;
@@ -267,7 +275,7 @@ public class GeneralPDFCreator extends PDFCreator {
             bClassFound = true;
         }
         catch(ClassNotFoundException e){
-            if(Debug.enabled) Debug.println(e.getMessage());
+            Debug.println(e.getMessage());
         }
 
         // else search the normal class
@@ -276,7 +284,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 cls = Class.forName("be.mxs.common.util.pdf.general.PDFHeader");
             }
             catch(ClassNotFoundException e){
-                if(Debug.enabled) Debug.println(e.getMessage());
+                Debug.println(e.getMessage());
             }
         }
 
@@ -1176,7 +1184,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 cls = Class.forName("be.mxs.common.util.pdf.general."+sProject.toLowerCase()+".examinations."+sProject.toLowerCase()+sClassName);
             }
             catch(ClassNotFoundException e){
-                if(Debug.enabled) Debug.println(e.getMessage());
+                Debug.println(e.getMessage());
             }
 
             // else search the normal class
@@ -1185,10 +1193,13 @@ public class GeneralPDFCreator extends PDFCreator {
                     cls = Class.forName("be.mxs.common.util.pdf.general.oc.examinations."+sClassName);
                 }
                 catch(ClassNotFoundException e){
-                    if(Debug.enabled) Debug.println(e.getMessage());
+                    Debug.println(e.getMessage());
+                    
+                    // re-enter this function, now as a generic transaction
+                    loadTransactionOfType("PDFGenericTransaction",transactionVO,partsOfTransactionToPrint);
                 }
             }
-
+           
             if(cls!=null){
                 try{
                     Constructor[] cons = cls.getConstructors();

@@ -1,11 +1,11 @@
 package be.mxs.common.util.pdf;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.Date;
@@ -19,7 +19,6 @@ import net.admin.AdminPerson;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContext;
 
-
 /**
  * User: stijnsmets
  * Date: 5-jul-2006
@@ -31,7 +30,7 @@ import javax.servlet.ServletContext;
 public abstract class PDFCreator {
 
     // declarations
-    protected final String IConstants_PREFIX = "be.mxs.common.model.vo.healthrecord.IConstants.";
+    protected final String IConstants_PREFIX = ScreenHelper.ITEM_PREFIX;
     protected String sPrintLanguage = null;
     protected Document doc = null;
     protected SessionContainerWO sessionContainerWO = null;
@@ -77,32 +76,36 @@ public abstract class PDFCreator {
 
     //--- GET CONFIGSTRING ------------------------------------------------------------------------
     protected String getConfigString(String key){
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-    	String s= getConfigStringDB(key, oc_conn);
-    	try {
-			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return s;
-    }
-
-    //--- GET CONFIGSTRINGDB ----------------------------------------------------------------------
-    private String getConfigStringDB(String key, Connection conn){
-        String cs = "";
-
+    	String cs = "";
+    	
+    	Connection conn = null; 
+        Statement st = null;
+        ResultSet rs = null;
+        
         try{
-            Statement st = conn.createStatement();
-            ResultSet Configrs = st.executeQuery("SELECT oc_value FROM OC_Config WHERE oc_key like '"+key+"' AND deletetime is null ORDER BY oc_key");
-            while (Configrs.next()){
-                cs+= Configrs.getString("oc_value");
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "SELECT oc_value FROM OC_Config"+
+                          " WHERE oc_key LIKE '"+key+"'"+
+                          "  AND deletetime IS NULL"+
+                          " ORDER BY oc_key";
+            st = conn.createStatement();
+            rs = st.executeQuery(sSql);
+            while(rs.next()){
+                cs+= rs.getString("oc_value");
             }
-            Configrs.close();
-            st.close();
         }
         catch(Exception e){
             e.printStackTrace();
+        }
+        finally{
+        	try{
+        		if(rs!=null) rs.close();
+        		if(st!=null) st.close();
+        		if(conn!=null) conn.close();
+        	}
+        	catch(Exception e){
+        		Debug.printStackTrace(e);
+        	}
         }
 
         return ScreenHelper.checkString(cs);
@@ -110,5 +113,6 @@ public abstract class PDFCreator {
 
     //--- ABSTRACT --------------------------------------------------------------------------------
     public abstract ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application, boolean filterApplied, int partsOfTransactionToPrint) throws DocumentException;
+    public abstract ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application) throws DocumentException;
 
 }

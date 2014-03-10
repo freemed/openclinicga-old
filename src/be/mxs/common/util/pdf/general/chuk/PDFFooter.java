@@ -19,12 +19,12 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
 public class PDFFooter extends PdfPageEventHelper {
-	String sFooterText="";
-	
+	String sFooterText = "";
+
+	//--- CONSTRUCTOR ---
 	public PDFFooter(String sFooterText){
-		this.sFooterText=sFooterText;
+		this.sFooterText = sFooterText;
 	}
 	
     //--- ON END PAGE -----------------------------------------------------------------------------
@@ -32,9 +32,11 @@ public class PDFFooter extends PdfPageEventHelper {
     //---------------------------------------------------------------------------------------------
     public void onEndPage (PdfWriter writer, Document document) {
         Rectangle rect = document.getPageSize();
+        
         ColumnText.showTextAligned(writer.getDirectContent(),
-                Element.ALIGN_CENTER, new Phrase(sFooterText,FontFactory.getFont(FontFactory.HELVETICA,6)),
-                (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() + 18, 0);
+                                   Element.ALIGN_CENTER,
+                                   new Phrase(sFooterText,FontFactory.getFont(FontFactory.HELVETICA,6)),
+                                   (rect.getLeft()+rect.getRight())/2,rect.getBottom()+18,0);
     }
 
 }

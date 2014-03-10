@@ -5,13 +5,6 @@ import be.mxs.common.model.vo.IIdentifiable;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Michaël
- * Date: 01-août-2003
- * Time: 11:19:32
- * To change this template use Options | File Templates.
- */
 public class VaccinationInfoVO implements Serializable, IIdentifiable {
 
     TransactionVO transactionVO = null;

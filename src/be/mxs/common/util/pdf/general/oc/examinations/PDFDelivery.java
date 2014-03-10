@@ -15,7 +15,6 @@ public class PDFDelivery extends PDFGeneralBasic {
     protected void addContent(){
         try{
             if(transactionVO.getItems().size() >= minNumberOfItems){
-                // todo : work
                 //*** WORK ************************************************************************                
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(2);
@@ -210,7 +209,6 @@ public class PDFDelivery extends PDFGeneralBasic {
                     }
                 }
                 
-                // todo : delivrance
                 //*** DELIVERANCE *****************************************************************
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(10);
@@ -321,7 +319,6 @@ public class PDFDelivery extends PDFGeneralBasic {
                     }
                 }
 
-                // todo : enfant
                 //*** ENFANT **********************************************************************
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(10);

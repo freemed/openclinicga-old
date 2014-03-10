@@ -67,7 +67,7 @@ public abstract class PDFOfficialGrowthGraph extends PDFOfficialBasic {
                      s97 = new XYSeries("P97",true,false);
 
             String fullFilePath = MedwanQuery.getInstance().getConfigString("templateSource")+"/growthchartdata/"+sourceFileName;
-            if(Debug.enabled) Debug.println("Growthgraph : reading file '"+fullFilePath+"' ..");
+            Debug.println("Growthgraph : reading file '"+fullFilePath+"' ..");
             BufferedReader in = new BufferedReader(new InputStreamReader(new URL(fullFilePath).openStream()));
             String data = in.readLine(); // ignore first line = header
             data = in.readLine();

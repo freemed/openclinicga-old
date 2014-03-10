@@ -76,8 +76,5 @@ public class PDFPhysiotherapyConsultation extends PDFGeneralBasic {
         }
     }
 
-
-    //### PRIVATE METHODS #########################################################################
-
 }
 

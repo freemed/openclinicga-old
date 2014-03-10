@@ -31,17 +31,14 @@ import be.mxs.common.util.pdf.PDFCreator;
     Check loadTransaction() for supported examinations !!
 */
 
-/**
- * User: Stijn Smets
- * Date: 05-07-2006
- */
 //#################################################################################################
 // Composes an official version of the OpenWork PDF with the same name.
 //#################################################################################################
 public class OfficialPDFCreator extends PDFCreator {
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
-    public OfficialPDFCreator(SessionContainerWO sessionContainerWO, User user, AdminPerson patient, String sProject, String sProjectDir, String sPrintLanguage){
+    public OfficialPDFCreator(SessionContainerWO sessionContainerWO, User user, AdminPerson patient,
+    		                  String sProject, String sProjectDir, String sPrintLanguage){
         this.sessionContainerWO = sessionContainerWO;
         this.user = user;
         this.patient = patient;
@@ -54,8 +51,16 @@ public class OfficialPDFCreator extends PDFCreator {
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
-    //--- GENERATE DOCUMENT BYTES -----------------------------------------------------------------
-    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application, boolean filterApplied, int partsOfTransactionToPrint) throws DocumentException {
+    //--- GENERATE DOCUMENT BYTES (1) -------------------------------------------------------------
+    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application)
+    		throws DocumentException {
+        return generatePDFDocumentBytes(req,application,false,2); // no filter, full transactions
+    }
+    
+    //--- GENERATE DOCUMENT BYTES (2) -------------------------------------------------------------
+    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application,
+    		                                              boolean filterApplied, int partsOfTransactionToPrint)
+    		throws DocumentException {
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
 		PdfWriter docWriter = null;
         this.req = req;
@@ -259,7 +264,7 @@ public class OfficialPDFCreator extends PDFCreator {
             cls = Class.forName("be.mxs.common.util.pdf.official."+sProject.toLowerCase()+".examinations."+sProject.toLowerCase()+sClassName);
         }
         catch(ClassNotFoundException e){
-            if(Debug.enabled) Debug.println(e.getMessage());
+            Debug.println(e.getMessage());
         }
 
         // else search the normal official class
@@ -268,7 +273,10 @@ public class OfficialPDFCreator extends PDFCreator {
                 cls = Class.forName("be.mxs.common.util.pdf.official.oc.examinations."+sClassName);
             }
             catch(ClassNotFoundException e){
-                if(Debug.enabled) Debug.println(e.getMessage());
+                Debug.println(e.getMessage());
+                
+                // re-enter this function, now as a generic transaction
+                loadTransactionOfType("PDFGenericTransaction",useApplicationObject);
             }
         }
 
@@ -319,12 +327,14 @@ public class OfficialPDFCreator extends PDFCreator {
     protected String getConfigString(String key){
     	Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         String s=getConfigStringDB(key, oc_conn);
+        
         try {
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch (SQLException e) {
 			e.printStackTrace();
 		}
+        
         return s;
     }
 
@@ -334,7 +344,8 @@ public class OfficialPDFCreator extends PDFCreator {
 
         try{
             Statement st = conn.createStatement();
-            ResultSet Configrs = st.executeQuery("SELECT oc_value FROM OC_Config WHERE oc_key like '"+key+"' AND deletetime is null ORDER BY oc_key");
+            ResultSet Configrs = st.executeQuery("SELECT oc_value FROM OC_Config WHERE oc_key like '"+key+"'"+
+                                                 " AND deletetime is null ORDER BY oc_key");
             while (Configrs.next()){
                 cs+= Configrs.getString("oc_value");
             }

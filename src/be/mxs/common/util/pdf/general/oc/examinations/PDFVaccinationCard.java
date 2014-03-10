@@ -90,7 +90,7 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
 
                         if(!activeVaccination.equalsIgnoreCase(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE))){
                             // Set new vaccination title
-                            cell = new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE)).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+                            cell = new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE)).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
                             activeVaccination = getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE);
                             border = PdfPCell.TOP;
                             bShowNext = true;

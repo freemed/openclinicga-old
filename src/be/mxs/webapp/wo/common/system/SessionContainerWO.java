@@ -12,34 +12,26 @@ import be.mxs.common.model.vo.IdentifierFactory;
 import java.util.*;
 import java.text.SimpleDateFormat;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Michaël
- * Date: 17-avr.-2003
- * Time: 11:08:00
- * To change this template use Options | File Templates.
- */
 public class SessionContainerWO {
+    public  static final String SESSION_KEY_CONTAINER_WO = "SESSION_KEY_CONTAINER_WO";
 
-    public  static final String SESSION_KEY_CONTAINER_WO        = "SESSION_KEY_CONTAINER_WO";
+    private String    sessionKey = null;
+    private Hashtable container = null;
+    private String    currentFoldername = null;
+    private Vector    errorMessages = new Vector();
 
-    private String      sessionKey = null;
-    private Hashtable   container = null;
-    private String      currentFoldername = null;
-    private Vector      errorMessages = new Vector();
+    private static final String WO_AUTHENTICATION_TOKEN = "WO_AUTHENTICATION_TOKEN";
+    private static final String WO_USER                 = "WO_USER";
+    private static final String HISTORY                 = "HISTORY";
+    private static final String EXCEPTION               = "EXCEPTION";
+    private static final String FOLDER                  = "FOLDER";
+    private static final String BROWSER_TITLE           = "BROWSER_TITLE";
+    private static final String ACTIVE_VIEW             = "ACTIVE_VIEW";
 
-    private static final String WO_AUTHENTICATION_TOKEN         = "WO_AUTHENTICATION_TOKEN";
-    private static final String WO_USER                         = "WO_USER";
-    private static final String HISTORY                         = "HISTORY";
-    private static final String EXCEPTION                       = "EXCEPTION";
-    private static final String FOLDER                          = "FOLDER";
-    private static final String BROWSER_TITLE                   = "BROWSER_TITLE";
-    private static final String ACTIVE_VIEW                     = "ACTIVE_VIEW";
+    public static final String ACTIONS_VIEW             = "ACTIONS_VIEW";
+    public static final String SUMMARY_VIEW             = "SUMMARY_VIEW";
 
-    public static final String ACTIONS_VIEW                     = "ACTIONS_VIEW";
-    public static final String SUMMARY_VIEW                     = "SUMMARY_VIEW";
-
-    public static final String ALERT_TRANSACTIONS               = "ALERT_TRANSACTIONS";
+    public static final String ALERT_TRANSACTIONS       = "ALERT_TRANSACTIONS";
 
     public SessionContainerWO() {
         this.container = new Hashtable();
@@ -106,7 +98,8 @@ public class SessionContainerWO {
         TransactionVO newTransactionVO = ( TransactionVO ) getObject("Current." + TransactionVO.class.getName());
         return newTransactionVO;
     }
-     public void populateTransaction(TransactionVO targetTransactionVO, TransactionVO sourceTransactionVO) {
+    
+    public void populateTransaction(TransactionVO targetTransactionVO, TransactionVO sourceTransactionVO) {
         if ( (sourceTransactionVO == null) || (targetTransactionVO == null) ) return;
 
         Hashtable items_target = new Hashtable();
@@ -262,28 +255,20 @@ public class SessionContainerWO {
 
     public FolderWO getCurrentFolder() {
         FolderWO folderWO = null;
-
         if (currentFoldername != null) folderWO = getFolder(currentFoldername);
-
         return folderWO;
     }
 
     public FolderWO getFolder(String name){
-        //////Debug.println("_____SessionContainerWO - getFolder("+name+")");
         FolderWO folderWO = null;
         String foldername = this.FOLDER + name;
-
         folderWO = (FolderWO) container.get(foldername);
-
-        //////Debug.println("_____SessionContainerWO - getFolder("+name+") retruns : "+folderWO);
         return folderWO;
     }
 
     public void addFolder(String name, FolderWO folderWO){
-        //////Debug.println("_____SessionContainerWO - addFolder("+name+")");
         String foldername = this.FOLDER + name;
         container.put(foldername, folderWO);
-        //////Debug.println("_____SessionContainerWO - addFolder("+name+") done.");
     }
 
     public void removeFolder(String name){
@@ -292,12 +277,10 @@ public class SessionContainerWO {
     }
 
     public PersonWO getCurrentPatient() {
-
         PersonWO personWO = null;
 
         Object o = getCurrentFolder();
         if ( (o != null) && (o instanceof HealthRecordWO) ) {
-
             HealthRecordWO healthRecordWO = (HealthRecordWO) o;
             personWO = healthRecordWO.getPerson();
         }
@@ -306,16 +289,10 @@ public class SessionContainerWO {
     }
 
     public Object getObject(String key) {
-
-        Object o = null;
-
-        o = this.container.get(key);
-
-        return o;
+    	return this.container.get(key);
     }
 
     public void putObject(String key, Object o) {
-        //////Debug.println(this.getClass().getName() + " - putObject(String key="+key+", Object o="+o+") IN container = " + container);
         if (o==null){
             this.container.remove(key);
         }

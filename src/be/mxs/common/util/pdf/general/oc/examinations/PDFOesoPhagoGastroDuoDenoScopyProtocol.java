@@ -4,15 +4,11 @@ import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
 
-/**
- * User: ssm
- * Date: 18-jul-2007
- */
 public class PDFOesoPhagoGastroDuoDenoScopyProtocol extends PDFGeneralBasic {
 
     //--- ADD CONTENT -----------------------------------------------------------------------------
     protected void addContent(){
-        try{
+        try{        	
             if(transactionVO.getItems().size() >= minNumberOfItems){   
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(10);
@@ -50,7 +46,6 @@ public class PDFOesoPhagoGastroDuoDenoScopyProtocol extends PDFGeneralBasic {
                 //--- CARDIO ----------------------------------------------------------------------
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(10);
-
 
                 // cardia
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_CARDIA");
@@ -109,14 +104,6 @@ public class PDFOesoPhagoGastroDuoDenoScopyProtocol extends PDFGeneralBasic {
                     investigations+= getTran("openclinic.chuk","bioscopy");
                 }
 
-                /*
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_BIOSCOPY2");
-                if(itemValue.equalsIgnoreCase("medwan.common.true")){
-                    if(investigations.length() > 0) investigations+= ", ";
-                    investigations+= getTran("openclinic.chuk","bioscopy2");
-                }
-                */
-
                 if(investigations.length() > 0){
                     addItemRow(table,getTran("openclinic.chuk","investigations_done"),investigations);
                 }
@@ -133,7 +120,6 @@ public class PDFOesoPhagoGastroDuoDenoScopyProtocol extends PDFGeneralBasic {
                     addItemRow(table,getTran("openclinic.chuk","conclusion"),itemValue);
                 }
                 
-                // todo : COMMENT
                 //--- COMMENT ---------------------------------------------------------------------
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_REMARKS");
                 if(itemValue.length() > 0){
@@ -146,7 +132,7 @@ public class PDFOesoPhagoGastroDuoDenoScopyProtocol extends PDFGeneralBasic {
                     contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
-
+                
                 // add transaction to doc
                 addTransactionToDoc();
             }
@@ -154,18 +140,6 @@ public class PDFOesoPhagoGastroDuoDenoScopyProtocol extends PDFGeneralBasic {
         catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-
-    //### PRIVATE METHODS #########################################################################
-
-    //--- ADD ITEM ROW ----------------------------------------------------------------------------
-    protected void addItemRow(PdfPTable table, String itemName, String itemValue){
-        cell = createItemNameCell(itemName);
-        cell.setBackgroundColor(BGCOLOR_LIGHT);
-        cell.setFixedHeight(40);
-        table.addCell(cell);
-        table.addCell(createValueCell(itemValue));
     }
 
 }
