@@ -567,8 +567,6 @@
             parameters: params,
             onSuccess: function(resp){
                 $('divFindRecords').innerHTML=resp.responseText;
-            },
-            onFailure: function(){
             }
         }
     );  }
