@@ -1,30 +1,38 @@
-<%@ taglib uri="/WEB-INF/struts-template.tld" prefix="template" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri='/WEB-INF/mxs-taglib.tld' prefix='mxs' %>
-<%@ taglib uri="/WEB-INF/c-1_0.tld" prefix="c" %>
-<%@ page info="checks out user on every page" %>
-<%@ page import="net.admin.*,
-                 java.text.SimpleDateFormat,
-                 be.dpms.medwan.webapp.wo.common.system.SessionContainerWO,
-                 be.mxs.webapp.wl.session.SessionContainerFactory,
-                 be.mxs.common.util.system.Debug,
-                 be.mxs.common.util.system.ScreenHelper,
-                 java.sql.*,
-                 be.mxs.common.model.vo.healthrecord.TransactionVO,
-                 be.mxs.common.model.vo.healthrecord.ItemVO,
-                 org.dom4j.io.SAXReader,
-                 java.net.URL,
-                 org.dom4j.Document,
-                 org.dom4j.Element,
-                 java.io.IOException,
-                 be.openclinic.common.ObjectReference,
-                 be.openclinic.adt.Encounter,
-                 be.openclinic.system.Config,
-                 be.dpms.medwan.common.model.vo.authentication.UserVO,java.util.regex.*,be.mxs.common.util.db.MedwanQuery" %>
-<%@ page import="net.admin.system.AccessLog" %>
-<%@ page import="java.util.*" %>
+<%@taglib uri="/WEB-INF/struts-template.tld" prefix="template"%>
+<%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
+<%@taglib uri="/WEB-INF/mxs-taglib.tld" prefix="mxs"%>
+<%@taglib uri="/WEB-INF/c-1_0.tld" prefix="c"%>
+
+<%@page import="net.admin.*,
+                java.text.SimpleDateFormat,
+                be.dpms.medwan.webapp.wo.common.system.SessionContainerWO,
+                be.mxs.webapp.wl.session.SessionContainerFactory,
+                be.mxs.common.util.system.Debug,
+                be.mxs.common.util.system.ScreenHelper,
+                java.sql.*,
+                be.mxs.common.model.vo.healthrecord.TransactionVO,
+                be.mxs.common.model.vo.healthrecord.ItemVO,
+                org.dom4j.io.SAXReader,
+                java.net.URL,
+                org.dom4j.Document,
+                org.dom4j.Element,
+                java.io.IOException,
+                be.openclinic.common.ObjectReference,
+                be.openclinic.adt.Encounter,
+                be.openclinic.system.Config,
+                be.dpms.medwan.common.model.vo.authentication.UserVO,
+                java.util.regex.*,
+                be.mxs.common.util.db.MedwanQuery" %>
+<%@page import="net.admin.system.AccessLog" %>
+<%@page import="java.util.*" %>
+
+<%
+    if(session==null){
+        %><script>window.location.href = "<%=sCONTEXTPATH%>/sessionExpired.jsp";</script><%
+    }
+%>
 
 <%!
     String sAPPTITLE = "Openclinic";
@@ -209,7 +217,6 @@
             SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
 
             String currentContext = sessionContainerWO.getFlags().getContext();
-            Debug.println("Current context=" + currentContext);
             TransactionVO transactionVO = sessionContainerWO.getCurrentTransactionVO();
 
             ItemVO itemVO = null;
@@ -312,21 +319,30 @@
 
         return result;
     }
+<<<<<<< .mine
+    
+    //--- GET LAST TRANSACTION ACCESS -------------------------------------------------------------
+    public String getLastTransactionAccess(String sTrans, String sWebLanguage, HttpServletRequest request){
+        String sReturn = "";
+      
+=======
     
     public String getLastTransactionAccess(String sTrans, String sWebLanguage,HttpServletRequest request){
       String sReturn = "";
+>>>>>>> .r999
         SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy '"+getTranNoLink("web.occup"," - ",sWebLanguage)+"' HH:mm:ss");
-             java.util.List l =  AccessLog.getLastAccess(sTrans,2);
-             if(l.size()>1){
-                 Object[] ss = (Object[])l.get(1);
-                 Timestamp t = (Timestamp)ss[0];
-                 Hashtable u = User.getUserName((String)ss[1]);
-                 sReturn+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ dateformat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
-                 sReturn+=" | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTran("web", "history", sWebLanguage)+"', width: 420,height:370},{evalScripts: true} );\" class='link linkdark history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
-             }
+        java.util.List l =  AccessLog.getLastAccess(sTrans,2);
+        if(l.size()>1){
+            Object[] ss = (Object[])l.get(1);
+            Timestamp t = (Timestamp)ss[0];
+            Hashtable u = User.getUserName((String)ss[1]);
+            sReturn+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ dateformat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
+            sReturn+=" | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTran("web", "history", sWebLanguage)+"', width: 420,height:370},{evalScripts: true} );\" class='link linkdark history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
+        }
 
         return sReturn;
     }
+    
     //--- GET TRAN -------------------------------------------------------------------------------
     public String getTran(String sType, String sID, String sWebLanguage) {
         return ScreenHelper.getTran(sType, sID, sWebLanguage);
@@ -465,50 +481,50 @@
     }
 
     //--- GET USER INTERVAL -----------------------------------------------------------------------
-    public String getUserInterval(javax.servlet.http.HttpSession session, User activeUser) {
+    public String getUserInterval(javax.servlet.http.HttpSession session, User activeUser){
         // compute starttime
         String sJS = "starttime=new Date().getTime()+";
 
-        if (checkString(activeUser.getParameter("Timeout")).length() > 0) {
-            sJS += Integer.parseInt(activeUser.getParameter("Timeout")) * 1000;
+        if(checkString(activeUser.getParameter("Timeout")).length() > 0){
+            sJS+= Integer.parseInt(activeUser.getParameter("Timeout")) * 1000;
         }
         else {
-            sJS += session.getMaxInactiveInterval() * 1000;
+            sJS+= session.getMaxInactiveInterval() * 1000;
         }
 
-        sJS += ";";
+        sJS+= ";";
 
         // function
-        sJS += "function checkSessionForExpiration(){" +
-                " if(new Date().getTime()>starttime){" +
-                "  if(window.opener==null){" +
-                "    window.location.href=\"" + sCONTEXTPATH + "/sessionExpired.jsp\";" +
-                "  }" +
-                "  else{" +
-                "    window.close();" +
-                "  }" +
-                " }" +
-                "}";
+        sJS+= "function checkSessionForExpiration(){"+
+              " if(new Date().getTime()>starttime){"+
+              "  if(window.opener==null){"+
+              "    window.location.href=\""+sCONTEXTPATH+"/sessionExpired.jsp\";"+
+              "  }"+
+              "  else{"+
+              "    window.close();"+
+              "  }"+
+              " }"+
+              "}";
 
         // open setInterval function
-        sJS += "userinterval=window.setInterval(";
+        sJS+= "userinterval=window.setInterval(";
 
         // put NOW and username in statusbar
-        sJS += "'window.status=\"" + new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) + "  -  " + activeUser.person.firstname + " " + activeUser.person.lastname;
+        sJS+= "'window.status=\"" + new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) + "  -  " + activeUser.person.firstname + " " + activeUser.person.lastname;
 
         // add medical centre to statusbar if medical center specified
-        sJS += (checkString((String) (session.getAttribute("activeMedicalCenter"))).length() > 0 ? " (" + getTran("Web.Occup", "MedicalCenter", activeUser.person.language) + " = " + session.getAttribute("activeMedicalCenter") + ")" : "");
+        sJS+= (checkString((String) (session.getAttribute("activeMedicalCenter"))).length() > 0 ? " (" + getTran("Web.Occup", "MedicalCenter", activeUser.person.language) + " = " + session.getAttribute("activeMedicalCenter") + ")" : "");
 
         // show remaining seconds till session expiration
         //sJS+= "  [\"+(Math.round((starttime-new Date().getTime())/1000))+\" seconds till session expiration]";
 
-        sJS += "\";";
+        sJS+= "\";";
 
         // check if session expired
         sJS += "checkSessionForExpiration();";
 
         // close setInterval function
-        sJS += "',2000);";
+        sJS+= "',2000);";
 
         return sJS;
     }
@@ -519,8 +535,7 @@
     }
 
     //--- TAKE OVER TRANSACTION -------------------------------------------------------------------
-    public String takeOverTransaction(SessionContainerWO sessionContainerWO,
-                                      User activeUser, String sFunction) {
+    public String takeOverTransaction(SessionContainerWO sessionContainerWO, User activeUser, String sFunction) {
         String sReturn = sFunction;
         TransactionVO tran = sessionContainerWO.getCurrentTransactionVO();
 
@@ -543,29 +558,33 @@
         StringBuffer buf = new StringBuffer();
 
         buf.append("<script>")
-                .append("  var historyPopup;");
+           .append(" var historyPopup;");
 
         buf.append("function openHistoryPopup(){")
-//                .append("  var url = '" + sCONTEXTPATH + sAPPDIR + "/healthrecord/managePrintHistoryPopup.do?transactionType=" + transactionType + "&ts=" + getTs() + "';")
-                //              .append("  historyPopup = window.open(url,'History','height=1, width=1, toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=no');")
-                .append("openPopup('/healthrecord/printHistoryPopup.jsp&transactionType=" + transactionType + "&ts=" + getTs() + "');")
-                .append("}");
+           .append(" var url = '" + sCONTEXTPATH + "/healthrecord/managePrintHistoryPopup.do?transactionType=" + transactionType + "&ts=" + getTs() + "';")
+           .append(" historyPopup = window.open(url,'History','height=1, width=1, toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=no');")
+           //.append("openPopup('/healthrecord/printHistoryPopup.do&transactionType=" + transactionType + "&ts=" + getTs() + "');")
+           .append("}");
 
         buf.append("</script>");
 
         return buf.toString();
     }
 
+    //--- GET OBJECT REFERENCE NAME ---------------------------------------------------------------
     public String getObjectReferenceName(ObjectReference or, String sWebLanguage) {
         String sReturn = "";
+        
         if ((or != null) && (or.getObjectUid() != null) && (or.getObjectUid().length() > 0)) {
             if (or.getObjectType().equalsIgnoreCase("person")) {
                 String s = checkString(ScreenHelper.getFullPersonName(or.getObjectUid()));
                 return s;
-            } else if (or.getObjectType().equalsIgnoreCase("service")) {
+            } 
+            else if (or.getObjectType().equalsIgnoreCase("service")) {
                 sReturn = getTranDb("service", or.getObjectUid(), sWebLanguage);
             }
         }
+        
         return sReturn;
     }
 
@@ -597,6 +616,7 @@
         return sText;
     }
     
+    //--- AUTO LOGIN ------------------------------------------------------------------------------
     public void autoLogin(String username, String password,javax.servlet.http.HttpServletRequest request){
     	String ag = request.getHeader("User-Agent"), browser="", version="";
     	try{
@@ -659,10 +679,12 @@
     	catch(Exception e3){
     		e3.printStackTrace();
     	}
+    	
     	User user=new User();
     	user.initialize(username, user.encrypt(password));
         request.getSession().setAttribute("activeUser",user);
         MedwanQuery.setSession(request.getSession(),user);
+        
         //Add some session attributes for user connectivity monitoring
         request.getSession().setAttribute("mon_ipaddress",request.getRemoteAddr());
         request.getSession().setAttribute("mon_browser",browser+" "+version);
