@@ -257,7 +257,7 @@ public class User extends OC_Object {
                  }
              }
              catch(SQLException e) {
-                 if(Debug.enabled) Debug.println("User initialize error: "+e.getMessage());
+                 Debug.println("User initialize error: "+e.getMessage());
                  e.printStackTrace();
              }
              
@@ -324,7 +324,7 @@ public class User extends OC_Object {
                  }
                  catch(SQLException e) {
                      e.printStackTrace();
-                     if(Debug.enabled) Debug.println("User initialize error: "+e.getMessage());
+                     Debug.println("User initialize error: "+e.getMessage());
                  }
              }
          }
@@ -395,7 +395,7 @@ public class User extends OC_Object {
                  }
              }
              catch(SQLException e) {
-                 if(Debug.enabled) Debug.println("User initialize error: "+e.getMessage());
+                 Debug.println("User initialize error: "+e.getMessage());
              }
 
 
@@ -468,7 +468,7 @@ public class User extends OC_Object {
              connection.close();
          }
          catch(SQLException e) {
-             if(Debug.enabled) Debug.println("User initialize error: "+e.getMessage());
+             Debug.println("User initialize error: "+e.getMessage());
          }
 
          return bReturn;
@@ -539,7 +539,7 @@ public class User extends OC_Object {
             connection.close();
         }
         catch(SQLException e) {
-            if(Debug.enabled) Debug.println("User initialize error: "+e.getMessage());
+            Debug.println("User initialize error: "+e.getMessage());
         }
 
         return bReturn;
@@ -636,7 +636,7 @@ public class User extends OC_Object {
             loadAccessRights(sUserProfileID,connection);
         }
         catch(SQLException e) {
-            ScreenHelper.writeMessage(getClass()+" (1) "+e.getMessage()+" "+sSelect);
+        	Debug.printStackTrace(e);
             bReturn = false;
         }
         return bReturn;
@@ -668,7 +668,7 @@ public class User extends OC_Object {
             return md.digest(sValue.getBytes());
         }
         catch (Exception e) {
-            if(Debug.enabled) Debug.println("User encryption error: "+e.getMessage());
+            Debug.println("User encryption error: "+e.getMessage());
         }
         return null;
     }
@@ -680,7 +680,7 @@ public class User extends OC_Object {
             }
         }
         catch (Exception e) {
-	        if(Debug.enabled) Debug.println("User checkPassword error: "+e.getMessage());
+	        Debug.println("User checkPassword error: "+e.getMessage());
         }
         return false;
     }
@@ -736,7 +736,7 @@ public class User extends OC_Object {
             return true;
         }
         catch (Exception e) {
-            if(Debug.enabled) Debug.println("User updateParameter error: "+e.getMessage()+" "+sSelect);
+            Debug.println("User updateParameter error: "+e.getMessage()+" "+sSelect);
             return false;
         }
     }
@@ -803,7 +803,7 @@ public class User extends OC_Object {
             return true;
         }
         catch (Exception e) {
-            if(Debug.enabled) Debug.println("User updateParameter error: "+e.getMessage()+" "+sSelect);
+            Debug.println("User updateParameter error: "+e.getMessage()+" "+sSelect);
             return false;
         }
     }
@@ -838,7 +838,7 @@ public class User extends OC_Object {
             return true;
         }
         catch (Exception e) {
-            if(Debug.enabled) Debug.println("User removeParameter error: "+e.getMessage());
+            Debug.println("User removeParameter error: "+e.getMessage());
             return false;
         }
     }
@@ -872,7 +872,7 @@ public class User extends OC_Object {
             return true;
         }
         catch (Exception e) {
-            if(Debug.enabled) Debug.println("User deleteParameter error: "+e.getMessage());
+            Debug.println("User deleteParameter error: "+e.getMessage());
             return false;
         }
     }
@@ -1226,7 +1226,19 @@ public class User extends OC_Object {
             }
         }
     }
-
+    
+    //--- GET FULL USERNAME -----------------------------------------------------------------------
+    public static String getFullUserName(String sUserId){
+    	Hashtable userNameHash = getUserName(sUserId);
+    	if(userNameHash.size() > 0){
+    	    return userNameHash.get("lastname")+", "+userNameHash.get("firstname");
+    	}
+    	else{
+    		return "";
+    	}
+    }        
+    
+    //--- GET USERNAME ----------------------------------------------------------------------------
     public static Hashtable getUserName(String sUserId){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -1272,6 +1284,11 @@ public class User extends OC_Object {
         else {
             return (accessRights.get(sPermission.toLowerCase())!=null);
         }
+    }
+    
+    //--- IS ADMIN --------------------------------------------------------------------------------
+    public boolean isAdmin(){
+    	return (getAccessRight("sa"));
     }
 
     //--- DISPLAY ACCESSRIGHTS --------------------------------------------------------------------
@@ -1382,6 +1399,53 @@ public class User extends OC_Object {
     	}
     	
     	return userParameters;
+    }
+
+    //--- IS PASSWORD USED BEFORE -----------------------------------------------------------------
+    public static boolean isPasswordUsedBefore(String sPassword, User user){
+        return isPasswordUsedBefore(sPassword,user,10000); // all used pwds
+    }
+
+    //--- IS PASSWORD USED BEFORE -----------------------------------------------------------------
+    public static boolean isPasswordUsedBefore(String sPassword, User user, int oldPwdCount){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean passwordIsUsedBefore = false;
+
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            String sSql = "SELECT encryptedPassword FROM UsedPasswords"+
+                          " WHERE userId = ?"+
+                          "  ORDER BY updatetime DESC";
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(user.userid));
+            rs = ps.executeQuery();
+            int i = 0;
+
+            while(rs.next() && i<oldPwdCount){
+                if(MessageDigest.isEqual(rs.getBytes("encryptedPassword"),user.encrypt(sPassword))){
+                    passwordIsUsedBefore = true;
+                    break;
+                }
+
+                i++;
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+
+        return passwordIsUsedBefore;
     }
     
     /*

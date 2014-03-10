@@ -2,6 +2,7 @@ package net.admin;
 
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.db.ObjectCacheFactory;
+import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.pharmacy.ServiceStock;
 import be.openclinic.adt.Bed;
@@ -417,8 +418,7 @@ public class Service {
             }
         }
         catch(SQLException e){
-            //Helper.writeMessage(getClass()+" (1) "+e.getMessage());
-            e.printStackTrace();
+        	Debug.printStackTrace(e);
         }
         MedwanQuery.getInstance().services.put(this.code,this);
 

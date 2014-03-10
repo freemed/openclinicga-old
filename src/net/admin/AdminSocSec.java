@@ -70,8 +70,7 @@ public class AdminSocSec {
             }
         }
         catch(SQLException e) {
-            e.printStackTrace();
-            ScreenHelper.writeMessage(getClass()+" AdminSocSec saveToDb "+e.getMessage()+" "+sSelect);
+        	Debug.printStackTrace(e);
             bReturn = false;
         }
         return bReturn;
@@ -122,7 +121,7 @@ public class AdminSocSec {
                 ps.close();
             }
             catch (Exception ex){
-                ScreenHelper.writeMessage(getClass()+"AdminSocSec updatesocsec "+ex.getMessage()+" "+sSelect);
+            	Debug.printStackTrace(ex);
                 bReturn = false;
             }
         }
@@ -153,7 +152,7 @@ public class AdminSocSec {
                 ps.close();
             }
             catch(SQLException e) {
-                if(Debug.enabled) Debug.println("AdminSocSec initialize error: "+e.getMessage()+" "+sSelect);
+                Debug.println("AdminSocSec initialize error: "+e.getMessage()+" "+sSelect);
             }
         }
         return bReturn;

@@ -126,29 +126,34 @@ public class AdminPerson extends OC_Object{
         adminPerson.initializeHistory(connection,sPersonID,updatetime);
         return adminPerson;
     }
-    
-    public String getFullName(){
-    	return lastname.toUpperCase()+", "+firstname;
-    }
 
-    public static AdminPerson getAdminPerson (String sPersonID){
+    //--- GET ADMIN PERSON ------------------------------------------------------------------------
+    public static AdminPerson getAdminPerson(String sPersonID){
     	AdminPerson adminPerson=null;
+    	
     	try {
 	        Connection conn = MedwanQuery.getInstance().getAdminConnection();
 	        adminPerson= AdminPerson.getAdminPerson(conn,sPersonID);
 			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+    	catch (SQLException e) {
 			e.printStackTrace();
 		}
+    	
         return adminPerson;
     }
-
+    
+    //--- GET FULL NAME ---------------------------------------------------------------------------
+    public String getFullName(){
+    	return lastname.toUpperCase()+", "+firstname;
+    }
+    
+    //--- GET UID ---------------------------------------------------------------------------------
     public String getUid(){
     	return personid;
     }
     
-    //--- IS EMPLOYEE -------------------------------------------------------------------------
+    //--- IS EMPLOYEE -----------------------------------------------------------------------------
     public boolean isEmployee(){
         boolean isEmployee = false;  
         
@@ -215,10 +220,11 @@ public class AdminPerson extends OC_Object{
 	        rs.close();
 	        ps.close();
 			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+    	catch (SQLException e) {
 			e.printStackTrace();
 		}
+    	
     	return hasRequest;
     }
     
@@ -238,10 +244,11 @@ public class AdminPerson extends OC_Object{
 	        rs.close();
 	        ps.close();
 			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+    	catch (SQLException e) {
 			e.printStackTrace();
 		}
+    	
     	return lastDate;
     }
     
@@ -260,8 +267,8 @@ public class AdminPerson extends OC_Object{
 		        ps.close();
 	        }
 			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+    	catch (SQLException e) {
 			e.printStackTrace();
 		}
     }
@@ -416,7 +423,7 @@ public class AdminPerson extends OC_Object{
             }
             catch(SQLException e) {
                 e.printStackTrace();
-                if(Debug.enabled) Debug.println("AdminPerson initialize error: "+e.getMessage()+" "+sSelect);
+                Debug.println("AdminPerson initialize error: "+e.getMessage()+" "+sSelect);
             }
         }
         return bReturn;
@@ -560,7 +567,7 @@ public class AdminPerson extends OC_Object{
             }
             catch(SQLException e) {
                 e.printStackTrace();
-                if(Debug.enabled) Debug.println("AdminPerson initialize error: "+e.getMessage()+" "+sSelect);
+                Debug.println("AdminPerson initialize error: "+e.getMessage()+" "+sSelect);
             }
         }
         return bReturn;
@@ -606,7 +613,6 @@ public class AdminPerson extends OC_Object{
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return ok;
@@ -725,7 +731,7 @@ public class AdminPerson extends OC_Object{
                     }
                 }
                 else {
-                    ScreenHelper.writeMessage(" SourceID error with "+getID("natreg")+""+getID("immatold")+" "+getID("immatnew")+" "+sSelect);
+                    Debug.println(" SourceID error with "+getID("natreg")+""+getID("immatold")+" "+getID("immatnew")+" "+sSelect);
                     bReturn = false;
                 }
             }
@@ -820,12 +826,12 @@ public class AdminPerson extends OC_Object{
                 }
                 else {
                     // WRONG OWNER
-                    ScreenHelper.writeMessage(" Wrong owner of "+getID("natreg")+" "+getID("immatold")+" "+getID("immatnew"));
+                	Debug.println(" Wrong owner of "+getID("natreg")+" "+getID("immatold")+" "+getID("immatnew"));
                     bReturn = false;
                 }
             }
             else {
-                ScreenHelper.writeMessage(" Error with "+getID("natreg")+" "+getID("immatold")+" "+getID("immatnew")+" "+sSelect);
+            	Debug.println(" Error with "+getID("natreg")+" "+getID("immatold")+" "+getID("immatnew")+" "+sSelect);
             }
 
             // adminprivate
@@ -890,8 +896,7 @@ public class AdminPerson extends OC_Object{
             if(export) MedwanQuery.getInstance().exportPerson(Integer.parseInt(this.personid));
         }
         catch(Exception e) {
-            e.printStackTrace();
-            ScreenHelper.writeMessage(getClass()+" (1) "+e.getMessage()+" "+sSelect);
+        	Debug.printStackTrace(e);
             bReturn = false;
         }
 
@@ -1010,7 +1015,7 @@ public class AdminPerson extends OC_Object{
                     }
                 }
                 else {
-                    ScreenHelper.writeMessage(" SourceID error with "+getID("natreg")+""+getID("immatold")+" "+getID("immatnew")+" "+sSelect);
+                	Debug.println(" SourceID error with "+getID("natreg")+""+getID("immatold")+" "+getID("immatnew")+" "+sSelect);
                     bReturn = false;
                 }
             }
@@ -1104,12 +1109,12 @@ public class AdminPerson extends OC_Object{
                 }
                 else {
                     // WRONG OWNER
-                    ScreenHelper.writeMessage(" Wrong owner of "+getID("natreg")+" "+getID("immatold")+" "+getID("immatnew"));
+                	Debug.println(" Wrong owner of "+getID("natreg")+" "+getID("immatold")+" "+getID("immatnew"));
                     bReturn = false;
                 }
             }
             else {
-                ScreenHelper.writeMessage(" Error with "+getID("natreg")+" "+getID("immatold")+" "+getID("immatnew")+" "+sSelect);
+            	Debug.println(" Error with "+getID("natreg")+" "+getID("immatold")+" "+getID("immatnew")+" "+sSelect);
             }
 
             // adminprivate
@@ -1153,7 +1158,7 @@ public class AdminPerson extends OC_Object{
             if(export) MedwanQuery.getInstance().exportPerson(Integer.parseInt(this.personid));
         }
         catch(SQLException e) {
-            ScreenHelper.writeMessage(getClass()+" (1) "+e.getMessage()+" "+sSelect);
+        	Debug.printStackTrace(e);
             bReturn = false;
         }
         AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"M."+this.personid);
@@ -2039,7 +2044,7 @@ public class AdminPerson extends OC_Object{
             }
         }
         catch (Exception e) {
-            if(Debug.enabled) Debug.println(e.getMessage());
+            Debug.println(e.getMessage());
         }
         finally{
             try{
@@ -2754,7 +2759,6 @@ public class AdminPerson extends OC_Object{
     	try {
 			millis= new java.util.Date().getTime()-new SimpleDateFormat("dd/MM/yyyy").parse(this.dateOfBirth).getTime();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	long month=(365/12)*24*3600;
@@ -3250,8 +3254,7 @@ public class AdminPerson extends OC_Object{
             }
         }
         catch(Exception e) {
-            e.printStackTrace();
-            ScreenHelper.writeMessage(getClass()+" (3) "+e.getMessage()+" "+sSelect);
+        	Debug.printStackTrace(e);
             bReturn = false;
         }
 
@@ -3265,7 +3268,6 @@ public class AdminPerson extends OC_Object{
             bResult=saveToDB(connection);
     		connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return bResult;

@@ -162,8 +162,7 @@ public class AdminPrivateContact{
             ps.close();
         }
         catch(SQLException e) {
-            e.printStackTrace();
-            ScreenHelper.writeMessage(getClass()+" (1) "+e.getMessage()+" "+sSelect);
+        	Debug.printStackTrace(e);
             bReturn = false;
         }
         return bReturn;
@@ -227,7 +226,7 @@ public class AdminPrivateContact{
                 ps.close();
             }
             catch (Exception ex){
-                ScreenHelper.writeMessage(getClass()+" (2) "+ex.getMessage()+" "+sSelect);
+            	Debug.printStackTrace(ex);
                 bReturn = false;
             }
         }
@@ -272,7 +271,7 @@ public class AdminPrivateContact{
                 ps.close();
             }
             catch(SQLException e) {
-                if(Debug.enabled) Debug.println("AdminPrivate initialize error: "+e.getMessage()+" "+sSelect);
+                Debug.println("AdminPrivate initialize error: "+e.getMessage()+" "+sSelect);
             }
         }
         return bReturn;

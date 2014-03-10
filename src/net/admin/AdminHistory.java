@@ -571,7 +571,7 @@ public class AdminHistory {
 
                 //msg = getTran("Web.manage","archivedfilereactivated",sWebLanguage);
 
-                if(Debug.enabled) Debug.println("AdminHistory (personid "+historyPersonid+") moved to Admin");
+                Debug.println("AdminHistory (personid "+historyPersonid+") moved to Admin");
             }
             rs.close();
             ps.close();

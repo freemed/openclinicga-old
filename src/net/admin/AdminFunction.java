@@ -1,6 +1,7 @@
 package net.admin;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
 
 import java.sql.Connection;
@@ -71,7 +72,7 @@ public class AdminFunction {
                 }
             }
             catch(SQLException e){
-                ScreenHelper.writeMessage(getClass()+" (1) "+e.getMessage()+" "+sSelect);
+            	Debug.printStackTrace(e);
                 bReturn = false;
             }
         }
