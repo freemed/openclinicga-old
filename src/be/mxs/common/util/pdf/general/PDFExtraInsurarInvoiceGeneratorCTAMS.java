@@ -571,7 +571,6 @@ public class PDFExtraInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 	                try {
 						date = stdDateFormat.parse(stdDateFormat.format(debet.getDate()));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	                displayDate = !date.equals(prevdate);

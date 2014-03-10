@@ -73,7 +73,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
 		return baosPDF;
 	}
 
-
+    //--- ADD FINANCIAL MESSAGE -------------------------------------------------------------------
     private void addFinancialMessage() throws Exception {
         addBlankRow();
         table = new PdfPTable(3);
@@ -92,7 +92,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
         table = new PdfPTable(5);
         table.setWidthPercentage(pageWidth);
 
-        try {
+        try{
             //*** logo ***
             try{
                 Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
@@ -506,6 +506,7 @@ public class PDFExtraInsurarInvoiceGenerator extends PDFInvoiceGenerator {
         return table;
     }
 
+    //--- PRINT TOTAL -----------------------------------------------------------------------------
     private void printTotal(PdfPTable invoiceTable,double total){
         PdfPTable table = new PdfPTable(20);
         table.setWidthPercentage(pageWidth);

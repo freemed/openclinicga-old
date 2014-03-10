@@ -263,7 +263,7 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
                     diastolicValueCount++;
                     pressureDate  = (Date)dbpIter.next();
                     pressureValue = Double.parseDouble((String)hDBPs.get(pressureDate));
-                    if(Debug.enabled) Debug.println("* DIA pressureValue ("+dateFormat.format(pressureDate)+") : "+pressureValue);
+                    Debug.println("* DIA pressureValue ("+dateFormat.format(pressureDate)+") : "+pressureValue);
                     dataset.addValue(pressureValue,sDBPTran,dateFormat.format(pressureDate));
                 }
 
@@ -273,7 +273,7 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
                     systolicValueCount++;
                     pressureDate  = (Date)sbpIter.next();
                     pressureValue = Double.parseDouble((String)hSBPs.get(pressureDate));
-                    if(Debug.enabled) Debug.println("* SYS pressureValue ("+dateFormat.format(pressureDate)+") : "+pressureValue);
+                    Debug.println("* SYS pressureValue ("+dateFormat.format(pressureDate)+") : "+pressureValue);
                     dataset.addValue(pressureValue,sSBPTran,dateFormat.format(pressureDate));
                 }
 

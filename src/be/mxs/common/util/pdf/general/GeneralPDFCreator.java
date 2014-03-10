@@ -8,14 +8,18 @@ import be.mxs.common.model.vo.healthrecord.IConstants;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.PDFCreator;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.Picture;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.medical.ChronicMedication;
 import be.openclinic.medical.Prescription;
 import be.openclinic.medical.Problem;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.Barcode39;
 import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
@@ -48,11 +52,15 @@ public class GeneralPDFCreator extends PDFCreator {
     private boolean respGraphsArePrinted, diabetesGraphsArePrinted;
     private PdfPCell cell;
     private PdfPTable table;
+    
+    protected PdfWriter docWriter = null;
+    protected final BaseColor innerBorderColor = BaseColor.LIGHT_GRAY;
     protected final BaseColor BGCOLOR_LIGHT = new BaseColor(240,240,240); // light gray
 
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
-    public GeneralPDFCreator(SessionContainerWO sessionContainerWO, User user, AdminPerson patient, String sProject, String sProjectDir, Date dateFrom, Date dateTo, String sPrintLanguage){
+    public GeneralPDFCreator(SessionContainerWO sessionContainerWO, User user, AdminPerson patient,
+    		                 String sProject, String sProjectDir, Date dateFrom, Date dateTo, String sPrintLanguage){
         this.user = user;
         this.patient = patient;
         this.sProject = sProject;
@@ -67,10 +75,18 @@ public class GeneralPDFCreator extends PDFCreator {
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
-    //--- GENERATE DOCUMENT BYTES -----------------------------------------------------------------
-    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application, boolean filterApplied, int partsOfTransactionToPrint) throws DocumentException {
+    //--- GENERATE DOCUMENT BYTES (1) -------------------------------------------------------------
+    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application)
+    		throws DocumentException {
+        return generatePDFDocumentBytes(req,application,false,2); // no filter, full transactions
+    }
+
+    //--- GENERATE DOCUMENT BYTES (2) -------------------------------------------------------------
+    public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, ServletContext application,
+    		                                              boolean filterApplied, int partsOfTransactionToPrint) 
+            throws DocumentException {
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-		PdfWriter docWriter = null;
+
         this.req = req;
         this.application = application;
         sContextPath = req.getContextPath();
@@ -96,36 +112,42 @@ public class GeneralPDFCreator extends PDFCreator {
             printDocumentHeader(req);
 
             //*** TITLE ***************************************************************************
-            String title = getTran("Web.Occup","medwan.common.occupational-health-record").toUpperCase();
+            String title = getTran("web","examinations").toUpperCase();
 
+            Paragraph par = new Paragraph(title,FontFactory.getFont(FontFactory.HELVETICA,15,Font.BOLD));
+            par.setAlignment(Paragraph.ALIGN_CENTER);
+            doc.add(par);
+            
             // add date restriction to document title
-            title+= "\n("+getTran("web","printdate")+": "+dateFormat.format(new Date())+")";
-            /*
+            String sSubTitle = "";
+
             if(dateFrom!=null && dateTo!=null){
-                if(dateFrom.getTime() == dateTo.getTime()){
-                    title+= "\n("+getTran("web","on")+" "+dateFormat.format(dateTo)+")";
+                if(dateFrom.getTime()==dateTo.getTime()){
+                	sSubTitle+= "("+getTran("web","on")+" "+dateFormat.format(dateTo)+")\n";
                 }
                 else{
-                    title+= "\n("+getTran("pdf","date.from")+" "+dateFormat.format(dateFrom)+" "+getTran("pdf","date.to")+" "+dateFormat.format(dateTo)+")";
+                	sSubTitle+= "("+getTran("pdf","date.from")+" "+dateFormat.format(dateFrom)+" "+getTran("pdf","date.to")+" "+dateFormat.format(dateTo)+")\n";
                 }
             }
             else if(dateFrom!=null){
-                title+= "\n("+getTran("web","since")+" "+dateFormat.format(dateFrom)+")";
+            	sSubTitle+= "("+getTran("web","since")+" "+dateFormat.format(dateFrom)+")\n";
             }
             else if(dateTo!=null){
-                title+= "\n("+getTran("pdf","date.to")+" "+dateFormat.format(dateTo)+")";
-            }*/
+            	sSubTitle+= "("+getTran("pdf","date.to")+" "+dateFormat.format(dateTo)+")\n";
+            }
 
-            Paragraph par = new Paragraph(title,FontFactory.getFont(FontFactory.HELVETICA,12,Font.BOLD));
+            sSubTitle+= getTran("web","printdate")+": "+dateFormat.format(new Date());
+            		
+            par = new Paragraph(sSubTitle,FontFactory.getFont(FontFactory.HELVETICA,10,Font.NORMAL));
             par.setAlignment(Paragraph.ALIGN_CENTER);
             doc.add(par);
 
             //*** OTHER DOCUMENT ELEMENTS *********************************************************
-            printAdminHeader(patient);
-            //printKeyData(sessionContainerWO);
-            printMedication(sessionContainerWO);
-            printActiveDiagnosis(sessionContainerWO);
-            printWarnings(sessionContainerWO);
+            printPatientCard(patient,true); // 0, showPhoto
+            //printAdminHeader(patient);
+            //printMedication(sessionContainerWO);
+            //printActiveDiagnosis(sessionContainerWO);
+            //printWarnings(sessionContainerWO);
             doc.add(new Paragraph(" "));
 
             //*** VACCINATION CARD ****************************************************************
@@ -155,6 +177,7 @@ public class GeneralPDFCreator extends PDFCreator {
             if(!transactionIDsSpecified){
                 printTransactions(filterApplied,partsOfTransactionToPrint);
             }
+            
             doc.add(new Paragraph(" "));
             printSignature();
         }
@@ -166,13 +189,13 @@ public class GeneralPDFCreator extends PDFCreator {
             e.printStackTrace();
         }
 		finally{
-			if(doc != null) doc.close();
-            if(docWriter != null) docWriter.close();
+			if(doc!=null) doc.close();
+            if(docWriter!=null) docWriter.close();
 		}
 
-		if(baosPDF.size() < 1){
-			throw new DocumentException("document has " + baosPDF.size() + " bytes");
-		}
+        if(baosPDF.size() < 1){
+            throw new DocumentException("ERROR : The pdf-document has "+baosPDF.size()+" bytes");
+        }
 
 		return baosPDF;
 	}
@@ -261,13 +284,13 @@ public class GeneralPDFCreator extends PDFCreator {
         Class cls = null;
         boolean bClassFound = false;
 
-        // First serach the projectclass
+        // First search the projectclass
         try{
             cls = Class.forName("be.mxs.common.util.pdf.general."+sProject.toLowerCase()+"."+sProject.toLowerCase()+"PDFHeader");
             bClassFound = true;
         }
         catch(ClassNotFoundException e){
-            if(Debug.enabled) Debug.println(e.getMessage());
+            Debug.println(e.getMessage());
         }
 
         // else search the normal class
@@ -276,7 +299,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 cls = Class.forName("be.mxs.common.util.pdf.general.PDFHeader");
             }
             catch(ClassNotFoundException e){
-                if(Debug.enabled) Debug.println(e.getMessage());
+                Debug.println(e.getMessage());
             }
         }
 
@@ -315,7 +338,8 @@ public class GeneralPDFCreator extends PDFCreator {
             }
         }
     }
-
+    
+    //--- PRINT SIGNATURE -------------------------------------------------------------------------
     protected void printSignature(){
     	try{
 	    	table = new PdfPTable(2);
@@ -333,9 +357,9 @@ public class GeneralPDFCreator extends PDFCreator {
     	}
     	catch(Exception e){
     		e.printStackTrace();
-    	}
-    	
+    	}    	
     }
+    
     //--- PRINT ACTIVE DIAGNOSIS ------------------------------------------------------------------
     protected void printActiveDiagnosis(SessionContainerWO sessionContainerWO){
         try {
@@ -466,161 +490,175 @@ public class GeneralPDFCreator extends PDFCreator {
 
             Vector chronicMedications  = ChronicMedication.find(patient.personid,"","","","OC_CHRONICMED_BEGIN","ASC"), 
                    activePrescriptions = Prescription.getActivePrescriptions(patient.personid);
+            Debug.println("chronicMedications : "+chronicMedications.size());
+            Debug.println("activePrescriptions : "+activePrescriptions.size());
 
-            //*** CHRONIC MEDICATION ******************************************
-            if(chronicMedications.size() > 0){
-                PdfPTable medicationTable = new PdfPTable(2);
+            if(chronicMedications.size() > 0 || activePrescriptions.size() > 0){            	
+	            //*** A : CHRONIC MEDICATION ********************************************
+	            if(chronicMedications.size() > 0){
+	                PdfPTable medicationTable = new PdfPTable(2);
+	
+	                // sub title
+	                cell = new PdfPCell(new Paragraph(getTran("curative","medication.chronic"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+	                cell.setColspan(2);
+	                cell.setBorder(PdfPCell.BOX);
+	                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setBackgroundColor(BGCOLOR_LIGHT);
+	                medicationTable.addCell(cell);
+	
+	                // run thru medications
+	                String sPrescrRule, sProductUnit, timeUnitTran;
+	                ChronicMedication medication;
+	
+	                for(int n=0; n<chronicMedications.size(); n++){
+	                    medication = (ChronicMedication)chronicMedications.elementAt(n);
+	
+	                    sPrescrRule = getTran("web.prescriptions","prescriptionrule");
+	                    sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#", medication.getUnitsPerTimeUnit() + "");
+	
+	                    // productunits
+	                    if (medication.getUnitsPerTimeUnit() == 1) {
+	                        sProductUnit = getTran("product.unit", medication.getProduct().getUnit());
+	                    }
+	                    else {
+	                        sProductUnit = getTran("product.units", medication.getProduct().getUnit());
+	                    }                      
+	                    sPrescrRule = sPrescrRule.replaceAll("#productunit#", sProductUnit.toLowerCase());
+	
+	                    // timeunits
+	                    if (medication.getTimeUnitCount() == 1) {
+	                        sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", "");
+	                        timeUnitTran = getTran("prescription.timeunit", medication.getTimeUnit());
+	                    }
+	                    else {
+	                        sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", medication.getTimeUnitCount() + "");
+	                        timeUnitTran = getTran("prescription.timeunits", medication.getTimeUnit());
+	                    }
+	                    sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.replaceAll("  "," ").toLowerCase());
+	
+	                    // product name
+	                    cell = new PdfPCell(new Paragraph(medication.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+	                    cell.setColspan(1);
+	                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
+	                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                    medicationTable.addCell(cell);
+	
+	                    // prescription rule
+	                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+	                    cell.setColspan(1);
+	                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
+	                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                    medicationTable.addCell(cell);
+	                }
+	
+	                // add cells to make up with the chronic medications
+	                if(chronicMedications.size() < activePrescriptions.size()){
+	                    int missingCellCount = activePrescriptions.size()-chronicMedications.size(); 
+	                    for(int i=0; i<missingCellCount; i++){
+	                        cell = new PdfPCell();
+	                        cell.setColspan(2);
+	                        cell.setBorder(PdfPCell.NO_BORDER);
+	                        medicationTable.addCell(cell);
+	                    }
+	                }
 
-                // sub title
-                cell = new PdfPCell(new Paragraph(getTran("curative","medication.chronic"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
-                cell.setColspan(2);
-                cell.setBorder(PdfPCell.BOX);
-                cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBackgroundColor(BGCOLOR_LIGHT);
-                medicationTable.addCell(cell);
+	                // add medicationtable to document
+	                cell = new PdfPCell(medicationTable);
+	                cell.setBorder(PdfPCell.BOX);
+	                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                cell.setPadding(3);
+	                table.addCell(cell);
+	            }
+                        
+	            //*** B : PRESCRIPTIONS *****************************************************
+	            if(activePrescriptions.size() > 0){
+	                PdfPTable medicationTable = new PdfPTable(2);
+	
+	                // sub title
+	                cell = new PdfPCell(new Paragraph(getTran("curative","medication.prescription"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+	                cell.setColspan(2);
+	                cell.setBorder(PdfPCell.BOX);
+	                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setBackgroundColor(BGCOLOR_LIGHT);
+	                medicationTable.addCell(cell);
+	
+	                // run thru medications
+	                String sPrescrRule, sProductUnit, timeUnitTran;
+	                Prescription prescription;
+	                int n;
+	
+	                for (n=0; n<activePrescriptions.size(); n++){
+	                    prescription = (Prescription)activePrescriptions.elementAt(n);
+	
+	                    sPrescrRule = getTran("web.prescriptions","prescriptionrule");
+	                    sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#", prescription.getUnitsPerTimeUnit() + "");
+	
+	                    // productunits
+	                    if (prescription.getUnitsPerTimeUnit() == 1) {
+	                        sProductUnit = getTran("product.unit", prescription.getProduct().getUnit());
+	                    }
+	                    else {
+	                        sProductUnit = getTran("product.units", prescription.getProduct().getUnit());
+	                    }
+	                    sPrescrRule = sPrescrRule.replaceAll("#productunit#", sProductUnit.toLowerCase());
+	
+	                    // timeunits
+	                    if (prescription.getTimeUnitCount() == 1) {
+	                        sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", "");
+	                        timeUnitTran = getTran("prescription.timeunit", prescription.getTimeUnit());
+	                    }
+	                    else {
+	                        sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", prescription.getTimeUnitCount() + "");
+	                        timeUnitTran = getTran("prescription.timeunits", prescription.getTimeUnit());
+	                    }
+	                    sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.toLowerCase());
+	
+	                    // product name
+	                    cell = new PdfPCell(new Paragraph(prescription.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+	                    cell.setColspan(1);
+	                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
+	                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                    medicationTable.addCell(cell);
+	
+	                    // prescription rule
+	                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+	                    cell.setColspan(1);
+	                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
+	                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                    medicationTable.addCell(cell);
+	                }
+	
+	                // add cells to make up with the active prescriptions
+	                if(activePrescriptions.size() < chronicMedications.size()){
+	                    int missingCellCount = chronicMedications.size()-activePrescriptions.size();
+	                    
+	                    for(int i=0; i<missingCellCount; i++){
+	                        cell = new PdfPCell();
+	                        cell.setColspan(2);
+	                        cell.setBorder(PdfPCell.NO_BORDER);
+	                        medicationTable.addCell(cell);
+	                    }
+	                }
 
-                // run thru medications
-                String sPrescrRule, sProductUnit, timeUnitTran;
-                ChronicMedication medication;
-
-                for(int n=0; n<chronicMedications.size(); n++){
-                    medication = (ChronicMedication)chronicMedications.elementAt(n);
-
-                    sPrescrRule = getTran("web.prescriptions","prescriptionrule");
-                    sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#", medication.getUnitsPerTimeUnit() + "");
-
-                    // productunits
-                    if (medication.getUnitsPerTimeUnit() == 1) {
-                        sProductUnit = getTran("product.unit", medication.getProduct().getUnit());
-                    }
-                    else {
-                        sProductUnit = getTran("product.units", medication.getProduct().getUnit());
-                    }                      
-                    sPrescrRule = sPrescrRule.replaceAll("#productunit#", sProductUnit.toLowerCase());
-
-                    // timeunits
-                    if (medication.getTimeUnitCount() == 1) {
-                        sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", "");
-                        timeUnitTran = getTran("prescription.timeunit", medication.getTimeUnit());
-                    }
-                    else {
-                        sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", medication.getTimeUnitCount() + "");
-                        timeUnitTran = getTran("prescription.timeunits", medication.getTimeUnit());
-                    }
-                    sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.replaceAll("  "," ").toLowerCase());
-
-                    // product name
-                    cell = new PdfPCell(new Paragraph(medication.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    cell.setColspan(1);
-                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
-                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                    medicationTable.addCell(cell);
-
-                    // prescription rule
-                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
-                    cell.setColspan(1);
-                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
-                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                    medicationTable.addCell(cell);
-                }
-
-                // add cells to make up with the chronic medications
-                if(chronicMedications.size() < activePrescriptions.size()){
-                    int missingCellCount = activePrescriptions.size()-chronicMedications.size(); 
-                    for(int i=0; i<missingCellCount; i++){
-                        cell = new PdfPCell();
-                        cell.setColspan(2);
-                        cell.setBorder(PdfPCell.NO_BORDER);
-                        medicationTable.addCell(cell);
-                    }
-                }
-
-                // add chronicmedicationtables to medicationtable
-                cell = new PdfPCell(medicationTable);
-                cell.setBorder(PdfPCell.BOX);
-                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                // add medicationtable to document
+	                cell = new PdfPCell(medicationTable);
+	                cell.setBorder(PdfPCell.BOX);
+	                cell.setBorderColor(BaseColor.LIGHT_GRAY);
+	                cell.setPadding(3);
+	                table.addCell(cell);
+	            }
+            }   
+            //*** C : NO MEDICATION FOUND ***********************************************
+            else{
+                cell = new PdfPCell(new Paragraph(getTran("curative","noMedication"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+                cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setPadding(3);
                 table.addCell(cell);
             }
-
-            //*** PRESCRIPTIONS ***********************************************
-            if(activePrescriptions.size() > 0){
-                PdfPTable medicationTable = new PdfPTable(2);
-
-                // sub title
-                cell = new PdfPCell(new Paragraph(getTran("curative","medication.prescription"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
-                cell.setColspan(2);
-                cell.setBorder(PdfPCell.BOX);
-                cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBackgroundColor(BGCOLOR_LIGHT);
-                medicationTable.addCell(cell);
-
-                // run thru medications
-                String sPrescrRule, sProductUnit, timeUnitTran;
-                Prescription prescription;
-                int n;
-
-                for (n=0; n<activePrescriptions.size(); n++){
-                    prescription = (Prescription)activePrescriptions.elementAt(n);
-
-                    sPrescrRule = getTran("web.prescriptions","prescriptionrule");
-                    sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#", prescription.getUnitsPerTimeUnit() + "");
-
-                    // productunits
-                    if (prescription.getUnitsPerTimeUnit() == 1) {
-                        sProductUnit = getTran("product.unit", prescription.getProduct().getUnit());
-                    }
-                    else {
-                        sProductUnit = getTran("product.units", prescription.getProduct().getUnit());
-                    }
-                    sPrescrRule = sPrescrRule.replaceAll("#productunit#", sProductUnit.toLowerCase());
-
-                    // timeunits
-                    if (prescription.getTimeUnitCount() == 1) {
-                        sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", "");
-                        timeUnitTran = getTran("prescription.timeunit", prescription.getTimeUnit());
-                    }
-                    else {
-                        sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", prescription.getTimeUnitCount() + "");
-                        timeUnitTran = getTran("prescription.timeunits", prescription.getTimeUnit());
-                    }
-                    sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.toLowerCase());
-
-                    // product name
-                    cell = new PdfPCell(new Paragraph(prescription.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    cell.setColspan(1);
-                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
-                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                    medicationTable.addCell(cell);
-
-                    // prescription rule
-                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
-                    cell.setColspan(1);
-                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
-                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                    medicationTable.addCell(cell);
-                }
-
-                // add cells to make up with the active prescriptions
-                if(activePrescriptions.size() < chronicMedications.size()){
-                    int missingCellCount = chronicMedications.size()-activePrescriptions.size();
-                    for(int i=0; i<missingCellCount; i++){
-                        cell = new PdfPCell();
-                        cell.setColspan(2);
-                        cell.setBorder(PdfPCell.NO_BORDER);
-                        medicationTable.addCell(cell);
-                    }
-                }
-
-                // add presciptionssstable to medicationtable
-                cell = new PdfPCell(medicationTable);
-                cell.setBorder(PdfPCell.BOX);
-                cell.setBorderColor(BaseColor.LIGHT_GRAY);
-                cell.setPadding(3);
-                table.addCell(cell);
-                
+            
+            if(table.size() > 0){
                 doc.add(table);
             }
         }
@@ -629,263 +667,142 @@ public class GeneralPDFCreator extends PDFCreator {
         }
     }
 
-    //--- PRINT KEYDATA ---------------------------------------------------------------------------
-    protected void printKeyData(SessionContainerWO sessionContainerWO){
-        try {
+    //--- PRINT PATIENT CARD ----------------------------------------------------------------------
+    protected void printPatientCard(AdminPerson person, boolean showPhoto) throws Exception {
+        table = new PdfPTable(20);
+        table.setWidthPercentage(100);
+        
+    	PdfPTable cardTable = new PdfPTable(2);
+        cardTable.setWidthPercentage(100);
+        
+        //*** ROW 1 ***************************************
+        // label : name + archive code                      
+        cell = createLabel(MedwanQuery.getInstance().getLabel("web","cardname",sPrintLanguage),7,1,Font.ITALIC);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cardTable.addCell(cell);
+
+        cell = createLabel(MedwanQuery.getInstance().getLabel("web","cardArchiveCode",sPrintLanguage),7,1,Font.ITALIC);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cardTable.addCell(cell);
+
+        // data : name + archive code
+        cell = createLabel(person.firstname+", "+person.lastname,12,1,Font.BOLD);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cardTable.addCell(cell);
+        
+        cell = createLabel(person.getID("archiveFileCode").toUpperCase(),10,1,Font.BOLD);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cardTable.addCell(cell);
+        
+        //*** ROW 2 ***************************************
+        // label : date of birth & gender
+        cell = createLabel(MedwanQuery.getInstance().getLabel("web","carddateofbirth",sPrintLanguage),7,1,Font.ITALIC);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cardTable.addCell(cell);
+        
+        cell = createLabel(MedwanQuery.getInstance().getLabel("web","cardgender",sPrintLanguage),7,1,Font.ITALIC);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cardTable.addCell(cell);
+
+        // data : date of birth & gender
+        cell = createLabel(person.dateOfBirth,10,1,Font.BOLD);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cardTable.addCell(cell);
+        
+        cell = createLabel(person.gender,10,1,Font.BOLD);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cardTable.addCell(cell);
+        
+        //*** ROW 3 ***************************************
+        if(MedwanQuery.getInstance().getConfigInt("patientCardModel",1)==2){
+            cell = createLabel(MedwanQuery.getInstance().getLabel("web","cardInsuranceNumber",sPrintLanguage),7,2,Font.ITALIC);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cardTable.addCell(cell);
+
+            cell = createLabel(person.comment5,10,2,Font.BOLD);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cardTable.addCell(cell);
+        }
+        
+        //*** Photo ***
+        PdfPCell imgCell = new PdfPCell();
+        
+        if(showPhoto){
+            if(Picture.exists(Integer.parseInt(person.personid))){
+                Picture picture = new Picture(Integer.parseInt(person.personid));
+                        
+	            try{
+	                Image image = Image.getInstance(picture.getPicture());
+	                image.scaleToFit(130,72);
+	                imgCell = new PdfPCell(image);
+	            }
+	            catch(Exception e){
+	                e.printStackTrace();
+	                
+	                imgCell = new PdfPCell();
+	            }
+	            
+	            imgCell.setBorder(PdfPCell.NO_BORDER);
+	            imgCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+	            imgCell.setHorizontalAlignment(PdfPCell.ALIGN_JUSTIFIED);
+	            imgCell.setPadding(2);
+	            imgCell.setColspan(5);
+            }
+            else{                	
+            	// no picture found
+            	imgCell = createValueCell(getTran("web","noPictureFound"),1);  
+            }
+        }
+
+        // cardTable in table
+        cell = createBorderlessCell(12);
+        cell.addElement(cardTable);
+        cell.setPadding(0);
+        table.addCell(cell);
+        
+        // imgCell in table              
+        imgCell.setBorder(PdfPCell.NO_BORDER);
+        imgCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        imgCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        imgCell.setPadding(2);
+        imgCell.setColspan(3);            
+        table.addCell(imgCell);
+        
+        // barcode in table
+        PdfContentByte contentByte = docWriter.getDirectContent();
+        Barcode39 barcode39 = new Barcode39();
+        barcode39.setCode("0"+person.personid);
+        barcode39.setSize(8);
+        barcode39.setBaseline(10);
+        barcode39.setBarHeight(65);
+        
+        Image barcodeImg = barcode39.createImageWithBarcode(contentByte,null,null);            
+        cell = new PdfPCell(barcodeImg);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setPadding(2);
+        cell.setColspan(5);
+        table.addCell(cell);
+        
+        // hospital ref (horizontal line)
+        cell = createLabel(getTran("web","cardHospitalRef"),8,20,Font.NORMAL);
+        cell.setBorder(PdfPCell.TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        table.addCell(cell);
+                    
+        // add transaction to doc
+        if(table.size() > 0){
             doc.add(new Paragraph(" "));
-            table = new PdfPTable(15);
-            table.setWidthPercentage(100);
-
-            // kernel-data
-            cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.kernel-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
-            cell.setColspan(15);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-            table.addCell(cell);
-
-            // row 1 : last-periodical-examination
-            Paragraph par = new Paragraph(getTran("Web.Occup","medwan.common.last-periodical-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
-            TransactionVO tran = sessionContainerWO.getLastTransaction(IConstants_PREFIX+"TRANSACTION_TYPE_MER");
-            ItemVO item;
-            if (tran!=null){
-                item =  tran.getItem(IConstants_PREFIX+"ITEM_TYPE_MER_EXAMINATION_DATE");
-                if (item!= null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
-                }
-            }
-            cell = new PdfPCell(par);
-            cell.setColspan(5);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cell);
-
-            // row 1 : next-periodical-examination
-            par = new Paragraph(getTran("Web.Occup","medwan.common.next-periodical-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
-            if (sessionContainerWO.getFlags().getLastExaminationReport()!=null && sessionContainerWO.getFlags().getLastExaminationReport().getNewExaminationDueDate()!=null){
-                par.add(new Chunk(dateFormat.format(sessionContainerWO.getFlags().getLastExaminationReport().getNewExaminationDueDate()),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
-            }
-            cell = new PdfPCell(par);
-            cell.setColspan(5);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cell);
-
-            // row 1 : next-driver-examination / Volgend onderzoek medische schifting
-            par = new Paragraph(getTran("Web.Occup","medwan.common.next-driver-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
-            if (sessionContainerWO.getFlags().getLastDrivingCertificate()!=null){
-
-                // CBMT only : only display newExaminationDueDate if patient has riskcode "070" (drivinglicense)
-                boolean riskCode070Found = false;
-
-                if(riskCode070Found){
-                    String newExamDueDateMinus = ScreenHelper.checkString(sessionContainerWO.getFlags().getLastDrivingCertificate().getNewExaminationDueDateMinus());
-                    if(newExamDueDateMinus.length() > 0){
-                        par.add(new Chunk(newExamDueDateMinus.replaceAll("-","/"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
-                    }
-                }
-            }
-            else{
-                // no data available
-                par.add(new Chunk(getTran("Web.Occup","medwan.common.no-data"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
-            }
-
-            cell = new PdfPCell(par);
-            cell.setColspan(5);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cell);
-
-            // row 2 : Biometrie
-            par = new Paragraph(getTran("Web.Occup","medwan.common.biometry").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
-            tran = sessionContainerWO.getLastTransactionTypeBiometry();
-            if(tran!=null){
-                // height
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT");
-                String sHeight = "", sWeight = "";
-                if(item!=null){
-                    sHeight = item.getValue();
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.length")+": "+sHeight+" cm\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-
-                // weight
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT");
-                if(item!=null){
-                    sWeight = item.getValue();
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.weight")+": "+sWeight+" kg\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-
-                // BMI
-                if(sWeight.length()>0 && sHeight.length()>0){
-                    try{
-                        DecimalFormat deci = new DecimalFormat("0.0");
-                        Float bmi = new Float(Float.parseFloat(sWeight.replaceAll(",",".")) *10000 / (Float.parseFloat(sHeight.replaceAll(",",".")) * Float.parseFloat(sHeight.replaceAll(",","."))));
-                        par.add(new Chunk("BMI: "+deci.format(bmi),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            cell = new PdfPCell(par);
-            cell.setColspan(3);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cell);
-
-            // row 2 : Urineonderzoek
-            par = new Paragraph("URINE\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
-            tran = sessionContainerWO.getLastTransactionTypeUrineExamination();
-            if (tran!=null){
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_URINE_ALBUMINE");
-                if (item!=null){
-                    par.add(new Chunk("Albumine: "+getTran("Web.Occup",item.getValue())+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_URINE_GLUCOSE");
-                if (item!=null){
-                    par.add(new Chunk("Glucose: "+getTran("Web.Occup",item.getValue())+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_URINE_BLOOD");
-                if (item!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.blood")+": "+getTran("Web.Occup",item.getValue()),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-            }
-
-            cell = new PdfPCell(par);
-            cell.setColspan(3);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cell);
-
-            // row 2 : Audiometrie
-            par = new Paragraph(getTran("Web.Occup","medwan.common.audiometry").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
-            tran = sessionContainerWO.getLastTransactionTypeAudiometry();
-            if (tran!=null){
-                par.add(new Chunk(getTran("Web.Occup","medwan.common.mean-hearing-loss").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,6,Font.ITALIC)));
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_LOSS");
-                if (item!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.right")+": -"+item.getValue()+" dB\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_LOSS");
-                if (item!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.left")+": -"+item.getValue()+" dB\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-            }
-            cell = new PdfPCell(par);
-            cell.setColspan(3);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cell);
-
-            // row 2 : Visus
-            par = new Paragraph(getTran("Web.Occup","medwan.common.vision").toUpperCase()+" - "+getTran("Web.Occup",IConstants_PREFIX+"item_type_opthalmology_screen_visiotest_vision_far").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
-            tran = sessionContainerWO.getLastTransactionTypeOphtalmology();
-            if (tran!=null){
-                par.add(new Chunk(getTran("Web.Occup","medwan.common.right-left-binocular").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,6,Font.ITALIC)));
-                par.add(new Chunk(getTran("Web.Occup","medwan.common.without-correction")+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_OD_WITHOUT_GLASSES");
-                if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_OG_WITHOUT_GLASSES");
-                if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_WITHOUT_GLASSES");
-                if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-                par.add(new Chunk("\n"+getTran("Web.Occup","medwan.common.with-correction")+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_OD_WITH_GLASSES");
-                if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_OG_WITH_GLASSES");
-                if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_WITH_GLASSES");
-                if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-            }
-            cell = new PdfPCell(par);
-            cell.setColspan(3);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cell);
-
-            // row 2 : Bloeddruk
-            par = new Paragraph(getTran("Web.Occup","medwan.common.blood-pressure").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
-            tran = sessionContainerWO.getLastTransactionTypeGeneralClinicalExamination();
-            if (tran!=null){
-                // right
-                ItemVO item1 = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_RIGHT");
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_RIGHT");
-                if (item1!=null || item!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.right")+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    if (item1!=null){
-                        par.add(new Chunk(item1.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    }
-                    par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-                    if (item!=null){
-                        par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    }
-                    par.add(new Chunk(" mmHg\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-
-                // left
-                item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_LEFT");
-                item1 = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_LEFT");
-                if (item!=null || item1!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.left")+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    if (item!=null){
-                        par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    }
-                    par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-                    if (item1!=null){
-                        par.add(new Chunk(item1.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                    }
-                    par.add(new Chunk(" mmHg\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
-                }
-            }
-
-            cell = new PdfPCell(par);
-            cell.setColspan(3);
-            cell.setBorder(PdfPCell.BOX);
-            cell.setBorderColor(BaseColor.LIGHT_GRAY);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            table.addCell(cell);
-
             doc.add(table);
+            doc.add(new Paragraph(" "));
         }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+        
+        //doc.setJavaScript_onLoad(MedwanQuery.getInstance().getConfigString("cardJavaScriptOnLoad","document.print();"));
     }
-
+    
     //--- PRINT ADMIN HEADER ----------------------------------------------------------------------
     protected void printAdminHeader(AdminPerson activePerson){
-        try {
+        try{
             doc.add(new Paragraph(" "));
             table = new PdfPTable(4);
             table.setWidthPercentage(100);
@@ -925,7 +842,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
             // address
             AdminPrivateContact contact = activePerson.getActivePrivate();
-            if (contact!=null){
+            if(contact!=null){
                 cell = new PdfPCell(new Paragraph(contact.district+" - "+ScreenHelper.getTranNoLink("province",contact.province,sPrintLanguage),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
                 cell.setColspan(4);
                 cell.setBorder(PdfPCell.BOX);
@@ -941,7 +858,6 @@ public class GeneralPDFCreator extends PDFCreator {
         }
     }
 
-    // todo : LOAD TRANSACTION
     //--- LOAD TRANSACTION ------------------------------------------------------------------------
     protected void loadTransaction(TransactionVO transactionVO, int partsOfTransactionToPrint){
         transactionVO = MedwanQuery.getInstance().loadTransaction(transactionVO.getServerId(), transactionVO.getTransactionId().intValue());
@@ -1185,7 +1101,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 cls = Class.forName("be.mxs.common.util.pdf.general."+sProject.toLowerCase()+".examinations."+sProject.toLowerCase()+sClassName);
             }
             catch(ClassNotFoundException e){
-                if(Debug.enabled) Debug.println(e.getMessage());
+                Debug.println(e.getMessage());
             }
 
             // else search the normal class
@@ -1194,10 +1110,15 @@ public class GeneralPDFCreator extends PDFCreator {
                     cls = Class.forName("be.mxs.common.util.pdf.general.oc.examinations."+sClassName);
                 }
                 catch(ClassNotFoundException e){
-                    if(Debug.enabled) Debug.println(e.getMessage());
+                    Debug.println(e.getMessage());
+                    
+                    // re-enter this function, now as a generic transaction
+                    loadTransactionOfType("PDFGenericTransaction",transactionVO,partsOfTransactionToPrint);
                 }
             }
 
+            Debug.println("Dynamically loading specific PDF-class");
+            
             if(cls!=null){
                 try{
                     Constructor[] cons = cls.getConstructors();
@@ -1235,17 +1156,222 @@ public class GeneralPDFCreator extends PDFCreator {
     }
 
     //--- CHECK STRING ----------------------------------------------------------------------------
-    // om geen 'null' weer te geven
-    //---------------------------------------------------------------------------------------------
     protected String checkString(String value){
-        if(value==null || value.equalsIgnoreCase("null")){
-            return "";
-        }
-        else{
-            value = value.trim();
-        }
+        return ScreenHelper.checkString(value);
+    }
+    
+    
+    //**********************************************************************************************
+    //*** CELLS ************************************************************************************
+    //**********************************************************************************************
 
-        return value;
+    //--- EMPTY CELL -------------------------------------------------------------------------------
+    protected PdfPCell emptyCell(int colspan){
+        cell = emptyCell();
+        cell.setColspan(colspan);
+
+        return cell;
+    }
+
+    protected PdfPCell emptyCell(){
+        cell = new PdfPCell();
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+
+        return cell;
+    }
+
+    //--- CREATE CELL ------------------------------------------------------------------------------
+    protected PdfPCell createCell(PdfPCell childCell, int colspan, int alignment, int border){
+        childCell.setColspan(colspan);
+        childCell.setHorizontalAlignment(alignment);
+        childCell.setBorder(border);
+        childCell.setBorderColor(innerBorderColor);
+        childCell.setVerticalAlignment(PdfPCell.TOP);
+
+        return childCell;
+    }
+
+    //--- CREATE CONTENT CELL ----------------------------------------------------------------------
+    protected PdfPCell createContentCell(PdfPTable contentTable){
+        cell = new PdfPCell(contentTable);
+        cell.setPadding(3);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+
+        return cell;
+    }
+
+    //--- CREATE ITEMNAME CELL ---------------------------------------------------------------------
+    protected PdfPCell createItemNameCell(String itemName, int colspan){
+        cell = new PdfPCell(new Paragraph(itemName.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createItemNameCell(String itemName){
+        return createItemNameCell(itemName,2);
+    }
+
+    //--- CREATE VALUE CELL ------------------------------------------------------------------------
+    protected PdfPCell createValueCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createValueCell(String value){
+        return createValueCell(value,3);
+    }
+
+    //--- CREATE TITLE CELL ------------------------------------------------------------------------
+    protected PdfPCell createTitleCell(String msg, int colspan){
+        cell = new PdfPCell(new Paragraph(msg.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(BaseColor.LIGHT_GRAY);
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+
+        return cell;
+    }
+
+    //--- CREATE SUBTITLE CELL --------------------------------------------------------------------
+    protected PdfPCell createSubtitleCell(String msg, int colspan){
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(BaseColor.LIGHT_GRAY);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBackgroundColor(BGCOLOR_LIGHT);
+
+        return cell;
+    }
+
+    //--- CREATE HEADER CELL -----------------------------------------------------------------------
+    protected PdfPCell createHeaderCell(String msg, int colspan){
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLDITALIC)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBackgroundColor(new BaseColor(220,220,220)); // grey
+
+        return cell;
+    }
+
+    //--- CREATE INVISIBLE CELL -------------------------------------------------------------------
+    protected PdfPCell createInvisibleCell(){
+        return createInvisibleCell(1);
+    }
+
+    protected PdfPCell createInvisibleCell(int colspan){
+        cell = new PdfPCell();
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    //--- CREATE TITLE ----------------------------------------------------------------------------
+    protected PdfPCell createTitle(String msg, int colspan){
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+
+        return cell;
+    }
+
+    //--- CREATE TITLE ----------------------------------------------------------------------------
+    protected PdfPCell createLabel(String msg, int fontsize, int colspan, int style){
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontsize,style)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+
+        return cell;
+    }
+
+    //--- CREATE BORDERLESS CELL ------------------------------------------------------------------
+    protected PdfPCell createBorderlessCell(String value, int height, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setPaddingTop(height); //
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createBorderlessCell(String value, int colspan){
+        return createBorderlessCell(value,3,colspan);
+    }
+
+    protected PdfPCell createBorderlessCell(int colspan){
+        cell = new PdfPCell();
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+
+        return cell;
+    }
+
+    //--- CREATE ITEMVALUE CELL -------------------------------------------------------------------
+    protected PdfPCell createItemValueCell(String itemValue){
+        return createItemValueCell(itemValue,3);         
+    }
+    
+    protected PdfPCell createItemValueCell(String itemValue, int colspan){
+        cell = new PdfPCell(new Paragraph(itemValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    //--- CREATE PADDED VALUE CELL ----------------------------------------------------------------
+    protected PdfPCell createPaddedValueCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setPaddingRight(5); // difference
+
+        return cell;
+    }
+
+    //--- CREATE NUMBER VALUE CELL ----------------------------------------------------------------
+    protected PdfPCell createNumberCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+
+        return cell;
     }
 
 }

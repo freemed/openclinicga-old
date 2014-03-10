@@ -51,7 +51,6 @@ public class PDFMFPFooter extends PdfPageEventHelper {
 	        try {
 				under.addImage(watermarkImg);
 			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}

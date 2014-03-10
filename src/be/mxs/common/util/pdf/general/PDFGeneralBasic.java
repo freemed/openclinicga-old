@@ -2,6 +2,8 @@ package be.mxs.common.util.pdf.general;
 
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.PDFBasic;
+import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 import be.openclinic.adt.Encounter;
@@ -40,10 +42,24 @@ import com.itextpdf.text.pdf.PdfPTable;
 public abstract class PDFGeneralBasic extends PDFBasic {
 
     // declarations
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat dateFormat = ScreenHelper.stdDateFormat;
     protected final int minNumberOfItems = 2;
     
 
+    //--- DISPLAY TRANSACTION ITEMS ---------------------------------------------------------------
+    // for debugging purposes
+    protected void displayTransactionItems(TransactionVO tran){
+    	Debug.println("\n#### TRANSACTION ITEMS ("+tran.getServerId()+"."+tran.getTransactionId()+") ########################################"); 
+    	
+    	ItemVO item;
+	    for(int i=0; i<tran.getItems().size(); i++){
+	    	item = (ItemVO)((java.util.Vector)tran.getItems()).get(i);
+	    	Debug.println("["+i+"] : "+item.getType()+" = "+item.getValue());
+	    }
+	                                            
+	    Debug.println("########################################################################\n");
+    }
+    
     //--- GET HEADER TABLE -------------------------------------------------------------------------
     protected PdfPTable getHeaderTable(TransactionVO transactionVO){
         PdfPTable headerTable = new PdfPTable(10);
@@ -57,6 +73,7 @@ public abstract class PDFGeneralBasic extends PDFBasic {
             cell.setColspan(1);
             cell.setBorder(PdfPCell.BOX);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBorderColor(innerBorderColor);
             cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             headerTable.addCell(cell);
 
@@ -65,6 +82,7 @@ public abstract class PDFGeneralBasic extends PDFBasic {
             cell.setColspan(5);
             cell.setBorder(PdfPCell.BOX);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBorderColor(innerBorderColor);
             cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             headerTable.addCell(cell);
 
@@ -81,17 +99,19 @@ public abstract class PDFGeneralBasic extends PDFBasic {
             cell.setColspan(4);
             cell.setBorder(PdfPCell.BOX);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setBorderColor(innerBorderColor);
             cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             headerTable.addCell(cell);
 
-            // new row : name of user who registered the transaction
+            // name of user who registered the transaction
             cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.user").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
             cell.setColspan(4);
             cell.setBorder(PdfPCell.BOX);
             cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorderColor(innerBorderColor);
             headerTable.addCell(cell);
 
-            String username="?";
+            String username = "?";
             User registeringUser = User.get(transactionVO.user.getUserId().intValue());
             if(registeringUser!=null){
             	username = registeringUser.person.getFullName();
@@ -100,6 +120,7 @@ public abstract class PDFGeneralBasic extends PDFBasic {
             cell.setColspan(6);
             cell.setBorder(PdfPCell.BOX);
             cell.setVerticalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorderColor(innerBorderColor);
             headerTable.addCell(cell);
         }
         catch(Exception e){
@@ -109,53 +130,9 @@ public abstract class PDFGeneralBasic extends PDFBasic {
         return headerTable;
     }
 
-
+    //**********************************************************************************************
     //*** ROWS *************************************************************************************
-
-    protected void addEncounterDiagnosticsRow(PdfPTable table,String encounterUid){
-    	cell=createHeaderCell(getTran("web","diagnostic.codes").toUpperCase(),5);
-    	cell.setBorder(PdfPCell.BOX);
-    	table.addCell(cell);
-    	Vector diagnoses = Diagnosis.selectDiagnoses("", "", encounterUid, "", "", "", "", "", "", "", "", "icd10", "");
-    	if(diagnoses.size()>0){
-            table.addCell(createItemNameCell(getTran("Web.Occup","ICD-10")));
-            PdfPTable table2 = new PdfPTable(3);
-            table2.setWidthPercentage(100);
-    		for(int n=0;n<diagnoses.size();n++){
-    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
-    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("icd10code"+diagnosis.getCode(), sPrintLanguage) ));
-    		}
-    		cell=new PdfPCell(table2);
-    		cell.setColspan(3);
-    		table.addCell(cell);
-    	}
-    	diagnoses = Diagnosis.selectDiagnoses("", "", encounterUid, "", "", "", "", "", "", "", "", "icpc", "");
-    	if(diagnoses.size()>0){
-            table.addCell(createItemNameCell(getTran("Web.Occup","ICPC-2")));
-            PdfPTable table2 = new PdfPTable(3);
-            table2.setWidthPercentage(100);
-    		for(int n=0;n<diagnoses.size();n++){
-    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
-    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("icpccode"+diagnosis.getCode(), sPrintLanguage) ));
-    		}
-    		cell=new PdfPCell(table2);
-    		cell.setColspan(3);
-    		table.addCell(cell);
-    	}
-    	diagnoses = Diagnosis.selectDiagnoses("", "", encounterUid, "", "", "", "", "", "", "", "", "dsm4", "");
-    	if(diagnoses.size()>0){
-            table.addCell(createItemNameCell(getTran("Web.Occup","DSM-4")));
-            PdfPTable table2 = new PdfPTable(3);
-            table2.setWidthPercentage(100);
-    		for(int n=0;n<diagnoses.size();n++){
-    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
-    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("dsm4code"+diagnosis.getCode(), sPrintLanguage) ));
-    		}
-    		cell=new PdfPCell(table2);
-    		cell.setColspan(3);
-    		table.addCell(cell);
-    	}
-    }
+    //**********************************************************************************************
     
     //--- ADD ITEM ROW -----------------------------------------------------------------------------
     protected void addItemRow(PdfPTable table, String itemName, String itemValue){
@@ -184,7 +161,9 @@ public abstract class PDFGeneralBasic extends PDFBasic {
     }
 
 
+    //**********************************************************************************************
     //*** CELLS ************************************************************************************
+    //**********************************************************************************************
 
     //--- EMPTY CELL -------------------------------------------------------------------------------
     protected PdfPCell emptyCell(int colspan){
@@ -317,15 +296,18 @@ public abstract class PDFGeneralBasic extends PDFBasic {
     protected PdfPCell createBorderlessCell(int colspan){
         cell = new PdfPCell();
         cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.TOP+PdfPCell.BOTTOM); //
+        cell.setBorder(PdfPCell.NO_BORDER); //
+        //was : cell.setBorder(PdfPCell.TOP+PdfPCell.BOTTOM); //
         cell.setBorderColor(innerBorderColor);
 
         return cell;
     }
 
 
+    //*********************************************************************************************
     //*** COLOR CELLS *****************************************************************************
-
+    //*********************************************************************************************
+    
     //--- CREATE GREEN CELL -----------------------------------------------------------------------
     protected PdfPCell createGreenCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
@@ -376,6 +358,10 @@ public abstract class PDFGeneralBasic extends PDFBasic {
     protected PdfPCell createGreyCell(String value){
         return createGreyCell(value,1);
     }
+    
+    //**********************************************************************************************
+    //*** VARIA ************************************************************************************
+    //**********************************************************************************************
 
     //--- GET PROVIDER NAME FROM CODE -------------------------------------------------------------
     // used in : PDFLabRequest, PDFMedicalImagingRequest, PDFOtherRequests
@@ -402,7 +388,7 @@ public abstract class PDFGeneralBasic extends PDFBasic {
         return name;
     }
 
-    //--- GET ITEM TYPE ---------------------------------------------------------------------------
+    //--- GET ITEM SERIES VALUE -------------------------------------------------------------------
     protected String getItemSeriesValue(String sItemType){
         return getItemSeriesValue(transactionVO,sItemType);
     }
@@ -422,6 +408,55 @@ public abstract class PDFGeneralBasic extends PDFBasic {
         }
 
         return sBuffer.toString();
+    }
+
+    //--- ADD ENCOUNTER DIAGNOSTICS ROW -----------------------------------------------------------
+    protected void addEncounterDiagnosticsRow(PdfPTable table, String encounterUid){
+    	cell=createHeaderCell(getTran("web","diagnostic.codes").toUpperCase(),5);
+    	cell.setBorder(PdfPCell.BOX);
+    	table.addCell(cell);
+    	
+    	Vector diagnoses = Diagnosis.selectDiagnoses("","",encounterUid,"","","","","","","","","icd10","");
+    	if(diagnoses.size()>0){
+            table.addCell(createItemNameCell(getTran("Web.Occup","ICD-10")));
+            PdfPTable table2 = new PdfPTable(3);
+            table2.setWidthPercentage(100);
+    		for(int n=0;n<diagnoses.size();n++){
+    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
+    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("icd10code"+diagnosis.getCode(),sPrintLanguage) ));
+    		}
+    		cell=new PdfPCell(table2);
+    		cell.setColspan(3);
+    		table.addCell(cell);
+    	}
+    	
+    	diagnoses = Diagnosis.selectDiagnoses("","",encounterUid,"","","","","","","","","icpc","");
+    	if(diagnoses.size()>0){
+            table.addCell(createItemNameCell(getTran("Web.Occup","ICPC-2")));
+            PdfPTable table2 = new PdfPTable(3);
+            table2.setWidthPercentage(100);
+    		for(int n=0;n<diagnoses.size();n++){
+    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
+    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("icpccode"+diagnosis.getCode(),sPrintLanguage) ));
+    		}
+    		cell=new PdfPCell(table2);
+    		cell.setColspan(3);
+    		table.addCell(cell);
+    	}
+    	
+    	diagnoses = Diagnosis.selectDiagnoses("","",encounterUid,"","","","","","","","","dsm4","");
+    	if(diagnoses.size()>0){
+            table.addCell(createItemNameCell(getTran("Web.Occup","DSM-4")));
+            PdfPTable table2 = new PdfPTable(3);
+            table2.setWidthPercentage(100);
+    		for(int n=0;n<diagnoses.size();n++){
+    			Diagnosis diagnosis = (Diagnosis)diagnoses.elementAt(n);
+    			table2.addCell(createValueCell(diagnosis.getCode()+": "+MedwanQuery.getInstance().getCodeTran("dsm4code"+diagnosis.getCode(),sPrintLanguage) ));
+    		}
+    		cell=new PdfPCell(table2);
+    		cell.setColspan(3);
+    		table.addCell(cell);
+    	}
     }
     
     //--- PRINT (1) -------------------------------------------------------------------------------
