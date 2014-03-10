@@ -26,17 +26,15 @@ import java.util.Enumeration;
 import java.text.DecimalFormat;
 import java.net.URL;
 
-/**
- * User: stijn smets
- * Date: 21-nov-2006
- */
 public class PDFPatientCardGenerator extends PDFOfficialBasic {
 
     // declarations
     private final int pageWidth = 100;
-    PdfWriter docWriter=null;
+    PdfWriter docWriter = null;
+    
     public void addHeader(){
     }
+    
     public void addContent(){
     }
 
@@ -105,8 +103,7 @@ public class PDFPatientCardGenerator extends PDFOfficialBasic {
             table = new PdfPTable(4);
             table.setWidthPercentage(pageWidth);
             //Logo
-            
-            Image image =Image.getInstance(new URL(url+projectDir+"/_img/logo_patientcard.gif"));
+            Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_patientcard.gif"));
             image.scaleToFit(60*200/254,72);
             cell = new PdfPCell(image);
             cell.setBorder(PdfPCell.NO_BORDER);
