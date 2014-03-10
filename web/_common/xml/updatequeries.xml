@@ -202,7 +202,15 @@
   	</Query>	
   	<Query id='QUERY.en-icd10-quotes-nl' db='openclinic' date='03/12/2013' dbserver='Microsoft SQL Server'>
 	  	update ICD10 set labelnl=replace(labelnl,'\'+CHAR(39),'`') where labelnl like '%\'+CHAR(39)+'%'
-  	</Query>	
+  	</Query>		
+  	<Query id='QUERY.insert.record.ItemViewList.1' db='openclinic' date='18/02/2014' dbserver='Microsoft SQL Server'>
+  	    insert into ItemViewList (itemType,label,context1,context2,context3,priority,showValue)
+         values ('ITEM_TYPE_BRONCHOSCOPY_PROTOCOL_MOTIVE','be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BRONCHOSCOPY_PROTOCOL_MOTIVE',null,null,null,100,1)
+    </Query>	
+  	<Query id='QUERY.insert.record.ItemViewList.2' db='openclinic' date='18/02/2014' dbserver='Microsoft SQL Server'>
+  	    insert into ItemViewList (itemType,label,context1,context2,context3,priority,showValue)
+         values ('ITEM_TYPE_BRONCHOSCOPY_PROTOCOL_ENDOSCOPY_TYPE','be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BRONCHOSCOPY_PROTOCOL_ENDOSCOPY_TYPE',null,null,null,101,1)
+    </Query>	
   	<Query id='QUERY.fr-icd10-labels-fr' db='openclinic' date='09/01/2014' dbserver='Microsoft SQL Server'>
 	  	update icd10 set labelfr=upper('MALADIES DES NERFS, RACINES ET PLEXUS NERVEUX') where code='06g';
   	</Query>	
@@ -222,4 +230,5 @@
 		update icd10 set labelfr=upper('MALADIES DE JONCTION NEUROMUSCULAIRE ET MUSCLES') where code='06i';
   	</Query>	
   	
+>>>>>>> .r1006
 </Queries>
