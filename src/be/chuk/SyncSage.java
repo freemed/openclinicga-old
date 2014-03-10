@@ -11,11 +11,8 @@ public class SyncSage {
     public static void main(String[] args){
     	try {
 			PrimroseLoader.load(args[0], true);
-		} catch (GeneralException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}
+    	catch (Exception e) {
 			e.printStackTrace();
 		}
         Sage.synchronizeInsurars();

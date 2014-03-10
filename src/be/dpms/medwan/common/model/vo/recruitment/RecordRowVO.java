@@ -2,12 +2,6 @@ package be.dpms.medwan.common.model.vo.recruitment;
 
 import java.io.Serializable;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Michaël
- * Date: 30-sept.-2003
- * Time: 16:36:00
- */
 public class RecordRowVO implements Serializable {
     private final int indent;
     private final int labelWidth;

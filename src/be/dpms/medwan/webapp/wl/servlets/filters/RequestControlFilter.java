@@ -129,23 +129,19 @@ public class RequestControlFilter implements Filter
     HttpSession session = httpRequest.getSession();
 
     // if this request is excluded from the filter, then just process it
-    if( !isFilteredRequest( httpRequest ) )
-    {
-        if(Debug.enabled) Debug.println(httpRequest.getRequestURI()+" excluded from filter");
+    if( !isFilteredRequest( httpRequest ) ){
+        Debug.println(httpRequest.getRequestURI()+" excluded from filter");
       chain.doFilter( request, response );
       return;
     }
 
-    synchronized( getSynchronizationObject( session ) )
-    {
+    synchronized( getSynchronizationObject( session ) ){
       // if another request is being processed, then wait
-      if( isRequestInProcess( session ) )
-      {
-          if(Debug.enabled) Debug.println(httpRequest.getRequestURI()+" queued");
+      if( isRequestInProcess( session ) ){
+          Debug.println(httpRequest.getRequestURI()+" queued");
         // Put this request in the queue and wait
         enqueueRequest( httpRequest );
-        if( !waitForRelease( httpRequest ) )
-        {
+        if( !waitForRelease( httpRequest ) ){
           // this request was replaced in the queue by another request,
           // so it need not be processed
           return;
@@ -158,12 +154,10 @@ public class RequestControlFilter implements Filter
 
     // process this request, and then release the session lock regardless of
     // any exceptions thrown farther down the chain.
-    try
-    {
+    try{
       chain.doFilter( request, response );
     }
-    finally
-    {
+    finally{
       releaseQueuedRequest( httpRequest );
     }
   }
@@ -178,8 +172,7 @@ public class RequestControlFilter implements Filter
     // get the object from the session.  If it does not yet exist,
     // then create one.
     Object syncObj = session.getAttribute( SYNC_OBJECT_KEY );
-    if( syncObj == null )
-    {
+    if( syncObj == null ){
       syncObj = new Object();
       session.setAttribute( SYNC_OBJECT_KEY, syncObj );
     }
@@ -192,8 +185,7 @@ public class RequestControlFilter implements Filter
    *
    * @param request
    */
-  private void setRequestInProgress(HttpServletRequest request)
-  {
+  private void setRequestInProgress(HttpServletRequest request){
     HttpSession session = request.getSession();
     session.setAttribute( REQUEST_IN_PROCESS, request );
   }
@@ -204,8 +196,7 @@ public class RequestControlFilter implements Filter
    *
    * @param request   The request that just finished
    */
-  private void releaseQueuedRequest( HttpServletRequest request )
-  {
+  private void releaseQueuedRequest( HttpServletRequest request ){
     HttpSession session;
 
     try{

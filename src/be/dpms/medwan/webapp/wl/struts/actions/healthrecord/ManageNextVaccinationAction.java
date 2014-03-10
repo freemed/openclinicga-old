@@ -20,28 +20,20 @@ import be.mxs.common.model.vo.IdentifierFactory;
 import be.mxs.common.model.util.collections.BeanPropertyAccessor;
 import be.mxs.common.util.db.MedwanQuery;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Michaël
- * Date: 02-avr.-2003
- */
 public class ManageNextVaccinationAction extends org.apache.struts.action.Action {
 
     private class DummyTransactionFactory extends TransactionFactory{
-
         public TransactionVO createTransactionVO(UserVO userVO) {
             return null;
         }
     }
-    //public static Logger logger = Logger.getLogger(ManageNextVaccinationAction.class);
-
+    
     public ActionForward perform(ActionMapping mapping,
                                        ActionForm form,
                                        HttpServletRequest request,
                                        HttpServletResponse response)
         throws IOException, ServletException {
 
-        // By default our action should be successfull...
         ActionForward actionForward = mapping.findForward( "success" );
         SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -288,14 +280,11 @@ public class ManageNextVaccinationAction extends org.apache.struts.action.Action
                 sessionContainerWO.setCurrentVaccinationInfoVO(vaccinationInfoVO);
                 sessionContainerWO.setCurrentTransactionVO(vaccinationInfoVO.getTransactionVO());
             }
-
-        } catch (SessionContainerFactoryException e) {
-            actionForward = mapping.findForward( "failure" );
-        } catch (InternalServiceException e) {
+        } 
+        catch (Exception e) {
             actionForward = mapping.findForward( "failure" );
         }
 
-        //Debug.println(this.getClass().getName()+".perform() - END");
         return actionForward;
     }
 }

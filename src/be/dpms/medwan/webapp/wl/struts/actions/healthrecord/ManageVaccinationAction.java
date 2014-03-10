@@ -22,47 +22,42 @@ import be.mxs.common.model.vo.IdentifierFactory;
 import be.mxs.common.model.util.collections.BeanPropertyAccessor;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
 
 public class ManageVaccinationAction extends org.apache.struts.action.Action {
 
     private class DummyTransactionFactory extends TransactionFactory{
-
         public TransactionVO createTransactionVO(UserVO userVO) {
             return null;
         }
     }
 
-    public ActionForward perform(ActionMapping mapping,
-                                       ActionForm form,
-                                       HttpServletRequest request,
-                                       HttpServletResponse response)
+    //--- PERFORM ---------------------------------------------------------------------------------
+    public ActionForward perform(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
 
-        // By default our action should be successfull...
-        ActionForward actionForward = mapping.findForward( "success" );
+        ActionForward actionForward = mapping.findForward("success");
         VaccinationInfoVO vaccinationInfoVO = null;
         PersonalVaccinationsInfoVO personalVaccinationsInfoVO = null;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        try {
+        try{
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName() );
             String _param_vaccinationMessageKey = null;
 
-            String _param_transactionId = request.getParameter("be.mxs.healthrecord.transaction_id");
-            String _param_serverId = request.getParameter("be.mxs.healthrecord.server_id");
+            String sTransactionId = ScreenHelper.checkString(request.getParameter("be.mxs.healthrecord.transaction_id")),
+                   sServerId      = ScreenHelper.checkString(request.getParameter("be.mxs.healthrecord.server_id"));            
 
-            if ((_param_transactionId != null) && (!_param_transactionId.equals("null"))){
-
+            // id = serverid and transactionid
+            if(sTransactionId.length() > 0 && !sTransactionId.equals("null")){
                 TransactionVO existingTransactionVO;
-                try {
-                    //Debug.println("looking for Transaction (vaccination) with transactionId="+_param_transactionId+" and serverId="+_param_serverId);
-                    existingTransactionVO = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(_param_serverId),Integer.parseInt(_param_transactionId));
+                try{
+                    existingTransactionVO = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(sServerId),Integer.parseInt(sTransactionId));
 
                     Iterator iItems = existingTransactionVO.getItems().iterator();
                     ItemVO item;
-                    while (iItems.hasNext()){
+                    while(iItems.hasNext()){
                         item = (ItemVO)iItems.next();
-                        if (item.getType().equals(be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE)){
+                        if(item.getType().equals(be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE)){
                             _param_vaccinationMessageKey = item.getValue();
                             break;
                         }
@@ -71,7 +66,7 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
 
                     personalVaccinationsInfoVO = sessionContainerWO.getPersonalVaccinationsInfoVO();
 
-                    if (personalVaccinationsInfoVO == null && sessionContainerWO.getPersonVO()!=null) {
+                    if(personalVaccinationsInfoVO == null && sessionContainerWO.getPersonVO()!=null) {
                         personalVaccinationsInfoVO = MedwanQuery.getInstance().getPersonalVaccinationsInfo( sessionContainerWO.getPersonVO(),sessionContainerWO.getUserVO() );
                     }
 
@@ -79,7 +74,7 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
                     VaccinationInfoVO _vaccinationInfoVO;
                     String vaccinationType;
 
-                    while (iVaccinationsInfoVO.hasNext()) {
+                    while(iVaccinationsInfoVO.hasNext()) {
                         _vaccinationInfoVO = (VaccinationInfoVO) iVaccinationsInfoVO.next();
                         vaccinationType = null;
 
@@ -88,8 +83,10 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
                                                                                                      "transactionVO.items",
                                                                                                      "value",
                                                                                                      "type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE");
-                        } catch (Exception e) { e.printStackTrace();}
-
+                        }
+                        catch (Exception e) {
+                        	e.printStackTrace();
+                        }
 
                         if ((vaccinationType != null) && (vaccinationType.equals(_param_vaccinationMessageKey)) ) {
                             vaccinationInfoVO = _vaccinationInfoVO;
@@ -98,18 +95,17 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
                     }
 
                     vaccinationInfoVO.setTransactionVO(existingTransactionVO);
-                } catch (Exception e) {
-                    //
+                } 
+                catch (Exception e) {
+                	//
                 }
-
             }
-            else {
-                _param_vaccinationMessageKey = request.getParameter("vaccination");
+            // id = vaccinationMessageKey-parameter
+            else{
+                _param_vaccinationMessageKey = request.getParameter("vaccination");                
 
                 personalVaccinationsInfoVO = sessionContainerWO.getPersonalVaccinationsInfoVO();
-
-                if (personalVaccinationsInfoVO == null && sessionContainerWO.getPersonVO()!=null) {
-
+                if(personalVaccinationsInfoVO == null && sessionContainerWO.getPersonVO()!=null) {
                     personalVaccinationsInfoVO = MedwanQuery.getInstance().getPersonalVaccinationsInfo( sessionContainerWO.getPersonVO(),sessionContainerWO.getUserVO() );
                 }
 
@@ -118,21 +114,20 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
                 String vaccinationType;
 
                 while (iVaccinationsInfoVO.hasNext()) {
-
                     _vaccinationInfoVO = (VaccinationInfoVO) iVaccinationsInfoVO.next();
-
                     vaccinationType = null;
 
-                    try {
+                    try{
                         vaccinationType = (String) BeanPropertyAccessor.getInstance().getValue(  _vaccinationInfoVO,
                                                                                                  "transactionVO.items",
                                                                                                  "value",
                                                                                                  "type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE");
-                    } catch (Exception e) { e.printStackTrace();}
-
+                    }
+                    catch (Exception e) {
+                    	e.printStackTrace();
+                    }
 
                     if ((vaccinationType != null) && !vaccinationType.equals("be.mxs.healthrecord.vaccination.Other") && (vaccinationType.equals(_param_vaccinationMessageKey)) ) {
-
                         vaccinationInfoVO = _vaccinationInfoVO;
                         break;
                     }
@@ -140,8 +135,7 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
             }
 
             if (vaccinationInfoVO == null) {
-
-                if (Debug.enabled) Debug.println("VaccinationInfo is null");
+                Debug.println("VaccinationInfo is null");
                 Iterator iOtherVaccinations = personalVaccinationsInfoVO.getOtherVaccinations().iterator();
 
                 ExaminationVO examinationVO;
@@ -151,10 +145,10 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
 
                 while (iOtherVaccinations.hasNext()) {
                     examinationVO = (ExaminationVO) iOtherVaccinations.next();
-                    if (Debug.enabled) Debug.println("Validating vaccination "+examinationVO.getMessageKey()+" against "+_param_vaccinationMessageKey);
+                    Debug.println("Validating vaccination "+examinationVO.getMessageKey()+" against "+_param_vaccinationMessageKey);
 
                     if (examinationVO.getMessageKey().equalsIgnoreCase(_param_vaccinationMessageKey)) {
-                        if (Debug.enabled) Debug.println("Found "+examinationVO.getMessageKey());
+                        Debug.println("Found "+examinationVO.getMessageKey());
 
                         itemsVO = new Vector();
                         itemContextVO = null;
@@ -195,21 +189,21 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
 
                         itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
                                                                           IConstants.ITEM_TYPE_VACCINATION_DATE,
-                                                                          stdDateFormat.format(new Date()),
+                                                                          ScreenHelper.stdDateFormat.format(new Date()),
                                                                           new Date(),
                                                                           itemContextVO));
 
                         itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
-                                "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PREGNANT",
-                                "",
-                                new Date(),
-                                itemContextVO));
+					                                "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PREGNANT",
+					                                "",
+					                                new Date(),
+					                                itemContextVO));
 
                         itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
-                                IConstants.ITEM_TYPE_RESULTRECEIVED,
-                                "",
-                                new Date(),
-                                itemContextVO));
+					                                IConstants.ITEM_TYPE_RESULTRECEIVED,
+					                                "",
+					                                new Date(),
+					                                itemContextVO));
 
                         itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
                                                                         IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_ACTION,
@@ -229,15 +223,16 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
                         while (i.hasNext()){
                             item = (ItemVO)i.next();
                             if(item.getType().equalsIgnoreCase(IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)){
-                                item.setValue(stdDateFormat.format(new Date(new Date().getTime()+vaccinationInfoVO.getNextMinInterval()*24*60*60*1000)));
+                                item.setValue(ScreenHelper.stdDateFormat.format(new Date(new Date().getTime()+vaccinationInfoVO.getNextMinInterval()*24*60*60*1000)));
                                 bNextDateExists=true;
                                 break;
                             }
                         }
+                        
                         if (!bNextDateExists){
                             itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
                                                                         IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE,
-                                                                        stdDateFormat.format(new Date(new Date().getTime()+vaccinationInfoVO.getNextMinInterval()*24*60*60*1000)),
+                                                                        ScreenHelper.stdDateFormat.format(new Date(new Date().getTime()+vaccinationInfoVO.getNextMinInterval()*24*60*60*1000)),
                                                                         new Date(),
                                                                         itemContextVO));
                         }
@@ -248,7 +243,7 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
                 }
             }
             else {
-                if (Debug.enabled) Debug.println("VaccinationInfo is not null");
+                Debug.println("VaccinationInfo is not null");
                 Collection itemsVO = new Vector();
 
                 Iterator iterator = vaccinationInfoVO.getTransactionVO().getItems().iterator();
@@ -308,10 +303,10 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
                                                         itemContextVO));
 
                 items.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
-                        "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PREGNANT",
-                        "",
-                        new Date(),
-                        itemContextVO));
+								                        "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PREGNANT",
+								                        "",
+								                        new Date(),
+								                        itemContextVO));
 
                 items.add( new ItemVO(     new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
                                                         IConstants.ITEM_TYPE_COMMENT,
@@ -320,25 +315,25 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
                                                         itemContextVO));
 
                 itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
-                                                                IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION,
-                                                                "",
-                                                                new Date(),
-                                                                itemContextVO));
+                                                        IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION,
+                                                        "",
+                                                        new Date(),
+                                                        itemContextVO));
 
                 itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
-                                                                IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_ACTION,
-                                                                "",
-                                                                new Date(),
-                                                                itemContextVO));
+                                                        IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_ACTION,
+                                                        "",
+                                                        new Date(),
+                                                        itemContextVO));
 
                 itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
-                                                                IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_PRODUCT,
-                                                                "",
-                                                                new Date(),
-                                                                itemContextVO));
+                                                        IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_PRODUCT,
+                                                        "",
+                                                        new Date(),
+                                                        itemContextVO));
 
 
-                TransactionVO baseTransactionVO = new TransactionVO(    vaccinationInfoVO.getTransactionVO().getTransactionId(),
+                TransactionVO baseTransactionVO = new TransactionVO(vaccinationInfoVO.getTransactionVO().getTransactionId(),
                                                                     IConstants.TRANSACTION_TYPE_VACCINATION,
                                                                     new Date(),
                                                                     new Date(),
@@ -372,4 +367,5 @@ public class ManageVaccinationAction extends org.apache.struts.action.Action {
 
         return actionForward;
     }
+    
 }

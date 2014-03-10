@@ -14,37 +14,29 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.webapp.wl.session.SessionContainerFactory;
 import be.mxs.webapp.wl.exceptions.SessionContainerFactoryException;
 
-/**
- * Created by IntelliJ IDEA.
- * User: frank
- * Date: 13-okt-2003
- * Time: 17:37:50
- */
 public class ManagePrintHistoryAction extends org.apache.struts.action.Action {
 
+	//--- PERFORM ---------------------------------------------------------------------------------
     public ActionForward perform(ActionMapping mapping,
-                                       ActionForm form,
-                                       HttpServletRequest request,
-                                       HttpServletResponse response)
+                                 ActionForm form,
+                                 HttpServletRequest request,
+                                 HttpServletResponse response)
         throws IOException, ServletException {
 
-        // By default our action should be successfull...
-        ActionForward actionForward = mapping.findForward( "success" );
+        ActionForward actionForward = mapping.findForward("success");
 
         SessionContainerWO sessionContainerWO;
         String transactionType = request.getParameter("transactionType");
 
-        try {
-
-            sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName() );
+        try{
+            sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
             sessionContainerWO.setFullRecord(MedwanQuery.getInstance().getHistory(sessionContainerWO.getHealthRecordVO().getHealthRecordId().intValue(),transactionType));
-
-        } catch (SessionContainerFactoryException e) {
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
 
         return actionForward;
     }
+    
 }

@@ -32,9 +32,6 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                                        HttpServletResponse response)
         throws IOException, ServletException {
 
-        //Debug.println(this.getClass().getName()+".perform() - START");
-
-        // By default our action should be successfull...
         ActionForward actionForward = mapping.findForward( "success" );
 
         try {
@@ -69,9 +66,7 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                     personid="-1";
                 }
             }
-
-            //Debug.println("personid="+personid);
-
+            
             PersonVO personVO = sessionContainerWO.verifyPerson(personid);
             HealthRecordVO healthRecordVO = sessionContainerWO.verifyHealthRecord("be.mxs.healthrecord.transactionVO.date");
 
@@ -80,9 +75,6 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                 sessionContainerWO.setRiskProfileVerifiedExaminations(null);
                 sessionContainerWO.setRiskProfileVO(null);
 
-
-                //Debug.println("1:"+new Date());
-                //PersonalVaccinationsInfoVO personalVaccinationsInfoVO = ServiceFactory.getInstance().getHealthRecordService().findPersonalVaccinationsInfo(personVO);
                 PersonalVaccinationsInfoVO personalVaccinationsInfoVO = sessionContainerWO.getPersonalVaccinationsInfoVO();
                 if (sessionContainerWO.getPersonalVaccinationsInfoVO()==null && sessionContainerWO.getPersonVO()!=null){
                     personalVaccinationsInfoVO = MedwanQuery.getInstance().getPersonalVaccinationsInfo( sessionContainerWO.getPersonVO(),sessionContainerWO.getUserVO());
@@ -92,7 +84,6 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                     personalVaccinationsInfoVO = MedwanQuery.getInstance().getPersonalVaccinationsInfo( sessionContainerWO.getPersonVO(),sessionContainerWO.getUserVO() );
                     sessionContainerWO.setPersonalVaccinationsInfoVO( personalVaccinationsInfoVO );
                 }
-                //Debug.println("2:"+new Date());
 
                 FlagsVO flagsVO = new FlagsVO();
 
@@ -113,7 +104,6 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                 }
                 flagsVO.setDepartment(_param_activeDepartment);
                 flagsVO.setContext(_param_activeContext);
-
                 //END SET CONTEXT DATA
 
                 float age = MedwanQuery.getInstance().getAgeDecimal(sessionContainerWO.getPersonVO().getPersonId().intValue());
@@ -121,10 +111,7 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                 sessionContainerWO.setFlags(flagsVO);
 
                 RiskProfileVO riskProfileVO = sessionContainerWO.getRiskProfileVO();
-                //Debug.println("6:"+new Date());
-
                 if ( riskProfileVO == null) {
-
                     riskProfileVO = MedwanQuery.getInstance().getRiskProfileVO(new Long(personVO.getPersonId().longValue()),sessionContainerWO);
                     Iterator iRiskCodes = riskProfileVO.getRiskCodes().iterator();
                     Vector riskCodesVO = new Vector();
@@ -149,6 +136,7 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                     if (flagsVO.getLastDrivingCertificate()!=null)
                         flagsVO.getLastDrivingCertificate().setNewExaminationDue("medwan.common.unknown");
                 }
+                
                 //Check if vaccinations are to be given
                 flagsVO.setOveralVaccinationStatus(new VaccinationInfoVO().getGreenCode());
                 Iterator vaccinations = personalVaccinationsInfoVO.getVaccinationsInfoVO().iterator();
@@ -170,12 +158,10 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                     }
                 }
 
-                //Debug.println("riskProfileVO = " + riskProfileVO);
                 Miscelaneous.setLastItems(sessionContainerWO);
 
                 if (sessionContainerWO.getRiskProfileVerifiedExaminations()==null){
                     Collection allExaminations = MedwanQuery.getInstance().getAllExaminations(sessionContainerWO.getUserVO().personVO.language);
-                    //Debug.println("7:"+new Date());
 
                     Collection otherExaminations = new Vector();
                     Collection verifiedExaminations = new Vector();
@@ -247,15 +233,14 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                                     verifiedExaminationVO.setNewExaminationDue("medwan.common.true");
                                 }
                                 verifiedExaminations.add(verifiedExaminationVO);
-                                break;                                                               }
+                                break;                                
+                            }
                         }
 
                         if (bFound == false) {
                             otherExaminations.add( examinationVO );
                         }
-
                     }
-                    //Debug.println("8:"+new Date());
 
                     sessionContainerWO.setRiskProfileOtherExaminations( otherExaminations );
                     sessionContainerWO.setRiskProfileVerifiedExaminations( verifiedExaminations );
@@ -265,12 +250,12 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
         } catch (SessionContainerFactoryException e) {
             e.printStackTrace();
             actionForward = mapping.findForward( "failure" );
-        } catch (ParseException e) {
+        } 
+        catch (ParseException e) {
             e.printStackTrace();
         }
 
-        //Debug.println(this.getClass().getName()+".perform() - END");
-
         return actionForward;
     }
+    
 }
