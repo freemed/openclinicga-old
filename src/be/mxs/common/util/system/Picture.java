@@ -12,111 +12,180 @@ public class Picture {
     private int personid;
     private byte[] picture;
 
-    public int getPersonid() {
-        return personid;
-    }
 
-    public void setPersonid(int personid) {
-        this.personid = personid;
-    }
-
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
-
-
-    public Picture() {
+    //--- CONSTRUCTOR (1) -------------------------------------------------------------------------
+    public Picture(){
         personid = 0;
         picture = null;
     }
 
-    public Image getImage(){
-        if(picture==null){
-            return null;
+    //--- CONSTRUCTOR (2) ---------------------------------------------------------------------------
+    public Picture(int personid){
+        this.personid = personid;
+    	
+    	Connection oc_conn = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+        
+        try{
+            oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	ps = oc_conn.prepareStatement("select picture from OC_PERSON_PICTURES where personid = ?");
+            ps.setInt(1,personid);
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
+                picture = rs.getBytes("picture");
+            }
         }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(oc_conn!=null) oc_conn.close();
+            }
+            catch(Exception e){
+            	e.printStackTrace();
+            }
+        }
+    }
+
+    //--- PERSONID --------------------------------------------------------------------------------
+    public int getPersonid(){
+        return personid;
+    }
+
+    public void setPersonid(int personid){
+        this.personid = personid;
+    }
+
+    //--- PICTURE ---------------------------------------------------------------------------------
+    public byte[] getPicture(){
+        return picture;
+    }
+
+    public void setPicture(byte[] picture){
+        this.picture = picture;
+    }
+    
+    //--- GET IMAGE -------------------------------------------------------------------------------
+    public Image getImage(){
+        if(picture==null) return null;
+        
         Image image = null;
         try{
-            image=Image.getInstance(picture);
+            image = Image.getInstance(picture);
         }
         catch(Exception e){
             e.printStackTrace();
         }
+        
         return image;
     }
 
-    public Picture(int personid) {
-        this.personid = personid;
-        try {
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        	PreparedStatement ps = oc_conn.prepareStatement("select * from OC_PERSON_PICTURES where personid=?");
-            ps.setInt(1,personid);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                picture=rs.getBytes("picture");
-            }
-            rs.close();
-            ps.close();
-            oc_conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    //--- STORE -----------------------------------------------------------------------------------
     public boolean store(){
-        try {
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-            PreparedStatement ps = oc_conn.prepareStatement("delete from OC_PERSON_PICTURES where personid=?");
+    	boolean stored = false;
+    	
+    	Connection oc_conn = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	
+        try{
+        	// "replace"
+            oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            ps = oc_conn.prepareStatement("delete from OC_PERSON_PICTURES where personid = ?");
             ps.setInt(1,personid);
             ps.executeUpdate();
             ps.close();
+            
             ps = oc_conn.prepareStatement("insert into OC_PERSON_PICTURES(personid,picture) values(?,?)");
             ps.setInt(1,personid);
             ps.setBytes(2,picture);
             ps.executeUpdate();
-            ps.close();
-            oc_conn.close();
-            return true;
-        } catch (SQLException e) {
+            
+            stored = true;
+        }
+        catch(SQLException e){
             e.printStackTrace();
         }
-        return false;
-    }
-
-    public static boolean exists(int personid){
-        boolean result=false;
-        try {
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-            PreparedStatement ps = oc_conn.prepareStatement("select personid from OC_PERSON_PICTURES where personid=?");
-            ps.setInt(1,personid);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                result=true;
+        finally{
+            try{
+                if(ps!=null) ps.close();
+                if(oc_conn!=null) oc_conn.close();
             }
-            rs.close();
-            ps.close();
-            oc_conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            catch(Exception e){
+            	e.printStackTrace();
+            }
         }
-        return result;
+        
+        return stored;
     }
 
+    //--- EXISTS ----------------------------------------------------------------------------------
+    public static boolean exists(int personid){
+    	boolean exists = false;
+
+    	Connection oc_conn = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	
+        try{
+            oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            ps = oc_conn.prepareStatement("select 1 from OC_PERSON_PICTURES where personid = ?");
+            ps.setInt(1,personid);
+            rs = ps.executeQuery();
+            
+            if(rs.next()) exists = true;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(oc_conn!=null) oc_conn.close();
+            }
+            catch(Exception e){
+            	e.printStackTrace();
+            }
+        }
+        
+        return exists;
+    }
+
+    //--- DELETE ----------------------------------------------------------------------------------
     public boolean delete(){
-        try {
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-            PreparedStatement ps = oc_conn.prepareStatement("delete from OC_PERSON_PICTURES where personid=?");
+    	boolean deleted = false;
+
+    	Connection oc_conn = null;
+    	PreparedStatement ps = null;
+    	
+        try{
+        	oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            ps = oc_conn.prepareStatement("delete from OC_PERSON_PICTURES where personid = ?");
             ps.setInt(1,personid);
             ps.executeUpdate();
-            ps.close();
-            oc_conn.close();
-            return true;
-        } catch (SQLException e) {
+            
+            deleted = true;
+        }
+        catch(SQLException e){
             e.printStackTrace();
         }
-        return false;
+        finally{
+            try{
+                if(ps!=null) ps.close();
+                if(oc_conn!=null) oc_conn.close();
+            }
+            catch(Exception e){
+            	e.printStackTrace();
+            }
+        }
+        
+        return deleted;
     }
+    
 }

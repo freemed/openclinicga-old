@@ -18,37 +18,38 @@ import java.text.ParseException;
 import java.net.URL;
 import java.awt.*;
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: Frank
- * Date: 10-jan-2005
- * Time: 9:43:40
- * To change this template use Options | File Templates.
- */
 public class Miscelaneous {
+	
+	//--- PARSE DATE ------------------------------------------------------------------------------
     public static java.util.Date parseDate(String date){
         try {
             return new SimpleDateFormat("dd/MM/yyyy").parse(date);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
         }
         return null;
     }
+    
+    //--- START APPLICATION -----------------------------------------------------------------------
     public static void startApplication(String app,String dir){
         try {
             Runtime.getRuntime().exec(app,null,new File(dir));
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static com.itextpdf.text.Image getImage(String name,String project){
+    //--- GET IMAGE (1) ---------------------------------------------------------------------------
+    public static com.itextpdf.text.Image getImage(String name, String project){
     	com.itextpdf.text.Image image = null;
+    	
         //Try to find the image in the config cache
         String imageSource = MedwanQuery.getInstance().getConfigString("PDFIMG."+name+"."+project);
         if(imageSource!=null && imageSource.length()>0){
             try {
+            	Debug.println("(config cache) imageSource : "+imageSource);
                 image = com.itextpdf.text.Image.getInstance(new URL(imageSource));
                 if(image!=null){
                     return image;
@@ -57,8 +58,10 @@ public class Miscelaneous {
             catch (Exception e){}
         }
         imageSource=MedwanQuery.getInstance().getConfigString("imageSource","http://localhost/openclinic");
+        
         //Try to find the image in the project image directory
         try{
+        	Debug.println("(project image directory) imageSource : "+imageSource+"/projects/"+project+"/_img/"+name);
             image = com.itextpdf.text.Image.getInstance(new URL(imageSource+"/projects/"+project+"/_img/"+name));
             if(image!=null){
                 MedwanQuery.getInstance().setConfigString("PDFIMG."+name+"."+project,imageSource+"/projects/"+project+"/_img/"+name);
@@ -66,8 +69,10 @@ public class Miscelaneous {
             }
         }
         catch (Exception e){}
+        
         //Try to find the image in the default image directory
         try{
+        	Debug.println("(default image directory) imageSource : "+imageSource+"/_img/"+name);
             image = com.itextpdf.text.Image.getInstance(new URL(imageSource+"/_img/"+name));
             if(image!=null){
                 MedwanQuery.getInstance().setConfigString("PDFIMG."+name+"."+project,imageSource+"/_img/"+name);
@@ -75,12 +80,15 @@ public class Miscelaneous {
             }
         }
         catch (Exception e){}
+        
         System.out.println("Could not find image "+name+" for project "+project);
         return image;
     }
 
+    //--- GET IMAGE (2) ---------------------------------------------------------------------------
     public static java.awt.Image getImage(String name){
         java.awt.Image image = null;
+        
         //Try to find the image in the config cache
         String imageSource = MedwanQuery.getInstance().getConfigString("JAVAIMG."+name);
         if(imageSource!=null && imageSource.length()>0){
@@ -91,6 +99,7 @@ public class Miscelaneous {
             catch (Exception e){}
         }
         imageSource=MedwanQuery.getInstance().getConfigString("imageSource","http://localhost/openclinic");
+        
         //Try to find the image in the default image directory
         try{
             image = Toolkit.getDefaultToolkit().getImage(new URL(imageSource+"/_img/"+name));
@@ -98,9 +107,11 @@ public class Miscelaneous {
             return image;
         }
         catch (Exception e){}
+        
         return image;
     }
 
+    //--- SET LAST ITEMS --------------------------------------------------------------------------
     public static void setLastItems(SessionContainerWO sessionContainerWO){
         if (sessionContainerWO.getHealthRecordVO() !=null){
             TransactionVO lastTransaction_biometry = null;
@@ -108,6 +119,7 @@ public class Miscelaneous {
             TransactionVO lastTransaction_audiometry = null;
             TransactionVO lastTransaction_ophtalmologyExamination = null;
             TransactionVO lastTransaction_generalClinicalExamination = null;
+         
             Hashtable lastItems = MedwanQuery.getInstance().getLastItems(sessionContainerWO.getHealthRecordVO().getHealthRecordId().toString());
             try{
                 //Check if Driver Examination report is due
@@ -128,24 +140,20 @@ public class Miscelaneous {
                             sessionContainerWO.getFlags().getLastDrivingCertificate().setNewExaminationDue("medwan.common.false");
                         }
                     }
-                    //Debug.println("4:"+new Date());
+                    
                     //Check if Medical Examination report is to be renewed
                     sessionContainerWO.getFlags().setLastExaminationReport(new VerifiedExaminationVO(-1,sessionContainerWO.getHealthRecordVO().getHealthRecordId().toString(),"","be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MER",sessionContainerWO));
                     sessionContainerWO.getFlags().getLastExaminationReport().setNewExaminationDueDate(new Date());
-                    //ItemVO examinationReportItemVO = MedwanQuery.getInstance().getLastItemVO(sessionContainerWO.getHealthRecordVO().getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_EXPIRATION_DATE");
                     ItemVO examinationReportItemVO=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MER_EXPIRATION_DATE");
                     if (examinationReportItemVO != null && examinationReportItemVO.getValue()!=null && examinationReportItemVO.getValue().length()>=8){
-                        //Debug.println("Report Item Date:" +examinationReportItemVO.getValue());
                         Date dueExaminationReportDate = MedwanCalendar.asDate(examinationReportItemVO.getValue());
                         sessionContainerWO.getFlags().getLastExaminationReport().setNewExaminationDueDate((Date)dueExaminationReportDate.clone());
                         long tolerance = 2*30*24;
                         tolerance = tolerance * 60 * 60 * 1000;
-                        //Debug.println("dueExaminationReportDate="+dueExaminationReportDate);
-                        //Debug.println("MedwanCalendar.getNewDate(dueExaminationReportDate,-tolerance)="+MedwanCalendar.getNewDate(dueExaminationReportDate,-tolerance));
+
                         dueExaminationReportDate = MedwanCalendar.getNewDate(dueExaminationReportDate,-tolerance);
                         if (dueExaminationReportDate.before(new Date())){
                             sessionContainerWO.getFlags().getLastExaminationReport().setNewExaminationDue("medwan.common.true");
-                            //Debug.println("Examination Report Due!!");
                         }
                         else {
                             sessionContainerWO.getFlags().getLastExaminationReport().setNewExaminationDue("medwan.common.false");
@@ -172,7 +180,6 @@ public class Miscelaneous {
                 //Biometrie
                 transaction = lastTransaction_biometry;
                 transactionType = IConstants.TRANSACTION_TYPE_BIOMETRY;
-                //Debug.println("3:"+new Date());
 
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_HEIGHT");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_HEIGHT");
@@ -189,7 +196,6 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-                MedwanQuery.getInstance().out("4");
 
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_WEIGHT");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_WEIGHT");
@@ -207,10 +213,7 @@ public class Miscelaneous {
                     transaction.getItems().add(item);
                 }
 
-                MedwanQuery.getInstance().out("5");
-
-                 sessionContainerWO.setLastTransactionTypeBiometry( transaction );
-
+                sessionContainerWO.setLastTransactionTypeBiometry( transaction );
 
                 //Urine
                 transaction = lastTransaction_urineExamination;
@@ -232,7 +235,6 @@ public class Miscelaneous {
                     transaction.getItems().add(item);
                 }
 
-                MedwanQuery.getInstance().out("6");
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_URINE_GLUCOSE");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_URINE_GLUCOSE");
                 if (item!=null){
@@ -248,7 +250,6 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-                MedwanQuery.getInstance().out("7");
 
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_URINE_BLOOD");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_URINE_BLOOD");
@@ -265,8 +266,6 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-
-                MedwanQuery.getInstance().out("8");
 
                 sessionContainerWO.setLastTransactionTypeUrineExamination( transaction );
 
@@ -307,7 +306,6 @@ public class Miscelaneous {
                 }
 
                 sessionContainerWO.setLastTransactionTypeAudiometry( transaction );
-                MedwanQuery.getInstance().out("9");
 
                 //Visus
                 transaction = lastTransaction_ophtalmologyExamination;
@@ -328,7 +326,6 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-                //Debug.println("-:"+new Date());
 
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_OG_WITHOUT_GLASSES");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_OG_WITHOUT_GLASSES");
@@ -345,7 +342,6 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-                //Debug.println("-:"+new Date());
 
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_OD_WITH_GLASSES");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_OD_WITH_GLASSES");
@@ -362,7 +358,6 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-                //Debug.println("-:"+new Date());
 
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_OG_WITH_GLASSES");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_OG_WITH_GLASSES");
@@ -379,7 +374,6 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-                MedwanQuery.getInstance().out("10");
 
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_WITHOUT_GLASSES");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_WITHOUT_GLASSES");
@@ -396,7 +390,6 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-                MedwanQuery.getInstance().out("11");
 
                 //item = MedwanQuery.getInstance().getLastItemVO(healthRecordVO.getHealthRecordId().toString(),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_WITH_GLASSES");
                 item=(ItemVO)lastItems.get("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_WITH_GLASSES");
@@ -413,11 +406,8 @@ public class Miscelaneous {
                     }
                     transaction.getItems().add(item);
                 }
-                //Debug.println("-:"+new Date());
-
-                 sessionContainerWO.setLastTransactionTypeOphtalmology( transaction );
-
-                MedwanQuery.getInstance().out("12");
+               
+                sessionContainerWO.setLastTransactionTypeOphtalmology( transaction );
 
                 //Clinical Examination
                 transaction = lastTransaction_generalClinicalExamination;
@@ -499,10 +489,10 @@ public class Miscelaneous {
                         break;
                     }
                 }
+                
                 if (!bDriversLicenseDue && sessionContainerWO.getFlags().getLastDrivingCertificate()!=null){
                     sessionContainerWO.getFlags().getLastDrivingCertificate().setNewExaminationDue("medwan.common.unknown");
                 }
-
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -510,26 +500,14 @@ public class Miscelaneous {
         }
     }
 
-    /** <code>DAY_DIFF</code> - Used for day diff */
     public static final int DAY_DIFF = 0;
-    /** <code>MONTH_DIFF</code> - Used for month diff */
     public static final int MONTH_DIFF = 1;
-    /** <code>YEAR_DIFF</code> - Used for year diff */
     public static final int YEAR_DIFF = 2;
-    /** <code>YEAR_DIFF</code> - Used for milliseconds diff */
     public static final int MILLI_DIFF = 3;
-    /** <code>YEAR_DIFF</code> - Used for seconds diff */
     public static final int SEC_DIFF = 4;
 
     /**
-     * This emulates the VB DateDiff function.
-     *
-     * <pre>
-     *
-     * Usage :
      * DateUtil.datediff(DateUtil.DAY_DIFF, date1, date2);
-     * <pre>
-     *
      * @param pintType The type of diff you want. It supports SECS/MILLI/DAYS/MONTHS and YEAR_DIFF
      * @param pdatValue1 The first day to substract from
      * @param pdatValue2 And the leaser date (Hopefully)
@@ -548,7 +526,6 @@ public class Miscelaneous {
         }
 
         switch (pintType) {
-
             case MILLI_DIFF:
                 datediff = pdatValue1.getTime() - pdatValue2.getTime();
                 break;

@@ -85,7 +85,6 @@ public class UpdateSystem {
 
 			Element table;
 			String sMessage = "";
-		    //if(Debug.enabled) Debug.println("1");
 		    String sOwnServerId = MedwanQuery.getInstance().getConfigString("serverId");
 		    Element versionColumn = null;
 		    Connection connectionCheck = null;
