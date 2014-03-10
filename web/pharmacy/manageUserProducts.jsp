@@ -14,7 +14,7 @@
     private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
         StringBuffer html = new StringBuffer();
         String sClass = "1", sUnit = "", sUnitPrice = "", sSupplierUid, sSupplierName = "",
-                sProductGroup = "", sProductStockUid, sProductName;
+               sProductGroup = "", sProductStockUid, sProductName;
         DecimalFormat deci = new DecimalFormat("0.00");
         UserProduct userProduct;
         Product product;
@@ -97,13 +97,13 @@
 
             //*** display product in one row ***
             html.append("<tr class='list" + sClass + "' >")
-                .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDeleteProduct('" + userProduct.getProductUid() + "');\">")
-                .append(" <td>" + sProductName + "</td>")
-                .append(" <td>" + sUnit + "</td>")
-                .append(" <td style='text-align:right;'>" + sUnitPrice + "&nbsp;" + sCurrency + "&nbsp;</td>")
-                .append(" <td>" + sSupplierName + "</td>")
-                .append(" <td>" + (userProduct.getProductStock() == null ? "" : userProduct.getProductStock().getServiceStock().getName()) + "</td>")
-                .append(" <td>" + sProductGroup + "</td>")
+                 .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDeleteProduct('" + userProduct.getProductUid() + "');\">")
+                 .append("<td>" + sProductName + "</td>")
+                 .append("<td>" + sUnit + "</td>")
+                 .append("<td style='text-align:right;'>" + sUnitPrice + "&nbsp;" + sCurrency + "&nbsp;</td>")
+                 .append("<td>" + sSupplierName + "</td>")
+                 .append("<td>" + (userProduct.getProductStock() == null ? "" : userProduct.getProductStock().getServiceStock().getName()) + "</td>")
+                 .append("<td>" + sProductGroup + "</td>")
                 .append("</tr>");
         }
 
@@ -115,19 +115,20 @@
     String sDefaultSortDir = "DESC";
 
     String sAction = checkString(request.getParameter("Action"));
-    if (sAction.length() == 0) sAction = "find"; // display all userproducts by default
+    if(sAction.length()==0) sAction = "find"; // display all userproducts by default
 
     // retreive form data
     String sEditProductUid = checkString(request.getParameter("EditProductUid")),
-            sEditProductName = checkString(request.getParameter("EditProductName")),
-            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
+           sEditProductName = checkString(request.getParameter("EditProductName")),
+           sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        Debug.println("\n################## mngUserProducts : " + sAction + " ################");
-        Debug.println("* sEditProductUid      : " + sEditProductUid);
-        Debug.println("* sEditProductName     : " + sEditProductName);
-        Debug.println("* sEditProductStockUid : " + sEditProductStockUid + "\n");
+    if(Debug.enabled){
+        Debug.println("\n#################### pharmacy/manageUserProducts.jsp ##################");
+        Debug.println("sAction              : "+sAction);
+        Debug.println("sEditProductUid      : "+sEditProductUid);
+        Debug.println("sEditProductName     : "+sEditProductName);
+        Debug.println("sEditProductStockUid : "+sEditProductStockUid+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
@@ -163,7 +164,8 @@
             // show saved data
             sAction = "findShowOverview";
             saveMsg = getTran("web", "dataissaved", sWebLanguage);
-        } else {
+        }
+        else {
             // store anyway, to update productStockUid that might not be saved yet.
             userProduct.store();
 
@@ -216,7 +218,7 @@
                     <%-- clickable header --%>
                     <tr class="admin">
                         <td width="22"/>
-                        <td width="25%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort();"><<%=sSortDir%>><%=getTran("Web","productName",sWebLanguage)%></<%=sSortDir%>></a></td>
+                        <td width="25%"><%=getTran("Web","productName",sWebLanguage)%></td>
                         <td width="10%"><%=getTran("Web","Unit",sWebLanguage)%></td>
                         <td width="10%" style="text-align:right;"><%=getTran("Web","unitprice",sWebLanguage)%>&nbsp;</td>
                         <td width="20%"><%=getTran("Web","supplier",sWebLanguage)%></td>

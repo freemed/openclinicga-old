@@ -169,12 +169,12 @@
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
     if(sDisplaySearchFields.length()==0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    if(Debug.enabled) Debug.println("@@@ displaySearchFields : "+displaySearchFields);
+    Debug.println("@@@ displaySearchFields : "+displaySearchFields);
 
     String sDisplayActiveServiceStocks = checkString(request.getParameter("DisplayActiveServiceStocks"));
     if(sDisplayActiveServiceStocks.length()==0) sDisplayActiveServiceStocks = "true"; // default
     boolean displayActiveServiceStocks = sDisplayActiveServiceStocks.equalsIgnoreCase("true");
-    if(Debug.enabled) Debug.println("@@@ displayActiveServiceStocks : "+displayActiveServiceStocks);
+    Debug.println("@@@ displayActiveServiceStocks : "+displayActiveServiceStocks);
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));

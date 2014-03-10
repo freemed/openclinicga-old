@@ -55,14 +55,12 @@
             onSuccess: function(resp){
             	var label = eval('('+resp.responseText+')');
             	if(label.message && label.message.length>0){
-                	alert(label.message);
+                	alertDialogMessage(label.message);
                 }
             	else {
             		$('divDrugsOut').innerHTML=label.drugs;
             		document.getElementById('drugbarcode').value='';
             	}
-            },
-			onFailure: function(){
             }
         }
 		);
@@ -79,13 +77,11 @@
             onSuccess: function(resp){
             	var label = eval('('+resp.responseText+')');
             	if(label.message && label.message.length>0){
-                	alert(label.message);
+            		alertDialogMessage(label.message);
                 }
             	else {
             		$('divDrugsOut').innerHTML=label.drugs;
             	}
-            },
-			onFailure: function(){
             }
         }
     	);
@@ -102,13 +98,11 @@
             onSuccess: function(resp){
             	var label = eval('('+resp.responseText+')');
             	if(label.message && label.message.length>0){
-                	alert(label.message);
+            		alertDialogMessage(label.message);
                 }
             	else {
             		$('divDrugsOut').innerHTML=label.drugs;
             	}
-            },
-			onFailure: function(){
             }
         }
     	);

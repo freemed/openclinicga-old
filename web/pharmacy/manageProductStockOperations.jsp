@@ -133,7 +133,7 @@
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
     if(sDisplaySearchFields.length()==0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    if(Debug.enabled) Debug.println("@@@ displaySearchFields : "+displaySearchFields);
+    Debug.println("@@@ displaySearchFields : "+displaySearchFields);
 
     // frequently used translations
     String clearTran = getTranNoLink("Web","clear",sWebLanguage);

@@ -45,7 +45,7 @@
         }
     } else {
 %>
-    <script type="text/javascript">window.close();</script>
+    <script>window.close();</script>
 <%
     }
 %>

@@ -288,13 +288,13 @@
 	}
 	
 	function deleteOperation(uid){
-        if(confirm("<%=getTran("Web","AreYouSure",sWebLanguage)%>")){
-			window.location.href='<c:url value="/main.jsp"/>?Page=pharmacy/manageProductStockDocuments.jsp&ts=<%=getTs()%>&doaction=edit&deleteoperation='+uid+'&documentuid=<%=sUid%>';
-        }
+	  if(yesnoDialog("Web","areYouSureToDelete")){
+        window.location.href='<c:url value="/main.jsp"/>?Page=pharmacy/manageProductStockDocuments.jsp&ts=<%=getTs()%>&doaction=edit&deleteoperation='+uid+'&documentuid=<%=sUid%>';
+      }
 	}
 	
     function printDocument(uid){
-        window.open("<c:url value='/pharmacy/printStockOperationDocumentPdf.jsp'/>?ts=<%=getTs()%>&documentuid="+uid,"Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
+      window.open("<c:url value='/pharmacy/printStockOperationDocumentPdf.jsp'/>?ts=<%=getTs()%>&documentuid="+uid,"Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
     }
 
 	function clearFindFields(){
