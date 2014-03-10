@@ -54,7 +54,7 @@
 	String sExternalSignatureCode= checkString(request.getParameter("externalsignaturecode"));
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
 	PatientInvoice patientInvoice=null;
-    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", sInsurarReferenceDate="", sVerifier="",sEditComment="",sPatientInvoiceMfpDoctor="",sPatientInvoiceMfpPost="",sPatientInvoiceMfpAgent="",sPatientInvoiceMfpDrugsRecipient="",sPatientInvoiceMfpDrugsIdCard="",sPatientInvoiceMfpDrugsIdCardPlace="",sPatientInvoiceMfpDrugsIdCardDate="";
+    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", sInsurarReferenceDate="", sVerifier="",sEditComment="";
 
     if (sFindPatientInvoiceUID.length() > 0) {
     	if(sFindPatientInvoiceUID.split("\\.").length==2){
@@ -82,13 +82,6 @@
             sInsurarReferenceDate=checkString(patientInvoice.getInsurarreferenceDate());
             sVerifier=checkString(patientInvoice.getVerifier());
             sEditComment=checkString(patientInvoice.getComment());
-            sPatientInvoiceMfpDoctor=checkString(patientInvoice.getMfpDoctor());
-            sPatientInvoiceMfpPost=checkString(patientInvoice.getMfpPost());
-            sPatientInvoiceMfpAgent=checkString(patientInvoice.getMfpAgent());
-            sPatientInvoiceMfpDrugsRecipient=checkString(patientInvoice.getMfpDrugReceiver());
-            sPatientInvoiceMfpDrugsIdCard=checkString(patientInvoice.getMfpDrugReceiverId());
-            sPatientInvoiceMfpDrugsIdCardDate=checkString(patientInvoice.getMfpDrugIdCardDate());
-            sPatientInvoiceMfpDrugsIdCardPlace=checkString(patientInvoice.getMfpDrugIdCardPlace());
         }
         else{
         	out.println(getTran("web","invoice.does.not.exist",sWebLanguage)+": "+sFindPatientInvoiceUID);
@@ -156,7 +149,7 @@
 	    </table>
 	</form>
 	<div id="divOpenPatientInvoices" class="searchResults" style="height:120px;"></div>
-	<script type="text/javascript">
+	<script>
 	    function searchPatientInvoice(){
 	        openPopup("/_common/search/searchPatientInvoice.jsp&FindInvoicePatient=<%=sPatientId%>&doFunction=doFind()&ReturnFieldInvoiceNr=FindPatientInvoiceUID&FindInvoicePatientId=<%=sPatientId%>&Action=search&header=false&PopupHeight=420&ts=<%=getTs()%>");
 	    }
@@ -210,30 +203,7 @@
 	                <input type="text" size="40" class="text" id="EditComment" name="EditComment" value="<%=sEditComment%>">
 	            </td>
 	        </tr>
-	        <% if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){ %>
-	        <tr>
-	            <td class="admin">
-           			<%=getTran("web.finance","mfp.invoice.drugsrecipient",sWebLanguage)%>
-	            </td>
-	            <td class="admin2">
-	            	<%=getTran("web","name",sWebLanguage)%>: <input type="text" size="30" class="text"  id="EditInvoiceDrugsRecipient" name="EditInvoiceDrugsRecipient" value="<%=sPatientInvoiceMfpDrugsRecipient%>">
-	            	<%=getTran("web.finance","mfp.invoice.drugsid",sWebLanguage)%>: <input type="text" size="30" class="text"  id="EditInvoiceDrugsIdCard" name="EditInvoiceDrugsIdCard" value="<%=sPatientInvoiceMfpDrugsIdCard%>"><BR/>
-	            	<%=getTran("web","delivered.at",sWebLanguage)%>: <input type="text" size="30" class="text"  id="EditInvoiceDrugsIdCardPlace" name="EditInvoiceDrugsIdCardPlace" value="<%=sPatientInvoiceMfpDrugsIdCardPlace%>">
-	            	<%=getTran("web","date",sWebLanguage)%>: <%=writeDateField("EditInvoiceDrugsIdCardDate","EditForm",sPatientInvoiceMfpDrugsIdCardDate,sWebLanguage)%>
-	            </td>
-	            <td class="admin" nowrap><%=getTran("web.finance","mfp.invoice.data",sWebLanguage)%></td>
-	            <td class="admin2">
-	            	<table>
-	            		<tr>
-	            			<td><%=getTran("web.finance","mfp.invoice.doctor",sWebLanguage)%>: <input type="text" size="8" class="text"  id="EditInvoiceDoctor" name="EditInvoiceDoctor" value="<%=sPatientInvoiceMfpDoctor%>"></td>
-	            			<td><%=getTran("web.finance","mfp.invoice.post",sWebLanguage)%>: <input type="text" size="8" class="text"  id="EditInvoicePost" name="EditInvoicePost" value="<%=sPatientInvoiceMfpPost%>"></td>
-	            			<td><%=getTran("web.finance","mfp.invoice.agent",sWebLanguage)%>: <input type="text" size="8" class="text"  id="EditInvoiceAgent" name="EditInvoiceAgent" value="<%=sPatientInvoiceMfpAgent%>"></td>
-	            		</tr>
-	            	</table>
-	            </td>
-	        </tr>
 	        <%
-	        }
 	        	if(checkString(patientInvoice.getAcceptationUid()).length()>0){
 	        %>
 	        <tr>
@@ -245,7 +215,7 @@
 	        </tr>
 	        <%	
 	        	}
-	        	if(patientInvoice!=null && patientInvoice.getUid()!=null){
+	        	if(patientInvoice!=null){
 	        		String signatures="";
 	        		Vector pointers=Pointer.getPointers("INVSIGN."+patientInvoice.getUid());
 	        		for(int n=0;n<pointers.size();n++){
@@ -528,7 +498,7 @@
 	    <div id="divMessage"></div>
 	    <input type='hidden' id="EditPatientInvoiceUID" name='EditPatientInvoiceUID' value='<%=checkString(patientInvoice.getUid())%>'>
 	</form>
-	<script type="text/javascript">
+	<script>
 	
 		function doValidate(invoiceuid){
 	        var today = new Date();
@@ -663,15 +633,6 @@
 		                          +'&EditInvoiceVerifier='+document.getElementById('EditInvoiceVerifier').value
 		                          +'&EditReduction='+red
 		                          +'&EditComment='+document.getElementById('EditComment').value
-		              	        <% if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){ %>
-		                          +'&EditInvoiceDoctor='+document.getElementById('EditInvoiceDoctor').value
-		                          +'&EditInvoicePost='+document.getElementById('EditInvoicePost').value
-		                          +'&EditInvoiceAgent='+document.getElementById('EditInvoiceAgent').value
-		                          +'&EditInvoiceDrugsRecipient='+document.getElementById('EditInvoiceDrugsRecipient').value
-		                          +'&EditInvoiceDrugsIdCard='+document.getElementById('EditInvoiceDrugsIdCard').value
-		                          +'&EditInvoiceDrugsIdCardDate='+document.getElementById('EditInvoiceDrugsIdCardDate').value
-		                          +'&EditInvoiceDrugsIdCardPlace='+document.getElementById('EditInvoiceDrugsIdCardPlace').value
-		                        <%}%>
 		                          +'&EditBalance=' + document.getElementById('EditBalance').value,
 		                  onSuccess: function(resp){
 		                      var label = eval('('+resp.responseText+')');
@@ -802,8 +763,6 @@
 	                parameters: params,
 	                onSuccess: function(resp){
 	                    $('divOpenPatientInvoices').innerHTML=resp.responseText;
-	                },
-					onFailure: function(){
 	                }
 	            }
 			);
@@ -820,8 +779,6 @@
 	                onSuccess: function(resp){
 	                    $('patientInvoiceDebets').innerHTML=resp.responseText;
 	                    doBalance();
-	                },
-					onFailure: function(){
 	                }
 	            }
 			);
@@ -864,7 +821,7 @@
 	    }
 	    
 	    function doCancel(invoiceUid){
-	        if(confirm("<%=getTran("Web","AreYouSure",sWebLanguage)%>")){
+	        if(yesnoDialog("Web","areYouSure")){
 	            //Factuur als 'geannuleerd' registreren
 	            if(document.getElementById('invoiceStatus').selectedIndex){
 	            	document.getElementById("invoiceStatus").options[document.getElementById("invoiceStatus").selectedIndex].value='canceled';
@@ -888,7 +845,7 @@
 	    loadDebets();
 	    loadOpenPatientInvoices();
 	    doBalance();
-	    document.getElementById('EditBalance').value = (document.getElementById('EditBalance').value).fixedTo(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+	    document.getElementById('EditBalance').value = formatNumber(document.getElementById('EditBalance').value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 	</script>
 <%
 	}
