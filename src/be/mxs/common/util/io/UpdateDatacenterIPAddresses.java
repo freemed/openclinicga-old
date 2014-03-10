@@ -26,6 +26,7 @@ import org.dom4j.io.SAXReader;
 import net.admin.User;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.HTMLEntities;
 import be.mxs.common.util.system.Mail;
 import be.mxs.common.util.system.Pointer;
@@ -129,7 +130,7 @@ public class UpdateDatacenterIPAddresses {
         					ps2.setInt(3,id);
         					ps2.execute();
         					ps2.close();
-        					System.out.println("Server ID "+id+" -> Lat: "+lattitude+"     Long: "+longitude);
+        					Debug.println("Server ID "+id+" -> Lat: "+lattitude+"     Long: "+longitude);
         				}
     				}
     				else if(root.elementText("status").equalsIgnoreCase("ZERO_RESULTS")){
@@ -164,7 +165,7 @@ public class UpdateDatacenterIPAddresses {
     	        					ps2.setInt(3,id);
     	        					ps2.execute();
     	        					ps2.close();
-    	        					System.out.println("Server ID "+id+" -> Lat: "+lattitude+"     Long: "+longitude);
+    	        					Debug.println("Server ID "+id+" -> Lat: "+lattitude+"     Long: "+longitude);
     	        				}
     	    				}
     	    			}

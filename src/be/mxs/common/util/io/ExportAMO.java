@@ -15,6 +15,7 @@ import java.util.Vector;
 import net.admin.User;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.Mail;
 import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
@@ -211,7 +212,7 @@ public class ExportAMO {
 							"frank.verbeke@vub.ac.be\n" +
 							"Coordinateur Santé";
 			if(hasdata){
-				System.out.println("sending message to: "+args[3]);
+				Debug.println("sending message to: "+args[3]);
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(exportamofile));
 				bufferedWriter.write(exportfile.toString());
 				bufferedWriter.flush();
