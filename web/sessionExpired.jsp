@@ -1,66 +1,78 @@
-<%@include file="/includes/helper.jsp" %>
-<%// title
-    String sTmpAPPDIR = ScreenHelper.checkString(ScreenHelper.getCookie("activeProjectDir", request)),
-            sTmpAPPTITLE = ScreenHelper.checkString(ScreenHelper.getCookie("activeProjectTitle", request));
-    if (sTmpAPPTITLE == null) sTmpAPPTITLE = "OpenClinic";%>
+<%@include file="/includes/helper.jsp"%>
+
+<%
+    String sTmpAPPDIR   = ScreenHelper.checkString(ScreenHelper.getCookie("activeProjectDir", request)),
+           sTmpAPPTITLE = ScreenHelper.checkString(ScreenHelper.getCookie("activeProjectTitle", request));
+    if(sTmpAPPTITLE==null) sTmpAPPTITLE = "OpenClinic";
+%>
+    
 <html>
 <head>
-    <%=sCSSNORMAL%><%=sJSCOOKIE%><%=sJSDROPDOWNMENU%><%=sIcon%>
+    <%=sCSSNORMAL%>
+    <%=sJSCOOKIE%>
+    <%=sJSDROPDOWNMENU%>
+    <%=sIcon%>
+    
     <script>
-        if (window.history.forward(1) != null) {
-            window.history.forward(1);
+      if(window.history.forward(1)!=null){
+        window.history.forward(1);
+      }
+    
+      function escBackSpace(){
+        if(window.event && enterEvent(event,8)){
+          window.event.keyCode = 123; // F12
         }
-        function escBackSpace() {
-            if (window.event && enterEvent(event, 8)) {
-                window.event.keyCode = 123; // F12
-            }
-        }
-        function goToLogin() {
-            window.location.href = "<%=sCONTEXTPATH%>/<%=sTmpAPPDIR%>";
-        }
+      }
+      
+      function goToLogin(){
+        window.location.href = "<%=sCONTEXTPATH%>/<%=sTmpAPPDIR%>";
+      }
     </script>
-    <title><%=sWEBTITLE + " " + sTmpAPPTITLE%>
-    </title>
+    
+    <title><%=sWEBTITLE + " " + sTmpAPPTITLE%></title>
 </head>
+
 <body class="Geenscroll login" onkeydown="escBackSpace();if(enterEvent(event,13)){goToLogin();}">
-<%
-	if(request.getRequestURL().toString().indexOf("globalhealthbarometer")>-1){
-		out.print("<script>window.location.href='http://www.globalhealthbarometer.net';</script>");
-	}
-%>
-<%
-	if("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
-%>
-	<div id="loginopeninsurance" class="withoutfields">
-<%
-	}
-	else {
-%>
-	<div id="login" class="withoutfields">
-<%
-	}
-%>	
+	<%
+		if(request.getRequestURL().toString().indexOf("globalhealthbarometer")>-1){
+			out.print("<script>window.location.href='http://www.globalhealthbarometer.net';</script>");
+		}
+	
+		if("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
+			%><div id="loginopeninsurance" class="withoutfields"><%
+		}
+		else{
+			%><div id="login" class="withoutfields"><%
+		}
+	%>	
+
     <div id="logo">
-       <% if ("datacenter".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
-            session.setAttribute("edition", "datacenter");%>
-        <img src="projects/datacenter/_img/logo.jpg" border="0">
-        <% } else if ("openlab".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
-            session.setAttribute("edition", "openlab");%>
-        <img src="projects/openlab/_img/logo.jpg" border="0">
-        <% } else if ("openpharmacy".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
-            session.setAttribute("edition", "openlab");%>
-        <img src="_img/openpharmacy_logo.jpg" border="0">
-        <% } else if ("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
-            session.setAttribute("edition", "openinsurance");%>
-        <img src="_img/openinsurancelogo.jpg" border="0">
-        <% } else {
-            session.setAttribute("edition", "openclinic");%>
-        <img src="<%=sTmpAPPDIR%>_img/logo.jpg" border="0">
-        <% }%>
+        <%
+           if("datacenter".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+               session.setAttribute("edition","datacenter");
+               %><img src="projects/datacenter/_img/logo.jpg" border="0"><%
+           }
+           else if("openlab".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+               session.setAttribute("edition", "openlab");
+               %><img src="projects/openlab/_img/logo.jpg" border="0"><%
+           }
+           else if("openpharmacy".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+               session.setAttribute("edition", "openlab");
+               %><img src="_img/openpharmacy_logo.jpg" border="0"><%
+           }
+           else if("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+               session.setAttribute("edition", "openinsurance");
+               %><img src="_img/openinsurancelogo.jpg" border="0"><%
+           }
+           else{
+               session.setAttribute("edition", "openclinic");
+               %><img src="<%=sTmpAPPDIR%>_img/logo.jpg" border="0"><%
+           }
+        %>
     </div>
-    <div id="version">
-        &nbsp;
-    </div>
+    
+    <div id="version">&nbsp;</div>
+    
     <div id="fields">
         <table>
             <tr>

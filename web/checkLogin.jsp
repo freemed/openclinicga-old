@@ -251,7 +251,7 @@
 
                   // redirect to other projectpage
                   if(request.getParameter("startPage")!=null){
-                      if(Debug.enabled) Debug.println("Redirecting to "+request.getParameter("startPage"));
+                      Debug.println("Redirecting to "+request.getParameter("startPage"));
                 	  ad_conn.close();
                       response.sendRedirect(request.getParameter("startPage"));
                   }

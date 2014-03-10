@@ -55,9 +55,8 @@
         if (request.getParameter("exitmessage").startsWith("printlabels")) {
             int serverid = Integer.parseInt(request.getParameter("exitmessage").split("\\.")[1]);
             int transactionId = Integer.parseInt(request.getParameter("exitmessage").split("\\.")[2]);
-%>
-<script type="text/javascript">window.open("<c:url value='/healthrecord/createLabSampleLabelPdf.jsp'/>?serverid=<%=serverid%>&transactionid=<%=transactionId%>&ts=<%=getTs()%>", "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);</script>
-<%
+			
+			%><script>window.open("<c:url value='/healthrecord/createLabSampleLabelPdf.jsp'/>?serverid=<%=serverid%>&transactionid=<%=transactionId%>&ts=<%=getTs()%>", "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);</script><%
         }
     }
 %>

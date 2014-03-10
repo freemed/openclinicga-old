@@ -6,33 +6,45 @@
 <%!
     //--- VERIFY UNBLOCK CODE ---------------------------------------------------------------------
     private boolean verifyUnblockCode(int requestId, int unblockCode){
-        return ((int)(Math.floor(((requestId%97)/5.25)*(requestId/525))%7871)==unblockCode);
+        return ((int)((Math.floor(((requestId%97)/5.25)*(requestId/525))%787153))==unblockCode);
     }
 %>
 
 <%
     String msg = "";
 
-    // get form data
-    String action       = checkString(request.getParameter("Action"));
-    String sLogin       = checkString(request.getParameter("login"));
-    String sIP          = checkString(request.getParameter("ip"));
-    String sRequestId   = checkString(request.getParameter("requestId"));
-    String sUnblockCode = checkString(request.getParameter("unblockCode"));
+    String sAction = checkString(request.getParameter("Action"));
 
+    // get form data    
+    String sLogin       = checkString(request.getParameter("login")),
+           sIP          = checkString(request.getParameter("ip")),
+           sRequestId   = checkString(request.getParameter("requestId")),
+           sUnblockCode = checkString(request.getParameter("unblockCode"));
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+	    Debug.println("\n************************** /unBlockAccount.jsp ************************");
+	    Debug.println("sAction      : "+sAction);
+	    Debug.println("sLogin       : "+sLogin);
+	    Debug.println("sIP          : "+sIP);
+	    Debug.println("sRequestId   : "+sRequestId);
+	    Debug.println("sUnblockCode : "+sUnblockCode+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
     // generate random requestID
     if(sRequestId.length()==0){
         sRequestId = ""+(100000+(int)(Math.random()*1000000000));
     }
 
     // get ip
-    if(action.length()==0){
+    if(sAction.length()==0){
         sIP = request.getLocalAddr();
     }
 
 
     //--- UNBLOCK ---------------------------------------------------------------------------------
-    if(action.equals("unblock")){
+    if(sAction.equals("unblock")){
         boolean validUnblockCode = verifyUnblockCode(Integer.parseInt(sRequestId),Integer.parseInt(sUnblockCode));
 
         if(validUnblockCode){
@@ -65,7 +77,7 @@
         }
     }
 
-    Debug.println("*** UNBLOCK CODE ("+sRequestId+") : "+new DecimalFormat("000000").format((int)((Math.floor(((Integer.parseInt(sRequestId)%97)/5.25)*(Integer.parseInt(sRequestId)/525))%7871))));
+    Debug.println("*** UNBLOCK CODE : "+new DecimalFormat("000000").format((int)((Math.floor(((Integer.parseInt(sRequestId)%97)/5.25)*(Integer.parseInt(sRequestId)/525))%787153))));
 %>
 
 <html>
@@ -123,7 +135,7 @@
             <tr>
                 <td class="admin"><%=ScreenHelper.getTranNoLink("Web.manage","unblockcode","e")%></td>
                 <td class="admin2">
-                    <input class='text' type='text' name='unblockCode' size='20' maxLength='4' value='<%=sUnblockCode%>'/>
+                    <input class='text' type='text' name='unblockCode' size='20' maxLength='6' value='<%=sUnblockCode%>'/>
                 </td>
             </tr>
 

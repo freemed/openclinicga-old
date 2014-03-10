@@ -1,4 +1,4 @@
-<%@ page errorPage="/includes/error.jsp" %>
+<%@page errorPage="/includes/error.jsp"%>
 <%@include file="/_common/templateAddIns.jsp"%>
 <html>
 <head>
@@ -10,6 +10,17 @@
     <%=sJSPROTOTYPE%>
     <%=sJSNUMBER%>
     <%=sJSTOGGLE%>
+        
+<%
+    String sPopupPage = checkString(request.getParameter("Page"));
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n******************************* /popup.jsp ****************************");
+        Debug.println("sPopupPage : "+sPopupPage+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+%>
     
 <script>
   var ie = document.all
@@ -30,7 +41,7 @@
       }
     }
         
-    var w = window.open(url, title, "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no");
+    var w = window.open(url,title,"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
     w.moveBy(2000, 2000);
   }
 
@@ -41,7 +52,7 @@
     return s;
   }
 
-  // *************************** SET ENTER KEY COMPATIBLE WITH FIREFOX *******//
+  //******* SET ENTER KEY COMPATIBLE WITH FIREFOX *******//
   var desKey = 13;
   function enterEvent(e){
     var key = e.which?e.which:window.event.keyCode;
@@ -54,26 +65,24 @@
     }
   }
 
-  //*************************************************//
+  //******* AJAX CHANGE SEARCH RESULTS ******************//
   function ajaxChangeSearchResults(urlForm, SearchForm, moreParams){
     document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
     var url = urlForm;
     var params = Form.serialize(SearchForm) + moreParams;
-    var myAjax = new Ajax.Updater("divFindRecords",url,
-      {
-        evalScripts:true,
-        method: "post",
-        parameters: params,
-        onload: function(){
-        },
-        onSuccess: function(resp){
-          document.getElementById("divFindRecords").innerHTML = trim(resp.responseText);
-        },
-        onFailure:function(){
-          $("divFindRecords").innerHTML = "Problem with ajax request !";
-        }
+    var myAjax = new Ajax.Updater("divFindRecords",url,{
+      evalScripts:true,
+      method: "post",
+      parameters: params,
+      onload: function(){
+      },
+      onSuccess: function(resp){
+        document.getElementById("divFindRecords").innerHTML = trim(resp.responseText);
+      },
+      onFailure:function(){
+        $("divFindRecords").innerHTML = "Problem with ajax request !";
       }
-    );
+    });
   }
 </script>
   
@@ -92,14 +101,13 @@
 </div>
 
 <%-- End Floating layer -------------------------------------------------------------------------%>
-<body onload="resizeMe();">
+<body style="margin:2px;" onload="resizeMe();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="popuptbl" height="100%">
     <tr>
         <td colspan="3" valign="top" height="100%">
             <%
                 response.setHeader("Pragma", "no-cache"); //HTTP 1.0
                 response.setDateHeader("Expires", 0); //prevents caching at the proxy server
-                String sPopupPage = checkString(request.getParameter("Page"));
                 ScreenHelper.setIncludePage("/" + customerInclude(sPopupPage), pageContext);
             %>
         </td>
@@ -107,57 +115,54 @@
 </table>
 
 <script>
+  <%=getUserInterval(session,activeUser)%>
 
-
-    <%=getUserInterval(session,activeUser)%>
-
-    function resizeMe() {
+  function resizeMe(){
     <%
 		String sPopupWidth = checkString(request.getParameter("PopupWidth"));
-		if (sPopupWidth.length()>0){
-    %>
-        	w =<%=sPopupWidth%>;
-    <%
+		if(sPopupWidth.length() > 0){
+            %>w =<%=sPopupWidth%>;<%
 		}
-		else {
-    %>
-	        if (ie) {
-	            rcts = popuptbl.getClientRects();
-	            w = rcts[0].right;
-	        } else {
-	            w = document.getElementById("popuptbl").clientWidth;
+		else{
+            %>
+	        if(ie){
+	          rcts = popuptbl.getClientRects();
+	          w = rcts[0].right;
+	        } 
+	        else{
+	          w = document.getElementById("popuptbl").clientWidth;
 	        }
-    <%
+            <%
 		}
 
 		String sPopupHeight = checkString(request.getParameter("PopupHeight"));
-		if (sPopupHeight.length()>0){
-    %>
-	        h =<%=sPopupHeight%>;
-    <%
+		if(sPopupHeight.length() > 0){
+            %>h =<%=sPopupHeight%>;<%
 		}
 		else {
-    %>
-	        if (ie) {
-	            rcts = popuptbl.getClientRects();
-	            h = rcts[0].bottom + 80;
-	        } else {
-	            h = document.getElementById("popuptbl").clientHeight;
+            %>
+	        if(ie){
+	          rcts = popuptbl.getClientRects();
+	          h = rcts[0].bottom + 80;
 	        }
-    <%
+	        else{
+	          h = document.getElementById("popuptbl").clientHeight;
+	        }
+            <%
         }
     %>
-        if (h > 800) h = 800;
-        if (h > screen.height) h = screen.height;
-        w = w + 35;
-        if (w < 400) w = 400;
-        h = h + 80;
-        window.resizeTo(w, h);
-        window.moveTo((screen.width - w) / 2, (screen.height - h) / 2);
-    }
-    //self.focus();
-    if (typeof focusfield != 'undefined') focusfield.focus();
-    window.setTimeout('resizeMe();',200);
+    
+    if(h > 800) h = 800;
+    if(h > screen.height) h = screen.height;
+    w = w+35;
+    if(w < 400) w = 400;
+    h = h+80;
+    window.resizeTo(w,h);
+    window.moveTo((screen.width-w)/2,(screen.height-h)/2);
+  }
+  
+  if(typeof focusfield != "undefined") focusfield.focus();
+  window.setTimeout('resizeMe();',200);
 </script>
 </body>
 </html>
