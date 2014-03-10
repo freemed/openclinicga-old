@@ -71,7 +71,7 @@
     </tr>
 
 </table>
-<script type="text/javascript">
+<script>
     function listcases(code){
         window.open("<c:url value='/popup.jsp'/>?Page=medical/manageDiagnosesPop.jsp&PopupHeight=600&ts=<%=getTs()%>&selectrecord=1&Action=SEARCH&FindDiagnosisFromDate=<%=request.getParameter("Start")%>&FindDiagnosisToDate=<%=request.getParameter("End")%>&FindDiagnosisCode=<%=request.getParameter("DiagnosisCode")%>&FindDiagnosisCodeType=<%=request.getParameter("DiagnosisCodeType")%>&FindDiagnosisCodeLabel=<%=request.getParameter("DiagnosisCode")%> <%=MedwanQuery.getInstance().getCodeTran(request.getParameter("DiagnosisCodeType") + "code" + ScreenHelper.padRight(request.getParameter("DiagnosisCode"),"0",5), sWebLanguage)%>&FindEncounterOutcome=<%=request.getParameter("Outcome")%>&FindDiagnosisCodeExtra="+code+"&contacttype=<%=contacttype%>","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=500, menubar=no").moveTo((screen.width-800)/2,(screen.height-500)/2);
     }

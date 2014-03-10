@@ -116,7 +116,7 @@
     }
 %>
 </table>
-<script type="text/javascript">
+<script>
   <%-- PRINT PDF --%>
     function doBack(){
         window.location.href = "<c:url value='/main.do'/>?Page=statistics/index.jsp";
@@ -134,7 +134,7 @@
             transactionForm.submit();
         }
         else {
-            alert("<%=getTran("web.manage","datamissing",sWebLanguage)%>");
+            alertDialog("web.manage","datamissing");
         }
     }
 

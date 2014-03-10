@@ -316,13 +316,13 @@
             //todo:Indien niet: geen probleem, het is een nieuwe
             sPatientUID="";
             %>
-            <script type="text/javascript">EditPatientForm.document.all['PatientUID']='';</script>
+            <script>EditPatientForm.document.all['PatientUID']='';</script>
             <%
         }
     }
 %>
 
-<script type="text/javascript">
+<script>
     function clearFields(){
         document.all['EditEncounterService'].value='';
         document.all['EditEncounterServiceName'].value='';

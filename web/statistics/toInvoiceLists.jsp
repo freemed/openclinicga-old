@@ -26,7 +26,7 @@
 <div id="resultsByAjax">
     &nbsp; <%-- Filled by Ajax --%>
 </div>
-<script type="text/javascript">
+<script>
     function doFind() {
         var id = "resultsByAjax";
         $(id).update("<div id='wait'>&nbsp;</div>");

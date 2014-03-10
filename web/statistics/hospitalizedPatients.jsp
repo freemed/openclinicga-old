@@ -224,7 +224,7 @@
         }
     }
 %>
-<script type="text/javascript">
+<script>
   <%-- PRINT PDF --%>
   function printPdf(serviceCode,sBeginDate,sEndDate){
     var url = "<c:url value='/statistics/createHospitalizedPatientsPdf.jsp'/>"+
@@ -251,7 +251,7 @@
             transactionForm.submit();
         }
         else {
-            alert("<%=getTran("web.manage","datamissing",sWebLanguage)%>");
+            alertDialog("web.manage","datamissing");
         }
     }
 

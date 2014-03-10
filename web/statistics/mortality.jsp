@@ -57,7 +57,7 @@
 %>
 </table>
 
-<script type="text/javascript">
+<script>
     function showDeceased(month,year){
         openPopup("<c:url value="statistics/showDeceased.jsp"/>&month="+month+"&year="+year+"&ts=<%=getTs()%>",600,400);
     }

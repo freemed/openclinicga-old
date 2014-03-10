@@ -284,7 +284,7 @@
     }
 %>
 </form>
-<script type="text/javascript">
+<script>
     function listcasesall(codeType,code,codeLabel){
         window.open("<c:url value='/popup.jsp'/>?Page=medical/manageDiagnosesPop.jsp&PopupHeight=600&ts=<%=getTs()%>&selectrecord=1&Action=SEARCH&FindDiagnosisFromDate=<%=fromdate%>&FindDiagnosisToDate=<%=todate%>&FindDiagnosisCode="+code+"&FindDiagnosisCodeType="+codeType+"&FindDiagnosisCodeLabel="+code+" "+codeLabel+"&ServiceID=<%=service%>&contacttype=<%=contacttype%>","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no").moveTo((screen.width-800)/2,(screen.height-600)/2);
     }

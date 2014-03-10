@@ -150,7 +150,7 @@
     </tr>
 </table>
 
-<script type="text/javascript">
+<script>
     function newpat() {
         window.open("<c:url value='/statistics/'/>verifyPatient.jsp?lastname=" + document.getElementsByName('patientLastname')[0].value + "&firstname=" + document.getElementsByName('patientFirstname')[0].value + "&dateofbirth=" + document.getElementsByName('patientDateOfBirth')[0].value, "verifypatient", "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveTo(-1000, -1000);
     }
@@ -438,15 +438,15 @@
 <input type="hidden" name="activePatientUID" value="<%=sPatientUID%>"/>
 </form>
 
-<script type="text/javascript">
+<script>
     function doSubmit() {
         var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
         var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
         if (document.getElementsByName("EditEncounterEnd")[0].value.length>0 && end < begin) {
-            alert('<%=getTran("web","beginandendinverted",sWebLanguage)%>');
+            alertDialog("web","beginandendinverted");
         }
         else if (end > new Date()) {
-            alert('<%=getTran("web","endinfuture",sWebLanguage)%>');
+            alertDialog("web","endinfuture");
         }
         else {
             document.getElementsByName("saveEncounter")[0].value = "true";
@@ -459,7 +459,7 @@
             var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
             var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
             if (end.getTime() - begin.getTime() > 180 * 24 * 60 * 60000) {
-                alert('<%=getTran("web","longadmission",sWebLanguage)%>');
+                alertDialog("web","longadmission");
             }
         }
     }
