@@ -172,76 +172,7 @@
                 if(recordRow.getResultWidth() > 0){
                     String sLabel  = recordRow.getLabel(),
                            sResult = recordRow.getResult();
-					
-<<<<<<< .mine
-=======
-                    record = (RecordRowVO) recordRow;
-                    sUserName = "";
-                    if (record != null){
-                        // get user names
-                        System.out.println("record.getTransactionId()="+record.getTransactionId());
-                        Transaction transaction = Transaction.getTransaction(record.getTransactionId(), record.getServerId());
 
-                        if (transaction != null){
-                            sUserId = checkString(Integer.toString(transaction.getUserId()));
-                            sTransactionType = transaction.getTransactionType();
-
-                            Hashtable hName = User.getUserName(sUserId);
-
-                            if(hName!=null){
-                                sUserName = hName.get("lastname") + " " + hName.get("firstname");
-                            }
-                        }
-                        String sContext = Transaction.getTransactionContext(record.getTransactionId(),record.getHealthrecordId(),record.getTransactionType());
-
-                        if(sContext!=null){
-                            context = getTran("web.occup", sContext, sWebLanguage);
-                        }
-                    }
-
-                    // forward
-                    String sForward = MedwanQuery.getInstance().getForward(sTransactionType);
-                    if (sForward != null) {
-                        sForward = sForward.substring(0, sForward.indexOf("main.do")) + "medical/viewLastTransaction.jsp" + sForward.substring(sForward.indexOf("main.do") + 8);
-                    }
-                %>
-                <tr class="list<%=sClass%>">
-                    <td>
-                        <img id="tr<%=i%>S" src="<c:url value='/_img/plus.png'/>" onclick="showD('tr<%=i%>','tr<%=i%>S','tr<%=i%>H');">
-                        <img id="tr<%=i%>H" src="<c:url value='/_img/minus.png'/>" onclick="hideD('tr<%=i%>','tr<%=i%>S','tr<%=i%>H');" style="display:none">
-                    </td>
-                    <td><mxs:propertyAccessorI18N name="recordRow" scope="page" property="result"/></td>
-                    <td>
-                        <a href="<%=sCONTEXTPATH+sForward%>&be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="recordRow" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=<bean:write name="recordRow" scope="page" property="transactionId"/>&be.mxs.healthrecord.server_id=<bean:write name="recordRow" scope="page" property="serverId"/>&useTemplate=no" onMouseOver="window.status='';return true;">
-                            <mxs:propertyAccessorI18N name="recordRow" scope="page" property="label"/> <%=(context.length() > 0 ?"("+context+")":"")%>
-                        </a>
-                    </td>
-                    <td><%=sUserName%></td>
-                </tr>
-
-                <%-- HIDDEN TABLE --%>
-                <tr id="tr<%=i%>" style="display:none">
-                    <td colspan="4">
-                        <table class="list" width="100%" cellspacing="1">
-            </logic:equal>
-
-            <%-- subheader --%>
-            <logic:equal name="recordRow" property="indent" value="1">
-                <tr class="list_select">
-                    <td colspan="2">
-                        <mxs:propertyAccessorI18N name="recordRow" scope="page" property="label"/>
-                    </td>
-                </tr>
-            </logic:equal>
-
-            <%-- content (indent > 0) --%>
-            <logic:greaterThan name="recordRow" property="resultWidth" value="0" >
-                <%
-                    record = (RecordRowVO)recordRow;
-                    String sLabel = record.getLabel();
-                    String sResult = record.getResult();
-
->>>>>>> .r998
                     //--- LAB_RESULT --------------------------------------------------------------
                     if(sTransactionType.indexOf("LAB_RESULT") > -1){
                         sLabel = getTranNoLink("TRANSACTION_TYPE_LAB_RESULT",sLabel,sWebLanguage);
