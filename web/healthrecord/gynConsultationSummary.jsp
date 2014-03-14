@@ -180,7 +180,7 @@
 <input type="hidden" name="sessionCounter" value="<%=session.getAttribute("sessionCounter")%>"/>
 
 <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
-    <tr>
+    <tr>_
         <%-- LAST GENERAL CLINICAL EXAMINATION --%>
         <td valign="top" height="100%">
             <table  class="list" width="100%" border="0" cellspacing="1" cellpadding="1" height="100%">
@@ -544,13 +544,9 @@
                         <script>writeMyDate("echodate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                         <input <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY")%> type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="value"/>" id="agedateecho" onblur='isNumber(this);calculateGestAge();' onchange='calculateGestAge();' onkeyup="calculateGestAge();"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
                         <input id="echodeldate" <%=setRightClick("ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY")%> type="text" class="text" size="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY" property="value"/>" onblur="checkDate(this);">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="admin"/>
-                    <td class="admin2">
+						<BR/>
                         <%=getTran("gynaeco", "actual.age", sWebLanguage)%>
-                        <input id="ageactualecho" <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_ACTUEL")%> readonly type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ACTUEL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ACTUEL" property="value"/>" onblur="isNumber(this)"> <%=getTran("web", "weeks.abr", sWebLanguage)%>
+                        <input id="ageactualecho" <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_ACTUEL")%> readonly type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ACTUEL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ACTUEL" property="value"/>" > <%=getTran("web", "weeks.abr", sWebLanguage)%>
                     </td>
                 </tr>
                 <tr>
@@ -738,27 +734,31 @@
         var d1 = document.getElementById('trandate').value.split("/");
 
         if (d1.length == 3) {
+        	//whe have an actual transaction date
             trandate.setDate(d1[0]);
             trandate.setMonth(d1[1] - 1);
             trandate.setFullYear(d1[2]);
             var lmdate = new Date();
             d1 = document.getElementById('drdate').value.split("/");
+            //first calculate delivery date based on last menstruation date
             if (d1.length == 3) {
+                //we have a last menstruation date
                 lmdate.setDate(d1[0]);
                 lmdate.setMonth(d1[1] - 1);
                 lmdate.setFullYear(d1[2]);
+                //Calculate number of weeks elapsed between last menstruation date and actual transaction date 
                 var timeElapsed = trandate.getTime() - lmdate.getTime();
                 timeElapsed = timeElapsed / (1000 * 3600 * 24 * 7);
-
+			
                 if (!isNaN(timeElapsed) && timeElapsed > 0 && timeElapsed < 60) {
                     var age = Math.round(timeElapsed * 10) / 10;
                     age = age+"";
 
                     if (age.indexOf(".")>-1){
                         var aAge = age.split(".");
-                        aAge[1] = Math.round(aAge[1]*1*0.7);
+                        aAge[1] = Math.round(aAge[1]*1);
 
-                        age = aAge[0]+" "+aAge[1];
+                        age = aAge[0]+"."+aAge[1];
                     }
                     document.getElementById("agedatedr").value = age;
                     var drdeldate = lmdate;
@@ -782,34 +782,29 @@
             //recalculate actual age based on echography estimation
             var ledate = new Date();
             d1 = document.getElementById('echodate').value.split("/");
-            if (d1.length == 3) {
+            echoage = document.getElementById('agedateecho').value.replace(',','.');
+            if (d1.length == 3 && echoage.length >0) {
+            	//we have a last echography date
                 ledate.setDate(d1[0]);
                 ledate.setMonth(d1[1] - 1);
                 ledate.setFullYear(d1[2]);
+                //Calculate number of weeks elapsed between last echography date and actual transaction date 
                 var te = trandate.getTime() - ledate.getTime();
                 var timeElapsed = te / (1000 * 3600 * 24 * 7);
-                if (!isNaN(timeElapsed) && document.getElementById("agedateecho").value.length > 0 && !isNaN(document.getElementById("agedateecho").value)) {
-                    if (timeElapsed < 12) {
+                if (!isNaN(timeElapsed) && (timeElapsed*1+echoage*1)<43) {
+                    if (timeElapsed*1+echoage*1 < 12) {
                         document.getElementById('trimestre_r1').checked = true;
                     }
-                    else if (timeElapsed < 24) {
+                    else if (timeElapsed*1+echoage*1 < 24) {
                         document.getElementById('trimestre_r2').checked = true;
                     }
                     else {
                         document.getElementById('trimestre_r3').checked = true;
                     }
                     var age="";
-                	ag = (document.getElementById("agedateecho").value * 1 + Math.round(timeElapsed * 10) / 10)+"";
-                    if (ag.indexOf(".")>-1){
-                        aAge = ag.split(".");
-                        age = aAge[0]+ " " +aAge[1];
-                    }
-                    else{
-                    	age=ag+"";
-                    }
-                    document.getElementById("ageactualecho").value = age;
+                    document.getElementById("ageactualecho").value = Math.round((timeElapsed*1+echoage*1)*10)/10;
                     echodeldate=new Date();
-                    echodeldate.setTime(trandate.getTime()+(38-ag*1)*(1000 * 3600 * 24 * 7));
+                    echodeldate.setTime(trandate.getTime()+(38-(timeElapsed*1+echoage*1))*(1000 * 3600 * 24 * 7));
                     document.getElementById("echodeldate").value = echodeldate.getDate() + "/" + (echodeldate.getMonth() + 1) + "/" + echodeldate.getFullYear();
                 }
             }
@@ -817,6 +812,7 @@
     }
 
     if (document.getElementById("transactionId").value.startsWith("-")){
+    	//new transaction, base calculation on today's date
         <%
             String sAgeDateDr = "";
             ItemVO itemDelAgeDateDr = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR");
@@ -827,24 +823,31 @@
             }
 
             ItemVO itemAgeDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY");
-            if (itemAgeDateEcho!=null){
-                Date dNow = ScreenHelper.getSQLDate(ScreenHelper.getDate());
-                long lNow = dNow.getTime()/1000/3600/24/7;
-                long lEcho = Long.parseLong(itemAgeDateEcho.getValue());
-
-                if (lNow-lEcho < 43){
-                    %>document.getElementById("agedateecho").value = "<%=lNow-lEcho%>";<%
-
-                    ItemVO itemEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO");
-                    if (itemEcho!=null){
-                        %>document.getElementById("echodate").value = "<%=itemEcho.getValue()%>";<%
-                    }
-
-                    ItemVO itemDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY");
-                    if (itemEcho!=null){
-                        %>document.getElementById("echodeldate").value = "<%=itemDateEcho.getValue()%>";<%
-                    }
-                }
+            ItemVO itemEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO");
+            if (itemAgeDateEcho!=null && itemEcho!=null){
+            	//How many weeks was the patient at the moment of the last echo?
+                double lEcho = Double.parseDouble(itemAgeDateEcho.getValue().replaceAll(",","."));
+            	//How many weeks between the last echo date and now?
+            	try{
+	            	java.util.Date dNow = ScreenHelper.getSQLDate(ScreenHelper.getDate());
+	            	java.util.Date dLastEcho=new SimpleDateFormat("dd/MM/yyyy").parse(itemEcho.getValue());
+	            	long timeElapsed= dNow.getTime()-dLastEcho.getTime();
+	            	timeElapsed=timeElapsed/1000/3600/24/7;
+	
+	                if (timeElapsed+lEcho < 43){
+	                    %>document.getElementById("agedateecho").value = "<%=new DecimalFormat("#0.0").format(lEcho)%>";<%
+	
+	                    if (itemEcho!=null){
+	                        %>document.getElementById("echodate").value = "<%=itemEcho.getValue()%>";<%
+	                    }
+	
+	                    ItemVO itemDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY");
+	                    if (itemDateEcho!=null){
+	                        %>document.getElementById("echodeldate").value = "<%=itemDateEcho.getValue()%>";<%
+	                    }
+	                }
+            	}
+            	catch(Exception e){}
             }
             %>
             calculateGestAge();

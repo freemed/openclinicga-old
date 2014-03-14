@@ -146,10 +146,15 @@
                     long duration = (new Date().getTime() - enc.getBegin().getTime());
                     long days = 24 * 3600 * 1000;
                     days = days * 90;
-                    if (duration > days || duration < 0) {
-                        sHospDate = "<td style='color: red'>" + new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin()) + "</td>";
+                    if(enc.getEnd()!=null){
+	                    sTmpServiceID = "<td style='text-decoration: line-through'>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td style='text-decoration: line-through'>"+sBed+"</td><td style='text-decoration: line-through'>"+new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin())+"</td>";
                     }
-                    sTmpServiceID = "<td>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td>"+sBed+"</td>"+sHospDate;
+                    else {
+	                    if (duration > days || duration < 0) {
+	                        sHospDate = "<td style='color: red'>" + new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin()) + "</td>";
+	                    }
+	                    sTmpServiceID = "<td>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td>"+sBed+"</td>"+sHospDate;
+                    }
                 } else {
                     sTmpServiceID = "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
                 }

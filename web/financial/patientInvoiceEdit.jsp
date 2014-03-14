@@ -204,25 +204,60 @@
 	            </td>
 	        </tr>
 	        <%
-	        	if(checkString(patientInvoice.getAcceptationUid()).length()>0){
-	        %>
-	        <tr>
-	        	<td class='admin'/><td class='admin2'/>
-	            <td class="admin" nowrap><%=getTran("web.finance","accepted.by",sWebLanguage)%></td>
-	            <td class="admin2">
-	                <%=MedwanQuery.getInstance().getUserName(Integer.parseInt(patientInvoice.getAcceptationUid())) %>
-	            </td>
-	        </tr>
-	        <%	
-	        	}
+        	if(patientInvoice!=null && patientInvoice.getUid()!=null && checkString(Pointer.getPointer("DERIVED."+patientInvoice.getUid())).length()>0){
+        %>
+        <tr>
+        	<td class='admin'/><td class='admin2'/>
+            <td class="admin" nowrap><%=getTran("web.finance","derived.from",sWebLanguage)%></td>
+            <td class="admin2">
+                <a href="javascript:setPatientInvoice('<%=Pointer.getPointer("DERIVED."+patientInvoice.getUid())%>');"><%=Pointer.getPointer("DERIVED."+patientInvoice.getUid())%></a>
+            </td>
+        </tr>
+        <%	
+        	}
+        	if(patientInvoice!=null && patientInvoice.getUid()!=null && checkString(Pointer.getPointer("FOLLOW."+patientInvoice.getUid())).length()>0){
+        %>
+        <tr>
+        	<td class='admin'/><td class='admin2'/>
+            <td class="admin" nowrap><%=getTran("web.finance","corrected.by.invoice",sWebLanguage)%></td>
+            <td class="admin2">
+                <a href="javascript:setPatientInvoice('<%=Pointer.getPointer("FOLLOW."+patientInvoice.getUid())%>');"><%=Pointer.getPointer("FOLLOW."+patientInvoice.getUid())%></a>
+            </td>
+        </tr>
+        <%	
+        	}
+        	if(checkString(patientInvoice.getAcceptationUid()).length()>0){
+        %>
+        <tr>
+        	<td class='admin'/><td class='admin2'/>
+            <td class="admin" nowrap><%=getTran("web.finance","accepted.by",sWebLanguage)%></td>
+            <td class="admin2">
+                <%=MedwanQuery.getInstance().getUserName(Integer.parseInt(patientInvoice.getAcceptationUid())) +" - "+patientInvoice.getAcceptationDate()%>
+            </td>
+        </tr>
+        <%	
+        	}
+        	if(patientInvoice!=null && patientInvoice.getUid()!=null && checkString(Pointer.getPointer("NOVALIDATE."+patientInvoice.getUid())).length()>0){
+        		String refusal=Pointer.getPointer("NOVALIDATE."+patientInvoice.getUid());
+        %>
+        <tr>
+        	<td class='admin'/><td class='admin2'/>
+            <td class="admin" nowrap><%=getTran("web.finance","refused.by",sWebLanguage)%></td>
+            <td class="admin2">
+                <%=MedwanQuery.getInstance().getUserName(Integer.parseInt(refusal.split(";")[0])) +" ("+refusal.split(";")[1]+")"%>
+            </td>
+        </tr>
+        <%	
+        	}
 	        	if(patientInvoice!=null){
 	        		String signatures="";
-	        		Vector pointers=Pointer.getPointers("INVSIGN."+patientInvoice.getUid());
+	        		Vector pointers=Pointer.getFullPointers("INVSIGN."+patientInvoice.getUid());
 	        		for(int n=0;n<pointers.size();n++){
 	        			if(n>0){
 	        				signatures+=", ";
 	        			}
-	        			signatures+=(String)pointers.elementAt(n);
+	        			String ptr=(String)pointers.elementAt(n);
+	        			signatures+=ptr.split(";")[0]+" - "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new SimpleDateFormat("yyyyMMddHHmmSSsss").parse(ptr.split(";")[1]));
 	        		}
 	        		if(signatures.length()>0){
 		    	        %>
@@ -464,6 +499,11 @@
 	                        	}
 	                        %>
 	                        <%
+	                        	if(MedwanQuery.getInstance().getConfigInt("enablePatientInvoiceRecreation",0)==1 && activeUser.getAccessRight("financial.modifyinvoice.select") && checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed")){
+	                        %>
+                                	<input class="button" type="button" name="buttonModifyInvoice" value='<%=getTranNoLink("Web.finance","modifyinvoice",sWebLanguage)%>' onclick="doModifyInvoice('<%=patientInvoice.getUid()%>');">
+		                    <%
+	                        	}
 	                            if (!isInsuranceAgent && !(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
 	                            	if((MedwanQuery.getInstance().getConfigInt("authorizeCancellationOfOpenInvoices",1)==1 && !patientInvoice.getStatus().equalsIgnoreCase("closed"))||(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.cancelclosedinvoice.select")){
 	                        %>
@@ -477,9 +517,10 @@
 	                        <%
 	                            	}
 	                            }
-	                        if(isInsuranceAgent && checkString(patientInvoice.getUid()).split("\\.").length==2 && checkString(patientInvoice.getAcceptationUid()).length()==0){
+	                        if(isInsuranceAgent && checkString(patientInvoice.getUid()).split("\\.").length==2 && checkString(patientInvoice.getAcceptationUid()).length()==0 && Pointer.getPointer("NOVALIDATE."+patientInvoice.getUid()).length()==0){
 	                        %>
                                	<input class="button" type="button" name="buttonAcceptation" value='<%=getTranNoLink("Web.finance","validation",sWebLanguage)%>' onclick="doValidate('<%=patientInvoice.getUid()%>');">
+                               	<input class="button" type="button" name="buttonNoAcceptation" value='<%=getTranNoLink("Web.finance","novalidation",sWebLanguage)%>' onclick="doNotValidate('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                        }
 	                        if(!isInsuranceAgent && activeUser.getAccessRight("occup.signinvoices.select")){
@@ -515,6 +556,10 @@
 	              }
 	          }
 	        );
+		}
+	
+		function doNotValidate(invoiceuid){
+		    openPopup("/financial/patientInvoiceNoValidate.jsp&ts=<%=getTs()%>&invoiceuid="+invoiceuid,500,200);
 		}
 	
 		function doSign(invoiceuid){
@@ -728,6 +773,27 @@
             }
 	    }
 		
+	    function doModifyInvoice(invoiceuid){
+	        var params = '';
+	        var today = new Date();
+	        var url= '<c:url value="/financial/recreateInvoice.jsp"/>?invoiceuid='+invoiceuid+'&ts='+today;
+	        document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	        new Ajax.Request(url,{
+					method: "GET",
+	                parameters: params,
+	                onSuccess: function(resp){
+	                	var label = eval('('+resp.responseText+')');
+	                	if(label.invoiceuid.length>0){
+	                		setPatientInvoice(label.invoiceuid);
+	                    };
+	                },
+					onFailure: function(request, status, error){
+						alert(request.responseText);
+	                }
+	            }
+			);
+	    }
+	    
 	    function setPatientInvoice(sUid){
 	        FindForm.FindPatientInvoiceUID.value = sUid;
 	        FindForm.submit();

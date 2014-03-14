@@ -202,7 +202,7 @@
 		</tr>
 	</table>
 <%
-	sQuery="SELECT count(*) total,l.code,l.label"+sWebLanguage+",province FROM oc_diagnoses d, oc_diagnosis_groups g, icd10 l, oc_encounters e, privateview a where g.oc_diagnosis_codetype='icd10' and d.oc_diagnosis_codetype='icd10' and e.oc_encounter_objectid=d.oc_diagnosis_encounterobjectid and e.oc_encounter_patientuid=a.personid and d.oc_diagnosis_date>=? and oc_diagnosis_date<=? and d.oc_diagnosis_code>=g.oc_diagnosis_codestart and d.oc_diagnosis_code<=g.oc_diagnosis_codeend and g.oc_diagnosis_groupcode=l.code group by l.code,l.labelnl,province order by count(*) desc";
+	sQuery="SELECT count(*) total,l.code,l.label"+sWebLanguage+",district FROM oc_diagnoses d, oc_diagnosis_groups g, icd10 l, oc_encounters e, privateview a where g.oc_diagnosis_codetype='icd10' and d.oc_diagnosis_codetype='icd10' and e.oc_encounter_objectid=d.oc_diagnosis_encounterobjectid and e.oc_encounter_patientuid=a.personid and d.oc_diagnosis_date>=? and oc_diagnosis_date<=? and d.oc_diagnosis_code>=g.oc_diagnosis_codestart and d.oc_diagnosis_code<=g.oc_diagnosis_codeend and g.oc_diagnosis_groupcode=l.code group by l.code,l.labelnl,district order by count(*) desc";
 	ps = conn.prepareStatement(sQuery);
 	ps.setTimestamp(1,new java.sql.Timestamp(dBegin.getTime()));
 	ps.setTimestamp(2,new java.sql.Timestamp(dEnd.getTime()));
@@ -214,7 +214,7 @@
 		count = rs.getInt("total");
 		etiology = checkString(rs.getString("code")+";"+rs.getString("label"+sWebLanguage));
 		if(etiologyset.contains(etiology)){
-			province=checkString(rs.getString("province"));
+			province=checkString(rs.getString("district"));
 			if(province.length()==0){
 				province="?";
 			}

@@ -356,7 +356,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="admin"><%=getTran("web","class",sWebLanguage)%></td>
+                        <td class="admin"><%=getTran("web","class",sWebLanguage)+(MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1?" *":"")%></td>
                         <td class="admin2">
                             <select class="text" name="EditPrestationClass">
                                 <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
@@ -368,7 +368,7 @@
                     	if(MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1){
                     %>
 	                    <tr>
-	                        <td class="admin"><%=getTran("web","cnarclass",sWebLanguage)%></td>
+	                        <td class="admin"><%=getTran("web","cnarclass",sWebLanguage)%> *</td>
 	                        <td class="admin2">
 	                            <select class="text" name="EditPrestationFlag1">
 	                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
@@ -589,7 +589,7 @@
 
   function savePrestation(){
     if(transactionForm.EditPrestationCode.value.length > 0 && transactionForm.EditPrestationDescr.value.length > 0 &&
-       transactionForm.EditPrestationType.value.length > 0){
+       transactionForm.EditPrestationType.value.length > 0 <%=MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1?"&& transactionForm.EditPrestationClass.value.length > 0 && transactionForm.EditPrestationFlag1.value.length > 0":""%>){
       if(transactionForm.EditPrestationUid.value.length==0){
           transactionForm.EditPrestationUid.value = "-1";
       }
@@ -625,6 +625,18 @@
       else if(transactionForm.EditPrestationPrice.value.length==0){
         transactionForm.EditPrestationPrice.focus();
       }
+      <%
+      	if(MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1){
+      %>
+	    else if(transactionForm.EditPrestationClass.value.length==0){
+    	    transactionForm.EditPrestationClass.focus();
+        }
+	    else if(transactionForm.EditPrestationFlag1.value.length==0){
+    	    transactionForm.EditPrestationFlag1.focus();
+        }
+      <%
+      	}
+      %>
 
       var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=dataMissing";
       var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";

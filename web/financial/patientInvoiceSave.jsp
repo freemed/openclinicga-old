@@ -33,6 +33,7 @@
             patientinvoice.setCreateDateTime(oldpatientinvoice.getCreateDateTime());
             patientinvoice.setNumber(oldpatientinvoice.getNumber());
             patientinvoice.setAcceptationUid(oldpatientinvoice.getAcceptationUid());
+           	patientinvoice.setAcceptationDate(oldpatientinvoice.getAcceptationDate());
             invoicePatient=oldpatientinvoice.getPatient();
         }
     } else {

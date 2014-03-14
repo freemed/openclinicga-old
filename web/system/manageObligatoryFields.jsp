@@ -118,6 +118,9 @@
 
                 out.print(setCb(i++,"Admin","Comment4","comment4",sWebLanguage,"web"));
                 out.print(setCb(i++,"Admin","Comment5","comment5",sWebLanguage,"web"));
+                if(MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1){
+                    out.print(setCb(i++,"Admin","centerreason","center",sWebLanguage,"web"));
+                }
             %>
             </td>
         </tr>
@@ -144,6 +147,7 @@
                 out.print(setCb(i++,"AdminPrivate","PCountry","country",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PProvince","province",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PDistrict","district",sWebLanguage,"web"));
+                out.print(setCb(i++,"AdminPrivate","PSector","community",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PEmail","email",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PTelephone","telephone",sWebLanguage,"web"));
                 out.print(setCb(i++,"AdminPrivate","PFax","fax",sWebLanguage,"web"));
