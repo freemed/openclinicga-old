@@ -25,7 +25,7 @@ public class PatientInvoice extends Invoice {
     protected String insurarreference;
     protected String insurarreferenceDate;
     protected String comment;
-    protected String modifiers; //0=mfpdoctor,1=mfppost,2=mfpagent,3=drugreceiver,4=drugreceiverid,5=receiveridcarddate,6=receiveridcardplace
+    protected String modifiers; //0=mfpdoctor,1=mfppost,2=mfpagent,3=drugreceiver,4=drugreceiverid,5=receiveridcarddate,6=receiveridcardplace,7=acceptationdate,8=derivedfrom
     
 	public String getModifiers() {
 		return modifiers;
@@ -170,6 +170,40 @@ public class PatientInvoice extends Invoice {
 		setModifier(6,s);
 	}
 	
+	public String getAcceptationDate(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[7];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setDerivedFrom(String s){
+		setModifier(8,s);
+	}
+
+	public String getDerivedFrom(){
+		String s="";
+		if(getModifiers()!=null){
+			try{
+				s=getModifiers().split(";")[8];
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+	public void setAcceptationDate(String s){
+		setModifier(7,s);
+	}
+
     public String getComment() {
 		return comment;
 	}
@@ -335,7 +369,6 @@ public class PatientInvoice extends Invoice {
         		b=Double.parseDouble(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(b));
         	}
         	catch(Exception e){
-        		e.printStackTrace();
         	}
         }
         if(b>0 && b<Double.parseDouble(MedwanQuery.getInstance().getConfigString("minimumInvoiceBalance","1"))){

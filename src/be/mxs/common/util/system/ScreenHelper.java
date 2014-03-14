@@ -902,7 +902,7 @@ public class ScreenHelper {
     			}
         	}
         	String sPrestationClass=MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestationClass","");
-            if(sMessage.length()>0 && checkString(sPrestationClass).length()>0){
+            if(checkString(sPrestationClass).length()>0){
         		try{
 	        		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	        		String sQuery="select * from oc_debets a, oc_prestations b where a.oc_debet_date>=? and a.oc_debet_encounteruid=? and b.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and b.oc_prestation_class=?";

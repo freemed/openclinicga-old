@@ -1036,7 +1036,7 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             table.addCell(cell);
             if(invoice.getAcceptationUid()!=null && invoice.getAcceptationUid().length()>0){
             	User validatinguser = User.get(Integer.parseInt(invoice.getAcceptationUid()));
-	            cell=createValueCell(getTran("web","validatedby")+": "+validatinguser.person.lastname.toUpperCase()+", "+validatinguser.person.firstname+" ("+validatinguser.userid+")",100);
+	            cell=createValueCell(getTran("web","validatedby")+": "+validatinguser.person.lastname.toUpperCase()+", "+validatinguser.person.firstname+" ("+validatinguser.userid+") - "+invoice.getAcceptationDate(),100);
 	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            table.addCell(cell);
             }
@@ -1048,12 +1048,13 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
     		String signatures="";
-    		Vector pointers=Pointer.getPointers("INVSIGN."+invoice.getUid());
+    		Vector pointers=Pointer.getFullPointers("INVSIGN."+invoice.getUid());
     		for(int n=0;n<pointers.size();n++){
     			if(n>0){
     				signatures+=", ";
     			}
-    			signatures+=(String)pointers.elementAt(n);
+    			String ptr=(String)pointers.elementAt(n);
+    			signatures+=ptr.split(";")[0]+" - "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new SimpleDateFormat("yyyyMMddHHmmSSsss").parse(ptr.split(";")[1]));
     		}
     		if(signatures.length()>0){
     			signatures="\n"+ScreenHelper.getTran("web.finance","signed.by",sPrintLanguage)+": "+signatures;
@@ -1317,7 +1318,7 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             table.addCell(cell);
             if(invoice.getAcceptationUid()!=null && invoice.getAcceptationUid().length()>0){
             	User validatinguser = User.get(Integer.parseInt(invoice.getAcceptationUid()));
-	            cell=createValueCell(getTran("web","validatedby")+": "+validatinguser.person.lastname.toUpperCase()+", "+validatinguser.person.firstname+" ("+validatinguser.userid+")",100);
+	            cell=createValueCell(getTran("web","validatedby")+": "+validatinguser.person.lastname.toUpperCase()+", "+validatinguser.person.firstname+" ("+validatinguser.userid+") - "+invoice.getAcceptationDate(),100);
 	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            table.addCell(cell);
             }
@@ -1329,12 +1330,13 @@ public class PDFPatientInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
     		String signatures="";
-    		Vector pointers=Pointer.getPointers("INVSIGN."+invoice.getUid());
+    		Vector pointers=Pointer.getFullPointers("INVSIGN."+invoice.getUid());
     		for(int n=0;n<pointers.size();n++){
     			if(n>0){
     				signatures+=", ";
     			}
-    			signatures+=(String)pointers.elementAt(n);
+    			String ptr=(String)pointers.elementAt(n);
+    			signatures+=ptr.split(";")[0]+" - "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new SimpleDateFormat("yyyyMMddHHmmSSsss").parse(ptr.split(";")[1]));
     		}
     		if(signatures.length()>0){
     			signatures="\n"+ScreenHelper.getTran("web.finance","signed.by",sPrintLanguage)+": "+signatures;

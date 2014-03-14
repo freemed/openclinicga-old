@@ -3,6 +3,7 @@ package be.mxs.common.util.system;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import be.mxs.common.util.db.MedwanQuery;
@@ -19,6 +20,27 @@ public class Pointer {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				pointers.add(rs.getString("OC_POINTER_VALUE"));
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return pointers;
+	}
+	
+	public static Vector getFullPointers(String key){
+		Vector pointers = new Vector();
+		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		PreparedStatement ps = null;
+		try{
+			ps=conn.prepareStatement("select OC_POINTER_VALUE,OC_POINTER_UPDATETIME from OC_POINTERS where OC_POINTER_KEY=? order by OC_POINTER_VALUE");
+			ps.setString(1, key);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				pointers.add(rs.getString("OC_POINTER_VALUE")+";"+new SimpleDateFormat("yyyyMMddHHmmSSsss").format(rs.getTimestamp("OC_POINTER_UPDATETIME")));
 			}
 			rs.close();
 			ps.close();
