@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td class='admin2'><%=getTranNoLink("web","servername",sWebLanguage) %></td>
-                    <td class='admin'><b><%=getTranNoLink("datacenterServer",serverid,sWebLanguage).toUpperCase() %></b></td>
+                    <td class='admin'><b><%=request.getParameter("label")!=null?request.getParameter("label"):getTranNoLink("datacenterServer",serverid,sWebLanguage).toUpperCase() %></b></td>
                 </tr>
                 <tr>
                     <td class='admin2'><%=getTranNoLink("web","memberofservergroups",sWebLanguage) %></td>

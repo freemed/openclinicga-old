@@ -27,7 +27,7 @@
 		return sVal;
 	}
     public String serverDetail(String server, String sVal){
-        return "<a href='"+sCONTEXTPATH+"/datacenter/datacenterHome.jsp?p=/datacenter/serverOverview.jsp&serverid="+server+"&ts="+getTs()+"'>"+sVal+"</a>";
+        return "<a href='"+sCONTEXTPATH+"/datacenter/datacenterHome.jsp?p=/datacenter/serverOverview.jsp&serverid="+server+"&label="+sVal+"&ts="+getTs()+"'>"+sVal+"</a>";
     }
     public String manualDataEntry(String server){
         return "<a href='"+sCONTEXTPATH+"/datacenter/datacenterHome.jsp?p=/datacenter/manualDataEntry.jsp&serverid="+server+"&ts="+getTs()+"' class='link'><span class='icon edit'>&nbsp;</span></a>";
@@ -103,7 +103,12 @@
 		}
         
         if(showcontent){
-			out.print("<tr><td class='admin2' width='30%'>"+sEdit+serverDetail(server,counter+". "+getTranNoLink("datacenterserver",server,sWebLanguage)+" ("+server+")"+""));
+			if(MedwanQuery.getInstance().getConfigString("datacenterspecialserverlabels"+group,"").indexOf("*"+server+"*")<0){
+				out.print("<tr><td class='admin2' width='30%'>"+sEdit+serverDetail(server,counter+". "+getTranNoLink("datacenterserver",server,sWebLanguage)+" ("+server+")"+""));
+			}
+			else {
+				out.print("<tr><td class='admin2' width='30%'>"+sEdit+serverDetail(server,counter+". "+getTranNoLink("datacenterserver",group+"."+server,sWebLanguage)+" ("+server+")"+""));
+			}
 		
 			java.util.Date lastdate=DatacenterHelper.getLastDate(Integer.parseInt(server));
 			String color="color='green'";
