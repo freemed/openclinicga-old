@@ -164,7 +164,7 @@ public class CsvInvoiceRama {
         sOutput+=new SimpleDateFormat("dd/MM/yyyy").format(date)+";";
         sOutput+=insurarreference+";";
         sOutput+=invoiceid+";";
-        sOutput+=beneficiarynr+";";
+        sOutput+="N° "+beneficiarynr+";";
         sOutput+=beneficiaryage+";";
         sOutput+=beneficiarysex+";";
         sOutput+=beneficiary+";";

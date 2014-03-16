@@ -172,6 +172,64 @@ public class Encounter extends OC_Object {
     	return encounter;
     }
 
+    public boolean hasTransactions(){
+    	boolean bHasTransactions=false;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            PreparedStatement ps = oc_conn.prepareStatement("select count(*) total from Transactions a,HealthRecord b where a.healthRecordId=b.healthRecordId and b.personid=? and a.updatetime>=? and a.updatetime<=?");
+            ps.setInt(1, Integer.parseInt(this.getPatientUID()));
+            ps.setDate(2, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(this.getBegin())).getTime()));
+            ps.setTimestamp(3, new java.sql.Timestamp(this.getEnd()==null?new java.util.Date().getTime():this.getEnd().getTime()));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                bHasTransactions=rs.getInt("total")>0;
+            }
+            rs.close();
+            ps.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // close connection
+        try{
+			oc_conn.close();
+		}
+        catch(SQLException e){
+			e.printStackTrace();
+		}
+    	return bHasTransactions;
+    }
+    
+    public boolean hasInvoices(){
+    	boolean bHasInvoices=false;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            PreparedStatement ps = oc_conn.prepareStatement("select count(*) total from OC_PATIENTINVOICES where OC_PATIENTINVOICE_PATIENTUID=? and OC_PATIENTINVOICE_DATE>=? and OC_PATIENTINVOICE_DATE<=?");
+            ps.setInt(1, Integer.parseInt(this.getPatientUID()));
+            ps.setDate(2, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(this.getBegin())).getTime()));
+            ps.setTimestamp(3, new java.sql.Timestamp(this.getEnd()==null?new java.util.Date().getTime():this.getEnd().getTime()));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+            	bHasInvoices=rs.getInt("total")>0;
+            }
+            rs.close();
+            ps.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // close connection
+        try{
+			oc_conn.close();
+		}
+        catch(SQLException e){
+			e.printStackTrace();
+		}
+    	return bHasInvoices;
+    }
+    
     public static Vector getAccountedAccomodations(String encounterUID) {
         Vector invoicedAccomodations = new Vector();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();

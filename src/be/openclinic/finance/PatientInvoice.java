@@ -288,20 +288,18 @@ public class PatientInvoice extends Invoice {
     	Vector debets=getDebets();
     	for(int n=0;n<debets.size();n++){
     		Debet debet = (Debet)debets.elementAt(n);
-    		if(debet.getInsurarAmount()>0){
-    			String insurar = "?";
-    			if(debet.getInsurance()!=null && debet.getInsurance().getInsurar()!=null){
-    				insurar=debet.getInsurance().getInsurar().getName();
-    			}
-    			if(amounts.get(insurar)!=null){
-    				amounts.put(insurar, new Double(((Double)amounts.get(insurar)).doubleValue()+debet.getInsurarAmount()));
-    			}
-    			else {
-    				amounts.put(insurar, new Double(debet.getInsurarAmount()));
-    			}
-    		}
+			String insurar = "?";
+			if(debet.getInsurance()!=null && debet.getInsurance().getInsurar()!=null){
+				insurar=debet.getInsurance().getInsurar().getName();
+			}
+			if(amounts.get(insurar)!=null){
+				amounts.put(insurar, new Double(((Double)amounts.get(insurar)).doubleValue()+debet.getInsurarAmount()));
+			}
+			else {
+				amounts.put(insurar, new Double(debet.getInsurarAmount()));
+			}
     		if(debet.getExtraInsurarAmount()>0){
-    			String insurar = "?";
+    			insurar = "?";
     			String extraInsurarUid=debet.getExtraInsurarUid();
     			Insurar extraInsurar = Insurar.get(extraInsurarUid);
     			if(extraInsurar!=null){

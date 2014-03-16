@@ -1288,6 +1288,16 @@ public class Prestation extends OC_Object{
                 	ps.setInt(2, Integer.parseInt(ids[1]));
                 	ps.execute();
                 	ps.close();
+                	//Vervolgens copiëren we de actieve tarieven naar de nieuwe versie
+                	sSql="insert into OC_TARIFFS(OC_TARIFF_INSURARUID,OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE,OC_TARIFF_VERSION) " +
+                			" select OC_TARIFF_INSURARUID,OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE,OC_TARIFF_VERSION+1 from OC_TARIFFS where" +
+                			" OC_TARIFF_PRESTATIONUID=? and" +
+                			" OC_TARIFF_VERSION=?";
+                	ps=oc_conn.prepareStatement(sSql);
+                	ps.setString(1, ids[0]+"."+ids[1]);
+                	ps.setInt(2, this.getVersion());
+                	ps.execute();
+                	ps.close();
                 	//Vervolgens deleten we het bestaande record uit OC_Prestations
                 	sSql="delete from OC_PRESTATIONS where OC_PRESTATION_SERVERID=? and OC_PRESTATION_OBJECTID=?";
                 	ps=oc_conn.prepareStatement(sSql);

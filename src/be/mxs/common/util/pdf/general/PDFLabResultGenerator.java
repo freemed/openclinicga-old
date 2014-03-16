@@ -171,6 +171,16 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
         }
+        // Print general comment if it exists
+        TransactionVO tran = MedwanQuery.getInstance().loadTransaction(MedwanQuery.getInstance().getConfigInt("serverId"), labRequest.getTransactionid());
+        if(tran!=null && tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_COMMENT").length()>0){
+	        cell=createLabelCourier(" ",10,10,Font.NORMAL);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	        table.addCell(cell);
+	        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("web","comment",user.person.language)+": "+tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_COMMENT"),10,90,Font.NORMAL);
+	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	        table.addCell(cell);
+        }
         cell=createLabelCourier(" ",10,10,Font.NORMAL);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);

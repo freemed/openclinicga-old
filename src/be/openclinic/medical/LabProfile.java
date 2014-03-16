@@ -531,7 +531,7 @@ public class LabProfile {
 
         Vector vLabProfiles = new Vector();
 
-        String sSelect = "SELECT distinct lap.labID,la.labcode,la.labtype,la.labcodeother,lap.comment,la.monster"+
+        String sSelect = "SELECT distinct lap.labID,la.labcode,la.labtype,la.labcodeother,lap.comment,la.monster,"+labcodeLower+" as lcl,"+commentLower+" as cl"+
                                 " FROM LabProfiles lp, LabProfilesAnalysis lap, LabAnalysis la"+
                                 " WHERE lap.profileID = lp.profileID"+
                                 "  AND lap.labID = la.labID"+

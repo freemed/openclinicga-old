@@ -154,21 +154,27 @@ public class SaveLabAnalysesAction extends Action {
             	Hashtable allanalyses = LabAnalysis.getAllLabanalyses();
                 Debug.println("Saving analysis "+analysisCode);
 
-                if(!RequestedLabAnalysis.exists(Integer.parseInt(sServerId),Integer.parseInt(sTransactionId),analysisCode)){
-                    // labRequest not found : insert in DB
-                    labAnalysis = new RequestedLabAnalysis();
-                    labAnalysis.setServerId(sServerId);
-                    labAnalysis.setTransactionId(sTransactionId);
-                    labAnalysis.setPatientId(sPatientId);
-                    labAnalysis.setAnalysisCode(analysisCode);
-                    labAnalysis.setComment(comment);
-                    labAnalysis.store(false); // object does not exist, so insert
-                }
+                LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
+
+            	if(a!=null && MedwanQuery.getInstance().getConfigString("virtualLabAnalysisEditors","virtual").indexOf(a.getEditor())<0){    
+	                if(!RequestedLabAnalysis.exists(Integer.parseInt(sServerId),Integer.parseInt(sTransactionId),analysisCode)){
+	                    // labRequest not found : insert in DB
+	                    labAnalysis = new RequestedLabAnalysis();
+	                    labAnalysis.setServerId(sServerId);
+	                    labAnalysis.setTransactionId(sTransactionId);
+	                    labAnalysis.setPatientId(sPatientId);
+	                    labAnalysis.setAnalysisCode(analysisCode);
+	                    labAnalysis.setComment(comment);
+	                    labAnalysis.store(false); // object does not exist, so insert
+	                }
+            	}
                 if(MedwanQuery.getInstance().getConfigInt("enableAutomaticLabInvoicing",0)==1){
-                    LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
+                	Debug.println("checking prestation save for "+a.getLabcode());
                     if(a!=null && a.getPrestationcode()!=null && a.getPrestationcode().length()>0 && a.getUnavailable()==0){
+                    	Debug.println("saving prestation "+a.getPrestationcode());
                     	//Now check if the prestation was not coded yet in the past 24 hours
                     	if(!Debet.existsRecent(a.getPrestationcode(),sPatientId,24*3600*1000,transaction!=null?transaction.getUpdateTime():new java.util.Date())){
+                        	Debug.println("no recent identical prestation, commiting");
                     		Debet.createAutomaticDebet("LAB."+sServerId+"."+sTransactionId+"."+analysisCode, sPatientId, a.getPrestationcode(), sUserId);
                     	}
         		    }

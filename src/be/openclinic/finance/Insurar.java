@@ -80,8 +80,8 @@ public class Insurar extends OC_Object {
 		return n;
 	}
 	
-	public void setRequireValidation(int n){
-		setModifier(3,n+"");
+	public void setRequireAffiliateID(int n){
+		setModifier(2,n+"");
 	}
 	
 	public int getRequireValidation(){
@@ -97,11 +97,26 @@ public class Insurar extends OC_Object {
 		return n;
 	}
 	
-	public void setRequireAffiliateID(int n){
-		setModifier(2,n+"");
+	public void setRequireValidation(int n){
+		setModifier(3,n+"");
 	}
 	
-	
+	public int getInactive(){
+		int n=0;
+		if(getModifiers()!=null){
+			try{
+				n=Integer.parseInt(getModifiers().split(";")[4]);
+			}
+			catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+		return n;
+	}
+
+	public void setInactive(int n){
+		setModifier(4,n+"");
+	}
 	
 	public void setModifier(int index,String value){
 		if(getModifiers()==null){
