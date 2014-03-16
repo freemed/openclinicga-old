@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -119,11 +120,21 @@ public class Monitor implements Runnable{
     			method.setQueryString(nvp);
     			int statusCode = client.executeMethod(method);
     			String resultstring=method.getResponseBodyAsString();
-    			System.out.println("result="+resultstring);
     			if(resultstring.contains("<OK>")){
     				MedwanQuery.getInstance().setConfigString("lastGlobalHealthBarometerMonitor", new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()));
     				System.out.println("lastGlobalHealthBarometerMonitor updated to "+MedwanQuery.getInstance().getConfigString("lastGlobalHealthBarometerMonitor","19000101"));
     			}
+    			//Also create some hits on OS fora
+    			client = new HttpClient();
+    			GetMethod getmethod = new GetMethod("http://www.medfloss.org/node/722");
+    			method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
+    			statusCode = client.executeMethod(getmethod);
+    			resultstring=getmethod.getResponseBodyAsString();
+    			client = new HttpClient();
+    			getmethod = new GetMethod("http://sourceforge.net/projects/open-clinic/");
+    			method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
+    			statusCode = client.executeMethod(getmethod);
+    			resultstring=getmethod.getResponseBodyAsString();
     		}
     		Date lastCouncilValidation = new SimpleDateFormat("yyyyMMdd").parse(MedwanQuery.getInstance().getConfigString("lastProfessionalCouncilValidation","19000101"));
     		if(new java.util.Date().getTime()-lastCouncilValidation.getTime()>=day){
