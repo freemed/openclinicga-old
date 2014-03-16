@@ -12,12 +12,14 @@
     String sVarTypName = checkString(request.getParameter("VarTypName"));
     String sVarCompUID = checkString(request.getParameter("VarCompUID"));
     String sVarFunction = checkString(request.getParameter("VarFunction"));
+    String sVarActive=checkString(request.getParameter("Active"));
 
 %>
 <form name='SearchForm' method="POST" onSubmit="doFind();return false;" onsubmit="doFind();return false;">
     <input type="hidden" name="VarCode" value="<%=sVarCode%>">
     <input type="hidden" name="VarText" value="<%=sVarText%>">
     <input type="hidden" name="VarCat" value="<%=sVarCat%>">
+    <input type="hidden" name="Active" value="<%=sVarActive%>">
     <table width='100%' border='0' cellspacing='0' cellpadding='0' class='menu'>
         <%-- search fields row 1 --%>
         <%-- service --%>

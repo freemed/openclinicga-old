@@ -49,6 +49,7 @@
            sFindInsurarName     = checkString(request.getParameter("FindInsurarName")),
            sFindInsurarLanguage = checkString(request.getParameter("FindInsurarLanguage")),
            sFindInsurarContact  = checkString(request.getParameter("FindInsurarContact")),
+           sEditInactive  = checkString(request.getParameter("EditInactive")),
            sEditInsurarId       = checkString(request.getParameter("EditInsurarId")),
            sEditNoSupplements       = checkString(request.getParameter("EditNoSupplements")),
            sEditAuthorizationNeeded       = checkString(request.getParameter("EditAuthorizationNeeded")),
@@ -144,7 +145,14 @@
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		insurar.setCoverSupplements(nCoverSupplements);
+		int nInactive=0;
+		try{
+			nInactive=Integer.parseInt(sEditInactive);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		insurar.setInactive(nInactive);
 		int nRequireAffiliateID=0;
 		try{
 			nRequireAffiliateID=Integer.parseInt(sEditInsurarRequiresAffiliateID);
@@ -630,6 +638,12 @@
                                     }
                                 %>
                             </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin"><%=getTran("web","inactive",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="text" name="EditInactive" <%=insurar.getInactive()==1?"checked":"" %> value="1"/>
                         </td>
                     </tr>
                     <tr>

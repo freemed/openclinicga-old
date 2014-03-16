@@ -90,14 +90,17 @@
         labAnalysis = RequestedLabAnalysis.get(Integer.parseInt(sServerId), Integer.parseInt(sTransactionId), analysisCode);
         if (labAnalysis == null) {
             // labRequest not found : insert in DB
-            labAnalysis = new RequestedLabAnalysis();
-            labAnalysis.setServerId(sServerId);
-            labAnalysis.setTransactionId(sTransactionId);
-            labAnalysis.setAnalysisCode(analysisCode);
-            labAnalysis.setComment(comment);
-            labAnalysis.store();
             LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
-            if(a!=null && a.getPrestationcode()!=null && a.getPrestationcode().length()>0){
+			System.out.println("editor for "+a.getLabcode()+" = "+a.getEditor());
+        	if(a!=null && MedwanQuery.getInstance().getConfigString("virtualLabAnalysisEditors","virtual").indexOf(a.getEditor())<0){    
+	            labAnalysis = new RequestedLabAnalysis();
+	            labAnalysis.setServerId(sServerId);
+	            labAnalysis.setTransactionId(sTransactionId);
+	            labAnalysis.setAnalysisCode(analysisCode);
+	            labAnalysis.setComment(comment);
+	            labAnalysis.store();
+			}
+            if(a!=null && a.getPrestationcode()!=null && a.getPrestationcode().length()>0 && Pointer.getPointer("LAB."+sServerId+"."+sTransactionId+"."+analysisCode).length()==0){
 				Debet.createAutomaticDebet("LAB."+sServerId+"."+sTransactionId+"."+analysisCode, activePatient.personid, a.getPrestationcode(), activeUser.userid);
 		    }
         }

@@ -159,11 +159,7 @@
         	prestation.setUpdateDateTime(new SimpleDateFormat("dd/MM/yyyy").parse(sEditPrestationUpdatetime));
         }
         catch(Exception e){}
-		System.out.println("1 prestation.getDescription()="+prestation.getDescription());
-		System.out.println("1 sEditPrestationDescr="+sEditPrestationDescr);
         prestation.store();
-		System.out.println("2 prestation.getDescription()="+prestation.getDescription());
-		System.out.println("2 sEditPrestationDescr="+sEditPrestationDescr);
         //activeUser.addPrestation(prestation.getUid());
         sEditPrestationUid = prestation.getUid();
         msg = getTran("web","dataIsSaved",sWebLanguage);

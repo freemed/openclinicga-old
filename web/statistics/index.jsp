@@ -91,6 +91,7 @@ if(true){
             +ScreenHelper.writeTblFooter()+"<br>");
 
         out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.download",sWebLanguage),sCONTEXTPATH)
+            +writeTblChildWithCodeNoButton("javascript:downloadStats(\"patients.list\",\"openclinic\");",getTran("Web","statistics.download.patients",sWebLanguage))
             +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("begin","stats","01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("end","stats","31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;</td></tr>"
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"global.list\",\"openclinic\");",getTran("Web","statistics.download.global",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"globalrfe.list\",\"openclinic\");",getTran("Web","statistics.download.globalrfe",sWebLanguage))

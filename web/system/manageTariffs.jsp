@@ -6,6 +6,8 @@
 	String sPrestUid=checkString(request.getParameter("tmpPrestationUID"));
 	String sPrice=checkString(request.getParameter("EditPrestationPrice"));
 	String sInsurarUid=checkString(request.getParameter("EditInsurarUID"));
+	String sFindButton=request.getParameter("findButton");
+	String sShowOld=checkString(request.getParameter("ShowOld"));
 	String sInsurarText="";
 	Insurar insurar = Insurar.get(sInsurarUid);
 	if(insurar!=null && insurar.getName()!=null){
@@ -16,6 +18,11 @@
 	if(request.getParameter("saveButton")!=null && sPrestUid.length()>0 && sPrice.length()>0 && sInsurarUid.length()>0){
 		//Save tariff
 		Prestation.saveInsuranceTariff(sPrestUid,sInsurarUid,sCategory,Double.parseDouble(sPrice));
+	}
+	if(sPrice.length()>0 && Double.parseDouble(sPrice)<0){
+		sPrice="";
+		sPrestUid="";
+		sFindButton="1";
 	}
 %>
 <form name='EditForm' id="EditForm" method='POST' action='<c:url value="/main.do?Page=system/manageTariffs.jsp"/>'>
@@ -91,6 +98,7 @@
                 <td class="admin2">
                     <input type='submit' class="button" name="saveButton" value="<%=getTranNoLink("accesskey","save",sWebLanguage)%>"/>
                     <input type='submit' class="button" name="findButton" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
+                    <input type='checkbox' name='ShowOld' id='ShowOld' value='1' <%=sShowOld.length()>0?"checked":"" %>/><%=getTran("web","showinactive",sWebLanguage) %>
                 </td>
             </tr>
 	        
@@ -99,8 +107,8 @@
 <table class='list' border='0' width='100%' cellspacing='1'>
 
 <%
-	if(request.getParameter("findButton")!=null){
-		String sSql="select distinct b.oc_insurar_name,c.oc_prestation_description,a.oc_tariff_insurancecategory,a.oc_tariff_price "+
+	if(sFindButton!=null){
+		String sSql="select distinct b.oc_insurar_name,c.oc_prestation_description,a.oc_tariff_insurancecategory,a.oc_tariff_price,oc_tariff_version,oc_prestation_version "+
 			",a.oc_tariff_insuraruid,a.oc_tariff_prestationuid,a.oc_tariff_insurancecategory,a.oc_tariff_price"+
 			" from oc_tariffs a,oc_insurars b,oc_prestations c"+
 			" where"+
@@ -108,7 +116,8 @@
 			" c.oc_prestation_objectid=replace(a.oc_tariff_prestationuid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and "+
 			" a.oc_tariff_insuraruid like '"+sInsurarUid+"%' and "+
 			" a.oc_tariff_prestationuid like '"+sPrestUid+"%' and "+
-			" a.oc_tariff_insurancecategory like '"+sCategory+"%'";
+			" a.oc_tariff_insurancecategory like '"+sCategory+"%'" +
+			" order by b.oc_insurar_name,c.oc_prestation_description,oc_tariff_version";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps = oc_conn.prepareStatement(sSql);
 		ResultSet rs = ps.executeQuery();
@@ -117,12 +126,21 @@
 			String pud=rs.getString("oc_tariff_prestationuid");
 			String cat=rs.getString("oc_tariff_insurancecategory");
 			Double price=rs.getDouble("oc_tariff_price");
-			out.println("<tr class='list'>");
-			%>
-				<td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick='selectPrestation("<%=iud%>","<%=pud %>","<%=cat %>",-1);'></td>
-			<%
-			out.print("<td><td><a href='javascript:selectPrestation(\""+iud+"\",\""+pud+"\",\""+cat+"\","+price+");'>"+rs.getString("oc_insurar_name")+"</a></td><td>"+rs.getString("oc_prestation_description")+"</td><td>"+
-					rs.getString("oc_tariff_insurancecategory")+"</td><td>"+rs.getDouble("oc_tariff_price")+"</td></tr>");
+			int tariffVersion=rs.getInt("oc_tariff_version");
+			int prestationVersion=rs.getInt("oc_prestation_version");
+			if(tariffVersion==prestationVersion){
+				out.println("<tr class='list'>");
+				%>
+					<td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick='selectPrestation("<%=iud%>","<%=pud %>","<%=cat %>",-1);'></td>
+				<%
+				out.print("<td>v"+tariffVersion+"</td><td><a href='javascript:selectPrestation(\""+iud+"\",\""+pud+"\",\""+cat+"\","+price+");'>"+rs.getString("oc_insurar_name")+"</a></td><td>"+rs.getString("oc_prestation_description")+"</td><td>"+
+						rs.getString("oc_tariff_insurancecategory")+"</td><td>"+rs.getDouble("oc_tariff_price")+"</td></tr>");
+			}
+			else if(sShowOld.equalsIgnoreCase("1")){
+				out.println("<tr class='listDisabled1'>");
+				out.print("<td/><td>v"+tariffVersion+"</td><td><a href='javascript:selectPrestation(\""+iud+"\",\""+pud+"\",\""+cat+"\","+price+");'>"+rs.getString("oc_insurar_name")+"</a></td><td>"+rs.getString("oc_prestation_description")+"</td><td>"+
+						rs.getString("oc_tariff_insurancecategory")+"</td><td>"+rs.getDouble("oc_tariff_price")+"</td></tr>");
+			}
 		}
 		rs.close();
 		ps.close();

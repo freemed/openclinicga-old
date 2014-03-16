@@ -474,7 +474,7 @@
   %>
   <%-- TYPE --%>
   <tr>
-    <td class="admin"><%=getTran("Web.manage","labanalysis.cols.type",sWebLanguage)%></td>
+    <td class="admin"><%=getTran("Web.manage","labanalysis.cols.type",sWebLanguage)%> *</td>
     <td class="admin2">
       <select name="LabType" class="text">
         <option value="0"></option>
@@ -609,6 +609,7 @@
 				        <option value="checkbox" <%="checkbox".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","checkbox",sWebLanguage)%></option>
 				        <option value="checkboxcomment" <%="checkboxcomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","checkboxcomment",sWebLanguage)%></option>
 				        <option value="antibiogram" <%="antibiogram".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogram",sWebLanguage)%></option>
+				        <option value="virtual" <%="virtual".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","virtual",sWebLanguage)%></option>
 				      </select>
 				</td>
 				<td>
@@ -705,7 +706,7 @@
 			"<input type='text' name='EPSize' id='EPSize' class='text' value='"+getParameter(parameters,"SZ")+"' size='5'>"+
 			"</td></tr>";
   	  	}
-  	  	else if($("EditLabEditor").value=="numeric"){
+  	  	else if($("EditLabEditor").value=="numeric" || $("EditLabEditor").value=="numericcomment"){
   	  		content="<tr><td class='admin2'><%=getTranNoLink("web","defaultvalue",sWebLanguage)%></td>"+
 			"<td class='admin2'>"+
 			"<input type='text' name='EPDefaultValue' id='EPDefaultValue' class='text' value='"+getParameter(parameters,"DV")+"' size='50'>"+

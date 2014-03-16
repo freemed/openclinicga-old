@@ -13,6 +13,10 @@
                 " OC_LABEL_LANGUAGE='"+sWebLanguage+"' " +
                 " order by upper(OC_LABEL_ID)";
     }
+    else if("patients.list".equalsIgnoreCase(request.getParameter("query"))){
+        query="select a.personid,immatnew as patientid,lastname,firstname,dateofbirth,(select district from privateview where personid=a.personid) as location1,(select oc_label_value from oc_labels,privateview where oc_label_type='province' and oc_label_id=province and personid=a.personid and oc_label_language='"+sWebLanguage+"') as location2" +
+                " from adminview a";
+    }
     else if("labels.list".equalsIgnoreCase(request.getParameter("query"))){
     	if(ScreenHelper.checkString(request.getParameter("tabletype")).equalsIgnoreCase("singlelanguage")){
     		if(request.getParameter("language")!=null){
@@ -68,92 +72,218 @@
         		" oc_debet_date<="+ MedwanQuery.getInstance().convertStringToDate("'<endfin>'")+" ORDER BY oc_debet_date,lastname,firstname";
     }
     else if("global.list".equalsIgnoreCase(request.getParameter("query"))){
-        query="select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,district as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_DIAGNOSIS_AUTHORUID as CODE_USER, OC_DIAGNOSIS_CODETYPE as TYPE, OC_DIAGNOSIS_CODE as DIAGCODE,"
-        +"(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select "+label+" from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
-        " from OC_ENCOUNTERS_VIEW,AdminView a,PrivateView b,OC_DIAGNOSES c " +
-        " where " +
-        " OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
-        " OC_ENCOUNTER_PATIENTUID=a.personid AND" +
-        " b.personid=a.personid AND" +
-        " b.stop is null AND" +
-        " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
-        " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
-        " union "+
-        " select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,null as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_DIAGNOSIS_AUTHORUID as CODE_USER, OC_DIAGNOSIS_CODETYPE as TYPE, OC_DIAGNOSIS_CODE as DIAGCODE,"
-        +"(CASE OC_DIAGNOSIS_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_DIAGNOSIS_CODE) ELSE (select "+label+" from icd10 where code=OC_DIAGNOSIS_CODE) END) as LABEL,OC_DIAGNOSIS_CERTAINTY as CERTAINTY, OC_DIAGNOSIS_GRAVITY as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
-                " from OC_ENCOUNTERS_VIEW,AdminView a,OC_DIAGNOSES c " +
-                " where " +
-                " OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
-                " OC_ENCOUNTER_PATIENTUID=a.personid AND" +
-                " not exists (select * from PrivateView where personid=a.personid) AND" +
-                " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
-                " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
-          " union "+
-          " select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,district as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,null as CODE_USER, null as TYPE, null as DIAGCODE,"
-         +"null as LABEL,null as CERTAINTY, null as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
-                 " from OC_ENCOUNTERS_VIEW,AdminView a,PrivateView b " +
-                 " where " +
-                 " not exists (select * from OC_DIAGNOSES where OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+") AND" +
-                 " OC_ENCOUNTER_PATIENTUID=a.personid AND" +
-                 " b.personid=a.personid AND" +
-                 " b.stop is null AND" +
-                 " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
-                 " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
-        " union "+
-        " select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,null as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,null as CODE_USER, null as TYPE, null as DIAGCODE,"
-        +"null as LABEL,null as CERTAINTY, null as GRAVITY, OC_ENCOUNTER_UPDATEUID as ENCODER"+
-                " from OC_ENCOUNTERS_VIEW,AdminView a " +
-                " where " +
-                " not exists (select * from OC_DIAGNOSES where OC_DIAGNOSIS_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+") AND" +
-                " OC_ENCOUNTER_PATIENTUID=a.personid AND" +
-                " not exists (select * from PrivateView where personid=a.personid) AND" +
-                " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
-                " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
-        " order by CODE";
+        Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
+    	Connection lad_conn = MedwanQuery.getInstance().getLongAdminConnection();
+		StringBuffer sResult=null;
+		// First we search all encounters from this period
+		query="select * from oc_encounters_view a, adminview b where a.oc_encounter_patientuid=b.personid and "+
+		" OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
+		" OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'") + " ORDER BY oc_encounter_objectid";
+        query=query.replaceAll("<begin>",request.getParameter("begin")).replaceAll("<end>",request.getParameter("end"));
+		PreparedStatement ps2 = null;
+		ResultSet rs2=null;
+		PreparedStatement ps = loc_conn.prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		SortedMap results = new TreeMap();
+		while(rs.next()){
+			sResult=new StringBuffer();
+			String id=rs.getString("oc_encounter_serverid")+"_"+rs.getString("oc_encounter_objectid");
+			sResult.append(id+";");			
+			sResult.append(checkString(rs.getString("oc_encounter_type"))+";");			
+			java.util.Date dbegin=rs.getDate("oc_encounter_begindate");
+			sResult.append(dbegin==null?";":new SimpleDateFormat("dd/MM/yyyy").format(dbegin)+";");		
+			java.util.Date dend=rs.getDate("oc_encounter_enddate");
+			sResult.append(dend==null?";":new SimpleDateFormat("dd/MM/yyyy").format(dend)+";");			
+			String patientid=checkString(rs.getString("oc_encounter_patientuid"));
+			sResult.append(patientid+";");		
+			java.util.Date dob=rs.getDate("dateofbirth");
+			sResult.append(dob==null?";":new SimpleDateFormat("MM/yyyy").format(dob)+";");			
+			sResult.append(checkString(rs.getString("gender"))+";");		
+			try{
+				long year = 1000*3600;
+				year=year*24*365;
+				long age=dbegin.getTime()-dob.getTime();
+				age=age/year;
+				sResult.append(age+";");
+			}
+			catch(Exception q){
+				sResult.append(";");
+			}
+			sResult.append(checkString(rs.getString("oc_encounter_outcome"))+";");		
+			sResult.append(checkString(rs.getString("oc_encounter_destinationuid"))+";");		
+			sResult.append(checkString(rs.getString("oc_encounter_origin"))+";");
+			String serviceid=checkString(rs.getString("oc_encounter_serviceuid")).replaceAll("\\.","_");
+			sResult.append(serviceid+";");
+			sResult.append(checkString(rs.getString("oc_encounter_beduid")).replaceAll("\\.","_")+";");
+			sResult.append(checkString(rs.getString("oc_encounter_manageruid")).replaceAll("\\.","_")+";");
+			sResult.append(checkString(rs.getString("oc_encounter_updateuid")).replaceAll("\\.","_")+";");
+			results.put(id+";"+patientid+";"+(dbegin==null?"":new SimpleDateFormat("yyyyMMddHHmmsss").format(dbegin))+";"+serviceid,sResult.toString());
+		}
+		Iterator iResults = results.keySet().iterator();
+		sResult=new StringBuffer();
+		sResult.append("CODE;TYPE;BEGINDATE;ENDDATE;PATIENT_CODE;MONTH_OF_BIRTH;GENDER;AGE;OUTCOME;DESTINATION;ORIGIN;CODE_SERVICE;CODE_BED;CODE_WARDMANAGER;ENCODER;DISTRICT;INSURER;CODE_USER;TYPE;DIAGCODE;LABEL;OLDNEW\r\n");
+		while(iResults.hasNext()){
+			String line =(String)iResults.next();
+			String content=(String)results.get(line);
+			//Add the district
+			ps2=lad_conn.prepareStatement("select * from adminprivate where personid="+line.split(";")[1]);
+			rs2=ps2.executeQuery();
+			if(rs2.next()){
+				content+=rs2.getString("district")+";";
+			}
+			else {
+				content+=";";
+			}
+			rs2.close();
+			ps2.close();
+			//Add insurer
+			query="select max(OC_INSURAR_NAME) as INSURER from OC_INSURARS q, OC_INSURANCES r, OC_DEBETS s where q.oc_insurar_objectid=replace(r.oc_insurance_insuraruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and r.oc_insurance_objectid=replace(s.oc_debet_insuranceuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and s.oc_debet_encounteruid='"+line.split(";")[0].replaceAll("\\_", ".")+"'";
+			ps2=loc_conn.prepareStatement(query);
+			rs2=ps2.executeQuery();
+			if(rs2.next()){
+				content+=checkString(rs2.getString("insurer"))+";";
+			}
+			else {
+				content+=";";
+			}
+			rs2.close();
+			ps2.close();
+			//Add reasons for encounter
+			ps2=loc_conn.prepareStatement("select * from OC_DIAGNOSES where OC_DIAGNOSIS_ENCOUNTERUID='"+line.split(";")[0].replaceAll("\\_", ".")+"'");
+			rs2=ps2.executeQuery();
+			boolean bHasDiags=false;
+			while(rs2.next()){
+				bHasDiags=true;
+				String codetype=checkString(rs2.getString("OC_DIAGNOSIS_CODETYPE"));
+				String code=checkString(rs2.getString("OC_DIAGNOSIS_CODE"));
+				sResult.append(content+checkString(rs2.getString("OC_DIAGNOSIS_AUTHORUID"))+";"+codetype+";"+code+";"+MedwanQuery.getInstance().getCodeTran((codetype.toLowerCase().startsWith("icpc")?"icpccode":"icd10code")+code, sWebLanguage)+";"+checkString(rs2.getString("OC_DIAGNOSIS_CERTAINTY"))+";"+checkString(rs2.getString("OC_DIAGNOSIS_GRAVITY"))+";\r\n");
+			}
+			rs2.close();
+			ps2.close();
+			if(!bHasDiags){
+				sResult.append(content+";"+";"+";"+";"+";"+"\r\n");
+			}
+		}
+		rs.close();
+		ps.close();
+        loc_conn.close();
+        lad_conn.close();
+	    response.setContentType("application/octet-stream; charset=windows-1252");
+	    response.setHeader("Content-Disposition", "Attachment;Filename=\"OpenClinicStatistic" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".csv\"");
+	    ServletOutputStream os = response.getOutputStream();
+    	byte[] b = sResult.toString().getBytes();
+        for (int n=0;n<b.length;n++) {
+            os.write(b[n]);
+        }
+        os.flush();
+        os.close();
     }
     else if("globalrfe.list".equalsIgnoreCase(request.getParameter("query"))){
-        query="select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,district as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_RFE_UPDATEUID as CODE_USER, OC_RFE_CODETYPE as TYPE, OC_RFE_CODE as DIAGCODE,"
-        +"(CASE OC_RFE_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_RFE_CODE) ELSE (select "+label+" from icd10 where code=OC_RFE_CODE) END) as LABEL, if(instr(binary OC_RFE_FLAGS,'N'),'New','Old') as OLD_NEW, (select max(OC_INSURAR_NAME) from OC_INSURARS q, OC_INSURANCES r, OC_DEBETS s where q.oc_insurar_objectid=replace(r.oc_insurance_insuraruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and r.oc_insurance_objectid=replace(s.oc_debet_insuranceuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_encounter_objectid=replace(s.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')) as INSURER,OC_ENCOUNTER_UPDATEUID as ENCODER"+
-        " from OC_ENCOUNTERS_VIEW,AdminView a,PrivateView b,OC_RFE c " +
-        " where " +
-        " OC_RFE_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
-        " OC_ENCOUNTER_PATIENTUID=a.personid AND" +
-        " b.personid=a.personid AND" +
-        " b.stop is null AND" +
-        " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
-        " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
-        " union "+
-        " select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,null as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,OC_RFE_UPDATEUID as CODE_USER, OC_RFE_CODETYPE as TYPE, OC_RFE_CODE as DIAGCODE,"
-        +"(CASE OC_RFE_CODETYPE WHEN 'icpc' THEN (select "+label+" from icpc2 where code=OC_RFE_CODE) ELSE (select "+label+" from icd10 where code=OC_RFE_CODE) END) as LABEL,  if(instr(binary OC_RFE_FLAGS,'N'),'New','Old') as OLD_NEW, (select max(OC_INSURAR_NAME) from OC_INSURARS q, OC_INSURANCES r, OC_DEBETS s where q.oc_insurar_objectid=replace(r.oc_insurance_insuraruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and r.oc_insurance_objectid=replace(s.oc_debet_insuranceuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_encounter_objectid=replace(s.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')) as INSURER,OC_ENCOUNTER_UPDATEUID as ENCODER"+
-                " from OC_ENCOUNTERS_VIEW,AdminView a,OC_RFE c " +
-                " where " +
-                " OC_RFE_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" AND" +
-                " OC_ENCOUNTER_PATIENTUID=a.personid AND" +
-                " not exists (select * from PrivateView where personid=a.personid) AND" +
-                " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
-                " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
-          " union "+
-          " select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,district as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,null as CODE_USER, null as TYPE, null as DIAGCODE,"
-         +"null as LABEL,null as OLD_NEW, (select max(OC_INSURAR_NAME) from OC_INSURARS q, OC_INSURANCES r, OC_DEBETS s where q.oc_insurar_objectid=replace(r.oc_insurance_insuraruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and r.oc_insurance_objectid=replace(s.oc_debet_insuranceuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_encounter_objectid=replace(s.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')) as INSURER,OC_ENCOUNTER_UPDATEUID as ENCODER"+
-                 " from OC_ENCOUNTERS_VIEW,AdminView a,PrivateView b " +
-                 " where " +
-                 " not exists (select * from OC_RFE where OC_RFE_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+") AND" +
-                 " OC_ENCOUNTER_PATIENTUID=a.personid AND" +
-                 " b.personid=a.personid AND" +
-                 " b.stop is null AND" +
-                 " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
-                 " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
-        " union "+
-        " select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) AS MONTH_OF_BIRTH,gender AS GENDER,"+MedwanQuery.getInstance().datediff("yy","dateofbirth","OC_ENCOUNTER_BEGINDATE")+" as AGE,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,null as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD,null as CODE_USER, null as TYPE, null as DIAGCODE,"
-        +"null as LABEL, null as OLD_NEW, (select max(OC_INSURAR_NAME) from OC_INSURARS q, OC_INSURANCES r, OC_DEBETS s where q.oc_insurar_objectid=replace(r.oc_insurance_insuraruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and r.oc_insurance_objectid=replace(s.oc_debet_insuranceuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_encounter_objectid=replace(s.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')) as INSURER,OC_ENCOUNTER_UPDATEUID as ENCODER"+
-                " from OC_ENCOUNTERS_VIEW,AdminView a " +
-                " where " +
-                " not exists (select * from OC_RFE where OC_RFE_ENCOUNTERUID="+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+") AND" +
-                " OC_ENCOUNTER_PATIENTUID=a.personid AND" +
-                " not exists (select * from PrivateView where personid=a.personid) AND" +
-                " OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
-                " OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" " +
-        " order by CODE";
+        Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
+    	Connection lad_conn = MedwanQuery.getInstance().getLongAdminConnection();
+		StringBuffer sResult=null;
+		// First we search all encounters from this period
+		query="select * from oc_encounters_view a, adminview b where a.oc_encounter_patientuid=b.personid and "+
+		" OC_ENCOUNTER_BEGINDATE<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" AND" +
+		" OC_ENCOUNTER_ENDDATE>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'") + " ORDER BY oc_encounter_objectid";
+        query=query.replaceAll("<begin>",request.getParameter("begin")).replaceAll("<end>",request.getParameter("end"));
+		PreparedStatement ps2 = null;
+		ResultSet rs2=null;
+		PreparedStatement ps = loc_conn.prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		SortedMap results = new TreeMap();
+		while(rs.next()){
+			sResult=new StringBuffer();
+			String id=rs.getString("oc_encounter_serverid")+"_"+rs.getString("oc_encounter_objectid");
+			sResult.append(id+";");			
+			sResult.append(checkString(rs.getString("oc_encounter_type"))+";");			
+			java.util.Date dbegin=rs.getDate("oc_encounter_begindate");
+			sResult.append(dbegin==null?";":new SimpleDateFormat("dd/MM/yyyy").format(dbegin)+";");		
+			java.util.Date dend=rs.getDate("oc_encounter_enddate");
+			sResult.append(dend==null?";":new SimpleDateFormat("dd/MM/yyyy").format(dend)+";");			
+			String patientid=checkString(rs.getString("oc_encounter_patientuid"));
+			sResult.append(patientid+";");		
+			java.util.Date dob=rs.getDate("dateofbirth");
+			sResult.append(dob==null?";":new SimpleDateFormat("MM/yyyy").format(dob)+";");			
+			sResult.append(checkString(rs.getString("gender"))+";");		
+			try{
+				long year = 1000*3600;
+				year=year*24*365;
+				long age=dbegin.getTime()-dob.getTime();
+				age=age/year;
+				sResult.append(age+";");
+			}
+			catch(Exception q){
+				sResult.append(";");
+			}
+			sResult.append(checkString(rs.getString("oc_encounter_outcome"))+";");		
+			sResult.append(checkString(rs.getString("oc_encounter_destinationuid"))+";");		
+			sResult.append(checkString(rs.getString("oc_encounter_origin"))+";");
+			String serviceid=checkString(rs.getString("oc_encounter_serviceuid")).replaceAll("\\.","_");
+			sResult.append(serviceid+";");
+			sResult.append(checkString(rs.getString("oc_encounter_beduid")).replaceAll("\\.","_")+";");
+			sResult.append(checkString(rs.getString("oc_encounter_manageruid")).replaceAll("\\.","_")+";");
+			sResult.append(checkString(rs.getString("oc_encounter_updateuid")).replaceAll("\\.","_")+";");
+			results.put(id+";"+patientid+";"+(dbegin==null?"":new SimpleDateFormat("yyyyMMddHHmmsss").format(dbegin))+";"+serviceid,sResult.toString());
+		}
+		Iterator iResults = results.keySet().iterator();
+		sResult=new StringBuffer();
+		sResult.append("CODE;TYPE;BEGINDATE;ENDDATE;PATIENT_CODE;MONTH_OF_BIRTH;GENDER;AGE;OUTCOME;DESTINATION;ORIGIN;CODE_SERVICE;CODE_BED;CODE_WARDMANAGER;ENCODER;DISTRICT;INSURER;CODE_USER;TYPE;DIAGCODE;LABEL;CERTAINTY;GRAVITY\r\n");
+		while(iResults.hasNext()){
+			String line =(String)iResults.next();
+			String content=(String)results.get(line);
+			//Add the district
+			ps2=lad_conn.prepareStatement("select * from adminprivate where personid="+line.split(";")[1]);
+			rs2=ps2.executeQuery();
+			if(rs2.next()){
+				content+=rs2.getString("district")+";";
+			}
+			else {
+				content+=";";
+			}
+			rs2.close();
+			ps2.close();
+			//Add insurer
+			query="select max(OC_INSURAR_NAME) as INSURER from OC_INSURARS q, OC_INSURANCES r, OC_DEBETS s where q.oc_insurar_objectid=replace(r.oc_insurance_insuraruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and r.oc_insurance_objectid=replace(s.oc_debet_insuranceuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and s.oc_debet_encounteruid='"+line.split(";")[0].replaceAll("\\_", ".")+"'";
+			ps2=loc_conn.prepareStatement(query);
+			rs2=ps2.executeQuery();
+			if(rs2.next()){
+				content+=checkString(rs2.getString("insurer"))+";";
+			}
+			else {
+				content+=";";
+			}
+			rs2.close();
+			ps2.close();
+			//Add reasons for encounter
+			ps2=loc_conn.prepareStatement("select * from OC_RFE where OC_RFE_ENCOUNTERUID='"+line.split(";")[0].replaceAll("\\_", ".")+"'");
+			rs2=ps2.executeQuery();
+			boolean bHasRfe=false;
+			while(rs2.next()){
+				bHasRfe=true;
+				String codetype=checkString(rs2.getString("OC_RFE_CODETYPE"));
+				String code=checkString(rs2.getString("OC_RFE_CODE"));
+				sResult.append(content+checkString(rs2.getString("OC_RFE_UPDATEUID"))+";"+codetype+";"+code+";"+MedwanQuery.getInstance().getCodeTran((codetype.toLowerCase().startsWith("icpc")?"icpccode":"icd10code")+code, sWebLanguage)+";"+(checkString(rs2.getString("OC_RFE_FLAGS")).indexOf("N")>-1?"NEW":"OLD")+";\r\n");
+			}
+			rs2.close();
+			ps2.close();
+			if(!bHasRfe){
+				sResult.append(content+";"+";"+";"+";"+";"+"\r\n");
+			}
+		}
+		rs.close();
+		ps.close();
+        loc_conn.close();
+        lad_conn.close();
+	    response.setContentType("application/octet-stream; charset=windows-1252");
+	    response.setHeader("Content-Disposition", "Attachment;Filename=\"OpenClinicStatistic" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".csv\"");
+	    ServletOutputStream os = response.getOutputStream();
+    	byte[] b = sResult.toString().getBytes();
+        for (int n=0;n<b.length;n++) {
+            os.write(b[n]);
+        }
+        os.flush();
+        os.close();
     }
     else if("encounter.list".equalsIgnoreCase(request.getParameter("query"))){
         query="select "+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_SERVERID")+MedwanQuery.getInstance().concatSign()+"'_'"+MedwanQuery.getInstance().concatSign()+ MedwanQuery.getInstance().convert("varchar(10)","OC_ENCOUNTER_OBJECTID")+" as CODE,OC_ENCOUNTER_TYPE as TYPE, OC_ENCOUNTER_BEGINDATE as BEGINDATE, OC_ENCOUNTER_ENDDATE as ENDDATE,OC_ENCOUNTER_PATIENTUID as CODE_PATIENT,substring("+ MedwanQuery.getInstance().convertDateToString("dateofbirth")+",4,10) MONTH_OF_BIRTH,gender GENDER,OC_ENCOUNTER_OUTCOME as OUTCOME, OC_ENCOUNTER_DESTINATIONUID as DESTINATION, OC_ENCOUNTER_ORIGIN as ORIGIN,district as DISTRICT,replace(OC_ENCOUNTER_SERVICEUID,'.','_') as CODE_SERVICE,replace(OC_ENCOUNTER_BEDUID,'.','_') as CODE_LIT,replace(OC_ENCOUNTER_MANAGERUID,'.','_') as CODE_WARD, OC_ENCOUNTER_UPDATEUID as ENCODER" +
@@ -235,8 +365,8 @@
     for (int n=0;n<b.length;n++) {
         os.write(b[n]);
     }
-    os.flush();
-    os.close();
     loc_conn.close();
     lad_conn.close();
+    os.flush();
+    os.close();
 %>

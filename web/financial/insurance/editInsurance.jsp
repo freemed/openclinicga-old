@@ -2,7 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <script>
 	function searchInsuranceCategory(){
-	    openPopup("/_common/search/searchInsuranceCategory.jsp&ts=<%=getTs()%>&VarCode=EditInsuranceCategoryLetter&VarText=EditInsuranceInsurarName&VarCat=EditInsuranceCategory&VarCompUID=EditInsurarUID&VarTyp=EditInsuranceType&VarTypName=EditInsuranceTypeName&VarFunction=checkInsuranceAuthorization()");
+	    openPopup("/_common/search/searchInsuranceCategory.jsp&ts=<%=getTs()%>&VarCode=EditInsuranceCategoryLetter&VarText=EditInsuranceInsurarName&VarCat=EditInsuranceCategory&VarCompUID=EditInsurarUID&VarTyp=EditInsuranceType&VarTypName=EditInsuranceTypeName&VarFunction=checkInsuranceAuthorization()&Active=1");
 	}
 	
     function doBack(){

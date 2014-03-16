@@ -142,16 +142,23 @@
             }
             if ("On".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("showServiceInPatientList"))) {
                 if (sTmpServiceID.trim().length() > 0) {
-                    String sHospDate = "<td>"+new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin())+"</td>";
+                	String img="";
+                	if(MedwanQuery.getInstance().getConfigInt("checkPatientListInvoices",0)==1 && enc.hasInvoices()){
+                		img+="<img src='"+sCONTEXTPATH+"/_img/money.gif'/>";
+                	}
+                	if(MedwanQuery.getInstance().getConfigInt("checkPatientListTransactions",0)==1 && enc.hasTransactions()){
+                		img+="<img src='"+sCONTEXTPATH+"/_img/icon_admin.png'/>";
+                	}
+                    String sHospDate = "<td>"+new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin())+" "+img+"</td>";
                     long duration = (new Date().getTime() - enc.getBegin().getTime());
                     long days = 24 * 3600 * 1000;
                     days = days * 90;
                     if(enc.getEnd()!=null){
-	                    sTmpServiceID = "<td style='text-decoration: line-through'>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td style='text-decoration: line-through'>"+sBed+"</td><td style='text-decoration: line-through'>"+new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin())+"</td>";
+	                    sTmpServiceID = "<td style='text-decoration: line-through'>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td style='text-decoration: line-through'>"+sBed+"</td><td style='text-decoration: line-through'>"+new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin())+" "+img+"</td>";
                     }
                     else {
 	                    if (duration > days || duration < 0) {
-	                        sHospDate = "<td style='color: red'>" + new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin()) + "</td>";
+	                        sHospDate = "<td style='color: red'>" + new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin()) +" "+img+ "</td>";
 	                    }
 	                    sTmpServiceID = "<td>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td>"+sBed+"</td>"+sHospDate;
                     }
