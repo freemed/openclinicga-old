@@ -288,7 +288,7 @@ public class LabAnalysis {
         Hashtable hLabAnalysis=new Hashtable();
     	PreparedStatement ps = null;
         ResultSet rs = null;
-        String sSelect="select * from Labanalysis";
+        String sSelect="select * from Labanalysis where deletetime is null";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);

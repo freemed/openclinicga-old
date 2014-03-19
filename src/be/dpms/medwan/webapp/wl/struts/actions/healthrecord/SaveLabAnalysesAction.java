@@ -147,17 +147,24 @@ public class SaveLabAnalysesAction extends Action {
             	e3.printStackTrace();
             }
             // save analyses to be saved
+        	Hashtable allanalyses = LabAnalysis.getAllLabanalyses();
+            Debug.println("Analysis 1005 exists: "+(allanalyses.get("1005")!=null));
+        	
             analysesToSaveEnum = analysesToSave.keys();
             while(analysesToSaveEnum.hasMoreElements()){
                 analysisCode = (String)analysesToSaveEnum.nextElement();
                 comment      = (String)analysesToSave.get(analysisCode);
-            	Hashtable allanalyses = LabAnalysis.getAllLabanalyses();
-                Debug.println("Saving analysis "+analysisCode);
+                Debug.println("Saving analysis *"+analysisCode+"*");
 
                 LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
-
+                Debug.println("Virtual editor = "+MedwanQuery.getInstance().getConfigString("virtualLabAnalysisEditors","virtual"));
+                Debug.println("Analysis a = "+a);
+                Debug.println("Analysis a editor = "+(a==null?"null":a.getEditor()));
+                
             	if(a!=null && MedwanQuery.getInstance().getConfigString("virtualLabAnalysisEditors","virtual").indexOf(a.getEditor())<0){    
+                    Debug.println("Editor not virtual");
 	                if(!RequestedLabAnalysis.exists(Integer.parseInt(sServerId),Integer.parseInt(sTransactionId),analysisCode)){
+	                    Debug.println("Analysis does not exist, saving");
 	                    // labRequest not found : insert in DB
 	                    labAnalysis = new RequestedLabAnalysis();
 	                    labAnalysis.setServerId(sServerId);
