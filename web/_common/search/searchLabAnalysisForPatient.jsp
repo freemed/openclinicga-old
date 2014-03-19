@@ -79,8 +79,8 @@
                     .append("'").append(sLabCode).append("',")
                     .append("'").append(sLabType).append("',")
                     .append("'").append(sLabLabel.replaceAll("\'","´")).append("',")
-                    .append("'").append(sCodeOther).append("',")
-                    .append("'").append(sMonster).append("');</script>");
+                    .append("'").append(sCodeOther.replaceAll("\'","´")).append("',")
+                    .append("'").append(sMonster.replaceAll("\'","´")).append("');</script>");
         }
 
         showMsg = true;
@@ -121,8 +121,8 @@
                     .append("'").append(sLabCode).append("',")
                     .append("'").append(sLabType).append("',")
                     .append("'").append(sLabLabel.replaceAll("\'","´")).append("',")
-                    .append("'").append(sCodeOther).append("',")
-                    .append("'").append(sMonster).append("');</script>");
+                    .append("'").append(sCodeOther.replaceAll("\'","´")).append("',")
+                    .append("'").append(sMonster.replaceAll("\'","´")).append("');</script>");
         }
 
         showMsg = true;
@@ -161,8 +161,8 @@
                         .append("'").append(sLabCode).append("',")
                         .append("'").append(sLabType).append("',")
                         .append("'").append(sLabLabel.replaceAll("\'","´")).append("',")
-                        .append("'").append(sCodeOther).append("',")
-                        .append("'").append(sMonster).append("');</script>");
+                        .append("'").append(sCodeOther.replaceAll("\'","´")).append("',")
+                        .append("'").append(sMonster.replaceAll("\'","´")).append("');</script>");
             }
 
             showMsg = true;

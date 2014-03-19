@@ -12,6 +12,7 @@
 
     try {
         // PDF generator
+        sProject = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
         PDFPatientCardGenerator pdfPatientCardGenerator = new PDFPatientCardGenerator(activeUser, sProject);
         baosPDF = pdfPatientCardGenerator.generatePDFDocumentBytes(request, activePatient);
         StringBuffer sbFilename = new StringBuffer();

@@ -102,7 +102,7 @@ function isNumber(sObject){
 
   for(var i=0; i < string.length; i++){
     if(vchar.indexOf(string.charAt(i)) == -1){
-      sObject.value = "";
+      setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();', 1);
       //sObject.focus();
       return false;
     }
@@ -110,7 +110,7 @@ function isNumber(sObject){
       if(string.charAt(i)=="."){
         dotCount++;
         if(dotCount > 1){
-          sObject.value = "";
+           setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();', 1);
           //sObject.focus();
           return false;
         }

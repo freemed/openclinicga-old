@@ -2918,11 +2918,16 @@
     <table name="UsedPasswords" db="ocadmin" sync="NONE">
 		<columns>
 			<column name="usedPasswordId" dbtype="int" javatype="integer"/>
-			<column name="encryptedPassword" dbtype="image" javatype="bytes"/>
+			<column name="encryptedPassword" dbtype="varbinary(5000)" javatype="bytes"/>
 			<column name="userId" dbtype="int" javatype="integer"/>
 			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
 			<column name="serverId" dbtype="int" javatype="integer"/>
 		</columns>
+		<indexes>
+			<index name="userid">
+				<indexcolumn order="ASC" name="userId"/>
+			</index>
+		</indexes>
 	</table>
 	<table name="AccessLogs" db="ocadmin" sync="NONE">
 		<columns>
@@ -3417,7 +3422,7 @@
 			<column name="stop" dbtype="datetime" javatype="date"/>
 			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
 			<column name="project" dbtype="varchar" javatype="string" size="255"/>
-			<column name="encryptedpassword" dbtype="image" javatype="bytes"/>
+			<column name="encryptedpassword" dbtype="varbinary(5000)" javatype="bytes"/>
 		</columns>
 		<indexes>
 			<index name="users_userid">
@@ -3920,7 +3925,7 @@
 			<column name="transactionType" dbtype="varchar" javatype="string" size="255"/>
 			<column name="messageKey" dbtype="varchar" javatype="string" size="255"/>
 			<column name="priority" dbtype="int" javatype="integer"/>
-			<column name="data" dbtype="image" javatype="bytes"/>
+			<column name="data" dbtype="varbinary(50000)" javatype="bytes"/>
 			<column name="deletedate" dbtype="datetime" javatype="date"/>
 			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
 			<column name="updateuserid" dbtype="int" javatype="integer"/>
@@ -4445,7 +4450,7 @@
 			<column name="updatetime" dbtype="datetime" javatype="date"/>
 			<column name="updateuserid" dbtype="int" javatype="integer"/>
 			<column name="errorpage" dbtype="varchar" javatype="string" size="255"/>
-            <column name="errortext" dbtype="image" javatype="bytes"/>
+            <column name="errortext" dbtype="varbinary(50000)" javatype="bytes"/>
         </columns>
         <indexes>
 			<index name="errors_updatetime">

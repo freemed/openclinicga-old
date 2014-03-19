@@ -533,7 +533,8 @@
                     <td class="admin2">
                         <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="value" formatType="date" format="dd-mm-yyyy"/>" id="drdate" onblur='checkDate(this);calculateGestAge();clearDr()' onchange='calculateGestAge();' onfocus='calculateGestAge();' onkeyup='calculateGestAge();'/>
                         <script>writeMyDate("drdate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
-                        <input id="agedatedr" <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_DATE_DR")%> readonly type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="value"/>" > <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
+                        <input id="agedatedrshow" type="text" class="text" size="5"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
+                        <input id="agedatedr" <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_DATE_DR")%> type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="value"/>" > 
                         <input id="drdeldate" <%=setRightClick("ITEM_TYPE_DELIVERY_DATE_DR")%> type="text" class="text" size="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_DR" property="value"/>" onblur="checkDate(this);">
                     </td>
                 </tr>
@@ -542,7 +543,8 @@
                     <td class="admin2">
                         <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO" property="value" formatType="date" format="dd-mm-yyyy"/>" id="echodate" onBlur='checkDate(this);calculateGestAge();' onchange='calculateGestAge();' onkeyup='calculateGestAge();'/>
                         <script>writeMyDate("echodate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
-                        <input <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY")%> type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="value"/>" id="agedateecho" onblur='isNumber(this);calculateGestAge();' onchange='calculateGestAge();' onkeyup="calculateGestAge();"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
+                        <input type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="value"/>" id="agedateechomanual" onblur="isGestAge(this);calculateGestAge();" onchange='isGestAge(this);calculateGestAge();' onkeyup="isGestAge(this);calculateGestAge();"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
+                        <input id='agedateecho' type='hidden'/>
                         <input id="echodeldate" <%=setRightClick("ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY")%> type="text" class="text" size="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY" property="value"/>" onblur="checkDate(this);">
 						<BR/>
                         <%=getTran("gynaeco", "actual.age", sWebLanguage)%>
@@ -725,6 +727,7 @@
     function clearDr(){
         if (document.getElementById("drdate").value.length==0){
             document.getElementById("agedatedr").value = "";
+            document.getElementById("agedatedrshow").value = "";
             document.getElementById("drdeldate").value = "";
         }
     }
@@ -761,6 +764,7 @@
                         age = aAge[0]+"."+aAge[1];
                     }
                     document.getElementById("agedatedr").value = age;
+                    document.getElementById("agedatedrshow").value = Math.floor(age*1)+" "+Math.round((age*1-Math.floor(age*1))*7);
                     var drdeldate = lmdate;
                     drdeldate.setTime(drdeldate.getTime() + 1000 * 3600 * 24 * 280);
                     document.getElementById("drdeldate").value = drdeldate.getDate() + "/" + (drdeldate.getMonth() + 1) + "/" + drdeldate.getFullYear();
@@ -782,7 +786,13 @@
             //recalculate actual age based on echography estimation
             var ledate = new Date();
             d1 = document.getElementById('echodate').value.split("/");
-            echoage = document.getElementById('agedateecho').value.replace(',','.');
+            echoage = document.getElementById('agedateecho').value.trim();
+            if(echoage.replace(' ','').length!=echoage.length){
+            	echoage = echoage.split(' ')[0]+"."+Math.floor(echoage.split(' ')[1]*10/7);
+            }
+            else {
+            	echoage=echoage.replace(',','.');
+            }
             if (d1.length == 3 && echoage.length >0) {
             	//we have a last echography date
                 ledate.setDate(d1[0]);
@@ -802,7 +812,7 @@
                         document.getElementById('trimestre_r3').checked = true;
                     }
                     var age="";
-                    document.getElementById("ageactualecho").value = Math.round((timeElapsed*1+echoage*1)*10)/10;
+                    document.getElementById("ageactualecho").value = Math.floor(timeElapsed*1+echoage*1)+" "+Math.round((timeElapsed*1+echoage*1-Math.floor(timeElapsed*1+echoage*1))*7);
                     echodeldate=new Date();
                     echodeldate.setTime(trandate.getTime()+(38-(timeElapsed*1+echoage*1))*(1000 * 3600 * 24 * 7));
                     document.getElementById("echodeldate").value = echodeldate.getDate() + "/" + (echodeldate.getMonth() + 1) + "/" + echodeldate.getFullYear();
@@ -877,6 +887,26 @@
     else {
         calculateGestAge();
     }
+    
+    function isGestAge(object){
+		var val = object.value.trim();
+    	if(val.length>0) {
+			if(isNaN(val*1) || val*1<=0 || val*1>45) {
+	    		if(val.length!=val.replace(' ','').length && !isNaN(val.split(' ')[1]*1) && val.split(' ')[1]*1>=0 && val.split(' ')[1]<7){
+	    			document.getElementById('agedateecho').value=val.split(' ')[0]*1+'.'+Math.floor(val.split(' ')[1]*10/7);
+	    		}
+	    		else {
+	                setTimeout('var txt = document.getElementById(\''+object.id+'\'); txt.focus(); txt.select();', 1);
+	        		return false;
+	    		}
+			}
+			else {
+    			document.getElementById('agedateecho').value=object.value;
+			}
+    	}
+    	return true;
+    }
+    isGestAge(document.getElementById('agedateechomanual'));
 </script>
 
 </logic:present>

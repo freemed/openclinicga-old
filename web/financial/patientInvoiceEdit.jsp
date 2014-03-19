@@ -507,7 +507,7 @@
 	                            if (!isInsuranceAgent && !(checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))){
 	                            	if((MedwanQuery.getInstance().getConfigInt("authorizeCancellationOfOpenInvoices",1)==1 && !patientInvoice.getStatus().equalsIgnoreCase("closed"))||(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.cancelclosedinvoice.select")){
 	                        %>
-	                                	<input class="button" type="button" name="buttonCancellation" value='<%=getTranNoLink("Web.finance","cancellation",sWebLanguage)%>' onclick="doCancel('<%=patientInvoice.getUid()%>');">
+	                                	<input class="button" type="button" name="buttonCancellation" value='<%=getTranNoLink("Web.finance","cancellation",sWebLanguage)%>' onclick="doInvoiceCancel('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                            	}
 	                            	Vector userWickets = Wicket.getWicketsForUser(activeUser.userid);
@@ -612,7 +612,7 @@
 	        	boolean canCloseUnpaidInvoice=(activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0)||activeUser.getAccessRight("financial.closeunpaidinvoice.select");
 	        	if(!canCloseUnpaidInvoice){
 	        %>
-	            else if(document.getElementById('EditBalance').value.replace('.','').replace('0','').length>0 && document.getElementById('invoiceStatus').value=="closed"){
+	            else if(document.getElementById('EditBalance').value.replace('.','').replace('0','').length>0 && document.getElementById('EditBalance').value*1><%=MedwanQuery.getInstance().getConfigString("minimumInvoiceBalance","1")%> && document.getElementById('invoiceStatus').value=="closed"){
 	                var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=cannotcloseunpaidinvoice";
 	                var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
 	                (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","cannotcloseunpaidinvoice",sWebLanguage)%>");
@@ -885,8 +885,16 @@
 	    		}
 	    	}
 	    }
-	    
-	    function doCancel(invoiceUid){
+	
+	function searchService(serviceUidField,serviceNameField){
+	    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+	    document.getElementById(serviceNameField).focus();
+	}
+	    function doPayment (invoiceUid){
+	        openPopup("/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+"&ScreenType=doPayment&EditBalance="+document.getElementById('EditBalance').value);
+	    }
+	
+	    function doInvoiceCancel(invoiceUid){
 	        if(yesnoDialog("Web","areYouSure")){
 	            //Factuur als 'geannuleerd' registreren
 	            if(document.getElementById('invoiceStatus').selectedIndex){
@@ -898,15 +906,7 @@
 	            doSave();
 	        }
 	    }
-	
-	function searchService(serviceUidField,serviceNameField){
-	    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
-	    document.getElementById(serviceNameField).focus();
-	}
-	    function doPayment (invoiceUid){
-	        openPopup("/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+"&ScreenType=doPayment&EditBalance="+document.getElementById('EditBalance').value);
-	    }
-	
+
 	    FindForm.FindPatientInvoiceUID.focus();
 	    loadDebets();
 	    loadOpenPatientInvoices();

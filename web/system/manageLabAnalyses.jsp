@@ -599,9 +599,10 @@
 	    	<tr>
 	    		<td>
 				      <select type="text" class="text" name="EditLabEditor" id="EditLabEditor" onchange="setEditorParameters()">
+				      	<option value=""></option>
 				        <option value="text" <%="text".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","text",sWebLanguage)%></option>
 				        <option value="numeric" <%="numeric".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","numeric",sWebLanguage)%></option>
-				        <option value="numericcomment" <%="numeric".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","numericcomment",sWebLanguage)%></option>
+				        <option value="numericcomment" <%="numericcomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","numericcomment",sWebLanguage)%></option>
 				        <option value="listbox" <%="listbox".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","listbox",sWebLanguage)%></option>
 				        <option value="listboxcomment" <%="listboxcomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","listboxcomment",sWebLanguage)%></option>
 				        <option value="radiobutton" <%="radiobutton".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","radiobutton",sWebLanguage)%></option>

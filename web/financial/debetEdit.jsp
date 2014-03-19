@@ -2,7 +2,7 @@
 <%@ page import="java.util.Date" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%=checkPermission("financial.debet","edit",activeUser)%>
+<%=checkPermission("financial.debet","select",activeUser)%>
 <script src='<%=sCONTEXTPATH%>/_common/_script/prototype.js'></script>
 <%
 System.out.println(0);
@@ -32,6 +32,7 @@ System.out.println(0);
     }
 
     if (sEditDebetUID.length() > 0) {
+    	MedwanQuery.getInstance().getObjectCache().removeObject("debet", sEditDebetUID);
         debet = Debet.get(sEditDebetUID);
         if(debet!=null){
 	        sEditDebetServiceUid=debet.determineServiceUid(sEditDebetServiceUid);
@@ -85,8 +86,10 @@ System.out.println(0);
             <td colspan="4">
                 <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="loadUnassignedDebets()">&nbsp;
                 <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFindFields()">&nbsp;
-                <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew()">&nbsp;
-                <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>';loadUnassignedDebets()">&nbsp;
+                <% if(activeUser.getAccessRight("financial.debet.add")){ %>
+	                <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew()">&nbsp;
+	            <% } %>
+                <input type="button" class="button" name="ButtonDate" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>';loadUnassignedDebets()">&nbsp;
             </td>
         </tr>
     </table>
@@ -364,11 +367,11 @@ System.out.println(0);
         </tr>
         <tr>
             <td class='admin'><%=getTran("web","canceled",sWebLanguage)%></td>
-            <td class='admin2'><input type="checkbox" name="EditCredit" <%if (debet.getCredited()>0){out.print(" checked");}%> onclick="doCredit()"></td>
+            <td class='admin2'><input <%=activeUser.getAccessRight("financial.debet.delete")?"":"disabled"%> type="checkbox" name="EditCredit" <%if (debet.getCredited()>0){out.print(" checked");}%> onclick="doCredit()"></td>
         </tr>
         <tr>
             <td class="admin"/>
-            <td class="admin2">
+            <td class="admin2" id='buttonadmin'>
             <%
             	boolean canSave1=true,canSave2=true,canSave3=true;
             	if(debet!=null && debet.getPatientInvoiceUid()!=null){
@@ -391,7 +394,7 @@ System.out.println(0);
             	}
             	if(canSave1 && canSave2 && canSave3){
             	%>
-                	<input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+                	<input class='button' type="button" name="buttonSave" id="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
             	<%
             	}
     			else if(!canSave1){
@@ -420,6 +423,21 @@ System.out.println(0);
     <input type='hidden' id="prestationids" name="prestationids" value=""/>
 </form>
 <script>
+	function checkSaveButtonRights(){
+		if(document.getElementById('buttonSave')){
+			var bInvisible=(document.getElementById('EditDebetUID').value=='' || document.getElementById('EditDebetUID').value=='-1') && <%=activeUser.getAccessRight("financial.debet.add")?"false":"true"%>;
+			if(!bInvisible){
+				bInvisible=(document.getElementById('EditDebetUID').value!='' && document.getElementById('EditDebetUID').value!='-1') && <%=activeUser.getAccessRight("financial.debet.edit")?"false":"true"%>;
+			}
+			if(bInvisible){
+				document.getElementById('buttonSave').hide();
+			}
+			else {
+				document.getElementById('buttonSave').show();
+			}
+		}
+	}
+	
 	function doInvoice(){
 		window.location.href="<c:url value='/main.do?Page=financial/patientInvoiceEdit.jsp'/>";
 	}
@@ -462,6 +480,7 @@ System.out.println(0);
             }
         );
         EditForm.EditPrestationUID.value = EditForm.EditPrestationName.value;
+        checkSaveButtonRights();
 	}
 	
 
@@ -514,6 +533,7 @@ System.out.println(0);
 	      }
 
 	      EditForm.EditPrestationUID.value = EditForm.EditPrestationName.value;
+	      checkSaveButtonRights();
 	}
 
 	function changePrestationVariable(bFirst){
@@ -754,7 +774,7 @@ System.out.println(0);
         EditForm.EditAmount.value = "";
         EditForm.EditInsurarAmount.value = "";
         EditForm.EditComment.value = "";
-        EditForm.EditCredit.checked = false;
+        if (EditForm.EditCredit) EditForm.EditCredit.checked = false;
         EditForm.EditPatientInvoiceUID.value = "";
         EditForm.EditInsuranceInvoiceUID.value = "";
         EditForm.EditQuantity.value = "1";
@@ -762,12 +782,12 @@ System.out.println(0);
 	        EditForm.EditDebetServiceUid.value="<%=sDefaultServiceUid%>";
 	        EditForm.EditDebetServiceName.value="<%=sDefaultServiceName%>";
         }
-        EditForm.buttonSave.disabled=false;
+        if (EditForm.buttonSave) EditForm.buttonSave.disabled=false;
         document.getElementById('groups').style.visibility='visible';
-
         changePrestation(true);
         findPerformer();
-//        loadUnassignedDebets();
+        checkSaveButtonRights();
+        document.getElementById('buttonadmin').innerHTML="<input class='button' type='button' name='buttonSave' id='buttonSave' value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick='doSave();'/>&nbsp;<input class='button' type='button' name='buttonInvoice' value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick='doInvoice()'/>";
     }
 
     function setDebet(sUid){
@@ -817,4 +837,5 @@ System.out.println(0);
     EditForm.EditDate.focus();
     changePrestation(true);
     loadUnassignedDebets();
+    checkSaveButtonRights();
 </script>

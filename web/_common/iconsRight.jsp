@@ -212,7 +212,7 @@
         // empty
     }
     else{
-        %><input type="text" id="barcode" name="barcode" size="8" class="text" style="{visibility: hidden;color: #FFFFFF;background: #EEEEEE; background-color: #EEEEEE;border-style: none;}" onKeyDown="if(enterEvent(event,13)){readBarcode2(this.value);}"/><%
+        %><input type="text" id="barcode" name="barcode" size="8" class="text" style="{visibility: hidden;color: #FFFFFF;background: #EEEEEE; background-color: #EEEEEE;border-style: none;}" onKeyDown="if(enterEvent(event,13)){readBarcode2(this.value);}"/><script>document.getElementsByName('barcode')[0].style.visibility = "hidden";</script><%
                 
         String sTmpPersonid = checkString(request.getParameter("personid"));
         if (sTmpPersonid.length() == 0) {

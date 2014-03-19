@@ -14,7 +14,7 @@
                 " order by upper(OC_LABEL_ID)";
     }
     else if("patients.list".equalsIgnoreCase(request.getParameter("query"))){
-        query="select a.personid,immatnew as patientid,lastname,firstname,dateofbirth,(select district from privateview where personid=a.personid) as location1,(select oc_label_value from oc_labels,privateview where oc_label_type='province' and oc_label_id=province and personid=a.personid and oc_label_language='"+sWebLanguage+"') as location2" +
+        query="select a.personid,immatnew as patientid,lastname,firstname,dateofbirth,(select max(district) from privateview where personid=a.personid) as location1,(select max(oc_label_value) from oc_labels,privateview where oc_label_type='province' and oc_label_id=province and personid=a.personid and oc_label_language='"+sWebLanguage+"') as location2" +
                 " from adminview a";
     }
     else if("labels.list".equalsIgnoreCase(request.getParameter("query"))){

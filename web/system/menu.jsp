@@ -190,11 +190,10 @@
                     hMenu.put(getTran("web.manage","CreateSalaryCalculationsForLeaves",sWebLanguage),"main.do?Page=hr/management/createSalaryCalculationsForLeaves.jsp");
                     hMenu.put(getTran("web.manage","ManageDefaultSalaryCodes",sWebLanguage),"main.do?Page=hr/management/manageDefaultSalaryCodes.jsp");
                     hMenu.put(getTran("web.manage","ManageSystemMessage",sWebLanguage),"main.do?Page=system/manageSystemMessage.jsp");
-
-                    out.print(ScreenHelper.writeTblHeader(getTran("web.occup","medwan.common.other",sWebLanguage),sCONTEXTPATH)
-                            + sortMenu(hMenu)
-                            + writeTblChildWithCode("javascript:printUserCard()",getTran("web.manage","createusercard",sWebLanguage))
-                            + ScreenHelper.writeTblFooter());
+	                    out.print(ScreenHelper.writeTblHeader(getTran("web.occup","medwan.common.other",sWebLanguage),sCONTEXTPATH)
+	                            + sortMenu(hMenu)
+	                            + (activePatient!=null?writeTblChildWithCode("javascript:printUserCard()",getTran("web.manage","createusercard",sWebLanguage)):"")
+	                            + ScreenHelper.writeTblFooter());
                 %>
             </td>
         </tr>
