@@ -229,6 +229,9 @@
   	<Query id='QUERY.fr-icd10-labels-fr' db='openclinic' date='09/01/2014' dbserver='MySQL'>
 		update icd10 set labelfr=upper('MALADIES DE JONCTION NEUROMUSCULAIRE ET MUSCLES') where code='06i';
   	</Query>	
+  	<Query id='QUERY.correct.itemtypeid.1' db='openclinic' date='09/01/2014' dbserver='MySQL'>
+  	    update transactionitems set itemtypeid = 'be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID'
+         where itemtypeid = 'xs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID'
+  	</Query>	
   	
->>>>>>> .r1006
 </Queries>
