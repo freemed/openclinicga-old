@@ -73,6 +73,7 @@
         	else if(db.equalsIgnoreCase("stats")){
         		connection = MedwanQuery.getInstance().getStatsConnection();
         	}
+        	
 			if(sqlText.indexOf(";")>-1){
 	            ps = connection.createStatement();
 	            String[] s = sqlText.split(";");
@@ -86,7 +87,7 @@
 				((PreparedStatement)ps).execute();
 			}
 
-            if (ps.getResultSet()==null){
+            if (sqlText.startsWith("update") || ps.getResultSet()==null){
             	ps.close();
             	connection.close();
                 result.append("This query does not return any rows");
@@ -183,7 +184,7 @@
             }
         }
         catch(Exception e){
-            result = new StringBuffer(e.getMessage());
+            result = new StringBuffer(checkString(e.getMessage()));
         }
     }
 %>
