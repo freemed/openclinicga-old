@@ -8,7 +8,7 @@
 <%=checkPermission("medication.medicationdelivery","all",activeUser)%>
 <%
     String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
-            sDefaultSrcDestType = "patient";
+            sDefaultSrcDestType = "";
 
     // action
     String sAction = checkString(request.getParameter("Action"));
@@ -121,7 +121,7 @@
         }
 
         String sPrevUsedSrcDestType = checkString((String) session.getAttribute("PrevUsedDeliverySrcDestType"));
-        if (sPrevUsedSrcDestType.equals(sEditSrcDestType)) {
+        if (!sPrevUsedSrcDestType.equals(sEditSrcDestType)) {
             session.setAttribute("PrevUsedDeliverySrcDestType", sEditSrcDestType);
         }
 

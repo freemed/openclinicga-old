@@ -2929,6 +2929,34 @@
 			</index>
 		</indexes>
 	</table>
+	<table name="OC_REAGENTS" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_REAGENT_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="OC_REAGENT_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+            <column name="OC_REAGENT_CREATEDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+            <column name="OC_REAGENT_NAME" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_UNIT" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_PROVIDER" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_PRODUCTUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_UPDATEDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+            <column name="OC_REAGENT_UPDATEUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_VERSION" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
+	<table name="OC_REAGENTS_HISTORY" db="openclinic" sync="NONE">
+		<columns>
+			<column name="OC_REAGENT_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+			<column name="OC_REAGENT_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
+            <column name="OC_REAGENT_CREATEDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+            <column name="OC_REAGENT_NAME" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_UNIT" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_PROVIDER" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_PRODUCTUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_UPDATEDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+            <column name="OC_REAGENT_UPDATEUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_REAGENT_VERSION" dbtype="int" javatype="integer"/>
+		</columns>
+	</table>
 	<table name="AccessLogs" db="ocadmin" sync="NONE">
 		<columns>
 			<column name="userid" dbtype="int" javatype="integer" />

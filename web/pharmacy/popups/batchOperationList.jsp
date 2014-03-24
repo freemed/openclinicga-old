@@ -43,8 +43,15 @@ String productStockUid=checkString(request.getParameter("productStockUid"));
 			if(operation.getType().equalsIgnoreCase("receipt")){
 				//Incoming 
 				if(productStockOperation!=null){
-					if(productStockOperation.getSourceDestination()!=null && productStockOperation.getSourceDestination().getObjectType()!=null && productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("supplier") || productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")){
+					if(productStockOperation.getSourceDestination()!=null && productStockOperation.getSourceDestination().getObjectType()!=null && productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("supplier")){
 						thirdparty=	productStockOperation.getSourceDestination().getObjectUid();
+					}
+					else if(productStockOperation.getSourceDestination()!=null && productStockOperation.getSourceDestination().getObjectType()!=null && productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")){
+						thirdparty=	productStockOperation.getSourceDestination().getObjectUid();
+						ServiceStock ss = ServiceStock.get(thirdparty);
+						if(ss!=null){
+							thirdparty=ScreenHelper.checkString(ss.getName());
+						}
 					}
 					else if(productStockOperation.getSourceDestination()!=null && productStockOperation.getSourceDestination().getObjectType()!=null && productStockOperation.getSourceDestination().getObjectType().equalsIgnoreCase("patient")){
 						thirdparty=	productStockOperation.getSourceDestination().getObjectUid();

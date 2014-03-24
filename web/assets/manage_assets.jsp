@@ -3,13 +3,18 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="../assets/includes/commonFunctions.jsp"%>
+<%
+	System.out.println("0");
+%>
 <%=checkPermission("assets","edit",activeUser)%>
 
 <%=sJSPROTOTYPE%>
 <%=sJSNUMBER%> 
 <%=sJSSTRINGFUNCTIONS%>
 <%=sJSSORTTABLE%>
-
+<%
+	System.out.println("1");
+%>
 <script src="<%=sCONTEXTPATH%>/assets/includes/commonFunctions.js"></script> 
 
 <%
@@ -20,6 +25,9 @@
     }
     ///////////////////////////////////////////////////////////////////////////
 %>            
+<%
+	System.out.println("2");
+%>
 
 <form name="SearchForm" id="SearchForm" method="POST">
     <%=writeTableHeader("web","assets",sWebLanguage,"")%>
@@ -92,6 +100,9 @@
         </tr>
     </table>
 </form>
+<%
+	System.out.println("3");
+%>
 
 <script>
   SearchForm.searchCode.focus();

@@ -170,6 +170,9 @@
         else{
             sourceDestination.setObjectUid(sEditSrcDestUid);
         }
+        if(sEditSrcDestType.equalsIgnoreCase("patient")){
+        	operation.setReceiveComment(sEditReceiveComment);
+        }
         operation.setSourceDestination(sourceDestination);
         if(sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.stdDateFormat.parse(sEditOperationDate));
         operation.setProductStockUid(sEditProductStockUid);
@@ -304,27 +307,37 @@
 	    }); 
     }
     else{
-	  document.getElementById("batch").innerHTML="";
+        document.getElementById("batch").innerHTML = "<table>"+
+        "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img src='<c:url value="/_img/icon_search.gif"/>' onclick='findbatch();'/></td></tr>"+
+        "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+        "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+       "</table>";
 	}
 	setTimeout("updateMaxVal();",500);
   }
   else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="supplier"){
     document.getElementById("batch").innerHTML = "<table>"+
-                                                  "<tr><td><%=getTran("web","batch.number",sWebLanguage)%></td><td><input type='text' name='EditBatchNumber' value='' size='40'/></td></tr>"+
-                                                  "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%></td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
-                                                  "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' value='' size='80'/></td></tr>"+
+                                                  "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+                                                  "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+                                                  "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
                                                  "</table>";
     setMaxQuantityValue(999999);
   }		
     else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="patient"){
       document.getElementById("batch").innerHTML = "<table>"+
-                                                    "<tr><td><%=getTran("web","batch.number",sWebLanguage)%></td><td><input type='text' name='EditBatchNumber' value='' size='40'/></td></tr>"+
-                                                    "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' value='' size='80'/></td></tr>"+
+                                                    "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+                                                    "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+                                                    "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+                                                    "<tr><td><%=getTran("web","origin",sWebLanguage)%></td><td><input type='text' name='EditReceiveComment' id='EditReceiveComment' value='' size='80'/></td></tr>"+
                                                    "</table>";
       setMaxQuantityValue(999999);  
     }	
     else{
-      document.getElementById("batch").innerHTML = "";
+        document.getElementById("batch").innerHTML = "<table>"+
+        "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+        "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+        "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+       "</table>";
       setMaxQuantityValue(999999);
     }
   }
@@ -687,12 +700,12 @@
   <%-- CHECK STOCK FIELDS --%>
   function checkStockFields(){
     var maySubmit = true;
-
     <%-- required fields --%>
     if(!transactionForm.EditOperationDescr.value.length>0 ||
        !transactionForm.EditUnitsChanged.value.length>0 ||
        !transactionForm.EditOperationDate.value.length>0 ||
-       !transactionForm.EditProductStockUid.value.length>0){
+       !transactionForm.EditProductStockUid.value.length>0 ||
+       (transactionForm.EditBatchNumber && transactionForm.EditBatchNumber.value.length>0 && transactionForm.EditBatchEnd.value.length==0)){
       maySubmit = false;
 
       var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
@@ -760,6 +773,10 @@
 		}			
 	%>
     openPopup("/_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>&documentuid="+document.getElementById("EditProductStockDocumentUid").value+"&finddocumentsource=<%=sDocumentSource%>&finddocumentmindate=<%=sFindMinDate%>&finddocumentsourcetext=<%=sDocumentSourceText%>&ReturnDocumentID="+documentUidField+"&ReturnDocumentName="+documentUidTextField+"&ReturnSourceName=EditSrcDestName");
+  }
+  
+  function findbatch(){
+	    openPopup("/_common/search/searchBatch.jsp&ts=<%=getTs()%>&ProductStockUid=<%=sEditProductStockUid%>&ReturnNumber=EditBatchNumber&ReturnEnd=EditBatchEnd&ReturnComment=EditBatchComment",200,400);
   }
 
   <%=sEditReferenceOperationUid.length()==0?"displaySrcDestSelector();":""%>

@@ -35,7 +35,7 @@
 				receiptOperation.setDate(new java.util.Date());
 				receiptOperation.setDescription("medicationreceipt.1");
 				receiptOperation.setProductStockUid(productStock.getUid());
-				receiptOperation.setSourceDestination(new ObjectReference("service",deliveryOperation.getProductStock().getServiceStockUid()));
+				receiptOperation.setSourceDestination(new ObjectReference("servicestock",deliveryOperation.getProductStock().getServiceStockUid()));
 				receiptOperation.setUnitsChanged(Integer.parseInt(request.getParameter(param)));
 				receiptOperation.setUpdateDateTime(new java.util.Date());
 				receiptOperation.setUpdateUser(activeUser.userid);

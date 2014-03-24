@@ -56,6 +56,9 @@
             if (sourceDestination.getObjectType().equalsIgnoreCase("patient")) {
                 AdminPerson patient = AdminPerson.getAdminPerson(sourceDestination.getObjectUid());
                 sd = patient.personid + ": " + patient.firstname + " " + patient.lastname;
+                if(checkString(operation.getReceiveComment()).length()>0){
+                	sd+=" ("+operation.getReceiveComment()+")";
+                }
             } else if (sourceDestination.getObjectType().equalsIgnoreCase("servicestock") || sourceDestination.getObjectType().equalsIgnoreCase("service")) {
                 ServiceStock serviceStock = ServiceStock.get(sourceDestination.getObjectUid());
                 if(serviceStock!=null){

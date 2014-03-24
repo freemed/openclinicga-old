@@ -53,7 +53,7 @@
 		sAction="find";
 		sFindType=sType;
 		sFindSource=sSource;
-		sFindSourceText=operationDocument.getSource().getName();
+		sFindSourceText=operationDocument.getSourceName(sWebLanguage);
 		sFindDestination=sDestination;
 		sFindDestinationText=operationDocument.getDestination().getName();
 		sFindMinDate=sDate;
@@ -65,7 +65,7 @@
 			operationDocument=OperationDocument.get(sUid);
 			sFindType=operationDocument.getType();
 			sFindSource=operationDocument.getSourceuid();
-			sFindSourceText=operationDocument.getSource().getName();
+			sFindSourceText=operationDocument.getSourceName(sWebLanguage);
 			sFindDestination=operationDocument.getDestinationuid();
 			sFindDestinationText=operationDocument.getDestination().getName();
 			sFindMinDate=new SimpleDateFormat("dd/MM/yyyy").format(operationDocument.getDate());
@@ -103,7 +103,7 @@
 								<td class="admin" width="1%" nowrap><%=getTran("web","source",sWebLanguage) %></td>
 								<td class="admin2">
 					                <input class='text' TYPE="text" NAME="finddocumentsourcetext" id="finddocumentsourcetext" readonly size="50" TITLE="" VALUE="<%=sFindSourceText %>" onchange="">
-					                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentsource&ReturnServiceStockNameField=finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
+					                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsearchsource("finddocumentsource","finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
 					                <input TYPE="hidden" NAME="finddocumentsource" id="finddocumentsource" VALUE="">
 								</td>
 							</tr>
@@ -157,7 +157,7 @@
 						OperationDocument document = (OperationDocument)documents.elementAt(n);
 						sType=checkString(document.getType());
 						if(document.getSourceuid().length()>0){
-							sSource=document.getSource().getName();
+							sSource=document.getSourceName(sWebLanguage);
 						}
 						else {
 							sSource="";
@@ -169,7 +169,7 @@
 							sDestination="";
 						}
 						if(document.getSourceuid().length()>0){
-							sSource=document.getSource().getName();
+							sSource=document.getSourceName(sWebLanguage);
 						}
 						else {
 							sSource="";
@@ -218,8 +218,8 @@
 				<tr>
 					<td class="admin"><%=getTran("web","source",sWebLanguage) %> *</td>
 					<td class="admin2">
-		                <input class='text' TYPE="text" NAME="documentsourcetext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getSourceuid().length()>0?operationDocument.getSource().getName():"" %>" onchange="">
-		                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentsource&ReturnServiceStockNameField=documentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentsource')[0].value='';document.getElementsByName('documentsourcetext')[0].value='';">
+		                <input class='text' TYPE="text" NAME="documentsourcetext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getSourceuid().length()>0?operationDocument.getSourceName(sWebLanguage):"" %>" onchange="">
+		                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsource("documentsource","documentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentsource')[0].value='';document.getElementsByName('documentsourcetext')[0].value='';">
 		                <input TYPE="hidden" NAME="documentsource" id="documentsource" VALUE="<%=operationDocument.getSourceuid()%>">
 					</td>
 				</tr>
@@ -295,6 +295,25 @@
 		window.close();
 	}
 	
+    function findsource(sourceid,sourcename){
+    	if('<%=MedwanQuery.getInstance().getConfigString("stockOperationDocumentServiceSources","")%>'.indexOf('*'+document.getElementById("documenttype").options[document.getElementById("documenttype").selectedIndex].value+'*')>-1){
+			openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
+		}
+		else {
+			openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+sourceid+"&ReturnServiceStockNameField="+sourcename);
+		}
+    }
+
+    function findsearchsource(sourceid,sourcename){
+    	if('<%=MedwanQuery.getInstance().getConfigString("stockOperationDocumentServiceSources","")%>'.indexOf('*'+document.getElementById("finddocumenttype").options[document.getElementById("finddocumenttype").selectedIndex].value+'*')>-1){
+			openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
+		}
+		else {
+			openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+sourceid+"&ReturnServiceStockNameField="+sourcename);
+		}
+    }
+
+    
 	function clearFindFields(){
 		document.getElementById("finddocumenttype").selectedIndex=0;
 		document.getElementById("finddocumentsourcetext").value='';
