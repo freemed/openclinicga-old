@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Vector;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
+
+import net.admin.Service;
 
 public class Invoice extends OC_Object {
     protected String invoiceUid;
@@ -101,6 +104,25 @@ public class Invoice extends OC_Object {
 		   }
 	   }
 	   return services;
+   }
+   
+   public String getServicesAsString(String language){
+	   String service="";
+	   HashSet services = new HashSet();
+	   for(int n=0;n<debets.size();n++){
+		   Debet debet = (Debet)debets.elementAt(n);
+		   if(ScreenHelper.checkString(debet.getServiceUid()).length()>0){
+			   services.add(debet.getServiceUid());
+		   }
+	   }
+	   Iterator hs = services.iterator();
+	   while(hs.hasNext()){
+		   if(service.length()>0){
+			   service+=", ";
+		   }
+		   service+=ScreenHelper.getTran("service", (String)hs.next(), language);
+	   }
+	   return service;
    }
    
    public Vector getDebetsForServiceUid(String serviceUid){

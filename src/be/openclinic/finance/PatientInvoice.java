@@ -3,6 +3,7 @@ package be.openclinic.finance;
 import net.admin.AdminPerson;
 
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Vector;
 import java.util.Date;
 import java.sql.Connection;
@@ -13,6 +14,8 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
+
+import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.db.MedwanQuery;
@@ -204,6 +207,21 @@ public class PatientInvoice extends Invoice {
 		setModifier(7,s);
 	}
 
+	//MFP reporting section
+	
+	public String getSignatures(){
+		String signatures="";
+		Vector pointers=Pointer.getFullPointers("INVSIGN."+this.getUid());
+		for(int n=0;n<pointers.size();n++){
+			if(n>0){
+				signatures+=", ";
+			}
+			String ptr=(String)pointers.elementAt(n);
+			signatures+=ptr.split(";")[0];
+		}
+		return signatures;
+	}
+	
     public String getComment() {
 		return comment;
 	}
@@ -329,6 +347,74 @@ public class PatientInvoice extends Invoice {
 	    	}
     	}
     	return amount;
+    }
+    
+    public double getInsurarAmount(){
+    	double amount=0;
+    	Vector debets=getDebets();
+    	if(debets!=null){
+	    	for(int n=0;n<debets.size();n++){
+	    		Debet debet = (Debet)debets.elementAt(n);
+	    		amount+=debet.getInsurarAmount();
+	    	}
+    	}
+    	return amount;
+    }
+    
+    public double getExtraInsurarAmount(){
+    	double amount=0;
+    	Vector debets=getDebets();
+    	if(debets!=null){
+	    	for(int n=0;n<debets.size();n++){
+	    		Debet debet = (Debet)debets.elementAt(n);
+	    		amount+=debet.getExtraInsurarAmount();
+	    	}
+    	}
+    	return amount;
+    }
+    
+    public String getInsurers(){
+    	String insurers="";
+    	Hashtable ins = new Hashtable();
+    	Vector debets=getDebets();
+    	if(debets!=null){
+	    	for(int n=0;n<debets.size();n++){
+	    		Debet debet = (Debet)debets.elementAt(n);
+	    		if(debet.getInsurance()!=null && debet.getInsurance().getInsurar()!=null){
+	    			ins.put(debet.getInsurance().getInsurarUid(), debet.getInsurance().getInsurar().getName());
+	    		}
+	    	}
+    	}
+    	Iterator i = ins.keySet().iterator();
+    	while(i.hasNext()){
+    		if(insurers.length()>0){
+    			insurers+=", ";
+    		}
+    		insurers+=ins.get(i.next());
+    	}
+    	return insurers;
+    }
+    
+    public String getDiseases(String language){
+    	String encounters="";
+    	Hashtable ins = new Hashtable();
+    	Vector debets=getDebets();
+    	if(debets!=null){
+	    	for(int n=0;n<debets.size();n++){
+	    		Debet debet = (Debet)debets.elementAt(n);
+	    		if(debet.getEncounterUid()!=null){
+	    			ins.put(debet.getEncounterUid(),ScreenHelper.getTranNoLink("encounter.categories",debet.getEncounter().getCategories(),language));
+	    		}
+	    	}
+    	}
+    	Iterator i = ins.keySet().iterator();
+    	while(i.hasNext()){
+    		if(encounters.length()>0){
+    			encounters+=",";
+    		}
+    		encounters+=ins.get(i.next());
+    	}
+    	return encounters;
     }
     
     public PatientCredit getReduction(){
