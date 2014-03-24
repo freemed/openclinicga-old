@@ -585,6 +585,9 @@ public class ProductStockOperation extends OC_Object{
 
             String sourceBatchUid="?";
             String destinationBatchUid="?";
+            System.out.println("isnew="+isnew);
+            System.out.println("description="+getDescription());
+            System.out.println("batchuid="+getBatchUid());
             if(isnew && this.getDescription().indexOf("delivery") > -1 || this.getDescription().indexOf("correctionout")>-1){
             	//remove the units from this productstock
                 productStock.setLevel(currentProductStockLevel-this.getUnitsChanged()); // minus
@@ -616,6 +619,8 @@ public class ProductStockOperation extends OC_Object{
                 //Add the batch units to this batch if it exists
                 if(getBatchUid()!=null && getBatchUid().length()>0){
                 	destinationBatchUid=Batch.copyBatch(getBatchUid(), productStock.getUid());
+                	System.out.println("unitschanged "+getUnitsChanged());
+                	System.out.println("unistreceived "+getUnitsReceived());
                 	Batch.updateBatchLevel(destinationBatchUid,this.getUnitsChanged());
                 }
             }
@@ -1431,6 +1436,7 @@ public class ProductStockOperation extends OC_Object{
                 operation.setDocumentUID(rs.getString("OC_OPERATION_DOCUMENTUID"));
                 operation.setEncounterUID(rs.getString("OC_OPERATION_ENCOUNTERUID"));
                 operation.setOrderUID(rs.getString("OC_OPERATION_ORDERUID"));
+                operation.setReceiveComment(rs.getString("OC_OPERATION_RECEIVECOMMENT"));
                 
                 operations.addElement(operation);
             }
@@ -1494,6 +1500,7 @@ public class ProductStockOperation extends OC_Object{
                 operation.setDocumentUID(rs.getString("OC_OPERATION_DOCUMENTUID"));
                 operation.setEncounterUID(rs.getString("OC_OPERATION_ENCOUNTERUID"));
                 operation.setOrderUID(rs.getString("OC_OPERATION_ORDERUID"));
+                operation.setReceiveComment(rs.getString("OC_OPERATION_RECEIVECOMMENT"));
 
                 operations.addElement(operation);
             }
@@ -1595,6 +1602,7 @@ public class ProductStockOperation extends OC_Object{
                 operation.setDocumentUID(rs.getString("OC_OPERATION_DOCUMENTUID"));
                 operation.setEncounterUID(rs.getString("OC_OPERATION_ENCOUNTERUID"));
                 operation.setOrderUID(rs.getString("OC_OPERATION_ORDERUID"));
+                operation.setReceiveComment(rs.getString("OC_OPERATION_RECEIVECOMMENT"));
 
                 vProdStockOperations.addElement(operation);
             }

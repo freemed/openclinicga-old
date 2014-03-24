@@ -36,8 +36,31 @@ public class OperationDocument extends OC_Object {
 	public void setSourceuid(String sourceuid) {
 		this.sourceuid = sourceuid;
 	}
-	public ServiceStock getSource(){
-		return ServiceStock.get(sourceuid);
+	public Object getSource(){
+    	if(MedwanQuery.getInstance().getConfigString("stockOperationDocumentServiceSources","").indexOf('*'+getType()+'*')>-1){
+    		return Service.getService(sourceuid);
+    	}
+    	else {
+    		return ServiceStock.get(sourceuid);
+    	}
+	}
+	public String getSourceName(String language){
+    	String s = "";
+    	if(sourceuid!=null){
+			if(MedwanQuery.getInstance().getConfigString("stockOperationDocumentServiceSources","").indexOf('*'+getType()+'*')>-1){
+	    		Service service = Service.getService(sourceuid);
+	    		if(service!=null){
+	    			s=ScreenHelper.checkString(service.getLabel(language));
+	    		}
+	    	}
+	    	else {
+	    		ServiceStock serviceStock= ServiceStock.get(sourceuid);
+	    		if(serviceStock!=null){
+	    			s= ScreenHelper.checkString(serviceStock.getName());
+	    		}
+	    	}
+    	}
+		return s;
 	}
 	public String getDestinationuid() {
 		return destinationuid;

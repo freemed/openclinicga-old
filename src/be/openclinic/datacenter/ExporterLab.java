@@ -76,7 +76,7 @@ public class ExporterLab extends Exporter {
 							try {
 								Hashtable analyses = new Hashtable();
 								//First numerical results
-								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, analysiscode,avg(resultvalue) as average,"+MedwanQuery.getInstance().getConfigString("stdevFunction","stdev")+"(resultvalue)) as stddev from requestedlabanalyses a, labanalysis b where a.analysiscode=b.labcode and b.editor='numeric' and finalvalidationdatetime is not null and finalvalidationdatetime between ? and ? group by analysiscode order by count(*) desc");
+								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, analysiscode,avg(resultvalue) as average,"+MedwanQuery.getInstance().getConfigString("stdevFunction","stdev")+"(resultvalue) as stddev from requestedlabanalyses a, labanalysis b where a.analysiscode=b.labcode and b.editor='numeric' and finalvalidationdatetime is not null and finalvalidationdatetime between ? and ? group by analysiscode order by count(*) desc");
 								ps.setTimestamp(1,new java.sql.Timestamp(begin.getTime()));
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								ResultSet rs = ps.executeQuery();

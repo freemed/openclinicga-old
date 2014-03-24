@@ -316,7 +316,7 @@ public class PDFStockOperationDocumentGenerator extends PDFOfficialBasic {
         	cell=createBorderlessCell(ScreenHelper.getTranNoLink("mdnac","distributor",sPrintLanguage),1);
         	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	table2.addCell(cell);
-        	cell=createHeaderCell(document.getSource().getName(),1,12);
+        	cell=createHeaderCell(document.getSourceName(sPrintLanguage),1,12);
             cell.setBackgroundColor(BaseColor.WHITE);
         	cell.setBorderColor(BaseColor.BLACK);
         	cell.setBorder(PdfPCell.BOX);

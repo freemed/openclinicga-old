@@ -285,7 +285,7 @@ public class PDFPatientInvoiceReceiptGeneratorCPLR extends PDFInvoiceGenerator {
 	        table.addCell(cell);
 	        
 	        //Total général
-	        cell = createValueCell(ScreenHelper.getTran("web","total.general",sPrintLanguage), 40,new Double(7*scaleFactor).intValue(),Font.NORMAL);
+	        cell = createValueCell(ScreenHelper.getTran("web","total.general",sPrintLanguage), 25,new Double(7*scaleFactor).intValue(),Font.NORMAL);
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
 	        cell = createValueCell(priceFormat.format(totalDebet+totalextrainsurardebet+totalinsurardebet), 25,new Double(7*scaleFactor).intValue(),Font.NORMAL);
@@ -318,6 +318,16 @@ public class PDFPatientInvoiceReceiptGeneratorCPLR extends PDFInvoiceGenerator {
 	
 	        cell = createValueCell(ScreenHelper.getTran("web","thankyou",sPrintLanguage), 10,new Double(7*scaleFactor).intValue(),Font.NORMAL);
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	        table.addCell(cell);
+	        
+	        for(int n=0; n < MedwanQuery.getInstance().getConfigInt("receiptPrinterEmptyLines",0);n++){
+		        cell=createValueCell("\r\n",50);
+		        cell.setBorder(PdfPCell.NO_BORDER);
+		        table.addCell(cell);
+	        }
+
+	        cell=createValueCell("",50);
+	        cell.setBorder(PdfPCell.BOTTOM);
 	        table.addCell(cell);
 
 	        doc.add(table);

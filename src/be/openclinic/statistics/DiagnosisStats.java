@@ -245,14 +245,14 @@ public class DiagnosisStats extends DStats{
                         "   OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
                         "   "+MedwanQuery.getInstance().iif("OC_ENCOUNTER_BEGINDATE>?","OC_ENCOUNTER_BEGINDATE","?")+" begindate," +
                         "   "+MedwanQuery.getInstance().iif("OC_ENCOUNTER_ENDDATE<?","OC_ENCOUNTER_ENDDATE","?")+" enddate " +
-                        "from OC_DIAGNOSES a,OC_ENCOUNTERS_VIEW b where " +
+                        "from OC_DIAGNOSES a,OC_ENCOUNTERS b where " +
                         "b.OC_ENCOUNTER_TYPE='"+this.type+"' and " +
                         MedwanQuery.getInstance().convert("int","replace(a.OC_DIAGNOSIS_ENCOUNTERUID,'"+serverid+"','')")+"=b.OC_ENCOUNTER_OBJECTID and " +
                         "b.OC_ENCOUNTER_BEGINDATE<=? and " +
                         "(b.OC_ENCOUNTER_ENDDATE is null or b.OC_ENCOUNTER_ENDDATE>=?) and " +
                         MedwanQuery.getInstance().getConfigString("charindexFunction","charindex")+"(?,a.OC_DIAGNOSIS_CODETYPE)=1 " +
                         "group by OC_DIAGNOSIS_ENCOUNTERUID,OC_DIAGNOSIS_ENCOUNTEROBJECTID,OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_ENDDATE " +
-                        ") a, OC_DIAGNOSES b, OC_ENCOUNTERS_VIEW c " +
+                        ") a, OC_DIAGNOSES b, OC_ENCOUNTERS c " +
                         "where " +
                         "c.OC_ENCOUNTER_TYPE='"+this.type+"' and " +
                         "a.OC_DIAGNOSIS_ENCOUNTERUID=b.OC_DIAGNOSIS_ENCOUNTERUID and " +
@@ -527,7 +527,7 @@ public class DiagnosisStats extends DStats{
                         "   OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
                         "  OC_DIAGNOSIS_CODE," +
                         "  OC_DIAGNOSIS_CODETYPE" +
-                        "  from OC_DIAGNOSES a,OC_ENCOUNTERS b" +
+                        "  from OC_DIAGNOSES a,OC_ENCOUNTERS_VIEW b" +
                         "  where" +
                         "  b.OC_ENCOUNTER_TYPE='"+type+"' and " +
                         MedwanQuery.getInstance().convert("int","replace(a.OC_DIAGNOSIS_ENCOUNTERUID,'"+serverid+"','')")+"=b.OC_ENCOUNTER_OBJECTID and " +
@@ -560,7 +560,7 @@ public class DiagnosisStats extends DStats{
                         "   OC_DIAGNOSIS_ENCOUNTEROBJECTID," +
                         "  OC_DIAGNOSIS_CODE," +
                         "  OC_DIAGNOSIS_CODETYPE" +
-                        "  from OC_DIAGNOSES a,OC_ENCOUNTERS b" +
+                        "  from OC_DIAGNOSES a,OC_ENCOUNTERS_VIEW b" +
                         "  where" +
                         "  b.OC_ENCOUNTER_TYPE='"+type+"' and " +
                         MedwanQuery.getInstance().convert("int","replace(a.OC_DIAGNOSIS_ENCOUNTERUID,'"+serverid+"','')")+"=b.OC_ENCOUNTER_OBJECTID and " +
