@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.statistics.CsvStats,be.mxs.common.util.system.HTMLEntities" %><%@include file="/includes/validateUser.jsp"%><%@ page import="be.mxs.common.util.db.MedwanQuery" %><%@ page import="java.text.SimpleDateFormat" %><%@ page import="java.util.Date" %><%
+<%@ page import="be.openclinic.finance.*,be.openclinic.statistics.CsvStats,be.mxs.common.util.system.HTMLEntities" %><%@include file="/includes/validateUser.jsp"%><%@ page import="be.mxs.common.util.db.MedwanQuery" %><%@ page import="java.text.SimpleDateFormat" %><%@ page import="java.util.Date" %><%
     String query=null;
 	String label="labelfr";
 	if(sWebLanguage.equalsIgnoreCase("e")||sWebLanguage.equalsIgnoreCase("en")){
@@ -70,6 +70,45 @@
         		" oc_encounter_patientuid=personid and"+
         		" oc_debet_date>="+ MedwanQuery.getInstance().convertStringToDate("'<beginfin>'")+" and"+
         		" oc_debet_date<="+ MedwanQuery.getInstance().convertStringToDate("'<endfin>'")+" ORDER BY oc_debet_date,lastname,firstname";
+    }
+    else if("hmk.invoices.list".equalsIgnoreCase(request.getParameter("query"))){
+        Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
+		StringBuffer sResult=new StringBuffer();
+		sResult.append("SERIAL;PATIENT;DEPARTMENT;DISEASE;DOCTOR;INSURER;80PCT;20PCT_SUPP;100PCT_SUPP\r\n");
+		//First we search for all the invoices from this period     
+		query="select oc_patientinvoice_serverid,oc_patientinvoice_objectid from oc_patientinvoices where oc_patientinvoice_date>="+ MedwanQuery.getInstance().convertStringToDate("'<begin>'")+" and oc_patientinvoice_date<="+ MedwanQuery.getInstance().convertStringToDate("'<end>'")+" order by oc_patientinvoice_date";
+        query=query.replaceAll("<begin>",request.getParameter("begin")).replaceAll("<end>",request.getParameter("end"));
+		System.out.println(query);
+		PreparedStatement ps = loc_conn.prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		int counter=1;
+		while(rs.next()){
+			PatientInvoice invoice=PatientInvoice.get(rs.getString("oc_patientinvoice_serverid")+"."+rs.getString("oc_patientinvoice_objectid"));
+			if(invoice!=null){
+				sResult.append(counter+++";");
+				sResult.append((invoice.getPatient()==null?"":invoice.getPatient().getFullName())+";");
+				sResult.append(invoice.getServicesAsString(sWebLanguage)+";");
+				sResult.append(invoice.getDiseases(sWebLanguage)+";");
+				sResult.append(invoice.getSignatures()+";");
+				sResult.append(invoice.getInsurers()+";");
+				sResult.append(invoice.getInsurarAmount()+";");
+				sResult.append((invoice.getPatientAmount()+invoice.getExtraInsurarAmount())+";");
+				sResult.append((invoice.getInsurarAmount()+invoice.getPatientAmount()+invoice.getExtraInsurarAmount())+";");
+				sResult.append("\r\n");
+			}
+		}
+		rs.close();
+		ps.close();
+		loc_conn.close();
+	    response.setContentType("application/octet-stream; charset=windows-1252");
+	    response.setHeader("Content-Disposition", "Attachment;Filename=\"OpenClinicStatistic" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".csv\"");
+	    ServletOutputStream os = response.getOutputStream();
+    	byte[] b = sResult.toString().getBytes();
+        for (int n=0;n<b.length;n++) {
+            os.write(b[n]);
+        }
+        os.flush();
+        os.close();
     }
     else if("global.list".equalsIgnoreCase(request.getParameter("query"))){
         Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();

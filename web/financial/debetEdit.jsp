@@ -373,7 +373,7 @@ System.out.println(0);
             <td class="admin"/>
             <td class="admin2" id='buttonadmin'>
             <%
-            	boolean canSave1=true,canSave2=true,canSave3=true;
+            	boolean canSave1=true,canSave2=true,canSave3=true,canSave4=true;
             	if(debet!=null && debet.getPatientInvoiceUid()!=null){
             		PatientInvoice invoice = PatientInvoice.get(debet.getPatientInvoiceUid());
             		if(invoice!=null && invoice.getStatus()!=null && !invoice.getStatus().equalsIgnoreCase("open")){
@@ -393,6 +393,11 @@ System.out.println(0);
             		}
             	}
             	if(canSave1 && canSave2 && canSave3){
+            		if((debet.getUid().split("\\.").length<2 && !activeUser.getAccessRight("financial.debet.add")) || (debet.getUid().split("\\.").length==2 && !activeUser.getAccessRight("financial.debet.edit"))){
+            			canSave4=false;
+            		}
+            	}
+            	if(canSave1 && canSave2 && canSave3 && canSave4){
             	%>
                 	<input class='button' type="button" name="buttonSave" id="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
             	<%
