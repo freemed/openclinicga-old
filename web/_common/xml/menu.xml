@@ -106,12 +106,14 @@
         </Menu>
         <Menu labelid="printlabel" accessrights="system.printlabel" patientselected="true" url="javascript:printPatientLabel();"/>
         <Menu labelid="ministats" url="/main.do?Page=system/getConnectedUsers.jsp&amp;nousers=true"/>
+		<!-- 
 		<Menu labelid="print" dossierselected="true">
 			<Menu labelid="printmedicaldossier" patientselected="true" url="/main.do?Page=print/printMedicalDossier.jsp"/>
 			<Menu labelid="printfinancialdossier" patientselected="true" url="/main.do?Page=print/printFinancialDossier.jsp"/>
 			<Menu labelid="printstaffdossier" employeeselected="true" url="/main.do?Page=print/printStaffDossier.jsp"/>	
 			<Menu labelid="printexaminations" patientselected="true" url="/main.do?Page=print/printExaminations.jsp"/>	    
         </Menu>  
+         -->
     </Menu>
     <Menu labelid="documents" accessrights="printableDocuments.select" patientselected="true" url="/main.do?Page=medical/showPrintableDocuments.jsp"/>
 	<Menu labelid="system">
