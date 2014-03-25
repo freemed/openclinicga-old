@@ -106,6 +106,7 @@ if(true){
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"wicketcredits.list\",\"openclinic\");",getTran("Web","statistics.download.wicketcredits",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"hmk.invoices.list\",\"openclinic\");",getTran("Web","statistics.download.invoicessummary",sWebLanguage))
             +(MedwanQuery.getInstance().getConfigInt("datacenterEnabled",0)==1?writeTblChildWithCodeNoButton("javascript:downloadDatacenterStats(\"service.income.list\",\"stats\");",getTran("Web","statistics.download.serviceincomelist",sWebLanguage)):"")
+            +writeTblChildWithCodeNoButton("javascript:downloadStats(\"hmk.doctors.income\",\"openclinic\");",getTran("Web","statistics.download.doctorsincome",sWebLanguage))
             +ScreenHelper.writeTblFooter()+"<br>");
 
          out.print(ScreenHelper.writeTblHeader(getTran("Web","financial",sWebLanguage),sCONTEXTPATH)
