@@ -403,7 +403,7 @@ public class PatientInvoice extends Invoice {
 	    	for(int n=0;n<debets.size();n++){
 	    		Debet debet = (Debet)debets.elementAt(n);
 	    		if(debet.getEncounterUid()!=null){
-	    			ins.put(debet.getEncounterUid(),ScreenHelper.getTranNoLink("encounter.categories",debet.getEncounter().getCategories(),language));
+	    			ins.put(ScreenHelper.getTranNoLink("encounter.categories",debet.getEncounter().getCategories(),language),"1");
 	    		}
 	    	}
     	}
@@ -412,7 +412,7 @@ public class PatientInvoice extends Invoice {
     		if(encounters.length()>0){
     			encounters+=",";
     		}
-    		encounters+=ins.get(i.next());
+    		encounters+=i.next();
     	}
     	return encounters;
     }
