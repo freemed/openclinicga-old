@@ -124,6 +124,7 @@ public class PDFInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             	diseaseType="?";
             	employer="?";
             	card="?";
+            	status="?";
             	immat="?";
             	affiliate="?";
             	emp="?";
