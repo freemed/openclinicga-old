@@ -30,7 +30,7 @@
             <table width="100%" cellspacing="0" cellpadding="0" border="0">
             <% if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){ %>
                 <tr onmousedown="checkDropdown(event);">
-                    <td class="menu_bar" valign="top"  colspan="3">
+                    <td class="menu_bar" style="vertical-align:top;"  colspan="3">
                         <%ScreenHelper.setIncludePage(customerInclude("/_common/dropdownmenu.jsp"), pageContext);%>
                     </td>
 

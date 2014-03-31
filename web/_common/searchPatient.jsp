@@ -66,10 +66,10 @@
         <input type="hidden" name="RSIndex">
         <input type="hidden" name="ListAction">
         <input type="hidden" name="findSearchButtonClick">
+        
         <%-- row 1 --%>
         <tr>
-            <td align="right" nowrap width="55"><%=getTran("Web", "Name", sWebLanguage)%>
-            </td>
+            <td align="right" nowrap width="55"><%=getTran("Web","Name",sWebLanguage)%></td>
             <td>
                 <input id="ac2" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' TYPE='TEXT'
                        style='text-transform:uppercase' NAME='findName' VALUE="<%=sName%>" size='25'
@@ -78,16 +78,15 @@
                 <div id="ac2update" style="display: none;border: 1px solid black;background-color: white; "></div>
             </td>
             <td align="right" nowrap><%=getTran("Web", "Firstname", sWebLanguage)%>&nbsp;
-                <input id="ac1" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' type='TEXT'
-                       style='text-transform:uppercase' name='findFirstname' value="<%=sFirstname%>" size='20'
-                       onblur='validateText(this);limitLength(this);'></td>
+                <input id="ac1" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findFirstname' value="<%=sFirstname%>" size='20' onblur='validateText(this);limitLength(this);'>
+            </td>
             <div id="ac1update" style="display:none; border: 1px solid black;background-color: white;"></div>
 
-            <td align="right" nowrap><%=getTran("Web", "DateOfBirth", sWebLanguage)%>&nbsp;<input
-                    class='<%=setFocus("DateOfBirth",sDefaultFocus)%>' type='TEXT' name='findDateOfBirth'
-                    value="<%=sDateOfBirth%>" size='17' OnBlur='checkDate(this)' maxlength='10'></td>
+            <td align="right" nowrap><%=getTran("Web","DateOfBirth", sWebLanguage)%>&nbsp;
+                <input class='<%=setFocus("DateOfBirth",sDefaultFocus)%>' type='TEXT' name='findDateOfBirth' value="<%=sDateOfBirth%>" size='17' OnBlur='checkDate(this)' maxlength='10'>
+            </td>
             <td width="1%" nowrap>
-            	<%	
+            <%	
             	if(activePatient!=null && activePatient.personid!=null && activePatient.personid.length()>0){
 	            	java.util.Date death=activePatient.isDead();	
 	            	if(death!=null){
@@ -97,40 +96,37 @@
 	            		out.print(" ("+(activePatient.gender.equalsIgnoreCase("M")?getTran("web.occup","male",sWebLanguage):getTran("web.occup","female",sWebLanguage))+" - "+activePatient.getAge()+" "+getTran("web","years",sWebLanguage).toLowerCase()+")");
 	            	}
             	}
-            	%>
+            %>
             </td>
             <td width="98%"/>
         </tr>
+        
         <%-- row 2 --%>
         <tr>
             <td align="right" nowrap><%=getTran("Web", "natreg.short", sWebLanguage)%>
             </td>
             <td>
-                <input class='<%=setFocus("natreg",sDefaultFocus)%>' TYPE='TEXT' NAME='findnatreg' VALUE="<%=sNatreg%>"
-                       size='25' onblur='validateText(this);limitLength(this);'>
+                <input class='<%=setFocus("natreg",sDefaultFocus)%>' TYPE='TEXT' NAME='findnatreg' VALUE="<%=sNatreg%>" size='25' onblur='validateText(this);limitLength(this);'>
             </td>
-            <td align="right" nowrap><%=getTran("Web", "immatnew", sWebLanguage)%>&nbsp;<input
-                    class='<%=setFocus("immatnew",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase'
-                    name='findimmatnew' value="<%=sNewimmat%>" size='20' onblur='validateText(this);limitLength(this);'>
-            </td>
+            <td align="right" nowrap><%=getTran("Web", "immatnew", sWebLanguage)%>&nbsp;<input class='<%=setFocus("immatnew",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findimmatnew' value="<%=sNewimmat%>" size='20' onblur='validateText(this);limitLength(this);'></td>
             <%
-                if (activePatient != null && activePatient.getID("archiveFileCode").length() > 0) {
+                if(activePatient != null && activePatient.getID("archiveFileCode").length() > 0){
             %>
             <td align="right" nowrap>
-                <a href="javascript:showArchiveCode();"><%=getTran("Web", "archiveFileCode", sWebLanguage)%>
-                </a>
-                &nbsp;<input class='<%=setFocus("archiveFileCode",sDefaultFocus)%>' type='TEXT'
-                             style='text-transform:uppercase' name='findArchiveFileCode' value="<%=sArchiveFileCode%>"
-                             size='17' onblur='validateText(this);limitLength(this);'></td>
+                <a href="javascript:showArchiveCode();"><%=getTran("Web","archiveFileCode",sWebLanguage)%></a>
+                &nbsp;<input class='<%=setFocus("archiveFileCode",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findArchiveFileCode' value="<%=sArchiveFileCode%>" size='17' onblur='validateText(this);limitLength(this);'>
+            </td>
             <%
-            } else {
+	            }
+	            else{
             %>
             <td align="right" nowrap>
                 <%=getTran("Web", "archiveFileCode", sWebLanguage)%>
                 &nbsp;<input class='<%=setFocus("archiveFileCode",sDefaultFocus)%>' type='TEXT'
                              style='<%=activePatient!=null?"background-color: #ff9999;":""%>text-transform:uppercase'
                              name='findArchiveFileCode' value="<%=sArchiveFileCode%>" size='17'
-                             onblur='validateText(this);limitLength(this);'></td>
+                             onblur='validateText(this);limitLength(this);'>
+            </td>
             <%
                 }
             %>
@@ -141,17 +137,12 @@
         </tr>
         <%-- row 3 --%>
         <tr>
-            <td align="right" nowrap><%=getTran("Web", "service", sWebLanguage)%>
-            </td>
+            <td align="right" nowrap><%=getTran("Web","service",sWebLanguage)%></td>
             <td colspan='2' nowrap>
-                <input class='text' TYPE="text" NAME="findUnitText" readonly size="49" TITLE="<%=sUnitText%>"
-                       VALUE="<%=sUnitText%>" onkeydown="enterEvent(event,13)? window.event.keyCode='' : (window.which='');return true;">
+                <input class='text' TYPE="text" NAME="findUnitText" readonly size="49" TITLE="<%=sUnitText%>" VALUE="<%=sUnitText%>" onkeydown="enterEvent(event,13)? window.event.keyCode='' : (window.which='');return true;">
                 <%
-                    if (sUnit.length() > 0) {
-                %>
-                <img src="<c:url value='/_img/icon_info.gif'/>" class="link"
-                     alt="<%=getTran("Web","Information",sWebLanguage)%>" onclick='searchInfoService(SF.findUnit)'/>
-                <%
+                    if(sUnit.length() > 0){
+                        %><img src="<c:url value='/_img/icon_info.gif'/>" class="link" alt="<%=getTran("Web","Information",sWebLanguage)%>" onclick='searchInfoService(SF.findUnit)'/><%
                     }
                 %>
                 <%=ScreenHelper.writeServiceButton("buttonUnit", "findUnit", "findUnitText", sWebLanguage, sCONTEXTPATH)%>
@@ -166,18 +157,18 @@
                 Collections.sort(vDistricts);
                 String sTmpDistrict;
 
-                for (int i=0;i<vDistricts.size();i++){
+                for(int i=0;i<vDistricts.size();i++){
                     sTmpDistrict = (String)vDistricts.elementAt(i);
 
-                    sDistricts += "<option value='"+sTmpDistrict+"'";
+                    sDistricts+= "<option value='"+sTmpDistrict+"'";
 
-                    if (sTmpDistrict.equalsIgnoreCase(sDistrict)){
-                        sDistricts+=" selected";
+                    if(sTmpDistrict.equalsIgnoreCase(sDistrict)){
+                        sDistricts+= " selected";
                     }
-                    sDistricts += ">"+sTmpDistrict+"</option>";
+                    sDistricts+= ">"+sTmpDistrict+"</option>";
                 }
 
-                sDistricts += "</select>";
+                sDistricts+= "</select>";
 
                 out.print(sDistricts);
             %>
@@ -191,9 +182,7 @@
 </table>
 
 <script>
-  Event.observe(window,'load',function(){
-    <%=sScript%>
-  });
+  Event.observe(window,'load',function(){<%=sScript%>});
   
 <%
     // red background for patients who are not hospitalized
@@ -239,8 +228,7 @@ new Ajax.Autocompleter('ac1','ac1update','_common/search/searchByAjax/patientsli
   callback:eventDateCallback
 });
 
-function ac_return(field, item) {
-  // REGEX
+function ac_return(field,item){
   var regex = new RegExp('[0123456789]*-idcache', 'i');
   var nomimage = regex.exec(item.innerHTML);
   var id = nomimage[0].replace('-idcache', '');
@@ -248,14 +236,13 @@ function ac_return(field, item) {
   document.getElementById("SF").findPersonID.value = id;
   doSPatient();
 }
-<%-- End Autocompletion code ---%>
 
-function resizeSearchFields() {
+function resizeSearchFields(){
   var width = 1000;
-  if (document.body) {
+  if(document.body){
     width = (document.body.clientWidth);
   }
-  else {
+  else{
     width = (window.innerWidth);
   }
   var bigbigSize = 300;
@@ -297,7 +284,6 @@ function checkKeyDown(evt){
     return false;
   }
 }
-
 
 <%-- search patient --%>
 function doSPatient(){
@@ -349,4 +335,5 @@ function searchInfoService(sObject){
   }
 }
 </script>
+
 <%=writeJSButtons("SF","findSearchPatient")%>
