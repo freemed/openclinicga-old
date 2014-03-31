@@ -59,8 +59,8 @@
 	            // extra row and cell for picture
 	            %>
 			        <tr>
-			            <td class="image" valign="top" width="143px"><img border="0" width="100%" src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
-			            <td valign="top">
+			            <td class="image" style="vertical-align:top;" width="143px"><img border="0" width="100%" src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
+			            <td style="vertical-align:top;">
 			                <table width="100%">
 	            <%
 	        }
@@ -72,7 +72,7 @@
     <tr><td colspan="2"><%conditionalInclude("curative/encounterStatus.jsp",pageContext,"adt.encounter.select",activeUser);%></td><tr>
 
     <tr>
-        <td valign="top" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
+        <td style="vertical-align:top;" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
         <td><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
     <tr>
 
@@ -99,32 +99,32 @@
         	<%
         		if(activeUser.getAccessRight("medication.medicationschema.select")){
         	%>
-            	<td colspan="3" valign="top" height="100%" width="50%"><%conditionalInclude("curative/medicationStatus.jsp",pageContext,"medication.medicationschema.select",activeUser);%></td>
+            	<td colspan="3" style="vertical-align:top;" height="100%" width="50%"><%conditionalInclude("curative/medicationStatus.jsp",pageContext,"medication.medicationschema.select",activeUser);%></td>
             <%
         		}
         		else {
             %>
-            	<td colspan="3" valign="top" height="100%" width="50%"><table width='100%'><tr class='admin'><td>&nbsp;</td></tr></table></td>
+            	<td colspan="3" style="vertical-align:top;" height="100%" width="50%"><table width='100%'><tr class='admin'><td>&nbsp;</td></tr></table></td>
             <%
         		}
             %>
         	<%
         		if(activeUser.getAccessRight("occup.vaccinations.select")){
         	%>
-	            <td colspan="3"  valign="top" height="100%"><%conditionalInclude("curative/vaccinationStatus.jsp",pageContext,"occup.vaccinations.select",activeUser);%></td>
+	            <td colspan="3"  style="vertical-align:top;" height="100%"><%conditionalInclude("curative/vaccinationStatus.jsp",pageContext,"occup.vaccinations.select",activeUser);%></td>
             <%
         		}
         		else {
             %>
-            	<td colspan="3" valign="top" height="100%" width="50%"><table width='100%'><tr class='admin'><td>&nbsp;</td></tr></table></td>
+            	<td colspan="3" style="vertical-align:top;" height="100%" width="50%"><table width='100%'><tr class='admin'><td>&nbsp;</td></tr></table></td>
             <%
         		}
             %>
         <tr>
         <tr>
-            <td colspan="2"  valign="top" height="100%" width="30%"><%conditionalInclude("curative/warningStatus.jsp",pageContext,"occup.warning.select",activeUser);%></td>
-            <td colspan="2"  valign="top" height="100%" width="30%"><%conditionalInclude("curative/activeDiagnosisStatus.jsp",pageContext,"problemlist.select",activeUser);%></td>
-            <td colspan="2"  valign="top" height="100%"><%conditionalInclude("curative/rfeStatus.jsp",pageContext,"problemlist.select",activeUser);%></td>
+            <td colspan="2"  style="vertical-align:top;" height="100%" width="30%"><%conditionalInclude("curative/warningStatus.jsp",pageContext,"occup.warning.select",activeUser);%></td>
+            <td colspan="2"  style="vertical-align:top;" height="100%" width="30%"><%conditionalInclude("curative/activeDiagnosisStatus.jsp",pageContext,"problemlist.select",activeUser);%></td>
+            <td colspan="2"  style="vertical-align:top;" height="100%"><%conditionalInclude("curative/rfeStatus.jsp",pageContext,"problemlist.select",activeUser);%></td>
         <tr>
         <tr><td colspan="6"><%conditionalInclude("curative/medicalHistoryStatus.jsp",pageContext,"examinations.select",activeUser);%></td><tr>
     </table>

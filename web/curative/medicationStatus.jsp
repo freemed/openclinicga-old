@@ -8,7 +8,7 @@
 <div id="patientmedicationsummary"/>
 <table width="100%" class="list" height="100%" cellspacing="0">
     <tr class="admin"><td colspan="4"><%=getTran("curative","medication.status.title",sWebLanguage)%></td></tr>
-    <tr valign="top">
+    <tr style="vertical-align:top;">
     <%
         String sProductUnit, timeUnitTran, sPrescrRule;
         Vector chronicMedications = ChronicMedication.find(activePatient.personid, "", "", "", "OC_CHRONICMED_BEGIN", "ASC");
@@ -100,7 +100,7 @@
     if(paperprescriptions.size()>0){
 %>
         <tr>
-            <td valign="top"><b><%=getTran("curative","medication.paperprescriptions",sWebLanguage)%><br/> &lt;3 <%=getTran("web","months",sWebLanguage).toLowerCase()%></b></td>
+            <td style="vertical-align:top;"><b><%=getTran("curative","medication.paperprescriptions",sWebLanguage)%><br/> &lt;3 <%=getTran("web","months",sWebLanguage).toLowerCase()%></b></td>
             <td colspan="3">
                 <table width="100%">
                     <%
@@ -146,7 +146,7 @@
 	if(medicationHistory.size()>0){
 		%>
         <tr>
-            <td valign="top"><b><%=getTran("curative","medication.deliveries",sWebLanguage)%><br/> &lt;<%= MedwanQuery.getInstance().getConfigInt("patientMedicationDeliveryHistoryDuration",14)%> <%=getTran("web","days",sWebLanguage).toLowerCase()%></b></td>
+            <td style="vertical-align:top;"><b><%=getTran("curative","medication.deliveries",sWebLanguage)%><br/> &lt;<%= MedwanQuery.getInstance().getConfigInt("patientMedicationDeliveryHistoryDuration",14)%> <%=getTran("web","days",sWebLanguage).toLowerCase()%></b></td>
             <td colspan="3">
                 <table width="100%">
                     <%

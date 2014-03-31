@@ -115,7 +115,7 @@
 
                         <form name="transactionForm" id="transactionForm" onkeyup="submitOnEnter(event,'transactionForm')" method="post" action="datacenterHome.jsp" >
                             <table width="100%" class="content">
-                                <tr ><td colspan="2"></td></tr>
+                                <tr><td colspan="2"></td></tr>
                                 <tr class="last">
                                     <td><%=getTran("web","login",sWebLanguage) %></td>
                                     <td>

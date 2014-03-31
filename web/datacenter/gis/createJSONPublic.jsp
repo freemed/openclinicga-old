@@ -1481,14 +1481,14 @@
 	                	rgbGreen = (int)(((255d/(double)shadesCount)*i));
                  	    sColor = rgbToHtml(51,rgbGreen,0); // 51 == 33 hex == some red to soften the green
 
-	                    writer.write("<tr ><td style='text-align:center' bgcolor='#"+sColor+"'><font style='color:#ffffff;font-size:12px'><= "+deci.format((int)((255-rgbGreen)/rgbToCenterFactor))+"&nbsp;</font></td></tr>");
+	                    writer.write("<tr><td style='text-align:center' bgcolor='#"+sColor+"'><font style='color:#ffffff;font-size:12px'><= "+deci.format((int)((255-rgbGreen)/rgbToCenterFactor))+"&nbsp;</font></td></tr>");
 	                }
 	                
                     // last legend
 	                int prevRgbGreen = (int)(((255d/(double)shadesCount)*1)); // before the last legend
                     rgbGreen = (int)(((255d/(double)shadesCount)*0));
                  	sColor = rgbToHtml(51,rgbGreen,0); // 51 == 33 hex == some red to soften the green
-                    writer.write("<tr ><td style='text-align:center' bgcolor='#"+sColor+"'><font style='color:#ffffff;font-size:12px'>&nbsp;> "+deci.format((int)((255-prevRgbGreen)/rgbToCenterFactor))+"&nbsp;</font></td></tr>");
+                    writer.write("<tr><td style='text-align:center' bgcolor='#"+sColor+"'><font style='color:#ffffff;font-size:12px'>&nbsp;> "+deci.format((int)((255-prevRgbGreen)/rgbToCenterFactor))+"&nbsp;</font></td></tr>");
                 }
                 
                 writer.write("</table></td>\n");
