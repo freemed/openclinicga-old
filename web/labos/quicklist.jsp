@@ -1,20 +1,23 @@
-<%@ page import="be.openclinic.medical.*" %>
+<%@page import="be.openclinic.medical.*"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%!
-	public String getProfileNameForCode(String sCode,String sWebLanguage){
+    //--- GET PROFILE NAME FOR CODE ---------------------------------------------------------------
+	public String getProfileNameForCode(String sCode, String sWebLanguage){
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
-	    StringBuffer sQuery=new StringBuffer();
-	    String sName=sCode;
+	    StringBuffer sQuery = new StringBuffer();
+	    String sName = sCode;
+	    
 	    sQuery.append("SELECT OC_LABEL_VALUE as name")
-	        .append(" FROM LabProfiles p, OC_LABELS l")
-	        .append(" WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","p.profileID")+" = l.OC_LABEL_ID")
-	        .append("  AND l.OC_LABEL_TYPE = 'labprofiles'")
-	        .append("  AND l.OC_LABEL_LANGUAGE = ?")
-	        .append("  AND p.deletetime IS NULL")
-	    	.append("  AND p.profilecode=?");
+	          .append(" FROM LabProfiles p, OC_LABELS l")
+	          .append(" WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","p.profileID")+" = l.OC_LABEL_ID")
+	          .append("  AND l.OC_LABEL_TYPE = 'labprofiles'")
+	          .append("  AND l.OC_LABEL_LANGUAGE = ?")
+	          .append("  AND p.deletetime IS NULL")
+	          .append("  AND p.profilecode = ?");
 	
-	    Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	    Connection loc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	    try{
 	        ps = loc_conn.prepareStatement(sQuery.toString());
 	        ps.setString(1,sWebLanguage.toLowerCase());
@@ -22,25 +25,27 @@
 	        rs = ps.executeQuery();
 	
 	        if(rs.next()){
-	        	sName=rs.getString("name");
+	        	sName = rs.getString("name");
 	        }
-	        rs.close();
-	        ps.close();
-	    }catch(Exception e){
+	    }
+	    catch(Exception e){
 	        e.printStackTrace();
-	    }finally{
+	    }
+	    finally{
 	        try{
 	            if(rs!=null)rs.close();
 	            if(ps!=null)ps.close();
 	            loc_conn.close();
-	        }catch(Exception e){
+	        }
+	        catch(Exception e){
 	            e.printStackTrace();
 	        }
 	    }
-	    return sName;
-		
+	    
+	    return sName;		
 	}
 
+    //--- GET ITEM VALUE --------------------------------------------------------------------------
 	public String getItemValue(String[] labanalyses,int column, int row){
 		for(int n=0;n<labanalyses.length;n++){
 			if(labanalyses[n].split("£").length>=2 && labanalyses[n].split("£")[1].split("\\.").length==2 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
@@ -49,6 +54,8 @@
 		}
 		return "";
 	}
+
+    //--- GET ITEM COLOR --------------------------------------------------------------------------
 	public String getItemColor(String[] labanalyses,int column, int row){
 		for(int n=0;n<labanalyses.length;n++){
 			if(labanalyses[n].split("£").length>=3 && labanalyses[n].split("£")[2].split("\\.").length>0 && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column && Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
@@ -57,8 +64,8 @@
 		}
 		return "";
 	}
-
 %>
+
 <form name="transactionForm" id="transactionForm">
 	<table width="100%">
 	<%
@@ -107,26 +114,24 @@
 </form>
 
 <script>
-
-	function saveLabAnalyses(){
-		var selectedLabAnalyses="";
-		var allLabAnalyses = document.getElementById("transactionForm").elements;
-		for(n=0;n<allLabAnalyses.length;n++){
-			if(allLabAnalyses[n].name.indexOf("anal.")==0 && allLabAnalyses[n].checked){
-				if(selectedLabAnalyses.length>0){
-					selectedLabAnalyses=selectedLabAnalyses+";";
-				}
-				selectedLabAnalyses=selectedLabAnalyses+allLabAnalyses[n].name.substring(5);
+function saveLabAnalyses(){
+	var selectedLabAnalyses="";
+	var allLabAnalyses = document.getElementById("transactionForm").elements;
+	for(n=0;n<allLabAnalyses.length;n++){
+		if(allLabAnalyses[n].name.indexOf("anal.")==0 && allLabAnalyses[n].checked){
+			if(selectedLabAnalyses.length>0){
+				selectedLabAnalyses=selectedLabAnalyses+";";
 			}
-			else if(allLabAnalyses[n].name.indexOf("analprof.")==0 && allLabAnalyses[n].checked){
-				if(selectedLabAnalyses.length>0){
-					selectedLabAnalyses=selectedLabAnalyses+";";
-				}
-				selectedLabAnalyses=selectedLabAnalyses+"^"+allLabAnalyses[n].name.substring(9);
-			}
+			selectedLabAnalyses=selectedLabAnalyses+allLabAnalyses[n].name.substring(5);
 		}
-		window.opener.addQuickListAnalyses(selectedLabAnalyses);
-		window.close();
+		else if(allLabAnalyses[n].name.indexOf("analprof.")==0 && allLabAnalyses[n].checked){
+			if(selectedLabAnalyses.length>0){
+				selectedLabAnalyses=selectedLabAnalyses+";";
+			}
+			selectedLabAnalyses=selectedLabAnalyses+"^"+allLabAnalyses[n].name.substring(9);
+		}
 	}
-	
+	window.opener.addQuickListAnalyses(selectedLabAnalyses);
+	window.close();
+}	
 </script>

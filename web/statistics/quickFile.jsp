@@ -419,10 +419,10 @@
         var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
         var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
         if (document.getElementsByName("EditEncounterEnd")[0].value.length>0 && end < begin) {
-            alert('<%=getTran("web","beginandendinverted",sWebLanguage)%>');
+        	alertDialog('web','beginandendinverted');
         }
         else if (end > new Date()) {
-            alert('<%=getTran("web","endinfuture",sWebLanguage)%>');
+        	alertDialog('web','endinfuture');
         }
         else {
             document.getElementsByName("saveEncounter")[0].value = "true";
@@ -435,7 +435,7 @@
             var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
             var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
             if (end.getTime() - begin.getTime() > 180 * 24 * 60 * 60000) {
-                alert('<%=getTran("web","longadmission",sWebLanguage)%>');
+            	alertDialog('web','longadmission');
             }
         }
     }

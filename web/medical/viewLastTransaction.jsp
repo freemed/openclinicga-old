@@ -32,7 +32,7 @@
         </script>
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
             <tr>
-                <td valign="top" class="white">
+                <td style="vertical-align:top;" class="white">
                     <%
                         ScreenHelper.setIncludePage("/content.jsp", pageContext);
                     %>

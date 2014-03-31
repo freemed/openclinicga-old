@@ -135,7 +135,7 @@
                 <%
                     String sTmpLabeltype;
                     String sSelect = "SELECT DISTINCT OC_LABEL_TYPE FROM OC_LABELS ORDER BY OC_LABEL_TYPE";
-                    Connection loc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
+                    Connection loc_conn = MedwanQuery.getInstance().getLongOpenclinicConnection();
                     PreparedStatement ps = loc_conn.prepareStatement(sSelect);
                     ResultSet rs = ps.executeQuery();
 
@@ -244,6 +244,7 @@
                                          " AND OC_LABEL_ID = ?"+
                                          " AND OC_LABEL_LANGUAGE = ?";
 
+                                loc_conn = MedwanQuery.getInstance().getLongOpenclinicConnection();
                                 ps = loc_conn.prepareStatement(select);
                                 ps.setString(1,labelUniqueKey.split("\\$")[0]);
                                 ps.setString(2,labelUniqueKey.split("\\$")[1]);
@@ -259,6 +260,7 @@
                                 // close db-stuff
                                 if(rs!=null) rs.close();
                                 if(ps!=null) ps.close();
+                                loc_conn.close();
                             }
                         }
                     }
@@ -283,12 +285,14 @@
 					eio.printStackTrace();	
 				}
 				r.close();
+				
 				Iterator i = labels.iterator();
 				while(i.hasNext()){
 					csvWriter2.write(i.next()+"\r\n");
 				}
                 csvWriter2.flush();
                 csvWriter2.close();
+                
                 File original = new File(sAPPFULLDIR+INIFILENAME);
                 original.delete();
                 new File(sAPPFULLDIR+INIFILENAME+"new").renameTo(new File(sAPPFULLDIR+INIFILENAME));
@@ -328,37 +332,39 @@
         //#############################################################################################
         //### DELETE ##################################################################################
         //#############################################################################################
-        else if (action.equals("delete")) {
+        else if(action.equals("delete")){
             Vector recsToBeDeleted = new Vector();
             String paramName, paramValue, lineID;
             String deleteMsg = getTran("Web", "DataIsDeleted", sWebLanguage);
 
             // PUT ASIDE RECORDS SPECIFIED FOR DELETION IN REQUEST
             Enumeration e = request.getParameterNames();
-            while (e.hasMoreElements()) {
+            while(e.hasMoreElements()){
                 paramName = (String) e.nextElement();
                 paramValue = checkString(request.getParameter(paramName));
 
-                if (paramName.startsWith("checkbox$") && paramValue.equals("on")) {
+                if(paramName.startsWith("checkbox$") && paramValue.equals("on")){
                     labelUniqueKey = paramName.substring(9).toLowerCase();
                     recsToBeDeleted.add(labelUniqueKey);
                 }
             }
 
             //*** In Db, not in ini (DB to INI) *******************************************************
-            if (dataDirection.equals("dbToIni")) {
+            if(dataDirection.equals("dbToIni")){
                 // DELETE FROM DB
-                select = "DELETE FROM OC_LABELS WHERE LOWER(OC_LABEL_TYPE+'$'+OC_LABEL_ID+'$'+OC_LABEL_LANGUAGE) = ?";
+                select = "DELETE FROM OC_LABELS WHERE concat(OC_LABEL_TYPE,'$',OC_LABEL_ID,'$',OC_LABEL_LANGUAGE) = ?";
+                loc_conn = MedwanQuery.getInstance().getLongOpenclinicConnection();
                 ps = loc_conn.prepareStatement(select);
 
-                for (int i = 0; i < recsToBeDeleted.size(); i++) {
+                for(int i=0; i<recsToBeDeleted.size(); i++){
                     lineID = (String) recsToBeDeleted.get(i);
-                    Debug.println("delete : "+lineID); 
                     ps.setString(1, lineID);
-                    ps.executeUpdate();
+                    int deletedRecords = ps.executeUpdate();
+                    Debug.println("delete : "+lineID.toLowerCase()+" ("+deletedRecords+" deleted)"); 
                 }
 
                 ps.close();
+                loc_conn.close();
             }
             //*** In ini, not in DB (DB to INI) *******************************************************
             else if (dataDirection.equals("iniToDb")) {
@@ -388,6 +394,8 @@
             <br>
             <%=deleteMsg%>
         <%
+        
+        reloadSingleton(session);
     }
     //#############################################################################################
     //### FIND (DISPLAY DIFFERENCES BETWEEN INI AND DB) ###########################################
@@ -444,6 +452,7 @@
 
                         select+= "ORDER BY OC_LABEL_UPDATETIME DESC, OC_LABEL_TYPE, OC_LABEL_ID";
 
+                        loc_conn = MedwanQuery.getInstance().getLongOpenclinicConnection();
                         ps = loc_conn.prepareStatement(select);
 
                         if(findLabelDate.length() > 0){
@@ -515,6 +524,7 @@
                                         // close db-stuff
                                         if (rs != null) rs.close();
                                         if (ps != null) ps.close();
+                                        loc_conn.close();
                                     }
                                     //*** In ini, not in DB (INI to DB) *******************************************
                                     else if (dataDirection.equals("iniToDb")) {
@@ -526,6 +536,7 @@
                                         Enumeration e = iniProps.propertyNames();
 
                                         select = "SELECT 1 FROM OC_LABELS WHERE OC_LABEL_TYPE=? AND OC_LABEL_ID=? AND OC_LABEL_LANGUAGE=?";
+                                        loc_conn = MedwanQuery.getInstance().getLongOpenclinicConnection();
                                         ps = loc_conn.prepareStatement(select);
 
                                         while (e.hasMoreElements()) {
@@ -552,7 +563,7 @@
                                                         labelCount++;
                                                         style = (labelCount % 2 == 0 ? "1" : "");
 
-                                    %>
+                                        %>
                                             <tr class="list<%=style%>" >
                                                 <td><input type="checkbox" id="cb<%=labelCount%>" name="checkbox$<%=sLabelUniqueKey%>"></td>
                                                 <td onclick="setCB('cb<%=labelCount%>');">
@@ -575,9 +586,11 @@
                         // close db-stuff
                         if(rs!=null) rs.close();
                         if(ps!=null) ps.close();
+                        loc_conn.close();
                     }
                 %>
             </table>
+            
             <script>
               function setCB(id){
                 var cb = document.getElementById(id);
@@ -585,6 +598,7 @@
                 else                 cb.checked = true;
               }
             </script>
+            
             <%-- BUTTONS at BOTTOM --------------------------------------------------------------%>
             <table width="100%" cellspacing="1">
                 <tr>
@@ -622,12 +636,14 @@
     loc_conn.close();
 %>
 </form>
+
 <%-- link to manage translations --%>
 <%=ScreenHelper.alignButtonsStart()%>
     <img src='<c:url value="/_img/pijl.gif"/>'>
     <a  href="<c:url value='/main.do'/>?Page=system/manageTranslations.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetranslations",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 <a name="bottom"/>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   function doSubmit(action){
@@ -693,6 +709,7 @@
     transactionForm.FindLabelLang.selectedIndex = 0;
     transactionForm.FindLabelValue.value = "";
   }
+  
   function doBack(){
     window.location.href = "<c:url value='/main.do'/>?Page=system/menu.jsp";
   }

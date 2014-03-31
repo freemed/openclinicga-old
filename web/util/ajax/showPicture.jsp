@@ -29,7 +29,7 @@
 	        %>
 				<table width="100%">
 				    <tr>
-				        <td class="image" valign="top">
+				        <td class="image" style="vertical-align:top;">
 				            <img border='0' src='<c:url value="/" />documents/<%=activeUser.userid%>.jpg'/>
 				        </td>
 				    </tr>

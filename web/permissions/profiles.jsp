@@ -147,8 +147,7 @@
             if (UserProfile.removeUserPermissionByPermissionId(request.getParameter("DeletePermissionID")) == 1) {
                 out.print("<script>document.location.href = \"" + sCONTEXTPATH + "/main.do?Page=permissions/profiles.jsp&ts=" + getTs() + "\";</script>");
             } else {
-                String alert = getTranNoLink("Web.UserProfile", "cantDelete", sWebLanguage);
-                out.print("<script>alert('" + alert + "');</script>");
+                out.print("<script>alertDialog('Web.UserProfile','cantDelete');</script>");
             }
         }
 

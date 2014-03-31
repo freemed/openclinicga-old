@@ -5,9 +5,7 @@
                  java.util.Hashtable,
                  be.mxs.common.util.db.MedwanQuery,
                  java.io.File"%>
-<%
-    
-%>
+
 <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
     <jsp:setProperty name="upBean" property="folderstore" value="<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>" />
     <jsp:setProperty name="upBean" property="parser" value="<%= MultipartFormDataRequest.CFUPARSER %>"/>

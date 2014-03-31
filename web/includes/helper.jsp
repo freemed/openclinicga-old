@@ -24,6 +24,7 @@
                 be.openclinic.system.Config,
                 be.dpms.medwan.common.model.vo.authentication.UserVO,
                 java.util.regex.*,
+                be.mxs.common.model.vo.IdentifierFactory,
                 be.mxs.common.util.db.MedwanQuery" %>
 <%@page import="net.admin.system.AccessLog" %>
 <%@page import="java.util.*" %>
@@ -117,7 +118,7 @@
         String re2 = "(ICONSTANTS)";    // Word 1
         String re3 = "(.?)";    // Non-greedy match on filler
         String re4 = "(.*)";    // Word 2
-        Pattern p = Pattern.compile(re1 + re2 + re3 + re4, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Pattern p = Pattern.compile(re1+re2+re3+re4, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
         Matcher m = p.matcher(type);
         if (m.find()) {
 
@@ -134,14 +135,14 @@
     public java.util.List getItemTypeFromUser(String type, int user) {
         java.util.List itemsTypes = MedwanQuery.getInstance().getAllAutocompleteTypeItemsByUser(user);
         String re1 = ".*";    // Non-greedy match on filler
-        String re2 = "(" + type + ")";    // Word 1
+        String re2 = "("+type+")";    // Word 1
         String re3 = "(.?)";    // Non-greedy match on filler
         String re4 = "(.*)";    // Word 2
         Iterator it = itemsTypes.iterator();
         while (it.hasNext()) {
             type = (String) it.next();
             // test if type exists in item type string //
-            Pattern p = Pattern.compile(re1 + re2 + re3 + re4, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+            Pattern p = Pattern.compile(re1+re2+re3+re4, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
             Matcher m = p.matcher(type);
             if (!m.find()) {
                 // if net es-xists remove then from the list //
@@ -171,7 +172,7 @@
             sRows = sTextAreaRows;
         }
 
-        return "<textarea id='"+sName+"' name='" + sName + "' cols='" + sCols + "' rows='" + sRows + "' onKeyup='resizeTextarea(this,10);' class='text' " + sOther + ">" + sValue + "</textarea>";
+        return "<textarea id='"+sName+"' name='"+sName+"' cols='"+sCols+"' rows='"+sRows+"' onKeyup='resizeTextarea(this,10);' class='text' "+sOther+">"+sValue+"</textarea>";
     }
 
     //--- GET CONFIG STRING DB --------------------------------------------------------------------
@@ -264,12 +265,13 @@
                     currentContext = sessionContainerWO.getFlags().getContext();
                 }
 
-                result += "&nbsp;" + ScreenHelper.getTran("Web.Occup", transactionVO.getTransactionType(), language);
+                result += "&nbsp;"+ScreenHelper.getTran("Web.Occup", transactionVO.getTransactionType(), language);
 
                 // subtitle
                 if (subTitle.length() > 0) {
-                    result += " : " + subTitle;
+                    result += " : "+subTitle;
                 }
+                
                 // select active contact
                 String activeEncounterUid="";
                 ItemVO oldItemVO = transactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID");
@@ -283,39 +285,47 @@
 	                	activeEncounterUid=activeEnc.getUid();
 	                }
                 }
-                result += "&nbsp;<input type='hidden' name='currentTransactionVO.items.<ItemVO[hashCode="+oldItemVO.getItemId()+ "]>.value' id='encounteruid' value='"+activeEncounterUid+"'/>";
+                result += "&nbsp;<input type='hidden' name='currentTransactionVO.items.<ItemVO[hashCode="+(oldItemVO!=null?oldItemVO.getItemId():IdentifierFactory.getInstance().getTemporaryNewIdentifier())+ "]>.value' id='encounteruid' value='"+activeEncounterUid+"'/>";
             }
             result += "</td>";
 
             // context selector
             result  +="<td>"+getLastTransactionAccess("T."+transactionVO.getServerId()+"."+transactionVO.getTransactionId(),language,request)+"</td>";
-            result += "<td align='right' style='padding-top:2px;'>" + "<select id='ctxt' class='text' onchange=\"document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=" + itemVO.getItemId() + "]>.value')[0].value=this.value;show('content-details');if($('confirm'))hide('confirm');\">";
+            result += "<td align='right' style='padding-top:2px;'>"+
+                       "<select id='ctxt' class='text' onchange=\"document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value')[0].value=this.value;show('content-details');if($('confirm'))hide('confirm');\">";
             UserVO user = sessionContainerWO.getUserVO();
             User activeUser = new User();
             activeUser.initialize(user.getUserId().intValue());
             net.admin.Service service;
             for (int i = 0; i < activeUser.vServices.size(); i++) {
                 service = (net.admin.Service) activeUser.vServices.elementAt(i);
-                result += "<option value='" + service.code + "'";
+                result += "<option value='"+service.code+"'";
                 if (service.code.equals(activeUser.activeService.code)) {
                     result += " selected";
                 }
-                result += ">" + getTran("Service", service.code, language) + "</option>";
+                result += ">"+getTran("Service", service.code, language)+"</option>";
             }
             result += "</select>&nbsp;";
             result += "<input id='confirm' type='button' value='OK' name='confirm' class='button' onclick=\"show('content-details');hide('confirm');\"/>";
             
             // private data checkbox
             if(sessionContainerWO.getUserVO().userId.intValue()==transactionVO.getUser().userId.intValue()){
-            	result += "<input id='privatetransaction' name='privatetransaction' type='checkbox' value='1' "+(checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")?"checked":"")+"/>"+getTran("web","privatetransaction",language);
-            }else {
+            	result += "<input id='privatetransaction' name='privatetransaction' type='checkbox' value='1' "+(checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")?"checked":"")+"/>"+getLabel("web","privatetransaction",language,"privatetransaction");
+            }
+            else {
             	result += "<input id='privatetransaction' name='privatetransaction' type='hidden' value='"+checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION"))+"'/>";
             }
         }
-        catch (Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
-        result += "</td><td align='right'><a alt='"+getTran("Web", "Back", language)+"' title='"+getTran("Web", "Back", language)+"' class='previousButton' href='main.do?Page=curative/index.jsp&ts=" + ScreenHelper.getTs() + "'>&nbsp;</a>" + "</td></tr></table>" + "<div id='content-details' style='display:none'></div>" + "<script>document.getElementById('ctxt').onchange();</script>";
+        
+        result +=  "</td>"+
+                   "<td align='right'><a alt='"+getTranNoLink("Web", "Back", language)+"' title='"+getTranNoLink("Web", "Back", language)+"' class='previousButton' href='main.do?Page=curative/index.jsp&ts="+ScreenHelper.getTs()+"'>&nbsp;</a>"+"</td>"+
+                  "</tr>"+
+                 "</table>"+
+                 "<div id='content-details' style='display:none'></div>"+
+                 "<script>document.getElementById('ctxt').onchange();</script>";
 
         return result;
     }
@@ -358,7 +368,7 @@
 
     //--- GET LABEL -------------------------------------------------------------------------------
     public String getLabel(String sType, String sID, String sLanguage, String sObject) {
-        return "<label for='" + sObject + "'>" + getTran(sType, sID, sLanguage) + "</label>";
+        return "<label for='"+sObject+"'>"+getTran(sType, sID, sLanguage)+"</label>";
     }
 
     //--- SET ROW ---------------------------------------------------------------------------------
@@ -414,7 +424,7 @@
 
     //--- STATUS ----------------------------------------------------------------------------------
     public void status(JspWriter out, String message) throws IOException {
-        out.print("<script>window.status=\"" + message + "\";</script>");
+        out.print("<script>window.status=\""+message+"\";</script>");
         out.flush();
     }
 
@@ -429,9 +439,9 @@
         AdminPerson activePatient = (AdminPerson) request.getSession().getAttribute("activePatient");
 
         if (activePatient != null && activePatient.personid.length() > 0 && "On".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("showAdminInTitleBar"))) {
-            title += " - " + checkString(activePatient.lastname) + ", " + checkString(activePatient.firstname) + "   -    " + checkString(activePatient.getActivePrivate().address) + "    " + checkString(activePatient.getActivePrivate().zipcode) + " " + checkString(activePatient.getActivePrivate().city);
+            title += " - "+checkString(activePatient.lastname)+", "+checkString(activePatient.firstname)+"   -    "+checkString(activePatient.getActivePrivate().address)+"    "+checkString(activePatient.getActivePrivate().zipcode)+" "+checkString(activePatient.getActivePrivate().city);
             if (checkString(activePatient.getActivePrivate().telephone).length() > 0) {
-                title += "   Tel: " + activePatient.getActivePrivate().telephone;
+                title += "   Tel: "+activePatient.getActivePrivate().telephone;
             }
         }
 
@@ -453,11 +463,11 @@
 
             // sPage is a link
             if (sPage.indexOf("()") < 0) {
-                tableHeader += "<a class='previousButton' alt='"+getTran("Web", "Back", sLanguage)+"' title='"+getTran("Web", "Back", sLanguage)+"' href='" + sPage + "'>&nbsp;</a>";
+                tableHeader += "<a class='previousButton' alt='"+getTran("Web", "Back", sLanguage)+"' title='"+getTran("Web", "Back", sLanguage)+"' href='"+sPage+"'>&nbsp;</a>";
             }
             // sPage is a javascript function (like "doBack()")
             else {
-                tableHeader += "<a class='previousButton' alt='"+getTran("Web", "Back", sLanguage)+"' title='"+getTran("Web", "Back", sLanguage)+"' href='javascript:" + sPage + "'>&nbsp;</a>";
+                tableHeader += "<a class='previousButton' alt='"+getTran("Web", "Back", sLanguage)+"' title='"+getTran("Web", "Back", sLanguage)+"' href='javascript:"+sPage+"'>&nbsp;</a>";
             }
 
             tableHeader += "</td>";
@@ -504,10 +514,10 @@
         sJS+= "userinterval=window.setInterval(";
 
         // put NOW and username in statusbar
-        sJS+= "'window.status=\"" + new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) + "  -  " + activeUser.person.firstname + " " + activeUser.person.lastname;
+        sJS+= "'window.status=\""+new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())+"  -  "+activeUser.person.firstname+" "+activeUser.person.lastname;
 
         // add medical centre to statusbar if medical center specified
-        sJS+= (checkString((String) (session.getAttribute("activeMedicalCenter"))).length() > 0 ? " (" + getTran("Web.Occup", "MedicalCenter", activeUser.person.language) + " = " + session.getAttribute("activeMedicalCenter") + ")" : "");
+        sJS+= (checkString((String) (session.getAttribute("activeMedicalCenter"))).length() > 0 ? " ("+getTran("Web.Occup", "MedicalCenter", activeUser.person.language)+" = "+session.getAttribute("activeMedicalCenter")+")" : "");
 
         // show remaining seconds till session expiration
         //sJS+= "  [\"+(Math.round((starttime-new Date().getTime())/1000))+\" seconds till session expiration]";
@@ -534,13 +544,13 @@
         TransactionVO tran = sessionContainerWO.getCurrentTransactionVO();
 
         if (tran != null) {
-            if ((tran.getTransactionId().intValue() > 0) && (!activeUser.userid.equals(tran.getUser().getUserId().intValue() + ""))) {
-                sReturn = "var url_source = '" + sCONTEXTPATH +
-                        "/popup.jsp?Page=_common/search/takeOverTransaction.jsp&ts=" + getTs() +
-                        "';" + "var modal_dim = 'dialogWidth:260px; dialogHeight:160px; center:yes;scrollbars:no; resizable:no; status:no; location:no;';" +
-                        "var answer = window.showModalDialog(url_source,'',modal_dim);" + "if(answer==1){" +
-                        "openPopup('/_common/search/takeOverTransactionSave.jsp&ts=" + getTs() +
-                        "');" + "}" + sFunction;
+            if ((tran.getTransactionId().intValue() > 0) && (!activeUser.userid.equals(tran.getUser().getUserId().intValue()+""))) {
+                sReturn = "var url_source = '"+sCONTEXTPATH +
+                        "/popup.jsp?Page=_common/search/takeOverTransaction.jsp&ts="+getTs() +
+                        "';"+"var modal_dim = 'dialogWidth:260px; dialogHeight:160px; center:yes;scrollbars:no; resizable:no; status:no; location:no;';" +
+                        "var answer = window.showModalDialog(url_source,'',modal_dim);"+"if(answer==1){" +
+                        "openPopup('/_common/search/takeOverTransactionSave.jsp&ts="+getTs() +
+                        "');"+"}"+sFunction;
             }
         }
 
@@ -555,9 +565,9 @@
            .append(" var historyPopup;");
 
         buf.append("function openHistoryPopup(){")
-           .append(" var url = '" + sCONTEXTPATH + "/healthrecord/managePrintHistoryPopup.do?transactionType=" + transactionType + "&ts=" + getTs() + "';")
+           .append(" var url = '"+sCONTEXTPATH+"/healthrecord/managePrintHistoryPopup.do?transactionType="+transactionType+"&ts="+getTs()+"';")
            .append(" historyPopup = window.open(url,'History','height=1, width=1, toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=no');")
-           //.append("openPopup('/healthrecord/printHistoryPopup.do&transactionType=" + transactionType + "&ts=" + getTs() + "');")
+           //.append("openPopup('/healthrecord/printHistoryPopup.do&transactionType="+transactionType+"&ts="+getTs()+"');")
            .append("}");
 
         buf.append("</script>");
@@ -592,7 +602,7 @@
         for (i = 1; i < 6; i++) {
             for (y = 0; y < aItems.length; y++) {
                 item = (ItemVO) aItems[y];
-                if (item.getType().toLowerCase().equals(sItemType.toLowerCase() + i)) {
+                if (item.getType().toLowerCase().equals(sItemType.toLowerCase()+i)) {
                     sText += checkString(item.getValue());
                 }
             }
@@ -618,7 +628,7 @@
     		ag = ag.toLowerCase();
     		if (ag.contains("msie")) {
     			browser = "Internet Explorer";
-    		    String str = ag.substring(ag.indexOf("msie") + 5);
+    		    String str = ag.substring(ag.indexOf("msie")+5);
     		    version = str.substring(0, str.indexOf(";"));
     		}
     		else if (ag.contains("opera")){
@@ -626,11 +636,11 @@
     			ag=ag.substring(ag.indexOf("version"));
     			String str="";
     			if(ag.indexOf(" ")>-1){
-    				str = (ag.substring(tmpPos = (ag.indexOf("/")) + 1, tmpPos + ag.indexOf(" "))).trim();
+    				str = (ag.substring(tmpPos = (ag.indexOf("/"))+1, tmpPos+ag.indexOf(" "))).trim();
     			    version = str.substring(0, str.indexOf(" "));
     			}
     			else{
-    				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
+    				version = (ag.substring(tmpPos = (ag.indexOf("/"))+1)).trim();
     			}
     		}
     		else if (ag.contains("chrome")){
@@ -638,11 +648,11 @@
     			ag=ag.substring(ag.indexOf("chrome"));
     			String str="";
     			if(ag.indexOf(" ")>-1){
-    				str = (ag.substring(tmpPos = (ag.indexOf("/")) + 1, tmpPos + ag.indexOf(" "))).trim();
+    				str = (ag.substring(tmpPos = (ag.indexOf("/"))+1, tmpPos+ag.indexOf(" "))).trim();
     			    version = str.substring(0, str.indexOf(" "));
     			}
     			else{
-    				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
+    				version = (ag.substring(tmpPos = (ag.indexOf("/"))+1)).trim();
     			}
     		}
     		else if (ag.contains("firefox")){
@@ -650,11 +660,11 @@
     			ag=ag.substring(ag.indexOf("firefox"));
     			String str="";
     			if(ag.indexOf(" ")>-1){
-    				str = (ag.substring(tmpPos = (ag.indexOf("/")) + 1, tmpPos + ag.indexOf(" "))).trim();
+    				str = (ag.substring(tmpPos = (ag.indexOf("/"))+1, tmpPos+ag.indexOf(" "))).trim();
     			    version = str.substring(0, str.indexOf(" "));
     			}
     			else{
-    				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
+    				version = (ag.substring(tmpPos = (ag.indexOf("/"))+1)).trim();
     			}
     		}
     		else if (ag.contains("safari") && ag.contains("version")){
@@ -662,11 +672,11 @@
     			ag=ag.substring(ag.indexOf("version"));
     			String str="";
     			if(ag.indexOf(" ")>-1){
-    				str = (ag.substring(tmpPos = (ag.indexOf("/")) + 1, tmpPos + ag.indexOf(" "))).trim();
+    				str = (ag.substring(tmpPos = (ag.indexOf("/"))+1, tmpPos+ag.indexOf(" "))).trim();
     			    version = str.substring(0, str.indexOf(" "));
     			}
     			else{
-    				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
+    				version = (ag.substring(tmpPos = (ag.indexOf("/"))+1)).trim();
     			}
     		}
     	}
@@ -687,83 +697,86 @@
 
     //--- GET BUTTONS HTML ------------------------------------------------------------------------
     public String getButtonsHtml(HttpServletRequest req, User activeUser, AdminPerson activePatient,
-                                 String sAccessRight, String sWebLanguage) {
+                                 String sAccessRight, String sWebLanguage){
         StringBuffer html = new StringBuffer();
+        html.append("<div id='buttonsDiv' style='visibility:visible;width:100%;text-align:center'>");
 
         // print language
         String sPrintLanguage = checkString(req.getParameter("PrintLanguage"));
-        if (sPrintLanguage.length() == 0) {
+        if(sPrintLanguage.length()==0){
             sPrintLanguage = activePatient.language;
         }
 
-        if (!sAccessRight.equalsIgnoreCase("readonly") && ((activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0) || activeUser.getAccessRight(sAccessRight + ".add") || activeUser.getAccessRight(sAccessRight + ".edit"))) {
-            html.append(getTran("Web.Occup", "PrintLanguage", sWebLanguage) + "&nbsp;")
-                    .append("<select class='text' name='PrintLanguage'>");
+        if(sAccessRight.length()==0 || !sAccessRight.equalsIgnoreCase("readonly") && ((activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0) || activeUser.getAccessRight(sAccessRight+".add") || activeUser.getAccessRight(sAccessRight+".edit"))) {
+            html.append(getTran("Web.Occup","PrintLanguage",sWebLanguage)+"&nbsp;")
+                .append("<select class='text' name='PrintLanguage'>");
 
             // supported languages
             String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
-            if (supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
+            if(supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
             supportedLanguages = supportedLanguages.toLowerCase();
 
             // print language selector
-            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
+            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
             String tmpLang;
-            while (tokenizer.hasMoreTokens()) {
+            while(tokenizer.hasMoreTokens()){
                 tmpLang = tokenizer.nextToken();
                 tmpLang = tmpLang.toUpperCase();
 
-                html.append("<option value='" + tmpLang + "' " + (sPrintLanguage.equalsIgnoreCase(tmpLang) ? "selected" : "") + ">" + tmpLang + "</option>\n");
+                html.append("<option value='"+tmpLang+"' "+(sPrintLanguage.equalsIgnoreCase(tmpLang)?"selected" : "")+">"+tmpLang+"</option>\n");
             }
 
             html.append("</select>&nbsp;\n");
 
             // save buttons
-            html.append("<input class='button' type='button' name='saveAndPrintButton' id='saveAndPrintButton' value='" + getTran("Web.Occup", "medwan.common.record-and-print", sWebLanguage) + "' onclick='doSave(true);'/>&nbsp;\n")
-                    .append("<button accesskey='" + ScreenHelper.getAccessKey(getTranNoLink("accesskey", "save", sWebLanguage)) + "' class='buttoninvisible' onclick='submitForm();'></button>\n")
-                    .append("<input type='button' class='button' name='saveButton' id='saveButton' onclick='submitForm();' value='" + getTran("accesskey", "save", sWebLanguage) + "'/>&nbsp;\n");
+            html.append("<input class='button' type='button' name='saveAndPrintButton' id='saveAndPrintButton' value='"+getTran("Web.Occup","medwan.common.record-and-print", sWebLanguage)+"' onclick='doSave(true);'/>&nbsp;\n")
+                .append("<button accesskey='"+ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))+"' class='buttoninvisible' onclick='submitForm();'></button>\n")
+                .append("<input type='button' class='button' name='saveButton' id='saveButton' onclick='submitForm();' value='"+getTran("accesskey","save",sWebLanguage)+"'/>&nbsp;\n");
         }
 
         // back button
-        html.append("<input class='button' type='button' name='backButton' value='" + getTran("Web", "back", sWebLanguage) + "' onclick='doBack();'>\n");
+        html.append("<input class='button' type='button' name='backButton' value='"+getTran("Web","back",sWebLanguage)+"' onclick='doBack();'>\n");
 
-        // javascripts
+        html.append("</div>");
+        
+        //*** javascripts *****************************************************
         html.append("<script>");
 
         // DO SAVE
         html.append("function doSave(printDocument){")
-                .append(" var maySubmit = true;")
-                .append(" var printLang;")
-                .append(" if(printDocument){")
-                .append("  printLang = transactionForm.PrintLanguage.value;\n")
-                .append("  document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = '/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts=" + getTs() + "&PrintLanguage='+printLang;\n")
-                .append("  window.open('','newwindow','height=600,width=850,toolbar=yes,status=yes,scrollbars=yes,resizable=yes,menubar=yes');\n")
-                .append("  document.transactionForm.target = 'newwindow';\n")
-                .append(" }")
-                .append(" submitForm(printLang);")
-                .append("}");
+             .append("var maySubmit = true;")
+             .append("var printLang;")
+             .append("if(printDocument){")
+              .append("printLang = transactionForm.PrintLanguage.value;\n")
+              .append("document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = '/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts="+getTs()+"&PrintLanguage='+printLang;\n")
+              .append("window.open('','newwindow','height=600,width=850,toolbar=yes,status=yes,scrollbars=yes,resizable=yes,menubar=yes');\n")
+              .append("document.transactionForm.target = 'newwindow';\n")
+             .append("}")
+             .append("submitForm(printLang);")
+            .append("}");
 
         // CREATE PDF
         html.append("function createPdf(printLang,tranSubType){")
-                .append(" var tranID   = '" + checkString(req.getParameter("be.mxs.healthrecord.transaction_id")) + "';")
-                .append(" var serverID = '" + checkString(req.getParameter("be.mxs.healthrecord.server_id")) + "';")
-                .append(" window.location.href = '" + sCONTEXTPATH + "/healthrecord/createPdf.jsp?actionField=print&tranAndServerID_1='+tranID+'_'+serverID+'&PrintLanguage='+printLang+'&ts=" + getTs() + "';\n")
-                .append(" window.opener.document.transactionForm.saveButton.disabled = false;\n")
-                .append(" window.opener.document.transactionForm.saveAndPrintButton.disabled = false;\n")
-                .append(" window.opener.bSaveHasNotChanged = true;")
-                .append(" window.opener.location.reload();")
-                .append(" window.opener.location.href = '" + sCONTEXTPATH + "/main.do?Page=curative/index.jsp&ts=" + getTs() + "';\n")
-                .append("}");
+             .append("var tranID = '"+checkString(req.getParameter("be.mxs.healthrecord.transaction_id"))+"';")
+             .append("var serverID = '"+checkString(req.getParameter("be.mxs.healthrecord.server_id"))+"';")
+             .append("window.location.href = '"+sCONTEXTPATH+"/healthrecord/createPdf.jsp?actionField=print&tranAndServerID_1='+tranID+'_'+serverID+'&PrintLanguage='+printLang+'&ts="+getTs()+"';\n")
+             .append("window.opener.document.transactionForm.saveButton.disabled = false;\n")
+             .append("window.opener.document.transactionForm.saveAndPrintButton.disabled = false;\n")
+             .append("window.opener.bSaveHasNotChanged = true;")
+             .append("window.opener.location.reload();")
+             .append("window.opener.location.href = '"+sCONTEXTPATH+"/main.do?Page=curative/index.jsp&ts="+getTs()+"';\n")
+            .append("}");
 
         // DO BACK
         html.append("function doBack(){")
-                .append(" if(checkSaveButton('" + sCONTEXTPATH + "','" + getTran("Web.Occup", "medwan.common.buttonquestion", sWebLanguage) + "')){\n")
-                .append("  window.location.href = '" + sCONTEXTPATH + "/main.do?Page=curative/index.jsp&ts=" + getTs() + "';\n")
-                .append(" }")
-                .append("}");
+             .append("if(checkSaveButton('"+sCONTEXTPATH+"','"+getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)+"')){\n")
+              .append("window.location.href = '"+sCONTEXTPATH+"/main.do?Page=curative/index.jsp&ts="+getTs()+"';\n")
+             .append("}")
+            .append("}");
 
         boolean printPDF = checkString(req.getParameter("printPDF")).equals("true");
-        if (printPDF) {
-            html.append("createPdf('" + sPrintLanguage + "');");
+        if(printPDF){
+            html.append("createPdf('"+sPrintLanguage+"');");
         }
 
         html.append("</script>");
@@ -773,10 +786,10 @@
 %>
 
 <%
-    sAPPTITLE = checkString((String) session.getAttribute("activeProjectTitle"));
-    sAPPDIR = checkString((String) session.getAttribute("activeProjectDir"));
+    sAPPTITLE = checkString((String)session.getAttribute("activeProjectTitle"));
+    sAPPDIR = checkString((String)session.getAttribute("activeProjectDir"));
     sAPPFULLDIR = application.getRealPath("");
-    sCONTEXTPATH = request.getRequestURI().replaceAll(request.getServletPath(), "");
+    sCONTEXTPATH = request.getRequestURI().replaceAll(request.getServletPath(),"");
     String sPREFIX = "be.mxs.common.model.vo.healthrecord.IConstants.";
 
     // stylesheets
@@ -795,30 +808,30 @@
     String sCSSTREEMENU      = "<link href='"+sCONTEXTPATH+"/_common/_css/dhtmlxtree.css' rel='stylesheet' type='text/css'>";
     
     // JS
-    String sJSSHORTCUTS = "<script src='" + sCONTEXTPATH + "/_common/_script/shortcuts.js'></script>";
-    String sJSCHAR = "<script src='" + sCONTEXTPATH + "/_common/_script/char.js'></script>";
-    String sJSPOPUPSEARCH = "<script src='" + sCONTEXTPATH + "/_common/_script/popupsearch.js'></script>";
-    String sJSEMAIL = "<script src='" + sCONTEXTPATH + "/_common/_script/email.js'></script>";
-    String sJSCOOKIE = "<script src='" + sCONTEXTPATH + "/_common/_script/cookie.js'></script>";
-    String sJSSORTTABLE = "<script src='" + sCONTEXTPATH + "/_common/_script/sorttable.js'></script>";
-    String sJSAXMAKER = "<script src='" + sCONTEXTPATH + "/_common/_script/ajaxMaker.js'></script>";
-    String sJSPROTOTYPE = "<script src='" + sCONTEXTPATH + "/_common/_script/prototype.js'></script>";
-    String sJSSCRPTACULOUS = "<script src='" + sCONTEXTPATH + "/_common/_script/scriptaculous.js'></script>";
-    String sJSCONTROLMODAL = "<script src='" + sCONTEXTPATH + "/_common/_script/modalDialog.js'></script>";
-    String sJSSTRINGFUNCTIONS = "<script src='" + sCONTEXTPATH + "/_common/_script/stringFunctions.js'></script>";
-    String sJSDROPDOWNMENU = "<script src='" + sCONTEXTPATH + "/_common/_script/dropdownmenu.js'></script>";
-    String sJSDATE = "<script src='" + sCONTEXTPATH + "/_common/_script/date.js'></script>";
-    String sJSPOPUPMENU = "<script src='" + sCONTEXTPATH + "/_common/_script/popupmenu.js'></script>";
-    String sJSTOGGLE = "<script src='" + sCONTEXTPATH + "/_common/_script/toggle_lib.js'></script>";
-    String sJSFORM = "<script src='" + sCONTEXTPATH + "/_common/_script/form_lib.js'></script>";
-    String sJSDIAGRAM2 = "<script src='" + sCONTEXTPATH + "/_common/_script/diagram2.js'></script>";
-    String sJSDIAGRAM = "<script src='" + sCONTEXTPATH + "/_common/_script/diagram.js'></script>";
-    String sJSNUMBER = "<script src='" + sCONTEXTPATH + "/_common/_script/number.js'></script>";
-    String sJSBUTTONS = "<script src='" + sCONTEXTPATH + "/_common/_script/buttons.js'></script>";
-    String sJSRTEDITOR = "<script src='" + sCONTEXTPATH + "/_common/_script/rteditor.js'></script>" +
-                         "<script src='" + sCONTEXTPATH + "/_common/_script/html2xhtml.js'></script>";
-    String sJSGRAPHICS = "<script src='" + sCONTEXTPATH + "/_common/_script/wz_jsgraphics.js'></script>";
-    String sJSHASHTABLE = "<script src='" + sCONTEXTPATH + "/_common/_script/hashtable.js'></script>";
+    String sJSSHORTCUTS = "<script src='"+sCONTEXTPATH+"/_common/_script/shortcuts.js'></script>";
+    String sJSCHAR = "<script src='"+sCONTEXTPATH+"/_common/_script/char.js'></script>";
+    String sJSPOPUPSEARCH = "<script src='"+sCONTEXTPATH+"/_common/_script/popupsearch.js'></script>";
+    String sJSEMAIL = "<script src='"+sCONTEXTPATH+"/_common/_script/email.js'></script>";
+    String sJSCOOKIE = "<script src='"+sCONTEXTPATH+"/_common/_script/cookie.js'></script>";
+    String sJSSORTTABLE = "<script src='"+sCONTEXTPATH+"/_common/_script/sorttable.js'></script>";
+    String sJSAXMAKER = "<script src='"+sCONTEXTPATH+"/_common/_script/ajaxMaker.js'></script>";
+    String sJSPROTOTYPE = "<script src='"+sCONTEXTPATH+"/_common/_script/prototype.js'></script>";
+    String sJSSCRPTACULOUS = "<script src='"+sCONTEXTPATH+"/_common/_script/scriptaculous.js'></script>";
+    String sJSCONTROLMODAL = "<script src='"+sCONTEXTPATH+"/_common/_script/modalDialog.js'></script>";
+    String sJSSTRINGFUNCTIONS = "<script src='"+sCONTEXTPATH+"/_common/_script/stringFunctions.js'></script>";
+    String sJSDROPDOWNMENU = "<script src='"+sCONTEXTPATH+"/_common/_script/dropdownmenu.js'></script>";
+    String sJSDATE = "<script src='"+sCONTEXTPATH+"/_common/_script/date.js'></script>";
+    String sJSPOPUPMENU = "<script src='"+sCONTEXTPATH+"/_common/_script/popupmenu.js'></script>";
+    String sJSTOGGLE = "<script src='"+sCONTEXTPATH+"/_common/_script/toggle_lib.js'></script>";
+    String sJSFORM = "<script src='"+sCONTEXTPATH+"/_common/_script/form_lib.js'></script>";
+    String sJSDIAGRAM2 = "<script src='"+sCONTEXTPATH+"/_common/_script/diagram2.js'></script>";
+    String sJSDIAGRAM = "<script src='"+sCONTEXTPATH+"/_common/_script/diagram.js'></script>";
+    String sJSNUMBER = "<script src='"+sCONTEXTPATH+"/_common/_script/number.js'></script>";
+    String sJSBUTTONS = "<script src='"+sCONTEXTPATH+"/_common/_script/buttons.js'></script>";
+    String sJSRTEDITOR = "<script src='"+sCONTEXTPATH+"/_common/_script/rteditor.js'></script>" +
+                         "<script src='"+sCONTEXTPATH+"/_common/_script/html2xhtml.js'></script>";
+    String sJSGRAPHICS = "<script src='"+sCONTEXTPATH+"/_common/_script/wz_jsgraphics.js'></script>";
+    String sJSHASHTABLE = "<script src='"+sCONTEXTPATH+"/_common/_script/hashtable.js'></script>";
     String sJSJUIST = "<script>rcts = Juist.getClientRects();Juist.style.height = document.body.offsetHeight - rcts[0].top - 5;</script>";
     String sJSWEEKPLANNERAJAX  = "<script src='"+sCONTEXTPATH+"/_common/_script/weekPlanner/ajax.js'></script>";
     String sJSWEEKPLANNER  = "<script src='"+sCONTEXTPATH+"/_common/_script/weekPlanner/dhtmlgoodies-week-planner.js'></script>";
@@ -840,7 +853,6 @@
 
     // varia
     String sTDAdminWidth = "200";
-    String sIcon = "<link rel='shortcut icon' href='"+sCONTEXTPATH+"/_img/openclinic.ico'>\n" +
-                    "<link rel='icon' type='image/x-icon' href='"+sCONTEXTPATH+"/_img/openclinic.ico'/>";
-
+    String sIcon = "<link rel='shortcut icon' href='"+sCONTEXTPATH+"/_img/openclinic.ico'>\n"+
+                   "<link rel='icon' type='image/x-icon' href='"+sCONTEXTPATH+"/_img/openclinic.ico'/>";
 %>

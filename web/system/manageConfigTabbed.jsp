@@ -185,7 +185,7 @@
         </table>
 
         <%-- TAB_BODIES --------------------------------------------------------------------------%>
-        <table valign="top" width="100%" border="0" cellspacing="0">
+        <table style="vertical-align:top;" width="100%" border="0" cellspacing="0">
             <tr id="tab0-body" style="display:none">
                 <td>
                     <%-- MISCELANEOUS --------------------------------------------%>

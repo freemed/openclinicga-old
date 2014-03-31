@@ -18,7 +18,7 @@
         <tr>
             <td><%=getTran("web","stardate",sWebLanguage)%>
                 <input type="text" class="text" size="12" maxLength="10" name="startdate" value="<%=checkString(request.getParameter("startdate")).length()>0?checkString(request.getParameter("startdate")):new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
                 <input class="button" type="submit" name="submit" value="<%=getTran("web","find",sWebLanguage)%>"/>
             </td>
         </tr>

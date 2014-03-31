@@ -60,10 +60,10 @@
 
 <table>
     <tr>
-        <td valign="top"> 
+        <td style="vertical-align:top;"> 
             <div id="treeboxbox_tree" style="width:270px; height:200px;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div>
         </td>
-        <td rowspan="2" style="padding-left:25" valign="top">        
+        <td rowspan="2" style="padding-left:25" style="vertical-align:top;">        
 	        <a href="javascript:void(0);" onClick="tree.openAllItems(0);">Expand all</a><br><br>
 	        <a href="javascript:void(0);" onClick="tree.closeAllItems(0);">Collapse all</a><br><br>
 	        <a href="javascript:void(0);" onClick="tree.closeItem(tree.getSelectedItemId());">Close  selected item</a><br><br>

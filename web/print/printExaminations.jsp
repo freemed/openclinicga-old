@@ -7,6 +7,52 @@
                 be.mxs.common.util.pdf.PDFCreator"%>
 <%=sJSSORTTABLE%>
 
+<%!
+    //--- ADD FOOTER TO PDF -----------------------------------------------------------------------
+    // Like PDFFooter-class but with total pagecount
+    public ByteArrayOutputStream addFooterToPdf(ByteArrayOutputStream origBaos, HttpSession session) throws Exception {
+	    com.itextpdf.text.pdf.PdfReader reader = new com.itextpdf.text.pdf.PdfReader(origBaos.toByteArray());
+	    int totalPageCount = reader.getNumberOfPages(); 
+	    
+	    ByteArrayOutputStream newBaos = new ByteArrayOutputStream();
+	    com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+	    com.itextpdf.text.pdf.PdfCopy copy = new com.itextpdf.text.pdf.PdfCopy(document,newBaos);
+	    document.open();
+	
+	    String sProject = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
+	    String sFooterText = MedwanQuery.getInstance().getConfigString("footer."+sProject,"OpenClinic pdf engine (c)2007-"+new SimpleDateFormat("yyyy").format(new java.util.Date())+", MXS nv");
+	    
+	    // Loop over the pages of the baos
+	    com.itextpdf.text.pdf.PdfImportedPage pdfPage;
+	    com.itextpdf.text.pdf.PdfCopy.PageStamp stamp;
+	    com.itextpdf.text.Phrase phrase;
+	    
+	    com.itextpdf.text.Rectangle rect = document.getPageSize();
+	    for(int i=0; i<totalPageCount;){
+	    	pdfPage = copy.getImportedPage(reader,++i);
+	
+	        //*** add footer with page numbers ***
+	        stamp = copy.createPageStamp(pdfPage);
+	        
+	    	// footer text
+	        phrase = com.itextpdf.text.Phrase.getInstance(0,sFooterText,com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,6));
+            com.itextpdf.text.pdf.ColumnText.showTextAligned(stamp.getUnderContent(),1,phrase,(rect.getLeft()+rect.getRight())/2,rect.getBottom()+26,0);
+	       
+	        // page count
+	        phrase = com.itextpdf.text.Phrase.getInstance(0,String.format("%d/%d",i,totalPageCount),com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,6));
+            com.itextpdf.text.pdf.ColumnText.showTextAligned(stamp.getUnderContent(),1,phrase,(rect.getLeft()+rect.getRight())/2,rect.getBottom()+18,0);        
+	   
+	        stamp.alterContents();	
+	        copy.addPage(pdfPage);
+	    }
+	
+	    document.close();  
+	    reader.close();
+	    
+	    return newBaos;
+    }
+%>
+     
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -54,11 +100,12 @@
         sessionContainerWO.verifyPerson(activePatient.personid);
         sessionContainerWO.verifyHealthRecord(null);
 
-        ByteArrayOutputStream baosPDF = null;
+        ByteArrayOutputStream origBaos = null;
 
         try{
             PDFCreator pdfCreator = new GeneralPDFCreator(sessionContainerWO,activeUser,activePatient,sAPPTITLE,sAPPDIR,dateFrom,dateTo,sPrintLanguage);
-            baosPDF = pdfCreator.generatePDFDocumentBytes(request,application,(sSelectedFilter.length()>0),1);
+            origBaos = pdfCreator.generatePDFDocumentBytes(request,application,(sSelectedFilter.length()>0),1);
+            ByteArrayOutputStream newBaos = addFooterToPdf(origBaos,session);
 
             // prevent caching
             response.setHeader("Expires","Sat, 6 May 1995 12:00:00 GMT");
@@ -68,17 +115,17 @@
 
             String sFileName = "filename_"+System.currentTimeMillis()+".pdf";
             response.setHeader("Content-disposition","inline; filename="+sFileName);
-            response.setContentLength(baosPDF.size());
+            response.setContentLength(newBaos.size());
 
             ServletOutputStream sos = response.getOutputStream();
-            baosPDF.writeTo(sos);
+            newBaos.writeTo(sos);
             sos.flush();
         }
         catch(Exception e){
             Debug.printStackTrace(e);
         }
         finally{
-            if(baosPDF!=null) baosPDF.reset();
+            if(origBaos!=null) origBaos.reset();
         }
     }
     //--- APPLY FILTER ----------------------------------------------------------------------------

@@ -65,7 +65,7 @@
         </tr>
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
-            <td valign="top" colspan="2" class="white" width="100%">
+            <td style="vertical-align:top;" colspan="2" class="white" width="100%">
                 <div id="divFindRecords" style="height: 100px">
                 </div>
             </td>

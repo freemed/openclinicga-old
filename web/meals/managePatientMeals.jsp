@@ -10,11 +10,11 @@
 <%=writeTableHeader("Web", "managePatientItems", sWebLanguage)%>
 <table width="100%">
     <tr width="100%" style="background:#DDEDFF;">
-        <td rowspan="2" width="200" valign="top" style="padding:3px 0px 0px 20px;">
+        <td rowspan="2" width="200" style="vertical-align:top;" style="padding:3px 0px 0px 20px;">
             <%=getTran("meals", "chooseaday", sWebLanguage)%>
             <div id="gnoocalendar" style="_margin-top:-10px">&nbsp;</div>
         </td>
-        <td width="*" valign="top" style="padding:11px 0px 5px 20px;_padding:5px 0 0 20px;height:25px">
+        <td width="*" style="vertical-align:top;" style="padding:11px 0px 5px 20px;_padding:5px 0 0 20px;height:25px">
             <input type="button" style="padding:0 5px 0 5px" class="button" value="<" onclick="addDays($F('datechoosed'),-1);"/>
             <input type="text" style="width:100px;text-align:center" id="datechoosed" value="9/08/2009" class="text" disabled="true"/>
             <input type="button" style="padding:0 5px 0 5px" class="button" value=">" onclick="addDays($F('datechoosed'),+1);"/>
@@ -25,7 +25,7 @@
         </td>
     </tr>
     <tr style="background:#DDEDFF;">
-        <td width="*" valign="top">
+        <td width="*" style="vertical-align:top;">
 
             <div id="contentblock" style="margin-top:-2px;float:left;width:100%">&nbsp;</div>
         </td>

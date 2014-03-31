@@ -31,7 +31,7 @@ function window.onload() {
             <td height="120"><img src="<c:url value="/projects/chuk/_img/logochklabel.gif"/>" alt="" border="0"/></td>
         </tr>
         <tr>
-            <td align="left" valign="top" nowrap>
+            <td align="left" style="vertical-align:top;" nowrap>
                 <div style='writing-mode:tb-rl;font-family: Arial, Helvetica, sans-serif;'>
                 <%=activePatient.lastname+"  "+activePatient.firstname%><br/>
                 <%=activePatient.gender+"  "+activePatient.dateOfBirth%><br/>

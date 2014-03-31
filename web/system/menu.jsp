@@ -24,7 +24,7 @@
 
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr>
-<td width="50%" valign="top">
+<td width="50%" style="vertical-align:top;">
     <%-- MANAGEMENT --%>
     <table width="100%">
         <tr>
@@ -97,7 +97,7 @@
     </table>
 </td>
 
-<td width="50%" valign="top">
+<td width="50%" style="vertical-align:top;">
     <%-- SYNCHRONISATIE --%>
     <table width="100%">
         <tr>

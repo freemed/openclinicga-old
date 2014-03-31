@@ -199,7 +199,7 @@
             </td>
         </tr>
         <tr>
-            <td class="admin" valign="top">Export</td>
+            <td class="admin" style="vertical-align:top;">Export</td>
             <td>
                 <table cellspacing="1" border="0" width="100%">
                     <tr>
