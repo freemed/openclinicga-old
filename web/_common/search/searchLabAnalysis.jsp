@@ -160,7 +160,7 @@
 
     <%-- SEARCH RESULTS --%>
     <tr>
-      <td class="white" valign="top">
+      <td class="white" style="vertical-align:top;">
         <div class="search" style="overflow: auto;width:530px;height: 400px">
           <table width="100%" cellspacing="1" cellpadding="0">
             <%-- HEADER --%>

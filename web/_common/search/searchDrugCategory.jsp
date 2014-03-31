@@ -32,7 +32,7 @@
         </tr>
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
-            <td class="white" valign="top">
+            <td class="white" style="vertical-align:top;">
                 <div id="divFindRecords">
                 </div>
             </td>

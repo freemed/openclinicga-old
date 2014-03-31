@@ -78,7 +78,7 @@
 
         <%-- SEARCH RESULTS --%>
         <tr>
-            <td class="white" valign="top" colspan="4">
+            <td class="white" style="vertical-align:top;" colspan="4">
                 <div id="divFindRecords">
                 </div>
             </td>

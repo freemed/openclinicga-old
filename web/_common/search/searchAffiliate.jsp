@@ -56,7 +56,7 @@
         </tr>
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
-            <td valign="top" colspan="4" align="center" class="white" width="100%">
+            <td style="vertical-align:top;" colspan="4" align="center" class="white" width="100%">
                 <div id="divFindRecords">
                 </div>
             </td>

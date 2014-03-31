@@ -133,7 +133,7 @@
     <tr>
         <%-- SEARCH RESULTS TABLE --%>
     <tr>
-        <td valign="top" colspan="3" class="white" width="100%">
+        <td style="vertical-align:top;" colspan="3" class="white" width="100%">
             <div id="divFindRecords">
             </div>
         </td>

@@ -143,7 +143,7 @@
 
             <%-- SEARCH RESULTS --%>
             <tr>
-                <td class="white" valign="top">
+                <td class="white" style="vertical-align:top;">
                     <div class="search">
                         <table width="100%" cellspacing="1" cellpadding="0">
                             <%

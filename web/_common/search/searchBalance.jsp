@@ -42,7 +42,7 @@
 
             <%-- SEARCH RESULTS TABLE --%>
             <tr>
-                <td valign="top" colspan="3" align="center" class="white" width="100%">
+                <td style="vertical-align:top;" colspan="3" align="center" class="white" width="100%">
                     <div class="search" style="width:484">
                         <table border='0' width='100%' cellspacing="1" cellpadding="0">
                             <%

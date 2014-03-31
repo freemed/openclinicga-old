@@ -213,7 +213,7 @@
 
             <%-- TABLE WITH SEARCH RESULTS --%>
             <tr>
-                <td class="white" valign="top">
+                <td class="white" style="vertical-align:top;">
                     <div class="search" style="width:636px;height:495px;">
                         <table width="100%" cellspacing="1">
                             <%

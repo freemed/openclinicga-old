@@ -43,7 +43,7 @@ java.util.Vector" %>
             <%-- SEARCH RESULTS TABLE --%>
         <table>
             <tr>
-                <td valign="top" colspan="3" align="center" class="white" width="100%">
+                <td style="vertical-align:top;" colspan="3" align="center" class="white" width="100%">
                     <div class="search" style="width:500">
                         <table border='0' width='100%' cellpadding="1" cellspacing="0">
                             <%

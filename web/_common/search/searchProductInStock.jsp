@@ -252,7 +252,7 @@
 
         <%-- SEARCH RESULTS --%>
         <tr>
-            <td class="white" valign="top" colspan="7">
+            <td class="white" style="vertical-align:top;" colspan="7">
                 <div id="divFindRecords">
                    </div>    
             </td>

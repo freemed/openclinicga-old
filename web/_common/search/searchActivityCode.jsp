@@ -45,7 +45,7 @@
 
     <%-- SEARCH RESULTS --%>
     <tr>
-      <td class="white" valign="top">
+      <td class="white" style="vertical-align:top;">
         <div class="search" style="width:570">
           <table width="100%" cellspacing="0" cellpadding="0">
             <%
