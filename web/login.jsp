@@ -47,7 +47,7 @@
         if(thisversion>MedwanQuery.getInstance().getConfigInt("updateVersion",0)){
     		%>
     		<script>
-    			alert("Upgrade needed, this may take several minutes depending on your system's performance");
+    		    alertDialog("Upgrade needed, this may take several minutes depending on your system's performance");
     			window.location.href='<c:url value="/"/>util/updateSystem.jsp?updateVersion=<%=thisversion+""%>';
     		</script>    		
     		<%

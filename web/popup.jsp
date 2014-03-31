@@ -177,7 +177,7 @@
 <body style="margin:2px;" onload="resizeMe();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="popuptbl" height="100%">
     <tr>
-        <td colspan="3" valign="top" height="100%">
+        <td colspan="3" style="vertical-align:top;" height="100%">
             <%
                 response.setHeader("Pragma", "no-cache"); //HTTP 1.0
                 response.setDateHeader("Expires", 0); //prevents caching at the proxy server

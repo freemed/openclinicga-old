@@ -63,7 +63,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="holder">
     <tr>
-        <td colspan="2" valign="top" id="header"><%ScreenHelper.setIncludePage("/_common/header.jsp", pageContext);%></td>
+        <td colspan="2" style="vertical-align:top;" id="header"><%ScreenHelper.setIncludePage("/_common/header.jsp", pageContext);%></td>
     </tr>
     <% if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){ %>
     <tr class="menu_navigation">
@@ -77,11 +77,11 @@
     <% }%>
     <%-- INCLUDE PAGE --%>
     <tr>
-        <td colspan="2" height="100%" valign="top" class="white">
+        <td colspan="2" height="100%" style="vertical-align:top;" class="white">
             <div class="content" id="Juist" height="100%"><a name="topp">&nbsp;</a>
                 <table width="100%" border="0" id="mijn">
                     <tr>
-                        <td valign="top" class="white">
+                        <td style="vertical-align:top;" class="white">
                             <%
                                 String sPage = checkString(request.getParameter("Page"));
 
