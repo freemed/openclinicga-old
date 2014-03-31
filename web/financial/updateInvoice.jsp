@@ -202,7 +202,7 @@
                         <td><%=sRowPayed%></td>
                         <td><%=getTran("finance.patientinvoice.status",sRowStatus,sWebLanguage)%></td>
                     </tr>
-                    <tr >
+                    <tr>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="5"><input type="button" class="button" onclick="setInvoice('<%=iInvoiceId.toString()%>','<%=sRowType%>')" value="<%=getTran("financial","financial.status.set.open",sWebLanguage)%>"/> </td>
                     </tr>

@@ -71,7 +71,7 @@
 
             <%-- SEARCH RESULTS TABLE --%>
             <tr>
-                <td valign="top" colspan="5" class="white" width="100%">
+                <td style="vertical-align:top;" colspan="5" class="white" width="100%">
                     <div class="search" style="width:588px">
                         <table border='0' width='100%' cellspacing="0" cellpadding="0">
                         <%

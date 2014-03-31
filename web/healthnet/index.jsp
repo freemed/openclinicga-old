@@ -4,7 +4,7 @@
 <table width="100%">
     <tr>
         <td width="1%"><img src="<c:url value='_img/HEALTHNETLOGO_small.jpg'/>"/></td>
-        <td valign="top">
+        <td style="vertical-align:top;">
             <table width="100%">
                 <tr>
                     <td class="admin2"><a href="<c:url value=''/>popup.jsp?PopupHeight=500&PopupWidth=600&Page=/healthnet/networkstatus.jsp" target="healthnet"><%=getTran("healthnet","networkstatus",sWebLanguage)%></a></td>

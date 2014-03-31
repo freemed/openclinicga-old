@@ -6,7 +6,7 @@
         <td colspan="2"><%=getTran("healthnet","networkstatus",sWebLanguage)%></td>
     </tr>
     <tr>
-        <td  valign="top" class="list" width="1%" nowrap><b><%=getTran("healthnet","todayactivity",sWebLanguage)%></b></td>
+        <td  style="vertical-align:top;" class="list" width="1%" nowrap><b><%=getTran("healthnet","todayactivity",sWebLanguage)%></b></td>
         <td>
             <table width="100%">
                 <tr>
@@ -63,7 +63,7 @@
         </td>
     </tr>
     <tr>
-        <td  valign="top" class="list" width="1%" nowrap><b><%=getTran("healthnet","weekactivity",sWebLanguage)%></b></td>
+        <td  style="vertical-align:top;" class="list" width="1%" nowrap><b><%=getTran("healthnet","weekactivity",sWebLanguage)%></b></td>
         <td>
             <table width="100%">
                 <tr>
@@ -119,7 +119,7 @@
         </td>
     </tr>
     <tr>
-        <td  valign="top" class="list" width="1%" nowrap><b><%=getTran("healthnet","monthactivity",sWebLanguage)%></b></td>
+        <td  style="vertical-align:top;" class="list" width="1%" nowrap><b><%=getTran("healthnet","monthactivity",sWebLanguage)%></b></td>
         <td>
             <table width="100%">
                 <tr>

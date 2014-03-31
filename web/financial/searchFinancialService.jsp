@@ -210,7 +210,7 @@
 
             <%-- SEARCH RESULTS TABLE --%>
             <tr>
-                <td class='white' valign="top">
+                <td class='white' style="vertical-align:top;">
                     <div class="search" style="width:536px;height:370px;">
                         <table width="100%" cellspacing="1">
                             <%
