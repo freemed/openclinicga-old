@@ -787,7 +787,7 @@ public class Prescription extends OC_Object{
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             // compose query
             String sSelect = "SELECT * FROM OC_PRESCRIPTIONS"+
@@ -859,6 +859,7 @@ public class Prescription extends OC_Object{
                 se.printStackTrace();
             }
         }
+        
         return foundObjects;
     }
 

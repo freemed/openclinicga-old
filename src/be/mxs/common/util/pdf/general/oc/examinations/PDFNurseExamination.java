@@ -83,9 +83,11 @@ public class PDFNurseExamination extends PDFGeneralBasic {
                 // add content
                 if(contentTable.size() > 0){
                     tranTable.addCell(createContentCell(contentTable));
+                    addTransactionToDoc();
                 }
 
-                // add transaction to doc
+                // diagnoses
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }
@@ -95,7 +97,9 @@ public class PDFNurseExamination extends PDFGeneralBasic {
     }
 
 
+    //##############################################################################################
     //### PRIVATE METHODS ##########################################################################
+    //##############################################################################################
 
     //--- ADD VISUS --------------------------------------------------------------------------------
     private void addVisus(){
@@ -212,28 +216,34 @@ public class PDFNurseExamination extends PDFGeneralBasic {
         if(verifyList(listBio)){
             table = new PdfPTable(5);
             table.addCell(createTitleCell(getTran(IConstants_PREFIX+"TRANSACTION_TYPE_BIOMETRY"),5));
+            int cellCount = 0;
 
-            table.addCell(createItemNameCell(getTran(IConstants_PREFIX+"TRANSACTION_TYPE_BIOMETRY"),2));
-
-            // WEIGHT (on one row)
+            // WEIGHT
             String weight = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT");
             if(weight.length() > 0){
                 table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT")+": "+weight+" "+getTran("unit","kg"),1));
+                cellCount++;
             }
 
-            // HEIGHT (on one row)
+            // HEIGHT
             String height = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT");
             if(height.length() > 0){
                 table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT")+": "+height+" "+getTran("unit","cm"),1));
+                cellCount++;
             }
 
-            // BMI (calculated) (on one row)
+            // BMI
             if(weight.length()>0 && height.length()>0){
-                DecimalFormat deci = new DecimalFormat("0.0");
                 Float bmi = new Float(Float.parseFloat(weight.replaceAll(",","."))*10000 / (Float.parseFloat(height.replaceAll(",",".")) * Float.parseFloat(height.replaceAll(",","."))));
-                table.addCell(createValueCell("BMI: "+deci.format(bmi),1));
+                table.addCell(createValueCell("BMI: "+new DecimalFormat("0.0").format(bmi),1));
+                cellCount++;
             }
 
+            // even out cells
+            if(cellCount > 0){
+            	table.addCell(emptyCell(5-cellCount));
+            }
+            
             // MUSCLE TYPE
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_MUSSCLE_TYPE");
             if(itemValue.length() > 0){
@@ -245,7 +255,7 @@ public class PDFNurseExamination extends PDFGeneralBasic {
             if(itemValue.length() > 0){
                 addItemRow(table,getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_FAT_TYPE"),getTran(itemValue));
             }
-
+            
             // add table
             if(table.size() > 1){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());

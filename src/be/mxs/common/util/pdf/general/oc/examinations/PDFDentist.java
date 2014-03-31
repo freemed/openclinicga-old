@@ -187,11 +187,7 @@ public class PDFDentist extends PDFGeneralBasic {
 
                 // add toothRecords to table
                 if(teethTable.size() > 0){
-                    cell = new PdfPCell(teethTable);
-                    cell.setPadding(3);
-                    cell.setBorder(PdfPCell.BOX);
-
-                    tranTable.addCell(cell);
+                    tranTable.addCell(createContentCell(teethTable));
                 }
 
                 // add transaction to doc

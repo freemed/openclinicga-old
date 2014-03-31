@@ -14,7 +14,7 @@ public class PDFKinesitherapyApplication extends PDFGeneralBasic {
 
     //--- ADD CONTENT -----------------------------------------------------------------------------
     protected void addContent(){
-        try{
+    	try{
             if(transactionVO.getItems().size() >= minNumberOfItems){
                 Vector itemList = new Vector();
                 itemList.add(IConstants_PREFIX+"ITEM_TYPE_KINESITHERAPY_APPLICATION_DIAGNOSTIC");
@@ -83,19 +83,19 @@ public class PDFKinesitherapyApplication extends PDFGeneralBasic {
                     if(table.size() > 0){
                         if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                         contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                        tranTable.addCell(createContentCell(contentTable));
+                        tranTable.addCell(new PdfPCell(contentTable));
                         addTransactionToDoc();
                     }
                 }
+
+                addDiagnosisEncoding();
+                addTransactionToDoc();
             }
         }
         catch(Exception e){
             e.printStackTrace();
         }
     }
-
-
-    //### PRIVATE METHODS #########################################################################
 
 }
 

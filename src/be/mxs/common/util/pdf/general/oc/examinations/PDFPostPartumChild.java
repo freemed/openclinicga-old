@@ -49,7 +49,7 @@ public class PDFPostPartumChild extends PDFGeneralBasic {
                 // temperature
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PPC_TEMPERATURE");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("gynaeco","temperature"),itemValue+" "+getTran("units","degreesCelcius"));
+                    addItemRow(table,getTran("gynaeco","temperature"),itemValue+" "+getTran("unit","degreesCelcius"));
                     itemCount++;
                 }
 

@@ -5,14 +5,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 
-
-/**
- * User: ssm
- * Date: 18-jul-2007
- */
-public class DPFDermatologyConsultation extends PDFGeneralBasic {
-
-    // TODO : ====================>>>>>>>>>>>>>>> PdfClinicalExamination
+public class PDFDermatologyConsultation extends PDFGeneralBasic {
 
     //--- ADD CONTENT -----------------------------------------------------------------------------
     protected void addContent(){
@@ -31,10 +24,14 @@ public class DPFDermatologyConsultation extends PDFGeneralBasic {
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    tranTable.addCell(new PdfPCell(contentTable));
                 }
 
                 // add transaction to doc
+                addTransactionToDoc();
+
+                // diagnoses
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }
@@ -44,6 +41,9 @@ public class DPFDermatologyConsultation extends PDFGeneralBasic {
     }
 
 
+    //#############################################################################################
     //### PRIVATE METHODS #########################################################################
+    //#############################################################################################
+    
 
 }

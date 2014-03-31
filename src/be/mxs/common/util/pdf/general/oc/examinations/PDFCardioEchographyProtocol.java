@@ -18,16 +18,46 @@ public class PDFCardioEchographyProtocol extends PDFGeneralBasic {
                 table = new PdfPTable(10);
                 int itemCount = 0;
 
-                // motive
+                // motive/reason (1 whole row)
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_MOTIVE");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("openclinic.chuk","motive"),itemValue);
+                	cell = createItemNameCell(getTran("openclinic.chuk","motive"),2);
+                    cell.setBackgroundColor(BGCOLOR_LIGHT);
+                    table.addCell(cell);
+                    table.addCell(createValueCell(itemValue,8));
                     itemCount++;
                 }
 
-                //*** mode ***
-                String mode = "";
+                //*** LOOK FIRST **********************************************
+                String lookFirst = "";                
+                
+                // lookFirst - Transthoracic
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_LOOK_TRANS");
+                if(itemValue.equalsIgnoreCase("medwan.common.true")){
+                    if(lookFirst.length() > 0) lookFirst+=", ";
+                    lookFirst+= getTran("openclinic.chuk","tm"); 
+                }
 
+                // lookFirst - Oesophagus 
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_LOOK_OESO");
+                if(itemValue.equalsIgnoreCase("medwan.common.true")){
+                    if(lookFirst.length() > 0) lookFirst+=", ";
+                    lookFirst+= getTran("openclinic.chuk","2d"); 
+                }
+
+                if(lookFirst.length() > 0){
+                    // title
+                    cell = createItemNameCell(getTran("openclinic.chuk","lookFirst"),2);
+                    cell.setBackgroundColor(BGCOLOR_LIGHT);
+                    table.addCell(cell);
+                    
+                    table.addCell(createValueCell(lookFirst));
+                    itemCount++;
+                }
+                
+                //*** MODE ****************************************************
+                String mode = "";
+                
                 // mode - tm
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_TM");
                 if(itemValue.equalsIgnoreCase("medwan.common.true")){
@@ -42,6 +72,13 @@ public class PDFCardioEchographyProtocol extends PDFGeneralBasic {
                     mode+= getTran("openclinic.chuk","2d"); 
                 }
 
+                // mode - doppler
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_MODE_DOPPLER");
+                if(itemValue.equalsIgnoreCase("medwan.common.true")){
+                    if(mode.length() > 0) mode+=", ";
+                    mode+= getTran("openclinic.chuk","doppler"); 
+                }
+                
                 if(mode.length() > 0){
                     // title
                     cell = createItemNameCell(getTran("openclinic.chuk","mode"),2);
@@ -80,24 +117,24 @@ public class PDFCardioEchographyProtocol extends PDFGeneralBasic {
                     itemCount++;
                 }
 
-                // dtdvg
+                // dtdvgA
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_DTDVGA");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("openclinic.chuk","dtdvg"),itemValue);
+                    addItemRow(table,getTran("openclinic.chuk","dtdvg")+" A",itemValue);
                     itemCount++;
                 }
 
                 // fe
-                itemValue = getItemValue(IConstants_PREFIX+"fe");
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_FE");
                 if(itemValue.length() > 0){
                     addItemRow(table,getTran("openclinic.chuk","fe"),itemValue);
                     itemCount++;
                 }
 
-                // dtdvg
+                // dtdvgB
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_DTDVGB");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("openclinic.chuk","dtdvg"),itemValue);
+                    addItemRow(table,getTran("openclinic.chuk","dtdvg")+" B",itemValue);
                     itemCount++;
                 }
 
@@ -188,8 +225,13 @@ public class PDFCardioEchographyProtocol extends PDFGeneralBasic {
                 
                 // add table
                 if(table.size() > 0){
-                    tranTable.addCell(createContentCell(table));
+                    tranTable.addCell(new PdfPCell(table));
                 }
+
+                // add transaction to doc
+                addTransactionToDoc();
+                
+                addDiagnosisEncoding();
 
                 // add transaction to doc
                 addTransactionToDoc();
@@ -199,7 +241,6 @@ public class PDFCardioEchographyProtocol extends PDFGeneralBasic {
             e.printStackTrace();
         }
     }
-
     
     //### PRIVATE METHODS #########################################################################
 

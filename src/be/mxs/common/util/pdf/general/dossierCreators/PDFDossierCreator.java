@@ -515,7 +515,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
     }
     
     //--- PRINT ACTIVE INSURANCES -----------------------------------------------------------------
-    protected void printActiveInsurances(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {                    
+    protected void printActiveInsurances(AdminPerson activePatient) throws Exception {                    
         table = new PdfPTable(8);
         table.setWidthPercentage(pageWidth);
 
@@ -565,7 +565,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
     }
     
     //--- PRINT INSURANCE HISTORY -----------------------------------------------------------------
-    protected void printInsuranceHistory(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {
+    protected void printInsuranceHistory(AdminPerson activePatient) throws Exception {
         table = new PdfPTable(8);
         table.setWidthPercentage(pageWidth);
 

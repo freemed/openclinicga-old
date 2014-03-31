@@ -13,6 +13,7 @@ import java.sql.SQLException;
 
 public class Document {
 
+	//--- LOAD ------------------------------------------------------------------------------------
     public static String load(String sDocumentId){
         String sFilename = "";
         if (sDocumentId.length()>0){
@@ -40,21 +41,26 @@ public class Document {
                     rs.close();
                     ps.close();
                 }
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 Debug.println("OpenClinic => Document.java => load => "+e.getMessage());
                 e.printStackTrace();
             }
-            try {
+            
+            // close DB-connection
+            try{
 				oc_conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+			} 
+            catch(SQLException e){
 				e.printStackTrace();
 			}
         }
+        
         return sFilename;
     }
 
-     public static String store(String sFileName, String sUserId, byte[] aValue){
+    //--- STORE -----------------------------------------------------------------------------------
+    public static String store(String sFileName, String sUserId, byte[] aValue){
         String sId = "";
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -75,51 +81,66 @@ public class Document {
             ps.close();
 
             sId = iServerId+"."+iObjectId;
-        }catch(Exception e){
+        }
+        catch(Exception e){
             Debug.println("OpenClinic => Document.java => store => "+e.getMessage());
             e.printStackTrace();
         }
-        try {
+        
+        // close DB-connection
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+        catch(SQLException e){
 			e.printStackTrace();
 		}
-         return sId;
+        
+        return sId;
     }
 
+    //--- GET NAME --------------------------------------------------------------------------------
     public static String getName(String sDocumentId){
-        if (sDocumentId.length()>0){
-            String [] ids = sDocumentId.split("\\.");
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-            try{
-                if (ids.length==2){
-                    String sSelect = "SELECT * FROM OC_DOCUMENTS WHERE OC_DOCUMENT_SERVERID = ? AND OC_DOCUMENT_OBJECTID = ?";
-                    PreparedStatement ps;
-                    ResultSet rs;
-
-                    ps = oc_conn.prepareStatement(sSelect);
-                    ps.setInt(1,Integer.parseInt(ids[0]));
-                    ps.setInt(2,Integer.parseInt(ids[1]));
+    	String sFileName = "";
+    	
+        if(sDocumentId.length() > 0){
+            String[] idParts = sDocumentId.split("\\.");
+            
+            if(idParts.length==2){            
+	            Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	            PreparedStatement ps = null;
+	            ResultSet rs = null;
+	            
+	            try{
+                    String sSql = "SELECT OC_DOCUMENT_NAME FROM OC_DOCUMENTS"+
+                                  " WHERE OC_DOCUMENT_SERVERID = ?"+
+                                  "  AND OC_DOCUMENT_OBJECTID = ?";
+                    ps = conn.prepareStatement(sSql);
+                    ps.setInt(1,Integer.parseInt(idParts[0]));
+                    ps.setInt(2,Integer.parseInt(idParts[1]));
                     rs = ps.executeQuery();
 
                     if(rs.next()){
-                        return ScreenHelper.checkString(rs.getString("OC_DOCUMENT_NAME"));
+                        sFileName = ScreenHelper.checkString(rs.getString("OC_DOCUMENT_NAME"));
                     }
-                    rs.close();
-                    ps.close();
-                }
-            }catch(Exception e){
-                Debug.println("OpenClinic => Document.java => getName => "+e.getMessage());
-                e.printStackTrace();
+	            }
+	            catch(Exception e){
+	                Debug.println("OpenClinic => Document.java => getName => "+e.getMessage());
+	                e.printStackTrace();
+	            }
+	            finally{
+		            try{
+		                if(rs!=null) rs.close();
+		                if(ps!=null) ps.close();
+		                conn.close();
+		            }
+		            catch(Exception e){
+		            	Debug.printStackTrace(e);
+		            }
+	            }
             }
-            try {
-				oc_conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
         }
-        return "";
+        
+        return sFileName;
     }
+    
 }

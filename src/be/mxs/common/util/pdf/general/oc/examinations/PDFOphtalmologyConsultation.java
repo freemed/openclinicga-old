@@ -19,6 +19,10 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 addVisionAcuityAndPupil();
                 addBioMicroscopyAndOcularTension();
                 addVaria2();
+
+                // diagnoses
+                addDiagnosisEncoding();
+                addTransactionToDoc();
             }
         }
         catch(Exception e){
@@ -49,8 +53,8 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-            tranTable.addCell(createContentCell(contentTable));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+            tranTable.addCell(new PdfPCell(contentTable));
             addTransactionToDoc();
         }
     }
@@ -76,7 +80,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             PdfPTable odogTable = new PdfPTable(9);
 
             //--- title od ---
-            cell = createItemNameCell(getTran("openclinic.chuk","od"),1);
+            cell = createItemNameCell(getTran("web","right"),1);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             odogTable.addCell(cell);
 
@@ -93,7 +97,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             odogTable.addCell(createValueCell("Dx "+itemValue+" "+getTran("units","degrees"),3));
 
             //--- title og ---
-            cell = createItemNameCell(getTran("openclinic.chuk","og"),1);
+            cell = createItemNameCell(getTran("web","left"),1);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             odogTable.addCell(cell);
 
@@ -144,7 +148,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             PdfPTable odogTable = new PdfPTable(9);
 
             //--- title od ---
-            cell = createItemNameCell(getTran("openclinic.chuk","od"),1);
+            cell = createItemNameCell(getTran("web","right"),1);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             odogTable.addCell(cell);
 
@@ -161,7 +165,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             odogTable.addCell(createValueCell("Dx "+itemValue+" "+getTran("units","degrees"),3));
 
             //--- title og ---
-            cell = createItemNameCell(getTran("openclinic.chuk","og"),1);
+            cell = createItemNameCell(getTran("web","left"),1);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             odogTable.addCell(cell);
 
@@ -212,7 +216,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             PdfPTable odogTable = new PdfPTable(9);
 
             //--- title od ---
-            cell = createItemNameCell(getTran("openclinic.chuk","od"),1);
+            cell = createItemNameCell(getTran("web","right"),1);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             odogTable.addCell(cell);
 
@@ -229,7 +233,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             odogTable.addCell(createValueCell("Dx "+itemValue+" "+getTran("units","degrees"),3));
 
             //--- title og ---
-            cell = createItemNameCell(getTran("openclinic.chuk","og"),1);
+            cell = createItemNameCell(getTran("web","left"),1);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             odogTable.addCell(cell);
 
@@ -273,7 +277,9 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             table.addCell(cell);
             
-            table.addCell(createCell(new PdfPCell(visionTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+            cell = createCell(new PdfPCell(visionTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
+            cell.setPadding(3);
+            table.addCell(cell);
         }            
 
         // pupil
@@ -285,8 +291,8 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-            tranTable.addCell(createContentCell(contentTable));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+            tranTable.addCell(new PdfPCell(contentTable));
             addTransactionToDoc();
         }
     }
@@ -310,7 +316,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             if(itemValue.length() > 0){
                 // title
                 cell = createItemNameCell(getTran("openclinic.chuk","cornea"),1);
-            cell.setBackgroundColor(BGCOLOR_LIGHT);
+                cell.setBackgroundColor(BGCOLOR_LIGHT);
                 microscopyTable.addCell(cell);
 
                 microscopyTable.addCell(createValueCell(itemValue,3));
@@ -345,7 +351,9 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
 
-                table.addCell(createCell(new PdfPCell(microscopyTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                cell = createCell(new PdfPCell(microscopyTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
+                cell.setPadding(3);
+                table.addCell(cell);
             }
         }
 
@@ -361,7 +369,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_OCULAR_TENSION_OD");
             if(itemValue.length() > 0){
                 // title
-                cell = createItemNameCell(getTran("openclinic.chuk","od"),1);
+                cell = createItemNameCell(getTran("web","right"),1);
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 tensionTable.addCell(cell);
 
@@ -372,7 +380,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_OCULAR_TENSION_OG");
             if(itemValue.length() > 0){
                 // title
-                cell = createItemNameCell(getTran("openclinic.chuk","og"),1);
+                cell = createItemNameCell(getTran("web","left"),1);
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 tensionTable.addCell(cell);
                 
@@ -386,15 +394,17 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
                 
-                table.addCell(createCell(new PdfPCell(tensionTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                cell = createCell(new PdfPCell(tensionTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
+                cell.setPadding(3);
+                table.addCell(cell);
             }
         }
 
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-            tranTable.addCell(createContentCell(contentTable));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+            tranTable.addCell(new PdfPCell(contentTable));
             addTransactionToDoc();
         }
     }
@@ -453,7 +463,9 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
                 
-                table.addCell(createCell(new PdfPCell(retinaTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                cell = createCell(new PdfPCell(retinaTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
+                cell.setPadding(3);
+                table.addCell(cell);
             }
         }
 
@@ -495,7 +507,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             PdfPTable odogTable = new PdfPTable(9);
 
             //--- title od ---
-            cell = createItemNameCell(getTran("openclinic.chuk","od"),1);
+            cell = createItemNameCell(getTran("web","right"),1);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             odogTable.addCell(cell);
 
@@ -512,7 +524,7 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
             odogTable.addCell(createValueCell("Dx "+itemValue+" "+getTran("units","degrees"),3));
 
             //--- title og ---
-            cell = createItemNameCell(getTran("openclinic.chuk","og"),1);
+            cell = createItemNameCell(getTran("web","left"),1);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             odogTable.addCell(cell);
 
@@ -555,7 +567,9 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 table.addCell(cell);
 
-                table.addCell(createCell(new PdfPCell(treatmentTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                cell = createCell(new PdfPCell(treatmentTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
+                cell.setPadding(3);
+                table.addCell(cell);
             }
         }
 
@@ -568,8 +582,8 @@ public class PDFOphtalmologyConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-            tranTable.addCell(createContentCell(contentTable));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+            tranTable.addCell(new PdfPCell(contentTable));
             addTransactionToDoc();
         }
     }

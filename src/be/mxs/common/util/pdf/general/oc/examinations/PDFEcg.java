@@ -62,10 +62,13 @@ public class PDFEcg extends PDFGeneralBasic {
 
                 // add table
                 if(table.size() > 0){
-                    tranTable.addCell(createContentCell(table));
+                    tranTable.addCell(new PdfPCell(table));
                 }
 
                 // add transaction to doc
+                addTransactionToDoc();
+
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }

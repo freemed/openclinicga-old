@@ -32,6 +32,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.util.CustomCategoryLabelGenerator;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 
 
@@ -45,7 +46,7 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
 
     //--- CONSTRUCTOR ------------------------------------------------------------------------------
     public PDFRespiratoryFunctionExamination(){
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = ScreenHelper.stdDateFormat;
 
         // create vectors
         aFEV1Dates  = new Vector();
@@ -66,6 +67,10 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
 
                 // add transaction part 2 to doc
                 addVaria();
+                addTransactionToDoc();
+
+                // diagnoses
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }
@@ -111,14 +116,12 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
 
     //--- ADD VARIA --------------------------------------------------------------------------------
     private void addVaria(){
-        String itemValueA;
-
         contentTable = new PdfPTable(1);
         table = new PdfPTable(5);
 
         // FEV1
-        itemValue  = getItemValue(IConstants_PREFIX+"ITEM_TYPE_RESP_FUNC_EX_FEV1");
-        itemValueA = getItemValue(IConstants_PREFIX+"ITEM_TYPE_RESP_FUNC_EX_FEV1_A");
+        itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_RESP_FUNC_EX_FEV1");
+        String itemValueA = getItemValue(IConstants_PREFIX+"ITEM_TYPE_RESP_FUNC_EX_FEV1_A");
 
         if(itemValue.length() > 0){
             itemValue+= " "+getTran("units","liter")+"/"+getTran("units","minute");
@@ -130,7 +133,7 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
         }
 
         // FVC
-        itemValue  = getItemValue(IConstants_PREFIX+"ITEM_TYPE_RESP_FUNC_EX_FVC");
+        itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_RESP_FUNC_EX_FVC");
         itemValueA = getItemValue(IConstants_PREFIX+"ITEM_TYPE_RESP_FUNC_EX_FVC_A");
 
         if(itemValue.length() > 0){
@@ -492,7 +495,7 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
         if(patient.gender.equalsIgnoreCase("F")){
             normal = (1.08*(3.95*rLength - 0.025 * age - 2.6));
         }
-        else {
+        else{
             normal = (1.08*(4.3*rLength - 0.029 * age - 2.49));
         }
 

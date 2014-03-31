@@ -24,6 +24,9 @@ public class PDFKinesitherapyConsultationTreatment extends PDFGeneralBasic {
                 addSeances();
                 addVaria2();
                 addTransactionToDoc();
+
+                addDiagnosisEncoding();
+                addTransactionToDoc();
             }
         }
         catch(Exception e){
@@ -106,7 +109,7 @@ public class PDFKinesitherapyConsultationTreatment extends PDFGeneralBasic {
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
             contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-            tranTable.addCell(createContentCell(contentTable));
+            tranTable.addCell(new PdfPCell(contentTable));
         }
     }
 
@@ -165,7 +168,7 @@ public class PDFKinesitherapyConsultationTreatment extends PDFGeneralBasic {
         // add table
         if(table.size() > 1){
             contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-            tranTable.addCell(createContentCell(contentTable));
+            tranTable.addCell(new PdfPCell(contentTable));
         }
     }
 
@@ -230,7 +233,7 @@ public class PDFKinesitherapyConsultationTreatment extends PDFGeneralBasic {
             // add table to transaction
             if(table.size() > 0){
                 contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                tranTable.addCell(createContentCell(contentTable));
+                tranTable.addCell(new PdfPCell(contentTable));
             }
         }
     }

@@ -17,13 +17,15 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
             if(transactionVO.getItems().size() >= minNumberOfItems){
                 addVaria();
                 addAntecedents();
-
                 addClinical();
-
                 addParaclinicExaminations();
                 addTreatment();
-
                 addConclusion();
+                addTransactionToDoc();
+                
+                // diagnoses
+                addDiagnosisEncoding();                
+                addTransactionToDoc();
             }
         }
         catch(Exception e){
@@ -342,7 +344,6 @@ public class PDFAnesthesiaPreop extends PDFGeneralBasic {
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
             contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             tranTable.addCell(createContentCell(contentTable));
-            addTransactionToDoc();
         }
     }
 

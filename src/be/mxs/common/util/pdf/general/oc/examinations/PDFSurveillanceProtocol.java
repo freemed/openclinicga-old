@@ -23,22 +23,22 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
             if(transactionVO.getItems().size() >= minNumberOfItems){
                 addVitalSigns();
                 addVitalSignsResp();
-                addTransactionToDoc();
+                 addTransactionToDoc();
 
                 addConscience();
-                addTransactionToDoc();
+                 addTransactionToDoc();
                 
                 addBiometrie();
-                addTransactionToDoc();
+                 addTransactionToDoc();
 
                 addInputSummary();
                 addOutputSummary();
                 addBilanTotal();
-                addTransactionToDoc();
+                 addTransactionToDoc();
 
                 addNutritionalSituation();
                 addOther();
-                addTransactionToDoc();
+                 addTransactionToDoc();
             }
         }
         catch(Exception e){
@@ -226,8 +226,8 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
 
         pdfTable.addCell(createValueCell(sHour,1));
         pdfTable.addCell(createValueCell(sResp+" /"+getTran("unit","minute"),1));
-        pdfTable.addCell(createValueCell(sAmbient+" "+getTran("unit","percentage"),1));
-        pdfTable.addCell(createValueCell(sUnder+" "+getTran("unit","percentage"),1));
+        pdfTable.addCell(createValueCell(sAmbient+" %",1));
+        pdfTable.addCell(createValueCell(sUnder+" %",1));
         pdfTable.addCell(createValueCell(sVolume+" "+getTran("unit","liter")+"/"+getTran("unit","minute"),1));
         pdfTable.addCell(createValueCell(sMode,1));
         pdfTable.addCell(createValueCell(sObservation,3));
@@ -616,7 +616,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
                 // input
                 sTmpBilanInput = "0";
                 itemVO = tranVO.getItem(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANENTREE_TOTAL");
-                if (itemVO != null) {
+                if(itemVO!=null){
                     sTmpBilanInput = checkString(itemVO.getValue());
                 }
                 hBilanInput.put(tranVO.getCreationDate(),sTmpBilanInput);
@@ -624,7 +624,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
                 // output
                 sTmpBilanOutput = "0";
                 itemVO = tranVO.getItem(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANSORTIE_TOTAL");
-                if (itemVO != null) {
+                if(itemVO!=null){
                     sTmpBilanOutput = checkString(itemVO.getValue());
                 }
                 hBilanOutput.put(tranVO.getCreationDate(),sTmpBilanOutput);
@@ -632,7 +632,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
                 // total
                 sTmpBilanTotal = "0";
                 itemVO = tranVO.getItem(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILAN_TOTAL");
-                if (itemVO != null) {
+                if(itemVO!=null){
                     sTmpBilanTotal = checkString(itemVO.getValue());
                 }
                 hBilanTotal.put(tranVO.getCreationDate(),sTmpBilanTotal);
@@ -934,7 +934,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
             contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-            tranTable.addCell(createContentCell(contentTable));
+            tranTable.addCell(new PdfPCell(contentTable));
         }
     }          
 

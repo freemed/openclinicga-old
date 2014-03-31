@@ -11,16 +11,21 @@ public class PDFNeuropsyOutpatientSummary extends PDFGeneralBasic {
     protected void addContent(){
         try{
             if(transactionVO.getItems().size() >= minNumberOfItems){
-                table = new PdfPTable(5);
-                
+            	/*
+            	//*** DIAGNOSTICS *********************************************
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_CONTEXT_ENCOUNTERUID");
                 if(itemValue.length() > 0){
+                    table = new PdfPTable(5);
                     addEncounterDiagnosticsRow(table, itemValue);
-                }
-                
-                addBlankRow();
+                    tranTable.addCell(createContentCell(table));
+                }                
+                */
 
-                cell = createHeaderCell(getTran("web","medicalsummary"), 5);
+                //*** MEDICAL SUMMARY *****************************************
+                table = new PdfPTable(5);
+                table.setWidthPercentage(100);
+                
+                cell = createHeaderCell(getTran("web","medicalsummary"),5);
                 table.addCell(cell);
 
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_NPOS_REASONFORENCOUNTER");
@@ -49,6 +54,10 @@ public class PDFNeuropsyOutpatientSummary extends PDFGeneralBasic {
                 }
 
                 // add transaction to doc
+                addTransactionToDoc();
+
+                // diagnoses
+                addDiagnosisEncoding(true,true,true);
                 addTransactionToDoc();
             }
         }

@@ -28,6 +28,11 @@ public class PDFAudiometry extends PDFGeneralBasic {
         try{
             addGraphs();
             addVoorgeschiedenis();
+            
+            addDiagnosisEncoding();
+
+            // add transaction to doc
+            addTransactionToDoc();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -168,7 +173,7 @@ public class PDFAudiometry extends PDFGeneralBasic {
 
         // write graph to image
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ChartUtilities.writeChartAsPNG(os,chart,400,320);
+        ChartUtilities.writeChartAsPNG(os,chart,400,360);
         PdfPTable graphTable = new PdfPTable(1);
 
         // add image to table
@@ -215,7 +220,7 @@ public class PDFAudiometry extends PDFGeneralBasic {
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
             contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-            tranTable.addCell(createContentCell(contentTable));
+            tranTable.addCell(new PdfPCell(contentTable));
         }
 
         // add transaction to doc

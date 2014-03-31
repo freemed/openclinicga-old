@@ -524,7 +524,7 @@ public class LabAnalysis {
 
         Vector hLabAnalysis = new Vector();
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection loc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = loc_conn.prepareStatement(sQuery.toString());
             ps.setString(1,sWebLanguage.toLowerCase());

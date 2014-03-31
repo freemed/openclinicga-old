@@ -82,8 +82,7 @@ public class PDFBronchoscopyProtocol extends PDFGeneralBasic {
                     table.addCell(cell);
                 }
 
-                // todo : INVESTIGATIONS DONE
-                //*** investigations_done row 1 (inhalation) ***
+                //*** investigations_done row 1 (inhalation) **************************************
                 PdfPTable invTable = new PdfPTable(1);
 
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BRONCHOSCOPY_PROTOCOL_INHALATION");
@@ -92,7 +91,7 @@ public class PDFBronchoscopyProtocol extends PDFGeneralBasic {
                     invTable.addCell(createValueCell(invRow1));
                 }
 
-                //*** investigations_done row 2 (alvelolaire) ***
+                //*** investigations_done row 2 (alvelolaire) *************************************
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BRONCHOSCOPY_PROTOCOL_BRONCHO_ALVELOLAIRE");
                 if(itemValue.equalsIgnoreCase("medwan.common.true")){
                     String invRow2 = getTran("openclinic.chuk","broncho_alvélolaire")+" : ";
@@ -132,7 +131,7 @@ public class PDFBronchoscopyProtocol extends PDFGeneralBasic {
                     }
                 }
 
-                //*** investigations_done row 3 (transbronchitis) ***
+                //*** investigations_done row 3 (transbronchitis) *********************************
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BRONCHOSCOPY_PROTOCOL_BIOPSIES_TRANSBRONCHITIS");
                 if(itemValue.equalsIgnoreCase("medwan.common.true")){
                     String invRow3 = getTran("openclinic.chuk","biopsies_transbronchitis")+" : ";
@@ -196,8 +195,13 @@ public class PDFBronchoscopyProtocol extends PDFGeneralBasic {
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    tranTable.addCell(new PdfPCell(contentTable));
                 }
+
+                // add transaction to doc
+                addTransactionToDoc();
+                
+                addDiagnosisEncoding();
 
                 // add transaction to doc
                 addTransactionToDoc();
@@ -215,7 +219,7 @@ public class PDFBronchoscopyProtocol extends PDFGeneralBasic {
     protected void addItemRow(PdfPTable table, String itemName, String itemValue){
         cell = createItemNameCell(itemName);
         cell.setBackgroundColor(BGCOLOR_LIGHT);
-        cell.setFixedHeight(40);
+        //cell.setFixedHeight(40); // difference
         table.addCell(cell);
         table.addCell(createValueCell(itemValue));
     }

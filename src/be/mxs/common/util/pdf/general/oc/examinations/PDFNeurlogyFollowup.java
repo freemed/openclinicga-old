@@ -33,10 +33,13 @@ public class PDFNeurlogyFollowup extends PDFGeneralBasic {
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    tranTable.addCell(new PdfPCell(contentTable));
                 }
 
                 // add transaction to doc
+                addTransactionToDoc();
+
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }
@@ -44,9 +47,6 @@ public class PDFNeurlogyFollowup extends PDFGeneralBasic {
             e.printStackTrace();
         }
     }
-
-
-    //### PRIVATE METHODS #########################################################################
 
 }
 

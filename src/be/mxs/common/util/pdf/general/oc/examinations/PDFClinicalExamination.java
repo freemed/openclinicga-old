@@ -253,7 +253,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
         //*** temperature *****************************************************
         itemValue = getItemValue(IConstants_PREFIX+"[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","temperature"),itemValue+" "+getTran("units","degreesCelcius"));
+            addItemRow(table,getTran("openclinic.chuk","temperature"),itemValue+" "+getTran("unit","degreesCelcius"));
         }
 
         //*** breathing *******************************************************
@@ -319,100 +319,9 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
             tranTable.addCell(createContentCell(contentTable));
         }
     }
-
-    //--- ADD ICPC CODES --------------------------------------------------------------------------
-    private void addICPCCodes() throws Exception {
-        contentTable = new PdfPTable(1);
-        table = new PdfPTable(5);
-
-        // title
-        table.addCell(createHeaderCell(getTran("ICPC-2")+" / "+getTran("ICD-10"),5));
-        Collection items = transactionVO.getItems();
-
-        if(items != null){
-            Iterator itemIter = items.iterator();
-            ItemVO item;
-            String value, type;
-
-            while(itemIter.hasNext()){
-                item = (ItemVO)itemIter.next();
-
-                if(item.getType().indexOf("ICPCCode")==0){
-                    value = item.getValue().trim();
-                    type = item.getType().trim();
-                    type = type.replaceAll("ICPCCode","")+" "+MedwanQuery.getInstance().getCodeTran(type,sPrintLanguage);
-                    table.addCell(createValueCell(type+" ["+value+"]",5));
-                }
-                else if (item.getType().indexOf("ICD10Code")==0){
-                    value = item.getValue().trim();
-                    type = item.getType().trim();
-                    type = type.replaceAll("ICD10Code","")+" "+MedwanQuery.getInstance().getCodeTran(type,sPrintLanguage);
-                    table.addCell(createValueCell(type+" ["+value+"]",5));
-                }
-            }
-
-            // add icpc codes table
-            if(table.size() > 1){
-                if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                tranTable.addCell(createContentCell(contentTable));
-            }
-        }
-    }
-
-    //--- ADD PROBLEMLIST -------------------------------------------------------------------------
-    private void addProblemList(){
-        contentTable = new PdfPTable(1);
-        table = new PdfPTable(5);
-
-        // title
-        table.addCell(createTitleCell(getTran("web.occup","medwan.common.problemlist"),5));
-
-        Vector activeProblems = Problem.getActiveProblems(patient.personid);
-        if(activeProblems.size()>0){
-            PdfPTable problemsTable = new PdfPTable(3);
-
-            // header
-            problemsTable.addCell(createHeaderCell(getTran("web.occup","medwan.common.description"),2));
-            problemsTable.addCell(createHeaderCell(getTran("web.occup","medwan.common.datebegin"),1));
-
-            Problem activeProblem;
-            String comment, value;
-            for(int n=0; n<activeProblems.size(); n++){
-                activeProblem = (Problem)activeProblems.elementAt(n);
-
-                value = activeProblem.getCode()+" "+ MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sPrintLanguage);
-                Paragraph par = new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA,7, Font.NORMAL));
-
-                // add comment if any
-                if(activeProblem.getComment().trim().length() > 0){
-                    comment = " : "+activeProblem.getComment().trim();
-                    par.add(new Chunk(comment,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
-                }
-
-                cell = new PdfPCell(par);
-                cell.setColspan(2);
-                cell.setBorder(PdfPCell.BOX);
-                cell.setBorderColor(innerBorderColor);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                problemsTable.addCell(cell);
-
-                // date
-                problemsTable.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin()),1));
-            }
-        }
-
-        // add table
-        if(table.size() > 1){
-            if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-            tranTable.addCell(createContentCell(contentTable));
-        }
-    }
     
     //--- ADD ACTIVE PRESCRIPTIONS ----------------------------------------------------------------
-    private void addActivePrescriptions(){
+    protected void addActivePrescriptions(){
         try{
             contentTable = new PdfPTable(1);
             table = new PdfPTable(5);

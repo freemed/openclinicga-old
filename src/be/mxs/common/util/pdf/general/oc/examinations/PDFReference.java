@@ -42,7 +42,7 @@ public class PDFReference extends PDFGeneralBasic {
                         cell.setBackgroundColor(BGCOLOR_LIGHT);
                         table.addCell(cell);
                         
-                        table.addCell(createValueCell(itemValue,8));
+                        table.addCell(createValueCell(getTran("reference.referencecenter",itemValue),8));
                     }
 
                     // Anamnese

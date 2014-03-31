@@ -12,59 +12,59 @@ import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.openclinic.medical.RequestedLabAnalysis;
 import be.openclinic.medical.Labo;
 
-
 public class PDFLabRequest extends PDFGeneralBasic {
 
     // declarations
     private StringBuffer monsters;
 
-
     //--- ADD CONTENT ------------------------------------------------------------------------------
     protected void addContent(){
         try{
-            contentTable = new PdfPTable(1);
-            monsters = new StringBuffer();
-
-            // CHOSEN LABANALYSES
-            PdfPTable chosenLabs = getChosenLabAnalyses();
-            if(chosenLabs.size() > 0){
-                contentTable.addCell(createCell(new PdfPCell(chosenLabs),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
+            if(transactionVO.getItems().size() >= minNumberOfItems){
+	            contentTable = new PdfPTable(1);
+	            monsters = new StringBuffer();
+	
+	            // CHOSEN LABANALYSES
+	            PdfPTable chosenLabs = getChosenLabAnalyses();
+	            if(chosenLabs.size() > 0){
+	                contentTable.addCell(createCell(new PdfPCell(chosenLabs),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
+	            }
+	
+	            table = new PdfPTable(5);
+	
+	            // MONSTERS (calculated)
+	            if(monsters.length() > 0){
+	                addItemRow(table,getTran("labrequest.monsters"),monsters.toString());
+	            }
+	
+	            // MONSTER HOUR
+	            itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LAB_HOUR");
+	            if(itemValue.length() > 0){
+	                addItemRow(table,getTran("Web.Occup","labrequest.hour"),itemValue);
+	            }
+	
+	            // COMMENT
+	            itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LAB_COMMENT");
+	            if(itemValue.length() > 0){
+	                addItemRow(table,getTran("Web","comment"),itemValue);
+	            }
+	
+	            // URGENCY
+	            itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LAB_URGENCY");
+	            if(itemValue.length() > 0){
+	                addItemRow(table,getTran("Web.Occup","urgency"),getTran("labrequest.urgency",itemValue).toLowerCase());
+	            }
+	
+	            // add table
+	            if(table.size() > 0){
+	                if(contentTable.size() > 0) contentTable.addCell(emptyCell());
+	                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+	                tranTable.addCell(new PdfPCell(contentTable));
+	            }
+	
+	            // add transaction to doc
+	            addTransactionToDoc();
             }
-
-            table = new PdfPTable(5);
-
-            // MONSTERS (calculated)
-            if(monsters.length() > 0){
-                addItemRow(table,getTran("labrequest.monsters"),monsters.toString());
-            }
-
-            // MONSTER HOUR
-            itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LAB_HOUR");
-            if(itemValue.length() > 0){
-                addItemRow(table,getTran("Web.Occup","labrequest.hour"),itemValue);
-            }
-
-            // COMMENT
-            itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LAB_COMMENT");
-            if(itemValue.length() > 0){
-                addItemRow(table,getTran("Web","comment"),itemValue);
-            }
-
-            // URGENCY
-            itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LAB_URGENCY");
-            if(itemValue.length() > 0){
-                addItemRow(table,getTran("Web.Occup","urgency"),getTran("labrequest.urgency",itemValue).toLowerCase());
-            }
-
-            // add table
-            if(table.size() > 0){
-                if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                tranTable.addCell(createContentCell(contentTable));
-            }
-
-            // add transaction to doc
-            addTransactionToDoc();
         }
         catch(Exception e){
             e.printStackTrace();

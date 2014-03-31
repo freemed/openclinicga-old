@@ -151,14 +151,16 @@ public class PDFAbdominalEchographyProtocol extends PDFGeneralBasic {
                     cell.setBorder(PdfPCell.NO_BORDER);
                     table.addCell(cell);
                 }
-                
+
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
                 }
-
+                
+                addDiagnosisEncoding();
+                
                 // add transaction to doc
                 addTransactionToDoc();
             }

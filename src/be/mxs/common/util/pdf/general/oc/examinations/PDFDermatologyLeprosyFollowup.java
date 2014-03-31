@@ -73,9 +73,9 @@ public class PDFDermatologyLeprosyFollowup extends PDFGeneralBasic {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             muscleTable.addCell(cell);
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LEPROSYFOLLOWUP_MUSCULARFORCE_FENTE_RIGHT");
-            muscleTable.addCell(createValueCell(itemValue+" "+getTran("unit","mm"),3)); // integer value
+            muscleTable.addCell(createValueCell(itemValue+(itemValue.length()>0?" "+getTran("unit","mm"):""),3)); // integer value
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LEPROSYFOLLOWUP_MUSCULARFORCE_FENTE_LEFT");
-            muscleTable.addCell(createValueCell(itemValue+" "+getTran("unit","mm"),3)); // integer value
+            muscleTable.addCell(createValueCell(itemValue+(itemValue.length()>0?" "+getTran("unit","mm"):""),3)); // integer value
 
             //***** row 3 : cinquième doigt *****
             cell = createHeaderCell(getTran("leprosy","cinquiemedoigt"),2);
@@ -107,13 +107,14 @@ public class PDFDermatologyLeprosyFollowup extends PDFGeneralBasic {
             // add muscleTable
             cell = createCell(new PdfPCell(muscleTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
             cell.setColspan(5);
+            cell.setPadding(3);
             table.addCell(cell);
 
             // add table to transaction
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                 contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                tranTable.addCell(createContentCell(contentTable));
+                tranTable.addCell(new PdfPCell(contentTable));
                 addTransactionToDoc();
             }
         }
@@ -148,6 +149,7 @@ public class PDFDermatologyLeprosyFollowup extends PDFGeneralBasic {
 
             cell = createCell(new PdfPCell(yeuxTable),5,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
             cell.setColspan(5);
+            cell.setPadding(3);
             table.addCell(cell);
         }
 
@@ -155,7 +157,7 @@ public class PDFDermatologyLeprosyFollowup extends PDFGeneralBasic {
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
             contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-            tranTable.addCell(createContentCell(contentTable));
+            tranTable.addCell(new PdfPCell(contentTable));
             addTransactionToDoc();
         }
     }
@@ -226,13 +228,14 @@ public class PDFDermatologyLeprosyFollowup extends PDFGeneralBasic {
             // add cotationTable
             cell = createCell(new PdfPCell(cotationTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.BOX);
             cell.setColspan(5);
+            cell.setPadding(3);
             table.addCell(cell);
 
             // add table to transaction
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                 contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                tranTable.addCell(createContentCell(contentTable));
+                tranTable.addCell(new PdfPCell(contentTable));
                 addTransactionToDoc();
             }
         }
@@ -246,7 +249,7 @@ public class PDFDermatologyLeprosyFollowup extends PDFGeneralBasic {
         // detoriation
         String detoriation = "";
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LEPROSYFOLLOWUP_DETORIATION");
-        if(itemValue.length() > 0) detoriation+= getTran("web","itemValue");
+        if(itemValue.length() > 0) detoriation+= getTran("web",itemValue);
 
         // detoriation.since
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LEPROSYFOLLOWUP_DETORIATION_SINCE");
@@ -268,7 +271,7 @@ public class PDFDermatologyLeprosyFollowup extends PDFGeneralBasic {
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
             contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-            tranTable.addCell(createContentCell(contentTable));
+            tranTable.addCell(new PdfPCell(contentTable));
             addTransactionToDoc();
         }
     }

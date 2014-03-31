@@ -253,6 +253,11 @@ public class OfficialPDFCreator extends PDFCreator {
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_GROWTH_GRAPH_5_TO_20_YEAR")){
             loadTransactionOfType("PDFOfficialGrowthGraph5To20Year",false);
         }
+        // generic transaction
+        else {
+        	Debug.println("Transaction of type '"+transactionVO.getTransactionType()+"' is not supported by OfficialPDFCreator");
+            loadTransactionOfType("PDFGenericTransaction",false);
+        }
     }
 
     //--- LOAD TRANSACTION OF TYPE ----------------------------------------------------------------

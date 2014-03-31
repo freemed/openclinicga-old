@@ -51,7 +51,7 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
         try{
             Iterator transactions = MedwanQuery.getInstance().getVaccinations(sessionContainerWO.getHealthRecordVO().getHealthRecordId().intValue()).iterator();
             if(transactions.hasNext()){
-                table = new PdfPTable(5);
+                table = new PdfPTable(10);
 
                 // declarations
                 String activeVaccination = "";
@@ -74,11 +74,11 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
 
                     if(!headerAdded){
                         // header
-                        table.addCell(createHeaderCell(getTran("web","type"),1));
+                        table.addCell(createHeaderCell(getTran("web","type"),2));
                         table.addCell(createHeaderCell(getTran("web","date"),1));
                         table.addCell(createHeaderCell(getTran("web","status"),1));
-                        table.addCell(createHeaderCell(getTran("web","comment"),1));
-                        table.addCell(createHeaderCell(getTran("web.occup","be.mxs.healthrecord.vaccination.next"),1));
+                        table.addCell(createHeaderCell(getTran("web","comment"),4));
+                        table.addCell(createHeaderCell(getTran("web.occup","be.mxs.healthrecord.vaccination.next"),2));
 
                         headerAdded = true;
                     }
@@ -104,7 +104,7 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
                         }
 
                         cell.setBorder(border+PdfPCell.LEFT);
-                        cell.setColspan(1);
+                        cell.setColspan(2);
                         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         cell.setBorderColor(BaseColor.LIGHT_GRAY);
                         table.addCell(cell);
@@ -112,7 +112,7 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
                         // VACCINATION_DATE / VACCINATION_STATUS / COMMENT
                         table.addCell(createCell(new PdfPCell(new Paragraph(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_DATE),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
                         table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_STATUS)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
-                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_COMMENT)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
+                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_COMMENT)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),4,PdfPCell.ALIGN_MIDDLE,border));
 
                         // NEXT DATE
                         if(bShowNext){
@@ -135,7 +135,7 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
                             cell = new PdfPCell();
                         }
 
-                        cell.setColspan(1);
+                        cell.setColspan(2);
                         cell.setBorder(border+PdfPCell.RIGHT);
                         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         cell.setBorderColor(BaseColor.LIGHT_GRAY);

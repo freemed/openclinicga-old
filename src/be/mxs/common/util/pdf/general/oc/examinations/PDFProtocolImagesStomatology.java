@@ -24,22 +24,24 @@ public class PDFProtocolImagesStomatology extends PDFGeneralBasic {
                     StringBuffer sTmpImagesInformation = new StringBuffer(sImagesInformation);
                     String sTmpType, sTmpNomenclature, sTmpResultsRx;
 
-                    while (sTmpImagesInformation.toString().toLowerCase().indexOf("$")>-1) {
+                    while(sTmpImagesInformation.toString().toLowerCase().indexOf("$")>-1) {
                         sTmpType = "";
-                        if (sTmpImagesInformation.toString().toLowerCase().indexOf("£")>-1){
+                        if(sTmpImagesInformation.toString().toLowerCase().indexOf("£")>-1){
                             sTmpType = sTmpImagesInformation.substring(0,sTmpImagesInformation.toString().toLowerCase().indexOf("£"));
                             sTmpImagesInformation = new StringBuffer(sTmpImagesInformation.substring(sTmpImagesInformation.toString().toLowerCase().indexOf("£")+1));
                         }
 
                         sTmpNomenclature  = "";
-                        if (sTmpImagesInformation.toString().toLowerCase().indexOf("£")>-1){
+                        if(sTmpImagesInformation.toString().toLowerCase().indexOf("£")>-1){
                             sTmpNomenclature = sTmpImagesInformation.substring(0,sTmpImagesInformation.toString().toLowerCase().indexOf("£"));
+                            sTmpNomenclature = sTmpNomenclature.replaceAll("<br>","\n");
                             sTmpImagesInformation = new StringBuffer(sTmpImagesInformation.substring(sTmpImagesInformation.toString().toLowerCase().indexOf("£")+1));
                         }
 
                         sTmpResultsRx = "";
-                        if (sTmpImagesInformation.toString().toLowerCase().indexOf("$")>-1){
+                        if(sTmpImagesInformation.toString().toLowerCase().indexOf("$")>-1){
                             sTmpResultsRx = sTmpImagesInformation.substring(0,sTmpImagesInformation.toString().toLowerCase().indexOf("$"));
+                            sTmpResultsRx = sTmpResultsRx.replaceAll("<br>","\n");
                             sTmpImagesInformation = new StringBuffer(sTmpImagesInformation.substring(sTmpImagesInformation.toString().toLowerCase().indexOf("$")+1));
                         }
 
@@ -63,7 +65,7 @@ public class PDFProtocolImagesStomatology extends PDFGeneralBasic {
                         table.addCell(cell);
                     }
                     
-                    addItemRow(table,getTran("openclinic.chuk","conclusion"),itemValue);
+                    addItemRow(table,getTran("openclinic.chuk","conclusion"),itemValue.replaceAll("<br>","\n"));
                 }
 
                 // add table
@@ -74,6 +76,9 @@ public class PDFProtocolImagesStomatology extends PDFGeneralBasic {
                 }
 
                 // add transaction to doc
+                addTransactionToDoc();
+
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }

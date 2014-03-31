@@ -21,10 +21,8 @@ public class PDFMedicalCare extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     tranTable.addCell(createContentCell(table));
+                    addTransactionToDoc();
                 }
-
-                // add transaction to doc
-                addTransactionToDoc();
             }
         }
         catch(Exception e){

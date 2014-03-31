@@ -30,6 +30,14 @@ public class PDFMedicalImagingRequest2 extends PDFGeneralBasic {
 
     //--- ADD MIR ---------------------------------------------------------------------------------
     private void addMIR(String itemIdx, int realIdx){
+    	int typeIdx = -1;
+    	try{
+            typeIdx = Integer.parseInt(getItemValue(IConstants_PREFIX+"ITEM_TYPE_MIR2_TYPE"+itemIdx));
+    	}
+    	catch(Exception e){
+    		return;
+    	}
+    	
         // above the first MIR : print the RX number
         if(realIdx == 1){
             contentTable = new PdfPTable(1);
@@ -45,7 +53,7 @@ public class PDFMedicalImagingRequest2 extends PDFGeneralBasic {
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                 contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                tranTable.addCell(createContentCell(contentTable));
+                tranTable.addCell(new PdfPCell(contentTable));
             }
         }
         
@@ -61,9 +69,7 @@ public class PDFMedicalImagingRequest2 extends PDFGeneralBasic {
         list.add(IConstants_PREFIX+"ITEM_TYPE_OTHER_REQUESTS_PRESTATION"+itemIdx);
         list.add(IConstants_PREFIX+"ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON"+itemIdx);
         list.add(IConstants_PREFIX+"ITEM_TYPE_OTHER_REQUESTS_VALIDATION"+itemIdx);
-
-        int typeIdx = Integer.parseInt(getItemValue(IConstants_PREFIX+"ITEM_TYPE_MIR2_TYPE"+itemIdx));
-
+        
         if(verifyList(list) && typeIdx > 0){
             contentTable = new PdfPTable(1);
             table = new PdfPTable(5);
@@ -74,7 +80,12 @@ public class PDFMedicalImagingRequest2 extends PDFGeneralBasic {
             // type
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_MIR2_TYPE"+itemIdx);
             if(itemValue.length() > 0){
-                addItemRow(table,getTran("Web.Occup",IConstants_PREFIX+"ITEM_TYPE_MIR_TYPE"),getTran("mir_type",""+Integer.parseInt(itemValue)));
+            	int typeId = Integer.parseInt(itemValue);
+            	String sLabelId = "";
+            	if(typeId <= 9) sLabelId = "0";
+            	sLabelId+= typeId;
+            	
+                addItemRow(table,getTran("Web.Occup",IConstants_PREFIX+"ITEM_TYPE_MIR_TYPE"),getTran("mir_type",sLabelId));
             }
 
             // specification
@@ -113,10 +124,10 @@ public class PDFMedicalImagingRequest2 extends PDFGeneralBasic {
                 addItemRow(table,getTran("Web.Occup","medwan.healthrecord.executionby"),getTran("web.occup","medwan.common.yes").toLowerCase());
             }
 
-            // prestation reason
+            // prestation reason (exam not performed)
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON"+itemIdx);
             if(itemValue.length() > 0){
-                addItemRow(table,getTran("Web.Occup","medwan.common.reason"),getTran("web.occup",itemValue));
+                addItemRow(table,getTran("Web.Occup","medwan.common.notPerformedReason"),getTran("web.occup",itemValue));
             }
 
             // prestation validated

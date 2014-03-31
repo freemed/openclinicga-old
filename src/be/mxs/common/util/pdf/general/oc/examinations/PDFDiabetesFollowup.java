@@ -36,14 +36,28 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
     protected void addContent(){
         try{
             if(transactionVO.getItems().size() >= minNumberOfItems){
-                addGlycemy();
-
-                addGlucosurieAndHba1c();
-                addInsuline();
+                contentTable = new PdfPTable(1);
+                table = new PdfPTable(5);
                 
+                addGlycemy();
+                addGlucosurieAndHba1c();
+
+                // add table to transaction
+                if(table.size() > 0){
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
+                    tranTable.addCell(createContentCell(contentTable));
+                }
+                
+                addInsuline();                
                 addDiet();
+                
+                addTransactionToDoc();
 
                 addGraphs();
+                addTransactionToDoc();
+
+                addDiagnosisEncoding();
+                addTransactionToDoc();
             }
         }
         catch(Exception e){
@@ -63,9 +77,6 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
         list.add(IConstants_PREFIX+"ITEM_TYPE_DIABETES_FOLLOWUP_GLYCEMY_REMARK");
 
         if(verifyList(list)){
-            contentTable = new PdfPTable(1);
-            table = new PdfPTable(5);
-
             // title
             table.addCell(createTitleCell(getTran("web.occup","glycemy"),5));
 
@@ -120,14 +131,6 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             if(itemValue.length() > 0){
                 addItemRow(table,getTran("web","remark"),itemValue);
             }
-
-            // add table to transaction
-            if(table.size() > 0){
-                if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                tranTable.addCell(createContentCell(contentTable));
-                addTransactionToDoc();
-            }
         }
     }
 
@@ -139,11 +142,9 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
         list.add(IConstants_PREFIX+"ITEM_TYPE_DIABETES_FOLLOWUP_GLYCOSERIE_EVENING");
 
         if(verifyList(list)){
-            contentTable = new PdfPTable(1);
-            table = new PdfPTable(5);
-
             PdfPTable glucosurieTable = new PdfPTable(5);
 
+            //*** glucosurie ***
             // morning_sober
             cell = createItemNameCell(getTran("diabetes","morning_sober"),2);
             cell.setBackgroundColor(BGCOLOR_LIGHT);
@@ -174,17 +175,10 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                 table.addCell(createCell(new PdfPCell(glucosurieTable),3,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
             }
 
-            // hba 1c
+            //*** hba 1c ***
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_DIABETES_FOLLOWUP_HBA1C");
             if(itemValue.length() > 0){
                 addItemRow(table,getTran("diabetes","hba1c"),itemValue+" "+getTran("units","ml"));
-            }
-
-            // add table to transaction
-            if(table.size() > 0){
-                if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                tranTable.addCell(createContentCell(contentTable));
             }
         }
     }
@@ -264,7 +258,6 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                 contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
-                addTransactionToDoc();
             }
         }
     }
@@ -375,7 +368,6 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                 contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
                 tranTable.addCell(createContentCell(contentTable));
-                addTransactionToDoc();
             }
         }
     }
@@ -389,19 +381,15 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                 String sGlycemyUnit  = MedwanQuery.getInstance().getConfigString("glycemyUnit","mg / dl"),
                        sInsulineUnit = MedwanQuery.getInstance().getConfigString("insulineUnit","lU");
 
-                contentTable = new PdfPTable(1);
-                table = new PdfPTable(5);
-
                 // begin date
                 Calendar defaultBeginDate = new GregorianCalendar();
                 defaultBeginDate.add(Calendar.MONTH,-1); // from : default one month ago
 
                 boolean titleShown = false;
 
-                // todo : GLYCEMY GRAPH
                 //*** GLYCEMY GRAPH ***
                 // get data from one month ago untill now
-                Calendar now = new GregorianCalendar();// until
+                Calendar now = new GregorianCalendar(); // until
                 Hashtable glyDatesAndValues = MedwanQuery.getGlycemyShots(patient.personid,defaultBeginDate.getTime(),now.getTime());
 
                 if(glyDatesAndValues.size() > 0){
@@ -416,9 +404,10 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
 
                         titleShown = true;
                     }
-
-                    // spacer
-                    table.addCell(emptyCell(5));
+                    else{
+                        // spacer
+                        table.addCell(emptyCell(5));
+                    }
 
                     // graph title
                     table.addCell(createHeaderCell(getTran("web.occup","glycemy"),5));
@@ -428,15 +417,10 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     table.addCell(cell);
 
                     // add table
-                    if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
-
-                    // add transaction to doc
-                    addTransactionToDoc();
                 }
 
-                // todo : INSULINE GRAPH - RAPID
                 //*** 1st INSULINE GRAPH - RAPID ***
                 // get data from one month ago untill now
                 Hashtable insDatesAndValues = MedwanQuery.getInsulineShots(patient.personid,"RAPID",defaultBeginDate.getTime(),now.getTime());
@@ -451,9 +435,6 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                         table.addCell(createTitleCell(getTran("web","graphs"),5));
                         addItemRow(table,getTran("web","begindate"),new SimpleDateFormat("dd/MM/yyyy").format(defaultBeginDate.getTime()));
 
-                        // spacer
-                        table.addCell(emptyCell(5));
-
                         titleShown = true;
                     }
 
@@ -465,15 +446,10 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     table.addCell(cell);
 
                     // add table
-                    if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
-
-                    // add transaction to doc
-                    addTransactionToDoc();
                 }
 
-                // todo : INSULINE GRAPH - SEMI RAPID
                 //*** 2nd INSULINE GRAPH - SEMI RAPID ***
                 // get data from one month ago untill now
                 insDatesAndValues = MedwanQuery.getInsulineShots(patient.personid,"SEMIRAPID",defaultBeginDate.getTime(),now.getTime());
@@ -488,9 +464,6 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                         table.addCell(createTitleCell(getTran("web","graphs"),5));
                         addItemRow(table,getTran("web","begindate"),new SimpleDateFormat("dd/MM/yyyy").format(defaultBeginDate.getTime()));
 
-                        // spacer
-                        table.addCell(emptyCell(5));
-
                         titleShown = true;
                     }
 
@@ -502,15 +475,10 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     table.addCell(cell);
 
                     // add table
-                    if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
-
-                    // add transaction to doc
-                    addTransactionToDoc();
                 }
 
-                // todo : INSULINE GRAPH - SLOW
                 //*** 3rd INSULINE GRAPH - SLOW ***
                 // get data from one month ago untill now
                 insDatesAndValues = MedwanQuery.getInsulineShots(patient.personid,"SLOW",defaultBeginDate.getTime(),now.getTime());
@@ -525,8 +493,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                         table.addCell(createTitleCell(getTran("web","graphs"),5));
                         addItemRow(table,getTran("web","begindate"),new SimpleDateFormat("dd/MM/yyyy").format(defaultBeginDate.getTime()));
 
-                        // spacer
-                        table.addCell(emptyCell(5));
+                        titleShown = true;
                     }
 
                     // graph title
@@ -537,12 +504,8 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     table.addCell(cell);
 
                     // add table
-                    if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(createContentCell(contentTable));
-
-                    // add transaction to doc
-                    addTransactionToDoc();
                 }
             }
             catch(Exception e){
@@ -566,13 +529,13 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                aValues = new Vector();
 
         // concatenate vector-content to use in JS below
-        for (int i=0; i<dates.size(); i++) {
+        for(int i=0; i<dates.size(); i++){
             date = (java.util.Date)dates.get(i);
             value = (String)graphData.get(date);
             sGlyEndDate = checkString(fullDateFormat.format(date));
 
             // keep notice of the earlyest date
-            if (sGlyBeginDate.trim().length() == 0) {
+            if(sGlyBeginDate.trim().length()==0){
                 sGlyBeginDate = sGlyEndDate;
             }
 

@@ -78,6 +78,10 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
                 addBiometrie();
                 addOther();
                 addTransactionToDoc();
+
+                // diagnoses
+                addDiagnosisEncoding();
+                addTransactionToDoc();
             }
         }
         catch(Exception e){
@@ -85,8 +89,10 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
         }
     }
 
-
+    
+    //#############################################################################################
     //### PRIVATE METHODS #########################################################################
+    //#############################################################################################
 
     //--- ADD PROBLEMS ----------------------------------------------------------------------------
     private void addProblems(){
@@ -121,6 +127,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
         }
     }
 
+    /*
     //--- ADD PROBLEMLIST -------------------------------------------------------------------------
     private void addProblemList(){
         if(verifyList(listProblems)){
@@ -173,6 +180,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             }
         }
     }
+    */
 
     //--- ADD VITAL SIGNS -------------------------------------------------------------------------
     private void addVitalSigns(){
@@ -197,7 +205,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             String bloodpressure = sysRight+" / "+sysLeft+" mmHg";
 
             if(sysRight.length() > 0 || sysLeft.length() > 0){
-                addItemRow(table,getTran("Web.Occup","medwan.healthrecord.cardial.pression-arterielle"),bloodpressure);
+                addItemRow(table,getTran("web.occup","medwan.healthrecord.cardial.pression-arterielle"),bloodpressure);
                 itemCount++;
             }
 
@@ -258,7 +266,8 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
                     itemValue = getTran(itemValue);
                 }
 
-                addItemRow(table,getTran(IConstants_PREFIX+"ITEM_TYPE_URINE_ALBUMINE"),itemValue);
+                table.addCell(createItemNameCell(getTran(IConstants_PREFIX+"ITEM_TYPE_URINE_ALBUMINE"),2));
+                table.addCell(createValueCell(itemValue,8));
             }
 
             // glucose
@@ -271,7 +280,8 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
                     itemValue = getTran(itemValue);
                 }
 
-                addItemRow(table,getTran(IConstants_PREFIX+"ITEM_TYPE_URINE_GLUCOSE"),itemValue);
+                table.addCell(createItemNameCell(getTran(IConstants_PREFIX+"ITEM_TYPE_URINE_GLUCOSE"),2));
+                table.addCell(createValueCell(itemValue,8));
             }
 
             // blood
@@ -284,7 +294,8 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
                     itemValue = getTran(itemValue);
                 }
 
-                addItemRow(table,getTran(IConstants_PREFIX+"ITEM_TYPE_URINE_BLOOD"),itemValue);
+                table.addCell(createItemNameCell(getTran(IConstants_PREFIX+"ITEM_TYPE_URINE_BLOOD"),2));
+                table.addCell(createValueCell(itemValue,8));
             }
 
             // add table
@@ -301,29 +312,31 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
         if(verifyList(listBio)){
             contentTable = new PdfPTable(1);
             table = new PdfPTable(5);
+            int cellCount = 0;
 
             // title
             table.addCell(createTitleCell(getTran(IConstants_PREFIX+"TRANSACTION_TYPE_BIOMETRY"),5));
-
-            table.addCell(createItemNameCell(getTran(IConstants_PREFIX+"TRANSACTION_TYPE_BIOMETRY"),2));
 
             // WEIGHT (on one row)
             String weight = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT");
             if(weight.length() > 0){
                 table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT")+": "+weight+" "+getTran("unit","kg"),1));
+                cellCount++;
             }
 
             // HEIGHT (on one row)
             String height = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT");
             if(height.length() > 0){
                 table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT")+": "+height+" "+getTran("unit","cm"),1));
+                cellCount++;
             }
 
-            // BMI (calculated) (on one row)
+            // BMI (calculated) 
             if(weight.length()>0 && height.length()>0){
                 DecimalFormat deci = new DecimalFormat("0.0");
                 Float bmi = new Float(Float.parseFloat(weight.replaceAll(",","."))*10000 / (Float.parseFloat(height.replaceAll(",",".")) * Float.parseFloat(height.replaceAll(",","."))));
                 table.addCell(createValueCell("BMI: "+deci.format(bmi),1));
+                cellCount++;
             }
 
             /*
@@ -331,14 +344,21 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_MUSSCLE_TYPE");
             if(itemValue.length() > 0){
                 addItemRow(table,getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_MUSSCLE_TYPE"),getTran(itemValue));
+                cellCount++;
             }
 
             // FAT TYPE
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_FAT_TYPE");
             if(itemValue.length() > 0){
                 addItemRow(table,getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_FAT_TYPE"),getTran(itemValue));
+                cellCount++;
             }
             */
+
+            // even out cells
+            if(cellCount > 0){
+            	table.addCell(emptyCell(5-cellCount));
+            }
 
             // add table
             if(table.size() > 1){
@@ -357,7 +377,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             int itemCount = 0;
 
             // title
-            table.addCell(createTitleCell(getTran("openclinic.chuk","other"),5));
+            table.addCell(createTitleCell(getTran("openclinic.chuk","other"),10));
             
             // diuresis.24h
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_NURSE_DIURESIS24");
@@ -404,7 +424,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             // bedsore.prevention
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_SURV_SCARR");
             if(itemValue.length() > 0){
-                addItemRow(table,getTran("Web.Occup","bedsore.prevention"),itemValue);
+                addItemRow(table,getTran("web.occup","bedsore.prevention"),itemValue);
                 itemCount++;
             }
 
@@ -432,9 +452,14 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
         }
     }
 
+    
+    //##############################################################################################
+    //### UTILITY FUNCTIONS ########################################################################
+    //##############################################################################################
+    
     //--- CREATE CONTENT CELL ----------------------------------------------------------------------
     protected PdfPCell createContentCell(String value){
-        cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA,7, Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setColspan(1);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);

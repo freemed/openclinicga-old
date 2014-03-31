@@ -79,8 +79,31 @@ public class ScreenHelper {
             sValue = sFirstLetter+sValue.substring(1);
         }
         
-        return sValue; 
+        return sValue;        
+    }
+    
+    //--- BOLD FIRST LETTER -----------------------------------------------------------------------
+    // html
+    public static String boldFirstLetter(String sValue){
+        String sFirstLetter;
+        if(sValue.length() > 0){
+            sFirstLetter = sValue.substring(0,1).toUpperCase();
+            sValue = "<b>"+sFirstLetter+"</b>"+sValue.substring(1);
+        }
         
+        return sValue;        
+    }
+    
+    //--- COUNT MATCHES IN STRING -----------------------------------------------------------------
+    public static int countMatchesInString(String sText, String sTarget){
+        int count = 0;
+
+        while(sText.indexOf(sTarget) > -1){
+            sText = sText.substring(sText.indexOf(sTarget)+sTarget.length());
+            count++;
+        }
+
+        return count;
     }
     
     //--- GET PRICE FORMAT ------------------------------------------------------------------------
@@ -1724,13 +1747,6 @@ public class ScreenHelper {
         }
         return sReturn;
     }
-
-    public static String getFullUserName(String userId){
-    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
-    	String s = getFullUserName(userId, conn);
-    	closeQuietly(conn, null, null);
-    	return s;
-    }
     
     public static String getPrestationGroupOptions(){
     	StringBuffer s=new StringBuffer();
@@ -1753,9 +1769,28 @@ public class ScreenHelper {
 		return s.toString();
     }
     
-    //--- GET FULL USER NAME ----------------------------------------------------------------------
+    //--- GET FULL USER NAME (1) ------------------------------------------------------------------
+    // no connection specified 
+    public static String getFullUserName(String userId){
+    	String sName = "";
+    	
+    	try{
+	    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+	        sName = getFullUserName(userId,conn);
+	    	closeQuietly(conn,null,null);
+    	}
+    	catch(Exception e){
+    		Debug.printStackTrace(e);
+    	}
+    	
+        return sName;
+    }
+
+    //--- GET FULL USER NAME (2) ------------------------------------------------------------------
+    // connection specified 
     public static String getFullUserName(String userId, Connection conn){
         String fullName = "";
+        
         if(userId!=null && userId.length()>0){
         	PreparedStatement ps = null;
 	        ResultSet rs = null;
@@ -1786,6 +1821,7 @@ public class ScreenHelper {
 	            }
 	        }
         }
+        
         return fullName;
     }
 
@@ -2028,11 +2064,13 @@ public class ScreenHelper {
     	Vector exams = (Vector)MedwanQuery.getInstance().getServiceexaminations().get(serviceId+"."+language); 
     	if(exams==null){
 	        exams = new Vector();
+	        
 	        Service service = Service.getService(serviceId);
 	        if(service!=null && service.comment.indexOf("NOEXAMS")<0){
 		        PreparedStatement ps = null;
 		        ResultSet rs = null;
 		        String sSelect, examIds = "";
+		        
 		        //*** get examination ids of examinations linked to the service ***
 		        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		        try{

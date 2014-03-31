@@ -55,10 +55,12 @@ public class PDFOphtalmologyOperationProtocol extends PDFGeneralBasic {
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    tranTable.addCell(new PdfPCell(contentTable));
                 }
 
+                //*************************************************************
                 //*** EYE-REMARKS *********************************************
+                //*************************************************************
                 contentTable = new PdfPTable(1);
                 PdfPTable eyesTable = new PdfPTable(7);
                 String itemValueRight, itemValueLeft;
@@ -143,14 +145,17 @@ public class PDFOphtalmologyOperationProtocol extends PDFGeneralBasic {
 
                 // add transaction to doc
                 addTransactionToDoc();
+
+                //*************************************************************
+                //*** diagnoses ***********************************************
+                //*************************************************************
+                addDiagnosisEncoding();
+                addTransactionToDoc();
             }
         }
         catch(Exception e){
             e.printStackTrace();
         }
     }
-
-
-    //### PRIVATE METHODS #########################################################################
 
 }

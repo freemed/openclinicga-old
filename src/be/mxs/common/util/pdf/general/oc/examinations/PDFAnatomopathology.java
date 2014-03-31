@@ -4,11 +4,6 @@ import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
 
-
-/**
- * User: ssm
- * Date: 23-jul-2007
- */
 public class PDFAnatomopathology extends PDFGeneralBasic {
 
     //--- ADD CONTENT -----------------------------------------------------------------------------
@@ -17,13 +12,19 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
             if(transactionVO.getItems().size() >= minNumberOfItems){
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(5);
+                
+                // identificationumber
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_IDENTIFICATION_NUMBER");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","identificationumber"),itemValue);
+                }
 
                 // nature
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_NATURE");
                 if(itemValue.length() > 0){
                     addItemRow(table,getTran("openclinic.chuk","nature"),itemValue);
                 }
-
+                
                 // sample_date
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_SAMPLE_DATE");
                 if(itemValue.length() > 0){
@@ -52,9 +53,11 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
-                    addTransactionToDoc();
+                    tranTable.addCell(new PdfPCell(contentTable));
                 }
+
+                // add transaction to doc
+                addTransactionToDoc();
             }
         }
         catch(Exception e){

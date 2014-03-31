@@ -1170,6 +1170,7 @@ public class GeneralPDFCreator extends PDFCreator {
         }
         // generic transaction
         else {
+        	Debug.println("Transaction of type '"+transactionVO.getTransactionType()+"' is not supported by chuk/GeneralPDFCreator");
             loadTransactionOfType("PDFGenericTransaction",transactionVO,partsOfTransactionToPrint);
         }
     }

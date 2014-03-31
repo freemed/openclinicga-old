@@ -6,7 +6,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 
 
-public class PDFEMG extends PDFGeneralBasic {
+public class PDFEvokedPotentials extends PDFGeneralBasic {
 
     //--- ADD CONTENT ------------------------------------------------------------------------------
     protected void addContent(){
@@ -15,54 +15,53 @@ public class PDFEMG extends PDFGeneralBasic {
                 table = new PdfPTable(5);
 
                 // clinical data
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EMG_CLINICALDATA");
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EP_CLINICALDATA");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("web","emg.clinicaldata"),itemValue);
+                    addItemRow(table,getTran("web","ep.clinicaldata"),itemValue);
                 }
 
                 // study modality
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EMG_STUDY_MODALITY");
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EP_STUDY_MODALITY");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("web","emg.studymodality"),itemValue.equalsIgnoreCase("medwan.common.not-executed")?getTran("web.occup","medwan.common.not-executed"):getTran("web",itemValue));
+                    addItemRow(table,getTran("web","ep.studymodality"),itemValue.equalsIgnoreCase("medwan.common.not-executed")?getTran("web.occup","medwan.common.not-executed"):getTran("web",itemValue));
                 }
 
                 // results
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EMG_RESULTS");
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EP_RESULTS");
                 if(itemValue.length() > 0){
                     addItemRow(table,getTran("web","results"),itemValue.equalsIgnoreCase("medwan.results.normal")?getTran("web","medwan.results.normal"):getTran("web","medwan.results.abnormal"));
                 }
 
                 //*** DESCRIPTION ***
                 Vector itemList = new Vector();
-                itemList.add(IConstants_PREFIX+"ITEM_TYPE_EMG_TECHNICAL_REPORT");
-                itemList.add(IConstants_PREFIX+"ITEM_TYPE_EMG_RESULTS_DESCRIPTION");
-                itemList.add(IConstants_PREFIX+"ITEM_TYPE_EMG_STUDIED_MUSCLES");
-                itemList.add(IConstants_PREFIX+"ITEM_TYPE_EMG_CONCLUSION");
+                itemList.add(IConstants_PREFIX+"ITEM_TYPE_EP_TECHNICAL_REPORT");
+                itemList.add(IConstants_PREFIX+"ITEM_TYPE_EP_RESULTS_DESCRIPTION");
+                itemList.add(IConstants_PREFIX+"ITEM_TYPE_EP_CONCLUSION");
                 
                 if(verifyList(itemList)){
 	                cell = createHeaderCell(getTran("web.occup","medwan.healthrecord.description"), 5);
 	                table.addCell(cell);
 	
 	                // technical report
-	                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EMG_TECHNICAL_REPORT");
+	                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EP_TECHNICAL_REPORT");
 	                if(itemValue.length() > 0){
 	                    addItemRow(table,getTran("web","technical.report"),itemValue);
 	                }
 	
 	                // results description
-	                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EMG_RESULTS_DESCRIPTION");
+	                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EP_RESULTS_DESCRIPTION");
 	                if(itemValue.length() > 0){
 	                    addItemRow(table,getTran("web","results"),itemValue);
 	                }
 	
 	                // studied muscles
-	                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EMG_STUDIED_MUSCLES");
+	                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EP_STUDIED_MUSCLES");
 	                if(itemValue.length() > 0){
 	                    addItemRow(table,getTran("web","studied.muscles"),itemValue);
 	                }
 	
 	                // conclusion
-	                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EMG_CONCLUSION");
+	                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_EP_CONCLUSION");
 	                if(itemValue.length() > 0){
 	                    addItemRow(table,getTran("web","conclusion"),itemValue);
 	                }
@@ -86,4 +85,3 @@ public class PDFEMG extends PDFGeneralBasic {
     }
 
 }
-

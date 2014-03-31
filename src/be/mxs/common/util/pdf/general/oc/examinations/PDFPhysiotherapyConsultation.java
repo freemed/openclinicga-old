@@ -4,11 +4,6 @@ import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
 
-
-/**
- * User: ssm
- * Date: 23-jul-2007
- */
 public class PDFPhysiotherapyConsultation extends PDFGeneralBasic {
 
     //--- ADD CONTENT -----------------------------------------------------------------------------
@@ -64,10 +59,11 @@ public class PDFPhysiotherapyConsultation extends PDFGeneralBasic {
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    tranTable.addCell(new PdfPCell(contentTable));
+                    addTransactionToDoc();
                 }
 
-                // add transaction to doc
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }

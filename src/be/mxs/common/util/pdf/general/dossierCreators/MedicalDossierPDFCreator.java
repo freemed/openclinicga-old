@@ -182,34 +182,34 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
                 printAdminFamilyRelations(patient); // 3
             }
             if(sections[sectionIdx++]){
-                printActiveInsurances(sessionContainerWO,patient); // 4
+                printActiveInsurances(patient); // 4
             }  
             if(sections[sectionIdx++]){
-                printInsuranceHistory(sessionContainerWO,patient); // 5
+                printInsuranceHistory(patient); // 5
             }
             if(sections[sectionIdx++]){
-                printActiveDrugPrescriptions(sessionContainerWO,patient); // 6
+                printActiveDrugPrescriptions(patient); // 6
             }
             if(sections[sectionIdx++]){
-                printActiveCarePrescriptions(sessionContainerWO,patient); // 7
+                printActiveCarePrescriptions(patient); // 7
             }
             if(sections[sectionIdx++]){
                 printVaccinations(sessionContainerWO,patient); // 8
             }
             if(sections[sectionIdx++]){
-                printProblemList(sessionContainerWO,patient); // 9
+                printProblemList(patient); // 9
             }                        
             if(sections[sectionIdx++]){
-                printActiveDiagnoses(sessionContainerWO,patient); // 10
+                printActiveDiagnoses(patient); // 10
             }
             if(sections[sectionIdx++]){
-                printActiveAppointments(sessionContainerWO,patient); // 11
+                printActiveAppointments(patient); // 11
             }
             if(sections[sectionIdx++]){
-                printActiveEncounter(sessionContainerWO,patient); // 12
+                printActiveEncounter(patient); // 12
             }
             if(sections[sectionIdx++]){
-                printEncounterHistory(sessionContainerWO,patient); // 13
+                printEncounterHistory(patient); // 13
             }
             if(sections[sectionIdx++]){
                 printWarnings(sessionContainerWO); // 14 : not in jsp
@@ -297,7 +297,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     }    
     
     //--- PRINT ACTIVE DRUG PRESCRIPTIONS (medication) --------------------------------------------
-    protected void printActiveDrugPrescriptions(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {  
+    protected void printActiveDrugPrescriptions(AdminPerson activePatient) throws Exception {  
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
         
@@ -493,7 +493,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     }
             
     //--- PRINT ACTIVE CARE PRESCRIPTIONS ---------------------------------------------------------
-    protected void printActiveCarePrescriptions(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {
+    protected void printActiveCarePrescriptions(AdminPerson activePatient) throws Exception {
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
 
@@ -640,7 +640,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     }
     
     //--- PRINT PROBLEM LIST (active problems) ----------------------------------------------------
-    protected void printProblemList(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {
+    protected void printProblemList(AdminPerson activePatient) throws Exception {
         table = new PdfPTable(5);
         table.setWidthPercentage(pageWidth);
 
@@ -695,7 +695,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     }
 
     //--- PRINT ACTIVE DIAGNOSES ------------------------------------------------------------------
-    protected void printActiveDiagnoses(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {
+    protected void printActiveDiagnoses(AdminPerson activePatient) throws Exception {
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
         
@@ -739,7 +739,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     }
 
     //--- PRINT ACTIVE APPOINTMENTS ---------------------------------------------------------------
-    protected void printActiveAppointments(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {
+    protected void printActiveAppointments(AdminPerson activePatient) throws Exception {
         table = new PdfPTable(20);
         table.setWidthPercentage(pageWidth);
 
@@ -847,7 +847,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     }
     
     //--- PRINT ACTIVE ENCOUNTER ------------------------------------------------------------------
-    protected void printActiveEncounter(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {                        
+    protected void printActiveEncounter(AdminPerson activePatient) throws Exception {                        
         table = new PdfPTable(5);
         table.setWidthPercentage(pageWidth);
 
@@ -975,7 +975,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     */
     
     //--- PRINT ENCOUNTER HISTORY -----------------------------------------------------------------
-    protected void printEncounterHistory(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {
+    protected void printEncounterHistory(AdminPerson activePatient) throws Exception {
     	// fetch UIDs of encounters to display, from parameters
     	Vector encounterUIDsToBePrinted = new Vector();
         Enumeration paramEnum = req.getParameterNames();
@@ -1446,6 +1446,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
         }
         // generic transaction
         else{
+        	Debug.println("Transaction of type '"+transactionVO.getTransactionType()+"' is not supported by dossierCreators/MedicalDossierPDFCreator");
             loadTransactionOfType("PDFGenericTransaction",transactionVO,partsOfTransactionToPrint);
         }
     }
