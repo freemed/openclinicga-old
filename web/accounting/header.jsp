@@ -29,7 +29,7 @@
         <td width="100%" valign='top' align="left">
             <table width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr onmousedown="checkDropdown(event);">
-                    <td class="menu_bar" valign="top"  colspan="3">
+                    <td class="menu_bar" style="vertical-align:top;"  colspan="3">
                         <%ScreenHelper.setIncludePage(customerInclude("/accountancy/dropdownmenu.jsp"), pageContext);%>
                     </td>
 
