@@ -1,48 +1,51 @@
-<%@ page import="be.openclinic.medical.LabAnalysis,be.openclinic.medical.LabProfile" %>
-<%@ page import="java.util.*" %>
+<%@page import="be.openclinic.medical.LabAnalysis,
+                be.openclinic.medical.LabProfile"%>
+<%@page import="java.util.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%!
     //--- WRITE ROW -------------------------------------------------------------------------------
-    private String writeRow(String sType, String sCode, String sLabel, String sCodeOther, String sComment,int unavailable, int iTotal,String language){
+    private String writeRow(String sType, String sCode, String sLabel, String sCodeOther, 
+    		                String sComment,int unavailable, int iTotal,String language){
         StringBuffer out = new StringBuffer();
 
         out.append("<tr class='"+(iTotal%2==0?"list":"list1")+"'>")
            .append(" <td><input type='checkbox' name='cb_"+iTotal+"'></td>")
            .append(" <td"+(unavailable==1?" class='strike'":"")+">"+sCode+"</td><td"+(unavailable==1?" class='strike'":"")+">"+sType+"</td><td"+(unavailable==1?" class='strike'":"")+">"+sLabel+"</td>");
 
-            if(unavailable==1){
-                out.append("<td>"+MedwanQuery.getInstance().getLabel("web.manage","labanalysis.cols.unavailable",language)+"</td>");
-            }
-            else if(sCodeOther.equals("1")){
-                out.append("<td><input type='text' id='comment"+iTotal+"' class='text' value='"+sComment+"' size='32'></td>");
-            }
-            else{
-                out.append("<td>&nbsp;</td>");
-            }
+        if(unavailable==1){
+            out.append("<td>"+MedwanQuery.getInstance().getLabel("web.manage","labanalysis.cols.unavailable",language)+"</td>");
+        }
+        else if(sCodeOther.equals("1")){
+            out.append("<td><input type='text' id='comment"+iTotal+"' class='text' value='"+sComment+"' size='32'></td>");
+        }
+        else{
+            out.append("<td>&nbsp;</td>");
+        }
 
         out.append("</tr>");
 
         return out.toString();
     }
 %>
+
 <%
-    String sVarID = checkString(request.getParameter("VarID")),
-            sVarCode = checkString(request.getParameter("VarCode")),
-            sVarType = checkString(request.getParameter("VarType")),
-            sVarText = checkString(request.getParameter("VarText"));
+    String sVarID   = checkString(request.getParameter("VarID")),
+           sVarCode = checkString(request.getParameter("VarCode")),
+           sVarType = checkString(request.getParameter("VarType")),
+           sVarText = checkString(request.getParameter("VarText"));
 
     String sSelectedLabCodes = checkString(request.getParameter("selectedLabCodes")).replaceAll(",", "','"),
-            sSearchCode = checkString(request.getParameter("FindCode")),
-            sSearchProfileID = checkString(request.getParameter("FindProfileID")),
-            sSortCol = checkString(request.getParameter("sortCol"));
+           sSearchCode       = checkString(request.getParameter("FindCode")),
+           sSearchProfileID  = checkString(request.getParameter("FindProfileID")),
+           sSortCol          = checkString(request.getParameter("sortCol"));
 
-    if (sSortCol.length() == 0) sSortCol = "code";
-
+    if(sSortCol.length()==0) sSortCol = "code";
 
     String sLabID, sLabType, sLabCode, sLabLabel, sCodeOther, sComment, sMonster;
     StringBuffer sOut = new StringBuffer(),
-            sScript = new StringBuffer();
+                 sScript = new StringBuffer();
     boolean showMsg = false;
     int iTotal = 0;
 
@@ -51,7 +54,7 @@
         Vector hLabAnalysis = LabAnalysis.searchByLabCodeForPatient(sSearchProfileID, sSelectedLabCodes, sSearchCode, sSortCol, sWebLanguage);
         LabAnalysis objLabAnalysis;
 
-        for (int n=0;n<hLabAnalysis.size();n++) {
+        for(int n=0;n<hLabAnalysis.size();n++) {
             objLabAnalysis = (LabAnalysis) hLabAnalysis.elementAt(n);
 
             iTotal++;
@@ -65,7 +68,7 @@
             sMonster = getTranNoLink("labanalysis.monster",objLabAnalysis.getMonster(),sWebLanguage);
 
             // translate labtype
-            if (sLabType.equals("1")) sLabType = getTran("Web.occup", "labanalysis.type.blood", sWebLanguage);
+                 if (sLabType.equals("1")) sLabType = getTran("Web.occup", "labanalysis.type.blood", sWebLanguage);
             else if (sLabType.equals("2")) sLabType = getTran("Web.occup", "labanalysis.type.urine", sWebLanguage);
             else if (sLabType.equals("3")) sLabType = getTran("Web.occup", "labanalysis.type.other", sWebLanguage);
             else if (sLabType.equals("4")) sLabType = getTran("Web.occup", "labanalysis.type.stool", sWebLanguage);
@@ -79,8 +82,9 @@
                     .append("'").append(sLabCode).append("',")
                     .append("'").append(sLabType).append("',")
                     .append("'").append(sLabLabel.replaceAll("\'","´")).append("',")
-                    .append("'").append(sCodeOther.replaceAll("\'","´")).append("',")
-                    .append("'").append(sMonster.replaceAll("\'","´")).append("');</script>");
+                    .append("'").append(sCodeOther).append("',")
+                    .append("'").append(sMonster).append("');")
+                   .append("</script>");
         }
 
         showMsg = true;
@@ -121,19 +125,20 @@
                     .append("'").append(sLabCode).append("',")
                     .append("'").append(sLabType).append("',")
                     .append("'").append(sLabLabel.replaceAll("\'","´")).append("',")
-                    .append("'").append(sCodeOther.replaceAll("\'","´")).append("',")
-                    .append("'").append(sMonster.replaceAll("\'","´")).append("');</script>");
+                    .append("'").append(sCodeOther).append("',")
+                    .append("'").append(sMonster).append("');")
+                   .append("</script>");
         }
 
         showMsg = true;
     }
     //--- show ALL (unselected) RECORDS -----------------------------------------------------------
-    else {
-        if (MedwanQuery.getInstance().getConfigString("fillUpSearchScreens").equalsIgnoreCase("on")) {
-            Vector hLabAnalysis = LabAnalysis.searchByLabCodeForPatient("%", sSelectedLabCodes, "%", sSortCol, sWebLanguage);
+    else{
+        if(MedwanQuery.getInstance().getConfigString("fillUpSearchScreens").equalsIgnoreCase("on")){
+            Vector hLabAnalysis = LabAnalysis.searchByLabCodeForPatient("%",sSelectedLabCodes,"%",sSortCol,sWebLanguage);
             LabAnalysis objLabAnalysis;
 
-            for (int n=0;n<hLabAnalysis.size();n++) {
+            for(int n=0;n<hLabAnalysis.size();n++) {
                 objLabAnalysis = (LabAnalysis) hLabAnalysis.elementAt(n);
 
                 iTotal++;
@@ -147,32 +152,35 @@
                 sMonster = getTranNoLink("labanalysis.monster",objLabAnalysis.getMonster(),sWebLanguage);
 
                 // translate labtype
-                if (sLabType.equals("1")) sLabType = getTran("Web.occup", "labanalysis.type.blood", sWebLanguage);
-                else if (sLabType.equals("2")) sLabType = getTran("Web.occup", "labanalysis.type.urine", sWebLanguage);
-                else if (sLabType.equals("3")) sLabType = getTran("Web.occup", "labanalysis.type.other", sWebLanguage);
-                else if (sLabType.equals("4")) sLabType = getTran("Web.occup", "labanalysis.type.stool", sWebLanguage);
-                else if (sLabType.equals("5")) sLabType = getTran("Web.occup", "labanalysis.type.sputum", sWebLanguage);
-                else if (sLabType.equals("6")) sLabType = getTran("Web.occup", "labanalysis.type.smear", sWebLanguage);
-                else if (sLabType.equals("7")) sLabType = getTran("Web.occup", "labanalysis.type.liquid", sWebLanguage);
+                     if(sLabType.equals("1")) sLabType = getTran("Web.occup","labanalysis.type.blood",sWebLanguage);
+                else if(sLabType.equals("2")) sLabType = getTran("Web.occup","labanalysis.type.urine",sWebLanguage);
+                else if(sLabType.equals("3")) sLabType = getTran("Web.occup","labanalysis.type.other",sWebLanguage);
+                else if(sLabType.equals("4")) sLabType = getTran("Web.occup","labanalysis.type.stool",sWebLanguage);
+                else if(sLabType.equals("5")) sLabType = getTran("Web.occup","labanalysis.type.sputum",sWebLanguage);
+                else if(sLabType.equals("6")) sLabType = getTran("Web.occup","labanalysis.type.smear",sWebLanguage);
+                else if(sLabType.equals("7")) sLabType = getTran("Web.occup","labanalysis.type.liquid",sWebLanguage);
 
-                sOut.append(writeRow(sLabType, sLabCode, sLabLabel, sCodeOther, sComment,objLabAnalysis.getUnavailable(), iTotal,sWebLanguage));
+                sOut.append(writeRow(sLabType,sLabCode,sLabLabel,sCodeOther,sComment,objLabAnalysis.getUnavailable(),iTotal,sWebLanguage));
                 sScript.append("<script>addLabAnalysisToArray(")
                         .append("'").append(sLabID).append("',")
                         .append("'").append(sLabCode).append("',")
                         .append("'").append(sLabType).append("',")
                         .append("'").append(sLabLabel.replaceAll("\'","´")).append("',")
-                        .append("'").append(sCodeOther.replaceAll("\'","´")).append("',")
-                        .append("'").append(sMonster.replaceAll("\'","´")).append("');</script>");
+                        .append("'").append(sCodeOther).append("',")
+                        .append("'").append(sMonster).append("');")
+                       .append("</script>");
             }
 
             showMsg = true;
         }
     }
 %>
+
 <script>
-    var foundAnalysis = new Array();
-    analysisCount = 0;
+  var foundAnalysis = new Array();
+  analysisCount = 0;
 </script>
+
 <form name="searchForm" method="POST" onSubmit="doFind();">
   <input type="hidden" name="sortCol" value="code">
 
@@ -219,7 +227,7 @@
     <tr><td colspan="2" class="navigation_line" height="1"></td></tr>
 
     <script>
-    function clearForm(){
+      function clearForm(){
         searchForm.FindCode.value = "";
         searchForm.FindProfileID.selectedIndex = 0;
         searchForm.FindCode.focus();
@@ -234,7 +242,7 @@
 
     <%-- SEARCH RESULTS -------------------------------------------------------------------------%>
     <tr>
-      <td colspan="2" class="white" valign="top">
+      <td colspan="2" class="white" style="vertical-align:top;">
         <div class="search" style="overflow: auto;width: 595px;height: 360px">
           <table width="100%" cellspacing="1" cellpadding="0">
             <%-- HEADER --%>
@@ -259,6 +267,7 @@
   </table>
 
   <br>
+  
   <%-- BUTTONS --%>
   <center>
     <input type="button" name="buttonadd"    class="button" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSelection();">&nbsp;
@@ -280,92 +289,96 @@
 	   }
 	 }
 </script>
+
 <script>
-	window.resizeTo(595,485);
-    searchForm.FindCode.focus();
-    <%-- ADD ALL LABANALYSIS --%>
-    function addLabAnalysis(code,type,label,other,monster,total){
-      if(other=="1"){
-        var comment = document.getElementById('comment'+total).value;
-        window.opener.addLabAnalysis(code,type,label,comment,monster);
-      }
-      else{
-        window.opener.addLabAnalysis(code,type,label,'',monster);
-      }
+  window.resizeTo(600,460);
+  searchForm.FindCode.focus();
+    
+  <%-- ADD ALL LABANALYSIS --%>
+  function addLabAnalysis(code,type,label,other,monster,total){
+    if(other=="1"){
+      var comment = document.getElementById('comment'+total).value;
+      window.opener.addLabAnalysis(code,type,label,comment,monster);
     }
-    <%-- ADD ALL LABANALYSIS --%>
-    function addAllLabAnalysis(){
-      for(var i=0; i<foundAnalysis.length; i++){
-        addLabAnalysis(foundAnalysis[i][1],foundAnalysis[i][2],foundAnalysis[i][3],foundAnalysis[i][4],foundAnalysis[i][5],(i+1));
-      }
-      window.opener.sortLabAnalyses();
+    else{
+      window.opener.addLabAnalysis(code,type,label,'',monster);
     }
-    <%-- ADD SELECTED LAB ANALYSIS --%>
-    function addSelectedLabAnalysis(){
-    	var inputs = document.getElementsByTagName("input");
-      var cbCount = 0;
-      var closeWindow = true;
+  }
+    
+  <%-- ADD ALL LABANALYSIS --%>
+  function addAllLabAnalysis(){
+    for(var i=0; i<foundAnalysis.length; i++){
+      addLabAnalysis(foundAnalysis[i][1],foundAnalysis[i][2],foundAnalysis[i][3],foundAnalysis[i][4],foundAnalysis[i][5],(i+1));
+    }
+    window.opener.sortLabAnalyses();
+  }
+    
+  <%-- ADD SELECTED LAB ANALYSIS --%>
+  function addSelectedLabAnalysis(){
+    var inputs = document.getElementsByTagName("input");
+    var cbCount = 0;
+    var closeWindow = true;
 
-      for(var i=0; i<inputs.length; i++){
-        if(inputs[i].type=="checkbox"){
-          cbCount++;
-          if(inputs[i].checked){
-        	  var id = inputs[i].name.substring(3);
-            var analysis = foundAnalysis[id-1];
-            <%-- if analysis of code 'other', check if comment is not empty. --%>
-            if(analysis[4] == "1"){
-              var commentObj = document.getElementById("comment"+cbCount);
-              if(commentObj.value == ""){
-                commentObj.focus();
-                var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=specifycomment";
-                var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.occup","specifycomment",sWebLanguage)%>");
-
-                closeWindow = false;
-              }
-              else{
-                addLabAnalysis(analysis[1],analysis[2],analysis[3],analysis[4],analysis[5],cbCount);
-              }
+    for(var i=0; i<inputs.length; i++){
+      if(inputs[i].type=="checkbox"){
+        cbCount++;
+        if(inputs[i].checked){
+      	  var id = inputs[i].name.substring(3);
+          var analysis = foundAnalysis[id-1];
+    
+          <%-- if analysis of code 'other', check if comment is not empty. --%>
+          if(analysis[4] == "1"){
+            var commentObj = document.getElementById("comment"+cbCount);
+            if(commentObj.value == ""){
+              commentObj.focus();
+              var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=specifycomment";
+              var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+              (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.occup","specifycomment",sWebLanguage)%>");
+              closeWindow = false;
             }
             else{
               addLabAnalysis(analysis[1],analysis[2],analysis[3],analysis[4],analysis[5],cbCount);
             }
           }
-        }
-      }
-
-      window.opener.sortLabAnalyses();
-      //if(closeWindow) window.close();
-    }
-
-    <%-- ADD LABANALYSIS TO ARRAY --%>
-    function addLabAnalysisToArray(id,code,type,label,other,monster){
-      foundAnalysis[analysisCount] = new Array(id,code,type,label,other,monster);
-      analysisCount++;
-    }
-
-
-    <%-- AT LEAST ONE LAB ANALYSIS SELECTED --%>
-    function atLeastOneLabAnalysisSelected(){
-      var inputs = document.getElementsByTagName("input");
-
-      for(var i=0; i<inputs.length; i++){
-        if(inputs[i].type=="checkbox"){
-          if(inputs[i].checked){
-            return true;
+          else{
+            addLabAnalysis(analysis[1],analysis[2],analysis[3],analysis[4],analysis[5],cbCount);
           }
         }
       }
-      return false;
     }
-    </script>
-    <%=sScript%>
+
+    window.opener.sortLabAnalyses();
+    //if(closeWindow) window.close();
+  }
+
+  <%-- ADD LABANALYSIS TO ARRAY --%>
+  function addLabAnalysisToArray(id,code,type,label,other,monster){
+    foundAnalysis[analysisCount] = new Array(id,code,type,label,other,monster);
+    analysisCount++;
+  }
+
+  <%-- AT LEAST ONE LAB ANALYSIS SELECTED --%>
+  function atLeastOneLabAnalysisSelected(){
+    var inputs = document.getElementsByTagName("input");
+
+    for(var i=0; i<inputs.length; i++){
+      if(inputs[i].type=="checkbox"){
+        if(inputs[i].checked){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+</script>
+    
+<%=sScript%>
 </form>
 
 <script>
-    function setFocusToCode(){
-        window.setTimeout("document.getElementById('FindCode').focus();",200);
-    }
+  function setFocusToCode(){
+    window.setTimeout("document.getElementById('FindCode').focus();",200);
+  }
 
-    setFocusToCode();
+  setFocusToCode();
 </script>
