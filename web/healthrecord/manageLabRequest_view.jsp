@@ -9,6 +9,7 @@
 
 <%=checkPermission("occup.labrequest", "select",activeUser)%>
 <%=sJSSORTTABLE%>
+<%=sJSEMAIL%>
 
 <%
     // LabAnalyses are saved by SaveLabAnalysesAction after the transaction itself has been saved.
@@ -160,7 +161,7 @@
         </td>
         <td class="admin2">
             <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" onBlur='checkDate(this)'>
-            <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>&nbsp;&nbsp;&nbsp;
+            <script>writeTranDate();</script>&nbsp;&nbsp;&nbsp;
             <input type="button" class="button" name="ButtonSearchLA" value="<%=getTran("Web","add",sWebLanguage)%>" onclick='openSearchWindow();'/>
             <input type="button" class="button" name="ButtonQuickList" value="<%=getTran("Web","quicklist",sWebLanguage)%>" onclick='openQuickListWindow();'/>
         </td>
@@ -250,42 +251,38 @@
 
     <%-- SMS --%>
     <tr>
-        <td class="admin"><%=getTran("Web","warnsms",sWebLanguage)%></td>
+        <td class="admin"><%=getTran("Web","warnSms",sWebLanguage)%></td>
         <td class="admin2" >
-            <input type='text' id="labsms" <%=setRightClick("ITEM_TYPE_LAB_SMS")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="value"/>"/>
-        <%
-        	if(tran.getTransactionId()<=0){
-        		String labSMS=UserParameter.getParameter(activeUser.userid,"lastLabSMS");
-        		if(checkString(labSMS).length()>0){
-        			%>
-        			<a href="javascript:set('labsms','<%=labSMS %>')"><img src='<c:url value="/_img/valid.gif"/>'/> <%= labSMS%></a>
-        			<%
-        		}
-        	}
-        %>
+            <input type='text' id="labsms" <%=setRightClick("ITEM_TYPE_LAB_SMS")%> class="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SMS" property="value"/>"/>
+	        <%
+	        	if(tran.getTransactionId()<=0){
+	        		String labSMS=UserParameter.getParameter(activeUser.userid,"lastLabSMS");
+	        		if(checkString(labSMS).length()>0){
+	        			%><a href="javascript:set('labsms','<%=labSMS %>')"><img src='<c:url value="/_img/valid.gif"/>'/> <%=labSMS%></a><%
+	        		}
+	        	}
+	        %>
         </td>
     </tr>
     <script>
-    	function set(fieldid,val){
-    		document.getElementById(fieldid).value=val
-    	}
+      function set(fieldid,val){
+        document.getElementById(fieldid).value=val
+      }
     </script>
 
     <%-- EMAIL --%>
     <tr>
-        <td class="admin"><%=getTran("Web","warnemail",sWebLanguage)%></td>
+        <td class="admin"><%=getTran("Web","warnEmail",sWebLanguage)%></td>
         <td class="admin2">
-            <input type='text' id="labmail" <%=setRightClick("ITEM_TYPE_LAB_EMAIL")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="value"/>"/>
-        <%
-        	if(tran.getTransactionId()<=0){
-        		String labMail=UserParameter.getParameter(activeUser.userid,"lastLabEmail");
-        		if(checkString(labMail).length()>0){
-        			%>
-        			<a href="javascript:set('labmail','<%=labMail %>')"><img src='<c:url value="/_img/valid.gif"/>'/> <%= labMail%></a>
-        			<%
-        		}
-        	}
-        %>
+            <input type='text' id="labmail" <%=setRightClick("ITEM_TYPE_LAB_EMAIL")%> class="text" size="50" onBlur="checkEmailAddress(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_EMAIL" property="value"/>"/>
+	        <%
+	        	if(tran.getTransactionId()<=0){
+	        		String labMail=UserParameter.getParameter(activeUser.userid,"lastLabEmail");
+	        		if(checkString(labMail).length()>0){
+	        			%><a href="javascript:set('labmail','<%=labMail %>')"><img src='<c:url value="/_img/valid.gif"/>'/> <%=labMail%></a><%
+	        		}
+	        	}
+	        %>
         </td>
     </tr>
 
@@ -310,7 +307,7 @@
                     %>
                         <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="doSave(false);"></button>
                         <button class="button" name="saveButton" id="saveButton" onclick="doSave(false);"><%=getTran("accesskey","save",sWebLanguage)%></button>
-                        <INPUT class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","saveandprintlabels",sWebLanguage)%>" onclick="doSave(true)"/>&nbsp;
+                        <input class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","saveandprintlabels",sWebLanguage)%>" onclick="doSave(true)"/>&nbsp;
                     <%
                 }
             %>
@@ -330,6 +327,16 @@
   var iIndexLA = <%=iTotal%>;
   var sLA = "<%=sLA%>";
 
+  <%-- CHECK EMAIL ADDRESS --%>
+  function checkEmailAddress(inputField){
+    if(inputField.value.length > 0){
+      if(!validEmailAddress(inputField.value)){
+    	alertDialog("web","invalidemailaddress");
+        inputField.focus();
+      }
+    }
+  }
+  
   <%-- SHOW REQUEST --%>
   function showRequest(serverid,transactionid){
     window.open("<c:url value='/labos/manageLabResult_view.jsp'/>?ts=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
@@ -359,13 +366,20 @@
 
   <%-- OPEN SEARCH WINDOW --%>
   function openSearchWindow(){
-	    maxSelectedLabAnalysesAlerted = false;
-	    openPopup("/_common/search/searchLabAnalysisForPatient.jsp&VarID=LabID&VarType=LabType&VarCode=LabCode&VarText=LabLabel&selectedLabCodes="+transactionForm.selectedLabCodes.value,595,485);
-	  }
+    maxSelectedLabAnalysesAlerted = false;
+    openPopup("/_common/search/searchLabAnalysisForPatient.jsp"+
+    		  "&VarID=LabID&VarType=LabType&VarCode=LabCode&VarText=LabLabel"+
+              "&selectedLabCodes="+transactionForm.selectedLabCodes.value,600,460);
+  }
 
   function openQuickListWindow(){
+<<<<<<< .mine
+    openPopup("/labos/quicklist.jsp&selectedLabCodes="+transactionForm.selectedLabCodes.value,800,600);
+  }
+=======
 	    openPopup("/labos/quicklist.jsp&selectedLabCodes="+transactionForm.selectedLabCodes.value,<%=MedwanQuery.getInstance().getConfigString("labQuickListPopupWidth","800")%>,<%=MedwanQuery.getInstance().getConfigString("labQuickListPopupHeight","600")%>);
 	  }
+>>>>>>> .r1070
 
   <%-- CREATE OFFICIAL PDF --%>
   function createOfficialPdf(printLang){
