@@ -31,7 +31,7 @@ function show(element) {
 }
 
 function hide(element) {
-    document.getElementById(element).style.display = 'none';
+  document.getElementById(element).style.display = 'none';
 }
 
 function popup(mylink, windowname)

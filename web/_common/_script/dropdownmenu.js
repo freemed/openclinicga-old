@@ -1,20 +1,19 @@
 var changeInputColor = function(){
-  // fonction to change inputs color //
   var tabInput = document.getElementsByTagName('input');
-  //var tabSelect = document.getElementsByTagName('select');
   var tabTextArea = document.getElementsByTagName('textarea');
   var tabCheck = new Array();
-  for(i = 0; i < tabInput.length; i++){
+  
+  for(i=0; i<tabInput.length; i++){
     if((tabInput[i].type.toLowerCase() == "text" || tabInput[i].type.toLowerCase() == "password") && tabInput[i].className != "combo"){
       tabCheck.push(tabInput[i]);
     }
   }
-  for(i = 0; i<tabTextArea.length; i++){
+  for(i=0; i<tabTextArea.length; i++){
     if(tabTextArea[i].type.include("textarea")){
       tabCheck.push(tabTextArea[i]);
     }
   }
-  for(j = 0; j<tabCheck.length; j++){
+  for(j=0; j<tabCheck.length; j++){
     Event.observe(tabCheck[j], 'focus', function(event){
       try{
         if(event.target.hasClassName("bold")){
@@ -88,7 +87,7 @@ function setShowMenu(oObject){
     bShowMenu = true;
     oObject.style.visibility = "visible";
     var sfSelect = document.getElementsByTagName("SELECT");
-    for(var i = 0; i < sfSelect.length; i++){
+    for(var i=0; i<sfSelect.length; i++){
       sfSelect[i].style.visibility = "hidden";
     }
   }
@@ -99,30 +98,54 @@ function resizeAllTextareas(maxRows){
     resizeTextarea(elems[i], maxRows);
   }
 }
-function resizeTextarea(ta, maxRows){
-  validateText(ta);
-  var string = ta.value;
-  lines = ta.value.split('\n');
-  counter = lines.length;
-  var addLine = true;
-  for(var i = 0; i < lines.length; i++){
-    if(lines[i].length >= ta.cols){
-      counter += Math.floor(lines[i].length / ta.cols);
-      if(addLine){
-        counter++;
-        addLine = false;
-      }
+
+function resizeAllTextareas(maxRows){
+  var elems = document.getElementsByTagName("textarea");
+  for(var i=0; i<elems.length; i++){
+    resizeTextarea(elems[i],maxRows);
+  }
+}
+
+function resizeTextarea(ta,maxRows){
+  // unhide when hidden
+  if(ta.innerHTML.length > 0){
+    if(ta.style.visibility=="hidden"){
+      ta.style.visibility = "block";
     }
   }
-  if((addLine) && (ta.rows.length == 0)){
-    counter++;
+
+  // calculate length of content
+  var string = trim(ta.value);
+  var lines = ta.value.split("\n");
+  var counter = 0;
+
+  for(var i=0; i<lines.length; i++){
+    if(lines[i].length >= ta.cols){
+      counter+= Math.ceil(lines[i].length/ta.cols);
+    }
   }
-  if(counter != ta.rows){
+  counter+= lines.length;
+
+  // resize TA
+  if(counter > ta.rows){
+	// make TA larger
     if(counter <= maxRows){
       ta.rows = counter;
     }
     else{
       ta.rows = maxRows;
+    }
+  }
+  else if(counter < ta.rows){
+    // make TA smaller
+	var minRows = ta.minRows;
+	if(minRows!=null){			
+      if(counter > minRows){
+        ta.rows = counter;
+      }
+	  else{
+        ta.rows = minRows;
+      }
     }
   }
 }
@@ -134,7 +157,7 @@ function limitChars(textFieldObj, maxCharsAllowed){
 function uncheckRadio(radioObj){
   // uncheck all radios in the same group. used with onDblClick
   var radioes = document.getElementsByName(radioObj.name);
-  for(i = 0; i < radioes.length; i++){
+  for(i=0; i<radioes.length; i++){
     if(radioes[i].checked){
       radioes[i].checked = false;
     }
@@ -155,11 +178,10 @@ var setWaitMsg = function(div_id){
   $(div_id).style.display = "block";
 }
 
-//****** SET ENTER KEY COMPATIBLE WITH FIREFOX *******//
 var gk = window.Event ? 1 : 0;
-function enterEvent(e, desKey){
+function enterEvent(e,desKey){
   var key = gk ? e.which : window.event.keyCode;
-  //for compatibility FF IE
+  // for compatibility FF IE
   if(key==desKey) return true;
   else            return false;
 }
