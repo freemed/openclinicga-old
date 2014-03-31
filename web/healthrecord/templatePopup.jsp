@@ -30,12 +30,12 @@
     <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="list" height="100%">
         <%-- CONTENT --%>
         <tr>
-            <td  valign="top" class="white" height="100%">
+            <td  style="vertical-align:top;" class="white" height="100%">
                 <div class="content" id="Juist">
                     <a name='topp'></a>
                     <table width="100%" border="0" id="mijn">
                         <tr>
-                            <td valign="top" class="white">
+                            <td style="vertical-align:top;" class="white">
                                 <%ScreenHelper.setIncludePage("/healthrecord/content.jsp",pageContext);%>
                             </td>
                         </tr>

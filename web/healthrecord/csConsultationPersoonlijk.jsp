@@ -4,9 +4,7 @@
 <%@ page import="be.openclinic.system.Item" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%
 
-%>
 <%!
     //--- GET LAST ITEM VALUE ---------------------------------------------------------------------
     private String getLastItemValue(HttpServletRequest request, String sItemType) {
@@ -348,7 +346,7 @@
                                 <td class="admin2"></td>
                                 <td class="admin2"><%=writeDateField("LetselsDate", "transactionForm","",sWebLanguage)%></td>
                                 <td class="admin2"><input type="text" class="text" name="LetselsDescription" size="40" onblur="validateText(this);limitLength(this);"></td>
-                                <td class="admin2"><input type="text" name="LetselsBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');}"></td>
+                                <td class="admin2"><input type="text" name="LetselsBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alertDialog('Web.Occup','out-of-bounds-value');}"></td>
                                 <td class="admin2">
                                     <input type="button" class="button" name="ButtonAddLetsels" onclick="addLetsels()" value="<%=getTran("Web","add",sWebLanguage)%>">
                                     <input type="button" class="button" name="ButtonUpdateLetsels" onclick="updateLetsels()" value="<%=getTran("Web","edit",sWebLanguage)%>">
@@ -383,14 +381,14 @@ document.getElementById("transactionForm").ButtonUpdateChirurgie.disabled = true
 document.getElementById("transactionForm").ButtonUpdateHeelkunde.disabled = true;
 document.getElementById("transactionForm").ButtonUpdateLetsels.disabled = true;
 
-
+<%-- ADD CHIRURGIE --%>
 function addChirurgie(){
   if(isAtLeastOneChirurgieFieldFilled()){
     var beginDate = document.getElementById("transactionForm").ChirurgieDateBegin.value;
     var endDate   = document.getElementById("transactionForm").ChirurgieDateEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
       var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
       if(window.showModalDialog){
           window.showModalDialog(popupUrl,'',modalitiesIE);
@@ -505,7 +503,7 @@ function addHeelkunde(){
     var endDate   = document.getElementById("transactionForm").HeelkundeDateEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
       var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
 
       if(window.showModalDialog){

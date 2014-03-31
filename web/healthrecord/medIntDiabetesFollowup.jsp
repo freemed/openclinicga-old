@@ -102,7 +102,7 @@
                     </td>
                     <td class="admin2">
                         <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'>
-                        <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                        <script>writeTranDate();</script>
                     </td>
                 </tr>
             </table>
@@ -280,13 +280,14 @@
     <tr><td>&nbsp;</td></tr>
 
     <tr>
-        <td>
+        <td style="vertical-align:top;">
             <table width="100%" cellspacing="1" class="list">
                 <%-- DIET -----------------------------------------------------------------------%>
                 <tr class="admin">
                     <td colspan="7"><%=getTran("diabetes","diet",sWebLanguage)%></td>
                 </tr>
 
+                <%-- repas --%>
                 <tr>
                     <td class="admin" width="100">07h00</td>
                     <td class="admin" width="100"><%=getTran("diabetes","repas",sWebLanguage)%></td>
@@ -295,6 +296,7 @@
                     </td>
                 </tr>
 
+                <%-- collation --%>
                 <tr>
                     <td class="admin">10h00</td>
                     <td class="admin"><%=getTran("diabetes","collation",sWebLanguage)%></td>
@@ -303,6 +305,7 @@
                     </td>
                 </tr>
 
+                <%-- repas --%>
                 <tr>
                     <td class="admin">12h00</td>
                     <td class="admin"><%=getTran("diabetes","repas",sWebLanguage)%></td>
@@ -311,6 +314,7 @@
                     </td>
                 </tr>
 
+                <%-- collation --%>
                 <tr>
                     <td class="admin">15h00</td>
                     <td class="admin"><%=getTran("diabetes","collation",sWebLanguage)%></td>
@@ -319,6 +323,7 @@
                     </td>
                 </tr>
 
+                <%-- repas --%>
                 <tr>
                     <td class="admin">17h00</td>
                     <td class="admin"><%=getTran("diabetes","repas",sWebLanguage)%></td>
@@ -327,6 +332,7 @@
                     </td>
                 </tr>
 
+                <%-- other --%>
                 <tr>
                     <td class="admin" colspan="2"><%=getTran("openclinic.chuk","other",sWebLanguage)%></td>
                     <td class="admin2">
@@ -335,15 +341,10 @@
                 </tr>
             </table>
         </td>
-		<td valign="top" class="admin2">
-		    <table class="list" width="100%" cellspacing="1">
-		        <%-- Diagnoses --%>
-		        <tr>
-                    <td class="admin2">
-                        <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
-                    </td>
-		        </tr>
-		    </table>
+			
+		<%-- DIAGNOSES --%>
+		<td style="vertical-align:top;" class="admin2">
+            <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
 		</td>
     </tr>
 </table>
@@ -377,11 +378,11 @@
   <%-- SUBMIT FORM --%>
   function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+		alertDialog("web","no.encounter.linked");
 		searchEncounter();
 	}	
     else {
-	    document.transactionForm.saveButton.style.visibility = "hidden";
+	    document.getElementById("buttonsDiv").style.visibility = "hidden";
 	    var temp = Form.findFirstElement(transactionForm);
 	    <%
 	        SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
@@ -393,7 +394,7 @@
       openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
   if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+	alertDialog("web","no.encounter.linked");
 	searchEncounter();
   }	
   

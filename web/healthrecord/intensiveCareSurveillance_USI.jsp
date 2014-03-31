@@ -140,7 +140,7 @@
 	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
 <%
     Hashtable hListing = new Hashtable();
-    hListing.put("1","");hListing.put("2","");hListing.put("3","LACTATE");hListing.put("4","GLUCOSE");hListing.put("5","PHYSIOLOGY");hListing.put("6","SHAEM");
+    hListing.put("3","LACTATE");hListing.put("4","GLUCOSE");hListing.put("5","PHYSIOLOGY");hListing.put("6","SHAEM");
     hListing.put("7","TRANSFUSION");hListing.put("8","BLOOD");hListing.put("9","TOTAL_IN");hListing.put("10","POMPE_SYRINGE_TEXT1");hListing.put("11","POMPE_SYRINGE1");
     hListing.put("12","POMPE_SYRINGE_TEXT2");hListing.put("13","POMPE_SYRINGE2");hListing.put("14","POMPE_SYRINGE_TEXT3");hListing.put("15","POMPE_SYRINGE3");
     hListing.put("16","REMARKS1");hListing.put("17","GLYCEMIE");hListing.put("18","TEMPERATURE");hListing.put("19","GCS_Y");hListing.put("20","GCS_V");
@@ -199,6 +199,7 @@
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
+    
     <input type="hidden" readonly name="be.mxs.healthrecord.updateTransaction.actionForwardKey" value="/main.do?Page=curative/index.jsp&ts=<%=getTs()%>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" translate="false" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" translate="false" property="value"/>" id="context_department"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="value"/>" id="context_context"/>
@@ -206,6 +207,7 @@
     <input type="hidden" name="Action" value="SAVE">
     <%=writeHistoryFunctions(((TransactionVO)transaction).getTransactionType(),sWebLanguage)%>
     <%=contextHeader(request,sWebLanguage)%>
+    
     <%-- DATE --%>
     <table class="list" width="100%" cellspacing="1">                        
         <tr>
@@ -215,11 +217,12 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)' <%if(usi_data_holders.size() > 0) out.print("readonly");%>>
-                <% if(usi_data_holders.size() == 0){%><script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script><%}%>
+                <% if(usi_data_holders.size() == 0){%><script>writeTranDate();</script><%}%>
             </td>
         </tr>
     </table>
     <br/>
+    
     <table class="list" cellpadding="0" cellspacing="1" border="0">
     <%
         if(usi_data_holders.size() > 0){
@@ -231,54 +234,46 @@
 
             iterA = usi_data_holders.iterator();
             out.print("<tr>" +
-                      "   <td width='200px' align='center' valign='middle'>" + getTran("openclinic.chuk","usi_add_surveillance",sWebLanguage) +
-                      "     &nbsp;&nbsp;<img src='" + sCONTEXTPATH + "/_img/icon_new.gif' alt='" + getTranNoLink("web","new",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='addSurveillance();'>" +
-                      "   </td>"
+                       "<td width='200px' align='center' valign='middle'>" + getTran("openclinic.chuk","usi_add_surveillance",sWebLanguage) +
+                        " &nbsp;<img src='" + sCONTEXTPATH + "/_img/icon_new.gif' alt='" + getTranNoLink("web","new",sWebLanguage) + "' style='vertical-align:-3px;' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='addSurveillance();'>" +
+                       "</td>"
                       );
             while(iterA.hasNext()){
                 usiData =(USI_DataHolder)iterA.next();
-                out.print(  "<td align='center'>" +
-                            "    <table cellpadding='0' cellspacing='0' style='border: 1px solid black;' width='100%' height='50'>" +
-                            "        <tr>" +
-                            "            <td align='center'>&nbsp;" + usiData.getDate() + "&nbsp;" + usiData.getTime()+"&nbsp;&nbsp;<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTranNoLink("web","edit",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='editSurveillance(" + usiData.getDataSetNr() + ");'>&nbsp;&nbsp;<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTranNoLink("web","delete",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='deleteSurveillance(" + usiData.getDataSetNr() + ");'></td>" +
-                            "        </tr>" +
-                            "        <tr>" +
-                            "            <td align='center'>" + getTran("openclinic.chuk","edited_by",sWebLanguage) + ": " + usiData.getUpdateUser() + "</td>" +
-                            "        </tr>" +
-                            "    </table>" +
-                            "</td>"
-                            );
+                out.print("<td align='center'>" +
+                           "<table cellpadding='0' cellspacing='0' style='border: 1px solid black;' width='100%' height='50'>" +
+                            "<tr>" +
+                             "<td align='center'>&nbsp;" + usiData.getDate() + "&nbsp;" + usiData.getTime()+"&nbsp;&nbsp;"+
+                              "<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' style='vertical-align:-3px;' alt='" + getTranNoLink("web","edit",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='editSurveillance(" + usiData.getDataSetNr() + ");'>&nbsp;&nbsp;"+
+                              "<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' style='vertical-align:-3px;' alt='" + getTranNoLink("web","delete",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='deleteSurveillance(" + usiData.getDataSetNr() + ");'>"+
+                             "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                             "<td align='center'>" + getTran("openclinic.chuk","edited_by",sWebLanguage) + ": " + usiData.getUpdateUser() + "</td>" +
+                            "</tr>" +
+                           "</table>" +
+                          "</td>"
+                         );
             }
             out.print("</tr>");
 
             for(int x = 1 ; x <= iVALUES ; x++){
-                if(x==1){
-                    out.print("<tr>");
-                    for(int z = 0 ; z <= usi_data_holders.size(); z++){
-                        out.print("<td class='admin'>&nbsp;</td>");
-                    }
-                    out.print("</tr>");
-                }
                 sKeyValue = checkString((String)hListing.get(Integer.toString(x)));
+                
                 if(hShowValues.get(sKeyValue)!=null && ((Boolean)hShowValues.get(sKeyValue)).booleanValue()){
                     out.print("<tr><td class='admin' width='200' nowrap>" + getTran("openclinic.chuk",sKeyValue.toLowerCase(),sWebLanguage) + "</td>");
-                        iterA = usi_data_holders.iterator();
-                        while(iterA.hasNext()){
-                            usiData =(USI_DataHolder)iterA.next();
-                            sValue = checkString((String)usiData.getItem(sKeyValue));
-                            if(sValue.startsWith("usi.surveillance.") || sValue.startsWith("medwan.common.")){
-                                sValue = getTran("web.occup",sValue,sWebLanguage);
-                            }
-                            if(sValue.equals(""))sValue = "&nbsp;";
-                            out.print("<td class='admin2' width='250px'>" + sValue + "</td>");
+                    
+                    iterA = usi_data_holders.iterator();
+                    while(iterA.hasNext()){
+                        usiData =(USI_DataHolder)iterA.next();
+                        sValue = checkString((String)usiData.getItem(sKeyValue));
+                        if(sValue.startsWith("usi.surveillance.") || sValue.startsWith("medwan.common.")){
+                            sValue = getTran("web.occup",sValue,sWebLanguage);
                         }
-                    out.print("</tr>");
-                }
-                if(x==iVALUES){
-                    out.print("<tr>");
-                    for(int z = 0 ; z <= usi_data_holders.size(); z++){
-                        out.print("<td class='admin'>&nbsp;</td>");
+                        if(sValue.equals(""))sValue = "&nbsp;";
+                        out.print("<td class='admin2' width='250px'>" + sValue + "</td>");
                     }
+                    
                     out.print("</tr>");
                 }
             }
@@ -290,55 +285,98 @@
     <%=ScreenHelper.alignButtonsStart()%>
         <%
             if(activeUser.getAccessRight("occup.surveillance.USI.add") || activeUser.getAccessRight("occup.surveillance.USI.edit")) {
-            %>
-                <%
-                    if(usi_data_holders.size() == 0){
-                %>
-                <INPUT class="button" type="button" name="add_surveillance" value="<%=getTran("openclinic.chuk","usi_add_surveillance",sWebLanguage)%>" onclick="addSurveillance();"/>
-                <INPUT class="button" type="button" name="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
-                <%
-                    }
-                %>
-            <%
+                if(usi_data_holders.size() == 0){
+	                %>
+		                <INPUT class="button" type="button" name="add_surveillance" value="<%=getTran("openclinic.chuk","usi_add_surveillance",sWebLanguage)%>" onclick="addSurveillance();"/>
+		                <INPUT class="button" type="button" name="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
+		            <%
+                }
+                else{
+            	    %>
+	            	    <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>&nbsp;
+	            	    
+	                    <select class="text" name="PrintLanguage">
+	            	        <%
+	            		        // print language
+	            		        String sPrintLanguage = checkString(request.getParameter("PrintLanguage"));
+	            		        if(sPrintLanguage.length()==0){
+	            		            sPrintLanguage = activePatient.language;
+	            		        }
+	
+	            	            // supported languages
+	            	            String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
+	            	            if(supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
+	            	            supportedLanguages = supportedLanguages.toLowerCase();
+	            	
+	            	            // print language selector
+	            	            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+	            	            String tmpLang;
+	            	            while(tokenizer.hasMoreTokens()){
+	            	                tmpLang = tokenizer.nextToken();
+	            	                tmpLang = tmpLang.toUpperCase();
+	            	
+	            	                %><option value="<%=tmpLang%>" <%=(sPrintLanguage.equalsIgnoreCase(tmpLang)?"selected":"")%>><%=tmpLang%></option><%
+	            	            }
+	            	        %>
+	            	    </select>
+	            	        
+	                    <INPUT class="button" type="button" value="<%=getTran("Web","print",sWebLanguage)%>" onclick="doPrint(transactionForm.PrintLanguage.options[transactionForm.PrintLanguage.selectedIndex].text);"/>&nbsp;
+	                <%
+                }
             }
         %>
+
         <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();"/>
     <%=ScreenHelper.alignButtonsStop()%>
+    
     <%=ScreenHelper.contextFooter(request)%>
 </form>
+
 <script>
-    function doSubmit(){
-        document.getElementById('transactionForm').save.disabled = true;
-        document.getElementById('transactionForm').submit();
+  <%-- DO PRINT --%>
+  function doPrint(printLang){
+	var url = '<%=sCONTEXTPATH%>/healthrecord/createPdf.jsp?actionField=print&tranAndServerID_1=<%=((TransactionVO)transaction).getTransactionId()%>_<%=((TransactionVO)transaction).getServerId()%>&PrintLanguage='+printLang+'&ts=<%=getTs()%>';
+	window.open(url,'newwindow','height=600,width=850,toolbar=yes,status=yes,scrollbars=yes,resizable=yes,menubar=yes');
+  }
+      
+  <%-- SUBMIT FORM --%>
+  function submitForm(){
+	document.getElementById('transactionForm').save.disabled = true;
+	document.getElementById('transactionForm').save.disabled = true;
+    document.getElementById('transactionForm').submit();
+  }
+
+  function addSurveillance(){
+	var url = "<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp"+
+              "&trandate="+document.getElementById('trandate').value+"&CONTEXT_CONTEXT="+document.getElementById('context_context').value+
+              "&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value;	
+    window.open(url,"","toolbar=no, status=no, scrollbars=no, resizable=yes, menubar=no");
+  }
+
+  function deleteSurveillance(set){
+    var popupUrl = "<%=sCONTEXTPATH%>/popup.jsp?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
+    var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+
+    var answer;
+    if(window.showModalDialog){
+      answer = window.showModalDialog(popupUrl,'',modalitiesIE);
+    }
+    else{
+      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
     }
 
-    function addSurveillance(){
-        window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate="+document.getElementById('trandate').value+"&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value,"","toolbar=no, status=no, scrollbars=no, resizable=yes, menubar=no");
+    if(answer==1){
+      window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value + "&DataSetNr="+set+"&Action=DELETE","","toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
     }
+  }
 
-    function deleteSurveillance(set){
-        var popupUrl = "<%=sCONTEXTPATH%>/popup.jsp?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-        var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+  function editSurveillance(set){
+    window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value+"&DataSetNr="+set,""," toolbar=no, status=no, scrollbars=no, resizable=yes, menubar=no");
+  }
 
-        var answer;
-        if(window.showModalDialog){
-            answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-        }else{
-            answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-        }
-
-        if(answer == 1){
-            window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value + "&DataSetNr="+set+"&Action=DELETE","","toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
-        }
+  function doBack(){
+    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){
+      window.location.href = '<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';
     }
-
-    function editSurveillance(set){
-        window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value+"&DataSetNr="+set,""," toolbar=no, status=no, scrollbars=no, resizable=yes, menubar=no");
-    }
-
-    function doBack(){
-        if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){
-            window.location.href = '<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';
-        }
-    }
+  }
 </script>

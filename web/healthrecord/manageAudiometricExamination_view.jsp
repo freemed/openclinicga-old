@@ -41,7 +41,7 @@
             <font color="blue"><b><%=getTran("Web.Occup","medwan.healthrecord.audiometry.OG",sWebLanguage)%></b></font>&nbsp;
             <font color="#00AA00"><b><%=getTran("Web.Occup","medwan.healthrecord.audiometry.normal",sWebLanguage)%></b></font>
         </td>
-        <td nowrap valign="top">
+        <td nowrap style="vertical-align:top;">
             <%=getTran("Web.Occup","medwan.common.history",sWebLanguage)%>
 
             <select name="History" class="text" onchange="changeHistory()">
@@ -100,7 +100,7 @@
             <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
         </td>
         <td class="admin2">
-            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'> <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'> <script>writeTranDate();</script>
         </td>
     </tr>
     <%-- RIGHT EAR ---------------------------------------------------------------------------------------------------%>
@@ -697,4 +697,4 @@ function submitForm(){
 </script>
 <%=ScreenHelper.contextFooter(request)%>
 </form>
-<%=writeJSButtons("transactionForm", "save")%>
+<%=writeJSButtons("transactionForm","saveButton")%>

@@ -1,9 +1,11 @@
 <%@page errorPage="/includes/error.jsp" %>
 <%@include file="/includes/validateUser.jsp" %>
 <%=checkPermission("cs.pmtct", "select", activeUser)%>
+
 <form name="transactionForm" id="transactionForm" method="POST" action="<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+  
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -11,6 +13,7 @@
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RECRUITMENT_CONVOCATION_ID" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RECRUITMENT_CONVOCATION_ID" property="value"/>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" translate="false" property="value"/>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="value"/>"/>
+  
     <%=contextHeader(request, sWebLanguage)%>
     <table width="100%" cellspacing="1" class="list">
         <%-- DATE --%>
@@ -20,7 +23,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur="checkDate(this);">
-                <script>writeMyDate("trandate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
         <tr>
@@ -60,8 +63,7 @@
             </td>
         </tr>
         <tr>
-            <td class="admin"><%=getTranNoLink("cs.pvv", "vih", sWebLanguage)%>
-            </td>
+            <td class="admin"><%=getTranNoLink("cs.pvv", "vih", sWebLanguage)%></td>
             <td class="admin2">
                 <input type="radio" onclick="setVihClick();" onDblClick="uncheckRadio(this);setVihClick();" id="vih1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_VIH" property="itemId"/>]>.value" value="+"
                 <mxs:propertyAccessorI18N name="transaction.items" scope="page"
@@ -89,8 +91,7 @@
             </td>
         </tr>
         <tr>
-            <td class="admin"><%=getTranNoLink("cs.pmtct", "rpr", sWebLanguage)%>
-            </td>
+            <td class="admin"><%=getTranNoLink("cs.pmtct", "rpr", sWebLanguage)%></td>
             <td class="admin2">
                 <input type="radio" onchange="setVihClick();" onDblClick="uncheckRadio(this);setVihClick();" id="rpr1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_RPR" property="itemId"/>]>.value" value="+"
                 <mxs:propertyAccessorI18N name="transaction.items" scope="page"
@@ -102,10 +103,10 @@
                                           property="value" outputString="checked"/>><label for="rpr2">-</label>
             </td>
         </tr>
-          <%-- COMMENT --%>
+        
+        <%-- COMMENT --%>
         <tr>
-            <td class="admin"><%=getTran("web", "comment", sWebLanguage)%>
-            </td>
+            <td class="admin"><%=getTran("web", "comment", sWebLanguage)%></td>
             <td colspan="3" class="admin2">
                 <textarea id="comment" rows="1" onKeyup="resizeTextarea(this,10);" class="text" cols="75" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_COMMENTAIRE_0" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_COMMENTAIRE_0" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_COMMENTAIRE_1" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_COMMENTAIRE_2" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_COMMENTAIRE_2" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_COMMENTAIRE_3" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_COMMENTAIRE_4" property="value"/></textarea>
                 <input type="hidden" id="comment_1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CS_PMTCT_COMMENTAIRE_1" property="itemId"/>]>.value" />
@@ -115,45 +116,56 @@
             </td>
         </tr>
     </table>
-    <%-- BUTTONS --%><%=ScreenHelper.alignButtonsStart()%><%=getButtonsHtml(request, activeUser, activePatient, "cs.pmtct", sWebLanguage)%><%=ScreenHelper.alignButtonsStop()%><%=ScreenHelper.contextFooter(request)%>
+    
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>
+    <%=getButtonsHtml(request,activeUser,activePatient,"cs.pmtct",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
+    
+    <%=ScreenHelper.contextFooter(request)%>
 </form>
-<script>
-    <%-- SUBMIT FORM --%>
-    function submitForm() {
 
-        $("comment_1").value = $F("comment").substring(250, 500);
-        $("comment_2").value = $F("comment").substring(500, 750);
-        $("comment_3").value = $F("comment").substring(750, 1000);
-        $("comment_4").value = $F("comment").substring(1000, 1250);
-        $("comment").value = $F("comment").substring(0, 250);
-        var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-        document.transactionForm.saveButton.style.visibility = "hidden";
+<script>
+  <%-- SUBMIT FORM --%>
+  function submitForm(){
+    $("comment_1").value = $F("comment").substring(250, 500);
+    $("comment_2").value = $F("comment").substring(500, 750);
+    $("comment_3").value = $F("comment").substring(750, 1000);
+    $("comment_4").value = $F("comment").substring(1000, 1250);
+    $("comment").value = $F("comment").substring(0, 250);
+    var temp = Form.findFirstElement(transactionForm);//for ff compatibility
+    document.getElementById("buttonsDiv").style.visibility = "hidden";
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-
-      out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
+        out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
     %>
+  }
+  
+  var setCouncelingClick = function(){
+    if($("action_1").checked == true){
+      $("action_2_div").style.visibility = "visible";
     }
-    var setCouncelingClick = function() {
-        if ($("action_1").checked == true) {
-            $("action_2_div").style.visibility = "visible";
-        } else {
-            $("action_2_div").style.visibility = "hidden";
-            $("action_2").checked = false;
-        }
+    else{
+      $("action_2_div").style.visibility = "hidden";
+      $("action_2").checked = false;
     }
-    var setVihClick = function() {
-        if ($("vih1").checked == true) {
-            $("vih1_div").style.display = "inline";
-        } else {
-            $("vih1_div").style.display = "none";
-            $("vih3").checked = false;
-            $("vih4").checked = false;
-        }
+  }
+  
+  var setVihClick = function(){
+    if($("vih1").checked == true){
+      $("vih1_div").style.display = "inline";
     }
-    window.onload = function() {
-        setCouncelingClick();
-        setVihClick();
+    else{
+      $("vih1_div").style.display = "none";
+      $("vih3").checked = false;
+      $("vih4").checked = false;
     }
+  }
+  
+  window.onload = function() {
+    setCouncelingClick();
+    setVihClick();
+  }
 </script>
+
 <%=writeJSButtons("transactionForm", "saveButton")%>

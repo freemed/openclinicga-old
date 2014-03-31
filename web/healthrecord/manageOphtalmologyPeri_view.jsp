@@ -90,7 +90,7 @@
                                                 <input type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OD_22" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OD_22;value=22" property="value" outputString="checked"/> value="22">
                                             </td>
                                         </tr>
-                                        <tr><td valign="top">22</td></tr>
+                                        <tr><td style="vertical-align:top;">22</td></tr>
                                     </table>
                                 </td>
 
@@ -126,7 +126,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">&nbsp;</td>
-                                            <td colspan="1" valign="top"><input type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OD_1" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OD_1;value=1" property="value" outputString="checked"/> value="1">1</td>
+                                            <td colspan="1" style="vertical-align:top;"><input type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OD_1" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OD_1;value=1" property="value" outputString="checked"/> value="1">1</td>
                                             <td colspan="1">&nbsp;</td>
                                             <td colspan="1" valign="bottom">11<input type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OD_11" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OD_11;value=11" property="value" outputString="checked"/> value="11"></td>
                                             <td colspan="3">&nbsp;</td>
@@ -173,7 +173,7 @@
                                             <td colspan="3">&nbsp;</td>
                                             <td colspan="1" valign="bottom"><input type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OG_11" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OG_11;value=11" property="value" outputString="checked"/> value="11">11</td>
                                             <td colspan="1">&nbsp;</td>
-                                            <td colspan="1" valign="top">1<input type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OG_1" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OG_1;value=1" property="value" outputString="checked"/> value="1"></td>
+                                            <td colspan="1" style="vertical-align:top;">1<input type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OG_1" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OG_1;value=1" property="value" outputString="checked"/> value="1"></td>
                                             <td colspan="2">&nbsp;</td>
                                         </tr>
                                         <tr>
@@ -192,7 +192,7 @@
                                                 <input type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OG_22" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_PERIPHERIC_OG_22;value=22" property="value" outputString="checked"/> value="22">
                                             </td>
                                         </tr>
-                                        <tr><td valign="top">22</td></tr>
+                                        <tr><td style="vertical-align:top;">22</td></tr>
                                     </table>
                                 </td>
 

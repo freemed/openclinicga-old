@@ -1,6 +1,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("occup.ep","select",activeUser)%>
+
 <form name="transactionForm" id="transactionForm" method="POST" action="<c:url value='/healthrecord/updateTransaction.do'/>?ts=<%=getTs()%>" focus='type' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 
@@ -13,96 +14,99 @@
 
     <%=writeHistoryFunctions(((TransactionVO)transaction).getTransactionType(),sWebLanguage)%>
     <%=contextHeader(request,sWebLanguage)%>
-     <table class="list" width='100%' border='0' cellspacing="1">
-
-      <%-- DATE --%>
-    <tr>
-      <td class="admin">
-            <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
-            <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
-      </td>
-      <td class="admin2">
-            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'> <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
-      </td>
-    </tr>
-	    <%-- DIAGNOSIS --%>
-	    <tr>
-	    	<td class="admin" colspan="2">
-		      	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
-	    	</td>
-	    </tr>
-     <%--  DONNEES CLINIQUES --%>
-
-    <tr>
-       <td width ="<%=sTDAdminWidth%>" class='admin'><%=getTran("web","ep.clinicaldata",sWebLanguage)%>&nbsp;</td>
-       <td class='admin2'>
-                <textarea onKeyup="resizeTextarea(this,10);" <%=setRightClick("ITEM_TYPE_EP_CLINICALDATA")%> class="text" cols="74" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_CLINICALDATA" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_CLINICALDATA" property="value"/></textarea>
-       </td>
-
-    </tr>
-
-   <%--  MODALITE D ETUDE --%>
-    <tr>
-        <td class='admin'><%=getTran("web","ep.studymodality",sWebLanguage)%>&nbsp;</td>
-        <td class='admin2'>
-            <textarea onKeyup="resizeTextarea(this,10);" <%=setRightClick("ITEM_TYPE_EP_STUDYMODALITY")%> class="text" cols="74" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_STUDYMODALITY" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_STUDYMODALITY" property="value"/></textarea>
-        </td>
-    </tr>
-
-   <%--  RESULTATS --%>
-    <tr>
-        <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("web","results",sWebLanguage)%>&nbsp;</td>
-        <td class="admin2" width="100%">
-	        <input <%=setRightClick("ITEM_TYPE_EP_RESULTS")%> type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS" property="itemId"/>]>.value" value="medwan.results.normal" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS;value=medwan.results.normal" property="value" outputString="checked"/>><%=getTran("web","medwan.results.normal",sWebLanguage)%>
-	        <input <%=setRightClick("ITEM_TYPE_EP_RESULTS")%> type="radio" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS" property="itemId"/>]>.value" value="medwan.results.abnormal" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS;value=medwan.results.abnormal" property="value" outputString="checked"/>><%=getTran("web","medwan.results.abnormal",sWebLanguage)%>
-        </td>
-    </tr>
-    <tr class="admin">
-        <td colspan="3"><%=getTran("Web.Occup","medwan.healthrecord.description",sWebLanguage)%></td>
-    </tr>
-    <%--  RAPPORT TECHNIQUE --%>
-     <tr>
-       <td class='admin'><%=getTran("web","technical.report",sWebLanguage)%>&nbsp;</td>
-       <td class='admin2'>
-            <textarea <%=setRightClick("ITEM_TYPE_EP_TECHNICAL_REPORT")%> onKeyup="resizeTextarea(this,10);" class="text" cols="74" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_TECHNICAL_REPORT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_TECHNICAL_REPORT" property="value"/></textarea>
-      </td>
-    </tr>
-
-     <%--  RESULTATS --%>
-      <tr>
-            <td class='admin'><%=getTran("web","results",sWebLanguage)%>&nbsp;</td>
-            <td class='admin2'>
-                <textarea <%=setRightClick("ITEM_TYPE_EP_RESULTS_DESCRIPTION")%> onKeyup="resizeTextarea(this,10);" class="text" cols="74" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS_DESCRIPTION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS_DESCRIPTION" property="value"/></textarea>
-            </td>
-     </tr>
-
-    <%--  CONCLUSION --%>
-    <tr>
-     <td class='admin'><%=getTran("web","conclusion",sWebLanguage)%>&nbsp;</td>
-       <td class='admin2'>
-     <textarea <%=setRightClick("ITEM_TYPE_EP_CONCLUSION")%> onKeyup="resizeTextarea(this,10);" class="text" cols="74" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_CONCLUSION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_CONCLUSION" property="value"/></textarea>
-       </td>
-
-    </tr>
-    <%-- BUTTONS --%>
-
+     
+    <table class="list" width="100%" cellspacing="1">
         <tr>
-            <td class="admin"/>
-            <td class="admin2">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.ep",sWebLanguage)%>
-            </td>
-        </tr>
+            <td style="vertical-align:top;" class="admin2">    
+	            <table class="list" width='100%' border='0' cellspacing="1">
+	                <%-- DATE --%>
+	                <tr>
+	                    <td class="admin">
+	                        <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+	                        <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
+	                    </td>
+	                    <td class="admin2">
+	                        <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'> <script>writeTranDate();</script>
+	                    </td>
+	                </tr>
+	                    
+	                <%--  DONNEES CLINIQUES --%>
+	                <tr>
+	                   <td width ="<%=sTDAdminWidth%>" class='admin'><%=getTran("web","ep.clinicaldata",sWebLanguage)%>&nbsp;</td>
+	                   <td class='admin2'>
+	                       <textarea onKeyup="resizeTextarea(this,10);" <%=setRightClick("ITEM_TYPE_EP_CLINICALDATA")%> class="text" cols="70" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_CLINICALDATA" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_CLINICALDATA" property="value"/></textarea>
+	                   </td>
+	                </tr>
+	            
+	                <%--  MODALITE D ETUDE --%>
+	                <tr>
+	                    <td class='admin'><%=getTran("web","ep.studymodality",sWebLanguage)%>&nbsp;</td>
+	                    <td class='admin2'>
+	                        <textarea onKeyup="resizeTextarea(this,10);" <%=setRightClick("ITEM_TYPE_EP_STUDYMODALITY")%> class="text" cols="70" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_STUDYMODALITY" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_STUDYMODALITY" property="value"/></textarea>
+	                    </td>
+	                </tr>
+	            
+	                <%-- RESULTATS --%>
+	                <tr>
+	                    <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("web","results",sWebLanguage)%>&nbsp;</td>
+	                    <td class="admin2" width="100%">
+	                        <input <%=setRightClick("ITEM_TYPE_EP_RESULTS")%> type="radio" id="resultRadio1" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS" property="itemId"/>]>.value" value="medwan.results.normal" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS;value=medwan.results.normal" property="value" outputString="checked"/>><%=getLabel("web","medwan.results.normal",sWebLanguage,"resultRadio1")%>
+	                        <input <%=setRightClick("ITEM_TYPE_EP_RESULTS")%> type="radio" id="resultRadio2" onDblClick="uncheckRadio(this);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS" property="itemId"/>]>.value" value="medwan.results.abnormal" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS;value=medwan.results.abnormal" property="value" outputString="checked"/>><%=getLabel("web","medwan.results.abnormal",sWebLanguage,"resultRadio2")%>
+	                    </td>
+	                </tr>
+	                
+	                <%-- DESCRIPTION --------------------------------------------------------%>
+	                <tr class="admin">
+	                    <td colspan="3"><%=getTran("Web.Occup","medwan.healthrecord.description",sWebLanguage)%></td>
+	                </tr>
+	                
+	                <%-- RAPPORT TECHNIQUE --%>
+	                <tr>
+	                    <td class='admin'><%=getTran("web","technical.report",sWebLanguage)%>&nbsp;</td>
+	                    <td class='admin2'>
+	                        <textarea <%=setRightClick("ITEM_TYPE_EP_TECHNICAL_REPORT")%> onKeyup="resizeTextarea(this,10);" class="text" cols="70" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_TECHNICAL_REPORT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_TECHNICAL_REPORT" property="value"/></textarea>
+	                    </td>
+	                </tr>
+	            
+	                <%-- RESULTATS --%>
+	                <tr>
+	                    <td class='admin'><%=getTran("web","results",sWebLanguage)%>&nbsp;</td>
+	                    <td class='admin2'>
+	                        <textarea <%=setRightClick("ITEM_TYPE_EP_RESULTS_DESCRIPTION")%> onKeyup="resizeTextarea(this,10);" class="text" cols="70" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS_DESCRIPTION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_RESULTS_DESCRIPTION" property="value"/></textarea>
+	                    </td>
+	                </tr>
+	            
+	                <%-- CONCLUSION --%>
+	                <tr>
+	                    <td class='admin'><%=getTran("web","conclusion",sWebLanguage)%>&nbsp;</td>
+	                    <td class='admin2'>
+	                        <textarea <%=setRightClick("ITEM_TYPE_EP_CONCLUSION")%> onKeyup="resizeTextarea(this,10);" class="text" cols="70" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_CONCLUSION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EP_CONCLUSION" property="value"/></textarea>
+	                    </td>
+	                </tr>
+	            </table>
+	        </td>
+	       
+	        <%-- DIAGNOSIS --%>
+	        <td class="admin" style="vertical-align:top;">
+	            <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
+	        </td>
+	    </tr>
+	</table>
 
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>                    
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.ep",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
 
     <%=ScreenHelper.contextFooter(request)%>
-</table>
 </form>
 
 <script>
   function submitForm(){
-    document.transactionForm.saveButton.style.visibility = "hidden";
+    document.getElementById("buttonsDiv").style.visibility = "hidden";
     var temp = Form.findFirstElement(transactionForm);//for ff compatibility
     document.transactionForm.submit();
   }
 </script>
+
 <%=writeJSButtons("transactionForm","saveButton")%>

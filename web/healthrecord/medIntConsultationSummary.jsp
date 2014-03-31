@@ -182,7 +182,7 @@
 <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
     <tr>
         <%-- LAST GENERAL CLINICAL EXAMINATION --%>
-        <td valign="top" height="100%">
+        <td style="vertical-align:top;" height="100%">
             <table  class="list" width="100%" border="0" cellspacing="1" cellpadding="1" height="100%">
                 <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination">
                     <bean:define id="lastTransaction_generalClinicalExamination" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination"/>
@@ -227,7 +227,7 @@
         </td>
 
         <%-- LAST BIOMETRY EXAMINATION --%>
-        <td valign="top" colspan="2" height="100%">
+        <td style="vertical-align:top;" colspan="2" height="100%">
             <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0" height="100%">
                 <tr class="gray">
                     <td width="25%">
@@ -391,7 +391,7 @@
                 <tr>
                     <td class="admin"><%=getTran("openclinic.chuk","temperature",sWebLanguage)%></td>
                     <td colspan="3" class="admin2">
-                        <input type="text" class="text" <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE" property="value"/>" onBlur="if(isNumber(this)){if(!checkMinMaxOpen(0,45,this)){alert('<%=getTran("Web.Occup","medwan.common.unrealistic-value",sWebLanguage)%>');}}" size="5"/>
+                        <input type="text" class="text" <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE" property="value"/>" onBlur="if(isNumber(this)){if(!checkMinMaxOpen(0,45,this)){alertDialog('Web.Occup','medwan.common.unrealistic-value');}}" size="5"/> C°
                     </td>
                 </tr>
                 <tr>
@@ -451,7 +451,7 @@
         </td>
 
         <%-- KLINISCH ONDERZOEK -------------------------------------------------------------------------------------%>
-        <td valign="top" colspan="2">
+        <td style="vertical-align:top;" colspan="2">
         	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
             <br/>
             <table width="100%" class="list" cellspacing="1">

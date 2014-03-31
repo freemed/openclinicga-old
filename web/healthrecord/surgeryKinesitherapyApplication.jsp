@@ -1,11 +1,11 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("occup.kinesitherapy.application","select",activeUser)%>
 
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -18,7 +18,7 @@
 
     <table class="list" width="100%" cellspacing="1">
 		<tr>
-			<td valign="top" class="admin2">
+			<td style="vertical-align:top;padding:0" class="admin2">
 			    <table class="list" cellspacing="1" cellpadding="0" width="100%">
 			        <%-- DATE --%>
 			        <tr>
@@ -28,7 +28,7 @@
 			            </td>
 			            <td class="admin2">
 			                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-			                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+			                <script>writeTranDate();</script>
 			            </td>
 			        </tr>
 			
@@ -83,28 +83,20 @@
 			                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_APPLICATION_REMARKS")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_APPLICATION_REMARKS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_APPLICATION_REMARKS" property="value"/></textarea>
 			            </td>
 			        </tr>
-			
-			        <%-- BUTTONS --%>
-			        <tr>
-			            <td class="admin"/>
-			            <td class="admin2" colspan="7">
-			                <%=getButtonsHtml(request,activeUser,activePatient,"occup.kinesitherapy.application",sWebLanguage)%>
-			            </td>
-			        </tr>
 			    </table>
 			</td>
-			<td valign="top" class="admin2">
-			    <table class="list" width="100%" cellspacing="1">
-			        <%-- Diagnoses --%>
-			        <tr>
-                        <td class="admin2">
-                            <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
-                        </td>
-			        </tr>
-			    </table>
+			
+			<%-- DIAGNOSES --%>
+			<td style="vertical-align:top;" class="admin2">
+                <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
 			</td>
 		</tr>
     </table>
+
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>                    
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.kinesitherapy.application",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
 
     <%=ScreenHelper.contextFooter(request)%>
 </form>
@@ -113,23 +105,25 @@
   <%-- SUBMIT FORM --%>  
   function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
-		searchEncounter();
+	  alertDialog("web","no.encounter.linked");
+	  searchEncounter();
 	}	
     else {
-	    var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-	    document.transactionForm.submit();
-	    document.transactionForm.saveButton.style.visibility = "hidden";
+	  var temp = Form.findFirstElement(transactionForm);//for ff compatibility
+	  document.transactionForm.submit();
+	  document.getElementById("buttonsDiv").style.visibility = "hidden";
     }
   }
+  
+  <%-- SEARCH ENCOUNTER --%>
   function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
+  
   if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+	alertDialog("web","no.encounter.linked");
 	searchEncounter();
   }	
-  
 </script>
 
 <%=writeJSButtons("transactionForm","saveButton")%>

@@ -238,4 +238,4 @@
   }
 </script>
 </form>
-<%=writeJSButtons("transactionForm", "save")%>
+<%=writeJSButtons("transactionForm","saveButton")%>

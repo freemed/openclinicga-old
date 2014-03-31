@@ -25,7 +25,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE" property="value" formatType="date" format="dd-mm-yyyy"/>" id="trandate" onBlur="if(checkDate(this)){ checkAfter('nextdate',this); }"/>
-                <script>writeMyDate("trandate","<c:url value="/_img/calbtn.gif"/>","<%=getTranNoLink("web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
 

@@ -9,6 +9,52 @@
 
 <%=sJSSORTTABLE%>
 
+<%!
+    //--- ADD FOOTER TO PDF -----------------------------------------------------------------------
+    // Like PDFFooter-class but with total pagecount
+    public ByteArrayOutputStream addFooterToPdf(ByteArrayOutputStream origBaos, HttpSession session) throws Exception {
+	    com.itextpdf.text.pdf.PdfReader reader = new com.itextpdf.text.pdf.PdfReader(origBaos.toByteArray());
+	    int totalPageCount = reader.getNumberOfPages(); 
+	    
+	    ByteArrayOutputStream newBaos = new ByteArrayOutputStream();
+	    com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+	    com.itextpdf.text.pdf.PdfCopy copy = new com.itextpdf.text.pdf.PdfCopy(document,newBaos);
+	    document.open();
+	
+	    String sProject = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
+	    String sFooterText = MedwanQuery.getInstance().getConfigString("footer."+sProject,"OpenClinic pdf engine (c)2007-"+new SimpleDateFormat("yyyy").format(new java.util.Date())+", MXS nv");
+	    
+	    // Loop over the pages of the baos
+	    com.itextpdf.text.pdf.PdfImportedPage pdfPage;
+	    com.itextpdf.text.pdf.PdfCopy.PageStamp stamp;
+	    com.itextpdf.text.Phrase phrase;
+	    
+	    com.itextpdf.text.Rectangle rect = document.getPageSize();
+	    for(int i=0; i<totalPageCount;){
+	    	pdfPage = copy.getImportedPage(reader,++i);
+	
+	        //*** add footer with page numbers ***
+	        stamp = copy.createPageStamp(pdfPage);
+	        
+	    	// footer text
+	        phrase = com.itextpdf.text.Phrase.getInstance(0,sFooterText,com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,6));
+            com.itextpdf.text.pdf.ColumnText.showTextAligned(stamp.getUnderContent(),1,phrase,(rect.getLeft()+rect.getRight())/2,rect.getBottom()+26,0);
+	       
+	        // page count
+	        phrase = com.itextpdf.text.Phrase.getInstance(0,String.format("%d/%d",i,totalPageCount),com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,6));
+            com.itextpdf.text.pdf.ColumnText.showTextAligned(stamp.getUnderContent(),1,phrase,(rect.getLeft()+rect.getRight())/2,rect.getBottom()+18,0);        
+	   
+	        stamp.alterContents();	
+	        copy.addPage(pdfPage);
+	    }
+	
+	    document.close();  
+	    reader.close();
+	    
+	    return newBaos;
+    }
+%>
+
 <%
     String sAction           = checkString(request.getParameter("actionField")),
            sSelectedFilter   = checkString(request.getParameter("filter")),
@@ -25,47 +71,45 @@
     // parse date from if any specified
     java.util.Date dateFrom;
     if (sDateFrom.length() > 0) dateFrom = dateFormat.parse(sDateFrom);
-    else dateFrom = new java.util.Date(0); // 1970
+    else                        dateFrom = new java.util.Date(0); // 1970
 
     // parse date to if any specified
     java.util.Date dateTo;
     if (sDateTo.length() > 0) dateTo = dateFormat.parse(sDateTo);
-    else dateTo = new java.util.Date(); // now
+    else                      dateTo = new java.util.Date(); // now
 
     //--- PRINT PDF -------------------------------------------------------------------------------
-    if (sAction.equals("print")) {
+    if(sAction.equals("print")){
         String sPrintLanguage = checkString(request.getParameter("PrintLanguage"));
 
         ByteArrayOutputStream baosPDF = null;
 
-        SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
+        SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
         sessionContainerWO.verifyPerson(activePatient.personid);
         sessionContainerWO.verifyHealthRecord(null);
 
-        try {
-            PDFCreator pdfCreator = new GeneralPDFCreator(sessionContainerWO, activeUser, activePatient, sAPPTITLE, sAPPDIR, dateFrom, dateTo, sPrintLanguage);
-            baosPDF = pdfCreator.generatePDFDocumentBytes(request, application, (sSelectedFilter.length() > 0), (sSelectedFilter.equals("select_trantypes_recent") ? 0 : 1));
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("filename_")
-                      .append(System.currentTimeMillis())
-                      .append(".pdf");
+        ByteArrayOutputStream origBaos = null;
+        
+        try{
+            PDFCreator pdfCreator = new GeneralPDFCreator(sessionContainerWO, activeUser, activePatient, sAPPTITLE, sAPPDIR, null, null, sPrintLanguage);
+            origBaos = pdfCreator.generatePDFDocumentBytes(request, application, (sSelectedFilter.length() > 0), (sSelectedFilter.equals("select_trantypes_recent") ? 0 : 1));
+            ByteArrayOutputStream newBaos = addFooterToPdf(origBaos,session);
 
-            response.setHeader("Cache-Control", "max-age=30");
+            // prevent caching
+            response.setHeader("Expires","Sat, 6 May 1995 12:00:00 GMT");
+            response.setHeader("Cache-Control","Cache=0, must-revalidate");
+            response.addHeader("Cache-Control","post-check=0, pre-check=0");
             response.setContentType("application/pdf");
 
-            StringBuffer sbContentDispValue = new StringBuffer();
-            sbContentDispValue.append("inline");
-            sbContentDispValue.append("; filename=");
-            sbContentDispValue.append(sbFilename);
-
-            response.setHeader("Content-disposition", sbContentDispValue.toString());
-            response.setContentLength(baosPDF.size());
+            String sFileName = "filename_"+System.currentTimeMillis()+".pdf";
+            response.setHeader("Content-disposition","inline; filename="+sFileName);
+            response.setContentLength(newBaos.size());
 
             ServletOutputStream sos = response.getOutputStream();
-            baosPDF.writeTo(sos);
+            newBaos.writeTo(sos);
             sos.flush();
         }
-        catch (DocumentException dex) {
+        catch(DocumentException dex){
             response.setContentType("text/html");
             PrintWriter writer = response.getWriter();
             writer.print(this.getClass().getName() + " caught an exception: " + dex.getClass().getName() + "<br>");
@@ -73,13 +117,11 @@
             dex.printStackTrace(writer);
             writer.print("</pre>");
         }
-        catch (Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            if (baosPDF != null) {
-                baosPDF.reset();
-            }
+        finally{
+            if(origBaos!=null) origBaos.reset();
         }
     }
     //--- APPLY FILTER ----------------------------------------------------------------------------
@@ -104,11 +146,11 @@
 
             // header
             sOut.append("<tr class='admin'>")
-                .append(" <td width='30'>&nbsp;</td>")
-                .append(" <td width='80'><DESC>" + getTran("web", "date", sWebLanguage) + "</DESC></td>")
-                .append(" <td width='45%'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
-                .append(" <td width='250'>" + getTran("web.occup", "medwan.common.context", sWebLanguage) + "</td>")
-                .append(" <td width='200'>" + getTran("web.occup", "medwan.common.user", sWebLanguage) + "</td>")
+                 .append("<td width='30'>&nbsp;</td>")
+                 .append("<td width='80'><DESC>" + getTran("web", "date", sWebLanguage) + "</DESC></td>")
+                 .append("<td width='45%'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
+                 .append("<td width='250'>" + getTran("web.occup", "medwan.common.context", sWebLanguage) + "</td>")
+                 .append("<td width='200'>" + getTran("web.occup", "medwan.common.user", sWebLanguage) + "</td>")
                 .append("</tr>");
 
             // records
@@ -176,13 +218,13 @@
                                 else sClass = "";
 
                                 sOut.append("<tr class=\"list" + sClass + "\" >")
-                                    .append(" <td align='center'>")
-                                    .append("  <input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
-                                    .append(" </td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + sExaminationName + "</td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
+                                     .append("<td align='center'>")
+                                      .append("<input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
+                                     .append("</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + sExaminationName + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
                                     .append("</tr>");
 
                                 cbCounter++;
@@ -194,13 +236,13 @@
                                     else sClass = "";
 
                                     sOut.append("<tr class=\"list" + sClass + "\" >")
-                                        .append(" <td align='center'>")
-                                        .append("  <input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
-                                        .append(" </td>")
-                                        .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
-                                        .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                        .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
-                                        .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
+                                         .append("<td align='center'>")
+                                          .append("<input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
+                                         .append("</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
                                         .append("</tr>");
 
                                     cbCounter++;
@@ -212,13 +254,13 @@
                                 else sClass = "";
 
                                 sOut.append("<tr class=\"list" + sClass + "\" >")
-                                    .append(" <td align='center'>")
-                                    .append("  <input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
-                                    .append(" </td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
+                                     .append("<td align='center'>")
+                                      .append("<input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
+                                     .append("</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
                                     .append("</tr>");
 
                                 cbCounter++;
@@ -254,9 +296,9 @@
 
             // header
             sOut.append("<tr class='admin'>")
-                .append(" <td width='30'>&nbsp;</td>")
-                .append(" <td width='*'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
-                .append(" <td width='250'>" + getTran("web.occup", "medwan.common.context", sWebLanguage) + "</td>")
+                 .append("<td width='30'>&nbsp;</td>")
+                 .append("<td width='*'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
+                 .append("<td width='250'>" + getTran("web.occup", "medwan.common.context", sWebLanguage) + "</td>")
                 .append("</tr>");
 
             // records
@@ -297,11 +339,11 @@
                                 else sClass = "";
 
                                 sOut.append("<tr class=\"list" + sClass + "\" >")
-                                    .append(" <td align='center'>")
-                                    .append("  <input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
-                                    .append(" </td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                     .append("<td align='center'>")
+                                      .append(" <input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
+                                     .append("</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
                                     .append("</tr>");
 
                                 cbCounter++;
@@ -313,11 +355,11 @@
                                     else sClass = "";
 
                                     sOut.append("<tr class=\"list" + sClass + "\" >")
-                                        .append(" <td align='center'>")
-                                        .append("  <input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
-                                        .append(" </td>")
-                                        .append(" <td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                        .append(" <td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                         .append("<td align='center'>")
+                                          .append("<input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
+                                         .append("</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
                                         .append("</tr>");
 
                                     cbCounter++;
@@ -329,11 +371,11 @@
                                 else sClass = "";
 
                                 sOut.append("<tr class=\"list" + sClass + "\" >")
-                                    .append(" <td align='center'>")
-                                    .append("  <input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
-                                    .append(" </td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                    .append(" <td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                     .append("<td align='center'>")
+                                      .append("<input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
+                                     .append("</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
                                     .append("</tr>");
 
                                 cbCounter++;
@@ -373,10 +415,10 @@
 
             // header
             sOut.append("<tr class='admin'>")
-                .append(" <td width='30'>&nbsp;</td>")
-                .append(" <td width='80'>" + getTran("web", "date", sWebLanguage) + "</td>")
-                .append(" <td width='70%'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
-                .append(" <td width='200'>" + getTran("web.occup", "medwan.common.user", sWebLanguage) + "</td>")
+                 .append("<std width='30'>&nbsp;</td>")
+                 .append("<td width='80'>" + getTran("web", "date", sWebLanguage) + "</td>")
+                 .append("<td width='70%'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
+                 .append("<td width='200'>" + getTran("web.occup", "medwan.common.user", sWebLanguage) + "</td>")
                 .append("</tr>");
 
             // records
@@ -413,12 +455,12 @@
                             else sClass = "";
 
                             sOut.append("<tr class=\"list" + sClass + "\" >")
-                                .append(" <td align='center'>")
-                                .append("  <input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
-                                .append(" </td>")
-                                .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + (tranDate == null ? "" : dateFormat.format(tranDate)) + "</td>")
-                                .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                .append(" <td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
+                                 .append("<td align='center'>")
+                                  .append("<input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
+                                 .append("</td>")
+                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + (tranDate == null ? "" : dateFormat.format(tranDate)) + "</td>")
+                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
+                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
                                 .append("</tr>");
                         }
 

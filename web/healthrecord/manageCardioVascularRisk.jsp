@@ -1,25 +1,24 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%
 
-%>
 <%!
-    private String getLastItemValue(javax.servlet.http.HttpServletRequest request,String itemType){
-        try {
+    //--- GET LAST ITEM VALUE ---------------------------------------------------------------------
+    private String getLastItemValue(javax.servlet.http.HttpServletRequest request, String itemType){
+        try{
             SessionContainerWO sessionContainerWO= (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName() );
-            if (sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue()<0){
+            if(sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue()<0){
                 // New transaction, find last values
                 return MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(((AdminPerson)(request.getSession().getAttribute("activePatient"))).personid),itemType);
             }
-            else {
+            else{
                 // Existing transaction, return active values
                 ItemVO item = sessionContainerWO.getCurrentTransactionVO().getItem(itemType);
-                if (item != null && item.getValue()!=null){
+                if(item != null && item.getValue()!=null){
                     return item.getValue();
                 }
             }
         }
-        catch (Exception e){
+        catch(Exception e){
             e.printStackTrace();
         }
 
@@ -42,7 +41,7 @@
 
     <script>
       function submitForm(){
-        document.transactionForm.save.disabled = true;
+        document.transactionForm.saveButton.disabled = true;
         <%
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
             out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();"));
@@ -62,7 +61,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" onblur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
 
@@ -107,17 +106,25 @@
             <td class="admin2">
                 <textarea id="comment" onkeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_CARDIOVASCULAR_RISK_COMMENT")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIOVASCULAR_RISK_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIOVASCULAR_RISK_COMMENT" property="value"/></textarea>
             </td>
+        </tr>    
+
+        <%-- BUTTONS --%>
+        <tr>
+            <td class="admin"/>
+            <td class="admin2" colspan="3">
+                <input class="button" type="button" name="ButtonCalculateCardio" value="<%=getTran("Web.Occup","calculate",sWebLanguage)%>" onclick="calculateRisk();"/>&nbsp;
+            </td>
         </tr>
     </table>
+
     <%-- BUTTONS --%>
-    <p align="right">
-                    <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="submitForm();"></button>
-                    <button class="button" name="save" id="save" onclick="submitForm();"><%=getTran("accesskey","save",sWebLanguage)%></button>
-        <input class="button" type="button" name="ButtonCalculateCardio" value="<%=getTran("Web.Occup","calculate",sWebLanguage)%>" onclick="calculateRisk();"/>
-        <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
-    </p>
+    <%=ScreenHelper.alignButtonsStart()%>                    
+	    <%=getButtonsHtml(request,activeUser,activePatient,"",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
+        
     <%=ScreenHelper.contextFooter(request)%>
 </form>
+
 <script>
   function doBack(){
     if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){
@@ -127,20 +134,21 @@
 
   function calculateRisk(){
     var smoker='no';
-    if (document.getElementById('smoker').checked){
+    if(document.getElementById('smoker').checked){
       smoker='yes';
     }
 
-    if (document.getElementById("sbpr").value.length==0){
-      alert("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup",sPREFIX+"item_type_recruitment_sce_sbp",sWebLanguage)%>)");
+    if(document.getElementById("sbpr").value.length==0){
+      alertDialogMessage("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup",sPREFIX+"item_type_recruitment_sce_sbp",sWebLanguage)%>)");
       document.getElementById("sbpr").focus();
       return 0;
     }
-    else if (document.getElementById("chol").value.length==0){
-      alert("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup","medwan.healthrecord.laboratory-examinations.blood.totale-cholesterol",sWebLanguage)%>)");
+    else if(document.getElementById("chol").value.length==0){
+      alertDialogMessage("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup","medwan.healthrecord.laboratory-examinations.blood.totale-cholesterol",sWebLanguage)%>)");
       document.getElementById("chol").focus();
       return 0;
     }
+    
     var url = "<c:url value="/healthrecord/viewCardioVascularRiskBelgium.jsp"/>"+
               "?Action=ShowCardio"+
               "&smoker="+smoker+
@@ -161,7 +169,7 @@
   %>
   function setBP(obj){
     if(!isNumberLimited(obj,<%=minBP%>,<%=maxBP%>)){
-      alert("<%=outOfBoundsMsgBP%>");
+      alertDialogMessage("<%=outOfBoundsMsgBP%>");
     }
   }
 
@@ -176,8 +184,9 @@
   %>
   function setCholesterol(obj){
     if(!isNumberLimited(obj,<%=minChol%>,<%=maxChol%>)){
-      alert("<%=outOfBoundsMsgChol%>");
+      alertDialogMessage("<%=outOfBoundsMsgChol%>");
     }
   }
 </script>
-<%=writeJSButtons("transactionForm","save")%>
+
+<%=writeJSButtons("transactionForm","saveButton")%>

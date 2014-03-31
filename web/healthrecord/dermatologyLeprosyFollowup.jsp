@@ -1,11 +1,11 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-
 <%=checkPermission("occup.leprosyfollowup","select",activeUser)%>
 
 <form name="transactionForm" id="transactionForm" method="POST" action="<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
+   
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -25,13 +25,13 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur="checkDate(this);">
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
 
         <%-- MUSCULAR FORCE ---------------------------------------------------------------------%>
         <tr class="gray">
-            <td class="admin"><%=getTran("leprosy","muscularforce",sWebLanguage)%></td>
+            <td class="admin" style="vertical-align:top;padding:top:10px;"><%=getTran("leprosy","muscularforce",sWebLanguage)%></td>
             <td>
                 <table width="100%" cellspacing="1" class="list">
                     <%-- header --%>
@@ -137,7 +137,7 @@
 
         <%-- YEUX -------------------------------------------------------------------------------%>
         <tr class="gray">
-            <td class="admin"><%=getTran("leprosy","yeux",sWebLanguage)%></td>
+            <td class="admin" style="vertical-align:top;padding:top:10px;"><%=getTran("leprosy","yeux",sWebLanguage)%></td>
             <td>
                 <table width="100%" cellspacing="1" class="list">
                     <%-- header --%>
@@ -167,7 +167,7 @@
         </tr>
 
         <%-- COTATION DES INFIRMITES ------------------------------------------------------------%>
-        <tr class="gray">
+        <tr class="gray" style="vertical-align:top;padding:top:10px;">
             <td class="admin"><%=getTran("leprosy","cotationdesinfirmites",sWebLanguage)%></td>
             <td>
                 <table width="100%" cellspacing="1" class="list">
@@ -312,7 +312,7 @@
   <%-- SUBMIT FORM --%>
   function submitForm(){
     var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-    document.transactionForm.saveButton.style.visibility = "hidden";
+    document.getElementById("buttonsDiv").style.visibility = "hidden";
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
@@ -321,4 +321,3 @@
 </script>
 
 <%=writeJSButtons("transactionForm","saveButton")%>
-

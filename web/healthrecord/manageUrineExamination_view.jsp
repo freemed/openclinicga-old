@@ -55,8 +55,10 @@
     %>
   }
 </script>
+
     <%=writeHistoryFunctions(((TransactionVO)transaction).getTransactionType(),sWebLanguage)%>
     <%=contextHeader(request,sWebLanguage)%>
+   
     <table class="list" width="100%" cellspacing="1">
         <%-- DATE --%>
         <tr>
@@ -65,9 +67,11 @@
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">
-                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'> <script>writeMyDate("trandate","<c:url value="/_img/calbtn.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
+                <script>writeTranDate();</script>
             </td>
         </tr>
+        
         <%-- albumine --%>
         <tr>
             <td class='admin'>
@@ -84,6 +88,7 @@
                 mg/dl
             </td>
         </tr>
+        
         <%-- glucose --%>
         <tr>
             <td class='admin'><%=getTran("Web.Occup","medwan.healthrecord.urine-exam.glucose",sWebLanguage)%>&nbsp;</td>
@@ -99,6 +104,7 @@
                 mg/dl
             </td>
         </tr>
+        
         <%--
         <tr>
         <td class='admin'><%=getTran("Web.Occup","medwan.healthrecord.urine-exam.blood",sWebLanguage)%>&nbsp;</td>
@@ -115,6 +121,7 @@
             </td>
         </tr>
         --%>
+        
         <%-- remark --%>
         <tr>
             <td class='admin'><%=getTran("Web.Occup","medwan.common.remark",sWebLanguage)%>&nbsp;</td>
@@ -123,17 +130,20 @@
             </td>
         </tr>
     </table>
+    
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
         <%
             if ((activeUser.getAccessRight("occupurineexamination.add"))||(activeUser.getAccessRight("occupurineexamination.edit"))){
-            %>
-                <INPUT class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
-            <%
+	            %>
+	                <INPUT class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+	            <%
             }
         %>
         <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){window.location.href='<c:url value="/healthrecord/managePeriodicExaminations.do"/>?ConvocationID=currentConvocation&ts=<%=getTs()%>'}">
     <%=ScreenHelper.alignButtonsStop()%>
+    
     <%=ScreenHelper.contextFooter(request)%>
 </form>
-<%=writeJSButtons("transactionForm","save")%>
+
+<%=writeJSButtons("transactionForm","saveButton")%>

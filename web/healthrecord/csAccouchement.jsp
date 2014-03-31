@@ -25,7 +25,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur="checkDate(this);">
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
 
@@ -143,7 +143,7 @@
         $("comment_4").value = $F("comment").substring(1000, 1250);
         $("comment").value = $F("comment").substring(0, 250);
     var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-    document.transactionForm.saveButton.style.visibility = "hidden";
+    document.getElementById("buttonsDiv").style.visibility = "hidden";
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));

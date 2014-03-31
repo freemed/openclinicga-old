@@ -6,6 +6,7 @@
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+   
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -23,7 +24,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
         <tr>
@@ -75,54 +76,51 @@
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_TRACNET_SUIVI_CLINIQUE_CAT")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_CLINIQUE_CAT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_CLINIQUE_CAT" property="value"/></textarea>
             </td>
         </tr>
-
-<%-- BUTTONS --%>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.tracnet.suivi.clinique",sWebLanguage)%>
-            </td>
-        </tr>
     </table>
 
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+        <%=getButtonsHtml(request,activeUser,activePatient,"occup.tracnet.suivi.clinique",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>
+	
     <%=ScreenHelper.contextFooter(request)%>
 </form>
+
 <script>
   function submitForm(){
-    document.transactionForm.saveButton.style.visibility = "hidden";
+    document.getElementById("buttonsDiv").style.visibility = "hidden";
     var temp = Form.findFirstElement(transactionForm);//for ff compatibility
     document.transactionForm.submit();
   }
 
-  function calculateBMI() {
+  function calculateBMI(){
     var _BMI = 0;
     var vWeight = transactionForm.idweight.value;
     var vHeight = transactionForm.idheight.value;
 
-    if (vHeight != null && vWeight != null && vHeight > 0) {
+    if(vHeight != null && vWeight != null && vHeight > 0){
       _BMI = (vWeight * 10000) / (vHeight * vHeight);
-      if (_BMI > 100 || _BMI < 5) {
+      if(_BMI > 100 || _BMI < 5){
         transactionForm.idbmi.value = "";
       }
-      else {
-        transactionForm.idbmi.value = Math.round(_BMI * 10) / 10;
+      else{
+        transactionForm.idbmi.value = Math.round(_BMI * 10)/10;
       }
     }
   }
 
-  <%
+<%
     SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
     TransactionVO transactionVO = sessionContainerWO.getCurrentTransactionVO();
 
-    if (transactionVO.getTransactionId().intValue()<0){
+    if(transactionVO.getTransactionId().intValue() < 0){
         String sHeight = checkString(MedwanQuery.getInstance().getLastItemValue(Integer.parseInt(activePatient.personid),"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_HEIGHT"));
 
-        if (sHeight.length()>0){
-        %>
-        transactionForm.idheight.value = "<%=sHeight%>";  
-        <%
+        if(sHeight.length() > 0){
+            %>transactionForm.idheight.value = "<%=sHeight%>";<%
         }
     }
-  %>
+%>
 </script>
+
 <%=writeJSButtons("transactionForm","saveButton")%>

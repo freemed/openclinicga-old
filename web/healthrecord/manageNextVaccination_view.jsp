@@ -59,7 +59,7 @@
         </tr>
         <tr>
             <td class='admin'><%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>&nbsp;</td>
-            <td class='admin2'><input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="value" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'/><script>writeMyDate("trandate","<c:url value="/_img/calbtn.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script></td>
+            <td class='admin2'><input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="value" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'/><script>writeTranDate();</script></td>
         </tr>
         <tr>
             <td class='admin'><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.next-date",sWebLanguage)%>&nbsp;</td>

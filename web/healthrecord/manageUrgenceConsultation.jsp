@@ -178,7 +178,7 @@
             </td>
             <td>
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
             <td width="50%"><%=contextHeader(request,sWebLanguage)%></td>
         </tr>
@@ -200,7 +200,7 @@
 <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
     <tr>
         <%-- LAST GENERAL CLINICAL EXAMINATION --%>
-        <td valign="top" colspan="2" height="100%" width="50%">
+        <td style="vertical-align:top;" colspan="2" height="100%" width="50%">
             <table  class="list" width="100%" border="0" cellspacing="0" cellpadding="1" height="100%">
                 <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination">
                     <bean:define id="lastTransaction_generalClinicalExamination" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination"/>
@@ -246,7 +246,7 @@
             </table>
         </td>
         <%-- LAST BIOMETRY EXAMINATION --%>
-        <td valign="top" colspan="2" height="100%">
+        <td style="vertical-align:top;" colspan="2" height="100%">
             <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
                 <tr class="admin">
                     <td align="center" width="33%"><%=getTran("Web.Occup","medwan.healthrecord.biometry.weight",sWebLanguage)%></td>
@@ -548,6 +548,6 @@
     openPopup("medical/managePrescriptionsPopup.jsp&Action=showDetails&EditPrescrUid="+uid);
   }
 </script>
-<%=writeJSButtons("transactionForm","save")%>
+<%=writeJSButtons("transactionForm","saveButton")%>
 <%=ScreenHelper.contextFooter(request)%>
 </form>

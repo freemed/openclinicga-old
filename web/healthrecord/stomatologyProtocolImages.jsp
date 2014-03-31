@@ -7,7 +7,7 @@
     //--- ADD IMAGES INFORMATION ------------------------------------------------------------------
     private StringBuffer addImagesInformation(int iTotal, String sTmpInfo, String sNomenclature,
                                               String sResultsRx, String sWebLanguage){
-        if (sTmpInfo.length()>0){
+        if(sTmpInfo.length()>0){
             sTmpInfo = getTran("web.occup",sTmpInfo,sWebLanguage);
         }
 
@@ -55,27 +55,27 @@
         sImagesInformation.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_IMG_INFORMATION4"));
         sImagesInformation.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_IMG_INFORMATION5"));
 
-        if (sImagesInformation.indexOf("£")>-1){
+        if(sImagesInformation.indexOf("£")>-1){
             StringBuffer sTmpImagesInformation = sImagesInformation;
             String sTmpNomenclature,sTmpResultsRx, sTmpInfo;
             sImagesInformation = new StringBuffer();
 
-            while (sTmpImagesInformation.toString().toLowerCase().indexOf("$")>-1) {
+            while (sTmpImagesInformation.toString().toLowerCase().indexOf("$")>-1){
                 sTmpInfo = "";
                 sTmpNomenclature  = "";
                 sTmpResultsRx = "";
 
-                if (sTmpImagesInformation.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpImagesInformation.toString().toLowerCase().indexOf("£")>-1){
                     sTmpInfo = sTmpImagesInformation.substring(0,sTmpImagesInformation.toString().toLowerCase().indexOf("£"));
                     sTmpImagesInformation = new StringBuffer(sTmpImagesInformation.substring(sTmpImagesInformation.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpImagesInformation.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpImagesInformation.toString().toLowerCase().indexOf("£")>-1){
                     sTmpNomenclature = sTmpImagesInformation.substring(0,sTmpImagesInformation.toString().toLowerCase().indexOf("£"));
                     sTmpImagesInformation = new StringBuffer(sTmpImagesInformation.substring(sTmpImagesInformation.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpImagesInformation.toString().toLowerCase().indexOf("$")>-1){
+                if(sTmpImagesInformation.toString().toLowerCase().indexOf("$")>-1){
                     sTmpResultsRx = sTmpImagesInformation.substring(0,sTmpImagesInformation.toString().toLowerCase().indexOf("$"));
                     sTmpImagesInformation = new StringBuffer(sTmpImagesInformation.substring(sTmpImagesInformation.toString().toLowerCase().indexOf("$")+1));
                 }
@@ -96,7 +96,7 @@
             </td>
             <td class="admin2" colspan="3">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
 
@@ -124,10 +124,10 @@
                             <input id="rbinfopano" onDblClick="uncheckRadio(this);"type="radio" name="rbinfo" value="image.information.pano"/>
                             <%=getLabel("web.occup","image.information.pano",sWebLanguage,"rbinfopano")%>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="30" rows="2" name="nomenclature"></textarea>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="30" rows="2" name="resultsrx"></textarea>
                         </td>
                         <td class="admin2">
@@ -150,30 +150,27 @@
 
         <%-- conclusion --%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","conclusion",sWebLanguage)%></td>
-            <td class="admin2">
+            <td class="admin" style="vertical-align:top;"><%=getTran("openclinic.chuk","conclusion",sWebLanguage)%></td>
+            <td class="admin2" style="vertical-align:top;">
                 <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_CONCLUSION")%> class="text" cols="60" rows="2"  name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_CONCLUSION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_CONCLUSION" property="value"/></textarea>
             </td>
             <td class="admin2" colspan="2">
                 <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
             </td>
         </tr>
-
-        <%-- BUTTONS --%>
-        <tr>
-            <td class="admin" width="<%=sTDAdminWidth%>"/>
-            <td class="admin2" colspan="3">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.protocol.images.stomatology",sWebLanguage)%>
-            </td>
-        </tr>
     </table>
 
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+        <%=getButtonsHtml(request,activeUser,activePatient,"occup.protocol.images.stomatology",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>
+	
     <%=ScreenHelper.contextFooter(request)%>
 </form>
 
 <script>
 var iImagesInformationIndex = <%=iImagesInformationTotal%>;
-var sImagesInformation = "<%=sImagesInformation%>";
+var sImagesInformation = "<%=sImagesInformation.toString().replaceAll("\r\n","<br>")%>";
 var editImagesInformationRowid = "";
 
 <%-- IMAGES INFORMATION -------------------------------------------------------------------------%>
@@ -182,11 +179,11 @@ function addImagesInformation(){
       iImagesInformationIndex++;
       var sInfo = "";
       var sTmpInfo = "";
-      if (document.getElementById("rbinfocliche").checked){
+      if(document.getElementById("rbinfocliche").checked){
           sInfo = "<%=getTran("web.occup","image.information.cliche",sWebLanguage)%>";
           sTmpInfo = "image.information.cliche";
       }
-      else if (document.getElementById("rbinfopano").checked){
+      else if(document.getElementById("rbinfopano").checked){
           sInfo = "<%=getTran("web.occup","image.information.pano",sWebLanguage)%>";
           sTmpInfo = "image.information.pano";
       }
@@ -233,11 +230,11 @@ function updateImagesInformation(){
 
     var sInfo = "";
     var sTmpInfo = "";
-    if (document.getElementById("rbinfocliche").checked){
+    if(document.getElementById("rbinfocliche").checked){
       sInfo = "<%=getTran("web.occup","image.information.cliche",sWebLanguage)%>";
       sTmpInfo = "image.information.cliche";
     }
-    else if (document.getElementById("rbinfopano").checked){
+    else if(document.getElementById("rbinfopano").checked){
       sInfo = "<%=getTran("web.occup","image.information.pano",sWebLanguage)%>";
       sTmpInfo = "image.information.pano";
     }
@@ -295,10 +292,10 @@ function deleteImagesInformation(rowid){
 
 function editImagesInformation(rowid){
   var row = getRowFromArrayString(sImagesInformation,rowid.id);
-  if (getCelFromRowString(row,0) == "image.information.cliche"){
+  if(getCelFromRowString(row,0) == "image.information.cliche"){
     document.getElementById("rbinfocliche").checked = true;
   }
-  else if (getCelFromRowString(row,0) == "image.information.pano"){
+  else if(getCelFromRowString(row,0) == "image.information.pano"){
     document.getElementById("rbinfopano").checked = true;
   }
   transactionForm.nomenclature.value = getCelFromRowString(row,1);
@@ -319,11 +316,11 @@ function deleteRowFromArrayString(sArray,rowid){
   return array.join("$");
 }
 
-function getRowFromArrayString(sArray, rowid) {
+function getRowFromArrayString(sArray, rowid){
   var array = sArray.split("$");
   var row = "";
-  for (var i = 0; i < array.length; i++) {
-    if (array[i].indexOf(rowid) > -1) {
+  for (var i = 0; i < array.length; i++){
+    if(array[i].indexOf(rowid) > -1){
       row = array[i].substring(array[i].indexOf("=") + 1);
       break;
     }
@@ -331,15 +328,15 @@ function getRowFromArrayString(sArray, rowid) {
   return row;
 }
 
-function getCelFromRowString(sRow, celid) {
+function getCelFromRowString(sRow, celid){
   var row = sRow.split("£");
   return row[celid];
 }
 
-function replaceRowInArrayString(sArray, newRow, rowid) {
+function replaceRowInArrayString(sArray, newRow, rowid){
   var array = sArray.split("$");
-  for (var i = 0; i < array.length; i++) {
-    if (array[i].indexOf(rowid) > -1) {
+  for (var i = 0; i < array.length; i++){
+    if(array[i].indexOf(rowid) > -1){
       array.splice(i, 1, newRow);
       break;
     }
@@ -348,17 +345,17 @@ function replaceRowInArrayString(sArray, newRow, rowid) {
 }
 
 <%-- SUBMIT FORM --%>
-function submitForm() {
+function submitForm(){
 	if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+		alertDialog("web","no.encounter.linked");
 		searchEncounter();
 	}	
-    else {
+    else{
 	  var maySubmit = true;
 	
-	  if (isAtLeastOneImagesInformationFieldFilled()) {
-	    if (maySubmit) {
-	      if (!addImagesInformation()) {
+	  if(isAtLeastOneImagesInformationFieldFilled()){
+	    if(maySubmit){
+	      if(!addImagesInformation()){
 	        maySubmit = false;
 	      }
 	    }
@@ -367,7 +364,7 @@ function submitForm() {
 	  var sTmpBegin;
 	  var sTmpEnd;
 	
-	  while (sImagesInformation.indexOf("rowImagesInformation") > -1) {
+	  while (sImagesInformation.indexOf("rowImagesInformation") > -1){
 	    sTmpBegin = sImagesInformation.substring(sImagesInformation.indexOf("rowImagesInformation"));
 	    sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
 	    sImagesInformation = sImagesInformation.substring(0, sImagesInformation.indexOf("rowImagesInformation")) + sTmpEnd;
@@ -381,23 +378,23 @@ function submitForm() {
 	
 	  if(maySubmit){
 	    var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-	    document.transactionForm.saveButton.style.visibility = "hidden";
+	    document.getElementById("buttonsDiv").style.visibility = "hidden";
 	    <%
 	        SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
 	        out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
 	    %>
 	  }
     }
-}
+  }
 
-function searchEncounter(){
+  function searchEncounter(){
     openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
-}
-if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+  }
+  
+  if(document.getElementById('encounteruid').value==''){
+	alertDialog("web","no.encounter.linked");
 	searchEncounter();
-}	
-
+  }	
 
   <%-- SET CELL STYLE --%>
  function setCellStyle(row){

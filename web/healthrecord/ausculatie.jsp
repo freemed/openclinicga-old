@@ -155,4 +155,5 @@
     document.getElementsByName(fieldName)[0].value = "medwan.common.false";
   }
 </script>
-<%=writeJSButtons("transactionForm", "save")%>
+
+<%=writeJSButtons("transactionForm","saveButton")%>

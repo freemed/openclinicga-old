@@ -5,7 +5,8 @@
 
 <form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid, false,activeUser,(TransactionVO)transaction) %>
+  
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -19,15 +20,15 @@
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
         String sIdentificationNr = "";
-        if (sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue() > 0) {
+        if(sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue() > 0){
             ItemVO item = sessionContainerWO.getCurrentTransactionVO().getItem(sPREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_IDENTIFICATION_NUMBER");
-            if (item != null) {
+            if(item!=null){
                 sIdentificationNr = item.getValue();
             }
         }
-        else {
-            String sServerID = sessionContainerWO.getCurrentTransactionVO().getServerId() + "";
-            sIdentificationNr = "5" + ScreenHelper.padLeft(sServerID,"0",3) + MedwanQuery.getInstance().getNewOccupCounterValue("IdentificationAnatomopathologyID");
+        else{
+            String sServerID = sessionContainerWO.getCurrentTransactionVO().getServerId()+"";
+            sIdentificationNr = "5"+ScreenHelper.padLeft(sServerID,"0",3)+MedwanQuery.getInstance().getNewOccupCounterValue("IdentificationAnatomopathologyID");
         }
     %>
 
@@ -40,7 +41,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
 
@@ -92,16 +93,13 @@
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID" property="value"/></textarea>
             </td>
         </tr>
-
-        <%-- BUTTONS --%>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2">
-                <input class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","printlabels",sWebLanguage)%>" onclick="printLabels()"/>&nbsp;
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.anatomopathology",sWebLanguage)%>
-            </td>
-        </tr>
     </table>
+    
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>   
+        <input class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","printlabels",sWebLanguage)%>" onclick="printLabels()"/>&nbsp;
+        <%=getButtonsHtml(request,activeUser,activePatient,"occup.anatomopathology",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
 
     <%=ScreenHelper.contextFooter(request)%>
 </form>
@@ -109,18 +107,19 @@
 <script>
   <%-- PRINT LABELS --%>
   function printLabels(){
-    var url = "<c:url value="/healthrecord/createAnatomopathologyLabelPdf.jsp"/>?imageid="+document.getElementsByName("rxid")[0].value+"&trandate="+document.getElementsByName("trandate")[0].value+"&ts=<%=getTs()%>";
-    window.open(url,"Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width-400)/2,(screen.height-300)/2);
+    var url = "<c:url value='/healthrecord/createAnatomopathologyLabelPdf.jsp'/>"+
+              "?imageid="+document.getElementsByName("rxid")[0].value+
+    		  "&trandate="+document.getElementsByName("trandate")[0].value+
+    		  "&ts=<%=getTs()%>";
+    window.open(url,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=400,height=300,menubar=no").moveTo((screen.width-400)/2,(screen.height-300)/2);
   }
 
   <%-- SUBMIT FORM --%>
   function submitForm(){
-     var temp = Form.findFirstElement(transactionForm);// FOR COMPATIBILITY WITH FIREFOX
-        document.transactionForm.saveButton.style.visibility = "hidden";
-    <%
-        out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
-    %>
+    var temp = Form.findFirstElement(transactionForm);// FOR COMPATIBILITY WITH FIREFOX
+    document.getElementById("buttonsDiv").style.visibility = "hidden";
+    <% out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();")); %>
   }
 </script>
 
-<%=writeJSButtons("transactionForm", "saveButton")%>
+<%=writeJSButtons("transactionForm","saveButton")%>

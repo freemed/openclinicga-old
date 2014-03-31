@@ -1,8 +1,6 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%
 
-%>
 <form name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton();" onkeyup="setSaveButton();">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 
@@ -10,10 +8,10 @@
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" readonly name="be.mxs.healthrecord.updateTransaction.actionForwardKey" value="manageClinicalExamination.do?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction"/>
-    <input type="hidden" readonly name="subClass" value=".GASTRO"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" translate="false" property="value"/>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="value"/>"/>
-
+    <input type="hidden" readonly name="subClass" value=".GASTRO"/>
+  
     <%
         if(session.getAttribute("sessionCounter")==null){
             session.setAttribute("sessionCounter",new Integer(0));
@@ -208,21 +206,20 @@
         </tr>
     </table>
 
-    <%-- BUTTONS --%>
-    <%=ScreenHelper.alignButtonsStart()%>
-        <INPUT class="button" type="button" name="save" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
-        <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'}">
-        <%=writeResetButton("transactionForm",sWebLanguage)%>
-    <%=ScreenHelper.alignButtonsStop()%>
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <%=getButtonsHtml(request,activeUser,activePatient,"",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>
 </form>
 
 <script>
-  function doSubmit(){
-    document.transactionForm.save.disabled = true;
+  function submitForm(){
+    document.transactionForm.saveButton.disabled = true;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
     %>
   }
 </script>
-<%=writeJSButtons("transactionForm", "document.getElementsByName('save')[0]")%>
+
+<%=writeJSButtons("transactionForm","saveButton")%>

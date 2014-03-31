@@ -168,7 +168,7 @@ if (activePatient!=null){
 <body>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
     <tr>
-        <td align="center" valign="top" width="1%">
+        <td align="center" style="vertical-align:top;" width="1%">
             <img src="<c:url value="/"/><%=sAPPDIR%>_img/logo_print.gif" border="0">
         </td>
         <td>&nbsp;</td>

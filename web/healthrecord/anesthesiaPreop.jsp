@@ -1,11 +1,11 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("occup.anesthesiapreop","select",activeUser)%>
 
 <form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+   
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -25,7 +25,7 @@
             </td>
             <td class="admin2" colspan="4">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
 
                 <input type='text' class='text' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_HOUR" property="value"/>"onkeypress="keypressTime(this)" onblur='checkTime(this)' size='5'>
                 &nbsp;<%=getTran("web.occup","medwan.common.hour",sWebLanguage)%>
@@ -315,20 +315,16 @@
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANESTHESIA_PREMEDICATION")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_PREMEDICATION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_PREMEDICATION" property="value"/></textarea>
             </td>
         </tr>
-       <tr>
-            <td class="admin2" colspan="5">	
-				<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncodingWide.jsp"),pageContext);%>            
-			</td>
-       </tr>
-
-        <%-- BUTTONS --%>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2" colspan="4">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.anesthesiapreop",sWebLanguage)%>
-            </td>
-        </tr>
     </table>
+    <div style="padding-top:5px;"></div>
+    
+    <%-- DIAGNOSES --%>
+    <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncodingWide.jsp"),pageContext);%>            
+    
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+        <%=getButtonsHtml(request,activeUser,activePatient,"occup.anesthesiapreop",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>
 
     <%=ScreenHelper.contextFooter(request)%>
 </form>
@@ -338,13 +334,13 @@
   function setBP(oObject,sbp,dbp){
     if(oObject.value.length>0){
       if(!isNumberLimited(oObject,40,300)){
-        alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');
+        alertDialog("Web.Occup","out-of-bounds-value");
       }
-      else if ((sbp.length>0)&&(dbp.length>0)){
+      else if((sbp.length>0)&&(dbp.length>0)){
         isbp = document.getElementsByName(sbp)[0].value*1;
         idbp = document.getElementsByName(dbp)[0].value*1;
-        if (idbp>isbp){
-          alert('<%=getTran("Web.Occup","error.dbp_greather_than_sbp",sWebLanguage)%>');
+        if(idbp>isbp){
+        	alertDialog("Web.Occup","error.dbp_greather_than_sbp");
         }
       }
     }
@@ -352,27 +348,28 @@
 
   <%-- SUBMIT FORM --%>
   function submitForm(){
-    if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
-		searchEncounter();
+    if(document.getElementById('encounteruid').value.length==0){
+	  alertDialog("web","no.encounter.linked");
+      searchEncounter();
 	}	
-    else {
-	    var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-	    document.transactionForm.saveButton.style.visibility = "hidden";
-	    <%
-	        SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-	        out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
-	    %>
+    else{
+	  var temp = Form.findFirstElement(transactionForm);//for ff compatibility
+	  document.getElementById("buttonsDiv").style.visibility = "hidden";
+	  <%
+	      SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
+	      out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
+	  %>
     }
   }
-  function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
-  }
-  if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
-	searchEncounter();
-  }	
   
+  function searchEncounter(){
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+  }
+  
+  if(document.getElementById('encounteruid').value==''){
+	alertDialog("web","no.encounter.linked");
+	searchEncounter();
+  }  
 </script>
 
 <%=writeJSButtons("transactionForm","saveButton")%>

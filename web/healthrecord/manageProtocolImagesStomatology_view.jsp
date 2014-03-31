@@ -96,7 +96,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
         <tr>
@@ -119,10 +119,10 @@
                             <input id="rbinfopano" onDblClick="uncheckRadio(this);"type="radio" name="rbinfo" value="image.information.pano"/>
                             <%=getLabel("web.occup","image.information.pano",sWebLanguage,"rbinfopano")%>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="50" rows="2" name="nomenclature"></textarea>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="50" rows="2" name="resultsrx"></textarea>
                         </td>
                         <td class="admin2">
@@ -141,8 +141,8 @@
             </td>
         </tr>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","conclusion",sWebLanguage)%></td>
-            <td class="admin2" colspan="3">
+            <td class="admin" style="vertical-align:top;"><%=getTran("openclinic.chuk","conclusion",sWebLanguage)%></td>
+            <td class="admin2" colspan="3" style="vertical-align:top;">
                 <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_CONCLUSION")%> class="text" cols="100" rows="2"  name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_CONCLUSION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_CONCLUSION" property="value"/></textarea>
             </td>
         </tr>
@@ -163,14 +163,14 @@
         </tr>
     </table>
 <%=ScreenHelper.contextFooter(request)%>
-
 </form>
+
 <script>
 var iImagesInformationIndex = <%=iImagesInformationTotal%>;
-var sImagesInformation = "<%=sImagesInformation%>";
+var sImagesInformation = "<%=sImagesInformation.toString().replaceAll("\r\n","<br>")%>";
 var editImagesInformationRowid = "";
-<!-- IMAGESINFORMATION -->
 
+<!-- IMAGESINFORMATION -->
 function addImagesInformation(){
   if(isAtLeastOneImagesInformationFieldFilled()){
       iImagesInformationIndex++;
@@ -337,9 +337,7 @@ function replaceRowInArrayString(sArray, newRow, rowid) {
             break;
         }
     }
-    //alert("1: " + array);
     var result = array.join("$");
-    //alert("2: " + array);
     return result;//.substring(0, result.length - 1);
 }
 
@@ -393,4 +391,4 @@ function setCellStyle(row){
       }
 }
 </script>
-<%=writeJSButtons("transactionForm","save")%>
+<%=writeJSButtons("transactionForm","saveButton")%>

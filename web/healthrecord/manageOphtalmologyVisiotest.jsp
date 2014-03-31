@@ -30,7 +30,7 @@
         </td>
         <td class="admin2" colspan="3">
             <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='if(!checkDate(this)){this.focus();alertPopup("<%=getTranNoLink("Web.Occup","date.error",sWebLanguage)%>");}'>
-            <script>writeMyDate("trandate","<c:url value="/_img/calbtn.gif"/>","<%=getTranNoLink("Web","PutToday",sWebLanguage)%>");</script>
+            <script>writeTranDate();</script>
         </td>
     </tr>
    <%-- VOORGESCHREVEN CORRECTIE --%>
@@ -907,7 +907,7 @@
     <%-- LAST VISIT ------------------------------------------------------------------------------%>
     <tr>
         <td class="admin"><%=getTran("Web.Occup","last.visit.ophtalmologist",sWebLanguage)%></td>
-        <td class="admin2" colspan="3" valign="top">
+        <td class="admin2" colspan="3" style="vertical-align:top;">
             <%=writeLooseDateFieldMonth("currentTransactionVO.items.<ItemVO[hashCode="+getCurrentItem(request,"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST").getItemId()+"]>.value", "transactionForm",checkString(getLastItem(request,"be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST").getValue()),sWebLanguage)%>
         </td>
     </tr>
@@ -915,7 +915,7 @@
     <%-- LAST VISIT COMMENT ----------------------------------------------------------------------%>
     <tr>
         <td class="admin"><%=getTran("Web.Occup","medwan.common.remark",sWebLanguage)%></td>
-        <td class="admin2"  colspan="3" valign="top">
+        <td class="admin2"  colspan="3" style="vertical-align:top;">
             <textarea onKeyup="resizeTextarea(this,10);limitChars(this,1000);" <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT1" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT2" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT3" property="value"/></textarea>
             <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT1" property="itemId"/>]>.value">
             <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_LAST_VISIT_OPHTALMOLOGIST_COMMENT2" property="itemId"/>]>.value">

@@ -313,7 +313,7 @@
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">
-                <input id="trandate" onchange="calculateToday()" type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>"> <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <input id="trandate" onchange="calculateToday()" type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>"> <script>writeTranDate();</script>
             </td>
         </tr>
         <%-- FEV1 --%>
@@ -601,4 +601,4 @@
 <%=ScreenHelper.contextFooter(request)%>
 </form>
 <script>document.getElementById("trandate").focus();</script>
-<%=writeJSButtons("transactionForm","save")%>
+<%=writeJSButtons("transactionForm","saveButton")%>

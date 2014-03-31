@@ -49,7 +49,7 @@
         if (itemVO!=null){
             String sFixedUnit = checkString(itemVO.getValue());
 
-            if (sFixedUnit.equalsIgnoreCase("medwan.common.true")){
+            if(sFixedUnit.equalsIgnoreCase("medwan.common.true")){
                 out.print("</form>");
 
                 if(useTemplate.equalsIgnoreCase("yes")){
@@ -68,7 +68,7 @@
         if (itemVO!=null){
             String sMobileUnit = checkString(itemVO.getValue());
 
-            if (sMobileUnit.equalsIgnoreCase("medwan.common.true")){
+            if(sMobileUnit.equalsIgnoreCase("medwan.common.true")){
                 out.print("</form>");
 
                 if(useTemplate.equalsIgnoreCase("yes")){
@@ -95,6 +95,7 @@
                 </a>
             </td>
         </tr>
+        
         <%-- MOBILE UNIT --%>
         <tr height="20">
             <td class="admin2">
@@ -105,6 +106,7 @@
         </tr>
     </table>
     <br>
+    
     <%-- BUTTONS --%>
     <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
 </form>

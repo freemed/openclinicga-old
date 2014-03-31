@@ -1,11 +1,11 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("occup.protocol.cardioechography","select",activeUser)%>
 
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+   
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -18,6 +18,7 @@
 
     <%
         TransactionVO tran = (TransactionVO)transaction;
+    
         String sAO          = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_AO"),
                sSeptum      = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_SEPTUM"),
                sOg          = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_OG"),
@@ -41,18 +42,16 @@
                 <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
-            <td class="admin2">
+            <td class="admin2" colspan="3">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
-            <td class="admin" width="<%=sTDAdminWidth%>"/>
-            <td class="admin2"/>
         </tr>
 
-        <%-- motive --%>
-        <tr valign="top">
+        <%-- motive/reason --%>
+        <tr style="vertical-align:top;">
             <td class="admin"><%=getTran("openclinic.chuk","motive",sWebLanguage)%></td>
-            <td class="admin2">
+            <td style="vertical-align:top;" class="admin2">
                 <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_MOTIVE")%> class="text" cols="50" rows="2"  name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_MOTIVE" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_MOTIVE" property="value"/></textarea>
             </td>
             <td class="admin2" colspan="2">
@@ -99,9 +98,9 @@
             </td>
         </tr>
 
-        <%-- dtdvg / fe --%>
+        <%-- dtdvgA / fe --%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","dtdvg",sWebLanguage)%></td>
+            <td class="admin"><%=getTran("openclinic.chuk","dtdvg",sWebLanguage)%> A</td>
             <td class="admin2">
                 <input <%=setRightClick("ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_DTDVGA")%> type="text" class="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_DTDVGA" property="itemId"/>]>.value" value="<%=sDtdvgA%>">
             </td>
@@ -111,9 +110,9 @@
             </td>
         </tr>
 
-        <%-- dtdvg / raccouc --%>
+        <%-- dtdvgB / raccouc --%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","dtdvg",sWebLanguage)%></td>
+            <td class="admin"><%=getTran("openclinic.chuk","dtdvg",sWebLanguage)%> B</td>
             <td class="admin2">
                 <input <%=setRightClick("ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_DTDVGB")%> type="text" class="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_DTDVGB" property="itemId"/>]>.value" value="<%=sDtdvgB%>">
             </td>
@@ -182,16 +181,13 @@
                 <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_REMARKS")%> class="text" cols="50" rows="2"  name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_REMARKS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL_REMARKS" property="value"/></textarea>
             </td>
         </tr>
-
-        <%-- BUTTONS --%>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2" colspan="3">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.protocol.cardioechography",sWebLanguage)%>
-            </td>
-        </tr>
     </table>
 
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>                    
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.protocol.cardioechography",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
+    
     <%=ScreenHelper.contextFooter(request)%>
 </form>
 
@@ -199,20 +195,22 @@
   <%-- SUBMIT FORM --%>
   function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
-		searchEncounter();
+	  alertDialog("web","no.encounter.linked");
+	  searchEncounter();
 	}	
-    else {
-	    Form.findFirstElement(transactionForm); // for ff compatibility
-	    document.transactionForm.saveButton.style.visibility = "hidden";
-	    document.transactionForm.submit();
+    else{
+      Form.findFirstElement(transactionForm); // for ff compatibility
+      document.getElementById("buttonsDiv").style.visibility = "hidden";
+      document.transactionForm.submit();
     }
   }
+  
   function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
+  
   if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+	alertDialog("web","no.encounter.linked");
 	searchEncounter();
   }	
 </script>

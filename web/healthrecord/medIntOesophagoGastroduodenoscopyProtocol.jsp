@@ -6,6 +6,7 @@
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+   
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -25,7 +26,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
             <td class="admin" width="<%=sTDAdminWidth%>"/>
             <td class="admin2"/>
@@ -59,14 +60,11 @@
     <br>
 
     <table class="list" width="100%" cellspacing="1">
-
-        <%-- stomach / pylorus --%>
+        <%-- cardia / empty --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("openclinic.chuk","cardia",sWebLanguage)%></td>
-            <td class="admin2">
+            <td class="admin2" colspan="3">
                 <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_CARDIA")%> class="text" cols="50" rows="2"  name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_CARDIA" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_CARDIA" property="value"/></textarea>
-            </td>
-            <td class="admin2" colspan="2">
             </td>
         </tr>
 
@@ -132,8 +130,8 @@
 
         <%-- remarks --%>
         <tr>
-            <td class="admin" valign="top"><%=getTran("openclinic.chuk","remarks",sWebLanguage)%></td>
-            <td class="admin2" valign="top">
+            <td class="admin" style="vertical-align:top;"><%=getTran("openclinic.chuk","remarks",sWebLanguage)%></td>
+            <td class="admin2" style="vertical-align:top;">
                 <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_REMARKS")%> class="text" cols="50" rows="2"  name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_REMARKS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL_REMARKS" property="value"/></textarea>
             </td>
             <td class="admin"/>
@@ -141,16 +139,13 @@
             	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
             </td>
         </tr>
-
-        <%-- BUTTONS --%>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2" colspan="3">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.protocol.oesophagogastroduodenoscopy",sWebLanguage)%>                
-            </td>
-        </tr>
     </table>
 
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>
+        <%=getButtonsHtml(request,activeUser,activePatient,"occup.protocol.oesophagogastroduodenoscopy",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
+    
     <%=ScreenHelper.contextFooter(request)%>
 </form>
 
@@ -158,11 +153,11 @@
   <%-- SUBMIT FORM --%>
   function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+		alertDialog("web","no.encounter.linked");
 		searchEncounter();
 	}	
     else {
-	    document.transactionForm.saveButton.style.visibility = "hidden";
+	    document.getElementById("buttonsDiv").style.visibility = "hidden";
 	    var temp = Form.findFirstElement(transactionForm);// for ff compatibility
 	    document.transactionForm.submit();
     }
@@ -171,7 +166,7 @@
       openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
   if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+	alertDialog("web","no.encounter.linked");
 	searchEncounter();
   }	
   

@@ -3,9 +3,7 @@
                 java.util.Collection" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%
 
-%>
 <%!
     //--- ADD KINDEREN ----------------------------------------------------------------------------
     private String addKinderen(int iTotal, String sTmpKinderenGeboortejaar, String sTmpKinderenGeslacht, String sTmpKinderenFirstname, String sWebLanguage) {

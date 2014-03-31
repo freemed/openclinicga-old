@@ -21,7 +21,7 @@
             <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
         </td>
         <td class="admin2">
-            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'> <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'> <script>writeTranDate();</script>
         </td>
     </tr>
     <%--  DESCRIPTION --%>
@@ -38,19 +38,13 @@
             <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_FOLLOWUP_THERAPEUTICAL_MODIFICATIONS")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_FOLLOWUP_THERAPEUTICAL_MODIFICATIONS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_FOLLOWUP_THERAPEUTICAL_MODIFICATIONS" property="value"/></textarea>
         </td>
     </tr>
-    <tr>
-        <td class="admin"/>
-        <td class="admin2">
-<%-- BUTTONS --%>
-    <%
-        if(activeUser.getAccessRight("occup.neurologyfollowup.add") || activeUser.getAccessRight("occup.neurologyfollowup.edit")){
-            %><INPUT class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="submitForm();"/><%
-        }
-    %>
-            <INPUT class="button" type="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
-        </td>
-    </tr>
 </table>
+    
+<%-- BUTTONS --%>
+<%=ScreenHelper.alignButtonsStart()%>
+    <%=getButtonsHtml(request,activeUser,activePatient,"occup.neurologyfollowup",sWebLanguage)%>
+<%=ScreenHelper.alignButtonsStop()%>
+
 <script>
   document.getElementById("focusField").focus();
 

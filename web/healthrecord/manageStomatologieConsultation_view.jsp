@@ -114,7 +114,7 @@
                     <img src="<c:url value='/'/>_img/img_gebit.gif" alt=""/>
                 </div>
             </td>
-            <td valign="top">
+            <td style="vertical-align:top;">
                 <table cellspacing="1" cellpadding="0">
                     <tr>
                         <td><div width="10" height="10" style="background-color: gray;">&nbsp;&nbsp;</div></td><td>&nbsp;<%=getTran("openclinic.chuk","tooth.absent",sWebLanguage)%></td>
@@ -142,7 +142,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
         <tr>
@@ -158,16 +158,16 @@
                     </tr>
                     <tr>
                         <td class="admin2"/>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <input class="text" type="text" name="toothNr" value="" size="4" onblur="checkTeethNumber(this);"/>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="50" rows="2" name="toothDescription"></textarea>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="50" rows="2" name="toothTreatment"></textarea>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <select class="text" name="toothStatus">
                                 <option value="tooth.absent"><%=getTran("openclinic.chuk","tooth.absent",sWebLanguage)%></option>
                                 <option value="tooth.fill"><%=getTran("openclinic.chuk","tooth.fill",sWebLanguage)%></option>

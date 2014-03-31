@@ -9,16 +9,16 @@
     private StringBuffer addBio(int iTotal, String sDate, String sWeight, String sHeight, String sSkull,
                                 String sArm, String sFood, String sWebLanguage){
         StringBuffer sTmp = new StringBuffer();
-        if (sFood.length()>0){
+        if(sFood.length() > 0){
             sFood = getTran("biometry_food",sFood,sWebLanguage);
         }
 
         sTmp.append(
             "<tr id='rowBio"+iTotal+"'>"+
             "<td class='admin2'>"+
-            " <a href='javascript:deleteBio(rowBio"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a>"+
-            " <a href='javascript:editBio(rowBio"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTran("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>"+
-            "</td>" +
+             "<a href='javascript:deleteBio(rowBio"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a>"+
+             "<a href='javascript:editBio(rowBio"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTran("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>"+
+            "</td>"+
             "<td class='admin2'>&nbsp;"+sDate+"</td>"+
             "<td class='admin2'>&nbsp;"+sWeight+"</td>"+
             "<td class='admin2'>&nbsp;"+sHeight+"</td>"+
@@ -45,6 +45,7 @@
 <form name="transactionForm" id="transactionForm" method="POST" action="<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+  
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -53,6 +54,7 @@
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RECRUITMENT_CONVOCATION_ID" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RECRUITMENT_CONVOCATION_ID" property="value"/>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" translate="false" property="value"/>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="value"/>"/>
+
 <%
     StringBuffer sDivBio = new StringBuffer(),
                  sBio    = new StringBuffer();
@@ -60,6 +62,7 @@
 
     if (transaction != null){
         TransactionVO tran = (TransactionVO)transaction;
+       
         sBio.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_BIOMETRY_PARAMETER1"));
         sBio.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_BIOMETRY_PARAMETER2"));
         sBio.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_BIOMETRY_PARAMETER3"));
@@ -72,12 +75,12 @@
         sBio.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_BIOMETRY_PARAMETER10"));
 
         iBioTotal = 1;
-        if (sBio.indexOf("£")>-1){
+        if(sBio.indexOf("£")>-1){
             StringBuffer sTmpBio = sBio;
             String sTmpDate, sTmpWeight, sTmpHeight, sTmpSkull, sTmpArm, sTmpFood;
             sBio = new StringBuffer();
 
-            while (sTmpBio.toString().toLowerCase().indexOf("$")>-1) {
+            while(sTmpBio.toString().toLowerCase().indexOf("$")>-1) {
                 sTmpDate = "";
                 sTmpWeight = "";
                 sTmpHeight = "";
@@ -85,32 +88,32 @@
                 sTmpArm = "";
                 sTmpFood = "";
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpBio.toString().toLowerCase().indexOf("£")>-1){
                     sTmpDate = sTmpBio.substring(0,sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpBio.toString().toLowerCase().indexOf("£")>-1){
                     sTmpWeight = sTmpBio.substring(0,sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpBio.toString().toLowerCase().indexOf("£")>-1){
                     sTmpHeight = sTmpBio.substring(0,sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpBio.toString().toLowerCase().indexOf("£")>-1){
                     sTmpSkull = sTmpBio.substring(0,sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpBio.toString().toLowerCase().indexOf("£")>-1){
                     sTmpArm = sTmpBio.substring(0,sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("$")>-1){
+                if(sTmpBio.toString().toLowerCase().indexOf("$")>-1){
                     sTmpFood = sTmpBio.substring(0,sTmpBio.toString().toLowerCase().indexOf("$"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("$")+1));
                 }
@@ -133,11 +136,12 @@
             <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
         </td>
         <td class="admin2">
-            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur="checkDate(this);"> <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur="checkDate(this);"> <script>writeTranDate();</script>
         </td>
     </tr>
-
-    <tr><td/></tr>
+    
+    <%-- spacer --%>
+    <tr><td></td></tr>
 
     <%-- BIOMETRY DATA --%>
     <tr>
@@ -187,69 +191,29 @@
             </table>
         </td>
     </tr>
+</table>
 
-    <tr><td/></tr>
-
-    <%-- PRINTLANGUAGE & GROWTH GRAPH BUTTON --%>
+<%-- BUTTONS --%>
+<%=ScreenHelper.alignButtonsStart()%>
+    <%-- GROWTH GRAPH BUTTON --%>
     <%
-        String sPrintLanguage = sWebLanguage;
-
+	    String sPrintLanguage = checkString(activePatient.language);
+	    if(sPrintLanguage.length()==0){
+	        sPrintLanguage = sWebLanguage;
+	    }
+	    
         // age in months
         float iAgeInYears = MedwanQuery.getInstance().getAgeDecimal(Integer.parseInt(activePatient.personid));
         double iAgeInMonths = iAgeInYears * 12.0;
 
         // growth graphs only apply to persons aged 2 to 20
         if(iAgeInMonths >= 0 && iAgeInMonths <= 240){
-            %>
-                <tr>
-                    <td class="admin"/>
-                    <td class="admin2">
-                        <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>
-
-                        <%
-                            sPrintLanguage = checkString(activePatient.language);
-                            if (sPrintLanguage.length()==0){
-                                sPrintLanguage = sWebLanguage;
-                            }
-
-                            String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
-                        %>
-
-                        <select class="text" name="PrintLanguage">
-                            <%
-                                String tmpLang;
-                                StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages, ",");
-                                while (tokenizer.hasMoreTokens()) {
-                                    tmpLang = tokenizer.nextToken();
-
-                                    %><option value="<%=tmpLang%>"<%if (tmpLang.equalsIgnoreCase(sPrintLanguage)){out.print(" selected");}%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
-                                }
-                            %>
-                        </select>
-
-                        <input class="button" type="button" name="printGraphButton" value="<%=getTranNoLink("Web","printGrowthGraph",sWebLanguage)%>" onclick="printGrowthGraph('<%=(int)iAgeInMonths%>','<%=activePatient.gender%>');">&nbsp;
-                        <input class="button" type="button" name="saveAndPrintGraphButton" value="<%=getTranNoLink("Web","saveAndPrint",sWebLanguage)%>" onclick="doSave(true);">
-                    </td>
-                </tr>
-            <%
+            %><input class="button" type="button" name="printGraphButton" value="<%=getTranNoLink("Web","printGrowthGraph",sWebLanguage)%>" onclick="printGrowthGraph('<%=(int)iAgeInMonths%>','<%=activePatient.gender%>');">&nbsp;<%
         }
     %>
-
-    <%-- BUTTONS --%>
-    <tr>
-        <td class="admin"/>
-        <td class="admin2">
-            <%
-                if(activeUser.getAccessRight("occup.biometricexamination.add") || activeUser.getAccessRight("occup.biometricexamination.edit")) {
-                    %>
-                        <input class="button" name="saveButton" id="saveButton" type="button" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="doSave(false);"/>
-                    <%
-                }
-            %>
-            <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
-        </td>
-    </tr>
-</table>
+    
+    <%=getButtonsHtml(request,activeUser,activePatient,"occup.biometricexamination",sWebLanguage)%>
+<%=ScreenHelper.alignButtonsStop()%>
 
 <%-- hidden fields --%>
 <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER1" property="itemId"/>]>.value">
@@ -376,8 +340,8 @@
       var min = <%=minWeight%>;
       var max = <%=maxWeight%>;
 
-      if (isNaN(weightInput.value) || weightInput.value < min || weightInput.value > max){
-        alert("<%=weightMsg%>");
+      if(isNaN(weightInput.value) || weightInput.value < min || weightInput.value > max){
+        alertDialogMessage("<%=weightMsg%>");
         //weightInput.value = "";
         weightInput.focus();
       }
@@ -399,8 +363,8 @@
       var min = <%=minHeight%>;
       var max = <%=maxHeight%>;
 
-      if (isNaN(heightInput.value) || heightInput.value < min || heightInput.value > max){
-        alert("<%=heightMsg%>");
+      if(isNaN(heightInput.value) || heightInput.value < min || heightInput.value > max){
+        alertDialogMessage("<%=heightMsg%>");
         //heightInput.value = "";
         heightInput.focus();
       }
@@ -473,16 +437,17 @@ function addBio(){
 <%-- CHECK FOOD --%>
 function checkFood(){
   var sDescrFood = "";
-  if (transactionForm.EditFood.value=="food_phase1"){
+  
+  if(transactionForm.EditFood.value=="food_phase1"){
     sDescrFood = "<%=getTranNoLink("biometry_food","food_phase1",sWebLanguage)%>";
   }
-  else if (transactionForm.EditFood.value=="food_phase2"){
+  else if(transactionForm.EditFood.value=="food_phase2"){
     sDescrFood = "<%=getTranNoLink("biometry_food","food_phase2",sWebLanguage)%>";
   }
-  else if (transactionForm.EditFood.value=="food_phase3"){
+  else if(transactionForm.EditFood.value=="food_phase3"){
     sDescrFood = "<%=getTranNoLink("biometry_food","food_phase3",sWebLanguage)%>";
   }
-  else if (transactionForm.EditFood.value=="food_good"){
+  else if(transactionForm.EditFood.value=="food_good"){
     sDescrFood = "<%=getTranNoLink("biometry_food","food_good",sWebLanguage)%>";
   }
 
@@ -660,8 +625,8 @@ function setCellStyle(row){
   <%-- SUBMIT FORM --%>
   function submitForm(){
     var maySubmit = true;
-    if (isAtLeastOneBioFieldFilled()) {
-      if (!addBio()) {
+    if(isAtLeastOneBioFieldFilled()){
+      if(!addBio()){
         maySubmit = false;
       }
     }
@@ -669,10 +634,10 @@ function setCellStyle(row){
 
     var sTmpBegin;
     var sTmpEnd;
-    while (sBio.indexOf("rowBio") > -1) {
+    while(sBio.indexOf("rowBio") > -1){
       sTmpBegin = sBio.substring(sBio.indexOf("rowBio"));
-      sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
-      sBio = sBio.substring(0, sBio.indexOf("rowBio")) + sTmpEnd;
+      sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=")+1);
+      sBio = sBio.substring(0,sBio.indexOf("rowBio"))+sTmpEnd;
     }
 
     document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_PARAMETER1" property="itemId"/>]>.value")[0].value = sBio.substring(0,254);

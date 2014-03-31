@@ -95,7 +95,7 @@
                     </td>
                     <td class="admin2">
                         <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'>
-                        <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                        <script>writeTranDate();</script>
                     </td>
                 </tr>
             </table>
@@ -302,16 +302,11 @@
                 </tr>
             </table>
 		</td>
-		<td valign="top" class="admin2">
-		    <table class="list" width="100%" cellspacing="1">
-		        <%-- Diagnoses --%>
-		        <tr>
-                    <td class="admin2">
-                        <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
-                    </td>
-		        </tr>
-		    </table>
-		</td>
+		
+		<%-- DIAGNOSES --%>
+		<td style="vertical-align:top;" class="admin2">
+               <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
+		</td>			
 	</tr>
 </table>
 <script>

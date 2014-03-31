@@ -28,7 +28,7 @@
 
     <table class="list" width="100%" cellspacing="1">
 		<tr>
-			<td valign="top" class="admin2">
+			<td style="vertical-align:top;" class="admin2">
 			    <table class="list" width="100%" cellspacing="1">
 			        <%-- DATE --%>
 			        <tr>
@@ -38,7 +38,7 @@
 			            </td>
 			            <td class="admin2">
 			                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-			                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+			                <script>writeTranDate();</script>
 			            </td>
 			        </tr>
 			
@@ -135,16 +135,10 @@
 			        </tr>
 			    </table>
 			</td>
-			<td valign="top" class="admin2">
-			    <table class="list" width="100%" cellspacing="1">
-			        <%-- Diagnoses --%>
-			        <tr>
-                        <td class="admin2">
-                            <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
-            				<br/>
-                        </td>
-			        </tr>
-			    </table>
+			
+			<%-- DIAGNOSES --%>
+			<td style="vertical-align:top;" class="admin2">
+                <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
 			</td>
 		</tr>
     </table>
@@ -156,11 +150,11 @@
   <%-- SUBMIT FORM --%>
   function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+		alertDialog("web","no.encounter.linked");
 		searchEncounter();
 	}	
     else {
-	    document.transactionForm.saveButton.style.visibility = "hidden";
+	    document.getElementById("buttonsDiv").style.visibility = "hidden";
 	    Form.findFirstElement(transactionForm);//for ff compatibility
 	    document.transactionForm.submit();
     }
@@ -169,7 +163,7 @@
       openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
   if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+	alertDialog("web","no.encounter.linked");
 	searchEncounter();
   }	
   

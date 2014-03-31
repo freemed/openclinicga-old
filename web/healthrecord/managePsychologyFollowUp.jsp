@@ -82,14 +82,13 @@
  
 <%=contextHeader(request,sWebLanguage)%>
 <table class="list" width="100%" cellspacing="1"> 
-
-
-	    <%-- DIAGNOSIS --%>
-	    <tr>
-	    	<td class="admin" colspan="2">
-		      	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
-	    	</td>
-	    </tr>
+    <%-- DIAGNOSIS --%>
+    <tr>
+    	<td class="admin" colspan="2">
+	      	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
+    	</td>
+    </tr>
+    
 <%--  Personne de référence/Institution --%>
     <tr>
         <td class="admin" width="10%"><%=getTran("web","referenceperson",sWebLanguage)%>&nbsp;</td>
@@ -148,6 +147,7 @@
 	                </td>
 		     	</tr>
 	            <%=sDivPsychology%>
+	            
 	            <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYCHOLOGY_OBSERVATION1" property="itemId"/>]>.value"/>
 	            <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYCHOLOGY_OBSERVATION2" property="itemId"/>]>.value"/>
 	            <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYCHOLOGY_OBSERVATION3" property="itemId"/>]>.value"/>
@@ -164,6 +164,7 @@
            </td>
        </tr>
 </table>
+
 <script>
   var iIndexPersoonlijk = <%=iTotal%>;
   var sPsychology = "<%=sPsychology%>";
@@ -189,148 +190,147 @@
   }
   
   function addPsychology(){
-	  if(isAtLeastOnePsychologyFieldFilled()){
-	      iIndexPersoonlijk ++;
-	      sPsychology+="rowPsychology"+iIndexPersoonlijk+"="+document.getElementById("transactionForm").PsychologyDate.value+"£"+document.getElementById("transactionForm").PsychologyTime.value+"£"+document.getElementById("transactionForm").PsychologyObservation.value+"£"+document.getElementById("transactionForm").PsychologyConclusion.value+"$";
-	      var tr = tblPsychology.insertRow(tblPsychology.rows.length);
-	      tr.id = "rowPsychology"+iIndexPersoonlijk;
+    if(isAtLeastOnePsychologyFieldFilled()){
+      iIndexPersoonlijk ++;
+      sPsychology+="rowPsychology"+iIndexPersoonlijk+"="+document.getElementById("transactionForm").PsychologyDate.value+"£"+document.getElementById("transactionForm").PsychologyTime.value+"£"+document.getElementById("transactionForm").PsychologyObservation.value+"£"+document.getElementById("transactionForm").PsychologyConclusion.value+"$";
+      var tr = tblPsychology.insertRow(tblPsychology.rows.length);
+      tr.id = "rowPsychology"+iIndexPersoonlijk;
 	
-	      var td = tr.insertCell(0);
-	      td.innerHTML = "<a href='javascript:deletePsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-	                    +"<a href='javascript:editPsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-	      tr.appendChild(td);
+      var td = tr.insertCell(0);
+      td.innerHTML = "<a href='javascript:deletePsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editPsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      tr.appendChild(td);
 	
-	      td = tr.insertCell(1);
-	      td.innerHTML =  "&nbsp;"+document.getElementById("transactionForm").PsychologyDate.value;
-	      tr.appendChild(td);
+      td = tr.insertCell(1);
+      td.innerHTML =  "&nbsp;"+document.getElementById("transactionForm").PsychologyDate.value;
+      tr.appendChild(td);
+
+      td = tr.insertCell(2);
+      td.innerHTML =  "&nbsp;"+document.getElementById("transactionForm").PsychologyTime.value;
+      tr.appendChild(td);
 	
-	      td = tr.insertCell(2);
-	      td.innerHTML =  "&nbsp;"+document.getElementById("transactionForm").PsychologyTime.value;
-	      tr.appendChild(td);
+      td = tr.insertCell(3);
+      td.innerHTML =  document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
+      tr.appendChild(td);
 	
-	      td = tr.insertCell(3);
-	      td.innerHTML =  document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
-	      tr.appendChild(td);
+      td = tr.insertCell(4);
+      td.innerHTML = document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
+      tr.appendChild(td);
 	
-	      td = tr.insertCell(4);
-	      td.innerHTML = document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
-	      tr.appendChild(td);
-	
-	      // reset
-	      clearPsychologyFields();
-	      document.getElementById("transactionForm").ButtonUpdatePsychology.disabled = true;
-	  }
-	}
+      // reset
+      clearPsychologyFields();
+      document.getElementById("transactionForm").ButtonUpdatePsychology.disabled = true;
+  }
+}
 
-	function isAtLeastOnePsychologyFieldFilled(){
-	  if(document.getElementById("transactionForm").PsychologyDate.value != "") return true;
-	  if(document.getElementById("transactionForm").PsychologyTime.value != "") return true;
-	  if(document.getElementById("transactionForm").PsychologyObservation.value != "") return true;
-	  if(document.getElementById("transactionForm").PsychologyConclusion.value != "") return true;
-	  return false;
-	}
+function isAtLeastOnePsychologyFieldFilled(){
+  if(document.getElementById("transactionForm").PsychologyDate.value != "") return true;
+  if(document.getElementById("transactionForm").PsychologyTime.value != "") return true;
+  if(document.getElementById("transactionForm").PsychologyObservation.value != "") return true;
+  if(document.getElementById("transactionForm").PsychologyConclusion.value != "") return true;
+  return false;
+}
 
-	function deletePsychology(rowid){
-	  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-	  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-	  var answer;
+function deletePsychology(rowid){
+  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
+  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+  var answer;
 
-	    if(window.showModalDialog){
-	        answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-	    }else{
-	        answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-	    }
-	  if(answer==1){
-	    sPsychology = deleteRowFromArrayString(sPsychology,rowid.id);
-	    tblPsychology.deleteRow(rowid.rowIndex);
-	    clearPsychologyFields();
-	  }
-	}
+    if(window.showModalDialog){
+        answer = window.showModalDialog(popupUrl,'',modalitiesIE);
+    }else{
+        answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
+    }
+  if(answer==1){
+    sPsychology = deleteRowFromArrayString(sPsychology,rowid.id);
+    tblPsychology.deleteRow(rowid.rowIndex);
+    clearPsychologyFields();
+  }
+}
 
-	function editPsychology(rowid){
-	  var row = getRowFromArrayString(sPsychology,rowid.id);
+function editPsychology(rowid){
+  var row = getRowFromArrayString(sPsychology,rowid.id);
 
-	  document.getElementById("transactionForm").PsychologyDate.value = getCelFromRowString(row,0);
-	  document.getElementById("transactionForm").PsychologyTime.value = getCelFromRowString(row,1);
-	  document.getElementById("transactionForm").PsychologyObservation.value = getCelFromRowString(row,2).replace(new RegExp("<br/>", "g"),"\n");
-	  document.getElementById("transactionForm").PsychologyConclusion.value = getCelFromRowString(row,3).replace(new RegExp("<br/>", "g"),"\n");
-	  resizeTextarea(document.getElementById("transactionForm").PsychologyObservation,10);
-	  resizeTextarea(document.getElementById("transactionForm").PsychologyConclusion,10);
-	  editPsychologyRowid = rowid;
-	  document.getElementById("transactionForm").ButtonUpdatePsychology.disabled = false;
-	}
+  document.getElementById("transactionForm").PsychologyDate.value = getCelFromRowString(row,0);
+  document.getElementById("transactionForm").PsychologyTime.value = getCelFromRowString(row,1);
+  document.getElementById("transactionForm").PsychologyObservation.value = getCelFromRowString(row,2).replace(new RegExp("<br/>", "g"),"\n");
+  document.getElementById("transactionForm").PsychologyConclusion.value = getCelFromRowString(row,3).replace(new RegExp("<br/>", "g"),"\n");
+  resizeTextarea(document.getElementById("transactionForm").PsychologyObservation,10);
+  resizeTextarea(document.getElementById("transactionForm").PsychologyConclusion,10);
+  editPsychologyRowid = rowid;
+  document.getElementById("transactionForm").ButtonUpdatePsychology.disabled = false;
+}
 
-	function updatePsychology(){
-	  if(isAtLeastOnePsychologyFieldFilled()){
-	    // update arrayString
-	    newRow = editPsychologyRowid.id+"="
-		         +document.getElementById("transactionForm").PsychologyDate.value+"£"
-		       	 +document.getElementById("transactionForm").PsychologyTime.value+"£"
-	             +document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"")+"£"
-	             +document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
+function updatePsychology(){
+  if(isAtLeastOnePsychologyFieldFilled()){
+    // update arrayString
+    newRow = editPsychologyRowid.id+"="
+	         +document.getElementById("transactionForm").PsychologyDate.value+"£"
+	       	 +document.getElementById("transactionForm").PsychologyTime.value+"£"
+             +document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"")+"£"
+             +document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
 
-	    sPsychology = replaceRowInArrayString(sPsychology,newRow,editPsychologyRowid.id);
+    sPsychology = replaceRowInArrayString(sPsychology,newRow,editPsychologyRowid.id);
 
-	    // update table object
-	    var row = tblPsychology.rows[editPsychologyRowid.rowIndex];
-	    row.cells[0].innerHTML = "<a href='javascript:deletePsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-	                            +"<a href='javascript:editPsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-  	    row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyDate.value;
-  	    row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyTime.value;
-	    row.cells[3].innerHTML = document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
-	    row.cells[4].innerHTML = document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
+    // update table object
+    var row = tblPsychology.rows[editPsychologyRowid.rowIndex];
+    row.cells[0].innerHTML = "<a href='javascript:deletePsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editPsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyDate.value;
+    row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyTime.value;
+    row.cells[3].innerHTML = document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
+    row.cells[4].innerHTML = document.getElementById("transactionForm").PsychologyConclusion.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");
 
-	    // reset
-	    clearPsychologyFields();
-	    document.getElementById("transactionForm").ButtonUpdatePsychology.disabled = true;
-	  }
-	}
+    // reset
+    clearPsychologyFields();
+    document.getElementById("transactionForm").ButtonUpdatePsychology.disabled = true;
+  }
+}
 
-	function clearPsychologyFields(){
-	  document.getElementById("transactionForm").PsychologyDate.value = "";
-	  document.getElementById("transactionForm").PsychologyTime.value = "";
-	  document.getElementById("transactionForm").PsychologyObservation.value = "";
-	  document.getElementById("transactionForm").PsychologyConclusion.value = "";
-	}
+function clearPsychologyFields(){
+  document.getElementById("transactionForm").PsychologyDate.value = "";
+  document.getElementById("transactionForm").PsychologyTime.value = "";
+  document.getElementById("transactionForm").PsychologyObservation.value = "";
+  document.getElementById("transactionForm").PsychologyConclusion.value = "";
+}
 	
   function deleteRowFromArrayString(sArray,rowid){
-	    var array = sArray.split("$");
-	    for (var i=0;i<array.length;i++){
-	      if (array[i].indexOf(rowid)>-1){
-	        array.splice(i,1);
-	      }
-	    }
-	    return array.join("$");
+    var array = sArray.split("$");
+    for (var i=0;i<array.length;i++){
+      if (array[i].indexOf(rowid)>-1){
+        array.splice(i,1);
+      }
+    }
+    return array.join("$");
   }
 
   function getRowFromArrayString(sArray,rowid){
-	    var array = sArray.split("$");
-	    var row = "";
-	    for (var i=0;i<array.length;i++){
-	      if (array[i].indexOf(rowid)>-1){
-	        row = array[i].substring(array[i].indexOf("=")+1);
-	        break;
-	      }
-	    }
-	    return row;
-	  }
+    var array = sArray.split("$");
+    var row = "";
+    for (var i=0;i<array.length;i++){
+      if (array[i].indexOf(rowid)>-1){
+        row = array[i].substring(array[i].indexOf("=")+1);
+        break;
+      }
+    }
+    return row;
+  }
+  
   function getCelFromRowString(sRow,celid){
-	    var row = sRow.split("£");
-	    return row[celid];
-	  }
+    var row = sRow.split("£");
+	  return row[celid];
+  }
 
-	  function replaceRowInArrayString(sArray,newRow,rowid){
-	    var array = sArray.split("$");
-	    for (var i=0;i<array.length;i++){
-	      if (array[i].indexOf(rowid)>-1){
-	        array.splice(i,1,newRow);
-	        break;
-	      }
-	    }
-	    return array.join("$");
-	  }
-
-
+  function replaceRowInArrayString(sArray,newRow,rowid){
+    var array = sArray.split("$");
+    for (var i=0;i<array.length;i++){
+      if (array[i].indexOf(rowid)>-1){
+        array.splice(i,1,newRow);
+        break;
+      }
+    }
+    return array.join("$");
+  }
 
   <%-- DO BACK --%>
   function doBack(){

@@ -3,6 +3,7 @@
 <%@include file="/_common/templateAddIns.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("occup.surveillance.USI","select",activeUser)%>
+
 <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 <%!
     public int getFreeDataSetNr(TransactionVO transaction){
@@ -95,16 +96,18 @@ try{
     <input type="hidden" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT").getType()%>" value="<%=sContextDepartment%>">
     <input type="hidden" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_UPDATEUSERID-" + iDataSetNr).getType()%>" value="<%=activeUser.userid%>">
         <tr>
-            <td valign="top">
+            <td style="vertical-align:top;">
                 <div style="overflow:auto;min-height:450px;height:550px;border: 1px solid black;">
                     <table class="list" width="100%" cellspacing="1">
+                        <%-- actual date --%>
                         <tr>
                             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","date",sWebLanguage)%></td>
                             <td class="admin2">
-                                <input type="text" readonly class="text" size="12" maxLength="10" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE-"+iDataSetNr).getType()%>" value="<%=sTranDate%>" id="date">
+                                <input type="text" readonly class="text" size="12" maxLength="10" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE-"+iDataSetNr).getType()%>" value="<%=ScreenHelper.stdDateFormat.format(new java.util.Date())%>" id="date">
                             </td>
-                         </tr>
-                         <tr>
+                        </tr>
+                        <%-- actual hour --%>
+                        <tr>
                             <td class="admin"><%=getTran("web.occup","medwan.common.hour",sWebLanguage)%></td>
                             <td class="admin2">
                                 <%=ScreenHelper.writeTimeField(((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType(), checkString(((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getValue()))%>
@@ -171,7 +174,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","pompe_syringe_text1",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT1-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT1-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT1-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT1-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -183,7 +186,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","pompe_syringe_text2",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT2-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT2-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT2-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT2-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -195,7 +198,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","pompe_syringe_text3",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT3-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT3-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT3-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_POMPE_SYRINGE_TEXT3-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -211,7 +214,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","remarks1",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS1-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS1-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS1-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS1-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -342,7 +345,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","nebulisation",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEBULISATION-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEBULISATION-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEBULISATION-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEBULISATION-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -391,7 +394,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","aspiration",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ASPIRATION-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ASPIRATION-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ASPIRATION-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ASPIRATION-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -459,7 +462,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","drain_text1",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT1-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT1-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT1-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT1-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -471,7 +474,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","drain_text2",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT2-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN2-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT2-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN2-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -483,7 +486,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","drain_text3",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT3-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT3-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT3-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT3-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -495,7 +498,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","drain_text4",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT4-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT4-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT4-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT4-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -507,7 +510,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","drain_text5",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT5-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT5-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT5-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DRAIN_TEXT5-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -559,7 +562,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","remarks2",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS2-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS2-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS2-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS2-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -579,7 +582,7 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","nurse_notes",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_NOTES-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_NOTES-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_NOTES-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_NOTES-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -589,26 +592,28 @@ try{
                         <tr>
                             <td class="admin"><%=getTran("openclinic.chuk","remarks3",sWebLanguage)%></td>
                             <td class="admin2">
-                                <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS3-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS3-"+iDataSetNr).getValue()%></textarea>
+                                <textarea class="text" onkeyup="resizeTextarea(this,10);limitChars(this,255);" name="<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS3-"+iDataSetNr).getType()%>" cols="50" rows="2"><%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REMARKS3-"+iDataSetNr).getValue()%></textarea>
                             </td>
                         </tr>
                     </table>
                 </div>
             </td>
-        <tr>
-            <td align="center">
-                <br>
-                <%-- BUTTONS --%>
-                <%
-                  if (activeUser.getAccessRight("occup.surveillance.USI.add") || activeUser.getAccessRight("occup.surveillance.USI.edit")){
-                %>
-                    <INPUT class="button" type="button" name="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
-                <%
-                  }
-                %>
-                    <INPUT class="button" type="button" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
-            </td>
-        <tr>
+            
+	        <tr>
+	            <td align="center">
+	                <br>
+	                <%-- BUTTONS --%>
+	                <%
+	                  if (activeUser.getAccessRight("occup.surveillance.USI.add") || activeUser.getAccessRight("occup.surveillance.USI.edit")){
+	                %>
+	                    <INPUT class="button" type="button" name="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
+	                <%
+	                  }
+	                %>
+	                    <INPUT class="button" type="button" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+	            </td>
+	        <tr>
+	        
         <script>
             if(document.getElementsByName("<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType()%>")[0].value == ""){
                 document.getElementsByName("<%=((TransactionVO)transaction).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TIME-"+iDataSetNr).getType()%>")[0].value = "<%=ScreenHelper.formatSQLDate(ScreenHelper.getSQLTime(),"HH:mm")%>";

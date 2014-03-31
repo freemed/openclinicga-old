@@ -31,7 +31,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/calbtn.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
 
@@ -50,7 +50,8 @@
                             if (item != null) {
                                 sApplyingPhysician = item.getValue();
                             }
-                        } else {
+                        }
+                        else {
                             sApplyingPhysician = checkString((String) session.getAttribute("activeMD"));
                             String sServerID = sessionContainerWO.getCurrentTransactionVO().getServerId() + "";
                             while (sServerID.length() < 3) {
@@ -76,9 +77,7 @@
                                 sLastname += ", " + sFirstname;
                             }
 
-                    %>
-                                <option value="<%=sMedCode%>" <%=sSelected%>><%=sLastname%> (<%=sMedCode%>)</option>
-                            <%
+                            %><option value="<%=sMedCode%>" <%=sSelected%>><%=sLastname%> (<%=sMedCode%>)</option><%
                         }
                     %>
                 </select>
@@ -174,26 +173,28 @@
                 <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_PRESTATION")%> type="checkbox" id="recapture" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
             </td>
         </tr>
+        
+    	<%-- BUTTONS ---------------------------------------------------------------------------------%>
         <tr>
             <td class="admin"/>
             <td class="admin2">
-
-    <%-- BUTTONS ---------------------------------------------------------------------------------%>
-        <INPUT class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>" onclick="doPrintPDF();">&nbsp;
-        <%
-            if(activeUser.getAccessRight("occup.medicalimagingrequest_fixedunit.add") || activeUser.getAccessRight("occup.medicalimagingrequest_fixedunit.edit")) {
-                %>
-                    <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="doSave();"></button>
-                    <button class="button" name="save" id="save" onclick="doSave();"><%=getTran("accesskey","save",sWebLanguage)%></button>
-                <%
-            }
-        %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();"/>
+		        <input class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>" onclick="doPrintPDF();">&nbsp;
+		        <%
+		            if(activeUser.getAccessRight("occup.medicalimagingrequest_fixedunit.add") || activeUser.getAccessRight("occup.medicalimagingrequest_fixedunit.edit")) {
+		                %>
+		                    <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="doSave();"></button>
+		                    <button class="button" name="save" id="save" onclick="doSave();"><%=getTran("accesskey","save",sWebLanguage)%></button>
+		                <%
+		            }
+		        %>
+                <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();"/>
             </td>
         </tr>
     </table>
+    
     <%=ScreenHelper.contextFooter(request)%>
 </form>
+
 <script>
   <%-- DO SAVE --%>
   function doSave(){
@@ -213,6 +214,7 @@
       transactionForm.applying_physician.focus();
     }
   }
+  
   <%-- SUBMIT FORM --%>
   function submitForm(){
     var typeSelect = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_TYPE" property="itemId"/>]>.value'];
@@ -278,4 +280,4 @@
     return true;
   }
 </script>
-<%=writeJSButtons("transactionForm","save")%>
+<%=writeJSButtons("transactionForm","saveButton")%>

@@ -3,7 +3,7 @@
 <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 <table width="100%" height="100%" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="50%" valign="top">
+		<td width="50%" style="vertical-align:top;">
 			<table width="100%" cellspacing="1" cellpadding="0">
 				<tr class="admin">
 					<td colspan="2">
@@ -96,7 +96,7 @@
 				</tr>
 			</table>
 		</td>
-		<td width="50%" valign="top">
+		<td width="50%" style="vertical-align:top;">
 			<table width="100%" cellspacing="1" cellpadding="0">
 				<tr class="admin" width="<%=sTDAdminWidth%>">
 					<td colspan="2">

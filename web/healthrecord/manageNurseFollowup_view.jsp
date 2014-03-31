@@ -1,14 +1,16 @@
-<%@ page import="be.openclinic.medical.Problem, java.util.Vector" %>
+<%@page import="be.openclinic.medical.Problem,
+                java.util.Vector" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("occup.nursefollowup","select",activeUser)%>
+
 <form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid, false,activeUser,(TransactionVO)transaction)%>
+   
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
-    <input type="hidden" readonly name="be.mxs.healthrecord.updateTransaction.actionForwardKey" value="/main.do?Page=curative/index.jsp&ts=<%=getTs()%>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" translate="false" property="value"/>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="value"/>"/>
     <input type="hidden" readonly name="be.mxs.healthrecord.updateTransaction.actionForwardKey" value="/main.do?Page=curative/index.jsp?ts=<%=getTs()%>"/>
@@ -41,8 +43,8 @@
       var min = <%=minWeight%>;
       var max = <%=maxWeight%>;
 
-      if (isNaN(weightInput.value) || weightInput.value < min || weightInput.value > max){
-        alert("<%=weightMsg%>");
+      if(isNaN(weightInput.value) || weightInput.value < min || weightInput.value > max){
+    	alertDialogMessage("<%=weightMsg%>");
         //weightInput.value = "";
         weightInput.focus();
       }
@@ -64,8 +66,8 @@
       var min = <%=minHeight%>;
       var max = <%=maxHeight%>;
 
-      if (isNaN(heightInput.value) || heightInput.value < min || heightInput.value > max){
-        alert("<%=heightMsg%>");
+      if(isNaN(heightInput.value) || heightInput.value < min || heightInput.value > max){
+        alertDialogMessage("<%=heightMsg%>");
         heightInput.focus();
       }
     }
@@ -88,8 +90,10 @@
     }
   }
 </script>
+
     <%=writeHistoryFunctions(((TransactionVO)transaction).getTransactionType(),sWebLanguage)%>
     <%=contextHeader(request,sWebLanguage)%>
+    
     <table class="list" width="100%" cellspacing="1">
         <%-- DATE --%>
         <tr>
@@ -98,15 +102,18 @@
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2" colspan="3">
-                <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'> <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='checkDate(this)'> <script>writeTranDate();</script>
             </td>
         </tr>
+        
+        <%-- PROBLEMS ---------------------------------------------------------------------------%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","problems",sWebLanguage)%></td>
-            <td class="admin2">
+            <td class="admin" style="vertical-align:top;padding-top:3px;"><%=getTran("openclinic.chuk","problems",sWebLanguage)%></td>
+            <td class="admin2" style="vertical-align:top;padding-top:3px;">
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NURSE_PROBLEMS")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_PROBLEMS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_PROBLEMS" property="value"/></textarea>
             </td>
             <td colspan="2">
+                <%-- PROBLEM LIST --%>
                 <table width="100%">
                     <tr class="admin">
                         <td align="center" colspan='2'><a href="javascript:showProblemlist();"><%=getTran("web.occup","medwan.common.problemlist",sWebLanguage)%></a></td>
@@ -115,31 +122,32 @@
                         <td colspan="2" id="problemList">
                             <%
                                 Vector activeProblems = Problem.getActiveProblems(activePatient.personid);
-                                if(activeProblems.size()>0){
+                                if(activeProblems.size() > 0){
                                     out.print("<table width='100%' cellspacing='1' cellpadding='0'><tr class='gray'><td>"+getTran("web.occup","medwan.common.description",sWebLanguage)+"</td><td width='100'>"+getTran("web.occup","medwan.common.datebegin",sWebLanguage)+"</td></tr>");
-                                }
-                                String sClass = "1";
 
-                                for(int n=0;n<activeProblems.size();n++){
-                                    if(sClass.equals("")){
-                                        sClass = "1";
-                                    }else{
-                                        sClass = "";
-                                    }
-                                    Problem activeProblem = (Problem)activeProblems.elementAt(n);
-                                    String comment="";
-                                    if(activeProblem.getComment().trim().length()>0){
-                                        comment=":&nbsp;<i>"+activeProblem.getComment().trim()+"</i>";
-                                    }
-                                    out.print("<tr class='list" + sClass + "'><td><b>"+(activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sWebLanguage)+"</b>"+comment)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin())+"</td></tr>");
-                                }
-                                out.print("</table>");
+                                    String sClass = "1";
+	                                for(int n=0;n<activeProblems.size();n++){
+	                                    if(sClass.equals("")) sClass = "1";
+	                                    else                  sClass = "";
+	
+	                                    Problem activeProblem = (Problem)activeProblems.elementAt(n);
+	                                    String comment = "";
+	                                    if(activeProblem.getComment().trim().length()>0){
+	                                        comment = ":&nbsp;<i>"+activeProblem.getComment().trim()+"</i>";
+	                                    }
+	                                    out.print("<tr class='list" + sClass + "'><td><b>"+(activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sWebLanguage)+"</b>"+comment)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin())+"</td></tr>");
+	                                }
+	                                
+	                                out.print("</table>");
+	                            }
                             %>
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
+        
+        <%-- ATTITUDE --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("openclinic.chuk","interventions.attitude",sWebLanguage)%></td>
             <td class="admin2">
@@ -150,10 +158,13 @@
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NURSE_OBSERVATIONS")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_OBSERVATIONS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_OBSERVATIONS" property="value"/></textarea>
             </td>
         </tr>
-        <%-- Signes Vitaux --%>
+        
+        <%-- VITAL SIGNS ----------------------------------------------------------------------%>
         <tr class="admin">
             <td colspan="4"><%=getTran("openclinic.chuk","vital.signs",sWebLanguage).toUpperCase()%></td>
         </tr>
+        
+        <%-- TEMPERATURE --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","temperature",sWebLanguage)%></td>
             <td class="admin2">
@@ -165,6 +176,8 @@
                  / <input <%=setRightClick("ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_LEFT")%> type="text" class="text" size="4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_LEFT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_LEFT" property="value"/>"> mmHg
             </td>
         </tr>
+        
+        <%-- HEART FREQUENCY --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","heartfrequency",sWebLanguage)%></td>
             <td class="admin2">
@@ -175,6 +188,7 @@
                 <input <%=setRightClick("ITEM_TYPE_BIOMETRY_RESPIRATION")%> type="text" class="text" size="4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_RESPIRATION" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_RESPIRATION" property="value"/>"> /min
             </td>
         </tr>
+        
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","sao2",sWebLanguage)%></td>
             <td class="admin2">
@@ -220,6 +234,7 @@
                 mg/dl
             </td>
         </tr>
+        
         <tr>
             <%-- BLOOD --%>
             <td class='admin'>
@@ -244,12 +259,16 @@
         <tr class="admin">
             <td colspan="4"><%=getTran("Web.Occup",sPREFIX+"TRANSACTION_TYPE_BIOMETRY",sWebLanguage).toUpperCase()%></td>
         </tr>
+        
+        <%-- WEIGHT --%>
         <tr>
             <td class='admin'><%=getTran("Web.Occup","medwan.healthrecord.biometry.weight",sWebLanguage)%>&nbsp;</td>
             <td class='admin2'><input <%=setRightClickMini("ITEM_TYPE_BIOMETRY_WEIGHT")%> id="weight" class="text" type="text" size="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_WEIGHT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_WEIGHT" property="value"/>" onBlur="validateWeight();calculateBMI();"/></td>
             <td class='admin'><%=getTran("Web.Occup","medwan.healthrecord.biometry.length",sWebLanguage)%>&nbsp;</td>
             <td class='admin2'><input <%=setRightClickMini("ITEM_TYPE_BIOMETRY_HEIGHT")%> class="text" type="text" size="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_HEIGHT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BIOMETRY_HEIGHT" property="value"/>" onBlur="validateHeight(this);calculateBMI();"/></td>
         </tr>
+        
+        <%-- BMI --%>
         <tr>
             <td class='admin'><%=getTran("Web.Occup","medwan.healthrecord.biometry.bmi",sWebLanguage)%>&nbsp;</td>
             <td class='admin2'><input tabindex="-1" class="text" type="text" size="10" readonly name="BMI"></td>
@@ -257,10 +276,11 @@
             <td class="admin2"/>
         </tr>
 
-        <%-- Autre --%>
+        <%-- OTHER ------------------------------------------------------------------------------%>
         <tr class="admin">
             <td colspan="4"><%=getTran("openclinic.chuk","other",sWebLanguage).toUpperCase()%></td>
         </tr>
+        
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","diuresis.24h",sWebLanguage)%></td>
             <td class="admin2">
@@ -271,6 +291,8 @@
                 <input <%=setRightClick("ITEM_TYPE_SURV_VOMITING")%> type="text" class="text" size="4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SURV_VOMITING" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SURV_VOMITING" property="value"/>"> ml
             </td>
         </tr>
+        
+        <%-- POSITION CHANGE --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","position.change",sWebLanguage)%></td>
             <td class="admin2">
@@ -281,6 +303,8 @@
                 <input <%=setRightClick("ITEM_TYPE_SURV_STOOL")%> type="text" class="text" size="4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SURV_STOOL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SURV_STOOL" property="value"/>">
             </td>
         </tr>
+        
+        <%-- TUBEFEEDING --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","tubefeeding",sWebLanguage)%></td>
             <td class="admin2">
@@ -291,6 +315,8 @@
                 <input <%=setRightClick("ITEM_TYPE_SURV_TOILET")%> type="text" class="text" size="4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SURV_TOILET" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_SURV_TOILET" property="value"/>">
             </td>
         </tr>
+        
+        <%-- BEDSORE --%>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","bedsore.prevention",sWebLanguage)%></td>
             <td class="admin2">
@@ -298,36 +324,33 @@
             </td>
             <td class="admin2" colspan="2"/>
         </tr>
-       <tr>
-            <td class="admin"/>
-            <td class="admin2" colspan="3">
-<%-- BUTTONS -------------------------------------------------------------------------------------%>
-                <%
-                if (activeUser.getAccessRight("occup.nursefollowup.add") || activeUser.getAccessRight("occup.nursefollowup.edit")) {
-                %>
-                <INPUT class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onClick="submitForm();">
-                <%
-                }
-                %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
-           </td>
-        </tr>
     </table>
+            
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.nursefollowup",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>
+	
+    <%=ScreenHelper.contextFooter(request)%>
+</form>
+
 <script>
   calculateBMI();
 
+  <%-- SUBMIT FORM --%>
   function submitForm(){
-    document.transactionForm.save.disabled = true;
+    document.transactionForm.saveButton.disabled = true;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
     %>
-    }
-  function showProblemlist(){
-    window.open('<c:url value="/popup.jsp"/>?Page=medical/manageProblems.jsp&ts=<%=getTs()%>','Popup','toolbar=no, status=no, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no').moveBy(2000,2000);
   }
-
+  
+  <%-- SHOW PROBLEM LIST --%>
+  function showProblemlist(){
+	var url = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&ts=<%=getTs()%>";
+    window.open(url,"Popup","toolbar=no,status=no,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no").moveBy(2000,2000);
+  }
 </script>
-<%=ScreenHelper.contextFooter(request)%>
-</form>
-<%=writeJSButtons("transactionForm", "save")%>
+
+<%=writeJSButtons("transactionForm","saveButton")%>

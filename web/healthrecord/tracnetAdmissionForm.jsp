@@ -149,7 +149,7 @@
       
     if(maySubmit){
         var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-        document.transactionForm.saveButton.style.visibility = "hidden";
+        document.getElementById("buttonsDiv").style.visibility = "hidden";
         document.transactionForm.submit();
     }
   }

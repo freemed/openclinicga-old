@@ -1,37 +1,34 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("occup.dentist.consultation","select",activeUser)%>
 
 <%=sJSGRAPHICS%>
 <%=sJSHASHTABLE%>
 
 <script>
-    var vSelectedHashtable = new Hashtable();
+  var vSelectedHashtable = new Hashtable();
 </script>
 
 <%!
     //--- ADD TOOTH -------------------------------------------------------------------------------
     private StringBuffer addTooth(int iTotal, String sDate, String sToothNr, String sDescription,
                                   String sTreatment, String sStatus, String sWebLanguage){
-        sTreatment   = sTreatment.replaceAll("\r\n","<br>");
+        sTreatment = sTreatment.replaceAll("\r\n","<br>");
         sDescription = sDescription.replaceAll("\r\n","<br>");
 
         StringBuffer sTmp = new StringBuffer();
-        sTmp.append(
-            "<tr id='rowTooth"+iTotal+"'>" +
-            "<td class='admin2'>" +
-            " <a href='javascript:deleteTooth(rowTooth"+iTotal+");'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
-            " <a href='javascript:editTooth(rowTooth"+iTotal+");'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
-            "</td>" +
-            "<td class='admin2'>&nbsp;" + sDate + "</td>" +
-            "<td class='admin2'>&nbsp;" + sToothNr + "</td>" +
-            "<td class='admin2'>" + sDescription + "</td>" +
-            "<td class='admin2'>" + sTreatment + "</td>" +
-            "<td class='admin2'>&nbsp;" + getTran("openclinic.chuk",sStatus,sWebLanguage) + "</td>" +
-            "<td class='admin2'></td>" +
-            "</tr>"
-        );
+        sTmp.append("<tr id='rowTooth").append(iTotal).append("'>")
+             .append("<td class='admin2'>")
+              .append("<a href='javascript:deleteTooth(rowTooth").append(iTotal).append(");'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
+              .append("<a href='javascript:editTooth(rowTooth").append(iTotal).append(");'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTran("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
+             .append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sDate).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sToothNr).append("</td>")
+             .append("<td class='admin2'>").append(sDescription).append("</td>")
+             .append("<td class='admin2'>").append(sTreatment).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(getTran("openclinic.chuk",sStatus,sWebLanguage)).append("</td>")
+             .append("<td class='admin2'></td>")
+            .append("</tr>");
 
         return sTmp;
     }
@@ -83,23 +80,23 @@
             sTmpTreatment  = "";
             sTmpStatus = "";
 
-            if (teeth[n].split("£").length>0){
+            if(teeth[n].split("£").length>0){
                 sTmpDate = teeth[n].split("£")[0];
             }
 
-            if (teeth[n].split("£").length>1){
+            if(teeth[n].split("£").length>1){
                 sTmpTooth = teeth[n].split("£")[1];
             }
 
-            if (teeth[n].split("£").length>2){
+            if(teeth[n].split("£").length>2){
                 sTmpDescription = teeth[n].split("£")[2];
             }
 
-            if (teeth[n].split("£").length>3){
+            if(teeth[n].split("£").length>3){
                 sTmpTreatment = teeth[n].split("£")[3];
             }
 
-            if (teeth[n].split("£").length>4){
+            if(teeth[n].split("£").length>4){
                 sTmpStatus = teeth[n].split("£")[4];
             }
 
@@ -107,11 +104,7 @@
             sDivTeeth.append(addTooth(iTeethTotal, sTmpDate,sTmpTooth,sTmpDescription,sTmpTreatment, sTmpStatus, sWebLanguage));
             iTeethTotal++;
 
-            %>
-                <script>
-                    vSelectedHashtable.put("<%=sTmpTooth%>","<%=sTmpStatus%>");
-                </script>
-            <%
+            %><script>vSelectedHashtable.put("<%=sTmpTooth%>","<%=sTmpStatus%>");</script><%
         }
     }
 %>
@@ -126,7 +119,7 @@
             </td>
 
             <%-- LEGEND --%>
-            <td valign="top">
+            <td style="vertical-align:top;">
                 <table cellspacing="1" cellpadding="0">
                     <tr>
                         <td><div width="10" height="10" style="background-color: aqua;">&nbsp;&nbsp;</div></td><td>&nbsp;<%=getTran("openclinic.chuk","tooth.absent",sWebLanguage)%></td>
@@ -197,19 +190,19 @@
                     <%-- add-row --%>
                     <tr>
                         <td class="admin2"/>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <%=writeDateField("toothDate","transactionForm",getDate(),sWebLanguage)%>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <input class="text" type="text" name="toothNr" value="" size="4" onblur="checkTeethNumber(this);"/>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="50" rows="2" name="toothDescription"></textarea>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="50" rows="2" name="toothTreatment"></textarea>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <select class="text" name="toothStatus">
                             	<option value=""></option>
                                 <option value="tooth.absent"><%=getTran("openclinic.chuk","tooth.absent",sWebLanguage)%></option>
@@ -270,15 +263,12 @@
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_DENTIST_COMMENT")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DENTIST_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DENTIST_COMMENT" property="value"/></textarea>
             </td>
         </tr>
-
-        <%-- BUTTONS --%>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.dentist.consultation",sWebLanguage)%>
-            </td>
-        </tr>
     </table>
+
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>                    
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.dentist.consultation",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
 
     <%=ScreenHelper.contextFooter(request)%>
 </form>
@@ -299,7 +289,7 @@
   markTeeths();
 
 function addTooth(displayAlert){
-  if(isAtLeastOneToothFieldFilled() ){
+  if(isAtLeastOneToothFieldFilled()){
     vSelectedHashtable.put(transactionForm.toothNr.value,transactionForm.toothStatus.value);
     iTeethIndex++;
 
@@ -317,11 +307,11 @@ function addTooth(displayAlert){
     tr.appendChild(td);
 
     td = tr.insertCell(1);
-    td.innerHTML = "&nbsp;" + transactionForm.toothDate.value;
+    td.innerHTML = "&nbsp;"+transactionForm.toothDate.value;
     tr.appendChild(td);
 
     td = tr.insertCell(2);
-    td.innerHTML = "&nbsp;" + transactionForm.toothNr.value;
+    td.innerHTML = "&nbsp;"+transactionForm.toothNr.value;
     tr.appendChild(td);
 
     td = tr.insertCell(3);
@@ -339,7 +329,7 @@ function addTooth(displayAlert){
     tr.appendChild(td);
 
     td = tr.insertCell(5);
-    td.innerHTML = "&nbsp;" + translate(transactionForm.toothStatus.value);
+    td.innerHTML = "&nbsp;"+translate(transactionForm.toothStatus.value);
     tr.appendChild(td);
 
     td = tr.insertCell(6);
@@ -370,7 +360,7 @@ function addTooth(displayAlert){
 }
 
 function updateTooth(){
-  if(isAtLeastOneToothFieldFilled() ){
+  if(isAtLeastOneToothFieldFilled()){
     <%-- update arrayString --%>
     vSelectedHashtable.put(transactionForm.toothNr.value,transactionForm.toothStatus.value);
     updateSelectedHashtable(transactionForm.toothNr.value,transactionForm.toothStatus.value,getCelFromRowString(getRowFromArrayString(sTeeth,editTeethRowid.id),0));
@@ -483,28 +473,28 @@ function deleteRowFromArrayString(sArray,rowid){
   return array.join("$");
 }
 
-  function getRowFromArrayString(sArray, rowid) {
+  function getRowFromArrayString(sArray,rowid){
     var array = sArray.split("$");
     var row = "";
-    for (var i = 0; i < array.length; i++) {
-      if (array[i].indexOf(rowid) > -1) {
-        row = array[i].substring(array[i].indexOf("=") + 1);
+    for(var i=0; i<array.length; i++){
+      if(array[i].indexOf(rowid) > -1){
+        row = array[i].substring(array[i].indexOf("=")+1);
         break;
       }
     }
     return row;
   }
 
-  function getCelFromRowString(sRow, celid) {
+  function getCelFromRowString(sRow,celid){
     var row = sRow.split("£");
     return row[celid];
   }
 
-  function replaceRowInArrayString(sArray, newRow, rowid) {
+  function replaceRowInArrayString(sArray,newRow,rowid){
     var array = sArray.split("$");
-    for (var i = 0; i < array.length; i++) {
-      if (array[i].indexOf(rowid) > -1) {
-        array.splice(i, 1, newRow);
+    for(var i=0; i<array.length; i++){
+      if(array[i].indexOf(rowid) > -1){
+        array.splice(i,1,newRow);
         break;
       }
     }
@@ -515,15 +505,15 @@ function deleteRowFromArrayString(sArray,rowid){
   <%--SUBMIT FORM --%>
   function submitForm() {
     if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+		alertDialog("web","no.encounter.linked");
 		searchEncounter();
 	}	
-    else {
+    else{
 	    var maySubmit = true;
 	
-	    if (isAtLeastOneToothFieldFilled()) {
-	      if (maySubmit) {
-	        if (!addTooth(false)) {
+	    if(isAtLeastOneToothFieldFilled()){
+	      if(maySubmit){
+	        if(!addTooth(false)){
 	          maySubmit = false;
 	        }
 	      }
@@ -532,10 +522,10 @@ function deleteRowFromArrayString(sArray,rowid){
 	    var sTmpBegin;
 	    var sTmpEnd;
 	
-	    while (sTeeth.indexOf("rowTooth") > -1) {
+	    while(sTeeth.indexOf("rowTooth") > -1){
 	      sTmpBegin = sTeeth.substring(sTeeth.indexOf("rowTooth"));
-	      sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
-	      sTeeth = sTeeth.substring(0, sTeeth.indexOf("rowTooth")) + sTmpEnd;
+	      sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=")+1);
+	      sTeeth = sTeeth.substring(0, sTeeth.indexOf("rowTooth"))+sTmpEnd;
 	    }
 	
 	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_STOMATOLOGY_CONSULTATION_TEETH1" property="itemId"/>]>.value")[0].value = sTeeth.substring(0,254);
@@ -556,7 +546,7 @@ function deleteRowFromArrayString(sArray,rowid){
 	
 	    if(maySubmit){
 	      var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-	      document.transactionForm.saveButton.style.visibility = "hidden";
+	      document.getElementById("buttonsDiv").style.visibility = "hidden";
 	      <%
 	          SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
 	          out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
@@ -564,11 +554,13 @@ function deleteRowFromArrayString(sArray,rowid){
 	    }
     }
   }
+  
   function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
+  
   if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+	alertDialog("web","no.encounter.linked");
 	searchEncounter();
   }	
 
@@ -717,7 +709,7 @@ function deleteRowFromArrayString(sArray,rowid){
       vHashtable.put(85,coord);
     }
     catch(error){
-      alert("Hashtable put() error: " + error.name);
+      alert("Hashtable put() error: "+error.name);
     }
   }
 
@@ -726,7 +718,7 @@ function deleteRowFromArrayString(sArray,rowid){
     jg.clear();
 
     var array = vSelectedHashtable.keys();
-    for(var i = 0 ; i < vSelectedHashtable.keys().length ; i++){
+    for(var i=0; i<vSelectedHashtable.keys().length; i++){
       draw(array[i],vSelectedHashtable.get(array[i]));
     }
   }
@@ -736,18 +728,18 @@ function deleteRowFromArrayString(sArray,rowid){
     if(vHashtable.containsKey(tooth)){
       var tmpCoord = vHashtable.get(tooth);
 
-      if(status != ""){
-             if(status == "tooth.absent")       jg.setColor("aqua");
-        else if(status == "tooth.fill")         jg.setColor("blue");
-        else if(status == "tooth.unnerve")      jg.setColor("fuchsia");
-        else if(status == "tooth.unnerve_fill") jg.setColor("gray");
-        else if(status == "tooth.fracturée")    jg.setColor("lime");
-        else if(status == "tooth.impactée")     jg.setColor("maroon");
-        else if(status == "tooth.incluse")      jg.setColor("gold");
-        else if(status == "tooth.ectopique")    jg.setColor("red");
-        else if(status == "tooth.surnuméraire") jg.setColor("green");
-        else if(status == "tooth.caries") 		jg.setColor("black");
-        else if(status == "tooth.other") 		jg.setColor("orange");
+      if(status!=""){
+             if(status=="tooth.absent")       jg.setColor("aqua");
+        else if(status=="tooth.fill")         jg.setColor("blue");
+        else if(status=="tooth.unnerve")      jg.setColor("fuchsia");
+        else if(status=="tooth.unnerve_fill") jg.setColor("gray");
+        else if(status=="tooth.fracturée")    jg.setColor("lime");
+        else if(status=="tooth.impactée")     jg.setColor("maroon");
+        else if(status=="tooth.incluse")      jg.setColor("gold");
+        else if(status=="tooth.ectopique")    jg.setColor("red");
+        else if(status=="tooth.surnuméraire") jg.setColor("green");
+        else if(status=="tooth.caries") 		jg.setColor("black");
+        else if(status=="tooth.other") 		jg.setColor("orange");
 
         jg.fillEllipse(tmpCoord[0],tmpCoord[1],tmpCoord[2],tmpCoord[3]);
         jg.paint();
@@ -757,39 +749,39 @@ function deleteRowFromArrayString(sArray,rowid){
 
   <%-- TRANSLATE --%>
   function translate(tmpLabel){
-    if(tmpLabel == "tooth.absent"){
+    if(tmpLabel=="tooth.absent"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.absent",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.fill"){
+    else if(tmpLabel=="tooth.fill"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.fill",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.unnerve"){
+    else if(tmpLabel=="tooth.unnerve"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.unnerve",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.unnerve_fill"){
+    else if(tmpLabel=="tooth.unnerve_fill"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.unnerve_fill",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.fracturée"){
+    else if(tmpLabel=="tooth.fracturée"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.fracturée",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.impactée"){
+    else if(tmpLabel=="tooth.impactée"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.impactée",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.incluse"){
+    else if(tmpLabel=="tooth.incluse"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.incluse",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.ectopique"){
+    else if(tmpLabel=="tooth.ectopique"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.ectopique",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.surnuméraire"){
+    else if(tmpLabel=="tooth.surnuméraire"){
       return "<%=getTranNoLink("openclinic.chuk","tooth.surnuméraire",sWebLanguage)%>";
     }
-    else if(tmpLabel == "tooth.caries"){
-        return "<%=getTranNoLink("openclinic.chuk","tooth.caries",sWebLanguage)%>";
-      }
-    else if(tmpLabel == "tooth.other"){
-        return "<%=getTranNoLink("openclinic.chuk","tooth.other",sWebLanguage)%>";
-      }
+    else if(tmpLabel=="tooth.caries"){
+      return "<%=getTranNoLink("openclinic.chuk","tooth.caries",sWebLanguage)%>";
+    }
+    else if(tmpLabel=="tooth.other"){
+      return "<%=getTranNoLink("openclinic.chuk","tooth.other",sWebLanguage)%>";
+    }
 
     return "";
   }

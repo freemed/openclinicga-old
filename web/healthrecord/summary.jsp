@@ -181,7 +181,7 @@
 <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
     <tr>
         <%-- LAST GENERAL CLINICAL EXAMINATION --%>
-        <td valign="top" colspan="2" height="100%">
+        <td style="vertical-align:top;" colspan="2" height="100%">
             <table  class="list" width="100%" border="0" cellspacing="0" cellpadding="1" height="100%">
                 <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination">
                     <bean:define id="lastTransaction_generalClinicalExamination" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination"/>
@@ -228,7 +228,7 @@
         </td>
 
         <%-- LAST BIOMETRY EXAMINATION --%>
-        <td valign="top" colspan="2" height="100%">
+        <td style="vertical-align:top;" colspan="2" height="100%">
             <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
                 <tr class="admin">
                     <td align="center" width="33%"><%=getTran("Web.Occup","medwan.healthrecord.biometry.weight",sWebLanguage)%></td>
@@ -395,7 +395,7 @@
         </td>
 
         <%-- KLINISCH ONDERZOEK -------------------------------------------------------------------------------------%>
-        <td valign="top" colspan="2">
+        <td style="vertical-align:top;" colspan="2">
             <table class="list" width="100%" cellspacing="1">
                 <tr>
                     <td class="admin2">

@@ -169,7 +169,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this);calculateGestAge();' onchange='calculateGestAge();' onKeyUp='calculateGestAge()'>
-                <script>writeMyDate("trandate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
             <td class="admin" rowspan="4"><%=getTran("openclinic.chuk", "delivery.type", sWebLanguage)%></td>
             <td rowspan="4" bgcolor="#EBF3F7">
@@ -546,7 +546,7 @@
         <tr>
             <td class="admin"><%=getTran("gynae", "dilatation.opening", sWebLanguage)%>
             </td>
-            <td class="admin2" valign="top">
+            <td class="admin2" style="vertical-align:top;">
                 <table cellspacing="1" cellpadding="0" width="100%" id="tblDilatation">
                     <%-- header --%>
                     <tr>
@@ -574,7 +574,7 @@
                             <option value="45">45</option>
                         </select>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <select class="text" name="dilatationOpening">
                                 <option/>
                                 <%for (int i = 0; i < 11; i++) {%>
@@ -648,7 +648,7 @@
             </td>
             <td class="admin"><%=getTran("gynaeco", "work.engagement", sWebLanguage)%>
             </td>
-            <td class="admin2" valign="top">
+            <td class="admin2" style="vertical-align:top;">
                 <table cellspacing="1" cellpadding="0" width="100%" id="tblEngagement">
                     <%-- header --%>
                     <tr>
@@ -676,7 +676,7 @@
                             <option value="45">45</option>
                         </select>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <select class="text" id="engagementDegree" name="engagementDegree">
                                 <option/>
                                 <%for (int i = -4; i < 5; i++) {%>
@@ -726,7 +726,7 @@
                             <option value="45">45</option>
                         </select>
                         </td>
-                        <td class="admin2" valign="top">
+                        <td class="admin2" style="vertical-align:top;">
                             <select class="text" name="actionLetter">
                                 <option/>
                                 <%=ScreenHelper.writeSelect("gynae_action", "", sWebLanguage, true, false)%>
@@ -1305,7 +1305,7 @@
     <%-- SUBMIT FORM --%>
     function submitForm() {
         if(document.getElementById('encounteruid').value==''){
-    		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+    		alertDialog("web","no.encounter.linked");
     		searchEncounter();
     	}	
         else {
@@ -1359,7 +1359,7 @@
 	
 	        document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_WORK_ACTION" property="itemId"/>]>.value")[0].value = sAction;
 	        if (maySubmit) {
-	            document.transactionForm.saveButton.style.visibility = "hidden";
+	            document.getElementById("buttonsDiv").style.visibility = "hidden";
 	            document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION1" property="itemId"/>]>.value')[0].value = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION" property="itemId"/>]>.value')[0].value.substring(250, 500);
 	            document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION2" property="itemId"/>]>.value')[0].value = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION" property="itemId"/>]>.value')[0].value.substring(500, 750);
 	            document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION3" property="itemId"/>]>.value')[0].value = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION" property="itemId"/>]>.value')[0].value.substring(750, 1000);
@@ -1404,7 +1404,7 @@
         openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
     }
     if(document.getElementById('encounteruid').value==''){
-  	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+  	alertDialog("web","no.encounter.linked");
   	searchEncounter();
     }	
       

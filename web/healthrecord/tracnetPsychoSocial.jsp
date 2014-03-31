@@ -77,7 +77,7 @@
     </table>
 
     <%-- HIDEABLE --%>
-    <table valign="top" width="100%" border="0" cellspacing="0">
+    <table style="vertical-align:top;" width="100%" border="0" cellspacing="0">
         <tr id="tr1-view" style="display:none">
             <td><%ScreenHelper.setIncludePage(customerInclude("healthrecord/tracnetPsychoSocial1.jsp"),pageContext);%></td>
         </tr>
@@ -259,7 +259,7 @@
 			document.getElementById('parrain_instruction_autre').value = '';
 		}
 		
-	  	document.transactionForm.saveButton.style.visibility = "hidden";
+	  	document.getElementById("buttonsDiv").style.visibility = "hidden";
         var temp = Form.findFirstElement(transactionForm);//for ff compatibility
 	  	document.transactionForm.submit();
 	  }
@@ -525,7 +525,7 @@
 	}
 </script>
 
-<%=writeJSButtons("transactionForm","save")%>
+<%=writeJSButtons("transactionForm","saveButton")%>
 <%=ScreenHelper.contextFooter(request)%>
 
 </form>

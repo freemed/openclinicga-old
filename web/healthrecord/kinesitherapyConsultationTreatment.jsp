@@ -7,34 +7,35 @@
 
 <%!
     //--- GET ITEM TYPE ---------------------------------------------------------------------------
-    private StringBuffer addSeance(int iTotal,String sDate,String sHour,String sTreatment1, String sTreatment2, String sTreatment3, String sWebLanguage){
+    private StringBuffer addSeance(int iTotal, String sDate, String sHour, 
+    		                       String sTreatment1, String sTreatment2, String sTreatment3, String sWebLanguage){
         StringBuffer sTmp = new StringBuffer();
 
-        if (sTreatment1.length()>0){
+        if(sTreatment1.length() > 0){
             sTreatment1 = getTran("physiotherapy.act",sTreatment1,sWebLanguage);
         }
 
-        if (sTreatment2.length()>0){
+        if(sTreatment2.length() > 0){
             sTreatment2 = getTran("physiotherapy.act",sTreatment2,sWebLanguage);
         }
 
-        if (sTreatment3.length()>0){
+        if(sTreatment3.length() > 0){
             sTreatment3 = getTran("physiotherapy.act",sTreatment3,sWebLanguage);
         }
 
         sTmp.append(
-            "<tr id='rowSeance"+iTotal+"' class='list'>" +
-                "<td>" +
-                "   <a href='javascript:deleteSeance(rowSeance"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
-                "   <a href='javascript:editSeance(rowSeance"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
-                "</td>" +
-                "<td>&nbsp;" + sDate + "</td>" +
-                "<td>&nbsp;" + sHour + "</td>" +
-                "<td>&nbsp;" + sTreatment1 + "</td>" +
-                "<td>&nbsp;" + sTreatment2 + "</td>" +
-                "<td>&nbsp;" + sTreatment3 + "</td>" +
-                "<td>" +
-                "</td>" +
+            "<tr id='rowSeance"+iTotal+"' class='list'>"+
+              "<td>"+
+                "<a href='javascript:deleteSeance(rowSeance"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
+                "<a href='javascript:editSeance(rowSeance"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTran("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>"+
+              "</td>"+
+              "<td>&nbsp;"+sDate+"</td>"+
+              "<td>&nbsp;"+sHour+"</td>"+
+              "<td>&nbsp;"+sTreatment1+"</td>"+
+              "<td>&nbsp;"+sTreatment2+"</td>"+
+              "<td>&nbsp;"+sTreatment3+"</td>"+
+              "<td>"+
+              "</td>"+
             "</tr>"
         );
 
@@ -64,6 +65,7 @@
         String sActAutre, sStartDate, sEndDate;
 
         TransactionVO tran = (TransactionVO)transaction;
+        
         sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE1"));
         sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE2"));
         sSeances.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE3"));
@@ -85,39 +87,39 @@
         sEndDate   = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ENDDATE");
 
         int iSeancesTotal = 1;
-        if (sSeances.indexOf("£")>-1){
+        if(sSeances.indexOf("£")>-1){
             StringBuffer sTmpSeances = sSeances;
             String sTmpDate,sTmpHeure, sTmpTreatment1, sTmpTreatment2, sTmpTreatment3;
             sSeances = new StringBuffer();
 
-            while (sTmpSeances.toString().toLowerCase().indexOf("$")>-1) {
+            while(sTmpSeances.toString().toLowerCase().indexOf("$")>-1){
                 sTmpDate  = "";
                 sTmpHeure = "";
                 sTmpTreatment1 = "";
                 sTmpTreatment2 = "";
                 sTmpTreatment3 = "";
 
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
                     sTmpDate = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
                     sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
                     sTmpHeure = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
                     sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
                     sTmpTreatment1 = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
                     sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
+                if(sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
                     sTmpTreatment2 = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
                     sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
                 }
 
-                if (sTmpSeances.toString().toLowerCase().indexOf("$")>-1){
+                if(sTmpSeances.toString().toLowerCase().indexOf("$")>-1){
                     sTmpTreatment3 = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("$"));
                     sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("$")+1));
                 }
@@ -137,7 +139,7 @@
             </td>
             <td class="admin2" colspan="5">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("trandate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeTranDate();</script>
             </td>
         </tr>
 
@@ -178,34 +180,36 @@
                     Iterator items = curTran.getItems().iterator();
                     ItemVO item;
 
-                    String sReferenceUID = curTran.getServerId() + "." + curTran.getTransactionId();
+                    String sReferenceUID = curTran.getServerId()+"."+curTran.getTransactionId();
                     String sReferenceType = "Transaction";
                     Hashtable hDiagnoses = Diagnosis.getDiagnosesByReferenceUID(sReferenceUID, sReferenceType);
                     Hashtable hDiagnosisInfo;
                     String sCode, sGravity, sCertainty;
 
-                    while (items.hasNext()) {
-                        item = (ItemVO) items.next();
-                        if (item.getType().indexOf("ICPCCode") == 0) {
+                    while(items.hasNext()){
+                        item = (ItemVO)items.next();
+                        
+                        if(item.getType().indexOf("ICPCCode") == 0){
                             sCode = item.getType().substring("ICPCCode".length(), item.getType().length());
+                            
                             hDiagnosisInfo = (Hashtable) hDiagnoses.get(sCode);
-                            if (hDiagnosisInfo != null) {
+                            if(hDiagnosisInfo != null){
                                 sGravity = (String) hDiagnosisInfo.get("Gravity");
                                 sCertainty = (String) hDiagnosisInfo.get("Certainty");
 
-                            %>
-                              <span id="ICPCCode<%=item.getItemId()%>">
-                                    <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
-                                    <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%> G:<%=sGravity %>/C:<%=sCertainty %>
-                                    <br/>
-                              </span>
-                            <%
+	                            %>
+	                              <span id="ICPCCode<%=item.getItemId()%>">
+	                                  <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
+	                                  <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%> G:<%=sGravity %>/C:<%=sCertainty %>
+	                                  <br/>
+	                              </span>
+	                            <%
                             }
                         }
-                        else if (item.getType().indexOf("ICD10Code")==0){
+                        else if(item.getType().indexOf("ICD10Code")==0){
                             sCode = item.getType().substring("ICD10Code".length(),item.getType().length());
                             hDiagnosisInfo = (Hashtable)hDiagnoses.get(sCode);
-                            if (hDiagnosisInfo != null) {
+                            if(hDiagnosisInfo != null){
                                 sGravity = (String) hDiagnosisInfo.get("Gravity");
                                 sCertainty = (String) hDiagnosisInfo.get("Certainty");
 
@@ -340,15 +344,12 @@
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_REMARKS")%> class="text" cols="50" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_REMARKS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_REMARKS" property="value"/></textarea>
             </td>
         </tr>
-
-        <%-- BUTTONS --%>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.kinesitherapy.consultation.treatment",sWebLanguage)%>
-            </td>
-        </tr>
     </table>
+
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>
+        <%=getButtonsHtml(request,activeUser,activePatient,"occup.kinesitherapy.consultation.treatment",sWebLanguage)%>
+    <%=ScreenHelper.alignButtonsStop()%>
 
     <%=ScreenHelper.contextFooter(request)%>
 </form>
@@ -371,53 +372,57 @@
 <%-- SEANCES ----------------------------------------------------------------------------------%>
 function addSeance(){
   if(isAtLeastOneSeanceFieldFilled()){
-      iSeancesIndex++;
-      if(transactionForm.seanceHour.value == ""){
-        getTime(transactionForm.seanceHour);
-      }
+    iSeancesIndex++;
+    if(transactionForm.seanceHour.value == ""){
+      getTime(transactionForm.seanceHour);
+    }
 
-      sSeances+="rowSeance"+iSeancesIndex+"="+transactionForm.seanceDate.value+"£"
-                                             +transactionForm.seanceHour.value+"£"
-                                             +transactionForm.seancetreatment1.value+"£"
-                                             +transactionForm.seancetreatment2.value+"£"
-                                             +transactionForm.seancetreatment3.value+"$";
+    sSeances+="rowSeance"+iSeancesIndex+"="+transactionForm.seanceDate.value+"£"
+                                           +transactionForm.seanceHour.value+"£"
+                                           +transactionForm.seancetreatment1.value+"£"
+                                           +transactionForm.seancetreatment2.value+"£"
+                                           +transactionForm.seancetreatment3.value+"$";
       
-      var tr;
-      tr = tblSeances.insertRow(tblSeances.rows.length);
-      tr.id = "rowSeance"+iSeancesIndex;
+    var tr;
+    tr = tblSeances.insertRow(tblSeances.rows.length);
+    tr.id = "rowSeance"+iSeancesIndex;
 
-      var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-      tr.appendChild(td);
+    var td = tr.insertCell(0);
+    td.innerHTML = "<a href='javascript:deleteSeance(rowSeance"+iSeancesIndex+")'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'>"+
+                   "</a> "+
+                   "<a href='javascript:editSeance(rowSeance"+iSeancesIndex+")'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'>"+
+                   "</a>";
+    tr.appendChild(td);
 
-      td = tr.insertCell(1);
-      td.innerHTML = "&nbsp;"+transactionForm.seanceDate.value;
-      tr.appendChild(td);
+    td = tr.insertCell(1);
+    td.innerHTML = "&nbsp;"+transactionForm.seanceDate.value;
+    tr.appendChild(td);
 
-      td = tr.insertCell(2);
-      td.innerHTML = "&nbsp;"+transactionForm.seanceHour.value;
-      tr.appendChild(td);
+    td = tr.insertCell(2);
+    td.innerHTML = "&nbsp;"+transactionForm.seanceHour.value;
+    tr.appendChild(td);
 
-      td = tr.insertCell(3);
-      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment1.value);
-      tr.appendChild(td);
+    td = tr.insertCell(3);
+    td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment1.value);
+    tr.appendChild(td);
 
-      td = tr.insertCell(4);
-      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment2.value);
-      tr.appendChild(td);
+    td = tr.insertCell(4);
+    td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment2.value);
+    tr.appendChild(td);
 
-      td = tr.insertCell(5);
-      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment3.value);
-      tr.appendChild(td);
+    td = tr.insertCell(5);
+    td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment3.value);
+    tr.appendChild(td);
 
-      td = tr.insertCell(6);
-      td.innerHTML = "&nbsp;";
-      tr.appendChild(td);
+    td = tr.insertCell(6);
+    td.innerHTML = "&nbsp;";
+    tr.appendChild(td);
 
-      setCellStyle(tr);
-      clearSeanceFields()
-      transactionForm.ButtonUpdateSeance.disabled = true;
+    setCellStyle(tr);
+    clearSeanceFields()
+    transactionForm.ButtonUpdateSeance.disabled = true;
   }
 
   return true;
@@ -512,49 +517,52 @@ function editSeance(rowid){
         array.splice(i,1);
       }
     }
+    
     return array.join("$");
   }
 
-  function getRowFromArrayString(sArray, rowid) {
+  function getRowFromArrayString(sArray, rowid){
     var array = sArray.split("$");
     var row = "";
-    for (var i=0; i<array.length; i++) {
-      if (array[i].indexOf(rowid) > -1) {
-        row = array[i].substring(array[i].indexOf("=") + 1);
+    for (var i=0; i<array.length; i++){
+      if(array[i].indexOf(rowid) > -1){
+        row = array[i].substring(array[i].indexOf("=")+1);
         break;
       }
     }
+    
     return row;
   }
 
-  function getCelFromRowString(sRow, celid) {
+  function getCelFromRowString(sRow, celid){
     var row = sRow.split("£");
     return row[celid];
   }
 
-  function replaceRowInArrayString(sArray, newRow, rowid) {
+  function replaceRowInArrayString(sArray, newRow, rowid){
     var array = sArray.split("$");
-    for (var i=0; i<array.length; i++) {
-      if (array[i].indexOf(rowid) > -1) {
+    for (var i=0; i<array.length; i++){
+      if(array[i].indexOf(rowid) > -1){
         array.splice(i, 1, newRow);
         break;
       }
     }
+    
     return array.join("$");
   }
 
   <%-- SUBMIT FORM --%>
-  function submitForm() {
+  function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+		alertDialog("web","no.encounter.linked");
 		searchEncounter();
 	}	
-    else {
+    else{
 	    var maySubmit = true;
 	
-	    if (isAtLeastOneSeanceFieldFilled()) {
-	      if (maySubmit) {
-	        if (!addSeance()) {
+	    if(isAtLeastOneSeanceFieldFilled()){
+	      if(maySubmit){
+	        if(!addSeance()){
 	          maySubmit = false;
 	        }
 	      }
@@ -563,10 +571,10 @@ function editSeance(rowid){
 	    var sTmpBegin;
 	    var sTmpEnd;
 	
-	    while (sSeances.indexOf("rowSeance") > -1) {
+	    while (sSeances.indexOf("rowSeance") > -1){
 	      sTmpBegin = sSeances.substring(sSeances.indexOf("rowSeance"));
-	      sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
-	      sSeances = sSeances.substring(0, sSeances.indexOf("rowSeance")) + sTmpEnd;
+	      sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=")+1);
+	      sSeances = sSeances.substring(0, sSeances.indexOf("rowSeance"))+sTmpEnd;
 	    }
 	
 	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE1" property="itemId"/>]>.value")[0].value = sSeances.substring(0,254);
@@ -576,7 +584,7 @@ function editSeance(rowid){
 	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_SEANCE5" property="itemId"/>]>.value")[0].value = sSeances.substring(1016, 1270);
 	
 	    if(maySubmit){
-	      document.transactionForm.saveButton.style.visibility = "hidden";
+	      document.getElementById("buttonsDiv").style.visibility = "hidden";
 	      var temp = Form.findFirstElement(transactionForm);//for ff compatibility
 	      <%
 	          sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
@@ -585,11 +593,13 @@ function editSeance(rowid){
 	    }
     }
   }
+  
   function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
+  
   if(document.getElementById('encounteruid').value==''){
-	alert('<%=getTranNoLink("web","no.encounter.linked",sWebLanguage)%>');
+	alertDialog("web","no.encounter.linked");
 	searchEncounter();
   }	
 
@@ -611,7 +621,7 @@ function editSeance(rowid){
 
   <%-- SEARCH ICPC --%>
   function searchICPC(code,codelabel,codetype){
-    openPopup("/_common/search/searchICPC.jsp&ts=<%=getTs()%>&returnField=" + code + "&returnField2=" + codelabel + "&returnField3=" + codetype + "&ListChoice=FALSE");
+    openPopup("/_common/search/searchICPC.jsp&ts=<%=getTs()%>&returnField="+code+"&returnField2="+codelabel+"&returnField3="+codetype+"&ListChoice=FALSE");
   }
 
   <%-- TRANSLATE TREATMENT --%>
@@ -625,6 +635,7 @@ function editSeance(rowid){
     else if(tmpLabel == "reeducation"){
       return "<%=getTranNoLink("physiotherapy.act","reeducation",sWebLanguage)%>";
     }
+    
     return "";
   }
 </script>

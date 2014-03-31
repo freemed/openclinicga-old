@@ -4,9 +4,9 @@
                 java.text.DecimalFormat,
                 be.openclinic.system.Transaction,
                 be.openclinic.system.Item,
-                java.util.*" %>
-<%@ page import="be.openclinic.adt.Encounter" %>
-<%@ page import="be.openclinic.medical.*" %>
+                java.util.*"%>
+<%@page import="be.openclinic.adt.Encounter"%>
+<%@page import="be.openclinic.medical.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%!
@@ -113,12 +113,12 @@
 
             //*** display prescription in one row ***
             prescriptions.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
-                    .append("</tr>");
+	                     .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
+	                     .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
+	                     .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
+	                     .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
+	                     .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
+	                     .append("</tr>");
         }
         return idsVector;
     }
@@ -132,6 +132,7 @@
     private TransactionID getMyTransactionID(String sPersonId, String sItemTypes, JspWriter out) {
         TransactionID transactionID = new TransactionID();
         Transaction transaction = Transaction.getSummaryTransaction(sItemTypes, sPersonId);
+        
         try {
             if (transaction != null) {
                 String sUpdateTime = ScreenHelper.getSQLDate(transaction.getUpdatetime());
@@ -139,10 +140,12 @@
                 transactionID.serverid = transaction.getServerid();
                 out.print(sUpdateTime);
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
-            if (Debug.enabled) Debug.println(e.getMessage());
+            Debug.println(e.getMessage());
         }
+        
         return transactionID;
     }
 
@@ -153,12 +156,12 @@
         Iterator iter = vItems.iterator();
 
         Item item;
-
         while (iter.hasNext()) {
             item = (Item) iter.next();
-            sItemValue = item.getValue();//checkString(rs.getString(1));
+            sItemValue = item.getValue();
             sItemValue = getTranNoLink("Web.Occup", sItemValue, sWebLanguage);
         }
+        
         return sItemValue;
     }
 %>
@@ -180,7 +183,7 @@
 <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
     <tr>
         <%-- LAST GENERAL CLINICAL EXAMINATION --%>
-        <td valign="top" height="100%">
+        <td style="vertical-align:top;" height="100%">
             <table  class="list" width="100%" border="0" cellspacing="1" cellpadding="1" height="100%">
                 <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination">
                     <bean:define id="lastTransaction_generalClinicalExamination" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination"/>
@@ -225,7 +228,7 @@
         </td>
 
         <%-- LAST BIOMETRY EXAMINATION --%>
-        <td valign="top" colspan="2" height="100%">
+        <td style="vertical-align:top;" colspan="2" height="100%">
             <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0" height="100%">
                 <tr class="gray">
                     <td width="33%">
@@ -363,7 +366,7 @@
                 <tr>
                     <td class="admin"><%=getTran("openclinic.chuk","temperature",sWebLanguage)%></td>
                     <td colspan="3" class="admin2">
-                        <input type="text" class="text" <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE" property="value"/>" onBlur="if(isNumber(this)){if(!checkMinMaxOpen(0,45,this)){alert('<%=getTran("Web.Occup","medwan.common.unrealistic-value",sWebLanguage)%>');}}" size="5"/>
+                        <input type="text" class="text" <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE" property="value"/>" onBlur="if(isNumber(this)){if(!checkMinMaxOpen(0,45,this)){alertDialog('Web.Occup','medwan.common.unrealistic-value');}}" size="5"/>
                     </td>
                 </tr>
                 <tr>
@@ -376,7 +379,7 @@
         </td>
 
         <%-- KLINISCH ONDERZOEK -------------------------------------------------------------------------------------%>
-        <td valign="top" colspan="2">
+        <td style="vertical-align:top;" colspan="2">
             <table class="list" width="100%" cellspacing="1">
                     <%
                         SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
@@ -384,7 +387,7 @@
                         Encounter encounter = Encounter.getActiveEncounterOnDate(new Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(new SimpleDateFormat("dd/MM/yyyy 23:99").format(curTran.getUpdateTime())).getTime()),activePatient.personid);
                         String rfe="";
                         if(encounter!=null){
-                            rfe=ReasonForEncounter.getReasonsForEncounterAsHtml(encounter,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
+                            rfe = ReasonForEncounter.getReasonsForEncounterAsHtml(encounter,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
                             %>
                             <tr class="admin">
                                 <td align="center"><a href="javascript:openPopup('healthrecord/findRFE.jsp&field=rfe&encounterUid=<%=encounter.getUid()%>&ts=<%=getTs()%>',700,400)"><%=getTran("openclinic.chuk","rfe",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></a></td>
@@ -426,8 +429,11 @@
                                 sGravity = "";
                                 sCertainty = "";
                             }
-                %><span id="ICPCCode<%=item.getItemId()%>">
-                                    <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
+                            %><span id="ICPCCode<%=item.getItemId()%>">
+                                    <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/>
+                                    <input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/>
+                                    <input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/>
+                                    <input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
                                     <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%></i>
                                     <br/>
                               </span>
@@ -444,7 +450,10 @@
                                 sCertainty = "";
                             }
                             %><span id='ICD10Code<%=item.getItemId()%>'>
-                                    <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="document.getElementById('ICD10Code<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
+                                    <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="document.getElementById('ICD10Code<%=item.getItemId()%>').innerHTML='';"/>
+                                    <input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/>
+                                    <input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/>
+                                    <input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
                                     <%=item.getType().replaceAll("ICD10Code","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%></i>
                                     <br/>
                               </span>
@@ -455,7 +464,8 @@
                     </td>
                 </tr>
             </table>
-            <br/>
+            <div style="padding-top:5px;">
+            
             <table width="100%" class="list" cellspacing="1">
                 <tr class="admin">
                     <td align="center"><a href="javascript:showProblemlist();"><%=getTran("web.occup","medwan.common.problemlist",sWebLanguage)%></a></td>
@@ -470,11 +480,9 @@
                                 String sClass = "1";
 
                                 for(int n=0;n<activeProblems.size();n++){
-                                    if(sClass.equals("")){
-                                        sClass = "1";
-                                    }else{
-                                        sClass = "";
-                                    }
+                                    if(sClass.equals("")) sClass = "1";
+                                    else                  sClass = "";
+
                                     Problem activeProblem = (Problem)activeProblems.elementAt(n);
                                     String comment="";
                                     if(activeProblem.getComment().trim().length()>0){
@@ -488,7 +496,8 @@
                     </td>
                 </tr>
             </table>
-            <br/>
+            <div style="padding-top:5px;">
+            
             <table width="100%" class="list" cellspacing="1">
                 <tr class="admin">
                     <td align="center"><%=getTran("Web.Occup","medwan.healthrecord.medication",sWebLanguage)%></td>
@@ -541,12 +550,8 @@
                         out.print("<tr><td><table width='100%'>");
                         String l="";
                         for(int n=0;n<paperprescriptions.size();n++){
-                            if(l.length()==0){
-                                l="1";
-                            }
-                            else{
-                                l="";
-                            }
+                            if(l.length()==0) l = "1";
+                            else              l = "";
                             PaperPrescription paperPrescription = (PaperPrescription)paperprescriptions.elementAt(n);
                             out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+new SimpleDateFormat("dd/MM/yyyy").format(paperPrescription.getBegin())+"</b></td><td><i>");
                             Vector products =paperPrescription.getProducts();
@@ -565,50 +570,50 @@
         </td>
     </tr>
 </table>
+
 <script>
   function setBP(oObject,sbp,dbp){
-      if (oObject.value.length>0){
-        if (!isNumberLimited(oObject,40,300)){
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
+    if(oObject.value.length>0){
+      if(!isNumberLimited(oObject,40,300)){
+        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
+        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+        (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
+      }
+      else if((sbp.length>0)&&(dbp.length>0)){
+        isbp = document.getElementsByName(sbp)[0].value*1;
+        idbp = document.getElementsByName(dbp)[0].value*1;
+        if(idbp>isbp){
+          var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=error.dbp_greather_than_sbp";
           var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
-        }
-        else if ((sbp.length>0)&&(dbp.length>0)){
-          isbp = document.getElementsByName(sbp)[0].value*1;
-          idbp = document.getElementsByName(dbp)[0].value*1;
-          if (idbp>isbp){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=error.dbp_greather_than_sbp";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","error.dbp_greather_than_sbp",sWebLanguage)%>");
-          }
+          (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","error.dbp_greather_than_sbp",sWebLanguage)%>");
         }
       }
+    }
   }
 
   function setHF(oObject){
-      if (oObject.value.length>0){
-        if(!isNumberLimited(oObject,30,300)){
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
-        }
+    if(oObject.value.length>0){
+      if(!isNumberLimited(oObject,30,300)){
+        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
+        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+        (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
       }
+    }
   }
 
   function deleteRFE(serverid,objectid){
     if(yesnoDialog("Web","areYouSureToDelete")){
-          var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=encounter!=null?encounter.getUid():""%>&language=<%=sWebLanguage%>";
-          var today = new Date();
-          var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;
-          new Ajax.Request(url,{
-                  method: "GET",
-                  parameters: params,
-                  onSuccess: function(resp){
-                      rfe.innerHTML=resp.responseText;
-                  }
-              }
-          );
-      }
+      var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=encounter!=null?encounter.getUid():""%>&language=<%=sWebLanguage%>";
+      var today = new Date();
+      var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: params,
+        onSuccess: function(resp){
+          rfe.innerHTML=resp.responseText;
+        }
+      });
+    }
   }
 
   function deleteDiagnose(rowid){
@@ -623,12 +628,10 @@
     openPopup("medical/managePrescriptionsPopup.jsp&Action=showDetails&EditPrescrUid="+uid);
   }
 
-    <%
-    if(encounter!=null && rfe.length()==0){
-    %>
-      window.setTimeout("openPopup('healthrecord/findRFE.jsp&field=rfe&trandate="+document.getElementById("trandate")+"&encounterUid=<%=encounter.getUid()%>&ts=<%=getTs()%>',700,400)",200);
-    <%
-    }
-    %>
+  <%
+      if(encounter!=null && rfe.length()==0){
+	      %>window.setTimeout("openPopup('healthrecord/findRFE.jsp&field=rfe&trandate="+document.getElementById("trandate")+"&encounterUid=<%=encounter.getUid()%>&ts=<%=getTs()%>',700,400)",200);<%
+      }
+  %>
 </script>
 </logic:present>
