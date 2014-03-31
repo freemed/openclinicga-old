@@ -85,6 +85,7 @@
         return sReturn;
     }
 %>
+
 <%
     String sServiceSourceID = MedwanQuery.getInstance().getConfigString("PatientEditSourceID");
     String sDefaultCountry = MedwanQuery.getInstance().getConfigString("DefaultCountry");
@@ -103,28 +104,27 @@
 
         activePatient.privateContacts.add(apc);
 
-        // DPMS
         activePatient.sourceid = sServiceSourceID;
         session.setAttribute("activePatient",activePatient);
     }
 %>
 <script>
-function checkBegin(sObject, sBegin) {
+function checkBegin(sObject,sBegin){
   checkDate(sObject);
   var sdate = sObject.value;
-  if (sdate.length==10) {
+  if(sdate.length==10){
     var iDayBegin = sBegin.substring(0,2);
-	var iMonthBegin  = sBegin.substring(3,5);
-	var iYearBegin  = sBegin.substring(6,10);
+	var iMonthBegin = sBegin.substring(3,5);
+	var iYearBegin = sBegin.substring(6,10);
     var iBegin = (iYearBegin+""+iMonthBegin+""+iDayBegin+"")*1;
 
 	var iDayObject = sdate.substring(0,2);
 	var iMonthObject = sdate.substring(3,5);
 	var iYearObject = sdate.substring(6,10);
-    var iObject =(iYearObject+""+iMonthObject+""+iDayObject+"")*1;
+    var iObject = (iYearObject+""+iMonthObject+""+iDayObject+"")*1;
 
-    if (iBegin > iObject){
-        sObject.value = sBegin;
+    if(iBegin > iObject){
+      sObject.value = sBegin;
     }
   }
   else {

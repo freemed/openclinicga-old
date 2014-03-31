@@ -20,7 +20,7 @@
                 </tr>
             </table>
             <%-- ONE TAB ------------------------------------------------------------------------%>
-            <table valign="top" width="100%" border="0" cellspacing="0">
+            <table style="vertical-align:top;" width="100%" border="0" cellspacing="0">
                 <tr id="tr0-view" style="display:none">
                     <td><%ScreenHelper.setIncludePage(customerInclude("_common/patient/patientdataAdmin.jsp"),pageContext);%></td>
                 </tr>
