@@ -124,7 +124,6 @@ public class PDFInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             	diseaseType="?";
             	employer="?";
             	card="?";
-            	status="?";
             	immat="?";
             	affiliate="?";
             	emp="?";
@@ -137,9 +136,7 @@ public class PDFInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             		immat=debet.getInsurance().getMemberImmat();
             		affiliate=debet.getInsurance().getMember();
             		emp=debet.getInsurance().getMemberEmployer();
-            		if(status.equalsIgnoreCase("?")){
-            			status=debet.getInsurance().getStatus();
-            		}
+           			status=debet.getInsurance().getStatus();
             	}
             	if(encounter!=null && encounter.getCategories()!=null){
             		diseaseType=encounter.getCategories();
@@ -252,6 +249,11 @@ public class PDFInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
                 	PatientInvoice iv = PatientInvoice.get(invoiceUid.split(";")[0]);
                 	if(iv!=null){
                 		if(iv.getPatient()!=null){
+                			status="";
+                			if(iv.getInsuranceUid().length()>0){
+                				Insurance insurance = Insurance.get(iv.getInsuranceUid());
+                				status=insurance.getStatus();
+                			}
                 			beneficiary=iv.getPatient().lastname.toUpperCase()+", "+iv.getPatient().firstname+" ("+ScreenHelper.getTranNoLink("insurance.status", status, sPrintLanguage)+")";
                 		}
                 	}

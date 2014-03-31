@@ -1174,6 +1174,17 @@ public class PatientInvoice extends Invoice {
         return vPatientInvoices;
     }
     
+    public String getInsuranceUid(){
+    	String insuranceuid="";
+    	for(int n=0;n<getDebets().size();n++){
+    		Debet debet = (Debet)getDebets().elementAt(n);
+    		if(debet!=null && debet.getInsuranceUid()!=null && debet.getInsuranceUid().length()>0){
+    			return debet.getInsuranceUid();
+    		}
+    	}
+    	return insuranceuid;
+    }
+    
     //--- SET STATUS OPEN -------------------------------------------------------------------------
     public static boolean setStatusOpen(String sInvoiceID, String UserId){
         PreparedStatement ps = null;
