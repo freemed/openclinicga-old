@@ -47,8 +47,20 @@
         if(thisversion>MedwanQuery.getInstance().getConfigInt("updateVersion",0)){
     		%>
     		<script>
-    		    alertDialog("Upgrade needed, this may take several minutes depending on your system's performance");
-    			window.location.href='<c:url value="/"/>util/updateSystem.jsp?updateVersion=<%=thisversion+""%>';
+    	      <%-- ALERT DIALOG MESSAGE --%>
+    	      function alertDialogMessage(sMsg){
+    	        if(window.showModalDialog){
+    	          var popupUrl = "<c:url value='/_common/search/okPopup.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelValue="+sMsg;
+    	          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+    	          window.showModalDialog(popupUrl,"",modalities);
+    	        }
+    	        else{
+    	          alert(labelId); // FF          
+    	        }
+    	      }
+    	    
+    		  alertDialogMessage("Upgrade needed, this may take several minutes depending on your system´s performance");
+    		  window.location.href='<c:url value="/"/>util/updateSystem.jsp?updateVersion=<%=thisversion+""%>';
     		</script>    		
     		<%
         }
@@ -99,8 +111,7 @@
             window.history.forward(1);
         }
     </script>
-    <title><%=sWEBTITLE + " " + sTmpAPPTITLE%>
-    </title>
+    <title><%=sWEBTITLE + " " + sTmpAPPTITLE%></title>
 </head>
 <body class="Geenscroll login">
 <%
@@ -212,9 +223,8 @@
     }
     %>
     }
-    function openPopup(page, width, height) {
-        var url = page;
-        window.open(url, "Popup" + new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=" + width + ", height=" + height + ", menubar=no").moveTo((screen.width - width) / 2, (screen.height - height) / 2);
+    function openPopup(page, width, height){
+      window.open(page,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width="+width+",height="+ height+",menubar=no").moveTo((screen.width-width)/2,(screen.height-height)/2);
     }
 </script>
 </body>
