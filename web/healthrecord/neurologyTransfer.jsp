@@ -75,7 +75,7 @@
 			</td>
 			
 			<%-- DIAGNOSES --%>
-			<td style="vertical-align:top;" class="admin2">
+			<td style="vertical-align:top;padding:0" class="admin2">
                 <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
 			</td>
 		</tr>

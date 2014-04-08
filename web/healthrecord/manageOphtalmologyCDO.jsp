@@ -6,7 +6,7 @@
 
 <form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
    
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
@@ -31,7 +31,7 @@
 	        </td>
 	    </tr>
 	    
-	    <%-- physician --%>
+	    <%-- 0 - physician --%>
 	    <tr>
 	        <td class="admin"><%=getTran("web","cdo.physician",sWebLanguage)%></td>
 	        <td class="admin2" nowrap colspan="6">
@@ -42,55 +42,55 @@
 	        </td>
 	    </tr>
 	    
-	    <%-- actual complaints --%>
+	    <%-- 1 - actual complaints --%>
 	    <tr>
 	        <td class="admin"><%=getTran("web","actual.complaints",sWebLanguage)%></td>
-	        <td class="admin2" colspan="5">
-	        <%
-				String sComplaints = ((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1");
-	        %>	
+	        <td class="admin2" colspan="5">	
 	        	<input type="hidden" id="complaints" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1" property="value"/>"/>
 	        	<table width='100%'>
-		        <%
-		        	Label label;
-		        	int counter = 0;
-		        	Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-		        	if(labelTypes !=null){
-		                Hashtable labelIds = (Hashtable)labelTypes.get("cdo.1");
-		                if(labelIds!=null) {
-		                    Enumeration idsEnum = labelIds.elements();
-		                    Hashtable hSelected = new Hashtable();
-		                    while (idsEnum.hasMoreElements()) {
-		                        label = (Label)idsEnum.nextElement();
-		                        hSelected.put(label.value.toUpperCase(),label.id);
-		                    }
-		                    
-		                    Vector keys = new Vector(hSelected.keySet());
-		                    Collections.sort(keys);
-		                    Iterator it = keys.iterator();
-		                    String sLabelValue, sLabelID;
-		                    while (it.hasNext()) {
-		                        sLabelValue = (String)it.next();
-		                        sLabelID = (String)hSelected.get(sLabelValue);
-		                        if(counter % 4 ==0){
-		                        	if(counter>0){
-		                        		out.println("</tr>");
-		                        	}
-		                        	out.println("<tr>");
-		                        }
-		                        counter++;
-		                        
-		       					%><input type="checkbox" name="complaints.<%=sLabelID%>" value="<%=sLabelID%>" <%=sComplaints.indexOf("*"+sLabelID+"*")>-1?"checked":"" %>/><%=sLabelValue%></td><%
-		                    }
-		                }
-		        	}
-		        %>
-	        	</tr></table>
-	            <textarea  onKeyup="this.value=this.value.toUpperCase();resizeTextarea(this,10);" id="complaints_comment" class="text" cols="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1_COMMENT" translate="false" property="value"/></textarea>
+			        <%
+			            String sComplaints = ((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1");
+			        
+			        	Label label;
+			        	int counter = 0;
+			        	Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
+			        	if(labelTypes !=null){
+			                Hashtable labelIds = (Hashtable)labelTypes.get("cdo.1");
+			                if(labelIds!=null) {
+			                    Enumeration idsEnum = labelIds.elements();
+			                    Hashtable hSelected = new Hashtable();
+			                    while (idsEnum.hasMoreElements()) {
+			                        label = (Label)idsEnum.nextElement();
+			                        hSelected.put(label.value.toUpperCase(),label.id);
+			                    }
+			                    
+			                    Vector keys = new Vector(hSelected.keySet());
+			                    Collections.sort(keys);
+			                    Iterator it = keys.iterator();
+			                    String sLabelValue, sLabelID;
+			                    while(it.hasNext()){
+			                        sLabelValue = (String)it.next();
+			                        sLabelID = (String)hSelected.get(sLabelValue);
+			                        if(counter % 4 ==0){
+			                        	if(counter>0){
+			                        		out.println("</tr>");
+			                        	}
+			                        	out.println("<tr>");
+			                        }
+			                        counter++;
+			                        
+			       					%><input type="checkbox" name="complaints.<%=sLabelID%>" id="complaints.<%=sLabelID%>" value="<%=sLabelID%>" <%=sComplaints.indexOf("*"+sLabelID+"*")>-1?"checked":"" %>/><label for="complaints.<%=sLabelID%>"><%=sLabelValue%></label></td><%
+			                    }
+			                }
+			        	}
+			        %>
+		        	</tr>
+	        	</table>
+	            <textarea onKeyup="this.value=this.value.toUpperCase();resizeTextarea(this,10);" id="complaints_comment" class="text" cols="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1_COMMENT" translate="false" property="value"/></textarea>
 	        </td>
     	</tr>
     	
-    	<%-- localisation --%>
+    	<%-- 2 - localisation --%>
 	    <tr>
 	        <td class="admin"><%=getTran("web","localisation",sWebLanguage)%></td>
 	        <td class="admin2" colspan="5" nowrap>
@@ -101,7 +101,7 @@
 	        </td>
 	    </tr>
 	    
-    	<%-- severity --%>
+    	<%-- 3/4/5 - severity -------------%>
 	    <tr>
 	        <td class="admin"><%=getTran("web","severity",sWebLanguage)%></td>
 	        <td class="admin2" nowrap>
@@ -126,51 +126,53 @@
 	        </td>
 	    </tr>
 	    
-    	<%-- cdo history --%>
+    	<%-- 6 - history --%>
 	    <tr>
 	        <td class="admin"><%=getTran("web","cdo.history",sWebLanguage)%></td>
-	        <td class="admin2" nowrap>
-	        <%
-				String sHistory = ((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_6");
-	        %>	
+	        <td class="admin2" nowrap>	
 	        	<input type="hidden" id="history" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_6" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_6" property="value"/>"/>
 	        	<table width='100%'>
-		        <%
-		        	counter = 0;
-		        	labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-		        	if(labelTypes !=null){
-		                Hashtable labelIds = (Hashtable)labelTypes.get("cdo.6");
-		                if(labelIds!=null) {
-		                    Enumeration idsEnum = labelIds.elements();
-		                    Hashtable hSelected = new Hashtable();
-		                    while (idsEnum.hasMoreElements()) {
-		                        label = (Label)idsEnum.nextElement();
-		                        hSelected.put(label.value.toUpperCase(),label.id);
-		                    }
-		                    
-		                    Vector keys = new Vector(hSelected.keySet());
-		                    Collections.sort(keys);
-		                    Iterator it = keys.iterator();
-		                    String sLabelValue, sLabelID;
-		                    while (it.hasNext()) {
-		                        sLabelValue = (String)it.next();
-		                        sLabelID = (String)hSelected.get(sLabelValue);
-		                        if(counter % 4 ==0){
-		                        	if(counter>0){
-		                        		out.println("</tr>");
-		                        	}
-		                        	out.println("<tr>");
-		                        }
-		                        counter++;
-		                        
-						        %><td><input type="checkbox" name="history.<%=sLabelID%>" value="<%=sLabelID%>" <%=sHistory.indexOf("*"+sLabelID+"*")>-1?"checked":"" %>/><%=sLabelValue%></td><%
-		                    }
-		                }
-		        	}
-		        %>
-	        	</tr></table>
-	            <textarea  onKeyup="this.value=this.value.toUpperCase();resizeTextarea(this,10);" id="history_comment" class="text" cols="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_6_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_6_COMMENT" translate="false" property="value"/></textarea>
+			        <%
+			            String sHistory = ((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_6");
+			        
+			        	counter = 0;
+			        	labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
+			        	if(labelTypes !=null){
+			                Hashtable labelIds = (Hashtable)labelTypes.get("cdo.6");
+			                if(labelIds!=null) {
+			                    Enumeration idsEnum = labelIds.elements();
+			                    Hashtable hSelected = new Hashtable();
+			                    while (idsEnum.hasMoreElements()) {
+			                        label = (Label)idsEnum.nextElement();
+			                        hSelected.put(label.value.toUpperCase(),label.id);
+			                    }
+			                    
+			                    Vector keys = new Vector(hSelected.keySet());
+			                    Collections.sort(keys);
+			                    Iterator it = keys.iterator();
+			                    String sLabelValue, sLabelID;
+			                    while (it.hasNext()) {
+			                        sLabelValue = (String)it.next();
+			                        sLabelID = (String)hSelected.get(sLabelValue);
+			                        if(counter % 4 ==0){
+			                        	if(counter>0){
+			                        		out.println("</tr>");
+			                        	}
+			                        	out.println("<tr>");
+			                        }
+			                        counter++;
+			                        
+							        %><td><input type="checkbox" name="history.<%=sLabelID%>" id="history.<%=sLabelID%>" value="<%=sLabelID%>" <%=sHistory.indexOf("*"+sLabelID+"*")>-1?"checked":"" %>/><label for="history.<%=sLabelID%>"><%=sLabelValue%></label></td><%
+			                    }
+			                }
+			        	}
+			        %>
+		        	</tr>
+	        	</table>
+	            <textarea onKeyup="this.value=this.value.toUpperCase();resizeTextarea(this,10);" id="history_comment" class="text" cols="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_6_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_6_COMMENT" translate="false" property="value"/></textarea>
 	        </td>
+	        
+	        <%-- 7 - meds --%>
 	        <td class="admin"><%=getTran("web","cdo.meds",sWebLanguage)%></td>
 	        <td class="admin2" nowrap>
 	            <select id='cdo7' class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_7" property="itemId"/>]>.value" onchange="if(this.value==0){document.getElementById('meds_comment').style.visibility='visible'}else{document.getElementById('meds_comment').value='';document.getElementById('meds_comment').style.visibility='hidden'};">
@@ -178,6 +180,8 @@
 	            </select>
 	            <input onKeyup="this.value=this.value.toUpperCase();" type="text" id="meds_comment" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_7_COMMENT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_7_COMMENT" translate="false" property="value"/>"/>
 	        </td>
+	        
+	        <%-- 8 - allergy --%>
 	        <td class="admin"><%=getTran("web","cdo.allergy",sWebLanguage)%></td>
 	        <td class="admin2" nowrap>
 	            <select id='cdo8' class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_8" property="itemId"/>]>.value" onchange="if(this.value==0){document.getElementById('allergy_comment').style.visibility='visible'}else{document.getElementById('allergy_comment').value='';document.getElementById('allergy_comment').style.visibility='hidden'};">
@@ -187,7 +191,7 @@
 	        </td>
 	    </tr>
 	    
-    	<%-- cdo history family --%>
+    	<%-- 9/10 - history family + surgery ------------%>
 	    <tr>
 	        <td class="admin"><%=getTran("web","cdo.history.family",sWebLanguage)%></td>
 	        <td class="admin2" nowrap>
@@ -196,6 +200,7 @@
 	            </select>
 	            <input onKeyup="this.value=this.value.toUpperCase();" type="text" id="history_family_comment" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_9_COMMENT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_9_COMMENT" translate="false" property="value"/>"/>
 	        </td>
+	        
 	        <td class="admin"><%=getTran("web","cdo.history.surgery",sWebLanguage)%></td>
 	        <td class="admin2" colspan="3" nowrap>
 	            <select id='cdo10' class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_10" property="itemId"/>]>.value" onchange="if(this.value==0){document.getElementById('history_surgery_comment').style.visibility='visible'}else{document.getElementById('history_surgery_comment').value='';document.getElementById('history_surgery_comment').style.visibility='hidden'};">
@@ -205,19 +210,20 @@
 	        </td>
 	    </tr>
 	    
-    	<%-- cdo history eye --%>
+    	<%-- history eye + intake -------------------%>
 	    <tr>
 	        <td class="admin"><%=getTran("web","cdo.history.eye",sWebLanguage)%></td>
 	        <td class="admin2">
 	            <textarea  onKeyup="this.value=this.value.toUpperCase();resizeTextarea(this,10);" class="text" cols="60" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_11" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_11" translate="false" property="value"/></textarea>
 	        </td>
+	        
 	        <td class="admin"><%=getTran("web","cdo.intake",sWebLanguage)%></td>
 	        <td class="admin2" colspan="3">
 	            <textarea  onKeyup="this.value=this.value.toUpperCase();resizeTextarea(this,10);" class="text" cols="60" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_12" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_12" translate="false" property="value"/></textarea>
 	        </td>
 	    </tr>
 	    
-    	<%-- cdo history eye --%>
+    	<%-- history eye --%>
 	    <tr>
 	    	<td class="admin2" colspan="2" style="vertical-align:top;padding:0px">
 	    		<table width="100%">
@@ -229,9 +235,7 @@
 				                <%=ScreenHelper.writeSelectUpperCase("cdo.13",((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_13_H"),sWebLanguage,false,false)%>
 				            </select>
 				            <input onKeyup="this.value=this.value.toUpperCase();" size="5" type="text" id="avh_comment" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_13_H_COMMENT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_13_H_COMMENT" translate="false" property="value"/>"/>
-				            <br/>
-				            <br/>
-				            <br/>
+				            <br/><br/><br/>
 				            <select id='cdo14' class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_13_L" property="itemId"/>]>.value" onchange="if(this.value==0){document.getElementById('avl_comment').style.visibility='visible'}else{document.getElementById('avl_comment').value='';document.getElementById('avl_comment').style.visibility='hidden'};">
 				                <%=ScreenHelper.writeSelectUpperCase("cdo.13",((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_13_L"),sWebLanguage,false,false)%>
 				            </select>
@@ -241,9 +245,7 @@
 	    				<td><img height="80px" src="<c:url value="/_img/ophtalmo_2.png"/>"/></td>
 	    				<td>
 				            <input onblur="isNumber(this)" size="5" type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_14_H" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_14_H" translate="false" property="value"/>"/>
-				            <br/>
-				            <br/>
-				            <br/>
+				            <br/><br/><br/>
 				            <input onblur="isNumber(this)" size="5" type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_14_L" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_14_L" translate="false" property="value"/>"/>
 						</td>
 	    				<td>&nbsp;15.<font style="font-size: 44">P</font></td>
@@ -252,9 +254,7 @@
 				            <select id='cdo15h' class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_15_H" property="itemId"/>]>.value" >
 				                <%=ScreenHelper.writeSelectUpperCase("cdo.15",((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_15_H"),sWebLanguage,false,false)%>
 				            </select>
-				            <br/>
-				            <br/>
-				            <br/>
+				            <br/><br/><br/>
 				            <select id='cdo15l' class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_15_L" property="itemId"/>]>.value" >
 				                <%=ScreenHelper.writeSelectUpperCase("cdo.15",((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_15_L"),sWebLanguage,false,false)%>
 				            </select>
@@ -517,18 +517,18 @@
 	    			</tr>
 	    			<tr>
 		    			<td class="admin" nowrap>
-							<input type="checkbox" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_DIRECT" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_DIRECT;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
-							<%=getTran("web","cdo.direct",sWebLanguage)%>&nbsp;					
-							<input type="checkbox" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_20D" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_20D;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
-							<%=getTran("web","cdo.20D",sWebLanguage)%>&nbsp;					
-							<input type="checkbox" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_90D" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_90D;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
-							<%=getTran("web","cdo.90D",sWebLanguage)%>&nbsp;					
+							<input type="checkbox" class="text" id="cb_fundus_direct" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_DIRECT" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_DIRECT;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
+							<%=getLabel("web","cdo.direct",sWebLanguage,"cb_fundus_direct")%>&nbsp;					
+							<input type="checkbox" class="text" id="cb_fundus_20d" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_20D" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_20D;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
+							<%=getLabel("web","cdo.20D",sWebLanguage,"cb_fundus_20d")%>&nbsp;					
+							<input type="checkbox" class="text" id="cb_fundus_90d" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_90D" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_90D;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
+							<%=getLabel("web","cdo.90D",sWebLanguage,"cb_fundus_90d")%>&nbsp;					
 						</td>
 		    			<td class="admin" style="text-align: left">
 							<input type="text" size="3" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_PCT1" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_PCT1" translate="false" property="value"/>"/>
 						</td>					
 		    			<td class="admin" style="text-align: right">
-							<input type="text" size="3" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_PCT1" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_PCT1" translate="false" property="value"/>"/>
+							<input type="text" size="3" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_PCT2" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_PCT2" translate="false" property="value"/>"/>
 		    			</td>
 		    			<td class="admin">
 							<input type="text" size="20" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_GONIOSCOPY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_FUNDUS_GONIOSCOPY" translate="false" property="value"/>"/>
@@ -587,6 +587,7 @@
 	    <tr>
 	        <td class="admin" colspan="2" style="padding: 0px">
 	        	<table width="100%">
+	        		<%-- general diagnosis --%>
 	        		<tr>
 				        <td class="admin"><%=getTran("web","cdo.general.diagnosis",sWebLanguage)%></td>
 				        <td class="admin2">
@@ -605,6 +606,8 @@
 				            <input onKeyup="this.value=this.value.toUpperCase();" type="text" class="text" size="60" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_42_GENERAL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_42_GENERAL" translate="false" property="value"/>"/>
 				        </td>
 	        		</tr>
+	        		
+	        		<%-- specific diagnosis --%>
 	        		<tr>
 				        <td class="admin"><%=getTran("web","cdo.specific.diagnosis",sWebLanguage)%></td>
 				        <td class="admin2">
@@ -736,6 +739,11 @@
   document.getElementById("cdo3").onchange();
   document.getElementById("cdo4").onchange();
   document.getElementById("cdo5").onchange();
+  
+  document.getElementById("cdo7").onchange();
+  document.getElementById("cdo8").onchange();
+  document.getElementById("cdo9").onchange();
+  document.getElementById("cdo10").onchange();
 </script>
 
 <%=writeJSButtons("transactionForm","saveButton")%>

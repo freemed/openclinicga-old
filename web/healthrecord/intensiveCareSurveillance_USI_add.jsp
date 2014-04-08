@@ -620,7 +620,7 @@ try{
             }
             function doSubmit(){
 
-                document.transactionForm.save.disabled = true;
+                document.transactionForm.saveButton.disabled = true;
                 document.transactionForm.submit();
             }
 

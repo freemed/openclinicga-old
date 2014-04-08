@@ -2,7 +2,9 @@
                 be.mxs.webapp.wl.session.SessionContainerFactory,java.util.StringTokenizer" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
+
 <%=checkPermission("occup.physioreport","select",activeUser)%>
+
 <%
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
@@ -12,7 +14,8 @@
 
 <form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
+    
     <input id="transactionId" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input id="serverId" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input id="transactionType" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -20,12 +23,14 @@
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RECRUITMENT_CONVOCATION_ID" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RECRUITMENT_CONVOCATION_ID" property="value"/>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_DEPARTMENT" translate="false" property="value"/>"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT" translate="false" property="value"/>"/>
+   
     <%=writeHistoryFunctions(((TransactionVO)transaction).getTransactionType(),sWebLanguage)%>
     <%=contextHeader(request,sWebLanguage)%>
+    
     <table class="list" width="100%" cellspacing="1">
         <%-- DATE --%>
         <tr>
-            <td class="admin" width="20%">
+            <td class="admin" width="<%=sTDAdminWidth%>">
                 <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
@@ -34,6 +39,7 @@
                 <script>writeTranDate();</script>
             </td>
         </tr>
+        
         <%-- Report--%>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","medwan.common.report",sWebLanguage)%>&nbsp;</td>
@@ -41,6 +47,7 @@
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" <%=setRightClick("ITEM_TYPE_PHYSIO_REP_REPORT")%> cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PHYSIO_REP_REPORT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PHYSIO_REP_REPORT" property="value"/></textarea>
             </td>
         </tr>
+        
         <%-- Conclusion--%>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","medwan.common.conclusion",sWebLanguage)%>&nbsp;</td>
@@ -48,47 +55,16 @@
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" <%=setRightClick("ITEM_TYPE_PHYSIO_REP_CONCLUSION")%> cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PHYSIO_REP_CONCLUSION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PHYSIO_REP_CONCLUSION" property="value"/></textarea>
             </td>
         </tr>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2">
-    <%-- BUTTONS --%>
-        <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>
-        <%
-        String sPrintLanguage = checkString(activePatient.language);
-
-        if (sPrintLanguage.length()==0){
-            sPrintLanguage = sWebLanguage;
-        }
-
-        String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
-        %>
-        <select class="text" name="PrintLanguage">
-        <%
-            String tmpLang;
-            StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages, ",");
-            while (tokenizer.hasMoreTokens()) {
-                tmpLang = tokenizer.nextToken();
-
-        %><option value="<%=tmpLang%>"<%if (tmpLang.equalsIgnoreCase(sPrintLanguage)){out.print(" selected");}%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
-          }
-
-          %>
-          </select>
-
-        <%
-            if ((activeUser.getAccessRight("occup.physioreport.add")) || (activeUser.getAccessRight("occup.physioreport.edit"))){
-                %>
-                    <INPUT class="button" type="button" name="SaveAndPrint" value="<%=getTran("Web.Occup","medwan.common.record-and-print",sWebLanguage)%>" onclick="doSave(true);"/>
-                    <INPUT class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSave(false);"/>
-                <%
-            }
-        %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
-            </td>
-        </tr>
     </table>
+        
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.physioreport",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>
+	
+    <%=ScreenHelper.contextFooter(request)%>
 </form>
-<%=ScreenHelper.contextFooter(request)%>
+
 <script>
   <%-- DO BACK --%>
   function doBack(){
@@ -100,20 +76,22 @@
   <%-- SUBMIT FORM --%>
   function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alertDialog("web","no.encounter.linked");
-		searchEncounter();
+	  alertDialog("web","no.encounter.linked");
+	  searchEncounter();
 	}	
-    else {
-	    document.transactionForm.save.disabled = true;
-	    <%
-	        SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-	        out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
-	    %>
+    else{
+	  document.transactionForm.saveButton.disabled = true;
+	  <%
+	      SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
+	      out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
+	  %>
     }
   }
+  
   function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
+  
   if(document.getElementById('encounteruid').value==''){
 	alertDialog("web","no.encounter.linked");
 	searchEncounter();
@@ -132,12 +110,12 @@
 
   <%-- CREATE OFFICIAL PDF --%>
   function createOfficialPdf(printLang){
-    var tranID   = "<%=checkString(request.getParameter("be.mxs.healthrecord.transaction_id"))%>";
+    var tranID = "<%=checkString(request.getParameter("be.mxs.healthrecord.transaction_id"))%>";
     var serverID = "<%=checkString(request.getParameter("be.mxs.healthrecord.server_id"))%>";
 
     window.location.href = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp?tranAndServerID_1="+tranID+"_"+serverID+"&PrintLanguage="+printLang+"&ts=<%=getTs()%>";
 
-    window.opener.document.transactionForm.save.disabled = false;
+    window.opener.document.transactionForm.saveButton.disabled = false;
     window.opener.document.transactionForm.SaveAndPrint.disabled = false;
     window.opener.bSaveHasNotChanged = true;
     window.opener.location.reload();
@@ -147,8 +125,14 @@
   <%
       boolean printPDF = checkString(request.getParameter("printPDF")).equals("true");
       if(printPDF){
+          String sPrintLanguage = checkString(activePatient.language);
+          if(sPrintLanguage.length()==0){
+              sPrintLanguage = sWebLanguage;
+          }
+          
           %>createOfficialPdf('<%=sPrintLanguage%>');<%
       }
   %>
 </script>
+
 <%=writeJSButtons("transactionForm","saveButton")%>

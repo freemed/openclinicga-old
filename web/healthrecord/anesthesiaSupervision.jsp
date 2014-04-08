@@ -5,25 +5,26 @@
 
 <%!
     //--- ADD SUPERVISION -------------------------------------------------------------------------
-    private StringBuffer addSA(int iTotal,String sHeure,String sSys,String sDias,String sRythme,String sStage,String sFreq,String sSat, String sMedication, String sWebLanguage){
+    private StringBuffer addSA(int iTotal, String sHeure, String sSys, String sDias, String sRythme,
+    		                   String sStage, String sFreq, String sSat, String sMedication, String sWebLanguage){
         StringBuffer sTmp = new StringBuffer();
-        if (sStage.length()>0){
+        if(sStage.length() > 0){
             sStage = getTran("anesthesie_stage",sStage,sWebLanguage);
         }
         
         sTmp.append("<tr id='rowSA"+iTotal+"'>")
-             .append("<td class=\"admin2\">")
-              .append("<a href='javascript:deleteSA(rowSA"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
-              .append("<a href='javascript:editSA(rowSA"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
+             .append("<td class='admin2'>")
+              .append("<a href='javascript:deleteSA(rowSA"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
+              .append("<a href='javascript:editSA(rowSA"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTran("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
              .append("</td>")
-             .append("<td class='admin2'>&nbsp;" + sHeure + "</td>")
-             .append("<td class='admin2'>&nbsp;" +sSys + "</td>")
-             .append("<td class='admin2'>&nbsp;" + sDias + "</td>")
-             .append("<td class='admin2'>&nbsp;" + sRythme + "</td>")
-             .append("<td class='admin2'>&nbsp;" + sStage + "</td>")
-             .append("<td class='admin2'>&nbsp;" + sFreq + "</td>")
-             .append("<td class='admin2'>&nbsp;" + sSat + "</td>")
-             .append("<td class='admin2'>&nbsp;" + sMedication + "</td>")
+             .append("<td class='admin2'>&nbsp;").append(sHeure).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sSys).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sDias).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sRythme).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sStage).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sFreq).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sSat).append("</td>")
+             .append("<td class='admin2'>&nbsp;").append(sMedication).append("</td>")
              .append("<td class='admin2'>")
              .append("</td>")
             .append("</tr>");
@@ -34,7 +35,8 @@
 
 <form name="transactionForm" id="transactionForm" method="POST" action="<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
+  
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -50,9 +52,9 @@
                      sSA    = new StringBuffer();
         int iSATotal = 0;
 
-        if (transaction != null){
+        if(transaction!=null){
             TransactionVO tran = (TransactionVO)transaction;
-            if (tran!=null){
+            if(tran!=null){
                 sSA.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_ANESTHESIE_SUPERVISION1"));
                 sSA.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_ANESTHESIE_SUPERVISION2"));
                 sSA.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_ANESTHESIE_SUPERVISION3"));
@@ -67,12 +69,12 @@
 
             iSATotal = 1;
 
-            if (sSA.indexOf("£")>-1){
+            if(sSA.indexOf("£") > -1){
                 StringBuffer sTmpSA = sSA;
-                String sTmpHeure, sTmpSys, sTmpDias, sTmpRythme, sTmpStage, sTmpFreq,sTmpSat,sTmpMedication;
+                String sTmpHeure, sTmpSys, sTmpDias, sTmpRythme, sTmpStage, sTmpFreq, sTmpSat, sTmpMedication;
                 sSA = new StringBuffer();
 
-                while (sTmpSA.toString().toLowerCase().indexOf("$")>-1) {
+                while(sTmpSA.toString().toLowerCase().indexOf("$") > -1){
                     sTmpHeure = "";
                     sTmpSys = "";
                     sTmpDias = "";
@@ -82,42 +84,42 @@
                     sTmpSat = "";
                     sTmpMedication = "";
 
-                    if (sTmpSA.toString().toLowerCase().indexOf("£")>-1){
+                    if(sTmpSA.toString().toLowerCase().indexOf("£")>-1){
                         sTmpHeure = sTmpSA.substring(0,sTmpSA.toString().toLowerCase().indexOf("£"));
                         sTmpSA = new StringBuffer(sTmpSA.substring(sTmpSA.toString().toLowerCase().indexOf("£")+1));
                     }
 
-                    if (sTmpSA.toString().toLowerCase().indexOf("£")>-1){
+                    if(sTmpSA.toString().toLowerCase().indexOf("£")>-1){
                         sTmpSys = sTmpSA.substring(0,sTmpSA.toString().toLowerCase().indexOf("£"));
                         sTmpSA = new StringBuffer(sTmpSA.substring(sTmpSA.toString().toLowerCase().indexOf("£")+1));
                     }
 
-                    if (sTmpSA.toString().toLowerCase().indexOf("£")>-1){
+                    if(sTmpSA.toString().toLowerCase().indexOf("£")>-1){
                         sTmpDias = sTmpSA.substring(0,sTmpSA.toString().toLowerCase().indexOf("£"));
                         sTmpSA = new StringBuffer(sTmpSA.substring(sTmpSA.toString().toLowerCase().indexOf("£")+1));
                     }
 
-                    if (sTmpSA.toString().toLowerCase().indexOf("£")>-1){
+                    if(sTmpSA.toString().toLowerCase().indexOf("£")>-1){
                         sTmpRythme = sTmpSA.substring(0,sTmpSA.toString().toLowerCase().indexOf("£"));
                         sTmpSA = new StringBuffer(sTmpSA.substring(sTmpSA.toString().toLowerCase().indexOf("£")+1));
                     }
 
-                    if (sTmpSA.toString().toLowerCase().indexOf("£")>-1){
+                    if(sTmpSA.toString().toLowerCase().indexOf("£")>-1){
                         sTmpStage = sTmpSA.substring(0,sTmpSA.toString().toLowerCase().indexOf("£"));
                         sTmpSA = new StringBuffer(sTmpSA.substring(sTmpSA.toString().toLowerCase().indexOf("£")+1));
                     }
 
-                    if (sTmpSA.toString().toLowerCase().indexOf("£")>-1){
+                    if(sTmpSA.toString().toLowerCase().indexOf("£")>-1){
                         sTmpFreq = sTmpSA.substring(0,sTmpSA.toString().toLowerCase().indexOf("£"));
                         sTmpSA = new StringBuffer(sTmpSA.substring(sTmpSA.toString().toLowerCase().indexOf("£")+1));
                     }
 
-                    if (sTmpSA.toString().toLowerCase().indexOf("£")>-1){
+                    if(sTmpSA.toString().toLowerCase().indexOf("£")>-1){
                         sTmpSat = sTmpSA.substring(0,sTmpSA.toString().toLowerCase().indexOf("£"));
                         sTmpSA = new StringBuffer(sTmpSA.substring(sTmpSA.toString().toLowerCase().indexOf("£")+1));
                     }
 
-                    if (sTmpSA.toString().toLowerCase().indexOf("$")>-1){
+                    if(sTmpSA.toString().toLowerCase().indexOf("$")>-1){
                         sTmpMedication = sTmpSA.substring(0,sTmpSA.toString().toLowerCase().indexOf("$"));
                         sTmpSA = new StringBuffer(sTmpSA.substring(sTmpSA.toString().toLowerCase().indexOf("$")+1));
                     }
@@ -142,18 +144,18 @@
                 <script>writeTranDate();</script>
             </td>
         </tr>
-       <tr>
-            <td class="admin2" colspan="2">	
+        <tr>
+            <td class="admin2" colspan="2" style="padding:0">	
 				<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncodingWide.jsp"),pageContext);%>            
 			</td>
-       </tr>
+        </tr>
 
         <tr><td/></tr>
 
         <tr>
             <td colspan="2">
                 <table cellspacing="1" cellpadding="0" width="100%" border="0" id="tblSA" class="list">
-                     <%-- header 1 --%>
+                    <%-- header 1 --%>
                     <tr>
                         <td class="admin" width="40" rowspan="2"/>
                         <td class="admin" width="50" rowspan="2" style="vertical-align:bottom;padding-bottom:4px;"><%=getTran("Web.occup","medwan.common.hour",sWebLanguage)%></td>
@@ -166,7 +168,7 @@
                         <td class="admin" rowspan="2"/>
                     </tr>
 
-                     <%-- header 2 --%>
+                    <%-- header 2 --%>
                     <tr>
                         <td class="admin"><%=getTran("openclinic.chuk","sys",sWebLanguage)%></td>
                         <td class="admin"><%=getTran("openclinic.chuk","dias",sWebLanguage)%></td>
@@ -228,28 +230,22 @@
         <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION8" property="itemId"/>]>.value">
         <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION9" property="itemId"/>]>.value">
         <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION10" property="itemId"/>]>.value">
-
-        <tr><td/></tr>
-        
-        <%-- BUTTONS --%>
-        <tr>
-            <td class="admin">
-            <td class="admin2">
-                <%=getButtonsHtml(request,activeUser,activePatient,"occup.surveillance_anesthesie",sWebLanguage)%>
-            </td>
-        </tr>
     </table>
+
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.surveillance_anesthesie",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>
 
     <%=ScreenHelper.contextFooter(request)%>
 </form>
-
-<%=writeJSButtons("transactionForm", "saveButton")%>
 
 <script>
   var iSAIndex = <%=iSATotal%>;
   var sSA = "<%=sSA%>";
   var editSARowid = "";
 
+  <%-- ADD SA --%>
   function addSA(){
     if(isAtLeastOneSAFieldFilled()){
       iSAIndex++;
@@ -311,34 +307,37 @@
       tr.appendChild(td);
 
       setCellStyle(tr);
+      
       <%-- reset --%>
       clearSAFields()
       transactionForm.ButtonUpdateSA.disabled = true;
     }
+    
     return true;
   }
 
   <%-- CHECK STAGE --%>
   function checkStage(){
     var sDescrStage = "";
-    if (transactionForm.svstage.value=="pre_anesthesie"){
+    if(transactionForm.svstage.value=="pre_anesthesie"){
       sDescrStage = "<%=getTran("anesthesie_stage","pre_anesthesie",sWebLanguage)%>";
     }
-    else if (transactionForm.svstage.value=="anesthesie"){
+    else if(transactionForm.svstage.value=="anesthesie"){
       sDescrStage = "<%=getTran("anesthesie_stage","anesthesie",sWebLanguage)%>";
     }
-    else if (transactionForm.svstage.value=="post_anesthesie"){
+    else if(transactionForm.svstage.value=="post_anesthesie"){
       sDescrStage = "<%=getTran("anesthesie_stage","post_anesthesie",sWebLanguage)%>";
     }
 
     return sDescrStage;
   }
 
+  <%-- UPDATE SA --%>
   function updateSA(){
     if(isAtLeastOneSAFieldFilled()){
       <%-- update arrayString --%>
       var newRow,row;
-      if(transactionForm.svheure.value == ""){
+      if(transactionForm.svheure.value.length==0){
         getTime(transactionForm.svheure);
       }
 
@@ -375,18 +374,7 @@
     }
   }
 
-  function isAtLeastOneSAFieldFilled(){
-    //if(transactionForm.svheure.value != "")    return true;
-    if(transactionForm.svsys.value != "")        return true;
-    if(transactionForm.svdias.value != "")       return true;
-    if(transactionForm.svrythme.value != "")     return true;
-    if(transactionForm.svstage.value != "")      return true;
-    if(transactionForm.svfreq.value != "")       return true;
-    if(transactionForm.svsat.value != "")        return true;
-    if(transactionForm.svmedication.value != "") return true;
-    return false;
-  }
-
+  <%-- CLEAR SA FIELDS --%>
   function clearSAFields(){
     transactionForm.svheure.value = "";
     transactionForm.svsys.value = "";
@@ -398,6 +386,7 @@
     transactionForm.svmedication.value = "";
   }
 
+  <%-- DELETE SA --%>
   function deleteSA(rowid){
     var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
     var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
@@ -417,6 +406,7 @@
     }
   }
 
+  <%-- EDIT SA --%>
   function editSA(rowid){
     var row = getRowFromArrayString(sSA,rowid.id);
     transactionForm.svheure.value = getCelFromRowString(row,0);
@@ -435,41 +425,41 @@
   <%-- SUBMIT FORM --%>
   function submitForm() {
     if(document.getElementById('encounteruid').value==''){
-		alertDialog("web","no.encounter.linked");
-		searchEncounter();
+	  alertDialog("web","no.encounter.linked");
+	  searchEncounter();
 	}	
-    else {
-	    var maySubmit = true;
+    else{
+	  var maySubmit = true;
 	
-	    if (isAtLeastOneSAFieldFilled()) {
-	      if (maySubmit) {
-	        if (!addSA()) {
-	          maySubmit = false;
-	        }
+	  if(isAtLeastOneSAFieldFilled()){
+	    if(maySubmit){
+	      if(!addSA()){
+	        maySubmit = false;
 	      }
 	    }
+	  }
 	
-	    var sTmpBegin, sTmpEnd;
-	    while (sSA.indexOf("rowSA") > -1) {
-	      sTmpBegin = sSA.substring(sSA.indexOf("rowSA"));
-	      sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
-	      sSA = sSA.substring(0, sSA.indexOf("rowSA")) + sTmpEnd;
-	    }
+	  var sTmpBegin, sTmpEnd;
+	  while(sSA.indexOf("rowSA") > -1){
+	    sTmpBegin = sSA.substring(sSA.indexOf("rowSA"));
+	    sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=")+1);
+	    sSA = sSA.substring(0,sSA.indexOf("rowSA"))+sTmpEnd;
+	  }
 	
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION1" property="itemId"/>]>.value")[0].value = sSA.substring(0,254);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION2" property="itemId"/>]>.value")[0].value = sSA.substring(254,508);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION3" property="itemId"/>]>.value")[0].value = sSA.substring(508,762);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION4" property="itemId"/>]>.value")[0].value = sSA.substring(762,1016);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION5" property="itemId"/>]>.value")[0].value = sSA.substring(1016,1270);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION6" property="itemId"/>]>.value")[0].value = sSA.substring(1270,1524);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION7" property="itemId"/>]>.value")[0].value = sSA.substring(1524,1778);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION8" property="itemId"/>]>.value")[0].value = sSA.substring(1778,2032);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION9" property="itemId"/>]>.value")[0].value = sSA.substring(2032,2286);
-	    document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION10" property="itemId"/>]>.value")[0].value = sSA.substring(2286,2540);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION1" property="itemId"/>]>.value")[0].value = sSA.substring(0,254);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION2" property="itemId"/>]>.value")[0].value = sSA.substring(254,508);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION3" property="itemId"/>]>.value")[0].value = sSA.substring(508,762);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION4" property="itemId"/>]>.value")[0].value = sSA.substring(762,1016);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION5" property="itemId"/>]>.value")[0].value = sSA.substring(1016,1270);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION6" property="itemId"/>]>.value")[0].value = sSA.substring(1270,1524);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION7" property="itemId"/>]>.value")[0].value = sSA.substring(1524,1778);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION8" property="itemId"/>]>.value")[0].value = sSA.substring(1778,2032);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION9" property="itemId"/>]>.value")[0].value = sSA.substring(2032,2286);
+	  document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIE_SUPERVISION10" property="itemId"/>]>.value")[0].value = sSA.substring(2286,2540);
 	
-	    if(maySubmit){
-	      document.getElementById("buttonsDiv").style.visibility = "hidden";
-	        var temp = Form.findFirstElement(transactionForm);//for ff compatibility
+	  if(maySubmit){
+	    document.getElementById("buttonsDiv").style.visibility = "hidden";
+	      var temp = Form.findFirstElement(transactionForm); //for ff compatibility
 	      <%
 	          SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
 	          out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
@@ -477,9 +467,12 @@
 	    }
     }
   }
+  
+  <%-- SEARCH ENCOUNTER --%>
   function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
+  
   if(document.getElementById('encounteruid').value==''){
 	alertDialog("web","no.encounter.linked");
 	searchEncounter();
@@ -501,6 +494,19 @@
     }
   }
 
+  <%-- IS AT LEAST ONE SA FIELD FILLED --%>
+  function isAtLeastOneSAFieldFilled(){
+    //if(transactionForm.svheure.value!="") return true;
+    if(transactionForm.svsys.value!="") return true;
+    if(transactionForm.svdias.value!="") return true;
+    if(transactionForm.svrythme.value!="") return true;
+    if(transactionForm.svstage.value!="") return true;
+    if(transactionForm.svfreq.value!="") return true;
+    if(transactionForm.svsat.value!="") return true;
+    if(transactionForm.svmedication.value!="") return true;
+    return false;
+  }
+
   <%-- GENERAL FUNCTIONS ------------------------------------------------------------------------%>
   function deleteRowFromArrayString(sArray,rowid){
     var array = sArray.split("$");
@@ -512,28 +518,28 @@
     return array.join("$");
   }
 
-  function getRowFromArrayString(sArray, rowid) {
+  function getRowFromArrayString(sArray,rowid){
     var array = sArray.split("$");
     var row = "";
-    for (var i = 0; i < array.length; i++) {
-      if (array[i].indexOf(rowid) > -1) {
-       row = array[i].substring(array[i].indexOf("=") + 1);
+    for (var i=0; i<array.length; i++){
+      if(array[i].indexOf(rowid) > -1){
+       row = array[i].substring(array[i].indexOf("=")+1);
        break;
       }
     }
     return row;
   }
 
-  function getCelFromRowString(sRow, celid) {
+  function getCelFromRowString(sRow,celid){
     var row = sRow.split("£");
     return row[celid];
   }
 
-  function replaceRowInArrayString(sArray, newRow, rowid) {
+  function replaceRowInArrayString(sArray,newRow,rowid){
     var array = sArray.split("$");
-    for (var i = 0; i < array.length; i++) {
-      if (array[i].indexOf(rowid) > -1) {
-        array.splice(i, 1, newRow);
+    for(var i=0; i<array.length; i++){
+      if(array[i].indexOf(rowid) > -1){
+        array.splice(i,1,newRow);
         break;
       }
     }
@@ -541,3 +547,5 @@
     return array.join("$");
   }
 </script>
+
+<%=writeJSButtons("transactionForm","saveButton")%>

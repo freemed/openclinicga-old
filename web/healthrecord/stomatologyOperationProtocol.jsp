@@ -5,7 +5,8 @@
 
 <form id="transactionForm" name="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
+   
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" id="transactionType" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
@@ -18,6 +19,7 @@
 
     <%
         TransactionVO tran = (TransactionVO)transaction;
+    
         String sTransactionStart    = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_OPERATION_PROTOCOL_START"),
                sTransactionEnd      = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_OPERATION_PROTOCOL_END"),
                sTransactionDuration = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_OPERATION_PROTOCOL_DURATION");
@@ -25,7 +27,7 @@
     
     <table class="list" width="100%" cellspacing="1">
 		<tr>
-			<td style="vertical-align:top;" class="admin2">
+			<td style="vertical-align:top;padding:0" class="admin2">
 			    <table class="list" cellspacing="1" cellpadding="0" width="100%">
 			        <%-- DATE --%>
 			        <tr>
@@ -43,7 +45,7 @@
 			        <tr>
 			            <td class="admin" colspan="2"><%=getTran("openclinic.chuk","starthour",sWebLanguage)%></td>
 			            <td class="admin2">
-			                <input <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_START")%> class="text" type="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_START" property="itemId"/>]>.value" value="<%=sTransactionStart%>" onblur="checkTime(this);calculateDuration(this);"onkeypress="keypressTime(this)">
+			                <input <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_START")%> class="text" type="text" size="5" id="startHour" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_START" property="itemId"/>]>.value" value="<%=sTransactionStart%>" onblur="checkTime(this);calculateDuration(this);" onkeypress="keypressTime(this)">
 			            </td>
 			        </tr>
 			
@@ -51,15 +53,15 @@
 			        <tr>
 			            <td class="admin" colspan="2"><%=getTran("openclinic.chuk","endhour",sWebLanguage)%></td>
 			            <td class="admin2">
-			                <input <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_END")%> class="text" type="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_END" property="itemId"/>]>.value" value="<%=sTransactionEnd%>" onblur="checkTime(this);calculateDuration(this);"onkeypress="keypressTime(this)">
+			                <input <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_END")%> class="text" type="text" size="5" id="endHour" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_END" property="itemId"/>]>.value" value="<%=sTransactionEnd%>" onblur="checkTime(this);calculateDuration(this);" onkeypress="keypressTime(this)">
 			            </td>
 			        </tr>
 			
-			        <%-- duration --%>
+			        <%-- duration (calculated) --%>
 			        <tr>
 			            <td class="admin" colspan="2"><%=getTran("openclinic.chuk","duration",sWebLanguage)%></td>
 			            <td class="admin2">
-			                <input <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_DURATION")%> class="text" type="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value" value="<%=sTransactionDuration%>" onblur="checkTime(this);" readonly>
+			                <input <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_DURATION")%> class="text" type="text" size="5" id="duration" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value" value="<%=sTransactionDuration%>" onblur="checkTime(this);" readonly>
 			            </td>
 			        </tr>
 			
@@ -79,10 +81,11 @@
 			            </td>
 			        </tr>
 			
-			        <%-- group.composition --%>
+			        <%-- group.composition ------------------------------------------------------%>
+			        <%-- surgeons --%>
 			        <tr>
 			            <td class="admin" rowspan="3" width="100"><%=getTran("openclinic.chuk","group.composition",sWebLanguage)%></td>
-			            <td class="admin" width="150"><%=getTran("openclinic.chuk","surgeons",sWebLanguage)%></td>
+			            <td class="admin2" width="150"><%=getTran("openclinic.chuk","surgeons",sWebLanguage)%></td>
 			            <td class="admin2">
 			                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_SURGEONS")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_SURGEONS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_SURGEONS" property="value"/></textarea>
 			            </td>
@@ -90,7 +93,7 @@
 			
 			        <%-- anasthesists --%>
 			        <tr>
-			            <td class="admin"><%=getTran("openclinic.chuk","anasthesists",sWebLanguage)%></td>
+			            <td class="admin2"><%=getTran("openclinic.chuk","anasthesists",sWebLanguage)%></td>
 			            <td class="admin2">
 			                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_ANASTHESISTS")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_ANASTHESISTS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_ANASTHESISTS" property="value"/></textarea>
 			            </td>
@@ -98,7 +101,7 @@
 			
 			        <%-- nurses --%>
 			        <tr>
-			            <td class="admin"><%=getTran("openclinic.chuk","nurses",sWebLanguage)%></td>
+			            <td class="admin2"><%=getTran("openclinic.chuk","nurses",sWebLanguage)%></td>
 			            <td class="admin2">
 			                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_NURSES")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_NURSES" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_NURSES" property="value"/></textarea>
 			            </td>
@@ -159,23 +162,20 @@
 			                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_OPERATION_PROTOCOL_REMARKS")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_REMARKS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_REMARKS" property="value"/></textarea>
 			            </td>
 			        </tr>
-			
-			        <%-- BUTTONS --%>
-			        <tr>
-			            <td class="admin" colspan="2"/>
-			            <td class="admin2">
-			                <%=getButtonsHtml(request,activeUser,activePatient,"occup.operationprotocol",sWebLanguage)%>
-			            </td>
-			        </tr>
 			    </table>
 			</td>
 			
 			<%-- DIAGNOSES --%>
-			<td style="vertical-align:top;" class="admin2">
+			<td style="vertical-align:top;padding:0" class="admin2">
                 <%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
 			</td>
 		</tr>
     </table>
+
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.operationprotocol",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>
 
     <%=ScreenHelper.contextFooter(request)%>
 </form>
@@ -184,18 +184,21 @@
   <%-- SUBMIT FORM --%>
   function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alertDialog("web","no.encounter.linked");
-		searchEncounter();
+	  alertDialog("web","no.encounter.linked");
+	  searchEncounter();
 	}	
-    else {
-	    var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-	    document.getElementById("buttonsDiv").style.visibility = "hidden";
-	    document.transactionForm.submit();
+    else{
+	  var temp = Form.findFirstElement(transactionForm);//for ff compatibility
+	  document.getElementById("buttonsDiv").style.visibility = "hidden";
+	  document.transactionForm.submit();
     }
   }
+  
+  <%-- SEARCH ENCOUNTER --%>
   function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
+
   if(document.getElementById('encounteruid').value==''){
 	alertDialog("web","no.encounter.linked");
 	searchEncounter();
@@ -203,8 +206,8 @@
 
   <%-- CALCULATE DURATION --%>
   function calculateDuration(obj){
-    var vStart = document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_START" property="itemId"/>]>.value")[0].value;
-    var vEnd   = document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_END" property="itemId"/>]>.value")[0].value;
+    var vStart = document.getElementById("startHour").value,
+        vEnd   = document.getElementById("endHour").value;
 
     var aStart = vStart.split(":");
     var aEnd = vEnd.split(":");
@@ -220,25 +223,24 @@
     endDate.setSeconds(0);
 
     var one_min = 1000*60;
+    
     var vDurationDate = new Date();
     vDurationDate.setHours(0);
     vDurationDate.setMinutes(Math.ceil((endDate.getTime()-startDate.getTime())/(one_min)));
     vDurationDate.setSeconds(0);
 
-    if(vStart != "" && vEnd != ""){
+    if(vStart!="" && vEnd!=""){
       if(endDate > startDate){
-        document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = vDurationDate.getHours() + ":" + vDurationDate.getMinutes();
+    	document.getElementById("duration").value = vDurationDate.getHours()+":"+(vDurationDate.getMinutes()<10?"0"+vDurationDate.getMinutes():vDurationDate.getMinutes());
       }
       else{
-        document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = "";
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=endhour_greater_than_starthour";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","endhour_greater_than_starthour",sWebLanguage)%>");
+        durationObj.value = "";        
+        alertDialog("web","endhour_greater_than_starthour");       
         obj.value = "";
-       }
+      }
     }
     else{
-      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = "";
+      document.getElementById("duration").value = "";
     }
   }
 </script>

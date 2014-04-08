@@ -194,7 +194,7 @@
 
   <%-- SUBMIT FORM --%>
   function submitForm(printLang){
-    document.transactionForm.save.disabled = true;
+    document.transactionForm.saveButton.disabled = true;
     document.transactionForm.PrintLanguage.value = printLang;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
@@ -226,7 +226,7 @@
 
     window.location.href = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp?tranAndServerID_1="+tranID+"_"+serverID+"&PrintLanguage="+printLang+"&tranSubType="+tranSubType+"&ts=<%=getTs()%>";
 
-    window.opener.document.transactionForm.save.disabled = false;
+    window.opener.document.transactionForm.saveButton.disabled = false;
     window.opener.document.transactionForm.SaveAndPrintRef.disabled = false;
     window.opener.document.transactionForm.SaveAndPrintContraRef.disabled = false;
     window.opener.bSaveHasNotChanged = true;

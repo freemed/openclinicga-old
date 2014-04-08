@@ -234,7 +234,7 @@
 
 <script>
   function submitForm(){
-    transactionForm.save.disabled = true;
+    transactionForm.saveButton.disabled = true;
     transactionForm.submit();
   }
 

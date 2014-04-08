@@ -1,7 +1,8 @@
-<%@ page import="java.util.*" %>
+<%@page import="java.util.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%=checkPermission("occup.pediatry.consultation", "select",activeUser)%>
+<%=checkPermission("occup.pediatry.consultation","select",activeUser)%>
+
 <script>
   function activateTab(iTab){
     document.getElementById('tr1-view').style.display = 'none';
@@ -12,15 +13,15 @@
     td3.className="tabunselected";
     td4.className="tabunselected";
 
-    if (iTab==1){
+    if(iTab==1){
       document.getElementById('tr1-view').style.display = '';
       td1.className="tabselected";
     }
-    else if (iTab==3){
+    else if(iTab==3){
       document.getElementById('tr3-view').style.display = '';
       td3.className="tabselected";
     }
-    else if (iTab==4){
+    else if(iTab==4){
       document.getElementById('tr4-view').style.display = '';
       td4.className="tabselected";
     }
@@ -28,8 +29,8 @@
 
   function deleteRowFromArrayString(sArray,rowid){
     var array = sArray.split("$");
-    for (var i=0;i<array.length;i++){
-      if (array[i].indexOf(rowid)>-1){
+    for(var i=0;i<array.length;i++){
+      if(array[i].indexOf(rowid)>-1){
         array.splice(i,1);
       }
     }
@@ -39,8 +40,8 @@
   function getRowFromArrayString(sArray,rowid){
     var array = sArray.split("$");
     var row = "";
-    for (var i=0;i<array.length;i++){
-      if (array[i].indexOf(rowid)>-1){
+    for(var i=0;i<array.length;i++){
+      if(array[i].indexOf(rowid)>-1){
         row = array[i].substring(array[i].indexOf("=")+1);
         break;
       }
@@ -55,8 +56,8 @@
 
   function replaceRowInArrayString(sArray,newRow,rowid){
     var array = sArray.split("$");
-    for (var i=0;i<array.length;i++){
-      if (array[i].indexOf(rowid)>-1){
+    for(var i=0;i<array.length;i++){
+      if(array[i].indexOf(rowid)>-1){
         array.splice(i,1,newRow);
         break;
       }
@@ -67,7 +68,7 @@
 
 <form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>'  onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
 
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
@@ -95,11 +96,12 @@
             <td width="50%"><%=contextHeader(request,sWebLanguage)%></td>
         </tr>
     </table>
+    
     <%
         StringBuffer sbData = new StringBuffer();
 
         TransactionVO tran = MedwanQuery.getInstance().getLastTransactionVO(Integer.parseInt(activePatient.personid), sPREFIX+"TRANSACTION_TYPE_BIOMETRY");
-        if (tran!=null){
+        if(tran!=null){
             tran = MedwanQuery.getInstance().loadTransaction(tran.getServerId(),tran.getTransactionId().intValue());
             sbData.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_BIOMETRY_PARAMETER1"));
             sbData.append(getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_BIOMETRY_PARAMETER2"));
@@ -121,7 +123,7 @@
         sArm = "";
         sFood = "";
 
-        if (sbData.indexOf("£") > -1) {
+        if(sbData.indexOf("£") > -1) {
             StringBuffer sTmpBio = sbData;
             String sTmpDate, sTmpWeight, sTmpHeight, sTmpSkull, sTmpArm, sTmpFood;
 
@@ -133,38 +135,38 @@
                 sTmpArm = "";
                 sTmpFood = "";
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                     sTmpDate = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                     sTmpWeight = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                     sTmpHeight = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                     sTmpSkull = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                     sTmpArm = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                 }
 
-                if (sTmpBio.toString().toLowerCase().indexOf("$") > -1) {
+                if(sTmpBio.toString().toLowerCase().indexOf("$") > -1) {
                     sTmpFood = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("$"));
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("$") + 1));
                 }
 
-                if (sDate.length() > 0) {
-                    if (ScreenHelper.getSQLDate(sDate).before(ScreenHelper.getSQLDate(sTmpDate))) {
+                if(sDate.length() > 0) {
+                    if(ScreenHelper.getSQLDate(sDate).before(ScreenHelper.getSQLDate(sTmpDate))) {
                         sDate = sTmpDate;
                         sWeight = sTmpWeight;
                         sHeight = sTmpHeight;
@@ -193,16 +195,19 @@
             <td><%=getTran("openclinic.chuk","arm.circumference",sWebLanguage)%> <b><%=sArm%></b></td>
             <td>
                 <%=getTran("openclinic.chuk","food",sWebLanguage)%>
-                <b><%
-                    if (sFood.length()>0){
+                <b>
+                <%
+                    if(sFood.length()>0){
                         sFood = getTran("biometry_food",sFood,sWebLanguage);
                     }
                     out.print(sFood);
-                %></b>
+                %>
+                </b>
             </td>
         </tr>
     </table>
     <br/>
+    
     <%-- TABS --%>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -230,50 +235,81 @@
     </table>
 
     <%-- BUTTONS --%>
-    <%=ScreenHelper.alignButtonsStart()%>
-    <%-- PRINTLANGUAGE & PRINT HEIGHT GRAPH BUTTON --%>
+	<%=ScreenHelper.alignButtonsStart()%>
         <%
             // age in months
             float iAgeInYears = MedwanQuery.getInstance().getAgeDecimal(Integer.parseInt(activePatient.personid));
-            double iAgeInMonths = iAgeInYears * 12.0;
-
-            %>
-            <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>
-            <%
-                String sPrintLanguage = checkString(activePatient.language);
-                if (sPrintLanguage.length()==0){
-                    sPrintLanguage = sWebLanguage;
-                }
-
-                String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
-            %>
-
-            <select class="text" name="PrintLanguage">
-                <%
-                    String tmpLang;
-                    StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages, ",");
-                    while (tokenizer.hasMoreTokens()) {
-                        tmpLang = tokenizer.nextToken();
-                %><option value="<%=tmpLang%>"<%if (tmpLang.equalsIgnoreCase(sPrintLanguage)){out.print(" selected");}%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
-                    }
-            %>
-            </select>
-
-            <input class="button" type="button" name="graphButton" value="<%=getTranNoLink("Web","printGrowthGraph",sWebLanguage)%>" onclick="printGrowthGraph('<%=(int)iAgeInMonths%>','<%=activePatient.gender%>',document.transactionForm.PrintLanguage.value);">
-
-        <%
-        if (activeUser.getAccessRight("occup.clinicalexamination.add") || activeUser.getAccessRight("occup.clinicalexamination.edit")){
-        %>
-        <input class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
-        <%
-        }
-        %>
-        <input class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if ('<%=sCONTEXTPATH%>',checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){window.location.href='<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';}">
+            double iAgeInMonths = iAgeInYears * 12.0/20;
+            
+            if(iAgeInMonths < 240){
+                %><input class="button" type="button" name="graphButton" value="<%=getTranNoLink("Web","printGrowthGraph",sWebLanguage)%>" onclick="printGrowthGraph('<%=(int)iAgeInMonths%>','<%=activePatient.gender%>',document.transactionForm.PrintLanguage.value);"><br><br><% 
+            }
+        %>        
+        
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.pediatry.consultation",sWebLanguage)%>    
     <%=ScreenHelper.alignButtonsStop()%>
 
 <script>
   activateTab(1);
 
+  <%-- PRINT GROWTH GRAPH --%>
+  function printGrowthGraph(ageInMonths,gender){
+    if(ageInMonths >= 0 && ageInMonths <= 12){
+      printGrowthGraph0To1Year(ageInMonths,gender);
+    }
+    else if(ageInMonths > 12 && ageInMonths <= 60){
+      printGrowthGraph1To5Year(ageInMonths,gender);
+    }
+    else{
+      if(ageInMonths > 60 && ageInMonths <= 240){
+        printGrowthGraph5To20Year(ageInMonths,gender);
+      }
+    }
+  }
+  
+  <%-- PRINT GROWTH GRAPH 0 TO 1 YEAR --%>
+  function printGrowthGraph0To1Year(ageInMonths,gender){
+    var printLang = transactionForm.PrintLanguage.value;
+
+    var url = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp"+
+              "?PrintLanguage="+transactionForm.PrintLanguage.value+
+              "&dummyTransactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GROWTH_GRAPH_0_TO_1_YEAR"+
+              "&ageInMonths="+ageInMonths+
+              "&gender="+gender+
+              "&ts=<%=getTs()%>";
+
+    window.open(url,"printGrowthGraph0To1Year","height=600, width=845, toolbar=no, status=yes, scrollbars=no, resizable=yes, menubar=no");
+  }
+
+  <%-- PRINT GROWTH GRAPH 1 TO 5 YEAR --%>
+  function printGrowthGraph1To5Year(ageInMonths,gender){
+    var printLang = transactionForm.PrintLanguage.value;
+
+    var url = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp"+
+              "?PrintLanguage="+transactionForm.PrintLanguage.value+
+              "&dummyTransactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GROWTH_GRAPH_1_TO_5_YEAR"+
+              "&ageInMonths="+ageInMonths+
+              "&gender="+gender+
+              "&ts=<%=getTs()%>";
+
+    window.open(url,"printGrowthGraph1To5Year","height=600, width=845, toolbar=no, status=yes, scrollbars=no, resizable=yes, menubar=no");
+  }
+
+  <%-- PRINT GROWTH GRAPH 5 TO 20 YEAR --%>
+  function printGrowthGraph5To20Year(ageInMonths,gender){
+    var printLang = transactionForm.PrintLanguage.value;
+
+    var url = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp"+
+              "?PrintLanguage="+transactionForm.PrintLanguage.value+
+              "&dummyTransactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GROWTH_GRAPH_5_TO_20_YEAR"+
+              "&ageInMonths="+ageInMonths+
+              "&gender="+gender+
+              "&ts=<%=getTs()%>";
+
+    window.open(url,"printGrowthGraph5To20Year","height=600, width=845, toolbar=no, status=yes, scrollbars=no, resizable=yes, menubar=no");
+  }
+
+  <%-- CONVERT TABLE --%>
   function convertTable(sText){
     aRows = sText.split("</TR>");
     sText = "";
@@ -283,11 +319,11 @@
       aTds = sRow.split("</TD>");
       for (var y=0;y<aTds.length;y++){
         sTD = aTds[y];
-        if ((sTD.indexOf("delete")<0)&&(sTD.indexOf("<TD>")>-1)){
+        if((sTD.indexOf("delete")<0)&&(sTD.indexOf("<TD>")>-1)){
           sReturn += sTD+"</TD>";
         }
       }
-      if (sReturn.length>0){
+      if(sReturn.length>0){
         sText+=("<TR>"+sReturn+"</TR>");
       }
     }
@@ -302,26 +338,26 @@
 	}	
     else {
 	    // check familiaal-fields for content
-	    if (isAtLeastOneFamiFieldFilled()){
+	    if(isAtLeastOneFamiFieldFilled()){
 	      if(maySubmit){
 	        addFami();
 	      }
 	    }
 	
 	    // check persoonlijk-fields for content
-	    if (isAtLeastOneChirurgieFieldFilled()){
+	    if(isAtLeastOneChirurgieFieldFilled()){
 	      if(maySubmit){
 	        if(!addChirurgie()){ maySubmit = false; }
 	      }
 	    }
 	
-	    if (isAtLeastOneHeelkundeFieldFilled()){
+	    if(isAtLeastOneHeelkundeFieldFilled()){
 	      if(maySubmit){
 	        if(!addHeelkunde()){ maySubmit = false; }
 	      }
 	    }
 	
-	    if (isAtLeastOneLetselsFieldFilled()){
+	    if(isAtLeastOneLetselsFieldFilled()){
 	      if(maySubmit){
 	        addLetsels();
 	      }
@@ -430,11 +466,11 @@
 	
 	
 	    if(maySubmit){
-	      var temp = Form.findFirstElement(transactionForm);//for ff compatibility
-	        document.transactionForm.save.style.visibility = "hidden";
+	      var temp = Form.findFirstElement(transactionForm); // for ff compatibility
+	      document.transactionForm.saveButton.style.visibility = "hidden";
 	      <%
 	          SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-	          out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
+	          out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();"));
 	      %>
 	    }
      }

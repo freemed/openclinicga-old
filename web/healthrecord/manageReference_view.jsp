@@ -11,7 +11,7 @@
 %>
 <form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
-	<%=checkPrestationToday(activePatient.personid, false, activeUser, (TransactionVO)transaction) %>
+	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
    
     <input id="transactionId" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input id="serverId" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
@@ -198,7 +198,7 @@
 
   <%-- SUBMIT FORM --%>
   function submitForm(printLang){
-    document.transactionForm.save.disabled = true;
+    document.transactionForm.saveButton.disabled = true;
     document.transactionForm.PrintLanguage.value = printLang;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
@@ -230,7 +230,7 @@
 
     window.location.href = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp?tranAndServerID_1="+tranID+"_"+serverID+"&PrintLanguage="+printLang+"&tranSubType="+tranSubType+"&ts=<%=getTs()%>";
 
-    window.opener.document.transactionForm.save.disabled = false;
+    window.opener.document.transactionForm.saveButton.disabled = false;
     window.opener.document.transactionForm.SaveAndPrintRef.disabled = false;
     window.opener.document.transactionForm.SaveAndPrintContraRef.disabled = false;
     window.opener.bSaveHasNotChanged = true;

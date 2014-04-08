@@ -27,7 +27,7 @@
     }
 %>
 
-<table class="list" width="100%" cellspacing="1" cellpadding="0">
+<table class="list" width="100%" cellspacing="1" cellpadding="1">
     <tr class="admin2">
 		<%-- LEFT COLUMN ----------------------------------------------------%>
     	<td width="50%" style="vertical-align:top;">

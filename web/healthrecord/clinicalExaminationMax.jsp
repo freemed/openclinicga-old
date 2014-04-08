@@ -143,7 +143,7 @@
 
 <script>
   function submitForm(){
-    document.transactionForm.save.disabled = true;
+    document.transactionForm.saveButton.disabled = true;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.println(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
