@@ -680,10 +680,11 @@
   function toggleEncounterTable(checkbox){
     if(checkbox.checked){
       document.getElementById("encounterTable").style.display = "block";
+      checkAllEncounters(true);
     }
     else{
       document.getElementById("encounterTable").style.display = "none";
-      uncheckAllEncounters();
+      checkAllEncounters(false);
     }
   }
   
@@ -691,30 +692,31 @@
   function toggleTranTable(checkbox){
     if(checkbox.checked){
       document.getElementById("tranTable").style.display = "block";
+      checkAllTransactions(true);
     }
     else{
       document.getElementById("tranTable").style.display = "none";
-      uncheckAllTransactions();
+      checkAllTransactions(false);
     }
   }
 
-  <%-- UNCHECK ALL ENCOUNTERS --%>
-  function uncheckAllEncounters(){
+  <%-- CHECK ALL ENCOUNTERS --%>
+  function checkAllEncounters(checkedOrNot){
     for(var i=0; i<printForm.elements.length; i++){
       if(printForm.elements[i].type=="checkbox"){
         if(printForm.elements[i].name.startsWith("encounterUID_")){
-          printForm.elements[i].checked = false;
+          printForm.elements[i].checked = checkedOrNot;
         }
       }
     }
   }
   
-  <%-- UNCHECK ALL TRANSACTIONS --%>
-  function uncheckAllTransactions(){
+  <%-- CHECK ALL TRANSACTIONS --%>
+  function checkAllTransactions(checkedOrNot){
     for(var i=0; i<printForm.elements.length; i++){
       if(printForm.elements[i].type=="checkbox"){
         if(printForm.elements[i].name.startsWith("tranType_")){
-          printForm.elements[i].checked = false;
+          printForm.elements[i].checked = checkedOrNot;
         }
       }
     }

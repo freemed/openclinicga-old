@@ -698,6 +698,11 @@
     //--- GET BUTTONS HTML ------------------------------------------------------------------------
     public String getButtonsHtml(HttpServletRequest req, User activeUser, AdminPerson activePatient,
                                  String sAccessRight, String sWebLanguage){
+        return getButtonsHtml(req,activeUser,activePatient,sAccessRight,sWebLanguage,true);
+    }
+    
+    public String getButtonsHtml(HttpServletRequest req, User activeUser, AdminPerson activePatient,
+                                 String sAccessRight, String sWebLanguage, boolean displayPrintButton){
         StringBuffer html = new StringBuffer();
         html.append("<div id='buttonsDiv' style='visibility:visible;width:100%;text-align:center'>");
 
@@ -708,29 +713,33 @@
         }
 
         if(sAccessRight.length()==0 || !sAccessRight.equalsIgnoreCase("readonly") && ((activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0) || activeUser.getAccessRight(sAccessRight+".add") || activeUser.getAccessRight(sAccessRight+".edit"))) {
-            html.append(getTran("Web.Occup","PrintLanguage",sWebLanguage)+"&nbsp;")
-                .append("<select class='text' name='PrintLanguage'>");
+        	if(displayPrintButton){
+	            html.append(getTran("Web.Occup","PrintLanguage",sWebLanguage)+"&nbsp;")
+	                .append("<select class='text' name='PrintLanguage'>");
+	
+	            // supported languages
+	            String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
+	            if(supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
+	            supportedLanguages = supportedLanguages.toLowerCase();
+	
+	            // print language selector
+	            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+	            String tmpLang;
+	            while(tokenizer.hasMoreTokens()){
+	                tmpLang = tokenizer.nextToken().toUpperCase();	
+	                html.append("<option value='"+tmpLang+"' "+(sPrintLanguage.equalsIgnoreCase(tmpLang)?"selected" : "")+">"+tmpLang+"</option>\n");
+	            }
+	
+	            html.append("</select>&nbsp;\n");
+        	}
 
-            // supported languages
-            String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
-            if(supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
-            supportedLanguages = supportedLanguages.toLowerCase();
-
-            // print language selector
-            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
-            String tmpLang;
-            while(tokenizer.hasMoreTokens()){
-                tmpLang = tokenizer.nextToken();
-                tmpLang = tmpLang.toUpperCase();
-
-                html.append("<option value='"+tmpLang+"' "+(sPrintLanguage.equalsIgnoreCase(tmpLang)?"selected" : "")+">"+tmpLang+"</option>\n");
-            }
-
-            html.append("</select>&nbsp;\n");
-
-            // save buttons
-            html.append("<input class='button' type='button' name='saveAndPrintButton' id='saveAndPrintButton' value='"+getTran("Web.Occup","medwan.common.record-and-print", sWebLanguage)+"' onclick='doSave(true);'/>&nbsp;\n")
-                .append("<button accesskey='"+ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))+"' class='buttoninvisible' onclick='submitForm();'></button>\n")
+            // print and save button
+        	if(displayPrintButton){
+                html.append("<input class='button' type='button' name='saveAndPrintButton' id='saveAndPrintButton' value='"+getTran("Web.Occup","medwan.common.record-and-print", sWebLanguage)+"' onclick='doSave(true);'/>&nbsp;\n");	
+        	}
+            
+            // save button
+            html.append("<button accesskey='"+ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))+"' class='buttoninvisible' onclick='submitForm();'></button>\n")
                 .append("<input type='button' class='button' name='saveButton' id='saveButton' onclick='submitForm();' value='"+getTran("accesskey","save",sWebLanguage)+"'/>&nbsp;\n");
         }
 
@@ -756,17 +765,19 @@
             .append("}");
 
         // CREATE PDF
-        html.append("function createPdf(printLang,tranSubType){")
-             .append("var tranID = '"+checkString(req.getParameter("be.mxs.healthrecord.transaction_id"))+"';")
-             .append("var serverID = '"+checkString(req.getParameter("be.mxs.healthrecord.server_id"))+"';")
-             .append("window.location.href = '"+sCONTEXTPATH+"/healthrecord/createPdf.jsp?actionField=print&tranAndServerID_1='+tranID+'_'+serverID+'&PrintLanguage='+printLang+'&ts="+getTs()+"';\n")
-             .append("window.opener.document.transactionForm.saveButton.disabled = false;\n")
-             .append("window.opener.document.transactionForm.saveAndPrintButton.disabled = false;\n")
-             .append("window.opener.bSaveHasNotChanged = true;")
-             .append("window.opener.location.reload();")
-             .append("window.opener.location.href = '"+sCONTEXTPATH+"/main.do?Page=curative/index.jsp&ts="+getTs()+"';\n")
-            .append("}");
-
+       	if(displayPrintButton){
+	        html.append("function createPdf(printLang,tranSubType){")
+	             .append("var tranID = '"+checkString(req.getParameter("be.mxs.healthrecord.transaction_id"))+"';")
+	             .append("var serverID = '"+checkString(req.getParameter("be.mxs.healthrecord.server_id"))+"';")
+	             .append("window.location.href = '"+sCONTEXTPATH+"/healthrecord/createPdf.jsp?actionField=print&tranAndServerID_1='+tranID+'_'+serverID+'&PrintLanguage='+printLang+'&ts="+getTs()+"';\n")
+	             .append("window.opener.document.transactionForm.saveButton.disabled = false;\n")
+	             .append("window.opener.document.transactionForm.saveAndPrintButton.disabled = false;\n")
+	             .append("window.opener.bSaveHasNotChanged = true;")
+	             .append("window.opener.location.reload();")
+	             .append("window.opener.location.href = '"+sCONTEXTPATH+"/main.do?Page=curative/index.jsp&ts="+getTs()+"';\n")
+	            .append("}");
+       	}
+        
         // DO BACK
         html.append("function doBack(){")
              .append("if(checkSaveButton('"+sCONTEXTPATH+"','"+getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)+"')){\n")
