@@ -630,7 +630,7 @@ function setCellStyle(row){
         maySubmit = false;
       }
     }
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
 
     var sTmpBegin;
     var sTmpEnd;

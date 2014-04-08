@@ -33,7 +33,7 @@
 <script>
   function submitForm(){
     document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRANSACTION_RESULT" property="itemId"/>]>.value')[0].value="FEV1:"+document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1" property="itemId"/>]>.value')[0].value+"L/"+document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FEV1_A" property="itemId"/>]>.value')[0].value+"%  FVC:"+document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC" property="itemId"/>]>.value')[0].value+"L/"+document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_RESP_FUNC_EX_FVC_A" property="itemId"/>]>.value')[0].value+"%";
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
@@ -385,7 +385,7 @@
     <%
         if (activeUser.getAccessRight("occup.respiratoryfunction.add") || activeUser.getAccessRight("occup.respiratoryfunction.edit")) {
         %>
-            <input class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="checkSubmit();"/>
+            <input class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="checkSubmit();"/>
         <%
         }
 

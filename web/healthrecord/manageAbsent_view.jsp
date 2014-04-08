@@ -19,7 +19,7 @@
     <script>
       function submitForm(){
         document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRANSACTION_RESULT" property="itemId"/>]>.value')[0].value=document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABSENT_REASON" property="itemId"/>]>.value')[0].value;
-        document.transactionForm.saveButton.disabled = true;
+        transactionForm.saveButton.disabled = true;
         <%
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
             out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
@@ -74,7 +74,7 @@
         <%
             if ((activeUser.getAccessRight("occup.absent.add")) || (activeUser.getAccessRight("occupabsent.edit"))){
                 %>
-                    <INPUT class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+                    <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
                 <%
             }
         %>

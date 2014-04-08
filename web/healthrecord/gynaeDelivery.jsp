@@ -1488,7 +1488,7 @@
             tran = MedwanQuery.getInstance().loadTransaction(tran.getServerId(),tran.getTransactionId().intValue());
 
             if ((tran!=null)&&(tran.getHealthrecordId() != sessionContainerWO.getHealthRecordVO().getHealthRecordId().intValue())){
-                out.print("document.transactionForm.saveButton.disabled = true;");
+                out.print("transactionForm.saveButton.disabled = true;");
             }
         }
     %>

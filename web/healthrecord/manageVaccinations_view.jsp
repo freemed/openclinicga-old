@@ -102,7 +102,7 @@
 
 <script>
   function doSubmit(){
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
     document.transactionForm.submit();
   }
 

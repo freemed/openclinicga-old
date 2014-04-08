@@ -78,8 +78,7 @@
 	<%-- BUTTONS --%>
 	<%=ScreenHelper.alignButtonsStart()%>
 	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.neuropsyoutpatientsummary",sWebLanguage)%>
-	<%=ScreenHelper.alignButtonsStop()%>
-    
+	<%=ScreenHelper.alignButtonsStop()%>    
 
     <%=ScreenHelper.contextFooter(request)%>
 </form>

@@ -451,7 +451,7 @@
         <%
         if (activeUser.getAccessRight("occup.urgenceconsultation.add") || activeUser.getAccessRight("occup.urgenceconsultation.edit")){
         %>
-        <input class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+        <input class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
         <%
         }
         %>
@@ -499,7 +499,7 @@
     document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_PLANNING" property="itemId"/>]>.value')[0].value = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_PLANNING" property="itemId"/>]>.value')[0].value.substring(0,250);
 
     if(maySubmit){
-      document.transactionForm.saveButton.disabled = true;
+      transactionForm.saveButton.disabled = true;
       <%
           SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
           out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));

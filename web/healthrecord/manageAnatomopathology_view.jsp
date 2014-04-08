@@ -15,7 +15,7 @@
 
 <script>
   function submitForm(){
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
@@ -76,7 +76,7 @@
         <td class="admin2">
             <%
                 if (activeUser.getAccessRight("occup.anatomopathology.add") || activeUser.getAccessRight("occup.anatomopathology.edit")){
-                    %><INPUT class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/><%
+                    %><INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/><%
                 }
             %>
             <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">

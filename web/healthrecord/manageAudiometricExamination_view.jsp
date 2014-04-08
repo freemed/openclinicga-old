@@ -688,7 +688,7 @@ if (document.getElementsByName('transactionId')[0].value.substring(0,1)=="-"){
 }
 
 function submitForm(){
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));

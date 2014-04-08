@@ -129,7 +129,7 @@
 <script>
   <%-- SUBMIT FORM --%>   
   function submitForm(bReturn){
-      document.transactionForm.saveButton.disabled = true;
+      transactionForm.saveButton.disabled = true;
       document.transactionForm.submit();
   }
 
@@ -148,4 +148,5 @@
     }
   }
 </script>
-<%=writeJSButtons("transactionForm","document.all['ButtonSave']")%>
+
+<%=writeJSButtons("transactionForm","ButtonSave")%>

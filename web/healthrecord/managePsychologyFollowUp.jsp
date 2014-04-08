@@ -171,7 +171,7 @@
 
   <%-- SUBMIT FORM --%>
   function submitForm(){
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
     while (sPsychology.indexOf("rowPsychology")>-1){
         sTmpBegin = sPsychology.substring(sPsychology.indexOf("rowPsychology"));
         sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=")+1);

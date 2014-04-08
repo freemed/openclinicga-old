@@ -170,7 +170,7 @@
 		            if(activeUser.getAccessRight("occup.reference.add") || activeUser.getAccessRight("occup.reference.edit")){
 				        %>
 		                    <input class="button" type="button" name="SaveAndPrintContraRef" value="<%=getTran("Web.Occup","medwan.common.record-and-print",sWebLanguage)%>" onclick="doSave(true,'contrareference');"/>
-		                    <input class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm();"/>
+		                    <input class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm();"/>
 				        <%
 		            }
 		        %>
@@ -194,7 +194,7 @@
 
   <%-- SUBMIT FORM --%>
   function submitForm(printLang){
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
     document.transactionForm.PrintLanguage.value = printLang;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());

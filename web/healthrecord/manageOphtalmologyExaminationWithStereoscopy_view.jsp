@@ -106,7 +106,7 @@
     <p align="right">
         <%
             if(activeUser.hasAccessRight("occupophtalmology.add") || activeUser.hasAccessRight("occupophtalmology.edit")){
-                %><input class="button" type="button" name="save" onClick="doSubmit();" value="<%=getTranNoLink("web","save",sWebLanguage)%>"><%
+                %><input class="button" type="button" name="saveButton" onClick="doSubmit();" value="<%=getTranNoLink("web","save",sWebLanguage)%>"><%
             }
         %>
         <input class="button" type="button" value="<%=getTranNoLink("web","Back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/occupationalmedicine/managePeriodicExaminations.do'/>?ts=<%=getTs()%>'">

@@ -273,7 +273,7 @@
     <%
         if (activeUser.getAccessRight("occupdrivinglicensedeclaration.add") || activeUser.getAccessRight("occupdrivinglicensedeclaration.edit")){
             %>
-                <INPUT class="button" type="button" name="save" id="save" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
+                <INPUT class="button" type="button" name="saveButton" id="save" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
             <%
         }
     %>
@@ -281,7 +281,7 @@
 <%=ScreenHelper.alignButtonsStop()%>
 <script>
   function doSubmit(){
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
     <%
         SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));

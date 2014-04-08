@@ -288,7 +288,7 @@
                 if(usi_data_holders.size() == 0){
 	                %>
 		                <INPUT class="button" type="button" name="add_surveillance" value="<%=getTran("openclinic.chuk","usi_add_surveillance",sWebLanguage)%>" onclick="addSurveillance();"/>
-		                <INPUT class="button" type="button" name="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
+		                <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
 		            <%
                 }
                 else{

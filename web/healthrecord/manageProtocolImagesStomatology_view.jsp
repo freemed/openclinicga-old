@@ -154,7 +154,7 @@
     <%
       if (activeUser.getAccessRight("occup.protocol.images.stomatology.add") || activeUser.getAccessRight("occup.protocol.images.stomatology.edit")){
     %>
-                <INPUT class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm();"/>
+                <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm();"/>
     <%
       }
     %>
@@ -368,7 +368,7 @@ function submitForm() {
     document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PROTOCOL_IMAGES_STOMATOLOGY_IMG_INFORMATION5" property="itemId"/>]>.value")[0].value = sImagesInformation.substring(1016, 1270);
 
     if(maySubmit){
-      document.transactionForm.saveButton.disabled = true;
+      transactionForm.saveButton.disabled = true;
       <%
           SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
           out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));

@@ -110,7 +110,7 @@
         <%
             if ((activeUser.getAccessRight("occup.postpartummother.add")) || (activeUser.getAccessRight("occup.postpartummother.edit"))){
         %>
-            <INPUT class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+            <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
         <%
         }
         %>
@@ -120,7 +120,7 @@
     </table>
 <script>
       function submitForm(){
-        document.transactionForm.saveButton.disabled = true;
+        transactionForm.saveButton.disabled = true;
         <%
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
             out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));

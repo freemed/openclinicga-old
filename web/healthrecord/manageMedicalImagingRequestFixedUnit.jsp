@@ -219,7 +219,7 @@
   function submitForm(){
     var typeSelect = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_TYPE" property="itemId"/>]>.value'];
     document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRANSACTION_RESULT" property="itemId"/>]>.value')[0].value=typeSelect.options[typeSelect.selectedIndex].text;
-    document.transactionForm.saveButton.disabled = true;
+    transactionForm.saveButton.disabled = true;
 
     <%-- set the value of the hidden field 'resultReceived' to the textual condition of resultReceivedCB --%>
     var resultReceivedCB = document.getElementById("resultReceivedCB");

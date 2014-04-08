@@ -865,16 +865,13 @@
     <%-- SHOW/HIDE ALL SECTIONS --%>
     <a href="#" onclick="expandAllSections(<%=sectionCount+4%>);"><%=getTran("web","expand_all",sWebLanguage)%></a>
     <a href="#" onclick="collapseAllSections(<%=sectionCount+4%>);"><%=getTran("web","close_all",sWebLanguage)%></a>
+        
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.occupophtalmology",sWebLanguage)%>
+	<%=ScreenHelper.alignButtonsStop()%>    
 
-    <%-- BUTTONS --%>
-    <p align="right">
-        <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="submitForm(true);"></button>
-        <button class="button" name="ButtonSave" onclick="submitForm(true);"><%=getTran("accesskey","save",sWebLanguage)%></button>
-        <input class="button" type="button" name="ButtonSaveClose" value="<%=getTranNoLink("Web","save_and_close",sWebLanguage)%>" onclick="submitForm(false);"/>
-        <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
-    </p>
-        <%=ScreenHelper.contextFooter(request)%>
-    
+    <%=ScreenHelper.contextFooter(request)%>    
 </form>
 
 <%-- JAVA SCRIPTS -------------------------------------------------------------------------------%>
@@ -892,7 +889,7 @@
        document.getElementById("rTypeVisiotest").checked ||
        document.getElementById("rTypeNoPrestation").checked ||
        document.getElementById("rTypeFullVisionTest").checked){
-       document.transactionForm.saveButton.disabled = true;
+       transactionForm.saveButton.disabled = true;
        document.transactionForm.submit();
     }
     else{
@@ -900,7 +897,7 @@
       document.getElementById("rTypeErgovision").click();
       document.getElementById("rTypeErgovision").checked = false;
 
-      alertPopup("<%=getTranNoLink("web.occup","chooseaprestationtype",sWebLanguage)%>");
+      alertDialog("web.occup","chooseaprestationtype");
     }
   }
 
@@ -949,4 +946,4 @@
   invertChecks();
 </script>
 
-<%=ScreenHelper.writeJSButtons("transactionForm","document.all['ButtonSave']",sCONTEXTPATH)%>
+<%=writeJSButtons("transactionForm","saveButton")%>

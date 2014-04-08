@@ -29,7 +29,7 @@
             <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
         </td>
         <td class="admin2" colspan="3">
-            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='if(!checkDate(this)){this.focus();alertPopup("<%=getTranNoLink("Web.Occup","date.error",sWebLanguage)%>");}'>
+            <input type="text" class="text" size="12" maxLength="10" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" id="trandate" OnBlur='if(!checkDate(this)){this.focus();alertDialog("Web.Occup","date.error");}'>
             <script>writeTranDate();</script>
         </td>
     </tr>
@@ -1061,4 +1061,4 @@
 </script>
 </form>
 
-<%=writeJSButtons("transactionForm","document.all['ButtonSave']")%>
+<%=writeJSButtons("transactionForm","ButtonSave")%>

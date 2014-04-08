@@ -129,7 +129,7 @@
     <%
       if (activeUser.getAccessRight("occup.protocol.abdominalechography.add") || activeUser.getAccessRight("occup.protocol.abdominalechography.edit")){
     %>
-                <INPUT class="button" type="button" name="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
+                <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
     <%
       }
     %>
@@ -141,7 +141,7 @@
 </form>
 <script>
     function doSubmit(){
-        document.transactionForm.saveButton.disabled = true;
-        document.transactionForm.submit();
+        transactionForm.saveButton.disabled = true;
+        transactionForm.submit();
     }
 </script>

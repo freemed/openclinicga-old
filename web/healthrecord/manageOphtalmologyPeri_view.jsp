@@ -227,7 +227,7 @@
 
 <%-- BUTTONS --%>
 <p align="right">
-    <input class="button" type="button" name="save" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="invertChecks();submitForm();">
+    <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="invertChecks();submitForm();">
     <input class="button" type="button" value="<%=getTranNoLink("web","Back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'">
     <%=writeResetButton("transactionForm",sWebLanguage,activeUser)%>
 </p>

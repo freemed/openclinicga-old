@@ -322,7 +322,7 @@
         <%
           if (activeUser.getAccessRight("occup.ophtalmology.consultation.add") || activeUser.getAccessRight("occup.ophtalmology.consultation.edit")){
         %>
-                <INPUT class="button" type="button" name="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit()"/>
+                <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit()"/>
         <%
           }
         %>
@@ -338,7 +338,7 @@
         document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPHTALMOLOGY_CONSULTATION_CONTEXT" property="itemId"/>]>.value')[1].checked = true;
     }
     function doSubmit(){
-        document.transactionForm.saveButton.disabled = true;
+        transactionForm.saveButton.disabled = true;
         document.transactionForm.submit();
     }
 

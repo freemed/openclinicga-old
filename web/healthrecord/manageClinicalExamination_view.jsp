@@ -128,7 +128,7 @@
         <%
         if (activeUser.getAccessRight("occup.clinicalexamination.add") || activeUser.getAccessRight("occup.clinicalexamination.edit")){
         %>
-        <input class="button" type="button" name="save" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+        <input class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
         <%
         }
         %>

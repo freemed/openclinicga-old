@@ -15,7 +15,7 @@
 
     <script>
       function submitForm(){
-        document.transactionForm.saveButton.disabled = true;
+        transactionForm.saveButton.disabled = true;
         <%
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
             out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
@@ -54,7 +54,7 @@
     <%
       if (activeUser.accessRights.get("occup.anesthesiaperop.add")!=null || activeUser.accessRights.get("occup.anesthesiaperop.edit")!=null){
     %>
-            <INPUT class="button" type="button" name="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+            <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
     <%
       }
     %>
