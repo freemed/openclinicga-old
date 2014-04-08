@@ -175,7 +175,7 @@
             <td class="admin2">
 		        <%
 		            if((activeUser.getAccessRight("occup.vaccinations.add"))||(activeUser.getAccessRight("occup.vaccinations.edit"))){
-		                %><input class="button" type="button" name="save" onClick="submitForm();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>"/><%
+		                %><input class="button" type="button" name="saveButton" onClick="submitForm();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>"/><%
 		            }
 		        %>
                 <input class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
@@ -206,11 +206,11 @@
   }
 
 
-  if (document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Other'){
+  if(document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Other'){
     show('vaccination-name');
   }
 
-  if (document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Intradermo'){
+  if(document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Intradermo'){
     show('vaccination-positive-negative');
   }
   else{
