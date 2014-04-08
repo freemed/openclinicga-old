@@ -1071,7 +1071,7 @@ public class GeneralPDFCreator extends PDFCreator {
             if(!respGraphsArePrinted){  
                 respGraphsArePrinted = true;
                 Collection items = transactionVO.getItems();
-                items.add(new ItemVO(new Integer(-54321), "graphsArePrinted", "true", new Date(), new ItemContextVO(new Integer(-54321), "", "")));
+                items.add(new ItemVO(new Integer(-54321),"graphsArePrinted","true",new Date(),new ItemContextVO(new Integer(-54321),"","")));
                 transactionVO.setItems(items);
             }
 
@@ -1082,7 +1082,7 @@ public class GeneralPDFCreator extends PDFCreator {
             if(!diabetesGraphsArePrinted){
                 diabetesGraphsArePrinted = true;
                 Collection items = transactionVO.getItems();
-                items.add(new ItemVO(new Integer(-54321), "diabetesGraphsArePrinted", "true", new Date(), new ItemContextVO(new Integer(-54321), "", "")));
+                items.add(new ItemVO(new Integer(-54321),"diabetesGraphsArePrinted","true",new Date(),new ItemContextVO(new Integer(-54321),"","")));
                 transactionVO.setItems(items);
             }
 
@@ -1134,8 +1134,8 @@ public class GeneralPDFCreator extends PDFCreator {
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CNAR_SURGERY_EXAMINATION")){
             loadTransactionOfType("PDFCNARSurgeryOperation",transactionVO,partsOfTransactionToPrint);
         }
-        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
-            loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CNAR_CONSULTATION")){
+            loadTransactionOfType("PDFCNARConsultation",transactionVO,partsOfTransactionToPrint);
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
             loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////
