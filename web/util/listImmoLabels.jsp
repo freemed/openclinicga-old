@@ -133,7 +133,7 @@
             		}
 					else {
 				%>
-						<input class="button" type="button" name="save" value="<%=getTran("web","save",sWebLanguage)%>" onclick="document.getElementById('immoAction').value='save';document.getElementById('findLabels').submit()"/>
+						<input class="button" type="button" name="saveButton" value="<%=getTran("web","save",sWebLanguage)%>" onclick="document.getElementById('immoAction').value='save';document.getElementById('findLabels').submit()"/>
 			            <input class="button" type="button" name="cancel" value="<%=getTran("web","cancel",sWebLanguage)%>" onclick="clearFields();document.getElementById('findLabels').submit()"/>
             	<%
             		}
