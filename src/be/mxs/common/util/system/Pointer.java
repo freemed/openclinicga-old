@@ -97,6 +97,7 @@ public class Pointer {
 	}
 	
 	public static Vector getLoosePointers(String key,java.util.Date start, java.util.Date end){
+		System.out.println("searching from "+start+" to "+end);
 		Vector pointers = new Vector();
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps = null;
@@ -108,6 +109,7 @@ public class Pointer {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				pointers.add(rs.getString("OC_POINTER_VALUE"));
+				System.out.println("adding "+rs.getString("OC_POINTER_VALUE"));
 			}
 			rs.close();
 			ps.close();

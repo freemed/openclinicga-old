@@ -2547,6 +2547,38 @@ public class AdminPerson extends OC_Object{
         return vResults;
     }
 
+    public static String getFullName(String sPersonId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sResult="";
+        String sSelect = "SELECT lastname,firstname FROM Admin WHERE personid = ?";
+
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sSelect);
+            ps.setInt(1,Integer.parseInt(sPersonId));
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                sResult = ScreenHelper.checkString(rs.getString("lastname")).toUpperCase()+", "+ScreenHelper.checkString(rs.getString("firstname"));
+            }
+            rs.close();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                ad_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return sResult;
+    }
+
     
     public static Vector searchPatients(String sSelectLastname,String sSelectFirstname,String sFindGender,String sFindDOB,boolean bIsUser){
         PreparedStatement ps = null;

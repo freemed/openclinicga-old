@@ -394,6 +394,39 @@ public abstract class PDFBasic {
         return cell;
     }
 
+    protected PdfPCell createValueCell(int fontsize, String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontsize,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createBoldValueCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createBoldValueCell(int fontsize,String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontsize,Font.BOLD)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
     protected PdfPCell createValueCell(String value){
         return createValueCell(value,3);
     }
@@ -413,6 +446,18 @@ public abstract class PDFBasic {
 
     //--- CREATE BORDERLESS CELL ------------------------------------------------------------------
     protected PdfPCell createBorderlessCell(String value, int height, int colspan,int fontSize){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,Font.NORMAL)));
+        cell.setPaddingTop(height);
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        return cell;
+    }
+
+    protected PdfPCell createBoldBorderlessCell(String value, int height, int colspan,int fontSize){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,Font.NORMAL)));
         cell.setPaddingTop(height);
         cell.setColspan(colspan);
@@ -479,6 +524,17 @@ public abstract class PDFBasic {
     //--- CREATE GREY CELL ------------------------------------------------------------------------
     protected PdfPCell createGreyCell(String value, int colspan){
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBackgroundColor(new BaseColor(150,150,150)); // light gray
+
+        return cell;
+    }
+
+    protected PdfPCell createGreyCell(int fontsize, String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontsize,Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);

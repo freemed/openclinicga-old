@@ -4,6 +4,7 @@ import net.admin.Service;
 import be.openclinic.common.OC_Object;
 import be.openclinic.finance.Prestation;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.HTMLEntities;
 import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
@@ -48,7 +49,19 @@ public class Product extends OC_Object implements Comparable {
 	public void setProductSubGroup(String productSubGroup) {
 		this.productSubGroup = productSubGroup;
 	}
-
+	
+	public String getFullProductSubGroupName(String sLanguage){
+		String name="";
+		if(ScreenHelper.checkString(this.productSubGroup).length()>0){
+			Vector parents = DrugCategory.getParentIdsNoReverse(this.productSubGroup);
+			for(int n=0;n<parents.size();n++){
+				name+=HTMLEntities.htmlentities(ScreenHelper.getTranNoLink("drug.category", (String)parents.elementAt(n), sLanguage))+";";
+			}
+			name+=HTMLEntities.htmlentities(ScreenHelper.getTranNoLink("drug.category", this.productSubGroup, sLanguage));
+		}
+		return name;
+	}
+	
 	public void setAutomaticInvoicing(boolean automaticInvoicing) {
 		this.automaticInvoicing = automaticInvoicing;
 	}
@@ -165,6 +178,29 @@ public class Product extends OC_Object implements Comparable {
     		}
     	}
     	if(count>0){
+    		price=totalprice/count;
+    	}
+    	return price;
+    }
+    
+    public double getLastYearsAveragePrice(java.util.Date date){
+    	double price=0;
+    	long day = 24*3600*1000;
+    	long year = 365*day;
+    	double totalprice=0;
+    	double count=0;
+    	Vector prices = Pointer.getLoosePointers("drugprice."+getUid(), new java.util.Date(date.getTime()-year), date);
+    	for(int n=0; n<prices.size();n++){
+    		String[] s = ((String)prices.elementAt(n)).split(";");
+    		if(s.length>1){
+    			System.out.println("add "+s[0]+" x "+s[1]);
+    			totalprice+=Double.parseDouble(s[0])*Double.parseDouble(s[1]);
+    			count+=Double.parseDouble(s[0]);
+    		}
+    	}
+    	if(count>0){
+    		System.out.println("Total="+totalprice);
+    		System.out.println("Count="+count);
     		price=totalprice/count;
     	}
     	return price;

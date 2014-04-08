@@ -859,7 +859,31 @@ public class ProductStock extends OC_Object implements Comparable {
         }
         return units;
     }
+    
+    public int getTotalUnitsInForPeriod(java.util.Date dateFrom,java.util.Date dateTo) {
+        int units = 0;
+
+        Vector deliveries = ProductStockOperation.getReceipts(getUid(), "", dateFrom, dateTo, "OC_OPERATION_DATE", "ASC");
+        ProductStockOperation receipt;
+        for (int i = 0; i < deliveries.size(); i++) {
+            receipt = (ProductStockOperation) deliveries.get(i);
+            units += receipt.getUnitsChanged();
+        }
+        return units;
+    }
+    
     //--- GET TOTAL UNITS OUT FOR YEAR ------------------------------------------------------------
+    public int getTotalUnitsOutForPeriod(java.util.Date dateFrom,java.util.Date dateTo) {
+        int units = 0;
+        Vector deliveries = ProductStockOperation.getDeliveries(getUid(), "", dateFrom, dateTo, "OC_OPERATION_DATE", "ASC");
+        ProductStockOperation delivery;
+        for (int i = 0; i < deliveries.size(); i++) {
+            delivery = (ProductStockOperation) deliveries.get(i);
+            units += delivery.getUnitsChanged();
+        }
+        return units;
+    }
+    
     public int getTotalUnitsOutForYear(java.util.Date dateFrom) {
         int units = 0;
 

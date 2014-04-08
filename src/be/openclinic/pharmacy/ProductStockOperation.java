@@ -1079,7 +1079,7 @@ public class ProductStockOperation extends OC_Object{
             rs = ps.executeQuery();
             while(rs.next()){
                 operation = new ProductStockOperation();
-                operation.setUid(productStockUid);
+                operation.setUid(rs.getString("OC_OPERATION_SERVERID")+"."+rs.getString("OC_OPERATION_OBJECTID"));
 
                 operation.setDescription(rs.getString("OC_OPERATION_DESCRIPTION"));
                 operation.setDate(rs.getDate("OC_OPERATION_DATE"));
@@ -1148,7 +1148,9 @@ public class ProductStockOperation extends OC_Object{
             if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
 
             // order by selected col or default col
-            sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
+            if(sSortCol.length()>0){
+            	sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
+            }
 
             ps = oc_conn.prepareStatement(sSelect);
 
