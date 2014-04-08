@@ -860,7 +860,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- LOAD TRANSACTION ------------------------------------------------------------------------
     protected void loadTransaction(TransactionVO transactionVO, int partsOfTransactionToPrint){
-        transactionVO = MedwanQuery.getInstance().loadTransaction(transactionVO.getServerId(), transactionVO.getTransactionId().intValue());
+        transactionVO = MedwanQuery.getInstance().loadTransaction(transactionVO.getServerId(),transactionVO.getTransactionId().intValue());
 
         if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_VACCINATION")){
             // do nothing : transactions are displayed separately
@@ -1124,6 +1124,18 @@ public class GeneralPDFCreator extends PDFCreator {
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_RMH_OUTPATIENT")){
             loadTransactionOfType("PDFRMHOutpatientFile",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_SOCIALASSISTANT")){
+            loadTransactionOfType("PDFSocialAssistant",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_OPERATION_PROTOCOL")){
+            loadTransactionOfType("PDFOperationProtocol",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CNAR_SURGERY_EXAMINATION")){
+            loadTransactionOfType("PDFCNARSurgeryOperation",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
+            loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
             loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////

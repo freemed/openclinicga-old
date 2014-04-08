@@ -3,6 +3,7 @@ package be.mxs.common.util.pdf.general;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.PDFBasic;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.Miscelaneous;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
@@ -35,6 +36,7 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -201,6 +203,144 @@ public abstract class PDFGeneralBasic extends PDFBasic {
     //**********************************************************************************************
     //*** CELLS ************************************************************************************
     //**********************************************************************************************
+
+    //--- CHECKBOX CELL ---------------------------------------------------------------------------
+    public PdfPCell checkBoxCell(boolean checked) throws Exception {
+        return checkBoxCell(checked,1); // one cell wide
+    }
+
+    public PdfPCell checkBoxCell(boolean checked, int colspan) throws Exception {
+        return checkBoxCell(checked,colspan,false); // no border
+    }
+    
+    public PdfPCell checkBoxCell(boolean checked, int colspan, boolean drawBorder) throws Exception {
+        Image img;
+        if(checked) img = Miscelaneous.getImage("check.gif","");
+        else        img = Miscelaneous.getImage("uncheck.gif","");
+
+        img.scaleAbsolute(8,8);
+        cell = new PdfPCell(img);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBorder(drawBorder?PdfPCell.BOX:PdfPCell.NO_BORDER);
+        if(drawBorder){
+            cell.setBorderColor(innerBorderColor);
+        }
+        cell.setColspan(colspan);
+
+        return cell;
+    }
+    
+    //--- CHECKBOX CELL WITH LABEL ----------------------------------------------------------------
+    public PdfPCell checkBoxCellWithLabel(boolean checked, String sLabel) throws Exception {
+        return checkBoxCellWithLabel(checked,1,sLabel); // one cell wide
+    }
+
+    public PdfPCell checkBoxCellWithLabel(boolean checked, int colspan, String sLabel) throws Exception {
+        return checkBoxCellWithLabel(checked,colspan,sLabel,true); // border
+    }
+    
+    public PdfPCell checkBoxCellWithLabel(boolean checked, int colspan, String sLabel, boolean drawBorder) throws Exception {
+        Image img;
+        if(checked) img = Miscelaneous.getImage("check.gif","");
+        else        img = Miscelaneous.getImage("uncheck.gif","");
+
+        img.scaleAbsolute(8,8);
+        
+        PdfPTable miniTable = new PdfPTable(2);
+        cell = new PdfPCell(img);
+        cell.setPadding(4);
+        cell.setPaddingRight(0);
+        cell.setBorder(0);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        miniTable.addCell(cell);
+
+        Paragraph par = new Paragraph(sLabel,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+        cell = new PdfPCell(par);
+        cell.setPadding(3);
+        cell.setBorder(0);
+        miniTable.addCell(cell);
+
+        cell = new PdfPCell(miniTable);  
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBorder(drawBorder?PdfPCell.BOX:PdfPCell.NO_BORDER);
+        if(drawBorder){
+            cell.setBorderColor(innerBorderColor);
+        }
+        cell.setColspan(colspan);
+
+        return cell;
+    }
+    
+    //--- RADIO CELL ------------------------------------------------------------------------------
+    public PdfPCell radioCell(boolean selected) throws Exception {
+        return radioCell(selected,1); // one cell wide
+    }
+
+    public PdfPCell radioCell(boolean selected, int colspan) throws Exception {
+        return radioCell(selected,colspan,true); // border
+    }
+    
+    public PdfPCell radioCell(boolean selected, int colspan, boolean drawBorder) throws Exception {
+        Image img;
+        if(selected) img = Miscelaneous.getImage("radioSelected.gif","");
+        else         img = Miscelaneous.getImage("radioNotSelected.gif","");
+
+        img.scaleAbsolute(8,8);
+        cell = new PdfPCell(img);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBorder(drawBorder?PdfPCell.BOX:PdfPCell.NO_BORDER);
+        if(drawBorder){
+            cell.setBorderColor(innerBorderColor);
+        }
+        cell.setColspan(colspan);
+
+        return cell;
+    }
+    
+    //--- RADIO CELL WITH LABEL -------------------------------------------------------------------
+    public PdfPCell radioCellWithLabel(boolean selected, String sLabel) throws Exception {
+        return radioCellWithLabel(selected,1,sLabel,true); // border
+    }
+    
+    public PdfPCell radioCellWithLabel(boolean selected, int colspan, String sLabel) throws Exception {
+        return radioCellWithLabel(selected,colspan,sLabel,true); // border
+    }
+    
+    public PdfPCell radioCellWithLabel(boolean selected, int colspan, String sLabel, boolean drawBorder) throws Exception {
+        Image img;
+        if(selected) img = Miscelaneous.getImage("radioSelected.gif","");
+        else         img = Miscelaneous.getImage("radioNotSelected.gif","");
+
+        img.scaleAbsolute(8,8);
+        
+        PdfPTable miniTable = new PdfPTable(2);
+        cell = new PdfPCell(img);
+        cell.setPadding(4);
+        cell.setPaddingRight(0);
+        cell.setBorder(0);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        miniTable.addCell(cell);
+
+        Paragraph par = new Paragraph(sLabel,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+        cell = new PdfPCell(par);
+        cell.setPadding(3);
+        cell.setBorder(0);
+        miniTable.addCell(cell);
+        
+        cell = new PdfPCell(miniTable);        
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBorder(drawBorder?PdfPCell.BOX:PdfPCell.NO_BORDER);
+        if(drawBorder){
+            cell.setBorderColor(innerBorderColor);
+        }
+        cell.setColspan(colspan);
+
+        return cell;
+    }
 
     //--- EMPTY CELL -------------------------------------------------------------------------------
     protected PdfPCell emptyCell(int colspan){
@@ -848,7 +988,7 @@ public abstract class PDFGeneralBasic extends PDFBasic {
             // add transaction to doc
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }

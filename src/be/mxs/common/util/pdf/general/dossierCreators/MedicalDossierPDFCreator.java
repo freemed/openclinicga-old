@@ -1227,6 +1227,9 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_ALERT")){
             // do nothing : alerts are displayed separately
         }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_EXTERNAL_DOCUMENT")){
+            loadTransactionOfType("PDFExternalDocument",transactionVO,partsOfTransactionToPrint);
+        }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL")){
             loadTransactionOfType("PDFAbdominalEchographyProtocol",transactionVO,partsOfTransactionToPrint);
         }
@@ -1248,7 +1251,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_OPHTALMOLOGY_CDO")){
             loadTransactionOfType("PDFOphtalmologyCDO",transactionVO,partsOfTransactionToPrint);
         }
-        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_BIOMETRY")){
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_BIOMETRY")){ // pediatryBiometry.jsp
             loadTransactionOfType("PDFBiometry",transactionVO,partsOfTransactionToPrint);
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_BRONCHOSCOPY_PROTOCOL")){
@@ -1258,13 +1261,13 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
             loadTransactionOfType("PDFCardioEchographyProtocol",transactionVO,partsOfTransactionToPrint);
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CARDIOVASCULAR_RISK")){
-            loadTransactionOfType("PDFCardiovascularRisk",transactionVO,partsOfTransactionToPrint);
+            loadTransactionOfType("PDFCardioVascularRisk",transactionVO,partsOfTransactionToPrint);
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_COLONOSCOPY_PROTOCOL")){
             loadTransactionOfType("PDFColonoscopyProtocol",transactionVO,partsOfTransactionToPrint);
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_DAILY_NOTE")){
-            loadTransactionOfType("PDFDailyNote",transactionVO,partsOfTransactionToPrint);
+            loadTransactionOfType("PDFIntensiveCareDailyNote",transactionVO,partsOfTransactionToPrint);
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_DELIVERY")){
             loadTransactionOfType("PDFDelivery",transactionVO,partsOfTransactionToPrint);
@@ -1274,7 +1277,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_DERMATOLOGY_CONSULTATION")){
             //loadTransactionOfType("PDFDermatologyConsultation",transactionVO,partsOfTransactionToPrint); 
-            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint);
+            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint); 
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_DERMATOLOGY_LEPROSY_BEGIN")){
             loadTransactionOfType("PDFDermatologyLeprosyBegin",transactionVO,partsOfTransactionToPrint);
@@ -1296,7 +1299,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_GYNAE_CONSULTATION")){
             //loadTransactionOfType("PDFGynaeConsultation",transactionVO,partsOfTransactionToPrint);
-            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint);
+            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint); 
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_INTERNAL_EXPOSITION")){
             loadTransactionOfType("PDFInternalExposition",transactionVO,partsOfTransactionToPrint);
@@ -1348,7 +1351,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_ORL_CONSULTATION")){
             //loadTransactionOfType("PDFOrlConsultation",transactionVO,partsOfTransactionToPrint);  
-            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint);
+            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint); 
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_OTHER_REQUESTS")){
             loadTransactionOfType("PDFOtherRequests",transactionVO,partsOfTransactionToPrint);
@@ -1378,8 +1381,8 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
             loadTransactionOfType("PDFReference",transactionVO,partsOfTransactionToPrint);
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_STOMATOLOGY_CONSULTATION")){
-            //loadTransactionOfType("PDFStomatologyConsultation",transactionVO,partsOfTransactionToPrint); 
-            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint);
+            //loadTransactionOfType("PDFStomatologyConsultation",transactionVO,partsOfTransactionToPrint);
+            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint); 
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_STOMATOLOGY_OPERATION_PROTOCOL")){
             loadTransactionOfType("PDFStomatologyOperationProtocol",transactionVO,partsOfTransactionToPrint);
@@ -1388,8 +1391,8 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
             loadTransactionOfType("PDFSurveillanceProtocol",transactionVO,partsOfTransactionToPrint);
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_SURGERY_CONSULTATION")){
-            //loadTransactionOfType("PDFSurgeryConsulation",transactionVO,partsOfTransactionToPrint);    
-            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint);
+            //loadTransactionOfType("PDFSurgeryConsulation",transactionVO,partsOfTransactionToPrint);
+            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint); 
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_THYROID_ECHOGRAPHY_PROTOCOL")){
             loadTransactionOfType("PDFThyroidEchographyProtocol",transactionVO,partsOfTransactionToPrint);
@@ -1420,14 +1423,14 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
         }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_URGENCE_CONSULTATION")){
             //loadTransactionOfType("PDFUrgenceConsultation",transactionVO,partsOfTransactionToPrint);
-            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint);
+            loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint); 
         }
         // respiratory function examination
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_RESP_FUNC_EX")){
             if(!respGraphsArePrinted){  
                 respGraphsArePrinted = true;
                 Collection items = transactionVO.getItems();
-                items.add(new ItemVO(new Integer(-54321),"graphsArePrinted","true", new Date(),new ItemContextVO(new Integer(-54321),"","")));
+                items.add(new ItemVO(new Integer(-54321), "graphsArePrinted", "true", new Date(), new ItemContextVO(new Integer(-54321), "", "")));
                 transactionVO.setItems(items);
             }
 
@@ -1438,15 +1441,74 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
             if(!diabetesGraphsArePrinted){
                 diabetesGraphsArePrinted = true;
                 Collection items = transactionVO.getItems();
-                items.add(new ItemVO(new Integer(-54321),"diabetesGraphsArePrinted","true",new Date(),new ItemContextVO(new Integer(-54321),"","")));
+                items.add(new ItemVO(new Integer(-54321), "diabetesGraphsArePrinted", "true", new Date(), new ItemContextVO(new Integer(-54321), "", "")));
                 transactionVO.setItems(items);
             }
 
             loadTransactionOfType("PDFDiabetesFollowup",transactionVO,partsOfTransactionToPrint);
         }
+        //#########################################################################################
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CS_SUIVI_ENFANTS")){
+            loadTransactionOfType("PDFFollowUpChildren",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_MCD")){
+            loadTransactionOfType("PDFMinimalClinicalData",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_TRACNET_SUIVI_CLINIQUE")){
+            loadTransactionOfType("PDFTracnetSuiviClinique",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_MOBILE_TECHNIQUE_SUPPORT")){
+            loadTransactionOfType("PDFMobileTechniqueSupport",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_EP")){
+            loadTransactionOfType("PDFEvokedPotentials",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_SURVEILLANCE_USI")){
+            loadTransactionOfType("PDFIntensiveCareSurveillance",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CS_PLANNING_FAMILIAL")){
+            loadTransactionOfType("PDFFamilyPlanning",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CS_PMTCT")){
+            loadTransactionOfType("PDFPMTCT",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CS_CPN")){
+            loadTransactionOfType("PDFPrenatalConsultation",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_ORTHOPROSTESIS_CONSULTATION_TREATMENT")){
+            loadTransactionOfType("PDFOrthoprostesisConsultationTreatment",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_HC_CONTACT")){
+            loadTransactionOfType("PDFHealthcenterContact",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_RMH_OUTPATIENT")){
+            loadTransactionOfType("PDFRMHOutpatientFile",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_SOCIALASSISTANT")){
+            loadTransactionOfType("PDFSocialAssistant",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_OPERATION_PROTOCOL")){
+            loadTransactionOfType("PDFOperationProtocol",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CNAR_SURGERY_EXAMINATION")){
+            loadTransactionOfType("PDFCNARSurgeryOperation",transactionVO,partsOfTransactionToPrint);
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
+            loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
+            loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
+            loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////
+        }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CS_CONSULTATION")){
+            loadTransactionOfType("PDFHealthcenterConsultation",transactionVO,partsOfTransactionToPrint);
+        }   
+        //#########################################################################################
         // generic transaction
-        else{
-        	Debug.println("Transaction of type '"+transactionVO.getTransactionType()+"' is not supported by dossierCreators/MedicalDossierPDFCreator");
+        else {
+        	Debug.println("Transaction of type '"+transactionVO.getTransactionType()+"' is not supported by GeneralPDFCreator");
             loadTransactionOfType("PDFGenericTransaction",transactionVO,partsOfTransactionToPrint);
         }
     }
