@@ -147,10 +147,10 @@ public class FinancialDossierPDFCreator extends PDFDossierCreator {
                 printAdminPrivateData(patient); // 2
             }
             if(sections[sectionIdx++]){
-                printActiveInsurances(sessionContainerWO,patient); // 4
+                printActiveInsurances(patient); // 4
             }  
             if(sections[sectionIdx++]){
-                printInsuranceHistory(sessionContainerWO,patient); // 5
+                printInsuranceHistory(patient); // 5
             }
             if(sections[sectionIdx++]){
                 printPatientInvoices(sessionContainerWO,patient); // 6
