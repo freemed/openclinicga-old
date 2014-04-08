@@ -1066,29 +1066,6 @@ public class GeneralPDFCreator extends PDFCreator {
             //loadTransactionOfType("PDFUrgenceConsultation",transactionVO,partsOfTransactionToPrint);
             loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint); 
         }
-        // respiratory function examination
-        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_RESP_FUNC_EX")){
-            if(!respGraphsArePrinted){  
-                respGraphsArePrinted = true;
-                Collection items = transactionVO.getItems();
-                items.add(new ItemVO(new Integer(-54321),"graphsArePrinted","true",new Date(),new ItemContextVO(new Integer(-54321),"","")));
-                transactionVO.setItems(items);
-            }
-
-            loadTransactionOfType("PDFRespiratoryFunctionExamination",transactionVO,partsOfTransactionToPrint);
-        }
-        // diabetes follow up
-        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_DIABETES_FOLLOWUP")){
-            if(!diabetesGraphsArePrinted){
-                diabetesGraphsArePrinted = true;
-                Collection items = transactionVO.getItems();
-                items.add(new ItemVO(new Integer(-54321),"diabetesGraphsArePrinted","true",new Date(),new ItemContextVO(new Integer(-54321),"","")));
-                transactionVO.setItems(items);
-            }
-
-            loadTransactionOfType("PDFDiabetesFollowup",transactionVO,partsOfTransactionToPrint);
-        }
-        //#########################################################################################
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CS_SUIVI_ENFANTS")){
             loadTransactionOfType("PDFFollowUpChildren",transactionVO,partsOfTransactionToPrint);
         }
@@ -1137,16 +1114,31 @@ public class GeneralPDFCreator extends PDFCreator {
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CNAR_CONSULTATION")){
             loadTransactionOfType("PDFCNARConsultation",transactionVO,partsOfTransactionToPrint);
         }
-        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
-            loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////
-        }
-        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"")){
-            loadTransactionOfType("PDF",transactionVO,partsOfTransactionToPrint);////////////////////
-        }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CS_CONSULTATION")){
             loadTransactionOfType("PDFHealthcenterConsultation",transactionVO,partsOfTransactionToPrint);
         }   
-        //#########################################################################################
+        // respiratory function examination
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_RESP_FUNC_EX")){
+            if(!respGraphsArePrinted){  
+                respGraphsArePrinted = true;
+                Collection items = transactionVO.getItems();
+                items.add(new ItemVO(new Integer(-54321),"graphsArePrinted","true",new Date(),new ItemContextVO(new Integer(-54321),"","")));
+                transactionVO.setItems(items);
+            }
+
+            loadTransactionOfType("PDFRespiratoryFunctionExamination",transactionVO,partsOfTransactionToPrint);
+        }
+        // diabetes follow up
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_DIABETES_FOLLOWUP")){
+            if(!diabetesGraphsArePrinted){
+                diabetesGraphsArePrinted = true;
+                Collection items = transactionVO.getItems();
+                items.add(new ItemVO(new Integer(-54321),"diabetesGraphsArePrinted","true",new Date(),new ItemContextVO(new Integer(-54321),"","")));
+                transactionVO.setItems(items);
+            }
+
+            loadTransactionOfType("PDFDiabetesFollowup",transactionVO,partsOfTransactionToPrint);
+        }
         // generic transaction
         else {
         	Debug.println("Transaction of type '"+transactionVO.getTransactionType()+"' is not supported by GeneralPDFCreator");
