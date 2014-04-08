@@ -117,7 +117,7 @@ if(true){
             +writeTblChildWithCode("javascript:getCanceledInvoices()",getTran("Web","statistics.canceledinvoicelists",sWebLanguage))
             +writeTblChildWithCode("javascript:getIssuedInsurerInvoices()",getTran("Web","statistics.issuedinsurerinvoices",sWebLanguage))
             +ScreenHelper.writeTblFooter()+"<br>");
-         
+
          if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
 	         out.print(ScreenHelper.writeTblHeader(getTran("Web","MFP",sWebLanguage),sCONTEXTPATH)
                 +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("beginmfp","stats","01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("endmfp","stats",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;</td></tr>"
@@ -164,6 +164,10 @@ if(true){
     }
     function getMFPUnsignedInvoices(){
         var URL="/statistics/findMFPUnsignedInvoices.jsp&start="+document.getElementById('beginmfp').value+"&end="+document.getElementById('endmfp').value+"&serviceid="+document.getElementById('mfpserviceid').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+    }
+    function getProductStockFile(){
+        var URL="/statistics/pharmacy/getProductStockFile.jsp&start="+document.getElementById('beginpharmacy').value+"&end="+document.getElementById('endpharmacy').value+"&productstockid="+document.getElementById('productstockid').value+"&ts=<%=getTs()%>";
 		openPopup(URL,800,600,"OpenClinic");
     }
     function getMFPUnvalidatedInvoices(){

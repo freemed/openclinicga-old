@@ -708,6 +708,13 @@
             <%-- indication of obligated fields --%>
             <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
             <br><br>
+            <table>
+            	<tr>
+            		<td class='text'><a href="javascript:printInventory('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventory.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printInventorySummary('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventorysummary.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printStockOperations('<%=sEditStockUid %>')"><%=getTran("web","servicestockoperations.pdf",sWebLanguage) %></a></td>
+            	</tr>
+            </table>
             <%
         }
 
@@ -778,6 +785,7 @@
             }
         }
     %>
+    
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
     <input type="hidden" name="SortCol" value="<%=sSortCol%>">
@@ -1166,6 +1174,18 @@
   function doCalculateOrder(serviceStockUid,serviceStockName){
     openPopup("pharmacy/popups/calculateOrder.jsp&ServiceStockUid="+serviceStockUid+"&ServiceStockName="+serviceStockName+"&ts=<%=getTs()%>",700,400);
   }
+
+  function printInventory(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceStockInventory.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printInventorySummary(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceStockInventorySummary.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printStockOperations(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
 
   <%-- DO BACK --%>
   function doBack(){

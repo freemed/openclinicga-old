@@ -576,7 +576,7 @@
 	      	if(baseInsurar>0){
 	      		pbi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(baseInsurar);
 				if(insurance.getInsurar().getCoverSupplements()==0 || MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1 && MedwanQuery.getInstance().getConfigString("MFP","0").equalsIgnoreCase(insurance.getInsurarUid())){
-			    	coveragePct=" ("+new Double(dInsurarAmount*100/(baseInsurar)).intValue()+"%)";
+			    	coveragePct=" ("+new Double(dInsurarAmount2*100/(baseInsurar)).intValue()+"%)";
 				}
 	      	}
 	      	else{

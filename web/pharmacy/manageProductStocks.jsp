@@ -931,6 +931,12 @@
                 <%-- indication of obligated fields --%>
                 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
                 <br><br>
+                <table>
+                	<tr>
+                		<td class='text'><a href="javascript:printFiche('<%=sEditStockUid %>','<%=sSelectedProductName %>')"><%=getTran("web","productstockfile.interactive",sWebLanguage) %></a></td>
+                		<td class='text'><a href="javascript:printPDFFiche('<%=sEditStockUid %>')"><%=getTran("web","productstockfile.pdf",sWebLanguage) %></a></td>
+                	</tr>
+                </table>
             <%
         }
     %>
@@ -1237,8 +1243,12 @@
 
   <%-- popup : search supplier --%>
   function printFiche(productStockUid,productStockName){
-	openPopup("pharmacy/viewProductStockFiches.jsp&ts=<%=getTs()%>&Action=find&FindProductStockUid="+productStockUid+"&GetYear=<%=new SimpleDateFormat("yyyy").format(new java.util.Date())%>&FindServiceStockName=<%=sServiceStockName%>",700,500);
-  }
+		openPopup("pharmacy/viewProductStockFiches.jsp&ts=<%=getTs()%>&Action=find&FindProductStockUid="+productStockUid+"&GetYear=<%=new SimpleDateFormat("yyyy").format(new java.util.Date())%>&FindServiceStockName=<%=sServiceStockName%>",700,500);
+	  }
+
+  function printPDFFiche(productStockUid){
+		openPopup("statistics/pharmacy/getProductStockFile.jsp&ts=<%=getTs()%>&ProductStockUid="+productStockUid,200,200);
+	  }
 
   <%-- popup : CALCULATE ORDER --%>
   function doCalculateOrder(serviceStockUid,serviceStockName){
