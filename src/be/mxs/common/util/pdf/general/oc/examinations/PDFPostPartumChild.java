@@ -18,24 +18,14 @@ public class PDFPostPartumChild extends PDFGeneralBasic {
                 table = new PdfPTable(10);
                 int itemCount = 0;
 
-                // liver
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL_LIVER");
-                if(itemValue.length() > 0){
-                    addItemRow(table,getTran("openclinic.chuk","liver"),itemValue);
-                    itemCount++;
-                }
-
                 // weight
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PPC_CHILD_WEIGHT");
-                if(itemValue.length() > 0){
-                    addItemRow(table,getTran("openclinic.chuk","weight"),itemValue+" "+getTran("units","gr"));
-                    itemCount++;
-                }
-
-                // paleness.conjunctiva
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PPC_CONJUNCTIVA");
-                if(itemValue.length() > 0){
-                    addItemRow(table,getTran("openclinic.chuk","paleness.conjunctiva"),itemValue);
+                String sWeight = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PPC_CHILD_WEIGHT"),
+                	   sTemperature = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PPC_TEMPERATURE");
+                if(sWeight.length() > 0 || sTemperature.length() > 0){
+                	if(sWeight.length() > 0) itemValue = sWeight+" "+getTran("units","gr");
+                	if(sTemperature.length() > 0) itemValue+= ", "+sTemperature+" "+getTran("units","degreesCelcius");
+                	
+                    addItemRow(table,getTran("openclinic.chuk","weight")+" / "+getTran("gynaeco","temperature"),itemValue);
                     itemCount++;
                 }
 
@@ -46,10 +36,10 @@ public class PDFPostPartumChild extends PDFGeneralBasic {
                     itemCount++;
                 }
 
-                // temperature
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PPC_TEMPERATURE");
+                // paleness.conjunctiva
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PPC_CONJUNCTIVA");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("gynaeco","temperature"),itemValue+" "+getTran("unit","degreesCelcius"));
+                    addItemRow(table,getTran("openclinic.chuk","paleness.conjunctiva"),itemValue);
                     itemCount++;
                 }
 
@@ -117,11 +107,13 @@ public class PDFPostPartumChild extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                    tranTable.addCell(createContentCell(contentTable));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
+                    tranTable.addCell(new PdfPCell(contentTable));
+                    addTransactionToDoc();
                 }
 
-                // add transaction to doc
+                // diagnoses
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }
@@ -131,7 +123,9 @@ public class PDFPostPartumChild extends PDFGeneralBasic {
     }
 
 
+    //#############################################################################################
     //### PRIVATE METHODS #########################################################################
+    //#############################################################################################
 
     //--- ADD ITEM ROW ----------------------------------------------------------------------------
     protected void addItemRow(PdfPTable table, String itemName, String itemValue){

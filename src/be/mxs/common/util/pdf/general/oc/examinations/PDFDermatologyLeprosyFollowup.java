@@ -73,9 +73,9 @@ public class PDFDermatologyLeprosyFollowup extends PDFGeneralBasic {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             muscleTable.addCell(cell);
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LEPROSYFOLLOWUP_MUSCULARFORCE_FENTE_RIGHT");
-            muscleTable.addCell(createValueCell(itemValue+(itemValue.length()>0?" "+getTran("unit","mm"):""),3)); // integer value
+            muscleTable.addCell(createValueCell(itemValue+(itemValue.length()>0?" "+getTran("units","mm"):""),3)); // integer value
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_LEPROSYFOLLOWUP_MUSCULARFORCE_FENTE_LEFT");
-            muscleTable.addCell(createValueCell(itemValue+(itemValue.length()>0?" "+getTran("unit","mm"):""),3)); // integer value
+            muscleTable.addCell(createValueCell(itemValue+(itemValue.length()>0?" "+getTran("units","mm"):""),3)); // integer value
 
             //***** row 3 : cinquième doigt *****
             cell = createHeaderCell(getTran("leprosy","cinquiemedoigt"),2);

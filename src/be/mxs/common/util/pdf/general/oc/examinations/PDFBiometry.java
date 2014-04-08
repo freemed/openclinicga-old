@@ -108,6 +108,7 @@ public class PDFBiometry extends PDFGeneralBasic {
                 // add transaction to doc
                 addTransactionToDoc();
                 
+                /*
                 //*************************************************************
                 //***** GROWTH CHARTS *****************************************
                 //*************************************************************
@@ -125,7 +126,8 @@ public class PDFBiometry extends PDFGeneralBasic {
                 else if(iAgeInMonths > 60 && iAgeInMonths <= 240){
                     tranTable.addCell(createContentCell(getGrowthGraphs5To20Year()));
                     addTransactionToDoc();
-                }                
+                }
+                */                
             }
         }
         catch(Exception e){

@@ -346,21 +346,21 @@ public class PDFDelivery extends PDFGeneralBasic {
                     // weight
                     itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_DELIVERY_CHILDWEIGHT");
                     if(itemValue.length() > 0){
-                        addItemRow(table,getTran("gynaeco","weight"),itemValue+" "+getTran("unit","gr"));
+                        addItemRow(table,getTran("gynaeco","weight"),itemValue+" "+getTran("units","gr"));
                         itemCount++;
                     }
 
                     // height
                     itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_DELIVERY_CHILDHEIGHT");
                     if(itemValue.length() > 0){
-                        addItemRow(table,getTran("gynaeco","height"),itemValue+" "+getTran("unit","cm"));
+                        addItemRow(table,getTran("gynaeco","height"),itemValue+" "+getTran("units","cm"));
                         itemCount++;
                     }
 
                     // cranien
                     itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_DELIVERY_CHILDCRANIEN");
                     if(itemValue.length() > 0){
-                        addItemRow(table,getTran("gynaeco","cranien"),itemValue+" "+getTran("unit","cm"));
+                        addItemRow(table,getTran("gynaeco","cranien"),itemValue+" "+getTran("units","cm"));
                         itemCount++;
                     }
 

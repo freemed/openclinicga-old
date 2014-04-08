@@ -1,6 +1,7 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
+import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.Miscelaneous;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -24,6 +25,7 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(5);
 
+                //*** varia 1 *************************************************
                 // motive
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_MOTIVE");
                 if(itemValue.length() > 0){
@@ -45,14 +47,15 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 // add transaction to doc
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                    tranTable.addCell(new PdfPCell(contentTable));
                     addTransactionToDoc();
                 }
 
-                // todo : anuscopy
+                //*** anuscopy ************************************************
                 addAnuscopy();
 
+                //*** varia 2 *************************************************
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(5);
 
@@ -98,10 +101,14 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 // add transaction to doc
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                    tranTable.addCell(new PdfPCell(contentTable));
                     addTransactionToDoc();
                 }
+
+                // diagnoses
+                addDiagnosisEncoding();
+                addTransactionToDoc();
             }
         }
         catch(Exception e){
@@ -110,10 +117,13 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
     }
 
 
+    //#############################################################################################
     //### PRIVATE METHODS #########################################################################
+    //#############################################################################################
 
     //--- DRAW DOT --------------------------------------------------------------------------------
     private void drawDot(Graphics2D graphics, double x, double y, Color color, int size){
+    	System.out.println("DRAWDOT : x="+x+", y="+y+", s="+size); ///////////////////////////////////////////
         graphics.setColor(color);
         graphics.fillOval(new Double(x).intValue(),new Double(y).intValue(),size,size);
     }
@@ -167,17 +177,20 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 graphics.drawImage(imgPointer,0,0,Color.WHITE,null);
 
                 // get coordinates and visualize them with red dots
-                int xPos, yPos;
-                String[] oneCoord;
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROCOTOLOGY_PROTOCOL_IMAGE_COORDS");
+                Debug.println("coords : "+itemValue);
+                
                 String[] coords = itemValue.split(";");
+                String[] oneCoord;
+                int xPos, yPos;
+                
                 for(int i=0; i<coords.length; i++){
-                    if (coords[i].length() > 0){
+                    if(coords[i].length() > 0){
                         oneCoord = coords[i].split(",");
                         xPos = Integer.parseInt(oneCoord[0]);
                         yPos = Integer.parseInt(oneCoord[1]);
 
-                        drawDot(graphics,xPos-3,yPos-2,Color.RED,4);
+                        drawDot(graphics,xPos-344,yPos-388,Color.RED,5); // this correction because coords are relative to left-top corner of browser
                     }
                 }
 
@@ -186,7 +199,7 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 cell.setImage(Image.getInstance(locationImg,null));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_MIDDLE);
                 cell.setBorder(PdfPCell.NO_BORDER);
-                cell.setPadding(8);
+                cell.setPadding(7);
                 cell.setColspan(2);
                 anuscopyTable.addCell(cell);
 
@@ -222,8 +235,8 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
                 // add transaction to doc
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                    tranTable.addCell(new PdfPCell(contentTable));
                     addTransactionToDoc();
                 }         
             }
@@ -232,4 +245,5 @@ public class PDFProctologyProtocol extends PDFGeneralBasic {
             }
         }
     }
+    
 }

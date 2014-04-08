@@ -67,7 +67,7 @@ public class PDFPostPartumMother extends PDFGeneralBasic {
                         itemCount++;
                     }
 
-                    // loss
+                    // ppm loss
                     itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PPM_LOSS");
                     if(itemValue.length() > 0){
                         addItemRow(table,getTran("openclinic.chuk","loss"),itemValue);
@@ -103,8 +103,7 @@ public class PDFPostPartumMother extends PDFGeneralBasic {
                         table.addCell(cell);
                     }
 
-                    // todo : lochies
-                    //*** lochies *************************************************
+                    //*** LOCHIES *******************************************************
                     PdfPTable lochiesTable = new PdfPTable(4);
 
                     // aspect
@@ -150,10 +149,12 @@ public class PDFPostPartumMother extends PDFGeneralBasic {
                     if(table.size() > 0){
                         if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                         contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.NO_BORDER));
-                        tranTable.addCell(createContentCell(contentTable));
+                        tranTable.addCell(new PdfPCell(contentTable));
+                        addTransactionToDoc();
                     }
 
-                    // add transaction to doc
+                    // diagnoses
+                    addDiagnosisEncoding();
                     addTransactionToDoc();
                 }
             }
@@ -164,7 +165,9 @@ public class PDFPostPartumMother extends PDFGeneralBasic {
     }
 
 
+    //#############################################################################################
     //### PRIVATE METHODS #########################################################################
+    //#############################################################################################
 
     //--- ADD ITEM ROW ----------------------------------------------------------------------------
     protected void addItemRow(PdfPTable table, String itemName, String itemValue){

@@ -39,7 +39,7 @@ public class PDFIntradermo extends PDFGeneralBasic {
                 // INDURATION SIZE
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_INDURATION_SIZE");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran(IConstants_PREFIX+"ITEM_TYPE_INDURATION_SIZE"),itemValue+" "+getTran("unit","mm"));
+                    addItemRow(table,getTran(IConstants_PREFIX+"ITEM_TYPE_INDURATION_SIZE"),itemValue+" "+getTran("units","mm"));
                 }
 
                 // ASSOCIATED REACTIONS (dropdown)

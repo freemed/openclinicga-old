@@ -122,11 +122,13 @@ public class PDFStomatologyOperationProtocol extends PDFGeneralBasic {
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                    contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                    tranTable.addCell(new PdfPCell(contentTable));
+                    addTransactionToDoc();
                 }
 
-                // add transaction to doc
+                // diagnoses
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }
@@ -134,8 +136,5 @@ public class PDFStomatologyOperationProtocol extends PDFGeneralBasic {
             e.printStackTrace();
         }
     }
-
-
-    //### PRIVATE METHODS #########################################################################
 
 }

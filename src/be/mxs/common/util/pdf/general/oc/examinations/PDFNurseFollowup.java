@@ -195,7 +195,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             // temperature
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_TEMPERATURE");
             if(itemValue.length() > 0){
-                addItemRow(table,getTran("openclinic.chuk","temperature"),itemValue+" "+getTran("unit","degreesCelcius"));
+                addItemRow(table,getTran("openclinic.chuk","temperature"),itemValue+" "+getTran("units","degreesCelcius"));
                 itemCount++;
             }
 
@@ -320,14 +320,14 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             // WEIGHT (on one row)
             String weight = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT");
             if(weight.length() > 0){
-                table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT")+": "+weight+" "+getTran("unit","kg"),1));
+                table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT")+": "+weight+" "+getTran("units","kg"),1));
                 cellCount++;
             }
 
             // HEIGHT (on one row)
             String height = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT");
             if(height.length() > 0){
-                table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT")+": "+height+" "+getTran("unit","cm"),1));
+                table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT")+": "+height+" "+getTran("units","cm"),1));
                 cellCount++;
             }
 
@@ -382,14 +382,14 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
             // diuresis.24h
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_NURSE_DIURESIS24");
             if(itemValue.length() > 0){
-                addItemRow(table,getTran("openclinic.chuk","diuresis.24h"),itemValue+" "+getTran("unit","ml"));
+                addItemRow(table,getTran("openclinic.chuk","diuresis.24h"),itemValue+" "+getTran("units","ml"));
                 itemCount++;
             }
 
             // vomiting
             itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_SURV_VOMITING");
             if(itemValue.length() > 0){
-                addItemRow(table,getTran("openclinic.chuk","vomiting"),itemValue+" "+getTran("unit","ml"));
+                addItemRow(table,getTran("openclinic.chuk","vomiting"),itemValue+" "+getTran("units","ml"));
                 itemCount++;
             }
 

@@ -49,54 +49,54 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
         contentTable = new PdfPTable(1);
 
         TransactionVO tran = MedwanQuery.getInstance().getLastTransactionVO(Integer.parseInt(patient.personid),IConstants_PREFIX+"TRANSACTION_TYPE_BIOMETRY");
-        if (tran!=null){
+        if(tran!=null){
             tran = MedwanQuery.getInstance().loadTransaction(tran.getServerId(),tran.getTransactionId().intValue());
 
             String sBiometry = getItemSeriesValue(tran,IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_PARAMETER");
             String sDate = "", sWeight = "", sHeight = "", sSkull = "", sArm = "", sFood = "";
-            if (sBiometry.indexOf("£") > -1) {
+            if(sBiometry.indexOf("£") > -1) {
                 StringBuffer sTmpBio = new StringBuffer(sBiometry);
                 String sTmpDate, sTmpWeight, sTmpHeight, sTmpSkull, sTmpArm, sTmpFood;
 
                 while (sTmpBio.indexOf("$") > -1) {
                     sTmpDate = "";
-                    if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                    if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                         sTmpDate = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                         sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                     }
 
                     sTmpWeight = "";
-                    if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                    if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                         sTmpWeight = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                         sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                     }
 
                     sTmpHeight = "";
-                    if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                    if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                         sTmpHeight = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                         sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                     }
 
                     sTmpSkull = "";
-                    if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                    if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                         sTmpSkull = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                         sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                     }
 
                     sTmpArm = "";
-                    if (sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
+                    if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                         sTmpArm = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
                         sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                     }
 
                     sTmpFood = "";
-                    if (sTmpBio.toString().toLowerCase().indexOf("$") > -1) {
+                    if(sTmpBio.toString().toLowerCase().indexOf("$") > -1) {
                         sTmpFood = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("$"));
                         sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("$") + 1));
                     }
 
-                    if (sDate.length() > 0) {
-                        if (ScreenHelper.getSQLDate(sDate).before(ScreenHelper.getSQLDate(sTmpDate))) {
+                    if(sDate.length() > 0) {
+                        if(ScreenHelper.getSQLDate(sDate).before(ScreenHelper.getSQLDate(sTmpDate))) {
                             sDate = sTmpDate;
                             sWeight = sTmpWeight;
                             sHeight = sTmpHeight;
@@ -234,7 +234,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
         // temperature
         itemValue = getItemValue(IConstants_PREFIX+"[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","temperature"),itemValue+" "+getTran("unit","degreesCelcius"));
+            addItemRow(table,getTran("openclinic.chuk","temperature"),itemValue+" "+getTran("units","degreesCelcius"));
         }
 
         // respiratory.frequency
@@ -311,7 +311,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
         // add transaction to doc
         if(table.size() > 0){
             if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-            contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+            contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
             tranTable.addCell(createContentCell(contentTable));
             addTransactionToDoc();
         }
@@ -330,19 +330,19 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
 
             while (sTmpFami.toLowerCase().indexOf("$")>-1) {
                 sTmpFamiDate = "";
-                if (sTmpFami.toLowerCase().indexOf("£")>-1){
+                if(sTmpFami.toLowerCase().indexOf("£")>-1){
                     sTmpFamiDate = sTmpFami.substring(0,sTmpFami.toLowerCase().indexOf("£"));
                     sTmpFami = sTmpFami.substring(sTmpFami.toLowerCase().indexOf("£")+1);
                 }
 
                 sTmpFamiDescr = "";
-                if (sTmpFami.toLowerCase().indexOf("£")>-1){
+                if(sTmpFami.toLowerCase().indexOf("£")>-1){
                     sTmpFamiDescr = sTmpFami.substring(0,sTmpFami.toLowerCase().indexOf("£"));
                     sTmpFami = sTmpFami.substring(sTmpFami.toLowerCase().indexOf("£")+1);
                 }
 
                 sTmpFamiVerwantschap = "";
-                if (sTmpFami.toLowerCase().indexOf("$")>-1){
+                if(sTmpFami.toLowerCase().indexOf("$")>-1){
                     sTmpFamiVerwantschap = sTmpFami.substring(0,sTmpFami.toLowerCase().indexOf("$"));
                     sTmpFami = sTmpFami.substring(sTmpFami.toLowerCase().indexOf("$")+1);
                 }
@@ -359,11 +359,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
         // COMMENT
         itemValue = getItemSeriesValue(IConstants_PREFIX+"ITEM_TYPE_CE_FAMILIAAL_COMMENT");
         if(itemValue.length() > 0){
-            // spacer
-            cell = createBorderlessCell(5);
-            cell.setBackgroundColor(BGCOLOR_LIGHT);
-            table.addCell(cell);
-            
+            table.addCell(createBorderlessCell(5));            
             addItemRow(table,getTran("web","comment"),itemValue);
         }
 

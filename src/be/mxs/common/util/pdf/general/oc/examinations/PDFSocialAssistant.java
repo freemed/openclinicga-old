@@ -5,7 +5,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 
-public class PDFDermatologyConsultation extends PDFGeneralBasic {
+public class PDFSocialAssistant extends PDFGeneralBasic {
 
     //--- ADD CONTENT -----------------------------------------------------------------------------
     protected void addContent(){
@@ -14,10 +14,22 @@ public class PDFDermatologyConsultation extends PDFGeneralBasic {
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(5);
 
-                // ppppppppppp
-                itemValue = getItemValue(IConstants_PREFIX+"ppppppppppp");
+                // SOCIAL ASSISTANT
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_SOCIALASSISTANT_NAME");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("ppppppp","pppppppppp"),itemValue);
+                    addItemRow(table,getTran("web.occup","socialassistant"),itemValue);
+                }                 
+
+                // ACTS
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_SOCIALASSISTANT_ACTS");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("web.occup","actssocialassistant"),itemValue);
+                }                
+
+                // COMMENT
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_SOCIALASSISTANT_COMMENT");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("web.occup","comment"),itemValue.replaceAll("<br>","\r\n"));
                 }
 
                 // add table
@@ -25,10 +37,8 @@ public class PDFDermatologyConsultation extends PDFGeneralBasic {
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                     tranTable.addCell(new PdfPCell(contentTable));
+                    addTransactionToDoc();
                 }
-
-                // add transaction to doc
-                addTransactionToDoc();
 
                 // diagnoses
                 addDiagnosisEncoding();
@@ -39,11 +49,5 @@ public class PDFDermatologyConsultation extends PDFGeneralBasic {
             e.printStackTrace();
         }
     }
-
-
-    //#############################################################################################
-    //### PRIVATE METHODS #########################################################################
-    //#############################################################################################
     
-
 }

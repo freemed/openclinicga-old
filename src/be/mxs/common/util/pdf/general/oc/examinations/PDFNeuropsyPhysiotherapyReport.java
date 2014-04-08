@@ -11,10 +11,14 @@ public class PDFNeuropsyPhysiotherapyReport extends PDFGeneralBasic {
     protected void addContent(){
         try{
             if(transactionVO.getItems().size() >= minNumberOfItems){
+                //*********************************************************************************
+                //*** SUBJECTIVE EXAMINATION ******************************************************
+                //*********************************************************************************
+            	contentTable = new PdfPTable(1);
                 table = new PdfPTable(5);
-
-                cell = createHeaderCell(getTran("web","subjective.examination"), 5);
-                table.addCell(cell);
+                
+                // title
+                table.addCell(createHeaderCell(getTran("web","subjective.examination"),5));
 
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_NPPR_REASONFORENCOUNTER");
                 if(itemValue.length() > 0){
@@ -41,8 +45,20 @@ public class PDFNeuropsyPhysiotherapyReport extends PDFGeneralBasic {
                     addItemRow(table,getTran("web","psychological.profile"),itemValue);
                 }
                 
-                cell = createHeaderCell(getTran("web","objective.examination"), 5);
-                table.addCell(cell);
+                // add table
+                if(table.size() > 0){
+                    tranTable.addCell(new PdfPCell(table));
+                    addTransactionToDoc();
+                }
+                
+                //*********************************************************************************
+                //*** OBJECTIVE EXAMINATION *******************************************************
+                //*********************************************************************************
+            	contentTable = new PdfPTable(1);
+                table = new PdfPTable(5);
+                
+                // title
+                table.addCell(createHeaderCell(getTran("web","objective.examination"),5));
                 
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_NPPR_INSPECTION");
                 if(itemValue.length() > 0){
@@ -96,10 +112,12 @@ public class PDFNeuropsyPhysiotherapyReport extends PDFGeneralBasic {
                 
                 // add table
                 if(table.size() > 0){
-                    tranTable.addCell(createContentCell(table));
+                    tranTable.addCell(new PdfPCell(table));
+                    addTransactionToDoc();
                 }
 
-                // add transaction to doc
+                //*** diagnoses ***
+                addDiagnosisEncoding();
                 addTransactionToDoc();
             }
         }

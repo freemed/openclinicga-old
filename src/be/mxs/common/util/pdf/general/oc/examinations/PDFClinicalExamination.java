@@ -253,7 +253,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
         //*** temperature *****************************************************
         itemValue = getItemValue(IConstants_PREFIX+"[GENERAL.ANAMNESE]ITEM_TYPE_TEMPERATURE");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","temperature"),itemValue+" "+getTran("unit","degreesCelcius"));
+            addItemRow(table,getTran("openclinic.chuk","temperature"),itemValue+" "+getTran("units","degreesCelcius"));
         }
 
         //*** breathing *******************************************************
@@ -356,7 +356,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
             // add transaction to doc
             if(table.size() > 0){
                 if(contentTable.size() > 0) contentTable.addCell(emptyCell());
-                contentTable.addCell(createCell(new PdfPCell(table),1, PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
+                contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 tranTable.addCell(createContentCell(contentTable));
             }
         }

@@ -23,8 +23,7 @@ public class PDFThyroidEchographyProtocol extends PDFGeneralBasic {
                     addItemRow(table,getTran("openclinic.chuk","motive"),itemValue);
                 }
 
-                // todo : right lobe
-                //*** RIGHT LOBE **********************************************
+                //*** RIGHT LOBE ********************************************************
                 PdfPTable rightLobeTable = new PdfPTable(4);
                 
                 // echostructure right
@@ -38,7 +37,7 @@ public class PDFThyroidEchographyProtocol extends PDFGeneralBasic {
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_THYROID_ECHOGRAPHY_PROTOCOL_GRAND_AXE_RIGHT");
                 if(itemValue.length() > 0){
                     rightLobeTable.addCell(createValueCell(getTran("openclinic.chuk","grande_axe"),1));
-                    rightLobeTable.addCell(createValueCell(itemValue,3));
+                    rightLobeTable.addCell(createValueCell(itemValue+" cm",3));
                 }
 
                 // nodules right
@@ -54,8 +53,7 @@ public class PDFThyroidEchographyProtocol extends PDFGeneralBasic {
                     table.addCell(createCell(new PdfPCell(rightLobeTable),4,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
                 }
 
-                // todo : left lobe
-                //*** LEFT LOBE ***********************************************
+                //*** LEFT LOBE *********************************************************
                 PdfPTable leftLobeTable = new PdfPTable(4);
 
                 // echostructure left
@@ -69,7 +67,7 @@ public class PDFThyroidEchographyProtocol extends PDFGeneralBasic {
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_THYROID_ECHOGRAPHY_PROTOCOL_GRAND_AXE_LEFT");
                 if(itemValue.length() > 0){
                     leftLobeTable.addCell(createValueCell(getTran("openclinic.chuk","grande_axe"),1));
-                    leftLobeTable.addCell(createValueCell(itemValue,3));
+                    leftLobeTable.addCell(createValueCell(itemValue+" cm",3));
                 }
 
                 // nodules left
@@ -100,26 +98,21 @@ public class PDFThyroidEchographyProtocol extends PDFGeneralBasic {
                 // remarks
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_THYROID_ECHOGRAPHY_PROTOCOL_REMARKS");
                 if(itemValue.length() > 0){
-                    addItemRow(table,getTran("openclinic.chuk","remarks"),itemValue);
+                    addItemRow(table,getTran("openclinic.chuk","remarks"),itemValue.replaceAll("<br>","\r\n"));
                 }
 
                 // add table
                 if(table.size() > 0){
                     if(contentTable.size() > 0) contentTable.addCell(emptyCell());
                     contentTable.addCell(createCell(new PdfPCell(table),1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
-                    tranTable.addCell(createContentCell(contentTable));
+                    tranTable.addCell(new PdfPCell(contentTable));
+                    addTransactionToDoc();
                 }
-
-                // add transaction to doc
-                addTransactionToDoc();
             }
         }
         catch(Exception e){
             e.printStackTrace();
         }
     }
-
-
-    //### PRIVATE METHODS #########################################################################
 
 }

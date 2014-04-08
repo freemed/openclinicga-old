@@ -131,8 +131,8 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         pdfTable.addCell(createValueCell(sHour,1));
         pdfTable.addCell(createValueCell(sSys,1));
         pdfTable.addCell(createValueCell(sDias,1));
-        pdfTable.addCell(createValueCell(sRythme+" /"+getTran("unit","minute"),1));
-        pdfTable.addCell(createValueCell(sTemp+" /"+getTran("unit","degreesCelcius"),1));
+        pdfTable.addCell(createValueCell(sRythme+" /"+getTran("units","minute"),1));
+        pdfTable.addCell(createValueCell(sTemp+" /"+getTran("units","degreesCelcius"),1));
 
         return pdfTable;
     }
@@ -225,10 +225,10 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         }
 
         pdfTable.addCell(createValueCell(sHour,1));
-        pdfTable.addCell(createValueCell(sResp+" /"+getTran("unit","minute"),1));
+        pdfTable.addCell(createValueCell(sResp+" /"+getTran("units","minute"),1));
         pdfTable.addCell(createValueCell(sAmbient+" %",1));
         pdfTable.addCell(createValueCell(sUnder+" %",1));
-        pdfTable.addCell(createValueCell(sVolume+" "+getTran("unit","liter")+"/"+getTran("unit","minute"),1));
+        pdfTable.addCell(createValueCell(sVolume+" "+getTran("units","liter")+"/"+getTran("units","minute"),1));
         pdfTable.addCell(createValueCell(sMode,1));
         pdfTable.addCell(createValueCell(sObservation,3));
 
@@ -391,8 +391,8 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         }
 
         pdfTable.addCell(createValueCell(sHour,1));
-        pdfTable.addCell(createValueCell(sPoids+" "+getTran("unit","kg"),1));
-        pdfTable.addCell(createValueCell(sTaille+" "+getTran("unit","cm"),1));
+        pdfTable.addCell(createValueCell(sPoids+" "+getTran("units","kg"),1));
+        pdfTable.addCell(createValueCell(sTaille+" "+getTran("units","cm"),1));
         pdfTable.addCell(createValueCell(sBMI,1));
 
         return pdfTable;
@@ -496,7 +496,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         pdfTable.addCell(createValueCell(sGlucose,1));
         pdfTable.addCell(createValueCell(sPhysio,1));
         pdfTable.addCell(createValueCell(sHaem,1));
-        pdfTable.addCell(createValueCell(sTrans+" "+getTran("unit","ml"),1));
+        pdfTable.addCell(createValueCell(sTrans+" "+getTran("units","ml"),1));
         pdfTable.addCell(createValueCell(sSang,1));
 
         return pdfTable;
@@ -514,14 +514,14 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         // diuresis
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANSORTIE_DIURESE");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","diuresis"),itemValue+" "+getTran("unit","ml"));
+            addItemRow(table,getTran("openclinic.chuk","diuresis"),itemValue+" "+getTran("units","ml"));
             itemCount++;
         }
 
         // aspiration
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANSORTIE_ASPIRATION");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","aspiration"),itemValue+" "+getTran("unit","ml"));
+            addItemRow(table,getTran("openclinic.chuk","aspiration"),itemValue+" "+getTran("units","ml"));
             itemCount++;
         }
 
@@ -542,35 +542,35 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         // thoracic.drain
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANSORTIE_DRAIN_THORACIQUE");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","thoracic.drain"),itemValue+" "+getTran("unit","ml"));
+            addItemRow(table,getTran("openclinic.chuk","thoracic.drain"),itemValue+" "+getTran("units","ml"));
             itemCount++;
         }
             
         // abdominal.drain
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANSORTIE_DRAIN_ABDOMINAL");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","abdominal.drain"),itemValue+" "+getTran("unit","ml"));
+            addItemRow(table,getTran("openclinic.chuk","abdominal.drain"),itemValue+" "+getTran("units","ml"));
             itemCount++;
         }
 
         // other.drain
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANSORTIE_AUTRE_DRAIN");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","other.drain"),itemValue+" "+getTran("unit","ml"));
+            addItemRow(table,getTran("openclinic.chuk","other.drain"),itemValue+" "+getTran("units","ml"));
             itemCount++;
         }
         
         // nasogastric.probe
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANSORTIE_SONDE_NASOGASTRIQUE");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","nasogastric.probe"),itemValue+" "+getTran("unit","ml"));
+            addItemRow(table,getTran("openclinic.chuk","nasogastric.probe"),itemValue+" "+getTran("units","ml"));
             itemCount++;
         }
 
         // other.exits
         itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_PROTSURV_BILANSORTIE_AUTRES_SORTIES");
         if(itemValue.length() > 0){
-            addItemRow(table,getTran("openclinic.chuk","other.exits"),itemValue+" "+getTran("unit","ml"));
+            addItemRow(table,getTran("openclinic.chuk","other.exits"),itemValue+" "+getTran("units","ml"));
             itemCount++;
         }  
 
@@ -905,12 +905,12 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         }
 
         pdfTable.addCell(createValueCell(sHour,2));
-        pdfTable.addCell(createValueCell(sLait+" "+getTran("unit","ml"),1));
-        pdfTable.addCell(createValueCell(sBouillie+" "+getTran("unit","ml"),1));
-        pdfTable.addCell(createValueCell(sPotage+" "+getTran("unit","ml"),1));
-        pdfTable.addCell(createValueCell(sJuice+" "+getTran("unit","ml"),1));
-        pdfTable.addCell(createValueCell(sWater+" "+getTran("unit","ml"),1));
-        pdfTable.addCell(createValueCell(sPB+" "+getTran("unit","cm"),1));
+        pdfTable.addCell(createValueCell(sLait+" "+getTran("units","ml"),1));
+        pdfTable.addCell(createValueCell(sBouillie+" "+getTran("units","ml"),1));
+        pdfTable.addCell(createValueCell(sPotage+" "+getTran("units","ml"),1));
+        pdfTable.addCell(createValueCell(sJuice+" "+getTran("units","ml"),1));
+        pdfTable.addCell(createValueCell(sWater+" "+getTran("units","ml"),1));
+        pdfTable.addCell(createValueCell(sPB+" "+getTran("units","cm"),1));
         pdfTable.addCell(createValueCell(sPT,1));
         pdfTable.addCell(createValueCell(sIMC,1));
         pdfTable.addCell(createValueCell(sObservation,5));

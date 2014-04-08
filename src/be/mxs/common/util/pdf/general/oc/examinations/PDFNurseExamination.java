@@ -221,14 +221,14 @@ public class PDFNurseExamination extends PDFGeneralBasic {
             // WEIGHT
             String weight = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT");
             if(weight.length() > 0){
-                table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT")+": "+weight+" "+getTran("unit","kg"),1));
+                table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT")+": "+weight+" "+getTran("units","kg"),1));
                 cellCount++;
             }
 
             // HEIGHT
             String height = getItemValue(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT");
             if(height.length() > 0){
-                table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT")+": "+height+" "+getTran("unit","cm"),1));
+                table.addCell(createValueCell(getTran(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_HEIGHT")+": "+height+" "+getTran("units","cm"),1));
                 cellCount++;
             }
 
