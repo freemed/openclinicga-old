@@ -197,7 +197,7 @@
 resizeSearchFields();
 
 <%-- Autocompletion code ---%>     
-function eventDateCallback(element, entry){
+function eventDateCallback(element,entry){
   var serialized = "";
   if(element.id=="ac1"){
     serialized = "findFirstname="+element.value;
@@ -240,16 +240,16 @@ function ac_return(field,item){
 function resizeSearchFields(){
   var width = 1000;
   if(document.body){
-    width = (document.body.clientWidth);
+    width = document.body.clientWidth;
   }
   else{
-    width = (window.innerWidth);
+    width = window.innerWidth;
   }
   var bigbigSize = 300;
   var bigSize = 150;
   var normalSize = 130;
   var smallSize = 75;
-  if (width > 1100) {
+  if(width > 1100){
     bigbigSize = 400;
     bigSize = 200;
     normalSize = 150;
@@ -270,7 +270,7 @@ function resizeSearchFields(){
 }
 
 function showArchiveCode(){
-  openPopup("util/showArchiveLabel.jsp&ts=<%=getTs()%>", 20, 370);
+  openPopup("util/showArchiveLabel.jsp&ts=<%=getTs()%>",20,370);
 }
 
 function checkKeyDown(evt){
@@ -286,8 +286,14 @@ function checkKeyDown(evt){
 }
 
 <%-- search patient --%>
-function doSPatient(){
-  if(checkSaveButton("<%=sCONTEXTPATH%>", "<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")) {
+function doSPatient(poseQuestion){
+  if(poseQuestion==null) poseQuestion = true;
+  var okToContinue = true;
+  if(poseQuestion==true){
+	okToContinue = checkSaveButton("<%=sCONTEXTPATH%>","<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>"); 
+  }
+  
+  if(okToContinue){
     if(document.getElementById("SF").findName.value.length > 0 ||
       document.getElementById("SF").findFirstname.value.length > 0 ||
       document.getElementById("SF").findDateOfBirth.value.length > 0 ||
@@ -309,22 +315,20 @@ function doSPatient(){
 
 <%-- clear patient --%>
 function clearPatient(){
-  if(checkSaveButton("<%=sCONTEXTPATH%>", "<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")) {
-    if(verifyPrestationCheck()){
-      document.getElementById("SF").findimmatnew.value = "";
-      document.getElementById("SF").findArchiveFileCode.value = "";
-      document.getElementById("SF").findnatreg.value = "";
-      document.getElementById("SF").findName.value = "";
-      document.getElementById("SF").findFirstname.value = "";
-      document.getElementById("SF").findDateOfBirth.value = "";
-      document.getElementById("SF").findUnit.value = "";
-      document.getElementById("SF").findUnitText.value = "";
-      document.getElementById("SF").findPersonID.value = "";
-      document.getElementById("SF").findDistrict.selectedIndex = -1;
-      document.getElementById("SF").findUnitText.style.backgroundColor = "white";
+  if(verifyPrestationCheck()){
+    document.getElementById("SF").findimmatnew.value = "";
+    document.getElementById("SF").findArchiveFileCode.value = "";
+    document.getElementById("SF").findnatreg.value = "";
+    document.getElementById("SF").findName.value = "";
+    document.getElementById("SF").findFirstname.value = "";
+    document.getElementById("SF").findDateOfBirth.value = "";
+    document.getElementById("SF").findUnit.value = "";
+    document.getElementById("SF").findUnitText.value = "";
+    document.getElementById("SF").findPersonID.value = "";
+    document.getElementById("SF").findDistrict.selectedIndex = -1;
+    document.getElementById("SF").findUnitText.style.backgroundColor = "white";
 
-      document.getElementById("SF").find<%=sDefaultFocus%>.focus();
-    }
+    document.getElementById("SF").find<%=sDefaultFocus%>.focus();
   }
 }
 

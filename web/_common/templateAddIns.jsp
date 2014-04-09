@@ -62,25 +62,29 @@ function testItemValue(type,value){
   new Ajax.Request('_common/search/searchByAjax/autocompletionItemsValuesShow.jsp',{asynchronous:false,method:"POST",postBody:'&itemValue='+value+"&item="+type+"&testValue=1"});
 }
 
-function checkSaveButton(contextpath,sQuestion){
-  var bReturn = true;
+<%-- CHECK SAVE BUTTON --%>
+function checkSaveButton(){
+  if(myForm!=null && myForm.name=="SF") return true;
+  var discardFormData = true;
+  var sFormCurrStatus = getFormData();
+  <%-- alert(sFormBeginStatus+"\n\n"+sFormCurrStatus); --%>
 
-  if(myButton!=null){
-    if(bSaveHasNotChanged==false){
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelValue="+sQuestion;
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
-      bReturn = (answer == 1);
-    }
-  }
-  else if(sFormBeginStatus != document.getElementById("SF").innerHTML){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelValue="+sQuestion;
+  var alertAnyway = false;
+
+  <%
+      if(request.getQueryString().indexOf("manageMedicalDecisionComment.jsp") > -1){
+          %>alertAnyway = true;<%
+      }
+  %>
+
+  if(alertAnyway || (sFormBeginStatus!=sFormCurrStatus)){
+    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelValue=<%=getTranNoLink("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>";
     var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
     var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
-    bReturn = (answer == 1);
+    discardFormData = (answer==1);
   }
 
-  return bReturn;
+  return discardFormData;
 }
 
 function verifyPrestationCheck(){
@@ -142,7 +146,8 @@ function checkAfter(afterId,beforeObj){
 <script>
   var myForm = document;
 </script>
-<% response.setHeader("Content-Type", "text/html; charset=ISO-8859-1"); %>
+
+<% response.setHeader("Content-Type","text/html; charset=ISO-8859-1"); %>
 
 <%=sJSSHORTCUTS%>
 <%=sJSCHAR%>
@@ -153,6 +158,7 @@ function checkAfter(afterId,beforeObj){
 <%=sJSBUTTONS%>
 
 <script>
+  <%-- INIT BARCODE --%>
   function initBarcode(){
     document.getElementById("barcode").value = "";
     document.getElementById("barcode").style.visibility = "visible";
@@ -240,6 +246,7 @@ function checkAfter(afterId,beforeObj){
             "<img class='link' src='"+sDir+"/icon_compose.gif' alt='<%=getTran("web","putToday",sWebLanguage)%>'></a>");
   }
 
+  <%-- FIND ZIPCODE --%>
   function findZipcode(oZipcode,oCity,oButton){
     if(oZipcode.value.length==0){
       oCity.value = "";

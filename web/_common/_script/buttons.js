@@ -1,21 +1,37 @@
-var bSaveHasNotChanged = true;
-var sFormBeginStatus = myForm.innerHTML;
 var dropDownChecked = false;
+var sFormBeginStatus = getFormData();
+
+function getFormData(){
+  if(!myForm) return "";
+  var formValues = "";
+
+  var elems = myForm.getElementsByTagName("input");
+  for(var i=0; i<elems.length; i++){
+    if(elems[i].type=="radio" || elems[i].type=="checkbox"){
+      if(elems[i].checked){
+        formValues+= elems[i].value;
+      }
+    }
+    else{
+      if(elems[i].type!="button"){
+        formValues+= elems[i].value;
+      }
+    }
+  }
+
+  elems = myForm.getElementsByTagName("select");
+  for(var i=0; i<elems.length; i++){
+    formValues+= elems[i].value;
+  }
+
+  elems = myForm.getElementsByTagName("textarea");
+  for(var i=0; i<elems.length; i++){
+    formValues+= elems[i].innerHTML;
+  }
+
+  return formValues.replace(/\s+/,"");
+}
 
 function setSaveButton(evt){
-  if(window.myButton){
-	var clickedElement = getClickedElement(evt);
-	
-	try{
-	  // Any input-element that needs to be saved has a name. Exclude buttons
-	  if(clickedElement.type!=null && clickedElement.type!="button" && 
-	     clickedElement.name!=null && clickedElement.name!="PrintLanguage"){
-	    bSaveHasNotChanged = false;
-	    dropDownChecked = false;
-	  }
-	}
-	catch(err){
-	  /* 'attribute type does not exist' */	
-	}	
-  }
+  // empty
 }
