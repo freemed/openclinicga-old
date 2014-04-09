@@ -7,6 +7,7 @@
 <%@include file="/includes/ajaxRequirements.jsp"%>
 <%=checkPermission("system.manageinsurars","all",activeUser)%>
 <%=sJSSORTTABLE%>
+
 <%-- Start Floating Layer -----------------------------------------------------------------------%>
 <div id="ajaxFloatingLoader" style="position:absolute;width:250px;height:30px;visibility:hidden;">
     <table width="100%" cellspacing="0" cellpadding="5" style="border:1px solid #aaa">
@@ -19,6 +20,7 @@
     </table>
 </div>
 <%-- End Floating layer -------------------------------------------------------------------------%>
+
 <%!
     //--- ADD CATEGORY ----------------------------------------------------------------------------
     private String addCategory(int iTotal, String sCatName, String sCatLabel, String sCatPatientPercentage, String sWebLanguage){
@@ -40,6 +42,7 @@
               "</tr>";
     }
 %>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
     String msg = "", sCategoriesJS = "";
@@ -261,6 +264,7 @@
         sBackFunction = "doBackToMenu();";
     }
 %>
+
 <form id="transactionForm" name="transactionForm" method="post" <%=sOnKeyDown%> onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
