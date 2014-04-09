@@ -290,7 +290,7 @@ function doSPatient(poseQuestion){
   if(poseQuestion==null) poseQuestion = true;
   var okToContinue = true;
   if(poseQuestion==true){
-	okToContinue = checkSaveButton("<%=sCONTEXTPATH%>","<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>"); 
+	okToContinue = checkSaveButton(); 
   }
   
   if(okToContinue){

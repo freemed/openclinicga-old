@@ -3,7 +3,7 @@
 <script>
     function setButtonCheckDropDown(){
         if (!bSaveHasNotChanged) {
-            if (checkSaveButton("<%=sCONTEXTPATH%>","<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")){
+            if(checkSaveButton()){
                // target.click();
             }
         }

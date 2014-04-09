@@ -1140,7 +1140,7 @@ public class GeneralPDFCreator extends PDFCreator {
             loadTransactionOfType("PDFDiabetesFollowup",transactionVO,partsOfTransactionToPrint);
         }
         // generic transaction
-        else {
+        else{
         	Debug.println("Transaction of type '"+transactionVO.getTransactionType()+"' is not supported by GeneralPDFCreator");
             loadTransactionOfType("PDFGenericTransaction",transactionVO,partsOfTransactionToPrint);
         }

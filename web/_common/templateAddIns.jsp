@@ -427,7 +427,7 @@ function checkNavigation(evt){
       target = evt.srcElement.target;
     }
     if(target.href!=null){
-      if(checkSaveButton("<%=sCONTEXTPATH%>","<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")){
+      if(checkSaveButton()){
         window.location.href = target;
       }
     }
