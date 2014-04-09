@@ -68,7 +68,7 @@
 <script>
   <%-- DO BACK --%>
   function doBack(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){
+    if(checkSaveButton())){
       window.location.href = '<c:url value="/main.do?Page=curative/index.jsp&ts="/><%=getTs()%>';
     }
   }

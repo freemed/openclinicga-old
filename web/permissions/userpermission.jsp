@@ -604,7 +604,7 @@
 
           <%-- DO BACK  --%>
           function doBack(){
-            if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){
+            if(checkSaveButton())){
               window.location.href = "./main.do?Page=permissions/index.jsp";
             }
           }

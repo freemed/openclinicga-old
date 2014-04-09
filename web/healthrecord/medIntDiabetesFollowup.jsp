@@ -439,7 +439,7 @@
             <script>
               <%-- SET INSULINE GRAPHS DATA --%>
               function reloadPage(beginDate){
-                if(checkSaveButton("<%=sCONTEXTPATH%>","<%=getTranNoLink("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")){
+                if(checkSaveButton()){
                   window.location.href = "<c:url value='/main.do'/>?Page=/healthrecord/manageDiabetesFollowup.jsp&beginDate="+beginDate+"&ts=<%=getTs()%>";
                 }
               }

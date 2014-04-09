@@ -105,7 +105,7 @@
 				        </td>
 				    </tr>
 				    
-				    <%--  THERAPEUTICAL PROJECT --%>
+				    <%-- THERAPEUTICAL PROJECT --%>
 				    <tr>
 				        <td class="admin"><%=getTran("Web.occup","neurology_carefile_therapeuticalproject",sWebLanguage)%>&nbsp;</td>
 				        <td class="admin2">
@@ -144,8 +144,8 @@
 
   <%-- DO BACK --%>
   function doBack(){
-    if(checkSaveButton("<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")){
-      window.location.href='<c:url value="/main.do?Page=curative/index.jsp&ts="/><%=getTs()%>';
+    if(checkSaveButton()){
+      window.location.href = '<c:url value="/main.do?Page=curative/index.jsp&ts="/><%=getTs()%>';
     }
   }
 </script>

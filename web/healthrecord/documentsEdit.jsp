@@ -73,7 +73,7 @@
                 <%
                   }
                 %>
-                <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){doBack();}">
+                <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){doBack();}">
             </td>
         </tr>
     </table>

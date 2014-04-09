@@ -107,7 +107,7 @@
   }
 
   function doBack(){
-    if (checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>')){
+    if(checkSaveButton())){
       window.location.href = '<c:url value="/healthrecord/showVaccinationSummary.do"/>?ts=<%=getTs()%>';
     }
   }
