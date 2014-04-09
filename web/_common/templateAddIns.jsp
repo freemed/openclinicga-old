@@ -31,6 +31,7 @@ function dateError(field){
   alert('<%=getTran("Web.Occup","date.error",sWebLanguage)%>');
   setTimeout('document.getElementById("'+field.id+'").focus();',100);
 }  
+
 String.prototype.trim = function(){
   return this.replace(/^\s+|\s+$/g,"");
 }
@@ -260,7 +261,7 @@ function checkAfter(afterId,beforeObj){
 
   <%-- The following script is used to hide the calendar whenever you click the document. --%>
   <%-- When using it you should set the name of popup button or image to "popcal", otherwise the calendar won't show up. --%>
-  document.onmousedown = function(e) {
+  document.onmousedown = function(e){
     var n = !e?self.event.srcElement.name:e.target.name;
 
     if(document.layers){
@@ -304,7 +305,7 @@ function checkAfter(afterId,beforeObj){
 <%
     String sTmpPage = checkString(request.getParameter("Page"));
 
-    if (sTmpPage.indexOf("healthrecord") > -1) {
+    if(sTmpPage.indexOf("healthrecord") > -1){
 %>
 
 <%-- popupmenu --%>
@@ -339,8 +340,7 @@ function checkAfter(afterId,beforeObj){
     </div>
     <hr/>
     <%-- <div id="RegisterDiagnosis" class="menuitems" url="/"><%=getTran("Web.Occup","medwan.common.register-as-diagnosis",sWebLanguage)%></div> --%>
-    <div class="menuitems" url="null"><%=getTran("Web.Occup", "medwan.common.close", sWebLanguage)%>
-    </div>
+    <div class="menuitems" url="null"><%=getTran("Web.Occup", "medwan.common.close", sWebLanguage)%></div>
 </div>
 
 <script>
@@ -361,7 +361,7 @@ function setPopup(itemType){
 function setPopup(itemType,itemValue){
   if(ie){
     if(itemValue!=null){
-      document.getElementById("SetDefaultValue").url = "<c:url value="/util/saveDefaultValue.jsp"/>?itemType="+itemType+"&itemValue="+itemValue;
+      document.getElementById("SetDefaultValue").url = "<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue;
     }
     else{
       document.getElementById("SetDefaultValue").url = "";
@@ -447,7 +447,7 @@ function checkDropdown(evt){
       if((target.id.indexOf("menu") > -1) || (target.id.indexOf("ddIcon") > -1)){
         if(bSaveHasNotChanged == false) {
           dropDownChecked = true;
-          if(checkSaveButton("<c:url value="/"/>", "<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")){
+          if(checkSaveButton()){
             target.click();
           }
         }

@@ -3,8 +3,8 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%!
     //--- SET FOCUS -------------------------------------------------------------------------------
-    private String setFocus(String sField, String sDefaultFocus) {
-        if (sDefaultFocus.equalsIgnoreCase(sField)) {
+    private String setFocus(String sField, String sDefaultFocus){
+        if(sDefaultFocus.equalsIgnoreCase(sField)){
             return "bold";
         }
 
@@ -28,9 +28,9 @@
 
     // fedault focus
     String sDefaultFocus = checkString(activeUser.getParameter("DefaultFocus"));
-    if (sDefaultFocus.length() == 0) sDefaultFocus = "Name";
+    if(sDefaultFocus.length() == 0) sDefaultFocus = "Name";
 
-    if (sAction.length() == 0 && activePatient != null) {
+    if(sAction.length() == 0 && activePatient != null){
         sName = activePatient.lastname;
         sFirstname = activePatient.firstname;
         sDateOfBirth = activePatient.dateOfBirth;
@@ -51,12 +51,12 @@
     }
 
     // unitid and unitname
-    if(checkString(sUnit).trim().length() > 0) {
-        if(MedwanQuery.getInstance().getConfigString("showUnitID").equals("1")) {
-            sUnitText = sUnit + " " + getTran("service", sUnit, sWebLanguage);
+    if(checkString(sUnit).trim().length() > 0){
+        if(MedwanQuery.getInstance().getConfigString("showUnitID").equals("1")){
+            sUnitText = sUnit+" "+getTran("service",sUnit,sWebLanguage);
         } 
         else{
-            sUnitText = getTran("service", sUnit, sWebLanguage);
+            sUnitText = getTran("service",sUnit,sWebLanguage);
         }
     }
 %>
@@ -237,6 +237,7 @@ function ac_return(field,item){
   doSPatient();
 }
 
+<%-- RESIZE SEARCH FIELDS --%>
 function resizeSearchFields(){
   var width = 1000;
   if(document.body){
@@ -273,6 +274,7 @@ function showArchiveCode(){
   openPopup("util/showArchiveLabel.jsp&ts=<%=getTs()%>",20,370);
 }
 
+<%-- CHECK KEY DOWN --%>
 function checkKeyDown(evt){
   evt = evt || window.event;
   var kcode = evt.keyCode || evt.which;
@@ -285,7 +287,7 @@ function checkKeyDown(evt){
   }
 }
 
-<%-- search patient --%>
+<%-- DO SEARCH PATIENT --%>
 function doSPatient(poseQuestion){
   if(poseQuestion==null) poseQuestion = true;
   var okToContinue = true;
