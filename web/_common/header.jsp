@@ -93,12 +93,19 @@
 			            }
 			        }
 
+
                     String sTmpPersonid = checkString(request.getParameter("personid"));
                     if(sTmpPersonid.length()==0){
                         sTmpPersonid = checkString(request.getParameter("PersonID"));
                     }
                     
                     if(sTmpPersonid.length() > 0){
+                    	try{
+                    		sTmpPersonid=Integer.parseInt(sTmpPersonid)+"";
+                    	}
+                    	catch(Exception e){
+                    		e.printStackTrace();
+                    	}
                         boolean bFingerPrint = FingerPrint.exists(Integer.parseInt(sTmpPersonid)),
                                 bPicture     = Picture.exists(Integer.parseInt(sTmpPersonid)),
                                 bBarcode     = Barcode.exists(Integer.parseInt(sTmpPersonid));
