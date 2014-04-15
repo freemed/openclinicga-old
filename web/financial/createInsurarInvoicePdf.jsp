@@ -35,6 +35,9 @@
         else if(sPrintModel.equalsIgnoreCase("ascoma")){
         	pdfGenerator = new PDFInsurarInvoiceGeneratorASCOMA(activeUser,sProject,sPrintLanguage,sPrintType);
         }
+        else if(sPrintModel.equalsIgnoreCase("cmck")){
+        	pdfGenerator = new PDFInsurarInvoiceGeneratorCMCK(activeUser,sProject,sPrintLanguage,sPrintType);
+        }
         else if(sPrintModel.equalsIgnoreCase("brarudi")){
         	pdfGenerator = new PDFInsurarInvoiceGeneratorBRARUDI(activeUser,sProject,sPrintLanguage,sPrintType);
         }
