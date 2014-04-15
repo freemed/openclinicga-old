@@ -118,7 +118,7 @@ public class PDFLabSampleLabelGenerator extends PDFOfficialBasic {
             cell.setPadding(0);
             table.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(MedwanQuery.getInstance().getLabel("labanalysis.monster",sample,user.person.language),FontFactory.getFont(FontFactory.COURIER,6,Font.NORMAL)));
+            cell = new PdfPCell(new Paragraph(MedwanQuery.getInstance().getLabel("labanalysis.monster",sample,user.person.language),FontFactory.getFont(FontFactory.HELVETICA_BOLD,MedwanQuery.getInstance().getConfigInt("labLabelSampleFontSize",6),MedwanQuery.getInstance().getConfigInt("labLabelSampleFontBold",Font.NORMAL))));
             cell.setColspan(1);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -127,7 +127,7 @@ public class PDFLabSampleLabelGenerator extends PDFOfficialBasic {
             table.addCell(cell);
 
             LabRequest labRequest = LabRequest.getUnsampledRequest(serverid,transactionid,user.person.language);
-            cell = new PdfPCell(new Paragraph(labRequest.getPersonid()+" "+labRequest.getPatientname(),FontFactory.getFont(FontFactory.COURIER,6,Font.NORMAL)));
+            cell = new PdfPCell(new Paragraph(labRequest.getPersonid()+" "+labRequest.getPatientname(),FontFactory.getFont(FontFactory.HELVETICA_BOLD,MedwanQuery.getInstance().getConfigInt("labLabelPatientFontSize",6),MedwanQuery.getInstance().getConfigInt("labLabelPatientFontBold",Font.NORMAL))));
             cell.setColspan(3);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
