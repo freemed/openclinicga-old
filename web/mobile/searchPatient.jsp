@@ -6,6 +6,12 @@ String patientname = ScreenHelper.checkString(request.getParameter("patientname"
 String patientfirstname = ScreenHelper.checkString(request.getParameter("patientfirstname"));
 String patientdateofbirth = ScreenHelper.checkString(request.getParameter("patientdateofbirth"));
 String patientpersonid = ScreenHelper.checkString(request.getParameter("patientpersonid"));
+try{
+	patientpersonid=Integer.parseInt(patientpersonid)+"";
+}
+catch(Exception e){
+	e.printStackTrace();
+}
 String patientservice = ScreenHelper.checkString(request.getParameter("patientservice"));
 
 List patients = new ArrayList();

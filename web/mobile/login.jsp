@@ -1,5 +1,5 @@
 <%@page import="net.admin.*,java.sql.*,be.mxs.common.util.db.*,java.util.*" %>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <%!
 //--- RELOAD SINGLETON ------------------------------------------------------------------------
 public void reloadSingleton(HttpSession session) {
@@ -46,14 +46,14 @@ public void reloadSingleton(HttpSession session) {
 		Connection conn = MedwanQuery.getInstance().getAdminConnection();
 		if (activeUser.initialize(conn,username,encryptedPassword)){
 			reloadSingleton(session);
-			session.setAttribute("activeuser",activeUser);
+			session.setAttribute("activeUser",activeUser);
 			out.println("<script>window.location.href='welcome.jsp';</script>");
 			out.flush();
 		}
 	}
 %>
 <body >
-<center><img width='75%' src='../_img/openclinic_mobile.jpg'/>
+<center><img  src='../_img/openclinic_mobile.jpg'/>
 <form name='loginForm' method='post'>
 	<table>
 		<tr><td>Login:</td><td><input name='username' value='' type='text' size='10'/></td></tr>

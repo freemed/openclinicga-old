@@ -1,11 +1,11 @@
 <%@include file="/mobile/validateUser.jsp"%>
 
 <%
-	if(session.getAttribute("activepatient")==null){
+	if(session.getAttribute("activePatient")==null){
 		out.println("<script>window.location.href='searchPatient.jsp';</script>");
 		out.flush();
 	}
-	AdminPerson activePatient = (AdminPerson)session.getAttribute("activepatient");
+	AdminPerson activePatient = (AdminPerson)session.getAttribute("activePatient");
 %>
 <table>
 	<tr>

@@ -204,6 +204,13 @@
     }
     else {
 	    sPersonID = checkString(request.getParameter("PersonID"));
+    	try{
+    		sPersonID=Integer.parseInt(sPersonID)+"";
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+
 	    if (sPersonID.length() > 0) {
 	        session.removeAttribute("activePatient");
 	        activePatient = AdminPerson.getAdminPerson(sPersonID);

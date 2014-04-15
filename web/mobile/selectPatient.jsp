@@ -11,7 +11,7 @@
 			out.println("<script>window.location.href='searchPatient.jsp';</script>");
 			out.flush();
 		}
-		session.setAttribute("activepatient",activePatient);
+		session.setAttribute("activePatient",activePatient);
 	}
 %>
 <script>window.location.href='patientMenu.jsp';</script>
