@@ -204,6 +204,21 @@
 		</script>
 		<%
     }
+<<<<<<< .mine
+    else {
+	    sPersonID = checkString(request.getParameter("PersonID"));
+    	try{
+    		sPersonID=Integer.parseInt(sPersonID)+"";
+    	}
+    	catch(Exception e){
+    	}
+
+	    if (sPersonID.length() > 0) {
+	        session.removeAttribute("activePatient");
+	        activePatient = AdminPerson.getAdminPerson(sPersonID);
+	    }
+	}
+=======
     else{
         sPersonID = checkString(request.getParameter("PersonID"));
         if(sPersonID.length() > 0){
@@ -211,6 +226,7 @@
             activePatient = AdminPerson.getAdminPerson(sPersonID);
         }
     }
+>>>>>>> .r1120
     
     //First check if user has access to the active patient
     if(sPage.indexOf("novipaccess")<0 && activePatient!=null && "1".equalsIgnoreCase((String)activePatient.adminextends.get("vip")) && !activeUser.getAccessRight("vipaccess.select")){
@@ -361,7 +377,7 @@
                             }
                         }
                         
-                        String sHelp = MedwanQuery.getInstance().getConfigString("HelpFile");%>
+                        String sHelp = MedwanQuery.getInstance().getConfigString("HelpFile","documents/help/openclinic_manual_@@language@@.pdf");%>
                 </ul>
             </div>
         </td>
@@ -369,6 +385,67 @@
 </table>
 
 <script>
+<<<<<<< .mine
+    <%-- OPEN HELP FILE --%>
+    function openHelpFile() {
+      window.open("<%=sHelp.replaceAll("@@language@@",activeUser.person.language.toLowerCase())%>");
+    }
+    
+	function newEncounter(){
+		<%
+			Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
+			if (activeEncounter!=null && activeEncounter.getEnd()==null){
+		        %>alertDialog("web","close.active.encounter.first");<%
+			}
+			else{
+		      %>window.location.href = '<c:url value="/main.do"/>?Page=adt/editEncounter.jsp&ts=<%=getTs()%>';<%
+			}
+		%>
+	}
+	function newFastEncounter(init){
+		<%
+			activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
+			if (activeEncounter!=null && activeEncounter.getEnd()==null){
+		        %>alertDialog("web","close.active.encounter.first");<%
+			}
+			else{
+		        %>
+		        var params = '';
+		        var today = new Date();
+		        var url = '<c:url value="/"/>/adt/newEncounter.jsp?ts=<%=getTs()%>&init='+init;
+		        new Ajax.Request(url, {
+		          method: "GET",
+		          parameters: params,
+		          onSuccess: function(resp) {
+				    window.location.reload();
+		          }
+		        });
+		        <%
+			}
+		%>
+	}
+	
+	function newFastTransaction(transactionType){
+	  if(<%=Encounter.selectEncounters("","","","","","","","",activePatient.personid,"").size()%>>0){
+	    window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
+	  }
+	  else{
+	    alertDialog("web","create.encounter.first");
+	  }
+	}
+	
+    <%-- READ BARCODE --%>
+    function readBarcode() {
+      openPopup("/_common/readBarcode.jsp&ts=<%=getTs()%>");
+    }
+    function readBarcode2(barcode) {
+      var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
+      var oldbarcode = barcode;
+      barcode = "";
+      for (var n = 0; n < oldbarcode.length; n++) {
+        if (transform.indexOf(oldbarcode.substring(n, n + 1)) > -1) {
+          barcode = barcode + transform.indexOf(oldbarcode.substring(n, n + 1));
+=======
   <%-- OPEN HELP FILE --%>
   function openHelpFile(){
     openPopup("<%=sHelp.replaceAll("@@language@@",activeUser.person.language)%>",800,600);
@@ -379,6 +456,7 @@
         Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
         if(activeEncounter!=null && activeEncounter.getEnd()==null){
             %>alertDialog("web","close.active.encounter.first");<%
+>>>>>>> .r1120
         }
         else{
             %>window.location.href = '<c:url value="/main.do"/>?Page=adt/editEncounter.jsp&ts=<%=getTs()%>';<%
