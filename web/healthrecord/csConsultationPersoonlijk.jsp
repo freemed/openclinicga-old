@@ -266,7 +266,7 @@
                                 <td class="admin2"></td>
                                 <td class="admin2"><%=writeDateField("ChirurgieDateBegin", "transactionForm","",sWebLanguage)%></td>
                                 <td class="admin2"><%=writeDateField("ChirurgieDateEnd", "transactionForm","",sWebLanguage)%></td>
-                                <td class="admin2"><input type="text" class="text" name="ChirurgieDescription" size="40" onblur="validateText(this);limitLength(this);"></td>
+                                <td class="admin2"><input type="text" class="text" name="ChirurgieDescription" size="40" onblur="limitLength(this);"></td>
                                 <td class="admin2">
                                     <input type="button" class="button" name="ButtonAddChirurgie" onclick="addChirurgie()" value="<%=getTran("Web","add",sWebLanguage)%>">
                                     <input type="button" class="button" name="ButtonUpdateChirurgie" onclick="updateChirurgie()" value="<%=getTran("Web","edit",sWebLanguage)%>">
@@ -306,7 +306,7 @@
                                 <td class="admin2"></td>
                                 <td class="admin2"><%=writeDateField("HeelkundeDateBegin", "transactionForm","",sWebLanguage)%></td>
                                 <td class="admin2"><%=writeDateField("HeelkundeDateEnd", "transactionForm","",sWebLanguage)%></td>
-                                <td class="admin2"><input type="text" class="text" name="HeelkundeDescription" size="40" onblur="validateText(this);limitLength(this);"></td>
+                                <td class="admin2"><input type="text" class="text" name="HeelkundeDescription" size="40" onblur="limitLength(this);"></td>
                                 <td class="admin2">
                                     <input type="button" class="button" name="ButtonAddHeelkunde" onclick="addHeelkunde()" value="<%=getTran("Web","add",sWebLanguage)%>">
                                     <input type="button" class="button" name="ButtonUpdateHeelkunde" onclick="updateHeelkunde()" value="<%=getTran("Web","edit",sWebLanguage)%>">
@@ -345,7 +345,7 @@
                             <tr>
                                 <td class="admin2"></td>
                                 <td class="admin2"><%=writeDateField("LetselsDate", "transactionForm","",sWebLanguage)%></td>
-                                <td class="admin2"><input type="text" class="text" name="LetselsDescription" size="40" onblur="validateText(this);limitLength(this);"></td>
+                                <td class="admin2"><input type="text" class="text" name="LetselsDescription" size="40" onblur="limitLength(this);"></td>
                                 <td class="admin2"><input type="text" name="LetselsBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alertDialog('Web.Occup','out-of-bounds-value');}"></td>
                                 <td class="admin2">
                                     <input type="button" class="button" name="ButtonAddLetsels" onclick="addLetsels()" value="<%=getTran("Web","add",sWebLanguage)%>">
@@ -473,17 +473,7 @@ function updateChirurgie(){
 }
 
 function deleteChirurgie(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-  }else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sChirurgie = deleteRowFromArrayString(sChirurgie,rowid.id);
     tblChirurgie.deleteRow(rowid.rowIndex);
     clearChirurgieFields();
@@ -553,16 +543,7 @@ function isAtLeastOneHeelkundeFieldFilled(){
 }
 
 function deleteHeelkunde(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-    if(window.showModalDialog){
-        answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-    }else{
-        answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sHeelkunde = deleteRowFromArrayString(sHeelkunde,rowid.id);
     tblHeelkunde.deleteRow(rowid.rowIndex);
     clearHeelkundeFields();
@@ -653,17 +634,7 @@ function isAtLeastOneLetselsFieldFilled(){
 }
 
 function deleteLetsels(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-  }else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sLetsels = deleteRowFromArrayString(sLetsels,rowid.id);
     tblLetsels.deleteRow(rowid.rowIndex);
     clearLetselsFields();

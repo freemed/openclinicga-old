@@ -67,7 +67,7 @@
 			</td>
 	        <td class='admin2'>
 	            <input type="hidden" name="FastEncounterService.1" id="FastEncounterService.1" value="<%=fastencounter.split(";").length>2?fastencounter.split(";")[2]:""%>">
-	            <input class="text" type="text" name="FastEncounterServiceName.1" id="FastEncounterServiceName.1" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" onblur="">
+	            <input class="text" type="text" name="FastEncounterServiceName.1" id="FastEncounterServiceName.1" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" >
 	            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('FastEncounterService.1','FastEncounterServiceName.1');">
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterService.1').value='';document.getElementById('FastEncounterServiceName.1').value='';">
 	        </td>
@@ -107,7 +107,7 @@
 			</td>
 	        <td class='admin2'>
 	            <input type="hidden" name="FastEncounterService.2" id="FastEncounterService.2" value="<%=fastencounter.split(";").length>2?fastencounter.split(";")[2]:""%>">
-	            <input class="text" type="text" name="FastEncounterServiceName.2" id="FastEncounterServiceName.2" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" onblur="">
+	            <input class="text" type="text" name="FastEncounterServiceName.2" id="FastEncounterServiceName.2" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" >
 	            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('FastEncounterService.2','FastEncounterServiceName.2');">
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterService.2').value='';document.getElementById('FastEncounterServiceName.2').value='';">
 	        </td>
@@ -147,7 +147,7 @@
 			</td>
 	        <td class='admin2'>
 	            <input type="hidden" name="FastEncounterService.3" id="FastEncounterService.3" value="<%=fastencounter.split(";").length>2?fastencounter.split(";")[2]:""%>">
-	            <input class="text" type="text" name="FastEncounterServiceName.3" id="FastEncounterServiceName.3" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" onblur="">
+	            <input class="text" type="text" name="FastEncounterServiceName.3" id="FastEncounterServiceName.3" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" >
 	            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('FastEncounterService.3','FastEncounterServiceName.3');">
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterService.3').value='';document.getElementById('FastEncounterServiceName.3').value='';">
 	        </td>
@@ -187,7 +187,7 @@
 			</td>
 	        <td class='admin2'>
 	            <input type="hidden" name="FastEncounterService.4" id="FastEncounterService.4" value="<%=fastencounter.split(";").length>2?fastencounter.split(";")[2]:""%>">
-	            <input class="text" type="text" name="FastEncounterServiceName.4" id="FastEncounterServiceName.4" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" onblur="">
+	            <input class="text" type="text" name="FastEncounterServiceName.4" id="FastEncounterServiceName.4" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" >
 	            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('FastEncounterService.4','FastEncounterServiceName.4');">
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterService.4').value='';document.getElementById('FastEncounterServiceName.4').value='';">
 	        </td>
@@ -227,7 +227,7 @@
 			</td>
 	        <td class='admin2'>
 	            <input type="hidden" name="FastEncounterService.5" id="FastEncounterService.5" value="<%=fastencounter.split(";").length>2?fastencounter.split(";")[2]:""%>">
-	            <input class="text" type="text" name="FastEncounterServiceName.5" id="FastEncounterServiceName.5" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" onblur="">
+	            <input class="text" type="text" name="FastEncounterServiceName.5" id="FastEncounterServiceName.5" readonly size="<%=30%>" value="<%=fastencounter.split(";").length>2?getTranNoLink("service",fastencounter.split(";")[2],sWebLanguage):""%>" >
 	            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('FastEncounterService.5','FastEncounterServiceName.5');">
 	            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('FastEncounterService.5').value='';document.getElementById('FastEncounterServiceName.5').value='';">
 	        </td>

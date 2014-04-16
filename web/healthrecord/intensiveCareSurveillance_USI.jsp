@@ -354,18 +354,7 @@
   }
 
   function deleteSurveillance(set){
-    var popupUrl = "<%=sCONTEXTPATH%>/popup.jsp?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-    }
-    else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value + "&DataSetNr="+set+"&Action=DELETE","","toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
     }
   }

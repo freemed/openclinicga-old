@@ -1,7 +1,9 @@
-<%@ page import="be.openclinic.adt.Bed,java.util.Vector" %>
+<%@page import="be.openclinic.adt.Bed,
+                java.util.Vector"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("adt.managebeds","all",activeUser)%>
 <%=sJSSORTTABLE%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -19,20 +21,21 @@
     String sEditComment    = checkString(request.getParameter("EditComment"));
 
     String sEditBedServiceName = checkString(request.getParameter("EditBedServiceName"));
+    
     if(Debug.enabled){
         Debug.println("\n ############ Find Params ############ " +
-                      "\n FindBedName: " + sFindBedName +
-                      "\n FindBedService: " + sFindBedService +
-                      "\n FindBedServiceName: " + sFindBedServiceName +
-                      "\n FindBedService: " + sFindBedService +
+                      "\n FindBedName: "+sFindBedName +
+                      "\n FindBedService: "+sFindBedService +
+                      "\n FindBedServiceName: "+sFindBedServiceName +
+                      "\n FindBedService: "+sFindBedService +
                       "\n #####################################" +
                       "\n ############ Edit Params ############ " +
-                      "\n EditUID: " + sEditUID +
-                      "\n EditName: " + sEditName +
-                      "\n EditBedService: " + sEditBedService +
-                      "\n EditPriority: " + sEditPriority +
-                      "\n EditLocation: " + sEditLocation +
-                      "\n EditComment: " + sEditComment +
+                      "\n EditUID: "+sEditUID +
+                      "\n EditName: "+sEditName +
+                      "\n EditBedService: "+sEditBedService +
+                      "\n EditPriority: "+sEditPriority +
+                      "\n EditLocation: "+sEditLocation +
+                      "\n EditComment: "+sEditComment +
                       "\n #####################################"
                      );
     }
@@ -88,6 +91,7 @@
 
     if(sAction.equals("SEARCH") || sAction.equals("") || sAction.equals("DELETE")){
 %>
+
 <%-- BEGIN FIND BLOCK--%>
 <form name='FindBedForm' method='POST' action='<c:url value="/main.do"/>?Page=system/manageBeds.jsp&ts=<%=getTs()%>'>
     <%=writeTableHeader("Web","manageBeds",sWebLanguage," doBack();")%>
@@ -118,18 +122,19 @@
             </td>
         </tr>
     </table>
+    
     <input type='hidden' name='Action' value=''>
 </form>
-<%-- END FIND BLOCK --%>
+
 <%-- BEGIN FINDRESULTS BLOCK --%>
 <%
     }
 
-    if (sAction.equals("SEARCH")) {
+    if(sAction.equals("SEARCH")){
         StringBuffer sbResults = new StringBuffer();
         Vector vBeds = null;
 
-        try {
+        try{
             vBeds = Bed.selectBeds("","",sFindBedName,sFindBedService,"","","");
 
             Iterator iter = vBeds.iterator();
@@ -138,60 +143,59 @@
             String sServiceUID = "";
             String sServiceName = "";
 
-            while (iter.hasNext()) {
-                if (sClass.equals("")) {
-                    sClass = "1";
-                } else {
-                    sClass = "";
-                }
+            while(iter.hasNext()){
+                if(sClass.equals("")) sClass = "1";
+                else                  sClass = "";
 
-                bTmp = (Bed) iter.next();
+                bTmp = (Bed)iter.next();
                 sServiceUID = checkString(bTmp.getServiceUID());
-                if (sServiceUID.length() > 0) {
+                if(sServiceUID.length() > 0){
                     sServiceName = getTran("Service", sServiceUID, sWebLanguage);
-                } else {
+                } 
+                else{
                     sServiceName = "";
                 }
 
-                sbResults.append("<tr class='list" + sClass + "' " +
+                sbResults.append("<tr class='list"+sClass+"' " +
                         " onmouseover=\"this.style.cursor='hand';\" " +
                         " onmouseout=\"this.style.cursor='default';\" " +
-                        " onclick=\"doSelect('" + checkString(bTmp.getUid()) + "');\">" +
-                        "<td>" + checkString(bTmp.getName()) + "</td>" +
-                        "<td>" + sServiceName + "</td>" +
+                        " onclick=\"doSelect('"+checkString(bTmp.getUid())+"');\">" +
+                        "<td>"+checkString(bTmp.getName())+"</td>" +
+                        "<td>"+sServiceName+"</td>" +
                         "</tr>"
                 );
             }
-        } catch (Exception e) {
+        } 
+        catch(Exception e) {
             e.printStackTrace();
         }
+        
         if (sbResults.length() == 0) {
             out.print(getTran("web", "norecordsfound", sWebLanguage));
-        } else {
-%>
-            <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                <tr class="admin">
-                    <td width='30%'><%=getTran("Web","name",sWebLanguage)%></td>
-                    <td width='*'><%=getTran("Web","service",sWebLanguage)%></td>
-                </tr>
-                <%=sbResults%>
-            </table>
-
-            <div><%=vBeds.size()%> <%=getTran("web","recordsfound",sWebLanguage)%></div>
-        <%
+        }
+        else {
+	        %>
+	            <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
+	                <tr class="admin">
+	                    <td width='30%'><%=getTran("Web","name",sWebLanguage)%></td>
+	                    <td width='*'><%=getTran("Web","service",sWebLanguage)%></td>
+	                </tr>
+	                <%=sbResults%>
+	            </table>
+	
+	            <div><%=vBeds.size()%> <%=getTran("web","recordsfound",sWebLanguage)%></div>
+	        <%
         }
     }
 %>
 
-<%-- END FINDRESULTS BLOCK --%>
-
 <%-- BEGIN EDIT BLOCK--%>
-
 <%
     if(sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")){
 %>
 <form name='EditBedForm' method='POST' action='<c:url value="/main.do"/>?Page=system/manageBeds.jsp&ts=<%=getTs()%>'>
     <%=writeTableHeader("Web","manageBeds",sWebLanguage," doBack();")%>
+    
     <table class="list" width="100%" cellspacing="1">
         <%-- service --%>
         <tr>
@@ -214,6 +218,7 @@
             <td class="admin"><%=getTran("Web","priority",sWebLanguage)%></td>
             <td class="admin2"><input class='text' type='text' name='EditPriority' value='<%=sEditPriority%>' size="2"></td>
         </tr>
+        
         <%-- location --%>
         <tr>
             <td class="admin"><%=getTran("Web","location",sWebLanguage)%></td>
@@ -222,25 +227,28 @@
                 <img src="<c:url value="/_img/icon_view.gif"/>" class="link" alt="<%=getTran("Web","view",sWebLanguage)%>" onclick="openFile()">
                 <br>
                 <%
-                    if ((sEditLocation.length()>0)&&(sEditLocation.indexOf(".")>-1)){
+                    if((sEditLocation.length()>0)&&(sEditLocation.indexOf(".")>-1)){
                         String sExtension = sEditLocation.substring(sEditLocation.indexOf(".")+1).toLowerCase();
 
-                        if (MedwanQuery.getInstance().getConfigString("image_extensions","gif,jpg,bmp").toLowerCase().indexOf(sExtension)>-1){
+                        if(MedwanQuery.getInstance().getConfigString("image_extensions","gif,jpg,bmp").toLowerCase().indexOf(sExtension)>-1){
                             %><img id="myImg" src="<%=MedwanQuery.getInstance().getConfigString("documentsdir","adt/documents/")+"/"+sEditLocation%>" alt="" width="<%=MedwanQuery.getInstance().getConfigString("adt.bed.imagewidth","250")%>" border=1><%
                         }
                     }
-                    %>
+                %>
             </td>
         </tr>
+        
         <%-- comment --%>
         <tr>
             <td class="admin"><%=getTran("Web","comment",sWebLanguage)%></td>
             <td class="admin2"><%=writeTextarea("EditComment","","","",sEditComment)%></td>
         </tr>
+        
         <%-- Action,UID --%>
         <input type='hidden' name='Action' value=''>
         <input type='hidden' name='EditUID' value='<%=sEditUID%>'>
-        <%-- button --%>
+        
+        <%-- buttons --%>
         <%=ScreenHelper.setFormButtonsStart()%>
             <input class='button' type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
             <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBackToSearch();">
@@ -249,6 +257,7 @@
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
 </form>
+
 <form target="_newForm" name="uploadForm" action="<c:url value='/adt/storeDocument.jsp'/>" method="post" enctype="multipart/form-data">
     <%=writeTableHeader("Web","upload_file",sWebLanguage," doBack();")%>
     <table class="list" width="100%" cellspacing="1">
@@ -266,126 +275,111 @@
     </table>
     <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
 </form>
-
 <%
     }
 %>
-<%-- END EDIT BLOCK--%>
 
 <script>
+  function doClear(){
+    FindBedForm.FindBedService.value = "";
+    FindBedForm.FindBedServiceName.value = "";
+    FindBedForm.FindBedName.value = "";
+  }
 
-<%-- Find Block --%>
-
-    function doClear(){
-        FindBedForm.FindBedService.value = "";
-        FindBedForm.FindBedServiceName.value = "";
-        FindBedForm.FindBedName.value = "";
-
+  function doFind(){
+    if(FindBedForm.FindBedService.value != "" || FindBedForm.FindBedName.value != ""){
+      FindBedForm.Action.value = "SEARCH";
+      FindBedForm.buttonfind.disabled = true;
+      FindBedForm.submit();
     }
-    function doFind(){
-        if(FindBedForm.FindBedService.value != "" || FindBedForm.FindBedName.value != ""){
-            FindBedForm.Action.value = "SEARCH";
-            FindBedForm.buttonfind.disabled = true;
-            FindBedForm.submit();
-        }else{
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-        }
+    else{
+      alertDialog("web.manage","datamissing");
     }
+  }
 
-    function doNew(){
-        FindBedForm.Action.value = "NEW";
-        FindBedForm.submit();
+  function doNew(){
+    FindBedForm.Action.value = "NEW";
+    FindBedForm.submit();
+  }
+
+  function doSelect(id){
+    window.location.href="<c:url value='/main.do'/>?Page=system/manageBeds.jsp&Action=SELECT&EditUID="+id+"&ts=<%=getTs()%>";
+  }
+
+  function doBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp&ts=<%=getTs()%>";
+  }
+
+  function doBackToSearch(){
+    window.location.href="<c:url value='/main.do'/>?Page=system/manageBeds.jsp&ts=<%=getTs()%>";
+  }
+
+  <%-- search service --%>
+  function searchInfoService(sObject){
+    if(sObject.value.length > 0){
+      openPopup("/_common/search/serviceInformation.jsp&ServiceID="+sObject.value+"&ViewCode=on");
     }
+  }
 
-<%-- End Find Block --%>
+  function doNewBed(){
+    EditBedForm.newButton.disabled = true;
+    EditBedForm.Action.value = "NEW";
+    EditBedForm.EditName.value = "";
+    EditBedForm.EditPriority.value="";
+    EditBedForm.EditLocation.value="";
+    EditBedForm.EditComment.value="";
+    EditBedForm.EditUID.value="";
+    EditBedForm.submit();
+  }
 
-<%-- FindResults Block --%>
+  function doDeleteBed(){
+    EditBedForm.deleteButton.disabled = true;
+    
+	if(yesnoDialog("Web","areYouSureToDelete")){
+	  EditBedForm.Action.value = "DELETE";
+	  EditBedForm.submit();
+	}
+  }
 
-    function doSelect(id){
-        window.location.href="<c:url value='/main.do'/>?Page=system/manageBeds.jsp&Action=SELECT&EditUID=" + id + "&ts=<%=getTs()%>";
+  function doSave(){
+    if(EditBedForm.EditBedService.value.length==0){
+      alertDialog("web","no_bed_service");
     }
-
-<%-- End FindResults Block --%>
-
-<%-- Edit Block --%>
-
-    function doBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp&ts=<%=getTs()%>";
+    else if(EditBedForm.EditName.value.length==0){
+      alertDialog("web","no_bed_name");
     }
-
-    function doBackToSearch(){
-        window.location.href="<c:url value='/main.do'/>?Page=system/manageBeds.jsp&ts=<%=getTs()%>";
+    else if(!isNumber(EditBedForm.EditPriority.value)){
+      alertDialog("web","bed_invalid_priority");
     }
+    else{
+      EditBedForm.saveButton.disabled = true;
+      EditBedForm.Action.value = "SAVE";
+      EditBedForm.submit();
+    }
+  }
 
-    <%-- search service --%>
-    function searchInfoService(sObject){
-      if(sObject.value.length > 0){
-        openPopup("/_common/search/serviceInformation.jsp&ServiceID="+sObject.value + "&ViewCode=on");
+  function isNumber(val){
+    if(isNaN(val)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  function openFile(){
+    if(EditBedForm.EditLocation.value.length>0){
+       window.open("<%=MedwanQuery.getInstance().getConfigString("documentsdir","adt/documents/")+"/"+sEditLocation%>","","height=500, width=550, toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
+    }
+  }
+
+  function searchService(serviceUidField,serviceNameField){
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+  }
+
+  <%
+      if(sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")){
+          %>setTimeout('EditBedForm.EditName.focus();',500);<%
       }
-    }
-
-    function doNewBed(){
-        EditBedForm.newButton.disabled = true;
-        EditBedForm.Action.value = "NEW";
-        EditBedForm.EditName.value = "";
-        EditBedForm.EditPriority.value="";
-        EditBedForm.EditLocation.value="";
-        EditBedForm.EditComment.value="";
-        EditBedForm.EditUID.value="";
-        EditBedForm.submit();
-    }
-
-    function doDeleteBed(){
-        EditBedForm.deleteButton.disabled = true;
-	    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-	    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-	    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-	    if(answer==1){
-	        EditBedForm.Action.value = "DELETE";
-	        EditBedForm.submit();
-	    }
-    }
-
-    function doSave(){
-        if(EditBedForm.EditBedService.value == ""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_bed_service";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_bed_service",sWebLanguage)%>");
-        }else if(EditBedForm.EditName.value == ""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_bed_name";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_bed_name",sWebLanguage)%>");
-        }else if(!isNumber(EditBedForm.EditPriority.value)){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=bed_invalid_priority";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","bed_invalid_priority",sWebLanguage)%>");
-        }else{
-            EditBedForm.saveButton.disabled = true;
-            EditBedForm.Action.value = "SAVE";
-            EditBedForm.submit();
-        }
-    }
-
-    function isNumber(val){
-        if (isNaN(val)){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    function openFile(){
-        if (EditBedForm.EditLocation.value.length>0){
-            window.open("<%=MedwanQuery.getInstance().getConfigString("documentsdir","adt/documents/")+"/"+sEditLocation%>","","height=500, width=550, toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
-        }
-    }
-
-    function searchService(serviceUidField,serviceNameField){
-        openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
-    }
-
-	setTimeout('EditBedForm.EditName.focus();',500);
-<%-- End Edit Block --%>
+  %>   
 </script>

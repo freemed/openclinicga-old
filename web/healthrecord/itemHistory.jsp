@@ -20,6 +20,7 @@
     }
 %>
 <%=sCSSNORMAL%>
+
 <body title="<%=getTran("Web.Occup","medwan.common.click-for-graph",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/itemGraph.jsp"/>?itemType=<%=request.getParameter("itemType")%>';">
 <%
     String format = "";

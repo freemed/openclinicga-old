@@ -210,7 +210,7 @@
     <tr>
         <td class="admin"><%=getTran("Web.Occup","labrequest.hour",sWebLanguage)%></td>
         <td class="admin2">
-            <input id="hour" size="5" type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_HOUR" property="value"/>" onblur="validateText(this);limitLength(this);"/>
+            <input id="hour" size="5" type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_HOUR" property="value"/>" onblur="limitLength(this);"/>
             <a href="javascript:setCurrentTime('hour');">
                 <img src="<c:url value="/_img/icon_compose.gif"/>" class="link" style='vertical-align:bottom' title="<%=getTran("web","currenttime",sWebLanguage)%>" border="0"/>
             </a>
@@ -339,7 +339,7 @@
   
   <%-- SHOW REQUEST --%>
   function showRequest(serverid,transactionid){
-    window.open("<c:url value='/labos/manageLabResult_view.jsp'/>?ts=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
+    window.open("<c:url value='/labos/manageLabResult_view.jsp'/>?ts=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no");
   }
 
   <%
@@ -556,17 +556,7 @@
 
   <%-- DELETE LAB ANALYSIS --%>
   function deleteLA(rowid,monster){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-        answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-    }else{
-        answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       sLA = deleteRowFromArrayString(sLA,rowid.id);
       initLabAnalysisArray(sLA);
       removeFromMonsterList(monster);
@@ -737,10 +727,7 @@
   <%-- DELETE ALL LABANALYSIS --%>
   function deleteAllLA(){
     if(tblLA.rows.length > 1){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-      if(answer==1){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         deleteAllLANoConfirm();
       }
     }

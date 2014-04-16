@@ -37,7 +37,7 @@
   <tr>
     <td class="menu" width="10%">
       <%=getTran("Web.manage","labprofiles.cols.code",sWebLanguage)%>&nbsp;
-      <input type="text" name="FindProfileCode" class="text" size="20" value="<%=(action.equals("details")?"":sFindProfileCode)%>" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="FindProfileCode" class="text" size="20" value="<%=(action.equals("details")?"":sFindProfileCode)%>" onblur="limitLength(this);">
     </td>
 
     <td width="*">&nbsp;
@@ -498,7 +498,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
   <tr>
     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.manage","labprofiles.cols.code",sWebLanguage)%></td>
     <td class="admin2">
-        <input type="text" name="EditProfileCode" tabindex="1" class="text" value="<%=sEditProfileCode%>" size="20" onblur="validateText(this);limitLength(this);">
+        <input type="text" name="EditProfileCode" tabindex="1" class="text" value="<%=sEditProfileCode%>" size="20" onblur="limitLength(this);">
     </td>
   </tr>
 
@@ -506,7 +506,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
   <tr>
     <td class="admin"><%=getTran("Web.manage","labprofiles.cols.NL",sWebLanguage)%></td>
     <td class="admin2">
-        <input type="text" name="EditNL" class="text" tabindex="2" value="<%=sNL%>" size="50" onblur="validateText(this);limitLength(this);">
+        <input type="text" name="EditNL" class="text" tabindex="2" value="<%=sNL%>" size="50" onblur="limitLength(this);">
     </td>
   </tr>
 
@@ -514,7 +514,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
   <tr>
     <td class="admin"><%=getTran("Web.manage","labprofiles.cols.FR",sWebLanguage)%></td>
     <td class="admin2">
-        <input type="text" name="EditFR" class="text" tabindex="3" value="<%=sFR%>" size="50" onblur="validateText(this);limitLength(this);">
+        <input type="text" name="EditFR" class="text" tabindex="3" value="<%=sFR%>" size="50" onblur="limitLength(this);">
     </td>
   </tr>
 
@@ -547,7 +547,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                       <input type="text" name="LabLabel" class="text" size="30" READONLY>
                     </td>
                     <td>
-                      <input type="text" name="LabComment" class="text" size="20" onblur="validateText(this);limitLength(this);">
+                      <input type="text" name="LabComment" class="text" size="20" onblur="limitLength(this);">
                     </td>
                     <td>
                       <input type="button" class="button" tabindex="5" name="LabChooseButton" value="<%=getTran("Web","choose",sWebLanguage)%>" onclick='searchLabAnalysis();'>&nbsp;
@@ -672,11 +672,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 
                 <%-- REMOVE LABANALYSIS --%>
                 function removeLabAnalysis(labid,comment,labCodeOther,labCode){
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-                  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-                  if(answer==1){
+                  if(yesnoDialog("Web","areYouSureToDelete")){
                     editForm.LabID.value = labid;
                     editForm.Action.value = 'remLab';
                     editForm.LabComment.value = comment;
@@ -708,9 +704,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
       <script>
         function checkSave(){
           if(editForm.EditProfileCode.value.length == 0 || editForm.EditNL.value == "" || editForm.EditFR.value == ""){
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=dataMissing";
-            var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.manage","dataMissing",sWebLanguage)%>");
+            alertDialog("web.manage","datamissing");
 
                  if(editForm.EditProfileCode.value.length == 0){ editForm.EditProfileCode.focus(); }
             else if(editForm.EditNL.value == ""){ editForm.EditNL.focus(); }
@@ -727,17 +721,12 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 
 <%
     if(!action.equals("new")){
-        //if(activeUser.accessRights.get("occupmanagelabprofiles.delete")!=null){
         %>
           <input class="button" type="button" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
           <script>
             function checkDelete(){
               if(editForm.EditProfileCode.value.length > 0){
-                var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-                var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-                if(answer==1){
+                if(yesnoDialog("Web","areYouSureToDelete")){
                   editForm.Action.value = 'delete';
                   editForm.submit();
                 }
@@ -745,7 +734,6 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
             }
           </script>
         <%
-        //}
     }
 %>
   <input class="button" type="button" value="<%=getTran("web","reset",sWebLanguage)%>" onclick="doReset();">&nbsp;

@@ -99,7 +99,7 @@
   <tr>
     <td class="menu" colspan="2">
       &nbsp;<%=getTran("Web.manage","labanalysis.cols.code_name",sWebLanguage)%>&nbsp;
-      <input class="text" type="text" name="FindLabCode" size="18" value="<%=(sAction.equals("details")?"":sFindLabCode)%>" onblur="validateText(this);limitLength(this);">
+      <input class="text" type="text" name="FindLabCode" size="18" value="<%=(sAction.equals("details")?"":sFindLabCode)%>" onblur="limitLength(this);">
       <input class="button" type="submit" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
       <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
       <input class="button" type="submit" name="createButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
@@ -449,7 +449,7 @@
   <tr>
     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.manage","labanalysis.cols.code",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditLabCode" class="text" value="<%=sEditLabCode%>" size="20" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="EditLabCode" class="text" value="<%=sEditLabCode%>" size="20" onblur="limitLength(this);">
       <input type="checkbox" id="LabCodeOther" value="1" name="LabCodeOther" <%=(sLabCodeOther.equals("1")?"checked":"")%>><%=getLabel("web.occup","labanalysis.labCodeOther",sWebLanguage,"LabCodeOther")%>
     </td>
   </tr>
@@ -628,7 +628,7 @@
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.loinccode",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditMedidoccode" class="text" value="<%=sMedidoccode%>" size="50" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="EditMedidoccode" class="text" value="<%=sMedidoccode%>" size="50" onblur="limitLength(this);">
     </td>
   </tr>
   <%-- PRESTATION CODE --%>
@@ -776,10 +776,8 @@
             }
         %>
         ){
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=dataMissing";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("Web.manage","datamissing",sWebLanguage)%>");
-
+        alertDialog("web.manage","datamissing");
+        
              if(editForm.EditLabCode.value.length == 0){ editForm.EditLabCode.focus(); }
         else if(editForm.LabType.selectedIndex == 0){ editForm.LabType.focus(); }
         else if(editForm.EditLabGroup.selectedIndex == 0){ editForm.EditLabGroup.focus(); }
@@ -810,12 +808,7 @@
                 editForm.EditLabCode.focus();
               }
               else{
-                <%-- delete --%>
-                var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-                var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-                if(answer==1){
+            	if(yesnoDialog("Web","areYouSureToDelete")){
                   editForm.Action.value = 'delete';
                   editForm.submit();
                 }
@@ -827,10 +820,12 @@
   %>
   <input class="button" type="button" value="<%=getTran("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
   <br><br>
+  
   <%-- link to labprofiles --%>
   <img src='<c:url value="/_img/pijl.gif"/>'>
   <a  href="<c:url value="/main.jsp"/>?Page=system/manageLabProfiles.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
+
 <script>
   function showOverview(){
     window.location.href = '<c:url value="/main.jsp"/>?Page=system/manageLabAnalyses.jsp&ts=<%=getTs()%>';

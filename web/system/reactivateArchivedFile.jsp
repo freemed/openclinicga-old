@@ -77,11 +77,11 @@
         <%-- search fields : row 1 --%>
         <tr>
             <td width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","Name",sWebLanguage)%></td>
-            <td><input class="text" TYPE="TEXT" style="text-transform:uppercase" NAME="name" VALUE="<%=sName%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);"></td>
+            <td><input class="text" TYPE="TEXT" style="text-transform:uppercase" NAME="name" VALUE="<%=sName%>" size="<%=sTextWidth%>" onblur="limitLength(this);"></td>
         </tr>
         <tr>
             <td><%=getTran("Web","Firstname",sWebLanguage)%></td>
-            <td><input class="text" type="TEXT" style="text-transform:uppercase" name="firstname" value="<%=sFirstname%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);"></td>
+            <td><input class="text" type="TEXT" style="text-transform:uppercase" name="firstname" value="<%=sFirstname%>" size="<%=sTextWidth%>" onblur="limitLength(this);"></td>
         </tr>
         <tr>
             <td><%=getTran("Web","DateOfBirth",sWebLanguage)%></td>
@@ -90,15 +90,15 @@
         <%-- search fields : row 2 --%>
         <tr>
             <td><%=getTran("Web","natreg.short",sWebLanguage)%></td>
-            <td><input class="text" TYPE="TEXT" NAME="natreg" VALUE="<%=sNatreg%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);"></td>
+            <td><input class="text" TYPE="TEXT" NAME="natreg" VALUE="<%=sNatreg%>" size="<%=sTextWidth%>" onblur="limitLength(this);"></td>
         </tr>
         <tr>
             <td><%=getTran("Web","immatnew",sWebLanguage)%></td>
-            <td><input class="text" type="TEXT" style="text-transform:uppercase" name="immatnew" value="<%=sImmatnew%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);"></td>
+            <td><input class="text" type="TEXT" style="text-transform:uppercase" name="immatnew" value="<%=sImmatnew%>" size="<%=sTextWidth%>" onblur="limitLength(this);"></td>
         </tr>
         <tr>
             <td><%=getTran("Web","immatold",sWebLanguage)%></td>
-            <td><input class="text" type="TEXT" style="text-transform:uppercase" name="immatold" value="<%=sImmatold%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);"></td>
+            <td><input class="text" type="TEXT" style="text-transform:uppercase" name="immatold" value="<%=sImmatold%>" size="<%=sTextWidth%>" onblur="limitLength(this);"></td>
         </tr>
         <%-- BUTTONS --%>
         <tr>

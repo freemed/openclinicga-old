@@ -2,32 +2,32 @@
 <%@ page errorPage="/includes/error.jsp" %>
 <%@ include file="/includes/validateUser.jsp" %>
 <%!
-    public StringBuffer getActiveProblemsDisplay(AdminPerson activePatient, String sWebLanguage) {
+    public StringBuffer getActiveProblemsDisplay(AdminPerson activePatient, String sWebLanguage){
         StringBuffer sbProblemList = new StringBuffer();
 
         Vector activeProblems = Problem.getActiveProblems(activePatient.personid);
-        if (activeProblems.size() > 0) {
+        if (activeProblems.size() > 0){
             sbProblemList.append("<table width='100%' cellspacing='0'>" +
                                   "<tr class='admin'>" +
-                                   "<td>" + getTran("web.occup", "medwan.common.description", sWebLanguage) + "</td>" +
-                                   "<td>" + getTran("web.occup", "medwan.common.datebegin", sWebLanguage) + "</td>" +
+                                   "<td>"+getTran("web.occup", "medwan.common.description", sWebLanguage)+"</td>" +
+                                   "<td>"+getTran("web.occup", "medwan.common.datebegin", sWebLanguage)+"</td>" +
                                   "</tr>");
         }
         
         String sClass = "1";
-        for (int n = 0; n < activeProblems.size(); n++) {
+        for (int n = 0; n < activeProblems.size(); n++){
             if(sClass.length()==0) sClass = "1";
             else                   sClass = "";
 
             Problem activeProblem = (Problem) activeProblems.elementAt(n);
             String comment = "";
-            if (activeProblem.getComment().trim().length() > 0) {
-                comment = ":&nbsp;<i>" + activeProblem.getComment().trim() + "</i>";
+            if (activeProblem.getComment().trim().length() > 0){
+                comment = ":&nbsp;<i>"+activeProblem.getComment().trim()+"</i>";
             }
-            sbProblemList.append("<tr class='list" + sClass + "'><td><b>" + (activeProblem.getCode() != null && activeProblem.getCode().length() > 0 ? (activeProblem.getCode() + " " + MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType() + "code" + activeProblem.getCode(), sWebLanguage) + "</b>") : "") + comment + "</td><td>" + new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin()) + "</td></tr>");
+            sbProblemList.append("<tr class='list"+sClass+"'><td><b>"+(activeProblem.getCode() != null && activeProblem.getCode().length() > 0 ? (activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(), sWebLanguage)+"</b>") : "")+comment+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin())+"</td></tr>");
         }
 
-        if (activeProblems.size() > 0) {
+        if (activeProblems.size() > 0){
             sbProblemList.append("</table>");
         }
 
@@ -57,9 +57,9 @@
     String sEditProblemEndDate = checkString(request.getParameter("EditProblemEndDate"));
     String sEditProblemUID = checkString(request.getParameter("EditProblemUID"));
 
-    if (sAction.equals("SAVE")) {
+    if (sAction.equals("SAVE")){
         Problem tmpProblem = new Problem();
-        if (sEditProblemUID.length() > 0) {
+        if (sEditProblemUID.length() > 0){
             tmpProblem = Problem.get(sEditProblemUID);
         } else {
             tmpProblem.setCreateDateTime(ScreenHelper.getSQLDate(getDate()));
@@ -67,20 +67,20 @@
 
         tmpProblem.setCodeType(sEditProblemCodeType);
         tmpProblem.setCode(sEditProblemCode);
-        if (sEditProblemCertainty.length() > 0) {
+        if (sEditProblemCertainty.length() > 0){
             tmpProblem.setCertainty(Integer.parseInt(sEditProblemCertainty));
         }
-        if (sEditProblemGravity.length() > 0) {
+        if (sEditProblemGravity.length() > 0){
             tmpProblem.setGravity(Integer.parseInt(sEditProblemGravity));
         }
         tmpProblem.setComment(sEditProblemComment);
         tmpProblem.setPatientuid(sEditProblemPatient);
 
-        if (sEditProblemBeginDate.length() > 0) {
+        if (sEditProblemBeginDate.length() > 0){
             tmpProblem.setBegin(ScreenHelper.getSQLDate(sEditProblemBeginDate));
         }
 
-        if (sEditProblemEndDate.length() > 0) {
+        if (sEditProblemEndDate.length() > 0){
             tmpProblem.setEnd(ScreenHelper.getSQLDate(sEditProblemEndDate));
         } else {
             tmpProblem.setEnd(null);
@@ -94,22 +94,22 @@
         sEditProblemUID = tmpProblem.getUid();
     }
 
-    if (sAction.equals("DELETE")) {
+    if (sAction.equals("DELETE")){
         String sDeleteUID = checkString(request.getParameter("DeleteUID"));
 
-        if (sDeleteUID.length() > 0) {
+        if (sDeleteUID.length() > 0){
             Problem tmpProblem = Problem.get(sDeleteUID);
             tmpProblem.delete();
         }
         sAction = "";
     }
 
-    if (sEditProblemUID.length() > 0) {
+    if (sEditProblemUID.length() > 0){
         Problem tmpProblem = Problem.get(sEditProblemUID);
         sEditProblemCode = checkString(tmpProblem.getCode());
         sEditProblemCodeType = checkString(tmpProblem.getCodeType());
-        if (sEditProblemCode.length() > 0) {
-            sEditProblemCodeLabel = checkString(sEditProblemCode + " " + MedwanQuery.getInstance().getCodeTran(sEditProblemCodeType + "code" + sEditProblemCode, sWebLanguage));
+        if (sEditProblemCode.length() > 0){
+            sEditProblemCodeLabel = checkString(sEditProblemCode+" "+MedwanQuery.getInstance().getCodeTran(sEditProblemCodeType+"code"+sEditProblemCode, sWebLanguage));
         } else {
             sEditProblemCodeLabel = "";
         }
@@ -118,19 +118,19 @@
         sEditProblemCertainty = Integer.toString(tmpProblem.getCertainty());
         sEditProblemGravity = Integer.toString(tmpProblem.getGravity());
         sEditProblemPatient = tmpProblem.getPatientuid();
-        if (tmpProblem.getBegin() != null) {
+        if (tmpProblem.getBegin() != null){
             sEditProblemBeginDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpProblem.getBegin()));
         } else {
             sEditProblemBeginDate = "";
         }
-        if (tmpProblem.getEnd() != null) {
+        if (tmpProblem.getEnd() != null){
             sEditProblemEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpProblem.getEnd()));
         } else {
             sEditProblemEndDate = "";
         }
     }
 
-    if (sAction.equals("SEARCH")) {
+    if (sAction.equals("SEARCH")){
 %>
 <form name="FindProblemForm" id="FindProblemForm" method="POST"
       action="popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>">
@@ -145,7 +145,7 @@
                 <%=getTran("web", "from", sWebLanguage)%>&nbsp;
                 <%
                     String sBeginDate = "";
-                    if (sFindProblemBeginDate != null && sFindProblemBeginDate.length() > 0) {
+                    if (sFindProblemBeginDate != null && sFindProblemBeginDate.length() > 0){
                         sBeginDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sFindProblemBeginDate));
                     }
                     out.print(writeDateField("FindProblemBeginDate", "FindProblemForm", sBeginDate, sWebLanguage));
@@ -153,7 +153,7 @@
                 <%=getTran("web", "to", sWebLanguage)%>&nbsp;
                 <%
                     String sEndDate = "";
-                    if (sFindProblemEndDate != null && sFindProblemEndDate.length() > 0) {
+                    if (sFindProblemEndDate != null && sFindProblemEndDate.length() > 0){
                         sEndDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sFindProblemEndDate));
                     }
                     out.print(writeDateField("FindProblemEndDate", "FindProblemForm", sEndDate, sWebLanguage));
@@ -214,7 +214,7 @@
 <%
     }
 
-    if (sAction.equals("SEARCH") || sAction.equals("")) {
+    if (sAction.equals("SEARCH") || sAction.equals("")){
         StringBuffer sResultsActive = new StringBuffer();
         StringBuffer sResultsPassive = new StringBuffer();
         int iFoundActiveRecords = 0;
@@ -222,7 +222,7 @@
 
         try {
             String sSearchCode;
-            if (sFindProblemCode.length() > 0) {
+            if (sFindProblemCode.length() > 0){
                 sSearchCode = sFindProblemCode;
             } else {
                 sSearchCode = sFindProblemCodeLabel;
@@ -231,7 +231,7 @@
             Vector vProblems = Problem.selectProblems("", "", sFindProblemCodeType, sSearchCode, "", sFindProblemPatient,
                     sFindProblemBeginDate, sFindProblemEndDate, sFindProblemCertainty, sFindProblemGravity, "OC_PROBLEM_BEGIN DESC");
 
-            if (vProblems.size() == 0) {
+            if (vProblems.size() == 0){
 %>
 <script>window.location.href = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&Action=NEW&ts=<%=getTs()%>&PopupWidth=700&PopupHeight=300";</script>
 <%
@@ -244,18 +244,18 @@
         String sBegin, sEnd, sClassActive = "", sClassPassive = "", sClass, sOutput = "";
         java.util.Date tmpDate;
 
-        while (iter.hasNext()) {
+        while (iter.hasNext()){
             tmpProblem = (Problem) iter.next();
             tmpDate = tmpProblem.getEnd();
-            if (tmpProblem.getBegin() != null) {
+            if (tmpProblem.getBegin() != null){
                 sBegin = new SimpleDateFormat("dd/MM/yyyy").format(tmpProblem.getBegin());
             } else {
                 sBegin = "";
             }
 
-            if (tmpDate == null) {
+            if (tmpDate == null){
                 sEnd = "";
-                if (sClassActive.equals("")) {
+                if (sClassActive.equals("")){
                     sClassActive = "1";
                 } else {
                     sClassActive = "";
@@ -263,30 +263,30 @@
                 sClass = sClassActive;
             } else {
                 sEnd = new SimpleDateFormat("dd/MM/yyyy").format(tmpProblem.getEnd());
-                if (sClassPassive.equals("")) {
+                if (sClassPassive.equals("")){
                     sClassPassive = "1";
                 } else {
                     sClassPassive = "";
                 }
                 sClass = sClassPassive;
             }
-            if (activeUser.getAccessRight("occup.restricteddiagnosis.select") || !MedwanQuery.getInstance().isRestrictedDiagnosis(tmpProblem.getCodeType(), tmpProblem.getCode())) {
-                sOutput = "<tr class=\"list" + sClass + "\"" +
+            if (activeUser.getAccessRight("occup.restricteddiagnosis.select") || !MedwanQuery.getInstance().isRestrictedDiagnosis(tmpProblem.getCodeType(), tmpProblem.getCode())){
+                sOutput = "<tr class=\"list"+sClass+"\"" +
                         " onmouseover=\"this.style.cursor='hand';\"" +
                         " onmouseout=\"this.style.cursor='default';\">" +
-                        "<td>&nbsp;<img src='http://" + request.getServerName() + request.getContextPath() + "/_img/icon_delete.gif' alt='" + getTranNoLink("web", "delete", sWebLanguage) + "' border='0' onclick='doDelete(\"" + tmpProblem.getUid() + "\");'>&nbsp;</td>" +
+                        "<td>&nbsp;<img src='http://"+request.getServerName()+request.getContextPath()+"/_img/icon_delete.gif' alt='"+getTranNoLink("web", "delete", sWebLanguage)+"' border='0' onclick='doDelete(\""+tmpProblem.getUid()+"\");'>&nbsp;</td>" +
 
-                        "<td onclick=\"doSelect('" + tmpProblem.getUid() + "');\"><b>" + checkString(tmpProblem.getCode()) + "</b></td>" +
-                        "<td onclick=\"doSelect('" + tmpProblem.getUid() + "');\"><b>" + (tmpProblem.getCode() != null && tmpProblem.getCode().length() > 0 ? MedwanQuery.getInstance().getCodeTran(tmpProblem.getCodeType() + "code" + tmpProblem.getCode(), sWebLanguage) : "") + (tmpProblem.getCode() != null && tmpProblem.getCode().length() > 0 & tmpProblem.getComment().trim().length() > 0 ? ": " : "") + (tmpProblem.getComment().trim().length() > 0 ? "</b><i>" + tmpProblem.getComment() + "</i>" : "</b>") + "</td>" +
-                        "<td onclick=\"doSelect('" + tmpProblem.getUid() + "');\">" + sBegin + "</td>" +
-                        "<td onclick=\"doSelect('" + tmpProblem.getUid() + "');\">" + sEnd + "</td>" +
+                        "<td onclick=\"doSelect('"+tmpProblem.getUid()+"');\"><b>"+checkString(tmpProblem.getCode())+"</b></td>" +
+                        "<td onclick=\"doSelect('"+tmpProblem.getUid()+"');\"><b>"+(tmpProblem.getCode() != null && tmpProblem.getCode().length() > 0 ? MedwanQuery.getInstance().getCodeTran(tmpProblem.getCodeType()+"code"+tmpProblem.getCode(), sWebLanguage) : "")+(tmpProblem.getCode() != null && tmpProblem.getCode().length() > 0 & tmpProblem.getComment().trim().length() > 0 ? ": " : "")+(tmpProblem.getComment().trim().length() > 0 ? "</b><i>"+tmpProblem.getComment()+"</i>" : "</b>")+"</td>" +
+                        "<td onclick=\"doSelect('"+tmpProblem.getUid()+"');\">"+sBegin+"</td>" +
+                        "<td onclick=\"doSelect('"+tmpProblem.getUid()+"');\">"+sEnd+"</td>" +
                         "</tr>";
             } else {
-                sOutput = "<tr valign='top'><td/><td style='{color: red}'><b><i>!!!</i></b></td><td style='{color: red}'><b><i>" + getTran("web", "diagnosis.restrictedaccess", sWebLanguage).toUpperCase() + "</i></td><td>" + sBegin + "</td><td>" + sEnd + "</td></tr>";
+                sOutput = "<tr valign='top'><td/><td style='{color: red}'><b><i>!!!</i></b></td><td style='{color: red}'><b><i>"+getTran("web", "diagnosis.restrictedaccess", sWebLanguage).toUpperCase()+"</i></td><td>"+sBegin+"</td><td>"+sEnd+"</td></tr>";
             }
 
 
-            if (tmpDate == null || tmpDate.after(new java.util.Date())) {
+            if (tmpDate == null || tmpDate.after(new java.util.Date())){
                 sResultsActive.append(sOutput);
                 iFoundActiveRecords++;
             } else {
@@ -294,7 +294,7 @@
                 iFoundPassiveRecords++;
             }
         }
-    } catch (Exception e) {
+    } catch (Exception e){
         e.printStackTrace();
     }
 
@@ -321,10 +321,10 @@
         <td>&nbsp;</td>
     </tr>
     <%
-        if (iFoundActiveRecords > 0) {
-            out.print("<tr><td colspan='5'>&nbsp;" + iFoundActiveRecords + " " + getTran("web", "recordsfound", sWebLanguage) + "</td></tr>");
+        if (iFoundActiveRecords > 0){
+            out.print("<tr><td colspan='5'>&nbsp;"+iFoundActiveRecords+" "+getTran("web", "recordsfound", sWebLanguage)+"</td></tr>");
         } else {
-            out.print("<tr><td colspan='5'>&nbsp;" + getTran("web", "norecordsfound", sWebLanguage) + "</td></tr>");
+            out.print("<tr><td colspan='5'>&nbsp;"+getTran("web", "norecordsfound", sWebLanguage)+"</td></tr>");
         }
     %>
     <tr>
@@ -350,20 +350,20 @@
         <td>&nbsp;</td>
     </tr>
     <%
-        if (iFoundPassiveRecords > 0) {
-            out.print("<tr><td colspan='5'>&nbsp;" + iFoundPassiveRecords + " " + getTran("web", "recordsfound", sWebLanguage) + "</td></tr>");
+        if (iFoundPassiveRecords > 0){
+            out.print("<tr><td colspan='5'>&nbsp;"+iFoundPassiveRecords+" "+getTran("web", "recordsfound", sWebLanguage)+"</td></tr>");
         } else {
-            out.print("<tr><td colspan='5'>&nbsp;" + getTran("web", "norecordsfound", sWebLanguage) + "</td></tr>");
+            out.print("<tr><td colspan='5'>&nbsp;"+getTran("web", "norecordsfound", sWebLanguage)+"</td></tr>");
         }
     %>
     <tr>
         <td>&nbsp;</td>
     </tr>
     <%
-        if ((iFoundActiveRecords + iFoundPassiveRecords) > 0) {
-            out.print("<tr><td colspan='5'>&nbsp;" + getTran("web.occup", "total", sWebLanguage) + ": " + (iFoundActiveRecords + iFoundPassiveRecords) + " " + getTran("web", "recordsfound", sWebLanguage) + "</td></tr>");
+        if ((iFoundActiveRecords+iFoundPassiveRecords) > 0){
+            out.print("<tr><td colspan='5'>&nbsp;"+getTran("web.occup", "total", sWebLanguage)+": "+(iFoundActiveRecords+iFoundPassiveRecords)+" "+getTran("web", "recordsfound", sWebLanguage)+"</td></tr>");
         } else {
-            out.print("<tr><td colspan='5'>&nbsp;" + getTran("web", "norecordsfound", sWebLanguage) + "</td></tr>");
+            out.print("<tr><td colspan='5'>&nbsp;"+getTran("web", "norecordsfound", sWebLanguage)+"</td></tr>");
         }
     %>
 </table>
@@ -376,7 +376,7 @@
 <%
     }
 
-    if (sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")) {
+    if (sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")){
 %>
 <form name="EditProblemForm" id="EditProblemForm" method="POST"
       action="popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>">
@@ -390,7 +390,7 @@
             <td class="admin2">
                 <%
                     String sBeginDate;
-                    if (sEditProblemBeginDate != null && sEditProblemBeginDate.length() > 0) {
+                    if (sEditProblemBeginDate != null && sEditProblemBeginDate.length() > 0){
                         sBeginDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sEditProblemBeginDate));
                     } else {
                         sBeginDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(getDate()));
@@ -406,7 +406,7 @@
             <td class="admin2">
                 <%
                     String sEndDate = "";
-                    if (sEditProblemEndDate != null && sEditProblemEndDate.length() > 0) {
+                    if (sEditProblemEndDate != null && sEditProblemEndDate.length() > 0){
                         sEndDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sEditProblemEndDate));
                     }
 
@@ -480,7 +480,7 @@
 <%=ScreenHelper.alignButtonsStop()%>
 <%
     }
-    if (sAction.equals("SAVE")) {
+    if (sAction.equals("SAVE")){
 %>
 <script>
     window.location.href = '<c:url value="/"/>popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>&PopupWidth=700&PopupHeight=500';
@@ -489,95 +489,91 @@
     }
 %>
 <script>
-    window.resizeTo(700, 480);
-    function doFind() {
-        if (FindProblemForm.FindProblemBeginDate.value == ""
-                && FindProblemForm.FindProblemEndDate.value == ""
-                && FindProblemForm.FindProblemCode.value == ""
-                && FindProblemForm.FindProblemCodeLabel.value == ""
-                && FindProblemForm.FindProblemCodeType.value == ""
-                && FindProblemForm.FindProblemCertainty.value == ""
-                && FindProblemForm.FindProblemGravity.value == "") {
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-        } else {
-            FindProblemForm.FindButton.disabled = true;
-            FindProblemForm.Action.value = "SEARCH";
-            FindProblemForm.submit();
-        }
+  window.resizeTo(700, 480);
+    
+  function doFind(){
+    if(FindProblemForm.FindProblemBeginDate.value == ""
+        && FindProblemForm.FindProblemEndDate.value == ""
+        && FindProblemForm.FindProblemCode.value == ""
+        && FindProblemForm.FindProblemCodeLabel.value == ""
+        && FindProblemForm.FindProblemCodeType.value == ""
+        && FindProblemForm.FindProblemCertainty.value == ""
+        && FindProblemForm.FindProblemGravity.value == ""){
+        alertDialog("web.manage","datamissing");
     }
-
-
-    function doNew() {
-        window.location.href = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&Action=NEW&ts=<%=getTs()%>&PopupWidth=700&PopupHeight=300";
+    else {
+      FindProblemForm.FindButton.disabled = true;
+      FindProblemForm.Action.value = "SEARCH";
+      FindProblemForm.submit();
     }
+  }
 
-    function doBack() {
-        window.location.href = "<c:url value='/popup.jsp'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
+  function doNew(){
+    window.location.href = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&Action=NEW&ts=<%=getTs()%>&PopupWidth=700&PopupHeight=300";
+  }
+
+  function doBack(){
+    window.location.href = "<c:url value='/popup.jsp'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
+  }
+
+  function doClose(){
+    var URL = unescape(window.opener.location);
+    window.opener.location.href = URL;
+    window.close();
+  }
+
+  function doSearchBack(){
+    window.location.href = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&ts=<%=getTs()%>";
+  }
+
+  function empty(){
+    FindProblemForm.FindProblemBeginDate.value = "";
+    FindProblemForm.FindProblemEndDate.value = "";
+    FindProblemForm.FindProblemCode.value = "";
+    FindProblemForm.FindProblemCodeLabel.value = "";
+    FindProblemForm.FindProblemCodeType.value = "";
+    FindProblemForm.FindProblemCertainty.value = "";
+    FindProblemForm.FindProblemGravity.value = "";
+  }
+
+  function searchICPC(code, codelabel, codeType){
+    openPopup("/_common/search/searchICPC.jsp&ts=<%=getTs()%>&returnField="+code+"&returnField2="+codelabel+"&returnField3="+codeType+"&ListChoice=TRUE&ListMode=ALL", 700, 300);
+  }
+
+  function isNumber(val){
+    if(isNaN(val)){
+      return false;
+    } 
+    else{
+      return true;
     }
+  }
 
-    function doClose() {
-        var URL = unescape(window.opener.location);
-        window.opener.location.href = URL;
-        window.close();
+  function doSave(){
+    if(EditProblemForm.EditProblemBeginDate.value == ""){
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=medical&labelID=no_date";
+      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      (window.showModalDialog)?window.showModalDialog(popupUrl, '', modalities):window.confirm("<%=getTranNoLink("medical","no_date",sWebLanguage)%>");
     }
-
-    function doSearchBack() {
-        window.location.href = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&ts=<%=getTs()%>";
+    else if (EditProblemForm.EditProblemCode.value == "" && EditProblemForm.EditProblemComment.value == ""){
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=medical&labelID=no_code";
+      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+     (window.showModalDialog)?window.showModalDialog(popupUrl, '', modalities):window.confirm("<%=getTranNoLink("medical","no_code",sWebLanguage)%>");
     }
-
-    function empty() {
-        FindProblemForm.FindProblemBeginDate.value = "";
-        FindProblemForm.FindProblemEndDate.value = "";
-        FindProblemForm.FindProblemCode.value = "";
-        FindProblemForm.FindProblemCodeLabel.value = "";
-        FindProblemForm.FindProblemCodeType.value = "";
-        FindProblemForm.FindProblemCertainty.value = "";
-        FindProblemForm.FindProblemGravity.value = "";
+    else{
+      EditProblemForm.EditSaveButton.disabled = true;
+      EditProblemForm.Action.value = "SAVE";
+      EditProblemForm.submit();
     }
+  }
 
-    function searchICPC(code, codelabel, codeType) {
-        openPopup("/_common/search/searchICPC.jsp&ts=<%=getTs()%>&returnField=" + code + "&returnField2=" + codelabel + "&returnField3=" + codeType + "&ListChoice=TRUE&ListMode=ALL", 700, 300);
+  function doSelect(problem){
+    window.location = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&Action=SELECT&EditProblemUID="+problem+"&ts=<%=getTs()%>";
+  }
+
+  function doDelete(problem){
+    if(yesnoDialog("Web","areYouSureToDelete")){
+      window.location = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&Action=DELETE&DeleteUID="+problem+"&ts=<%=getTs()%>";
     }
-
-    function isNumber(val) {
-        if (isNaN(val)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    function doSave() {
-        if (EditProblemForm.EditProblemBeginDate.value == "") {
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=medical&labelID=no_date";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-            (window.showModalDialog)?window.showModalDialog(popupUrl, '', modalities):window.confirm("<%=getTranNoLink("medical","no_date",sWebLanguage)%>");
-        } else if (EditProblemForm.EditProblemCode.value == "" && EditProblemForm.EditProblemComment.value == "") {
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=medical&labelID=no_code";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl, '', modalities):window.confirm("<%=getTranNoLink("medical","no_code",sWebLanguage)%>");
-        } else {
-            EditProblemForm.EditSaveButton.disabled = true;
-            EditProblemForm.Action.value = "SAVE";
-            EditProblemForm.submit();
-        }
-    }
-
-    function doSelect(problem) {
-        window.location = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&Action=SELECT&EditProblemUID=" + problem + "&ts=<%=getTs()%>";
-    }
-
-    function doDelete(problem) {
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-
-        if (answer == 1) {
-            window.location = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&Action=DELETE&DeleteUID=" + problem + "&ts=<%=getTs()%>";
-        }
-    }
+  }
 </script>

@@ -65,11 +65,11 @@ if (activePatient!=null){
                     ObjectReference orContact;
                     ExaminationVO examination;
                     
-                    String sTextAdd = getTran("web", "add", sWebLanguage);
+                    String sTextAdd = getTran("web","add",sWebLanguage);
                     SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
                     Iterator iter = vPatientMissedPlannings.iterator();
-                    while (iter.hasNext()) {
+                    while(iter.hasNext()){
                         planning = (Planning)iter.next();
 
                         calPlanningStop = Calendar.getInstance();
@@ -77,21 +77,21 @@ if (activePatient!=null){
                         calPlanningStop.set(Calendar.SECOND, 00);
                         calPlanningStop.set(Calendar.MILLISECOND, 00);
 
-                        if (planning.getEstimatedtime().length() > 0) {
-                            try {
+                        if(planning.getEstimatedtime().length() > 0){
+                            try{
                                 aHour = planning.getEstimatedtime().split(":");
                                 calPlanningStop.setTime(planning.getPlannedDate());
-                                calPlanningStop.add(Calendar.HOUR, Integer.parseInt(aHour[0]));
-                                calPlanningStop.add(Calendar.MINUTE, Integer.parseInt(aHour[1]));
+                                calPlanningStop.add(Calendar.HOUR,Integer.parseInt(aHour[0]));
+                                calPlanningStop.add(Calendar.MINUTE,Integer.parseInt(aHour[1]));
                             }
-                            catch (Exception e1) {
+                            catch(Exception e1){
                                 calPlanningStop.setTime(planning.getPlannedDate());
                             }
                         }
 
                         // alternate row-style
-                        if (sClass.equals("")) sClass = "1";
-                        else                   sClass = "";
+                        if(sClass.equals("")) sClass = "1";
+                        else                  sClass = "";
 
                         %>
                             <tr class="list<%=sClass%>" >
@@ -101,10 +101,10 @@ if (activePatient!=null){
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(calPlanningStop.getTime())%></a></td>
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');">
                                     <%
-                                        if (planning.getUserUID().equals(activeUser.userid)){
+                                        if(planning.getUserUID().equals(activeUser.userid)){
                                             out.print("<b>"+ScreenHelper.getFullUserName(planning.getUserUID())+"</b>");
                                         }
-                                        else {
+                                        else{
                                             out.print(ScreenHelper.getFullUserName(planning.getUserUID()));
                                         }
                                     %>
@@ -112,14 +112,14 @@ if (activePatient!=null){
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');">
                                     <%
                                         orContact = planning.getContact();
-                                        if (orContact != null) {
-                                            if (orContact.getObjectType().equalsIgnoreCase("examination")) {
+                                        if(orContact != null){
+                                            if(orContact.getObjectType().equalsIgnoreCase("examination")){
                                                 examination = MedwanQuery.getInstance().getExamination(orContact.getObjectUid(), sWebLanguage);
                                                 if(checkString(planning.getTransactionUID()).length()==0){
                                                     out.print("<img src='_img/icon_add.gif' onclick='doExamination(\""+planning.getUid()+"\",\"" + planning.getPatientUID() + "\",\"" + examination.getTransactionType() + "\")' alt='" + sTextAdd + "' class='link'/> "
                                                         + getTran("examination", examination.getId().toString(), sWebLanguage));
                                                 }
-                                                else {
+                                                else{
                                                     String sTextFind = getTran("web", "find", sWebLanguage);
                                                     out.print("<img src='_img/icon_search.gif' onclick='openExamination(\""+planning.getTransactionUID().split("\\.")[0]+"\",\""+planning.getTransactionUID().split("\\.")[1]+"\",\"" + planning.getPatientUID() + "\",\"" + examination.getTransactionType() + "\")' alt='" + sTextFind + "' class='link'/> "
                                                         + getTran("examination", examination.getId().toString(), sWebLanguage));

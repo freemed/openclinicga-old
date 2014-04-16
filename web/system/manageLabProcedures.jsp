@@ -263,7 +263,7 @@
     function ajaxChangeSearchResults(urlForm, SearchForm, moreParams) {
         document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
         var url = urlForm;
-        var params = Form.serialize(SearchForm) + moreParams;
+        var params = Form.serialize(SearchForm)+moreParams;
         var myAjax = new Ajax.Updater(
                 "divFindRecords", url,
         {
@@ -319,74 +319,64 @@
 	     	else if(transactionForm.EditMaxBatchSize.value.length==0){
 	       		transactionForm.EditMaxBatchSize.focus();
 	     	}
-	
-	     	var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=dataMissing";
-	    	var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-	     	(window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web.manage","dataMissing",sWebLanguage)%>');
+
+	        alertDialog("web.manage","datamissing");
 	   	}
 	}
 	
 	function deleteLabProcedure(sLabProcedureUid){
-	   	var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-	   	var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-	   	var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>');
-	
-	   	if(answer==1){
-	     	transactionForm.EditLabProcedureUid.value = sLabProcedureUid;
-	     	transactionForm.Action.value = "delete";
-	     	transactionForm.submit();
-	   	}
+	  if(yesnoDialog("Web","areYouSureToDelete")){
+	   	transactionForm.EditLabProcedureUid.value = sLabProcedureUid;
+	   	transactionForm.Action.value = "delete";
+	   	transactionForm.submit();
+	  }
 	}
 	
 	function setLabProcedure(uid,descr){
-        var params = 'FindLabProcedureUid=' + uid;
-        var today = new Date();
-        var url= '<c:url value="/labos/getLabProcedure.jsp"/>?ts='+today;
-		new Ajax.Request(url,{
-				method: "GET",
-                parameters: params,
-                onSuccess: function(resp){
-                    var label = eval('('+resp.responseText+')');
-                    $('EditLabProcedureUid').value=uid;
-                    $('idlabel').innerHTML=uid;
-                    $('EditLabProcedureName').value=label.Name;
-                    $('EditMinBatchSize').value=label.MinBatchSize;
-                    $('EditMaxBatchSize').value=label.MaxBatchSize;
-                    $('EditMaxDelayInDays').value=label.MaxDelayInDays;
-                    $('EditReagents').value=label.Reagents;
-                    $('EditReagentsTable').innerHTML=label.ReagentsTable;
-                    $('EditReagentUid').value="";
-                    $('EditReagentName').value="";
-                    $('EditQuantity').value="";
-                    $('EditReagentUnit').value="";
-                },
-				onFailure: function(){
-					alert("error");
-                }
-			}
-		);
+      var params = 'FindLabProcedureUid='+uid;
+      var today = new Date();
+      var url = '<c:url value="/labos/getLabProcedure.jsp"/>?ts='+today;
+	  new Ajax.Request(url,{
+		method: "GET",
+        parameters: params,
+        onSuccess: function(resp){
+          var label = eval('('+resp.responseText+')');
+          $('EditLabProcedureUid').value=uid;
+          $('idlabel').innerHTML=uid;
+          $('EditLabProcedureName').value=label.Name;
+          $('EditMinBatchSize').value=label.MinBatchSize;
+          $('EditMaxBatchSize').value=label.MaxBatchSize;
+          $('EditMaxDelayInDays').value=label.MaxDelayInDays;
+          $('EditReagents').value=label.Reagents;
+          $('EditReagentsTable').innerHTML=label.ReagentsTable;
+          $('EditReagentUid').value="";
+          $('EditReagentName').value="";
+          $('EditQuantity').value="";
+          $('EditReagentUnit').value="";
+        },
+		onFailure: function(){
+		  alert("error");
+        }
+	  });
 	}
 	
 	function newProcedure(){
-        $('idlabel').innerHTML="";
-        $('EditLabProcedureUid').value="";
-        $('EditLabProcedureName').value="";
-        $('EditLabProcedureName').focus();
-        $('EditMinBatchSize').value="";
-        $('EditMaxBatchSize').value="";
-        $('EditMaxDelayInDays').value="";
-        $('EditReagents').value="";
-        $('EditReagentsTable').innerHTML="";
-        $('EditReagentUid').value="";
-        $('EditReagentName').value="";
-        $('EditQuantity').value="";
-        $('EditReagentUnit').value="";
+      $('idlabel').innerHTML="";
+      $('EditLabProcedureUid').value="";
+      $('EditLabProcedureName').value="";
+      $('EditLabProcedureName').focus();
+      $('EditMinBatchSize').value="";
+      $('EditMaxBatchSize').value="";
+      $('EditMaxDelayInDays').value="";
+      $('EditReagents').value="";
+      $('EditReagentsTable').innerHTML="";
+      $('EditReagentUid').value="";
+      $('EditReagentName').value="";
+      $('EditQuantity').value="";
+      $('EditReagentUnit').value="";
 	}
-
+	
 	window.setTimeout('document.getElementById("FindLabProcedureName").focus();',500);
 	searchProcedure();
 	fillReagentsTable();
-
 </script>
-
-

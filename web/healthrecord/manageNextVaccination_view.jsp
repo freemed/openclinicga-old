@@ -33,15 +33,15 @@
     <table border='0' width='100%' class='list' cellspacing="1">
         <tr>
             <td class='admin' width="30%"><%=getTran("Web.Occup","medwan.common.type",sWebLanguage)%>&nbsp;</td>
-            <td class='admin2'><input type="text" readonly class='text' size='20' name="item-type" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" property="value"/>" onblur="validateText(this);limitLength(this);"/></td>
+            <td class='admin2'><input type="text" readonly class='text' size='20' name="item-type" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" property="value"/>" onblur="limitLength(this);"/></td>
         </tr>
         <tr id="vaccination-name" style="display:none">
             <td class='admin'>&nbsp;</td>
-            <td class='admin2'><input type="text" class='text' size='20' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="value"/>" onblur="validateText(this);limitLength(this);"/></td>
+            <td class='admin2'><input type="text" class='text' size='20' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="value"/>" onblur="limitLength(this);"/></td>
         </tr>
         <tr>
             <td class='admin'><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.current-status",sWebLanguage)%>&nbsp;</td>
-            <td class='admin2'><input type="text" readonly class="text" size="20" name="old-status" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="value"/>" onblur="validateText(this);limitLength(this);"/></td>
+            <td class='admin2'><input type="text" readonly class="text" size="20" name="old-status" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="value"/>" onblur="limitLength(this);"/></td>
         </tr>
         <tr>
             <td class='admin'><%=getTran("Web.Occup","medwan.common.comment",sWebLanguage)%>&nbsp;</td>

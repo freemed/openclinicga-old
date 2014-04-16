@@ -457,11 +457,7 @@
 
   <%-- DO DELETE --%>
   function doDelete(serverid,transactionid,labcode){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = window.showModalDialog(popupUrl,'',modalities);
-
-    if(answer==1){
+	if(yesnoDialog("Web","areYouSureToDelete")){
       transactionForm.Action.value = "delete";
 
       transactionForm.EditServerId.value = serverid;

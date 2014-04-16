@@ -36,7 +36,7 @@
         <tr>
             <td class="admin" width="*"><%=getTran("Web.Occup","medwan.common.type",sWebLanguage)%>&nbsp;</td>
             <td class="admin2" width="80%">
-                <input type="text" readonly class="text" size="20" name="itemType" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" property="value"/>" onblur="validateText(this);limitLength(this);"/>
+                <input type="text" readonly class="text" size="20" name="itemType" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" property="value"/>" onblur="limitLength(this);"/>
             </td>
         </tr>
         
@@ -44,7 +44,7 @@
         <tr id="vaccination-name" style="display:none">
             <td class="admin">&nbsp;</td>
             <td class="admin2">
-                <input id="vname" type="text" class="text" size="20" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="value"/>" onblur="validateText(this);limitLength(this);"/>
+                <input id="vname" type="text" class="text" size="20" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="value"/>" onblur="limitLength(this);"/>
                 <%
                     // other vaccinations
                     String sOtherVaccins = MedwanQuery.getInstance().getConfigString("otherVaccinations");

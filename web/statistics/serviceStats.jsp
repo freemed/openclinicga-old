@@ -85,7 +85,7 @@
             <td><%=getTran("Web","service",sWebLanguage)%></td>
             <td colspan='2'>
                 <input type="hidden" name="ServiceID" value="<%=service%>">
-                <input class="text" type="text" name="ServiceName" readonly size="<%=sTextWidth%>" value="<%=serviceName%>" onblur="">
+                <input class="text" type="text" name="ServiceName" readonly size="<%=sTextWidth%>" value="<%=serviceName%>" >
                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('ServiceID','ServiceName');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="ServiceID.value='';ServiceName.value='';">
             </td>

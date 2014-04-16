@@ -600,18 +600,7 @@ if (sAntecedents.indexOf("£")>-1){
   }
 
   function deleteChildren(rowid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,"",modalitiesIE);
-    }
-    else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       sChildren = deleteRowFromArrayString(sChildren,rowid.id);
       tblChildren.deleteRow(rowid.rowIndex);
       clearChildrenFields();
@@ -712,18 +701,7 @@ if (sAntecedents.indexOf("£")>-1){
   }
 
   function deleteARV(rowid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,"",modalitiesIE);
-    }
-    else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       sARV = deleteRowFromArrayString(sARV,rowid.id);
       tblARV.deleteRow(rowid.rowIndex);
       clearARVFields();
@@ -832,18 +810,7 @@ function addAntecedents(){
   }
 
   function deleteAntecedents(rowid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,"",modalitiesIE);
-    }
-    else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       sAntecedents = deleteRowFromArrayString(sAntecedents,rowid.id);
       tblAntecedents.deleteRow(rowid.rowIndex);
       clearAntecedentsFields();

@@ -21,7 +21,9 @@
 
         if(!rs.next()){
             int userId = Integer.parseInt(activeUser.userid);
-            MedwanQuery.getInstance().storeLabel("activitycodes",activityCode,labelnl,labelfr,labelen,userId);
+            MedwanQuery.getInstance().storeLabel("activitycodes",activityCode,labelnl,activityCode,userId);
+            MedwanQuery.getInstance().storeLabel("activitycodes",activityCode,labelfr,activityCode,userId);
+            MedwanQuery.getInstance().storeLabel("activitycodes",activityCode,labelen,activityCode,userId);
             reloadSingleton(session);
             activityStored = true;
         }
@@ -32,6 +34,7 @@
         if(rs!=null) rs.close();
         if(ps!=null) ps.close();
 		ad_conn.close();
+		
         // message to user
         if(activityStored){
             %>
@@ -73,17 +76,17 @@
 
     <tr>
       <td class="admin"><%=labelTran%> NL</td>
-      <td class="admin2"><input class="text" type="text" name="labelnl" value="<%=labelnl%>" size="50" onblur="validateText(this);limitLength(this);"></td>
+      <td class="admin2"><input class="text" type="text" name="labelnl" value="<%=labelnl%>" size="50" onblur="limitLength(this);"></td>
     </tr>
 
     <tr>
       <td class="admin"><%=labelTran%> FR</td>
-      <td class="admin2"><input class="text" type="text" name="labelfr" value="<%=labelfr%>" size="50" onblur="validateText(this);limitLength(this);"></td>
+      <td class="admin2"><input class="text" type="text" name="labelfr" value="<%=labelfr%>" size="50" onblur="limitLength(this);"></td>
     </tr>
 
     <tr>
       <td class="admin"><%=labelTran%> EN</td>
-      <td class="admin2"><input class="text" type="text" name="labelen" value="<%=labelen%>" size="50" onblur="validateText(this);limitLength(this);"></td>
+      <td class="admin2"><input class="text" type="text" name="labelen" value="<%=labelen%>" size="50" onblur="limitLength(this);"></td>
     </tr>
   </table>
 

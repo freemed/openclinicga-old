@@ -62,7 +62,7 @@
     <tr>
         <td class="admin"><%=getTran("Web.Occup","medwan.common.driving-license-declaration.candidate-questionnaire.delivery-place",sWebLanguage)%></td>
         <td class="admin2">
-            <input type="text" class="text" size="40" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_DELIVERED_TO" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_DELIVERED_TO" property="value"/>" onblur="validateText(this);limitLength(this);">
+            <input type="text" class="text" size="40" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_DELIVERED_TO" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_DELIVERED_TO" property="value"/>" onblur="limitLength(this);">
         </td>
     </tr>
 
@@ -78,7 +78,7 @@
     <tr>
         <td class="admin"><%=getTran("Web.Occup","medwan.common.driving-license-declaration.candidate-questionnaire.valide-for-category",sWebLanguage)%></td>
         <td class="admin2">
-            <input type="text" class="text" size="40" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_CANDIDATE_CATEGORY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_CANDIDATE_CATEGORY" property="value"/>" onblur="validateText(this);limitLength(this);">
+            <input type="text" class="text" size="40" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_CANDIDATE_CATEGORY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_CANDIDATE_CATEGORY" property="value"/>" onblur="limitLength(this);">
         </td>
     </tr>
 
@@ -95,7 +95,7 @@
             <br>
             <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N  name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_EXAMINATION_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_EXAMINATION_DATE" property="value" formatType="date" format="dd-mm-yyyy"/>" id="nextdate" onBlur='if(checkDate(this)){ checkAfter("trandate",this); }'> <script>writeMyDate("nextdate","<c:url value="/_img/calbtn.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
             <br>
-            <input type="text" class="text" size="40" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_EXAMINATOR_NAME" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_EXAMINATOR_NAME" property="value"/>" onblur="validateText(this);limitLength(this);">
+            <input type="text" class="text" size="40" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_EXAMINATOR_NAME" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DLD_EXAMINATOR_NAME" property="value"/>" onblur="limitLength(this);">
         </td>
     </tr>
 

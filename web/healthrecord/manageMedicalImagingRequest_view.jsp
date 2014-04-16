@@ -46,7 +46,7 @@
         <tr>
             <td class='admin'><%=getTran("Web.Occup","othertype",sWebLanguage)%>&nbsp;</td>
             <td class='admin2'>
-                <input id="other" type="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_OTHER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_OTHER" property="value"/>" class="text" size="40" onblur="validateText(this);limitLength(this);">
+                <input id="other" type="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_OTHER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR_OTHER" property="value"/>" class="text" size="40" onblur="limitLength(this);">
             </td>
         </tr>
         <%-- REMARK --%>

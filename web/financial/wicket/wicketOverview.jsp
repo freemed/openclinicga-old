@@ -438,10 +438,7 @@
   <%-- SHOW OVERVIEW --%>
   function showOverview(){
     if(SearchForm.FindWicketUid.value.length==0){
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-
+      alertDialog("web.manage","datamissing");
       SearchForm.FindWicketUid.focus();
     }
     else{
@@ -520,12 +517,7 @@
 
   <%-- DELETE WICKET OPERATION --%>
   function deleteWicketOperation(wicketOpUid,type,wicketUid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       if(type=="Debet"){
         window.location.href = "<c:url value='/main.do'/>?Page=financial/wicket/manageWicketOperationDebet.jsp"+
                                "&EditWicketOperationUid="+wicketOpUid+

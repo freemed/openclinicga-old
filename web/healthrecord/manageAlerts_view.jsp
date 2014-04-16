@@ -19,7 +19,7 @@
         <tr>
             <td width ="<%=sTDAdminWidth%>" class='admin'><%=getTran("Web.Occup","medwan.common.name",sWebLanguage)%>&nbsp;</td>
             <td class='admin2'>
-                <input class="text" type="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_LABEL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_LABEL" property="value"/>" onblur="validateText(this);limitLength(this);">
+                <input class="text" type="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_LABEL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_LABEL" property="value"/>" onblur="limitLength(this);">
             </td>
         </tr>
         

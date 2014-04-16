@@ -300,8 +300,7 @@
         
   <%-- DELETE WEEKSCHEDULE --%>
   function deleteWeekschedule(){
-    var answer = yesnoDialog("web","areYouSureToDelete");   
-    if(answer==1){                 
+    if(yesnoDialog("Web","areYouSureToDelete")){              
       var url = "<c:url value='/system/ajax/defaultWeekschedules/deleteDefaultWeekschedule.jsp'/>?ts="+new Date().getTime();
 
       <%-- disable buttons --%>
@@ -719,8 +718,7 @@
   
   <%-- DELETE TIME BLOCK --%>
   function deleteTB(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete"); 
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       sTB = deleteRowFromArrayString(sTB,rowid.id);
       tblTB.deleteRow(rowid.rowIndex);
       clearTBFields();

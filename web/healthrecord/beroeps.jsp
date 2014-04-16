@@ -342,7 +342,7 @@
                     <td class="admin2">&nbsp;</td>
                     <td class="admin2"><%=writeDateField("BeroepsDateBegin", "transactionForm","",sWebLanguage)%></td>
                     <td class="admin2"><%=writeDateField("BeroepsDateEnd", "transactionForm","",sWebLanguage)%></td>
-                    <td class="admin2"><input type="text" class="text" name="BeroepsDescription" size="40" onblur="validateText(this);limitLength(this);"></td>
+                    <td class="admin2"><input type="text" class="text" name="BeroepsDescription" size="40" onblur="limitLength(this);"></td>
                     <td class="admin2">
                         <select class="text" name="BeroepsPA">
                             <option/>
@@ -384,7 +384,7 @@
                 <tr>
                     <td class="admin2"></td>
                     <td class="admin2"><%=writeDateField("ArbeidsOngevallenDate", "transactionForm","",sWebLanguage)%></td>
-                    <td class="admin2"><input type="text" class="text" name="ArbeidsOngevallenDescription" size="40" onblur="validateText(this);limitLength(this);"></td>
+                    <td class="admin2"><input type="text" class="text" name="ArbeidsOngevallenDescription" size="40" onblur="limitLength(this);"></td>
                     <td class="admin2"><input type="text" name="ArbeidsOngevallenBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');}"></td>
                     <td class="admin2">
                         <input type="button" class="button" name="ButtonAddArbeidsOngeval" onclick="addArbeidsOngeval()" value="<%=getTran("Web","add",sWebLanguage)%>">
@@ -420,7 +420,7 @@
                 <tr>
                     <td class="admin2"></td>
                     <td class="admin2"><%=writeDateField("BeroepsziektenDate", "transactionForm","",sWebLanguage)%></td>
-                    <td class="admin2"><input type="text" class="text" name="BeroepsziektenDescription" size="40" onblur="validateText(this);limitLength(this);"></td>
+                    <td class="admin2"><input type="text" class="text" name="BeroepsziektenDescription" size="40" onblur="limitLength(this);"></td>
                     <td class="admin2"><input type="text" name="BeroepsziektenBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');}"></td>
                     <td class="admin2">
                         <select name="BeroepsziektenErkenning" class="text">

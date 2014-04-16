@@ -284,10 +284,7 @@
 
   <%-- ASK DELETE --%>
   function askDelete(sID){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete&PopupHeight=300&PopupWidth=600";
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       AGCForm.Action.value = "Delete";
       AGCForm.RecordID.value = sID;
       AGCForm.submit();

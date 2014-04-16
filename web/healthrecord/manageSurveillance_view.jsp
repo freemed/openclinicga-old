@@ -1091,17 +1091,7 @@ function clearSignesVitauxFields(){
 }
 
 function deleteSignesVitaux(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalities);
-  }else{
-      answer = window.confirm("<%=getTran("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sSignesVitaux = deleteRowFromArrayString(sSignesVitaux,rowid.id);
     tblSignesVitaux.deleteRow(rowid.rowIndex);
     clearSignesVitauxFields();
@@ -1230,17 +1220,7 @@ function clearConscienceFields(){
 }
 
 function deleteConscience(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalities);
-  }else{
-      answer = window.confirm("<%=getTran("web","areyousuretodelete",sWebLanguage)%>")
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sConscience = deleteRowFromArrayString(sConscience,rowid.id);
     tblConscience.deleteRow(rowid.rowIndex);
     clearConscienceFields();
@@ -1356,17 +1336,7 @@ function clearBiometrieFields(){
 }
 
 function deleteBiometrie(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalities);
-  }else{
-      answer = window.confirm("<%=getTran("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sBiometrie = deleteRowFromArrayString(sBiometrie,rowid.id);
     tblBiometrie.deleteRow(rowid.rowIndex);
     clearBiometrieFields();
@@ -1506,17 +1476,7 @@ function clearBilanEntreeFields(){
 }
 
 function deleteBilanEntree(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalities);
-  }else{
-      answer = window.confirm("<%=getTran("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sBilanEntree = deleteRowFromArrayString(sBilanEntree,rowid.id);
     tblBilanEntree.deleteRow(rowid.rowIndex);
     clearBilanEntreeFields();
@@ -1667,17 +1627,7 @@ function clearSitNutriFields(){
 }
 
 function deleteSitNutri(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalities);
-  }else{
-      answer = window.confirm("<%=getTran("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sSitNutri = deleteRowFromArrayString(sSitNutri,rowid.id);
     tblSitNutri.deleteRow(rowid.rowIndex);
     clearSitNutriFields();

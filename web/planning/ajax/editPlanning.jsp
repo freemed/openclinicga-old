@@ -6,7 +6,7 @@
 <%@include file="/includes/validateUser.jsp" %>
 <%=checkPermission("planning", "select", activeUser)%><%!
     //--- INITIALIZE CALENDAR ---------------------------------------------------------------------
-    private Calendar initializeCalendar(String sDate, int iHour) {
+    private Calendar initializeCalendar(String sDate, int iHour){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(ScreenHelper.getSQLDate(sDate));
         calendar.set(Calendar.HOUR_OF_DAY, iHour);
@@ -48,8 +48,8 @@
                 bRefresh = true;
             }
 
-            Date beginDate =  fullDateFormat.parse(sPlanningDateDay + " " + sPlanningDateHour + ":" + sPlanningDateMinutes);
-            Date enddate = (fullDateFormat.parse(sPlanningDateDay + " " + sPlanningDateEndHour + ":" + sPlanningDateEndMinutes));
+            Date beginDate =  fullDateFormat.parse(sPlanningDateDay+" "+sPlanningDateHour+":"+sPlanningDateMinutes);
+            Date enddate = (fullDateFormat.parse(sPlanningDateDay+" "+sPlanningDateEndHour+":"+sPlanningDateEndMinutes));
             if(beginDate.compareTo(enddate)>-1){
                 // set begin date -5 min of end date if begin date is after the default end date
                 Calendar calendar = Calendar.getInstance();
@@ -85,15 +85,15 @@
             appointmentDateEndDay = "", appointmentDateEndHour = "", appointmentDateEndMinutes = "";
     Planning planning = null;
     String sInterval = checkString(activeUser.getParameter("PlanningFindInterval"));
-    if (sInterval.length() == 0) {
-        sInterval = 30 + "";
+    if (sInterval.length() == 0){
+        sInterval = 30+"";
     }
     String sFrom = checkString(activeUser.getParameter("PlanningFindFrom"));
-    if (sFrom.length() == 0) {
+    if (sFrom.length() == 0){
         sFrom = "8";
     }
     String sUntil = checkString(activeUser.getParameter("PlanningFindUntil"));
-    if (sUntil.length() == 0) {
+    if (sUntil.length() == 0){
         sUntil = "20";
     }
 
@@ -103,13 +103,13 @@
     int endMinOfWeekPlanner = (sUntil.split("\\.").length>1)?Integer.parseInt(sUntil.split("\\.")[1]):0;
 
 
-    if (sAction.equalsIgnoreCase("save")) {
+    if (sAction.equalsIgnoreCase("save")){
         try {
             //####################### IF APPOINTMENT TO SAVE ###################################//
             String sEditPlanningUID = checkString(request.getParameter("EditPlanningUID"));
             String sEditEstimatedtime = checkString(request.getParameter("EditEstimatedtime"));
-            String sEditEffectiveDate = checkString(request.getParameter("EditEffectiveDate")) + " " + checkString(request.getParameter("EditEffectiveDateTime"));
-            String sEditCancelationDate = checkString(request.getParameter("EditCancelationDate")) + " " + checkString(request.getParameter("EditCancelationDateTime"));
+            String sEditEffectiveDate = checkString(request.getParameter("EditEffectiveDate"))+" "+checkString(request.getParameter("EditEffectiveDateTime"));
+            String sEditCancelationDate = checkString(request.getParameter("EditCancelationDate"))+" "+checkString(request.getParameter("EditCancelationDateTime"));
             String sEditUserUID = checkString(request.getParameter("EditUserUID"));
             String sEditPatientUID = checkString(request.getParameter("EditPatientUID"));
             String sEditTransactionUID = checkString(request.getParameter("EditTransactionUID"));
@@ -144,13 +144,16 @@
             if(planning.store()){
                 if(sPage.length()==0){
                     out.write("<script>clientMsg.setValid('"+HTMLEntities.htmlentities(getTranNoLink("web.control","dataissaved",sWebLanguage))+"',null,500);doClose();</script>");
-                }else{
+                }
+                else{
                     out.write("<script>window.location.reload(true);Modalbox.hide();</script>");
                 }
-            }else{
+            }
+            else{
                 if(sPage.length()==0){
                     out.write("<script>clientMsg.setError('"+HTMLEntities.htmlentities(getTranNoLink("web.control","dberror",sWebLanguage))+"');</script>");
-                }else{
+                }
+                else{
                     if(sPage.length()==0){
                         out.write("<script>alert('"+HTMLEntities.htmlentities(getTranNoLink("web.control","dberror",sWebLanguage))+"');</script>");                        
                     }
@@ -158,10 +161,11 @@
             }
 
         }
-        catch (Exception e) {
+        catch (Exception e){
             Debug.printProjectErr(e, Thread.currentThread().getStackTrace());
         }
-    } else if (sAction.equalsIgnoreCase("delete")) {
+    } 
+    else if (sAction.equalsIgnoreCase("delete")){
         String sEditPlanningUID = checkString(request.getParameter("AppointmentID"));
         Planning.delete(sEditPlanningUID);
         if(sPage.length()==0){
@@ -169,7 +173,8 @@
         }else{
             out.write("<script>doClose();window.location.reload(true);</script>");
         }
-    } else if (sAction.equalsIgnoreCase("update")) {
+    } 
+    else if (sAction.equalsIgnoreCase("update")){
         //####################### IF TO APPOINTMENT DATE UPDATE ###################################//
         try {
             String sEditPlanningUID = checkString(request.getParameter("AppointmentID"));
@@ -181,11 +186,12 @@
 
             }
         }
-        catch (Exception e) {
+        catch (Exception e){
             out.write("<script>clientMsg.setError('"+HTMLEntities.htmlentities(getTranNoLink("web.control","dberror",sWebLanguage))+"');</script>");
             Debug.printProjectErr(e, Thread.currentThread().getStackTrace());
         }
-    } else if (sAction.equalsIgnoreCase("new")) {
+    } 
+    else if (sAction.equalsIgnoreCase("new")){
         //####################### IF NEW APPOINTMENT ###################################//
         planning = new Planning();
         if(activePatient!=null){
@@ -199,18 +205,18 @@
         }
         setDates(planning, request, fullDateFormat,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
         // appointment date
-        if (planning.getPlannedDate() != null) {
+        if (planning.getPlannedDate()!=null){
             appointmentDateDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedDate());
             appointmentDateHour = new SimpleDateFormat("HH").format(planning.getPlannedDate());
             appointmentDateMinutes = new SimpleDateFormat("mm").format(planning.getPlannedDate());
         } else {
             appointmentDateDay = "";
-            appointmentDateHour = new SimpleDateFormat("HH").format(sFrom + "");
+            appointmentDateHour = new SimpleDateFormat("HH").format(sFrom+"");
             appointmentDateMinutes = "";
         }
         // appointment edn date
         planning.setPlannedEndDate();
-        if (planning.getPlannedEndDate() != null) {
+        if (planning.getPlannedEndDate()!=null){
             appointmentDateEndDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedEndDate());
             appointmentDateEndHour = new SimpleDateFormat("HH").format(planning.getPlannedEndDate());
             appointmentDateEndMinutes = new SimpleDateFormat("mm").format(planning.getPlannedEndDate());
@@ -221,21 +227,22 @@
         }
 
         show = true;
-    } else if (sFindPlanningUID.length() > 0) {
+    } 
+    else if (sFindPlanningUID.length() > 0){
         //####################### IF EXISTS APPOINTMENT ###################################//
         planning = Planning.get(sFindPlanningUID);
         // appointment date
-        if (planning.getPlannedDate() != null) {
+        if (planning.getPlannedDate()!=null){
             appointmentDateDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedDate());
             appointmentDateHour = new SimpleDateFormat("HH").format(planning.getPlannedDate());
             appointmentDateMinutes = new SimpleDateFormat("mm").format(planning.getPlannedDate());
         } else {
             appointmentDateDay = "";
-            appointmentDateHour = new SimpleDateFormat("HH").format(sFrom + "");
+            appointmentDateHour = new SimpleDateFormat("HH").format(sFrom+"");
             appointmentDateMinutes = "";
         }
         // appointment edn date
-        if (planning.getPlannedEndDate() != null) {
+        if (planning.getPlannedEndDate()!=null){
             appointmentDateEndDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedEndDate());
             appointmentDateEndHour = new SimpleDateFormat("HH").format(planning.getPlannedEndDate());
             appointmentDateEndMinutes = new SimpleDateFormat("mm").format(planning.getPlannedEndDate());
@@ -246,8 +253,7 @@
         }
         show = true;
     }
-    if (show) {
-
+    if (show){
 %>
 
 <table class='list' border='0' width='630' cellspacing='1'>
@@ -256,21 +262,21 @@
         <td class="admin2">
             <%-- hour --%> <select id="appointmentDateHour" name="appointmentDateHour" class="text" onchange="updateSelect();">
             <%
-                for (int n = startHourOfWeekPlanner; n <= endHourOfWeekPlanner; n++) {
-                out.print("<option value='" + (n < 10 ? "0" + n : "" + n) + "' ");
-                if (appointmentDateHour.length() > 0 && n == Integer.parseInt(appointmentDateHour)) {
+                for (int n = startHourOfWeekPlanner; n <= endHourOfWeekPlanner; n++){
+                out.print("<option value='"+(n < 10 ? "0"+n : ""+n)+"' ");
+                if (appointmentDateHour.length() > 0 && n == Integer.parseInt(appointmentDateHour)){
                     out.print("selected");
                 }
-                out.print(">" + (n < 10 ? "0" + n : "" + n) + "</option>");
+                out.print(">"+(n < 10 ? "0"+n : ""+n)+"</option>");
             }%>
         </select> <%-- minutes --%>
          <select id="appointmentDateMinutes" name="appointmentDateMinutes" class="text">
-            <%for (int n = 0; n < 60; n=n+5) {
-                out.print("<option value='" + (n < 10 ? "0" + n : "" + n) + "' ");
-                if (appointmentDateMinutes.length() > 0 && n == Integer.parseInt(appointmentDateMinutes)) {
+            <%for (int n = 0; n < 60; n=n+5){
+                out.print("<option value='"+(n < 10 ? "0"+n : ""+n)+"' ");
+                if (appointmentDateMinutes.length() > 0 && n == Integer.parseInt(appointmentDateMinutes)){
                     out.print("selected");
                 }
-                out.print(">" + (n < 10 ? "0" + n : "" + n) + "</option>");
+                out.print(">"+(n < 10 ? "0"+n : ""+n)+"</option>");
             }%>
         </select><%=getTran("Web.occup", "medwan.common.hour", sWebLanguage)%>&nbsp;<%=ScreenHelper.planningDateTimeField("appointmentDateDay", appointmentDateEndDay, sWebLanguage, sCONTEXTPATH)%>
         </td>
@@ -280,21 +286,21 @@
         </td>
         <td class="admin2">
             <%-- hour --%> <select id="appointmentDateEndHour" name="appointmentDateEndHour" class="text" onchange="updateSelect();">
-            <%for (int n = startHourOfWeekPlanner; n <= endHourOfWeekPlanner; n++) {
-                out.print("<option value='" + (n < 10 ? "0" + n : "" + n) + "' ");
-                if (appointmentDateEndHour.length() > 0 && n == Integer.parseInt(appointmentDateEndHour)) {
+            <%for (int n = startHourOfWeekPlanner; n <= endHourOfWeekPlanner; n++){
+                out.print("<option value='"+(n < 10 ? "0"+n : ""+n)+"' ");
+                if (appointmentDateEndHour.length() > 0 && n == Integer.parseInt(appointmentDateEndHour)){
                     out.print("selected");
                 }
-                out.print(">" + (n < 10 ? "0" + n : "" + n) + "</option>");
+                out.print(">"+(n < 10 ? "0"+n : ""+n)+"</option>");
             }%>
         </select> <%-- minutes --%>
             <select id="appointmentDateEndMinutes" name="appointmentDateEndMinutes" class="text">
-                <%for (int n = 0; n < 60; n=n+5) {
-                    out.print("<option value='" + (n < 10 ? "0" + n : "" + n) + "' ");
-                    if (appointmentDateEndMinutes.length() > 0 && n == Integer.parseInt(appointmentDateEndMinutes)) {
+                <%for (int n = 0; n < 60; n=n+5){
+                    out.print("<option value='"+(n < 10 ? "0"+n : ""+n)+"' ");
+                    if (appointmentDateEndMinutes.length() > 0 && n == Integer.parseInt(appointmentDateEndMinutes)){
                         out.print("selected");
                     }
-                    out.print(">" + (n < 10 ? "0" + n : "" + n) + "</option>");
+                    out.print(">"+(n < 10 ? "0"+n : ""+n)+"</option>");
                 }%>
             </select><%=HTMLEntities.htmlentities(getTran("Web.occup", "medwan.common.hour", sWebLanguage))%>&nbsp;
 
@@ -331,16 +337,15 @@
         </td>
     </tr>
     <%
-        if (checkString(planning.getTransactionUID()).length() > 0) {
+        if(checkString(planning.getTransactionUID()).length() > 0){
             TransactionVO transaction = planning.getTransaction();
             String sTransactionType = "";
-            if (transaction != null) {
-                sTransactionType = getTran("web.occup", transaction.getTransactionType(), sWebLanguage);
+            if(transaction!=null){
+                sTransactionType = getTran("web.occup",transaction.getTransactionType(),sWebLanguage);
             }
     %>
     <tr>
-        <td class='admin'><%=getTran("planning", "transaction", sWebLanguage)%>
-        </td>
+        <td class='admin'><%=getTran("planning","transaction",sWebLanguage)%></td>
         <td class='admin2'>
             <input type="text" id="EditTransactionUID" name="EditTransactionUID" value="<%=planning.getTransactionUID()%>"/>
             <input class="text" type="text" readonly size="<%=sTextWidth%>" value="<%=new SimpleDateFormat("dd/MM/yyyy").format(transaction.getUpdateTime())+": "+sTransactionType%>"/>
@@ -348,28 +353,29 @@
     </tr>
     <%}%>
     <tr>
-        <td class='admin'><%=getTran("web", "prestation", sWebLanguage)%>
-        </td>
+        <td class='admin'><%=getTran("web","prestation",sWebLanguage)%></td>
         <td class='admin2'>
             <%
                 String sEditCheckProduct = "", sEditCheckExamination = "", sEditContactName = "";
                 ObjectReference orContact = planning.getContact();
-                if (orContact != null) {
-                    if (orContact.getObjectType().equalsIgnoreCase("examination")) {
+                if(orContact!=null){
+                    if(orContact.getObjectType().equalsIgnoreCase("examination")){
                         sEditCheckExamination = " checked";
 
                         ExaminationVO examination = MedwanQuery.getInstance().getExamination(orContact.getObjectUid(), sWebLanguage);
-                        if (examination != null) {
+                        if(examination!=null){
                             sEditContactName = HTMLEntities.htmlentities(getTran("web.occup", examination.getTransactionType(), sWebLanguage));
                         }
-                    } else if (orContact.getObjectType().equalsIgnoreCase("product")) {
+                    } 
+                    else if(orContact.getObjectType().equalsIgnoreCase("product")){
                         Product p = Product.get(orContact.getObjectUid());
                         if(p!=null){
                             sEditContactName = p.getName();
                         }
                         sEditCheckProduct = " checked";
                     }
-                } else {
+                } 
+                else{
                     orContact = new ObjectReference();
                 }
             %>
@@ -387,15 +393,14 @@
     </tr>
     <div id="trContext">
         <tr>
-            <td class='admin'><%=getTran("web", "context", sWebLanguage)%>
-            </td>
+            <td class='admin'><%=getTran("web","context",sWebLanguage)%></td>
             <td class='admin2'>
                 <select class="text" name="EditContext" id="EditContext">
                     <option value=""/>
                     <%
                         // list possible contexts from XML-file
-                        String sDoc = MedwanQuery.getInstance().getConfigString("templateSource") + "contexts.xml";
-                        if (sDoc.length() > 0) {
+                        String sDoc = MedwanQuery.getInstance().getConfigString("templateSource")+"contexts.xml";
+                        if(sDoc.length() > 0){
                             SAXReader reader = new SAXReader(false);
                             Document document = reader.read(new URL(sDoc));
                             Iterator elements = document.getRootElement().elementIterator("context");
@@ -404,20 +409,20 @@
                             Element contextElement;
                             String contextName;
                             Hashtable contexts = new Hashtable();
-                            while (elements.hasNext()) {
-                                contextElement = (Element) elements.next();
-                                contextName = getTran("Web.Occup", contextElement.attribute("id").getValue(), sWebLanguage);
-                                contexts.put(contextName, contextElement);
+                            while(elements.hasNext()){
+                                contextElement = (Element)elements.next();
+                                contextName = getTran("Web.Occup",contextElement.attribute("id").getValue(),sWebLanguage);
+                                contexts.put(contextName,contextElement);
                             }
 
                             // sort hash on context-name
                             Vector contextNames = new Vector(contexts.keySet());
                             Collections.sort(contextNames);
                             Iterator contextIter = contextNames.iterator();
-                            while (contextIter.hasNext()) {
-                                contextName = (String) contextIter.next();
-                                contextElement = (Element) contexts.get(contextName);
-                                out.print("<option value='" + contextElement.attribute("id").getValue() + "' " + (contextElement.attribute("id").getValue().equalsIgnoreCase(planning.getContextID()) ? "selected" : "") + ">" + HTMLEntities.htmlentities(contextName) + "</option>");
+                            while(contextIter.hasNext()){
+                                contextName = (String)contextIter.next();
+                                contextElement = (Element)contexts.get(contextName);
+                                out.print("<option value='"+contextElement.attribute("id").getValue()+"' "+(contextElement.attribute("id").getValue().equalsIgnoreCase(planning.getContextID()) ? "selected" : "")+">"+HTMLEntities.htmlentities(contextName)+"</option>");
                             }
                         }
                     %>
@@ -426,20 +431,18 @@
         </tr>
     </div>
     <tr>
-        <td class='admin'><%=HTMLEntities.htmlentities(getTran("planning", "description", sWebLanguage))%>
-        </td>
-        <td class='admin2'><%=writeTextarea("EditDescription", "", "", "", HTMLEntities.htmlentities(checkString(planning.getDescription())))%>
-        </td>
+        <td class='admin'><%=HTMLEntities.htmlentities(getTran("planning","description",sWebLanguage))%></td>
+        <td class='admin2'><%=writeTextarea("EditDescription","","","",HTMLEntities.htmlentities(checkString(planning.getDescription())))%></td>
     </tr>
     <tr>
         <td class="admin"/>
         <td class="admin2">
             <input type="hidden" id="EditPage" value="<%=sPage%>" />
-            <%-- Buttons --%><%if (activeUser.getAccessRight("planning.add") || activeUser.getAccessRight("planning.edit")) {%>
-            <input class='button' type="button" name="buttonSave" id="buttonSaveEditPlanning" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="saveAppointment();">&nbsp;<%
-            }
-            if ((sFindPlanningUID.length() > 0) && (activeUser.getAccessRight("planning.delete"))) {
-        %>
+            <%-- Buttons --%>
+            <%if(activeUser.getAccessRight("planning.add") || activeUser.getAccessRight("planning.edit")){%>
+            <input class='button' type="button" name="buttonSave" id="buttonSaveEditPlanning" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="saveAppointment();">&nbsp;
+            <%}
+            if((sFindPlanningUID.length() > 0) && (activeUser.getAccessRight("planning.delete"))){%>
             <input class='button' type="button" name="buttonDelete" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="deleteAppointment2();">&nbsp;<%}%>
             <input class='button' type="button" name="buttonBack" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doClose();">
         </td>
@@ -447,19 +450,19 @@
     <tr>
         <td class="admin"/>
         <td class="admin2">
-            <%=getTran("Web", "colored_fields_are_obligate", sWebLanguage)%>. <input type="hidden" name="Action"/>
+            <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>. <input type="hidden" name="Action"/>
         </td>
     </tr>
 </table>
 
 <input type="hidden" id="EditPlanningUID" name="EditPlanningUID" value="<%=sFindPlanningUID%>"/>
 <script>
-    checkContext();
-    changeInputColor();
-    updateSelect = function(){
-        setCorrectAppointmentDate(<%=startHourOfWeekPlanner+","+startMinOfWeekPlanner+","+endHourOfWeekPlanner+","+endMinOfWeekPlanner%>);
-    }
-    updateSelect();
+  checkContext();
+  changeInputColor();
+  updateSelect = function(){
+    setCorrectAppointmentDate(<%=startHourOfWeekPlanner+","+startMinOfWeekPlanner+","+endHourOfWeekPlanner+","+endMinOfWeekPlanner%>);
+  }
+  updateSelect();
 </script>
 </div>
 <%}

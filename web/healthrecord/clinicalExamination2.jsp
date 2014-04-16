@@ -26,7 +26,7 @@
     </tr>
     <tr>
         <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.anamnese.other",sWebLanguage)%></td>
-        <td class="admin2"><input <%=setRightClick("[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER")%> type="text" class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER" property="value"/>" onblur="validateText(this);limitLength(this);"></td>
+        <td class="admin2"><input <%=setRightClick("[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER")%> type="text" class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER" property="value"/>" onblur="limitLength(this);"></td>
     </tr>
     <tr>
         <td class="title" colspan="2">

@@ -444,7 +444,7 @@
                             <option value="6">&gt; 4</option>
                         </select>
                         &nbsp;&nbsp;<%=getTran("Web.Occup","hoursAWeek",sWebLanguage)%>
-                        <input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS")%> type="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS" property="itemId"/>]>.value" class="text" size="40" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS" property="value"/>" onblur="validateText(this);limitLength(this);">
+                        <input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS")%> type="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS" property="itemId"/>]>.value" class="text" size="40" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS" property="value"/>" onblur="limitLength(this);">
                     </td>
                 </tr>
             </table>

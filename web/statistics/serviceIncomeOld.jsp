@@ -29,7 +29,7 @@
         </tr>
         <tr>
         	<td><%=getTran("Web","service",sWebLanguage) %></td><td colspan='2'><input type='hidden' name='statserviceid' id='statserviceid' value='<%=service %>'>
-        		<input class='text' type='text' name='statservicename' id='statservicename' readonly size='40' value='<%=serviceName %>' onblur=''>
+        		<input class='text' type='text' name='statservicename' id='statservicename' readonly size='40' value='<%=serviceName %>'>
         		<img src='_img/icon_search.gif' class='link' alt='<%=getTran("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
         		<img src='_img/icon_delete.gif' class='link' alt='<%=getTran("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
         	</td>

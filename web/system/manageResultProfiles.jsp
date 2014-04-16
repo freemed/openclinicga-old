@@ -69,7 +69,7 @@
   <tr>
     <td width="<%=sTDAdminWidth%>"> <%=getTran("Web.manage","labprofiles.cols.code",sWebLanguage)%></td>
     <td>
-      <input type="text" name="FindProfileCode" class="text" size="20" value="<%=(sAction.equals("details")?"":sFindProfileCode)%>" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="FindProfileCode" class="text" size="20" value="<%=(sAction.equals("details")?"":sFindProfileCode)%>" onblur="limitLength(this);">
 
       <input class="button" type="submit" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
       <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
@@ -370,7 +370,7 @@
   <tr>
     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.manage","labprofiles.cols.code",sWebLanguage)%></td>
     <td class="admin2">
-        <input type="text" name="EditProfileCode"  class="text" value="<%=sEditProfileCode%>" size="20" onblur="validateText(this);limitLength(this);">
+        <input type="text" name="EditProfileCode"  class="text" value="<%=sEditProfileCode%>" size="20" onblur="limitLength(this);">
     </td>
   </tr>
   <%-- LABEL --%>
@@ -418,7 +418,7 @@
                       <input type="text" name="LabLabel" class="text" size="30" READONLY>
                     </td>
                     <td>
-                      <input type="text" name="LabComment" class="text" size="20" onblur="validateText(this);limitLength(this);">
+                      <input type="text" name="LabComment" class="text" size="20" onblur="limitLength(this);">
                     </td>
                     <td>
                       <input type="button" class="button"  name="LabChooseButton" value="<%=getTran("Web","choose",sWebLanguage)%>" onclick="searchLabAnalysis();">&nbsp;
@@ -610,9 +610,7 @@
             }
         %>
       ){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=dataMissing";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","datamissing");
 
              if(editForm.EditProfileCode.value.length == 0){ editForm.EditProfileCode.focus(); }
         <%

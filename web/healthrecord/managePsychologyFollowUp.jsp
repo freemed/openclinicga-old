@@ -93,7 +93,7 @@
     <tr>
         <td class="admin" width="10%"><%=getTran("web","referenceperson",sWebLanguage)%>&nbsp;</td>
         <td class="admin2">
-            <input class="text" type="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYFU_REFERENCEPERSON" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYFU_REFERENCEPERSON" property="value"/>" onblur="validateText(this);limitLength(this);">
+            <input class="text" type="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYFU_REFERENCEPERSON" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYFU_REFERENCEPERSON" property="value"/>" onblur="limitLength(this);">
         </td>
     </tr>
     
@@ -101,7 +101,7 @@
     <tr>
         <td class="admin" width="10%"><%=getTran("web","psychologist",sWebLanguage)%>&nbsp;</td>
         <td class="admin2">
-            <input class="text" type="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYFU_PSYCHOLOGIST" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYFU_PSYCHOLOGIST" property="value"/>" onblur="validateText(this);limitLength(this);">
+            <input class="text" type="text" size="50" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYFU_PSYCHOLOGIST" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PSYFU_PSYCHOLOGIST" property="value"/>" onblur="limitLength(this);">
         </td>
     </tr>
     
@@ -138,9 +138,9 @@
 		     	<tr>
 	                <td class="admin2"></td>
 	                <td class="admin2"><%=writeDateField("PsychologyDate", "transactionForm","",sWebLanguage)%></td>
-	                <td class="admin2"><input type="text" class="text" name="PsychologyTime" size="8" onblur="validateText(this);limitLength(this);"></td>
-	                <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" name="PsychologyObservation" cols="80" onblur="validateText(this);limitLength(this);"></textarea></td>
-	                <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" name="PsychologyConclusion" cols="80" onblur="validateText(this);limitLength(this);"></textarea></td>
+	                <td class="admin2"><input type="text" class="text" name="PsychologyTime" size="8" onblur="limitLength(this);"></td>
+	                <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" name="PsychologyObservation" cols="80" onblur="limitLength(this);"></textarea></td>
+	                <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" name="PsychologyConclusion" cols="80" onblur="limitLength(this);"></textarea></td>
 	                <td class="admin2">
 	                    <input type="button" class="button" name="ButtonAddPsychology" onclick="addPsychology()" value="<%=getTran("Web","add",sWebLanguage)%>">
 	                    <input type="button" class="button" name="ButtonUpdatePsychology" onclick="updatePsychology()" value="<%=getTran("Web","edit",sWebLanguage)%>">
@@ -232,16 +232,7 @@ function isAtLeastOnePsychologyFieldFilled(){
 }
 
 function deletePsychology(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-    if(window.showModalDialog){
-        answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-    }else{
-        answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sPsychology = deleteRowFromArrayString(sPsychology,rowid.id);
     tblPsychology.deleteRow(rowid.rowIndex);
     clearPsychologyFields();

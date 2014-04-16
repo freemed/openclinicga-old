@@ -528,7 +528,7 @@
   
   <%-- DELETE SHORTCUT --%>
   function deleteShortcut(){
-    if(yesnoDialogDirectText('<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>')==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       disableButtons();
      
       var select = document.getElementById("ShortcutType");

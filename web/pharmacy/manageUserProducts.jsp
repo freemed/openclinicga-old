@@ -299,10 +299,7 @@
     <%-- required fields --%>
     if(!transactionForm.EditProductUid.value.length>0 || !transactionForm.EditProductName.value.length>0){
       maySubmit = false;
-
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+      alertDialog("web.manage","datamissing");
     }
 
     return maySubmit;
@@ -310,10 +307,7 @@
 
   <%-- DO DELETE PRODUCT --%>
   function doDeleteProduct(productUid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       transactionForm.EditProductUid.value = productUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();

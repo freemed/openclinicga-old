@@ -12,7 +12,7 @@
       }
 
       if($("ajaxLoader")!=null){
-        if($("ajaxLoader").style.display == "none" && Ajax.activeRequestCount>0){
+        if($("ajaxLoader").style.display=="none" && Ajax.activeRequestCount>0){
           $("ajaxLoader").style.display = "block";
         }
       }
@@ -25,7 +25,7 @@
       }
 
       if($("ajaxLoader")!=null){
-        if($("ajaxLoader").style.display == "block" && Ajax.activeRequestCount==0){
+        if($("ajaxLoader").style.display=="block" && Ajax.activeRequestCount==0){
           $("ajaxLoader").style.display = "none";
         }
       }

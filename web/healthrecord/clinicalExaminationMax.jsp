@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.style-de-vie",sWebLanguage)%></td>
-            <td class="admin2"><input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_LIFE_STYLE")%> type="text" class="text" size="97" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_LIFE_STYLE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_LIFE_STYLE" property="value"/>" onblur="validateText(this);limitLength(this);"></td>
+            <td class="admin2"><input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_LIFE_STYLE")%> type="text" class="text" size="97" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_LIFE_STYLE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_LIFE_STYLE" property="value"/>" onblur="limitLength(this);"></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.medicaments",sWebLanguage)%></td>
@@ -78,11 +78,11 @@
         </tr>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.cofee-usage",sWebLanguage)%></td>
-            <td class="admin2"><input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_COFFEE_USAGE")%> type="text" class="text" size="97" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COFFEE_USAGE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COFFEE_USAGE" property="value"/>" onblur="validateText(this);limitLength(this);"></td>
+            <td class="admin2"><input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_COFFEE_USAGE")%> type="text" class="text" size="97" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COFFEE_USAGE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_COFFEE_USAGE" property="value"/>" onblur="limitLength(this);"></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.etat-familial-et-social",sWebLanguage)%></td>
-            <td class="admin2"><input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_SOCIAL_AND_FAMILIAL_STATUS")%> type="text" class="text" size="97" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SOCIAL_AND_FAMILIAL_STATUS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SOCIAL_AND_FAMILIAL_STATUS" property="value"/>" onblur="validateText(this);limitLength(this);"></td>
+            <td class="admin2"><input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_SOCIAL_AND_FAMILIAL_STATUS")%> type="text" class="text" size="97" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SOCIAL_AND_FAMILIAL_STATUS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SOCIAL_AND_FAMILIAL_STATUS" property="value"/>" onblur="limitLength(this);"></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.sports",sWebLanguage)%></td>
@@ -97,7 +97,7 @@
                     <option value="6">&gt; 4</option>
                 </select>
                 &nbsp;&nbsp;<%=getTran("Web.Occup","hoursAWeek",sWebLanguage)%>
-                <input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS")%> type="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS" property="itemId"/>]>.value" class="text" size="40" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS" property="value"/>" onblur="validateText(this);limitLength(this);">
+                <input <%=setRightClick("[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS")%> type="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS" property="itemId"/>]>.value" class="text" size="40" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_SPORTS" property="value"/>" onblur="limitLength(this);">
             </td>
         </tr>
         <tr>

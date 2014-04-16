@@ -60,19 +60,10 @@
 </table>
 
 <script>
-	function cancelOperation(uid){
-	  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-	  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-	  var answer;
-
-	    if(window.showModalDialog){
-	        answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-	    }else{
-	        answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-	    }
-	  if(answer==1){
-			document.getElementById('deleteoperation').value=uid;
-			document.transactionForm.submit();
-	  }
-	}
+  function cancelOperation(uid){
+    if(yesnoDialog("Web","areYouSureToDelete")){
+      document.getElementById('deleteoperation').value=uid;
+      document.transactionForm.submit();
+    }
+  }
 </script>

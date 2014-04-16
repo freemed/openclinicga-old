@@ -1261,18 +1261,7 @@ function clearSignesVitauxFields(){
 }
 
 function deleteSignesVitaux(rowid){
-  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-    answer = window.showModalDialog(popupUrl,"",modalities);
-  }
-  else{
-    answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sSignesVitaux = deleteRowFromArrayString(sSignesVitaux,rowid.id);
     tblSignesVitaux.deleteRow(rowid.rowIndex);
     clearSignesVitauxFields();
@@ -1411,18 +1400,7 @@ function clearSignesVitauxRespFields(){
 }
 
 function deleteSignesVitauxResp(rowid){
-  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalities);
-  }
-  else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sSignesVitauxResp = deleteRowFromArrayString(sSignesVitauxResp,rowid.id);
     tblSignesVitauxResp.deleteRow(rowid.rowIndex);
     clearSignesVitauxRespFields();
@@ -1569,18 +1547,7 @@ function clearConscienceFields(){
 }
 
 function deleteConscience(rowid){
-  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-    answer = window.showModalDialog(popupUrl,'',modalities);
-  }
-  else{
-    answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>")
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sConscience = deleteRowFromArrayString(sConscience,rowid.id);
     tblConscience.deleteRow(rowid.rowIndex);
     clearConscienceFields();
@@ -1702,18 +1669,7 @@ function clearBiometrieFields(){
 }
 
 function deleteBiometrie(rowid){
-  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-    answer = window.showModalDialog(popupUrl,'',modalities);
-  }
-  else{
-    answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sBiometrie = deleteRowFromArrayString(sBiometrie,rowid.id);
     tblBiometrie.deleteRow(rowid.rowIndex);
     clearBiometrieFields();
@@ -1859,18 +1815,7 @@ function clearBilanEntreeFields(){
 }
 
 function deleteBilanEntree(rowid){
-  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-    answer = window.showModalDialog(popupUrl,'',modalities);
-  }
-  else{
-    answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sBilanEntree = deleteRowFromArrayString(sBilanEntree,rowid.id);
     tblBilanEntree.deleteRow(rowid.rowIndex);
     clearBilanEntreeFields();
@@ -2044,18 +1989,7 @@ function clearSitNutriFields(){
 }
 
 function deleteSitNutri(rowid){
-  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-    answer = window.showModalDialog(popupUrl,'',modalities);
-  }
-  else{
-    answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sSitNutri = deleteRowFromArrayString(sSitNutri,rowid.id);
     tblSitNutri.deleteRow(rowid.rowIndex);
     clearSitNutriFields();

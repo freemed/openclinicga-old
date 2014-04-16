@@ -611,18 +611,7 @@ if (sSummary.indexOf("£")>-1){
   }
 
   function deleteSuivi(rowid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,"",modalitiesIE);
-    }
-    else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       sSuivi = deleteRowFromArrayString(sSuivi,rowid.id);
       tblSuivi.deleteRow(rowid.rowIndex);
       clearSuiviFields();
@@ -640,9 +629,6 @@ if (sSummary.indexOf("£")>-1){
     editSuiviRowid = rowid;
     transactionForm.ButtonUpdateSuivi.disabled = false;
   }
-
-
-
 
   function addSummary(){
     if(isAtLeastOneSummaryFieldFilled()){
@@ -744,18 +730,7 @@ if (sSummary.indexOf("£")>-1){
   }
 
   function deleteSummary(rowid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,"",modalitiesIE);
-    }
-    else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       sSummary = deleteRowFromArrayString(sSummary,rowid.id);
       tblSummary.deleteRow(rowid.rowIndex);
       clearSummaryFields();
@@ -774,7 +749,7 @@ if (sSummary.indexOf("£")>-1){
     transactionForm.ButtonUpdateSummary.disabled = false;
   }
 
-<%-- SET CELL STYLE --%>
+  <%-- SET CELL STYLE --%>
   function setCellStyle(row){
     for(var i=0; i<row.cells.length; i++){
       row.cells[i].style.color = "#333333";

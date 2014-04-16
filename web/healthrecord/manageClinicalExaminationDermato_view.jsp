@@ -46,7 +46,7 @@
                 </tr>
                 <tr>
                     <td class="admin" colspan="2"><%=getTran("Web.Occup","medwan.healthrecord.anamnese.other",sWebLanguage)%></td>
-                    <td class="admin2" colspan="4"><input <%=setRightClick("[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER")%> type="text" class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER" property="value"/>" onblur="validateText(this);limitLength(this);"></td>
+                    <td class="admin2" colspan="4"><input <%=setRightClick("[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER")%> type="text" class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.ANAMNESE]ITEM_TYPE_OTHER" property="value"/>" onblur="limitLength(this);"></td>
                 </tr>
                 <tr class="admin">
                     <td colspan="6"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%>/td>
@@ -86,7 +86,7 @@
                 </tr>
                 <tr>
                     <td class="admin" colspan="2"><%=getTran("Web.Occup","medwan.healthrecord.anamnese.other",sWebLanguage)%></td>
-                    <td class="admin2" colspan="4"><input <%=setRightClick("[DERMATOLOGIE.DIAGNOSE]ITEM_TYPE_OTHER")%> type="text" class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.DIAGNOSE]ITEM_TYPE_OTHER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.DIAGNOSE]ITEM_TYPE_OTHER" property="value"/>" onblur="validateText(this);limitLength(this);"></td>
+                    <td class="admin2" colspan="4"><input <%=setRightClick("[DERMATOLOGIE.DIAGNOSE]ITEM_TYPE_OTHER")%> type="text" class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.DIAGNOSE]ITEM_TYPE_OTHER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[DERMATOLOGIE.DIAGNOSE]ITEM_TYPE_OTHER" property="value"/>" onblur="limitLength(this);"></td>
                 </tr>
             </table>
         </td>

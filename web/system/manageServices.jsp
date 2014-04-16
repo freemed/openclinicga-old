@@ -358,11 +358,7 @@
   <%-- DO DELETE --%>
   function doDelete(serviceId){
     if(serviceId.length > 0){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-      if(answer==1){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         transactionForm.Action.value = "delete";
         transactionForm.submit();
       }
@@ -506,7 +502,7 @@
                 <tr>
                     <td class="admin"> <%=getTran("Web","Zipcode",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" class="text" name="EditServiceZipcode" value="<%=service.zipcode%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);findZipcodeLanguageSpecified(EditServiceZipcode,EditServiceCity,'buttonServiceZipcode','<%=service.language%>');">
+                        <input type="text" class="text" name="EditServiceZipcode" value="<%=service.zipcode%>" size="<%=sTextWidth%>" onblur="limitLength(this);findZipcodeLanguageSpecified(EditServiceZipcode,EditServiceCity,'buttonServiceZipcode','<%=service.language%>');">
                         <%=ScreenHelper.writeZipcodeButton("buttonServiceZipcode","EditServiceZipcode","EditServiceCity",sWebLanguage,service.language,sCONTEXTPATH)%>
                     </td>
                 </tr>
@@ -754,14 +750,14 @@
                 <tr>
                     <td class="admin"> <%=getTran("Web","address",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" class="text" name="EditContactAddress" value="<%=service.contactaddress%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);">
+                        <input type="text" class="text" name="EditContactAddress" value="<%=service.contactaddress%>" size="<%=sTextWidth%>" onblur="limitLength(this);">
                     </td>
                 </tr>
                 <%-- ContactZipcode --%>
                 <tr>
                     <td class="admin"> <%=getTran("Web","zipcode",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" class="text" name="EditContactZipcode" value="<%=service.contactzipcode%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);findZipcodeLanguageSpecified(EditContactZipcode,EditContactCity,'buttonContactZipcode','<%=service.language%>');">
+                        <input type="text" class="text" name="EditContactZipcode" value="<%=service.contactzipcode%>" size="<%=sTextWidth%>" onblur="limitLength(this);findZipcodeLanguageSpecified(EditContactZipcode,EditContactCity,'buttonContactZipcode','<%=service.language%>');">
                         <%=ScreenHelper.writeZipcodeButton("buttonContactZipcode","EditContactZipcode","EditContactCity",sWebLanguage,service.language,sCONTEXTPATH)%>
                     </td>
                 </tr>
@@ -769,14 +765,14 @@
                 <tr>
                     <td class="admin"> <%=getTran("Web","city",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" class="text" name="EditContactCity" value="<%=service.contactcity%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);">
+                        <input type="text" class="text" name="EditContactCity" value="<%=service.contactcity%>" size="<%=sTextWidth%>" onblur="limitLength(this);">
                     </td>
                 </tr>
                 <%-- ContactCountry --%>
                 <tr>
                     <td class="admin"> <%=getTran("Web","Country",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" readonly class="text" name="EditContactCountryText" value="<%=sContactCountryText%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);">
+                        <input type="text" readonly class="text" name="EditContactCountryText" value="<%=sContactCountryText%>" size="<%=sTextWidth%>" onblur="limitLength(this);">
                         <%=ScreenHelper.writeSearchButton("buttonContactCountry", "Country", "EditContactCountry", "EditContactCountryText", "",sWebLanguage,sCONTEXTPATH)%>
                         <input type="hidden" name="EditContactCountry" value="<%=service.contactcountry%>">
                     </td>
@@ -785,21 +781,21 @@
                 <tr>
                     <td class="admin"> <%=getTran("Web","telephone",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" class="text" name="EditContactTelephone" value="<%=service.contacttelephone%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);">
+                        <input type="text" class="text" name="EditContactTelephone" value="<%=service.contacttelephone%>" size="<%=sTextWidth%>" onblur="limitLength(this);">
                     </td>
                 </tr>
                 <%-- ContactFax --%>
                 <tr>
                     <td class="admin"> <%=getTran("Web","fax",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" class="text" name="EditContactFax" value="<%=service.contactfax%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);">
+                        <input type="text" class="text" name="EditContactFax" value="<%=service.contactfax%>" size="<%=sTextWidth%>" onblur="limitLength(this);">
                     </td>
                 </tr>
                 <%-- ContactEmail --%>
                 <tr>
                     <td class="admin"> <%=getTran("Web","email",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type="text" class="text" name="EditContactEmail" value="<%=service.contactemail%>" size="<%=sTextWidth%>" onblur="validateText(this);limitLength(this);">
+                        <input type="text" class="text" name="EditContactEmail" value="<%=service.contactemail%>" size="<%=sTextWidth%>" onblur="limitLength(this);">
                     </td>
                 </tr>
             </table>
@@ -877,19 +873,13 @@
                       transactionForm.submit();
                     }
                     else{
-                        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-                        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-
+                        alertDialog("web.manage","datamissing");
                         emptyLabelField.focus();
                     }
                   }
                   else{
-                    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-                    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-
-
+                    alertDialog("web.manage","datamissing");
+                    
                     if(transactionForm.EditServiceCode.value.length == 0){
                       transactionForm.EditServiceCode.focus();
                     }

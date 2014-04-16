@@ -205,11 +205,7 @@
   <%-- DO DELETE --%>
   function doDelete(CategoryId){
     if(CategoryId.length > 0){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-      if(answer==1){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         transactionForm.Action.value = "delete";
         transactionForm.submit();
       }
@@ -323,46 +319,41 @@
 
               <%-- DO SAVE --%>
               function doSave(){
-                  if(transactionForm.EditCategoryCode.value.length>0){
-                    var allLabelsHaveAValue = true;
-                    var emptyLabelField = "";
+                if(transactionForm.EditCategoryCode.value.length>0){
+                  var allLabelsHaveAValue = true;
+                  var emptyLabelField = "";
 
-                    <%
-                        tokenizer = new StringTokenizer(supportedLanguages,",");
-                        while(tokenizer.hasMoreTokens()){
-                            tmpLang = tokenizer.nextToken();
+                  <%
+                      tokenizer = new StringTokenizer(supportedLanguages,",");
+                      while(tokenizer.hasMoreTokens()){
+                          tmpLang = tokenizer.nextToken();
 
-                            %>
-                                transactionForm.EditLabelValue<%=tmpLang%>.value = trim(transactionForm.EditLabelValue<%=tmpLang%>.value);
+                          %>
+                              transactionForm.EditLabelValue<%=tmpLang%>.value = trim(transactionForm.EditLabelValue<%=tmpLang%>.value);
 
-                                if(allLabelsHaveAValue){
-                                  if(transactionForm.EditLabelValue<%=tmpLang%>.value.length == 0){
-                                    allLabelsHaveAValue = false;
-                                    emptyLabelField = transactionForm.EditLabelValue<%=tmpLang%>;
-                                  }
+                              if(allLabelsHaveAValue){
+                                if(transactionForm.EditLabelValue<%=tmpLang%>.value.length == 0){
+                                  allLabelsHaveAValue = false;
+                                  emptyLabelField = transactionForm.EditLabelValue<%=tmpLang%>;
                                 }
-                            <%
-                        }
-                    %>
+                              }
+                          <%
+                      }
+                  %>
 
-                    if(allLabelsHaveAValue){
-                      transactionForm.saveButton.disabled = true;
-                      transactionForm.Action.value = "save";
-                      transactionForm.submit();
-                    }
-                    else{
-                        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-                        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-
-                        emptyLabelField.focus();
-                    }
+                  if(allLabelsHaveAValue){
+                    transactionForm.saveButton.disabled = true;
+                    transactionForm.Action.value = "save";
+                    transactionForm.submit();
                   }
                   else{
-                    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-                    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+                    alertDialog("web.manage","datamissing");
+                    emptyLabelField.focus();
                   }
+                }
+                else{
+                  alertDialog("web.manage","datamissing");
+                }
               }
             </script>
         <%

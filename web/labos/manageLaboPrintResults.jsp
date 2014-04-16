@@ -75,7 +75,7 @@
     </form>
     <script>
         function showRequest(serverid,transactionid){
-            window.open("<c:url value='/popup.jsp'/>?Page=labos/manageLabResult_view.jsp&s=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
+            window.open("<c:url value='/popup.jsp'/>?Page=labos/manageLabResult_view.jsp&s=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no");
         }
     </script>
 <%

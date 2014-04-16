@@ -2,18 +2,18 @@
 <%@page errorPage="/includes/error.jsp" %>
 <%=checkPermission("occup.delivery", "select", activeUser)%><%=sJSDIAGRAM%>
 <%!
-    private String convertTimeToNbForGraph(String s) {
-        if (s.equals("15")) {
+    private String convertTimeToNbForGraph(String s){
+        if(s.equals("15")){
             s = "25";
-        } else if (s.equals("30")) {
+        } else if(s.equals("30")){
             s = "50";
-        } else if (s.equals("45")) {
+        } else if(s.equals("45")){
             s = "75";
         }
 
         return s;
     }
-    private StringBuffer addDilatation(int iTotal, String sHour, String sMinutes, String sOpening, String sWebLanguage) {
+    private StringBuffer addDilatation(int iTotal, String sHour, String sMinutes, String sOpening, String sWebLanguage){
         StringBuffer sTmp = new StringBuffer();
         sTmp.append(
                 "<tr id='rowDilatation" + iTotal + "'>" +
@@ -27,7 +27,7 @@
         );
         return sTmp;
     }
-    private StringBuffer addEngagement(int iTotal, String sHour, String sMinutes, String sGrade, String sWebLanguage) {
+    private StringBuffer addEngagement(int iTotal, String sHour, String sMinutes, String sGrade, String sWebLanguage){
         StringBuffer sTmp = new StringBuffer();
         sTmp.append(
                 "<tr id='rowEngagement" + iTotal + "'>" +
@@ -41,7 +41,7 @@
         );
         return sTmp;
     }
-    private StringBuffer addAction(int iTotal, String sHour, String sMinutes, String sLetter, String sWebLanguage) {
+    private StringBuffer addAction(int iTotal, String sHour, String sMinutes, String sLetter, String sWebLanguage){
         StringBuffer sTmp = new StringBuffer();
         sTmp.append(
                 "<tr id='rowAction" + iTotal + "'>" +
@@ -77,24 +77,24 @@
     int iDilatationTotal = 1;
     TransactionVO tran = (TransactionVO) transaction;
     sDilatation.append(getItemType(tran.getItems(), sPREFIX + "ITEM_TYPE_DELIVERY_WORK_DILATATION"));
-    if (sDilatation.indexOf("£") > -1) {
+    if(sDilatation.indexOf("£") > -1){
         StringBuffer sTmpDilatation = sDilatation;
         String sTmpHour, sTmpOpening, sTmpMinutes;
         sDilatation = new StringBuffer();
 
-        while (sTmpDilatation.toString().toLowerCase().indexOf("$") > -1) {
+        while (sTmpDilatation.toString().toLowerCase().indexOf("$") > -1){
             sTmpHour = "";
             sTmpOpening = "";
             sTmpMinutes = "";
-            if (sTmpDilatation.toString().toLowerCase().indexOf("£") > -1) {
+            if(sTmpDilatation.toString().toLowerCase().indexOf("£") > -1){
                 sTmpHour = sTmpDilatation.substring(0, sTmpDilatation.toString().toLowerCase().indexOf("£"));
                 sTmpDilatation = new StringBuffer(sTmpDilatation.substring(sTmpDilatation.toString().toLowerCase().indexOf("£") + 1));
             }
-            if (sTmpDilatation.toString().toLowerCase().indexOf("£") > -1) {
+            if(sTmpDilatation.toString().toLowerCase().indexOf("£") > -1){
                 sTmpMinutes = sTmpDilatation.substring(0, sTmpDilatation.toString().toLowerCase().indexOf("£"));
                 sTmpDilatation = new StringBuffer(sTmpDilatation.substring(sTmpDilatation.toString().toLowerCase().indexOf("£") + 1));
             }
-            if (sTmpDilatation.toString().toLowerCase().indexOf("$") > -1) {
+            if(sTmpDilatation.toString().toLowerCase().indexOf("$") > -1){
                 sTmpOpening = sTmpDilatation.substring(0, sTmpDilatation.toString().toLowerCase().indexOf("$"));
                 sTmpDilatation = new StringBuffer(sTmpDilatation.substring(sTmpDilatation.toString().toLowerCase().indexOf("$") + 1));
             }
@@ -107,23 +107,23 @@
             sDivEngagement = new StringBuffer();
     int iEngagementTotal = 1;
     sEngagement.append(getItemType(tran.getItems(), sPREFIX + "ITEM_TYPE_DELIVERY_WORK_ENGAGEMENT"));
-    if (sEngagement.indexOf("£") > -1) {
+    if(sEngagement.indexOf("£") > -1){
         StringBuffer sTmpEngagement = sEngagement;
         String sTmpHour, sTmpGrade, sTmpMinutes;
         sEngagement = new StringBuffer();
-        while (sTmpEngagement.toString().toLowerCase().indexOf("$") > -1) {
+        while (sTmpEngagement.toString().toLowerCase().indexOf("$") > -1){
             sTmpHour = "";
             sTmpGrade = "";
             sTmpMinutes = "";
-            if (sTmpEngagement.toString().toLowerCase().indexOf("£") > -1) {
+            if(sTmpEngagement.toString().toLowerCase().indexOf("£") > -1){
                 sTmpHour = sTmpEngagement.substring(0, sTmpEngagement.toString().toLowerCase().indexOf("£"));
                 sTmpEngagement = new StringBuffer(sTmpEngagement.substring(sTmpEngagement.toString().toLowerCase().indexOf("£") + 1));
             }
-            if (sTmpEngagement.toString().toLowerCase().indexOf("£") > -1) {
+            if(sTmpEngagement.toString().toLowerCase().indexOf("£") > -1){
                 sTmpMinutes = sTmpEngagement.substring(0, sTmpEngagement.toString().toLowerCase().indexOf("£"));
                 sTmpEngagement = new StringBuffer(sTmpEngagement.substring(sTmpEngagement.toString().toLowerCase().indexOf("£") + 1));
             }
-            if (sTmpEngagement.toString().toLowerCase().indexOf("$") > -1) {
+            if(sTmpEngagement.toString().toLowerCase().indexOf("$") > -1){
                 sTmpGrade = sTmpEngagement.substring(0, sTmpEngagement.toString().toLowerCase().indexOf("$"));
                 sTmpEngagement = new StringBuffer(sTmpEngagement.substring(sTmpEngagement.toString().toLowerCase().indexOf("$") + 1));
             }
@@ -136,23 +136,23 @@
             sDivAction = new StringBuffer();
     int iActionTotal = 1;
     sAction.append(getItemType(tran.getItems(), sPREFIX + "ITEM_TYPE_DELIVERY_WORK_ACTION"));
-    if (sAction.indexOf("£") > -1) {
+    if(sAction.indexOf("£") > -1){
         StringBuffer sTmpAction = sAction;
         String sTmpHour, sTmpLetter, sTmpMinutes;
         sAction = new StringBuffer();
-        while (sTmpAction.toString().toLowerCase().indexOf("$") > -1) {
+        while (sTmpAction.toString().toLowerCase().indexOf("$") > -1){
             sTmpHour = "";
             sTmpLetter = "";
             sTmpMinutes = "";
-            if (sTmpAction.toString().toLowerCase().indexOf("£") > -1) {
+            if(sTmpAction.toString().toLowerCase().indexOf("£") > -1){
                 sTmpHour = sTmpAction.substring(0, sTmpAction.toString().toLowerCase().indexOf("£"));
                 sTmpAction = new StringBuffer(sTmpAction.substring(sTmpAction.toString().toLowerCase().indexOf("£") + 1));
             }
-            if (sTmpAction.toString().toLowerCase().indexOf("£") > -1) {
+            if(sTmpAction.toString().toLowerCase().indexOf("£") > -1){
                 sTmpMinutes = sTmpAction.substring(0, sTmpAction.toString().toLowerCase().indexOf("£"));
                 sTmpAction = new StringBuffer(sTmpAction.substring(sTmpAction.toString().toLowerCase().indexOf("£") + 1));
             }
-            if (sTmpAction.toString().toLowerCase().indexOf("$") > -1) {
+            if(sTmpAction.toString().toLowerCase().indexOf("$") > -1){
                 sTmpLetter = sTmpAction.substring(0, sTmpAction.toString().toLowerCase().indexOf("$"));
                 sTmpAction = new StringBuffer(sTmpAction.substring(sTmpAction.toString().toLowerCase().indexOf("$") + 1));
             }
@@ -372,7 +372,7 @@
             <td class="admin2">
                 <select class="text" id="beginHourSelect" onchange="setNewTime()">
                     <option/>
-                    <%for (int i = 0; i < 24; i++) {%>
+                    <%for(int i = 0; i < 24; i++){%>
                     <option value="<%=i%>"><%=i%></option>
                 <%}%>
                 </select> :
@@ -563,7 +563,7 @@
                         <td class="admin2">
                             <select class="text" id="dilatationHour" name="dilatationHour">
                                 <option/>
-                                <%for (int i = 0; i < 24; i++) {%>
+                                <%for(int i = 0; i < 24; i++){%>
                                 <option value="<%=i%>"><%=i%>
                                 </option>
                                 <%}%>
@@ -577,7 +577,7 @@
                         <td class="admin2" style="vertical-align:top;">
                             <select class="text" name="dilatationOpening">
                                 <option/>
-                                <%for (int i = 0; i < 11; i++) {%>
+                                <%for(int i = 0; i < 11; i++){%>
                                 <option value="<%=i%>"><%=i%>
                                 </option>
                                 <%}%>
@@ -600,19 +600,19 @@
                         var graphActionObjects = new Array();
                         var earlierBackupTime;
                         var barTop;
-                        function setNewEngagement(key, value) {
-                            if (!graphEngagement.get(key))graphEngagement.set(key, value);
+                        function setNewEngagement(key, value){
+                            if(!graphEngagement.get(key))graphEngagement.set(key, value);
                         }
-                        function setNewDilatation(key, value) {
-                            if (!graphDilatation.get(key))graphDilatation.set(key, value);
+                        function setNewDilatation(key, value){
+                            if(!graphDilatation.get(key))graphDilatation.set(key, value);
                         }
-                        function getEarlierTime() {
+                        function getEarlierTime(){
 
                            /*  if($("ITEM_TYPE_DELIVERY_STARTHOUR").value.length>0 && $("beginHourSelect").value.length>0){
                                setBeginHourIntSelect();
                             }   */
                             var time = ($("beginHourSelect").value) + convertTimeToNbForGraph($("beginMinutSelect").value);
-                            if (earlierBackupTime != time) {
+                            if(earlierBackupTime != time){
                                 earlierBackupTime = time;
                                 setTopUnits();
                             }
@@ -622,10 +622,10 @@
                           toTestDate.setMinutes(time.substring(time.length - 2));
                           earlierTime[0] = toTestDate;
                           earlierTime[1] = time;
-                         graphDilatation.each(function(index) {
+                         graphDilatation.each(function(index){
                               compareDate.setHours(index.key.substring(0, index.key.length - 2));
                               compareDate.setMinutes(index.key.substring(index.key.length - 2));
-                              if (compare(earlierTime[0], compareDate) == 1) {
+                              if(compare(earlierTime[0], compareDate) == 1){
                                    earlierTime[0].setDate(compareDate.getDate());
                                    earlierTime[0].setMinutes(compareDate.getMinutes());
                                   earlierTime[0].setHours(compareDate.getHours());
@@ -635,7 +635,7 @@
 
                             return time;
                         }
-                        function compare(date_1, date_2) {
+                        function compare(date_1, date_2){
                             //   0 if date_1=date_2
                             //   1 if date_1>date_2
                             //  -1 if date_1<date_2
@@ -665,7 +665,7 @@
                         <td class="admin2">
                             <select class="text" id="engagementHour" name="engagementHour">
                                 <option/>
-                                <%for (int i = 0; i < 24; i++) {%>
+                                <%for(int i = 0; i < 24; i++){%>
                                 <option value="<%=i%>"><%=i%>
                                 </option>
                                 <%}%>
@@ -679,7 +679,7 @@
                         <td class="admin2" style="vertical-align:top;">
                             <select class="text" id="engagementDegree" name="engagementDegree">
                                 <option/>
-                                <%for (int i = -4; i < 5; i++) {%>
+                                <%for(int i = -4; i < 5; i++){%>
                                 <option value="<%=i%>"><%=i%>
                                 </option>
                                 <%}%>
@@ -715,7 +715,7 @@
                         <td class="admin2">
                             <select class="text" id="actionHour" name="actionHour">
                                 <option/>
-                                <%for (int i = 0; i < 24; i++) {%>
+                                <%for(int i = 0; i < 24; i++){%>
                                 <option value="<%=i%>"><%=i%>
                                 </option>
                                 <%}%>
@@ -1279,8 +1279,8 @@
         }
     }
 
-    function convertTimeToNbForGraph(nb) {
-        switch (parseInt(nb)) {
+    function convertTimeToNbForGraph(nb){
+        switch (parseInt(nb)){
             case 15:
                 nb = 25;
                 break;
@@ -1303,62 +1303,62 @@
         return nb;
     }
     <%-- SUBMIT FORM --%>
-    function submitForm() {
+    function submitForm(){
         if(document.getElementById('encounteruid').value==''){
     		alertDialog("web","no.encounter.linked");
     		searchEncounter();
     	}	
         else {
 	        var maySubmit = true;
-	        if (isAtLeastOneDilatationFieldFilled()) {
-	            if (maySubmit) {
-	                if (!addDilatation()) {
+	        if(isAtLeastOneDilatationFieldFilled()){
+	            if(maySubmit){
+	                if(!addDilatation()){
 	                    maySubmit = false;
 	                }
 	            }
 	        }
 	        var sTmpBegin;
 	        var sTmpEnd;
-	        while (sDilatation.indexOf("rowDilatation") > -1) {
+	        while (sDilatation.indexOf("rowDilatation") > -1){
 	            sTmpBegin = sDilatation.substring(sDilatation.indexOf("rowDilatation"));
 	            sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
 	            sDilatation = sDilatation.substring(0, sDilatation.indexOf("rowDilatation")) + sTmpEnd;
 	        }
 	        document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_WORK_DILATATION" property="itemId"/>]>.value")[0].value = sDilatation;
-	        if (isAtLeastOneEngagementFieldFilled()) {
-	            if (maySubmit) {
-	                if (!addEngagement()) {
+	        if(isAtLeastOneEngagementFieldFilled()){
+	            if(maySubmit){
+	                if(!addEngagement()){
 	                    maySubmit = false;
 	                }
 	            }
 	        }
-	        while (sEngagement.indexOf("rowEngagement") > -1) {
+	        while (sEngagement.indexOf("rowEngagement") > -1){
 	            sTmpBegin = sEngagement.substring(sEngagement.indexOf("rowEngagement"));
 	            sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
 	            sEngagement = sEngagement.substring(0, sEngagement.indexOf("rowEngagement")) + sTmpEnd;
 	        }
 	        document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_WORK_ENGAGEMENT" property="itemId"/>]>.value")[0].value = sEngagement;
-	        if (isAtLeastOneActionFieldFilled()) {
-	            if (maySubmit) {
-	                if (!addAction()) {
+	        if(isAtLeastOneActionFieldFilled()){
+	            if(maySubmit){
+	                if(!addAction()){
 	                    maySubmit = false;
 	                }
 	            }
 	        }
-	        while (sAction.indexOf("rowAction") > -1) {
+	        while (sAction.indexOf("rowAction") > -1){
 	            sTmpBegin = sAction.substring(sAction.indexOf("rowAction"));
 	            sTmpEnd = sTmpBegin.substring(sTmpBegin.indexOf("=") + 1);
 	            sAction = sAction.substring(0, sAction.indexOf("rowAction")) + sTmpEnd;
 	        }
 	        //setBeginHourSelect int hidden field;
-	        if($("beginHourSelect").value.length==0) {
+	        if($("beginHourSelect").value.length==0){
 	            $("ITEM_TYPE_DELIVERY_STARTHOUR").value = '';
 	        }else{
 	            $("ITEM_TYPE_DELIVERY_STARTHOUR").value = $("beginHourSelect").value+":"+$("beginMinutSelect").value;
 	        }
 	
 	        document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_WORK_ACTION" property="itemId"/>]>.value")[0].value = sAction;
-	        if (maySubmit) {
+	        if(maySubmit){
 	            document.getElementById("buttonsDiv").style.visibility = "hidden";
 	            document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION1" property="itemId"/>]>.value')[0].value = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION" property="itemId"/>]>.value')[0].value.substring(250, 500);
 	            document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION2" property="itemId"/>]>.value')[0].value = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBJECTIVE_GYNINSPECTION" property="itemId"/>]>.value')[0].value.substring(500, 750);
@@ -1408,9 +1408,9 @@
   	searchEncounter();
     }	
       
-    function clearType2(object) {
-        if (!object.checked) {
-            if (document.getElementsByName("trtype2")[0]) {
+    function clearType2(object){
+        if(!object.checked){
+            if(document.getElementsByName("trtype2")[0]){
                 hide("trtype2");
             }
             document.getElementById("cbventousse").checked = false;
@@ -1427,9 +1427,9 @@
             show("trtype2");
         }
     }
-    function clearType3(object) {
-        if (!object.checked) {
-            if (document.getElementsByName("trtype3")[0]) {
+    function clearType3(object){
+        if(!object.checked){
+            if(document.getElementsByName("trtype3")[0]){
                 hide("trtype3");
             }
             document.getElementById("caeserian_r1").checked = false;
@@ -1444,10 +1444,10 @@
             show("trtype3");
         }
     }
-    function doAlive() {
+    function doAlive(){
         document.getElementById("tralive1").style.display = "none";
         document.getElementById("tralive2").style.display = "none";
-        if (document.getElementById("alive_r1").checked) {
+        if(document.getElementById("alive_r1").checked){
             document.getElementById("cbdead24h").checked = false;
             document.getElementById("coeur1").value = "";
             document.getElementById("coeur5").value = "";
@@ -1475,7 +1475,7 @@
             document.getElementById("bcg_date").value = "";
             document.getElementById("tralive1").style.display = "";
         }
-        else if (document.getElementById("alive_r2").checked) {
+        else if(document.getElementById("alive_r2").checked){
             document.getElementById("deadtype_r1").checked = false;
             document.getElementById("deadtype_r2").checked = false;
             document.getElementById("tralive2").style.display = "";
@@ -1487,36 +1487,36 @@
         if(tran!=null){
             tran = MedwanQuery.getInstance().loadTransaction(tran.getServerId(),tran.getTransactionId().intValue());
 
-            if ((tran!=null)&&(tran.getHealthrecordId() != sessionContainerWO.getHealthRecordVO().getHealthRecordId().intValue())){
+            if((tran!=null)&&(tran.getHealthrecordId() != sessionContainerWO.getHealthRecordVO().getHealthRecordId().intValue())){
                 out.print("transactionForm.saveButton.disabled = true;");
             }
         }
     %>
-    function clearDr() {
-        if (document.getElementById("drdate").value.length == 0) {
+    function clearDr(){
+        if(document.getElementById("drdate").value.length == 0){
             document.getElementById("agedatedr").value = "";
             document.getElementById("drdeldate").value = "";
         }
     }
-    function calculateGestAge() {
+    function calculateGestAge(){
         var trandate = new Date();
         var d1 = document.getElementById('trandate').value.split("/");
-        if (d1.length == 3) {
+        if(d1.length == 3){
             trandate.setDate(d1[0]);
             trandate.setMonth(d1[1] - 1);
             trandate.setFullYear(d1[2]);
             var lmdate = new Date();
             d1 = document.getElementById('drdate').value.split("/");
-            if (d1.length == 3) {
+            if(d1.length == 3){
                 lmdate.setDate(d1[0]);
                 lmdate.setMonth(d1[1] - 1);
                 lmdate.setFullYear(d1[2]);
                 var timeElapsed = trandate.getTime() - lmdate.getTime();
                 timeElapsed = timeElapsed / (1000 * 3600 * 24 * 7);
-                if (!isNaN(timeElapsed) && timeElapsed > 0 && timeElapsed < 60) {
+                if(!isNaN(timeElapsed) && timeElapsed > 0 && timeElapsed < 60){
                     var age = Math.round(timeElapsed * 10) / 10;
                     age = age + "";
-                    if (age.indexOf(".") > -1) {
+                    if(age.indexOf(".") > -1){
                         var aAge = age.split(".");
                         aAge[1] = Math.round(aAge[1] * 1 * 0.7);
                         age = aAge[0] + " " + aAge[1];
@@ -1526,10 +1526,10 @@
                     drdeldate.setTime(drdeldate.getTime() + 1000 * 3600 * 24 * 280);
                     document.getElementById("drdeldate").value = drdeldate.getDate() + "/" + (drdeldate.getMonth() + 1) + "/" + drdeldate.getFullYear();
                     checkDate(document.getElementById("drdeldate"));
-                    if (timeElapsed < 12) {
+                    if(timeElapsed < 12){
                         document.getElementById('trimestre_r1').checked = true;
                     }
-                    else if (timeElapsed < 24) {
+                    else if(timeElapsed < 24){
                         document.getElementById('trimestre_r2').checked = true;
                     }
                     else {
@@ -1543,15 +1543,15 @@
             //recalculate actual age based on echography estimation
             var ledate = new Date();
             d1 = document.getElementById('echodate').value.split("/");
-            if (d1.length == 3) {
+            if(d1.length == 3){
                 ledate.setDate(d1[0]);
                 ledate.setMonth(d1[1] - 1);
                 ledate.setFullYear(d1[2]);
                 var timeElapsed = trandate.getTime() - ledate.getTime();
                 timeElapsed = timeElapsed / (1000 * 3600 * 24 * 7);
-                if (!isNaN(timeElapsed) && document.getElementById("agedateecho").value.length > 0 && !isNaN(document.getElementById("agedateecho").value)) {
+                if(!isNaN(timeElapsed) && document.getElementById("agedateecho").value.length > 0 && !isNaN(document.getElementById("agedateecho").value)){
                     age = (document.getElementById("agedateecho").value * 1 + Math.round(timeElapsed * 10) / 10)+"";
-                    if (age.indexOf(".")>-1){
+                    if(age.indexOf(".")>-1){
                         aAge = age.split(".");
                         age = aAge[0]+ " " +aAge[1];
                     }
@@ -1561,35 +1561,35 @@
         }
     }
     //   calculateGestAge();
-    if (document.getElementById("transactionId").value.startsWith("-")) {
+    if(document.getElementById("transactionId").value.startsWith("-")){
         <%
             String sAgeDateDr = "";
             ItemVO itemDelAgeDateDr = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR");
 
-            if (itemDelAgeDateDr!=null){
+            if(itemDelAgeDateDr!=null){
                 sAgeDateDr = itemDelAgeDateDr.getValue();
                 %>document.getElementById("drdate").value = "<%=sAgeDateDr%>";
         <%
 }
 
 ItemVO itemAgeDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY");
-if (itemAgeDateEcho!=null){
+if(itemAgeDateEcho!=null){
     java.sql.Date dNow = ScreenHelper.getSQLDate(ScreenHelper.getDate());
     long lNow = dNow.getTime()/1000/3600/24/7;
     long lEcho = itemAgeDateEcho.getDate().getTime()/1000/3600/24/7;
 
-    if (lNow-lEcho < 43){
+    if(lNow-lEcho < 43){
         %>document.getElementById("agedateecho").value = "<%=lNow-lEcho%>";
         <%
 
     ItemVO itemEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO");
-    if (itemEcho!=null){
+    if(itemEcho!=null){
         %>document.getElementById("echodate").value = "<%=itemEcho.getValue()%>";
         <%
     }
 
     ItemVO itemDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY");
-    if (itemEcho!=null){
+    if(itemEcho!=null){
         %>document.getElementById("echodeldate").value = "<%=itemDateEcho.getValue()%>";
     <%
             }
@@ -1598,20 +1598,20 @@ if (itemAgeDateEcho!=null){
     %>
         calculateGestAge();
 
-        if (document.getElementById("agedatedr").value.length>0){
+        if(document.getElementById("agedatedr").value.length>0){
             var aDate = document.getElementById("agedatedr").value.split(" ");
-            if (aDate[0].length>0){
-                if (aDate[0]*1>43){
+            if(aDate[0].length>0){
+                if(aDate[0]*1>43){
                     document.getElementById("drdate").value = "";
                     clearDr();
                 }
             }
         }
 
-        if (document.getElementById("ageactualecho").value.length>0){
+        if(document.getElementById("ageactualecho").value.length>0){
             var aDate = document.getElementById("ageactualecho").value.split(" ");
-            if (aDate[0].length>0){
-                if (aDate[0]*1>43){
+            if(aDate[0].length>0){
+                if(aDate[0]*1>43){
                     document.getElementById("echodate").value = "";
                     document.getElementById("agedateecho").value = "";
                     document.getElementById("echodeldate").value = "";
@@ -1627,10 +1627,10 @@ if (itemAgeDateEcho!=null){
     var iDilatationIndex = <%=iDilatationTotal%>;
     var sDilatation = "<%=sDilatation%>";
     <%-- Dilatation -------------------------------------------------------------------------%>
-    function addDilatation() {
-        if (isAtLeastOneDilatationFieldFilled()) {
+    function addDilatation(){
+        if(isAtLeastOneDilatationFieldFilled()){
         <%-- set begin time and first time of dilatation the same --%>
-  /*          if (iDilatationIndex == 1 && $("beginHourSelect").value == "") {
+  /*          if(iDilatationIndex == 1 && $("beginHourSelect").value == ""){
                 $("beginHourSelect").selectedIndex = $("dilatationHour").selectedIndex;
                 $("beginMinutSelect").selectedIndex = $("dilatationMinutes").selectedIndex;
                 getEarlierTime();
@@ -1660,27 +1660,18 @@ if (itemAgeDateEcho!=null){
         }
         return true;
     }
-    function isAtLeastOneDilatationFieldFilled() {
-        if (transactionForm.dilatationHour.value != "") return true;
-        if (transactionForm.dilatationOpening.value != "") return true;
+    function isAtLeastOneDilatationFieldFilled(){
+        if(transactionForm.dilatationHour.value != "") return true;
+        if(transactionForm.dilatationOpening.value != "") return true;
         return false;
     }
-    function clearDilatationFields() {
+    function clearDilatationFields(){
         transactionForm.dilatationHour.selectedIndex = -1;
         //transactionForm.dilatationMinutes.selectedIndex = -1;
         transactionForm.dilatationOpening.selectedIndex = -1;
     }
-    function deleteDilatation(rowid, dilatationHours) {
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-        var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer;
-        if (window.showModalDialog) {
-            answer = window.showModalDialog(popupUrl, '', modalitiesIE);
-        }
-        else {
-            answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-        }
-        if (answer == 1) {
+    function deleteDilatation(rowid, dilatationHours){
+      if(yesnoDialog("Web","areYouSureToDelete")){
             sDilatation = deleteRowFromArrayString(sDilatation, rowid.id);
             tblDilatation.deleteRow(rowid.rowIndex);
             graphDilatation.unset(dilatationHours);
@@ -1693,10 +1684,10 @@ if (itemAgeDateEcho!=null){
     var iEngagementIndex = <%=iEngagementTotal%>;
     var sEngagement = "<%=sEngagement%>";
     <%-- Engagement -------------------------------------------------------------------------%>
-    function addEngagement() {
-        if (isAtLeastOneEngagementFieldFilled()) {
+    function addEngagement(){
+        if(isAtLeastOneEngagementFieldFilled()){
             <%-- set begin time and first time of engagment the same --%>
- /*           if (iEngagementIndex == 1 && $("beginHourSelect").value == "") {
+ /*           if(iEngagementIndex == 1 && $("beginHourSelect").value == ""){
                 $("beginHourSelect").selectedIndex = $("engagementHour").selectedIndex;
                 $("beginMinutSelect").selectedIndex = $("engagementMinutes").selectedIndex;
                 getEarlierTime();
@@ -1726,43 +1717,34 @@ if (itemAgeDateEcho!=null){
         setGraphEngagement();
         return true;
     }
-    function isAtLeastOneEngagementFieldFilled() {
-        if (transactionForm.engagementHour.value != "") return true;
-        if (transactionForm.engagementDegree.value != "") return true;
+    function isAtLeastOneEngagementFieldFilled(){
+        if(transactionForm.engagementHour.value != "") return true;
+        if(transactionForm.engagementDegree.value != "") return true;
         return false;
     }
-    function clearEngagementFields() {
+    function clearEngagementFields(){
         transactionForm.engagementHour.selectedIndex = -1;
         //transactionForm.engagementMinutes.selectedIndex = -1;
         transactionForm.engagementDegree.selectedIndex = -1;
     }
-    function deleteEngagement(rowid, engagementHour) {
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-        var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer;
-        if (window.showModalDialog) {
-            answer = window.showModalDialog(popupUrl, '', modalitiesIE);
-        }
-        else {
-            answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-        }
-        if (answer == 1) {
-            sEngagement = deleteRowFromArrayString(sEngagement, rowid.id);
-            tblEngagement.deleteRow(rowid.rowIndex);
-            graphEngagement.unset(engagementHour);
-            iEngagementIndex--;
-            clearEngagementFields();
-            clearGraphEngagement();
-            setGraphEngagement();
-        }
+    function deleteEngagement(rowid, engagementHour){
+      if(yesnoDialog("Web","areYouSureToDelete")){
+        sEngagement = deleteRowFromArrayString(sEngagement, rowid.id);
+        tblEngagement.deleteRow(rowid.rowIndex);
+        graphEngagement.unset(engagementHour);
+        iEngagementIndex--;
+        clearEngagementFields();
+        clearGraphEngagement();
+        setGraphEngagement();
+      }
     }
     var iActionIndex = <%=iActionTotal%>;
     var sAction = "<%=sAction%>";
     <%-- Action -------------------------------------------------------------------------%>
-    function addAction() {
-        if (isAtLeastOneActionFieldFilled()) {
+    function addAction(){
+        if(isAtLeastOneActionFieldFilled()){
               <%-- set begin time and first time of engagment the same --%>
-  /*          if (iActionIndex == 1 && $("beginHourSelect").value == "") {
+  /*          if(iActionIndex == 1 && $("beginHourSelect").value == ""){
                 $("beginHourSelect").selectedIndex = $("actionHour").selectedIndex;
                 $("beginMinutSelect").selectedIndex = $("actionMinutes").selectedIndex;
                 getEarlierTime();
@@ -1788,7 +1770,7 @@ if (itemAgeDateEcho!=null){
             setCellStyle(tr);
 
             var sIndex = transactionForm.actionLetter.value;
-            if (sIndex.length==0){
+            if(sIndex.length==0){
                 sIndex = "0";
             }
             graphAction.set(transactionForm.actionHour.value + transactionForm.actionMinutes.value + sIndex, transactionForm.actionLetter.value);
@@ -1797,87 +1779,78 @@ if (itemAgeDateEcho!=null){
         setGraphAction();
         return true;
     }
-    function isAtLeastOneActionFieldFilled() {
-        if (transactionForm.actionHour.value != "") return true;
-        if (transactionForm.actionLetter.value != "") return true;
-        return false;
+    function isAtLeastOneActionFieldFilled(){
+      if(transactionForm.actionHour.value != "") return true;
+      if(transactionForm.actionLetter.value != "") return true;
+      return false;
     }
-    function clearActionFields() {
-        transactionForm.actionHour.selectedIndex = -1;
-        //transactionForm.actionMinutes.selectedIndex = -1;
-        transactionForm.actionLetter.selectedIndex = -1;
+    function clearActionFields(){
+      transactionForm.actionHour.selectedIndex = -1;
+      //transactionForm.actionMinutes.selectedIndex = -1;
+      transactionForm.actionLetter.selectedIndex = -1;
     }
-    function deleteAction(rowid, actionHour) {
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-        var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer;
-        if (window.showModalDialog) {
-            answer = window.showModalDialog(popupUrl, '', modalitiesIE);
-        }
-        else {
-            answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-        }
-        if (answer == 1) {
-            sAction = deleteRowFromArrayString(sAction, rowid.id);
-            tblAction.deleteRow(rowid.rowIndex);
-            graphAction.unset(actionHour);
-            clearActionFields();
-            clearGraphAction();
-            setGraphAction();
-        }
+    function deleteAction(rowid, actionHour){
+      if(yesnoDialog("Web","areYouSureToDelete")){
+        sAction = deleteRowFromArrayString(sAction, rowid.id);
+        tblAction.deleteRow(rowid.rowIndex);
+        graphAction.unset(actionHour);
+        clearActionFields();
+        clearGraphAction();
+        setGraphAction();
+      }
     }
     <!-- GENERAL FUNCTIONS -->
-    function deleteRowFromArrayString(sArray, rowid) {
-        var array = sArray.split("$");
-        for (var i = 0; i < array.length; i++) {
-            if (array[i].indexOf(rowid) > -1) {
-                array.splice(i, 1);
-            }
+    function deleteRowFromArrayString(sArray, rowid){
+      var array = sArray.split("$");
+      for(var i = 0; i < array.length; i++){
+        if(array[i].indexOf(rowid) > -1){
+          array.splice(i, 1);
         }
-        return array.join("$");
+      }
+      return array.join("$");
     }
-    function getRowFromArrayString(sArray, rowid) {
+    function getRowFromArrayString(sArray, rowid){
         var array = sArray.split("$");
         var row = "";
-        for (var i = 0; i < array.length; i++) {
-            if (array[i].indexOf(rowid) > -1) {
+        for(var i = 0; i < array.length; i++){
+            if(array[i].indexOf(rowid) > -1){
                 row = array[i].substring(array[i].indexOf("=") + 1);
                 break;
             }
         }
         return row;
     }
-    function getCelFromRowString(sRow, celid) {
+    function getCelFromRowString(sRow, celid){
         var row = sRow.split("£");
         return row[celid];
     }
-    function replaceRowInArrayString(sArray, newRow, rowid) {
+    function replaceRowInArrayString(sArray, newRow, rowid){
         var array = sArray.split("$");
-        for (var i = 0; i < array.length; i++) {
-            if (array[i].indexOf(rowid) > -1) {
+        for(var i = 0; i < array.length; i++){
+            if(array[i].indexOf(rowid) > -1){
                 array.splice(i, 1, newRow);
                 break;
             }
         }
         return array.join("$");
     }
-    function setCellStyle(row) {
-        for (var i = 0; i < row.cells.length; i++) {
-            row.cells[i].style.color = "#333333";
-            row.cells[i].style.fontFamily = "arial";
-            row.cells[i].style.fontSize = "10px";
-            row.cells[i].style.fontWeight = "normal";
-            row.cells[i].style.textAlign = "left";
-            row.cells[i].style.paddingLeft = "5px";
-            row.cells[i].style.paddingRight = "1px";
-            row.cells[i].style.paddingTop = "1px";
-            row.cells[i].style.paddingBottom = "1px";
-            row.cells[i].style.backgroundColor = "#E0EBF2";
-        }
+    function setCellStyle(row){
+      for(var i = 0; i < row.cells.length; i++){
+        row.cells[i].style.color = "#333333";
+        row.cells[i].style.fontFamily = "arial";
+        row.cells[i].style.fontSize = "10px";
+        row.cells[i].style.fontWeight = "normal";
+        row.cells[i].style.textAlign = "left";
+        row.cells[i].style.paddingLeft = "5px";
+        row.cells[i].style.paddingRight = "1px";
+        row.cells[i].style.paddingTop = "1px";
+        row.cells[i].style.paddingBottom = "1px";
+        row.cells[i].style.backgroundColor = "#E0EBF2";
+      }
     }
-    function setRightUnits(vv) {
+    function setRightUnits(vv){
         var r = "";
-        switch (vv) {
+        switch (vv){
             case 1:
                 r = "+4";
                 break;
@@ -1915,7 +1888,7 @@ if (itemAgeDateEcho!=null){
     D.GetXGrid();
     D.XGrid[1] = 0.25;
     //----------------------- SET RIGHT UNITS -----------------//
-    for (t = D.YGrid[0]; t <= D.YGrid[2]; t += D.YGrid[1]) {
+    for(t = D.YGrid[0]; t <= D.YGrid[2]; t += D.YGrid[1]){
         new Bar(D.right + 6, D.ScreenY(t) - 8, D.right + 6, D.ScreenY(t) + 8, "", setRightUnits(t), "#663300");
     }
     //------------------------ SET DEFAULT LINES --------------//
@@ -1931,19 +1904,19 @@ if (itemAgeDateEcho!=null){
     new Bar(190, -15, 360, 0, "#FF0000", "<%=getTranNoLink("gynaeco", "work.engagement", sWebLanguage)%>", "#FFFFFF");
     new Bar(380, -15, 520, 0, "#FFFF00", "<%=getTranNoLink("gynae", "action", sWebLanguage)%>", "#000");
     //---------------------------------------------- DILATATION GRAPH -------------------------------------//
-    function sortNumber(a, b) {
+    function sortNumber(a, b){
         return a - b;
     }
-    function convertDilatationYtoDegree(s) {
+    function convertDilatationYtoDegree(s){
         y = parseFloat(s.replace(",","."));
         t = 5;
-        if (y > 0) {
-            for (var i = 1; i <= y; i++) {
+        if(y > 0){
+            for(var i = 1; i <= y; i++){
                 t--;
             }
             y = parseFloat(t.replace(",","."));
-        } else if (y < 0) {
-            for (var i = -1; i >= y; i--) {
+        } else if(y < 0){
+            for(var i = -1; i >= y; i--){
                 t++;
             }
             y = parseFloat(t.replace(",","."));
@@ -1952,11 +1925,11 @@ if (itemAgeDateEcho!=null){
         }
         return y;
     }
-    function setGraphDilatation() {
+    function setGraphDilatation(){
         var graphDilatation_keys = graphDilatation.keys();
-        if (graphDilatation_keys.length > 1) {
+        if(graphDilatation_keys.length > 1){
             graphDilatation_keys.sort(sortNumber);
-            for (i = 0; i < graphDilatation_keys.length - 1; i++) {
+            for(i = 0; i < graphDilatation_keys.length - 1; i++){
                 var p1x = graphDilatation_keys[i] - getEarlierTime();
                 var p1y = graphDilatation.get(graphDilatation_keys[i]);
                 var p2x = graphDilatation_keys[i + 1] - getEarlierTime();
@@ -1964,27 +1937,27 @@ if (itemAgeDateEcho!=null){
                 graphDilatationObjects.push(new Line(D.ScreenX(p1x / 100), D.ScreenY(p1y), D.ScreenX(p2x / 100), D.ScreenY(p2y), "#0000FF", 2, ""));
             }
         } else {
-            graphDilatation.each(function(index) {
+            graphDilatation.each(function(index){
                 var x = index.key - getEarlierTime();
                 graphDilatationObjects.push(new Dot(D.ScreenX(x / 100), D.ScreenY(index.value), 7, 18, '#0000FF', "dot"));
             });
         }
     }
-    function clearGraphDilatation() {
-        graphDilatationObjects.each(function(obj) {
+    function clearGraphDilatation(){
+        graphDilatationObjects.each(function(obj){
             obj.Delete();
         });
         graphDilatationObjects.clear();
     }
     //------------------------------------------------ ENGAGEMENT GRAPH ---------------------------------------//
-    function setGraphEngagement() {
-        function sortNumber(a, b) {
+    function setGraphEngagement(){
+        function sortNumber(a, b){
             return a - b;
         }
         var graphEngagement_keys = graphEngagement.keys();
-        if (graphEngagement_keys.length > 1) {
+        if(graphEngagement_keys.length > 1){
             graphEngagement_keys.sort(sortNumber);
-            for (i = 0; i < graphEngagement_keys.length - 1; i++) {
+            for(i = 0; i < graphEngagement_keys.length - 1; i++){
                 var p1x = graphEngagement_keys[i] - getEarlierTime();
                 var p1y = graphEngagement.get(graphEngagement_keys[i]);
                 var p2x = graphEngagement_keys[i + 1] - getEarlierTime();
@@ -1992,33 +1965,33 @@ if (itemAgeDateEcho!=null){
                 graphEngagementObjects.push(new Line(D.ScreenX(p1x / 100), D.ScreenY(convertDilatationYtoDegree(p1y)), D.ScreenX(p2x / 100), D.ScreenY(convertDilatationYtoDegree(p2y)), "#FF0000", 2, ""));
             }
         } else {
-            graphEngagement.each(function(index) {
+            graphEngagement.each(function(index){
                 y = convertDilatationYtoDegree(index.value);
                 x = index.key - getEarlierTime();
                 graphEngagementObjects.push(new Dot(D.ScreenX(x / 100), D.ScreenY(y), 7, 18, '#FF0000', "dot"));
             });
         }
     }
-    function clearGraphEngagement() {
-        graphEngagementObjects.each(function(obj) {
+    function clearGraphEngagement(){
+        graphEngagementObjects.each(function(obj){
             obj.Delete();
         });
         graphEngagementObjects.clear();
     }
     //------------------------------------------------ ACTION GRAPH ---------------------------------------//
     var divHeigth = $('glycemyGraph').style.height;
-    function setGraphAction() {
+    function setGraphAction(){
         var graphAction_keys = graphAction.keys();
         var moreHeigth = 0;
-        if (graphAction_keys.length > 0) {
+        if(graphAction_keys.length > 0){
             graphAction_keys.sort();
             var y = D.bottom;
-            for (i = 0; i < graphAction_keys.length; i++) {
+            for(i = 0; i < graphAction_keys.length; i++){
                 var x = Math.floor(graphAction_keys[i].substring(0, graphAction_keys[i].length - 1) / 100);
                 var l = graphAction.get(graphAction_keys[i]);
-                if (i > 0 && Math.floor(graphAction_keys[i - 1].substring(0, graphAction_keys[i - 1].length - 1) / 100) == x) {
+                if(i > 0 && Math.floor(graphAction_keys[i - 1].substring(0, graphAction_keys[i - 1].length - 1) / 100) == x){
                     y = y + 15;
-                    if (moreHeigth < y - D.bottom) {
+                    if(moreHeigth < y - D.bottom){
                         moreHeigth = y - D.bottom;
                     }
                 } else {
@@ -2031,8 +2004,8 @@ if (itemAgeDateEcho!=null){
         }
         $('glycemyGraph').style.height = parseInt(divHeigth.replace("px", "")) + moreHeigth;
     }
-    function clearGraphAction() {
-        graphActionObjects.each(function(obj) {
+    function clearGraphAction(){
+        graphActionObjects.each(function(obj){
             obj.Delete();
         });
         graphActionObjects.clear();
@@ -2044,32 +2017,32 @@ if (itemAgeDateEcho!=null){
     clearType2(document.getElementById("type_r2"));
     clearType3(document.getElementById("type_r3"));
     sReanimationDestination = "<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_DESTINATION" property="value"/>";
-    for (var n = 0; n < transactionForm.EditReanimationDestination.length; n++) {
-        if (transactionForm.EditReanimationDestination.options[n].value == sReanimationDestination) {
+    for(var n = 0; n < transactionForm.EditReanimationDestination.length; n++){
+        if(transactionForm.EditReanimationDestination.options[n].value == sReanimationDestination){
             transactionForm.EditReanimationDestination.selectedIndex = n;
             break;
         }
     }
 
-    function setTopUnits() {
-        _BFont = "font-family:arial;font-size:6pt;font-weight:bold;";
-        if (barTop!=undefined){
-             barTop.each(function(obj){
-               obj.Delete();
-            });
-        }
+    function setTopUnits(){
+      _BFont = "font-family:arial;font-size:6pt;font-weight:bold;";
+      if(barTop!=undefined){
+        barTop.each(function(obj){
+          obj.Delete();
+        });
+      }
 
-        barTop = new Array();
-        var time = ($("beginHourSelect").value) + convertTimeToNbForGraph($("beginMinutSelect").value);
-        if (earlierBackupTime != time) {
-            earlierBackupTime = time;
-        }
+      barTop = new Array();
+      var time = ($("beginHourSelect").value) + convertTimeToNbForGraph($("beginMinutSelect").value);
+      if(earlierBackupTime != time){
+        earlierBackupTime = time;
+      }
 
 //        earlierBackupTime = $("ITEM_TYPE_DELIVERY_STARTHOUR").value;
         earlierBackupTime = ($("beginHourSelect").value) +":"+ convertTimeToNbForGraph($("beginMinutSelect").value);
 
         //----------------------- SET TOP UNITS -----------------//
-        for (t = D.XGrid[0]; t <= D.XGrid[2]; t += 1) {
+        for(t = D.XGrid[0]; t <= D.XGrid[2]; t += 1){
 //            var h = parseInt(earlierBackupTime.substring(0, earlierBackupTime.length - 2));
   //          var m = earlierBackupTime.substring(earlierBackupTime.length - 2);
 
@@ -2077,9 +2050,9 @@ if (itemAgeDateEcho!=null){
             var m = $("beginMinutSelect").value;
 //            var m = convertTimeToNbForGraph($("beginMinutSelect").value);
 
-            if (t != D.XGrid[0]) {
+            if(t != D.XGrid[0]){
                 h = h*1+t;
-                if (h > 23) {
+                if(h > 23){
                     h -= 24;
                 }
             }
@@ -2087,19 +2060,20 @@ if (itemAgeDateEcho!=null){
         }
     }
 
-    function setNewTime(){
-        if (($("beginHourSelect").value.length>0)&&($("beginMinutSelect").value.length>0)){
-            setTopUnits();
-            clearGraphAction();
-            setGraphAction();
-            clearGraphDilatation();
-            setGraphDilatation();
-            clearGraphEngagement();
-            setGraphEngagement();
-        }
+  function setNewTime(){
+    if(($("beginHourSelect").value.length>0)&&($("beginMinutSelect").value.length>0)){
+      setTopUnits();
+      clearGraphAction();
+      setGraphAction();
+      clearGraphDilatation();
+      setGraphDilatation();
+      clearGraphEngagement();
+      setGraphEngagement();
     }
+  }
 </script>
-<%=writeJSButtons("transactionForm", "saveButton")%>
+
+<%=writeJSButtons("transactionForm","saveButton")%>
 <%
 	}
 catch(Exception e){

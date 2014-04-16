@@ -294,7 +294,7 @@
 	}
 	
     function printDocument(uid){
-      window.open("<c:url value='/pharmacy/printStockOperationDocumentPdf.jsp'/>?ts=<%=getTs()%>&documentuid="+uid,"Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no");
+      window.open("<c:url value='/pharmacy/printStockOperationDocumentPdf.jsp'/>?ts=<%=getTs()%>&documentuid="+uid,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no");
     }
     
     function findsource(sourceid,sourcename){

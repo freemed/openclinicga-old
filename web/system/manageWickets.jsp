@@ -261,47 +261,48 @@
     }
 %>
 <script>
-    var iAuthorizedUsersIdx = <%=authorisedUsersIdx%>;
-    var sAuthorizedUsers = "<%=authorizedUsersJS%>";
-    <%-- ADD AUTHORIZED USER --%>
-      function addAuthorizedUser(){
-        if(EditWicketForm.AuthorizedUserIdAdd.value.length > 0){
-          iAuthorizedUsersIdx++;
+  var iAuthorizedUsersIdx = <%=authorisedUsersIdx%>;
+  var sAuthorizedUsers = "<%=authorizedUsersJS%>";
+  
+  <%-- ADD AUTHORIZED USER --%>
+  function addAuthorizedUser(){
+    if(EditWicketForm.AuthorizedUserIdAdd.value.length > 0){
+      iAuthorizedUsersIdx++;
 
-          sAuthorizedUsers+= "rowAuthorizedUsers"+iAuthorizedUsersIdx+"£"+
-                             EditWicketForm.AuthorizedUserIdAdd.value+"£"+
-                             EditWicketForm.AuthorizedUserNameAdd.value+"$";
-          var tr = tblAuthorizedUsers.insertRow(tblAuthorizedUsers.rows.length);
-          tr.id = "rowAuthorizedUsers"+iAuthorizedUsersIdx;
+      sAuthorizedUsers+= "rowAuthorizedUsers"+iAuthorizedUsersIdx+"£"+
+                         EditWicketForm.AuthorizedUserIdAdd.value+"£"+
+                         EditWicketForm.AuthorizedUserNameAdd.value+"$";
+      var tr = tblAuthorizedUsers.insertRow(tblAuthorizedUsers.rows.length);
+      tr.id = "rowAuthorizedUsers"+iAuthorizedUsersIdx;
 
-          var td = tr.insertCell(0);
-          td.width = 16;
-          td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web","delete",sWebLanguage)%>' border='0'></a>";
-          tr.appendChild(td);
+      var td = tr.insertCell(0);
+      td.width = 16;
+      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web","delete",sWebLanguage)%>' border='0'></a>";
+      tr.appendChild(td);
 
-          td = tr.insertCell(1);
-          td.innerHTML = EditWicketForm.AuthorizedUserNameAdd.value;
-          tr.appendChild(td);
+      td = tr.insertCell(1);
+      td.innerHTML = EditWicketForm.AuthorizedUserNameAdd.value;
+      tr.appendChild(td);
 
-          <%-- update the hidden field containing just the userids --%>
-          EditWicketForm.EditAuthorizedUsers.value = EditWicketForm.EditAuthorizedUsers.value+EditWicketForm.AuthorizedUserIdAdd.value+"$";
+      <%-- update the hidden field containing just the userids --%>
+      EditWicketForm.EditAuthorizedUsers.value = EditWicketForm.EditAuthorizedUsers.value+EditWicketForm.AuthorizedUserIdAdd.value+"$";
 
-          clearAuthorizedUserFields();
-        }
-        else{
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=firstselectaperson";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            if(window.showModalDialog){
-                window.showModalDialog(popupUrl,'',modalities);
-            }else{
-                window.confirm("<%=getTranNoLink("web","firstselectaperson",sWebLanguage)%>");
-            }
-
-            EditWicketForm.AuthorizedUserNameAdd.focus();
-        }
+      clearAuthorizedUserFields();
+    }
+    else{
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=firstselectaperson";
+      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      if(window.showModalDialog){
+        window.showModalDialog(popupUrl,'',modalities);
+      }else{
+        window.confirm("<%=getTranNoLink("web","firstselectaperson",sWebLanguage)%>");
       }
 
-      <%-- CLEAR AUTHORIZED USER FIELDS --%>
+      EditWicketForm.AuthorizedUserNameAdd.focus();
+    }
+  }
+
+  <%-- CLEAR AUTHORIZED USER FIELDS --%>
   function clearAuthorizedUserFields(){
     EditWicketForm.AuthorizedUserIdAdd.value = "";
     EditWicketForm.AuthorizedUserNameAdd.value = "";
@@ -309,17 +310,7 @@
 
   <%-- DELETE AUTHORIZED USER --%>
   function deleteAuthorizedUser(rowid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer;
-
-    if(window.showModalDialog){
-        answer = window.showModalDialog(popupUrl,'',modalities);
-    }else{
-        answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+	if(yesnoDialog("Web","areYouSureToDelete")){
       sAuthorizedUsers = deleteRowFromArrayString(sAuthorizedUsers,rowid.id);
 
       <%-- update the hidden field containing just the userids --%>
@@ -333,7 +324,7 @@
   <%-- EXTRACT USER IDS (between '=' and '£') --%>
   function extractUserIds(sourceString){
     var array = sourceString.split("$");
-    for (var i=0;i<array.length;i++){
+    for(var i=0;i<array.length;i++){
        array[i] = array[i].substring(array[i].indexOf("=")+1,array[i].indexOf("£"));
     }
     return array.join("$");
@@ -342,7 +333,7 @@
   <%-- DELETE ROW FROM ARRAY STRING --%>
   function deleteRowFromArrayString(sArray,rowid){
     var array = sArray.split("$");
-    for (var i=0;i<array.length;i++){
+    for(var i=0;i<array.length;i++){
       if (array[i].indexOf(rowid)>-1){
         array.splice(i,1);
       }
@@ -350,58 +341,60 @@
     return array.join("$");
   }
 
-    function doClear(){
-        FindWicketForm.FindWicketService.value = "";
-        FindWicketForm.FindWicketServiceName.value = "";
+  function doClear(){
+    FindWicketForm.FindWicketService.value = "";
+    FindWicketForm.FindWicketServiceName.value = "";
+  }
+  
+  function doFind(){
+    if(FindWicketForm.FindWicketService.value != ""){
+      FindWicketForm.Action.value = "SEARCH";
+      FindWicketForm.buttonfind.disabled = true;
+      FindWicketForm.submit();
     }
-    function doFind(){
-        if(FindWicketForm.FindWicketService.value != "")
-        {
-            FindWicketForm.Action.value = "SEARCH";
-            FindWicketForm.buttonfind.disabled = true;
-            FindWicketForm.submit();
-        }
-    }
+  }
 
-    function doNew(){
-        FindWicketForm.Action.value = "NEW";
-        FindWicketForm.submit();
-    }
-    function doBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp&ts=<%=getTs()%>";
-    }
+  function doNew(){
+    FindWicketForm.Action.value = "NEW";
+    FindWicketForm.submit();
+  }
+  function doBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp&ts=<%=getTs()%>";
+  }
 
-    function doSearchBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&ts=<%=getTs()%>";
-    }
+  function doSearchBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&ts=<%=getTs()%>";
+  }
 
-<%-- search service --%>
-    function searchService(serviceUidField,serviceNameField){
-        openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
-    }
+  <%-- search service --%>
+  function searchService(serviceUidField,serviceNameField){
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+  }
 
-    function doSave(){
-        if(EditWicketForm.EditWicketService.value == ""){
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=wicket&labelID=no_service";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            var answer;
-            if(window.showModalDialog){
-                window.showModalDialog(popupUrl,'',modalities);
-            }else{
-                window.confirm("<%=getTranNoLink("wicket","no_service",sWebLanguage)%>");
-            }
-        }else{
-            EditWicketForm.EditSaveButton.disabled = true;
-            EditWicketForm.Action.value = "SAVE";
-            EditWicketForm.submit();
-        }
+  function doSave(){
+    if(EditWicketForm.EditWicketService.value == ""){
+      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=wicket&labelID=no_service";
+      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+      var answer;
+      if(window.showModalDialog){
+        window.showModalDialog(popupUrl,'',modalities);
+      }
+      else{
+        window.confirm("<%=getTranNoLink("wicket","no_service",sWebLanguage)%>");
+      }
     }
-
-    function doSelect(id){
-        window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&EditWicketUID=" + id + "&Action=SELECT&ts=<%=getTs()%>";
+    else{
+      EditWicketForm.EditSaveButton.disabled = true;
+      EditWicketForm.Action.value = "SAVE";
+      EditWicketForm.submit();
     }
+  }
 
-    <%-- popup : search authorized user --%>
+  function doSelect(id){
+    window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&EditWicketUID=" + id + "&Action=SELECT&ts=<%=getTs()%>";
+  }
+
+  <%-- popup : search authorized user --%>
   function searchAuthorizedUser(userUidField,userNameField){
     openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+userUidField+"&ReturnName="+userNameField+"&displayImmatNew=no");
   }

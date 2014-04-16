@@ -236,7 +236,7 @@
                                     </select>
                                 </td>
                                 <td class="admin2">
-                                    <input type="text" class="text" size="40" name="KinderenFirstname" onblur="validateText(this);limitLength(this);">
+                                    <input type="text" class="text" size="40" name="KinderenFirstname" onblur="limitLength(this);">
                                 </td>
                                 <td class="admin2">
                                     <input type="button" class="button" name="ButtonAddKinderen" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addKinderen()">
@@ -276,10 +276,10 @@
                                 <td class="admin2"></td>
                                 <td class="admin2"><%=ScreenHelper.writeLooseDateFieldYear("FamiDate","transactionForm","",true,false,sWebLanguage,sCONTEXTPATH)%></td>
                                 <td class="admin2">
-                                    <input type="text" class="text" name="FamiDescription" size="40" onblur="validateText(this);limitLength(this);">
+                                    <input type="text" class="text" name="FamiDescription" size="40" onblur="limitLength(this);">
                                 </td>
                                 <td class="admin2">
-                                    <input type="text" class="text" name="FamiVerwantschap" size="40" onblur="validateText(this);limitLength(this);">
+                                    <input type="text" class="text" name="FamiVerwantschap" size="40" onblur="limitLength(this);">
                                 </td>
                                 <td class="admin2">
                                     <input type="button" class="button" name="ButtonAddFami" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addFami()">
@@ -416,18 +416,7 @@ function clearKinderenFields(){
 }
 
 function deleteKinderen(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  //var answer = window.showModalDialog(popupUrl,'',modalities);
-
-  var answer;
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-  }else{
-      answer = window.confirm("<%=getTran("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sKinderen = deleteRowFromArrayString(sKinderen,rowid.id);
     tblKinderen.deleteRow(rowid.rowIndex);
     clearKinderenFields();
@@ -527,18 +516,7 @@ function clearFamiFields(){
 }
 
 function deleteFami(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  //var answer = window.showModalDialog(popupUrl,'',modalities);
-
-  var answer;
-  if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-  }else{
-      answer = window.confirm("<%=getTran("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sFami = deleteRowFromArrayString(sFami,rowid.id);
     tblFami.deleteRow(rowid.rowIndex);
     clearFamiFields();

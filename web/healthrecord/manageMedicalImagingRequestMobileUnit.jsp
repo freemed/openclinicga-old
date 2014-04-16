@@ -244,12 +244,12 @@
         submitForm();
       }
       else{
-        alert("<%=getTran("web.manage","datamissing",sWebLanguage)%>");
+        alertDialog("web.manage","datamissing");
         transactionForm.examination.focus();
       }
     }
     else{
-      alert("<%=getTran("web.manage","datamissing",sWebLanguage)%>");
+      alertDialog("web.manage","datamissing");
       transactionForm.applying_physician.focus();
     }
   }

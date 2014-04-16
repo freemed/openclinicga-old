@@ -439,11 +439,7 @@
     
   <%-- DO DELETE --%>
   function doDelete(profileId,profileName){
-    var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%> "+profileName);
-    if(answer){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       document.location.href = "<%=sCONTEXTPATH%>/main.do?Page=permissions/profiles.jsp&DeletePermissionID="+profileId+"&ts=<%=getTs()%>";
     }
   }

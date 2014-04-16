@@ -198,11 +198,7 @@
 <script>              
   <%-- DO DELETE --%>
   function doDelete(prescriptionUid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-    if(answer==1){
+	if(yesnoDialog("Web","areYouSureToDelete")){
       transactionForm.EditPrescrUid.value = prescriptionUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();

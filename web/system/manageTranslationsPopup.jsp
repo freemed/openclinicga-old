@@ -556,18 +556,14 @@
       else if(transactionForm.EditLabelLang.value.length==0) transactionForm.EditLabelLang.focus();
     }
     else{
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-
-      if(answer==1){
+  	  if(yesnoDialog("Web","areYouSureToDelete")){
         transactionForm.Action.value = "Delete";
         transactionForm.submit();
       }
     }
   }
 </script>
+
   <%-- hidden fields --%>
   <input type="hidden" name="EditOldLabelLang" value="<%=editLabelLang%>">
   <input type="hidden" name="EditOldLabelType" value="<%=editLabelType%>">

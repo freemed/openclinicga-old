@@ -307,10 +307,7 @@
                 transactionForm.submit();
               }
               else{
-                var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-                var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>');
-
+                alertDialog("web.manage","datamissing");
                 transactionForm.EditExamName.focus();
               }
             <%
@@ -332,16 +329,10 @@
   }
 
   <%-- ASK DELETE --%>
-  function askDelete() {
-    if(transactionForm.FindExamID.selectedIndex > 0){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>');
-
-      if(answer==1){
-        transactionForm.Action.value = "delete";
-        transactionForm.submit();
-      }
+  function askDelete(){
+	if(yesnoDialog("Web","areYouSureToDelete")){
+      transactionForm.Action.value = "delete";
+      transactionForm.submit();
     }
   }
 </script>

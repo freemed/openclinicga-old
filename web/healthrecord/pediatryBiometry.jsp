@@ -492,17 +492,7 @@ function updateBio(){
 
 <%-- DELETE BIO --%>
 function deleteBio(rowid){
-  var answer;
-  if(window.showModalDialog){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    answer = window.showModalDialog(popupUrl,"",modalitiesIE);
-  }
-  else{
-    answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("Web","areYouSureToDelete")){
     sBio = deleteRowFromArrayString(sBio,rowid.id);
     tblBio.deleteRow(rowid.rowIndex);
     clearBioFields();

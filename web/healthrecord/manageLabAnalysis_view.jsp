@@ -86,7 +86,7 @@
   <tr>
     <td class="menu" colspan="2">
       &nbsp;<%=getTran("Web.manage","labanalysis.cols.code_name",sWebLanguage)%>&nbsp;
-      <input class="text" type="text" name="FindLabCode" size="18" value="<%=(action.equals("details")?"":sFindLabCode)%>" onblur="validateText(this);limitLength(this);">
+      <input class="text" type="text" name="FindLabCode" size="18" value="<%=(action.equals("details")?"":sFindLabCode)%>" onblur="limitLength(this);">
       <input class="button" type="submit" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
       <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
       <input class="button" type="submit" name="createButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
@@ -507,7 +507,7 @@
   <tr>
     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.manage","labanalysis.cols.code",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditLabCode" class="text" value="<%=sEditLabCode%>" size="20" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="EditLabCode" class="text" value="<%=sEditLabCode%>" size="20" onblur="limitLength(this);">
       <input type="checkbox" id="LabCodeOther" value="1" name="LabCodeOther" <%=(sLabCodeOther.equals("1")?"checked":"")%>><%=getLabel("web.occup","labanalysis.labCodeOther",sWebLanguage,"LabCodeOther")%>
     </td>
   </tr>
@@ -533,7 +533,7 @@
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.NL",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditNL" class="text" value="<%=sNL%>" size="50" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="EditNL" class="text" value="<%=sNL%>" size="50" onblur="limitLength(this);">
     </td>
   </tr>
 
@@ -541,7 +541,7 @@
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.FR",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditFR" class="text" value="<%=sFR%>" size="50" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="EditFR" class="text" value="<%=sFR%>" size="50" onblur="limitLength(this);">
     </td>
   </tr>
 
@@ -549,7 +549,7 @@
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.monster",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditMonster" class="text" value="<%=sMonster%>" size="50" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="EditMonster" class="text" value="<%=sMonster%>" size="50" onblur="limitLength(this);">
     </td>
   </tr>
 
@@ -605,7 +605,7 @@
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.medidoccode",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditMedidoccode" class="text" value="<%=sMedidoccode%>" size="50" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="EditMedidoccode" class="text" value="<%=sMedidoccode%>" size="50" onblur="limitLength(this);">
     </td>
   </tr>
 
@@ -613,7 +613,7 @@
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.prestationcode",sWebLanguage)%></td>
     <td class="admin2">
-      <input type="text" name="EditPrestationcode" class="text" value="<%=sPrestationCode%>" size="50" onblur="validateText(this);limitLength(this);">
+      <input type="text" name="EditPrestationcode" class="text" value="<%=sPrestationCode%>" size="50" onblur="limitLength(this);">
     </td>
   </tr>
 
@@ -641,10 +641,7 @@
         function checkSave(){
           if(editForm.EditLabCode.value.length == 0 || editForm.LabType.selectedIndex == 0 ||
              editForm.EditNL.value == "" || editForm.EditFR.value == ""){
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=dataMissing";
-            var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.manage","dataMissing",sWebLanguage)%>");
-
+            alertDialog("web.manage","datamissing");
 
                  if(editForm.EditLabCode.value.length == 0){ editForm.EditLabCode.focus(); }
             else if(editForm.LabType.selectedIndex == 0){ editForm.LabType.focus(); }
@@ -662,7 +659,6 @@
 
 <%
     if(!action.equals("new")){
-        //if((String)activeUser.accessRights.get("occupmanagelabanalysis.delete")!=null){
         %>
           <input class="button" type="button" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
           <script>
@@ -674,12 +670,7 @@
                 editForm.LabType.focus();
               }
               else{
-                <%-- delete --%>
-                var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-                var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-                if(answer==1){
+                if(yesnoDialog("Web","areYouSureToDelete")){
                   editForm.Action.value = 'delete';
                   editForm.submit();
                 }
@@ -687,7 +678,6 @@
             }
           </script>
         <%
-        //}
     }
 %>
   <input class="button" type="button" value="<%=getTran("web","reset",sWebLanguage)%>" onclick="reset();">&nbsp;

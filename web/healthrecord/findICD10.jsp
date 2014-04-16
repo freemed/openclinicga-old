@@ -19,7 +19,7 @@
         <tr>
             <td nowrap><%=getTran("Web","Keyword",sWebLanguage)%>&nbsp;&nbsp;</td>
             <td>
-                <input type='text' class='text' name='keywords' size='40' value="<%=request.getParameter("keywords")!=null?request.getParameter("keywords"):""%>" onblur="validateText(this);limitLength(this);"/>
+                <input type='text' class='text' name='keywords' size='40' value="<%=request.getParameter("keywords")!=null?request.getParameter("keywords"):""%>" onblur="limitLength(this);"/>
                 <input class='button' type='button' name='findButton' onClick='doFind();' value='<%=getTran("Web","Find",sWebLanguage)%>'/>
                 <input class='button' type='button' name='cancel' onclick='window.close()' value='<%=getTran("Web","Close",sWebLanguage)%>'/>
             </td>

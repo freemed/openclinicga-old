@@ -827,7 +827,7 @@
                             <td class="admin"><%=getTran("Web","supplier",sWebLanguage)%></td>
                             <td class="admin2">
 				               <input type="hidden" name="EditSupplierID" id="EditSupplierID" value="" onchange="">
-				               <input class="text" type="text" name="EditSupplier" id="EditSupplier" readonly size="<%=sTextWidth%>" value="" onblur="">
+				               <input class="text" type="text" name="EditSupplier" id="EditSupplier" readonly size="<%=sTextWidth%>" value="" >
 				               <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditSupplierID','EditSupplier');">
 				               <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditSupplier.value='';EditSupplierID.value='';">
                             </td>
@@ -1042,6 +1042,7 @@
     <input type="hidden" name="DisplayDeliveredOrders" value="<%=displayDeliveredOrders%>">
     <input type="hidden" name="DisplayUndeliveredOrders" value="<%=displayUndeliveredOrders%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   <%
@@ -1108,10 +1109,7 @@
             maySubmit = true;
           }
           else{
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=DateDeliveryDueMustComeAfterDateOrdered";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","DateDeliveryDueMustComeAfterDateOrdered",sWebLanguage)%>");
-
+            alertDialog("web.manage","DateDeliveredMustComeAfterDateOrdered");
             maySubmit = false;
             transactionForm.EditDateDeliveryDue.focus();
           }
@@ -1131,10 +1129,7 @@
             maySubmit = true;
           }
           else{
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=DateDeliveredMustComeAfterDateOrdered";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","DateDeliveredMustComeAfterDateOrdered",sWebLanguage)%>");
-
+            alertDialog("web.manage","DateDeliveredMustComeAfterDateOrdered");
             maySubmit = false;
             transactionForm.EditDateDelivered.focus();
           }
@@ -1147,18 +1142,12 @@
       <%-- check numberOfPackagesDelivered if deliveredDate is specified --%>
       if(maySubmit){
         if(transactionForm.EditPackagesDelivered.value.length>0 && transactionForm.EditDateDelivered.value.length==0){
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=PackagesAndDateDeliveredMustBeSpecified";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","PackagesAndDateDeliveredMustBeSpecified",sWebLanguage)%>");
-
+          alertDialog("web.manage","PackagesAndDateDeliveredMustBeSpecified");
           maySubmit = false;
           transactionForm.EditDateDelivered.focus();
         }
         else if(transactionForm.EditPackagesDelivered.value.length==0 && transactionForm.EditDateDelivered.value.length>0){
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=PackagesAndDateDeliveredMustBeSpecified";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","PackagesAndDateDeliveredMustBeSpecified",sWebLanguage)%>");
-
+          alertDialog("web.manage","PackagesAndDateDeliveredMustBeSpecified");
           maySubmit = false;
           transactionForm.EditPackagesDelivered.focus();
         }
@@ -1166,10 +1155,7 @@
     }
     else{
       maySubmit = false;
-
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+      alertDialog("web.manage","datamissing");
     }
 
     return maySubmit;
@@ -1177,12 +1163,7 @@
 
   <%-- DO DELETE --%>
   function doDelete(orderUid){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       transactionForm.EditOrderUid.value = orderUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -1297,9 +1278,7 @@
       transactionForm.submit();
     }
     else{
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+      alertDialog("web.manage","datamissing");
     }
   }
 
