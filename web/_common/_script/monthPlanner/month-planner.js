@@ -390,14 +390,10 @@ function getTodayString(){
   var today = new Date();
   
   var sDay = today.getDate()+"";
-  if(sDay.length < 2){
-    sDay = "0"+sDay;
-  }
+  if(sDay.length < 2) sDay = "0"+sDay;
   
   var sMonth = (today.getMonth()+1)+"";
-  if(sMonth.length < 2){
-    sMonth = "0"+sMonth;
-  }
+  if(sMonth.length < 2) sMonth = "0"+sMonth;
     
   return (sDay+"/"+sMonth+"/"+today.getFullYear());
 }

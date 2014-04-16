@@ -23,7 +23,7 @@
         <tr>
             <td><%=getTran("Web","Keyword",sWebLanguage)%>&nbsp;&nbsp;</td>
             <td colspan='2'>
-                <input type='text' class='text' name='keywords' size='40' value="<%=request.getParameter("keywords")!=null?request.getParameter("keywords"):""%>" onblur="validateText(this);limitLength(this);" onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'/>
+                <input type='text' class='text' name='keywords' size='40' value="<%=request.getParameter("keywords")!=null?request.getParameter("keywords"):""%>" onblur="limitLength(this);" onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'/>
                 <input class='button' type='button' name='findButton' onClick='doFind();' value='<%=getTran("Web","Find",sWebLanguage)%>'/>
                 <input class='button' type='button' name='cancel' onclick='window.close()' value='<%=getTran("Web","Close",sWebLanguage)%>'/>
             </td>

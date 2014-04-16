@@ -987,8 +987,7 @@
   
   <%-- DELETE ASSET --%>
   function deleteAsset(){ 
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){                 
+	if(yesnoDialog("Web","areYouSureToDelete")){             
       var url = "<c:url value='/assets/ajax/asset/deleteAsset.jsp'/>?ts="+new Date().getTime();
       disableButtons();
     
@@ -1372,8 +1371,7 @@
   
   <%-- DELETE GAIN --%>
   function deleteGA(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+	if(yesnoDialog("Web","areYouSureToDelete")){
       sGA = deleteRowFromArrayString(sGA,rowid.id);
       tblGA.deleteRow(rowid.rowIndex);
       
@@ -1604,8 +1602,7 @@
   
   <%-- DELETE LOSS --%>
   function deleteLO(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+	if(yesnoDialog("Web","areYouSureToDelete")){
       sLO = deleteRowFromArrayString(sLO,rowid.id);
       tblLO.deleteRow(rowid.rowIndex);
 
@@ -1868,9 +1865,8 @@
   <%-- DELETE PURCHASE DOCUMENT --%>
   function deletePD(rowid){
     $("purchaseDocumentMsgDiv").innerHTML = "";
-        
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+
+	if(yesnoDialog("Web","areYouSureToDelete")){
       sPD = deleteRowFromArrayString(sPD,rowid.id);
       tblPD.deleteRow(rowid.rowIndex);
 
@@ -2180,8 +2176,7 @@
   
   <%-- DELETE REIMBURSEMENT PLAN --%>
   function deleteRP(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+	if(yesnoDialog("Web","areYouSureToDelete")){
       sRP = deleteRowFromArrayString(sRP,rowid.id);
       tblRP.deleteRow(rowid.rowIndex);
 
@@ -2427,9 +2422,8 @@
   <%-- DELETE LOAN DOCUMENT --%>
   function deleteLD(rowid){
     $("loanDocumentMsgDiv").innerHTML = "";
-	    
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+
+	if(yesnoDialog("Web","areYouSureToDelete")){
       sLD = deleteRowFromArrayString(sLD,rowid.id);
       tblLD.deleteRow(rowid.rowIndex);
 

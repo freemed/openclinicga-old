@@ -26,7 +26,7 @@ function Move(e){
   return false;
 }
 
-function ToggleFloatingLayer(DivID, iState){
+function ToggleFloatingLayer(DivID,iState){
   if(document.getElementById){
     var obj = document.getElementById(DivID);
     obj.style.visibility = iState ? "visible" : "hidden";

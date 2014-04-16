@@ -16,18 +16,18 @@
     String sEditEncounterName = "", sEditSupplierName = "";
     Debet debet;
 
-    if (sEditDebetUID.length() > 0) {
+    if(sEditDebetUID.length() > 0) {
         debet = Debet.get(sEditDebetUID);
         Encounter encounter = debet.getEncounter();
 
-        if (encounter != null) {
+        if(encounter != null) {
             sEditEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
         }
 
-        if (debet.getSupplierUid()!=null && debet.getSupplierUid().length()>0){
+        if(debet.getSupplierUid()!=null && debet.getSupplierUid().length()>0){
             sEditSupplierName = getTranNoLink("service",debet.getSupplierUid(),sWebLanguage);
         }
-    } else {
+    } else{
         sEditDebetUID = "-1";
 
         debet = new Debet();
@@ -35,7 +35,7 @@
         debet.setUid(sEditDebetUID);
         debet.setDate(ScreenHelper.getSQLDate(getDate()));
         Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
-        if (encounter != null) {
+        if(encounter != null) {
             sEditEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
             debet.setEncounter(encounter);
             debet.setEncounterUid(checkString(encounter.getUid()));
@@ -88,21 +88,21 @@
                     <%
 
                         Vector vInsurances = Insurance.getCurrentInsurances(activePatient.personid);
-                        if (vInsurances!=null){
+                        if(vInsurances!=null){
                             boolean bInsuranceSelected = false;
                             Insurance insurance;
 
                             for (int i=0;i<vInsurances.size();i++){
                                 insurance = (Insurance)vInsurances.elementAt(i);
 
-                                if (insurance!=null && insurance.getInsurar()!=null && insurance.getInsurar().getName()!=null && insurance.getInsurar().getName().trim().length()>0){
+                                if(insurance!=null && insurance.getInsurar()!=null && insurance.getInsurar().getName()!=null && insurance.getInsurar().getName().trim().length()>0){
                                     out.print("<option value='"+insurance.getUid()+"'");
 
-                                    if (checkString(debet.getInsuranceUid()).equals(insurance.getUid())){
+                                    if(checkString(debet.getInsuranceUid()).equals(insurance.getUid())){
                                         out.print(" selected");
                                         bInsuranceSelected = true;
                                     }
-                                    else if (!bInsuranceSelected){
+                                    else if(!bInsuranceSelected){
                                         if(vInsurances.size()==1){
                                             out.print(" selected");
                                             bInsuranceSelected = true;
@@ -138,22 +138,22 @@
                     <%
                         Prestation prestation = debet.getPrestation();
 
-                        if (prestation!=null){
+                        if(prestation!=null){
                             out.print("<option selected value='"+checkString(prestation.getUid())+"'>"+checkString(prestation.getDescription())+"</option>");
                         }
 
                         Vector vPopularPrestations = activeUser.getTopPopularPrestations(10);
-                        if (vPopularPrestations!=null){
+                        if(vPopularPrestations!=null){
                             String sPrestationUid;
                             for (int i=0;i<vPopularPrestations.size();i++){
                                 sPrestationUid = checkString((String)vPopularPrestations.elementAt(i));
-                                if (sPrestationUid.length()>0){
+                                if(sPrestationUid.length()>0){
                                     prestation = Prestation.get(sPrestationUid);
 
-                                    if (prestation!=null && prestation.getDescription()!=null && prestation.getDescription().trim().length()>0 && !(debet.getPrestation()!=null && prestation.getUid().equals(debet.getPrestation().getUid()))){
+                                    if(prestation!=null && prestation.getDescription()!=null && prestation.getDescription().trim().length()>0 && !(debet.getPrestation()!=null && prestation.getUid().equals(debet.getPrestation().getUid()))){
                                         out.print("<option value='"+checkString(prestation.getUid())+"'");
 
-                                        if ((debet.getPrestationUid()!=null)&&(prestation!=null)&&(prestation.getUid()!=null)&&(prestation.getUid().equals(debet.getPrestationUid()))){
+                                        if((debet.getPrestationUid()!=null)&&(prestation!=null)&&(prestation.getUid()!=null)&&(prestation.getUid().equals(debet.getPrestationUid()))){
                                             out.print(" selected");
                                         }
 
@@ -232,7 +232,7 @@
         </tr>
         <tr>
             <td class='admin'><%=getTran("web","canceled",sWebLanguage)%></td>
-            <td class='admin2'><input type="checkbox" name="EditCredit" <%if (debet.getCredited()>0){out.print(" checked");}%> onclick="doCredit()"></td>
+            <td class='admin2'><input type="checkbox" name="EditCredit" <%if(debet.getCredited()>0){out.print(" checked");}%> onclick="doCredit()"></td>
         </tr>
         <tr>
             <td class="admin"/>
@@ -248,14 +248,14 @@
 <script>
 
 	function changePrestation(bFirst){
-      if (EditForm.EditPrestationName.value.length==0 && EditForm.EditPrestationGroup.value.length==0){
+      if(EditForm.EditPrestationName.value.length==0 && EditForm.EditPrestationGroup.value.length==0){
           EditForm.EditPrestationName.style.backgroundColor='#D1B589';
           document.getElementById('prestationcontent').innerHTML='';
       }
-      else {
+      else{
             
           EditForm.EditPrestationName.style.backgroundColor='white';
-          if (!bFirst){
+          if(!bFirst){
               document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
               var today = new Date();
               var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
@@ -285,7 +285,7 @@
   }
 
   function changeInsurance(){
-      if (EditForm.EditInsuranceUID.selectedIndex > 0){
+      if(EditForm.EditInsuranceUID.selectedIndex > 0){
           var today = new Date();
           var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
 
@@ -312,60 +312,57 @@
   }
 
   function doSave(){
-      if((EditForm.EditDate.value.length>0)
-          &&(EditForm.EditInsuranceUID.value.length>0)
-          &&(EditForm.EditPrestationUID.value.length>0 || EditForm.EditPrestationGroup.value.length>0)
-          &&(EditForm.EditEncounterUID.value!="null" && EditForm.EditEncounterUID.value.length>0)){
-          var sCredited = "0";
-          var today = new Date();
-          if (EditForm.EditCredit.checked){
-              sCredited = "1";
-          }
-          var url= '<c:url value="/financial/debetSave2.jsp"/>?ts='+today;
-          document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-		  var prests="";
-          pars=document.all;
-          for(n=0;n<document.all.length;n++){
-              if(document.all[n].name && document.all[n].name.indexOf("PP")>-1){
-              	prests+="&"+document.all[n].name+"="+document.all[n].value;
-              }
-          }
-          new Ajax.Request(url,{
-                  method: "POST",
-                  postBody: 'EditDate=' + EditForm.EditDate.value
-                          +'&EditDebetUID=' + EditForm.EditDebetUID.value
-                          +'&EditInsuranceUID=' + EditForm.EditInsuranceUID.value
-                          +'&EditPrestationUID=' + EditForm.EditPrestationUID.value
-                          +'&EditPrestationGroupUID=' + EditForm.EditPrestationGroup.value
-                          +'&EditAmount=' + EditForm.EditAmount.value
-                          +'&EditInsurarAmount=' + EditForm.EditInsurarAmount.value
-                          +'&EditEncounterUID=' + EditForm.EditEncounterUID.value
-                          +'&EditSupplierUID=' + EditForm.EditSupplierUID.value
-                          +'&EditPatientInvoiceUID=' + EditForm.EditPatientInvoiceUID.value
-                          +'&EditInsuranceInvoiceUID=' + EditForm.EditInsuranceInvoiceUID.value
-                          +'&EditComment=' + EditForm.EditComment.value
-                          +'&EditQuantity=' + EditForm.EditQuantity.value
-                          +'&EditExtraInsurarUID=' + EditForm.coverageinsurance.value
-                          +'&EditCredit=' + sCredited
-                          + prests,
-                  onSuccess: function(resp){
-                      var label = eval('('+resp.responseText+')');
-                      $('divMessage').innerHTML=label.Message;
-                      $('EditDebetUID').value=label.EditDebetUID;
-                      doNew();
-                      loadUnassignedDebets();
-                  },
-                  onFailure: function(){
-                      $('divMessage').innerHTML = "Error in function doSave() => AJAX";
-                  }
-              }
-          );
+    if((EditForm.EditDate.value.length>0)
+       &&(EditForm.EditInsuranceUID.value.length>0)
+       &&(EditForm.EditPrestationUID.value.length>0 || EditForm.EditPrestationGroup.value.length>0)
+       &&(EditForm.EditEncounterUID.value!="null" && EditForm.EditEncounterUID.value.length>0)){
+      var sCredited = "0";
+      var today = new Date();
+      if(EditForm.EditCredit.checked){
+        sCredited = "1";
       }
-      else {
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+      var url= '<c:url value="/financial/debetSave2.jsp"/>?ts='+today;
+      document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	  var prests="";
+      pars=document.all;
+      for(n=0;n<document.all.length;n++){
+        if(document.all[n].name && document.all[n].name.indexOf("PP")>-1){
+       	  prests+="&"+document.all[n].name+"="+document.all[n].value;
+        }
       }
+      new Ajax.Request(url,{
+        method: "POST",
+        postBody: 'EditDate=' + EditForm.EditDate.value
+                 +'&EditDebetUID=' + EditForm.EditDebetUID.value
+                 +'&EditInsuranceUID=' + EditForm.EditInsuranceUID.value
+                 +'&EditPrestationUID=' + EditForm.EditPrestationUID.value
+                 +'&EditPrestationGroupUID=' + EditForm.EditPrestationGroup.value
+                 +'&EditAmount=' + EditForm.EditAmount.value
+                 +'&EditInsurarAmount=' + EditForm.EditInsurarAmount.value
+                 +'&EditEncounterUID=' + EditForm.EditEncounterUID.value
+                 +'&EditSupplierUID=' + EditForm.EditSupplierUID.value
+                 +'&EditPatientInvoiceUID=' + EditForm.EditPatientInvoiceUID.value
+                 +'&EditInsuranceInvoiceUID=' + EditForm.EditInsuranceInvoiceUID.value
+                 +'&EditComment=' + EditForm.EditComment.value
+                 +'&EditQuantity=' + EditForm.EditQuantity.value
+                 +'&EditExtraInsurarUID=' + EditForm.coverageinsurance.value
+                 +'&EditCredit=' + sCredited
+                 + prests,
+        onSuccess: function(resp){
+          var label = eval('('+resp.responseText+')');
+          $('divMessage').innerHTML=label.Message;
+          $('EditDebetUID').value=label.EditDebetUID;
+          doNew();
+          loadUnassignedDebets();
+        },
+        onFailure: function(){
+          $('divMessage').innerHTML = "Error in function doSave() => AJAX";
+        }
+      });
+    }
+    else{
+      alertDialog("web.manage","datamissing");
+    }
   }
 
   function searchEncounter(encounterUidField,encounterNameField){
@@ -384,20 +381,20 @@
     }
 
     function doCredit(){
-        if (EditForm.EditCredit.checked){
+        if(EditForm.EditCredit.checked){
             EditForm.EditAmount.value = "0";
             EditForm.EditInsurarAmount.value = "0";
         }
     }
 
     function changeTmpPrestation(){
-        if (EditForm.tmpPrestationUID.value.length>0){
-            EditForm.EditPrestationUID.value = EditForm.tmpPrestationUID.value;
-            EditForm.EditPrestationName.options[0].text = EditForm.tmpPrestationName.value;
-            EditForm.EditPrestationName.options[0].value = EditForm.tmpPrestationUID.value;
-            EditForm.EditPrestationName.options[0].selected = true;
-            changePrestation(false);
-        }
+      if(EditForm.tmpPrestationUID.value.length>0){
+        EditForm.EditPrestationUID.value = EditForm.tmpPrestationUID.value;
+        EditForm.EditPrestationName.options[0].text = EditForm.tmpPrestationName.value;
+        EditForm.EditPrestationName.options[0].value = EditForm.tmpPrestationUID.value;
+        EditForm.EditPrestationName.options[0].selected = true;
+        changePrestation(false);
+      }
     }
 
     function doNew(){
@@ -445,19 +442,19 @@
     }
 
     function clearFindFields(){
-        EditForm.FindDateBegin.value = "";
-        EditForm.FindDateEnd.value = "";
-        EditForm.FindAmountMin.value = "";
-        EditForm.FindAmountMax.value = "";
+      EditForm.FindDateBegin.value = "";
+      EditForm.FindDateEnd.value = "";
+      EditForm.FindAmountMin.value = "";
+      EditForm.FindAmountMax.value = "";
     }
 
     function checkCoverage(){
-        if(document.getElementById("coverageinsurance").selectedIndex>0){
-            document.getElementById("EditAmount").style.textDecoration="line-through";
-        }
-        else {
-            document.getElementById("EditAmount").style.textDecoration="";
-        }
+      if(document.getElementById("coverageinsurance").selectedIndex>0){
+        document.getElementById("EditAmount").style.textDecoration="line-through";
+      }
+      else{
+        document.getElementById("EditAmount").style.textDecoration="";
+      }
     }
 
     checkCoverage();

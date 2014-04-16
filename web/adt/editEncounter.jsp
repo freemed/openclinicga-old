@@ -467,7 +467,7 @@
            <td class="admin"><%=getTran("Web","service",sWebLanguage)%> *</td>
            <td class='admin2'>
                <input type="hidden" name="EditEncounterService" id="EditEncounterService" value="<%=sEditEncounterService%>" onchange="EditEncounterForm.EditEncounterBed.value='';EditEncounterForm.EditEncounterBedName.value='';setBedButton();setTransfer();changeService();">
-               <input class="text" type="text" name="EditEncounterServiceName" id="EditEncounterServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterServiceName%>" onblur="">
+               <input class="text" type="text" name="EditEncounterServiceName" id="EditEncounterServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterServiceName%>" >
                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditEncounterService','EditEncounterServiceName');">
                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditEncounterForm.EditEncounterService.value='';EditEncounterForm.EditEncounterServiceName.value='';">
            </td>
@@ -551,7 +551,7 @@
             <td class="admin"><%=getTran("Web","destination",sWebLanguage)%></td>
             <td class='admin2'>
                 <input type="hidden" name="EditEncounterDestination" value="<%=sEditEncounterDestination%>">
-                <input class="text" type="text" name="EditEncounterDestinationName" id="EditEncounterDestinationName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterDestinationName%>" onblur="">
+                <input class="text" type="text" name="EditEncounterDestinationName" id="EditEncounterDestinationName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterDestinationName%>" >
                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditEncounterDestination','EditEncounterDestinationName');">
                 <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditEncounterForm.EditEncounterDestination.value='';EditEncounterForm.EditEncounterDestinationName.value='';">
             </td>
@@ -963,11 +963,7 @@
     }
 
     function deleteService(sID){
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-      if(answer==1){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         var params = '';
         var today = new Date();
         var url= '<c:url value="/adt/ajaxActions/editEncounterDeleteService.jsp"/>?EncounterUID=<%=sEditEncounterUID%>&ServiceUID='+sID+'&ts='+today;

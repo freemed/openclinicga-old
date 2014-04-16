@@ -1,4 +1,4 @@
-function shortcut(shortcut,callback,opt) {
+function shortcut(shortcut,callback,opt){
 	//Provide a set of default options
 	var default_options = {
 		'type':'keydown',
@@ -6,9 +6,9 @@ function shortcut(shortcut,callback,opt) {
 		'target':document
 	}
 	if(!opt) opt = default_options;
-	else {
-		for(var dfo in default_options) {
-			if(typeof opt[dfo] == 'undefined') opt[dfo] = default_options[dfo];
+	else{
+		for(var dfo in default_options){
+			if(typeof opt[dfo]=='undefined') opt[dfo] = default_options[dfo];
 		}
 	}
 
@@ -16,11 +16,11 @@ function shortcut(shortcut,callback,opt) {
 	if(typeof opt.target == 'string') ele = document.getElementById(opt.target);
 	var ths = this;
 
-	//The function to be called at keypress
-	var func = function(e) {
+	// function called at keypress
+	var func = function(e){
 		e = e || window.event;
 		
-		//Find Which key is pressed
+		// which key is pressed
 		if (e.keyCode) code = e.keyCode;
 		else if (e.which) code = e.which;
 		var character = String.fromCharCode(code).toLowerCase();
@@ -29,7 +29,6 @@ function shortcut(shortcut,callback,opt) {
 		//Key Pressed - counts the number of valid keypresses - if it is same as the number of keys, the shortcut function is invoked
 		var kp = 0;
 		
-		//Work around for stupid Shift key bug created by using lowercase - as a result the shift+num combination was broken
 		var shift_nums = {
 			"`":"~",
 			"1":"!",
@@ -51,7 +50,7 @@ function shortcut(shortcut,callback,opt) {
 			"/":"?",
 			"\\":"|"
 		}
-		//Special Keys - and their codes
+
 		var special_keys = {
 			'esc':27,
 			'escape':27,
@@ -106,25 +105,19 @@ function shortcut(shortcut,callback,opt) {
 			'f12':123
 		}
 
-
-		for(var i=0; k=keys[i],i<keys.length; i++) {
-			//Modifiers
-			if(k == 'ctrl' || k == 'control') {
+		for(var i=0; k=keys[i],i<keys.length; i++){
+			if(k == 'ctrl' || k == 'control'){
 				if(e.ctrlKey) kp++;
-
-			} else if(k ==  'shift') {
+			} else if(k ==  'shift'){
 				if(e.shiftKey) kp++;
-
-			} else if(k == 'alt') {
-					if(e.altKey) kp++;
-
-			} else if(k.length > 1) { //If it is a special key
+			} else if(k == 'alt'){
+				if(e.altKey) kp++;
+			} else if(k.length > 1){
 				if(special_keys[k] == code) kp++;
-
-			} else { //The special keys did not match
+			} else{
 				if(character == k) kp++;
-				else {
-					if(shift_nums[character] && e.shiftKey) { //Stupid Shift key bug created by using lowercase
+				else{
+					if(shift_nums[character] && e.shiftKey){
 						character = shift_nums[character]; 
 						if(character == k) kp++;
 					}
@@ -132,16 +125,14 @@ function shortcut(shortcut,callback,opt) {
 			}
 		}
 
-		if(kp == keys.length) {
+		if(kp == keys.length){
 			callback(e);
 
-			if(!opt['propagate']) { //Stop the event
-				//e.cancelBubble is supported by IE - this will kill the bubbling process.
+			if(!opt['propagate']){
 				e.cancelBubble = true;
 				e.returnValue = false;
 
-				//e.stopPropagation works only in Firefox.
-				if (e.stopPropagation) {
+				if (e.stopPropagation){
 					e.stopPropagation();
 					e.preventDefault();
 				}
@@ -151,7 +142,7 @@ function shortcut(shortcut,callback,opt) {
 	}
 
 	//Attach the function with the event	
-	if(ele.addEventListener) ele.addEventListener(opt['type'], func, false);
-	else if(ele.attachEvent) ele.attachEvent('on'+opt['type'], func);
+	if(ele.addEventListener) ele.addEventListener(opt['type'],func,false);
+	else if(ele.attachEvent) ele.attachEvent('on'+opt['type'],func);
 	else ele['on'+opt['type']] = func;
 }

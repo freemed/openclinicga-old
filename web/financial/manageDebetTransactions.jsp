@@ -286,14 +286,12 @@
 
     function doSave(){
         if ((EditForm.EditDebetDate.value.length>0)&&(EditForm.EditDebetAmount.value.length>0)){
-            EditForm.buttonSave.disabled = true;
-            EditForm.Action.value = "SAVE";
-            EditForm.submit();
+          EditForm.buttonSave.disabled = true;
+          EditForm.Action.value = "SAVE";
+          EditForm.submit();
         }
         else {
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+          alertDialog("web.manage","datamissing");
         }
     }
 

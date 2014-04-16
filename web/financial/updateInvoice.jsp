@@ -218,45 +218,44 @@
     }
 %>
 <script>
+  function doFind(){
+    if ($("FindInvoiceId").value.length>0){
+      $("actionType").value = "search";
+      FindForm.submit();
+    }
+    else {
+      alertDialog("web.manage","datamissing");
+    }
+  }
 
-        function doFind(){
-            if ($("FindInvoiceId").value.length>0){
-                $("actionType").value = "search";
-                FindForm.submit();
-            }
-            else {
-                alert("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-            }
-        }
+  function clearFields(){
+    $("FindInvoiceId").value="";
+    $("FindTypePatient").checked=false;
+    $("FindTypeInsurar").checked=false;
+    $("FindTypeExtraInsurar").checked=false;
+  }
 
-        function clearFields(){
-            $("FindInvoiceId").value="";
-            $("FindTypePatient").checked=false;
-            $("FindTypeInsurar").checked=false;
-            $("FindTypeExtraInsurar").checked=false;
-        }
-
-        function setInvoice(sInvoiceId, sType){
-            $("actionType").value = "update";
-            $("invoiceType").value = sType;
-            FindForm.submit();
-
-        }
-     function openInvoice(sInvoiceId, sType){
-            if (sType=="<%=getTran("web","patient",sWebLanguage)%>"){
-                openPopup("/financial/patientInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=610&PopupHeight=660&FindPatientInvoiceUID="+sInvoiceId);
-            }
-            else if(sType=="<%=getTran("web","insurar",sWebLanguage)%>"){
-                openPopup("/financial/insuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
-            }
-            else if(sType=="<%=getTran("web","extrainsurar",sWebLanguage)%>"){
-                openPopup("/financial/extraInsuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
-            }
-            else if(sType=="<%=getTran("web","complementarycoverage2",sWebLanguage)%>"){
-                openPopup("/financial/extraInsuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
-            }
-        }
-    </script>
+  function setInvoice(sInvoiceId, sType){
+    $("actionType").value = "update";
+    $("invoiceType").value = sType;
+    FindForm.submit();
+  }
+  
+  function openInvoice(sInvoiceId, sType){
+    if (sType=="<%=getTran("web","patient",sWebLanguage)%>"){
+      openPopup("/financial/patientInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=610&PopupHeight=660&FindPatientInvoiceUID="+sInvoiceId);
+    }
+    else if(sType=="<%=getTran("web","insurar",sWebLanguage)%>"){
+      openPopup("/financial/insuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
+    }
+    else if(sType=="<%=getTran("web","extrainsurar",sWebLanguage)%>"){
+      openPopup("/financial/extraInsuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
+    }
+    else if(sType=="<%=getTran("web","complementarycoverage2",sWebLanguage)%>"){
+      openPopup("/financial/extraInsuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
+    }
+  }
+</script>
 <%
     }
     catch(Exception e){

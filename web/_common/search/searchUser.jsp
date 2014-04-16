@@ -1,6 +1,7 @@
-<%@ page import="org.dom4j.DocumentException,java.util.Vector" %>
-<%@ page errorPage="/includes/error.jsp" %>
-<%@ include file="/includes/validateUser.jsp" %>
+<%@page import="org.dom4j.DocumentException,
+                java.util.Vector"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
 <%!
     //--- GET SERVICE IDS FROM XML ----------------------------------------------------------------
@@ -11,25 +12,25 @@
         SAXReader xmlReader = new SAXReader();
         String sXmlFile = MedwanQuery.getInstance().getConfigString("servicesXMLFile"), xmlFileUrl;
 
-        if ((sXmlFile != null) && (sXmlFile.length() > 0)) {
+        if((sXmlFile!=null) && (sXmlFile.length() > 0)){
             // Check if xmlFile exists, else use file at templateSource location.
-            try {
+            try{
                 xmlFileUrl = "http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR + "/_common/xml/" + sXmlFile;
                 document = xmlReader.read(new URL(xmlFileUrl));
-                if (Debug.enabled) Debug.println("Using custom services file : " + xmlFileUrl);
+                if(Debug.enabled) Debug.println("Using custom services file : " + xmlFileUrl);
             }
-            catch (DocumentException e) {
+            catch (DocumentException e){
                 xmlFileUrl = MedwanQuery.getInstance().getConfigString("templateSource") + "/" + sXmlFile;
                 document = xmlReader.read(new URL(xmlFileUrl));
-                if (Debug.enabled) Debug.println("Using default services file : " + xmlFileUrl);
+                if(Debug.enabled) Debug.println("Using default services file : " + xmlFileUrl);
             }
 
-            if (document != null) {
+            if(document!=null){
                 Element root = document.getRootElement();
-                if (root != null) {
+                if(root!=null){
                     Iterator elements = root.elementIterator("ServiceId");
 
-                    while (elements.hasNext()) {
+                    while (elements.hasNext()){
                         ids.add(((Element) elements.next()).attributeValue("value"));
                     }
                 }
@@ -54,28 +55,23 @@
             <%-- lastname --%>
             <td>&nbsp;<%=getTran("Web", "name", sWebLanguage)%>&nbsp;</td>
             <td>
-                <input type="text" class="text" name="FindLastname" size="28" maxLength="255" value="<%=sFindLastname%>"
-                       onblur="validateText(this);">
+                <input type="text" class="text" name="FindLastname" size="28" maxLength="255" value="<%=sFindLastname%>" >
             </td>
             <%-- firstname --%>
             <td><%=getTran("Web", "firstname", sWebLanguage)%>&nbsp;</td>
             <td>
-                <input type="text" class="text" name="FindFirstname" size="28" maxLength="255"
-                       value="<%=sFindFirstname%>" onblur="validateText(this);">
+                <input type="text" class="text" name="FindFirstname" size="28" maxLength="255" value="<%=sFindFirstname%>">
             </td>
             <%-- BUTTONS --%>
             <td style="text-align:right;">
-                <input class="button" type="button" name="searchButton" value="<%=getTran("Web","find",sWebLanguage)%>"
-                       onClick="doFind();">
-                <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>"
-                       onclick="clearSearchFields();">&nbsp;
+                <input class="button" type="button" name="searchButton" value="<%=getTran("Web","find",sWebLanguage)%>" onClick="doFind();">
+                <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
             </td>
         </tr>
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
             <td style="vertical-align:top;" colspan="5" class="white" width="100%">
-                <div id="divFindRecords">
-                </div>
+                <div id="divFindRecords"></div>
             </td>
         </tr>
     </table>
@@ -94,114 +90,110 @@
     <input type="hidden" name="displayImmatNew2" value="">
 </form>
 <script>
-    window.resizeTo(600, 480);
+  window.resizeTo(600,480);
+  SearchForm.FindLastname.focus();
+
+  <%-- CLEAR SEARCH FIELDS --%>
+  function clearSearchFields(){
+    SearchForm.FindLastname.value = "";
+    SearchForm.FindFirstname.value = "";
     SearchForm.FindLastname.focus();
+  }
 
+  <%-- DO FIND --%>
+  function doFind(){
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchUserShow.jsp', SearchForm);
+  }
 
-    <%-- CLEAR SEARCH FIELDS --%>
-    function clearSearchFields() {
-        SearchForm.FindLastname.value = "";
-        SearchForm.FindFirstname.value = "";
-        SearchForm.FindLastname.focus();
+  <%-- SET PERSON --%>
+  function setPerson(sPersonID, sUserID, sName){
+    if('<%=sReturnPersonID%>'.length > 0){
+      window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].value = sPersonID;
+      if(window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].onchange!=null){
+        window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].onchange();
+      }
     }
 
-    <%-- DO FIND --%>
-    function doFind() {
-        ajaxChangeSearchResults('_common/search/searchByAjax/searchUserShow.jsp', SearchForm);
+    if('<%=sReturnUserID%>'.length > 0){
+      if(window.opener.document.getElementsByName('<%=sReturnUserID%>').length>0){
+	    window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].value = sUserID;
+	    if(window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange!=null){
+	      window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange();
+	    }
+      }
+      else{
+        window.opener.document.getElementById('<%=sReturnUserID%>').value = sUserID;
+        if(window.opener.document.getElementById('<%=sReturnUserID%>').onchange!=null){
+          window.opener.document.getElementById('<%=sReturnUserID%>').onchange();
+        }
+   	  }
     }
 
-    <%-- SET PERSON --%>
-    function setPerson(sPersonID, sUserID, sName) {
-        if ('<%=sReturnPersonID%>'.length > 0) {
-            window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].value = sPersonID;
-            if (window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].onchange != null) {
-                window.opener.document.getElementsByName('<%=sReturnPersonID%>')[0].onchange();
-            }
-        }
-
-        if ('<%=sReturnUserID%>'.length > 0) {
-        	if(window.opener.document.getElementsByName('<%=sReturnUserID%>').length>0){
-	            window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].value = sUserID;
-	            if (window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange != null) {
-	                window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange();
-	            }
-        	}
-        	else {
-	            window.opener.document.getElementById('<%=sReturnUserID%>').value = sUserID;
-	            if (window.opener.document.getElementById('<%=sReturnUserID%>').onchange != null) {
-	                window.opener.document.getElementById('<%=sReturnUserID%>').onchange();
-	            }
-        	}
-        }
-
-        if ('<%=sReturnName%>'.length > 0) {
-        	if(window.opener.document.getElementsByName('<%=sReturnName%>').length>0){
-	            window.opener.document.getElementsByName('<%=sReturnName%>')[0].value = sName;
-	            if (window.opener.document.getElementsByName('<%=sReturnName%>')[0].onchange != null) {
-	                window.opener.document.getElementsByName('<%=sReturnName%>')[0].onchange();
-	            }
-        	}
-        	else {
-	            window.opener.document.getElementById('<%=sReturnName%>').value = sName;
-	            if (window.opener.document.getElementById('<%=sReturnName%>').onchange != null) {
-	                window.opener.document.getElementById('<%=sReturnName%>').onchange();
-	            }
-        	}
-        }
-
-        if ('<%=sSetGreenField%>'.length > 0) {
-            window.opener.document.getElementsByName('<%=sReturnName%>')[0].className = 'green';
-        }
-		if(window.opener.document.getElementsByName('<%=sReturnUserID%>').length>0){
-	        if (window.opener.document.getElementsByName('<%=sReturnUserID%>')[0] != null) {
-	            if (window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange != null) {
-	                window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange();
-	            }
-	        }
-		}
-		else {
-	        if (window.opener.document.getElementById('<%=sReturnUserID%>') != null) {
-	            if (window.opener.document.getElementById('<%=sReturnUserID%>').onchange != null) {
-	                window.opener.document.getElementById('<%=sReturnUserID%>').onchange();
-	            }
-	        }
-		}
-
-        window.close();
+    if('<%=sReturnName%>'.length > 0){
+      if(window.opener.document.getElementsByName('<%=sReturnName%>').length>0){
+	    window.opener.document.getElementsByName('<%=sReturnName%>')[0].value = sName;
+	    if(window.opener.document.getElementsByName('<%=sReturnName%>')[0].onchange!=null){
+	      window.opener.document.getElementsByName('<%=sReturnName%>')[0].onchange();
+	    }
+      }
+      else{
+	    window.opener.document.getElementById('<%=sReturnName%>').value = sName;
+	    if(window.opener.document.getElementById('<%=sReturnName%>').onchange!=null){
+	      window.opener.document.getElementById('<%=sReturnName%>').onchange();
+	    }
+      }
     }
 
-    <%-- popup : search service --%>
-    function searchService(serviceUidField, serviceNameField) {
-        openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
+    if('<%=sSetGreenField%>'.length > 0){
+      window.opener.document.getElementsByName('<%=sReturnName%>')[0].className = 'green';
     }
+    if(window.opener.document.getElementsByName('<%=sReturnUserID%>').length>0){
+      if(window.opener.document.getElementsByName('<%=sReturnUserID%>')[0]!=null){
+        if(window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange!=null){
+          window.opener.document.getElementsByName('<%=sReturnUserID%>')[0].onchange();
+        }
+      }
+    }
+    else{
+	  if(window.opener.document.getElementById('<%=sReturnUserID%>')!=null){
+        if(window.opener.document.getElementById('<%=sReturnUserID%>').onchange!=null){
+          window.opener.document.getElementById('<%=sReturnUserID%>').onchange();
+        }
+      }
+	}
+    window.close();
+  }
 
-    <%-- activate tab --%>
-    function activateTab(sTab) {
-    <%
-// hide all TRs
-    for(int i=0; i<xmlServiceIds.size(); i++){
-    %>
-        document.getElementById('tr_tab<%=i%>').style.display = 'none';
-        document.getElementById('td<%=i%>').className = "tabunselected";
+  <%-- popup : search service --%>
+  function searchService(serviceUidField, serviceNameField){
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
+  }
 
-        if (sTab == 'tab_<%=xmlServiceIds.get(i)%>') {
+  <%-- activate tab --%>
+  function activateTab(sTab){
+    <% 
+      // hide all TRs
+      for(int i=0; i<xmlServiceIds.size(); i++){
+        %>
+          document.getElementById('tr_tab<%=i%>').style.display = 'none';
+          document.getElementById('td<%=i%>').className = "tabunselected";
+
+          if(sTab=='tab_<%=xmlServiceIds.get(i)%>'){
             document.getElementById('tr_tab<%=i%>').style.display = '';
             document.getElementById('td<%=i%>').className = "tabselected";
-        }
-    <%
-        }
+          }
+        <%
+      }
     %>
 
     <%-- varia tab --%>
-        document.getElementById('tr_tabvaria').style.display = 'none';
-        document.getElementById('td<%=xmlServiceIds.size()%>').className = "tabunselected";
+    document.getElementById('tr_tabvaria').style.display = 'none';
+    document.getElementById('td<%=xmlServiceIds.size()%>').className = "tabunselected";
 
-        if (sTab == 'tab_varia') {
-
-            document.getElementById('tr_tabvaria').style.display = '';
-            document.getElementById('td<%=xmlServiceIds.size()%>').className = "tabselected";
-        }
+    if(sTab == 'tab_varia'){
+      document.getElementById('tr_tabvaria').style.display = '';
+      document.getElementById('td<%=xmlServiceIds.size()%>').className = "tabselected";
     }
-    doFind();
-
+  }
+  doFind();
 </script>

@@ -98,7 +98,7 @@ try{
                                         Encounter encounter;
                                         Encounter activeEncounter;
 
-                                        while (transactions.hasNext()) {
+                                        while(transactions.hasNext()){
                                             transactionVO = (TransactionVO) transactions.next();
                                             itemVO = transactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT");
                                             encounteritem = transactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID");
@@ -109,16 +109,16 @@ try{
                                             		servicecode= encounter.getServiceUID(transactionVO.getUpdateDateTime());
                                             	}
                                             }
-                                            if (contextSelector == null || contextSelector.length() == 0 || (itemVO != null && itemVO.getValue()!=null && itemVO.getValue().equalsIgnoreCase(contextSelector))) {
+                                            if(contextSelector == null || contextSelector.length() == 0 || (itemVO != null && itemVO.getValue()!=null && itemVO.getValue().equalsIgnoreCase(contextSelector))) {
                                                 activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
                                                 sClass = "disabled";
 
-                                                try {
-                                                    if (activeEncounter != null && transactionVO.getUpdateTime()!=null && activeEncounter!=null && !transactionVO.getUpdateTime().before(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transactionVO.getUpdateTime().after(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getEnd()))))) {
+                                                try{
+                                                    if(activeEncounter != null && transactionVO.getUpdateTime()!=null && activeEncounter!=null && !transactionVO.getUpdateTime().before(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transactionVO.getUpdateTime().after(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getEnd()))))) {
                                                         sClass = "bold";
                                                     }
                                                 }
-                                                catch (Exception e){
+                                                catch(Exception e){
                                                     e.printStackTrace();
                                                 }
                                                 
@@ -250,22 +250,17 @@ try{
 
     if(userId!=<%=activeUser.userid%>){
       var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/promptPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=medwan.transaction.delete.question";
-
-        var answer =(window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
+      var answer =(window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
       if(answer=="deleteit"){
         window.location.href = "<c:url value='/healthrecord/manageDeleteTransaction.do'/>?transactionId="+transactionId+"&serverId="+serverId+"&ts=<%=getTs()%>&be.mxs.healthrecord.updateTransaction.actionForwardKey=/main.do?Page=curative/index.jsp&ts=<%=getTs()%>";
       }
-      else {
+      else{
         popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=medwan.transaction.delete.wrong-password";
         (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.occup","medwan.transaction.delete.wrong-password",sWebLanguage)%>");
       }
     }
-    else {
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=medwan.transaction.delete.information";
-      var answer =(window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-      if(answer==1){
+    else{
+      if(yesnoDialog("Web","areYouSureToDelete")){
         window.location.href="<c:url value='/healthrecord/manageDeleteTransaction.do'/>?transactionId="+transactionId+"&serverId="+serverId+"&ts=<%=getTs()%>&be.mxs.healthrecord.updateTransaction.actionForwardKey=/main.do?Page=curative/index.jsp&ts=<%=getTs()%>";
       }
     }
@@ -295,12 +290,12 @@ try{
   }
 
   <%-- SORT SELECT --%>
-  function sortSelect (select, compareFunction) {
+  function sortSelect(select,compareFunction){
     if(select!=null){
-      if (!compareFunction) compareFunction = compareText;
+      if(!compareFunction) compareFunction = compareText;
 
       var options = new Array (select.options.length);
-      for (var i = 0; i < options.length; i++){
+      for(var i=0; i<options.length; i++){
         options[i] =
           new Option (
             select.options[i].text,
@@ -313,7 +308,7 @@ try{
       options.sort(compareFunction);
       select.options.length = 0;
 
-      for (var i = 0; i < options.length; i++){
+      for(var i=0; i<options.length; i++){
         select.options[i] = options[i];
         if(select.options[i].value=='<%=contextSelector%>'){
           select.options[i].selected=true;
@@ -369,15 +364,14 @@ try{
 
   sortSelect(document.getElementById('contextSelector'));
 
-function newExamination(){
+  function newExamination(){
 	if(<%=Encounter.selectEncounters("","","","","","","","",activePatient.personid,"").size()%>>0){
-		window.location.href="<c:url value='/main.do'/>?Page=curative/manageExaminations.jsp&ts=<%=getTs()%>";
+	  window.location.href="<c:url value='/main.do'/>?Page=curative/manageExaminations.jsp&ts=<%=getTs()%>";
 	}
 	else{
-	    alertDialog("web","create.encounter.first");
+	  alertDialog("web","create.encounter.first");
 	}
-}
-
+  }
 </script>
 <%
 }

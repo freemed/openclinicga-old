@@ -204,7 +204,7 @@
                 FindForm.submit();
             }
             else {
-                alert("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+              alertDialog("web.manage","datamissing");
             }
         }
 

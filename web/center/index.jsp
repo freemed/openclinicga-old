@@ -1,19 +1,21 @@
-<%@ page import="be.openclinic.system.Center" %>
-<%@ page import="java.util.*" %>
-<%@include file="/includes/validateUser.jsp" %>
-<%=sJSSORTTABLE%><%String sAction = checkString(request.getParameter("action"));%>
+<%@page import="be.openclinic.system.Center"%>
+<%@page import="java.util.*"%>
+<%@include file="/includes/validateUser.jsp"%>
+<%=sJSSORTTABLE%>
+
+<%String sAction = checkString(request.getParameter("action"));%>
 <form id="searchFormForm" name="searchFormForm">
-    <table width='100%' class="menu" cellspacing='0'>
+    <table width="100%" class="menu" cellspacing="0">
         <tr class="admin">
-            <td colspan="2"><%=getTran("web", "search", sWebLanguage)%></td>
+            <td colspan="2"><%=getTran("web","search",sWebLanguage)%></td>
         </tr>
         <tr>
-            <td width="<%=sTDAdminWidth%>"><%=getTran("Web", "Begin", sWebLanguage)%></td>
-            <td><%=writeDateField("FindBegin", "searchFormForm", "", sWebLanguage)%></td>
+            <td width="<%=sTDAdminWidth%>"><%=getTran("Web","Begin",sWebLanguage)%></td>
+            <td><%=writeDateField("FindBegin","searchFormForm","",sWebLanguage)%></td>
         </tr>
         <tr>
-            <td><%=getTran("Web", "End", sWebLanguage)%></td>
-            <td><%=writeDateField("FindEnd", "searchFormForm", "", sWebLanguage)%></td>
+            <td><%=getTran("Web","End",sWebLanguage)%></td>
+            <td><%=writeDateField("FindEnd","searchFormForm","",sWebLanguage)%></td>
         </tr>
         <tr>
             <td width="<%=sTDAdminWidth%>">&nbsp;</td>
@@ -25,18 +27,23 @@
     </table>
 </form>
 <div id="responseByAjax">&nbsp;</div>
+
 <script>
-    var setSearch = function() {
-        var params = "FindBegin=" + $F("FindBegin") + "&FindEnd=" + $F("FindEnd") + "&ts=" +<%=getTs()%>;
-        var url = '<c:url value="/"/>center/ajax/searchServices.jsp';
-        new Ajax.Request(url, {parameters:params,method: "POST",
-            onSuccess:function(resp) {
-                $("responseByAjax").update(resp.responseText);
-            }});
-    }
-            <%
-            if(sAction.length()>0){
-               out.write("document.onload = setSearch()");
-        }
-            %>
+  function setSearch(){
+    var params = "FindBegin="+$F("FindBegin")+"&FindEnd="+$F("FindEnd")+"&ts=" +<%=getTs()%>;
+    var url = '<c:url value="/"/>center/ajax/searchServices.jsp';
+    new Ajax.Request(url,{
+      parameters:params,
+      method:"POST",
+      onSuccess:function(resp){
+        $("responseByAjax").update(resp.responseText);
+      }
+    });
+  }
+  
+  <%
+      if(sAction.length()>0){
+        out.write("document.onload = setSearch();");
+      }
+  %>
 </script>

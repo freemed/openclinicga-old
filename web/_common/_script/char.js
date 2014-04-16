@@ -1,7 +1,3 @@
-function validateText(sObject){
-    //NIET MEER TERUGZETTEN AUB!!!!!!!!!!!!!!!!!!!!
-}
-
 function denySpecialCharacters(inputField){
   var checkChar = inputField.value.charAt(inputField.value.length-1);
 
@@ -51,13 +47,13 @@ function limitRows(textarea,maxrows){
 
 function limitLength(sObject){
   var iMaxLength = 250;
-  if (sObject.value.length>iMaxLength) {
+  if(sObject.value.length>iMaxLength){
     sObject.value = sObject.value.substring(0,iMaxLength);
   }
 }
 
 function setLength(sObject, iLength){
-  if (sObject.value.length>iLength) {
+  if(sObject.value.length>iLength){
     sObject.value = sObject.value.substring(0,iLength);
   }
 }
@@ -132,7 +128,7 @@ function isInteger(sObject){
   var vchar = "01234567890.";
   var dotCount = 0;
 
-  for(var i=0; i < string.length; i++){
+  for(var i=0; i<string.length; i++){
     if(vchar.indexOf(string.charAt(i)) == -1){
       sObject.value = "";
       return false;
@@ -200,7 +196,7 @@ function checkMinMax(iMin,iMax,oObject,iDefault){
   isNumber(oObject);
 
   if(oObject.value.length>0){
-    if(iMin!="") {
+    if(iMin!=""){
       if(oObject.value < iMin){
         oObject.value=iDefault;
         oObject.focus();

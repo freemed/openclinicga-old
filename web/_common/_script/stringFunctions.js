@@ -1,50 +1,39 @@
 /**
- * stringFunctions.js
- *
- * This file contains a collection of string functions for javascript.
- * Most of them are inspired by their PHP equivalent.
- *
  * This source file is subject to version 2.1 of the GNU Lesser
  * General Public License (LPGL), found in the file LICENSE that is
- * included with this package, and is also available at
- * http://www.gnu.org/copyleft/lesser.html.
+ * included with this package, and is also available at http://www.gnu.org/copyleft/lesser.html.
  * @package     Javascript
- *
  * @author      Dieter Raber <dieter@dieterraber.net>
  * @copyright   2004-12-27
  * @version     1.0
  * @license     http://www.gnu.org/copyleft/lesser.html
- *
  */
 
 /**
  * hex2rgb
- *
  * Convert hexadecimal color triplets to RGB
- *
  * Expects an hexadecimal color triplet (case insensitive)
- * Returns an array containing the decimal values
- * for r, g and b.
+ * Returns an array containing the decimal values for r, g and b.
  *
  * example:
  *   test = 'ff0033'
- *   test.hex2rgb() //returns the array (255,00,51)
+ *   test.hex2rgb() // returns (255,00,51)
  */
 String.prototype.hex2rgb = function(){
   var red, green, blue;
-  var triplet = this.toLowerCase().replace(/#/, '');
-  var rgbArr  = new Array();
+  var triplet = this.toLowerCase().replace(/#/,'');
+  var rgbArr = new Array();
 
-  if(triplet.length == 6){
-    rgbArr[0] = parseInt(triplet.substr(0,2), 16)
-    rgbArr[1] = parseInt(triplet.substr(2,2), 16)
-    rgbArr[2] = parseInt(triplet.substr(4,2), 16)
+  if(triplet.length==6){
+    rgbArr[0] = parseInt(triplet.substr(0,2),16)
+    rgbArr[1] = parseInt(triplet.substr(2,2),16)
+    rgbArr[2] = parseInt(triplet.substr(4,2),16)
     return rgbArr;
   }
-  else if(triplet.length == 3){
-    rgbArr[0] = parseInt((triplet.substr(0,1) + triplet.substr(0,1)), 16);
-    rgbArr[1] = parseInt((triplet.substr(1,1) + triplet.substr(1,1)), 16);
-    rgbArr[2] = parseInt((triplet.substr(2,2) + triplet.substr(2,2)), 16);
+  else if(triplet.length==3){
+    rgbArr[0] = parseInt((triplet.substr(0,1)+triplet.substr(0,1)),16);
+    rgbArr[1] = parseInt((triplet.substr(1,1)+triplet.substr(1,1)),16);
+    rgbArr[2] = parseInt((triplet.substr(2,2)+triplet.substr(2,2)),16);
     return rgbArr;
   }
   else{
@@ -52,152 +41,132 @@ String.prototype.hex2rgb = function(){
   }
 }
 
-
 /**
- * htmlEntities
- *
- * Convert all applicable characters to HTML entities
- *
+ * htmlEntities : Convert all applicable characters to HTML entities
  * example:
  *   test = 'äöü'
- *   test.htmlEntities() //returns '&auml;&ouml;&uuml;'
- */
+ *   test.htmlEntities() // returns '&auml;&ouml;&uuml;'
+ */ 
+ var Base64 = {		 
+	// private property
+	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
  
- var Base64 = {
-		 
-			// private property
-			_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-		 
-			// public method for encoding
-			encode : function (input) {
-				var output = "";
-				var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-				var i = 0;
-		 
-				input = Base64._utf8_encode(input);
-		 
-				while (i < input.length) {
-		 
-					chr1 = input.charCodeAt(i++);
-					chr2 = input.charCodeAt(i++);
-					chr3 = input.charCodeAt(i++);
-		 
-					enc1 = chr1 >> 2;
-					enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-					enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-					enc4 = chr3 & 63;
-		 
-					if (isNaN(chr2)) {
-						enc3 = enc4 = 64;
-					} else if (isNaN(chr3)) {
-						enc4 = 64;
-					}
-		 
-					output = output +
-					this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
-					this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
-		 
-				}
-		 
-				return output;
-			},
-		 
-			// public method for decoding
-			decode : function (input) {
-				var output = "";
-				var chr1, chr2, chr3;
-				var enc1, enc2, enc3, enc4;
-				var i = 0;
-		 
-				input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-		 
-				while (i < input.length) {
-		 
-					enc1 = this._keyStr.indexOf(input.charAt(i++));
-					enc2 = this._keyStr.indexOf(input.charAt(i++));
-					enc3 = this._keyStr.indexOf(input.charAt(i++));
-					enc4 = this._keyStr.indexOf(input.charAt(i++));
-		 
-					chr1 = (enc1 << 2) | (enc2 >> 4);
-					chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-					chr3 = ((enc3 & 3) << 6) | enc4;
-		 
-					output = output + String.fromCharCode(chr1);
-		 
-					if (enc3 != 64) {
-						output = output + String.fromCharCode(chr2);
-					}
-					if (enc4 != 64) {
-						output = output + String.fromCharCode(chr3);
-					}
-		 
-				}
-		 
-				output = Base64._utf8_decode(output);
-		 
-				return output;
-		 
-			},
-		 
-			// private method for UTF-8 encoding
-			_utf8_encode : function (string) {
-				string = string.replace(/\r\n/g,"\n");
-				var utftext = "";
-		 
-				for (var n = 0; n < string.length; n++) {
-		 
-					var c = string.charCodeAt(n);
-		 
-					if (c < 128) {
-						utftext += String.fromCharCode(c);
-					}
-					else if((c > 127) && (c < 2048)) {
-						utftext += String.fromCharCode((c >> 6) | 192);
-						utftext += String.fromCharCode((c & 63) | 128);
-					}
-					else {
-						utftext += String.fromCharCode((c >> 12) | 224);
-						utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-						utftext += String.fromCharCode((c & 63) | 128);
-					}
-		 
-				}
-		 
-				return utftext;
-			},
-		 
-			// private method for UTF-8 decoding
-			_utf8_decode : function (utftext) {
-				var string = "";
-				var i = 0;
-				var c = c1 = c2 = 0;
-		 
-				while ( i < utftext.length ) {
-		 
-					c = utftext.charCodeAt(i);
-		 
-					if (c < 128) {
-						string += String.fromCharCode(c);
-						i++;
-					}
-					else if((c > 191) && (c < 224)) {
-						c2 = utftext.charCodeAt(i+1);
-						string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-						i += 2;
-					}
-					else {
-						c2 = utftext.charCodeAt(i+1);
-						c3 = utftext.charCodeAt(i+2);
-						string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-						i += 3;
-					}
-		 
-				}
-		 
-				return string;
+	// public method for encoding
+	encode : function(input){
+		var output = "";
+		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+		var i = 0;
+ 
+		input = Base64._utf8_encode(input); 
+		while(i < input.length){ 
+			chr1 = input.charCodeAt(i++);
+			chr2 = input.charCodeAt(i++);
+			chr3 = input.charCodeAt(i++);
+ 
+			enc1 = chr1 >> 2;
+			enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+			enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+			enc4 = chr3 & 63;
+ 
+			if(isNaN(chr2)) enc3 = enc4 = 64;
+			else if(isNaN(chr3)) enc4 = 64;
+ 
+			output = output +
+			this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2)+
+			this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4); 
+		}
+ 
+		return output;
+	},
+ 
+	// public method for decoding
+	decode : function (input){
+		var output = "";
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+		var i = 0;
+ 
+		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, ""); 
+		while(i < input.length){ 
+			enc1 = this._keyStr.indexOf(input.charAt(i++));
+			enc2 = this._keyStr.indexOf(input.charAt(i++));
+			enc3 = this._keyStr.indexOf(input.charAt(i++));
+			enc4 = this._keyStr.indexOf(input.charAt(i++));
+ 
+			chr1 = (enc1 << 2) | (enc2 >> 4);
+			chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+			chr3 = ((enc3 & 3) << 6) | enc4;
+ 
+			output+= String.fromCharCode(chr1);
+ 
+			if(enc3 != 64){
+				output+= String.fromCharCode(chr2);
 			}
-		 
-		}	
+			if(enc4 != 64){
+				output+= String.fromCharCode(chr3);
+			}
+ 
+		}
+ 
+		output = Base64._utf8_decode(output); 
+		return output; 
+	},
+ 
+	// private method for UTF-8 encoding
+	_utf8_encode : function (string){
+		string = string.replace(/\r\n/g,"\n");
+		var utftext = "";
+ 
+		for(var n=0; n<string.length; n++){ 
+			var c = string.charCodeAt(n);
+ 
+			if(c < 128){
+				utftext+= String.fromCharCode(c);
+			}
+			else if((c > 127) && (c < 2048)){
+				utftext+= String.fromCharCode((c >> 6) | 192);
+				utftext+= String.fromCharCode((c & 63) | 128);
+			}
+			else{
+				utftext+= String.fromCharCode((c >> 12) | 224);
+				utftext+= String.fromCharCode(((c >> 6) & 63) | 128);
+				utftext+= String.fromCharCode((c & 63) | 128);
+			} 
+		}
+ 
+		return utftext;
+	},
+ 
+	// private method for UTF-8 decoding
+	_utf8_decode : function (utftext){
+		var string = "";
+		var i = 0;
+		var c = c1 = c2 = 0;
+ 
+		while(i< utftext.length){ 
+			c = utftext.charCodeAt(i);
+ 
+			if(c < 128){
+				string += String.fromCharCode(c);
+				i++;
+			}
+			else if((c > 191) && (c < 224)){
+				c2 = utftext.charCodeAt(i+1);
+				string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+				i+= 2;
+			}
+			else{
+				c2 = utftext.charCodeAt(i+1);
+				c3 = utftext.charCodeAt(i+2);
+				string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+				i+= 3;
+			} 
+		}
+ 
+		return string;
+	} 
+}	
+ 
 String.prototype.htmlEntities = function(){
   var chars = new Array ('&','à','á','â','ã','ä','å','æ','ç','è','é',
                          'ê','ë','ì','í','î','ï','ð','ñ','ò','ó','ô',
@@ -206,9 +175,7 @@ String.prototype.htmlEntities = function(){
                          'Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö',
                          'Ø','Ù','Ú','Û','Ü','Ý','Þ','€','\"','ß','<',
                          '>','¢','£','¤','¥','¦','§','¨','©','ª','«',
-                         '¬','­',
- 
-                         '®','¯','°','±','²','³','´','µ','¶',
+                         '¬','­','®','¯','°','±','²','³','´','µ','¶',
                          '·','¸','¹','º','»','¼','½','¾');
 
   var entities = new Array ('amp','agrave','aacute','acirc','atilde','auml','aring',
@@ -230,18 +197,15 @@ String.prototype.htmlEntities = function(){
     myRegExp = new RegExp();
     myRegExp.compile('&'+entities[i]+';','g')
     newString = newString.replace (myRegExp, chars[i]);
-  }
+  }  
   return newString;
 }
 
 /**
- * unhtmlEntities
- *
- * Convert all applicable HTML entities to characters
- *
+ * unhtmlEntities : Convert all applicable HTML entities to characters
  * example:
  *   test = '&auml;&ouml;&uuml;'
- *   test.htmlEntities() //returns 'äöü'
+ *   test.htmlEntities() // returns 'äöü'
  */
 String.prototype.unhtmlEntities = function(){
   var chars = new Array ('&','à','á','â','ã','ä','å','æ','ç','è','é',
@@ -276,10 +240,7 @@ String.prototype.unhtmlEntities = function(){
 }
 
 /**
- * numericEntities
- *
- * Convert all applicable characters to numeric entities
- *
+ * numericEntities : Convert all applicable characters to numeric entities
  * example:
  *   test = 'äöü'
  *   test.numericEntities() //returns '&#228;&#246;&#252;'
@@ -297,7 +258,7 @@ String.prototype.numericEntities = function(){
                          '·','¸','¹','º','»','¼','½','¾');
 
   var entities = new Array()
-  for(i=0; i<chars.length; i++) {
+  for(i=0; i<chars.length; i++){
     entities[i] = chars[i].charCodeAt(0);
   }
 
@@ -310,10 +271,7 @@ String.prototype.numericEntities = function(){
 
 
 /**
- * trim
- *
- * Strip whitespace from the beginning and end of a string
- *
+ * trim : Strip whitespace from the beginning and end of a string
  * example:
  *   test = '\nsomestring\n\t\0'
  *   test.trim()  //returns 'somestring'
@@ -345,48 +303,43 @@ String.prototype.ucfirst = function(){
   return String.fromCharCode(firstLetter) + this.substr(1,this.length -1)
 }
 
-
 /**
- * strPad
- *
- * returns the input string padded on the left, the right, or both sides
- *
+ * strPad : returns the input string padded on the left, the right, or both sides
  * examples:
- *   var input = 'foo';
- *   input.strPad(9);                      // returns "foo      "
- *   input.strPad(9, "*+", STR_PAD_LEFT);  // returns "*+*+*+foo"
- *   input.strPad(9, "*", STR_PAD_BOTH);   // returns "***foo***"
- *   input.strPad(9 , "*********");        // returns "foo******"
+ *  var input = 'foo';
+ *  input.strPad(9);                      // returns "foo      "
+ *  input.strPad(9, "*+", STR_PAD_LEFT);  // returns "*+*+*+foo"
+ *  input.strPad(9, "*", STR_PAD_BOTH);   // returns "***foo***"
+ *  input.strPad(9 , "*********");        // returns "foo******"
  */
-
 var STR_PAD_LEFT  = 0;
 var STR_PAD_RIGHT = 1;
 var STR_PAD_BOTH  = 2;
 
 String.prototype.strPad = function(pad_length, pad_string, pad_type){
   var num_pad_chars = pad_length - this.length;
-  var result        = '';
-  var pad_str_val   = ' ';
-  var pad_str_len   = 1;
-  var pad_type_val  = STR_PAD_RIGHT;
-  var i             = 0;
-  var left_pad      = 0;
-  var right_pad     = 0;
-  var error         = false;
-  var error_msg     = '';
-  var output        = this;
+  var result = '';
+  var pad_str_val = ' ';
+  var pad_str_len = 1;
+  var pad_type_val = STR_PAD_RIGHT;
+  var i = 0;
+  var left_pad = 0;
+  var right_pad = 0;
+  var error = false;
+  var error_msg = '';
+  var output = this;
 
   if(arguments.length < 2 || arguments.length > 4){
     error = true;
     error_msg = "Wrong parameter count.";
   }
-  else if(isNaN(arguments[0]) == true){
+  else if(isNaN(arguments[0])==true){
     error = true;
     error_msg = "Padding length must be an integer.";
   }
 
   if(arguments.length > 2){
-    if(pad_string.length == 0){
+    if(pad_string.length==0){
       error = true;
       error_msg = "Padding string cannot be empty.";
     }
@@ -428,10 +381,8 @@ String.prototype.strPad = function(pad_length, pad_string, pad_type){
 
     for(i=0; i<right_pad; i++){
       output+= pad_str_val.substr(0,num_pad_chars);
-
     }
   }
 
   return output;
 }
-

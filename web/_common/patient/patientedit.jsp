@@ -65,10 +65,8 @@
     if(maySubmit){
       openPopup("/_common/patient/patienteditSavePopup.jsp&PersonID=<%=(activePatient!=null?activePatient.personid:"")%>&Lastname="+PatientEditForm.Lastname.value+"&Firstname="+PatientEditForm.Firstname.value+"&DateOfBirth="+PatientEditForm.DateOfBirth.value+"&ImmatNew="+PatientEditForm.ImmatNew.value+"&NatReg="+PatientEditForm.NatReg.value+"&ts=<%=getTs()%>");
     }
-    else if(displayGenericAlert){        
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
+    else if(displayGenericAlert){  
+      alertDialog("web.manage","somefieldsareempty");
     }
   }
 

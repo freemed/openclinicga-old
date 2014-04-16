@@ -226,11 +226,7 @@
   }
   
   function delRow(id){
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=medwan.transaction.delete.information";
-    var answer =(window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       new Ajax.Request('<c:url value="/adt/ajaxActions/deleteEncounter.jsp"/>?EditEncounterUID=' + id,{
        onSuccess: function(resp){
          if(resp.responseText.blank() && $(id)){

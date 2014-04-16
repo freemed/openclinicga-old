@@ -150,7 +150,7 @@
 </table>
 <script>
     function fullstats(servicecode){
-        window.open("<c:url value='/popup.jsp'/>?Page=statistics/diagnosisStats.jsp&ts=<%=getTs()%>&Action=SEARCH&fromdate=<%=fromdate%>&todate=<%=todate%>&codetype=icpc&calculate=true&ServiceID="+servicecode,"Popup"+new Date().getTime(),"toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=800, height=600, menubar=no").moveTo((screen.width-800)/2,(screen.height-600)/2);
+        window.open("<c:url value='/popup.jsp'/>?Page=statistics/diagnosisStats.jsp&ts=<%=getTs()%>&Action=SEARCH&fromdate=<%=fromdate%>&todate=<%=todate%>&codetype=icpc&calculate=true&ServiceID="+servicecode,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no").moveTo((screen.width-800)/2,(screen.height-600)/2);
     }
     function doBack(){
         window.location.href = "<c:url value='/main.do'/>?Page=statistics/index.jsp";

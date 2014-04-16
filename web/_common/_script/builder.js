@@ -1,9 +1,7 @@
 // script.aculo.us builder.js v1.8.1, Thu Jan 03 22:07:12 -0500 2008
-
 // Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
-//
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
-// For details, see the script.aculo.us web site: http://script.aculo.us/
+// For details, see: http://script.aculo.us/
 
 var Builder = {
   NODEMAP: {

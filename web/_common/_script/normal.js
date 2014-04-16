@@ -1,9 +1,3 @@
-////////// JS theme file for PopCalendarXP 8.0 /////////
-// This file is totally configurable. You may remove all the comments in this file to minimize the download size.
-// Since the plugins are loaded after theme config, sometimes we would redefine(override) some theme options there for convenience.
-////////////////////////////////////////////////////////
-
-// ---- PopCalendar Specific Options ----
 var gsSplit="/";	// separator of date string. If set it to empty string, then giMonthMode and gbPadZero will be fixed to 0 and true.
 var giDatePos=0;	// date format sequence  0: D-M-Y ; 1: M-D-Y; 2: Y-M-D
 var gbPadZero=true;	// whether to pad the digits with 0 in the left when less than 10.

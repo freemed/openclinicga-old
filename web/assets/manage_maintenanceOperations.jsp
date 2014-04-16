@@ -348,9 +348,8 @@
   }
   
   <%-- DELETE MAINTENANCE OPERATION --%>
-  function deleteMaintenanceOperation(){ 
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){                 
+  function deleteMaintenanceOperation(){
+	if(yesnoDialog("Web","areYouSureToDelete")){       
       disableButtons();
       
       var url = "<c:url value='/assets/ajax/maintenanceOperation/deleteMaintenanceOperation.jsp'/>?ts="+new Date().getTime();

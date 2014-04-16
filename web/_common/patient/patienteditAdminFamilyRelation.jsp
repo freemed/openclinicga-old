@@ -1,6 +1,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/_common/patient/patienteditHelper.jsp"%>
 <%=sJSSORTTABLE%>
+
 <%!
     //--- ADD FAMILY RELATION ------------------------------------------------------------------------------------------
     private String addFR(int iTotal, String sourceId, String destinationId, String relationType, String sWebLanguage){
@@ -16,15 +17,15 @@
 
         String detailsTran = getTran("web","showdetails",sWebLanguage);
         StringBuffer buf = new StringBuffer();
-        buf.append("<tr id='rowFR"+iTotal+"' class='"+sClass+"' >")
-           .append(" <td align='center'>")
-           .append("  <a href='#' onclick=\"deleteFR(rowFR"+iTotal+");\">")
-           .append("   <img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
-           .append("  </a>")
-           .append(" </td>")
-           .append(" <td>"+sSourceFullName+"</td>")
-           .append(" <td title='"+detailsTran+"' onMouseOver=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onClick=\"showDossier('"+destinationId+"');\">"+sDestinationFullName+"</td>")
-           .append(" <td>"+sRelationType+"</td>")
+        buf.append("<tr id='rowFR"+iTotal+"' class='"+sClass+"'>")
+            .append("<td align='center'>")
+             .append("<a href='#' onclick=\"deleteFR(rowFR"+iTotal+");\">")
+              .append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
+             .append("</a>")
+            .append("</td>")
+            .append("<td>"+sSourceFullName+"</td>")
+            .append("<td title='"+detailsTran+"' onMouseOver=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onClick=\"showDossier('"+destinationId+"');\">"+sDestinationFullName+"</td>")
+            .append("<td>"+sRelationType+"</td>")
            .append("</tr>");
 
         return buf.toString();
@@ -152,10 +153,8 @@
                 var relationType  = PatientEditForm.RRelationType.value;
 
                 if(destinationId.length > 0 && relationType.length > 0){
-                  if(destinationId=="<%=activePatient.personid%>"){
-                    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=destinationpersonmaynotequalpatient";
-                    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                    (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","destinationpersonmaynotequalpatient",sWebLanguage)%>");
+                  if(destinationId=="<%=activePatient.personid%>"){                    
+                    alertDialog("web.manage","destinationpersonmaynotequalpatient");
 
                     PatientEditForm.RDestinationId.value = "";
                     PatientEditForm.RDestinationFullName.value = "";
@@ -211,10 +210,8 @@
                   }
                 }
                 // data missing
-                else{
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+                else{                    
+                  alertDialog("web.manage","datamissing");
 
                   if(PatientEditForm.RDestinationId.value.length==0){
                     PatientEditForm.RDestinationFullName.focus();
@@ -280,11 +277,7 @@
               <%-- DELETE ALL FAMILY RELATIONS --%>
               function deleteAllFR(){
                 if(tblFR.rows.length > 1){
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-                  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-                  if(answer==1){
+                  if(yesnoDialog("Web","areYouSureToDelete")){
                     deleteAllFRNoConfirm();
                   }
                 }
@@ -317,11 +310,7 @@
 
               <%-- DELETE FAMILY RELATION --%>
               function deleteFR(rowid){
-                var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-                var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-                if(answer==1){
+            	if(yesnoDialog("Web","areYouSureToDelete")){
                   sFR = deleteRowFromArrayString(sFR,rowid.id);
                   initRelationsArray(sFR);
                   tblFR.deleteRow(rowid.rowIndex);

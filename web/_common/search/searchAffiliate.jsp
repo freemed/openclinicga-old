@@ -20,13 +20,11 @@
         <tr height="25">
             <td nowrap>&nbsp;<%=getTran("Web", "name", sWebLanguage)%>&nbsp;&nbsp;</td>
             <td nowrap>
-                <input type="text" name="FindLastname" class="text" value="<%=sFindLastname%>"
-                       onblur="validateText(this);limitLength(this);" >
+                <input type="text" name="FindLastname" class="text" value="<%=sFindLastname%>" onblur="limitLength(this);" >
             </td>
             <td nowrap>&nbsp;<%=getTran("Web", "firstname", sWebLanguage)%>&nbsp;&nbsp;</td>
             <td nowrap>
-                <input type="text" name="FindFirstname" class="text" value="<%=sFindFirstname%>"
-                       onblur="validateText(this);limitLength(this);">
+                <input type="text" name="FindFirstname" class="text" value="<%=sFindFirstname%>" onblur="limitLength(this);">
             </td>
         </tr>
         <%-- search fields row 2 --%>

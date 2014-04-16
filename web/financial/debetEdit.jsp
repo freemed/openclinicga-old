@@ -306,7 +306,7 @@ System.out.println(0);
            <td class="admin"><%=getTran("Web","linked.service",sWebLanguage)%></td>
            <td class='admin2'>
                <input type="hidden" name="EditDebetServiceUid" id="EditDebetServiceUid" value="<%=sEditDebetServiceUid%>">
-               <input class="text" type="text" name="EditDebetServiceName" id="EditDebetServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditDebetServiceName%>" onblur="">
+               <input class="text" type="text" name="EditDebetServiceName" id="EditDebetServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditDebetServiceName%>" >
                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditDebetServiceUid','EditDebetServiceName');">
            </td>
        </tr>
@@ -720,9 +720,7 @@ System.out.println(0);
           );
       }
       else {
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+          alertDialog("web.manage","datamissing");
       }
   }
 
@@ -770,77 +768,77 @@ System.out.println(0);
         }
     }
 
-    function doNew(){
-        EditForm.EditDebetUID.value = "";
-        EditForm.EditPrestationUID.value = "";
-        EditForm.EditPrestationGroup.selectedIndex=-1;
-        EditForm.EditPrestationName.selectedIndex = -1;
-        document.getElementById('prestationcontent').innerHTML='';
-        EditForm.EditAmount.value = "";
-        EditForm.EditInsurarAmount.value = "";
-        EditForm.EditComment.value = "";
-        if (EditForm.EditCredit) EditForm.EditCredit.checked = false;
-        EditForm.EditPatientInvoiceUID.value = "";
-        EditForm.EditInsuranceInvoiceUID.value = "";
-        EditForm.EditQuantity.value = "1";
-        if(1==<%=MedwanQuery.getInstance().getConfigInt("resetServiceUidForNewDebet",0)%>){
-	        EditForm.EditDebetServiceUid.value="<%=sDefaultServiceUid%>";
-	        EditForm.EditDebetServiceName.value="<%=sDefaultServiceName%>";
-        }
-        if (EditForm.buttonSave) EditForm.buttonSave.disabled=false;
-        document.getElementById('groups').style.visibility='visible';
-        changePrestation(true);
-        findPerformer();
-        checkSaveButtonRights();
-        document.getElementById('buttonadmin').innerHTML="<input class='button' type='button' name='buttonSave' id='buttonSave' value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick='doSave();'/>&nbsp;<input class='button' type='button' name='buttonInvoice' value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick='doInvoice()'/>";
+  function doNew(){
+    EditForm.EditDebetUID.value = "";
+    EditForm.EditPrestationUID.value = "";
+    EditForm.EditPrestationGroup.selectedIndex=-1;
+    EditForm.EditPrestationName.selectedIndex = -1;
+    document.getElementById('prestationcontent').innerHTML='';
+    EditForm.EditAmount.value = "";
+    EditForm.EditInsurarAmount.value = "";
+    EditForm.EditComment.value = "";
+    if (EditForm.EditCredit) EditForm.EditCredit.checked = false;
+    EditForm.EditPatientInvoiceUID.value = "";
+    EditForm.EditInsuranceInvoiceUID.value = "";
+    EditForm.EditQuantity.value = "1";
+    if(1==<%=MedwanQuery.getInstance().getConfigInt("resetServiceUidForNewDebet",0)%>){
+	  EditForm.EditDebetServiceUid.value="<%=sDefaultServiceUid%>";
+	  EditForm.EditDebetServiceName.value="<%=sDefaultServiceName%>";
     }
-
-    function setDebet(sUid){
-        EditForm.EditDebetUID.value = sUid;
-        EditForm.submit();
-    }
-
-    function loadUnassignedDebets(){
-        document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-        var params = 'FindDateBegin=' + EditForm.FindDateBegin.value
-              +"&FindDateEnd="+EditForm.FindDateEnd.value
-              +"&FindAmountMin="+EditForm.FindAmountMin.value
-              +"&FindAmountMax="+EditForm.FindAmountMax.value;
-        var today = new Date();
-        var url= '<c:url value="/financial/debetGetUnassignedDebets.jsp"/>?ts='+today;
-		new Ajax.Request(url,{
-				method: "GET",
-                parameters: params,
-                onSuccess: function(resp){
-                    $('divUnassignedDebets').innerHTML=resp.responseText;
-                }
-			}
-		);
-    }
-
-    function clearFindFields(){
-        EditForm.FindDateBegin.value = "";
-        EditForm.FindDateEnd.value = "";
-        EditForm.FindAmountMin.value = "";
-        EditForm.FindAmountMax.value = "";
-    }
-
-    function checkCoverage(){
-        if(document.getElementById("coverageinsurance").selectedIndex>0){
-            document.getElementById("EditAmount").style.textDecoration="line-through";
-        }
-        else {
-            document.getElementById("EditAmount").style.textDecoration="";
-        }
-    }
-	  function searchService(serviceUidField,serviceNameField){
-	      openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
-	      document.getElementById(serviceNameField).focus();
-	  }
-
-    checkCoverage();
-    EditForm.EditDate.focus();
+    if (EditForm.buttonSave) EditForm.buttonSave.disabled=false;
+    document.getElementById('groups').style.visibility='visible';
     changePrestation(true);
-    loadUnassignedDebets();
+    findPerformer();
     checkSaveButtonRights();
+    document.getElementById('buttonadmin').innerHTML="<input class='button' type='button' name='buttonSave' id='buttonSave' value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick='doSave();'/>&nbsp;<input class='button' type='button' name='buttonInvoice' value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick='doInvoice()'/>";
+  }
+
+  function setDebet(sUid){
+    EditForm.EditDebetUID.value = sUid;
+    EditForm.submit();
+  }
+
+  function loadUnassignedDebets(){
+    document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+    var params = 'FindDateBegin=' + EditForm.FindDateBegin.value
+                +"&FindDateEnd="+EditForm.FindDateEnd.value
+                +"&FindAmountMin="+EditForm.FindAmountMin.value
+                +"&FindAmountMax="+EditForm.FindAmountMax.value;
+    var today = new Date();
+    var url= '<c:url value="/financial/debetGetUnassignedDebets.jsp"/>?ts='+today;
+	new Ajax.Request(url,{
+	  method: "GET",
+      parameters: params,
+      onSuccess: function(resp){
+        $('divUnassignedDebets').innerHTML=resp.responseText;
+      }
+	});
+  }
+
+  function clearFindFields(){
+    EditForm.FindDateBegin.value = "";
+    EditForm.FindDateEnd.value = "";
+    EditForm.FindAmountMin.value = "";
+    EditForm.FindAmountMax.value = "";
+  }
+
+  function checkCoverage(){
+    if(document.getElementById("coverageinsurance").selectedIndex>0){
+      document.getElementById("EditAmount").style.textDecoration="line-through";
+    }
+    else {
+      document.getElementById("EditAmount").style.textDecoration="";
+    }
+  }
+   
+  function searchService(serviceUidField,serviceNameField){
+	openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+	document.getElementById(serviceNameField).focus();
+  }
+
+  checkCoverage();
+  EditForm.EditDate.focus();
+  changePrestation(true);
+  loadUnassignedDebets();
+  checkSaveButtonRights();
 </script>

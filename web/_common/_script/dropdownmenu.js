@@ -64,7 +64,7 @@ function MM_reloadPage(init){  //reloads the window if Nav4 resized
 }
 
 MM_reloadPage(true);
-function MM_findObj(n, d){ //v4.0
+function MM_findObj(n,d){ //v4.0
   var p,i,x;
   if(!d) d = document;
   if((p = n.indexOf("?")) > 0 && parent.frames.length){

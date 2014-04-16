@@ -7,7 +7,7 @@
         String sReturn = normalRow(sLabelType,sLabelID,sFieldName,sTab,sWebLanguage);
 
         if (sTypeContent.toUpperCase().equals("T")) {
-            sReturn+="<input class='text' type='text' name='"+sFieldName+"' id='"+sFieldName+"' value=\""+sValue.trim()+"\" size='"+sTextWidth+"' onblur='validateText(this);limitLength(this);'";
+            sReturn+="<input class='text' type='text' name='"+sFieldName+"' id='"+sFieldName+"' value=\""+sValue.trim()+"\" size='"+sTextWidth+"' onblur='limitLength(this);'";
              if (!bEditable) {
                 sReturn+=" readonly ";
             }
@@ -127,7 +127,7 @@ function checkBegin(sObject,sBegin){
       sObject.value = sBegin;
     }
   }
-  else {
+  else{
     sObject.value = sBegin;
   }
 }

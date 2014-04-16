@@ -8,16 +8,16 @@ function format_number2(pnumber,decimals){
   var arrParts = strNumber.split('.');
   var intWholePart = parseInt(arrParts[0],10);
   var strResult = '';
-  if (isNaN(intWholePart))
+  if(isNaN(intWholePart))
     intWholePart = '0';
   if(arrParts.length > 1){
     var decDecimalPart = new String(arrParts[1]);
     var i = 0;
     var intZeroCount = 0;
-     while ( i < String(arrParts[1]).length ){
-       if( parseInt(String(arrParts[1]).charAt(i),10) == 0 ){
-         intZeroCount += 1;
-         i += 1;
+     while(i < String(arrParts[1]).length){
+       if(parseInt(String(arrParts[1]).charAt(i),10)==0){
+         intZeroCount+= 1;
+         i+= 1;
        }
        else
          break;
@@ -29,20 +29,19 @@ function format_number2(pnumber,decimals){
 
     //If the number was rounded up from 9 to 10, and it was for 1 'decimal'
     //then we need to add 1 to the 'intWholePart' and set the decDecimalPart to 0.
-
     if(decDecimalPart==Math.pow(10, parseInt(decimals))){
       intWholePart+=1;
       decDecimalPart="0";
     }
     var stringOfZeros = new String('');
     i=0;
-    if( decDecimalPart > 0 ){
-      while( i < intZeroCount){
-        stringOfZeros += '0';
-        i += 1;
+    if(decDecimalPart > 0){
+      while(i < intZeroCount){
+        stringOfZeros+= '0';
+        i+= 1;
       }
     }
-    decDecimalPart = String(intWholePart) + "." + stringOfZeros + String(decDecimalPart);
+    decDecimalPart = String(intWholePart)+"."+stringOfZeros+String(decDecimalPart);
     var dot = decDecimalPart.indexOf('.');
     if(dot == -1){
       decDecimalPart += '.';

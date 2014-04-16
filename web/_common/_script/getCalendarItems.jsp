@@ -1,32 +1,37 @@
-<%@ page import="be.openclinic.adt.Planning,
-                 be.dpms.medwan.common.model.vo.occupationalmedicine.ExaminationVO" %>
-<%@ page import="be.mxs.common.util.system.HTMLEntities" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.util.Date" %>
-<%@include file="/includes/validateUser.jsp" %>
-<%=checkPermission("planning.user", "select", activeUser)%><%!
+<%@page import="be.openclinic.adt.Planning,
+                be.dpms.medwan.common.model.vo.occupationalmedicine.ExaminationVO"%>
+<%@page import="be.mxs.common.util.system.HTMLEntities"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.Date"%>
+<%@include file="/includes/validateUser.jsp"%>
+<%=checkPermission("planning.user","select",activeUser)%>
+
+<%!
     private int testItemMargin(Vector v, Planning a) {
-        for (int i = 0; i < v.size(); i++) {
+        for(int i = 0; i < v.size(); i++) {
             Planning tempA = (Planning) v.get(i);
             long actualBegin = a.getPlannedDate().getTime();
             long actualEnd = a.getPlannedEndDate().getTime();
             long tempBegin = tempA.getPlannedDate().getTime();
             long tempEnd = tempA.getPlannedEndDate().getTime();
-            if ((actualBegin < tempEnd && actualBegin > tempBegin) || (actualEnd > tempBegin && actualEnd < tempEnd)) {
-                if (a.getMargin() == tempA.getMargin()) {
+            if((actualBegin < tempEnd && actualBegin > tempBegin) || (actualEnd > tempBegin && actualEnd < tempEnd)){
+                if(a.getMargin() == tempA.getMargin()){
                     a.setMargin((tempA.getMargin() - 10));
                 }
             }
         }
         return a.getMargin();
     }
-%><%String sYear = checkString(request.getParameter("year"));
+%>
+
+<%
+    String sYear = checkString(request.getParameter("year"));
     String sUserId = checkString(request.getParameter("FindUserUID"));
     String sPatientId = checkString(request.getParameter("PatientID"));
     String sMonth = checkString(request.getParameter("month"));
     String sDay = checkString(request.getParameter("day"));
     SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy"),
-            fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                     fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     String sBegin = checkString(activeUser.getParameter("PlanningFindFrom"));
     if (sBegin.length() == 0) {
         sBegin = 8 + "";
@@ -48,7 +53,8 @@
     Vector userAppointments = new Vector();
     if (sUserId.length() > 0 && sPatientId.length() <= 0) {
         userAppointments = Planning.getUserPlannings(sUserId, startOfWeek, endOfWeek);
-    } else if (sPatientId.length() > 0) {
+    } 
+    else if (sPatientId.length() > 0) {
         if(sUserId.trim().equals("-1")){
             sUserId = "";
         }
@@ -89,8 +95,5 @@
         sHtml.append("\n<hidden>" + hidden + "</hidden>");
         sHtml.append("\n</item>");
     }
-    out.print(sHtml);%>
-
-
-
-
+    out.print(sHtml);
+%>

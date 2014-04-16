@@ -195,7 +195,7 @@
             <tr>
                 <td width="100%" height="25">
                     &nbsp;<%=getTran("Web","Find",sWebLanguage)%>&nbsp;&nbsp;
-                    <input type="text" NAME="FindText" class="text" value="<%=sFindText%>" size="40" onblur="validateText(this);limitLength(this);">
+                    <input type="text" NAME="FindText" class="text" value="<%=sFindText%>" size="40" onblur="limitLength(this);">
 
                     <%-- BUTTONS --%>
                     <input class="button" type="button" name="FindButton" value="<%=getTran("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;

@@ -231,9 +231,9 @@ function ts_resortTable(lnk,clid,changeDirection,headerRowCount,bottomRowCount,s
   }
 }
 
-function getParent(el, pTagName){
+function getParent(el,pTagName){
   if(el == null) return null;
-  else if(el.nodeType == 1 && el.tagName.toLowerCase() == pTagName.toLowerCase())
+  else if(el.nodeType==1 && el.tagName.toLowerCase()==pTagName.toLowerCase())
     return el;
   else
     return getParent(el.parentNode,pTagName);
@@ -298,7 +298,7 @@ function ts_sort_default(a,b){
   return 1;
 }
 
-function addEvent(elm, evType, fn, useCapture){
+function addEvent(elm,evType,fn,useCapture){
   if(elm.addEventListener){
     elm.addEventListener(evType,fn,useCapture);
     return true;

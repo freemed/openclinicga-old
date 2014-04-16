@@ -47,38 +47,37 @@
         // natreg (max 11 chars)
         String sNatRegHtml = normalRow("Web","natreg","NatReg","Admin",sWebLanguage)+
                              "<input class='text' type='text' name='NatReg' value=\""+activePatient.getID("natreg").trim()+"\""+
-                             " size='"+sTextWidth+"' onblur='validateText(this);' maxLength='250'>";
+                             " size='"+sTextWidth+"' maxLength='250'>";
         out.print(sNatRegHtml);
 
         //language
-          String sLanguage = "<select name='Language' select-one class='text'";
-          sLanguage+=">";
-          sLanguage+="<option value='' SELECTED>"+getTran("web","choose",sWebLanguage)+"</option>";
+        String sLanguage = "<select name='Language' select-one class='text'";
+        sLanguage+=">";
+        sLanguage+="<option value='' SELECTED>"+getTran("web","choose",sWebLanguage)+"</option>";
 
-          String sPatientLanguages = MedwanQuery.getInstance().getConfigString("PatientLanguages");
+        String sPatientLanguages = MedwanQuery.getInstance().getConfigString("PatientLanguages");
 
-          if (sPatientLanguages.length()==0){
-              sPatientLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
+        if(sPatientLanguages.length()==0){
+            sPatientLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
 
-              if (sPatientLanguages.length()==0){
-                  sPatientLanguages = sWebLanguage;
-              }
-          }
+            if(sPatientLanguages.length()==0){
+                sPatientLanguages = sWebLanguage;
+            }
+        }
 
-          String[] aPatientLanguages = sPatientLanguages.split(",");
+        String[] aPatientLanguages = sPatientLanguages.split(",");
+        for(int i=0;i<aPatientLanguages.length;i++){
+            sLanguage += "<option value='"+aPatientLanguages[i]+"'>"+getTran("Web.Language",aPatientLanguages[i],sWebLanguage)+"</option>";
+        }
 
-          for (int i=0;i<aPatientLanguages.length;i++){
-              sLanguage += "<option value='"+aPatientLanguages[i]+"'>"+getTran("Web.Language",aPatientLanguages[i],sWebLanguage)+"</option>";
-          }
+        String sDefaultLanguage = MedwanQuery.getInstance().getConfigString("DefaultLanguage");
 
-          String sDefaultLanguage = MedwanQuery.getInstance().getConfigString("DefaultLanguage");
+        if(sDefaultLanguage.length()==0){
+            sDefaultLanguage = sWebLanguage;
+        }
 
-          if (sDefaultLanguage.length()==0){
-              sDefaultLanguage = sWebLanguage;
-          }
-
-          sLanguage = setOption(sLanguage,activePatient.language.toLowerCase(),sDefaultLanguage.toLowerCase(),3);
-          out.print(normalRow("Web","language","Language","Admin",sWebLanguage)+sLanguage+"</select></td></tr>");
+        sLanguage = setOption(sLanguage,activePatient.language.toLowerCase(),sDefaultLanguage.toLowerCase(),3);
+        out.print(normalRow("Web","language","Language","Admin",sWebLanguage)+sLanguage+"</select></td></tr>");
 
       //gender
       String sGender = "<select name='Gender' select-one class='text'";
@@ -107,7 +106,7 @@
 	      normalRow("Web","datacenterpatientexport","datacenterpatientexport","Admin",sWebLanguage)+"<input type='radio' name='datacenterpatientexport' id='datacenterpatientexport' value='0' "+(!activePatient.hasPendingExportRequest() && activePatient.personid!=null && activePatient.personid.trim().length()>0?"checked":"")+">"+getTran("datacenterpatientexport","0",sWebLanguage)+" <input type='radio' name='datacenterpatientexport' id='datacenterpatientexport' value='1' "+(activePatient.hasPendingExportRequest() || activePatient.personid==null || activePatient.personid.trim().length()==0?"checked":"")+">"+getTran("datacenterpatientexport","1",sWebLanguage)+"</td></tr>":
 	      "<input type='hidden' name='datacenterpatientexport' id='datacenterpatientexport' value='"+(activePatient.hasPendingExportRequest()?"1":"0")+"'/>"	  
 	      )
-	      );
+	    );
     %>
     <tr height="0">
         <td width='<%=sTDAdminWidth%>'/><td width='*'/>
@@ -115,7 +114,7 @@
 </table>
 
 <script>
-function checkSubmitAdmin() {
+function checkSubmitAdmin(){
   var maySubmit = true;
   displayGenericAlert = true;
 
@@ -126,13 +125,13 @@ function checkSubmitAdmin() {
     var obligatoryField = document.all(aObligatoryFields[i]);
 
     if(obligatoryField != null){
-      if(obligatoryField.type == undefined){
-        if(obligatoryField.innerHTML == ""){
+      if(obligatoryField.type==undefined){
+        if(obligatoryField.innerHTML==""){
           maySubmit = false;
           break;
         }
       }
-      else if(obligatoryField.value == ""){
+      else if(obligatoryField.value==""){
         if(obligatoryField.type != "hidden"){
           activateTab('Admin');
           obligatoryField.focus();
@@ -146,14 +145,14 @@ function checkSubmitAdmin() {
   return maySubmit;
 }
 
-function checkBeginAdmin(sObject, sBegin) {
+function checkBeginAdmin(sObject,sBegin){
   checkDate(sObject);
   var sdate = sObject.value;
 
-  if(sdate.length==10) {
+  if(sdate.length==10){
     var iDayBegin = sBegin.substring(1,2);
-	var iMonthBegin  = sBegin.substring(4,5);
-	var iYearBegin  = sBegin.substring(7,10);
+	var iMonthBegin = sBegin.substring(4,5);
+	var iYearBegin = sBegin.substring(7,10);
     var iBegin = new Date(iYearBegin,iMonthBegin,iDayBegin);
 
 	var iDayObject = sdate.substring(1,2);
@@ -163,11 +162,11 @@ function checkBeginAdmin(sObject, sBegin) {
 
     var difference = iBegin.getTime() - iObject.getTime();
 
-    if(difference>0) {
+    if(difference>0){
 	  sObject.value = sBegin;
 	}
   }
-  else {
+  else{
     sObject.value = sBegin;
   }
 }

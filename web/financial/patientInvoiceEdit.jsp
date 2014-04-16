@@ -699,24 +699,21 @@
 		        }
 	        }
 	        else {
-	            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-	            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-	            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+	          alertDialog("web.manage","datamissing");
 	        }
 	    }
 	
-	    function selectAll(sStartsWith, bValue, buttonDisable, buttonEnable, bAdd){
-	        for(i = 0; i < EditForm.elements.length; i++) {
-	            elm = EditForm.elements[i];
+	    function selectAll(sStartsWith,bValue,buttonDisable,buttonEnable,bAdd){
+	      for(i=0; i<EditForm.elements.length; i++){
+	        elm = EditForm.elements[i];
 	
-	            if(elm.name.indexOf(sStartsWith)>-1){
-	                if ((elm.type == 'checkbox')&&(elm.checked!=bValue)) {
-	                    elm.checked = bValue;
-	                    doBalance(elm, bAdd);
-	                }
-	            }
+	        if(elm.name.indexOf(sStartsWith)>-1){
+	          if((elm.type == 'checkbox')&&(elm.checked!=bValue)){
+	            elm.checked = bValue;
+	            doBalance(elm, bAdd);
+	          }
 	        }
-	
+	      }	
 	    }
 	
 	    function doBalance(){
@@ -773,145 +770,141 @@
             }
 	    }
 		
-	    function doModifyInvoice(invoiceuid){
-	        var params = '';
-	        var today = new Date();
-	        var url= '<c:url value="/financial/recreateInvoice.jsp"/>?invoiceuid='+invoiceuid+'&ts='+today;
-	        document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-	        new Ajax.Request(url,{
-					method: "GET",
-	                parameters: params,
-	                onSuccess: function(resp){
-	                	var label = eval('('+resp.responseText+')');
-	                	if(label.invoiceuid.length>0){
-	                		setPatientInvoice(label.invoiceuid);
-	                    };
-	                },
-					onFailure: function(request, status, error){
-						alert(request.responseText);
-	                }
-	            }
-			);
-	    }
+	  function doModifyInvoice(invoiceuid){
+	    var params = '';
+	    var today = new Date();
+	    var url= '<c:url value="/financial/recreateInvoice.jsp"/>?invoiceuid='+invoiceuid+'&ts='+today;
+	    document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	    new Ajax.Request(url,{
+		  method: "GET",
+	      parameters: params,
+	      onSuccess: function(resp){
+	       	var label = eval('('+resp.responseText+')');
+	       	if(label.invoiceuid.length>0){
+	          setPatientInvoice(label.invoiceuid);
+	        };
+	      },
+		  onFailure: function(request, status, error){
+			alert(request.responseText);
+	      }
+	    });
+	  }
 	    
-	    function setPatientInvoice(sUid){
-	        FindForm.FindPatientInvoiceUID.value = sUid;
-	        FindForm.submit();
-	    }
+	  function setPatientInvoice(sUid){
+	    FindForm.FindPatientInvoiceUID.value = sUid;
+	    FindForm.submit();
+	  }
 	
-	    function doPrintPatientReceipt(invoiceUid){
-	        var params = '';
-	        var today = new Date();
-	        var url= '<c:url value="/financial/printPatientReceiptOffline.jsp"/>?invoiceuid='+invoiceUid+'&ts='+today+'&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>';
-	        new Ajax.Request(url,{
-					method: "GET",
-	                parameters: params,
-	                onSuccess: function(resp){
-	                	var label = eval('('+resp.responseText+')');
-	                	if(label.message.length>0){
-	                    	alert(label.message.unhtmlEntities());
-	                    };
-	                },
-					onFailure: function(request, status, error){
-						alert(request.responseText);
-	                }
-	            }
-			);
-	    }
+	  function doPrintPatientReceipt(invoiceUid){
+	    var params = '';
+	    var today = new Date();
+	    var url= '<c:url value="/financial/printPatientReceiptOffline.jsp"/>?invoiceuid='+invoiceUid+'&ts='+today+'&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>';
+	    new Ajax.Request(url,{
+		  method: "GET",
+	      parameters: params,
+	      onSuccess: function(resp){
+	        var label = eval('('+resp.responseText+')');
+	        if(label.message.length>0){
+	          alert(label.message.unhtmlEntities());
+	        };
+	      },
+		  onFailure: function(request, status, error){
+		    alert(request.responseText);
+	      }
+	    });
+	  }
 
-	    function loadOpenPatientInvoices(){
-	        var params = '';
-	        var today = new Date();
-	        var url= '<c:url value="/financial/patientInvoiceGetOpenPatientInvoices.jsp"/>?PatientId=<%=sPatientId%>&ts='+today;
-	        document.getElementById('divOpenPatientInvoices').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-	        new Ajax.Request(url,{
-					method: "GET",
-	                parameters: params,
-	                onSuccess: function(resp){
-	                    $('divOpenPatientInvoices').innerHTML=resp.responseText;
-	                }
-	            }
-			);
-	    }
+	  function loadOpenPatientInvoices(){
+	    var params = '';
+	    var today = new Date();
+	    var url= '<c:url value="/financial/patientInvoiceGetOpenPatientInvoices.jsp"/>?PatientId=<%=sPatientId%>&ts='+today;
+	    document.getElementById('divOpenPatientInvoices').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	    new Ajax.Request(url,{
+		  method: "GET",
+	      parameters: params,
+	      onSuccess: function(resp){
+	        $('divOpenPatientInvoices').innerHTML=resp.responseText;
+	      }
+	    });
+	  }
 	
-	    function loadDebets(){
-	        var params = '';
-	        var today = new Date();
-	        var url= '<c:url value="/financial/getPatientDebets.jsp"/>?PatientUID=<%=sPatientId%>&PatientInvoiceUID='+EditForm.EditPatientInvoiceUID.value+'&EditInvoiceService=' +EditForm.EditInvoiceService.value+'&Begin='+EditForm.EditBegin.value+'&End='+EditForm.EditEnd.value+'&ts='+today;
-	        document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-	        new Ajax.Request(url,{
-					method: "GET",
-	                parameters: params,
-	                onSuccess: function(resp){
-	                    $('patientInvoiceDebets').innerHTML=resp.responseText;
-	                    doBalance();
-	                }
-	            }
-			);
-	    }
+	  function loadDebets(){
+	    var params = '';
+	    var today = new Date();
+	    var url= '<c:url value="/financial/getPatientDebets.jsp"/>?PatientUID=<%=sPatientId%>&PatientInvoiceUID='+EditForm.EditPatientInvoiceUID.value+'&EditInvoiceService=' +EditForm.EditInvoiceService.value+'&Begin='+EditForm.EditBegin.value+'&End='+EditForm.EditEnd.value+'&ts='+today;
+	    document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	    new Ajax.Request(url,{
+		  method: "GET",
+	      parameters: params,
+	      onSuccess: function(resp){
+	        $('patientInvoiceDebets').innerHTML=resp.responseText;
+	        doBalance();
+	      }
+	    });
+	  }
 	
-	    function doStatus(){
-	    }
+	  function doStatus(){
+	  }
 	    
-	    function activateReductions(){
-	    	var elements = document.getElementsByName("reduction");
-			if(elements[0].type=='radio'){
-				elements[0].checked=true;
-			}
-	    }
+	  function activateReductions(){
+	    var elements = document.getElementsByName("reduction");
+		if(elements[0].type=='radio'){
+		  elements[0].checked=true;
+		}
+	  }
 	    
-	    function removeReductions(){
-	    	table=document.getElementById('creditsTable');
-            var rowCount = table.rows.length;
+	  function removeReductions(){
+	  	table = document.getElementById('creditsTable');
+        var rowCount = table.rows.length;
             
-            for(var i=1; i<rowCount; i++) {
-                var row = table.rows[i];
-                var chkbox = row.cells[0].childNodes[0];
-                if(null != chkbox && chkbox.id.indexOf('reduction')==0) {
-                    table.deleteRow(i);
-                    rowCount--;
-                    i--;
-                }
-            }
-			activateReductions();
-	    }
+        for(var i=1; i<rowCount; i++){
+          var row = table.rows[i];
+          var chkbox = row.cells[0].childNodes[0];
+          if(null!=chkbox && chkbox.id.indexOf('reduction')==0){
+            table.deleteRow(i);
+            rowCount--;
+            i--;
+          }
+        }
+		activateReductions();
+	  }
 	    
-	    function removeReductions2(){
-	    	var elements = document.getElementsByTagName("input");
-	    	for(var n=0;n<elements.length;n++){
-	    		if(elements[n].name.indexOf("cbPatientInvoice")==0 && elements[n].checked && elements[n].id.indexOf("reduction")==0){
-	    			elements[n].checked=false;
-	    			doBalance(elements[n],false);
-	    		}
-	    	}
-	    }
+	  function removeReductions2(){
+	    var elements = document.getElementsByTagName("input");
+	    for(var n=0;n<elements.length;n++){
+	      if(elements[n].name.indexOf("cbPatientInvoice")==0 && elements[n].checked && elements[n].id.indexOf("reduction")==0){
+	    	elements[n].checked=false;
+	    	doBalance(elements[n],false);
+		  }
+	  	}
+	  }
 	
-	function searchService(serviceUidField,serviceNameField){
+	  function searchService(serviceUidField,serviceNameField){
 	    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
 	    document.getElementById(serviceNameField).focus();
-	}
-	    function doPayment (invoiceUid){
-	        openPopup("/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+"&ScreenType=doPayment&EditBalance="+document.getElementById('EditBalance').value);
-	    }
+	  }
+	  
+	  function doPayment(invoiceUid){
+	    openPopup("/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+"&ScreenType=doPayment&EditBalance="+document.getElementById('EditBalance').value);
+	  }
 	
-	    function doInvoiceCancel(invoiceUid){
-	        if(yesnoDialog("Web","areYouSure")){
-	            //Factuur als 'geannuleerd' registreren
-	            if(document.getElementById('invoiceStatus').selectedIndex){
-	            	document.getElementById("invoiceStatus").options[document.getElementById("invoiceStatus").selectedIndex].value='canceled';
-	            }
-	            else{
-	            	document.getElementById('invoiceStatus').value='canceled';
-	            }
-	            doSave();
-	        }
+	  function doInvoiceCancel(invoiceUid){
+	    if(yesnoDialog("Web","areYouSure")){
+	      if(document.getElementById('invoiceStatus').selectedIndex){
+	       	document.getElementById("invoiceStatus").options[document.getElementById("invoiceStatus").selectedIndex].value='canceled';
+	      }
+	      else{
+	       	document.getElementById('invoiceStatus').value='canceled';
+	      }
+	      doSave();
 	    }
+	  }
 
-	    FindForm.FindPatientInvoiceUID.focus();
-	    loadDebets();
-	    loadOpenPatientInvoices();
-	    doBalance();
-	    document.getElementById('EditBalance').value = formatNumber(document.getElementById('EditBalance').value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+	  FindForm.FindPatientInvoiceUID.focus();
+	  loadDebets();
+	  loadOpenPatientInvoices();
+	  doBalance();
+	  document.getElementById('EditBalance').value = formatNumber(document.getElementById('EditBalance').value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 	</script>
 <%
 	}

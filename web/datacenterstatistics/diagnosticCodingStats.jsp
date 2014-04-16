@@ -1,6 +1,7 @@
 <%@ page import="java.util.*,java.util.Date,java.text.DecimalFormat,be.openclinic.adt.Encounter" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%!
 	public class Line {
 		String name;
@@ -14,6 +15,7 @@
 	}
 }
 %>
+
 <%
     String sFindBegin = checkString(request.getParameter("FindBegin"));
     String sFindEnd = checkString(request.getParameter("FindEnd"));
@@ -84,28 +86,28 @@
 %>
 </table>
 <script>
-  <%-- PRINT PDF --%>
-    function doBack(){
-        window.location.href = "<c:url value='/main.do'/>?Page=statistics/index.jsp";
-    }
+  <%-- DO BACK --%>
+  function doBack(){
+    window.location.href = "<c:url value='/main.do'/>?Page=statistics/index.jsp";
+  }
 
-    function clearFields(){
-        document.getElementById("FindBegin").value="";
-        document.getElementById("FindEnd").value="";
-        document.getElementById("FindServiceText").value="";
-        document.getElementById("FindServiceCode").value="";
-    }
+  function clearFields(){
+    document.getElementById("FindBegin").value="";
+    document.getElementById("FindEnd").value="";
+    document.getElementById("FindServiceText").value="";
+    document.getElementById("FindServiceCode").value="";
+  }
 
-    function doFind(){
-        if (document.getElementById("FindBegin").value.length>0){
-            transactionForm.submit();
-        }
-        else {
-            alert("<%=getTran("web.manage","datamissing",sWebLanguage)%>");
-        }
+  function doFind(){
+    if(document.getElementById("FindBegin").value.length>0){
+      transactionForm.submit();
     }
+    else{
+      alertDialog("web.manage","datamissing");
+    }
+  }
 
-    document.getElementById("FindBegin").focus();
+  document.getElementById("FindBegin").focus();
 </script>
 
 <a href="#" name="bottom"></a>

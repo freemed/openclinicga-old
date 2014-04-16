@@ -351,10 +351,8 @@
       else if(EditForm.EditCreditType.value.length==0){
         EditForm.EditCreditType.focus();
       }
-
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
+      
+      alertDialog("web.manage","datamissing");
     }
   }
 
