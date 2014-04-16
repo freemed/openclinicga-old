@@ -1,5 +1,8 @@
+var giDatePos=1;
+var gbEuroCal=false;
+var giFirstDOW=1;
+
 var gsSplit="/";
-var giDatePos=0;
 var gbPadZero=true;
 var giMonthMode=0;
 var gbShortYear=false;
@@ -13,11 +16,9 @@ var gMonths=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","
 var gWeekDay=["Su","Mo","Tu","We","Th","Fr","Sa"];
 
 var gBegin=[1900,1,1];
-var gEnd=[2030,12,31];
+var gEnd=gToday;
 var gsOutOfRange="";
 var guOutOfRange=null;
-
-var giFirstDOW=1;
 
 var gcCalBG="#a7c3d8";
 var guCalBG=null;
@@ -34,7 +35,8 @@ var gsNavPrev="<INPUT type='button' value=' &lt; ' class='MonthNav' onmousedown=
 var gsNavNext="<INPUT type='button' value=' &gt; ' class='MonthNav' onmousedown='showNextMon()' onmouseup='stopShowMon()' onmouseout='stopShowMon();if(this.blur)this.blur()'>";
 
 var gbHideBottom=false;
-var gsBottom="<A href='javascript:void(0)' class='Today' onclick='if(this.blur)this.blur();if(!fSetDate(gToday[0],gToday[1],gToday[2]))alert(\"Today is not a selectable date!\");return false;' onmouseover='return true;' title='Today'>Today: "+gToday[2]+" "+gMonths[gToday[1]-1]+" "+gToday[0]+"</A>";	
+var dayNumberAppendix = (gToday[2]==1?"st":(gToday[2]==2?"nd":(gToday[2]==3?"rd":"th")));
+var gsBottom="<A href='javascript:void(0)' class='Today' onclick='if(this.blur)this.blur();if(!fSetDate(gToday[0],gToday[1],gToday[2]))alert(\"Today is not a selectable date!\");return false;' onmouseover='return true;' title='Today'>Today: "+gMonths[gToday[1]-1]+" "+gToday[2]+dayNumberAppendix+" "+gToday[0]+"</A>";
 
 var giCellWidth=18;
 var giCellHeight=14;
@@ -55,21 +57,21 @@ var gsWeeks="weekNo";
 
 var gcWorkday="black";
 var gcSat="black";
-var gcSatBG="#d3d3d3";
+var gcSatBG="#99ccff";
 var gcSun="black";
-var gcSunBG="#d3d3d3";
+var gcSunBG="#99ccff";
 
 var gcOtherDay="silver";
 var gcOtherDayBG=gcCellBG;
 var giShowOther=2;
 
 var gbFocus=true;
-var gcToggle="#FFFFCC";
+var gcToggle="yellow";
 
 var gcFGToday="red";
 var gcBGToday="white";
 var guTodayBGImg="";
-var giMarkToday=1;
+var giMarkToday=1+2;
 var gsTodayTip="Today";
 
 var gcFGSelected="white";
@@ -92,5 +94,3 @@ var gbShareAgenda=false;
 var gsAgShared="gContainer._cxp_agenda";
 var gbCacheAgenda=false;
 var giShowInterval=250;
-
-var gbEuroCal=true;

@@ -172,6 +172,7 @@ function checkAfter(afterId,beforeObj){
 
   var _PathToScript = "<c:url value='/_common/_script/'/>";
   var gfPopType = "1";
+  var dateType = "<%=MedwanQuery.getInstance().getConfigString("dateType","eu")%>";
 
   <%-- WRITE TRAN DATE --%>
   function writeTranDate(){
@@ -197,12 +198,8 @@ function checkAfter(afterId,beforeObj){
       gfPopType = "1";
     }
     else{
-      if(allowFutureDates){
-        gfPopType = "3";
-      }
-      else if(allowPastDates){
-        gfPopType = "2";
-      }
+           if(allowFutureDates) gfPopType = "3";
+      else if(allowPastDates) gfPopType = "2";
     }
 
     document.write("<a href='javascript:void(0);' onclick='if(self.gfPop"+gfPopType+")gfPop"+gfPopType+".fPopCalendar(document.getElementById(\""+sObject+"\"));return false;' HIDEFOCUS>" +
@@ -273,17 +270,20 @@ function checkAfter(afterId,beforeObj){
   window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request, sWebLanguage).toUpperCase()%>";
 </script>
 
-<iframe width=174 height=189 name="gToday:normal1:agenda.js:gfPop1" id="gToday:normal1:agenda.js:gfPop1"
+<%-- CALENDAR FRAMES --%>
+<% String sDateType = MedwanQuery.getInstance().getConfigString("dateType","eu"); // eu/us %>
+
+<iframe width=174 height=189 name="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1" id="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1"
   src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
   style="visibility:visible; z-index:9999999999; position:absolute; top:-500px; left:-500px;">
 </iframe>
 
-<iframe width=174 height=189 name="gToday:normal2:agenda.js:gfPop2" id="gToday:normal2:agenda.js:gfPop2"
+<iframe width=174 height=189 name="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2" id="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2"
   src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
   style="visibility:visible; z-index:9999999999; position:absolute; top:-500px; left:-500px;">
 </iframe>
 
-<iframe width=174 height=189 name="gToday:normal3:agenda.js:gfPop3" id="gToday:normal3:agenda.js:gfPop3"
+<iframe width=174 height=189 name="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3" id="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3"
   src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
   style="visibility:visible; z-index:9999999999; position:absolute; top:-500px; left:-500px;">
 </iframe>

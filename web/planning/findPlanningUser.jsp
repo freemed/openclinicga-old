@@ -62,7 +62,7 @@
                 <input type="button" class="button" name="buttonPrevious" value=" < " onclick="refreshAppointments(displayPreviousWeek());"/>
                 <input id="beginDate" type="text" class="text" name="beginDate" value="<%=sFindUserDate%>" maxLength="10"/>
                 <input type="button" class="button" name="buttonNext" value=" > " onclick="refreshAppointments(displayNextWeek())"/>
-                <script>writeMyDate("beginDate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("beginDate");</script>
             </td>
             <td class="admin2" width="*">
                 <div style="float:left;height:20px;">

@@ -48,7 +48,7 @@
                             <textarea class="text" name="prescription" id="prescription" rows="22" cols="40"></textarea><br/>
                             <%=getTran("web","date",sWebLanguage)%>
                             <input type="text" class="text" size="12" maxLength="10" name="prescriptiondate" value="<%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())%>" id="prescriptiondate" OnBlur='checkDate(this)'>
-                            <script>writeMyDate("prescriptiondate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                            <script>writeMyDate("prescriptiondate");</script>
                             <input type="hidden" name="personid" id="personid" value="<%=activePatient.personid%>"/>
                         </form>
                     </td>

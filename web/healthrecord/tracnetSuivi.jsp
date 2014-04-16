@@ -43,7 +43,7 @@
                 <%=getTran("openclinic.chuk","tracnet.suivi.date.next.rdv",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_DATE_NEXT_RDV" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_DATE_NEXT_RDV" property="value"/>" id="date_next_rdv" OnBlur='checkDate(this)'>
-                <script>writeMyDate("date_next_rdv","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("date_next_rdv");</script>
             </td>
         </tr>
 <%-- BUTTONS --%>

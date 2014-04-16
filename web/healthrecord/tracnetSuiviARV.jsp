@@ -205,7 +205,7 @@ if (sSuivi.indexOf("£")>-1){
             <td class="admin2">
                 <%=getTran("web.occup","medwan.common.date",sWebLanguage)%>
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_DATE" property="value"/>" id="exit_date" OnBlur='checkDate(this)'>
-                <script>writeMyDate("exit_date","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("exit_date");</script>
                 <br>
                 <b><u><%=getTran("openclinic.chuk","tracnet.suivi.arv.exit.motif",sWebLanguage)%></u></b>
                 <br>
@@ -214,12 +214,12 @@ if (sSuivi.indexOf("£")>-1){
                 <br>
                 <input <%=setRightClick("ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_DEATH")%> type="checkbox" id="cbexitdeath" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_DEATH" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_DEATH;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/><%=getLabel("openclinic.chuk","tracnet.suivi.arv.exit.death",sWebLanguage,"cbexitdeath")%>
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_DEATH_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_DEATH_DATE" property="value"/>" id="exit_death_date" OnBlur='checkDate(this)'>
-                <script>writeMyDate("exit_death_date","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("exit_death_date");</script>
                 <br>
                 <input <%=setRightClick("ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_NOT_SEEN")%> type="checkbox" id="cbexitnotseen" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_NOT_SEEN" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_NOT_SEEN;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/><%=getLabel("openclinic.chuk","tracnet.suivi.arv.exit.notseen",sWebLanguage,"cbexitnotseen")%>
                 <br/><%=getTran("openclinic.chuk","tracnet.suivi.arv.exit.find.again",sWebLanguage)%>
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_FIND_AGAIN" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_EXIT_FIND_AGAIN" property="value"/>" id="exit_find_again" OnBlur='checkDate(this)'>
-                <script>writeMyDate("exit_find_again","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("exit_find_again");</script>
             </td>
         </tr>
     </table>
@@ -242,11 +242,11 @@ if (sSuivi.indexOf("£")>-1){
             <td class="admin2"><%=getTran("openclinic.chuk","tracnet.suivi.arv.molecule.cotrimoxazole",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_COTRIMOXAZOLE_DATE_BEGIN" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_COTRIMOXAZOLE_DATE_BEGIN" property="value"/>" id="cotr_date_begin" OnBlur='checkDate(this)'>
-                <script>writeMyDate("cotr_date_begin","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("cotr_date_begin");</script>
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_COTRIMOXAZOLE_DATE_END" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_COTRIMOXAZOLE_DATE_END" property="value"/>" id="cotr_date_end" OnBlur='checkDate(this)'>
-                <script>writeMyDate("cotr_date_end","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("cotr_date_end");</script>
             </td>
             <td class="admin2">
                 <select class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_COTRIMOXAZOLE_REASON" property="itemId"/>]>.value">
@@ -275,11 +275,11 @@ if (sSuivi.indexOf("£")>-1){
             <td class="admin2"><%=getTran("openclinic.chuk","tracnet.suivi.arv.molecule.dapsone",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_DAPSONE_DATE_BEGIN" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_DAPSONE_DATE_BEGIN" property="value"/>" id="dapsone_date_begin" OnBlur='checkDate(this)'>
-                <script>writeMyDate("dapsone_date_begin","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("dapsone_date_begin");</script>
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_DAPSONE_DATE_END" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_DAPSONE_DATE_END" property="value"/>" id="dapsone_date_end" OnBlur='checkDate(this)'>
-                <script>writeMyDate("dapsone_date_end","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("dapsone_date_end");</script>
             </td>
             <td class="admin2">
                 <select class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_DAPSONE_REASON" property="itemId"/>]>.value">
@@ -307,11 +307,11 @@ if (sSuivi.indexOf("£")>-1){
             <td class="admin2"><%=getTran("openclinic.chuk","tracnet.suivi.arv.molecule.fluconazole",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_FLUCONAZOLE_DATE_BEGIN" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_FLUCONAZOLE_DATE_BEGIN" property="value"/>" id="fluc_date_begin" OnBlur='checkDate(this)'>
-                <script>writeMyDate("fluc_date_begin","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("fluc_date_begin");</script>
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_FLUCONAZOLE_DATE_END" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_FLUCONAZOLE_DATE_END" property="value"/>" id="fluc_date_end" OnBlur='checkDate(this)'>
-                <script>writeMyDate("fluc_date_end","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("fluc_date_end");</script>
             </td>
             <td class="admin2">
                 <select class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRACNET_SUIVI_ARV_SUMMARY_FLUCONAZOLE_REASON" property="itemId"/>]>.value">

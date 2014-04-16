@@ -876,7 +876,7 @@
                                 <%
                                     // only display 'EditDateDelivered' if order is not closed and thus editable
                                     if(!orderIsClosed){
-                                        %><script>writeMyDate("EditDateDelivered","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script><%
+                                        %><script>writeMyDate("EditDateDelivered");</script><%
                                     }
                                 %>
                             </td>

@@ -851,7 +851,7 @@
     <%=ScreenHelper.contextFooter(request)%>
 </form>
 
-<%=writeJSButtons("transactionForm", "saveButton")%>
+<%=writeJSButtons("transactionForm","saveButton")%>
 
 <script>
   document.getElementById("trandate").focus();

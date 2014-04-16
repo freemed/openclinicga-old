@@ -674,15 +674,17 @@
 </script>
 
 <%-- CALENDAR FRAMES --%>
-<iframe width="174" height="189" name="gToday:normal1:agenda.js:gfPop1" id="gToday:normal1:agenda.js:gfPop1"
+<% String sDateType = MedwanQuery.getInstance().getConfigString("dateType","eu"); // eu/us %>
+
+<iframe width="174" height="189" name="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1" id="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1"
         src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
         style="visibility:visible; z-index:999; position:absolute; top:-200px; left:-200px;">
 </iframe>
-<iframe width="174" height="189" name="gToday:normal2:agenda.js:gfPop2" id="gToday:normal2:agenda.js:gfPop2"
+<iframe width="174" height="189" name="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2" id="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2"
         src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
         style="visibility:visible; z-index:999; position:absolute; top:-200px; left:-200px;">
 </iframe>
-<iframe width="174" height="189" name="gToday:normal3:agenda.js:gfPop3" id="gToday:normal3:agenda.js:gfPop3"
+<iframe width="174" height="189" name="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3" id="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3"
         src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
         style="visibility:visible; z-index:999; position:absolute; top:-200px; left:-200px;">
 </iframe>

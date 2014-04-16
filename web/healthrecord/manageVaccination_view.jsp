@@ -16,9 +16,7 @@
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 
 	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
-	<%
-	    TransactionVO tran = (TransactionVO)transaction;        
-    %>
+	<% TransactionVO tran = (TransactionVO)transaction; %>
 	
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input type="hidden" id="serverId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
@@ -120,9 +118,10 @@
                 	if(document.getElementById("trandate").value==document.getElementById("nextdate").value){
                 		document.getElementById("nextdate").value="";
                 	}
-                	writeMyDate("nextdate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");
+                	writeMyDate("nextdate");
                 </script>&nbsp;
-                <%-- calculate bbutton --%>
+                
+                <%-- calculate button --%>
                 <input type="button" class="button" name="calculate" value="<%=getTran("Web.Occup","Calculate",sWebLanguage)%>" onclick="calculateNextDate();">
             </td>
         </tr>

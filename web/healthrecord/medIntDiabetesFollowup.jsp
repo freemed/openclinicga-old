@@ -428,7 +428,7 @@
                     </td>
                     <td class="admin2">
                         <input type="text" class="text" size="12" maxLength="10" value="<%=sBeginDate%>" name="beginDateInsulineGraphs" onBlur="checkDate(this);">
-                        <script>writeMyDate("beginDateInsulineGraphs","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>&nbsp;&nbsp;
+                        <script>writeMyDate("beginDateInsulineGraphs");</script>&nbsp;&nbsp;
 
                         <%-- button to open blur popup --%>
                         <input class="button" type="button" name="setGraphsDataButton" value="<%=getTranNoLink("Web","show",sWebLanguage)%>" onClick="reloadPage(transactionForm.beginDateInsulineGraphs.value);">

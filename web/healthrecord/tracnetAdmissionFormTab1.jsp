@@ -96,7 +96,7 @@
         <td class="admin"><%=getTran("openclinic.chuk","tracnet.admission.form.first.hiv.test",sWebLanguage)%></td>
         <td class="admin2">
             <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_FIRST_HIV_TEST" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_FIRST_HIV_TEST" property="value"/>" id="first_hiv_test" OnBlur='checkDate(this)'>
-            <script>writeMyDate("first_hiv_test","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+            <script>writeMyDate("first_hiv_test");</script>
         </td>
         <td class="admin"><%=getTran("openclinic.chuk","tracnet.admission.form.partner",sWebLanguage)%></td>
         <td class="admin2">

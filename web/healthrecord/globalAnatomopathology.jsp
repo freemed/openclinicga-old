@@ -66,7 +66,7 @@
             <td class="admin"><%=getTran("openclinic.chuk","sample_date",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_SAMPLE_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_SAMPLE_DATE" property="value"/>" id="sampledate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("sampledate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("sampledate");</script>
             </td>
         </tr>
 

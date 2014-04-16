@@ -88,4 +88,3 @@ var giResizeDelay=KO3?150:50;	// delay in milliseconds before resizing the calen
 var gbFlatBorder=false;	// flat the .CalCell css border of any agenda date by setting it to solid style. NOTE: it should always be set to false if .CalCell has no explicit border size.
 var gbInvertBorder=false;	// true: invert the effect caused by gbFlatBorder; false: no change.
 var gbShareAgenda=false;	// if set to true, a global agenda store will be created and used to share across calendars. Check tutorials for details.
-alert("0");

@@ -257,7 +257,7 @@
             <td class="admin"><%=getTran("openclinic.chuk","sober",sWebLanguage)%></td>
             <td class="admin2" colspan="4">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_SOBER_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_SOBER_DATE" property="value"/>" id="soberdate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("soberdate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("soberdate");</script>
 
                 <input type='text' class='text' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_SOBER_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_SOBER_HOUR" property="value"/>" onblur='checkTime(this)' size='5'>
                 &nbsp;<%=getTran("web.occup","medwan.common.hour",sWebLanguage)%>

@@ -343,14 +343,14 @@
                                     <td class="admin2"><%=getTran("openclinic.chuk","polio.date",sWebLanguage)%></td>
                                     <td class="admin2">
                                         <input id="polio_date" type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N  name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILDPOLIO" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILDPOLIO" property="value" formatType="date" format="dd/mm/yyyy"/>">
-                                        <script>writeMyDate("polio_date","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                                        <script>writeMyDate("polio_date");</script>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="admin2"><%=getTran("openclinic.chuk","bcg.date",sWebLanguage)%></td>
                                     <td class="admin2">
                                         <input id="bcg_date" type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N  name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILDBCG" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILDBCG" property="value" formatType="date" format="dd/mm/yyyy"/>">
-                                        <script>writeMyDate("bcg_date","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                                        <script>writeMyDate("bcg_date");</script>
                                     </td>
                                 </tr>
                             </table>

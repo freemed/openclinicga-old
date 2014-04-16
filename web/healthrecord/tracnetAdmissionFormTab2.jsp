@@ -140,7 +140,7 @@
                     <td class="admin" ><%=getTran("openclinic.chuk","tracnet.admission.form.date.last.bleeding",sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANAMNESE_DATE_LAST_BLEEDING" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ADMISSION_FORM_ANAMNESE_DATE_LAST_BLEEDING" property="value"/>" id="last_bleeding_date" OnBlur='checkDate(this)'>
-                        <script>writeMyDate("last_bleeding_date","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                        <script>writeMyDate("last_bleeding_date");</script>
                     </td>
                 </tr>
             </table>

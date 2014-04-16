@@ -192,7 +192,7 @@
             </td>
             <td class="admin2">
                 <input <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_STARTDATE")%> type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_STARTDATE" property="itemId"/>]>.value" value="<%=sStartDate%>" id="startdate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("startdate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("startdate");</script>
             </td>
         </tr>
         <tr>
@@ -212,7 +212,7 @@
                         <td class="admin2"/>
                         <td class="admin2">
                             <input type="text" class="text" size="12" maxLength="10" name="seanceDate" value="" OnBlur='checkDate(this)'>
-                            <script>writeMyDate("seanceDate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                            <script>writeMyDate("seanceDate");</script>
                         </td>
                         <td class="admin2">
                             <input type="text" class="text" size="5" name="seanceHour" value="" onblur="checkTime(this);">
@@ -237,7 +237,7 @@
             </td>
             <td class="admin2">
                 <input <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ENDDATE")%> type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_ENDDATE" property="itemId"/>]>.value" value="<%=sEndDate%>" id="enddate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("enddate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("enddate");</script>
             </td>
         </tr>
         <tr>

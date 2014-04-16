@@ -256,14 +256,16 @@
                 <input class='text' type='text' name='EditBalance' value='<%=sEditBalance%>' size="40">
             </td>
         </tr>
+        
         <%-- date
         <tr>
             <td class='admin'><%=getTran("Web","date",sWebLanguage)%></td>
             <td class='admin2'>
                 <input type="text" class="text" size="12" maxChars="12" value="<%=sEditBalanceDate%>" name="EditBalanceDate" id="EditDate" onBlur="checkDate(this);">
-                <script>writeMyDate("EditDate","<c:url value="/_img/icon_agenda.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("EditDate");</script>
             </td>
         </tr>--%>
+        
         <%-- ownertype --%>
         <tr>
             <td class='admin' ><%=getTran("web","ownertype",sWebLanguage)%></td>

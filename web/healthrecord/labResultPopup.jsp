@@ -185,7 +185,7 @@
                     %><input type="checkbox" name="EditResultProvisional" value="1"<%if (checkString(analysis.getResultProvisional()).length()>0){out.print(" checked");}%>/><%
                 }
                 else{
-                    if (checkString(analysis.getResultProvisional()).length()>0){
+                    if(checkString(analysis.getResultProvisional()).length()>0){
                         out.println(getTran("web.occup","lab.provisional",sWebLanguage));
                     }
                 }
@@ -238,9 +238,7 @@
 <p align="center">
     <%
         if(editable){
-            %>
-            <input class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onClick="doSave();"/>
-            <%
+            %><input class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onClick="doSave();"/><%
         }
     %>
     <input class="button" type="button" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
@@ -264,87 +262,86 @@
     }
   }
 
+  <%-- CALCULATE MODIFIER --%>
   function calculateModifier(){
-      sResult = isMyNumber(transactionForm.EditResultValue.value);
-      sMin = isMyNumber(transactionForm.EditResultRefMin.value);
-      sMax = isMyNumber(transactionForm.EditResultRefMax.value);
+    sResult = isMyNumber(transactionForm.EditResultValue.value);
+    sMin = isMyNumber(transactionForm.EditResultRefMin.value);
+    sMax = isMyNumber(transactionForm.EditResultRefMax.value);
 
-      if ((sResult.length>0)&&(sMin.length>0)&&(sMax.length>0)){
-          iResult = sResult*1;
-          iMin = sMin*1;
-          iMax = sMax*1;
+    if(sResult.length>0&&sMin.length>0&&sMax.length>0){
+      iResult = sResult*1;
+      iMin = sMin*1;
+      iMax = sMax*1;
+      sResult = "";
 
-          sResult = "";
-
-          if ((iResult >= iMin)&&(iResult <= iMax)){
-              sResult = "n";
-          }
-          else {
-              iAverage = (iMin+iMax)/2;
-
-              if (iResult > iMax+iAverage){
-                  sResult = "+++";
-              }
-              else if (iResult > iMax + iAverage/2){
-                  sResult = "++";
-              }
-              else if (iResult > iMax){
-                  sResult = "+";
-              }
-              else if (iResult < iMin - iAverage){
-                  sResult = "---";
-              }
-              else if (iResult < iMin - iAverage/2){
-                  sResult = "--";
-              }
-              else if (iResult < iMin){
-                  sResult = "-";
-              }
-          }
-
-          if (sResult.length>0){
-              for (var n=0;n<transactionForm.EditResultModifier.length;n++){
-                  if (transactionForm.EditResultModifier.options[n].value==sResult){
-                      transactionForm.EditResultModifier.selectedIndex = n;
-                      break;
-                  }
-              }
-          }
+      if((iResult >= iMin)&&(iResult <= iMax)){
+        sResult = "n";
       }
-      else {
-        transactionForm.EditResultModifier.selectedIndex = -1;
+      else{
+        iAverage = (iMin+iMax)/2;
+
+        if(iResult > iMax+iAverage){
+          sResult = "+++";
+        }
+        else if(iResult > iMax + iAverage/2){
+          sResult = "++";
+        }
+        else if(iResult > iMax){
+          sResult = "+";
+        }
+        else if(iResult < iMin - iAverage){
+          sResult = "---";
+        }
+        else if(iResult < iMin - iAverage/2){
+          sResult = "--";
+        }
+        else if(iResult < iMin){
+          sResult = "-";
+        }
       }
+
+      if(sResult.length>0){
+        for(var n=0;n<transactionForm.EditResultModifier.length;n++){
+          if(transactionForm.EditResultModifier.options[n].value==sResult){
+            transactionForm.EditResultModifier.selectedIndex = n;
+            break;
+          }
+        }
+      }
+    }
+    else{
+      transactionForm.EditResultModifier.selectedIndex = -1;
+    }
   }
 
   function isMyNumber(sObject){
-      sObject = sObject.replace(",",".");
+    sObject = sObject.replace(",",".");
 
-      if ((sObject.charAt(0)=="<")||(sObject.charAt(0)==">")){
-          sObject = sObject.substring(1);
+    if(sObject.charAt(0)=="<"||sObject.charAt(0)==">"){
+      sObject = sObject.substring(1);
+    }
+    var string = sObject;
+    var vchar = "01234567890.";
+    var dotCount = 0;
+
+    for(var i=0; i<string.length; i++){
+      if(vchar.indexOf(string.charAt(i))==-1){
+        return "";
       }
-      var string = sObject;
-      var vchar = "01234567890.";
-      var dotCount = 0;
-
-      for(var i=0; i < string.length; i++){
-        if (vchar.indexOf(string.charAt(i)) == -1)	{
-          return "";
-        }
-        else{
-          if(string.charAt(i)=="."){
-            dotCount++;
-            if(dotCount > 1){
-              return "";
-            }
+      else{
+        if(string.charAt(i)=="."){
+          dotCount++;
+          if(dotCount > 1){
+            return "";
           }
         }
       }
+    }
 
-      if(sObject.length > 250){
-        sObject= sObject.substring(0,249);
-      }
-
-      return sObject;
+    if(sObject.length > 250){
+      sObject = sObject.substring(0,249);
+    }
+    return sObject;
   }
 
   <%-- The following script is used to hide the calendar whenever you click the document. --%>
@@ -353,8 +350,8 @@
     var n=!e?self.event.srcElement.name:e.target.name;
 
     if(document.layers){
-  	  with (gfPop) var l=pageX, t=pageY, r=l+clip.width, b=t+clip.height;
-	  if (n!="popcal"&&(e.pageX>r||e.pageX<l||e.pageY>b||e.pageY<t)){
+  	  with(gfPop) var l=pageX, t=pageY, r=l+clip.width, b=t+clip.height;
+	  if(n!="popcal"&&(e.pageX>r||e.pageX<l||e.pageY>b||e.pageY<t)){
         gfPop1.fHideCal();
         gfPop2.fHideCal();
         gfPop3.fHideCal();
@@ -383,17 +380,20 @@
     }
 %>
 
-<iframe width=174 height=189 name="gToday:normal1:agenda.js:gfPop1" id="gToday:normal1:agenda.js:gfPop1"
+<%-- CALENDAR FRAMES --%>
+<% String sDateType = MedwanQuery.getInstance().getConfigString("dateType","eu"); // eu/us %>
+
+<iframe width=174 height=189 name="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1" id="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1"
   src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-  style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;">
+  style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
 </iframe>
 
-<iframe width=174 height=189 name="gToday:normal2:agenda.js:gfPop2" id="gToday:normal2:agenda.js:gfPop2"
+<iframe width=174 height=189 name="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2" id="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2"
   src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-  style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;">
+  style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
 </iframe>
 
-<iframe width=174 height=189 name="gToday:normal3:agenda.js:gfPop3" id="gToday:normal3:agenda.js:gfPop3"
+<iframe width=174 height=189 name="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3" id="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3"
   src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-  style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;">
+  style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
 </iframe>
