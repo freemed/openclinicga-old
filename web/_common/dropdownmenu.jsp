@@ -204,29 +204,20 @@
 		</script>
 		<%
     }
-<<<<<<< .mine
-    else {
+    else{ 
 	    sPersonID = checkString(request.getParameter("PersonID"));
     	try{
-    		sPersonID=Integer.parseInt(sPersonID)+"";
+    		sPersonID = Integer.parseInt(sPersonID)+"";
     	}
     	catch(Exception e){
+    	    // empty
     	}
 
-	    if (sPersonID.length() > 0) {
+	    if(sPersonID.length() > 0){
 	        session.removeAttribute("activePatient");
 	        activePatient = AdminPerson.getAdminPerson(sPersonID);
 	    }
-	}
-=======
-    else{
-        sPersonID = checkString(request.getParameter("PersonID"));
-        if(sPersonID.length() > 0){
-            session.removeAttribute("activePatient");
-            activePatient = AdminPerson.getAdminPerson(sPersonID);
-        }
     }
->>>>>>> .r1120
     
     //First check if user has access to the active patient
     if(sPage.indexOf("novipaccess")<0 && activePatient!=null && "1".equalsIgnoreCase((String)activePatient.adminextends.get("vip")) && !activeUser.getAccessRight("vipaccess.select")){
@@ -377,7 +368,7 @@
                             }
                         }
                         
-                        String sHelp = MedwanQuery.getInstance().getConfigString("HelpFile","documents/help/openclinic_manual_@@language@@.pdf");%>
+                        String sHelp = MedwanQuery.getInstance().getConfigString("HelpFile");%>
                 </ul>
             </div>
         </td>
@@ -385,85 +376,25 @@
 </table>
 
 <script>
-<<<<<<< .mine
-    <%-- OPEN HELP FILE --%>
-    function openHelpFile() {
-      window.open("<%=sHelp.replaceAll("@@language@@",activeUser.person.language.toLowerCase())%>");
-    }
-    
-	function newEncounter(){
-		<%
-			Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
-			if (activeEncounter!=null && activeEncounter.getEnd()==null){
-		        %>alertDialog("web","close.active.encounter.first");<%
-			}
-			else{
-		      %>window.location.href = '<c:url value="/main.do"/>?Page=adt/editEncounter.jsp&ts=<%=getTs()%>';<%
-			}
-		%>
-	}
-	function newFastEncounter(init){
-		<%
-			activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
-			if (activeEncounter!=null && activeEncounter.getEnd()==null){
-		        %>alertDialog("web","close.active.encounter.first");<%
-			}
-			else{
-		        %>
-		        var params = '';
-		        var today = new Date();
-		        var url = '<c:url value="/"/>/adt/newEncounter.jsp?ts=<%=getTs()%>&init='+init;
-		        new Ajax.Request(url, {
-		          method: "GET",
-		          parameters: params,
-		          onSuccess: function(resp) {
-				    window.location.reload();
-		          }
-		        });
-		        <%
-			}
-		%>
-	}
-	
-	function newFastTransaction(transactionType){
-	  if(<%=Encounter.selectEncounters("","","","","","","","",activePatient.personid,"").size()%>>0){
-	    window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
-	  }
-	  else{
-	    alertDialog("web","create.encounter.first");
-	  }
-	}
-	
-    <%-- READ BARCODE --%>
-    function readBarcode() {
-      openPopup("/_common/readBarcode.jsp&ts=<%=getTs()%>");
-    }
-    function readBarcode2(barcode) {
-      var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
-      var oldbarcode = barcode;
-      barcode = "";
-      for (var n = 0; n < oldbarcode.length; n++) {
-        if (transform.indexOf(oldbarcode.substring(n, n + 1)) > -1) {
-          barcode = barcode + transform.indexOf(oldbarcode.substring(n, n + 1));
-=======
   <%-- OPEN HELP FILE --%>
   function openHelpFile(){
-    openPopup("<%=sHelp.replaceAll("@@language@@",activeUser.person.language)%>",800,600);
+    window.open("<%=sHelp.replaceAll("@@language@@",activeUser.person.language.toLowerCase())%>");
   }
-   
+
+  <%-- NEW ENCOUNTER --%>
   function newEncounter(){
     <%
-        Encounter activeEncounter=Encounter.getActiveEncounter(activePatient.personid);
+        Encounter activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
         if(activeEncounter!=null && activeEncounter.getEnd()==null){
             %>alertDialog("web","close.active.encounter.first");<%
->>>>>>> .r1120
         }
         else{
             %>window.location.href = '<c:url value="/main.do"/>?Page=adt/editEncounter.jsp&ts=<%=getTs()%>';<%
         }
     %>
   }
-  
+
+  <%-- NEW FAST ENCOUNTER --%>
   function newFastEncounter(init){
     <%
         activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
@@ -486,7 +417,8 @@
         }
     %>
   }
-    
+
+  <%-- NEW FAST TRANSACTION --%>
   function newFastTransaction(transactionType){
     if(<%=Encounter.selectEncounters("","","","","","","","",activePatient.personid,"").size()%>>0){
       window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
@@ -539,7 +471,8 @@
       window.location.href = url;
     }
   }
-    
+
+  <%-- READ BARCODE 3 --%>
   function readBarcode3(barcode){
     var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
     var oldbarcode = barcode;
@@ -558,11 +491,12 @@
     }
   }
     
-  <%-- READ BARCODE --%>
+  <%-- CREATE ARCHIVE FILE --%>
   function createArchiveFile(){
     openPopup("_common/createArchiveFile.jsp&ts=<%=getTs()%>",1,1);
   }
-    
+
+  <%-- READ FINGER PRINT --%>
   function readFingerprint(){
     <%
         if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
@@ -573,6 +507,8 @@
         }
     %>
   }
+  
+  <%-- ENROLL FINGER PRINT --%>
   function enrollFingerPrint(){
     <%
         if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
@@ -721,16 +657,19 @@
     popup.document.close();
     popup.focus();
   }
-  <%-- show admin popup --%>
+  <%-- show drugs out barcode --%>
   function showdrugsoutbarcode(){
     openPopup("pharmacy/drugsOutBarcode.jsp&ts=<%=getTs()%>",700,500);
   }
+  <%-- show global health barometer --%>
   function showglobalhealthbarometer(){
     window.open("http://www.globalhealthbarometer.net/globalhealthbarometer/datacenter/datacenterHomePublic.jsp?me=<%=MedwanQuery.getInstance().getConfigString("globalHealthBarometerUID","")%>&ts=<%=getTs()%>");
   }
+  <%-- show sourge force --%>
   function showsourceforge(){
     window.open("http://sourceforge.net/projects/open-clinic");
   }
+  <%-- open RFE list --%>
   function openRFEList(){
     <%
         if(activePatient!=null && activePatient.personid.length() > 0){
@@ -760,7 +699,8 @@
     SF.Action.value = "MY_VISITS";
     SF.submit();
   }
-    
+
+  <%-- show manual --%>
   function showmanual(){
     <%
         if(MedwanQuery.getInstance().getConfigString("documentationLanguages","en,fr").toLowerCase().indexOf(sWebLanguage.toLowerCase())>-1){
