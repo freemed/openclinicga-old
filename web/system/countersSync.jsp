@@ -19,7 +19,7 @@
 	        }
 	        else {
 	            String sMenuXML = MedwanQuery.getInstance().getConfigString("countersXMLFile","counters.xml");
-	            String sMenuXMLUrl = "http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/_common/xml/" + sMenuXML;
+	            String sMenuXMLUrl = "http://" + request.getServerName() +":"+request.getServerPort()+ request.getRequestURI().replaceAll(request.getServletPath(), "") + "/_common/xml/" + sMenuXML;
 	            Debug.println("sMenuXMLUrl = "+sMenuXMLUrl);
 	            
 	            // Check if menu file exists, else use file at templateSource location.

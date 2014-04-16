@@ -2,19 +2,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%
 	User activeUser = (User)session.getAttribute("activeUser");
-String pid="";	
-if(session.getAttribute("activePatient")!=null){
-	pid=((AdminPerson)session.getAttribute("activePatient")).personid;
-}
+	String pid="";	
+	if(session.getAttribute("activePatient")!=null){
+		pid=((AdminPerson)session.getAttribute("activePatient")).personid;
+	}
 %>
 <script>
 	function initBarcode2(){
-		window.open("zxing://scan/?ret=<%="http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") %>/mobile/searchPatient.jsp\?search=1%26patientpersonid={CODE}")
+		window.open("zxing://scan/?ret=<%="http://" + request.getServerName()+":"+request.getServerPort() + request.getRequestURI().replaceAll(request.getServletPath(), "") %>/mobile/searchPatient.jsp\?search=1%26patientpersonid={CODE}")
 	}
 </script>
-<img class="link" onclick="initBarcode2();"  border='0' src="<%="http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") %>/_img/androidbarcode.png" alt="<%=MedwanQuery.getInstance().getLabel("web","barcode",activeUser.person.language)%>"/>
-&nbsp;<a href='<%="http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") %>/main.do?Page=curative/index.jsp&PersonID=<%=pid%>&ts=<%=new java.util.Date().getTime()+""%>'><%=MedwanQuery.getInstance().getLabel("web","desktop.interface",activeUser.person.language)%></a>
-<br/>
+
 <%!
 	String getTran(String labelType,String labelId,User activeUser){
 		return MedwanQuery.getInstance().getLabel(labelType,labelId,activeUser.person.language);
@@ -32,3 +30,7 @@ if(session.getAttribute("activePatient")!=null){
 		out.flush();
 	}
 %>
+
+<img class="link" onclick="initBarcode2();"  border='0' src="<%="http://" + request.getServerName()+":"+request.getServerPort() + request.getRequestURI().replaceAll(request.getServletPath(), "") %>/_img/androidbarcode.png" alt="<%=MedwanQuery.getInstance().getLabel("web","barcode",activeUser.person.language)%>"/>
+&nbsp;<a href='<%="http://" + request.getServerName()+":"+request.getServerPort() + request.getRequestURI().replaceAll(request.getServletPath(), "") %>/main.do?Page=curative/index.jsp&PersonID=<%=pid%>&ts=<%=new java.util.Date().getTime()+""%>'><%=MedwanQuery.getInstance().getLabel("web","desktop.interface",activeUser.person.language)%></a>
+<br/>

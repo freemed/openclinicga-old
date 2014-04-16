@@ -121,7 +121,7 @@
       sAPPDIR = request.getParameter("Dir");
   }
 
-  MedwanQuery.getInstance("http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(),"")+"/"+sAPPDIR);
+  MedwanQuery.getInstance("http://"+request.getServerName()+":"+request.getServerPort()+request.getRequestURI().replaceAll(request.getServletPath(),"")+"/"+sAPPDIR);
 
   String sUserLogin    = checkString(request.getParameter("login"));
   String sUserPassword = checkString(request.getParameter("password"));
@@ -144,7 +144,6 @@
           if(ad_conn != null){
               User user = new User();
               byte[] aUserPassword = user.encrypt(sUserPassword);
-			  System.out.println("Checking login>>>>>>>>>>>>>>>>>>>>>>>>>");
               if((sAuto!=null && sAuto.equalsIgnoreCase("true") && user.initializeAuto(ad_conn, sUserLogin, sUserPassword)) || user.initialize(ad_conn, sUserLogin, aUserPassword)){
                   GregorianCalendar myDate = new GregorianCalendar();
                   String sDay, sMonth, sYear, sDate;

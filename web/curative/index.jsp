@@ -28,6 +28,12 @@
     }
 %>
 <%
+	if(activePatient==null){
+		%>
+		<script>window.location.href='<c:url value="main.do?CheckService=true&CheckMedicalCenter=true"/>';</script>
+		<%
+		out.flush();
+	}
 	String sVip="";
 	if ("1".equalsIgnoreCase((String)activePatient.adminextends.get("vip"))) {
 	    sVip="<img border='0' src='_img/icon_vip.jpg' alt='"+getTranNoLink("web","vip",sWebLanguage)+"'/>";

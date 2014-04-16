@@ -36,11 +36,11 @@
 	<%
 		Encounter lastvisit = Encounter.getInactiveEncounterBefore(activePatient.personid,"visit",new Date());
 		if(lastvisit!=null){
-			out.print("<tr><td width='1'>&nbsp;</td><td nowrap>"+getTran("encountertype","visit",activeUser)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(lastvisit.getBegin())+": "+lastvisit.getService().getLabel(activeUser.person.language)+"</td></tr>");
+			out.print("<tr><td width='1'>&nbsp;</td><td nowrap>"+getTran("encountertype","visit",activeUser)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(lastvisit.getBegin())+": "+(lastvisit.getService()==null?"?":lastvisit.getService().getLabel(activeUser.person.language))+"</td></tr>");
 		}
 		Encounter lastadmission = Encounter.getInactiveEncounterBefore(activePatient.personid,"admission",new Date());
 		if(lastadmission!=null){
-			out.print("<tr><td width='1'>&nbsp;</td><td nowrap>"+getTran("encountertype","admission",activeUser)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(lastadmission.getBegin())+": "+lastadmission.getService().getLabel(activeUser.person.language)+"</td></tr>");
+			out.print("<tr><td width='1'>&nbsp;</td><td nowrap>"+getTran("encountertype","admission",activeUser)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(lastadmission.getBegin())+": "+(lastadmission.getService()==null?"?":lastadmission.getService().getLabel(activeUser.person.language))+"</td></tr>");
 		}
 	%>
 </table>

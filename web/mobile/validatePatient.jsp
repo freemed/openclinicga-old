@@ -17,6 +17,7 @@
 	<tr>
 		<td colspan='2'><a href='patientMenu.jsp'><%=getTran("mobile","mainmenu",activeUser)%></a></td>
 		<td colspan='2'><a href='searchPatient.jsp'><%=getTran("mobile","newsearch",activeUser)%></a></td>
+		<td colspan='2'><a href='login.jsp'><%=getTran("web","logout",activeUser)%></a></td>
 	</tr>
 </table>
 <hr/>

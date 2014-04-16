@@ -193,7 +193,7 @@
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">Import</td>
             <td class="admin2">
-                <input type="text" name="FindUploadFile" size="100" class="normal" value="http://<%=request.getLocalName()+":"+request.getLocalPort()+request.getContextPath()+"/"%>">
+                <input type="text" name="FindUploadFile" size="100" class="normal" value="http://<%=request.getLocalName()+":"+request.getServerPort()+request.getContextPath()+"/"%>">
                 &nbsp;
                 <input type="button" class="button" name="ButtonUpload" value="Upload" onclick="doSubmit('Import')">
             </td>

@@ -31,7 +31,7 @@
     <META HTTP-EQUIV="Refresh" CONTENT="300">
     <%=sCSSNORMAL%><%=sJSCHAR%><%=sJSPROTOTYPE%><%=sJSCOOKIE%><%=sJSDROPDOWNMENU%>
     <%
-    MedwanQuery.getInstance("http://" + request.getServerName() + request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR);
+    MedwanQuery.getInstance("http://" + request.getServerName() +":"+request.getServerPort()+ request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR);
     reloadSingleton(request.getSession());
 
     //*** retreive application version ***
@@ -219,7 +219,7 @@
     <%
     if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
     %>
-        openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName()+"/"+sCONTEXTPATH%>", 400, 300);
+        openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName() +":"+request.getServerPort()+"/"+sCONTEXTPATH%>", 400, 300);
     <%
     }
     else {

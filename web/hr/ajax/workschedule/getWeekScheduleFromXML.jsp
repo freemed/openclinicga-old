@@ -120,7 +120,7 @@
 
             try{
                 try{
-                    sXmlFileUrl = "http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(),"")+"/"+sAPPDIR+"/_common/xml/"+sXmlFile;
+                    sXmlFileUrl = "http://"+request.getServerName()+":"+request.getServerPort()+request.getRequestURI().replaceAll(request.getServletPath(),"")+"/"+sAPPDIR+"/_common/xml/"+sXmlFile;
                     document = xmlReader.read(new URL(sXmlFileUrl));
                     Debug.println("Using 'weekScheduleXMLFile' : "+sXmlFileUrl);
                 }

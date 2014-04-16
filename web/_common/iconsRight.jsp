@@ -293,7 +293,7 @@
         
         String sHelp = MedwanQuery.getInstance().getConfigString("HelpFile");
         if(sHelp.length()>0){
-            %><img id="ddIconHelp" src="<c:url value='/_img/icon_help.gif'/>" height="16" width="16" border="0" alt="Help" onclick="openHelpFile();" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
+            %><img id="ddIconHelp" src="<c:url value='/_img/icon_help.gif'/>" height="16" width="16" border="0" alt="Help" onclick="showmanual();" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
         }
         
         %><img class="link" id="ddIconFingerprint" onclick="readFingerprint();" title="<%=getTranNoLink("Web","Read_fingerprint",sWebLanguage)%>"  src="<c:url value='/_img/icon_fingerprint_read.png'/>" /><%

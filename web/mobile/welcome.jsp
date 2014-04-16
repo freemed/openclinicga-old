@@ -17,4 +17,5 @@
 	
 %>
 <br/>
-<a href="searchPatient.jsp"><%=getTran("mobile","searchpatient",activeUser) %></a>
+<a href="searchPatient.jsp"><%=getTran("mobile","searchpatient",activeUser) %></a> &nbsp;
+<a href='login.jsp'><%=getTran("web","logout",activeUser)%></a>

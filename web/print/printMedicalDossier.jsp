@@ -58,7 +58,7 @@
 %>
 
 <%
-    String sAction = checkString(request.getParameter("Action"));
+	String sAction = checkString(request.getParameter("Action"));
 
     String sSection1  = checkString(request.getParameter("section_1")),
            sSection2  = checkString(request.getParameter("section_2")),
@@ -283,23 +283,23 @@
 		        Encounter encounter;
 				for(int i=0; i<visits.size(); i++){
 			        encounter = (Encounter)visits.get(i);
-	
+
                     // alternate row-style
                     if(sClass.length()==0) sClass = "1";
                     else                   sClass = "";
 
 					// one counter
-                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
-                         .append("<td align='center'>")
-                         .append("<input type='checkbox' value='"+encounter.getUid()+"' name='encounterUID_"+cbCounter+"'>")
-                         .append("</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+encounter.getService().getLabel(sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
-                        .append("</tr>");
+                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">");
+                         sOut.append("<td align='center'>");
+                         sOut.append("<input type='checkbox' value='"+encounter.getUid()+"' name='encounterUID_"+cbCounter+"'>");
+                         sOut.append("</td>");
+                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>");
+                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>");
+                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>");
+                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>");
+                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+(encounter.getService()!=null?encounter.getService().getLabel(sWebLanguage):encounter.getServiceUID())+"</td>");
+                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>");
+                        sOut.append("</tr>");
 
                     cbCounter++;		
 			     }
@@ -545,7 +545,7 @@
 	                 .append("<td class='admin2' colspan='3'>"+getTran("web","noRecordsFound",sWebLanguage)+"</td>")
 	                .append("</tr>");
 	        }
-        
+
             sOut.append("</tbody>");
         %>      
         

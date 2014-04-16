@@ -274,7 +274,7 @@
                 sOutput = "<tr class=\"list"+sClass+"\"" +
                         " onmouseover=\"this.style.cursor='hand';\"" +
                         " onmouseout=\"this.style.cursor='default';\">" +
-                        "<td>&nbsp;<img src='http://"+request.getServerName()+request.getContextPath()+"/_img/icon_delete.gif' alt='"+getTranNoLink("web", "delete", sWebLanguage)+"' border='0' onclick='doDelete(\""+tmpProblem.getUid()+"\");'>&nbsp;</td>" +
+                        "<td>&nbsp;<img src='http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/_img/icon_delete.gif' alt='"+getTranNoLink("web", "delete", sWebLanguage)+"' border='0' onclick='doDelete(\""+tmpProblem.getUid()+"\");'>&nbsp;</td>" +
 
                         "<td onclick=\"doSelect('"+tmpProblem.getUid()+"');\"><b>"+checkString(tmpProblem.getCode())+"</b></td>" +
                         "<td onclick=\"doSelect('"+tmpProblem.getUid()+"');\"><b>"+(tmpProblem.getCode() != null && tmpProblem.getCode().length() > 0 ? MedwanQuery.getInstance().getCodeTran(tmpProblem.getCodeType()+"code"+tmpProblem.getCode(), sWebLanguage) : "")+(tmpProblem.getCode() != null && tmpProblem.getCode().length() > 0 & tmpProblem.getComment().trim().length() > 0 ? ": " : "")+(tmpProblem.getComment().trim().length() > 0 ? "</b><i>"+tmpProblem.getComment()+"</i>" : "</b>")+"</td>" +
