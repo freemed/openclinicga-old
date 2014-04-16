@@ -54,7 +54,6 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
 			doc.setPageSize(PageSize.A4);
-			doc.setMargins(1,1,20,20);
             addFooter(sInvoiceUid.replaceAll("1\\.",""));
 
             doc.open();
@@ -241,7 +240,7 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             	String invoicekey="?";
             	if(debet.getPatientInvoiceUid()!=null){
         			PatientInvoice inv = PatientInvoice.get(debet.getPatientInvoiceUid());
-        			if(inv!=null){
+        			if(inv!=null && inv.getUid()!=null && inv.getUid().equalsIgnoreCase(debet.getPatientInvoiceUid())){
         				invoicekey=new SimpleDateFormat("yyyyMMdd").format(inv.getDate())+";"+inv.getInvoiceNumber()+";"+inv.getInsurarreference();
         			}
             	}
@@ -322,6 +321,7 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 			double generaltotal=0,generalpatienttotal=0;
 			while(iInvoices.hasNext()){
 				String invoicekey = (String)iInvoices.next();
+				System.out.println("invoicekey="+invoicekey);
 				TreeMap adherents=(TreeMap)invoices.get(invoicekey);
 				double adherenttotal=0;
 				double patienttotal=0;
@@ -333,10 +333,9 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 					cell = createBoldLabelCell(getTran("web","adherent")+": "+adherentkey, 50,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
 					table.addCell(cell);
-					cell = createBoldLabelCell(getTran("web","invoicenumber")+": "+invoicekey.split(";")[1], 25,10);
+					cell = createBoldLabelCell(getTran("web","invoicenumber")+": "+(invoicekey.split(";").length>1?invoicekey.split(";")[1]:""), 25,10);
 					cell.setBorder(PdfPCell.TOP);
 					table.addCell(cell);
-					System.out.println("invoicekey="+invoicekey);
 					cell = createBoldLabelCell(getTran("web","bcnumber")+": "+(invoicekey.split(";").length>2?invoicekey.split(";")[2]:""), 25,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);

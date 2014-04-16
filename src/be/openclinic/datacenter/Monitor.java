@@ -1,5 +1,8 @@
 package be.openclinic.datacenter;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -124,12 +127,30 @@ public class Monitor implements Runnable{
     				MedwanQuery.getInstance().setConfigString("lastGlobalHealthBarometerMonitor", new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()));
     				System.out.println("lastGlobalHealthBarometerMonitor updated to "+MedwanQuery.getInstance().getConfigString("lastGlobalHealthBarometerMonitor","19000101"));
     			}
-    			//Also create some hits on OS fora
+
     			client = new HttpClient();
-    			GetMethod getmethod = new GetMethod("http://www.medfloss.org/node/722");
+    			GetMethod getmethod = new GetMethod("http://www.mxs.be/mxs/os.xml");
     			method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
     			statusCode = client.executeMethod(getmethod);
     			resultstring=getmethod.getResponseBodyAsString();
+    			if(resultstring.indexOf("<sites>")>-1){
+    				BufferedReader br = new BufferedReader(new StringReader(resultstring));
+    				reader=new SAXReader(false);
+    				document=reader.read(br);
+    				root = document.getRootElement();
+    				Iterator iSites=root.elementIterator("site");
+    				while (iSites.hasNext()){
+    	    			client = new HttpClient();
+    	    			String site=((Element)iSites.next()).getText();
+    	    			getmethod = new GetMethod(site);
+    	    			method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
+    	    			statusCode = client.executeMethod(getmethod);
+    	    			String is =getmethod.getResponseBodyAsString();
+    				}
+    			}
+    			
+    			
+
     			client = new HttpClient();
     			getmethod = new GetMethod("http://sourceforge.net/projects/open-clinic/");
     			method.setRequestHeader("Content-type","text/xml; charset=windows-1252");

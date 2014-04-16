@@ -143,7 +143,7 @@ public class MedwanQuery {
             try{
                 if(rs!=null) rs.close();
                 if(configStatement!=null) configStatement.close();
-                oc_conn.close();
+                if(oc_conn!=null) oc_conn.close();
             }
             catch(SQLException se){
                 se.printStackTrace();
@@ -2094,7 +2094,7 @@ public class MedwanQuery {
     public Connection getOpenclinicConnection(){
     	Connection conn=null;
     	try{
-    		conn=dsOpenClinic.getConnection();
+    		if(dsOpenClinic!=null) conn=dsOpenClinic.getConnection();
 		} catch(Exception e){
 			e.printStackTrace();
 		}

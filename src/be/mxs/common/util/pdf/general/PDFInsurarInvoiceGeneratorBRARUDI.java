@@ -60,7 +60,6 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
 			doc.setPageSize(PageSize.A4);
-			doc.setMargins(1,1,20,20);
             addFooter();
 
             doc.open();
@@ -1384,7 +1383,31 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
         	table.addCell(cell);
             cell=createLabelCell(getTran("web","bcnumber"),15);
         	table.addCell(cell);
-            cell=createBoldLabelCell(MedwanQuery.getInstance().getConfigString("hospitalBCNumber",""),45);
+        	
+        	Hashtable patientInvoices = new Hashtable();
+            Vector debets = new Vector();
+            for(int n=0;n<invoice.getDebets().size();n++){
+            	Debet debet = (Debet)invoice.getDebets().elementAt(n);
+            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getPatient()!=null && debet.getEncounter().getPatient().personid.equalsIgnoreCase(personid)){
+            		debets.add(debet);
+            		if(debet.getPatientInvoiceUid()!=null){
+            			patientInvoices.put(debet.getPatientInvoiceUid(), "1");
+            		}
+            	}
+            }
+            String bc="";
+            Enumeration e = patientInvoices.keys();
+            while(e.hasMoreElements()){
+            	PatientInvoice inv = PatientInvoice.get((String)e.nextElement());
+            	if(inv!=null && inv.getInsurarreference()!=null && inv.getInsurarreference().length()>0){
+	            	if(bc.length()>0){
+	            		bc+=", ";
+	            	}
+	            	bc+=inv.getInsurarreference();
+            	}
+            }
+        	
+            cell=createBoldLabelCell(bc,45);
         	table.addCell(cell);
             cell=createLabelCell(getTran("web","invoicenumber"),15);
         	table.addCell(cell);

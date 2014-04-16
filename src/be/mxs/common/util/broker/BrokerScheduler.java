@@ -34,6 +34,9 @@ public class BrokerScheduler implements Runnable{
 	}
 	
 	public static void runScheduler(){
+		if(lrNotifier==null){
+			lrNotifier = new LabresultsNotifier();
+		}
 		lrNotifier.sendNewLabs();
 	}
 	
