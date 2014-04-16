@@ -51,22 +51,20 @@
         }
 
         return remainingBlockDuration;
-    }
-    
+    }    
 %>
 
-<%
-	
+<%	
 	String ag = request.getHeader("User-Agent"), browser="", version="";
 	try{
 		int tmpPos; 
 		ag = ag.toLowerCase();
-		if (ag.contains("msie")) {
+		if(ag.contains("msie")){
 			browser = "Internet Explorer";
 		    String str = ag.substring(ag.indexOf("msie") + 5);
 		    version = str.substring(0, str.indexOf(";"));
 		}
-		else if (ag.contains("opera")){
+		else if(ag.contains("opera")){
 			browser = "Opera";
 			ag=ag.substring(ag.indexOf("version"));
 			String str="";
@@ -78,7 +76,7 @@
 				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
 			}
 		}
-		else if (ag.contains("chrome")){
+		else if(ag.contains("chrome")){
 			browser = "Chrome";
 			ag=ag.substring(ag.indexOf("chrome"));
 			String str="";
@@ -90,7 +88,7 @@
 				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
 			}
 		}
-		else if (ag.contains("firefox")){
+		else if(ag.contains("firefox")){
 			browser = "Firefox";
 			ag=ag.substring(ag.indexOf("firefox"));
 			String str="";
@@ -102,7 +100,7 @@
 				version = (ag.substring(tmpPos = (ag.indexOf("/")) + 1)).trim();
 			}
 		}
-		else if (ag.contains("safari") && ag.contains("version")){
+		else if(ag.contains("safari") && ag.contains("version")){
 			browser = "Safari";
 			ag=ag.substring(ag.indexOf("version"));
 			String str="";
@@ -118,8 +116,8 @@
 	catch(Exception e3){
 		e3.printStackTrace();
 	}
-// get formdata
-  if (request.getParameter("Dir")!=null){
+	
+  if(request.getParameter("Dir")!=null){
       sAPPDIR = request.getParameter("Dir");
   }
 
@@ -137,17 +135,17 @@
   session.removeAttribute("tsSessionStart");
   session.removeAttribute(sAPPTITLE+"WebLanguage");
 
-  if(sUserLogin.length()==0 || sUserPassword.length()==0) {
+  if(sUserLogin.length()==0 || sUserPassword.length()==0){
       response.sendRedirect("login.jsp?message=Empty values!&ts="+getTs());
   }
   else{
-      try {
+      try{
           Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-          if(ad_conn != null) {
+          if(ad_conn != null){
               User user = new User();
               byte[] aUserPassword = user.encrypt(sUserPassword);
 			  System.out.println("Checking login>>>>>>>>>>>>>>>>>>>>>>>>>");
-              if ((sAuto!=null && sAuto.equalsIgnoreCase("true") && user.initializeAuto(ad_conn, sUserLogin, sUserPassword)) || user.initialize(ad_conn, sUserLogin, aUserPassword)) {
+              if((sAuto!=null && sAuto.equalsIgnoreCase("true") && user.initializeAuto(ad_conn, sUserLogin, sUserPassword)) || user.initialize(ad_conn, sUserLogin, aUserPassword)){
                   GregorianCalendar myDate = new GregorianCalendar();
                   String sDay, sMonth, sYear, sDate;
                   sDay = myDate.get(Calendar.DATE) + "";
@@ -168,15 +166,15 @@
                   session.setAttribute("mon_start",new java.util.Date());
                   //*** set project name and dir **************************************************
                   String sTmpProjectName = checkString((String)session.getAttribute("activeProjectTitle"));
-                  if (sTmpProjectName.length()==0) {
+                  if(sTmpProjectName.length()==0){
                       sTmpProjectName = "OpenClinic";
                       session.setAttribute("activeProjectTitle",sTmpProjectName);
                   }
 
-                  if ((!user.project.toLowerCase().equals("mxs")&&(!sTmpProjectName.toLowerCase().equals(user.project.toLowerCase())))) {
+                  if((!user.project.toLowerCase().equals("mxs")&&(!sTmpProjectName.toLowerCase().equals(user.project.toLowerCase())))){
                       sTmpProjectName = user.project;
                       session.setAttribute("activeProjectTitle",sTmpProjectName);
-                      if (!sTmpProjectName.toLowerCase().equals("openwork")) {
+                      if(!sTmpProjectName.toLowerCase().equals("openwork")){
                           session.setAttribute("activeProjectDir", "projects/"+sTmpProjectName.toLowerCase()+"/");
                       }
                       else {
@@ -194,12 +192,13 @@
                   objAL.setUserid(Integer.parseInt(user.userid));
                   objAL.setAccesstime(getSQLTime());
                   AccessLog.logAccess(objAL);
+                  
                   //*** set timeout ***************************************************************
                   String sTimeOutInSeconds = checkString(user.getParameter("Timeout"));
 
-                  if (sTimeOutInSeconds.length()==0) {
+                  if(sTimeOutInSeconds.length()==0){
                       String sDefaultTimeOutInSeconds = MedwanQuery.getInstance().getConfigString("DefaultTimeOutInSeconds");
-                      if (sDefaultTimeOutInSeconds.length()==0) {
+                      if(sDefaultTimeOutInSeconds.length()==0){
                           sDefaultTimeOutInSeconds = "3600";
                       }
                       sTimeOutInSeconds = sDefaultTimeOutInSeconds;
@@ -207,10 +206,10 @@
 
                   // set timeout as int in session
                   int iDefaultTimeOutInSeconds;
-                  try {
+                  try{
                       iDefaultTimeOutInSeconds = Integer.parseInt(sTimeOutInSeconds);
                   }
-                  catch(Exception e) {
+                  catch(Exception e){
                       iDefaultTimeOutInSeconds = 3600;
                   }
                   session.setMaxInactiveInterval(iDefaultTimeOutInSeconds);
@@ -256,6 +255,7 @@
                       response.sendRedirect(request.getParameter("startPage"));
                   }
             	  ad_conn.close();
+            	  
             	  //Check the default application for this user
             	  if(user.getParameter("DefaultPage").equalsIgnoreCase("accountancy")){
             		  response.sendRedirect("accountancy/index.jsp?ts="+getTs());
@@ -269,12 +269,12 @@
             	  else if(user.getParameter("DefaultPage").equalsIgnoreCase("maintenance")){
             		  response.sendRedirect("maintenance/index.jsp?ts="+getTs());
             	  }
-            	  else {
+            	  else{
             		  response.sendRedirect("main.do?CheckService=true&CheckMedicalCenter=true&ts="+getTs());
             	  }
               }
               //--- wrong password or wrong login ---
-              else {
+              else{
                   // wrong password
                   if(user.userid.length() > 0){
                       if(!user.checkPassword(aUserPassword)){
@@ -295,8 +295,8 @@
                       int blockDuration = checkForIPIntrusion(ad_conn,request,request.getRemoteAddr());
                       if(blockDuration >= 0 ){
                           // go to a page telling the user he has to wait
-                        	  ad_conn.close();
-		                      response.sendRedirect("login.jsp");
+                          ad_conn.close();
+		                  response.sendRedirect("login.jsp");
                       }
                       else{
                     	  ad_conn.close();
@@ -310,9 +310,8 @@
         	  ad_conn.close();
 		      response.sendRedirect("login.jsp?message=Connection error !&ts="+getTs());
           }
-
       }
-      catch (NumberFormatException e) {
+      catch(NumberFormatException e){
           // login wrong
 		  Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
           int remainingBlockDuration = checkForIPIntrusion(ad_conn,request,request.getRemoteAddr());
@@ -325,10 +324,9 @@
               response.sendRedirect("login.jsp?message=Login is wrong&ts="+getTs());
           }
       }
-      catch (Exception e) {
+      catch(Exception e){
           response.sendRedirect("login.jsp?message=General error !&ts="+getTs());
           e.printStackTrace();
       }
   }
-
 %>

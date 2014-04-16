@@ -29,7 +29,7 @@
       }
     </script>
     
-    <title><%=sWEBTITLE + " " + sTmpAPPTITLE%></title>
+    <title><%=sWEBTITLE+" "+sTmpAPPTITLE%></title>
 </head>
 
 <body class="Geenscroll login" onkeydown="escBackSpace();if(enterEvent(event,13)){goToLogin();}">
@@ -114,4 +114,3 @@
 </div>
 </body>
 </html>
-

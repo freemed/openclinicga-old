@@ -156,9 +156,9 @@
     <div id="fields">
         <form name="entranceform" action="checkLogin.do?ts=<%=getTs()%>" method="post" id="entranceform">
             <div id="login_field">
-                <input class="text" name="login" size="17" onblur='validateText(this);limitLength(this);'/></div>
+                <input class="text" name="login" size="17" onblur='limitLength(this);'/></div>
             <div id="pwd_field">
-                <input class="text" type="password" name="password" size="17" onblur='validateText(this);limitLength(this);'/>
+                <input class="text" type="password" name="password" size="17" onblur='limitLength(this);'/>
             </div>
             <div id="submit_button"><input class="button" type="submit" name="Login" title="login" value="">
                 <div id="finger_button">

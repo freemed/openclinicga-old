@@ -23,7 +23,7 @@
         window.location.href = "<%=sCONTEXTPATH%>/<%=sTmpAPPDIR%>";
       }
 
-      function closeWindow() {
+      function closeWindow(){
         window.opener = null;
         window.close();
       }
@@ -104,6 +104,5 @@
         <% } %>
     </div>
     </div>
-
 </body>
 </html>

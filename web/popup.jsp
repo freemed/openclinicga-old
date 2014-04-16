@@ -100,10 +100,10 @@
   var ns6 = document.getElementById && !document.all
 
   <%-- OPEN POPUP --%>
-  function openPopup(page, width, height, title) {
-    var url = "<c:url value="/popup.jsp"/>?Page=" + page;
-    if(width != undefined) url += "&PopupWidth=" + width;
-    if(height != undefined) url += "&PopupHeight=" + height;
+  function openPopup(page,width,height,title){
+    var url = "<c:url value="/popup.jsp"/>?Page="+page;
+    if(width != undefined) url += "&PopupWidth="+width;
+    if(height != undefined) url += "&PopupHeight="+height;
     if(title == undefined){
       if(page.indexOf("&") < 0) {
         title = page.replace("/", "_");
@@ -118,19 +118,18 @@
     w.moveBy(2000, 2000);
   }
 
-  function replaceAll(s, s1, s2){
+  function replaceAll(s,s1,s2){
     while(s.indexOf(s1) > -1){
       s = s.replace(s1,s2);
     }
     return s;
   }
 
-  //******* SET ENTER KEY COMPATIBLE WITH FIREFOX *******//
+  <%-- ENTER EVENT --%>
   var desKey = 13;
   function enterEvent(e){
     var key = e.which?e.which:window.event.keyCode;
-    //for compatibility FF IE
-    if(key == desKey){
+    if(key==desKey){
       return true;
     }
     else{
@@ -138,11 +137,11 @@
     }
   }
 
-  //******* AJAX CHANGE SEARCH RESULTS ******************//
-  function ajaxChangeSearchResults(urlForm, SearchForm, moreParams){
+  <%-- AJAX CHANGE SEARCH RESULTS --%>
+  function ajaxChangeSearchResults(urlForm,SearchForm,moreParams){
     document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
     var url = urlForm;
-    var params = Form.serialize(SearchForm) + moreParams;
+    var params = Form.serialize(SearchForm)+moreParams;
     var myAjax = new Ajax.Updater("divFindRecords",url,{
       evalScripts:true,
       method: "post",
@@ -159,7 +158,7 @@
   }
 </script>
   
-    <title><%=sWEBTITLE + " " + sAPPTITLE%></title>
+    <title><%=sWEBTITLE+" "+sAPPTITLE%></title>
 </head>
 
 <%-- Start Floating Layer -----------------------------------------------------------------------%>
@@ -167,7 +166,7 @@
     <table width="100%" cellspacing="0" cellpadding="5" style="border:1px solid #aaa">
         <tr>
             <td bgcolor="#dddddd" style="text-align:center">
-                <%=getTran("web", "searchInProgress", sWebLanguage)%>
+                <%=getTran("web","searchInProgress",sWebLanguage)%>
             </td>
         </tr>
     </table>
@@ -179,9 +178,9 @@
     <tr>
         <td colspan="3" style="vertical-align:top;" height="100%">
             <%
-                response.setHeader("Pragma", "no-cache"); //HTTP 1.0
-                response.setDateHeader("Expires", 0); //prevents caching at the proxy server
-                ScreenHelper.setIncludePage("/" + customerInclude(sPopupPage), pageContext);
+                response.setHeader("Pragma","no-cache"); //HTTP 1.0
+                response.setDateHeader("Expires",0); //prevents caching at the proxy server
+                ScreenHelper.setIncludePage("/"+customerInclude(sPopupPage),pageContext);
             %>
         </td>
     </tr>
@@ -194,7 +193,7 @@
     <%
 		String sPopupWidth = checkString(request.getParameter("PopupWidth"));
 		if(sPopupWidth.length() > 0){
-            %>w =<%=sPopupWidth%>;<%
+            %>w = <%=sPopupWidth%>;<%
 		}
 		else{
             %>
@@ -212,11 +211,11 @@
 		if(sPopupHeight.length() > 0){
             %>h =<%=sPopupHeight%>;<%
 		}
-		else {
+		else{
             %>
 	        if(ie){
 	          rcts = popuptbl.getClientRects();
-	          h = rcts[0].bottom + 80;
+	          h = rcts[0].bottom+80;
 	        }
 	        else{
 	          h = document.getElementById("popuptbl").clientHeight;

@@ -87,9 +87,7 @@
 </head>
 
 <body>
-    <br>
-    <br>
-    <br>
+    <br><br><br>
 
     <form name="unblockForm" method="post" onKeyDown="if(enterEvent(event,13)){doUnblock();}">
         <input type="hidden" name="Action">
@@ -167,9 +165,7 @@
               unblockForm.submit();
             }
             else{
-                var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-                var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web.manage","datamissing","")%>');
+              alertDialog("web.manage","datamissing");
             }
           }
         </script>
