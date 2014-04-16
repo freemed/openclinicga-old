@@ -1,7 +1,8 @@
 <%@page import="be.openclinic.system.Macro"%>
-<%@ page import="java.util.Vector" %>
+<%@page import="java.util.Vector"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <html>
     <head>
         <title><%=sWEBTITLE+" "+sAPPTITLE%></title>
@@ -19,15 +20,16 @@
 
                 Iterator iter = vMacros.iterator();
                 String sLabel = "";
-                while (iter.hasNext()) {
-                    objMacro = (Macro) iter.next();
-                    if (sWebLanguage.equalsIgnoreCase("n")) {
+                while(iter.hasNext()){
+                    objMacro = (Macro)iter.next();
+                    if(sWebLanguage.equalsIgnoreCase("n")){
                         sLabel = objMacro.getNl();
-                    } else {
+                    }
+                    else{
                         sLabel = objMacro.getFr();
                     }
 
-            %><tr class="list" onclick="selectMacro('<%=sLabel%>');"><td><%=sLabel%></td></tr><%
+                    %><tr class="list" onclick="selectMacro('<%=sLabel%>');"><td><%=sLabel%></td></tr><%
                 }
 
                 // no records found

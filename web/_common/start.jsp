@@ -80,23 +80,23 @@
     }
 
     // controls DOB of user and shows happy birthday
-    if ((activeUser.person.dateOfBirth!=null)&&(activeUser.person.dateOfBirth.trim().length()>0)){
+    if((activeUser.person.dateOfBirth!=null)&&(activeUser.person.dateOfBirth.trim().length()>0)){
         String sDOB = activeUser.person.dateOfBirth;
         sDOB = sDOB.substring(0,sDOB.lastIndexOf("/"));
         String sNow = getDate();
         sNow = sNow.substring(0,sNow.lastIndexOf("/"));
 
-        if (sDOB.equals(sNow)){
+        if(sDOB.equals(sNow)){
             %><script>alert("Happy birthday!");</script><%
         }
     }
 
     // user must select a service when he works in more than one services
     if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){
-	    if ((activeUser.vServices.size()>1)&&(sCheckService.trim().equals("true"))){
+	    if((activeUser.vServices.size()>1)&&(sCheckService.trim().equals("true"))){
 	        ScreenHelper.setIncludePage("startChangeService.jsp?NextPage=_common/start.jsp", pageContext);
 	    }
-	    if (MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCountry","").length()==0 || MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCity","").length()==0){
+	    if(MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCountry","").length()==0 || MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCity","").length()==0){
 	        out.println("<script>window.open('popup.jsp?Page=system/manageGlobalHealthBarometerData.jsp&PopupWidth=800&PopupHeight=600&AutoClose=1','GlobalHealthBarometer', 'toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no');</script>");
 	    }
         out.print("<center><h4>"+getTran("Web","welcome",sWebLanguage)+" "+activeUser.person.firstname+" "+activeUser.person.lastname+"</h4></center>");

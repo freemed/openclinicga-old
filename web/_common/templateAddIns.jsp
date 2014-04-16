@@ -4,9 +4,9 @@
     // prestations verified
     int prestationsVerified = 0;
 
-    if (activePatient != null) {
-        if (activePatient.personid != null && activePatient.personid.length() > 0) {
-            if (MedwanQuery.getInstance().getConfigInt("exportEnabled") != 1 || !MedwanQuery.getInstance().hasUnvalidateActivities(Integer.parseInt(activePatient.personid))) {
+    if(activePatient != null){
+        if(activePatient.personid != null && activePatient.personid.length() > 0){
+            if(MedwanQuery.getInstance().getConfigInt("exportEnabled") != 1 || !MedwanQuery.getInstance().hasUnvalidateActivities(Integer.parseInt(activePatient.personid))) {
                 prestationsVerified = 1;
             }
         } 
@@ -21,9 +21,9 @@
     }
 
     out.print("<script>"+
-              " if(document.getElementById('prestationsVerified')!=undefined && document.getElementById('prestationsVerified').type.toLowerCase()=='hidden'){" +
-              "  document.getElementById('prestationsVerified').value = '"+prestationsVerified+"'" +
-              " }" +
+               "if(document.getElementById('prestationsVerified')!=undefined && document.getElementById('prestationsVerified').type.toLowerCase()=='hidden'){" +
+                " document.getElementById('prestationsVerified').value = '"+prestationsVerified+"';"+
+               "}"+
               "</script>");
 %>
 <script>
@@ -189,13 +189,8 @@ function checkAfter(afterId,beforeObj){
       sText = "<%=getTranNoLink("Web","PutToday",sWebLanguage)%>";	
     }
     
-    if(allowPastDates==undefined){
-      allowPastDates = true;
-    }
-
-    if(allowFutureDates==undefined){
-      allowFutureDates = true;
-    }
+    if(allowPastDates==undefined) allowPastDates = true;
+    if(allowFutureDates==undefined) allowFutureDates = true;
 
     gfPopType = "1"; // default mode
     if(allowPastDates && allowFutureDates){
@@ -221,24 +216,15 @@ function checkAfter(afterId,beforeObj){
     sDir = sImg.substring(0,sImg.lastIndexOf("/"))+"";
     gfPopType = "1"; // default mode
     
-    if(allowPastDates==undefined){
-      allowPastDates = true;
-    }
-
-    if(allowFutureDates==undefined){
-      allowFutureDates = true;
-    }
+    if(allowPastDates==undefined) allowPastDates = true;
+    if(allowFutureDates==undefined) allowFutureDates = true;
 
     if(allowPastDates && allowFutureDates){
       gfPopType = "1";
     }
     else{
-      if(allowFutureDates){
-        gfPopType = "3";
-      }
-      else if(allowPastDates){
-        gfPopType = "2";
-      }
+      if(allowFutureDates) gfPopType = "3";
+      else if(allowPastDates) gfPopType = "2";
     }
 
     return ("<a href='javascript:void(0);' onclick='if(self.gfPop"+gfPopType+")gfPop"+gfPopType+".fPopCalendar(document.getElementById(\""+sObject+"\"));return false;' HIDEFOCUS>" +
@@ -309,38 +295,20 @@ function checkAfter(afterId,beforeObj){
 %>
 
 <%-- popupmenu --%>
-<div id="ie5menu" class="skin0" onMouseover="highlightie5(event)" onMouseout="lowlightie5(event)"
-     onClick="jumptoie5(event)" style="position:absolute;display:none;">
-    <%-- items van de popupmenu. Met target komt de inhoud in een andere pagina --%>
+<div id="ie5menu" class="skin0" onMouseover="highlightie5(event)" onMouseout="lowlightie5(event)" onClick="jumptoie5(event)" style="position:absolute;display:none;">
+    <%-- items van popupmenu. Met target komt de inhoud in een andere pagina --%>
     <!-- <div id="Antecedents" class="menuitems" url="/">getTran("Web.Occup","medwan.common.transfert-to-antecedents",sWebLanguage)</div> -->
-    <div id="SetDefaultValue" class="menuitems" url="/"><%=
-        getTran("Web.Occup", "medwan.occupational-medicine.setdefaultvalue", sWebLanguage)%>
-    </div>
-    <div id="GetHistory" class="menuitems"
-         url="javascript:openPage(sHistoryURL,'<%=getTran("Web.Occup","medwan.occupational-medicine.gethistory",sWebLanguage)%>','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=yes,width=400,height=250,top=100,left=100')"><%=
-        getTran("Web.Occup", "medwan.occupational-medicine.gethistory", sWebLanguage)%>
-    </div>
-    <div id="GetGraph" class="menuitems"
-         url="javascript:openPage(sGraphURL,'<%=getTran("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%>','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=no,width=400,height=220,top=100,left=100')"><%=
-        getTran("Web.Occup", "medwan.occupational-medicine.getgraph", sWebLanguage)%>
-    </div>
-    <div id="ShowLastTrans" class="menuitems"
-         url="javascript:openPage(sLastTransURL,'LastTrans','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=yes,width=1,height=1')"><%=
-        getTran("Web.Occup", "medwan.occupational-medicine.showLastTransactions", sWebLanguage)%>
-    </div>
+    <div id="SetDefaultValue" class="menuitems" url="/"><%=getTran("Web.Occup","medwan.occupational-medicine.setdefaultvalue",sWebLanguage)%></div>
+    <div id="GetHistory" class="menuitems" url="javascript:openPage(sHistoryURL,'<%=getTran("Web.Occup","medwan.occupational-medicine.gethistory",sWebLanguage)%>','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=yes,width=400,height=250,top=100,left=100')"><%=getTran("Web.Occup","medwan.occupational-medicine.gethistory",sWebLanguage)%></div>
+    <div id="GetGraph" class="menuitems" url="javascript:openPage(sGraphURL,'<%=getTran("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%>','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=no,width=400,height=220,top=100,left=100')"><%=getTran("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%></div>
+    <div id="ShowLastTrans" class="menuitems" url="javascript:openPage(sLastTransURL,'LastTrans','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=yes,width=1,height=1')"><%=getTran("Web.Occup","medwan.occupational-medicine.showLastTransactions",sWebLanguage)%></div>
     <hr id="Sep1"/>
-    <div id="GetDefaultValue" class="menuitems" url="javascript:loadDefaults();"><%=
-        getTran("Web.Occup", "medwan.occupational-medicine.getdefaultvalues", sWebLanguage)%>
-    </div>
-    <div id="GetPreviousValue" class="menuitems" url="javascript:loadPrevious();"><%=
-        getTran("Web.Occup", "medwan.occupational-medicine.getpreviousvalues", sWebLanguage)%>
-    </div>
-    <div id="GetPreviousContextValue" class="menuitems" url="javascript:loadPreviousContext();"><%=
-        getTran("Web.Occup", "medwan.occupational-medicine.getpreviouscontextvalues", sWebLanguage)%>
-    </div>
+    <div id="GetDefaultValue" class="menuitems" url="javascript:loadDefaults();"><%=getTran("Web.Occup","medwan.occupational-medicine.getdefaultvalues",sWebLanguage)%></div>
+    <div id="GetPreviousValue" class="menuitems" url="javascript:loadPrevious();"><%=getTran("Web.Occup","medwan.occupational-medicine.getpreviousvalues",sWebLanguage)%></div>
+    <div id="GetPreviousContextValue" class="menuitems" url="javascript:loadPreviousContext();"><%=getTran("Web.Occup","medwan.occupational-medicine.getpreviouscontextvalues",sWebLanguage)%></div>
     <hr/>
     <%-- <div id="RegisterDiagnosis" class="menuitems" url="/"><%=getTran("Web.Occup","medwan.common.register-as-diagnosis",sWebLanguage)%></div> --%>
-    <div class="menuitems" url="null"><%=getTran("Web.Occup", "medwan.common.close", sWebLanguage)%></div>
+    <div class="menuitems" url="null"><%=getTran("Web.Occup","medwan.common.close",sWebLanguage)%></div>
 </div>
 
 <script>
@@ -404,7 +372,7 @@ function setItemsMenu(bSet){
     }
     else{
       if(document.getElementById("SetDefaultValue").getAttribute("url").length > 0){
-         document.getElementById("SetDefaultValue").style.display = sDisp;
+        document.getElementById("SetDefaultValue").style.display = sDisp;
       }
       else{
         document.getElementById("SetDefaultValue").style.display = 'none';
@@ -468,17 +436,17 @@ function checkDropdown(evt){
 function printGrowthGraphAuto(printLang,ageInMonths,gender){
   if(ageInMonths >= 0 && ageInMonths <= 12){
     window.location.href = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp"+
-                           "?PrintLanguage="+printLang +
+                           "?PrintLanguage="+printLang+
                            "&dummyTransactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GROWTH_GRAPH_0_TO_1_YEAR"+
-                           "&ageInMonths="+ageInMonths +
-                           "&gender="+gender +
+                           "&ageInMonths="+ageInMonths+
+                           "&gender="+gender+
                            "&ts=<%=getTs()%>";
   }
   else if(ageInMonths > 12 && ageInMonths <= 60){
     window.location.href = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp"+
-                           "?PrintLanguage="+printLang +
+                           "?PrintLanguage="+printLang+
                            "&dummyTransactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GROWTH_GRAPH_1_TO_5_YEAR"+
-                           "&ageInMonths="+ageInMonths +
+                           "&ageInMonths="+ageInMonths+
                            "&gender="+gender +
                            "&ts=<%=getTs()%>";
   }

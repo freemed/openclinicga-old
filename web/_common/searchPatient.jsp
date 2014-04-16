@@ -71,14 +71,11 @@
         <tr>
             <td align="right" nowrap width="55"><%=getTran("Web","Name",sWebLanguage)%></td>
             <td>
-                <input id="ac2" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' TYPE='TEXT'
-                       style='text-transform:uppercase' NAME='findName' VALUE="<%=sName%>" size='25'
-                       onblur='validateText(this);limitLength(this);'>
-
+                <input id="ac2" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' TYPE='TEXT' style='text-transform:uppercase' NAME='findName' VALUE="<%=sName%>" size='25' onblur='limitLength(this);'>
                 <div id="ac2update" style="display: none;border: 1px solid black;background-color: white; "></div>
             </td>
             <td align="right" nowrap><%=getTran("Web", "Firstname", sWebLanguage)%>&nbsp;
-                <input id="ac1" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findFirstname' value="<%=sFirstname%>" size='20' onblur='validateText(this);limitLength(this);'>
+                <input id="ac1" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findFirstname' value="<%=sFirstname%>" size='20' onblur='limitLength(this);'>
             </td>
             <div id="ac1update" style="display:none; border: 1px solid black;background-color: white;"></div>
 
@@ -106,15 +103,15 @@
             <td align="right" nowrap><%=getTran("Web", "natreg.short", sWebLanguage)%>
             </td>
             <td>
-                <input class='<%=setFocus("natreg",sDefaultFocus)%>' TYPE='TEXT' NAME='findnatreg' VALUE="<%=sNatreg%>" size='25' onblur='validateText(this);limitLength(this);'>
+                <input class='<%=setFocus("natreg",sDefaultFocus)%>' TYPE='TEXT' NAME='findnatreg' VALUE="<%=sNatreg%>" size='25' onblur='limitLength(this);'>
             </td>
-            <td align="right" nowrap><%=getTran("Web", "immatnew", sWebLanguage)%>&nbsp;<input class='<%=setFocus("immatnew",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findimmatnew' value="<%=sNewimmat%>" size='20' onblur='validateText(this);limitLength(this);'></td>
+            <td align="right" nowrap><%=getTran("Web", "immatnew", sWebLanguage)%>&nbsp;<input class='<%=setFocus("immatnew",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findimmatnew' value="<%=sNewimmat%>" size='20' onblur='limitLength(this);'></td>
             <%
                 if(activePatient != null && activePatient.getID("archiveFileCode").length() > 0){
             %>
             <td align="right" nowrap>
                 <a href="javascript:showArchiveCode();"><%=getTran("Web","archiveFileCode",sWebLanguage)%></a>
-                &nbsp;<input class='<%=setFocus("archiveFileCode",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findArchiveFileCode' value="<%=sArchiveFileCode%>" size='17' onblur='validateText(this);limitLength(this);'>
+                &nbsp;<input class='<%=setFocus("archiveFileCode",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findArchiveFileCode' value="<%=sArchiveFileCode%>" size='17' onblur='limitLength(this);'>
             </td>
             <%
 	            }
@@ -125,14 +122,14 @@
                 &nbsp;<input class='<%=setFocus("archiveFileCode",sDefaultFocus)%>' type='TEXT'
                              style='<%=activePatient!=null?"background-color: #ff9999;":""%>text-transform:uppercase'
                              name='findArchiveFileCode' value="<%=sArchiveFileCode%>" size='17'
-                             onblur='validateText(this);limitLength(this);'>
+                             onblur='limitLength(this);'>
             </td>
             <%
                 }
             %>
             <td align="right" nowrap><%=getTran("Web", "personid", sWebLanguage)%>&nbsp;<input
                     class='<%=setFocus("personid",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase'
-                    name='findPersonID' value="<%=sPersonID%>" size='17' onblur='validateText(this);limitLength(this);'>
+                    name='findPersonID' value="<%=sPersonID%>" size='17' onblur='limitLength(this);'>
             </td>
         </tr>
         <%-- row 3 --%>

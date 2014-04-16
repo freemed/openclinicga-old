@@ -1,6 +1,6 @@
-<%@ page import="be.openclinic.id.FingerPrint,
-                 be.mxs.common.util.system.Picture,
-                 be.openclinic.id.Barcode"%>
+<%@page import="be.openclinic.id.FingerPrint,
+                be.mxs.common.util.system.Picture,
+                be.openclinic.id.Barcode"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
