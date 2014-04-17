@@ -552,10 +552,10 @@
               if(sObject.value.length > 0){
                 openPopup("/_common/search/serviceInformation.jsp&ServiceID="+sObject.value);
               }
-          }          <%-- DO SAVE --%>
-
+          }          
+          <%-- DO SAVE --%>
           function doSave(){
-            var medicalCenterOK = checkMedicalCenterLength();
+        	  var medicalCenterOK = checkMedicalCenterLength();
 
             if(medicalCenterOK){
               transactionForm.Action.value = "save";
@@ -565,7 +565,6 @@
               transactionForm.Editmedicalcentercode.focus();
             }
           }
-          
 		function searchInsurar() {
 		    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsuranceAgent&ReturnFieldInsurarName=insuranceagenttext&excludePatientSelfIsurarUID=true&PopupHeight=500&PopupWith=500");
 		}
@@ -604,7 +603,7 @@
 
           <%-- DO BACK  --%>
           function doBack(){
-            if(checkSaveButton())){
+            if(checkSaveButton()){
               window.location.href = "./main.do?Page=permissions/index.jsp";
             }
           }
