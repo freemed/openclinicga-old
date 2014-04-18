@@ -275,7 +275,7 @@
 <%
     }
 %>
-    <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton())){window.location.href='<c:url value="/healthrecord/showPeriodicExaminations.do"/>?ts=<%=getTs()%>'}">
+    <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/healthrecord/showPeriodicExaminations.do"/>?ts=<%=getTs()%>'}">
 <%=ScreenHelper.alignButtonsStop()%>
 <script>
   calculateBMI();

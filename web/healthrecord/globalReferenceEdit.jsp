@@ -111,7 +111,7 @@
     <%
       }
     %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton())){doMyBack();}">
+                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){doMyBack();}">
             </td>
         </tr>
     </table>

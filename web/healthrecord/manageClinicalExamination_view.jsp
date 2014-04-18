@@ -132,7 +132,7 @@
         <%
         }
         %>
-        <input class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if ('<%=sCONTEXTPATH%>',checkSaveButton())){window.location.href='<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';}">
+        <input class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if ('<%=sCONTEXTPATH%>',checkSaveButton()){window.location.href='<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';}">
     <%=ScreenHelper.alignButtonsStop()%>
 
 <script>

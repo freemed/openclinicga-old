@@ -144,7 +144,7 @@
   document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS" property="itemId"/>]>.value')[0].onclick();
 
   function doBack(){
-    if(checkSaveButton())){
+    if(checkSaveButton()){
       window.location.href = '<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';
     }
   }

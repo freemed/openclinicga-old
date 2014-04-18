@@ -140,7 +140,7 @@
 	            <%
             }
         %>
-        <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton())){window.location.href='<c:url value="/healthrecord/managePeriodicExaminations.do"/>?ConvocationID=currentConvocation&ts=<%=getTs()%>'}">
+        <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/healthrecord/managePeriodicExaminations.do"/>?ConvocationID=currentConvocation&ts=<%=getTs()%>'}">
     <%=ScreenHelper.alignButtonsStop()%>
     
     <%=ScreenHelper.contextFooter(request)%>

@@ -162,7 +162,7 @@
   </tr>
   <tr>
     <td>
-      <div style="height:250px;overflow:auto">
+      
 	  <table width='100%'>
 	    <%
 		    if(activeEncounterUid.length() > 0){
@@ -196,7 +196,6 @@
 		    }
 	    %>
 	  </table>
-	  </div>
 	</td>
   </tr>
 </table>

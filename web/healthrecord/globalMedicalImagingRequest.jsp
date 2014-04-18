@@ -179,7 +179,6 @@
         %>
     </table>
     <div style="padding-top:5px;"></div>
-        
     <%---------------------------------------------------------------------------------------%>
     <%-- DEMAND 2 ---------------------------------------------------------------------------%>
     <%---------------------------------------------------------------------------------------%>
@@ -209,21 +208,12 @@
                 <textarea id="SPECIFICATION2" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_SPECIFICATION2")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION2" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION2" property="value"/></textarea>
             </td>
         </tr>
-
-<<<<<<< .mine
         <tr>
             <%-- URGENCY --%>
             <td class="admin"><%=getTran("Web.Occup","urgency",sWebLanguage)%></td>
             <td class="admin2">
                 <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_URGENT2")%> type="checkbox" id="urgency2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_URGENT2" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_URGENT2;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
             </td>
-=======
-                <td class="admin"><%=getTran("web.occup","SPECIFICATION",sWebLanguage)%></td>
-                <td class="admin2">
-                    <textarea id="SPECIFICATION2" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_SPECIFICATION2")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION2" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION2" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
             <%-- EXAMINATION REASON --%>
             <td class="admin"><%=getTran("Web.Occup","examinationreason",sWebLanguage)%>&nbsp;</td>
@@ -231,22 +221,12 @@
                 <textarea id="reason2" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_EXAMINATIONREASON2")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON2" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON2" property="value"/></textarea>
             </td>
         </tr>
-
-<<<<<<< .mine
         <tr>
             <%-- ORIGINAL MODIFIED --%>
             <td class="admin"><%=getTran("Web.Occup","original_modified",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="checkbox" id="modified2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED2" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED2;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" onclick="doModified('modified2','modifiedreason2');">
             </td>
-=======
-                <%-- EXAMINATION REASON --%>
-                <td class="admin"><%=getTran("Web.Occup","examinationreason",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <textarea id="reason2" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_EXAMINATIONREASON2")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON2" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON2" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
             <%-- EXAMINATION REASON --%>
             <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%>&nbsp;</td>
@@ -255,7 +235,6 @@
             </td>
         </tr>
 
-<<<<<<< .mine
         <%
             if(activeUser.getAccessRight("occup.medicalimagingrequest.execute.select")){
                 %>
@@ -266,14 +245,6 @@
                             <input onclick="doExecution('executionreason2',true);" type="radio" onDblClick="uncheckRadio(this);" id="rbexecutionyes2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION2" property="itemId"/>]>.value" value="medwan.common.yes" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION2;value=medwan.common.yes" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.yes",sWebLanguage,"rbexecutionyes2")%>
                             <input onclick="doExecution('executionreason2',false);" type="radio" onDblClick="uncheckRadio(this);" id="rbexecutionno2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION2" property="itemId"/>]>.value" value="medwan.common.no" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION2;value=medwan.common.no" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.no",sWebLanguage,"rbexecutionno2")%>
                         </td>
-=======
-                <%-- EXAMINATION REASON --%>
-                <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <textarea id="modifiedreason2" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON2")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON2" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON2" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
                         <%-- REASON --%>
                         <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%></td>
@@ -282,21 +253,12 @@
                         </td>
                     </tr>
 
-<<<<<<< .mine
                     <tr>
                         <%-- VALIDATION BY --%>
                         <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.validationby",sWebLanguage)%></td>
                         <td class="admin2">
                             <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_VALIDATION2")%> type="checkbox" id="validation2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALIDATION2" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALIDATION2;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
                         </td>
-=======
-                            <%-- REASON --%>
-                            <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <textarea id="executionreason2" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON2" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON2" property="value"/></textarea>
-                            </td>
-                        </tr>
->>>>>>> .r1070
 
                         <%-- PROTOCOL --%>
                         <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_protocol",sWebLanguage)%></td>
@@ -305,7 +267,6 @@
                         </td>
                     </tr>
 
-<<<<<<< .mine
                     <%-- NIETS TE MELDEN --%>
                     <tr>
                         <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_nothing_to_mention",sWebLanguage)%></td>
@@ -328,14 +289,6 @@
         <tr class="gray">
             <td colspan="4"><%=getTran("web.occup","demand",sWebLanguage)%> 3</td>
         </tr>
-=======
-                            <%-- PROTOCOL --%>
-                            <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_protocol",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <textarea id="protocol2" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL2" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL2" property="value"/></textarea>
-                            </td>
-                        </tr>
->>>>>>> .r1070
 
         <%-- TYPE --%>
         <tr>
@@ -365,20 +318,12 @@
                 <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_URGENT3")%> type="checkbox" id="urgency3" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_URGENT3" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_URGENT3;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
             </td>
 
-<<<<<<< .mine
             <%-- EXAMINATION REASON --%>
             <td class="admin"><%=getTran("Web.Occup","examinationreason",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <textarea id="reason3" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_EXAMINATIONREASON3")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON3" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON3" property="value"/></textarea>
             </td>
         </tr>
-=======
-                <td class="admin"><%=getTran("web.occup","SPECIFICATION",sWebLanguage)%></td>
-                <td class="admin2">
-                    <textarea id="SPECIFICATION3" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_SPECIFICATION3")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION3" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION3" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
         <tr>
             <td class="admin"><%=getTran("Web.Occup","original_modified",sWebLanguage)%></td>
@@ -386,21 +331,12 @@
                 <input type="checkbox" id="modified3" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED3" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED3;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" onclick="doModified('modified3','modifiedreason3');">
             </td>
 
-<<<<<<< .mine
             <%-- EXAMINATION REASON --%>
             <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <textarea id="modifiedreason3" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON3")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON3" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON3" property="value"/></textarea>
             </td>
         </tr>
-=======
-                <%-- EXAMINATION REASON --%>
-                <td class="admin"><%=getTran("Web.Occup","examinationreason",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <textarea id="reason3" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_EXAMINATIONREASON3")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON3" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON3" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
         <%
             if(activeUser.getAccessRight("occup.medicalimagingrequest.execute.select")){
@@ -412,20 +348,11 @@
                             <input onclick="doExecution('executionreason3',false);" type="radio" onDblClick="uncheckRadio(this);" id="rbexecutionno3" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION3" property="itemId"/>]>.value" value="medwan.common.no" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION3;value=medwan.common.no" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.no",sWebLanguage,"rbexecutionno3")%>
                         </td>
 
-<<<<<<< .mine
                         <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%></td>
                         <td class="admin2">
                             <textarea id="executionreason3" onKeyup="resizeTextarea(this,10);limitChars(this,255);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON3" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON3" property="value"/></textarea>
                         </td>
                     </tr>
-=======
-                <%-- EXAMINATION REASON --%>
-                <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <textarea id="modifiedreason3" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON3")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON3" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON3" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
                     <tr>
                         <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.validationby",sWebLanguage)%></td>
@@ -433,20 +360,12 @@
                             <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_VALIDATION3")%> type="checkbox" id="validation3" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALIDATION3" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALIDATION3;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
                         </td>
 
-<<<<<<< .mine
                         <%-- PROTOCOL --%>
                         <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_protocol",sWebLanguage)%></td>
                         <td class="admin2">
                             <textarea id="protocol3" onKeyup="resizeTextarea(this,10);limitChars(this,255);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL3" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL3" property="value"/></textarea>
                         </td>
                     </tr>
-=======
-                            <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <textarea id="executionreason3" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON3" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON3" property="value"/></textarea>
-                            </td>
-                        </tr>
->>>>>>> .r1070
 
                     <%-- NIETS TE MELDEN --%>
                     <tr>
@@ -463,7 +382,6 @@
     </table>
     <div style="padding-top:5px;"></div>
 
-<<<<<<< .mine
     <%---------------------------------------------------------------------------------------%>
     <%-- DEMAND 4 ---------------------------------------------------------------------------%>
     <%---------------------------------------------------------------------------------------%>
@@ -471,14 +389,6 @@
         <tr class="gray">
             <td colspan="4"><%=getTran("web.occup","demand",sWebLanguage)%> 4</td>
         </tr>
-=======
-                            <%-- PROTOCOL --%>
-                            <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_protocol",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <textarea id="protocol3" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL3" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL3" property="value"/></textarea>
-                            </td>
-                        </tr>
->>>>>>> .r1070
 
         <%-- TYPE --%>
         <tr>
@@ -510,21 +420,12 @@
                 <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_URGENT4")%> type="checkbox" id="urgency4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_URGENT4" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_URGENT4;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
             </td>
 
-<<<<<<< .mine
             <%-- EXAMINATION REASON --%>
             <td class="admin"><%=getTran("Web.Occup","examinationreason",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <textarea id="reason4" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_EXAMINATIONREASON4")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON4" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON4" property="value"/></textarea>
             </td>
         </tr>
-=======
-                <%-- SPECIFICATION --%>
-                <td class="admin"><%=getTran("web.occup","specification",sWebLanguage)%></td>
-                <td class="admin2">
-                    <textarea id="SPECIFICATION4" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_SPECIFICATION4")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION4" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION4" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
         <tr>
             <%-- ORIGINAL MODIFIED --%>
@@ -533,21 +434,12 @@
                 <input type="checkbox" id="modified4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED4" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED4;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" onclick="doModified('modified4','modifiedreason4');">
             </td>
 
-<<<<<<< .mine
             <%-- EXAMINATION REASON --%>
             <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <textarea id="modifiedreason4" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON4")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON4" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON4" property="value"/></textarea>
             </td>
         </tr>
-=======
-                <%-- EXAMINATION REASON --%>
-                <td class="admin"><%=getTran("Web.Occup","examinationreason",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <textarea id="reason4" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_EXAMINATIONREASON4")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON4" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON4" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
         <%
             if(activeUser.getAccessRight("occup.medicalimagingrequest.execute.select")){
@@ -560,21 +452,12 @@
                             <input onclick="doExecution('executionreason4',false);" type="radio" onDblClick="uncheckRadio(this);" id="rbexecutionno4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION4" property="itemId"/>]>.value" value="medwan.common.no" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION4;value=medwan.common.no" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.no",sWebLanguage,"rbexecutionno4")%>
                         </td>
 
-<<<<<<< .mine
                         <%-- REASON --%>
                         <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%></td>
                         <td class="admin2">
                             <textarea id="executionreason4" onKeyup="resizeTextarea(this,10);limitChars(this,255);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON4" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON4" property="value"/></textarea>
                         </td>
                     </tr>
-=======
-                <%-- EXAMINATION REASON --%>
-                <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <textarea id="modifiedreason4" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON4")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON4" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON4" property="value"/></textarea>
-                </td>
-            </tr>
->>>>>>> .r1070
 
                     <tr>
                         <%-- VALIDATION BY --%>
@@ -583,21 +466,12 @@
                             <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_VALIDATION4")%> type="checkbox" id="validation4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALIDATION4" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALIDATION4;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
                         </td>
 
-<<<<<<< .mine
                         <%-- PROTOCOL --%>
                         <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_protocol",sWebLanguage)%></td>
                         <td class="admin2">
                             <textarea id="protocol4" onKeyup="resizeTextarea(this,10);limitChars(this,255);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL4" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL4" property="value"/></textarea>
                         </td>
                     </tr>
-=======
-                            <%-- REASON --%>
-                            <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <textarea id="executionreason4" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON4" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON4" property="value"/></textarea>
-                            </td>
-                        </tr>
->>>>>>> .r1070
 
                     <%-- NIETS TE MELDEN --%>
                     <tr>
@@ -614,7 +488,6 @@
     </table>
     <div style="padding-top:5px;"></div>
 
-<<<<<<< .mine
     <%---------------------------------------------------------------------------------------%>
     <%-- DEMAND 5 ---------------------------------------------------------------------------%>
     <%---------------------------------------------------------------------------------------%>
@@ -622,14 +495,6 @@
         <tr class="gray">
             <td colspan="4"><%=getTran("web.occup","demand",sWebLanguage)%> 5</td>
         </tr>
-=======
-                            <%-- PROTOCOL --%>
-                            <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_protocol",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <textarea id="protocol4" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL4" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL4" property="value"/></textarea>
-                            </td>
-                        </tr>
->>>>>>> .r1070
 
         <%-- TYPE --%>
         <tr>
@@ -638,136 +503,22 @@
                 <select id="examination5" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_TYPE5" property="itemId"/>]>.value">
                     <option/>
                     <%
-<<<<<<< .mine
                         item = sessionContainerWO.getCurrentTransactionVO().getItem(sPREFIX+"ITEM_TYPE_MIR2_TYPE5");
                         if (item!=null){
                             sType = checkString(item.getValue());
                         }
-=======
-                }
-            %>
-        </tbody>
-
-        <%-- DEMAND 5 ---------------------------------------------------------------------------%>
-        <tbody id="demande5" style="display:none;">
-            <tr class="gray">
-                <td colspan="4"><%=getTran("web.occup","demand",sWebLanguage)%> 5</td>
-            </tr>
-
-            <%-- TYPE --%>
-            <tr>
-                <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_type",sWebLanguage)%></td>
-                <td class="admin2">
-                    <select id="examination5" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_TYPE5" property="itemId"/>]>.value">
-                        <option/>
-                        <%
-                            item = sessionContainerWO.getCurrentTransactionVO().getItem(sPREFIX+"ITEM_TYPE_MIR2_TYPE5");
-                            if (item!=null){
-                                sType = checkString(item.getValue());
-                            }
-                        %>
-                        <%=ScreenHelper.writeSelect("mir_type",sType,sWebLanguage,false,false)%>
-                    </select>
-                </td>
-
-                <%-- SPECIFICATION --%>
-                <td class="admin"><%=getTran("web.occup","specification",sWebLanguage)%></td>
-                <td class="admin2">
-                    <textarea id="SPECIFICATION5" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_SPECIFICATION5")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION5" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION5" property="value"/></textarea>
-                </td>
-            </tr>
-
-            <tr>
-                <%-- URGENCY --%>
-                <td class="admin"><%=getTran("Web.Occup","urgency",sWebLanguage)%></td>
-                <td class="admin2">
-                    <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_URGENT5")%> type="checkbox" id="urgency5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_URGENT5" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_URGENT5;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
-                </td>
-
-                <%-- EXAMINATION REASON --%>
-                <td class="admin"><%=getTran("Web.Occup","examinationreason",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <textarea id="reason5" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_EXAMINATIONREASON5")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON5" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON5" property="value"/></textarea>
-                </td>
-            </tr>
-
-            <tr>
-                <%-- ORIGINAL MODIFIED --%>
-                <td class="admin"><%=getTran("Web.Occup","original_modified",sWebLanguage)%></td>
-                <td class="admin2">
-                    <input type="checkbox" id="modified5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED5" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED5;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" onclick="doModified('modified5','modifiedreason5');">
-                </td>
-
-                <%-- EXAMINATION REASON --%>
-                <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
-                    <textarea id="modifiedreason5" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" <%=setRightClick("ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON5")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON5" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED_REASON5" property="value"/></textarea>
-                </td>
-            </tr>
-
-            <%
-                if(activeUser.getAccessRight("occup.medicalimagingrequest.execute.select")){
->>>>>>> .r1070
                     %>
                     <%=ScreenHelper.writeSelect("mir_type",sType,sWebLanguage,false,false)%>
                 </select>
             </td>
 
-<<<<<<< .mine
             <%-- SPECIFICATION --%>
             <td class="admin"><%=getTran("web.occup","specification",sWebLanguage)%></td>
             <td class="admin2">
                 <textarea id="SPECIFICATION5" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_SPECIFICATION5")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION5" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION5" property="value"/></textarea>
             </td>
         </tr>
-=======
-                            <%-- REASON --%>
-                            <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <textarea id="executionreason5" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON5" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION_REASON5" property="value"/></textarea>
-                            </td>
-                        </tr>
->>>>>>> .r1070
 
-<<<<<<< .mine
-=======
-                        <tr>
-                            <%-- VALIDATION BY --%>
-                            <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.validationby",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <input <%=setRightClick("ITEM_TYPE_OTHER_REQUESTS_VALIDATION5")%> type="checkbox" id="validation5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALIDATION5" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALIDATION5;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true">
-                            </td>
-
-                            <%-- PROTOCOL --%>
-                            <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_protocol",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <textarea id="protocol5" onKeyup="resizeTextarea(this,10);limitChars(this,5000);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL5" property="itemId"/>]>.value" class="text" rows="2" cols="80"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_PROTOCOL5" property="value"/></textarea>
-                            </td>
-                        </tr>
-
-                        <%-- NIETS TE MELDEN --%>
-                        <tr>
-                            <td class="admin"><%=getTran("Web.Occup",
-                                    sPREFIX+"item_type_mir_nothing_to_mention",sWebLanguage)%></td>
-                            <td class="admin2">
-                                <input id="nothing_to_mention5" type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_NOTHING_TO_MENTION5" property="itemId"/>]>.value" value="medwan.common.true" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_NOTHING_TO_MENTION5;value=medwan.common.true" property="value" outputString="checked"/>>
-                            </td>
-                            <td class="admin"/>
-                            <td class="admin2"/>
-                        </tr>
-                    <%
-                }
-            %>
-        </tbody>
-
-        <%-- PROVIDER (=802) --%>
-        <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_SUPPLIER" property="itemId"/>]>.value" value="802">
-
-        <%-- VALUE (=0) --%>
-        <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_VALUE" property="itemId"/>]>.value" value="0">
-
-        <%-- BUTTONS row 1 --%>
->>>>>>> .r1070
         <tr>
             <%-- URGENCY --%>
             <td class="admin"><%=getTran("Web.Occup","urgency",sWebLanguage)%></td>
@@ -804,7 +555,7 @@
                         <td class="admin"><%=getTran("Web.Occup","medwan.healthrecord.executionby",sWebLanguage)%></td>
                         <td class="admin2">
                             <input onclick="doExecution('executionreason5',true);" type="radio" onDblClick="uncheckRadio(this);" id="rbexecutionyes5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION5" property="itemId"/>]>.value" value="medwan.common.yes" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION5;value=medwan.common.yes" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.yes",sWebLanguage,"rbexecutionyes5")%>
-                            <input onclick="doExecution('executionreason5',false);" type="radio" onDblClick="uncheckRadio(this);" id="rbexecutionno5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION5" property="itemId"/>]>.value" value="medwan.common.no" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION5;value=medwan.common.no" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.no",sWebLanguage,"rbexecutionno5    ")%>
+                            <input onclick="doExecution('executionreason5',false);" type="radio" onDblClick="uncheckRadio(this);" id="rbexecutionno5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION5" property="itemId"/>]>.value" value="medwan.common.no" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OTHER_REQUESTS_PRESTATION5;value=medwan.common.no" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.no",sWebLanguage,"rbexecutionno5")%>
                         </td>
 
                         <%-- REASON --%>
@@ -830,8 +581,7 @@
 
                     <%-- NIETS TE MELDEN --%>
                     <tr>
-                        <td class="admin"><%=getTran("Web.Occup",
-                                sPREFIX+"item_type_mir_nothing_to_mention",sWebLanguage)%></td>
+                        <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_nothing_to_mention",sWebLanguage)%></td>
                         <td class="admin2">
                             <input id="nothing_to_mention5" type="checkbox" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_NOTHING_TO_MENTION5" property="itemId"/>]>.value" value="medwan.common.true" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_NOTHING_TO_MENTION5;value=medwan.common.true" property="value" outputString="checked"/>>
                         </td>

@@ -107,7 +107,7 @@
   }
 
   function doBack(){
-    if(checkSaveButton())){
+    if(checkSaveButton()){
       window.location.href = '<c:url value="/healthrecord/showVaccinationSummary.do"/>?ts=<%=getTs()%>';
     }
   }

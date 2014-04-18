@@ -182,7 +182,7 @@
 <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
     <%-- ANAMNESE ---------------------------------------------------------------------------------------------------%>
     <tr>
-        <td width="50%">
+        <td width="50%" style="vertical-align:top;">
             <table class="list" width="100%" height="100%" cellspacing="1">
                 <tr class="admin">
                     <td align="center" colspan="4"><%=getTran("Web.Occup","medwan.healthrecord.general",sWebLanguage)%></td>

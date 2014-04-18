@@ -107,7 +107,7 @@
 
   <%-- DO BACK --%>
   function doBack(){
-    if(checkSaveButton())){
+    if(checkSaveButton()){
       window.location.href='<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';
     }
   }
