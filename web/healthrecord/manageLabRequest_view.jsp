@@ -373,13 +373,8 @@
   }
 
   function openQuickListWindow(){
-<<<<<<< .mine
     openPopup("/labos/quicklist.jsp&selectedLabCodes="+transactionForm.selectedLabCodes.value,800,600);
   }
-=======
-	    openPopup("/labos/quicklist.jsp&selectedLabCodes="+transactionForm.selectedLabCodes.value,<%=MedwanQuery.getInstance().getConfigString("labQuickListPopupWidth","800")%>,<%=MedwanQuery.getInstance().getConfigString("labQuickListPopupHeight","600")%>);
-	  }
->>>>>>> .r1133
 
   <%-- CREATE OFFICIAL PDF --%>
   function createOfficialPdf(printLang){

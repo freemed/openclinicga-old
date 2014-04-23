@@ -208,10 +208,7 @@
                 <textarea id="SPECIFICATION2" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_SPECIFICATION2")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION2" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_SPECIFICATION2" property="value"/></textarea>
             </td>
         </tr>
-<<<<<<< .mine
 
-=======
->>>>>>> .r1133
         <tr>
             <%-- URGENCY --%>
             <td class="admin"><%=getTran("Web.Occup","urgency",sWebLanguage)%></td>
@@ -225,20 +222,14 @@
                 <textarea id="reason2" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_MIR2_EXAMINATIONREASON2")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON2" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_EXAMINATIONREASON2" property="value"/></textarea>
             </td>
         </tr>
-<<<<<<< .mine
 
-=======
->>>>>>> .r1133
         <tr>
             <%-- ORIGINAL MODIFIED --%>
             <td class="admin"><%=getTran("Web.Occup","original_modified",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="checkbox" id="modified2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED2" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_ORIGINAL_MODIFIED2;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true" onclick="doModified('modified2','modifiedreason2');">
             </td>
-<<<<<<< .mine
-=======
-
->>>>>>> .r1133
+            
             <%-- EXAMINATION REASON --%>
             <td class="admin"><%=getTran("Web.Occup","medwan.common.reason",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
@@ -299,12 +290,8 @@
     <table class="list" width="100%" cellspacing="1" id="demande3" style="display:none;">
         <tr class="gray">
             <td colspan="4"><%=getTran("web.occup","demand",sWebLanguage)%> 3</td>
-        </tr>
-<<<<<<< .mine
-        
-=======
+        </tr>    
 
->>>>>>> .r1133
         <%-- TYPE --%>
         <tr>
             <td class="admin"><%=getTran("Web.Occup",sPREFIX+"item_type_mir_type",sWebLanguage)%></td>
@@ -395,12 +382,8 @@
             }
         %>
     </table>
-    <div style="padding-top:5px;"></div>
-<<<<<<< .mine
- 
-=======
+    <div style="padding-top:5px;"></div> 
 
->>>>>>> .r1133
     <%---------------------------------------------------------------------------------------%>
     <%-- DEMAND 4 ---------------------------------------------------------------------------%>
     <%---------------------------------------------------------------------------------------%>
