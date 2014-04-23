@@ -12,7 +12,11 @@
  }
  </script>
  
-<%-- CREDITS --%>
-<div style="color:#999;text-align:right;font-size:9px">GA Open Source Edition by MXS SA/NV</div>
+<%
+    // credits
+    if(!sUriPage.endsWith("welcome.jsp")){
+	    %><div style="color:#999;text-align:right;font-size:9px">GA Open Source Edition by MXS SA/NV</div><%
+	}
+%>
 </body>
 </html>
