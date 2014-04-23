@@ -91,8 +91,6 @@ public class BatchOperation {
 		this.stockOperationUid=stockOperationUid;
 	}
 
-
-
 	public static void storeOperation(String productStockOperationUid, String sourceBatchUid, String destinationBatchUid, int quantity, java.util.Date datetime){
         PreparedStatement ps = null;
         ResultSet rs = null;

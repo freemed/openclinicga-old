@@ -2560,7 +2560,7 @@ public class AdminPerson extends OC_Object{
             ps.setInt(1,Integer.parseInt(sPersonId));
             rs = ps.executeQuery();
 
-            while(rs.next()){
+            if(rs.next()){
                 sResult = ScreenHelper.checkString(rs.getString("lastname")).toUpperCase()+", "+ScreenHelper.checkString(rs.getString("firstname"));
             }
             rs.close();

@@ -193,15 +193,43 @@ public class Product extends OC_Object implements Comparable {
     	for(int n=0; n<prices.size();n++){
     		String[] s = ((String)prices.elementAt(n)).split(";");
     		if(s.length>1){
-    			System.out.println("add "+s[0]+" x "+s[1]);
     			totalprice+=Double.parseDouble(s[0])*Double.parseDouble(s[1]);
     			count+=Double.parseDouble(s[0]);
     		}
     	}
     	if(count>0){
-    		System.out.println("Total="+totalprice);
-    		System.out.println("Count="+count);
     		price=totalprice/count;
+    	}
+    	return price;
+    }
+    
+    public double getLooseLastYearsAveragePrice(java.util.Date date){
+    	double price=0;
+    	long day = 24*3600*1000;
+    	long year = 365*day;
+    	double totalprice=0;
+    	double count=0;
+    	Vector prices = Pointer.getLoosePointers("drugprice."+getUid(), new java.util.Date(date.getTime()-year), date);
+    	for(int n=0; n<prices.size();n++){
+    		String[] s = ((String)prices.elementAt(n)).split(";");
+    		if(s.length>1){
+    			totalprice+=Double.parseDouble(s[0])*Double.parseDouble(s[1]);
+    			count+=Double.parseDouble(s[0]);
+    		}
+    	}
+    	if(count>0){
+    		price=totalprice/count;
+    	}
+    	else {
+    		String last = Pointer.getLastPointer("drugprice."+getUid());
+    		String[] s = last.split(";");
+    		if(s.length>1){
+    			totalprice+=Double.parseDouble(s[0])*Double.parseDouble(s[1]);
+    			count+=Double.parseDouble(s[0]);
+    		}
+        	if(count>0){
+        		price=totalprice/count;
+        	}
     	}
     	return price;
     }

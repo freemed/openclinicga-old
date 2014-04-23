@@ -95,46 +95,47 @@ public class OperationDocument extends OC_Object {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try{
-            String sSelect = "SELECT * FROM OC_PRODUCTSTOCKOPERATIONDOCUMENTS"+
-                             " WHERE OC_DOCUMENT_SERVERID = ? AND OC_DOCUMENT_OBJECTID = ?";
-            ps = oc_conn.prepareStatement(sSelect);
-            ps.setInt(1,Integer.parseInt(documentUid.substring(0,documentUid.indexOf("."))));
-            ps.setInt(2,Integer.parseInt(documentUid.substring(documentUid.indexOf(".")+1)));
-            rs = ps.executeQuery();
-
-            // get data from DB
-            if(rs.next()){
-            	document=new OperationDocument();
-            	document.setUid(documentUid);
-            	document.setType(rs.getString("OC_DOCUMENT_TYPE"));
-            	document.setSourceuid(rs.getString("OC_DOCUMENT_SOURCEUID"));
-            	document.setDestinationuid(rs.getString("OC_DOCUMENT_DESTINATIONUID"));
-            	document.setDate(rs.getTimestamp("OC_DOCUMENT_DATE"));
-            	document.setComment(rs.getString("OC_DOCUMENT_COMMENT"));
-            	document.setReference(rs.getString("OC_DOCUMENT_REFERENCE"));
-            }
+        if(documentUid!=null && documentUid.split("\\.").length>1){
+	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	        try{
+	            String sSelect = "SELECT * FROM OC_PRODUCTSTOCKOPERATIONDOCUMENTS"+
+	                             " WHERE OC_DOCUMENT_SERVERID = ? AND OC_DOCUMENT_OBJECTID = ?";
+	            ps = oc_conn.prepareStatement(sSelect);
+	            ps.setInt(1,Integer.parseInt(documentUid.substring(0,documentUid.indexOf("."))));
+	            ps.setInt(2,Integer.parseInt(documentUid.substring(documentUid.indexOf(".")+1)));
+	            rs = ps.executeQuery();
+	
+	            // get data from DB
+	            if(rs.next()){
+	            	document=new OperationDocument();
+	            	document.setUid(documentUid);
+	            	document.setType(rs.getString("OC_DOCUMENT_TYPE"));
+	            	document.setSourceuid(rs.getString("OC_DOCUMENT_SOURCEUID"));
+	            	document.setDestinationuid(rs.getString("OC_DOCUMENT_DESTINATIONUID"));
+	            	document.setDate(rs.getTimestamp("OC_DOCUMENT_DATE"));
+	            	document.setComment(rs.getString("OC_DOCUMENT_COMMENT"));
+	            	document.setReference(rs.getString("OC_DOCUMENT_REFERENCE"));
+	            }
+	        }
+	        catch(Exception e){
+	            if(e.getMessage().endsWith("NOT FOUND")){
+	                Debug.println(e.getMessage());
+	            }
+	            else{
+	                e.printStackTrace();
+	            }
+	        }
+	        finally{
+	            try{
+	                if(rs!=null) rs.close();
+	                if(ps!=null) ps.close();
+	                oc_conn.close();
+	            }
+	            catch(SQLException se){
+	                se.printStackTrace();
+	            }
+	        }
         }
-        catch(Exception e){
-            if(e.getMessage().endsWith("NOT FOUND")){
-                Debug.println(e.getMessage());
-            }
-            else{
-                e.printStackTrace();
-            }
-        }
-        finally{
-            try{
-                if(rs!=null) rs.close();
-                if(ps!=null) ps.close();
-                oc_conn.close();
-            }
-            catch(SQLException se){
-                se.printStackTrace();
-            }
-        }
-
         return document;
     }
     

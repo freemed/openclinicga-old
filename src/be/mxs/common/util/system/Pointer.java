@@ -73,6 +73,27 @@ public class Pointer {
 		return pointer;
 	}
 	
+	public static String getLastPointer(String key){
+		String pointer = "";
+		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		PreparedStatement ps = null;
+		try{
+			ps=conn.prepareStatement("select OC_POINTER_VALUE from OC_POINTERS where OC_POINTER_KEY like ? order by OC_POINTER_UPDATETIME DESC");
+			ps.setString(1, key+"%");
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				pointer=rs.getString("OC_POINTER_VALUE");
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return pointer;
+	}
+	
 	public static Vector getPointers(String key,java.util.Date start, java.util.Date end){
 		Vector pointers = new Vector();
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();

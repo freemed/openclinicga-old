@@ -496,6 +496,7 @@ public class PatientInvoice extends Invoice {
                         patientInvoice.setAcceptationUid(rs.getString("OC_PATIENTINVOICE_ACCEPTATIONUID"));
                         patientInvoice.setVerifier(rs.getString("OC_PATIENTINVOICE_VERIFIER"));
                         patientInvoice.setComment(rs.getString("OC_PATIENTINVOICE_COMMENT"));
+                        patientInvoice.setModifiers(rs.getString("OC_PATIENTINVOICE_MODIFIERS"));
                     }
 
                     patientInvoice.debets = Debet.getPatientDebetsViaInvoiceUid(patientInvoice.getPatientUid(),patientInvoice.getUid());

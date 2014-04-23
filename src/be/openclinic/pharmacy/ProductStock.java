@@ -5,6 +5,7 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import java.util.GregorianCalendar;
@@ -63,6 +64,47 @@ public class ProductStock extends OC_Object implements Comparable {
     }
     public Vector getOpenDeliveries(){
     	return ProductStockOperation.getOpenProductStockDeliveries(getServiceStockUid(), getProductUid());
+    }
+    public int getAverageConsumption(Date date, boolean bIncludePatients, boolean bIncludeStocks, boolean bOther){
+    	int consumption = 0;
+    	String destinationtypes="'$$$'";
+    	if(bOther){
+    		destinationtypes+=",''";
+    	}
+    	if(bIncludePatients){
+    		destinationtypes+=",'patient'";
+    	}
+    	if(bIncludeStocks){
+    		destinationtypes+=",'servicestock'";
+    	}
+    	String sQuery="select sum(total) total,min(year) minyear,min(month) minmonth from (select sum(oc_operation_unitschanged) total,year(oc_operation_date) year,month(oc_operation_date) month from oc_productstockoperations where oc_operation_description like '%delivery%' and oc_operation_srcdesttype in ("+destinationtypes+") and oc_operation_productstockuid=? and oc_operation_date<=? group by year(oc_operation_date),month(oc_operation_date)) a";
+        System.out.println(sQuery);
+    	Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+        	PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+        	ps.setString(1, getUid());
+        	ps.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
+        	ResultSet rs = ps.executeQuery();
+        	if (rs.next()){
+        		try {
+        			consumption = rs.getInt("total");
+        			int months = 1+Integer.parseInt(new SimpleDateFormat("yyyy").format(date))*12+Integer.parseInt(new SimpleDateFormat("MM").format(date))- rs.getInt("minyear")*12-rs.getInt("minmonth");
+        			consumption = consumption/months;
+        		}
+        		catch(Exception q){}
+        	}
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    	return consumption;
     }
     //--- LEVEL -----------------------------------------------------------------------------------
     public int getLevel() {

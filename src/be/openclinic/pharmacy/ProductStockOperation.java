@@ -5,6 +5,7 @@ import be.openclinic.common.OC_Object;
 import be.openclinic.common.ObjectReference;
 import be.openclinic.medical.Prescription;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
 import be.openclinic.finance.*;
@@ -191,6 +192,30 @@ public class ProductStockOperation extends OC_Object{
         return sourceDestination;
     }
 
+    public String getSourceDestinationName(){
+    	String s="";
+    	if(getSourceDestination()!=null){
+    		if(getSourceDestination().getObjectType()!=null){
+    			if(getSourceDestination().getObjectType().equalsIgnoreCase("servicestock")){
+    				ServiceStock ref = ServiceStock.get(ScreenHelper.checkString(getSourceDestination().getObjectUid()));
+    				if(ref!=null){
+    					s=ScreenHelper.checkString(ref.getName());
+    				}
+    				else {
+    					s=ScreenHelper.checkString(getSourceDestination().getObjectUid());
+    				}
+    			}
+    			else if(getSourceDestination().getObjectType().equalsIgnoreCase("patient")){
+    				s=AdminPerson.getFullName(ScreenHelper.checkString(getSourceDestination().getObjectUid()));
+    			}
+    		}
+    		else {
+    			s=ScreenHelper.checkString(getSourceDestination().getObjectUid());
+    		}
+    	}
+    	return s;
+    }
+    
     public void setSourceDestination(ObjectReference sourceDestination) {
         this.sourceDestination = sourceDestination;
     }
@@ -213,6 +238,22 @@ public class ProductStockOperation extends OC_Object{
         }
 
         return productStock;
+    }
+    
+    public double getPrice(){
+    	double price = 0;
+    	if(getProductStock()!=null && getProductStock().getProduct()!=null){
+    		String myprice= Pointer.getPointer("drugprice."+getProductStock().getProductUid()+"."+getUid());
+    		if(myprice.length()>0 && myprice.split(";").length>1){
+    			try{
+    				price=Double.parseDouble(myprice.split(";")[1]);
+    			}
+    			catch(Exception e){
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+    	return price;
     }
 
     public void setProductStock(ProductStock productStock) {
@@ -1348,6 +1389,53 @@ public class ProductStockOperation extends OC_Object{
         return foundRecords;
     }
 
+    public static Vector getReceiptsForServiceStock(String serviceStockUid, java.util.Date dateFrom, java.util.Date dateUntil,String sSortCol, String sSortDir){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector foundRecords = new Vector();
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT OC_OPERATION_SERVERID,OC_OPERATION_OBJECTID"+
+                             " FROM OC_PRODUCTSTOCKOPERATIONS,OC_PRODUCTSTOCKS"+
+                             " WHERE OC_OPERATION_DESCRIPTION LIKE 'medicationreceipt.%' and" +
+                             " OC_STOCK_OBJECTID=replace(OC_OPERATION_PRODUCTSTOCKUID,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and" +
+                             " OC_STOCK_SERVICESTOCKUID='"+serviceStockUid+"'";
+
+            // dates
+            if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
+            if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
+            // order by selected col or default col
+            sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
+            ps = oc_conn.prepareStatement(sSelect);
+            // set questionmark-values
+            int questionMarkIdx = 1;
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
+
+            // execute
+            rs = ps.executeQuery();
+            while(rs.next()){
+                foundRecords.add(get(rs.getString("OC_OPERATION_SERVERID")+"."+rs.getString("OC_OPERATION_OBJECTID")));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+        return foundRecords;
+    }
+    
     public static Vector getReceipts(String productStockUid,String sourceDestionationUid, java.util.Date dateFrom, java.util.Date dateUntil,
                                      String sSortCol, String sSortDir){
         PreparedStatement ps = null;
