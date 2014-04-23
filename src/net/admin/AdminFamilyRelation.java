@@ -14,7 +14,7 @@ public class AdminFamilyRelation {
     public String destinationId;
     public String relationType;
 
-    //--- CONSTRUCTOR --------------------------------------------------------------------------------------------------
+    //--- CONSTRUCTOR -----------------------------------------------------------------------------
     public AdminFamilyRelation(){
         relationId    = "";
         sourceId      = "";
@@ -22,7 +22,7 @@ public class AdminFamilyRelation {
         relationType  = "";
     }
 
-    //--- DELETE ALL RELATIONS FOR PERSON ------------------------------------------------------------------------------
+    //--- DELETE ALL RELATIONS FOR PERSON ---------------------------------------------------------
     public static void deleteAllRelationsForPerson(String sourceId){
         String sSelect;
         PreparedStatement ps = null;
@@ -48,7 +48,7 @@ public class AdminFamilyRelation {
         }
     }
 
-    //--- SAVE TO DB ---------------------------------------------------------------------------------------------------
+    //--- SAVE TO DB ------------------------------------------------------------------------------
     public void saveToDB(Connection connection){
         String sSelect;
         boolean relationExists = false;
@@ -116,7 +116,7 @@ public class AdminFamilyRelation {
         }
     }
 
-    //--- INITIALIZE ---------------------------------------------------------------------------------------------------
+    //--- INITIALIZE ------------------------------------------------------------------------------
     public void initialize(Connection connection){
         String sSelect;
         PreparedStatement ps = null;
@@ -150,4 +150,5 @@ public class AdminFamilyRelation {
             }
         }
     }
+    
 }
