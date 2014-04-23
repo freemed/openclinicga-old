@@ -1,6 +1,5 @@
-<%@include file="/mobile/_common/head.jsp"%>
 <form name="searchForm" method="post">
-	
+<%@include file="/mobile/_common/head.jsp"%>	
 <%
 	String sAction = checkString(request.getParameter("action"));
 
@@ -115,7 +114,6 @@
 			    <input type="submit" class="button" name="searchButton" onClick="doSearch();" value="<%=getTran("web","search",activeUser)%>">&nbsp;
 			    <input type="button" class="button" name="clearButton" onclick="clearSearchFields();" value="<%=getTran("web","clear",activeUser)%>">
 			<%=alignButtonsStop()%>
-		</form>
 		
 		<script>
 		  searchForm.patientpersonid.focus();
@@ -160,3 +158,4 @@
 	}
 %>
 <%@include file="/mobile/_common/footer.jsp"%>
+</form>

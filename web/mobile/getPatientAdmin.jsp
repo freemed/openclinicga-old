@@ -32,42 +32,34 @@
 				out.print("<tr><td class='admin' nowrap>"+getTran("web","manager",activeUser)+"</td><td>"+activeContact.getManager().person.getFullName()+"</td></tr>");
 			}
 			out.print("<tr><td class='admin' nowrap>"+getTran("web","service",activeUser)+"</td><td>"+activeContact.getService().getLabel(activeUser.person.language)+"</td></tr>");
-			
-			// 2 - reasons for encounter
+
 			out.print("</table>");
 			out.print("<div style='padding-top:3px;'>");
-
-            %><table class="list" padding="0" cellspacing="1" width="<%=sTABLE_WIDTH%>"><% 
+			
+			// 2 - reasons for encounter
+            out.print("<table padding='0' cellspacing='0' width='"+sTABLE_WIDTH+"'>"); 
 			out.print("<tr class='gray'><td colspan='3'>"+getTran("openclinic.chuk","rfe",activeUser)+"</td></tr>");
 			out.print("<tr><td colspan='2' style='padding-left:3px'>"+getReasonsForEncounterAsHtml(activeContact.getUid(),activeUser.person.language)+"</td></tr>");
 		}
 	%>
-	</table>
-	<div style="padding-top:3px;">
+</table>
+<div style="padding-top:3px;">
 
-    <table class="list" padding="0" cellspacing="1" width="<%=sTABLE_WIDTH%>">
-		<tr class="gray"><td colspan="3"><%=getTran("mobile","lastContacts",activeUser)%></td></tr>
+   <table class="list" padding="0" cellspacing="1" width="<%=sTABLE_WIDTH%>">
+	<tr class="gray"><td colspan="3"><%=getTran("mobile","lastContacts",activeUser)%></td></tr>
 	<%
 	    // 3 - last contacts
 		Encounter lastvisit = Encounter.getInactiveEncounterBefore(activePatient.personid,"visit",new java.util.Date());
 		if(lastvisit!=null){
-<<<<<<< .mine
 			out.print("<tr>"+
 		               "<td class='admin' width='100' nowrap>"+getTran("encountertype","visit",activeUser)+"</td>"+
 		               "<td>"+stdDateFormat.format(lastvisit.getBegin())+": "+lastvisit.getService().getLabel(activeUser.person.language)+"</td>"+
 					  "</tr>");
-=======
-			out.print("<tr><td width='1'>&nbsp;</td><td nowrap>"+getTran("encountertype","visit",activeUser)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(lastvisit.getBegin())+": "+(lastvisit.getService()==null?"?":lastvisit.getService().getLabel(activeUser.person.language))+"</td></tr>");
->>>>>>> .r1128
 		}
 		
 		Encounter lastadmission = Encounter.getInactiveEncounterBefore(activePatient.personid,"admission",new java.util.Date());
 		if(lastadmission!=null){
-<<<<<<< .mine
 			out.print("<tr><td class='admin' width='100' nowrap>"+getTran("encountertype","admission",activeUser)+"</td><td width='90%'>"+stdDateFormat.format(lastadmission.getBegin())+": "+lastadmission.getService().getLabel(activeUser.person.language)+"</td></tr>");
-=======
-			out.print("<tr><td width='1'>&nbsp;</td><td nowrap>"+getTran("encountertype","admission",activeUser)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(lastadmission.getBegin())+": "+(lastadmission.getService()==null?"?":lastadmission.getService().getLabel(activeUser.person.language))+"</td></tr>");
->>>>>>> .r1128
 		}
 
 		if(lastvisit==null && lastadmission==null){
