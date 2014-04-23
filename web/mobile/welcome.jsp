@@ -63,9 +63,4 @@
 	    %><a href='<%="http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(),"")%>/main.do?CheckService=true&CheckMedicalCenter=true&ts=<%=new java.util.Date().getTime()+""%>'><%=getTran("web","desktop.interface",activeUser)%></a><%
 	}
 %>
-<<<<<<< .mine
-<%@include file="/mobile/_common/footer.jsp"%>=======
-<br/>
-<a href="searchPatient.jsp"><%=getTran("mobile","searchpatient",activeUser) %></a> &nbsp;
-<a href='login.jsp'><%=getTran("web","logout",activeUser)%></a>
->>>>>>> .r1128
+<%@include file="/mobile/_common/footer.jsp"%>
