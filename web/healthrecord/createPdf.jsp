@@ -214,8 +214,8 @@
                             //*** what context-modifier ***
                             if (sSelectedTranCtxt.equals("allContexts")) {
                                 // alternate row-style
-                                if (sClass.equals("")) sClass = "1";
-                                else sClass = "";
+                                if(sClass.equals("")) sClass = "1";
+                                else                  sClass = "";
 
                                 sOut.append("<tr class=\"list" + sClass + "\" >")
                                      .append("<td align='center'>")
