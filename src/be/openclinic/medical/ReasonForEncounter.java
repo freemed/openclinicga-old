@@ -395,7 +395,7 @@ public class ReasonForEncounter extends OC_Object {
 
     //--- GET REASONS FOR ENCOUNTER AS HTML -------------------------------------------------------
     public static String getReasonsForEncounterAsHtml(String encounterUid, String sWebLanguage){
-        String sHtml = "<table>";
+        String sHtml = "<table cellpadding='0' cellspacing='1'>";
         
         Vector reasonsForEncounter = ReasonForEncounter.getReasonsForEncounterByEncounterUid(encounterUid);
         if(reasonsForEncounter.size()==0) return "";
