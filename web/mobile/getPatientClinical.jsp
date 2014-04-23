@@ -30,7 +30,7 @@
 		}
 	}
 	else{
-		out.print("<tr><i>"+getTran("web","noData",activeUser)+"</i></td></tr>");
+		out.print("<tr><td><i>"+getTran("web","noData",activeUser)+"</i></td></tr>");
 	}
 %>
 </table>
