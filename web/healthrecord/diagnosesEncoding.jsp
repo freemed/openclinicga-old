@@ -213,7 +213,7 @@
 <script>
   function readClipboard(){
     var txt = window.clipboardData.getData("Text");
-    if(txt.size > 0){
+    if(txt.length > 0){
       if(window.DOMParser){
         parser = new DOMParser();
         xmlDoc = parser.parseFromString(txt,"text/xml");
