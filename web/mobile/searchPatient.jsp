@@ -89,7 +89,7 @@
 			<table class="list" padding="0" cellspacing="1" width="<%=sTABLE_WIDTH%>">
     		    <tr class="admin"><td colspan="2"><%=getTran("mobile","searchPatient",activeUser)%></td></tr>
     		
-				<tr><td class="admin" nowrap width="70"><%=getTran("web","personid",activeUser)%></td><td><input name="patientpersonid" type="text" class="text" size="10" value="<%=patientpersonid%>"></td></tr>
+				<tr><td class="admin" width="100" nowrap width="70"><%=getTran("web","personid",activeUser)%></td><td><input name="patientpersonid" type="text" class="text" size="10" value="<%=patientpersonid%>"></td></tr>
 				<tr><td class="admin" nowrap><%=getTran("web","name",activeUser)%></td><td><input name="patientname" type="text" class="text" size="20" value="<%=patientname%>"></td></tr>
 				<tr><td class="admin" nowrap><%=getTran("web","firstname",activeUser)%></td><td><input name="patientfirstname" type="text" class="text" size="20" value="<%=patientfirstname%>"></td></tr>
 				<tr><td class="admin" nowrap><%=getTran("web","dateofbirth",activeUser)%></td><td><input name="patientdateofbirth" type="text" class="text" size="10" value="<%=patientdateofbirth%>"></td></tr>
