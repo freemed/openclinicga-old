@@ -37,7 +37,7 @@
 		    sHtml+= "</table>";
 		}
 		else{
-			sHtml = "<i>"+getTran("web","noData",sWebLanguage)+"</i>";
+			sHtml = "&nbsp;<i>"+getTran("web","noData",sWebLanguage)+"</i>";
 		}
 	    
 	    return sHtml;
@@ -74,7 +74,7 @@
 		    sHtml+= "</table>";
 		}
 		else{
-			sHtml = "<i>"+getTran("web","noData",sWebLanguage)+"</i>";
+			sHtml = "&nbsp;<i>"+getTran("web","noData",sWebLanguage)+"</i>";
 		}
 		
 	    return sHtml;
@@ -114,7 +114,7 @@
 			}
 		}
 		else{
-			sHtml = "<i>"+getTran("web","noData",sWebLanguage)+"</i>";
+			sHtml = "&nbsp;<i>"+getTran("web","noData",sWebLanguage)+"</i>";
 		}
 		
 	    return sHtml;
