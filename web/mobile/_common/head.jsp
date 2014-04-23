@@ -53,7 +53,7 @@
 				if(activePatient!=null){
 					String sAction = checkString((String)request.getParameter("action"));
 				
-					if(!sPage.endsWith("searchPatient.jsp") && !sPage.endsWith("patientMenu.jsp")){
+					if(activePatient!=null && !sPage.endsWith("searchPatient.jsp") && !sPage.endsWith("patientMenu.jsp")){
 						%><input type="button" class="button" name="patientMenuButton" value="<%=activePatient.lastname+", "+activePatient.firstname%>" onClick="showPatientMenu();"%><div style="padding-top:3px;"/><%
 					}
 					else{

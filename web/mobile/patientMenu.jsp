@@ -1,5 +1,10 @@
 <%@include file="/mobile/_common/head.jsp"%>
-
+<%
+	if(activePatient==null){
+		out.println("<script>window.location.href='searchPatient.jsp';</script>");
+	}
+	else {
+%>
 <table class="list" padding="0" cellspacing="1" width="<%=sTABLE_WIDTH%>">
 	<tr class="admin"><td><%=activePatient.lastname+", "+activePatient.firstname%> - <%=activePatient.dateOfBirth%></td></tr>
 
@@ -14,3 +19,6 @@
 </table>
 
 <%@include file="/mobile/_common/footer.jsp"%>
+<%
+	}
+%>
