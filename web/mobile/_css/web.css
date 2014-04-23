@@ -23,11 +23,11 @@ body{
  background:#DDEDFF;
  color:#222;
  font-family:arial,sans-serif;
- font-size:10px;
+ font-size:14px;
  text-align:center;
 }
 *{
- font-size:10px
+ font-size:14px
 }
 img.link {
  cursor:pointer;
@@ -41,7 +41,7 @@ img.link {
 tr.admintitle{
  font-family:arial,sans-serif;
  font-weight:bolder;
- font-size:18px;
+ font-size:16px;
  text-align:center;
  color:#fff;
  height:23px;
@@ -60,7 +60,7 @@ tr.admin{
  font-weight:bolder;
  text-indent:2px;
  color:#fff;
- height:20px;
+ height:25px;
  font-size:11px;
  background:url("../../_img/tradmin_bg.gif") no-repeat #4975A7;
  background-repeat:repeat-x
@@ -74,31 +74,31 @@ td{
 TD.admin{
  text-indent:1px;
  color:#222;
- font-size:10px;
+ font-size:14px;
  padding:1px 4px 1x 3px;
  background-color:#C3D9FF;
- height:16px
+ height:25px
 }
 td.admin2{
  text-indent:1px;
  color:#222;
- font-size:10px;
+ font-size:14px;
  padding:1px 4px 1x 3px;
  background-color:#DEEAFF;
- height:16px
+ height:25px
 }
 .hand{
  cursor:pointer
 }
 A{
  color:Black;
- font-size:10px;
+ font-size:14px;
  font-weight:normal
 }
 INPUT.text{
  FONT-WEIGHT:normal;
- FONT-SIZE:10px;
- height:18px;
+ FONT-SIZE:14px;
+ height:20px;
  BACKGROUND:#fff;
  COLOR:black;
  background:url("../../_img/back_input.png") no-repeat;
@@ -106,7 +106,7 @@ INPUT.text{
 }
 INPUT.checkbox{
  FONT-WEIGHT:normal;
- FONT-SIZE:10px;
+ FONT-SIZE:14px;
  BACKGROUND:#fff;
  COLOR:black;
  FONT-FAMILY:arial,sans-serif;
@@ -122,22 +122,22 @@ INPUT.bold{
  FONT-SIZE:9px;
  BACKGROUND:#ffffff;
  COLOR:black;
- height:18px;
+ height:20px;
  FONT-FAMILY:arial,sans-serif;
  background:url("../../_img/back_input.png") no-repeat;
 }
 INPUT.selected{
  FONT-WEIGHT:normal;
- FONT-SIZE:10px;
+ FONT-SIZE:14px;
  COLOR:black;
- height:18px;
+ height:20px;
  background: #FFFFCC;
  FONT-FAMILY:arial,sans-serif;
  background:url("../../_img/back_input_hover.png") no-repeat;
 }
 TEXTAREA.text{
  FONT-WEIGHT:normal;
- FONT-SIZE:11px;
+ FONT-SIZE:14px;
  COLOR:black;
  FONT-FAMILY:arial,sans-serif;
  background:url("../../_img/back_input.png") no-repeat #ddd;
@@ -145,16 +145,16 @@ TEXTAREA.text{
 }
 SELECT.text{
  FONT-WEIGHT:normal;
- FONT-SIZE:10px;
+ FONT-SIZE:14px;
  COLOR:black;
- height:18px;
+ height:20px;
  FONT-FAMILY:arial,sans-serif;
  background:url("../../_img/back_input.png") no-repeat
 }
 input.button{
- padding:1px 7px 0 7px;
+ padding:1px 12px 0 12px;
  font-family:arial,sans-serif;
- font-size:10px;
+ font-size:14px;
  font-weight:normal;
  color:#505050;
  height:20px;
@@ -173,31 +173,31 @@ input.button:hover{
 tr.list{
  color:#222;
  font-family:arial,sans-serif;
- font-size:10px;
+ font-size:14px;
  padding:1px 5px 1px 1px;
  background-color:#f9f9f9;
- height:17px;
- line-height:10px
+ height:25px;
+ line-height:25px
 }
 TR.list1{
  color:#222;
  font-family:arial,sans-serif;
- font-size:10px;
+ font-size:14px;
  padding:1px 5px 1px 1px;
  background-color:#f0f0f0;
- height:17px;
- line-height:10px
+ height:25px;
+ line-height:25px
 }
 TR.gray {
  text-indent:2px;
  color:#333;
  font-family:arial, sans-serif;
- font-size:10px;
+ font-size:14px;
  font-weight:bold;
  text-align:left;
  padding:1px 5px 1px 1px;
  border:none;
- height:18px;
+ height:25px;
  background:url("../../_img/trgray_bg.gif") repeat-x
 }
 div.search{
@@ -218,7 +218,7 @@ a.link:hover{
 div#login{
  border:1px solid #ccc;
  width:220px;
- padding-top:10px;
+ padding-top:14px;
  margin-left:auto;
  margin-right:auto;
  text-align:center;
@@ -228,7 +228,7 @@ div.error_msg{
  color:red;
  font-weight:bold;
  padding-top:5px;
- height:15px
+ height:25px
 }
 div.buttons{
  margin-left:auto;

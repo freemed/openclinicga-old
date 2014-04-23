@@ -1,9 +1,4 @@
 <%@include file="/mobile/_common/head.jsp"%>
-<script>
-  function initBarcode2(){
-	window.open("zxing://scan/?ret=<%="http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(),"")%>/mobile/searchPatient.jsp\?search=1%26patientpersonid={CODE}")
-  }
-</script>
 
 <table class="list" padding="0" cellspacing="1" width="<%=sTABLE_WIDTH%>">
     <tr class="admintitle"><td><%=sAPPNAME%></td></tr>

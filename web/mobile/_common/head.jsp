@@ -16,6 +16,11 @@
     <%=sJSPROTOTYPE%>
     <%=sSCRIPTS%>
     <title><%=sWEBTITLE%></title>
+    <script>
+      function initBarcode2(){
+	    window.open("zxing://scan/?ret=<%="http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(),"")%>/mobile/searchPatient.jsp\?action=search%26patientpersonid={CODE}")
+      }
+	</script>
 </head>
 
 <body onkeydown="escBackSpace();">
@@ -49,7 +54,7 @@
 					String sAction = checkString((String)request.getParameter("action"));
 				
 					if(!sPage.endsWith("searchPatient.jsp") && !sPage.endsWith("patientMenu.jsp")){
-						%><input type="button" class="button" style="padding:0" name="patientMenuButton" value="<%=activePatient.lastname+", "+activePatient.firstname%>" onClick="showPatientMenu();"%><div style="padding-top:3px;"/><%
+						%><input type="button" class="button" name="patientMenuButton" value="<%=activePatient.lastname+", "+activePatient.firstname%>" onClick="showPatientMenu();"%><div style="padding-top:3px;"/><%
 					}
 					else{
 						if(!sAction.equals("newSearch")){
