@@ -81,13 +81,6 @@
 		}
 		
 		out.print("</table>");
-		
-		%>
-            <%-- BUTTONS --%>
-		    <%=alignButtonsStart()%>
-		        <input type="button" class="button" name="searchButton" value="<%=getTran("mobile","newSearch",activeUser)%>" onClick="doNewSearch();"%>
-		    <%=alignButtonsStop()%>
-		<%
 	}
 	else{		
 		%>
