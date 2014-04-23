@@ -1,17 +1,20 @@
-<%@include file="/mobile/validateUser.jsp"%>
-
+<%@include file="/mobile/_common/helper.jsp"%>
 <%
 	if(request.getParameter("personid")==null){
-		out.println("<script>window.location.href='searchPatient.jsp';</script>");
+		// back to search screen when no patient specified
+		out.println("<script>window.location.href='searchPatient.jsp?ts="+getTs()+"';</script>");
 		out.flush();
 	}
-	else {
-		AdminPerson activePatient = AdminPerson.getAdminPerson(request.getParameter("personid"));
+	else{
+		// fetch specified patient
+		activePatient = AdminPerson.getAdminPerson(request.getParameter("personid"));
 		if(activePatient.lastname==null || activePatient.lastname.length()==0){
-			out.println("<script>window.location.href='searchPatient.jsp';</script>");
+			// back to search screen when specified patient not found
+			out.println("<script>window.location.href='searchPatient.jsp?ts="+getTs()+"';</script>");
 			out.flush();
 		}
 		session.setAttribute("activePatient",activePatient);
+		// below : display found patient
 	}
 %>
-<script>window.location.href='patientMenu.jsp';</script>
+<script>window.location.href='patientMenu.jsp?ts=<%=getTs()%>';</script>
