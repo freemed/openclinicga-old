@@ -2,12 +2,12 @@
                 be.openclinic.medical.RequestedLabAnalysis,
                 java.util.Vector,
                 java.util.Hashtable,
-                java.util.Collections" %>
-<%@page import="be.openclinic.medical.Labo" %>
+                java.util.Collections"%>
+<%@page import="be.openclinic.medical.Labo"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
-<%=checkPermission("occup.labrequest", "select",activeUser)%>
+<%=checkPermission("occup.labrequest","select",activeUser)%>
 <%=sJSSORTTABLE%>
 <%=sJSEMAIL%>
 
@@ -39,18 +39,18 @@
         String detailsTran = getTran("web","showDetails",sWebLanguage);
         StringBuffer buf = new StringBuffer();
         buf.append("<tr id='rowLA"+iTotal+"' class='"+sClass+"' title='"+detailsTran+"' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\">")
-           .append(" <td align='center'>")
-           .append("  <a href='#' onclick=\"deleteLA(rowLA"+iTotal+",'"+sMonster+"');\">")
-           .append("   <img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
-           .append("  </a>")
-           .append(" </td>")
-           .append(" <td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sCode+"</td>")
-           .append(" <td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sType+"</td>")
-           .append(" <td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sLabel+"</td>")
-           .append(" <td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sComment+"</td>")
-           .append(" <td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+getTran("labanalysis.monster",sMonster,sWebLanguage)+"</td>")
-           .append(" <td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sResultValue+"</td>")
-           .append(" <td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+(sResultModifier.length()>0?getTran("labanalysis.resultmodifier",sResultModifier,sWebLanguage):"")+"</td>")
+            .append("<td align='center'>")
+             .append("<a href='#' onclick=\"deleteLA(rowLA"+iTotal+",'"+sMonster+"');\">")
+              .append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
+             .append("</a>")
+            .append("</td>")
+            .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sCode+"</td>")
+            .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sType+"</td>")
+            .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sLabel+"</td>")
+            .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sComment+"</td>")
+            .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+getTran("labanalysis.monster",sMonster,sWebLanguage)+"</td>")
+            .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sResultValue+"</td>")
+            .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+(sResultModifier.length()>0?getTran("labanalysis.resultmodifier",sResultModifier,sWebLanguage):"")+"</td>")
            .append("</tr>");
 
         return buf.toString();
@@ -82,14 +82,14 @@
     String sTmpCode, sTmpComment, sTmpModifier, sTmpResultUnit, sTmpResultValue, sTmpResult,
             sTmpType = "", sTmpLabel = "", sTmpMonster = "", sTmpServerId, sTmpTransactionId;
     StringBuffer sScriptsToExecute = new StringBuffer();
-    TransactionVO tran = (TransactionVO) transaction;
+    TransactionVO tran = (TransactionVO)transaction;
     Hashtable labAnalyses = new Hashtable();
     RequestedLabAnalysis labAnalysis;
     String sLA = "", sDivLA = "";
     int iTotal = 1;
 
     // get chosen labanalyses from existing transaction.
-    if (tran != null && tran.getTransactionId().intValue() > 0) {
+    if (tran != null && tran.getTransactionId().intValue() > 0){
         labAnalyses = RequestedLabAnalysis.getLabAnalysesForLabRequest(tran.getServerId(), tran.getTransactionId().intValue());
     }
 
@@ -98,7 +98,7 @@
     Collections.sort(codes);
 
     // run thru saved labanalysis
-    for (int i = 0; i < codes.size(); i++) {
+    for(int i = 0; i < codes.size(); i++){
         sTmpCode = (String) codes.get(i);
         labAnalysis = (RequestedLabAnalysis) labAnalyses.get(sTmpCode);
 
@@ -111,11 +111,11 @@
         if(labAnalysis.getFinalvalidation()>0){
             sTmpResultValue = labAnalysis.getResultValue();
         }
-        else {
-            sTmpResultValue="";
+        else{
+            sTmpResultValue = "";
         }
         sTmpResultUnit = getTranNoLink("labanalysis.resultunit", labAnalysis.getResultUnit(), sWebLanguage);
-        sTmpResult = sTmpResultValue + " " + sTmpResultUnit;
+        sTmpResult = sTmpResultValue+" "+sTmpResultUnit;
 
         // get default-data from DB
 
@@ -137,9 +137,9 @@
         else if (sTmpType.equals("7")) sTmpType = getTran("Web.occup", "labanalysis.type.liquid", sWebLanguage);
 
         // compose sLA
-        sLA += "rowLA" + iTotal + "=" + sTmpCode + "£" + sTmpComment + "$";
+        sLA += "rowLA"+iTotal+"="+sTmpCode+"£"+sTmpComment+"$";
         sDivLA += addLA(iTotal, sTmpServerId, sTmpTransactionId, sTmpCode, sTmpType, sTmpLabel, sTmpComment, sTmpMonster, sTmpResult, sTmpModifier, sWebLanguage);
-        sScriptsToExecute.append("addToMonsterList('" + (sTmpMonster.length()>0?getTranNoLink("labanalysis.monster",sTmpMonster,sWebLanguage):"") + "');");
+        sScriptsToExecute.append("addToMonsterList('"+(sTmpMonster.length()>0?getTranNoLink("labanalysis.monster",sTmpMonster,sWebLanguage):"")+"');");
         iTotal++;
     }
 
@@ -258,7 +258,7 @@
 	        	if(tran.getTransactionId()<=0){
 	        		String labSMS=UserParameter.getParameter(activeUser.userid,"lastLabSMS");
 	        		if(checkString(labSMS).length()>0){
-	        			%><a href="javascript:set('labsms','<%=labSMS %>')"><img src='<c:url value="/_img/valid.gif"/>'/> <%=labSMS%></a><%
+	        			%><a href="javascript:set('labsms','<%=labSMS %>')"><img class='link' src='<c:url value="/_img/valid.gif"/>'/> <%=labSMS%></a><%
 	        		}
 	        	}
 	        %>
@@ -279,7 +279,7 @@
 	        	if(tran.getTransactionId()<=0){
 	        		String labMail=UserParameter.getParameter(activeUser.userid,"lastLabEmail");
 	        		if(checkString(labMail).length()>0){
-	        			%><a href="javascript:set('labmail','<%=labMail %>')"><img src='<c:url value="/_img/valid.gif"/>'/> <%=labMail%></a><%
+	        			%><a href="javascript:set('labmail','<%=labMail %>')"><img class='link' src='<c:url value="/_img/valid.gif"/>'/> <%=labMail%></a><%
 	        		}
 	        	}
 	        %>
@@ -373,8 +373,13 @@
   }
 
   function openQuickListWindow(){
+<<<<<<< .mine
+    openPopup("/labos/quicklist.jsp&selectedLabCodes="+transactionForm.selectedLabCodes.value,800,600);
+  }
+=======
 	    openPopup("/labos/quicklist.jsp&selectedLabCodes="+transactionForm.selectedLabCodes.value,<%=MedwanQuery.getInstance().getConfigString("labQuickListPopupWidth","800")%>,<%=MedwanQuery.getInstance().getConfigString("labQuickListPopupHeight","600")%>);
 	  }
+>>>>>>> .r1133
 
   <%-- CREATE OFFICIAL PDF --%>
   function createOfficialPdf(printLang){
@@ -581,27 +586,24 @@
   }
 
   function addQuickListAnalyses(sSelectedAnalyses){
-	//Hier gaan we nu de lijst van bijhorende analyses ophalen via Ajax
-        var params = 'newanalyses=' + sSelectedAnalyses
-              +"&existinganalyses="+transactionForm.selectedLabCodes.value;
-        var today = new Date();
-        var url= '<c:url value="/labos/getLabAnalyses.jsp"/>?ts='+today;
-		new Ajax.Request(url,{
-				method: "GET",
-                parameters: params,
-                onSuccess: function(resp){
-                    var label = eval('('+resp.responseText+')');
-                    var analysestoadd=label.analyses.split("£");
-                    for(n=0;n<analysestoadd.length;n++){
-                    	addLabAnalysis(analysestoadd[n].split("$")[0],analysestoadd[n].split("$")[1],analysestoadd[n].split("$")[2],analysestoadd[n].split("$")[3],analysestoadd[n].split("$")[4]);
-                    }
-                },
-				onFailure: function(){
-					alert("error");
-                }
-			}
-		);
-	
+	// lijst van bijhorende analyses ophalen via Ajax
+    var params = "newanalyses="+sSelectedAnalyses+
+                 "&existinganalyses="+transactionForm.selectedLabCodes.value;
+    var url = '<c:url value="/labos/getLabAnalyses.jsp"/>?ts='+new Date();
+	new Ajax.Request(url,{
+	  method: "GET",
+      parameters: params,
+      onSuccess: function(resp){
+        var label = eval('('+resp.responseText+')');
+        var analysestoadd = label.analyses.split("£");
+        for(n=0; n<analysestoadd.length; n++){
+          addLabAnalysis(analysestoadd[n].split("$")[0],analysestoadd[n].split("$")[1],analysestoadd[n].split("$")[2],analysestoadd[n].split("$")[3],analysestoadd[n].split("$")[4]);
+        }
+      },
+      onFailure: function(){
+        alert("error");
+      }
+	});
   }
   
   <%-- CALLED BY SEARCHPOPUP : ADD THE LABANALYSE, CHOSEN IN THE POPUP, TO THIS LABREQUEST --%>
@@ -616,7 +618,7 @@
     }
     else{
       if(!allreadySelected(code,comment)){
-        sLA += "rowLA"+iIndexLA+"="+code+"£"+comment+"$";
+        sLA+= "rowLA"+iIndexLA+"="+code+"£"+comment+"$";
 
         var tr = tblLA.insertRow(tblLA.rows.length);
         tr.id = "rowLA"+iIndexLA;
@@ -626,7 +628,6 @@
         }
 
         <%-- insert cells in row --%>
-
         var td = tr.insertCell(0);
         td.innerHTML = "<center><a href=\"#\" onclick=\"deleteLA(rowLA"+iIndexLA+",'"+monster+"');\"><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web","delete",sWebLanguage)%>' border='0'></a></center>";
         tr.appendChild(td);
@@ -661,7 +662,6 @@
         td.innerHTML = "&nbsp;";
         tr.appendChild(td);
 
-
         iIndexLA++;
         labAnalysisArray[labAnalysisArray.length] = new Array(code,comment);
         labAnalysisCodes.push(code);
@@ -671,7 +671,7 @@
     }
   }
 
-  <%-- BACK --%>
+  <%-- DO BACK --%>
   function doBack(){
     if(checkSaveButton()){
       window.location.href = '<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';
