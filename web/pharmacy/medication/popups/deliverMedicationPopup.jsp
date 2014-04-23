@@ -684,7 +684,7 @@
        !transactionForm.EditUnitsChanged.value.length>0 ||
        !(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.indexOf("patient")<0 || transactionForm.EditEncounterName.value.length>0) ||
        !(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
-       !(transactionForm.EditSrcDestName.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
+       !(transactionForm.EditSrcDestName.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5*medicationdelivery.99")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
        !transactionForm.EditOperationDate.value.length>0 ||
        !(transactionForm.EditSrcDestType.value!='servicestock' || transactionForm.EditProductStockDocumentUid.value.length>0 || <%=MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)%><1) ||
        !productStockChecked){

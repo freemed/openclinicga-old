@@ -335,6 +335,26 @@
 		</labels>
 		<project>zm</project>
 	</country>
+	<country code="ng">
+		<config key="currency" value="NGN"/>
+		<config key="currencyPdf" value="NGN"/>
+		<config key="countrycode" value="NG"/>
+		<config key="DefaultCountry" value="NG"/>
+		<config key="defaultSearchCountry" value="NIGERIA"/>
+		<config key="zipcodetable" value="nigeriazipcodes"/>
+		<config key="DefaultLanguage" value="en"/>
+		<config key="PatientLanguages" value="fr,en,es,it,sw"/>
+		<config key="supportedLanguages" value="en"/>
+		<config key="mxsref" value="NG"/>
+		<config key="priceFormat" value="#,##0.00"/>
+		<config key="priceFormatInsurar" value="#,##0.00"/>
+		<config key="currencyDecimals" value="2"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
+		<project>ng</project>
+	</country>
 	<os code="windows">
 		<config key="DocumentsFolder" value="$setupdir$documents"/>
 		<config key="fingerprintBinDirectory" value="$setupdir$web-inf/lib"/>

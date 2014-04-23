@@ -80,7 +80,7 @@
 		<table>
 			<tr>
 				<td>
-					<form name="searchForm" method="post" action="<c:url value="/popup.jsp"/>">
+					<form name="searchForm" method="get" action="<c:url value="/popup.jsp"/>">
 						<input type="hidden" name="ReturnDocumentID" value="<%=sReturnDocumentID %>"/>
 						<input type="hidden" name="ReturnDocumentName" value="<%=sReturnDocumentName %>"/>
 						<input type="hidden" name="ReturnDestinationID" value="<%=sReturnDestinationID %>"/>
@@ -195,8 +195,9 @@
 		if(sAction.equalsIgnoreCase("edit")){
 			operationDocument = OperationDocument.get(sUid);
 		}
+		System.out.println("1");
 		%>
-		<form name="editForm" method="post" action="<c:url value="/popup.jsp"/>">
+		<form name="editForm" method="get" action="<c:url value="/popup.jsp"/>">
 			<input type="hidden" name="ReturnDocumentID" value="<%=sReturnDocumentID %>"/>
 			<input type="hidden" name="ReturnDocumentName" value="<%=sReturnDocumentName %>"/>
 			<input type="hidden" name="ReturnDestinationID" value="<%=sReturnDestinationID %>"/>

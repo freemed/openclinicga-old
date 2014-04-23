@@ -14,7 +14,6 @@
 	String msg="";
 	String centerUid = notNull(request.getParameter("centerUid"),"");
 	String centerName = HTMLEntities.unhtmlentities(notNull(request.getParameter("centerName"),notNull(request.getHeader("X-Forwarded-For"),request.getRemoteAddr())));
-	System.out.println("postMonitor from "+centerName);
 	String centerCountry = notNull(request.getParameter("centerCountry"),"");
 	String centerCity = HTMLEntities.unhtmlentities(notNull(request.getParameter("centerCity"),""));
 	String centerEmail = notNull(request.getParameter("centerEmail"),"");

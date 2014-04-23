@@ -708,11 +708,26 @@
             <%-- indication of obligated fields --%>
             <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
             <br><br>
-            <table>
+            <table width='100%'>
             	<tr>
             		<td class='text'><a href="javascript:printInventory('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventory.pdf",sWebLanguage) %></a></td>
             		<td class='text'><a href="javascript:printInventorySummary('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventorysummary.pdf",sWebLanguage) %></a></td>
             		<td class='text'><a href="javascript:printStockOperations('<%=sEditStockUid %>')"><%=getTran("web","servicestockoperations.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printOutgoingStockOperations('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperations.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printOutgoingStockOperationsListing('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperationslisting.pdf",sWebLanguage) %></a></td>
+				</tr>
+				<tr>
+            		<td class='text'><a href="javascript:printOutgoingStockOperationsListingPerService('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperationslistingperservice.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printMonthlyConsumption('<%=sEditStockUid %>')"><%=getTran("web","monthlyconsumption.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printExpiration('<%=sEditStockUid %>')"><%=getTran("web","expiration.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printStockOut('<%=sEditStockUid %>')"><%=getTran("web","stockout.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperations('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperations.pdf",sWebLanguage) %></a></td>
+            	</tr>
+				<tr>
+            		<td class='text'><a href="javascript:printIncomingStockOperationsPerOrder('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperorder.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperationsPerItem('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperitem.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperationsPerProvider('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperprovider.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperationsPerCategoryItem('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationspercategoryitem.pdf",sWebLanguage) %></a></td>
             	</tr>
             </table>
             <%
@@ -1165,6 +1180,50 @@
 
   function printStockOperations(serviceStockUid){
 		openPopup("statistics/pharmacy/getServiceStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printOutgoingStockOperations(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceOutgoingStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printIncomingStockOperations(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceIncomingStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printIncomingStockOperationsPerOrder(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerOrder.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printIncomingStockOperationsPerItem(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerItem.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printIncomingStockOperationsPerCategoryItem(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerCategoryItem.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printIncomingStockOperationsPerProvider(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerProvider.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printOutgoingStockOperationsListing(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceOutgoingStockOperationsListing.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printOutgoingStockOperationsListingPerService(serviceStockUid){
+		openPopup("statistics/pharmacy/getServiceOutgoingStockOperationsListingPerService.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printMonthlyConsumption(serviceStockUid){
+		openPopup("statistics/pharmacy/getMonthlyConsumption.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printExpiration(serviceStockUid){
+		openPopup("statistics/pharmacy/getExpiration.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function printStockOut(serviceStockUid){
+		window.open("pharmacy/printStockOut.jsp?ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid);
 	  }
 
   <%-- DO BACK --%>

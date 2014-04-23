@@ -78,7 +78,7 @@
         excludedLabelTypes = "labanalysis,labanalysis.short,labanalysis.monster,labanalysis.refcomment,"+
                              "labprofiles,activitycodes,worktime,patientsharecoverageinsurance,patientsharecoverageinsurance2,"+
                              "urgency.origin,encountertype,prestation.type,product.productgroup,"+
-                             "insurance.types,labanalysis.group"; // default
+                             "insurance.types,labanalysis.group,drug.category"; // default
     }
     excludedLabelTypes = excludedLabelTypes.toLowerCase();
     

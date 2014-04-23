@@ -50,6 +50,7 @@
 					<option value='bd' <%="bd".equals(country)?"selected":""%>><%=getTran("country","bd",sWebLanguage).toUpperCase() %></option>
 					<option value='lk' <%="lk".equals(country)?"selected":""%>><%=getTran("country","lk",sWebLanguage).toUpperCase() %></option>
 					<option value='zm' <%="zm".equals(country)?"selected":""%>><%=getTran("country","zm",sWebLanguage).toUpperCase() %></option>
+					<option value='ng' <%="ng".equals(country)?"selected":""%>><%=getTran("country","ng",sWebLanguage).toUpperCase() %></option>
 				</select>
 			</td>
 		</tr>

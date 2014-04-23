@@ -11,6 +11,7 @@
     <counter name="OC_SERVICESTOCKS" table="OC_SERVICESTOCKS" field="OC_STOCK_OBJECTID" bd='openclinic'/>
     <counter name="OC_PRODUCTSTOCKS" table="OC_PRODUCTSTOCKS" field="OC_STOCK_OBJECTID" bd='openclinic'/>
     <counter name="OC_PRODUCTSTOCKOPERATIONS" table="OC_PRODUCTSTOCKOPERATIONS" field="OC_OPERATION_OBJECTID" bd='openclinic'/>
+    <counter name="OC_PRODUCTSTOCKOPERATIONDOCUMENTS" table="OC_PRODUCTSTOCKOPERATIONDOCUMENTS" field="OC_DOCUMENT_OBJECTID" bd='openclinic'/>
     <counter name="OC_PRODUCTORDERS" table="OC_PRODUCTORDERS" field="OC_ORDER_OBJECTID" bd='openclinic'/>
     <counter name="OC_DIAGNOSES" table="OC_DIAGNOSES" field="OC_DIAGNOSIS_OBJECTID" bd='openclinic'/>
     <counter name="OC_PLANNING" table="OC_PLANNING" field="OC_PLANNING_OBJECTID" bd='openclinic'/>
