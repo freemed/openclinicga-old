@@ -157,7 +157,26 @@
 </form>
 
 <script>  
-   var ie = ((navigator.appName=="Microsoft Internet Explorer")?1:0); // for ie ff compatibility
+  var ie = ((navigator.appName=="Microsoft Internet Explorer")?1:0); // for ie ff compatibility
+   
+  <%-- SEARCH ENCOUNTER --%>
+  function searchEncounter(){
+    var url = "/_common/search/searchEncounter.jsp&ts=<%=getTs()%>"+
+              "&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value"+
+              "&VarText=&FindEncounterPatient=<%=activePatient.personid%>";
+    openPopup(url);
+  }
+   
+  if(document.getElementById('encounteruid').value==''){
+    alertDialog("web","no.encounter.linked");
+    searchEncounter();
+  }	
+
+  <%-- DO CLEAR --%>
+  function doClear(){
+    jg.clear();
+    document.transactionForm.coord.value = "";
+  }
    
   <%-- SUBMIT FORM --%>
   function submitForm(){
@@ -182,34 +201,15 @@
    
    if((document.transactionForm.coord.value.indexOf(pos_x+","+pos_y)==-1)&&(pos_x > 5) && (pos_y > 5)){
      jg.setColor("red");
+     if(ie){
+       pos_x-= 5;
+       pos_y-= 140;
+     }
      jg.fillEllipse(pos_x,pos_y,5,5);
      jg.paint();
      
-     if(ie){
-       pos_x+= 20;
-       pos_y+= 30;
-     }
      document.transactionForm.coord.value+= ";"+(pos_x)+","+(pos_y);
     } 
-  }
-  
-  <%-- SEARCH ENCOUNTER --%>
-  function searchEncounter(){
-	var url = "/_common/search/searchEncounter.jsp&ts=<%=getTs()%>"+
-	          "&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value"+
-	          "&VarText=&FindEncounterPatient=<%=activePatient.personid%>";
-    openPopup(url);
-  }
-  
-  if(document.getElementById('encounteruid').value==''){
-	alertDialog("web","no.encounter.linked");
-	searchEncounter();
-  }	
-
-  <%-- DO CLEAR --%>
-  function doClear(){
-    jg.clear();
-    document.transactionForm.coord.value = "";
   }
 
   <%-- DO POINT  --%>
@@ -221,11 +221,9 @@
         var iX = aCoord[0]*1,
             iY = aCoord[1]*1;
         jg.setColor("red");
-        
-        if(ie){
-          iX = iX-20;
-          iY = iY-30;
-        
+        if(ie==false){
+          iX+= 5;
+          iY+= 170;
         }
         jg.fillEllipse(iX,iY,5,5);
         jg.paint();
