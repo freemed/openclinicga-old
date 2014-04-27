@@ -97,7 +97,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 	            	debets = new Vector();
 	                for(int n=0;n<invoice.getDebets().size();n++){
 	                	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-	                	if(debet.determineServiceUid().equalsIgnoreCase(serviceuid)){
+	                	if(debet.determineServiceUid().equalsIgnoreCase(serviceuid) && debet.getCredited()==0){
 	                		debets.add(debet);
 	                	}
 	                }

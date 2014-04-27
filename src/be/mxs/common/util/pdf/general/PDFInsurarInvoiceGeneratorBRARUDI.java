@@ -65,7 +65,8 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             doc.open();
 
             // get specified invoice
-            Hashtable patients = new Hashtable();
+            Hashtable patientInvoices=new Hashtable();
+            SortedMap bcs = new TreeMap();
             InsurarInvoice invoice = InsurarInvoice.get(sInvoiceUid);
             debets = InsurarInvoice.getDebetsForInvoiceSortByDate(invoice.getUid());
             for(int n=0;n<debets.size();n++){
@@ -77,26 +78,47 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             		if(debet.getDate()!=null && (end==null || debet.getDate().after(end))){
             			end=debet.getDate();
             		}
-            		if(debet.getEncounter()!=null && debet.getEncounter().getPatientUID()!=null){
-            			patients.put(debet.getEncounter().getPatientUID(), "1");
+            		String bc="?";
+            		if(debet.getPatientInvoiceUid()!=null && patientInvoices.get(debet.getPatientInvoiceUid())!=null){
+            			debet.setPatientInvoice((PatientInvoice)patientInvoices.get(debet.getPatientInvoiceUid()));
             		}
+            		PatientInvoice patientInvoice = debet.getPatientInvoice();
+            		if(patientInvoice!=null){
+            			if(patientInvoices.get(patientInvoice.getUid())==null){
+            				patientInvoices.put(patientInvoice.getUid(), patientInvoice);
+            			}
+            			if(patientInvoice.getInsurarreference()!=null){
+            				bc=patientInvoice.getInsurarreference();
+            			}
+            		}
+            		if(bc.trim().length()==0){
+            			bc="?";
+            		}
+            		String patientUid="?";
+            		if(debet.getEncounter()!=null && debet.getEncounter().getPatientUID()!=null){
+            			patientUid=debet.getEncounter().getPatientUID();
+            		}
+            		if(patientUid.trim().length()==0){
+            			patientUid="?";
+            		}
+            		bcs.put(bc+";"+patientUid, "1");
             	}
             }
             
            
-            //Er wordt een afzonderlijke factuur aangemaakt per patient
-            Enumeration ePatients = patients.keys();
+            //Er wordt een afzonderlijke factuur aangemaakt per bon de commande
+            Iterator eBcs = bcs.keySet().iterator();
             boolean bInitialized=false;
-            while(ePatients.hasMoreElements()){
+            while(eBcs.hasNext()){
             	if(bInitialized){
             		doc.newPage();
             	}
             	else{
             		bInitialized=true;
             	}
-            	String key = (String)ePatients.nextElement();
+            	String key = (String)eBcs.next();
 	            addHeading(invoice);
-	            addInsurarData(invoice,key);
+	            addInsurarData(invoice,key.split(";")[1]);
 	            printInvoice(invoice,key);
 	            //addFinancialMessage();
             }
@@ -1361,7 +1383,6 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             String nif = MedwanQuery.getInstance().getConfigString("hospitalNIF","");
             int characters=0;
             for(int n=0;n<nif.length();n++){
-            	System.out.println(nif.charAt(n));
             	cell=createValueCell(nif.charAt(n)+"",3);
             	cell.setBorder(PdfPCell.BOX);
             	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -1388,18 +1409,18 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getPatient()!=null && debet.getEncounter().getPatient().personid.equalsIgnoreCase(personid)){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getPatient()!=null && debet.getEncounter().getPatient().personid.equalsIgnoreCase(personid)){
             		debets.add(debet);
-            		if(debet.getPatientInvoiceUid()!=null){
-            			patientInvoices.put(debet.getPatientInvoiceUid(), "1");
+            		if(debet.getPatientInvoiceUid()!=null && debet.getPatientInvoice()!=null){
+            			patientInvoices.put(debet.getPatientInvoiceUid(), debet.getPatientInvoice());
             		}
             	}
             }
             String bc="";
             Enumeration e = patientInvoices.keys();
             while(e.hasMoreElements()){
-            	PatientInvoice inv = PatientInvoice.get((String)e.nextElement());
-            	if(inv!=null && inv.getInsurarreference()!=null && inv.getInsurarreference().length()>0){
+            	PatientInvoice inv = (PatientInvoice)patientInvoices.get((String)e.nextElement());
+            	if(inv!=null && inv.getInsurarreference()!=null && inv.getInsurarreference().length()>0 && bc.indexOf(inv.getInsurarreference())<0){
 	            	if(bc.length()>0){
 	            		bc+=", ";
 	            	}
@@ -1446,12 +1467,29 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
     }
 
     //--- PRINT INVOICE ---------------------------------------------------------------------------
-    protected void printInvoice(InsurarInvoice invoice,String patientid){
+    protected void printInvoice(InsurarInvoice invoice,String key){
         try {
+        	String bc=key.split(";")[0];
+        	String patientUid=key.split(";")[1];
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getPatient()!=null && debet.getEncounter().getPatient().personid.equalsIgnoreCase(patientid)){
+        		String debetbc="?";
+        		PatientInvoice patientInvoice = debet.getPatientInvoice();
+        		if(patientInvoice!=null && patientInvoice.getInsurarreference()!=null){
+        			debetbc=patientInvoice.getInsurarreference();
+        		}
+        		if(debetbc.trim().length()==0){
+        			debetbc="?";
+        		}
+        		String debetPatientUid="?";
+        		if(debet.getEncounter()!=null && debet.getEncounter().getPatientUID()!=null){
+        			debetPatientUid=debet.getEncounter().getPatientUID();
+        		}
+        		if(debetPatientUid.trim().length()==0){
+        			debetPatientUid="?";
+        		}
+            	if(debetbc.equalsIgnoreCase(bc) && debetPatientUid.equals(patientUid)){
             		debets.add(debet);
             	}
             }
@@ -1512,9 +1550,9 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
 			double totalamount=0;
 			int ordernumber=1;
 			while(ePrestations.hasMoreElements()){
-				String key = (String)ePrestations.nextElement();
-				Prestation p = Prestation.get(key);
-				prestation = (PrestationData)prestations.get(key);
+				String pkey = (String)ePrestations.nextElement();
+				Prestation p = Prestation.get(pkey);
+				prestation = (PrestationData)prestations.get(pkey);
 				if(p!=null){
 					cell = createBoldLabelCell(ordernumber+"", 10);
 					cell.setBorder(PdfPCell.BOX);

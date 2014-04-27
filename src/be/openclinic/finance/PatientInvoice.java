@@ -310,6 +310,9 @@ public class PatientInvoice extends Invoice {
 			if(debet.getInsurance()!=null && debet.getInsurance().getInsurar()!=null){
 				insurar=debet.getInsurance().getInsurar().getName();
 			}
+			if(insurar==null){
+				insurar="?";
+			}
 			if(amounts.get(insurar)!=null){
 				amounts.put(insurar, new Double(((Double)amounts.get(insurar)).doubleValue()+debet.getInsurarAmount()));
 			}

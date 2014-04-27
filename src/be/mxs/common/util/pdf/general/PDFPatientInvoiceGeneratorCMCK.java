@@ -119,7 +119,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
     	Vector debets = new Vector();
     	for(int n=0;n<invoice.getDebets().size();n++){
     		Debet debet = (Debet)invoice.getDebets().elementAt(n);
-    		if(debet!=null && debet.getEncounterUid().equalsIgnoreCase(encounteruid)){
+    		if(debet!=null && debet.getCredited()==0 && debet.getEncounterUid().equalsIgnoreCase(encounteruid)){
     			debets.add(debet);
     		}
     	}
@@ -331,7 +331,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
     	Vector debets = new Vector();
     	for(int n=0;n<invoice.getDebets().size();n++){
     		Debet debet = (Debet)invoice.getDebets().elementAt(n);
-    		if(debet!=null && debet.getEncounterUid().equalsIgnoreCase(encounteruid)){
+    		if(debet!=null && debet.getCredited()==0 && debet.getEncounterUid().equalsIgnoreCase(encounteruid)){
     			debets.add(debet);
     		}
     	}
@@ -431,7 +431,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
     	Vector debets = new Vector();
     	for(int n=0;n<invoice.getDebets().size();n++){
     		Debet debet = (Debet)invoice.getDebets().elementAt(n);
-    		if(debet!=null && debet.getEncounterUid().equalsIgnoreCase(encounteruid)){
+    		if(debet!=null && debet.getCredited()==0 && debet.getEncounterUid().equalsIgnoreCase(encounteruid)){
     			debets.add(debet);
     		}
     	}
@@ -774,7 +774,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
         	Vector debets = new Vector();
         	for(int n=0;n<invoice.getDebets().size();n++){
         		Debet debet = (Debet)invoice.getDebets().elementAt(n);
-        		if(debet!=null && debet.getEncounterUid().equalsIgnoreCase(encounteruid)){
+        		if(debet!=null && debet.getCredited()==0 && debet.getEncounterUid().equalsIgnoreCase(encounteruid)){
         			debets.add(debet);
         		}
         		if(debet!=null && debet.getPrestation()!=null && debet.getPrestation().getPrestationClass()!=null && debet.getPrestation().getPrestationClass().equalsIgnoreCase("stay")){

@@ -54,7 +54,6 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
 			doc.setPageSize(PageSize.A4);
-			doc.setMargins(1,1,20,20);
             addFooter(sInvoiceUid.replaceAll("1\\.",""));
 
             doc.open();
@@ -97,7 +96,15 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             	doc.newPage();
 	            addHeading2(invoice);
 	            addInsurarData2(invoice);
+	            printVisitsInvoiceDetailed3(invoice);
+            	doc.newPage();
+	            addHeading2(invoice);
+	            addInsurarData2(invoice);
 	            printVisitsInvoiceDetailed2(invoice);
+            	doc.newPage();
+	            addHeading2(invoice);
+	            addInsurarData2(invoice);
+	            printVisitsInvoiceDrugsDetailed3(invoice);
             	doc.newPage();
 	            addHeading2(invoice);
 	            addInsurarData2(invoice);
@@ -110,6 +117,10 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 	            addHeading2(invoice);
 	            addInsurarData2(invoice);
 	            printAdmissionsInvoiceDetailed(invoice);
+           		doc.newPage();
+	            addHeading2(invoice);
+	            addInsurarData2(invoice);
+	            printAdmissionInvoiceDetailed3(invoice);
            		doc.newPage();
 	            addHeading2(invoice);
 	            addInsurarData2(invoice);
@@ -147,7 +158,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("admission")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("admission")){
             		debets.addElement(debet);
             	}
             }
@@ -321,13 +332,173 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
         }
     }
 
+    protected void printAdmissionInvoiceDetailed3(InsurarInvoice invoice){
+        try {
+            Vector debets = new Vector();
+            for(int n=0;n<invoice.getDebets().size();n++){
+            	Debet debet = (Debet)invoice.getDebets().elementAt(n);
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("admission")){
+            		debets.addElement(debet);
+            	}
+            }
+
+            PdfPTable table = new PdfPTable(100);
+            table.setWidthPercentage(pageWidth);
+            
+            cell=createLabelCell(getTran("web","invoicenumber")+":", 15);
+            table.addCell(cell);
+            cell=createBoldLabelCell(invoice.getUid(), 20);
+            table.addCell(cell);
+            cell=createLabelCell(getTran("web","period")+":", 10);
+            table.addCell(cell);
+            Date begin = new Date();
+            Date end = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
+            Hashtable prestationClasses = new Hashtable();
+            Hashtable adherents;
+            SortedMap beneficiaries;
+            String uid;
+            for(int n=0;n<debets.size();n++){
+            	Debet debet = (Debet)debets.elementAt(n);
+            	if(debet.getDate().after(end)){
+            		end=debet.getDate();
+            	}
+            	if(debet.getDate().before(begin)){
+            		begin=debet.getDate();
+            	}
+            	//PrestationClass
+            	if(debet.getPrestation()==null || debet.getPrestation().getPrestationClass()==null){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getPrestation().getPrestationClass();
+            	}
+            	if(prestationClasses.get(uid)==null){
+            		prestationClasses.put(uid, new Hashtable());
+            	}
+            	adherents=(Hashtable)prestationClasses.get(uid);
+            	//Adherent
+            	if(debet.getInsurance()==null || ScreenHelper.checkString(debet.getInsurance().getMember()).length()==0){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getInsurance().getMember();
+            	}
+            	if(adherents.get(uid)==null){
+            		adherents.put(uid, new TreeMap());
+            	}
+            	beneficiaries=(SortedMap)adherents.get(uid);
+            	//Beneficiaries
+            	if(debet.getEncounter()==null || debet.getEncounter().getPatient()==null){
+            		uid="?";
+            	}
+            	else {
+            		uid=new SimpleDateFormat("dd/MM/yyyy").format(debet.getEncounter().getBegin())+" - "+debet.getEncounter().getPatient().getFullName();
+            	}
+            	if(beneficiaries.get(uid)==null){
+            		beneficiaries.put(uid, new TreeSet());
+            	}
+           		((SortedSet)beneficiaries.get(uid)).add(debet.getUid());
+            }
+            cell=createBoldLabelCell(new SimpleDateFormat("MM/yyyy").format(begin)+(new SimpleDateFormat("MM/yyyy").format(begin).equalsIgnoreCase(new SimpleDateFormat("MM/yyyy").format(end))?"":" - "+new SimpleDateFormat("MM/yyyy").format(end)), 55);
+            table.addCell(cell);
+			cell=createLabelCell("\n",100);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","globaladmissionsdetailed.global"), 100,10);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","beneficiary"), 40);
+			cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT+PdfPCell.RIGHT);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","prestations"), 60);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createEmptyCell(40);
+			cell.setBorder(PdfPCell.LEFT);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","prestation"), 30);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","quantity"), 10);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","unitprice"), 10);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","total"), 10);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			
+			Enumeration ePrestationClasses = prestationClasses.keys();
+			double generaltotal=0;
+			while(ePrestationClasses.hasMoreElements()){
+				String key = (String)ePrestationClasses.nextElement();
+				cell = createBoldLabelCell(getTran("prestation.class",key), 100,10);
+				cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+				cell.setBorder(PdfPCell.BOX);
+				table.addCell(cell);
+				adherents=(Hashtable)prestationClasses.get(key);
+				double adherenttotal=0;
+				Enumeration eAdherents = adherents.keys();
+				while(eAdherents.hasMoreElements()){
+					key=(String)eAdherents.nextElement();
+					String adherent = key;
+					adherenttotal=0;
+					beneficiaries = (SortedMap)adherents.get(key);
+					Iterator eBeneficiaries = beneficiaries.keySet().iterator();
+					String benif="";
+					while(eBeneficiaries.hasNext()){
+						key=(String)eBeneficiaries.next();
+						if(benif.length()>0){
+							benif+="\n";
+						}
+						benif+=key;
+						SortedSet debs=(SortedSet)beneficiaries.get(key);
+						Iterator idebs=debs.iterator();
+						while(idebs.hasNext()){
+							Debet debet = Debet.get((String)idebs.next());
+							adherenttotal+=debet.getInsurarAmount();
+							generaltotal+=debet.getInsurarAmount();
+						}
+					}
+					cell = createBoldLabelCell(getTran("web","adherent")+": "+key, 90,10);
+					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
+					table.addCell(cell);
+					cell = createBoldLabelCell(new Double(adherenttotal).intValue()+"", 10,9);
+					cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+					table.addCell(cell);
+					cell = createBoldLabelCell(benif, 100);
+					cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT);
+					table.addCell(cell);
+				}
+			}
+
+			
+			cell = createBoldLabelCell(getTran("web","generaltotal")+": "+new Double(generaltotal).intValue(),100,10);
+			cell.setBorder(PdfPCell.TOP);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+			table.addCell(cell);
+			addBlankRow();
+			cell=createLabelCell(getTran("web.occup","invoicedirector"),50);
+			table.addCell(cell);
+            
+            
+            doc.add(table);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     protected void printVisitsInvoiceDetailed2(InsurarInvoice invoice){
         try {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
             		if(debet.getPrestation()!=null && debet.getPrestation().getPrestationClass()!=null && !debet.getPrestation().getPrestationClass().equalsIgnoreCase("drug")){
             			debets.addElement(debet);
             		}
@@ -504,12 +675,176 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             e.printStackTrace();
         }
     }
+    
+    protected void printVisitsInvoiceDetailed3(InsurarInvoice invoice){
+        try {
+            Vector debets = new Vector();
+            for(int n=0;n<invoice.getDebets().size();n++){
+            	Debet debet = (Debet)invoice.getDebets().elementAt(n);
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            		if(debet.getPrestation()!=null && debet.getPrestation().getPrestationClass()!=null && !debet.getPrestation().getPrestationClass().equalsIgnoreCase("drug")){
+            			debets.addElement(debet);
+            		}
+            	}
+            }
+
+            PdfPTable table = new PdfPTable(100);
+            table.setWidthPercentage(pageWidth);
+            
+            cell=createLabelCell(getTran("web","invoicenumber")+":", 15);
+            table.addCell(cell);
+            cell=createBoldLabelCell(invoice.getUid(), 20);
+            table.addCell(cell);
+            cell=createLabelCell(getTran("web","period")+":", 10);
+            table.addCell(cell);
+            Date begin = new Date();
+            Date end = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
+            Hashtable prestationClasses = new Hashtable();
+            Hashtable adherents;
+            SortedMap beneficiaries;
+            String uid;
+            for(int n=0;n<debets.size();n++){
+            	Debet debet = (Debet)debets.elementAt(n);
+            	if(debet.getDate().after(end)){
+            		end=debet.getDate();
+            	}
+            	if(debet.getDate().before(begin)){
+            		begin=debet.getDate();
+            	}
+            	//PrestationClass
+            	if(debet.getPrestation()==null || debet.getPrestation().getPrestationClass()==null){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getPrestation().getPrestationClass();
+            	}
+            	if(prestationClasses.get(uid)==null){
+            		prestationClasses.put(uid, new Hashtable());
+            	}
+            	adherents=(Hashtable)prestationClasses.get(uid);
+            	//Adherent
+            	if(debet.getInsurance()==null || ScreenHelper.checkString(debet.getInsurance().getMember()).length()==0){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getInsurance().getMember();
+            	}
+            	if(adherents.get(uid)==null){
+            		adherents.put(uid, new TreeMap());
+            	}
+            	beneficiaries=(SortedMap)adherents.get(uid);
+            	//Beneficiaries
+            	if(debet.getEncounter()==null || debet.getEncounter().getPatient()==null){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getEncounter().getPatient().getFullName()+" - "+new SimpleDateFormat("dd/MM/yyyy").format(debet.getEncounter().getBegin());
+            	}
+            	if(beneficiaries.get(uid)==null){
+            		beneficiaries.put(uid, new TreeSet());
+            	}
+           		((SortedSet)beneficiaries.get(uid)).add(debet.getUid());
+            }
+            cell=createBoldLabelCell(new SimpleDateFormat("MM/yyyy").format(begin)+(new SimpleDateFormat("MM/yyyy").format(begin).equalsIgnoreCase(new SimpleDateFormat("MM/yyyy").format(end))?"":" - "+new SimpleDateFormat("MM/yyyy").format(end)), 55);
+            table.addCell(cell);
+			cell=createLabelCell("\n",100);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","globalvisitsdetailed.global"), 100,10);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","beneficiary"), 40);
+			cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT+PdfPCell.RIGHT);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","prestations"), 60);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createEmptyCell(40);
+			cell.setBorder(PdfPCell.LEFT);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","prestation"), 30);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","quantity"), 10);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","unitprice"), 10);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","total"), 10);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			
+			Enumeration ePrestationClasses = prestationClasses.keys();
+			double generaltotal=0;
+			while(ePrestationClasses.hasMoreElements()){
+				String key = (String)ePrestationClasses.nextElement();
+				cell = createBoldLabelCell(getTran("prestation.class",key), 100,10);
+				cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+				cell.setBorder(PdfPCell.BOX);
+				table.addCell(cell);
+				adherents=(Hashtable)prestationClasses.get(key);
+				double adherenttotal=0;
+				Enumeration eAdherents = adherents.keys();
+				while(eAdherents.hasMoreElements()){
+					key=(String)eAdherents.nextElement();
+					String adherent = key;
+					adherenttotal=0;
+					beneficiaries = (SortedMap)adherents.get(key);
+					Iterator eBeneficiaries = beneficiaries.keySet().iterator();
+					String benif="";
+					while(eBeneficiaries.hasNext()){
+						key=(String)eBeneficiaries.next();
+						if(benif.length()>0){
+							benif+="\n";
+						}
+						benif+=key;
+						SortedSet debs=(SortedSet)beneficiaries.get(key);
+						Iterator idebs=debs.iterator();
+						while(idebs.hasNext()){
+							Debet debet = Debet.get((String)idebs.next());
+							adherenttotal+=debet.getInsurarAmount();
+							generaltotal+=debet.getInsurarAmount();
+						}
+					}
+					cell = createBoldLabelCell(getTran("web","adherent")+": "+key, 90,10);
+					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
+					table.addCell(cell);
+					cell = createBoldLabelCell(new Double(adherenttotal).intValue()+"", 10,9);
+					cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+					table.addCell(cell);
+					cell = createBoldLabelCell(benif, 100);
+					cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT);
+					table.addCell(cell);
+				}
+			}
+
+			
+			cell = createBoldLabelCell(getTran("web","generaltotal")+": "+new Double(generaltotal).intValue(),100,10);
+			cell.setBorder(PdfPCell.TOP);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+			table.addCell(cell);
+			addBlankRow();
+			cell=createLabelCell(getTran("web.occup","invoicedirector"),50);
+			table.addCell(cell);
+            
+            
+            doc.add(table);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     protected void printVisitsInvoiceDrugsDetailed2(InsurarInvoice invoice){
         try {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
             		if(debet.getPrestation()!=null && debet.getPrestation().getPrestationClass()!=null && debet.getPrestation().getPrestationClass().equalsIgnoreCase("drug")){
             			debets.addElement(debet);
             		}
@@ -666,6 +1001,170 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 					cell = createBoldLabelCell(new Double(adherenttotal).intValue()+"", 10,9);
 					cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+					table.addCell(cell);
+				}
+			}
+
+			
+			cell = createBoldLabelCell(getTran("web","generaltotal")+": "+new Double(generaltotal).intValue(),100,10);
+			cell.setBorder(PdfPCell.TOP);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+			table.addCell(cell);
+			addBlankRow();
+			cell=createLabelCell(getTran("web.occup","invoicedirector"),50);
+			table.addCell(cell);
+            
+            
+            doc.add(table);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    protected void printVisitsInvoiceDrugsDetailed3(InsurarInvoice invoice){
+        try {
+            Vector debets = new Vector();
+            for(int n=0;n<invoice.getDebets().size();n++){
+            	Debet debet = (Debet)invoice.getDebets().elementAt(n);
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            		if(debet.getPrestation()!=null && debet.getPrestation().getPrestationClass()!=null && debet.getPrestation().getPrestationClass().equalsIgnoreCase("drug")){
+            			debets.addElement(debet);
+            		}
+            	}
+            }
+
+            PdfPTable table = new PdfPTable(100);
+            table.setWidthPercentage(pageWidth);
+            
+            cell=createLabelCell(getTran("web","invoicenumber")+":", 15);
+            table.addCell(cell);
+            cell=createBoldLabelCell(invoice.getUid(), 20);
+            table.addCell(cell);
+            cell=createLabelCell(getTran("web","period")+":", 10);
+            table.addCell(cell);
+            Date begin = new Date();
+            Date end = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
+            Hashtable prestationClasses = new Hashtable();
+            Hashtable adherents;
+            SortedMap beneficiaries;
+            String uid;
+            for(int n=0;n<debets.size();n++){
+            	Debet debet = (Debet)debets.elementAt(n);
+            	if(debet.getDate().after(end)){
+            		end=debet.getDate();
+            	}
+            	if(debet.getDate().before(begin)){
+            		begin=debet.getDate();
+            	}
+            	//PrestationClass
+            	if(debet.getPrestation()==null || debet.getPrestation().getPrestationClass()==null){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getPrestation().getPrestationClass();
+            	}
+            	if(prestationClasses.get(uid)==null){
+            		prestationClasses.put(uid, new Hashtable());
+            	}
+            	adherents=(Hashtable)prestationClasses.get(uid);
+            	//Adherent
+            	if(debet.getInsurance()==null || ScreenHelper.checkString(debet.getInsurance().getMember()).length()==0){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getInsurance().getMember();
+            	}
+            	if(adherents.get(uid)==null){
+            		adherents.put(uid, new TreeMap());
+            	}
+            	beneficiaries=(SortedMap)adherents.get(uid);
+            	//Beneficiaries
+            	if(debet.getEncounter()==null || debet.getEncounter().getPatient()==null){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getEncounter().getPatient().getFullName()+" - "+new SimpleDateFormat("dd/MM/yyyy").format(debet.getEncounter().getBegin());
+            	}
+            	if(beneficiaries.get(uid)==null){
+            		beneficiaries.put(uid, new TreeSet());
+            	}
+           		((SortedSet)beneficiaries.get(uid)).add(debet.getUid());
+            }
+            cell=createBoldLabelCell(new SimpleDateFormat("MM/yyyy").format(begin)+(new SimpleDateFormat("MM/yyyy").format(begin).equalsIgnoreCase(new SimpleDateFormat("MM/yyyy").format(end))?"":" - "+new SimpleDateFormat("MM/yyyy").format(end)), 55);
+            table.addCell(cell);
+			cell=createLabelCell("\n",100);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","globalvisitsdrugsdetailed.global"), 100,10);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","beneficiary"), 40);
+			cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT+PdfPCell.RIGHT);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","prestations"), 60);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createEmptyCell(40);
+			cell.setBorder(PdfPCell.LEFT);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","prestation"), 30);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","quantity"), 10);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","unitprice"), 10);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			cell = createBoldLabelCell(getTran("web","total"), 10);
+			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+			cell.setBorder(PdfPCell.BOX);
+			table.addCell(cell);
+			
+			Enumeration ePrestationClasses = prestationClasses.keys();
+			double generaltotal=0;
+			while(ePrestationClasses.hasMoreElements()){
+				String key = (String)ePrestationClasses.nextElement();
+				cell = createBoldLabelCell(getTran("prestation.class",key), 100,10);
+				cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+				cell.setBorder(PdfPCell.BOX);
+				table.addCell(cell);
+				adherents=(Hashtable)prestationClasses.get(key);
+				double adherenttotal=0;
+				Enumeration eAdherents = adherents.keys();
+				while(eAdherents.hasMoreElements()){
+					key=(String)eAdherents.nextElement();
+					String adherent = key;
+					adherenttotal=0;
+					beneficiaries = (SortedMap)adherents.get(key);
+					Iterator eBeneficiaries = beneficiaries.keySet().iterator();
+					String benif="";
+					while(eBeneficiaries.hasNext()){
+						key=(String)eBeneficiaries.next();
+						if(benif.length()>0){
+							benif+="\n";
+						}
+						benif+=key;
+						SortedSet debs=(SortedSet)beneficiaries.get(key);
+						Iterator idebs = debs.iterator();
+						while(idebs.hasNext()){
+							Debet debet = Debet.get((String)idebs.next());
+							adherenttotal+=debet.getInsurarAmount();
+							generaltotal+=debet.getInsurarAmount();
+						}
+					}
+					cell = createBoldLabelCell(getTran("web","adherent")+": "+key, 90,10);
+					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
+					table.addCell(cell);
+					cell = createBoldLabelCell(new Double(adherenttotal).intValue()+"", 10,9);
+					cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+					table.addCell(cell);
+					cell = createBoldLabelCell(benif, 100);
+					cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT);
 					table.addCell(cell);
 				}
 			}
@@ -2025,7 +2524,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
            			debets.addElement(debet);
             	}
             }
@@ -2151,7 +2650,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 					cell = createBoldLabelCell(getTran("web","adherent")+": "+key.split("\\|")[0], 50,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
 					table.addCell(cell);
-					cell = createBoldLabelCell(key.split("\\|")[1], 50,10);
+					cell = createBoldLabelCell(key.split("\\|").length<2?"":key.split("\\|")[1], 50,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);
 					beneficiaries = (Hashtable)adherents.get(key);
@@ -2235,7 +2734,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
            			debets.addElement(debet);
             	}
             }
@@ -2364,7 +2863,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("admission")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("admission")){
            			debets.addElement(debet);
             	}
             }

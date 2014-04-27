@@ -210,7 +210,7 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0){
            			debets.addElement(debet);
             	}
             }

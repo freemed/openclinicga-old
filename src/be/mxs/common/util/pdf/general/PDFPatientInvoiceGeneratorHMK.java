@@ -233,7 +233,7 @@ public class PDFPatientInvoiceGeneratorHMK extends PDFInvoiceGenerator {
         String service="";
         for(int n=0;n<invoice.getDebets().size();n++){
             Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            if(debet!=null){
+            if(debet!=null && debet.getCredited()==0){
             	if(debet.getEncounter()!=null && debet.getEncounter().getService()!=null){
             		service=debet.getEncounter().getService().getLabel(sPrintLanguage);
             	}

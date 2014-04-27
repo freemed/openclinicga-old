@@ -53,7 +53,6 @@ public class PDFExtraInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
 			doc.setPageSize(PageSize.A4.rotate());
-			doc.setMargins(1,1,20,20);
             addFooter(sInvoiceUid.replaceAll("1\\.",""));
 
             doc.open();

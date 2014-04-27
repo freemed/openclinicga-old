@@ -55,7 +55,6 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
 			doc.setPageSize(PageSize.A4);
-			doc.setMargins(1,1,20,20);
             addFooter(sInvoiceUid.replaceAll("1\\.",""));
 
             doc.open();
@@ -1381,7 +1380,7 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
             		debets.addElement(debet);
             	}
             }
@@ -1543,7 +1542,7 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
             		if(debet.getPrestation()!=null && debet.getPrestation().getPrestationClass()!=null && !debet.getPrestation().getPrestationClass().equalsIgnoreCase("drug")){
             			debets.addElement(debet);
             		}
@@ -1725,7 +1724,7 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("visit")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("visit")){
             		if(debet.getPrestation()!=null && debet.getPrestation().getPrestationClass()!=null && debet.getPrestation().getPrestationClass().equalsIgnoreCase("drug")){
             			debets.addElement(debet);
             		}
@@ -1907,7 +1906,7 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("admission")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("admission")){
             		debets.addElement(debet);
             	}
             }
@@ -2070,7 +2069,7 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             Vector debets = new Vector();
             for(int n=0;n<invoice.getDebets().size();n++){
             	Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            	if(debet!=null && debet.getEncounter()!=null && debet.getEncounter().getType().equalsIgnoreCase("admission")){
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("admission")){
             		debets.addElement(debet);
             	}
             }

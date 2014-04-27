@@ -27,6 +27,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     private Encounter encounter;
     private String supplierUid;
     private String patientInvoiceUid;
+    private PatientInvoice patientInvoice;
     private String insurarInvoiceUid;
     private String comment;
     private int credited;
@@ -238,6 +239,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     }
     public void setSupplierUid(String supplierUid) {
         this.supplierUid = supplierUid;
+    }
+    public void setPatientInvoice(PatientInvoice patientInvoice){
+    	this.patientInvoice=patientInvoice;
+    }
+	public PatientInvoice getPatientInvoice(){
+    	if(patientInvoice==null && getPatientInvoiceUid()!=null && getPatientInvoiceUid().length()>0 ){
+    		patientInvoice=PatientInvoice.get(getPatientInvoiceUid());
+    	}
+    	return patientInvoice;
     }
     public String getPatientInvoiceUid() {
         return patientInvoiceUid;

@@ -319,16 +319,35 @@ public class PDFPatientInvoiceReceiptGeneratorCPLR extends PDFInvoiceGenerator {
 	        cell = createValueCell(ScreenHelper.getTran("web","thankyou",sPrintLanguage), 10,new Double(7*scaleFactor).intValue(),Font.NORMAL);
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 	        table.addCell(cell);
-	        
+
+	        cell=createValueCell("",50);
+	        cell.setBorder(PdfPCell.BOTTOM);
+	        table.addCell(cell);
+
+	        if(MedwanQuery.getInstance().getConfigInt("enablePatientReceiptSignatures",0)==1){
+		        //Signature patient
+		        cell = createValueCell(ScreenHelper.getTranNoLink("web","signature.patient",sPrintLanguage), 25,new Double(7*scaleFactor).intValue(),Font.NORMAL);
+		        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		        table.addCell(cell);
+		        //Signature provider
+		        cell = createValueCell(ScreenHelper.getTranNoLink("web","signature.provider",sPrintLanguage), 25,new Double(7*scaleFactor).intValue(),Font.NORMAL);
+		        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+		        table.addCell(cell);
+	
+		        cell=createValueCell("\r\n",50);
+		        cell.setBorder(PdfPCell.NO_BORDER);
+		        table.addCell(cell);
+		        cell=createValueCell("\r\n",50);
+		        cell.setBorder(PdfPCell.NO_BORDER);
+		        table.addCell(cell);
+	        }
+
 	        for(int n=0; n < MedwanQuery.getInstance().getConfigInt("receiptPrinterEmptyLines",0);n++){
 		        cell=createValueCell("\r\n",50);
 		        cell.setBorder(PdfPCell.NO_BORDER);
 		        table.addCell(cell);
 	        }
 
-	        cell=createValueCell("",50);
-	        cell.setBorder(PdfPCell.BOTTOM);
-	        table.addCell(cell);
 
 	        doc.add(table);
     	}
