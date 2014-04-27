@@ -227,6 +227,7 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             Date begin = new Date();
             Date end = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
             SortedMap invoices = new TreeMap();
+            Hashtable bcinvoices=new Hashtable();
             String uid;
             for(int n=0;n<debets.size();n++){
             	Debet debet = (Debet)debets.elementAt(n);
@@ -237,11 +238,13 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             		begin=debet.getDate();
             	}
             	//Invoicekey
-            	String invoicekey="?";
+            	String invoicekey="?",invoicenumber="?",insurarreference="?",invoicedate="?";
             	if(debet.getPatientInvoiceUid()!=null){
         			PatientInvoice inv = PatientInvoice.get(debet.getPatientInvoiceUid());
         			if(inv!=null && inv.getUid()!=null && inv.getUid().equalsIgnoreCase(debet.getPatientInvoiceUid())){
-        				invoicekey=new SimpleDateFormat("yyyyMMdd").format(inv.getDate())+";"+inv.getInvoiceNumber()+";"+inv.getInsurarreference();
+        				invoicedate=new SimpleDateFormat("dd//MM/yyyy").format(debet.getDate());
+        				invoicenumber=ScreenHelper.checkString(inv.getInvoiceNumber());
+        				insurarreference=ScreenHelper.checkString(inv.getInsurarreference());
         			}
             	}
             	
@@ -251,6 +254,11 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             		adherentkey=debet.getInsurance().getMember();
             	}
 
+            	if(bcinvoices.get(insurarreference+";"+adherentkey)==null){
+            		bcinvoices.put(insurarreference+";"+adherentkey,new HashSet());
+            	}
+
+            	((HashSet)bcinvoices.get(insurarreference+";"+adherentkey)).add(invoicenumber);
             	//Beneficiaries
             	String beneficiarykey="?";
             	if(debet.getEncounter()!=null && debet.getEncounter().getPatient()!=null){
@@ -262,27 +270,13 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             	if(debet.getPrestation()!=null && debet.getPrestation().getPrestationClass()!=null){
             		prestationclasskey=debet.getPrestation().getPrestationClass();
             	}
+            	if(prestationclasskey==null || prestationclasskey.length()==0){
+            		prestationclasskey="?";
+            	}
             	
-            	if(invoices.get(invoicekey)==null){
-            		invoices.put(invoicekey, new TreeMap());
-            	}
-            	TreeMap adherents = (TreeMap)invoices.get(invoicekey);
-
-            	if(adherents.get(adherentkey)==null){
-            		adherents.put(adherentkey, new TreeMap());
-            	}
-            	TreeMap beneficiaries=(TreeMap)adherents.get(adherentkey);
+            	invoicekey=insurarreference+";"+adherentkey+";"+beneficiarykey+";"+prestationclasskey.toLowerCase()+";"+invoicedate+";"+debet.getUid();
             	
-            	if(beneficiaries.get(beneficiarykey)==null){
-            		beneficiaries.put(beneficiarykey, new TreeMap());
-            	}
-            	TreeMap prestationclasses = (TreeMap)beneficiaries.get(beneficiarykey);
-            	
-            	if(prestationclasses.get(prestationclasskey)==null){
-            		prestationclasses.put(prestationclasskey, new Vector());
-            	}
-            	            	
-           		((Vector)prestationclasses.get(prestationclasskey)).add(debet);
+            	invoices.put(invoicekey, debet);
            	}
             cell=createBoldLabelCell(new SimpleDateFormat("MM/yyyy").format(begin)+(new SimpleDateFormat("MM/yyyy").format(begin).equalsIgnoreCase(new SimpleDateFormat("MM/yyyy").format(end))?"":" - "+new SimpleDateFormat("MM/yyyy").format(end)), 55);
             table.addCell(cell);
@@ -318,114 +312,193 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 			table.addCell(cell);
 			
 			Iterator iInvoices = invoices.keySet().iterator();
-			double generaltotal=0,generalpatienttotal=0;
+			String activebc="$$$", activebeneficiary="$$$",activeprestationclass="$$$";
+			double bcpatienttotal=0,bcinsurartotal=0,classpatienttotal=0,classinsurartotal=0,generaltotal=0,generalpatienttotal=0;
 			while(iInvoices.hasNext()){
 				String invoicekey = (String)iInvoices.next();
-				System.out.println("invoicekey="+invoicekey);
-				TreeMap adherents=(TreeMap)invoices.get(invoicekey);
-				double adherenttotal=0;
-				double patienttotal=0;
-				Iterator iAdherents = adherents.keySet().iterator();
-				while(iAdherents.hasNext()){
-					String adherentkey=(String)iAdherents.next();
-					adherenttotal=0;
-					patienttotal=0;
-					cell = createBoldLabelCell(getTran("web","adherent")+": "+adherentkey, 50,10);
-					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
-					table.addCell(cell);
-					cell = createBoldLabelCell(getTran("web","invoicenumber")+": "+(invoicekey.split(";").length>1?invoicekey.split(";")[1]:""), 25,10);
-					cell.setBorder(PdfPCell.TOP);
-					table.addCell(cell);
-					cell = createBoldLabelCell(getTran("web","bcnumber")+": "+(invoicekey.split(";").length>2?invoicekey.split(";")[2]:""), 25,10);
-					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
-					table.addCell(cell);
-					TreeMap beneficiaries = (TreeMap)adherents.get(adherentkey);
-					Iterator iBeneficiaries = beneficiaries.keySet().iterator();
-					int linecounter=0;
-					while(iBeneficiaries.hasNext()){
-						String beneficiarykey=(String)iBeneficiaries.next();
-						cell = createBoldLabelCell((invoicekey.split(";")[0].length()==8?new SimpleDateFormat("dd/MM/yyyy").format(new SimpleDateFormat("yyyyMMdd").parse(invoicekey.split(";")[0])):invoicekey.split(";")[0])+" - "+beneficiarykey, 30);
+				Debet debet = (Debet)invoices.get(invoicekey);
+				String bc=invoicekey.split(";")[0]+";"+(invoicekey.split(";").length<2?"?":invoicekey.split(";")[1]);
+				if(!bc.equalsIgnoreCase(activebc)){
+					if(!activeprestationclass.equals("$$$")){
+						//Print het subtotaal voor de classe af
+						cell = createBoldLabelCell("", 10);
 						cell.setBorder(PdfPCell.LEFT);
 						table.addCell(cell);
-						TreeMap prestationclasses = (TreeMap)beneficiaries.get(beneficiarykey);
-						Iterator iPrestationclasses = prestationclasses.keySet().iterator();
-						//First we want to print the medication class name
-						while(iPrestationclasses.hasNext()){
-							String prestationclasskey = (String)iPrestationclasses.next();
-							if(linecounter>0){
-								cell = createBoldLabelCell("", 30);
-								cell.setBorder(PdfPCell.LEFT);
-								table.addCell(cell);
+						cell = createBoldLabelCell(getTran("web","subtotal.for")+" "+getTran("prestation.class",activeprestationclass), 70);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(new Double(classinsurartotal).intValue()+"", 10);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(new Double(classpatienttotal).intValue()+"", 10);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						cell.setBorder(PdfPCell.RIGHT);
+						table.addCell(cell);
+					}
+					if(!activebc.equals("$$$")){
+						//We must print the bc subtotal
+						cell = createBoldLabelCell("", 60);
+						cell.setBorder(PdfPCell.LEFT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(getTran("web","subtotal.bc"), 20,9);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						cell.setBorder(PdfPCell.TOP);
+						table.addCell(cell);
+						cell = createBoldLabelCell(new Double(bcinsurartotal).intValue()+"", 10,9);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						cell.setBorder(PdfPCell.TOP);
+						table.addCell(cell);
+						cell = createBoldLabelCell(new Double(bcpatienttotal).intValue()+"", 10,9);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+						table.addCell(cell);
+					}
+					//Now we print the header for this BC
+					cell = createBoldLabelCell(getTran("web","adherent")+": "+(invoicekey.split(";").length<2?"?":invoicekey.split(";")[1]), 45,10);
+					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
+					table.addCell(cell);
+					String invoicenumbers="";
+					HashSet set = (HashSet)bcinvoices.get(bc);
+					if(set!=null){
+						Iterator iSet=set.iterator();
+						while(iSet.hasNext()){
+							if(invoicenumbers.length()>0){
+								invoicenumbers+=", ";
 							}
-							cell = createBoldLabelCell(getTran("prestation.class",prestationclasskey), 50);
-							cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-							table.addCell(cell);
-							Vector debs=(Vector)prestationclasses.get(prestationclasskey);
-							double classtotal=0,classpatient=0;
-							for(int n=0;n<debs.size();n++){
-								Debet debet = (Debet)debs.elementAt(n);
-								classtotal+=debet.getInsurarAmount();
-								classpatient+=debet.getAmount();
-							}
-							cell = createBoldLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat")).format(classtotal), 10);
-							cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-							cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-							table.addCell(cell);
-							cell = createBoldLabelCell(new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat")).format(classpatient), 10);
-							cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-							cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-							cell.setBorder(PdfPCell.RIGHT);
-							table.addCell(cell);
-							linecounter++;
-							for(int n=0;n<debs.size();n++){
-								Debet debet = (Debet)debs.elementAt(n);
-								cell = createLabelCell("", 15);
-								cell.setBorder(PdfPCell.LEFT);
-								table.addCell(cell);
-								cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()), 15);
-								table.addCell(cell);
-								cell = createLabelCell(debet.getPrestation().getDescription(), 30);
-								table.addCell(cell);
-								cell = createLabelCell(new Double(debet.getQuantity()).intValue()+"", 10);
-								table.addCell(cell);
-								cell = createLabelCell(new Double((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()).intValue()+"", 10);
-								cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-								table.addCell(cell);
-								cell = createLabelCell(new Double(debet.getInsurarAmount()).intValue()+"", 10);
-								cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-								table.addCell(cell);
-								cell = createLabelCell(new Double(debet.getAmount()).intValue()+"", 10);
-								cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-								cell.setBorder(PdfPCell.RIGHT);
-								table.addCell(cell);
-								adherenttotal+=debet.getInsurarAmount();
-								generaltotal+=debet.getInsurarAmount();
-								patienttotal+=debet.getAmount();
-								generalpatienttotal+=debet.getAmount();
-							}
-							cell = createBoldLabelCell("\n", 100);
-							cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT);
-							table.addCell(cell);
+							invoicenumbers+=(String)iSet.next();
 						}
 					}
-					cell = createBoldLabelCell("", 70);
-					cell.setBorder(PdfPCell.LEFT);
-					table.addCell(cell);
-					cell = createBoldLabelCell(getTran("web","subtotal"), 10,9);
+					cell = createBoldLabelCell(getTran("web","invoicenumber")+": "+invoicenumbers, 25,10);
 					cell.setBorder(PdfPCell.TOP);
 					table.addCell(cell);
-					cell = createBoldLabelCell(new Double(adherenttotal).intValue()+"", 10,9);
-					cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-					cell.setBorder(PdfPCell.TOP);
-					table.addCell(cell);
-					cell = createBoldLabelCell(new Double(patienttotal).intValue()+"", 10,9);
-					cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+					cell = createBoldLabelCell(getTran("web","bcnumber")+": "+invoicekey.split(";")[0], 30,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);
+					activebeneficiary="$$$";
+					activeprestationclass="$$$";
+					classpatienttotal=0;
+					classinsurartotal=0;
+					bcinsurartotal=0;
+					bcpatienttotal=0;
+					activebc=bc;
 				}
+				String beneficiary=invoicekey.split(";").length<3?"?":invoicekey.split(";")[2];
+				if(!beneficiary.equalsIgnoreCase(activebeneficiary)){
+					if(!activeprestationclass.equals("$$$")){
+						//Print het subtotaal voor de classe af
+						cell = createBoldLabelCell("", 10);
+						cell.setBorder(PdfPCell.LEFT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(getTran("web","subtotal.for")+" "+getTran("prestation.class",activeprestationclass), 70);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(new Double(classinsurartotal).intValue()+"", 10);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(new Double(classpatienttotal).intValue()+"", 10);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						cell.setBorder(PdfPCell.RIGHT);
+						table.addCell(cell);
+					}
+					cell = createBoldLabelCell("", 10);
+					cell.setBorder(PdfPCell.LEFT);
+					table.addCell(cell);
+					cell = createBoldLabelCell(beneficiary, 90,9);
+					cell.setBorder(PdfPCell.RIGHT);
+					table.addCell(cell);
+					activeprestationclass="$$$";
+					activebeneficiary=beneficiary;
+				}
+				String prestationclass=invoicekey.split(";").length<4?"?":invoicekey.split(";")[3];
+				if(!prestationclass.equalsIgnoreCase(activeprestationclass)){
+					if(!activeprestationclass.equals("$$$")){
+						//Print het subtotaal voor de classe af
+						cell = createBoldLabelCell("", 10);
+						cell.setBorder(PdfPCell.LEFT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(getTran("web","subtotal.for")+" "+getTran("prestation.class",activeprestationclass), 70);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(new Double(classinsurartotal).intValue()+"", 10);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						table.addCell(cell);
+						cell = createBoldLabelCell(new Double(classpatienttotal).intValue()+"", 10);
+						cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+						cell.setBorder(PdfPCell.RIGHT);
+						table.addCell(cell);
+					}
+					cell = createBoldLabelCell("", 30);
+					cell.setBorder(PdfPCell.LEFT);
+					table.addCell(cell);
+					cell = createBoldLabelCell(getTran("prestation.class",prestationclass), 70,9);
+					cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+					table.addCell(cell);
+					classpatienttotal=0;
+					classinsurartotal=0;
+					activeprestationclass=prestationclass;
+				}
+				cell = createLabelCell("", 10);
+				cell.setBorder(PdfPCell.LEFT);
+				table.addCell(cell);
+				String invoicedate=invoicekey.split(";").length<5?"?":invoicekey.split(";")[4];
+				cell = createLabelCell(invoicedate, 20);
+				table.addCell(cell);
+				cell = createLabelCell(debet.getPrestation().getDescription(), 30);
+				table.addCell(cell);
+				cell = createLabelCell(new Double(debet.getQuantity()).intValue()+"", 10);
+				table.addCell(cell);
+				cell = createLabelCell(new Double((debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount())/debet.getQuantity()).intValue()+"", 10);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				table.addCell(cell);
+				cell = createLabelCell(new Double(debet.getInsurarAmount()).intValue()+"", 10);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				table.addCell(cell);
+				cell = createLabelCell(new Double(debet.getAmount()).intValue()+"", 10);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.RIGHT);
+				table.addCell(cell);
+				generaltotal+=debet.getInsurarAmount();
+				generalpatienttotal+=debet.getAmount();
+				bcinsurartotal+=debet.getInsurarAmount();
+				bcpatienttotal+=debet.getAmount();
+				classinsurartotal+=debet.getInsurarAmount();
+				classpatienttotal+=debet.getAmount();
 			}
-
-			
+			if(!activeprestationclass.equals("$$$")){
+				//Print het subtotaal voor de classe af
+				cell = createBoldLabelCell("", 10);
+				cell.setBorder(PdfPCell.LEFT);
+				table.addCell(cell);
+				cell = createBoldLabelCell(getTran("web","subtotal.for")+" "+getTran("prestation.class",activeprestationclass), 70);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(classinsurartotal).intValue()+"", 10);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(classpatienttotal).intValue()+"", 10);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.RIGHT);
+				table.addCell(cell);
+			}
+			if(!activebc.equals("$$$")){
+				//We must print the bc subtotal
+				cell = createBoldLabelCell("", 60);
+				cell.setBorder(PdfPCell.LEFT);
+				table.addCell(cell);
+				cell = createBoldLabelCell(getTran("web","subtotal.bc"), 20,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(bcinsurartotal).intValue()+"", 10,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(bcpatienttotal).intValue()+"", 10,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+				table.addCell(cell);
+			}
 			cell = createBoldLabelCell(getTran("web","generaltotal")+": "+new Double(generaltotal).intValue(),90,10);
 			cell.setBorder(PdfPCell.TOP);
 			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);

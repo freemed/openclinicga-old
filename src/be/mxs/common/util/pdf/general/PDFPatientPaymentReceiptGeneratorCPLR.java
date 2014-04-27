@@ -123,16 +123,16 @@ public class PDFPatientPaymentReceiptGeneratorCPLR extends PDFInvoiceGenerator {
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 	        table.addCell(cell);
 
-	        cell = createUnderlinedTextCell(ScreenHelper.getTran("web","payments",sPrintLanguage), 40,new Double(7*scaleFactor).intValue());
+	        cell = createUnderlinedTextCell(ScreenHelper.getTran("web","payments",sPrintLanguage), 50*MedwanQuery.getInstance().getConfigInt("patientInvoiceReceiptCareDeliveryColumnWidthPercent",60)/100,new Double(7*scaleFactor).intValue());
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
-	        cell = createUnderlinedTextCell(ScreenHelper.getTran("web","amount",sPrintLanguage), 10,new Double(7*scaleFactor).intValue());
+	        cell = createUnderlinedTextCell(ScreenHelper.getTran("web","amount",sPrintLanguage), 50-50*MedwanQuery.getInstance().getConfigInt("patientInvoiceReceiptCareDeliveryColumnWidthPercent",60)/100,new Double(7*scaleFactor).intValue());
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 	        table.addCell(cell);
-            cell = createValueCell(ScreenHelper.getTran("credit.type", credit.getType(),sPrintLanguage), 40,new Double(7*scaleFactor).intValue(),Font.NORMAL);
+            cell = createValueCell(ScreenHelper.getTran("credit.type", credit.getType(),sPrintLanguage), 50*MedwanQuery.getInstance().getConfigInt("patientInvoiceReceiptCareDeliveryColumnWidthPercent",60)/100,new Double(7*scaleFactor).intValue(),Font.NORMAL);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
-            cell = createValueCell(priceFormat.format(credit.getAmount()), 10,new Double(7*scaleFactor).intValue(),Font.NORMAL);
+            cell = createValueCell(priceFormat.format(credit.getAmount()), 50-50*MedwanQuery.getInstance().getConfigInt("patientInvoiceReceiptCareDeliveryColumnWidthPercent",60)/100,new Double(7*scaleFactor).intValue(),Font.NORMAL);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             table.addCell(cell);
             cell = createValueCell(ScreenHelper.checkString(credit.getComment()), 50,new Double(7*scaleFactor).intValue(),Font.NORMAL);

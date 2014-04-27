@@ -234,7 +234,6 @@ public class PDFPatientInvoiceReceiptGenerator extends PDFInvoiceGenerator {
 	                    }
 	                }
 	            }
-		        System.out.println("10.3");
 	            if(debet.getPrestation()!=null){
 		            cell = createValueCell(debet.getQuantity()+" x  ["+debet.getPrestation().getCode()+"] "+debet.getPrestation().getDescription()+extraInsurar, 50,new Double(7*scaleFactor).intValue(),Font.NORMAL);
 		            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

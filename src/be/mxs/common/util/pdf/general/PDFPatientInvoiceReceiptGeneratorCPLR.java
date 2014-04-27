@@ -262,19 +262,19 @@ public class PDFPatientInvoiceReceiptGeneratorCPLR extends PDFInvoiceGenerator {
 	        cell=createValueCell("",50);
 	        cell.setBorder(PdfPCell.NO_BORDER);
 	        table.addCell(cell);
-	        cell = createUnderlinedTextCell(ScreenHelper.getTran("web","prestations",sPrintLanguage), 40,new Double(7*scaleFactor).intValue());
+	        cell = createUnderlinedTextCell(ScreenHelper.getTran("web","prestations",sPrintLanguage), 50*MedwanQuery.getInstance().getConfigInt("patientInvoiceReceiptCareDeliveryColumnWidthPercent",60)/100,new Double(7*scaleFactor).intValue());
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
-	        cell = createUnderlinedTextCell(ScreenHelper.getTran("web","amount",sPrintLanguage), 10,new Double(7*scaleFactor).intValue());
+	        cell = createUnderlinedTextCell(ScreenHelper.getTran("web","amount",sPrintLanguage), 50-50*MedwanQuery.getInstance().getConfigInt("patientInvoiceReceiptCareDeliveryColumnWidthPercent",60)/100,new Double(7*scaleFactor).intValue());
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 	        table.addCell(cell);
 	        for(int n=0;n<debets.size();n++){
 	            Debet debet = (Debet)debets.elementAt(n);
 	            if(debet.getPrestation()!=null){
-		            cell = createValueCell(debet.getQuantity()+" x "+debet.getPrestation().getDescription(), 40,new Double(7*scaleFactor).intValue(),Font.NORMAL);
+		            cell = createValueCell(debet.getQuantity()+" x "+debet.getPrestation().getDescription(), 50*MedwanQuery.getInstance().getConfigInt("patientInvoiceReceiptCareDeliveryColumnWidthPercent",60)/100,new Double(7*scaleFactor).intValue(),Font.NORMAL);
 		            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		            table.addCell(cell);
-		            cell = createValueCell(priceFormat.format(debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount()), 10,new Double(7*scaleFactor).intValue(),Font.NORMAL);
+		            cell = createValueCell(priceFormat.format(debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount()), 50-50*MedwanQuery.getInstance().getConfigInt("patientInvoiceReceiptCareDeliveryColumnWidthPercent",60)/100,new Double(7*scaleFactor).intValue(),Font.NORMAL);
 		            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 		            table.addCell(cell);
 	            }
