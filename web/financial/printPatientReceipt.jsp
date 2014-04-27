@@ -30,7 +30,7 @@
         String service="",insurance="";
         for(int n=0;n<invoice.getDebets().size();n++){
             Debet debet = (Debet)invoice.getDebets().elementAt(n);
-            if(debet!=null){
+            if(debet!=null && debet.getCredited()==0){
             	if(debet.getEncounter()!=null && debet.getEncounter().getService()!=null){
             		service=debet.getEncounter().getService().getLabel(sWebLanguage);
             	}
@@ -84,7 +84,7 @@
         for(int n=0;n<invoice.getDebets().size();n++){
             Debet debet = (Debet)invoice.getDebets().elementAt(n);
             String extraInsurar="";
-            if(debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
+            if(debet!=null && debet.getCredited()==0 && debet.getExtraInsurarUid()!=null && debet.getExtraInsurarUid().length()>0){
                 Insurar exIns = Insurar.get(debet.getExtraInsurarUid());
                 if(exIns!=null){
                     extraInsurar=" >>> "+ScreenHelper.checkString(exIns.getName());
