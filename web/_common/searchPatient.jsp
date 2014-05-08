@@ -34,7 +34,6 @@
         sName = activePatient.lastname;
         sFirstname = activePatient.firstname;
         sDateOfBirth = activePatient.dateOfBirth;
-        sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
 
         sNewimmat = activePatient.getID("immatnew").trim();
         sArchiveFileCode = activePatient.getID("archiveFileCode").trim();
