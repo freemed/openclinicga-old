@@ -10,9 +10,9 @@
         String vaccinationDate    = checkString(request.getParameter("vaccinationDate"));
 
         try{
-            java.util.Date nextDate = MedwanQuery.getInstance().calculateNextVaccination(vaccinationType,vaccinationSubType,new SimpleDateFormat("dd/MM/yyyy").parse(vaccinationDate));
+            java.util.Date nextDate = MedwanQuery.getInstance().calculateNextVaccination(vaccinationType,vaccinationSubType,ScreenHelper.parseDate(vaccinationDate));
             if(nextDate!=null){
-                returnValue = new SimpleDateFormat("dd/MM/yyyy").format(nextDate);
+                returnValue = ScreenHelper.stdDateFormat.format(nextDate);
             }
         }
         catch(Exception e){

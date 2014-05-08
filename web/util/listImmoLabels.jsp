@@ -1,6 +1,7 @@
 <%@page import="java.util.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
+
 <%
 	String sImmoService=checkString(request.getParameter("immoService"));
 	String sImmoServiceName=checkString(request.getParameter("immoServiceName"));
@@ -84,7 +85,7 @@
 
 %>
 
-<form name="findLabels" id="findLabels" action="<c:url value="/main.do"/>" method="post">
+<form name="findLabels" id="findLabels" method="post">
 	<input type="hidden" name="immoAction" id="immoAction" value=""/>
 	<input type="hidden" name="immoId" id="immoId" value="<%=sImmoId%>"/>
     <input type="hidden" name="Page" value="util/listImmoLabels.jsp"/>
@@ -94,8 +95,8 @@
             <td class="admin2">
                 <input readonly class="text" type="text" name="immoService" id="immoService" value="<%=sImmoService%>" size="20"/>
                 <input readonly class="text" type="text" name="immoServiceName" id="immoServiceName" value="<%=sImmoServiceName%>" size="60"/>
-				<img src='_img/icon_search.gif' class='link' alt='<%=getTran("Web","select",sWebLanguage)%>' onclick='searchService("immoService","immoServiceName");'>	
-                <img src='_img/icon_delete.gif' class='link' alt='<%=getTran("Web","clear",sWebLanguage)%>' onclick='document.getElementById("immoService").value="";document.getElementById("immoServiceName").value="";'>
+				<img src='_img/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick='searchService("immoService","immoServiceName");'>	
+                <img src='_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick='document.getElementById("immoService").value="";document.getElementById("immoServiceName").value="";'>
             </td>
         </tr>
         <tr>
@@ -184,10 +185,11 @@
 			String sCode=checkString(rs.getString("OC_IMMO_CODE"));
 			String sBuyer=checkString(rs.getString("OC_IMMO_BUYER"));
 			String sComment=checkString(rs.getString("OC_IMMO_COMMENT"));
+			
 			out.println("<tr class='list' onmouseover='this.className=\"list_select\"' onmouseout='this.className=\"list\"'><td width='1%' nowrap>"+
-					" <img src='_img/icon_delete.gif' title='"+getTranNoLink("web","delete",sWebLanguage)+"' onclick='deleteImmo(\""+sId+"\");'>"+
-					" <img src='_img/icon_print_top.gif' title='"+getTranNoLink("web","print",sWebLanguage)+"' onclick='printImmo(\""+sId+"\",\""+sService.trim()+"/"+sLocation+"_"+sCode+"/"+sBuyer+"\");'>"+
-					" <img src='_img/icon_edit.gif' title='"+getTranNoLink("web","edit",sWebLanguage)+"' onclick='editImmo(\""+sId+"\");'></td><td>"
+					" <img src='_img/icon_delete.gif' class='link' title='"+getTranNoLink("web","delete",sWebLanguage)+"' onclick='deleteImmo(\""+sId+"\");'>"+
+					" <img src='_img/icon_print_top.gif' class='link' title='"+getTranNoLink("web","print",sWebLanguage)+"' onclick='printImmo(\""+sId+"\",\""+sService.trim()+"/"+sLocation+"_"+sCode+"/"+sBuyer+"\");'>"+
+					" <img src='_img/icon_edit.gif' class='link' title='"+getTranNoLink("web","edit",sWebLanguage)+"' onclick='editImmo(\""+sId+"\");'></td><td>"
 					+sId+"</td><td>"
 					+sService+"</td><td>"
 					+sLocation+"</td><td>"
@@ -201,38 +203,39 @@
 oc_conn.close();
 %>
 </table>
+
 <script>
-	function searchService(serviceUidField,serviceNameField){
-	    openPopup("_common/search/searchService.jsp&ts=<%=getTs()%>&showinactive=0&VarCode="+serviceUidField+"&VarText="+serviceNameField);
-	    document.getElementsByName(serviceNameField)[0].focus();
-	}
+function searchService(serviceUidField,serviceNameField){
+  openPopup("_common/search/searchService.jsp&ts=<%=getTs()%>&showinactive=0&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+  document.getElementsByName(serviceNameField)[0].focus();
+}
 
-	function clearFields(){
-		document.getElementById("immoId").value="";
-		document.getElementById("immoAction").value="";
-		document.getElementById("immoService").value="";
-		document.getElementById("immoServiceName").value="";
-		document.getElementById("immoLocation").value="";
-		document.getElementById("immoCode").value="";
-		document.getElementById("immoBuyer").value="";
-		document.getElementById("immoComment").value="";
-	}
+function clearFields(){
+	document.getElementById("immoId").value="";
+	document.getElementById("immoAction").value="";
+	document.getElementById("immoService").value="";
+	document.getElementById("immoServiceName").value="";
+	document.getElementById("immoLocation").value="";
+	document.getElementById("immoCode").value="";
+	document.getElementById("immoBuyer").value="";
+	document.getElementById("immoComment").value="";
+}
 
-	function deleteImmo(id){
-	    if(yesnoDialog("Web","areYouSureToDelete")){
-			document.getElementById("immoId").value=id;	 
-			document.getElementById("immoAction").value='delete';
-			document.getElementById("findLabels").submit();   
-	    }
-	}
-
-	function editImmo(id){
+function deleteImmo(id){
+    if(yesnoDialog("Web","areYouSureToDelete")){
 		document.getElementById("immoId").value=id;	 
-		document.getElementById("immoAction").value='edit';
+		document.getElementById("immoAction").value='delete';
 		document.getElementById("findLabels").submit();   
-	}
+    }
+}
 
-	function printImmo(id,name){
-		window.open('<c:url value="util/printImmoLabel.jsp"/>?article'+id+'=<%=MedwanQuery.getInstance().getConfigString("immoprefix","CHUK")%>/'+name);
-	}		
+function editImmo(id){
+	document.getElementById("immoId").value=id;	 
+	document.getElementById("immoAction").value='edit';
+	document.getElementById("findLabels").submit();   
+}
+
+function printImmo(id,name){
+	window.open('<c:url value="util/printImmoLabel.jsp"/>?article'+id+'=<%=MedwanQuery.getInstance().getConfigString("immoprefix","CHUK")%>/'+name);
+}		
 </script>

@@ -63,7 +63,7 @@
 				}
 				previousinvoicedate=thisinvoicedate;
 				sthisname=checkString(rs2.getString("lastname")).toUpperCase()+", "+rs2.getString("firstname");
-				spat="<tr><td>"+sthisname+"</td><td>"+(thisinvoicedate==null?"?":new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(thisinvoicedate))+"</td><td>"+MedwanQuery.getInstance().getUserName(rs2.getInt("updateuserid"))+"</td><td><table><tr>";
+				spat="<tr><td>"+sthisname+"</td><td>"+(thisinvoicedate==null?"?":ScreenHelper.fullDateFormatSS.format(thisinvoicedate))+"</td><td>"+MedwanQuery.getInstance().getUserName(rs2.getInt("updateuserid"))+"</td><td><table><tr>";
 			}
 			if(previousinvoicedate!=null && thisinvoicedate!=null){
 				bvalidline=false;

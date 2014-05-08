@@ -24,7 +24,7 @@
 	while(iterator.hasNext()){
 		Long k = (Long)iterator.next();
 		String u = (String)sortedSessions.get(k));		
-		out.print("<tr><td>"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(k.longValue()))+"</td><td>"+u+"</td></tr>");		
+		out.print("<tr><td>"+ScreenHelper.fullDateFormatSS.format(new Date(k.longValue()))+"</td><td>"+u+"</td></tr>");		
 	}
 %>
 </table>

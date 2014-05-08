@@ -12,7 +12,7 @@
 		InsurarInvoice invoice = InsurarInvoice.get(request.getParameter("invoiceuid"));
 		if(invoice!=null){
 			sOutput+="INVOICE NUMBER:;"+invoice.getUid()+"\r\n";
-			sOutput+="INVOICE DATE:;"+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate())+"\r\n";
+			sOutput+="INVOICE DATE:;"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"\r\n";
 			sOutput+="INSURAR:;"+invoice.getInsurar().getName()+"\r\n";
 			sOutput+="\r\n";
 			sOutput+=CsvInvoiceRama.getOutput(request);
@@ -22,7 +22,7 @@
 		InsurarInvoice invoice = InsurarInvoice.get(request.getParameter("invoiceuid"));
 		if(invoice!=null){
 			sOutput+="INVOICE NUMBER:;"+invoice.getUid()+"\r\n";
-			sOutput+="INVOICE DATE:;"+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate())+"\r\n";
+			sOutput+="INVOICE DATE:;"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"\r\n";
 			sOutput+="INSURAR:;"+invoice.getInsurar().getName()+"\r\n";
 			sOutput+="\r\n";
 			sOutput+=CsvInvoiceCplr.getOutput(request);
@@ -32,7 +32,7 @@
 		ExtraInsurarInvoice invoice = ExtraInsurarInvoice.get(request.getParameter("invoiceuid"));
 		if(invoice!=null){
 			sOutput+="INVOICE NUMBER:;"+invoice.getUid()+"\r\n";
-			sOutput+="INVOICE DATE:;"+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate())+"\r\n";
+			sOutput+="INVOICE DATE:;"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"\r\n";
 			sOutput+="INSURAR:;"+invoice.getInsurar().getName()+"\r\n";
 			sOutput+="\r\n";
 			sOutput+=CsvInvoiceCplr2.getOutput(request);

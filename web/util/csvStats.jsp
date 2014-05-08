@@ -157,9 +157,9 @@
 			sResult.append(id+";");			
 			sResult.append(checkString(rs.getString("oc_encounter_type"))+";");			
 			java.util.Date dbegin=rs.getDate("oc_encounter_begindate");
-			sResult.append(dbegin==null?";":new SimpleDateFormat("dd/MM/yyyy").format(dbegin)+";");		
+			sResult.append(dbegin==null?";":ScreenHelper.stdDateFormat.format(dbegin)+";");		
 			java.util.Date dend=rs.getDate("oc_encounter_enddate");
-			sResult.append(dend==null?";":new SimpleDateFormat("dd/MM/yyyy").format(dend)+";");			
+			sResult.append(dend==null?";":ScreenHelper.stdDateFormat.format(dend)+";");			
 			String patientid=checkString(rs.getString("oc_encounter_patientuid"));
 			sResult.append(patientid+";");		
 			java.util.Date dob=rs.getDate("dateofbirth");
@@ -264,9 +264,9 @@
 			sResult.append(id+";");			
 			sResult.append(checkString(rs.getString("oc_encounter_type"))+";");			
 			java.util.Date dbegin=rs.getDate("oc_encounter_begindate");
-			sResult.append(dbegin==null?";":new SimpleDateFormat("dd/MM/yyyy").format(dbegin)+";");		
+			sResult.append(dbegin==null?";":ScreenHelper.stdDateFormat.format(dbegin)+";");		
 			java.util.Date dend=rs.getDate("oc_encounter_enddate");
-			sResult.append(dend==null?";":new SimpleDateFormat("dd/MM/yyyy").format(dend)+";");			
+			sResult.append(dend==null?";":ScreenHelper.stdDateFormat.format(dend)+";");			
 			String patientid=checkString(rs.getString("oc_encounter_patientuid"));
 			sResult.append(patientid+";");		
 			java.util.Date dob=rs.getDate("dateofbirth");
