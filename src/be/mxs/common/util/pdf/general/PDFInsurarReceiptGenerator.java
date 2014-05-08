@@ -90,7 +90,7 @@ public class PDFInsurarReceiptGenerator extends PDFInvoiceGenerator {
             }
 
             //*** title ***
-            table.addCell(createTitleCell(getTran("web","paymentreceipt").toUpperCase()+" #"+credit.getUid().split("\\.")[1]+" - "+new SimpleDateFormat("dd/MM/yyyy").format(credit.getDate()),"",4));
+            table.addCell(createTitleCell(getTran("web","paymentreceipt").toUpperCase()+" #"+credit.getUid().split("\\.")[1]+" - "+ScreenHelper.stdDateFormat.format(credit.getDate()),"",4));
 
             doc.add(table);
             addBlankRow();
@@ -304,7 +304,7 @@ public class PDFInsurarReceiptGenerator extends PDFInvoiceGenerator {
 
     //--- PRINT CREDIT (payment) ------------------------------------------------------------------
     private void printCredit(PdfPTable invoiceTable, InsurarCredit credit){
-        String sCreditDate = stdDateFormat.format(credit.getDate());
+        String sCreditDate = ScreenHelper.stdDateFormat.format(credit.getDate());
         double creditAmount = credit.getAmount();
         String sCreditComment = checkString(credit.getComment());
         String sCreditType = getTran("credit.type",credit.getType());

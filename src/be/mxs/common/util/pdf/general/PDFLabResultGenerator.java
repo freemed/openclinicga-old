@@ -159,7 +159,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell=createLabelCourier("*",10,5,Font.NORMAL);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);
-        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","resultnewerthan",user.person.language)+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(since),8,90,Font.NORMAL);
+        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","resultnewerthan",user.person.language)+" "+ScreenHelper.fullDateFormat.format(since),8,90,Font.NORMAL);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
         // Show legenda when bacteriology results available
@@ -697,7 +697,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","requestdate",user.person.language),8,10,Font.ITALIC);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
-        cell=createLabel(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate()),10,25,Font.BOLD);
+        cell=createLabel(ScreenHelper.fullDateFormat.format(labRequest.getRequestdate()),10,25,Font.BOLD);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","service",user.person.language),8,10,Font.ITALIC);
@@ -709,7 +709,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","reportdate",user.person.language),8,10,Font.ITALIC);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
-        cell=createLabel(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date()),10,25,Font.BOLD);
+        cell=createLabel(ScreenHelper.fullDateFormat.format(new Date()),10,25,Font.BOLD);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         subTable.addCell(cell);
 

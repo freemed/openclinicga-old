@@ -157,7 +157,7 @@ public class PDFMonthlyReportGeneratorDH extends PDFOfficialBasic {
             table.addCell(cell);
             //Nu voegen we alle te onderzoeken analyses toe
             //Eerst alle onderzoeken van de betreffende periode opzoeken
-            Vector results=RequestedLabAnalysis.find("", "", "", "", "", "", "", "", "", "", "", "", new SimpleDateFormat("dd/MM/yyyy").format(begin), new SimpleDateFormat("dd/MM/yyyy").format(end), "", "", false, "");
+            Vector results=RequestedLabAnalysis.find("", "", "", "", "", "", "", "", "", "", "", "", ScreenHelper.stdDateFormat.format(begin), ScreenHelper.stdDateFormat.format(end), "", "", false, "");
             //Ook een lijst maken van alle bestaande analyses
             Hashtable allAnalyses=LabAnalysis.getAllLabanalyses();
         	Hashtable allTreatedRequests=new Hashtable();
@@ -3015,7 +3015,7 @@ public class PDFMonthlyReportGeneratorDH extends PDFOfficialBasic {
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","datereceived",user.person.language),8,2));
             table.addCell(createBorderCell("",8,6));
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","datecreated",user.person.language),8,2));
-            table.addCell(createBorderCell(new SimpleDateFormat("dd/MM/yyyy").format(new Date()),8,6));
+            table.addCell(createBorderCell(ScreenHelper.stdDateFormat.format(new Date()),8,6));
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","signature",user.person.language),8,2));
             table.addCell(createBorderCell("\n\n\n\n\n",8,6));
             table.addCell(emptyCell(8));

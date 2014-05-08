@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import javax.servlet.http.HttpServletRequest;
 
 import be.mxs.common.util.pdf.PDFBasic;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.finance.Invoice;
 import be.openclinic.finance.PatientInvoice;
@@ -25,7 +26,6 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
     protected double insurarDebetTotal = 0;
     protected double creditTotal = 0;
 
-    protected SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
     protected String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
     DecimalFormat priceFormat = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00"));
     DecimalFormat priceFormatInsurar = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormatInsurar","#,##0.00"));
@@ -75,7 +75,7 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         table.addCell(createValueCell(sInvoiceNr,5,7,Font.BOLD));
 
         // date
-        String sInvoiceDate = stdDateFormat.format(invoice.getDate());
+        String sInvoiceDate = ScreenHelper.stdDateFormat.format(invoice.getDate());
         table.addCell(createLabelCell(getTran("web","date")+":   ",2));
         table.addCell(createValueCell(sInvoiceDate,5,7,Font.BOLD));
 
@@ -107,7 +107,7 @@ public abstract class PDFInvoiceGenerator extends PDFBasic {
         table.setWidthPercentage(pageWidth);
 
         String sPrintedBy = getTran("web","printedby")+" "+user.person.lastname+" "+user.person.firstname+" "+
-                            getTran("web","on")+" "+stdDateFormat.format(new java.util.Date());
+                            getTran("web","on")+" "+ScreenHelper.stdDateFormat.format(new java.util.Date());
         table.addCell(createValueCell(sPrintedBy,1));
 
         return table;

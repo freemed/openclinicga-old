@@ -991,7 +991,7 @@ public class PDFInsurarInvoiceGeneratorCTAMS extends PDFInvoiceGenerator {
         cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
-        cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(date),120,7);
+        cell = createLabelCell(ScreenHelper.stdDateFormat.format(date),120,7);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorder(PdfPCell.BOX);

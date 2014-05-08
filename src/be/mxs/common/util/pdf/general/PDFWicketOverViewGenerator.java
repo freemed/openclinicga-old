@@ -33,8 +33,8 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
     private double debetTotal = 0;
     private double creditTotal = 0;
 
-    private SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
+    private SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormat;
     private String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
     private DecimalFormat priceFormat = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00"));
 
@@ -515,11 +515,7 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
 
         // begin situation
         double beginBalance = 0;
-        try {
-            beginBalance = wicket.calculateBalance(new Date(new SimpleDateFormat("dd/MM/yyyy").parse(sFromDate).getTime()-1));
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        beginBalance = wicket.calculateBalance(new Date(ScreenHelper.parseDate(sFromDate).getTime()-1));
         table.addCell(createLabelCell(getTran("web.financial","beginSituation"),20));
         table.addCell(createPriceCell(beginBalance,20));
         table.addCell(createEmptyCell(50));
@@ -548,13 +544,9 @@ public class PDFWicketOverViewGenerator extends PDFBasic {
         // end situation (balance)
         double endBalance=0;
         if(sToDate.length()==0){
-            sToDate=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+            sToDate=ScreenHelper.stdDateFormat.format(new Date());
         }
-        try {
-            endBalance = wicket.calculateBalance(new Date(new SimpleDateFormat("dd/MM/yyyy").parse(sToDate).getTime()+24*3600*1000-1)); // now
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        endBalance = wicket.calculateBalance(new Date(ScreenHelper.parseDate(sToDate).getTime()+24*3600*1000-1)); // now
         table.addCell(createBoldLabelCell(getTran("web.financial","endSituation").toUpperCase(),20));
         table.addCell(createTotalPriceCell(endBalance,20));
         table.addCell(createEmptyCell(50));

@@ -462,7 +462,7 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
-        cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(date),130);
+        cell = createLabelCell(ScreenHelper.stdDateFormat.format(date),130);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setPaddingRight(5);
@@ -526,7 +526,7 @@ public class PDFInsurarInvoiceGeneratorRAMA extends PDFInvoiceGenerator {
     		invoiceTable.addCell(createEmptyCell(2000));
             //Nu de totalen toevoegen
     		invoiceTable.addCell(createEmptyCell(1400));
-            cell = createUnderlinedCell(getTran("web","totalprice")+" "+new SimpleDateFormat("dd/MM/yyyy").format(date),200);
+            cell = createUnderlinedCell(getTran("web","totalprice")+" "+ScreenHelper.stdDateFormat.format(date),200);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setPaddingRight(5);
             invoiceTable.addCell(cell);

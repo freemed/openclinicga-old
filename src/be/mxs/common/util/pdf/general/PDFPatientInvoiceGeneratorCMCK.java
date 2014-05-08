@@ -148,7 +148,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 
         table = new PdfPTable(5);
         table.setWidthPercentage(100);
-        table.addCell(createGrayCell(getTran("web","receiptforinvoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceNumber())+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),5,10,Font.BOLD));
+        table.addCell(createGrayCell(getTran("web","receiptforinvoice").toUpperCase()+" #"+(sProforma.equalsIgnoreCase("yes")?"PROFORMA":invoice.getInvoiceNumber())+" - "+ScreenHelper.stdDateFormat.format(invoice.getDate()),5,10,Font.BOLD));
         table.addCell(createValueCell(getTran("web","receivedfrom")+": "+patient.lastname.toUpperCase()+" "+patient.firstname+" ("+patient.personid+")",3,8,Font.NORMAL));
         table.addCell(createValueCell(patient.dateOfBirth,1,8,Font.NORMAL));
         table.addCell(createValueCell(patient.gender,1,8,Font.NORMAL));
@@ -188,7 +188,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
         cell=createPriceCell(totalCredit,1);
         cell.setBorder(PdfPCell.BOTTOM);
         table.addCell(cell);
-        table.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(new Date()),3,8,Font.NORMAL));
+        table.addCell(createValueCell(ScreenHelper.stdDateFormat.format(new Date()),3,8,Font.NORMAL));
         table.addCell(createValueCell(getTran("web.finance","balance"),1,8,Font.NORMAL));
         table.addCell(createPriceCell(invoice.getBalance(),1));
         table.addCell(createEmptyCell(3));
@@ -382,7 +382,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 	        	table.addCell(cell);
 	        	cell=createLabelCell(getTran("web","date"), 10);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()), 40);
+	        	cell=createBoldLabelCell(ScreenHelper.stdDateFormat.format(encounter.getBegin()), 40);
 	        	table.addCell(cell);
 
 	        	cell=createLabelCell(getTran("web","physician"), 10);
@@ -485,7 +485,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 	        	table.addCell(cell);
 	        	cell=createLabelCell(getTran("web","admissiondate"), 10);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()), 40);
+	        	cell=createBoldLabelCell(ScreenHelper.stdDateFormat.format(encounter.getBegin()), 40);
 	        	table.addCell(cell);
 
 	        	cell=createLabelCell(getTran("web","physician"), 10);
@@ -494,7 +494,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 	        	table.addCell(cell);
 	        	cell=createLabelCell(getTran("web","dischargedate"), 10);
 	        	table.addCell(cell);
-	        	cell=createBoldLabelCell(encounter.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd()), 40);
+	        	cell=createBoldLabelCell(encounter.getEnd()==null?"":ScreenHelper.stdDateFormat.format(encounter.getEnd()), 40);
 	        	table.addCell(cell);
 
 	        	cell=createLabelCell(getTran("web","advancepayment"), 10);
@@ -721,11 +721,11 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 
             cell=createEmptyCell(70);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","ctams.done.at")+" "+new SimpleDateFormat("dd/MM/yyyy").format(new Date()),30);
+            cell=createValueCell(getTran("web","ctams.done.at")+" "+ScreenHelper.stdDateFormat.format(new Date()),30);
             table.addCell(cell);
             cell=createValueCell("\n",100);
             table.addCell(cell);
-            cell=createValueCell(getTran("web","printedby")+": "+user.person.lastname.toUpperCase()+", "+user.person.firstname+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date()),100);
+            cell=createValueCell(getTran("web","printedby")+": "+user.person.lastname.toUpperCase()+", "+user.person.firstname+" "+ScreenHelper.fullDateFormatSS.format(new java.util.Date()),100);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
             cell=createValueCell(getTran("web","ctams.beneficiary.signature"),33);
@@ -928,7 +928,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
     			noSupplements=false;
     		}
     	}
-        cell=createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()),10);
+        cell=createValueCell(ScreenHelper.stdDateFormat.format(debet.getDate()),10);
         table.addCell(cell);
         cell=createLabelCell(debet.getPrestation().getDescription(),30);
         table.addCell(cell);
@@ -1239,7 +1239,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
     private void printDebet(PdfPTable invoiceTable, Debet debet){
-        String sDebetDate = stdDateFormat.format(debet.getDate());
+        String sDebetDate = ScreenHelper.stdDateFormat.format(debet.getDate());
         double debetAmountPatient = debet.getAmount();
         double debetAmountInsurar = debet.getInsurarAmount();
         double debetAmountExtraInsurar = debet.getExtraInsurarAmount();
@@ -1281,7 +1281,7 @@ public class PDFPatientInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
 
     //--- PRINT CREDIT (payment) ------------------------------------------------------------------
     private void printCredit(PdfPTable invoiceTable, PatientCredit credit){
-        String sCreditDate = stdDateFormat.format(credit.getDate());
+        String sCreditDate = ScreenHelper.stdDateFormat.format(credit.getDate());
         double creditAmount = credit.getAmount();
         String sCreditComment = checkString(credit.getComment());
         String sCreditType = getTran("credit.type",credit.getType());

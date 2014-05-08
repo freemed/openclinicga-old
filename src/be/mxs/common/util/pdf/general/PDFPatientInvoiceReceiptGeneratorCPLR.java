@@ -148,7 +148,7 @@ public class PDFPatientInvoiceReceiptGeneratorCPLR extends PDFInvoiceGenerator {
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 	        cell.setPadding(2);
 	        table.addCell(cell);
-	        cell = createBorderlessCell(new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),10, 50,new Double(8*scaleFactor).intValue());
+	        cell = createBorderlessCell(ScreenHelper.stdDateFormat.format(invoice.getDate()),10, 50,new Double(8*scaleFactor).intValue());
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 	        cell.setPaddingBottom(10);
 	        table.addCell(cell);

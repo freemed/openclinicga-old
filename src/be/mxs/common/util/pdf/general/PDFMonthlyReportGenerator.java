@@ -1328,7 +1328,7 @@ public class PDFMonthlyReportGenerator extends PDFOfficialBasic {
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","datereceived",user.person.language),8,2));
             table.addCell(createBorderCell("",8,6));
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","datecreated",user.person.language),8,2));
-            table.addCell(createBorderCell(new SimpleDateFormat("dd/MM/yyyy").format(new Date()),8,6));
+            table.addCell(createBorderCell(ScreenHelper.stdDateFormat.format(new Date()),8,6));
             table.addCell(createBorderCell(MedwanQuery.getInstance().getLabel("report.monthly","signature",user.person.language),8,2));
             table.addCell(createBorderCell("\n\n\n\n\n",8,6));
             table.addCell(emptyCell(8));

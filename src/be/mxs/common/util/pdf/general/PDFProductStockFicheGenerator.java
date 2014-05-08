@@ -118,7 +118,7 @@ public class PDFProductStockFicheGenerator extends PDFBasic {
             cell = createValueCell(ScreenHelper.getTranNoLink("web","printdate",sPrintLanguage),1);
             cell.setBackgroundColor(new BaseColor(245,245,245)); // light grey
             table.addCell(cell);
-            table.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new java.util.Date()),3));
+            table.addCell(createValueCell(ScreenHelper.fullDateFormat.format(new java.util.Date()),3));
 
             doc.add(table);
             addBlankRow();

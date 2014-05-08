@@ -228,7 +228,7 @@ public class PDFJubileeCardGenerator extends PDFOfficialBasic {
             cell.setPaddingTop(1);
             cell.setPaddingBottom(1);
             subTable.addCell(cell);
-            cell=createBorderlessCellWithStyle(insurance!=null?new SimpleDateFormat("dd/MM/yyyy").format(insurance.getStart()):" ",110, Font.BOLD,8);
+            cell=createBorderlessCellWithStyle(insurance!=null?ScreenHelper.stdDateFormat.format(insurance.getStart()):" ",110, Font.BOLD,8);
             cell.setPadding(1);
             subTable.addCell(cell);
             

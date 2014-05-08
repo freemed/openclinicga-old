@@ -27,7 +27,7 @@ public class PDFStockOperationDocumentGenerator extends PDFOfficialBasic {
     protected PdfWriter docWriter;
     private final int pageWidth = 100;
     private String type;
-    private SimpleDateFormat dateformat=new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat dateformat=ScreenHelper.stdDateFormat;
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
     public PDFStockOperationDocumentGenerator(User user, String sProject, String sPrintLanguage){

@@ -84,7 +84,7 @@ public class PDFWicketReceiptGenerator extends PDFInvoiceGenerator {
             }
 
             //*** title ***
-            table.addCell(createTitleCell(getTran("web","wicketpaymentreceipt").toUpperCase()+" #"+credit.getUid().split("\\.")[1]+" - "+new SimpleDateFormat("dd/MM/yyyy").format(credit.getOperationDate()),"",4));
+            table.addCell(createTitleCell(getTran("web","wicketpaymentreceipt").toUpperCase()+" #"+credit.getUid().split("\\.")[1]+" - "+ScreenHelper.stdDateFormat.format(credit.getOperationDate()),"",4));
 
             doc.add(table);
             addBlankRow();
@@ -216,7 +216,7 @@ public class PDFWicketReceiptGenerator extends PDFInvoiceGenerator {
             creditTable.addCell(createGrayCell(getTran("web","operator").toUpperCase(),20));
             creditTable.addCell(createValueCell(user.person.firstname.toUpperCase()+" "+user.person.lastname,80));
             creditTable.addCell(createGrayCell(getTran("web","date").toUpperCase(),20));
-            creditTable.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(credit.getOperationDate()),80));
+            creditTable.addCell(createValueCell(ScreenHelper.stdDateFormat.format(credit.getOperationDate()),80));
             creditTable.addCell(createGrayCell(getTran("web","operation.type").toUpperCase(),20));
             creditTable.addCell(createValueCell(getTran("wicketcredit.type",credit.getOperationType()),80));
             creditTable.addCell(createGrayCell(getTran("web","amount").toUpperCase(),20));
@@ -364,7 +364,7 @@ public class PDFWicketReceiptGenerator extends PDFInvoiceGenerator {
 
     //--- PRINT CREDIT (payment) ------------------------------------------------------------------
     private void printCredit(PdfPTable invoiceTable, PatientCredit credit){
-        String sCreditDate = stdDateFormat.format(credit.getDate());
+        String sCreditDate = ScreenHelper.stdDateFormat.format(credit.getDate());
         double creditAmount = credit.getAmount();
         String sCreditComment = checkString(credit.getComment());
         String sCreditType = getTran("credit.type",credit.getType());

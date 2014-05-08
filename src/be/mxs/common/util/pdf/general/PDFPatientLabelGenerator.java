@@ -113,7 +113,7 @@ public class PDFPatientLabelGenerator extends PDFOfficialBasic {
             Encounter encounter = Encounter.getActiveEncounter(person.personid);
             if(encounter!=null){
                 Chunk chunk0 = new Chunk("ID "+person.personid+"\n\n",FontFactory.getFont(FontFactory.HELVETICA,9,Font.BOLD));
-                Chunk chunk1 = new Chunk(new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin())+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
+                Chunk chunk1 = new Chunk(ScreenHelper.stdDateFormat.format(encounter.getBegin())+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
                 Chunk chunk2 = new Chunk(encounter.getUid(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
                 Paragraph paragraph = new Paragraph();
                 paragraph.add(chunk0);
