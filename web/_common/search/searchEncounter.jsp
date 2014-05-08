@@ -88,10 +88,10 @@ java.util.Vector" %>
                                         sService = getTran("service", eTmp.getServiceUID(), sWebLanguage);
                                     }
 
-                                    sStart = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getBegin());
+                                    sStart = ScreenHelper.stdDateFormat.format(eTmp.getBegin());
 
                                     if (eTmp.getEnd() != null) {
-                                    	sEnd = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getEnd());
+                                    	sEnd = ScreenHelper.stdDateFormat.format(eTmp.getEnd());
                                     } else {
                                         sEnd = "";
                                     }

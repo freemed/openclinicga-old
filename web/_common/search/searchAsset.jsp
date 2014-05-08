@@ -144,11 +144,11 @@
 		    findItem.supplierUid = sSupplierUid;
 		    
 		    if(sPurchasePeriodBegin.length() > 0){
-		        findItem.purchasePeriodBegin = ScreenHelper.stdDateFormat.parse(sPurchasePeriodBegin);
+		        findItem.purchasePeriodBegin = ScreenHelper.parseDate(sPurchasePeriodBegin);
 		    }
 		    
 		    if(sPurchasePeriodEnd.length() > 0){
-		        findItem.purchasePeriodEnd = ScreenHelper.stdDateFormat.parse(sPurchasePeriodEnd);
+		        findItem.purchasePeriodEnd = ScreenHelper.parseDate(sPurchasePeriodEnd);
 		    }
 		    
 		    foundAssets = Asset.getList(findItem);

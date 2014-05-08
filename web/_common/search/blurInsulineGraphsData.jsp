@@ -6,8 +6,8 @@
    
     // get data from one month ago untill now
     Calendar now = new GregorianCalendar();
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    java.util.Date beginDate = stdDateFormat.parse(beginDateInsulineGraphs);
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
+    java.util.Date beginDate = ScreenHelper.parseDate(beginDateInsulineGraphs);
 
     //--- GET GRAPH DATA : INSULINE RAPID ------------------------------------------------------------------------------
     Hashtable insDatesAndValues = MedwanQuery.getInstance().getInsulineShots(activePatient.personid,"RAPID",beginDate,now.getTime());
@@ -26,7 +26,7 @@
     for (int i = 0; i < dates.size(); i++) {
         date = (java.util.Date) dates.get(i);
         value = (String) insDatesAndValues.get(date);
-        sInsEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date));
+        sInsEndDate = checkString(ScreenHelper.fullDateFormat.format(date));
 
         // keep notice of the earlyest date
         if (sInsBeginDate.trim().length() == 0) {

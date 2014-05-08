@@ -83,8 +83,8 @@
                     %>
                       <tr class='list<%=sClass%>'>
                         <td onMouseOver="this.style.cursor='hand'" onMouseOut="this.style.cursor='default'">
-                          <img src='<c:url value="/_img/plus.png"/>' onclick="addActivity('<%=labelid%>')" title="<%=getTran("web","add",sWebLanguage)%>"/>
-                          <img src='<c:url value="/_img/icon_edit.gif"/>' onclick="editActivity('<%=labelid%>')" title="<%=getTran("web","edit",sWebLanguage)%>"/>
+                          <img src='<c:url value="/_img/plus.png"/>' onclick="addActivity('<%=labelid%>')" title="<%=getTranNoLink("web","add",sWebLanguage)%>"/>
+                          <img src='<c:url value="/_img/icon_edit.gif"/>' onclick="editActivity('<%=labelid%>')" title="<%=getTranNoLink("web","edit",sWebLanguage)%>"/>
                         </td>
                         <td><%=labelid%></td>
                         <td><%=rs.getString(label)%></td>

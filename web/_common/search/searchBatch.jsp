@@ -14,8 +14,8 @@
 		if(batch.getEnd()==null || !batch.getEnd().before(new java.util.Date())){
 		%>
 		<tr>
-			<td class='admin'><a href="javascript:selectbatch('<%=batch.getBatchNumber()%>','<%=batch.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())%>','<%=batch.getComment() %>')"><%=batch.getBatchNumber() %></a></td>
-			<td class='admin2'><%=batch.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd()) %></td>
+			<td class='admin'><a href="javascript:selectbatch('<%=batch.getBatchNumber()%>','<%=batch.getEnd()==null?"":ScreenHelper.stdDateFormat.format(batch.getEnd())%>','<%=batch.getComment() %>')"><%=batch.getBatchNumber() %></a></td>
+			<td class='admin2'><%=batch.getEnd()==null?"":ScreenHelper.stdDateFormat.format(batch.getEnd()) %></td>
 			<td class='admin2'><%=batch.getComment() %></td>
 		</tr>
 		<%

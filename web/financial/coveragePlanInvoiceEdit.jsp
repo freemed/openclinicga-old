@@ -123,11 +123,11 @@
                     <td class='admin'><%=getTran("web", "period", sWebLanguage)%></td>
                     <td class="admin2">
                         <%
-                            Date previousmonth=new Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1);
+                            Date previousmonth=new Date(ScreenHelper.parseDate(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1);
                         %>
                         <%=writeDateField("EditBegin", "EditForm", new SimpleDateFormat("01/MM/yyyy").format(previousmonth), sWebLanguage)%>
                         <%=getTran("web","to",sWebLanguage)%>
-                        <%=writeDateField("EditEnd", "EditForm", new SimpleDateFormat("dd/MM/yyyy").format(previousmonth), sWebLanguage)%>
+                        <%=writeDateField("EditEnd", "EditForm", ScreenHelper.stdDateFormat.format(previousmonth), sWebLanguage)%>
                         &nbsp;<input type="button" class="button" name="update" value="<%=getTran("web","update",sWebLanguage)%>" onclick="changeCoveragePlan();"/>
                         &nbsp;<input type="button" class="button" name="updateBalance" value="<%=getTranNoLink("web","updateBalance",sWebLanguage)%>" onclick="updateBalance();"/>
                     </td>

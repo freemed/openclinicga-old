@@ -32,11 +32,11 @@
 					User user = User.get(userid);
 					if(user !=null && !user.getParameter("registrationstatus").equalsIgnoreCase(element.attributeValue("id"))){
 						user.updateParameter(new Parameter("registrationstatus",element.attributeValue("id")));
-						user.updateParameter(new Parameter("registrationstatusdate",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())));
+						user.updateParameter(new Parameter("registrationstatusdate",ScreenHelper.stdDateFormat.format(new java.util.Date())));
 						
 					}
 					if(user !=null){
-						user.updateParameter(new Parameter("registrationstatusupdatetime",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())));
+						user.updateParameter(new Parameter("registrationstatusupdatetime",ScreenHelper.stdDateFormat.format(new java.util.Date())));
 						user = User.get(userid);
 						out.println("<script>window.opener.document.getElementById('registrationstatus').innerHTML='"+(user.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icon_error.jpg\"/>")+" <b>"+getTranNoLink("lookup","status."+user.getParameter("registrationstatus"),language)+" ("+user.getParameter("registrationstatusupdatetime")+")</b>';</script>");
 					}

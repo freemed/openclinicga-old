@@ -63,7 +63,7 @@
                                         sWicketUID = objWicket.getUid();
                                         sWicketName = objWicket.getUid() + " " + objWicket.getServiceUID();
                                         if (objWicket.getCreateDateTime() != null) {
-                                            sCreatedate = new SimpleDateFormat("dd/MM/yyyy").format(objWicket.getCreateDateTime());
+                                            sCreatedate = ScreenHelper.stdDateFormat.format(objWicket.getCreateDateTime());
                                         } else {
                                             sCreatedate = "";
                                         }

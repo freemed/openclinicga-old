@@ -52,7 +52,7 @@
         /*
         // add edit icon if user has the right permissions
         if(activeUser.getAccessRight("system.manageservices.edit")){
-            sReturn.append("&nbsp;<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' onmouseover='this.style.cursor=\"hand\"' onmouseout='this.style.cursor=\"default\"' alt='"+getTran("Web","edit",sWebLanguage)+"'"+" onclick='editService(\""+sID+"\")'>");
+            sReturn.append("&nbsp;<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' onmouseover='this.style.cursor=\"hand\"' onmouseout='this.style.cursor=\"default\"' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"'"+" onclick='editService(\""+sID+"\")'>");
         }
         */
 
