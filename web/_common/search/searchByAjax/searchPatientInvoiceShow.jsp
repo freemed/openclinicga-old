@@ -57,7 +57,7 @@
             StringBuffer sHtml = new StringBuffer();
             String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus;
             PatientInvoice invoice;
-            SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
             Iterator iter = vInvoices.iterator();
             while (iter.hasNext()) {
                 invoice = (PatientInvoice) iter.next();

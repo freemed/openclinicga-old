@@ -34,11 +34,11 @@
         sBeginDate+=(" size='12' onblur='checkBegin(this, "+sStartDate+")'>"
             +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTPATH+"/_img/icon_agenda.gif' ALT='"
             +getTran("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document.getElementsByName(\"WBegin\")[0]);return false;'>"
-            +"&nbsp;<img class='link'src='"+sCONTEXTPATH+"/_img/icon_compose.gif' ALT='"+getTran("Web","PutToday",sWebLanguage)+"' OnClick=\"getToday(WBegin);\">");
+            +"&nbsp;<img class='link'src='"+sCONTEXTPATH+"/_img/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' OnClick=\"getToday(WBegin);\">");
 
         if (!bNew){
 //            sBeginDate += "&nbsp;<input type='button' name='buttonNewAWC' class='button' onclick='newAWC()' value='"+getTran("Web","new",sWebLanguage)+"'>";
-            sBeginDate+= " <img src='"+sCONTEXTPATH+"/_img/icon_new.gif' id='buttonNewAWC' class='link' alt='"+getTran("Web","new",sWebLanguage)+"' onclick='newAWC()'>";
+            sBeginDate+= " <img src='"+sCONTEXTPATH+"/_img/icon_new.gif' id='buttonNewAWC' class='link' alt='"+getTranNoLink("Web","new",sWebLanguage)+"' onclick='newAWC()'>";
         }
         sBeginDate += "</td></tr>";
         out.print(sBeginDate);
@@ -99,7 +99,7 @@
         %>
             <script>
               divFunction.innerHTML += "<div id='divFunction<%=iFunctions%>'>"
-                +"<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' alt='<%=getTran("Web","delete",sWebLanguage)%>' onclick='deleteFunction(divFunction<%=iFunctions%>)'>&nbsp;"
+                +"<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick='deleteFunction(divFunction<%=iFunctions%>)'>&nbsp;"
                 +"<%=sCode+sType%>"
                 +"<input type='hidden' name='EditFunctionType<%=iFunctions%>' value='<%=function.type%>'>"
                 +"<input type='hidden' name='EditFunctionCode<%=iFunctions%>' value='<%=function.code%>'><br></div>";
@@ -260,7 +260,7 @@
       }
       iFunctions ++;
 
-      divFunction.innerHTML += "<div id='divFunction"+iFunctions+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' alt='<%=getTran("Web","delete",sWebLanguage)%>' onclick='deleteFunction(divFunction"+iFunctions+")'>&nbsp;"
+      divFunction.innerHTML += "<div id='divFunction"+iFunctions+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick='deleteFunction(divFunction"+iFunctions+")'>&nbsp;"
         +PatientEditForm.NewFunctionCode.value+sFunctionTypeDescr
         +"<input type='hidden' name='EditFunctionType"+iFunctions+"' value='"+sFunctionType+"'>"
         +"<input type='hidden' name='EditFunctionCode"+iFunctions+"' value='"+sFunctionCode+"'><br></div>";

@@ -20,8 +20,8 @@
         <tr>
             <td width="<%=sTDAdminWidth%>">&nbsp;</td>
             <td>
-                <input class="button" type="button" onclick="setSearch();" value="<%=getTran("web","search",sWebLanguage)%>" title="<%=getTran("web","new",sWebLanguage)%>" value="<%=getTran("web","new",sWebLanguage)%>"/>
-                <input class="button" type="button" onclick="window.location='<c:url value="/main.do"/>?Page=center/manage.jsp&action=set&version=0'" value="<%=getTran("web","new",sWebLanguage)%>" title="<%=getTran("web","new",sWebLanguage)%>" value="<%=getTran("web","new",sWebLanguage)%>"/>
+                <input class="button" type="button" onclick="setSearch();" value="<%=getTran("web","search",sWebLanguage)%>" title="<%=getTranNoLink("web","new",sWebLanguage)%>" value="<%=getTran("web","new",sWebLanguage)%>"/>
+                <input class="button" type="button" onclick="window.location='<c:url value="/main.do"/>?Page=center/manage.jsp&action=set&version=0'" value="<%=getTran("web","new",sWebLanguage)%>" title="<%=getTranNoLink("web","new",sWebLanguage)%>" value="<%=getTran("web","new",sWebLanguage)%>"/>
             </td>
         </tr>
     </table>

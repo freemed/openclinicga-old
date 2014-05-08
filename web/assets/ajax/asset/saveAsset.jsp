@@ -253,13 +253,13 @@
 
     // set dates
     if(sPurchaseDate.length() > 0){
-        asset.purchaseDate = ScreenHelper.stdDateFormat.parse(sPurchaseDate);
+        asset.purchaseDate = ScreenHelper.parseDate(sPurchaseDate);
     }
     if(sLoanDate.length() > 0){
-        asset.loanDate = ScreenHelper.stdDateFormat.parse(sLoanDate);
+        asset.loanDate = ScreenHelper.parseDate(sLoanDate);
     }
     if(sSaleDate.length() > 0){
-        asset.saleDate = ScreenHelper.stdDateFormat.parse(sSaleDate);
+        asset.saleDate = ScreenHelper.parseDate(sSaleDate);
     }
 
     asset.code = sCode;

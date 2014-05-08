@@ -4,6 +4,7 @@
         out.println("<script>window.opener.doSPatient();window.close();</script>");
     }
     else{
-        out.println("<script>window.close();</script>");    
+        out.println("<script>window.close();</script>");   
+        //Code exists : activePatient.getID("archiveFileCode")
     }
 %>

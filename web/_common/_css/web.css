@@ -1459,7 +1459,6 @@ li.green {
 
 .hand {
   cursor: pointer;
-
 }
 
 div.statBlock {
@@ -1484,7 +1483,6 @@ div.statBlockHalf {
   color: #4c4c4c;
   line-height: 20px;
   border: 1px solid #d1d1d1;
-
   background: white;
   z-index: 1;
 }
@@ -1622,7 +1620,6 @@ div.slider div.handle {
   height: 20px;
   cursor: move;
   background: no-repeat left url( "../../_img/slider.png" );
-
 }
 
 div.slider div.handle span {
@@ -1699,6 +1696,7 @@ ul.items {
 
 ul.items li {
   border: 1px solid #C3D9FF;
+  border-bottom:none;
   list-style: none;
   padding: 2px;
   margin: 0;

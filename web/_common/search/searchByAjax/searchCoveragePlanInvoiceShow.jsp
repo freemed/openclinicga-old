@@ -58,7 +58,7 @@
             String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus, sInsurarUid, sInsurarName;
             CoveragePlanInvoice invoice;
 
-            SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
             Iterator iter = vInvoices.iterator();
             while (iter.hasNext()) {
                 invoice = (CoveragePlanInvoice) iter.next();

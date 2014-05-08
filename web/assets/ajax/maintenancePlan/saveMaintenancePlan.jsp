@@ -46,7 +46,7 @@
     
     // startDate
     if(sStartDate.length() > 0){
-        plan.startDate = ScreenHelper.stdDateFormat.parse(sStartDate);
+        plan.startDate = ScreenHelper.parseDate(sStartDate);
     }
 
     // frequency

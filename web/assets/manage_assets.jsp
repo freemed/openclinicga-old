@@ -1237,7 +1237,6 @@
         if(okToAdd==true){
           iGAIndex++;
 
-          <%-- update arrayString --%>
           sGA+="rowGA"+iGAIndex+"="+EditForm.gaDate.value+"|"+
                                     EditForm.gaValue.value+"$";
         
@@ -1312,7 +1311,6 @@
       var okToAdd = true;
     
       if(okToAdd==true){        
-        <%-- update arrayString --%>
         var newRow = editGARowid.id+"="+EditForm.gaDate.value+"|"+
                                         EditForm.gaValue.value;
 
@@ -1468,7 +1466,6 @@
         if(okToAdd==true){
           iLOIndex++;
 
-          <%-- update arrayString --%>
           sLO+="rowLO"+iLOIndex+"="+EditForm.loDate.value+"|"+
                                     EditForm.loValue.value+"$";
         
@@ -1543,7 +1540,6 @@
       var okToAdd = true;
     
       if(okToAdd==true){        
-        <%-- update arrayString --%>
         var newRow = editLORowid.id+"="+EditForm.loDate.value+"|"+
                                         EditForm.loValue.value;
 
@@ -1743,7 +1739,6 @@
       if(areRequiredPDFieldsFilled()){
         iPDIndex++;
 
-        <%-- update arrayString --%>
         sPD+="rowPD"+iPDIndex+"="+EditForm.pdID.value+"$";
         
         var tr = tblPD.insertRow(tblPD.rows.length);
@@ -1809,7 +1804,6 @@
     $("purchaseDocumentMsgDiv").innerHTML = "";
         
     if(areRequiredPDFieldsFilled()){
-      <%-- update arrayString --%>
       var newRow = editPDRowid.id+"="+EditForm.pdID.value;
 
       sPD = replaceRowInArrayString(sPD,newRow,editPDRowid.id);
@@ -2023,7 +2017,6 @@
       if(areRequiredRPFieldsFilled()){
         iRPIndex++;
 
-        <%-- update arrayString --%>
         sRP+="rowRP"+iRPIndex+"="+EditForm.rpDate.value+"|"+EditForm.rpCapital.value+"|"+EditForm.rpInterest.value+"$";
         
         var tr = tblRP.insertRow(tblRP.rows.length-1);
@@ -2105,8 +2098,7 @@
 
   <%-- UPDATE REIMBURSEMENT PLAN --%>
   function updateRP(){
-    if(areRequiredRPFieldsFilled()){        
-      <%-- update arrayString --%>
+    if(areRequiredRPFieldsFilled()){   
       var newRow = editRPRowid.id+"="+EditForm.rpDate.value+"|"+EditForm.rpCapital.value+"|"+EditForm.rpInterest.value;
  
       sRP = replaceRowInArrayString(sRP,newRow,editRPRowid.id);
@@ -2280,7 +2272,6 @@
       if(areRequiredLDFieldsFilled()){
         iLDIndex++;
 
-        <%-- update arrayString --%>
         sLD+="rowLD"+iLDIndex+"="+EditForm.ldID.value+"$";
         
         var tr = tblLD.insertRow(tblLD.rows.length);
@@ -2365,8 +2356,7 @@
   function updateLD(){
     $("loanDocumentMsgDiv").innerHTML = "";
     
-    if(areRequiredLDFieldsFilled()){        
-      <%-- update arrayString --%>
+    if(areRequiredLDFieldsFilled()){   
       var newRow = editLDRowid.id+"="+EditForm.ldID.value;
  
       sLD = replaceRowInArrayString(sLD,newRow,editLDRowid.id);

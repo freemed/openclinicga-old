@@ -395,7 +395,14 @@ function getTodayString(){
   var sMonth = (today.getMonth()+1)+"";
   if(sMonth.length < 2) sMonth = "0"+sMonth;
     
-  return (sDay+"/"+sMonth+"/"+today.getFullYear());
+  if(dateFormat.startsWith("MM")){
+	// US
+    return (sMonth+"/"+sDay+"/"+today.getFullYear());
+  }
+  else{
+	// default : EU
+	return (sDay+"/"+sMonth+"/"+today.getFullYear());
+  }
 }
 
 Event.observe(window,"load",function(){initMonthScheduler();});

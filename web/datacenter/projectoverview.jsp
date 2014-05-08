@@ -118,7 +118,7 @@
 			else if(lastdate!=null && new java.util.Date().getTime()-lastdate.getTime()>MedwanQuery.getInstance().getConfigInt("datacenterServerInactiveDaysOrangeAlert",2)*24*3600000){
 				color="color='orange'";
 			}
-			out.print("<td class='admin2' width='150'>"+((lastdate==null?"&nbsp;":"<font "+color+">"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(lastdate))+"</font>")+"</td>");
+			out.print("<td class='admin2' width='150'>"+((lastdate==null?"&nbsp;":"<font "+color+">"+ScreenHelper.fullDateFormat.format(lastdate))+"</font>")+"</td>");
 			int unprocessedPatientRecords = DatacenterHelper.getUnprocessedPatientRecordsCount(Integer.parseInt(server));
 			
 			out.print("<td class='admin2' width=''>"+registerSimpleValue(server,"core.1",parameters,lastvalues)+"</td>"+

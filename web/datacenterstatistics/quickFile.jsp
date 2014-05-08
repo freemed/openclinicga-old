@@ -143,9 +143,9 @@
         encounter.setPatientUID(sPatientUID);
         encounter.setType(sEditEncounterType);
         try {
-            encounter.setBegin(new SimpleDateFormat("dd/MM/yyyy").parse(sEditEncounterBegin));
+            encounter.setBegin(ScreenHelper.parseDate(sEditEncounterBegin));
             if(sEditEncounterEnd.length()>0){
-            	encounter.setEnd(new SimpleDateFormat("dd/MM/yyyy").parse(sEditEncounterEnd));
+            	encounter.setEnd(ScreenHelper.parseDate(sEditEncounterEnd));
             }
             encounter.setServiceUID(sEditEncounterService);
             encounter.setOutcome(sEditEncounterOutcome);
@@ -171,10 +171,10 @@
         sEditEncounterUID = encounter.getUid();
         sEditEncounterType = encounter.getType();
         if (encounter.getBegin() != null) {
-            sEditEncounterBegin = new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin());
+            sEditEncounterBegin = ScreenHelper.stdDateFormat.format(encounter.getBegin());
         }
         if (encounter.getEnd() != null) {
-            sEditEncounterEnd = new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd());
+            sEditEncounterEnd = ScreenHelper.stdDateFormat.format(encounter.getEnd());
         }
         sEditEncounterService = encounter.getServiceUID();
         if (sEditEncounterService != null && sEditEncounterService.length() > 0 && encounter.getService()!=null) {
@@ -370,7 +370,7 @@
     <tr>
         <td class="admin2"><b><a
                 href="<c:url value='/'/>popup.jsp?Page=statistics/quickFile.jsp&PopupHeight=600&PopupWidth=800&EditEncounterUID=<%=encounter.getUid()%>&PatientUID=<%=activePerson.personid%>&findEncounter=1"/><%=
-            new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()) + " -> " + (encounter.getEnd() == null ? "" : new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd()))%>
+            ScreenHelper.stdDateFormat.format(encounter.getBegin()) + " -> " + (encounter.getEnd() == null ? "" : ScreenHelper.stdDateFormat.format(encounter.getEnd()))%>
         </b></td>
         <td class="admin2"><b><%=
             (encounter.getService() == null ? "" : encounter.getService().getLabel(sWebLanguage)) + (encounter.getOutcome() == null ? "" : " (" + getTran("encounter.outcome", encounter.getOutcome(), sWebLanguage) + ")")%>

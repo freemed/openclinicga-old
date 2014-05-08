@@ -56,7 +56,7 @@
                     <%=ScreenHelper.checkString(currentInsurance.getInsuranceNr())%></td>
                     <td <%=!bAuth?"style='text-decoration: line-through'":""%>><%=ScreenHelper.checkString(currentInsurance.getInsuranceCategoryLetter()).length()>0 && currentInsurance.getInsuranceCategory().getLabel().length()>0?ScreenHelper.checkString(currentInsurance.getInsuranceCategory().getInsurar().getName())+ " ("+currentInsurance.getInsuranceCategory().getCategory()+": "+currentInsurance.getInsuranceCategory().getPatientShare()+"/"+(100-Integer.parseInt(currentInsurance.getInsuranceCategory().getPatientShare()))+")":""%></td>
                     <td <%=!bAuth?"style='text-decoration: line-through'":""%>><%=ScreenHelper.checkString(getTran("insurance.types",currentInsurance.getType(),sWebLanguage))%></td>
-                    <td <%=!bAuth?"style='text-decoration: line-through'":""%>><%=ScreenHelper.checkString(currentInsurance.getStart()!=null?new SimpleDateFormat("dd/MM/yyyy").format(currentInsurance.getStart()):"")%></td>
+                    <td <%=!bAuth?"style='text-decoration: line-through'":""%>><%=ScreenHelper.checkString(currentInsurance.getStart()!=null?ScreenHelper.stdDateFormat.format(currentInsurance.getStart()):"")%></td>
                 </tr>
     <%
             }

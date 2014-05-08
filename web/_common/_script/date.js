@@ -85,9 +85,18 @@ function normaliseDate(dateStr){
 
 function makeDate(fulldateStr){
   fulldateStr = fulldateStr.replace("-","/");
-  var year = fulldateStr.substring(fulldateStr.lastIndexOf("/")+1);
-  var month = fulldateStr.substring(fulldateStr.indexOf("/")+1,fulldateStr.lastIndexOf("/"));
-  var day = fulldateStr.substring(0,fulldateStr.indexOf("/"));
+  var year, month, day;
+  
+  if(dateFormat=="dd/MM/yyyy"){
+    year = fulldateStr.substring(fulldateStr.lastIndexOf("/")+1);
+    month = fulldateStr.substring(fulldateStr.indexOf("/")+1,fulldateStr.lastIndexOf("/"));
+    day = fulldateStr.substring(0,fulldateStr.indexOf("/"));
+  }
+  else{
+    year = fulldateStr.substring(fulldateStr.lastIndexOf("/")+1);
+    day = fulldateStr.substring(fulldateStr.indexOf("/")+1,fulldateStr.lastIndexOf("/"));
+    month = fulldateStr.substring(0,fulldateStr.indexOf("/"));
+  }
 
   if(isDate(day,month,year)){
     return new Date(year,month-1,day,0,0,0);
@@ -178,15 +187,30 @@ function checkDate(sobject){
     }
 
     if(sdate.indexOf("/")>0){
-      sDay = sdate.substring(0,sdate.indexOf("/"));
-      if(sDay.length < 2) sDay = "0"+sDay;
-      sMonth = sdate.substring(sdate.indexOf("/")+1, sdate.lastIndexOf("/"));
-      if(sMonth.length < 2) sMonth = "0"+sMonth;
+      if(dateFormat=="dd/MM/yyyy"){
+        sDay = sdate.substring(0,sdate.indexOf("/"));
+        if(sDay.length < 2) sDay = "0"+sDay;
+        sMonth = sdate.substring(sdate.indexOf("/")+1,sdate.lastIndexOf("/"));
+        if(sMonth.length < 2) sMonth = "0"+sMonth;	
+      }
+      else{
+    	sMonth = sdate.substring(0,sdate.indexOf("/"));
+        if(sMonth.length < 2) sMonth = "0"+sMonth;
+        sDay = sdate.substring(sdate.indexOf("/")+1,sdate.lastIndexOf("/"));
+        if(sDay.length < 2) sDay = "0"+sDay;
+      }
     }
     else if((sdate.length==8)&&(sdate.indexOf("/")<1)){
-      sDay = sdate.substring(0,2);
-      sMonth = sdate.substring(2,4);
-      sYear = sdate.substring(4,8);
+      if(dateFormat=="dd/MM/yyyy"){	
+        sDay = sdate.substring(0,2);
+        sMonth = sdate.substring(2,4);
+        sYear = sdate.substring(4,8);
+      }
+      else{
+        sMonth = sdate.substring(0,2);
+        sDay = sdate.substring(2,4);
+        sYear = sdate.substring(4,8);
+      }
     }
 
     if(sDay.length>2) sDay = sDay.substring(0,2);
@@ -199,8 +223,15 @@ function checkDate(sobject){
         sYear = "20"+sYear.substring(0,2);
       }
     }
-    if(isDate(sDay,sMonth,sYear)){
-      sobject.value = sDay+"/"+sMonth+"/"+sYear;
+    if(isDate(sDay,sMonth,sYear)){  
+	  if(dateFormat.startsWith("MM")){
+		// US
+        sobject.value = sMonth+"/"+sDay+"/"+sYear;
+	  }
+	  else{
+		// default : EU
+	    sobject.value = sDay+"/"+sMonth+"/"+sYear;
+	  }
       return true;
     }
     else{
@@ -250,7 +281,14 @@ function checkLongDate(sobject){
       }
     }
     if(isDate(sDay,sMonth,sYear)){
-      sobject.value = sDay+"/"+sMonth+"/"+sYear+sobject.value.substring(10);
+  	  if(dateFormat.startsWith("MM")){
+  		// US
+ 	    sobject.value = sMonth+"/"+sDay+"/"+sYear+sobject.value.substring(10);
+  	  }
+  	  else{
+  		// default : EU
+  	    sobject.value = sDay+"/"+sMonth+"/"+sYear+sobject.value.substring(10);
+  	  }
       return true;
     }
     else{
@@ -293,22 +331,36 @@ function getToday(sobject){
   var sMonth = (today.getMonth()+1)+"";
   if(sMonth.length < 2) sMonth = "0"+sMonth;
     
-  sobject.value = (sDay+"/"+sMonth+"/"+today.getFullYear());
+  if(dateFormat.startsWith("MM")){
+	// US
+	sobject.value = (sMonth+"/"+sDay+"/"+today.getFullYear());
+  }
+  else{
+	// default : EU
+    sobject.value = (sDay+"/"+sMonth+"/"+today.getFullYear());
+  }
+  
   try{
      sobject.focus();
   }
   catch(er){}
-  //sobject.value = (today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getYear());
-  //sobject.focus();
 }
 
-function writeToday (){
+function writeToday(){
   var today = new Date();
   var sDay = today.getDate()+"";
   if(sDay.length < 2) sDay = "0"+sDay;
   var sMonth = (today.getMonth()+1)+"";
   if(sMonth.length < 2) sMonth = "0"+sMonth;
-  document.write(sDay+"/"+sMonth+"/"+today.getYear());
+  
+  if(dateFormat.startsWith("MM")){
+	// US
+    document.write(sMonth+"/"+sDay+"/"+today.getYear());
+  }
+  else{
+	// default : EU
+	document.write(sDay+"/"+sMonth+"/"+today.getYear());
+  }
 }
 
 function showD(element,imgS,imgH){

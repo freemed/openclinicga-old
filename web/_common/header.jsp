@@ -6,11 +6,11 @@
 
 <script>
   function setButtonCheckDropDown(){
-    if(!bSaveHasNotChanged){
+    //if(!bSaveHasNotChanged){
       if(checkSaveButton()){
         //target.click();
       }
-    }
+    //}
   }
     
   function checkDropdown(evt){

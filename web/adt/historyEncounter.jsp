@@ -40,13 +40,13 @@
         }
 		
         if (eTmp.getBegin() != null) {
-            sBegin = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getBegin());
+            sBegin = ScreenHelper.stdDateFormat.format(eTmp.getBegin());
         } else {
             sBegin = "";
         }
 
         if (eTmp.getEnd() != null) {
-            sEnd = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getEnd());
+            sEnd = ScreenHelper.stdDateFormat.format(eTmp.getEnd());
         } else {
             sEnd = "";
         }
@@ -68,7 +68,7 @@
         for(int n=0;n<th.size();n++){
         	EncounterService es = (EncounterService)th.elementAt(n);
             if (checkString(es.serviceUID).length() > 0) {
-                sServices+=(sServices.length()>0?"<BR/>":"")+(n+1)+": "+getTran("service",es.serviceUID,sWebLanguage)+" ("+new SimpleDateFormat("dd/MM/yyyy").format(es.begin)+")";
+                sServices+=(sServices.length()>0?"<BR/>":"")+(n+1)+": "+getTran("service",es.serviceUID,sWebLanguage)+" ("+ScreenHelper.stdDateFormat.format(es.begin)+")";
             }
             else{
                 sServices+=(sServices.length()>0?"<BR/>":"")+(n+1)+": "+"-";
@@ -113,7 +113,7 @@
         sbResults.append("<tr id='"+(bFinished?"finished":"")+"' class='list" + sInactive + sClass + "' " +
                 " onmouseover=\"this.style.cursor='pointer';\" " +
                 " onmouseout=\"this.style.cursor='default';\" >" +
-                "<td id='"+eTmp.getUid()+"' width='20x'  onclick=\"delRow('" + eTmp.getUid() + "');\" ><img class='hand' src='/openclinic/_img/icon_delete.gif' alt='"+getTran("Web.Occup","medwan.common.delete",sWebLanguage)+"' border=\"0\"></td>" +
+                "<td id='"+eTmp.getUid()+"' width='20x'  onclick=\"delRow('" + eTmp.getUid() + "');\" ><img class='hand' src='/openclinic/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border=\"0\"></td>" +
                 "<td height='20' onclick=\"doSelect('" + eTmp.getUid() + "');\" >" + getTran("web", checkString(eTmp.getType()), sWebLanguage) + "</td>" +
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + eTmp.getUid() + "</td>" +
                 "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sBegin + "</td>" +

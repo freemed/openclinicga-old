@@ -7,13 +7,13 @@
     ByteArrayOutputStream baosPDF = null;
     try {
         // PDF generator
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date()));
+		java.util.Date begin = ScreenHelper.parseDate("01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date()));
 		java.util.Date end = new java.util.Date();
 		if(request.getParameter("start")!=null){
-			begin=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("start"));
+			begin=ScreenHelper.parseDate(request.getParameter("start"));
 		}
 		if(request.getParameter("end")!=null){
-			end=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("end"));
+			end=ScreenHelper.parseDate(request.getParameter("end"));
 		}
 		HashSet chapters = new HashSet();
 		Enumeration parameters = request.getParameterNames();

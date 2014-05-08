@@ -6,7 +6,7 @@
 			PreparedStatement ps = stats_conn.prepareStatement("insert into DC_SIMPLEVALUES(DC_SIMPLEVALUE_SERVERID,DC_SIMPLEVALUE_OBJECTID,DC_SIMPLEVALUE_PARAMETERID,DC_SIMPLEVALUE_CREATEDATETIME,DC_SIMPLEVALUE_SENTDATETIME,DC_SIMPLEVALUE_RECEIVEDATETIME,DC_SIMPLEVALUE_IMPORTDATETIME,DC_SIMPLEVALUE_DATA) values(?,-9,?,?,?,?,?,?)");
 			ps.setInt(1,Integer.parseInt(serverid));
 			ps.setString(2,parameterid);
-			ps.setDate(3,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(date).getTime()));
+			ps.setDate(3,new java.sql.Date(ScreenHelper.parseDate(date).getTime()));
 			ps.setDate(4,new java.sql.Date(new java.util.Date().getTime()));
 			ps.setDate(5,new java.sql.Date(new java.util.Date().getTime()));
 			ps.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
@@ -58,7 +58,7 @@
             </tr>
             <tr>
                 <td class='admin'><%=getTran("datacenter","date.core",sWebLanguage) %></td>
-                <td class='admin2'><%=writeDateField("date.core","transactionForm",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),sWebLanguage)%></td>
+                <td class='admin2'><%=writeDateField("date.core","transactionForm",ScreenHelper.stdDateFormat.format(new java.util.Date()),sWebLanguage)%></td>
             </tr>
             <tr>
                 <td class='admin'><%=getTran("datacenter","core.1",sWebLanguage) %></td>

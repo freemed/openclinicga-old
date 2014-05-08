@@ -13,7 +13,7 @@
 	String parameterId = request.getParameter("parameterid");
 	
 	// revert one year by default
-	java.util.Date beginDate = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+
+	java.util.Date beginDate = ScreenHelper.parseDate(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+
 	                             (Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-(request.getParameter("fullperiod")==null?1:999)));
 	java.util.Date endDate = new java.util.Date(new java.util.Date().getTime()+24*3600*1000);
 

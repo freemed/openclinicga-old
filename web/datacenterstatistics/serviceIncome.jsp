@@ -32,8 +32,8 @@
         	<td valign='bottom'>
         		<%=getTran("Web","service",sWebLanguage) %></td><td colspan='2'  valign='bottom'><input type='hidden' name='statserviceid' id='statserviceid' value='<%=service %>'>
         		<input class='text' type='text' name='statservicename' id='statservicename' readonly size='40' value='<%=serviceName %>'>
-        		<img src='_img/icon_search.gif' class='link' alt='<%=getTran("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
-        		<img src='_img/icon_delete.gif' class='link' alt='<%=getTran("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
+        		<img src='_img/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
+        		<img src='_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
 				<input type="checkbox" class="text" name="details" <%=request.getParameter("details")!=null?"checked":"" %>/><%= getTran("web","showdetails",sWebLanguage) %>
         	</td>
         </tr>
@@ -42,8 +42,8 @@
 <table>
 <%
     if(request.getParameter("find")!=null){
-        java.util.Date begin=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("begin"));
-        java.util.Date end=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("end"));
+        java.util.Date begin=ScreenHelper.parseDate(request.getParameter("begin"));
+        java.util.Date end=ScreenHelper.parseDate(request.getParameter("end"));
         //We zoeken alle debets op van de betreffende periode en ventileren deze per dienst
 		
         String sQuery="select count(*) number,sum(oc_amount) total,sum(oc_patientamount) patientincome,sum(oc_insuraramount+oc_extrainsuraramount) insurarincome,oc_serviceuid,oc_prestationcode" +

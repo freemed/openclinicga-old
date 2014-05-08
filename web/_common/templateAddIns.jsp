@@ -28,7 +28,7 @@
 %>
 <script>
 function dateError(field){
-  alert('<%=getTran("Web.Occup","date.error",sWebLanguage)%>');
+  alertDialog("Web.Occup","date.error");
   setTimeout('document.getElementById("'+field.id+'").focus();',100);
 }  
 
@@ -203,9 +203,9 @@ function checkAfter(afterId,beforeObj){
     }
 
     document.write("<a href='javascript:void(0);' onclick='if(self.gfPop"+gfPopType+")gfPop"+gfPopType+".fPopCalendar(document.getElementById(\""+sObject+"\"));return false;' HIDEFOCUS>" +
-                   "<img name='popcal' class='link' src='"+sImg+"' alt='<%=getTran("web","Select",sWebLanguage)%>'></a>" +
+                   "<img name='popcal' class='link' src='"+sImg+"' alt='<%=getTranNoLink("web","Select",sWebLanguage)%>'></a>" +
                    "&nbsp;<a href='javascript:void(0);' onClick='getToday("+sObject+");'>" +
-                   "<img class='link' src='"+sDir+"/icon_compose.gif' alt='<%=getTran("web","putToday",sWebLanguage)%>'></a>");
+                   "<img class='link' src='"+sDir+"/icon_compose.gif' alt='<%=getTranNoLink("web","putToday",sWebLanguage)%>'></a>");
   } 
     
   <%-- GET MY DATE --%>
@@ -225,9 +225,9 @@ function checkAfter(afterId,beforeObj){
     }
 
     return ("<a href='javascript:void(0);' onclick='if(self.gfPop"+gfPopType+")gfPop"+gfPopType+".fPopCalendar(document.getElementById(\""+sObject+"\"));return false;' HIDEFOCUS>" +
-            "<img name='popcal' class='link' src='"+sImg+"' alt='<%=getTran("web","Select",sWebLanguage)%>'></a>" +
+            "<img name='popcal' class='link' src='"+sImg+"' alt='<%=getTranNoLink("web","Select",sWebLanguage)%>'></a>" +
             "&nbsp;<a href='javascript:void(0);' onClick='getToday("+sObject+");'>" +
-            "<img class='link' src='"+sDir+"/icon_compose.gif' alt='<%=getTran("web","putToday",sWebLanguage)%>'></a>");
+            "<img class='link' src='"+sDir+"/icon_compose.gif' alt='<%=getTranNoLink("web","putToday",sWebLanguage)%>'></a>");
   }
 
   <%-- FIND ZIPCODE --%>

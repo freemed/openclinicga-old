@@ -22,7 +22,7 @@
 %>
     <tr>
         <td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick="deleteService('<%=encounterService.serviceUID%>')"></td>
-        <td><%=new SimpleDateFormat("dd/MM/yyyy HH:mm").format(encounterService.begin)+" - "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(encounterService.end)%></td>
+        <td><%=ScreenHelper.fullDateFormat.format(encounterService.begin)+" - "+ScreenHelper.fullDateFormat.format(encounterService.end)%></td>
         <td><b><%=getTran("Service", encounterService.serviceUID, sWebLanguage)%></b></td>
         <td><%=getTran("web", "bed", sWebLanguage) + ": " + checkString(Bed.get(encounterService.bedUID).getName())%></td>
         <td><%=getTran("web","manager",sWebLanguage)+": "+(username!=null?username.get("firstname")+" "+username.get("lastname"):"")%></td>

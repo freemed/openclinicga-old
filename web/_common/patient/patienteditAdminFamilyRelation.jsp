@@ -183,7 +183,7 @@
                         row.insertCell(i);
                       }
 
-                      row.cells[0].innerHTML = "<center><a href='javascript:deleteFR(rowFR"+iIndexFR+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web","delete",sWebLanguage)%>' border='0'></a></center>";
+                      row.cells[0].innerHTML = "<center><a href='javascript:deleteFR(rowFR"+iIndexFR+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a></center>";
 
                       <%-- default data --%>
                       row.cells[1].innerHTML = "<%=activePatient.firstname+" "+activePatient.lastname%>";

@@ -14,7 +14,7 @@
         String sTmpHour[] = sHour.split(":");
         java.util.Date d=null;
         try{
-        	d=new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(sDate+" "+sHour);
+        	d=ScreenHelper.fullDateFormat.parse(sDate+" "+sHour);
         }
         catch(Exception e){};
 		return d;
@@ -294,16 +294,16 @@
         sRfe= ReasonForEncounter.getReasonsForEncounterAsHtml(sEditEncounterUID,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
         tmpEncounter = Encounter.get(sEditEncounterUID);
 		if(tmpEncounter!=null && tmpEncounter.getMaxTransferDate()!=null){
-			sMaxTransferDate=new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getMaxTransferDate());
+			sMaxTransferDate=ScreenHelper.stdDateFormat.format(tmpEncounter.getMaxTransferDate());
 		}
         sEditEncounterType            = checkString(tmpEncounter.getType());
-        sEditEncounterBegin           = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getBegin()));
+        sEditEncounterBegin           = checkString(ScreenHelper.stdDateFormat.format(tmpEncounter.getBegin()));
         sEditEncounterBeginHour           = checkString(new SimpleDateFormat("HH:mm").format(tmpEncounter.getBegin()));
 
         if(tmpEncounter.getEnd() == null){
             sEditEncounterEnd         = "";
         }else{
-            sEditEncounterEnd         = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getEnd()));
+            sEditEncounterEnd         = checkString(ScreenHelper.stdDateFormat.format(tmpEncounter.getEnd()));
             sEditEncounterEndHour     = checkString(new SimpleDateFormat("HH:mm").format(tmpEncounter.getEnd()));
         }
 
@@ -504,7 +504,7 @@
                         if(encounterService!=null && encounterService.end==null){
                             username =User.getUserName(encounterService.managerUID);
                             %><tr><td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick="deleteService('<%=encounterService.serviceUID%>')"></td>
-                                <td><%=new SimpleDateFormat("dd/MM/yyyy HH:mm").format(encounterService.begin)+" - "%></td>
+                                <td><%=ScreenHelper.fullDateFormat.format(encounterService.begin)+" - "%></td>
                                 <td><b><%=getTran("Service", encounterService.serviceUID, sWebLanguage)%></b></td>
                                 <td><%=getTran("web","bed",sWebLanguage)+": "+checkString(Bed.get(encounterService.bedUID).getName())%></td>
                                 <td><%=getTran("web","manager",sWebLanguage)+": "+(username!=null?username.get("firstname")+" "+username.get("lastname"):"")%></td>
@@ -515,7 +515,7 @@
                             encounterService = (Encounter.EncounterService) transferHistory.elementAt(n);
                             username =User.getUserName(encounterService.managerUID);
                             %><tr><td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick="deleteService('<%=encounterService.serviceUID%>')"></td>
-                                <td><%=new SimpleDateFormat("dd/MM/yyyy HH:mm").format(encounterService.begin)+" - "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(encounterService.end)%></td>
+                                <td><%=ScreenHelper.fullDateFormat.format(encounterService.begin)+" - "+ScreenHelper.fullDateFormat.format(encounterService.end)%></td>
                                 <td><b><%=getTran("Service", encounterService.serviceUID, sWebLanguage)%></b></td>
                                 <td><%=getTran("web","bed",sWebLanguage)+": "+checkString(Bed.get(encounterService.bedUID).getName())%></td>
                                 <td><%=getTran("web","manager",sWebLanguage)+": "+(username!=null?username.get("firstname")+" "+username.get("lastname"):"")%></td>
@@ -600,7 +600,7 @@
                 for(int n=0;n<accomodationDebets.size();n++){
                     Debet debet = (Debet)accomodationDebets.elementAt(n);
                     if(debet==null && debet.getPrestation()==null){
-                    	out.print(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate())+": <b>"+debet.getQuantity()+"</b> "+getTran("web","days",sWebLanguage)+" ("+debet.getPrestation().getDescription()+") = <b>"+debet.getAmount()+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+"</b> ("+getTran("web","insurar",sWebLanguage)+" = "+debet.getInsurarAmount()+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+")</BR/>");
+                    	out.print(ScreenHelper.stdDateFormat.format(debet.getDate())+": <b>"+debet.getQuantity()+"</b> "+getTran("web","days",sWebLanguage)+" ("+debet.getPrestation().getDescription()+") = <b>"+debet.getAmount()+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+"</b> ("+getTran("web","insurar",sWebLanguage)+" = "+debet.getInsurarAmount()+" "+MedwanQuery.getInstance().getConfigString("currency","EUR")+")</BR/>");
                     }
                 }
             %>
@@ -979,7 +979,7 @@
     }
 
     function setTransfer(){
-      document.getElementById("EditEncounterTransferDate").value="<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>";
+      document.getElementById("EditEncounterTransferDate").value="<%=ScreenHelper.stdDateFormat.format(new Date())%>";
       document.getElementById("EditEncounterTransferHour").value="<%=new SimpleDateFormat("HH:mm").format(new Date())%>";
       show("transfer");
     }

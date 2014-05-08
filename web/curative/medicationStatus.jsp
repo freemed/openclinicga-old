@@ -51,10 +51,10 @@
         if(activePrescriptions!=null && activePrescriptions.size()>0){
             long latencydays=1000*MedwanQuery.getInstance().getConfigInt("activeMedicationLatency",60);
             latencydays*=24*3600;
-        	Timestamp ts = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()-latencydays);
+        	Timestamp ts = new Timestamp(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()-latencydays);
 
     %>
-        <td width="1"><table><tr><td><b><%=getTran("curative","medication.prescription",sWebLanguage)%> (<%=getTran("web","after",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy").format(ts) %>)</b></td></tr></table></td>
+        <td width="1"><table><tr><td><b><%=getTran("curative","medication.prescription",sWebLanguage)%> (<%=getTran("web","after",sWebLanguage)+" "+ScreenHelper.stdDateFormat.format(ts) %>)</b></td></tr></table></td>
         <td><table>
     <%
         Prescription prescription;
@@ -96,7 +96,7 @@
     long month = 30*24*3600;
     month *= 3000;
     time -= month;
-    Vector paperprescriptions = PaperPrescription.find(activePatient.personid,"",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(time)),"","","DESC");
+    Vector paperprescriptions = PaperPrescription.find(activePatient.personid,"",ScreenHelper.stdDateFormat.format(new java.util.Date(time)),"","","DESC");
     if(paperprescriptions.size()>0){
 %>
         <tr>
@@ -115,7 +115,7 @@
                             }
                             PaperPrescription paperPrescription = (PaperPrescription)paperprescriptions.elementAt(n);
                             if(n<3){
-                                out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+new SimpleDateFormat("dd/MM/yyyy").format(paperPrescription.getBegin())+"</b></td><td><i>");
+                                out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b></td><td><i>");
                                 Vector products =paperPrescription.getProducts();
                                 for(int i=0;i<products.size();i++){
                                     out.print(products.elementAt(i)+"<br/>");
@@ -123,7 +123,7 @@
                                 out.println("</i></td></tr>");
                             }
                             else {
-                                hiddenprescriptions+="<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+new SimpleDateFormat("dd/MM/yyyy").format(paperPrescription.getBegin())+"</b></td><td><i>";
+                                hiddenprescriptions+="<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b></td><td><i>";
                                 Vector products =paperPrescription.getProducts();
                                 for(int i=0;i<products.size();i++){
                                     hiddenprescriptions+=products.elementAt(i)+"<br/>";
@@ -157,7 +157,7 @@
 								product=operation.getProductStock().getProduct().getName();
 							}
 							if(operation.getUnitsChanged()!=0){
-								out.println("<tr><td>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td><td>"+operation.getUnitsChanged()+" X "+product+"</td></tr>");		                    
+								out.println("<tr><td>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td><td>"+operation.getUnitsChanged()+" X "+product+"</td></tr>");		                    
 							}
 						}
                     %>

@@ -59,7 +59,7 @@
             String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus, sInsurarUid, sInsurarName;
             ExtraInsurarInvoice2 invoice;
 
-            SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
             Iterator iter = vInvoices.iterator();
             while (iter.hasNext()) {
                 invoice = (ExtraInsurarInvoice2) iter.next();

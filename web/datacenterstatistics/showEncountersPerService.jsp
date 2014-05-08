@@ -5,7 +5,7 @@
     String todate=request.getParameter("todate");
     String fromdate=request.getParameter("fromdate");
     if(todate==null){
-        todate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        todate=ScreenHelper.stdDateFormat.format(new java.util.Date());
     }
     if(fromdate==null){
         fromdate="01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
@@ -46,18 +46,18 @@
                 " order by OC_ENCOUNTER_SERVICEUID,OC_ENCOUNTER_TYPE,a.totalbeds";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         PreparedStatement ps = oc_conn.prepareStatement(sQuery);
-        ps.setDate(1, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(fromdate).getTime()));
-        ps.setDate(2, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(fromdate).getTime()));
-        ps.setDate(3, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(todate).getTime()));
-        ps.setDate(4, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(todate).getTime()));
-        ps.setDate(5, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(todate).getTime()));
-        ps.setDate(6, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(fromdate).getTime()));
+        ps.setDate(1, new java.sql.Date(ScreenHelper.parseDate(fromdate).getTime()));
+        ps.setDate(2, new java.sql.Date(ScreenHelper.parseDate(fromdate).getTime()));
+        ps.setDate(3, new java.sql.Date(ScreenHelper.parseDate(todate).getTime()));
+        ps.setDate(4, new java.sql.Date(ScreenHelper.parseDate(todate).getTime()));
+        ps.setDate(5, new java.sql.Date(ScreenHelper.parseDate(todate).getTime()));
+        ps.setDate(6, new java.sql.Date(ScreenHelper.parseDate(fromdate).getTime()));
         ResultSet rs = ps.executeQuery();
         String activeService = "";
         Hashtable totals = new Hashtable();
         Hashtable durations = new Hashtable();
         int hosptotalbeds=0;
-        long totalduration=new SimpleDateFormat("dd/MM/yyyy").parse(todate).getTime()-new SimpleDateFormat("dd/MM/yyyy").parse(fromdate).getTime();
+        long totalduration=ScreenHelper.parseDate(todate).getTime()-ScreenHelper.parseDate(fromdate).getTime();
         totalduration=totalduration/(60000*60*24);
 
 
@@ -121,12 +121,12 @@
                     " b.OC_ENCOUNTER_ENDDATE>=? and" +
                     " OC_ENCOUNTER_TYPE=?";
             ps = oc_conn.prepareStatement(sQuery);
-            ps.setDate(1, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(fromdate).getTime()));
-            ps.setDate(2, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(fromdate).getTime()));
-            ps.setDate(3, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(todate).getTime()));
-            ps.setDate(4, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(todate).getTime()));
-            ps.setDate(5, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(todate).getTime()));
-            ps.setDate(6, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(fromdate).getTime()));
+            ps.setDate(1, new java.sql.Date(ScreenHelper.parseDate(fromdate).getTime()));
+            ps.setDate(2, new java.sql.Date(ScreenHelper.parseDate(fromdate).getTime()));
+            ps.setDate(3, new java.sql.Date(ScreenHelper.parseDate(todate).getTime()));
+            ps.setDate(4, new java.sql.Date(ScreenHelper.parseDate(todate).getTime()));
+            ps.setDate(5, new java.sql.Date(ScreenHelper.parseDate(todate).getTime()));
+            ps.setDate(6, new java.sql.Date(ScreenHelper.parseDate(fromdate).getTime()));
             ps.setString(7,key);
             rs = ps.executeQuery();
             if(rs.next()){

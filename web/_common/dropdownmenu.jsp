@@ -376,6 +376,8 @@
 </table>
 
 <script>
+  var dateFormat = "<%=ScreenHelper.stdDateFormat.toPattern()%>";
+    
   <%-- OPEN HELP FILE --%>
   function openHelpFile(){
     window.open("<%=sHelp.replaceAll("@@language@@",activeUser.person.language.toLowerCase())%>");

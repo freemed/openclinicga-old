@@ -30,8 +30,8 @@
     String sPatientId = checkString(request.getParameter("PatientID"));
     String sMonth = checkString(request.getParameter("month"));
     String sDay = checkString(request.getParameter("day"));
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy"),
-                     fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat,
+                     fullDateFormat = ScreenHelper.fullDateFormat;
     String sBegin = checkString(activeUser.getParameter("PlanningFindFrom"));
     if (sBegin.length() == 0) {
         sBegin = 8 + "";
@@ -40,7 +40,7 @@
     if (sEnd.length() == 0) {
         sEnd = 20 + "";
     }
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sdf = ScreenHelper.stdDateFormat;
     Date startOfWeek = sdf.parse(sDay + "/" + sMonth + "/" + sYear);
     long week=604800000;
     Date endOfWeek = new Date(startOfWeek.getTime()+week);

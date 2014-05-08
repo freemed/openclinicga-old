@@ -13,8 +13,8 @@
         double totalcases = Integer.parseInt(request.getParameter("TotalCases"));
         String sDiagnosisCode = request.getParameter("DiagnosisCode");
         String sDiagnosisCodeType = request.getParameter("DiagnosisCodeType");
-        Date dBegin = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("Start"));
-        Date dEnd = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("End"));
+        Date dBegin = ScreenHelper.parseDate(request.getParameter("Start"));
+        Date dEnd = ScreenHelper.parseDate(request.getParameter("End"));
         String sOutcome = request.getParameter("Outcome");
         String sService = checkString(request.getParameter("ServiceID"));
         if(request.getParameter("contacttype")!=null){

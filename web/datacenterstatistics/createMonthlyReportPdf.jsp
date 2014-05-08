@@ -7,8 +7,8 @@
 <%@ page import="org.hnrw.report.Report_RFE" %>
 <%
     ByteArrayOutputStream baosPDF = null;
-    java.util.Date start = new SimpleDateFormat("dd/MM/yyyy").parse(checkString(request.getParameter("start")));
-    java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(checkString(request.getParameter("end")));
+    java.util.Date start = ScreenHelper.parseDate(checkString(request.getParameter("start")));
+    java.util.Date end = ScreenHelper.parseDate(checkString(request.getParameter("end")));
     Report_RFE report_rfe = new Report_RFE(start,end,"visit");
     for(int n=0;n<report_rfe.rfes.size();n++){
         Report_RFE.RFE rfe = (Report_RFE.RFE)report_rfe.rfes.elementAt(n);

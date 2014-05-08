@@ -970,12 +970,12 @@
     
     // default dates
     if(sDateTo.length()==0){
-    	sDateTo = ScreenHelper.stdDateFormat.format(ScreenHelper.stdDateFormat.parse("01/01/2100")); // future
+    	sDateTo = ScreenHelper.stdDateFormat.format(ScreenHelper.parseDate("01/01/2100")); // future
     }
-    java.util.Date dateTo = ScreenHelper.stdDateFormat.parse(sDateTo);
+    java.util.Date dateTo = ScreenHelper.parseDate(sDateTo);
     
     if(sDateFrom.length()==0){
-    	sDateFrom = ScreenHelper.stdDateFormat.format(ScreenHelper.stdDateFormat.parse("01/01/1900")); // past
+    	sDateFrom = ScreenHelper.stdDateFormat.format(ScreenHelper.parseDate("01/01/1900")); // past
 		
     	/*
     	Calendar cal = Calendar.getInstance();
@@ -985,7 +985,7 @@
 		Debug.println("--> sDateFrom (-1q) : "+sDateFrom); // todo
 		*/
     }
-    java.util.Date dateFrom = ScreenHelper.stdDateFormat.parse(sDateFrom);
+    java.util.Date dateFrom = ScreenHelper.parseDate(sDateFrom);
     
     // parameter
     String sConvertedParameter = convertParameter(sParameter);  
@@ -1071,8 +1071,8 @@
     		    ps.setString(psIdx++,sConvertedParameter);   
     		    ps.setInt(psIdx++,serverId);
     		    
-    		    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateTo).getTime()));
-    	        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateFrom).getTime()));
+    		    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateTo).getTime()));
+    	        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateFrom).getTime()));
     		    
     	        rs = ps.executeQuery();
     		    if(rs.next()){
@@ -1108,8 +1108,8 @@
 				    ps.setString(psIdx++,sConvertedParameter);   
 				    ps.setInt(psIdx++,serverId);
 		
-				    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateTo).getTime()));
-			        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateFrom).getTime()));
+				    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateTo).getTime()));
+			        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateFrom).getTime()));
 		
 			        rs = ps.executeQuery();	    
 				    if(rs.next()){
@@ -1175,8 +1175,8 @@
 			    ps.setString(psIdx++,sConvertedParameter);   
 			    ps.setInt(psIdx++,serverId);
 
-			    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateTo).getTime()));
-		        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateFrom).getTime()));
+			    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateTo).getTime()));
+		        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateFrom).getTime()));
 			    	
 		        rs = ps.executeQuery();
 			    if(rs.next()){
@@ -1259,8 +1259,8 @@
 		        ps.setString(psIdx++,sDiagnosisCode);
     		    ps.setInt(psIdx++,serverId);
 
-			    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateTo).getTime()));
-		        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateFrom).getTime()));
+			    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateTo).getTime()));
+		        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateFrom).getTime()));
     		    
     	        rs = ps.executeQuery();
     		    if(rs.next()){
@@ -1302,8 +1302,8 @@
 			        ps.setString(psIdx++,sDiagnosisCode);
 				    ps.setInt(psIdx++,serverId);
 
-				    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateTo).getTime()));
-			        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateFrom).getTime()));
+				    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateTo).getTime()));
+			        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateFrom).getTime()));
 		
 			        rs = ps.executeQuery();	    
 				    if(rs.next()){
@@ -1375,8 +1375,8 @@
 		        ps.setString(psIdx++,sDiagnosisCode);
 			    ps.setInt(psIdx++,serverId);
 
-			    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateTo).getTime()));
-		        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.stdDateFormat.parse(sDateFrom).getTime()));
+			    ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateTo).getTime()));
+		        ps.setTimestamp(psIdx++,new java.sql.Timestamp(ScreenHelper.parseDate(sDateFrom).getTime()));
 					        
 		        rs = ps.executeQuery();
 			    if(rs.next()){

@@ -320,7 +320,7 @@ function updateRowStyles(headerRowCount){
       if(searchresults.rows[i].className.indexOf("strike")==-1){
         searchresults.rows[i].className = "";
       }
-      searchresults.rows[i].style.cursor = "pointer";
+      //searchresults.rows[i].style.cursor = "pointer";
     }
 
     for(var i=headerRowCount; i<searchresults.rows.length; i++){

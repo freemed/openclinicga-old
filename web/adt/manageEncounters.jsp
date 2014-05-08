@@ -137,8 +137,8 @@
         tmpEncounter = Encounter.get(sEditEncounterUID);
 
         sEditEncounterType = tmpEncounter.getType();
-        sEditEncounterBegin = new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getBegin());
-        sEditEncounterEnd = new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getEnd());
+        sEditEncounterBegin = ScreenHelper.stdDateFormat.format(tmpEncounter.getBegin());
+        sEditEncounterEnd = ScreenHelper.stdDateFormat.format(tmpEncounter.getEnd());
 
         sEditEncounterService = tmpEncounter.getService().code;
         sEditEncounterServiceName = getTran("Service", tmpEncounter.getService().code, sWebLanguage);
@@ -275,12 +275,12 @@
                 dBegin = rs.getDate("OC_ENCOUNTER_BEGINDATE");
                 dEnd = rs.getDate("OC_ENCOUNTER_ENDDATE");
                 if (dBegin != null) {
-                    sBegin = new SimpleDateFormat("dd/MM/yyyy").format(dBegin);
+                    sBegin = ScreenHelper.stdDateFormat.format(dBegin);
                 } else {
                     sBegin = "";
                 }
                 if (dEnd != null) {
-                    sEnd = new SimpleDateFormat("dd/MM/yyyy").format(dEnd);
+                    sEnd = ScreenHelper.stdDateFormat.format(dEnd);
                 } else {
                     sEnd = "";
                 }

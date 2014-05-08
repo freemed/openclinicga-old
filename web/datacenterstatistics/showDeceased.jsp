@@ -25,8 +25,8 @@
                 out.println("<tr class='list'><td>"+n+
                     "</td><td>"+rs.getString("lastname").toUpperCase()+
                     "</td><td>"+rs.getString("firstname")+
-                    "</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("dateofbirth"))+
-                    "</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("oc_encounter_enddate"))+"<td></tr>");
+                    "</td><td>"+ScreenHelper.stdDateFormat.format(rs.getDate("dateofbirth"))+
+                    "</td><td>"+ScreenHelper.stdDateFormat.format(rs.getDate("oc_encounter_enddate"))+"<td></tr>");
             }
             catch(Exception e){
             }

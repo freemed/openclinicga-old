@@ -18,7 +18,7 @@
                 <%
                     String sClass = "";
                     SimpleDateFormat hhmmDateFormat = new SimpleDateFormat("HH:mm");
-                    List lPatientFuturePlannings = Planning.getPatientFuturePlannings(activePatient.personid, new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+                    List lPatientFuturePlannings = Planning.getPatientFuturePlannings(activePatient.personid, ScreenHelper.stdDateFormat.format(new java.util.Date()));
                     if (lPatientFuturePlannings.size() > 0) {
                         %>
                             <%-- HEADER --%>

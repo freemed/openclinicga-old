@@ -63,7 +63,7 @@
     if (sAction.length() == 0) sAction = "find"; // default action
 
     StringBuffer sOut = new StringBuffer();
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     int iTotal = 0;
 
     //--- FIND ------------------------------------------------------------------------------------

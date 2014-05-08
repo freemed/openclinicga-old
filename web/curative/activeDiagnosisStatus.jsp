@@ -24,10 +24,10 @@
             
             //We moeten controleren of er geen toegangsrecht-restricties gelden voor deze diagnose
             if(activeUser.getAccessRight("occup.restricteddiagnosis.select") || !MedwanQuery.getInstance().isRestrictedDiagnosis(activeProblem.getCodeType(),activeProblem.getCode())){
-                out.print("<tr valign='top'><td><b>" + activeProblem.getCode() + "</b></td><td><b>" + c.trim() + "</b><i>" + (c.trim().length() > 0 ? " " : "") + activeProblem.getComment().trim() + "</i></td><td>" + new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin()) + "</td></tr>");
+                out.print("<tr valign='top'><td><b>" + activeProblem.getCode() + "</b></td><td><b>" + c.trim() + "</b><i>" + (c.trim().length() > 0 ? " " : "") + activeProblem.getComment().trim() + "</i></td><td>" + ScreenHelper.stdDateFormat.format(activeProblem.getBegin()) + "</td></tr>");
             }
             else{
-                out.print("<tr valign='top'><td style='{color: red}'><b><i>!!!</i></b></td><td style='{color: red}'><b><i>" + getTran("web","diagnosis.restrictedaccess",sWebLanguage).toUpperCase() + "</i></td><td>" + new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin()) + "</td></tr>");
+                out.print("<tr valign='top'><td style='{color: red}'><b><i>!!!</i></b></td><td style='{color: red}'><b><i>" + getTran("web","diagnosis.restrictedaccess",sWebLanguage).toUpperCase() + "</i></td><td>" + ScreenHelper.stdDateFormat.format(activeProblem.getBegin()) + "</td></tr>");
             }
         }
 

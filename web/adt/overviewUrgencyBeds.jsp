@@ -78,7 +78,7 @@
                         hOccupiedInfo = bed.isOccupied();
                         sEncounterUID = (String)hOccupiedInfo.get("encounterUid");
                         encounter = Encounter.get(sEncounterUID);
-                        if(encounter.getEnd()==null || encounter.getEnd().after(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())))){
+                        if(encounter.getEnd()==null || encounter.getEnd().after(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())))){
                             if(encounter.getBegin()!=null){
                                 hEntrees.put(encounter.getBegin().getTime()+"",bed);
                             }

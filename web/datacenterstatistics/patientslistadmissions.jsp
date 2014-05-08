@@ -24,9 +24,9 @@
 				" order by oc_encounteruid";
 	Hashtable insurars = new Hashtable();
 	PreparedStatement ps = MedwanQuery.getInstance().getStatsConnection().prepareStatement(sql);
-	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sBegin).getTime()));
+	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(sBegin).getTime()));
 	long l = 24*3600*1000-1;
-	java.util.Date e = new SimpleDateFormat("dd/MM/yyyy").parse(sEnd);
+	java.util.Date e = ScreenHelper.parseDate(sEnd);
 	e.setTime(e.getTime()+l);
 	ps.setTimestamp(2,new java.sql.Timestamp(e.getTime()));
 	ps.setString(3,checkString(request.getParameter("statserviceid"))+"%");
@@ -56,8 +56,8 @@
 				//sOut.append("<tr><td colspan='4'><hr/></td></tr>");
 			}
 			String sInsurar=rs.getString("OC_INSURAR");
-			sOut.append("<tr  onClick='window.location.href=\"main.do?Page=curative/index.jsp&ts=").append(getTs()).append("&PersonID=").append(rs.getString("personid")).append("\";' class='list1' ><td>#"+i).append("</td><td>"+rs.getString("lastname")).append(" ").append(rs.getString("firstname")).append("</td><td>").append((d==null?"":new SimpleDateFormat("dd/MM/yyyy").format(d))).append("</td><td>")
-			.append((d2==null?"":new SimpleDateFormat("dd/MM/yyyy").format(d2))).append("</td><td>"+getTranNoLink("service",s,sWebLanguage)).append("</td><td>"+sInsurar).append("</td></tr>");
+			sOut.append("<tr  onClick='window.location.href=\"main.do?Page=curative/index.jsp&ts=").append(getTs()).append("&PersonID=").append(rs.getString("personid")).append("\";' class='list1' ><td>#"+i).append("</td><td>"+rs.getString("lastname")).append(" ").append(rs.getString("firstname")).append("</td><td>").append((d==null?"":ScreenHelper.stdDateFormat.format(d))).append("</td><td>")
+			.append((d2==null?"":ScreenHelper.stdDateFormat.format(d2))).append("</td><td>"+getTranNoLink("service",s,sWebLanguage)).append("</td><td>"+sInsurar).append("</td></tr>");
 		}
 		service=s;
 		encounteruid=i;

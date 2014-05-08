@@ -103,13 +103,13 @@
         encounter.setPatientUID(sPatientUID);
         encounter.setType(sEditEncounterType);
         try {
-            encounter.setBegin(new SimpleDateFormat("dd/MM/yyyy").parse(sEditEncounterBegin));
+            encounter.setBegin(ScreenHelper.parseDate(sEditEncounterBegin));
         }
         catch (Exception e) {
 
         }
         try {
-            encounter.setEnd(new SimpleDateFormat("dd/MM/yyyy").parse(sEditEncounterEnd));
+            encounter.setEnd(ScreenHelper.parseDate(sEditEncounterEnd));
         }
         catch (Exception e) {
 
@@ -130,8 +130,8 @@
         Encounter encounter = Encounter.get(sEditEncounterUID);
         sEditEncounterType = encounter.getType();
         try {
-            sEditEncounterBegin = new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin());
-            sEditEncounterEnd = new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd());
+            sEditEncounterBegin = ScreenHelper.stdDateFormat.format(encounter.getBegin());
+            sEditEncounterEnd = ScreenHelper.stdDateFormat.format(encounter.getEnd());
         }
         catch (Exception e) {
 
@@ -204,7 +204,7 @@
                         for(int n=0;n<encounters.size();n++){
                             Encounter encounter = (Encounter)encounters.elementAt(n);
                     %>
-                    <tr><td class="admin2"><b><a href="<c:url value='/'/>popup.jsp?Page=statistics/quickFile.jsp&PopupHeight=600&PopupWidth=800&EditEncounterUID=<%=encounter.getUid()%>&PatientUID=<%=activePerson.personid%>"/><%=new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin())+" -> "+(encounter.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd()))%></b></td><td class="admin2"><b><%=encounter.getService().getLabel(sWebLanguage)+(encounter.getOutcome()==null?"":" ("+getTran("encounter.outcome",encounter.getOutcome(),sWebLanguage)+")")%></b></td></tr>
+                    <tr><td class="admin2"><b><a href="<c:url value='/'/>popup.jsp?Page=statistics/quickFile.jsp&PopupHeight=600&PopupWidth=800&EditEncounterUID=<%=encounter.getUid()%>&PatientUID=<%=activePerson.personid%>"/><%=ScreenHelper.stdDateFormat.format(encounter.getBegin())+" -> "+(encounter.getEnd()==null?"":ScreenHelper.stdDateFormat.format(encounter.getEnd()))%></b></td><td class="admin2"><b><%=encounter.getService().getLabel(sWebLanguage)+(encounter.getOutcome()==null?"":" ("+getTran("encounter.outcome",encounter.getOutcome(),sWebLanguage)+")")%></b></td></tr>
                     <%
                         }
                     %>

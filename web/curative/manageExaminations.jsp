@@ -92,7 +92,7 @@
     if (tranNursing!=null){
         sNursingTranId = tranNursing.getTransactionId().intValue()+"";
         sNursingServerId = tranNursing.getServerId()+"";
-        sNursingDate = new SimpleDateFormat("dd/MM/yyyy").format(tranNursing.getUpdateTime());
+        sNursingDate = ScreenHelper.stdDateFormat.format(tranNursing.getUpdateTime());
     }
 
     String sTTLabo = "be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_LAB_REQUEST";
@@ -106,7 +106,7 @@
     if (tranLabo!=null){
         sLaboTranId = tranLabo.getTransactionId().intValue()+"";
         sLaboServerId = tranLabo.getServerId()+"";
-        sLaboDate = new SimpleDateFormat("dd/MM/yyyy").format(tranLabo.getUpdateTime());
+        sLaboDate = ScreenHelper.stdDateFormat.format(tranLabo.getUpdateTime());
     }
 
     String sTTAna = "be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ANATOMOPATHOLOGY";
@@ -120,7 +120,7 @@
     if (tranAna!=null){
         sAnaTranId = tranAna.getTransactionId().intValue()+"";
         sAnaServerId = tranAna.getServerId()+"";
-        sAnaDate = new SimpleDateFormat("dd/MM/yyyy").format(tranAna.getUpdateTime());
+        sAnaDate = ScreenHelper.stdDateFormat.format(tranAna.getUpdateTime());
     }
 
     String sTTMir = "be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR2";
@@ -133,7 +133,7 @@
     if (tranMir!=null){
         sMirTranId = tranMir.getTransactionId().intValue()+"";
         sMirServerId = tranMir.getServerId()+"";
-        sMirDate = new SimpleDateFormat("dd/MM/yyyy").format(tranMir.getUpdateTime());
+        sMirDate = ScreenHelper.stdDateFormat.format(tranMir.getUpdateTime());
     }
 
     String sTTReference ="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_REFERENCE";
@@ -147,7 +147,7 @@
     if (tranReference!=null){
         sReferenceTranId = tranReference.getTransactionId().intValue()+"";
         sReferenceServerId = tranReference.getServerId()+"";
-        sReferenceDate = new SimpleDateFormat("dd/MM/yyyy").format(tranReference.getUpdateTime());
+        sReferenceDate = ScreenHelper.stdDateFormat.format(tranReference.getUpdateTime());
     }
 
     //NURSING

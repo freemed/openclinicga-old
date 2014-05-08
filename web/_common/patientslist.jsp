@@ -48,9 +48,11 @@
         } else if (sAction.equals("MY_VISITS")) {
             lResults = AdminPerson.getUserVisits(activeUser.userid);
         } else if (sUnit.length() > 0) {
+        	sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
             lResults = AdminPerson.getPatientsInEncounterServiceUID(simmatnew, sArchiveFileCode, snatreg, sName, sFirstname, sDateOfBirth, sUnit, sPersonID,sDistrict);
         } else {
             if((simmatnew+sArchiveFileCode+snatreg+sName+sFirstname+sDateOfBirth+sPersonID+sDistrict).length()>0){
+            	sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
             	lResults = AdminPerson.getAllPatients(simmatnew, sArchiveFileCode, snatreg, sName, sFirstname, sDateOfBirth, sPersonID,sDistrict,iMaxResultSet);
             }
             else {
@@ -149,16 +151,16 @@
                 	if(MedwanQuery.getInstance().getConfigInt("checkPatientListTransactions",0)==1 && enc.hasTransactions()){
                 		img+="<img src='"+sCONTEXTPATH+"/_img/icon_admin.png'/>";
                 	}
-                    String sHospDate = "<td>"+new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin())+" "+img+"</td>";
+                    String sHospDate = "<td>"+ScreenHelper.stdDateFormat.format(enc.getBegin())+" "+img+"</td>";
                     long duration = (new Date().getTime() - enc.getBegin().getTime());
                     long days = 24 * 3600 * 1000;
                     days = days * 90;
                     if(enc.getEnd()!=null){
-	                    sTmpServiceID = "<td style='text-decoration: line-through'>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td style='text-decoration: line-through'>"+sBed+"</td><td style='text-decoration: line-through'>"+new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin())+" "+img+"</td>";
+	                    sTmpServiceID = "<td style='text-decoration: line-through'>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td style='text-decoration: line-through'>"+sBed+"</td><td style='text-decoration: line-through'>"+ScreenHelper.stdDateFormat.format(enc.getBegin())+" "+img+"</td>";
                     }
                     else {
 	                    if (duration > days || duration < 0) {
-	                        sHospDate = "<td style='color: red'>" + new SimpleDateFormat("dd/MM/yyyy").format(enc.getBegin()) +" "+img+ "</td>";
+	                        sHospDate = "<td style='color: red'>" + ScreenHelper.stdDateFormat.format(enc.getBegin()) +" "+img+ "</td>";
 	                    }
 	                    sTmpServiceID = "<td>" + sTmpServiceID + " " + getTran("Service", sTmpServiceID, sWebLanguage) + "</td><td>"+sBed+"</td>"+sHospDate;
                     }

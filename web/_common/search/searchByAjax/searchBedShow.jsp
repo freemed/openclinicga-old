@@ -12,13 +12,13 @@
         eTmp = Encounter.get(sEncounterUID);
 
         if (eTmp.getBegin() != null) {
-            sBegin = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getBegin());
+            sBegin = ScreenHelper.stdDateFormat.format(eTmp.getBegin());
         } else {
             sBegin = "";
         }
 
         if (eTmp.getEnd() != null) {
-            sEnd = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getEnd());
+            sEnd = ScreenHelper.stdDateFormat.format(eTmp.getEnd());
         } else {
             sEnd = "";
         }

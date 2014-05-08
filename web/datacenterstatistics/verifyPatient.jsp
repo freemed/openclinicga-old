@@ -17,7 +17,7 @@
     Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
     PreparedStatement ps = ad_conn.prepareStatement(sQuery);
     if(dateofbirth.length()>0){
-        ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(dateofbirth).getTime()));
+        ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(dateofbirth).getTime()));
     }
     ResultSet rs = ps.executeQuery();
     if(rs.next()){

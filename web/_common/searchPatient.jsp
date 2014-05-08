@@ -34,6 +34,7 @@
         sName = activePatient.lastname;
         sFirstname = activePatient.firstname;
         sDateOfBirth = activePatient.dateOfBirth;
+        sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
 
         sNewimmat = activePatient.getID("immatnew").trim();
         sArchiveFileCode = activePatient.getID("archiveFileCode").trim();
@@ -87,7 +88,7 @@
             	if(activePatient!=null && activePatient.personid!=null && activePatient.personid.length()>0){
 	            	java.util.Date death=activePatient.isDead();	
 	            	if(death!=null){
-						out.print("<img src='_img/warning.gif'/> <font style='{font-size: 12px; font-weight: bold; vertical-align: top}'>"+getTran("web","died",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy").format(death)+"</font>");
+						out.print("<img src='_img/warning.gif'/> <font style='{font-size: 12px; font-weight: bold; vertical-align: top}'>"+getTran("web","died",sWebLanguage)+" "+ScreenHelper.stdDateFormat.format(death)+"</font>");
 	            	}
 	            	else {
 	            		out.print(" ("+(activePatient.gender.equalsIgnoreCase("M")?getTran("web.occup","male",sWebLanguage):getTran("web.occup","female",sWebLanguage))+" - "+activePatient.getAge()+" "+getTran("web","years",sWebLanguage).toLowerCase()+")");

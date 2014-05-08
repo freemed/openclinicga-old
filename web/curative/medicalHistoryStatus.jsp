@@ -100,8 +100,8 @@ try{
 
                                         while(transactions.hasNext()){
                                             transactionVO = (TransactionVO) transactions.next();
-                                            itemVO = transactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT");
-                                            encounteritem = transactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID");
+                                            itemVO = transactionVO.getContextItem();
+                                            encounteritem = transactionVO.getItem(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_ENCOUNTERUID");
                                             servicecode="";
                                             if(encounteritem!=null){
                                             	encounter = Encounter.get(encounteritem.getValue());
@@ -114,7 +114,7 @@ try{
                                                 sClass = "disabled";
 
                                                 try{
-                                                    if(activeEncounter != null && transactionVO.getUpdateTime()!=null && activeEncounter!=null && !transactionVO.getUpdateTime().before(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transactionVO.getUpdateTime().after(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getEnd()))))) {
+                                                    if(activeEncounter != null && transactionVO.getUpdateTime()!=null && activeEncounter!=null && !transactionVO.getUpdateTime().before(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transactionVO.getUpdateTime().after(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getEnd()))))) {
                                                         sClass = "bold";
                                                     }
                                                 }
@@ -125,12 +125,12 @@ try{
                                                 // alternate row-styles
                                                 if(sList.equals("")) sList = "1";
                                                 else                 sList = "";
-                                    %>
+                                    				%>
                                                     <tr id="<%=sClass%>" class="list<%=sClass+sList%>" >
                                                         <td class="modal" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="deltran(<%=transactionVO.getTransactionId()%>,<%=transactionVO.getServerId()%>,<%=transactionVO.getUser().getUserId()%>)">
                                                             <img class='hand' src="<c:url value='/_img/icon_delete.gif'/>" alt="<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>" border="0">
                                                         </td>
-                                                        <td align="center"><%=new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())%></td>
+                                                        <td align="center"><%=ScreenHelper.formatDate(transactionVO.getUpdateTime())%></td>
                                                         <td align="center">
                                                             <%
                                                                 try {

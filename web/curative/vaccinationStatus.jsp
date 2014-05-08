@@ -25,7 +25,7 @@
 	                while(vaccinations.hasNext()){
 	                    vaccInfoVO = (VaccinationInfoVO)vaccinations.next();
 	                    
-	                    nextDate = checkString(vaccInfoVO.getTransactionVO().getItem(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NEXT_DATE").getValue());
+	                    nextDate = checkString(vaccInfoVO.getTransactionVO().getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NEXT_DATE"));
 	                    
 	                    // alternate row-style
 	                    if(sClass.length()==0) sClass = "1";
@@ -34,7 +34,7 @@
 	                    // warning when due
 	                    bWarning = false;	
 	                    try{
-	                        bWarning = ScreenHelper.stdDateFormat.parse(vaccInfoVO.getTransactionVO().getItem(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NEXT_DATE").getValue()).before(new java.util.Date());
+	                        bWarning = ScreenHelper.parseDate(vaccInfoVO.getTransactionVO().getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NEXT_DATE")).before(new java.util.Date());
 	                    }
 	                    catch(Exception e){
 	                        // nothing
