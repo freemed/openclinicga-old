@@ -229,7 +229,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","detailedemployerlist",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","detailedemployerlist",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             cell=createLabelCell(MedwanQuery.getInstance().getLabel("web","category",user.person.language)+": "+serviceUid.split(";")[1], 1);
             table.addCell(cell);
@@ -347,7 +347,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             	serviceUid = "?";
             	diseaseType="?";
             	employer="?";
-            	dateUid=new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+            	dateUid=ScreenHelper.stdDateFormat.format(debet.getDate());
             	Encounter encounter = debet.getEncounter();
             	serviceUid=debet.determineServiceUid();
             	//if(encounter!=null && debet.getDate()!=null && encounter.getServiceUID(debet.getDate())!=null){
@@ -407,7 +407,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsperdateannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsperdateannex",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             cell=createLabelCell(MedwanQuery.getInstance().getLabel("web","employer",user.person.language)+": "+(serviceUid.split(";").length<2?"":serviceUid.split(";")[1]), 1);
             table.addCell(cell);
@@ -472,7 +472,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             	serviceUid = "?";
             	diseaseType="?";
             	employer="?";
-            	dateUid=new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+            	dateUid=ScreenHelper.stdDateFormat.format(debet.getDate());
             	Encounter encounter = debet.getEncounter();
             	serviceUid=debet.determineServiceUid();
             	//if(encounter!=null && debet.getDate()!=null && encounter.getServiceUID(debet.getDate())!=null){
@@ -532,7 +532,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugsperdateannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugsperdateannex",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             cell=createLabelCell(MedwanQuery.getInstance().getLabel("web","employer",user.person.language)+": "+(serviceUid.split(";").length<2?"":serviceUid.split(";")[1]), 1);
             table.addCell(cell);
@@ -658,7 +658,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsannex",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             doc.add(table);
             addBlankRow();
@@ -842,7 +842,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugsannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugsannex",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             doc.add(table);
             addBlankRow();
@@ -969,7 +969,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
         addBlankRow();
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
-        cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalacts",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+        cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalacts",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
         table.addCell(cell);
         doc.add(table);
         addBlankRow();
@@ -1132,7 +1132,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
         addBlankRow();
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
-        cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugs",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+        cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugs",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
         table.addCell(cell);
         doc.add(table);
         addBlankRow();
@@ -1327,7 +1327,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             cell=createValueCell(getTran("web","cmck.ident.1.1"),15,8,Font.BOLD);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table2.addCell(cell);
-            cell=createValueCell(getTran("web","date")+": "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),10,8,Font.BOLD);
+            cell=createValueCell(getTran("web","date")+": "+ScreenHelper.stdDateFormat.format(invoice.getDate()),10,8,Font.BOLD);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             table2.addCell(cell);
             cell = createEmptyCell(5);
@@ -1500,7 +1500,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             cell=createLabelCell(getTran("web","period")+":", 10);
             table.addCell(cell);
             Date begin = new Date();
-            Date end = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
+            Date end = ScreenHelper.parseDate("01/01/1900");
             Hashtable prestations = new Hashtable();
             PrestationData prestation;
             String uid;
@@ -2094,7 +2094,7 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
         cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
-        cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(date),120,7);
+        cell = createLabelCell(ScreenHelper.stdDateFormat.format(date),120,7);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorder(PdfPCell.BOX);
