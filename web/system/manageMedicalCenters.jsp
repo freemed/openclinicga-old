@@ -171,7 +171,7 @@
             StringBuffer centers = new StringBuffer();
             String sClass = "1", sCode = "";
             String detailsTran = getTran("web.occup", "medwan.common.show-details", sWebLanguage);
-            SimpleDateFormat hourDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat hourDateFormat = ScreenHelper.fullDateFormat;
 
             while (iter.hasNext()) {
                 objMC = (MedicalCenter) iter.next();

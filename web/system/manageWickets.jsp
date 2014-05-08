@@ -11,7 +11,7 @@
         html.append("<tr id='rowAuthorizedUsers"+userIdx+"'>")
             .append(" <td width='16'>")
             .append("  <a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+")'>")
-            .append("   <img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web","delete",sWebLanguage)+"' class='link'>")
+            .append("   <img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
             .append("  </a>")
             .append(" </td>")
             .append(" <td>"+userName+"</td>")
@@ -133,7 +133,7 @@
             wicket = (Wicket) iter.next();
             String sDate = "";
             if (wicket.getCreateDateTime() != null) {
-                sDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(wicket.getCreateDateTime()));
+                sDate = checkString(ScreenHelper.stdDateFormat.format(wicket.getCreateDateTime()));
             }
             sbResults.append("<tr class=\"list" + sClass + "\"" +
                     " onmouseover=\"this.style.cursor='hand';\"" +
@@ -277,7 +277,7 @@
 
       var td = tr.insertCell(0);
       td.width = 16;
-      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web","delete",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);

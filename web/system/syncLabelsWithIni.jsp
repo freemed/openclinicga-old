@@ -456,7 +456,7 @@
                         ps = loc_conn.prepareStatement(select);
 
                         if(findLabelDate.length() > 0){
-                            java.util.Date labelUpdateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(findLabelDate+" 00:00:00");
+                            java.util.Date labelUpdateTime = ScreenHelper.fullDateFormatSS.parse(findLabelDate+" 00:00:00");
                             ps.setTimestamp(1,new Timestamp(labelUpdateTime.getTime()));
                         }
                         rs = ps.executeQuery();

@@ -31,13 +31,13 @@
     else if(sAction.equals("deleteAccesses")){
         java.util.Date delFromDate = null, delUntilDate = null;
 
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         if(sDelFromDate.length() > 0){
-            delFromDate = stdDateFormat.parse(sDelFromDate);
+            delFromDate = ScreenHelper.parseDate(sDelFromDate);
         }
 
         if(sDelUntilDate.length() > 0){
-            delUntilDate = stdDateFormat.parse(ScreenHelper.getDateAdd(sDelUntilDate,"1")); // add one day
+            delUntilDate = ScreenHelper.parseDate(ScreenHelper.getDateAdd(sDelUntilDate,"1")); // add one day
         }
 
         net.admin.system.AccessLog.delete(delFromDate,delUntilDate);
@@ -93,7 +93,7 @@
                     </tr>
                     <%
                         String sClass = "", sAccessTime, sName;
-                        SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormatSS;
                         Vector vAL = AccessLog.searchAccessLogs(sFindBegin, sFindEnd);
                         Iterator iter = vAL.iterator();
                         AccessLog objAL;

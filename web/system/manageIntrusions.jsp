@@ -78,7 +78,7 @@
     sOutLogins = new StringBuffer();
     sOutIPs = new StringBuffer();
     String sIntruderID, sClass = "";
-    SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormatSS;
     Timestamp releaseTime;
     int recCounter = 0;
 
@@ -178,7 +178,7 @@
                 .append(" <td>" + sIntruderID + "</td>")
                 .append(" <td><input type='text' class='text' size='5' name='EditIntrusionCount_" + recCounter + "' value='" + objIA2.getIntrusionCount() + "' onBlur='isNumber(this);'></td>")
                 .append(" <td><input type='checkbox' name='EditBlocked_" + recCounter + "' value='1' " + (objIA2.getBlocked().equals("1") ? "checked" : "") + "></td>")
-                .append(" <td>" + (releaseTime == null ? "" : new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(releaseTime)) + "</td>");
+                .append(" <td>" + (releaseTime == null ? "" : ScreenHelper.fullDateFormatSS.format(releaseTime)) + "</td>");
 
         String remainingDuration = "";
         if (releaseTime != null) {

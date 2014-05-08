@@ -25,10 +25,10 @@
 						out.println("<tr><td class='admin2'>"+name+"</td><td>"+((User)value).person.lastname+", "+((User)value).person.firstname+"</td></tr>");
 					}
 					else if(value.getClass().getName().indexOf("java.util.Date")>-1){
-						out.println("<tr><td class='admin2'>"+name+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format((java.util.Date)value)+"</td></tr>");
+						out.println("<tr><td class='admin2'>"+name+"</td><td>"+ScreenHelper.fullDateFormatSS.format((java.util.Date)value)+"</td></tr>");
 					}
 					else if(value.getClass().getName().indexOf("java.sql.Date")>-1){
-						out.println("<tr><td class='admin2'>"+name+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format((java.sql.Date)value)+"</td></tr>");
+						out.println("<tr><td class='admin2'>"+name+"</td><td>"+ScreenHelper.fullDateFormatSS.format((java.sql.Date)value)+"</td></tr>");
 					}
 				}
 				break;

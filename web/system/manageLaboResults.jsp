@@ -10,7 +10,7 @@
     private StringBuffer objectsToHtmlType1(Vector objects, String resultType, boolean showOnlyOpenResults, String sWebLanguage, String resultsOnly) {
         StringBuffer html = new StringBuffer();
         String sClass = "list1", resultDate, personFullName;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
         // frequently used translations
         String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
@@ -44,7 +44,7 @@
             if (!activeTransactionId.equalsIgnoreCase(tranId)) {
                 activeTransactionId = tranId;
                 html.append("<tr class='gray' title='" + detailsTran + "'>")
-                        .append(" <td colspan='4'>" + (labResult.getRequestDate() != null ? new SimpleDateFormat("dd/MM/yyyy").format(labResult.getRequestDate()) : "") + "</td>")
+                        .append(" <td colspan='4'>" + (labResult.getRequestDate() != null ? ScreenHelper.stdDateFormat.format(labResult.getRequestDate()) : "") + "</td>")
                         .append(" <td colspan='4'>" + personFullName + "</td>")
                         .append("</tr>");
             }
@@ -85,7 +85,7 @@
     private StringBuffer objectsToHtmlType2(Vector objects, boolean showOnlyOpenResults, String sWebLanguage) {
         StringBuffer html = new StringBuffer();
         String sClass = "list1", resultDate;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
         // frequently used translations
         String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
@@ -108,7 +108,7 @@
             if (!activeTransactionId.equalsIgnoreCase(tranId)) {
                 activeTransactionId = tranId;
                 html.append("<tr class='gray' title='" + detailsTran + "'>")
-                        .append(" <td colspan='4'>" + (labResult.getRequestDate() != null ? new SimpleDateFormat("dd/MM/yyyy").format(labResult.getRequestDate()) : "") + "</td>")
+                        .append(" <td colspan='4'>" + (labResult.getRequestDate() != null ? ScreenHelper.stdDateFormat.format(labResult.getRequestDate()) : "") + "</td>")
                         .append(" <td>" + patientFullName + "</td>")
                         .append(" <td colspan='5'>" + userFullName + "</td>")
                         .append("</tr>");
@@ -168,7 +168,7 @@
 
     // variables
     String msg = "";
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // default search date : one month ago
     if(sFindResultDate.length()==0){
@@ -280,7 +280,7 @@
         analysis.setResultComment(checkString(request.getParameter("EditResultComment")));
         analysis.setResultRefMax(checkString(request.getParameter("EditResultRefMax")));
         analysis.setResultRefMin(checkString(request.getParameter("EditResultRefMin")));
-        analysis.setResultDate(stdDateFormat.parse(request.getParameter("EditResultDate")));
+        analysis.setResultDate(ScreenHelper.parseDate(request.getParameter("EditResultDate")));
         analysis.setResultUserId(checkString(request.getParameter("EditResultUserId")));
 
         analysis.store(true); // object exists, so update

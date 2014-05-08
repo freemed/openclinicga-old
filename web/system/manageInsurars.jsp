@@ -903,8 +903,8 @@
 
       <%-- update table object --%>
       var row = tblCategories.rows[editCategoryRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("web","delete",sWebLanguage)%>' border='0'></a> "+
-                               "<a href='#' onclick='editCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("web","edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a> "+
+                               "<a href='#' onclick='editCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = transactionForm.EditCategoryName.value;
       row.cells[2].innerHTML = transactionForm.EditCategoryLabel.value;

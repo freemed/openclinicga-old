@@ -74,7 +74,7 @@ if(request.getParameter("nousers")==null){
 						String line=s.getId()+";"
 									+user.userid+";"
 									+user.person.lastname+", "+user.person.firstname+";"
-									+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format((java.util.Date)s.getAttribute("mon_start"))+";"
+									+ScreenHelper.fullDateFormatSS.format((java.util.Date)s.getAttribute("mon_start"))+";"
 									+s.getAttribute("mon_ipaddress")+";"
 									+browser+";"
 									+(new java.util.Date().getTime()-((java.util.Date)s.getAttribute("mon_start")).getTime())+";"
@@ -114,7 +114,7 @@ if(request.getParameter("nousers")==null){
 			expiring++;
 		}
 		
-		out.print("<tr><td class='admin2'><a href='javascript:opensession(\""+u.split(";")[0]+"\");'>"+u.split(";")[3]+"</td><td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date(36000000-k.longValue()))+"</td><td class='admin2'>"+new DecimalFormat("#00").format(hh)+":"+new DecimalFormat("00").format(mm)+":"+new DecimalFormat("00").format(ss)+"</td><td class='admin2'>"+(hhd*60+mmd>=15?"<font color='red'>":"")+new DecimalFormat("#00").format(hhd)+":"+new DecimalFormat("00").format(mmd)+":"+new DecimalFormat("00").format(ssd)+(hhd*60+mmd>=15?"</font>":"")+"</td><td class='admin2'>"+u.split(";")[4]+"</td><td class='admin2' nowrap>"+u.split(";")[5]+"</td><td class='admin2'>"+u.split(";")[1]+"</td><td class='admin2'><b>"+u.split(";")[2]+"</b></td><td class='admin2'>"+u.split(";")[9]+"</td><td class='admin2'><i>"+u.split(";")[7]+"</i></td></tr>");		
+		out.print("<tr><td class='admin2'><a href='javascript:opensession(\""+u.split(";")[0]+"\");'>"+u.split(";")[3]+"</td><td class='admin2'>"+ScreenHelper.fullDateFormatSS.format(new java.util.Date(36000000-k.longValue()))+"</td><td class='admin2'>"+new DecimalFormat("#00").format(hh)+":"+new DecimalFormat("00").format(mm)+":"+new DecimalFormat("00").format(ss)+"</td><td class='admin2'>"+(hhd*60+mmd>=15?"<font color='red'>":"")+new DecimalFormat("#00").format(hhd)+":"+new DecimalFormat("00").format(mmd)+":"+new DecimalFormat("00").format(ssd)+(hhd*60+mmd>=15?"</font>":"")+"</td><td class='admin2'>"+u.split(";")[4]+"</td><td class='admin2' nowrap>"+u.split(";")[5]+"</td><td class='admin2'>"+u.split(";")[1]+"</td><td class='admin2'><b>"+u.split(";")[2]+"</b></td><td class='admin2'>"+u.split(";")[9]+"</td><td class='admin2'><i>"+u.split(";")[7]+"</i></td></tr>");		
 	}
 %>
 <tr>

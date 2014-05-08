@@ -39,8 +39,8 @@ Bedrijf: <select name='company'>
     if (request.getParameter("submit")!=null){
         //Connectie maken
         try {
-            java.util.Date beginDate = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("beginDate"));
-            java.util.Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("endDate"));
+            java.util.Date beginDate = ScreenHelper.parseDate(request.getParameter("beginDate"));
+            java.util.Date endDate = ScreenHelper.parseDate(request.getParameter("endDate"));
             ps = dbConnection.prepareStatement("select * from phpgw_tts_tickets a,phpgw_categories b,phpgw_accounts c where a.ticket_owner=c.account_id and a.ticket_category=b.cat_id and b.cat_appname='tts' and cat_name='"+request.getParameter("company")+"'");
             rs = ps.executeQuery();
             PreparedStatement ps2;
@@ -62,7 +62,7 @@ Bedrijf: <select name='company'>
                     ps2.setInt(1,rs.getInt("ticket_id"));
                     rs2 = ps2.executeQuery();
                     if (rs2.next()){
-                        open= new SimpleDateFormat("dd/MM/yyyy HH:mm").format(rs2.getTimestamp("history_timestamp"));
+                        open= ScreenHelper.fullDateFormat.format(rs2.getTimestamp("history_timestamp"));
                     }
                     out.print("<tr><td><table width='100%' border='1'>");
                     out.print("<tr><td bgcolor='lightgrey' width='15%'><b>#"+rs.getString("ticket_id")+" "+(rs.getString("ticket_status").equalsIgnoreCase("O")?"OPEN":"CLOSED")+"</b></td><td bgcolor='lightgrey' width='20%'><b>"+rs.getString("account_firstname")+" "+rs.getString("account_lastname")+"</b></td><td colspan='2' bgcolor='lightgrey'><b>"+rs.getString("ticket_subject")+"</b></td></tr>");
@@ -74,10 +74,10 @@ Bedrijf: <select name='company'>
                     rs2 = ps2.executeQuery();
                     while (rs2.next()){
                         if (rs2.getTimestamp("history_timestamp").before(new Timestamp(endDate.getTime())) && rs2.getTimestamp("history_timestamp").after(new Timestamp(beginDate.getTime()))){
-                            out.print("<tr><td width='15%' bgcolor='lightgreen'>"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(rs2.getTimestamp("history_timestamp"))+"</td><td width='20%' bgcolor='lightgreen'>"+rs2.getString("account_firstname")+" "+rs2.getString("account_lastname")+"</td><td colspan='2' bgcolor='lightgreen'>"+rs2.getString("history_new_value").replaceAll("\n","<br/>")+"</td></tr>");
+                            out.print("<tr><td width='15%' bgcolor='lightgreen'>"+ScreenHelper.fullDateFormat.format(rs2.getTimestamp("history_timestamp"))+"</td><td width='20%' bgcolor='lightgreen'>"+rs2.getString("account_firstname")+" "+rs2.getString("account_lastname")+"</td><td colspan='2' bgcolor='lightgreen'>"+rs2.getString("history_new_value").replaceAll("\n","<br/>")+"</td></tr>");
                         }
                         else {
-                            out.print("<tr><td width='15%'>"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(rs2.getTimestamp("history_timestamp"))+"</td><td width='20%'>"+rs2.getString("account_firstname")+" "+rs2.getString("account_lastname")+"</td><td colspan='2'>"+rs2.getString("history_new_value").replaceAll("\n","<br/>")+"</td></tr>");
+                            out.print("<tr><td width='15%'>"+ScreenHelper.fullDateFormat.format(rs2.getTimestamp("history_timestamp"))+"</td><td width='20%'>"+rs2.getString("account_firstname")+" "+rs2.getString("account_lastname")+"</td><td colspan='2'>"+rs2.getString("history_new_value").replaceAll("\n","<br/>")+"</td></tr>");
                         }
                     }
                     out.print("</table></td></tr>");

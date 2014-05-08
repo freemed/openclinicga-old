@@ -10,7 +10,7 @@
 
 %>
 <%!
-    private SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     private boolean writeEmail(MessageReader.Document document,BufferedWriter writer,MessageReader.User user) throws java.io.IOException {
         String sText = "";
@@ -269,7 +269,7 @@
             out.print("<tr><td class='menuItem'>"+getTran("Web.Result","referring_lab",sWebLanguage)+"</td><td class='text' colspan='3'>"+messageReader.lab.name+"</td></tr>");
 
             //Print message header
-            out.print("<tr><td class='menuItem'>"+getTran("Web.Result","message_date",sWebLanguage)+"</td><td class='text' colspan='3'>"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(messageReader.fileDate)+"</td></tr>");
+            out.print("<tr><td class='menuItem'>"+getTran("Web.Result","message_date",sWebLanguage)+"</td><td class='text' colspan='3'>"+ScreenHelper.fullDateFormatSS.format(messageReader.fileDate)+"</td></tr>");
             out.print("<tr><td class='menuItem'>"+getTran("Web.Result","message_file",sWebLanguage)+"</td><td class='text' colspan='3'>"+messageReader.fileName+"</td></tr>");
 
             //Print user header

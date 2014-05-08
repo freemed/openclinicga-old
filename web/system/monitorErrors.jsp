@@ -31,13 +31,13 @@
     else if(sAction.equals("deleteErrors")){
         java.util.Date delFromDate = null, delUntilDate = null;
 
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         if(sDelFromDate.length() > 0){
-            delFromDate = stdDateFormat.parse(sDelFromDate);
+            delFromDate = ScreenHelper.parseDate(sDelFromDate);
         }
 
         if(sDelUntilDate.length() > 0){
-            delUntilDate = stdDateFormat.parse(ScreenHelper.getDateAdd(sDelUntilDate,"2")); // add one day
+            delUntilDate = ScreenHelper.parseDate(ScreenHelper.getDateAdd(sDelUntilDate,"2")); // add one day
         }
 
         be.openclinic.system.Error.delete(delFromDate,delUntilDate);
@@ -106,7 +106,7 @@
                     <%
                         Vector vErrors = be.openclinic.system.Error.searchErrors(sFindBegin, sFindEnd);
 
-                        SimpleDateFormat dateHourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                        SimpleDateFormat dateHourFormat = ScreenHelper.fullDateFormat;
                         String sClickTran = getTranNoLink("web.manage", "clickToView", sWebLanguage);
                         String sClass = "", sErrorId, sAccessTime, sName, sError, sPage;
 

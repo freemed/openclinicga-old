@@ -160,7 +160,8 @@
                     hMenu.put(getTran("web.manage","manageSiteLabels",sWebLanguage),"main.do?Page=system/manageSiteLabels.jsp");
                     hMenu.put(getTran("web.manage","manageGglobalhealthbarometerdata",sWebLanguage),"main.do?Page=system/manageGlobalHealthBarometerData.jsp");
                     hMenu.put(getTran("web.manage","manageDatacenterConfig",sWebLanguage),"main.do?Page=system/manageDatacenterConfig.jsp");
-
+                    hMenu.put(getTran("web.manage","manageDateFormat",sWebLanguage),"main.do?Page=system/manageDateFormat.jsp");
+                    
                     out.print(ScreenHelper.writeTblHeader(getTran("web.manage","setup",sWebLanguage),sCONTEXTPATH)
                             + sortMenu(hMenu)
                             + ScreenHelper.writeTblFooter());

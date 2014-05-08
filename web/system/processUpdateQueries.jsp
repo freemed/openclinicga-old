@@ -148,7 +148,7 @@
                 <%
                     Object updateQueriesProcessedDate = application.getAttribute("updateQueriesProcessedDateOC");
                     if(updateQueriesProcessedDate!=null){
-                        SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormatSS;
 
                         %><%=getTran("web.manage","updateQueriesLastProcessedAt",sWebLanguage)%> : <%=fullDateFormat.format(updateQueriesProcessedDate)%><%
                     }

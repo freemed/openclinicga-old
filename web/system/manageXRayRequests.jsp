@@ -7,7 +7,7 @@
     String sFindResultDate    = checkString(request.getParameter("FindResultDate"));
 
     String msg = "";
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // default search date : one month ago
     if(sFindResultDate.length()==0){
@@ -35,7 +35,7 @@
             " i.type='be.mxs.common.model.vo.healthrecord.iconstants.item_type_mir2_protocol'" +
             " )  order by t.updateTime DESC";
         PreparedStatement ps = oc_conn.prepareStatement(sQuery);
-        ps.setDate(1,new java.sql.Date(stdDateFormat.parse(sFindResultDate).getTime()));
+        ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(sFindResultDate).getTime()));
         ResultSet rs=ps.executeQuery();
         while(rs.next()){
             PreparedStatement ps2=oc_conn.prepareStatement("select * from Items where serverid=? and transactionId=? and type=?");
@@ -49,7 +49,7 @@
             }
             rs2.close();
             ps2.close();
-            sResult+="<tr class='list'  onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick='selectTran(\""+rs.getInt("serverid")+"\",\""+rs.getInt("transactionId")+"\")'><td>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("updateTime"))+"</td><td>"+sType+"</td><td>"+checkString(rs.getString("firstname"))+" "+checkString(rs.getString("lastname"))+"</td></tr>";
+            sResult+="<tr class='list'  onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick='selectTran(\""+rs.getInt("serverid")+"\",\""+rs.getInt("transactionId")+"\")'><td>"+ScreenHelper.stdDateFormat.format(rs.getDate("updateTime"))+"</td><td>"+sType+"</td><td>"+checkString(rs.getString("firstname"))+" "+checkString(rs.getString("lastname"))+"</td></tr>";
         }
         rs.close();
         ps.close();
@@ -70,11 +70,11 @@
             " )  order by t.updateTime DESC";
         PreparedStatement ps = oc_conn.prepareStatement(sQuery);
         ps.setInt(1,Integer.parseInt(activePatient.personid));
-        ps.setDate(2,new java.sql.Date(stdDateFormat.parse(sFindResultDate).getTime()));
+        ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(sFindResultDate).getTime()));
         ResultSet rs=ps.executeQuery();
         while(rs.next()){
             TransactionVO tran = MedwanQuery.getInstance().loadTransaction(rs.getInt("serverid"),rs.getInt("transactionid"));
-            sResult+="<tr class='list'  onmouseover=\"this.style.cursor='hand';this.className='list_select';\" onmouseout=\"this.style.cursor='default';this.className='list';\" onclick='selectTran(\""+rs.getInt("serverid")+"\",\""+rs.getInt("transactionId")+"\")'><td width='10%'>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("updateTime"))+"</td><td width='10%'>"+(tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.item_type_mir2_type")!=null?getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-"+checkString(tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.item_type_mir2_type").getValue()),sWebLanguage):"")+"</td><td width='10%'>"+tran.getUser().getPersonVO().getFirstname()+" "+tran.getUser().getPersonVO().getLastname()+"</td><td>"+(tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.item_type_mir2_protocol")!=null?checkString(tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.item_type_mir2_protocol").getValue()):"")+"</td></tr>";
+            sResult+="<tr class='list'  onmouseover=\"this.style.cursor='hand';this.className='list_select';\" onmouseout=\"this.style.cursor='default';this.className='list';\" onclick='selectTran(\""+rs.getInt("serverid")+"\",\""+rs.getInt("transactionId")+"\")'><td width='10%'>"+ScreenHelper.stdDateFormat.format(rs.getDate("updateTime"))+"</td><td width='10%'>"+(tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.item_type_mir2_type")!=null?getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-"+checkString(tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.item_type_mir2_type").getValue()),sWebLanguage):"")+"</td><td width='10%'>"+tran.getUser().getPersonVO().getFirstname()+" "+tran.getUser().getPersonVO().getLastname()+"</td><td>"+(tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.item_type_mir2_protocol")!=null?checkString(tran.getItem("be.mxs.common.model.vo.healthrecord.IConstants.item_type_mir2_protocol").getValue()):"")+"</td></tr>";
         }
         rs.close();
         ps.close();

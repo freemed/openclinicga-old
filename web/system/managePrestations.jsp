@@ -156,7 +156,7 @@
         prestation.setServiceUid(sEditPrestationServiceUid);
         prestation.setFlag1(sEditPrestationFlag1);
         try{
-        	prestation.setUpdateDateTime(new SimpleDateFormat("dd/MM/yyyy").parse(sEditPrestationUpdatetime));
+        	prestation.setUpdateDateTime(ScreenHelper.parseDate(sEditPrestationUpdatetime));
         }
         catch(Exception e){}
         prestation.store();
@@ -269,10 +269,10 @@
                 prestation = new Prestation();
             }
         	if(prestation.getUpdateDateTime()!=null){
-        		sEditPrestationUpdatetime=new SimpleDateFormat("dd/MM/yyyy").format(prestation.getUpdateDateTime());
+        		sEditPrestationUpdatetime=ScreenHelper.stdDateFormat.format(prestation.getUpdateDateTime());
         	}
         	else {
-        		sEditPrestationUpdatetime=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        		sEditPrestationUpdatetime=ScreenHelper.stdDateFormat.format(new java.util.Date());
         	}
 
             if (checkString(prestation.getCategories()).length()>0){
@@ -649,7 +649,7 @@
       tr.id = "rowCategory"+iCategoryIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteCategory(rowCategory"+iCategoryIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteCategory(rowCategory"+iCategoryIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);

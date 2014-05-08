@@ -89,7 +89,7 @@
 	function setfeeselection(){
 		if(document.getElementById("feetype").selectedIndex==0){
 			document.getElementById("typeselectionlabel").innerHTML="<%=getTran("web","prestation",sWebLanguage)%>";
-			document.getElementById("typeselection").innerHTML="<input type='text' class='text' name='feeid' id='feeid' size='10' readonly/><input type='text' class='text' name='feename' id='feename' readonly size='50'/><img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTran("Web","select",sWebLanguage)%>' onclick='searchPrestation();'>";
+			document.getElementById("typeselection").innerHTML="<input type='text' class='text' name='feeid' id='feeid' size='10' readonly/><input type='text' class='text' name='feename' id='feename' readonly size='50'/><img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick='searchPrestation();'>";
 			document.getElementById("feeamountmodifier").innerHTML="<%=MedwanQuery.getInstance().getConfigString("currency","")%>";
 		}
 		else if(document.getElementById("feetype").selectedIndex==1){

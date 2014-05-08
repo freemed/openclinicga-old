@@ -580,14 +580,14 @@
             rs.close();
             Vector encounters = Encounter.selectLastEncounters("","","","","","","","",pid1,"");
             if(encounters!=null && encounters.size()>0){
-                person1Details[39] = new SimpleDateFormat("dd/MM/yyyy").format(((Encounter)encounters.elementAt(0)).getBegin());
+                person1Details[39] = ScreenHelper.stdDateFormat.format(((Encounter)encounters.elementAt(0)).getBegin());
             }
             else {
                 person1Details[39]="";
             }
             encounters = Encounter.selectLastEncounters("","","","","","","","",pid2,"");
             if(encounters !=null && encounters.size()>0){
-                person2Details[39] = new SimpleDateFormat("dd/MM/yyyy").format(((Encounter)encounters.elementAt(0)).getBegin());
+                person2Details[39] = ScreenHelper.stdDateFormat.format(((Encounter)encounters.elementAt(0)).getBegin());
             }
             else {
                 person1Details[39]="";

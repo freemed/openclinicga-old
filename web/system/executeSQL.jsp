@@ -111,7 +111,7 @@
                 colHeader+= "<BR/>"+repeat("=",colHeader.length()); // —
 
                 int counter = 0;
-                SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormatSS;
 
                 while (rs.next()){
                     result.append("<br/>");

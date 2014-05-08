@@ -128,7 +128,7 @@
                             %>
                                 <tr class="list<%=sClass%>" >
                                     <td>
-                                        <a href="#" onclick="doDelete();"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt='<%=getTran("Web","delete",sWebLanguage)%>'></a>
+                                        <a href="#" onclick="doDelete();"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>'></a>
                                     </td>
                                     <td onClick="showDetails('<%=checkString((String)hInfo.get("id"))%>');"><%=checkString((String)hInfo.get("id"))%></td>
                                     <td onClick="showDetails('<%=checkString((String)hInfo.get("id"))%>');"><%=checkString((String)hInfo.get("name"))%></td>
