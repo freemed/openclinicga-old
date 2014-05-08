@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.net.URL;
 import java.net.MalformedURLException;
 
@@ -280,7 +281,12 @@ public class ReasonForEncounter extends OC_Object {
                 }
                 ps.setString(4,this.getCodeType());
                 ps.setString(5,this.getCode());
-                ps.setDate(6,new java.sql.Date(this.getDate().getTime()));
+                if(this.getDate()==null){
+                    ps.setNull(6, Types.DATE);
+                }
+                else{
+                    ps.setDate(6,new java.sql.Date(this.getDate().getTime()));
+                }
                 ps.setString(7,this.getFlags());
                 ps.setInt(8,iVersion);
                 ps.setTimestamp(9,new Timestamp(this.getCreateDateTime().getTime()));
