@@ -36,7 +36,7 @@ public class chukPDFOfficialPhysioReport extends PDFOfficialBasic {
             headerTable.addCell(createCell(new PdfPCell(addressTable),1,PdfPCell.ALIGN_LEFT,PdfPCell.NO_BORDER));
 
             // date
-            SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
             cell = createValueCell(getTran("web","date")+": "+stdDateFormat.format(new java.util.Date()),Font.NORMAL,9,4,false);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);

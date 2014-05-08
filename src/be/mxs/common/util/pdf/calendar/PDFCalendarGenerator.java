@@ -15,6 +15,7 @@ import be.mxs.common.util.pdf.general.PDFFooter;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.Miscelaneous;
+import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.adt.Planning;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,7 @@ public class PDFCalendarGenerator extends PDFBasic {
 
         doc = new Document();
     }
-    private SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     //--- GENERATE PDF DOCUMENT BYTES -------------------------------------------------------------
     public ByteArrayOutputStream generatePDFDocumentBytes(final HttpServletRequest req, String imageid, String trandate, AdminPerson activepatient) throws Exception {
@@ -126,7 +127,7 @@ public class PDFCalendarGenerator extends PDFBasic {
             PdfPTable t = new PdfPTable(1);
             t.setWidthPercentage(pageWidth);
             String sPrintedBy = "\n\n\n"+getTran("web", "printedby") + " " + user.person.firstname + " " +user.person.lastname+" "+
-                    getTran("web", "on") + " " + stdDateFormat.format(new java.util.Date());
+                    getTran("web", "on") + " " + ScreenHelper.stdDateFormat.format(new java.util.Date());
             PdfPCell c = createValueCell(sPrintedBy, 1);
             c.setBorder(1);
             t.addCell(createValueCell(sPrintedBy, 1));
@@ -141,7 +142,7 @@ public class PDFCalendarGenerator extends PDFBasic {
                 t.setWidthPercentage(pageWidth);
 
                 // DATE
-                String sDate = getTran("web", "date") + " " + stdDateFormat.format(appointment.getPlannedDate()) + " " ;
+                String sDate = getTran("web", "date") + " " + ScreenHelper.stdDateFormat.format(appointment.getPlannedDate()) + " " ;
                 String sTime = timeFormat.format(appointment.getPlannedDate()) + " => "+timeFormat.format(appointment.getPlannedEndDate()) ;
                 t.addCell(createGrayCell(sDate+" "+sTime, 1,8, Font.BOLD));
 
@@ -165,7 +166,7 @@ public class PDFCalendarGenerator extends PDFBasic {
                 t.setWidthPercentage(pageWidth);
 
                 // DATE
-                String sDate = getTran("web", "date") + " " + stdDateFormat.format(appointment.getPlannedDate()) + " " ;
+                String sDate = getTran("web", "date") + " " + ScreenHelper.stdDateFormat.format(appointment.getPlannedDate()) + " " ;
                 t.addCell(createGrayCell(sDate, 1,8, Font.BOLD));
 
                 t.addCell(this.createGrayCell("",1));

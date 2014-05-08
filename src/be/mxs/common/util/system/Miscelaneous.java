@@ -22,13 +22,7 @@ public class Miscelaneous {
 	
 	//--- PARSE DATE ------------------------------------------------------------------------------
     public static java.util.Date parseDate(String date){
-        try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(date);
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return ScreenHelper.parseDate(date);
     }
     
     //--- START APPLICATION -----------------------------------------------------------------------

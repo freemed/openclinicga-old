@@ -1,6 +1,7 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 
@@ -128,6 +129,7 @@ public class PDFKinesitherapyConsultationTreatment extends PDFGeneralBasic {
                 sTmpDate  = "";
                 if (sTmpSeances.toString().toLowerCase().indexOf("£")>-1){
                     sTmpDate = sTmpSeances.substring(0,sTmpSeances.toString().toLowerCase().indexOf("£"));
+                    sTmpDate = ScreenHelper.convertDate(sTmpDate);
                     sTmpSeances = new StringBuffer(sTmpSeances.substring(sTmpSeances.toString().toLowerCase().indexOf("£")+1));
                 }
 

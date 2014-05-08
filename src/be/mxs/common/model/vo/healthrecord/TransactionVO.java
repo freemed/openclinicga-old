@@ -4,6 +4,7 @@ import be.dpms.medwan.common.model.vo.administration.PersonVO;
 import be.dpms.medwan.common.model.vo.authentication.UserVO;
 import be.mxs.common.model.vo.IIdentifiable;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.adt.Encounter;
 import be.openclinic.common.IObjectReference;
@@ -28,7 +29,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
     private int version;
     private int versionserverid;
     private Date timestamp;
-    private SimpleDateFormat extDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    private SimpleDateFormat extDateFormat = ScreenHelper.fullDateFormatSS;
 
     
     //--- CONSTRUCTOR 1 ---------------------------------------------------------------------------
@@ -152,8 +153,165 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+    
+    //--- CONVERT ITEMS TO EU DATE ----------------------------------------------------------------
+    public void convertItemsToEUDate(){
+    	System.out.println("================================================="); //////////////////
+    	System.out.println("============ CONVERTING ITEM-VALUES ============="); //////////////////
+    	System.out.println("================================================="); //////////////////
+    	Vector baseItemNames = this.getBaseItemNames();
+    	String sBaseItemType;
+    	ItemVO item;
+
+		Debug.println("baseItemNames.size() : "+baseItemNames.size()); ////////
+    	for(int i=0; i<baseItemNames.size(); i++){
+    		sBaseItemType = (String)baseItemNames.get(i);
+    		Debug.println("sBaseItemType : "+sBaseItemType); ////////
+        	item = getItem(sBaseItemType);	
+        	
+        	// when the value _is_ a date
+        	if(item.isDateItem()){
+        		// convert to EU dateformat ANYWAY
+        		item.setValue(ScreenHelper.convertToEUDate(item.getValue()));
+        	}
+        	else{
+	        	String sItemValue = getItemSeriesValue(sBaseItemType);
+	        	
+	        	if(containsDateValue(sItemValue)){
+                    item.setValue(ScreenHelper.convertToEUDateConcatinated(item.getValue()));	        		
+	        	}
+        	}
+    	}
+		Debug.println("done converting"); ////////
+    }
+
+    //--- CONTAINS DATE VALUE ---------------------------------------------------------------------
+    // recognises dates in values concatinated with $ and £ (rows and cells)
+    public boolean containsDateValue(String sValue){
+    	boolean containsDateValue = false;
+    	
+    	// check for $ (row) in the value
+    	if(sValue.indexOf("$") > -1){
+            String sOrigValue = sValue;
+            Vector rows = new Vector();
+            String sCell;
+
+            // run thru rows of the concatinated value
+            while(sOrigValue.indexOf("$") > -1 && !containsDateValue){
+            	// row by row
+            	String sRow = sOrigValue.substring(0,sOrigValue.indexOf("$")+1);
+                Vector cells = new Vector();
+                
+            	// cell by cell
+                while(sRow.indexOf("$") > 0 && !containsDateValue){
+                	if(sRow.indexOf("£") > -1){
+                	    sCell = sRow.substring(0,sRow.indexOf("£"));
+                	}
+                	else{
+                	    sCell = sRow.substring(0,sRow.indexOf("$"));
+                	}
+                	
+                	// convert to EU date, which is the format to store dates in the DB
+                	if(ScreenHelper.isDateValue(sCell)){
+                    	containsDateValue = true;
+                		break; // stop searching when date found
+                	}
+                	
+                	// trim-off treated cell
+                	if(sRow.indexOf("£") > -1){
+                	    sRow = sRow.substring(sRow.indexOf("£")+1);
+                	}
+                	else{
+                	    sRow = sRow.substring(sRow.indexOf("$"));
+                	}
+                    
+                    // treat next cell
+                }
+            	
+            	// trim-off treated row
+                sOrigValue = sOrigValue.substring(sOrigValue.indexOf("$")+1);
+                            	                
+                // treat next row
+            }
+    	}
+
+    	return containsDateValue;
+    }
+    
+    //--- GET BASE ITEM NAMES ---------------------------------------------------------------------
+    public Vector getBaseItemNames(){
+    	Vector itemNames = new Vector();
+    	
+        Iterator itemIter = items.iterator();
+        ItemVO itemVO;
+        String sItemTypeBase;
+
+        while(itemIter.hasNext()){
+            itemVO = (ItemVO)itemIter.next();
+            
+            // all except those which extend another item
+            sItemTypeBase = getItemTypeBase(itemVO.getType());
+            if(!itemNames.contains(sItemTypeBase)){
+                itemNames.add(sItemTypeBase);
+                System.out.println("add baseitemname : "+sItemTypeBase); ////////                
+            }
+        }
+        
+    	return itemNames;
+    }
 
 
+    //--- GET ITEM TYPE BASE ----------------------------------------------------------------------
+    private String getItemTypeBase(String sItemType){
+        // check if last 2 chars are digits, and trim them off to get the base name
+        int idx = sItemType.length()-2;
+
+        if((int)sItemType.charAt(idx) >= 48 && (int)sItemType.charAt(idx) <= 57){
+            return sItemType.substring(0,idx);
+        }
+        else{
+            // check last char
+            idx++;
+
+            if((int)sItemType.charAt(idx) >= 48 && (int)sItemType.charAt(idx) <= 57){
+                return sItemType.substring(0,idx);
+            }
+        }
+
+        return sItemType;
+    }
+
+    //--- GET ITEM SERIES VALUE -------------------------------------------------------------------
+    public String getItemSeriesValue(String sBaseItemType){
+        StringBuffer sValue = new StringBuffer();
+
+        // search for item with number-less name (the first item)
+        sValue.append(this.getItemValue(sBaseItemType));
+        
+        // in case of "TAAK1" as first item.. (better not use number in name of first item)
+        int i = 1;
+        if(sBaseItemType.endsWith("1")){
+            sBaseItemType = sBaseItemType.substring(0,sBaseItemType.length()-1); // remove number
+            i = 2;
+        }
+
+        // search for items with a number at the end of the name (proceding items)
+        String itemValue;
+        while(i<=50){
+            itemValue = this.getItemValue(sBaseItemType+i);
+
+            // loop until the first empty item, but do not skip on "1"
+            if(itemValue.length()==0){
+                if(i > 1) break;
+            }
+
+            i++;
+            sValue.append(itemValue);
+        }
+        
+        return sValue.toString();
+    }
+    
     //--- GET CONTEXT ITEM ------------------------------------------------------------------------
     public ItemVO getContextItem(){
     	return getItem(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT");
@@ -182,6 +340,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         this.status = status;
     }
 
+    //--- GET ITEM --------------------------------------------------------------------------------
     public ItemVO getItem(String itemType){
         Iterator iterator = items.iterator();
         ItemVO item;
@@ -194,12 +353,21 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         return null;
     }
 
+    //--- GET ITEM VALUE --------------------------------------------------------------------------
     public String getItemValue(String itemType){
+    	String sValue = "";
+    	
     	ItemVO item = getItem(itemType); 
     	if(item!=null){
-    		return item.getValue();
+        	sValue = item.getValue();
+        	
+        	// convert date-value to EU-date for date-items
+        	if(item.isDateItem()){
+        		sValue = ScreenHelper.convertDate(sValue);
+        	}
     	}
-    	return "";
+    	
+    	return sValue;
     }
 
     public void setUser(UserVO user) {
@@ -276,16 +444,16 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         sXML.append("<Transaction>");
 
         sXML.append("<Header>")
-            .append("<TransactionId>"+transactionId+"</TransactionId>")
-            .append("<TransactionType>"+transactionType+"</TransactionType>")
-            .append("<CreationDate>"+extDateFormat.format(creationDate)+"</CreationDate>")
-            .append("<UpdateTime>"+extDateFormat.format(updateTime)+"</UpdateTime>")
-            .append("<TimeStamp>"+extDateFormat.format(timestamp)+"</TimeStamp>")
-            .append("<Status>"+status+"</Status>")
-            .append("<UserId>"+user.getUserId()+"</UserId>")
-            .append("<ServerId>"+serverId+"</ServerId>")
-            .append("<Version>"+version+"</Version>")
-            .append("<VersionServerId>").append(versionserverid).append("</VersionServerId>")
+             .append("<TransactionId>"+transactionId+"</TransactionId>")
+             .append("<TransactionType>"+transactionType+"</TransactionType>")
+             .append("<CreationDate>"+extDateFormat.format(creationDate)+"</CreationDate>")
+             .append("<UpdateTime>"+extDateFormat.format(updateTime)+"</UpdateTime>")
+             .append("<TimeStamp>"+extDateFormat.format(timestamp)+"</TimeStamp>")
+             .append("<Status>"+status+"</Status>")
+             .append("<UserId>"+user.getUserId()+"</UserId>")
+             .append("<ServerId>"+serverId+"</ServerId>")
+             .append("<Version>"+version+"</Version>")
+             .append("<VersionServerId>").append(versionserverid).append("</VersionServerId>")
             .append("</Header>");
 
         sXML.append("<Items>");
@@ -369,6 +537,53 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         }
         
         this.setItems(items);
+    }
+
+    //--- IS NEW ----------------------------------------------------------------------------------
+    public boolean isNew(){
+        return (transactionId.intValue() < 0);
+    }
+
+    //--- GET CONTEXT ITEM VALUE ------------------------------------------------------------------
+    public String getContextItemValue(){
+        String sItemValue = "";
+
+        ItemVO item = getContextItem();
+        if(item!=null){
+            sItemValue = ScreenHelper.checkString(item.getValue());
+        }
+
+        return sItemValue;
+    }
+    
+    //--- IS IN SPECIFIED CONTEXT -----------------------------------------------------------------
+    public boolean isInSpecifiedContext(String sContext){
+        boolean isInSpecifiedContext = false;
+        
+        //String sSavedContext = this.getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT");
+        String sSavedContext = this.getContextItemValue();
+        if(sSavedContext.equalsIgnoreCase(sContext)){
+            isInSpecifiedContext = true;
+        }
+        
+        return isInSpecifiedContext;
+    }
+    
+    //--- IS RECENT TRAN --------------------------------------------------------------------------
+    // periodType = constant from java.util.Calendar
+    // --> java.util.Calendar.YEAR
+    public boolean isRecentTran(int periodType, int amount){
+        boolean isRecentTran = false;
+        
+        java.util.Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.util.Date()); // now
+        cal.add(periodType,-1*amount); // revert
+        java.util.Date refDate = cal.getTime();
+        if(this.updateTime.getTime() >= refDate.getTime()){
+            isRecentTran = true;
+        }
+        
+        return isRecentTran;
     }
     
 }

@@ -49,7 +49,7 @@ public class DiagnosisGraph {
             ps.setInt(3, MedwanQuery.getInstance().getConfigInt("datacenterFirstGraphYear", 1900));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                series.addOrUpdate(new Day(new SimpleDateFormat("dd/MM/yyyy").parse("01/" + rs.getString("DC_DIAGNOSISVALUE_MONTH") + "/" + rs.getString("DC_DIAGNOSISVALUE_YEAR"))), Integer.parseInt(rs.getString("DC_DIAGNOSISVALUE_COUNT")));
+                series.addOrUpdate(new Day(ScreenHelper.parseDate("01/" + rs.getString("DC_DIAGNOSISVALUE_MONTH") + "/" + rs.getString("DC_DIAGNOSISVALUE_YEAR"))), Integer.parseInt(rs.getString("DC_DIAGNOSISVALUE_COUNT")));
             }
             rs.close();
             TimeSeriesCollection dataset = new TimeSeriesCollection(series);
@@ -120,7 +120,7 @@ public class DiagnosisGraph {
             ps.setInt(3, MedwanQuery.getInstance().getConfigInt("datacenterFirstGraphYear", 1900));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Date dDate = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + rs.getString("DC_DIAGNOSISVALUE_MONTH") + "/" + rs.getString("DC_DIAGNOSISVALUE_YEAR"));
+                Date dDate = ScreenHelper.parseDate("01/" + rs.getString("DC_DIAGNOSISVALUE_MONTH") + "/" + rs.getString("DC_DIAGNOSISVALUE_YEAR"));
                 Integer iValue = Integer.parseInt(rs.getString("DC_DIAGNOSISVALUE_COUNT"));
                 lArray.add(new Object[]{dDate, iValue});
             }

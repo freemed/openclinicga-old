@@ -1,5 +1,6 @@
 package be.openclinic.statistics;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.StatFunctions;
 import be.openclinic.common.KeyValue;
 import be.openclinic.statistics.DepartmentIncome.Income;
@@ -141,8 +142,8 @@ public class DatacenterHospitalStats {
         //void
     }
     public DatacenterHospitalStats(String begin, String end) throws Exception {
-        this.begin = new SimpleDateFormat("dd/MM/yyyy").parse(begin);
-        this.end = new SimpleDateFormat("dd/MM/yyyy").parse(end);
+        this.begin = ScreenHelper.parseDate(begin);
+        this.end = ScreenHelper.parseDate(end);
     }
     public DatacenterHospitalStats(Date begin, Date end) {
         this.begin = begin;
@@ -167,7 +168,6 @@ public class DatacenterHospitalStats {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return cost;
@@ -191,7 +191,6 @@ public class DatacenterHospitalStats {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return capacity;

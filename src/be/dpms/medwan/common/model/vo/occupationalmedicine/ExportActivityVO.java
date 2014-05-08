@@ -1,6 +1,8 @@
 package be.dpms.medwan.common.model.vo.occupationalmedicine;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
+
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Vector;
@@ -34,12 +36,7 @@ public class ExportActivityVO {
     public ExportActivityVO(int personId,int userId,String date,String code,String id){
         this.personId=personId;
         this.userId=userId;
-        try {
-            this.date=new SimpleDateFormat("dd/MM/yyyy").parse(date);
-        } catch (ParseException e) {
-            this.date=null;
-            e.printStackTrace();
-        }
+        this.date=ScreenHelper.parseDate(date);
         this.code=code;
         this.id=id;
     }

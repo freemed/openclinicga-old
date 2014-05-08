@@ -102,7 +102,7 @@ public class MedwanQuery {
         labels = new Hashtable();
         forwards = new Hashtable();
         SAXReader reader = new SAXReader(false);
-        stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        stdDateFormat = ScreenHelper.stdDateFormat;
 
         //First let's try to find out which databases we need to use
         //Database specs are optionally defined in application.xml
@@ -3403,39 +3403,55 @@ public class MedwanQuery {
             PreparedStatement ps = ad_conn.prepareStatement("select * from Admin where personid=?");
             ps.setInt(1, personid);
             ResultSet rs = ps.executeQuery();
-            if(rs.next() && (rs.getString("archiveFileCode") == null || rs.getString("archiveFileCode").length() == 0)){
+            
+            if(rs.next()){
+                String sArchCode = checkString(rs.getString("archiveFileCode")); 
                 rs.close();
                 ps.close();
-                ps = ad_conn.prepareStatement("select personid from Admin where archiveFileCode=?");
-                String sArchiveID = ScreenHelper.convertToAlfabeticalCode(""+MedwanQuery.getInstance().getOpenclinicCounter("ArchiveFileID"));
-                ps.setString(1, sArchiveID);
-                rs=ps.executeQuery();
-                if(!rs.next()){
-                	rs.close();
-                	ps.close();
-	                ps = ad_conn.prepareStatement("update Admin set archiveFileCode=? where personid=?");
+                               
+                if(sArchCode.length()==0){
+                	// create new code
+	                String sArchiveID = ScreenHelper.convertToAlfabeticalCode(""+MedwanQuery.getInstance().getOpenclinicCounter("ArchiveFileID"));
+	                Debug.println("updateArchiveFile(personid:"+personid+") --> new archiveFileCode : "+sArchiveID);
+	                
+	                // verify double use
+	                ps = ad_conn.prepareStatement("select personid from Admin where archiveFileCode=?");
 	                ps.setString(1, sArchiveID);
-	                ps.setInt(2, personid);
-	                ps.execute();
+	                rs=ps.executeQuery();
+	                if(!rs.next()){
+	                	rs.close();
+	                	ps.close();
+	                	
+	                	// save code in DB
+		                ps = ad_conn.prepareStatement("update Admin set archiveFileCode=? where personid=?");
+		                ps.setString(1, sArchiveID);
+		                ps.setInt(2, personid);
+		                ps.execute();
+	                }
+	                else{
+	                    Debug.println("updateArchiveFile(personid:"+personid+") --> archiveFileCode exists : "+sArchCode);
+	                	rs.close();
+	                }
+	                
+	                ps.close();
+	                ad_conn.close();
+	                objectCache.removeObject("person",personid+"");
+	                return true;
                 }
-                else{
-                	rs.close();
-                }
-                ps.close();
-                objectCache.removeObject("person", personid+"");
-                ad_conn.close();
-                return true;
             } 
             else{
                 rs.close();
                 ps.close();
                 ad_conn.close();
+                
+                Debug.println("updateArchiveFile(personid:"+personid+") --> person not found");
                 return false;
             }
         }
         catch(Exception e){
             e.printStackTrace();
         }
+        
         try{
 			ad_conn.close();
 		} catch(SQLException e){
@@ -3787,8 +3803,8 @@ public class MedwanQuery {
                                 sVacType += "."+vacName.getValue();
                             }
                             try{
-                                java.util.Date dVacDate = stdDateFormat.parse(vacDate.getValue().replaceAll("-", "/"));
-                                if(hPersVacs.get(sVacType) == null || (stdDateFormat.parse(((TransactionVO) hPersVacs.get(sVacType)).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE").getValue().replaceAll("-", "/")).before(dVacDate))){
+                                java.util.Date dVacDate = ScreenHelper.parseDate(vacDate.getValue().replaceAll("-", "/"));
+                                if(hPersVacs.get(sVacType) == null || (ScreenHelper.parseDate(((TransactionVO) hPersVacs.get(sVacType)).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE").getValue().replaceAll("-", "/")).before(dVacDate))){
                                     hPersVacs.put(sVacType, activeTransaction);
                                 }
                             } catch(Exception e){
@@ -3821,8 +3837,8 @@ public class MedwanQuery {
                         sVacType += "."+vacName.getValue();
                     }
                     try{
-                        java.util.Date dVacDate = stdDateFormat.parse(vacDate.getValue().replaceAll("-", "/"));
-                        if(hPersVacs.get(sVacType) == null || (stdDateFormat.parse(((TransactionVO) hPersVacs.get(sVacType)).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE").getValue().replaceAll("-", "/")).before(dVacDate))){
+                        java.util.Date dVacDate = ScreenHelper.parseDate(vacDate.getValue().replaceAll("-", "/"));
+                        if(hPersVacs.get(sVacType) == null || (ScreenHelper.parseDate(((TransactionVO) hPersVacs.get(sVacType)).getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE").getValue().replaceAll("-", "/")).before(dVacDate))){
                             hPersVacs.put(sVacType, activeTransaction);
                         }
                     }
@@ -5307,29 +5323,26 @@ public class MedwanQuery {
         ItemVO transactionItemVO;
         while (iTransactionItems.hasNext()){
             transactionItemVO = (ItemVO) iTransactionItems.next();
-            if(transactionItemVO.getType().equals("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS")){
+            if(transactionItemVO.getType().equals(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_STATUS")){
                 vaccinationStatus = transactionItemVO.getValue();
             }
-            if(transactionItemVO.getType().equals("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE")){
+            if(transactionItemVO.getType().equals(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_TYPE")){
                 vaccinationType = transactionItemVO.getValue();
             }
-            if(transactionItemVO.getType().equals("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_COMMENT")){
+            if(transactionItemVO.getType().equals(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_COMMENT")){
                 bCommentExists = true;
             }
-            if(transactionItemVO.getType().equals("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE")){
+            if(transactionItemVO.getType().equals(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NEXT_DATE")){
                 bNextDateExists = true;
                 nextDate = transactionItemVO.getValue();
             }
-            if(transactionItemVO.getType().equals("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME")){
+            
+            if(transactionItemVO.getType().equals(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NAME")){
                 bNameExists = true;
-            } else
-            if(transactionItemVO.getType().equals("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE")){
-                try{
-                    if(transactionItemVO.getValue()!=null){
-                        vaccinationDate = stdDateFormat.parse(transactionItemVO.getValue().replaceAll("-", "/"));
-                    }
-                } catch(ParseException e){
-                    e.printStackTrace();
+            }
+            else if(transactionItemVO.getType().equals(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_DATE")){
+                if(transactionItemVO.getValue()!=null){
+                    vaccinationDate = ScreenHelper.parseDate(transactionItemVO.getValue().replaceAll("-", "/"));
                 }
             }
         }
@@ -5350,7 +5363,7 @@ public class MedwanQuery {
         vaccinationInfoVO.setType(vaccinationType);
         vaccinationInfoVO.setNextStatus("-");
         try{
-            vaccinationInfoVO.setNextDate(new SimpleDateFormat("dd/MM/yyyy").parse(nextDate));
+            vaccinationInfoVO.setNextDate(ScreenHelper.parseDate(nextDate));
         }
         catch(Exception e){
             //
@@ -5592,13 +5605,25 @@ public class MedwanQuery {
             ps.setInt(10, transactionVO.getVersionserverId());
             ps.execute();
             ps.close();
+            
+            //#####################################################################################
+            //### SAVE ITEMS ######################################################################
+            //#####################################################################################
+            transactionVO.convertItemsToEUDate(); // first convert date-values
+            
             ItemVO itemVO;
-            for (Iterator iterator = transactionVO.getItems().iterator(); iterator.hasNext();){
+            for(Iterator iterator = transactionVO.getItems().iterator(); iterator.hasNext();){
                 itemVO = (ItemVO) iterator.next();
                 if(itemVO.getValue().trim().length() > 0){
-                    sSelect = "insert into Items(itemId,type,"+getConfigString("valueColumn")+"," +
-                            getConfigString("dateColumn")+",transactionId,serverid,version,versionserverid,valuehash)" +
-                            " values(?,?,?,?,?,?,?,?,?)";
+                	System.out.println("================================================="); //////////////////
+                	System.out.println("============ SAVING ITEM ========================"); //////////////////
+                	System.out.println("================================================="); //////////////////
+                    System.out.println("itemVO.getType : "+itemVO.getType()); /////////
+                    System.out.println("itemVO.getValue : "+itemVO.getValue()); /////////
+                    
+                    sSelect = "insert into Items(itemId,type,"+getConfigString("valueColumn")+","+
+                              getConfigString("dateColumn")+",transactionId,serverid,version,versionserverid,valuehash)"+
+                              " values(?,?,?,?,?,?,?,?,?)";
                     ps = oc_conn.prepareStatement(sSelect);
                     if(itemVO.getItemId().intValue() < 0){
                         itemVO.setItemId(new Integer(getOpenclinicCounter("ItemID")));

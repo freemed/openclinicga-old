@@ -2,6 +2,7 @@ package be.mxs.common.util.pdf.official;
 
 import be.mxs.common.util.pdf.PDFBasic;
 import be.mxs.common.util.system.Miscelaneous;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 
@@ -39,7 +40,7 @@ public abstract class PDFOfficialBasic extends PDFBasic {
 
     protected String url, contextPath, projectDir;
     protected Image img;
-    protected SimpleDateFormat DATE_FORMAT=new SimpleDateFormat("dd/MM/yyyy");
+    protected SimpleDateFormat DATE_FORMAT=ScreenHelper.stdDateFormat;
     protected DecimalFormat PERCENT_FORMAT=new DecimalFormat("#.#");
     protected DecimalFormat TWODIGIT_FORMAT=new DecimalFormat("#.##");
     

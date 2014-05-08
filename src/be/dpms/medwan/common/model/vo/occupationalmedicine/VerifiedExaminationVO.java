@@ -2,6 +2,7 @@ package be.dpms.medwan.common.model.vo.occupationalmedicine;
 
 import be.mxs.common.model.vo.IIdentifiable;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
+import be.mxs.common.util.system.ScreenHelper;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 
 import java.io.Serializable;
@@ -62,7 +63,7 @@ public class VerifiedExaminationVO implements Serializable, IIdentifiable {
 
     public String getPlannedExaminationDueDateString() {
         if(plannedExamination!=null && plannedExamination.getPlannedDate()!=null){
-            return new SimpleDateFormat("dd/MM/yyyy").format(plannedExamination.getPlannedDate());
+            return ScreenHelper.stdDateFormat.format(plannedExamination.getPlannedDate());
         }
         return "";
     }
@@ -165,7 +166,7 @@ public class VerifiedExaminationVO implements Serializable, IIdentifiable {
         String tt = transactionType.split("&")[0];
         TransactionVO transactionVO = this.sessionContainerWO.getLastTransaction(tt);
         if (transactionVO != null){
-            lastExamination = new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime());
+            lastExamination = ScreenHelper.stdDateFormat.format(transactionVO.getUpdateTime());
             lastExaminationDate = transactionVO.getUpdateTime();
             lastExaminationId = transactionVO.getTransactionId().toString();
             lastExaminationServerId = Integer.toString(transactionVO.getServerId());

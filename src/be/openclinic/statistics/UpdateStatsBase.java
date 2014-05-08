@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
 
 public class UpdateStatsBase {
 	protected static Date STARTDATE;
@@ -16,12 +17,7 @@ public class UpdateStatsBase {
 	protected String maxbatchsize=getConfigString("maxbatchsize","10000");
 	
 	public UpdateStatsBase(){
-		try {
-			STARTDATE = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		STARTDATE = ScreenHelper.parseDate("01/01/1900");
 	}
 
 	public String getModulename() {

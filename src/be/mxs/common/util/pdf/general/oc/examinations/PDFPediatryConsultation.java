@@ -62,6 +62,7 @@ public class PDFPediatryConsultation extends PDFGeneralBasic {
                     sTmpDate = "";
                     if(sTmpBio.toString().toLowerCase().indexOf("£") > -1) {
                         sTmpDate = sTmpBio.substring(0, sTmpBio.toString().toLowerCase().indexOf("£"));
+                        sTmpDate = ScreenHelper.convertDate(sTmpDate);
                         sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£") + 1));
                     }
 

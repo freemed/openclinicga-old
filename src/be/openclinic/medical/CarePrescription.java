@@ -497,7 +497,7 @@ public class CarePrescription extends OC_Object{
                              " WHERE OC_CAREPRESCR_PATIENTUID = ? AND (OC_CAREPRESCR_END IS NULL OR OC_CAREPRESCR_END >= ?)";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1,patientuid);
-            ps.setTimestamp(2,new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())).getTime()));
+            ps.setTimestamp(2,new Timestamp(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())).getTime()));
             rs = ps.executeQuery();
 
             // get data from DB

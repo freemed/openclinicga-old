@@ -643,7 +643,7 @@ public class Prescription extends OC_Object{
             ps.setString(1,patientuid);
             long latencydays=1000*MedwanQuery.getInstance().getConfigInt("activeMedicationLatency",60);
             latencydays*=24*3600;
-        	Timestamp ts = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()-latencydays);
+        	Timestamp ts = new Timestamp(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()-latencydays);
             ps.setTimestamp(2,ts);
             rs = ps.executeQuery();
 

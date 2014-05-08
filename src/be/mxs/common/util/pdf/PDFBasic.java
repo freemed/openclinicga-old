@@ -41,7 +41,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 public abstract class PDFBasic {
 
     // declarations
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat dateFormat = ScreenHelper.stdDateFormat;
     protected final String IConstants_PREFIX = "be.mxs.common.model.vo.healthrecord.IConstants.";
     protected final BaseColor innerBorderColor = BaseColor.LIGHT_GRAY;
     protected final BaseColor BGCOLOR_LIGHT = new BaseColor(240,240,240); // light gray
@@ -124,11 +124,16 @@ public abstract class PDFBasic {
     }
 
     //--- GET ITEM VALUE --------------------------------------------------------------------------
+    // convert date-value of date-items to EU-dates
     protected String getItemValue(TransactionVO transactionVO, String itemType){
         if(transactionVO != null){
             ItemVO itemVO = transactionVO.getItem(itemType);
             if(itemVO != null){
-                return itemVO.getValue();
+            	String sValue = itemVO.getValue();
+            	if(itemVO.isDateItem()){
+            		sValue = ScreenHelper.convertDate(sValue);
+            	}
+            	return sValue;
             }
         }
 

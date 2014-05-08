@@ -21,6 +21,7 @@ import be.mxs.webapp.wl.exceptions.SessionContainerFactoryException;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.date.MedwanCalendar;
 import be.mxs.common.util.system.Miscelaneous;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.*;
 import net.admin.AdminPerson;
 
@@ -47,8 +48,7 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                     if (adminPerson!=null){
                         personid=adminPerson.personid;
                     }
-                    else
-                    {
+                    else{
                         if (sessionContainerWO.getPersonVO()!=null){
                             personid=sessionContainerWO.getPersonVO().getPersonId().toString();
                         }
@@ -211,7 +211,7 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                                 }
                                 if (verifiedExaminationVO.getLastExaminationDate()!=null){
                                     if (verifiedExaminationVO.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_DRIVING_LICENCE_DECLARATION)){
-                                        if (flagsVO.getLastDrivingCertificate().getNewExaminationDue().equalsIgnoreCase("medwan.common.true") && verifiedExaminationVO.getLastExaminationDate().before(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())))){
+                                        if (flagsVO.getLastDrivingCertificate().getNewExaminationDue().equalsIgnoreCase("medwan.common.true") && verifiedExaminationVO.getLastExaminationDate().before(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())))){
                                             verifiedExaminationVO.setNewExaminationDue("medwan.common.true");
                                         }
                                         else {
@@ -246,14 +246,11 @@ public class ManagePeriodicExaminationsAction extends org.apache.struts.action.A
                     sessionContainerWO.setRiskProfileVerifiedExaminations( verifiedExaminations );
                 }
             }
-
-        } catch (SessionContainerFactoryException e) {
+        }
+        catch (SessionContainerFactoryException e) {
             e.printStackTrace();
             actionForward = mapping.findForward( "failure" );
         } 
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         return actionForward;
     }

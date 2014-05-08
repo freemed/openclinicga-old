@@ -54,11 +54,11 @@ public class Debug {
     
     //--- PRINT PROJECT ERR -----------------------------------------------------------------------
     public static void printProjectErr(Exception e, StackTraceElement[] s, String more){
-        System.out.println(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date())+ " ERROR IN OpenClinic OCCURRED IN PAGE '" + s[2].getFileName() + "' METHOD '" + s[2].getMethodName() + "' LINE '" + s[2].getLineNumber() + "'\n                    MSG '"+more+" + " + ((e!=null)?e.fillInStackTrace().toString():"null")+ "'\n");
+        System.out.println(ScreenHelper.fullDateFormatSS.format(new java.util.Date())+ " ERROR IN OpenClinic OCCURRED IN PAGE '" + s[2].getFileName() + "' METHOD '" + s[2].getMethodName() + "' LINE '" + s[2].getLineNumber() + "'\n                    MSG '"+more+" + " + ((e!=null)?e.fillInStackTrace().toString():"null")+ "'\n");
     }
     
     public static void printProjectErr(Exception e, StackTraceElement[] s){
-        System.out.println(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date())+ " ERROR IN OpenClinic OCCURRED IN PAGE '" + s[2].getFileName() + "' METHOD '" + s[2].getMethodName() + "' LINE '" + s[2].getLineNumber() + "'\n                    MSG '" + ((e!=null)?e.fillInStackTrace().toString():"null") + "'\n");
+        System.out.println(ScreenHelper.fullDateFormatSS.format(new java.util.Date())+ " ERROR IN OpenClinic OCCURRED IN PAGE '" + s[2].getFileName() + "' METHOD '" + s[2].getMethodName() + "' LINE '" + s[2].getLineNumber() + "'\n                    MSG '" + ((e!=null)?e.fillInStackTrace().toString():"null") + "'\n");
     }
     
     //--- PRINT STACKTRACE ------------------------------------------------------------------------

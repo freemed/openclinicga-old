@@ -983,7 +983,7 @@ public class Diagnosis extends OC_Object{
     		while(rs.next()){
     			String sCode=rs.getString("OC_DIAGNOSIS_CODE");
     			String sCodeType=rs.getString("OC_DIAGNOSIS_CODEType");
-    			i.add(new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("OC_DIAGNOSIS_DATE"))+" "+sCodeType.toUpperCase()+" "+sCode+": "+MedwanQuery.getInstance().getDiagnosisLabel(sCodeType, sCode, language));
+    			i.add(ScreenHelper.stdDateFormat.format(rs.getDate("OC_DIAGNOSIS_DATE"))+" "+sCodeType.toUpperCase()+" "+sCode+": "+MedwanQuery.getInstance().getDiagnosisLabel(sCodeType, sCode, language));
     		}
     		rs.close();
     		ps.close();

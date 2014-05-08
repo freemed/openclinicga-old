@@ -3,6 +3,7 @@ package be.mxs.common.util.pdf.official.oc.examinations;
 import be.mxs.common.util.pdf.official.PDFOfficialBasic;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -296,6 +297,7 @@ public abstract class PDFOfficialGrowthGraph extends PDFOfficialBasic {
                 sTmpDate = "";
                 if (sTmpBio.toString().toLowerCase().indexOf("£")>-1){
                     sTmpDate = sTmpBio.substring(0,sTmpBio.toString().toLowerCase().indexOf("£"));
+                    sTmpDate = ScreenHelper.convertDate(sTmpDate);
                     sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£")+1));
                 }
 
@@ -331,8 +333,8 @@ public abstract class PDFOfficialGrowthGraph extends PDFOfficialBasic {
                 }
 
                 // calculate patient's age in months at the given date
-                java.util.Date regDate   = new SimpleDateFormat("dd/MM/yyyy").parse(sTmpDate),
-                               birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(patient.dateOfBirth);
+                java.util.Date regDate   = ScreenHelper.parseDate(sTmpDate),
+                               birthDate = ScreenHelper.parseDate(patient.dateOfBirth);
 
                 float iAgeInYears = MedwanQuery.getInstance().getNrYears(birthDate,regDate);
                 double iAgeInMonths = iAgeInYears * 12.0;

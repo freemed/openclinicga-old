@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import be.mxs.common.util.system.ScreenHelper;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Michaël
@@ -70,7 +72,7 @@ public class BeanModifier {
 
                 if ( ( parameterTypes[0].isAssignableFrom( java.util.Date.class ) ) || ( parameterTypes[0].isAssignableFrom( java.sql.Date.class ) ) ) {
 
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat simpleDateFormat = ScreenHelper.stdDateFormat;
                     java.util.Date dateValue = simpleDateFormat.parse(value);
 
                     parameterObject = new java.util.Date(dateValue.getTime());

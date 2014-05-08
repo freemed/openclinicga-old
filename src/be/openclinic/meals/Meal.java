@@ -344,7 +344,7 @@ public class Meal extends OC_Object {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             if (date == null && _date != null) {
-                SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat simple = ScreenHelper.stdDateFormat;
                 date = simple.format(_date);
             }
             if (this.patientMealUid.equals("-1")) {

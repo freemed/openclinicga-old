@@ -1,6 +1,7 @@
 package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
@@ -679,7 +680,7 @@ public class PDFSurveillanceProtocol extends PDFGeneralBasic {
         while(dateIter.hasNext()){
             date = (java.util.Date)dateIter.next();
 
-            cell = createHeaderCell(new SimpleDateFormat("dd/MM/yyyy").format(date),1);
+            cell = createHeaderCell(ScreenHelper.stdDateFormat.format(date),1);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             rightBilanTable.addCell(cell);
         }

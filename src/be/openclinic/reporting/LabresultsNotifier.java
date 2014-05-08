@@ -10,6 +10,7 @@ import be.mxs.common.util.db.MedwanQuery;
 import java.sql.*;
 
 import be.mxs.common.util.system.HTMLEntities;
+import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.datacenter.SendSMS;
 
 import net.admin.AdminPerson;
@@ -384,7 +385,7 @@ public class LabresultsNotifier {
 						String sHeader = "<html><body style='font-family: arial, sans-serif;height:100%;background-color: #DCEDFF'>"+
 						"<table border='0' width='100%'><tr><td>" + MedwanQuery.getInstance().getLabel("sendhtmlmail", "todoctor", user.language) + " " +  sUserFirstname + " " + user.lastname + ", </td> <td></td> <td ALIGN='right'> " + sImage + "</td> </tr></table> <br>" +			
 						MedwanQuery.getInstance().getLabel("sendhtmlmail", "newresults", user.language) + "<br><br>" +
-						"<center><h3>" + sMailTitle + " " + transactionId + " ("+new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+
+						"<center><h3>" + sMailTitle + " " + transactionId + " ("+ScreenHelper.stdDateFormat.format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+
 						MedwanQuery.getInstance().getLabel("web", "patient", user.language) +": "+ patient.lastname.toUpperCase()+" "+sPatientFirstname+", "+patient.gender.toUpperCase()+" °"+patient.dateOfBirth + " (ID: "+patient.personid+")</h3></center>" +
 						"<table border='1' width='100%'>" +
 						"	<tr BGCOLOR='Lightskyblue'><th>"+MedwanQuery.getInstance().getLabel("web", "labcode", user.language)+"</th><th>" + MedwanQuery.getInstance().getLabel("web", "label", user.language)+"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "value", user.language) +"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "references", user.language) +"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "evaluation", user.language) +"</th></tr>";
@@ -412,7 +413,7 @@ public class LabresultsNotifier {
 						String sHeader = "<html><body style='font-family: arial, sans-serif;height:100%;background-color: #DCEDFF'>"+
 						"<table border='0' width='100%'><tr><td>" + MedwanQuery.getInstance().getLabel("sendhtmlmail", "todoctor", user.language) + " " +  sUserFirstname + " " + user.lastname + ", </td> <td></td> <td ALIGN='right'> " + sImage + "</td> </tr></table> <br>" +			
 						MedwanQuery.getInstance().getLabel("sendhtmlmail", "newresults", user.language) + "<br><br>" +
-						"<center><h3>" + sMailTitle + " " + transactionId + " ("+new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+
+						"<center><h3>" + sMailTitle + " " + transactionId + " ("+ScreenHelper.stdDateFormat.format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+
 						MedwanQuery.getInstance().getLabel("web", "patient", user.language) +": "+ patient.lastname.toUpperCase()+" "+sPatientFirstname+", "+patient.gender.toUpperCase()+" °"+patient.dateOfBirth + " (ID: "+patient.personid+")</h3></center>" +
 						"<table border='1' width='100%'>" +
 						"	<tr BGCOLOR='Lightskyblue'><th>"+MedwanQuery.getInstance().getLabel("web", "labcode", user.language)+"</th><th>" + MedwanQuery.getInstance().getLabel("web", "label", user.language)+"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "value", user.language) +"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "references", user.language) +"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "evaluation", user.language) +"</th></tr>";
@@ -571,7 +572,7 @@ public class LabresultsNotifier {
 				String sHeader = "<html><body style='font-family: arial, sans-serif;height:100%;background-color: #DCEDFF'>"+
 						"<table border='0' width='100%'><tr><td>" + MedwanQuery.getInstance().getLabel("sendhtmlmail", "todoctor", user.language) + " " +  sUserFirstname + " " + user.lastname + ", </td> <td></td> <td ALIGN='right'> " + sImage + "</td> </tr></table> <br>" +			
 						MedwanQuery.getInstance().getLabel("sendhtmlmail", "newresults", user.language) + "<br><br>" +
-						"<center><h3>" + sMailTitle + " " + sTransactionId + " ("+new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+
+						"<center><h3>" + sMailTitle + " " + sTransactionId + " ("+ScreenHelper.stdDateFormat.format(transactionVO.getUpdateTime())+")</h3></center><center><h3>"+
 						MedwanQuery.getInstance().getLabel("web", "patient", user.language) +": "+ patient.lastname.toUpperCase()+" "+sPatientFirstname+", "+patient.gender.toUpperCase()+" °"+patient.dateOfBirth + " (ID: "+patient.personid+")</h3></center>" +
 						"<table border='1' width='100%'>" +
 						"	<tr BGCOLOR='Lightskyblue'><th>"+MedwanQuery.getInstance().getLabel("web", "labcode", user.language)+"</th><th>" + MedwanQuery.getInstance().getLabel("web", "label", user.language)+"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "value", user.language) +"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "references", user.language) +"</th><th>"+ MedwanQuery.getInstance().getLabel("web", "evaluation", user.language) +"</th></tr>";

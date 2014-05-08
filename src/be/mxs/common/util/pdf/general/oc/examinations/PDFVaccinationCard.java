@@ -10,6 +10,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.model.vo.healthrecord.IConstants;
 import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
@@ -118,7 +119,7 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
                         if(bShowNext){
                             par = new Paragraph(getTran("Web.Occup","be.mxs.healthrecord.vaccination.next").toUpperCase()+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
                             try{
-                                if(new SimpleDateFormat("dd/MM/yyyy").parse(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)).before(new Date())){
+                                if(ScreenHelper.parseDate(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)).before(new Date())){
                                     par.add(new Chunk(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD,BaseColor.RED)));
                                 }
                                 else{

@@ -8,6 +8,7 @@ import be.dpms.medwan.webapp.wo.administration.PersonWO;
 import be.dpms.medwan.webapp.wo.healthrecord.HealthRecordWO;
 import be.mxs.common.model.vo.healthrecord.*;
 import be.mxs.common.model.vo.IdentifierFactory;
+import be.mxs.common.util.system.ScreenHelper;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
@@ -207,7 +208,7 @@ public class SessionContainerWO {
                     if (item.getType().equals(be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_EXPIRATION_DATE)){
                         try{
                             //Debug.println("value="+item.getValue());
-                            expiration = new SimpleDateFormat("dd/MM/yyyy").parse(item.getValue());
+                            expiration = ScreenHelper.parseDate(item.getValue());
                             if (expiration.before(new Date())){
                                 denied = true;
                             }

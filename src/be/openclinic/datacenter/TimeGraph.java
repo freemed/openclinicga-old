@@ -173,8 +173,8 @@ public class TimeGraph {
         Debug.println("end : "+ScreenHelper.stdDateFormat.format(end)+"\n");
         
         try{
-            //begin = ScreenHelper.stdDateFormat.parse("01/07/2012"); // debug
-            //end = ScreenHelper.stdDateFormat.parse("01/08/2012"); // debug
+            //begin = ScreenHelper.parseDate("01/07/2012"); // debug
+            //end = ScreenHelper.parseDate("01/08/2012"); // debug
              
             conn = MedwanQuery.getInstance().getStatsConnection();
             

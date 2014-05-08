@@ -178,7 +178,7 @@ public class Encounter extends OC_Object {
         try {
             PreparedStatement ps = oc_conn.prepareStatement("select count(*) total from Transactions a,HealthRecord b where a.healthRecordId=b.healthRecordId and b.personid=? and a.updatetime>=? and a.updatetime<=?");
             ps.setInt(1, Integer.parseInt(this.getPatientUID()));
-            ps.setDate(2, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(this.getBegin())).getTime()));
+            ps.setDate(2, new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(this.getBegin())).getTime()));
             ps.setTimestamp(3, new java.sql.Timestamp(this.getEnd()==null?new java.util.Date().getTime():this.getEnd().getTime()));
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -207,7 +207,7 @@ public class Encounter extends OC_Object {
         try {
             PreparedStatement ps = oc_conn.prepareStatement("select count(*) total from OC_PATIENTINVOICES where OC_PATIENTINVOICE_PATIENTUID=? and OC_PATIENTINVOICE_DATE>=? and OC_PATIENTINVOICE_DATE<=?");
             ps.setInt(1, Integer.parseInt(this.getPatientUID()));
-            ps.setDate(2, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(this.getBegin())).getTime()));
+            ps.setDate(2, new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(this.getBegin())).getTime()));
             ps.setTimestamp(3, new java.sql.Timestamp(this.getEnd()==null?new java.util.Date().getTime():this.getEnd().getTime()));
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -698,9 +698,9 @@ public class Encounter extends OC_Object {
     public int getDurationInDaysNoLastDay() throws ParseException {
         double duration;
         if (getEnd() != null) {
-            duration = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(getEnd())).getTime() - getBegin().getTime();
+            duration = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(getEnd())).getTime() - getBegin().getTime();
         } else {
-            duration = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())).getTime() - getBegin().getTime();
+            duration = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())).getTime() - getBegin().getTime();
         }
         return new Double(Math.ceil(duration / (1000 * 60 * 60 * 24))).intValue();
     }
@@ -715,11 +715,7 @@ public class Encounter extends OC_Object {
         if (getEnd() != null && getEnd().before(new Date())) {
             duration = getEnd().getTime() - b.getTime();
         } else {
-            try {
-                duration = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())).getTime() - b.getTime();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            duration = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())).getTime() - b.getTime();
         }
         return Math.ceil(duration / (1000 * 60 * 60 * 24));
     }
@@ -733,11 +729,7 @@ public class Encounter extends OC_Object {
         if (getEnd() != null && getEnd().before(enddate)) {
             duration = getEnd().getTime() - b.getTime();
         } else {
-            try {
-                duration = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(enddate)).getTime() - b.getTime();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            duration = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(enddate)).getTime() - b.getTime();
         }
         return Math.ceil(duration / (1000 * 60 * 60 * 24));
     }
@@ -1813,11 +1805,11 @@ public class Encounter extends OC_Object {
         }
 
         if (this.getBegin() != null) {
-            sBegin = ", " + new SimpleDateFormat("dd/MM/yyyy").format(this.getBegin());
+            sBegin = ", " + ScreenHelper.stdDateFormat.format(this.getBegin());
         }
 
         if (this.getEnd() != null) {
-            sEnd = " -> " + new SimpleDateFormat("dd/MM/yyyy").format(this.getEnd());
+            sEnd = " -> " + ScreenHelper.stdDateFormat.format(this.getEnd());
         }
 
         return this.getUid() + sBegin + sEnd + sType;
@@ -1831,11 +1823,11 @@ public class Encounter extends OC_Object {
         }
 
         if (this.getBegin() != null) {
-            sBegin = ", " + new SimpleDateFormat("dd/MM/yyyy").format(this.getBegin());
+            sBegin = ", " + ScreenHelper.stdDateFormat.format(this.getBegin());
         }
 
         if (this.getEnd() != null) {
-            sEnd = " -> " + new SimpleDateFormat("dd/MM/yyyy").format(this.getEnd());
+            sEnd = " -> " + ScreenHelper.stdDateFormat.format(this.getEnd());
         }
         if (ScreenHelper.checkString(this.getServiceUID()).length() > 0) {
             sService = MedwanQuery.getInstance().getLabel("service", this.getServiceUID(), language);
@@ -2526,7 +2518,7 @@ public class Encounter extends OC_Object {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             if(tOnDate!=null){
-                tOnDate=new Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(new SimpleDateFormat("dd/MM/yyyy").format(tOnDate)+" 23:59").getTime());
+                tOnDate=new Timestamp(ScreenHelper.fullDateFormat.parse(ScreenHelper.stdDateFormat.format(tOnDate)+" 23:59").getTime());
             }
             ps = oc_conn.prepareStatement(sSelect);
             ps.setTimestamp(1, tOnDate);
@@ -2841,8 +2833,8 @@ public class Encounter extends OC_Object {
             
             for(int n=0;n<encounterServices.size();n++){
                 EncounterService encounterService = (EncounterService)encounterServices.elementAt(n);
-                Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(encounterService.begin));
-                Date end = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(encounterService.end));
+                Date begin = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(encounterService.begin));
+                Date end = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(encounterService.end));
                 if(!begin.after(date) && (end==null || !end.before(date))&& encounterService.serviceUID!=null && encounterService.serviceUID.trim().length()>0){
                     return encounterService.serviceUID;
                 }

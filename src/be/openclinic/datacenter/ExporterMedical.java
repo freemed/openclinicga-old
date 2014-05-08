@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
 
 public class ExporterMedical extends Exporter {
 
@@ -48,8 +49,8 @@ public class ExporterMedical extends Exporter {
 					boolean bFound=false;
 					Date lastDay=new Date(new SimpleDateFormat("yyyyMMdd").parse(new SimpleDateFormat("yyyyMM").format(new Date())+"01").getTime()-1);
 					Date firstDay=new SimpleDateFormat("yyyyMMdd").parse(firstMonth+"01");
-					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005"))){
-						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005");
+					if(firstDay.before(ScreenHelper.parseDate("01/01/2005"))){
+						firstDay=ScreenHelper.parseDate("01/01/2005");
 					}
 					int firstYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(firstDay));
 					int lastYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(lastDay));
@@ -64,8 +65,8 @@ public class ExporterMedical extends Exporter {
 						}
 						for(int i=firstmonth;i<=lastmonth;i++){
 							//Find all diagnoses for this month
-							Date begin = new SimpleDateFormat("dd/MM/yyyy").parse("01/"+i+"/"+n);
-							Date end = new SimpleDateFormat("dd/MM/yyyy").parse(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
+							Date begin = ScreenHelper.parseDate("01/"+i+"/"+n);
+							Date end = ScreenHelper.parseDate(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
 							Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							try {
 								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, oc_diagnosis_code from oc_encounters a, oc_diagnoses_view b where a.oc_encounter_objectid=replace(b.oc_diagnosis_encounteruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and"+
@@ -136,8 +137,8 @@ public class ExporterMedical extends Exporter {
 					boolean bFound=false;
 					Date lastDay=new Date(new SimpleDateFormat("yyyyMMdd").parse(new SimpleDateFormat("yyyyMM").format(new Date())+"01").getTime()-1);
 					Date firstDay=new SimpleDateFormat("yyyyMMdd").parse(firstMonth+"01");
-					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005"))){
-						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005");
+					if(firstDay.before(ScreenHelper.parseDate("01/01/2005"))){
+						firstDay=ScreenHelper.parseDate("01/01/2005");
 					}
 					int firstYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(firstDay));
 					int lastYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(lastDay));
@@ -152,8 +153,8 @@ public class ExporterMedical extends Exporter {
 						}
 						for(int i=firstmonth;i<=lastmonth;i++){
 							//Find all diagnoses for this month
-							Date begin = new SimpleDateFormat("dd/MM/yyyy").parse("01/"+i+"/"+n);
-							Date end = new SimpleDateFormat("dd/MM/yyyy").parse(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
+							Date begin = ScreenHelper.parseDate("01/"+i+"/"+n);
+							Date end = ScreenHelper.parseDate(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
 							Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							try {
 								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, oc_diagnosis_code from oc_encounters a, oc_diagnoses_view b where a.oc_encounter_objectid=replace(b.oc_diagnosis_encounteruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and"+
@@ -223,8 +224,8 @@ public class ExporterMedical extends Exporter {
 					boolean bFound=false;
 					Date lastDay=new Date(new SimpleDateFormat("yyyyMMdd").parse(new SimpleDateFormat("yyyyMM").format(new Date())+"01").getTime()-1);
 					Date firstDay=new SimpleDateFormat("yyyyMMdd").parse(firstMonth+"01");
-					if(firstDay.before(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005"))){
-						firstDay=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2005");
+					if(firstDay.before(ScreenHelper.parseDate("01/01/2005"))){
+						firstDay=ScreenHelper.parseDate("01/01/2005");
 					}
 					int firstYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(firstDay));
 					int lastYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(lastDay));
@@ -239,8 +240,8 @@ public class ExporterMedical extends Exporter {
 						}
 						for(int i=firstmonth;i<=lastmonth;i++){
 							//Find all diagnoses for this month
-							Date begin = new SimpleDateFormat("dd/MM/yyyy").parse("01/"+i+"/"+n);
-							Date end = new SimpleDateFormat("dd/MM/yyyy").parse(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
+							Date begin = ScreenHelper.parseDate("01/"+i+"/"+n);
+							Date end = ScreenHelper.parseDate(i==12?"01/01/"+(n+1):"01/"+(i+1)+"/"+n);
 							Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							try {
 								PreparedStatement ps = oc_conn.prepareStatement("select count(*) total, oc_diagnosis_code from oc_encounters a, oc_diagnoses_view b where a.oc_encounter_objectid=replace(b.oc_diagnosis_encounteruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and"+

@@ -2,6 +2,7 @@ package be.mxs.common.util.diagnostics;
 
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -266,7 +267,7 @@ public class CleanNullUpdatetime extends Diagnostic {
         PreparedStatement ps;
 
         try {
-            Date oldDate = new Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000").getTime());
+            Date oldDate = new Date(ScreenHelper.parseDate("01/01/2000").getTime());
 
             // admin
             ps = adminconnection.prepareStatement("update Services set updatetime=? where updatetime is null");

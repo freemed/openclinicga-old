@@ -179,7 +179,7 @@ public class chukPDFOfficialLabRequest extends PDFOfficialBasic {
         RequestedLabAnalysis labAnalysis;
         String sTmpCode, sTmpResultValue, sTmpResultUnit, sTmpType = "", sTmpLabel = "",
                sTmpMonster = "", sTmpModifier, sTmpResultUserName = "", sTmpReferences, sTmpResultDate;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
         PdfPTable chosenAnalyses = new PdfPTable(20);
         chosenAnalyses.setWidthPercentage(pageWidth);

@@ -497,6 +497,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
                     sTmpChirurgieDateBegin = "";
                     if(sTmpChirurgie.indexOf("£")>-1){
                         sTmpChirurgieDateBegin = sTmpChirurgie.substring(0,sTmpChirurgie.indexOf("£"));
+                        sTmpChirurgieDateBegin = ScreenHelper.convertDate(sTmpChirurgieDateBegin);
                         sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.indexOf("£")+1);
                     }
 
@@ -504,6 +505,7 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
                     sTmpChirurgieDateEnd = "";
                     if(sTmpChirurgie.indexOf("£")>-1){
                         sTmpChirurgieDateEnd = sTmpChirurgie.substring(0,sTmpChirurgie.indexOf("£"));
+                        sTmpChirurgieDateEnd = ScreenHelper.convertDate(sTmpChirurgieDateEnd);
                         sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.indexOf("£")+1);
                     }
 

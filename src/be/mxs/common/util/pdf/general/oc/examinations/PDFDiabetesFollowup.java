@@ -2,6 +2,7 @@ package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.mxs.common.util.pdf.util.CustomXYLabelGenerator;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -400,7 +401,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     if(!titleShown){
                         // main title
                         table.addCell(createTitleCell(getTran("web","graphs"),5));
-                        addItemRow(table,getTran("web","begindate"),new SimpleDateFormat("dd/MM/yyyy").format(defaultBeginDate.getTime()));
+                        addItemRow(table,getTran("web","begindate"),ScreenHelper.stdDateFormat.format(defaultBeginDate.getTime()));
 
                         titleShown = true;
                     }
@@ -433,7 +434,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     if(!titleShown){
                         // main title
                         table.addCell(createTitleCell(getTran("web","graphs"),5));
-                        addItemRow(table,getTran("web","begindate"),new SimpleDateFormat("dd/MM/yyyy").format(defaultBeginDate.getTime()));
+                        addItemRow(table,getTran("web","begindate"),ScreenHelper.stdDateFormat.format(defaultBeginDate.getTime()));
 
                         titleShown = true;
                     }
@@ -462,7 +463,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     if(!titleShown){
                         // main title
                         table.addCell(createTitleCell(getTran("web","graphs"),5));
-                        addItemRow(table,getTran("web","begindate"),new SimpleDateFormat("dd/MM/yyyy").format(defaultBeginDate.getTime()));
+                        addItemRow(table,getTran("web","begindate"),ScreenHelper.stdDateFormat.format(defaultBeginDate.getTime()));
 
                         titleShown = true;
                     }
@@ -491,7 +492,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
                     if(!titleShown){
                         // main title
                         table.addCell(createTitleCell(getTran("web","graphs"),5));
-                        addItemRow(table,getTran("web","begindate"),new SimpleDateFormat("dd/MM/yyyy").format(defaultBeginDate.getTime()));
+                        addItemRow(table,getTran("web","begindate"),ScreenHelper.stdDateFormat.format(defaultBeginDate.getTime()));
 
                         titleShown = true;
                     }
@@ -521,7 +522,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
         Collections.sort(dates);
 
         String sGlyBeginDate = "", sGlyEndDate;
-        SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormat;
         java.util.Date date;
         String value;
 

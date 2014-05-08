@@ -2,6 +2,7 @@ package be.mxs.common.util.pdf.general.oc.examinations;
 
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.mxs.common.util.system.Miscelaneous;
+import be.mxs.common.util.system.ScreenHelper;
 
 import java.awt.*;
 import java.awt.Image;
@@ -65,6 +66,7 @@ public class PDFDentist extends PDFGeneralBasic {
                         sTmpDate = "";
                         if (sTmpTeeth.toString().toLowerCase().indexOf("£")>-1){
                             sTmpDate = sTmpTeeth.substring(0,sTmpTeeth.toString().toLowerCase().indexOf("£"));
+                            sTmpDate = ScreenHelper.convertDate(sTmpDate);
                             sTmpTeeth = new StringBuffer(sTmpTeeth.substring(sTmpTeeth.toString().toLowerCase().indexOf("£")+1));
                         }
 

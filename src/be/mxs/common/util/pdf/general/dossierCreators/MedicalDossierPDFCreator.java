@@ -599,7 +599,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
 
             	// indicate when due     
                 String sNextDate = vacc.getTransactionVO().getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NEXT_DATE");	                               
-                if(ScreenHelper.stdDateFormat.parse(sNextDate).before(new java.util.Date())){
+                if(ScreenHelper.parseDate(sNextDate).before(new java.util.Date())){
                     // add warning-icon
                     Image image = Miscelaneous.getImage("warning.gif","");
                     image.scaleToFit(10,10);

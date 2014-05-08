@@ -137,8 +137,8 @@ public class HospitalStats {
         //void
     }
     public HospitalStats(String begin, String end) throws Exception {
-        this.begin = new SimpleDateFormat("dd/MM/yyyy").parse(begin);
-        this.end = new SimpleDateFormat("dd/MM/yyyy").parse(end);
+        this.begin = ScreenHelper.parseDate(begin);
+        this.end = ScreenHelper.parseDate(end);
     }
     public HospitalStats(Date begin, Date end) {
         this.begin = begin;

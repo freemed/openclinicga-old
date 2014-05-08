@@ -65,7 +65,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
         doc = new Document();
 
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = ScreenHelper.stdDateFormat;
     }
 
     //--- GENERATE DOCUMENT BYTES -----------------------------------------------------------------

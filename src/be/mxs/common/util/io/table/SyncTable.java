@@ -233,7 +233,7 @@ public class SyncTable {
                         ps.setNull(iIndex, Types.TIMESTAMP);
                     }
                     else{
-                        ps.setTimestamp(iIndex, new Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(sData).getTime()));
+                        ps.setTimestamp(iIndex, new Timestamp(ScreenHelper.fullDateFormat.parse(sData).getTime()));
                     }
                 }
                 catch(Exception e){

@@ -2,6 +2,7 @@ package be.mxs.statistics;
 
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Miscelaneous;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.HealthRecordVO;
 import be.dpms.medwan.common.model.vo.occupationalmedicine.RiskProfileVO;
 import be.dpms.medwan.common.model.vo.administration.PersonVO;
@@ -209,7 +210,7 @@ public class YearReport {
             try {
                 if (out!=null && pct!=percent){
                     percent=pct;
-                    out.print("<script>window.status='Period "+new SimpleDateFormat("dd/MM/yyyy").format(begin)+"-"+new SimpleDateFormat("dd/MM/yyyy").format(end)+": "+percent+"% ("+Integer.parseInt(new SimpleDateFormat("MM").format(end))/3+"/4)'</script>");
+                    out.print("<script>window.status='Period "+ScreenHelper.stdDateFormat.format(begin)+"-"+ScreenHelper.stdDateFormat.format(end)+": "+percent+"% ("+Integer.parseInt(new SimpleDateFormat("MM").format(end))/3+"/4)'</script>");
                     out.flush();
                 }
             } catch (IOException e) {

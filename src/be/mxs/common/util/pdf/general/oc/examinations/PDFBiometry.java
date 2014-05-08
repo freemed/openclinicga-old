@@ -36,6 +36,7 @@ import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
 
 
 public class PDFBiometry extends PDFGeneralBasic {
@@ -57,6 +58,7 @@ public class PDFBiometry extends PDFGeneralBasic {
                         sTmpDate = "";
                         if(sTmpBio.toString().toLowerCase().indexOf("£")>-1){
                             sTmpDate = sTmpBio.substring(0,sTmpBio.toString().toLowerCase().indexOf("£"));
+                            sTmpDate = ScreenHelper.convertDate(sTmpDate);
                             sTmpBio = new StringBuffer(sTmpBio.substring(sTmpBio.toString().toLowerCase().indexOf("£")+1));
                         }
 
@@ -444,8 +446,8 @@ public class PDFBiometry extends PDFGeneralBasic {
                 }
 
                 // calculate patient's age in months at the given date
-                java.util.Date regDate   = new SimpleDateFormat("dd/MM/yyyy").parse(sTmpDate),
-                               birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(patient.dateOfBirth);
+                java.util.Date regDate   = ScreenHelper.parseDate(sTmpDate),
+                               birthDate = ScreenHelper.parseDate(patient.dateOfBirth);
 
                 float iAgeInYears = MedwanQuery.getInstance().getNrYears(birthDate,regDate);
                 double iAgeInMonths = iAgeInYears * 12.0;

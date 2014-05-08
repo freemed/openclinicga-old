@@ -1,6 +1,7 @@
 package be.openclinic.medical;
 
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.common.KeyValue;
 import be.openclinic.common.Util;
 
@@ -91,7 +92,7 @@ public class CarePrescriptionAdministrationSchema {
         this.date = date;
         this.personuid = personuid;
         SortedMap schemaTimes = new TreeMap();
-        Vector prescriptions= CarePrescription.find(personuid,"","",new SimpleDateFormat("dd/MM/yyyy").format(new Date(date.getTime()+24*3600*1000)),new SimpleDateFormat("dd/MM/yyyy").format(date),"","","");
+        Vector prescriptions= CarePrescription.find(personuid,"","",ScreenHelper.stdDateFormat.format(new Date(date.getTime()+24*3600*1000)),ScreenHelper.stdDateFormat.format(date),"","","");
         
         //We inventariseren eerst alle noodzakelijke tijdstippen
         CarePrescription prescription;
@@ -130,7 +131,7 @@ public class CarePrescriptionAdministrationSchema {
         this.date = dateBegin;
         this.personuid = personuid;
         SortedMap schemaTimes = new TreeMap();
-        Vector prescriptions= CarePrescription.find(personuid,"","",new SimpleDateFormat("dd/MM/yyyy").format(dateEnd),new SimpleDateFormat("dd/MM/yyyy").format(dateBegin),"","","");
+        Vector prescriptions= CarePrescription.find(personuid,"","",ScreenHelper.stdDateFormat.format(dateEnd),ScreenHelper.stdDateFormat.format(dateBegin),"","","");
         //We inventariseren eerst alle noodzakelijke tijdstippen
         CarePrescription prescription;
         CarePrescriptionSchema prescriptionSchema;

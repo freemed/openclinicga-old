@@ -488,11 +488,10 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
             }
             sessionContainerWO.getHealthRecordVO().setUpdated(true);
             
-            //--- INSERT ACCESS LOG ---------------------------------------------------
-            if(bIsNewTrans)AccessLog.insert(sessionContainerWO.getCurrentTransactionVO().getUser().getUserId()+"","T."+sessionContainerWO.getCurrentTransactionVO().getServerId()+"."+sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue());
-
-
-
+            // INSERT ACCESS LOG
+            if(bIsNewTrans){
+            	AccessLog.insert(sessionContainerWO.getCurrentTransactionVO().getUser().getUserId()+"","T."+sessionContainerWO.getCurrentTransactionVO().getServerId()+"."+sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue());
+            }
         }
         catch (SessionContainerFactoryException e) {
             try {

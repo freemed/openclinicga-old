@@ -19,6 +19,7 @@ import be.mxs.common.model.vo.healthrecord.*;
 import be.mxs.common.model.vo.IdentifierFactory;
 import be.mxs.common.model.util.collections.BeanPropertyAccessor;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
 
 public class ManageNextVaccinationAction extends org.apache.struts.action.Action {
 
@@ -35,7 +36,6 @@ public class ManageNextVaccinationAction extends org.apache.struts.action.Action
         throws IOException, ServletException {
 
         ActionForward actionForward = mapping.findForward( "success" );
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName() );
@@ -107,7 +107,7 @@ public class ManageNextVaccinationAction extends org.apache.struts.action.Action
 
                         itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
                                                                  IConstants.ITEM_TYPE_VACCINATION_DATE,
-                                                                 stdDateFormat.format(new java.util.Date()),
+                                                                 ScreenHelper.stdDateFormat.format(new java.util.Date()),
                                                                  new Date(),
                                                                  itemContextVO));
 
@@ -159,7 +159,7 @@ public class ManageNextVaccinationAction extends org.apache.struts.action.Action
 
                         itemsVO.add( new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),
                                                                         IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE,
-                                                                        stdDateFormat.format(vaccinationInfoVO.getNextDate()),
+                                                                        ScreenHelper.stdDateFormat.format(vaccinationInfoVO.getNextDate()),
                                                                         new Date(),
                                                                         itemContextVO));
 
@@ -179,10 +179,10 @@ public class ManageNextVaccinationAction extends org.apache.struts.action.Action
                     previousItemVO = (ItemVO) iterator.next();
 
                     if ( previousItemVO.getType().equals( IConstants.ITEM_TYPE_VACCINATION_DATE ) ) {
-                        previousItemVO.setValue(stdDateFormat.format(new Date()));
+                        previousItemVO.setValue(ScreenHelper.stdDateFormat.format(new Date()));
                     }
                     else if ( previousItemVO.getType().equals( IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE ) ) {
-                        previousItemVO.setValue(stdDateFormat.format(new Date(new Date().getTime()+vaccinationInfoVO.getNextMinInterval()*24*60*60*1000)));
+                        previousItemVO.setValue(ScreenHelper.stdDateFormat.format(new Date(new Date().getTime()+vaccinationInfoVO.getNextMinInterval()*24*60*60*1000)));
                     }
 
                     newItemVO = new ItemVO(  new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier() ),

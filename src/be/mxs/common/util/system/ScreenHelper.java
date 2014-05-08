@@ -27,11 +27,189 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ScreenHelper {
-    public static SimpleDateFormat hourFormat     = new SimpleDateFormat("HH:mm");
-    public static SimpleDateFormat stdDateFormat  = new SimpleDateFormat("dd/MM/yyyy");
-    public static SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    public static SimpleDateFormat hourFormat, stdDateFormat, fullDateFormat, fullDateFormatSS;
+    public static SimpleDateFormat euDateFormat = new SimpleDateFormat(MedwanQuery.getInstance().getConfigString("euDateFormat","dd/MM/yyyy")); // used when storing dates in DB
     public static String ITEM_PREFIX = "be.mxs.common.model.vo.healthrecord.IConstants.";
+    
+    static{
+    	reloadDateFormats();
+    }
 
+    //--- RELOAD DATE FORMATS ---------------------------------------------------------------------
+    public static void reloadDateFormats(){
+        hourFormat       = new SimpleDateFormat(MedwanQuery.getInstance().getConfigString("hourFormat","HH:mm"));
+        stdDateFormat    = new SimpleDateFormat(MedwanQuery.getInstance().getConfigString("dateFormat","dd/MM/yyyy"));
+        fullDateFormat   = new SimpleDateFormat(stdDateFormat.toPattern()+" "+hourFormat.toPattern());
+        fullDateFormatSS = new SimpleDateFormat(stdDateFormat.toPattern()+" "+hourFormat.toPattern()+":ss");
+        
+        hourFormat.setLenient(false); // do not roll into the next year when passing the 12th month
+	    stdDateFormat.setLenient(false);
+	    fullDateFormat.setLenient(false);
+	    fullDateFormatSS.setLenient(false);
+    }
+    
+    //--- CONVERT TO EU DATE ----------------------------------------------------------------------
+    public static String convertToEUDate(String sDate){    	
+    	if(sDate.length() > 0){
+	    	java.util.Date date = parseDate(sDate);
+	    	
+	    	try{
+		    	sDate = ScreenHelper.euDateFormat.format(date); 
+	    	}
+	    	catch(Exception e){
+	    		//e.printStackTrace();
+	    	}
+    	}
+    	
+    	return sDate;
+    }
+    
+    //--- CONVERT TO EU DATE CONCATINATED ---------------------------------------------------------
+    public static String convertToEUDateConcatinated(String sConcatinatedValue){ 
+    	if(sConcatinatedValue.length() > 0){    	    	
+	    	// check for $ (row) in the value
+	    	if(sConcatinatedValue.indexOf("$") > -1){
+	            String sOrigValue = sConcatinatedValue;
+	            boolean dateFound = false;
+	            String sCell;
+	            Vector rows = new Vector();
+
+	            // run thru rows of the concatinated value
+	            while(sConcatinatedValue.indexOf("$") > -1){
+	            	// row by row
+	            	String sRow = sConcatinatedValue.substring(0,sConcatinatedValue.indexOf("$")+1);
+
+	                Vector cells = new Vector();
+	                
+	            	// cell by cell
+	                while(sRow.indexOf("$") > 0){
+	                	if(sRow.indexOf("£") > -1){
+	                	    sCell = sRow.substring(0,sRow.indexOf("£"));
+	                	}
+	                	else{
+	                	    sCell = sRow.substring(0,sRow.indexOf("$"));
+	                	}
+	                	
+	                	// convert to EU date, which is the format to store dates in the DB
+	                	if(ScreenHelper.isDateValue(sCell)){
+	                		// convert to EU date
+	                		sCell = ScreenHelper.convertToEUDate(sCell);
+	                		dateFound = true;
+	                	}
+	                	cells.add(sCell);
+	                	
+	                	// trim-off treated cell
+	                	if(sRow.indexOf("£") > -1){
+                	        sRow = sRow.substring(sRow.indexOf("£")+1);
+	                	}
+	                	else{
+                	        sRow = sRow.substring(sRow.indexOf("$"));
+	                	}
+	                	
+	                    // treat next cell
+	                }
+	            	
+	            	// trim-off treated row
+	                sConcatinatedValue = sConcatinatedValue.substring(sConcatinatedValue.indexOf("$")+1);
+	                
+	                // compose row again
+	            	sRow = "";            	
+	            	for(int i=0; i<cells.size(); i++){
+	            		sRow+= (String)cells.get(i)+"£"; // terminate cell
+	            	}            	
+	            	sRow = sRow.substring(0,sRow.length()-1); // trim-off £
+	            	sRow+= "$"; // terminate row
+	                
+	                // save treated row in vector
+	            	rows.add(sRow);
+	                
+	                // treat next row
+	            }
+	            
+	            // reconstruct value from rows in vector
+	            if(dateFound){
+		            sConcatinatedValue = ""; // reset
+		            for(int i=0; i<rows.size(); i++){
+		            	sConcatinatedValue+= (String)rows.get(i);
+		            }
+		            
+		            // trim-off last separator
+	            }
+	            else{
+	            	sConcatinatedValue = sOrigValue;
+	            }
+	    	}
+    	}
+
+    	return sConcatinatedValue;
+    }
+    
+    //--- CONVERT DATE ----------------------------------------------------------------------------
+    // typically from EU (database) to EU or US (display)
+    public static String convertDate(String sDate){
+    	if(sDate.length() > 0){
+	    	java.util.Date date = parseDate(sDate,euDateFormat);
+	    	
+	    	try{
+		    	sDate = ScreenHelper.stdDateFormat.format(date); 
+	    	}
+	    	catch(Exception e){
+	    		//e.printStackTrace();
+	    	}
+	    	
+            return sDate;
+    	}
+    	else{
+    		return "";
+    	}
+    }
+    
+    //--- PARSE DATE ------------------------------------------------------------------------------
+    public static java.util.Date parseDate(String sDate){
+        return parseDate(sDate,stdDateFormat);
+    }
+    
+    private static java.util.Date parseDate(String sDate, SimpleDateFormat dateFormat){
+    	reloadDateFormats();
+    	java.util.Date date = null;
+				
+		try{  
+			date = dateFormat.parse(sDate);
+		}
+		catch(Exception e){   
+			// try parsing with the other format		    
+        	try{
+			    if(stdDateFormat.toPattern().equals("dd/MM/yyyy")){
+			    	// EU gave error --> try US
+			    	date = new SimpleDateFormat("MM/dd/yyyy").parse((String)sDate);
+	    		    sDate = dateFormat.format(date);	
+			    }
+			    else if(stdDateFormat.toPattern().equals("MM/dd/yyyy")){
+			    	// US gave error --> try EU
+			    	date = new SimpleDateFormat("dd/MM/yyyy").parse((String)sDate);
+	    		    sDate = dateFormat.format(date);
+			    }
+        	}
+        	catch(Exception e2){
+        		//e2.printStackTrace();
+        	}
+		}
+ 
+		return date;
+    }
+    
+    //--- IS DATE VALUE ---------------------------------------------------------------------------
+    // recognises date-values
+    public static boolean isDateValue(String sValue){
+    	boolean isDateValue = false;
+    	
+    	if(parseDate(sValue)!=null){
+    		isDateValue = true;
+    	}
+    	
+    	return isDateValue;
+    }
+    
     //--- GET TODAY -------------------------------------------------------------------------------
     public static java.util.Date getToday(){
     	Calendar cal = Calendar.getInstance();
@@ -779,7 +957,7 @@ public class ScreenHelper {
         }
         
         return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)"+sExtraCondition+"){dateError(this);}else{"+sExtraOnBlur+"}'>"
-              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTran("Web","Select",sWebLanguage)+"' onclick='alert(\"test\")'>"
+              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTran("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTran("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
     }
 
@@ -817,7 +995,7 @@ public class ScreenHelper {
 
     //--- CHECK PERMISSION ------------------------------------------------------------------------
     public static String checkPermission(String sScreen, String sPermission, User activeUser,
-                                         boolean screenIsPopup, String sAPPFULLDIR) {
+                                         boolean screenIsPopup, String sAPPFULLDIR){
         sPermission = sPermission.toLowerCase();
         String jsAlert = "Error in checkPermission : no screen specified !";
         if(sScreen.trim().length()>0) {
@@ -833,7 +1011,7 @@ public class ScreenHelper {
                     if(sPermission.equals("none")) {
                     	jsAlert = "";
                     }
-                    else if(activeUser.getAccessRight(sScreen+"."+sPermission)) {
+                    else if(activeUser.getAccessRight(sScreen+"."+sPermission)){
                         jsAlert = "";
                     }
                 }
@@ -845,7 +1023,6 @@ public class ScreenHelper {
                          activeUser.getAccessRight(sScreen+".delete")) {
                     jsAlert = "";
                 }
-                if(Debug.enabled) System.out.println("3"); 
 
                 if(jsAlert.length() > 0){
                     String sMessage = getTranNoLink("web","nopermission",activeUser.person.language);
@@ -912,7 +1089,7 @@ public class ScreenHelper {
 		        			sQuery="select * from oc_debets where oc_debet_date>=? and oc_debet_encounteruid=? and oc_debet_prestationuid=? and oc_debet_patientinvoiceuid like '%.%'";
 		        		}
 		        		PreparedStatement ps = conn.prepareStatement(sQuery);
-		        		ps.setDate(1, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()));
+		        		ps.setDate(1, new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()));
 		        		ps.setString(2, sEncounterUid);
 		        		ps.setString(3, prestation.getUid());
 		        		ResultSet rs = ps.executeQuery();
@@ -937,7 +1114,7 @@ public class ScreenHelper {
 	        			sQuery="select * from oc_debets a, oc_prestations b where a.oc_debet_date>=? and a.oc_debet_encounteruid=? and a.oc_debet_patientinvoiceuid like '%.%' and b.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and b.oc_prestation_class=?";
 	        		}
 	        		PreparedStatement ps = conn.prepareStatement(sQuery);
-	        		ps.setDate(1, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())).getTime()));
+	        		ps.setDate(1, new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()));
 	        		ps.setString(2, sEncounterUid);
 	        		ps.setString(3, sPrestationClass);
 	        		ResultSet rs = ps.executeQuery();
@@ -1293,13 +1470,8 @@ public class ScreenHelper {
         for (int i=0; i<person.privateContacts.size(); i++) {
             apc = ((AdminPrivateContact)(person.privateContacts.elementAt(i)));
             if(apc.end==null || apc.end.trim().equals("")) {
-                try {
-                    if(apcActive==null || stdDateFormat.parse(apc.begin).after(stdDateFormat.parse(apcActive.begin))){
-                        apcActive=apc;
-                    }
-                }
-                catch (ParseException e) {
-                    // nothing
+                if(apcActive==null || ScreenHelper.parseDate(apc.begin).after(ScreenHelper.parseDate(apcActive.begin))){
+                    apcActive=apc;
                 }
             }
         }
@@ -1337,6 +1509,11 @@ public class ScreenHelper {
         return stdDateFormat.format(new java.util.Date());
     }
 
+    //--- GET DATE --------------------------------------------------------------------------------
+    public static java.util.Date getDate(java.util.Date date) throws Exception{
+        return ScreenHelper.parseDate(stdDateFormat.format(date));
+    }
+
     //--- FORMAT DATE -----------------------------------------------------------------------------
     public static String formatDate(java.util.Date dDate) {
         String sDate = "";
@@ -1344,11 +1521,6 @@ public class ScreenHelper {
             sDate = stdDateFormat.format(dDate);
         }
         return sDate;
-    }
-
-    //--- GET DATE --------------------------------------------------------------------------------
-    public static java.util.Date getDate(java.util.Date date) throws Exception{
-        return stdDateFormat.parse(stdDateFormat.format(date));
     }
 
     //--- WRITE TABLE FOOTER ----------------------------------------------------------------------
@@ -1550,7 +1722,7 @@ public class ScreenHelper {
             }
             else{
                 sDate=sDate.replaceAll("-","/");
-                return new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sDate).getTime());
+                return new java.sql.Date(ScreenHelper.parseDate(sDate).getTime());
             }
         }
         catch(Exception e) {
@@ -1566,8 +1738,8 @@ public class ScreenHelper {
             }
             else{
                 sDate=sDate.replaceAll("-","/");
-                java.util.Date d=new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
-                return new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(d.getTime()+Long.parseLong(sAdd)*24*60*60000));
+                java.util.Date d=ScreenHelper.parseDate(sDate);
+                return ScreenHelper.stdDateFormat.format(new java.util.Date(d.getTime()+Long.parseLong(sAdd)*24*60*60000));
             }
         }
         catch(Exception e) {

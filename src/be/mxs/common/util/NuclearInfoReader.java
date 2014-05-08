@@ -61,7 +61,7 @@ public class NuclearInfoReader {
     public NuclearInfoReader() throws Exception {
         if(Debug.enabled) Debug.println("\n================== NuclearInfoReader ==================");
 
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = ScreenHelper.stdDateFormat;
 
         try{
             conn = MedwanQuery.getInstance().getOpenclinicConnection();

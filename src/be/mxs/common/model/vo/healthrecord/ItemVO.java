@@ -1,23 +1,28 @@
 package be.mxs.common.model.vo.healthrecord;
 
 import be.mxs.common.model.vo.IIdentifiable;
+import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
+
 import org.dom4j.Element;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 public class ItemVO implements Serializable, IIdentifiable {
     private Integer itemId;
-    private String type="";
-    private String value="";
+    private String type = "";
+    private String value = "";
     private Date date;
     private ItemContextVO itemContext;
     private int priority;
     private Date inactiveDate;
     private int serverid;
 
-    public ItemVO(Integer itemId, String type, String value, Date date, ItemContextVO itemContextVO) {
+    //--- CONSTRUCTOR -----------------------------------------------------------------------------
+    public ItemVO(Integer itemId, String type, String value, Date date, ItemContextVO itemContextVO){
         this.itemId = itemId;
         this.type = type;
         this.value = value;
@@ -25,13 +30,14 @@ public class ItemVO implements Serializable, IIdentifiable {
         this.itemContext = itemContextVO;
     }
 
-    public ItemVO(Integer itemId, String type, String value, Date date, ItemContextVO itemContextVO,int priority) {
+    //--- CONSTRUCTOR -----------------------------------------------------------------------------
+    public ItemVO(Integer itemId, String type, String value, Date date, ItemContextVO itemContextVO, int priority){
         this.itemId = itemId;
         this.type = type;
         this.value = value;
         this.date = date;
         this.itemContext = itemContextVO;
-        this.priority=priority;
+        this.priority = priority;
     }
 
     public int getServerId(){
@@ -39,84 +45,117 @@ public class ItemVO implements Serializable, IIdentifiable {
     }
 
     public void setServerId(int serverid){
-        this.serverid=serverid;
+        this.serverid = serverid;
     }
 
-    public Date getInactiveDate() {
+    public Date getInactiveDate(){
         return inactiveDate;
     }
 
-    public Integer getItemId() {
+    public Integer getItemId(){
         return itemId;
     }
 
-    public int getPriority() {
+    public int getPriority(){
         return priority;
     }
 
-    public String getType() {
+    public String getType(){
         return type;
     }
 
-    public String getValue() {
-        return (value==null?value:value.trim().replaceAll("\"","´"));
+    public String getValue(){
+        String sValue = (value==null?value:value.trim().replaceAll("\"","´"));
+    	
+    	// convert date-value to EU-date for date-items
+    	if(isDateItem()){
+    		sValue = ScreenHelper.convertDate(sValue);
+    	}
+    	
+    	return sValue;
     }
 
-    public Date getDate() {
+    public Date getDate(){
         return date;
     }
 
-    public ItemContextVO getItemContext() {
+    public ItemContextVO getItemContext(){
         return itemContext;
     }
 
-    public void setItemId(Integer itemId) {
+    public void setItemId(Integer itemId){
         this.itemId = itemId;
     }
 
-    public void setType(String type) {
+    public void setType(String type){
         this.type = type;
     }
-    public void setPriority(int priority) {
+    
+    public void setPriority(int priority){
         this.priority = priority;
     }
 
-    public void setValue(String value) {
+    public void setValue(String value){
         this.value = value;
     }
 
     public void setInactiveDate (Date inactiveDate){
-        this.inactiveDate=inactiveDate;
+        this.inactiveDate = inactiveDate;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date){
         this.date = date;
     }
 
-    public void setItemContext(ItemContextVO itemContext) {
+    public void setItemContext(ItemContextVO itemContext){
         this.itemContext = itemContext;
     }
 
-    public int hashCode() {
+    public int hashCode(){
         return itemId.hashCode();
     }
 
+    //--- CREATE XML ------------------------------------------------------------------------------
     public void createXML(Element element){
         Element item = element.addElement("Item");
+        
         item.addElement("ItemId").addText(itemId+"");
         item.addElement("ItemType").addText(type);
         item.addElement("ItemValue").addText(value);
-        item.addElement("ItemDate").addText(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date));
+        item.addElement("ItemDate").addText(ScreenHelper.fullDateFormatSS.format(date));
     }
 
+    //--- TO XML ----------------------------------------------------------------------------------
     public String toXML(){
-        StringBuffer sXML=new StringBuffer();
+        StringBuffer sXML = new StringBuffer();
         sXML.append("<Item>");
-        sXML.append("<ItemId>").append(itemId).append("</ItemId>");
-        sXML.append("<ItemType>").append(type).append("</ItemType>");
-        sXML.append("<ItemValue>").append(value).append("</ItemValue>");
-        sXML.append("<ItemDate>").append(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date)).append("</ItemDate>");
+         sXML.append("<ItemId>").append(itemId).append("</ItemId>");
+         sXML.append("<ItemType>").append(type).append("</ItemType>");
+         sXML.append("<ItemValue>").append(value).append("</ItemValue>");
+         sXML.append("<ItemDate>").append(ScreenHelper.fullDateFormatSS.format(date)).append("</ItemDate>");
         sXML.append("</Item>");
+        
         return sXML.toString();
     }
+    
+    //--- IS DATE ITEM ----------------------------------------------------------------------------
+    // recognises dates based on the type ot the item
+    public boolean isDateItem(){
+    	boolean isDateItem = false;
+    	
+    	/*
+    	// strict listing
+    	if(this.getType().equalsIgnoreCase(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_ALERTS_EXPIRATION_DATE")){
+    	  	isDateItem = true; // todo
+    	}
+    	*/
+    	
+    	// any item of which the type contains "date"
+    	if(this.getType().toUpperCase().indexOf("DATE") > -1){
+    		isDateItem = true;
+    	}
+    	
+    	return isDateItem;
+    }
+    
 }

@@ -16,6 +16,7 @@ import org.dom4j.tree.DefaultDocument;
 import org.dom4j.tree.DefaultElement;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.model.vo.healthrecord.ItemVO;
 import be.mxs.common.model.vo.healthrecord.IConstants;
 
@@ -55,11 +56,7 @@ public class Essiconnect {
         element = root.addElement("FirstName");
         element.setText(activePatient.firstname);
         element = root.addElement("DateOfBirth");
-        try {
-            element.setText(new SimpleDateFormat("yyyyMMdd").format(new SimpleDateFormat("dd/MM/yyyy").parse(activePatient.dateOfBirth)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        element.setText(new SimpleDateFormat("yyyyMMdd").format(ScreenHelper.parseDate(activePatient.dateOfBirth)));
         element = root.addElement("Sex");
         element.setText(activePatient.gender.toUpperCase());
         element = root.addElement("Height");

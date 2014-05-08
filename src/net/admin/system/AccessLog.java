@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import java.util.List;
 import java.util.LinkedList;
+
 public class AccessLog {
 
     private int accessid;
@@ -18,79 +19,89 @@ public class AccessLog {
     private String lastname;
     private String firstname;
 
-    public int getAccessid() {
+    //--- GETTERS & SETTERS -----------------------------------------------------------------------
+    public int getAccessid(){
         return accessid;
     }
 
-    public void setAccessid(int accessid) {
+    public void setAccessid(int accessid){
         this.accessid = accessid;
     }
 
-    public int getUserid() {
+    public int getUserid(){
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(int userid){
         this.userid = userid;
     }
 
-    public Timestamp getAccesstime() {
+    public Timestamp getAccesstime(){
         return accesstime;
     }
 
-    public void setAccesstime(Timestamp accesstime) {
+    public void setAccesstime(Timestamp accesstime){
         this.accesstime = accesstime;
     }
 
-    public String getLastname() {
+    public String getLastname(){
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    public void setLastname(String lastname){
         this.lastname = lastname;
     }
 
-    public String getFirstname() {
+    public String getFirstname(){
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    public void setFirstname(String firstname){
         this.firstname = firstname;
     }
 
-
+    //--- SEARCH ACCESS LOGS ----------------------------------------------------------------------
     public static Vector searchAccessLogs(String sFindBegin, String sFindEnd){
         PreparedStatement ps = null;
         ResultSet rs = null;
-
         Vector vAL = new Vector();
-
         String sSelect;
-        String sSelect1 = " SELECT a.accessid, a.accesstime, b.lastname, b.firstname FROM AccessLogs a, Users u, Admin b WHERE "
-                        + " a.accesstime BETWEEN ? AND ? AND u.userid = a.userid AND b.personid = u.personid "
-                        + " ORDER BY a.accesstime, b.searchname ";
-        String sSelect2 = " SELECT a.accessid, a.accesstime, b.lastname, b.firstname FROM AccessLogs a, Users u, Admin b WHERE "
-                        +  " a.accesstime >= ? AND u.userid = a.userid AND b.personid = u.personid "
-                        +  " ORDER BY a.accesstime, b.searchname ";
-        String sSelect3 = " SELECT a.accessid, a.accesstime, b.lastname, b.firstname FROM AccessLogs a, Users u, Admin b WHERE "
-                        + " a.accesstime <= ? AND u.userid = a.userid AND b.personid = u.personid "
-                        + " ORDER BY a.accesstime, b.searchname ";
-
+        
+        String sSelect1 = "SELECT a.accessid, a.accesstime, b.lastname, b.firstname"+
+                          " FROM AccessLogs a, Users u, Admin b"+
+                          "  WHERE a.accesstime BETWEEN ? AND ?"+
+        		          "   AND u.userid = a.userid"+
+                          "   AND b.personid = u.personid"+
+                          " ORDER BY a.accesstime, b.searchname";
+        
+        String sSelect2 = "SELECT a.accessid, a.accesstime, b.lastname, b.firstname"+
+                          " FROM AccessLogs a, Users u, Admin b"+
+        		          "  WHERE a.accesstime >= ?"+
+                          "   AND u.userid = a.userid"+
+        		          "   AND b.personid = u.personid"+
+                          " ORDER BY a.accesstime, b.searchname";
+        
+        String sSelect3 = "SELECT a.accessid, a.accesstime, b.lastname, b.firstname"+
+                          " FROM AccessLogs a, Users u, Admin b"+
+                          "  WHERE a.accesstime <= ?"+
+                          "   AND u.userid = a.userid"+
+                          "   AND b.personid = u.personid"+
+                          " ORDER BY a.accesstime, b.searchname";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
     	try{
-            if ((sFindBegin.trim().length()>0)&&(sFindEnd.trim().length()>0)){
+            if((sFindBegin.trim().length()>0)&&(sFindEnd.trim().length()>0)){
                 sSelect = sSelect1;
                 ps = ad_conn.prepareStatement(sSelect);
                 ps.setDate(1,ScreenHelper.getSQLDate(sFindBegin));
                 ps.setDate(2,ScreenHelper.getSQLDate(ScreenHelper.getDateAdd(sFindEnd, "1")));
             }
-            else if (sFindBegin.trim().length()>0){
+            else if(sFindBegin.trim().length()>0){
                 sSelect = sSelect2;
                 ps = ad_conn.prepareStatement(sSelect);
                 ps.setDate(1,ScreenHelper.getSQLDate(sFindBegin));
             }
-            else if (sFindEnd.trim().length()>0){
+            else if(sFindEnd.trim().length()>0){
                 sSelect = sSelect3;
                 ps = ad_conn.prepareStatement(sSelect);
                 ps.setDate(1,ScreenHelper.getSQLDate(ScreenHelper.getDateAdd(sFindEnd, "1")));
@@ -107,29 +118,30 @@ public class AccessLog {
 
                 vAL.addElement(objAL);
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+    	catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+    	finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 ad_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
 
         return vAL;
-
     }
 
+    //--- LOG ACCESS ------------------------------------------------------------------------------
     public static void logAccess(AccessLog objAL){
         PreparedStatement ps = null;
 
-        String sInsert = "INSERT INTO AccessLogs (accessid, userid, accesstime) VALUES (?, ?, ?)";
-
+        String sInsert = "INSERT INTO AccessLogs (accessid,userid,accesstime)"+
+                         " VALUES (?,?,?)";
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
             ps = ad_conn.prepareStatement(sInsert);
@@ -137,24 +149,27 @@ public class AccessLog {
             ps.setInt(2,objAL.getUserid());
             ps.setTimestamp(3,objAL.getAccesstime());
             ps.execute();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
+                if(ps!=null) ps.close();
                 ad_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
+    //--- INSERT (1) ------------------------------------------------------------------------------
     public static void insert(String sUserID){
         PreparedStatement ps = null;
 
-        String sInsert = "INSERT INTO AccessLogs (accessid, userid, accesstime) VALUES (?, ?, ?)";
-
+        String sInsert = "INSERT INTO AccessLogs (accessid,userid,accesstime)"+
+                         " VALUES (?,?,?)";
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
             ps = ad_conn.prepareStatement(sInsert);
@@ -162,23 +177,27 @@ public class AccessLog {
             ps.setInt(2,Integer.parseInt(sUserID));
             ps.setTimestamp(3,ScreenHelper.getSQLTime());
             ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
+                if(ps!=null) ps.close();
                 ad_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
+
+    //--- INSERT (2) ------------------------------------------------------------------------------
     public static void insert(String sUserID,String accessCode){
         PreparedStatement ps = null;
 
-        String sInsert = "INSERT INTO AccessLogs (accessid, userid, accesstime,accesscode) VALUES (?, ?, ?,?)";
-
+        String sInsert = "INSERT INTO AccessLogs(accessid,userid,accesstime,accesscode)"+
+                         " VALUES (?,?,?,?)";
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
             ps = ad_conn.prepareStatement(sInsert);
@@ -187,63 +206,72 @@ public class AccessLog {
             ps.setTimestamp(3,ScreenHelper.getSQLTime());
             ps.setString(4,accessCode);
             ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
+                if(ps!=null) ps.close();
                 ad_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
-    public static List getLastAccess(String patientId,int nb){
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            List l = new LinkedList();
-            String sSelect = " SELECT * FROM AccessLogs a WHERE accesscode = ? ORDER BY accessid DESC";
+    
+    //--- GET LAST ACCESS -------------------------------------------------------------------------
+    public static List getLastAccess(String patientId, int nb){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        List l = new LinkedList();
+        String sSelect = "SELECT * FROM AccessLogs"+
+                         " WHERE accesscode = ?"+
+                         "  ORDER BY accessid DESC";
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sSelect);
+            ps.setString(1,patientId);
 
-        	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-            try{
-                ps = ad_conn.prepareStatement(sSelect);
-                ps.setString(1,patientId);
-
-
-                rs = ps.executeQuery();
-                int i = 0;
-                while(rs.next()){
-                    if(nb==0 || i<=nb){
-                        Object sReturn[] = {rs.getTimestamp("accesstime"),rs.getString("userid")};
-                        l.add(sReturn);
-                    }
-                    i++;
+            rs = ps.executeQuery();
+            int i = 0;
+            while(rs.next()){
+                if(nb==0 || i<=nb){
+                    Object sReturn[] = {rs.getTimestamp("accesstime"),rs.getString("userid")};
+                    l.add(sReturn);
                 }
-                rs.close();
-                ps.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }finally{
-                try{
-                    if(rs!=null)rs.close();
-                    if(ps!=null)ps.close();
-                    ad_conn.close();
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+                i++;
             }
-            return l;
         }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                ad_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+        return l;
+    }
 
-    public static Vector getAccessTimes(java.sql.Date dBegin,java.sql.Date dEnd,int iUserId){
+    //--- GET ACCESS TIMES ------------------------------------------------------------------------
+    public static Vector getAccessTimes(java.sql.Date dBegin, java.sql.Date dEnd, int iUserId){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         Vector vAccessTimes = new Vector();
 
-        String sSelect = " SELECT a.accesstime FROM AccessLogs a WHERE a.accesstime BETWEEN ? AND ? AND userid = ?";
-
+        String sSelect = "SELECT a.accesstime FROM AccessLogs a"+
+                         " WHERE a.accesstime BETWEEN ? AND ?"+
+        		         "  AND userid = ?";
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
             ps = ad_conn.prepareStatement(sSelect);
@@ -252,26 +280,28 @@ public class AccessLog {
             ps.setInt(3,iUserId);
 
             rs = ps.executeQuery();
-
             while(rs.next()){
                 vAccessTimes.addElement(rs.getDate("accesstime"));
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 ad_conn.close();
-            }catch(Exception e){
+            } 
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vAccessTimes;
     }
 
+    //--- DELETE (1) ------------------------------------------------------------------------------
     public static void delete(String sAccessId){
         PreparedStatement ps = null;
 
@@ -281,18 +311,22 @@ public class AccessLog {
             ps = ad_conn.prepareStatement(sQuery);
             ps.setString(1,sAccessId);
             ps.executeUpdate();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
+                if(ps!=null) ps.close();
                 ad_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
+    //--- DELETE (2) ------------------------------------------------------------------------------
     public static void delete(java.util.Date delFromDate, java.util.Date delUntilDate){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -331,13 +365,16 @@ public class AccessLog {
                     accessIds.append("'").append(id).append("',");
                 }
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
-                if(rs!=null)rs.close();
-            }catch(Exception e){
+                if(ps!=null) ps.close();
+                if(rs!=null) rs.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
@@ -355,13 +392,16 @@ public class AccessLog {
                 ps = ad_conn.prepareStatement(sQuery);
                 ps.executeUpdate();
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
+                if(ps!=null) ps.close();
                 ad_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }

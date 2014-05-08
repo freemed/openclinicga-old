@@ -624,16 +624,16 @@ public class UpdateSystem {
 		    						User user = User.get(rs.getInt("userid"));
 		    						if(user !=null && !user.getParameter("registrationstatus").equalsIgnoreCase(element.attributeValue("id"))){
 		    							user.updateParameter(new Parameter("registrationstatus",element.attributeValue("id")));
-		    							user.updateParameter(new Parameter("registrationstatusdate",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())));
+		    							user.updateParameter(new Parameter("registrationstatusdate",ScreenHelper.stdDateFormat.format(new java.util.Date())));
 		    						}
 		    						else if(user!=null && !user.getParameter("registrationstatus").equalsIgnoreCase("0")){
 		    							if(MedwanQuery.getInstance().getConfigInt("enableProfessionalCouncilRegistrationCancellation",0)==1){
 			    							try{
 			    								long trimester = 24*3600*1000;
 			    								trimester=trimester*MedwanQuery.getInstance().getConfigInt("professionalCouncilRegistrationCancellationDelay",90);
-			    								if(new java.util.Date().getTime()-new SimpleDateFormat("dd/MM/yyyy").parse(user.getParameter("registrationstatusdate")).getTime()>trimester){
+			    								if(new java.util.Date().getTime()-ScreenHelper.parseDate(user.getParameter("registrationstatusdate")).getTime()>trimester){
 			    									//Cancel user access
-			    									user.stop=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+			    									user.stop=ScreenHelper.stdDateFormat.format(new java.util.Date());
 			    									user.saveToDB();
 			    								}
 			    							}
@@ -642,7 +642,7 @@ public class UpdateSystem {
 			    							}
 		    							}
 		    						}
-	    							user.updateParameter(new Parameter("registrationstatusupdatetime",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())));
+	    							user.updateParameter(new Parameter("registrationstatusupdatetime",ScreenHelper.stdDateFormat.format(new java.util.Date())));
 	    						}
 	    						rs.close();
 	    						ps.close();

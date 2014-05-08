@@ -1,6 +1,7 @@
 package be.mxs.common.util;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
 
 import java.util.Date;
 import java.util.Calendar;
@@ -54,7 +55,7 @@ public class NuclearInfo {
         if(Debug.enabled) Debug.println("personId  : "+personId);
 
         //*** month stuff **************************************************************************
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = ScreenHelper.stdDateFormat;
 
         // beginMonth
         beginCal = new GregorianCalendar();

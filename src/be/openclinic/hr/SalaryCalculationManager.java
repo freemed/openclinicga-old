@@ -34,8 +34,8 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
         String sCurrMonthBegin = "01/"+sMonth+"/"+now.get(Calendar.YEAR),
                sCurrMonthEnd   = now.getActualMaximum(Calendar.DAY_OF_MONTH)+"/"+sMonth+"/"+now.get(Calendar.YEAR);
 
-        java.util.Date currMonthBegin = ScreenHelper.stdDateFormat.parse(sCurrMonthBegin),
-                       currMonthEnd   = ScreenHelper.stdDateFormat.parse(sCurrMonthEnd);
+        java.util.Date currMonthBegin = ScreenHelper.parseDate(sCurrMonthBegin),
+                       currMonthEnd   = ScreenHelper.parseDate(sCurrMonthEnd);
 
         if(periodBegin==null) periodBegin = currMonthBegin;
         if(periodEnd==null) periodEnd = currMonthEnd;
@@ -237,8 +237,8 @@ public class SalaryCalculationManager /*extends OC_Object*/ {
         String sCurrMonthBegin = "01/"+sMonth+"/"+now.get(Calendar.YEAR),
                sCurrMonthEnd   = now.getActualMaximum(Calendar.DAY_OF_MONTH)+"/"+sMonth+"/"+now.get(Calendar.YEAR);
 
-        java.util.Date currMonthBegin = ScreenHelper.stdDateFormat.parse(sCurrMonthBegin),
-                       currMonthEnd   = ScreenHelper.stdDateFormat.parse(sCurrMonthEnd);
+        java.util.Date currMonthBegin = ScreenHelper.parseDate(sCurrMonthBegin),
+                       currMonthEnd   = ScreenHelper.parseDate(sCurrMonthEnd);
 
         if(periodBegin==null) periodBegin = currMonthBegin;
         if(periodEnd==null) periodEnd = currMonthEnd;

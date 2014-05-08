@@ -5,6 +5,9 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.tree.DefaultDocument;
 import org.dom4j.tree.DefaultElement;
+
+import be.mxs.common.util.system.ScreenHelper;
+
 import java.text.SimpleDateFormat;
 import java.io.*;
 import java.util.Iterator;
@@ -82,7 +85,7 @@ public class Imed {
                             //OK, the data we find in the XML file comes from our active patient
                             transaction = doc.element("Transaction");
                             //First set the datetime
-                            spirometry.date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(transaction.element("DateTime").element("DateTimeBegin").getText());
+                            spirometry.date = ScreenHelper.fullDateFormatSS.parse(transaction.element("DateTime").element("DateTimeBegin").getText());
 
                             items = transaction.elementIterator("Item");
                             while (items.hasNext()){
@@ -127,7 +130,7 @@ public class Imed {
         //Add Message Datetime
         element = root.addElement("DateTime");
         element = element.addElement("DateTimeBegin");
-        element.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date()));
+        element.setText(ScreenHelper.fullDateFormatSS.format(new java.util.Date()));
         //Add Message Sender
         Element sender = root.addElement("Sender");
         element = sender.addElement("ID");
