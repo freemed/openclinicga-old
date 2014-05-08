@@ -18,10 +18,10 @@
     sql="select b.*,a.*,oc_prestation_reftype from oc_debets a,oc_encounters b,oc_prestations c where c.oc_prestation_objectid=replace(oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_encounter_objectid=replace(oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_debet_date>=? and oc_debet_date<=? and oc_debet_serviceuid like ? and oc_debet_patientinvoiceuid<>''";
     Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 	PreparedStatement ps = oc_conn.prepareStatement(sql);
-	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sBegin).getTime()));
-	System.out.println("start="+new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sBegin).getTime()));
+	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(sBegin).getTime()));
+	System.out.println("start="+new java.sql.Date(ScreenHelper.parseDate(sBegin).getTime()));
 	long l = 24*3600*1000-1;
-	java.util.Date e = new SimpleDateFormat("dd/MM/yyyy").parse(sEnd);
+	java.util.Date e = ScreenHelper.parseDate(sEnd);
 	e.setTime(e.getTime()+l);
 	System.out.println("end="+e);
 	ps.setTimestamp(2,new java.sql.Timestamp(e.getTime()));

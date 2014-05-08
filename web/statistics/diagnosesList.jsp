@@ -6,25 +6,25 @@
 <%
     String sBegin = ScreenHelper.checkString(request.getParameter("begin"));
     if(sBegin.length()==0){
-        sBegin=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        sBegin=ScreenHelper.stdDateFormat.format(new Date());
     }
     Date begin=null;
     try {
-        begin = new SimpleDateFormat("dd/MM/yyyy").parse(sBegin);
+        begin = ScreenHelper.parseDate(sBegin);
     }
     catch(Exception e){
-        begin = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        begin = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date()));
     }
     String sEnd = ScreenHelper.checkString(request.getParameter("end"));
     if(sEnd.length()==0){
-        sEnd=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        sEnd=ScreenHelper.stdDateFormat.format(new Date());
     }
     Date end=null;
     try {
-        end = new SimpleDateFormat("dd/MM/yyyy").parse(sEnd);
+        end = ScreenHelper.parseDate(sEnd);
     }
     catch(Exception e){
-        end = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        end = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date()));
     }
 %>
 <form name="diagnosisList" method="POST">
@@ -71,9 +71,9 @@
                 String servicename="-";
                 if(service!=null){
                     servicename=service.getLabel(sWebLanguage)+": "+
-                            (encounter.getBegin()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin()))+
+                            (encounter.getBegin()==null?"":ScreenHelper.stdDateFormat.format(encounter.getBegin()))+
                             " -> "+
-                            (encounter.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(encounter.getEnd()));
+                            (encounter.getEnd()==null?"":ScreenHelper.stdDateFormat.format(encounter.getEnd()));
                     if(encounter.getDurationInDays()>90){
                         servicename+=" <img src='_img/warning.gif'/>";
                     }
@@ -94,7 +94,7 @@
                 %>
                     <tr class="admin2"><td><b><a href="<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>&PersonID=<%=patient.personid%>"><%=name%></a></b></td>
                 <%
-                out.println("<td>"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(rs.getTimestamp("OC_DIAGNOSIS_UPDATETIME"))+"</td><td>"+type+"</td><td>"+code+"</td><td>"+MedwanQuery.getInstance().getDiagnosisLabel(type,code,sWebLanguage)+"</td></tr>");
+                out.println("<td>"+ScreenHelper.fullDateFormat.format(rs.getTimestamp("OC_DIAGNOSIS_UPDATETIME"))+"</td><td>"+type+"</td><td>"+code+"</td><td>"+MedwanQuery.getInstance().getDiagnosisLabel(type,code,sWebLanguage)+"</td></tr>");
             }
         }
         rs.close();

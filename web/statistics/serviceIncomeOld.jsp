@@ -30,8 +30,8 @@
         <tr>
         	<td><%=getTran("Web","service",sWebLanguage) %></td><td colspan='2'><input type='hidden' name='statserviceid' id='statserviceid' value='<%=service %>'>
         		<input class='text' type='text' name='statservicename' id='statservicename' readonly size='40' value='<%=serviceName %>'>
-        		<img src='_img/icon_search.gif' class='link' alt='<%=getTran("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
-        		<img src='_img/icon_delete.gif' class='link' alt='<%=getTran("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
+        		<img src='_img/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
+        		<img src='_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
         	</td>
         </tr>
     </table>
@@ -39,8 +39,8 @@
 <table>
 <%
     if(request.getParameter("find")!=null){
-    	java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("begin"))+" 00:00");
-    	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
+    	java.util.Date begin = ScreenHelper.fullDateFormat.parse(checkString(request.getParameter("begin"))+" 00:00");
+    	java.util.Date end = ScreenHelper.fullDateFormat.parse(checkString(request.getParameter("end"))+" 23:59");
         //We zoeken alle debets op van de betreffende periode en ventileren deze per dienst
 		
         String sQuery="select count(*) number,sum(oc_debet_quantity) quantity,sum(oc_debet_amount+oc_debet_insuraramount+oc_debet_extrainsuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount+oc_debet_extrainsuraramount) insurarincome, serviceuid, oc_prestation_description, oc_prestation_code" +

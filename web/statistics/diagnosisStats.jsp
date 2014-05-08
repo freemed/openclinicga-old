@@ -31,7 +31,7 @@
         serviceName=getTran("service",service,sWebLanguage);
     }
     if(todate==null){
-        todate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        todate=ScreenHelper.stdDateFormat.format(new java.util.Date());
     }
     if(fromdate==null){
         fromdate="01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
@@ -121,12 +121,12 @@
         java.util.SortedSet diags = new TreeSet();
         DStats mainStats=null;
         if(bGroups){
-            mainStats = new DiagnosisGroupStats(codetype, checkString(request.getParameter("code"))+"%", new SimpleDateFormat("dd/MM/yyyy").parse(fromdate), new SimpleDateFormat("dd/MM/yyyy").parse(todate),service,sortorder,contacttype);
+            mainStats = new DiagnosisGroupStats(codetype, checkString(request.getParameter("code"))+"%", ScreenHelper.parseDate(fromdate), ScreenHelper.parseDate(todate),service,sortorder,contacttype);
         }
         else {
-            mainStats = new DiagnosisStats(codetype, checkString(request.getParameter("code"))+"%", new SimpleDateFormat("dd/MM/yyyy").parse(fromdate), new SimpleDateFormat("dd/MM/yyyy").parse(todate),service,sortorder,contacttype);
+            mainStats = new DiagnosisStats(codetype, checkString(request.getParameter("code"))+"%", ScreenHelper.parseDate(fromdate), ScreenHelper.parseDate(todate),service,sortorder,contacttype);
         }
-        int totalDead=mainStats.calculateTotalDead(new SimpleDateFormat("dd/MM/yyyy").parse(fromdate), new SimpleDateFormat("dd/MM/yyyy").parse(todate));
+        int totalDead=mainStats.calculateTotalDead(ScreenHelper.parseDate(fromdate), ScreenHelper.parseDate(todate));
         if(showCalculations.length()==0){
             %>
                 <table width="100%" class='list' cellspacing="1" cellpadding="0">
@@ -144,10 +144,10 @@
         DStats diagnosisStats = null;
         if(request.getParameter("codedetails")!=null){
             if(bGroups){
-                diags = DiagnosisGroupStats.calculateSubStats(codetype, checkString(request.getParameter("code"))+"%", new SimpleDateFormat("dd/MM/yyyy").parse(fromdate), new SimpleDateFormat("dd/MM/yyyy").parse(todate),service,sortorder,detail,contacttype);
+                diags = DiagnosisGroupStats.calculateSubStats(codetype, checkString(request.getParameter("code"))+"%", ScreenHelper.parseDate(fromdate), ScreenHelper.parseDate(todate),service,sortorder,detail,contacttype);
             }
             else {
-                diags = DiagnosisStats.calculateSubStats(codetype, checkString(request.getParameter("code"))+"%", new SimpleDateFormat("dd/MM/yyyy").parse(fromdate), new SimpleDateFormat("dd/MM/yyyy").parse(todate),service,sortorder,detail,contacttype);
+                diags = DiagnosisStats.calculateSubStats(codetype, checkString(request.getParameter("code"))+"%", ScreenHelper.parseDate(fromdate), ScreenHelper.parseDate(todate),service,sortorder,detail,contacttype);
             }
         }
         diags.add(mainStats);

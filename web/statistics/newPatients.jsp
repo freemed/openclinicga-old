@@ -9,8 +9,8 @@
 	Connection conn = MedwanQuery.getInstance().getAdminConnection();
 	String serverid = MedwanQuery.getInstance().getConfigString("serverId");
 	PreparedStatement ps = conn.prepareStatement("select count(*) total from AccessLogs where accesscode like 'C.%' and accesstime>=? and accesstime<=?");
-	ps.setTimestamp(1,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setTimestamp(2,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(end+" 23:59").getTime()));
+	ps.setTimestamp(1,new java.sql.Timestamp(ScreenHelper.parseDate(begin).getTime()));
+	ps.setTimestamp(2,new java.sql.Timestamp(ScreenHelper.fullDateFormat.parse(end+" 23:59").getTime()));
 	ResultSet rs = ps.executeQuery();
 	if(rs.next()){
 		total=rs.getInt("total");

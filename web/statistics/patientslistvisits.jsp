@@ -36,13 +36,13 @@
 	Hashtable insurars = new Hashtable();
     Connection oc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
 	PreparedStatement ps = oc_conn.prepareStatement(sql);
-	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sBegin).getTime()));
+	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(sBegin).getTime()));
 	long l = 24*3600*1000-1;
-	java.util.Date e = new SimpleDateFormat("dd/MM/yyyy").parse(sEnd);
+	java.util.Date e = ScreenHelper.parseDate(sEnd);
 	e.setTime(e.getTime()+l);
 	ps.setTimestamp(2,new java.sql.Timestamp(e.getTime()));
 	ps.setString(3,checkString(request.getParameter("statserviceid"))+"%");
-	ps.setDate(4,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sBegin).getTime()));
+	ps.setDate(4,new java.sql.Date(ScreenHelper.parseDate(sBegin).getTime()));
 	ps.setTimestamp(5,new java.sql.Timestamp(e.getTime()));
 	ps.setString(6,checkString(request.getParameter("statserviceid"))+"%");
 	ResultSet rs = ps.executeQuery();
@@ -89,7 +89,7 @@
 			rs2.close();
 			ps2.close();
 			if(dLastInvoice!=null){
-				sLastInvoice=new SimpleDateFormat("dd/MM/yyyy").format(dLastInvoice);
+				sLastInvoice=ScreenHelper.stdDateFormat.format(dLastInvoice);
 				if(d2!=null && d2.after(dLastInvoice)){
 					sColor=" color='red' ";
 				}
@@ -97,8 +97,8 @@
 			else {
 				sLastInvoice="-";
 			}
-			sOut.append("<tr  onClick='window.location.href=\"main.do?Page=curative/index.jsp&ts=").append(getTs()).append("&PersonID=").append(rs.getString("personid")).append("\";' class='list1' ><td>#"+i).append("</td><td>"+rs.getString("lastname")).append(" ").append(rs.getString("firstname")).append("</td><td>").append((d==null?"":new SimpleDateFormat("dd/MM/yyyy").format(d))).append("</td><td>")
-			.append((d2==null?"":new SimpleDateFormat("dd/MM/yyyy").format(d2))).append("</td><td>"+getTranNoLink("service",s,sWebLanguage)).append("</td><td>"+sInsurar).append("</td><td><font "+sColor+">"+sLastInvoice).append("</font></td></tr>");
+			sOut.append("<tr  onClick='window.location.href=\"main.do?Page=curative/index.jsp&ts=").append(getTs()).append("&PersonID=").append(rs.getString("personid")).append("\";' class='list1' ><td>#"+i).append("</td><td>"+rs.getString("lastname")).append(" ").append(rs.getString("firstname")).append("</td><td>").append((d==null?"":ScreenHelper.stdDateFormat.format(d))).append("</td><td>")
+			.append((d2==null?"":ScreenHelper.stdDateFormat.format(d2))).append("</td><td>"+getTranNoLink("service",s,sWebLanguage)).append("</td><td>"+sInsurar).append("</td><td><font "+sColor+">"+sLastInvoice).append("</font></td></tr>");
 		}
 		service=s;
 		encounteruid=i;

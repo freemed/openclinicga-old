@@ -25,8 +25,8 @@
     	}
 		out.println("<tr>");
 		out.println("<td class='admin2'>"+invoice.getUid()+"</td>");
-		out.println("<td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate())+"</td>");
-		out.println("<td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(invoice.getUpdateDateTime())+"</td>");
+		out.println("<td class='admin2'>"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"</td>");
+		out.println("<td class='admin2'>"+ScreenHelper.fullDateFormatSS.format(invoice.getUpdateDateTime())+"</td>");
 		out.println("<td class='admin2'>"+AdminPerson.getAdminPerson(invoice.getPatientUid()).getFullName()+"</td>");
 		out.println("<td class='admin2'>"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(invoice.getPatientAmount())+" "+MedwanQuery.getInstance().getConfigString("currency")+"</td>");
 		out.println("<td class='admin2'>"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(invoice.getBalance())+" "+MedwanQuery.getInstance().getConfigString("currency")+"</td>");

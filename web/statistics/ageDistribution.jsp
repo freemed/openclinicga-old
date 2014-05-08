@@ -18,8 +18,8 @@
 		sSelect="select count(*) total,floor(datediff(dd,dateofbirth,b.oc_encounter_begindate)/(365*5))*5 age from adminview a,oc_encounters b where b.oc_encounter_patientuid=a.personid and b.oc_encounter_begindate>=? and b.oc_encounter_begindate<=? and gender='m' group by floor(datediff(dd,dateofbirth,b.oc_encounter_begindate)/(365*5))*5";
 	}
 	PreparedStatement ps = conn.prepareStatement(sSelect);
-	ps.setTimestamp(1,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setTimestamp(2,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(end+" 23:59").getTime()));
+	ps.setTimestamp(1,new java.sql.Timestamp(ScreenHelper.parseDate(begin).getTime()));
+	ps.setTimestamp(2,new java.sql.Timestamp(ScreenHelper.fullDateFormat.parse(end+" 23:59").getTime()));
 	ResultSet rs = ps.executeQuery();
 	while(rs.next()){
 		try{
@@ -51,8 +51,8 @@
 		sSelect="select count(*) total,floor(datediff(dd,dateofbirth,b.oc_encounter_begindate)/(365*5))*5 age from adminview a,oc_encounters b where b.oc_encounter_patientuid=a.personid and b.oc_encounter_begindate>=? and b.oc_encounter_begindate<=? and gender='f' group by floor(datediff(dd,dateofbirth,b.oc_encounter_begindate)/(365*5))*5";
 	}
 	ps = conn.prepareStatement(sSelect);
-	ps.setTimestamp(1,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setTimestamp(2,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(end+" 23:59").getTime()));
+	ps.setTimestamp(1,new java.sql.Timestamp(ScreenHelper.parseDate(begin).getTime()));
+	ps.setTimestamp(2,new java.sql.Timestamp(ScreenHelper.fullDateFormat.parse(end+" 23:59").getTime()));
 	rs = ps.executeQuery();
 	while(rs.next()){
 		try{

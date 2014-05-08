@@ -20,8 +20,8 @@
 <table width="100%" border="0">
 <%
     if(request.getParameter("submit")!=null){
-		java.util.Date firstday= new SimpleDateFormat("dd/MM/yyyy").parse("01/01/"+request.getParameter("year"));
-		java.util.Date lastday= new SimpleDateFormat("dd/MM/yyyy").parse("31/12/"+request.getParameter("year"));
+		java.util.Date firstday= ScreenHelper.parseDate("01/01/"+request.getParameter("year"));
+		java.util.Date lastday= ScreenHelper.parseDate("31/12/"+request.getParameter("year"));
     	String sQuery="select count(*) total,month(oc_encounter_enddate) month from oc_encounters" +
                         " where" +
                         " oc_encounter_enddate>=? and" +

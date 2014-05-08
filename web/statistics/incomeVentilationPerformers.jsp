@@ -2,8 +2,8 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-	java.util.Date start = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("start"))+" 00:00");
-	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
+	java.util.Date start = ScreenHelper.fullDateFormat.parse(checkString(request.getParameter("start"))+" 00:00");
+	java.util.Date end = ScreenHelper.fullDateFormat.parse(checkString(request.getParameter("end"))+" 23:59");
 %>
 <form name="transactionForm" method="post">
 <table width="100%">
@@ -57,10 +57,10 @@
 		}
 		activeuser=u;
 		debetDate=rs.getDate("OC_DEBET_DATE");
-		s="<tr><td class='admin'>"+(debetDate==null?"":new SimpleDateFormat("dd/MM/yyyy").format(debetDate))+"</td>";
+		s="<tr><td class='admin'>"+(debetDate==null?"":ScreenHelper.stdDateFormat.format(debetDate))+"</td>";
 		s+="<td class='admin2'>"+rs.getString("lastname").toUpperCase()+", "+rs.getString("firstname")+"</td>";
 		dateofbirth=rs.getDate("dateofbirth");
-		s+="<td class='admin2'>°"+(dateofbirth==null?"":new SimpleDateFormat("dd/MM/yyyy").format(dateofbirth))+"</td>";
+		s+="<td class='admin2'>°"+(dateofbirth==null?"":ScreenHelper.stdDateFormat.format(dateofbirth))+"</td>";
 		s+="<td class='admin2'>"+rs.getString("OC_PRESTATION_DESCRIPTION")+"</td>";
 		s+="<td class='admin2'>"+new java.text.DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(rs.getFloat("total"))+"</td>";
 		a=rs.getFloat("OC_DEBETFEE_AMOUNT");

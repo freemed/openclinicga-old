@@ -20,14 +20,14 @@
 	}
 	PreparedStatement ps = conn.prepareStatement(sQuery);
 	ps.setString(1,request.getParameter("labcode"));
-	ps.setDate(2,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("start")).getTime()));
-	ps.setDate(3,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("end")).getTime()+24*3600*1000));
+	ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(request.getParameter("start")).getTime()));
+	ps.setDate(3,new java.sql.Date(ScreenHelper.parseDate(request.getParameter("end")).getTime()+24*3600*1000));
 	ResultSet rs = ps.executeQuery();
 	while(rs.next()){
 		try{
 			double resultvalue = Double.parseDouble(rs.getString("resultvalue"));
 			if((request.getParameter("greaterthan")!=null && resultvalue>Double.parseDouble(limitvalue)) || (request.getParameter("lowerthan")!=null && resultvalue<Double.parseDouble(limitvalue))){
-				out.println("<tr><td class='admin'>"+rs.getString("personid")+"</td><td class='admin'>"+checkString(rs.getString("lastname")).toUpperCase()+", "+checkString(rs.getString("lastname"))+"</td><td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("resultdate"))+"</td><td class='admin2'>"+request.getParameter("labcode")+"</td><td class='red'>"+rs.getString("resultvalue")+"</td></tr>");
+				out.println("<tr><td class='admin'>"+rs.getString("personid")+"</td><td class='admin'>"+checkString(rs.getString("lastname")).toUpperCase()+", "+checkString(rs.getString("lastname"))+"</td><td class='admin2'>"+ScreenHelper.stdDateFormat.format(rs.getDate("resultdate"))+"</td><td class='admin2'>"+request.getParameter("labcode")+"</td><td class='red'>"+rs.getString("resultvalue")+"</td></tr>");
 			}
 		}
 		catch(Exception e){

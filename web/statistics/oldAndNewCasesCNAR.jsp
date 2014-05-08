@@ -9,8 +9,8 @@
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	String serverid = MedwanQuery.getInstance().getConfigString("serverId");
 	PreparedStatement ps = conn.prepareStatement("select count(*) total,OC_ENCOUNTER_NEWCASE from OC_ENCOUNTERS where OC_ENCOUNTER_BEGINDATE>=? and OC_ENCOUNTER_BEGINDATE<=? group by OC_ENCOUNTER_NEWCASE");
-	ps.setTimestamp(1,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setTimestamp(2,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(end+" 23:59").getTime()));
+	ps.setTimestamp(1,new java.sql.Timestamp(ScreenHelper.parseDate(begin).getTime()));
+	ps.setTimestamp(2,new java.sql.Timestamp(ScreenHelper.fullDateFormat.parse(end+" 23:59").getTime()));
 	ResultSet rs = ps.executeQuery();
 	while(rs.next()){
 		String cs=rs.getString("OC_ENCOUNTER_NEWCASE");

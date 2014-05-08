@@ -16,14 +16,14 @@
 	Connection conn = MedwanQuery.getInstance().getAdminConnection();
 	String serverid = MedwanQuery.getInstance().getConfigString("serverId");
 	PreparedStatement ps = conn.prepareStatement("select accesscode,accesstime from AccessLogs where accesscode like 'C.%' and accesstime>=? and accesstime<=?");
-	ps.setTimestamp(1,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setTimestamp(2,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(end+" 23:59").getTime()));
+	ps.setTimestamp(1,new java.sql.Timestamp(ScreenHelper.parseDate(begin).getTime()));
+	ps.setTimestamp(2,new java.sql.Timestamp(ScreenHelper.fullDateFormat.parse(end+" 23:59").getTime()));
 	ResultSet rs = ps.executeQuery();
 	AdminPerson patient = null;
 	SortedSet patients = new TreeSet();
 	while(rs.next()){
 		patient=AdminPerson.getAdminPerson(rs.getString("accesscode").split("\\.")[1]);
-		patients.add("<tr><td class='admin'>"+patient.lastname.toUpperCase()+", "+patient.firstname+" ("+patient.personid+")</td><td class='admin2'>"+patient.dateOfBirth+"</td><td class='admin2'>"+patient.gender+"</td><td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("accesstime"))+"</td></tr>");
+		patients.add("<tr><td class='admin'>"+patient.lastname.toUpperCase()+", "+patient.firstname+" ("+patient.personid+")</td><td class='admin2'>"+patient.dateOfBirth+"</td><td class='admin2'>"+patient.gender+"</td><td class='admin2'>"+ScreenHelper.stdDateFormat.format(rs.getDate("accesstime"))+"</td></tr>");
 	}
 	rs.close();
 	ps.close();

@@ -10,8 +10,8 @@
 		<td class='admin'><%=getTran("web","extrainsurar.amount",sWebLanguage) %></td>
 	</tr>
 <%
-	java.util.Date start = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("start"))+" 00:00");
-	java.util.Date end = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkString(request.getParameter("end"))+" 23:59");
+	java.util.Date start = ScreenHelper.fullDateFormat.parse(checkString(request.getParameter("start"))+" 00:00");
+	java.util.Date end = ScreenHelper.fullDateFormat.parse(checkString(request.getParameter("end"))+" 23:59");
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	String sQuery="select oc_prestation_reftype,sum(oc_debet_amount) as patientamount,sum(oc_debet_insuraramount) as insuraramount,sum(oc_debet_extrainsuraramount) as extrainsuraramount"+
 				" from oc_debets a,oc_prestations b"+

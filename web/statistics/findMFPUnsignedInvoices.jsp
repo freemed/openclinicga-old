@@ -30,8 +30,8 @@ String sSql = 	"select distinct OC_PATIENTINVOICE_OBJECTID,OC_PATIENTINVOICE_ACC
 					" ORDER BY OC_INSURAR_NAME,OC_PATIENTINVOICE_DATE";
 	System.out.println(sSql);
 	PreparedStatement ps = conn.prepareStatement(sSql);
-	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(start).getTime()));
-	ps.setDate(2,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(end).getTime()));
+	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(start).getTime()));
+	ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(end).getTime()));
 	if(serviceid.length()>0){
 		ps.setString(3,serviceid+"%");
 	}
@@ -43,7 +43,7 @@ String sSql = 	"select distinct OC_PATIENTINVOICE_OBJECTID,OC_PATIENTINVOICE_ACC
 		}
 		catch(Exception e){}
 		String invoiceid=rs.getString("OC_PATIENTINVOICE_OBJECTID");
-		out.println("<tr><td class='admin'><a href='javascript:showPatientInvoice("+invoiceid+")'>"+invoiceid+"</a> <label class='labelred' id='label."+invoiceid+"'></label></td><td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("OC_PATIENTINVOICE_DATE"))+"</td><td class='admin2'>"+checkString(rs.getString("lastname")).toUpperCase()+", "+rs.getString("firstname")+"</td><td class='admin2'>"+username+"</td><td class='admin2'>"+rs.getString("OC_INSURAR_NAME")+"</td></tr>");
+		out.println("<tr><td class='admin'><a href='javascript:showPatientInvoice("+invoiceid+")'>"+invoiceid+"</a> <label class='labelred' id='label."+invoiceid+"'></label></td><td class='admin2'>"+ScreenHelper.stdDateFormat.format(rs.getDate("OC_PATIENTINVOICE_DATE"))+"</td><td class='admin2'>"+checkString(rs.getString("lastname")).toUpperCase()+", "+rs.getString("firstname")+"</td><td class='admin2'>"+username+"</td><td class='admin2'>"+rs.getString("OC_INSURAR_NAME")+"</td></tr>");
 	}
 	rs.close();
 	ps.close();

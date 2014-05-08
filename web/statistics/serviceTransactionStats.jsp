@@ -77,7 +77,7 @@
         begin="01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
     }
     if(end==null){
-        end=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        end=ScreenHelper.stdDateFormat.format(new java.util.Date());
     }
     if(request.getParameter("calculate")==null){
 %>
@@ -123,8 +123,8 @@
 }
 else {
         Service myservice = Service.getService(service);
-        ServiceStats serviceStats = new ServiceStats(service, new SimpleDateFormat("dd/MM/yyyy").parse(begin), new SimpleDateFormat("dd/MM/yyyy").parse(end));
-        out.println("<table width='100%'><tr><td class='admin'><center>"+getTran("web","statistics.for",sWebLanguage)+" "+(myservice!=null?myservice.getLabel(sWebLanguage):getTran("web","hospitalname",sWebLanguage))+" "+getTran("web","between",sWebLanguage)+" "+ new SimpleDateFormat("dd/MM/yyyy").format(serviceStats.getBegin())+" "+getTran("web","and",sWebLanguage)+" "+ new SimpleDateFormat("dd/MM/yyyy").format(serviceStats.getEnd())+"<center></td></tr></table>");
+        ServiceStats serviceStats = new ServiceStats(service, ScreenHelper.parseDate(begin), ScreenHelper.parseDate(end));
+        out.println("<table width='100%'><tr><td class='admin'><center>"+getTran("web","statistics.for",sWebLanguage)+" "+(myservice!=null?myservice.getLabel(sWebLanguage):getTran("web","hospitalname",sWebLanguage))+" "+getTran("web","between",sWebLanguage)+" "+ ScreenHelper.stdDateFormat.format(serviceStats.getBegin())+" "+getTran("web","and",sWebLanguage)+" "+ ScreenHelper.stdDateFormat.format(serviceStats.getEnd())+"<center></td></tr></table>");
         %>
         <BR/>
         <SCRIPT Language="JavaScript" src="<c:url value='/_common/_script/diagram2.js'/>"></SCRIPT>

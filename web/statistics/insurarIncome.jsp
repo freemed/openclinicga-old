@@ -8,8 +8,8 @@
 	String end = checkString(request.getParameter("end"));
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	PreparedStatement ps = conn.prepareStatement("select * from oc_insurarinvoices where oc_insurarinvoice_date>=? and oc_insurarinvoice_date<=?");
-	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setDate(2,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(end).getTime()));
+	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(begin).getTime()));
+	ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(end).getTime()));
 	ResultSet rs = ps.executeQuery();
 	while(rs.next()){
 		//We doorlopen elke factuur en zoeken de bijhorende betalingen op
@@ -38,8 +38,8 @@
 	rs.close();
 	ps.close();
 	ps = conn.prepareStatement("select * from oc_extrainsurarinvoices where oc_insurarinvoice_date>=? and oc_insurarinvoice_date<=?");
-	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setDate(2,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(end).getTime()));
+	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(begin).getTime()));
+	ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(end).getTime()));
 	rs = ps.executeQuery();
 	while(rs.next()){
 		//We doorlopen elke factuur en zoeken de bijhorende betalingen op
@@ -68,8 +68,8 @@
 	rs.close();
 	ps.close();
 	ps = conn.prepareStatement("select * from oc_extrainsurarinvoices2 where oc_insurarinvoice_date>=? and oc_insurarinvoice_date<=?");
-	ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setDate(2,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(end).getTime()));
+	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(begin).getTime()));
+	ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(end).getTime()));
 	rs = ps.executeQuery();
 	while(rs.next()){
 		//We doorlopen elke factuur en zoeken de bijhorende betalingen op

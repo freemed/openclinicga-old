@@ -14,8 +14,8 @@
 	String begin = checkString(request.getParameter("start"));
 	String end = checkString(request.getParameter("end"));
 	
-	java.util.Date dBegin = new SimpleDateFormat("dd/MM/yyyy").parse(begin);
-	java.util.Date dEnd = new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse(end).getTime()+24*3600*1000-1);
+	java.util.Date dBegin = ScreenHelper.parseDate(begin);
+	java.util.Date dEnd = new java.util.Date(ScreenHelper.parseDate(end).getTime()+24*3600*1000-1);
 	
 	
 	

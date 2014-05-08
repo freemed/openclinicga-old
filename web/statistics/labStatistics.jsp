@@ -10,14 +10,14 @@
 	String sBegin = ScreenHelper.checkString(request.getParameter("start"));
 	java.util.Date begin=null;
 	try {
-	    begin = new SimpleDateFormat("dd/MM/yyyy").parse(sBegin);
+	    begin = ScreenHelper.parseDate(sBegin);
 	}
 	catch(Exception e){
 	}
 	String sEnd = ScreenHelper.checkString(request.getParameter("end"));
 	java.util.Date end=null;
 	try {
-	    end = new SimpleDateFormat("dd/MM/yyyy").parse(sEnd);
+	    end = ScreenHelper.parseDate(sEnd);
 	}
 	catch(Exception e){
 	}

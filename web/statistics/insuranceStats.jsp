@@ -19,7 +19,7 @@
 </tr>
 
 <%
-	KeyValue[] kv = HospitalStats.getInsuranceCasesBasic(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("start")),new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("end")),"admission");
+	KeyValue[] kv = HospitalStats.getInsuranceCasesBasic(ScreenHelper.parseDate(request.getParameter("start")),ScreenHelper.parseDate(request.getParameter("end")),"admission");
 	double ta=0;
 	for(int n=0;n<kv.length;n++){
 		ta+=Double.parseDouble(kv[n].getValue());
@@ -46,7 +46,7 @@
 	<td>% <%=getTran("hospital.statistics","total.visits",sWebLanguage)%></td>
 </tr>
 <%
-	kv = HospitalStats.getInsuranceCasesBasic(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("start")),new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("end")),"visit");
+	kv = HospitalStats.getInsuranceCasesBasic(ScreenHelper.parseDate(request.getParameter("start")),ScreenHelper.parseDate(request.getParameter("end")),"visit");
 	for(int n=0;n<kv.length;n++){
 		ta+=Double.parseDouble(kv[n].getValue());
 	}

@@ -9,8 +9,8 @@
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	String serverid = MedwanQuery.getInstance().getConfigString("serverId");
 	PreparedStatement ps = conn.prepareStatement("select distinct a.OC_RFE_ENCOUNTERUID,a.OC_RFE_FLAGS from OC_RFE a,OC_ENCOUNTERS b where b.OC_ENCOUNTER_OBJECTID=replace(a.OC_RFE_ENCOUNTERUID,'"+serverid+".','') and b.OC_ENCOUNTER_BEGINDATE>=? and OC_ENCOUNTER_BEGINDATE<=?");
-	ps.setTimestamp(1,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(begin).getTime()));
-	ps.setTimestamp(2,new java.sql.Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(end+" 23:59").getTime()));
+	ps.setTimestamp(1,new java.sql.Timestamp(ScreenHelper.parseDate(begin).getTime()));
+	ps.setTimestamp(2,new java.sql.Timestamp(ScreenHelper.fullDateFormat.parse(end+" 23:59").getTime()));
 	ResultSet rs = ps.executeQuery();
 	while(rs.next()){
 		if(rs.getString("OC_RFE_FLAGS").indexOf("N")>-1){

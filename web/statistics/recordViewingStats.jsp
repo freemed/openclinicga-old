@@ -52,16 +52,16 @@
 						" "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(accesscode)>2 "+
 						" group by userid "+
 						" order by count(*) desc";
-    	Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())), end = new Date();
+    	Date begin = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())), end = new Date();
     	if(sFindBegin.length()>0){
     		try{
-    			begin = new SimpleDateFormat("dd/MM/yyyy").parse(sFindBegin);	
+    			begin = ScreenHelper.parseDate(sFindBegin);	
     		}
     		catch(Exception e){}
     	}
     	if(sFindEnd.length()>0){
     		try{
-    			end = new SimpleDateFormat("dd/MM/yyyy").parse(sFindEnd);	
+    			end = ScreenHelper.parseDate(sFindEnd);	
     		}
     		catch(Exception e){}
     	}

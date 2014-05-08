@@ -48,8 +48,8 @@
 <table width="100%">
 <%
     if(request.getParameter("find")!=null){
-        java.util.Date begin=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("begin"));
-        java.util.Date end=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("end"));
+        java.util.Date begin=ScreenHelper.parseDate(request.getParameter("begin"));
+        java.util.Date end=ScreenHelper.parseDate(request.getParameter("end"));
         String codetype = request.getParameter("codetype");
         String diagnosis = request.getParameter("diagnosis");
         String situation = request.getParameter("situation");
@@ -77,7 +77,7 @@
 			java.util.Date enddate=rs.getDate("oc_encounter_enddate");
 			String personid=rs.getString("personid");
 			out.println("<tr class='admin'><td>"+personid+"</td><td><a href='javascript:openpatientrecord("+personid+")'>"+rs.getString("firstname").toUpperCase()+" "+rs.getString("lastname").toUpperCase()+
-					"</a></td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("oc_encounter_begindate"))+"-"+(enddate==null?"?":new SimpleDateFormat("dd/MM/yyyy").format(enddate))+"</td></tr>");
+					"</a></td><td>"+ScreenHelper.stdDateFormat.format(rs.getDate("oc_encounter_begindate"))+"-"+(enddate==null?"?":ScreenHelper.stdDateFormat.format(enddate))+"</td></tr>");
 		}
         rs.close();
         ps.close();
