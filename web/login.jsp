@@ -72,7 +72,7 @@
     } else {
         // display last date of processing update queries
         if (updateQueriesProcessedDate != null && Debug.enabled) {
-            SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormatSS;
             Debug.println("INFO : UpdateQueries last processed at " + fullDateFormat.format(updateQueriesProcessedDate));
         }
     }
@@ -192,7 +192,7 @@
         <% } else { %>
         <img src="_img/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
         <a href="http://www.mxs.be" target="_new"><b>MXS SA/NV</b></a>
-        <BR/> Pastoriestraat 50, 3370 Boutersem Belgium Tel: +32 16 721047 -
+        <BR/> Pastoriestraat 58, 3370 Boutersem Belgium Tel: +32 16 721047 -
         <a href="mailto:mxs@rwandamed.org">info@mxs.be</a>
         <% } %>
         </center>
@@ -207,14 +207,10 @@
     function readFingerprint() {
     <%
     if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
-    %>
-        openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName() +":"+request.getServerPort()+"/"+sCONTEXTPATH%>", 400, 300);
-    <%
+    %>openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName() +":"+request.getServerPort()+"/"+sCONTEXTPATH%>", 400, 300);<%
     }
-    else {
-    %>
-        openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%=MedwanQuery.getInstance().getConfigString("referringServer")+sCONTEXTPATH%>", 400, 300);
-    <%
+    else{
+    %>openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%=MedwanQuery.getInstance().getConfigString("referringServer")+sCONTEXTPATH%>", 400, 300);<%
     }
     %>
     }

@@ -129,11 +129,19 @@
     }
     resizeSearchFields();
   }
-  Event.observe(window,'load',function(){
-    resizeAllTextareas(10);
-    changeInputColor();
-    pageResize();
-  });
+  
+  <%
+      // do not resize textarea's in pages below : 
+      if(!sPage.endsWith("medIntProctologyProtocol.jsp")){
+          %>
+			  Event.observe(window,'load',function(){
+			    resizeAllTextareas(10);
+			    changeInputColor();
+			    pageResize();
+			  });
+	    <%
+      }
+  %>
 
   function checkDropdown(evt){
     if(!dropDownChecked){

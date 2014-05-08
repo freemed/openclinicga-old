@@ -99,7 +99,7 @@
         <% } else { %>
         <img src="_img/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
         <a href="http://www.mxs.be" target="_new"><b>MXS SA/NV</b></a>
-        <BR/> Pastoriestraat 50, 3370 Boutersem Belgium Tel: +32 16 721047 -
+        <BR/> Pastoriestraat 58, 3370 Boutersem Belgium Tel: +32 16 721047 -
         <a href="mailto:mxs@rwandamed.org">info@mxs.be</a>
         <% } %>
     </div>
