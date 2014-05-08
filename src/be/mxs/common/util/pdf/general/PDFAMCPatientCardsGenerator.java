@@ -264,7 +264,7 @@ public class PDFAMCPatientCardsGenerator extends PDFOfficialBasic {
             cell.setPaddingRight(5);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             table2.addCell(cell);
-            cell=createLabel(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),6,1,Font.BOLD);
+            cell=createLabel(ScreenHelper.stdDateFormat.format(new java.util.Date()),6,1,Font.BOLD);
             cell.setColspan(450);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -281,7 +281,7 @@ public class PDFAMCPatientCardsGenerator extends PDFOfficialBasic {
             long day = 24*3600*1000;
             long year = 365*day;
             long period = MedwanQuery.getInstance().getConfigInt("cardvalidityperiod", 5) * year - day;
-            cell=createLabel(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(new java.util.Date().getTime()+period)),6,1,Font.BOLD);
+            cell=createLabel(ScreenHelper.stdDateFormat.format(new java.util.Date(new java.util.Date().getTime()+period)),6,1,Font.BOLD);
             cell.setColspan(450);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

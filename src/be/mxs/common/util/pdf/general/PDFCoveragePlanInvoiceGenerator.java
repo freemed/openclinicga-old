@@ -487,7 +487,7 @@ public class PDFCoveragePlanInvoiceGenerator extends PDFInvoiceGenerator {
 
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
     private void printDebet(PdfPTable invoiceTable, PrestationDebet debet, boolean displayPatientName){
-        String sDebetDate = stdDateFormat.format(debet.getDate());
+        String sDebetDate = ScreenHelper.stdDateFormat.format(debet.getDate());
         double debetAmount = debet.getInsurarAmount();
 
         // encounter
@@ -533,7 +533,7 @@ public class PDFCoveragePlanInvoiceGenerator extends PDFInvoiceGenerator {
 
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
     private void printDebet2(PdfPTable invoiceTable, PrestationDebet debet, boolean displayDate,boolean displayPatientName){
-        String sDebetDate = stdDateFormat.format(debet.getDate());
+        String sDebetDate = ScreenHelper.stdDateFormat.format(debet.getDate());
         double debetAmount = debet.getInsurarAmount();
 
         // encounter
@@ -557,7 +557,7 @@ public class PDFCoveragePlanInvoiceGenerator extends PDFInvoiceGenerator {
 
         // row
         if(displayDate){
-            invoiceTable.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()),200,7,Font.BOLD));
+            invoiceTable.addCell(createValueCell(ScreenHelper.stdDateFormat.format(debet.getDate()),200,7,Font.BOLD));
         }
         if(displayPatientName){
             String insuranceMemberNumber="";
@@ -583,7 +583,7 @@ public class PDFCoveragePlanInvoiceGenerator extends PDFInvoiceGenerator {
 
     //--- PRINT CREDIT (payment) ------------------------------------------------------------------
     private double printCredit(PdfPTable invoiceTable, InsurarCredit credit){
-        String sCreditDate = stdDateFormat.format(credit.getDate());
+        String sCreditDate = ScreenHelper.stdDateFormat.format(credit.getDate());
         double creditAmount = credit.getAmount();
         String sCreditComment = checkString(credit.getComment());
         String sCreditType = getTran("credit.type",credit.getType());

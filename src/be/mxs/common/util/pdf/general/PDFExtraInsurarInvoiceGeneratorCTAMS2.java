@@ -567,11 +567,7 @@ public class PDFExtraInsurarInvoiceGeneratorCTAMS2 extends PDFInvoiceGenerator {
                     	svc=debet.getEncounter().getService().getLabel(user.person.language);
                     	service=svc.substring(0,svc.length()>16?16:svc.length());
                     }
-	                try {
-						date = stdDateFormat.parse(stdDateFormat.format(debet.getDate()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+                    date = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(debet.getDate()));
 	                displayDate = !date.equals(prevdate);
 	                sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
 	                displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName) || (debet.getPatientInvoiceUid()!=null && debet.getPatientInvoiceUid().indexOf(".")>=0 && invoiceid.indexOf(debet.getPatientInvoiceUid().split("\\.")[1])<0 && invoiceid.length()>0);
@@ -996,7 +992,7 @@ public class PDFExtraInsurarInvoiceGeneratorCTAMS2 extends PDFInvoiceGenerator {
         cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
-        cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(date),120,7);
+        cell = createLabelCell(ScreenHelper.stdDateFormat.format(date),120,7);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorder(PdfPCell.BOX);

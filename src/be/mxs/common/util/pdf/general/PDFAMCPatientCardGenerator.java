@@ -175,7 +175,7 @@ public class PDFAMCPatientCardGenerator extends PDFOfficialBasic {
             table2.addCell(cell);
             String dateofbirth="";
             try {
-            	dateofbirth=new SimpleDateFormat("dd/MM/yyyy").format(person.dateOfBirth);
+            	dateofbirth=ScreenHelper.stdDateFormat.format(person.dateOfBirth);
             }
             catch(Exception e){}
             cell=createLabel(dateofbirth,8,1,Font.BOLD);

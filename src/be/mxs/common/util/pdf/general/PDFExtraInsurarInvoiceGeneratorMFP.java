@@ -187,7 +187,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","detailedemployerlist",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","detailedemployerlist",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             cell=createLabelCell(MedwanQuery.getInstance().getLabel("web","category",user.person.language)+": "+serviceUid.split(";")[1], 1);
             table.addCell(cell);
@@ -305,7 +305,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             	serviceUid = "?";
             	diseaseType="?";
             	employer="?";
-            	dateUid=new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+            	dateUid=ScreenHelper.stdDateFormat.format(debet.getDate());
             	Encounter encounter = debet.getEncounter();
             	if(encounter!=null && debet.getDate()!=null && encounter.getServiceUID(debet.getDate())!=null){
             		serviceUid = encounter.getServiceUID(debet.getDate());
@@ -364,7 +364,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsperdateannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsperdateannex",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             cell=createLabelCell(MedwanQuery.getInstance().getLabel("web","employer",user.person.language)+": "+(serviceUid.split(";").length<2?"":serviceUid.split(";")[1]), 1);
             table.addCell(cell);
@@ -429,7 +429,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             	serviceUid = "?";
             	diseaseType="?";
             	employer="?";
-            	dateUid=new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+            	dateUid=ScreenHelper.stdDateFormat.format(debet.getDate());
             	Encounter encounter = debet.getEncounter();
             	if(encounter!=null && debet.getDate()!=null && encounter.getServiceUID(debet.getDate())!=null){
             		serviceUid = encounter.getServiceUID(debet.getDate());
@@ -488,7 +488,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugsperdateannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugsperdateannex",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             cell=createLabelCell(MedwanQuery.getInstance().getLabel("web","employer",user.person.language)+": "+(serviceUid.split(";").length<2?"":serviceUid.split(";")[1]), 1);
             table.addCell(cell);
@@ -613,7 +613,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalactsannex",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             doc.add(table);
             addBlankRow();
@@ -796,7 +796,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             addBlankRow();
             table = new PdfPTable(1);
             table.setWidthPercentage(pageWidth);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugsannex",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugsannex",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
             table.addCell(cell);
             doc.add(table);
             addBlankRow();
@@ -923,7 +923,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
         addBlankRow();
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
-        cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalacts",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+        cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","medicalacts",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
         table.addCell(cell);
         doc.add(table);
         addBlankRow();
@@ -1085,7 +1085,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
         addBlankRow();
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
-        cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugs",user.person.language)+": "+new SimpleDateFormat("dd/MM/yyyy").format(start)+" - "+new SimpleDateFormat("dd/MM/yyyy").format(end), 1);
+        cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","drugs",user.person.language)+": "+ScreenHelper.stdDateFormat.format(start)+" - "+ScreenHelper.stdDateFormat.format(end), 1);
         table.addCell(cell);
         doc.add(table);
         addBlankRow();
@@ -1313,7 +1313,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(1);
             table2.addCell(cell);
-            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","title7",user.person.language)+" "+new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()), 1);
+            cell=createLabelCell(MedwanQuery.getInstance().getLabel("web.mfp","title7",user.person.language)+" "+ScreenHelper.stdDateFormat.format(new java.util.Date()), 1);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             cell.setBorder(PdfPCell.NO_BORDER);
             table2.addCell(cell);
@@ -1877,7 +1877,7 @@ public class PDFExtraInsurarInvoiceGeneratorMFP extends PDFInvoiceGenerator {
         cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
-        cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(date),120,7);
+        cell = createLabelCell(ScreenHelper.stdDateFormat.format(date),120,7);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorder(PdfPCell.BOX);

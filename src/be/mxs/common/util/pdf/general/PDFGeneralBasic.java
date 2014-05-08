@@ -940,7 +940,7 @@ public abstract class PDFGeneralBasic extends PDFBasic {
                 problemsTable.addCell(cell);
 
                 // date
-                problemsTable.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin()),1));
+                problemsTable.addCell(createValueCell(ScreenHelper.stdDateFormat.format(activeProblem.getBegin()),1));
             }
         }
 

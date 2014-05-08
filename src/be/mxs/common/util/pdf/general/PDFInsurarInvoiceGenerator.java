@@ -499,11 +499,7 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
                     table = new PdfPTable(200);
                     table.setWidthPercentage(pageWidth);
                     debet = (Debet)debets.get(i);
-                    try {
-						date = stdDateFormat.parse(stdDateFormat.format(debet.getDate()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+                    date = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(debet.getDate()));
                     displayDate = !date.equals(prevdate);
                     sPatientName = debet.getPatientName();
                     displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName);
@@ -627,7 +623,7 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
 
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
     private void printDebet(PdfPTable invoiceTable, Debet debet, boolean displayPatientName,int counter){
-        String sDebetDate = stdDateFormat.format(debet.getDate());
+        String sDebetDate = ScreenHelper.stdDateFormat.format(debet.getDate());
         double debetAmount = debet.getInsurarAmount();
 
         // encounter
@@ -678,7 +674,7 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
 
     //--- PRINT DEBET (prestation) ----------------------------------------------------------------
     private void printDebet2(PdfPTable invoiceTable, Debet debet, boolean displayDate,boolean displayPatientName,int counter){
-        String sDebetDate = stdDateFormat.format(debet.getDate());
+        String sDebetDate = ScreenHelper.stdDateFormat.format(debet.getDate());
         double debetAmount = debet.getInsurarAmount();
 
         // encounter
@@ -702,7 +698,7 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
 
         // row
         if(displayDate){
-            invoiceTable.addCell(createValueCell(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()),200,7,Font.BOLD));
+            invoiceTable.addCell(createValueCell(ScreenHelper.stdDateFormat.format(debet.getDate()),200,7,Font.BOLD));
         }
         if(displayPatientName){
             String insuranceMemberNumber="";
@@ -732,7 +728,7 @@ public class PDFInsurarInvoiceGenerator extends PDFInvoiceGenerator {
 
     //--- PRINT CREDIT (payment) ------------------------------------------------------------------
     private double printCredit(PdfPTable invoiceTable, InsurarCredit credit){
-        String sCreditDate = stdDateFormat.format(credit.getDate());
+        String sCreditDate = ScreenHelper.stdDateFormat.format(credit.getDate());
         double creditAmount = credit.getAmount();
         String sCreditComment = checkString(credit.getComment());
         String sCreditType = getTran("credit.type",credit.getType());

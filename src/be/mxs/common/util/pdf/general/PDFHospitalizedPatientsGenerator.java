@@ -26,7 +26,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
 
     // declarations
     private final int pageWidth = 96;
-    private SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
