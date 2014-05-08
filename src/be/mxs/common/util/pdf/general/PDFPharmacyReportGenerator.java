@@ -281,7 +281,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
     protected void printExpiration(org.dom4j.Document d, org.dom4j.Element t, String sDate, String sServiceStockUID) throws ParseException{
 		d.add(t);
         t.addAttribute("size", "180");
-        java.util.Date date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
+        java.util.Date date = ScreenHelper.parseDate(sDate);
     	
 		//Add title rows
         org.dom4j.Element row =t.addElement("row");
@@ -363,7 +363,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
     protected void printStockOut(org.dom4j.Document d, org.dom4j.Element t, String sDate, String sServiceStockUID) throws ParseException{
 		d.add(t);
         t.addAttribute("size", "180");
-        java.util.Date date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
+        java.util.Date date = ScreenHelper.parseDate(sDate);
     	
 		//Add title rows
         org.dom4j.Element row =t.addElement("row");
@@ -469,7 +469,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 				lasttitle=subtitles[n];
 			}
 			bInitialized=true;
-			java.util.Date date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
+			java.util.Date date = ScreenHelper.parseDate(sDate);
 			//Nu printen we de gegevens van de productstock
 	        row =t.addElement("row");
 			addCol(row,90,stock.getProduct()==null?"":stock.getProduct().getName());
@@ -542,7 +542,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
  				}
  				lasttitle=subtitles[n];
  			}
- 			java.util.Date date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
+ 			java.util.Date date = ScreenHelper.parseDate(sDate);
  			//Nu printen we de gegevens van de productstock
  	        row =t.addElement("row");
  			addCol(row,20,stock.getProduct()==null?"":stock.getProduct().getPrestationcode());
@@ -631,8 +631,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
  				lasttitle=subtitles[n];
  			}
  			bInitialized=true;
- 			java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
- 			java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+ 			java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+ 			java.util.Date end = ScreenHelper.parseDate(sDateEnd);
  			//Nu printen we de gegevens van de productstock
  	        row =t.addElement("row");
  			addCol(row,70,stock.getProduct()==null?"":stock.getProduct().getName());
@@ -736,8 +736,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
  				}
  				lasttitle=subtitles[n];
  			}
- 			java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
- 			java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+ 			java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+ 			java.util.Date end = ScreenHelper.parseDate(sDateEnd);
  			//Nu printen we de gegevens van de productstock
  	        row =t.addElement("row");
  			addCol(row,80,stock.getProduct()==null?"":stock.getProduct().getName());
@@ -774,8 +774,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
  		addCol(row,25,ScreenHelper.getTranNoLink("web","totalprice",sPrintLanguage));
 
  		//First we make a list of all productstockoperations ordered by date
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
-		java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 		double subtotal=0, generaltotal=0;
  		Vector deliveries = ProductStockOperation.getDeliveries("", begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_SRCDESTUID,OC_OPERATION_DOCUMENTUID", "ASC");
  		String activedate="",activedestination="$$$";
@@ -834,8 +834,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
     protected void printServiceIncomingStockOperations(org.dom4j.Document d, org.dom4j.Element t, String sDateBegin, String sDateEnd, String sServiceStockUID) throws ParseException{
  		d.add(t);
         t.addAttribute("size", "180");
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
-		java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 
 		//Add title rows
         org.dom4j.Element row =t.addElement("row");
@@ -909,8 +909,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
     protected void printServiceIncomingStockOperationsPerOrder(org.dom4j.Document d, org.dom4j.Element t, String sDateBegin, String sDateEnd, String sServiceStockUID) throws ParseException{
  		d.add(t);
         t.addAttribute("size", "190");
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
-		java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 
 		//Add title rows
         org.dom4j.Element row =t.addElement("row");
@@ -986,8 +986,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
     protected void printServiceIncomingStockOperationsPerItem(org.dom4j.Document d, org.dom4j.Element t, String sDateBegin, String sDateEnd, String sServiceStockUID) throws ParseException{
  		d.add(t);
         t.addAttribute("size", "140");
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
-		java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 
 		//Add title rows
         org.dom4j.Element row =t.addElement("row");
@@ -1058,8 +1058,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
     protected void printServiceIncomingStockOperationsPerCategoryItem(org.dom4j.Document d, org.dom4j.Element t, String sDateBegin, String sDateEnd, String sServiceStockUID) throws ParseException{
  		d.add(t);
         t.addAttribute("size", "160");
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
-		java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 
 		//Add title rows
         org.dom4j.Element row =t.addElement("row");
@@ -1138,8 +1138,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
     protected void printServiceIncomingStockOperationsPerProvider(org.dom4j.Document d, org.dom4j.Element t, String sDateBegin, String sDateEnd, String sServiceStockUID) throws ParseException{
  		d.add(t);
         t.addAttribute("size", "180");
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
-		java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 
 		//Add title rows
         org.dom4j.Element row =t.addElement("row");
@@ -1251,8 +1251,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
  		addCol(row,20,ScreenHelper.getTranNoLink("web","amount",sPrintLanguage));
 
  		//First we make a list of all productstockoperations ordered by date
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
-		java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 		double subtotal=0, generaltotal=0;
  		Vector deliveries = ProductStockOperation.getDeliveries(destinationStockUID, begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_DOCUMENTUID", "ASC");
  		String activedate="",activedestination="$$$";
@@ -1315,13 +1315,13 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 
         row =t.addElement("row");
  		//First we make a list of all productstockoperations ordered by date
-		java.util.Date begin = new SimpleDateFormat("dd/MM/yyyy").parse(sDateBegin);
-		java.util.Date end = new SimpleDateFormat("dd/MM/yyyy").parse(sDateEnd);
+		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
+		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 		double subtotal=0, generaltotal=0;
  		Vector deliveries = ProductStockOperation.getDeliveries("", begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_DOCUMENTUID", "ASC");
  		for(int n=0;n<deliveries.size();n++){
  			ProductStockOperation operation = (ProductStockOperation)deliveries.elementAt(n);
- 			String date=new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate());
+ 			String date=ScreenHelper.stdDateFormat.format(operation.getDate());
  			String document="";
  			if(operation.getDocument()!=null){
  				document=operation.getDocument().getReference();
@@ -1370,8 +1370,8 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 		addCol(row,20,ScreenHelper.getTranNoLink("web","value",sPrintLanguage));
 		
 		ProductStock productStock = ProductStock.get(sProductStockUID);
-		java.util.Date begin  = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/"+sYear);
-		java.util.Date	end = new SimpleDateFormat("dd/MM/yyyy").parse("31/12/"+sYear);
+		java.util.Date begin  = ScreenHelper.parseDate("01/01/"+sYear);
+		java.util.Date	end = ScreenHelper.parseDate("31/12/"+sYear);
 		int stock=0;
 		int initialstock=-999;
 		if(productStock!=null){
@@ -1388,7 +1388,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 						initialstock=stock;
 						//Add initial stock row
 						row=t.addElement("row");
-						addCol(row,25,new SimpleDateFormat("dd/MM/yyyy").format(begin));
+						addCol(row,25,ScreenHelper.stdDateFormat.format(begin));
 						addCol(row,30,"");
 						addCol(row,40,ScreenHelper.getTranNoLink("web","initial.stock",sPrintLanguage));
 						addCol(row,20,initialstock+"");
@@ -1403,7 +1403,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 					//We have to show this operation
 					// Date
 					row=t.addElement("row");
-					addCol(row,25,new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate()));
+					addCol(row,25,ScreenHelper.stdDateFormat.format(operation.getDate()));
 					// Reference document
 		 			String document="";
 		 			if(operation.getDocument()!=null){
@@ -1483,7 +1483,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 				initialstock=stock;
 				//Add initial stock row
 				row=t.addElement("row");
-				addCol(row,25,new SimpleDateFormat("dd/MM/yyyy").format(begin));
+				addCol(row,25,ScreenHelper.stdDateFormat.format(begin));
 				addCol(row,30,"");
 				addCol(row,40,ScreenHelper.getTranNoLink("web","initial.stock",sPrintLanguage));
 				addCol(row,20,initialstock+"");
