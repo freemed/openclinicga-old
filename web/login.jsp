@@ -55,7 +55,7 @@
     		<script>
     	      <%-- ALERT DIALOG MESSAGE --%>
     		  alert("Upgrade needed, this may take several minutes depending on your system´s performance");
-    		  window.location.href='<c:url value="/"/>util/updateSystem.jsp?updateVersion=<%=thisversion+""%>';
+    		  window.location.href='<%=sCONTEXTPATH%>/util/updateSystem.jsp?updateVersion=<%=thisversion+""%>';
     		</script>    		
     		<%
         }
