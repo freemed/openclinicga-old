@@ -41,7 +41,7 @@
 		operationDocument.setDestinationuid(sDestination);
 		java.util.Date d = null;
 		try{
-			d=new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
+			d=ScreenHelper.parseDate(sDate);
 		}
 		catch(Exception e){};
 		operationDocument.setDate(d);
@@ -67,12 +67,12 @@
 			sFindSourceText=operationDocument.getSourceName(sWebLanguage);
 			sFindDestination=operationDocument.getDestinationuid();
 			sFindDestinationText=operationDocument.getDestination().getName();
-			sFindMinDate=new SimpleDateFormat("dd/MM/yyyy").format(operationDocument.getDate());
-			sFindMaxDate=new SimpleDateFormat("dd/MM/yyyy").format(operationDocument.getDate());
+			sFindMinDate=ScreenHelper.stdDateFormat.format(operationDocument.getDate());
+			sFindMaxDate=ScreenHelper.stdDateFormat.format(operationDocument.getDate());
 			sFindReference=operationDocument.getReference();
 		}
 		else if(sFindType.length()==0 && sFindSource.length()==0 && sFindDestination.length()==0 && sFindMinDate.length()==0 && sFindMaxDate.length()==0 && sFindReference.length()==0){
-			sFindMinDate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date().getTime()-7*24*3600*1000);			
+			sFindMinDate=ScreenHelper.stdDateFormat.format(new java.util.Date().getTime()-7*24*3600*1000);			
 		}
 		//First show search header
 		%>
@@ -163,7 +163,7 @@
 							sDestination="";
 						}
 						if(document.getDate()!=null){
-							sDate=new SimpleDateFormat("dd/MM/yyyy").format(document.getDate());
+							sDate=ScreenHelper.stdDateFormat.format(document.getDate());
 						}
 						else {
 							sDate="";
@@ -218,7 +218,7 @@
 				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","date",sWebLanguage) %> *</td>
-					<td class="admin2"><%=writeDateField("documentdate","editForm",operationDocument.getDate()!=null?new SimpleDateFormat("dd/MM/yyyy").format(operationDocument.getDate()):"",sWebLanguage) %></td>
+					<td class="admin2"><%=writeDateField("documentdate","editForm",operationDocument.getDate()!=null?ScreenHelper.stdDateFormat.format(operationDocument.getDate()):"",sWebLanguage) %></td>
 				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","documentcomment",sWebLanguage) %></td>
@@ -257,7 +257,7 @@
 		for(int n=0;n<operations.size();n++){
 			ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
 			%>
-			<tr><td><img src='<c:url value="/"/>_img/icon_delete.gif' onclick='javascript:deleteOperation("<%=operation.getUid()%>");'/> <%=operation.getUid()%></td><td><%=new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())%></td><td><%=getTran("productstockoperation.medicationdelivery", operation.getDescription(), sWebLanguage)%></td><td><%=operation.getProductStock().getProduct().getName()%></td><td><%=operation.getUnitsChanged()+" ("+operation.getProductStock().getLevel()+")"%></td></tr>
+			<tr><td><img src='<c:url value="/"/>_img/icon_delete.gif' onclick='javascript:deleteOperation("<%=operation.getUid()%>");'/> <%=operation.getUid()%></td><td><%=ScreenHelper.stdDateFormat.format(operation.getDate())%></td><td><%=getTran("productstockoperation.medicationdelivery", operation.getDescription(), sWebLanguage)%></td><td><%=operation.getProductStock().getProduct().getName()%></td><td><%=operation.getUnitsChanged()+" ("+operation.getProductStock().getLevel()+")"%></td></tr>
 			<%
 		}
 		%>

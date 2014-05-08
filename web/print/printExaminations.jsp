@@ -71,12 +71,12 @@
 
     // parse date from if any specified
     java.util.Date dateFrom;
-    if(sDateFrom.length() > 0) dateFrom = ScreenHelper.stdDateFormat.parse(sDateFrom);
+    if(sDateFrom.length() > 0) dateFrom = ScreenHelper.parseDate(sDateFrom);
     else                       dateFrom = new java.util.Date(0); // 1970
 
     // parse date to if any specified
     java.util.Date dateTo;
-    if(sDateTo.length() > 0) dateTo = ScreenHelper.stdDateFormat.parse(sDateTo);
+    if(sDateTo.length() > 0) dateTo = ScreenHelper.parseDate(sDateTo);
     else                     dateTo = new java.util.Date(); // now
 
 
@@ -227,7 +227,7 @@
         	                    sClass = "disabled";
         	
         	                    try{
-        	                        if(activeEncounter!=null && transaction.getUpdateTime()!=null && activeEncounter!=null && !transaction.getUpdateTime().before(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transaction.getUpdateTime().after(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getEnd()))))){
+        	                        if(activeEncounter!=null && transaction.getUpdateTime()!=null && activeEncounter!=null && !transaction.getUpdateTime().before(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transaction.getUpdateTime().after(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getEnd()))))){
         	                            sClass = "bold";
         	                        }
         	                    }

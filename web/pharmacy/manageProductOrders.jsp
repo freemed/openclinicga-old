@@ -14,7 +14,7 @@
                 sDateOrdered = "", sDateDelivered = "", sProductName = "", sServiceStockName = "";
         java.util.Date tmpDate;
         ProductStock productStock;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
         // frequently used translations
         String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
@@ -76,7 +76,7 @@
         StringBuffer html = new StringBuffer();
         String sClass = "1", sProductStockUid = "", sPreviousProductStockUid = "", sImportance = "",
                 sDateOrdered = "", sDateDeliveryDue = "", sProductName = "", sServiceStockName = "";
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         ProductStock productStock;
         java.util.Date tmpDate;
         ServiceStock serviceStock;
@@ -246,7 +246,7 @@
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
     int foundOrderCount = 0;
     StringBuffer ordersHtml = null;
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     boolean orderIsClosed = false;
 
     // display options
@@ -280,7 +280,7 @@
         } else {
             oneWeekAgo.add(Calendar.DATE, -7); // default one week
         }
-        sFindDateDeliveredSince = new SimpleDateFormat("dd/MM/yyyy").format(oneWeekAgo.getTime());
+        sFindDateDeliveredSince = ScreenHelper.stdDateFormat.format(oneWeekAgo.getTime());
     }
 
     // supplier name
@@ -341,7 +341,7 @@
 	    	        	batch.setBatchNumber(sEditBatchNumber);
 	    	            if(sEditBatchEnd.length()>0){
 	    	            	try {
-	    	            		batch.setEnd(new SimpleDateFormat("dd/MM/yyyy").parse(sEditBatchEnd));
+	    	            		batch.setEnd(ScreenHelper.parseDate(sEditBatchEnd));
 	    	            	}
 	    	            	catch(Exception e){
 	    	            		
@@ -379,8 +379,8 @@
             order = ProductOrder.get(sEditOrderUid);
             order.setImportance(sEditImportance); // (native|high|low)
             order.setUpdateUser(activeUser.userid);
-            if (sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(stdDateFormat.parse(sEditDateDeliveryDue));
-            if (sEditDateDelivered.length() > 0) order.setDateDelivered(stdDateFormat.parse(sEditDateDelivered));
+            if (sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(ScreenHelper.parseDate(sEditDateDeliveryDue));
+            if (sEditDateDelivered.length() > 0) order.setDateDelivered(ScreenHelper.parseDate(sEditDateDelivered));
             order.setPackagesDelivered(order.getDeliveredQuantity());
             if(order.getPackagesDelivered()==order.getPackagesOrdered() || request.getParameter("closeOrder")!=null){
             	order.setStatus("closed");
@@ -871,7 +871,7 @@
                         <tr>
                             <td class="admin"><%=getTran("Web","DateDelivered",sWebLanguage)%>&nbsp;</td>
                             <td class="admin2">
-                                <input type="text" class="text" size="12" maxLength="12" value="<%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())%>" name="EditDateDelivered" id="EditDateDelivered" onBlur="checkDate(this);">
+                                <input type="text" class="text" size="12" maxLength="12" value="<%=ScreenHelper.stdDateFormat.format(new java.util.Date())%>" name="EditDateDelivered" id="EditDateDelivered" onBlur="checkDate(this);">
 
                                 <%
                                     // only display 'EditDateDelivered' if order is not closed and thus editable
@@ -1025,7 +1025,7 @@
 	            	ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
 	    			System.out.println("c");
 	            	if(operation!=null){
-	            		out.println("<tr><td class='admin'>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td><td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td><td class='admin2'>"+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getDocumentUID()+"</td><td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td><td class='admin2'>"+(operation.getBatchEnd()!=null?new SimpleDateFormat("dd/MM/yyyy").format(operation.getBatchEnd()):"")+"</td><td class='admin2'>"+(operation.getSourceDestination()!=null?operation.getSourceDestination().getObjectUid():"")+"</td></tr>");
+	            		out.println("<tr><td class='admin'>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td><td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td><td class='admin2'>"+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getDocumentUID()+"</td><td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td><td class='admin2'>"+(operation.getBatchEnd()!=null?ScreenHelper.stdDateFormat.format(operation.getBatchEnd()):"")+"</td><td class='admin2'>"+(operation.getSourceDestination()!=null?operation.getSourceDestination().getObjectUid():"")+"</td></tr>");
 	            	}
 	    			System.out.println("d");
 	            }
@@ -1348,7 +1348,7 @@
 		if(productStock!=null && productStock.getServiceStockUid()!=null){
 			sDocumentSource=productStock.getServiceStockUid();
 			sDocumentSourceText=productStock.getServiceStock().getName();
-			sFindMinDate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date().getTime()-7*24*3600*1000);
+			sFindMinDate=ScreenHelper.stdDateFormat.format(new java.util.Date().getTime()-7*24*3600*1000);
 		}
 		
 	%>

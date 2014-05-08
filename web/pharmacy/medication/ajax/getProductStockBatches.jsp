@@ -20,7 +20,7 @@
 			Batch batch =(Batch)batches.elementAt(n);
 			if(batch.getEnd()==null || !batch.getEnd().before(new java.util.Date())){
 				out.print("<input onclick='setMaxQuantityValue("+batch.getLevel()+");' type='radio' name='EditBatchUid' value='"+batch.getUid()+"' ");
-				out.print((n==0?"checked":"")+"/>"+batch.getBatchNumber()+" ("+batch.getLevel()+" - exp. "+new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())+")<br/>");
+				out.print((n==0?"checked":"")+"/>"+batch.getBatchNumber()+" ("+batch.getLevel()+" - exp. "+ScreenHelper.stdDateFormat.format(batch.getEnd())+")<br/>");
 			}
 			else {
 				expired+=batch.getLevel();

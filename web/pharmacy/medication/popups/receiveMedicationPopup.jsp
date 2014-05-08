@@ -57,7 +57,7 @@
     		sEditBatchUid = checkString(operation.getBatchUid());
     		
     		if(operation.getBatchEnd()!=null){
-    			sEditBatchEnd = new SimpleDateFormat("dd/MM/yyyy").format(operation.getBatchEnd());
+    			sEditBatchEnd = ScreenHelper.stdDateFormat.format(operation.getBatchEnd());
     		}
     		else{
     			sEditBatchEnd = "?";
@@ -143,7 +143,7 @@
 	        	batch.setBatchNumber(sEditBatchNumber);
 	            if(sEditBatchEnd.length()>0){
 	            	try{
-	            		batch.setEnd(ScreenHelper.stdDateFormat.parse(sEditBatchEnd));
+	            		batch.setEnd(ScreenHelper.parseDate(sEditBatchEnd));
 	            	}
 	            	catch(Exception e){
 	            		
@@ -174,7 +174,7 @@
         	operation.setReceiveComment(sEditReceiveComment);
         }
         operation.setSourceDestination(sourceDestination);
-        if(sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.stdDateFormat.parse(sEditOperationDate));
+        if(sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.parseDate(sEditOperationDate));
         operation.setProductStockUid(sEditProductStockUid);
         if(sEditUnitsChanged.length() > 0) operation.setUnitsChanged(Integer.parseInt(sEditUnitsChanged));
         operation.setUpdateUser(activeUser.userid);
@@ -385,7 +385,7 @@
 			out.println("<tr class='admin'><td>ID</td><td>"+getTran("web","date",sWebLanguage)+"</a></td><td>"+getTran("web","source",sWebLanguage)+"</td><td>"+getTran("web","quantity",sWebLanguage)+"</td></tr>");
 			for (int n = 0; n<openDeliveries.size(); n++){
 				ProductStockOperation productStockOperation = (ProductStockOperation)openDeliveries.elementAt(n);
-				out.print("<tr class='admin2'><td>"+productStockOperation.getOperationUID()+"</td><td><a href='javascript:selectOpenDelivery(\""+productStockOperation.getUid()+"\")'>"+new SimpleDateFormat("dd/MM/yyyy").format(productStockOperation.getDate())+"</a></td>");
+				out.print("<tr class='admin2'><td>"+productStockOperation.getOperationUID()+"</td><td><a href='javascript:selectOpenDelivery(\""+productStockOperation.getUid()+"\")'>"+ScreenHelper.stdDateFormat.format(productStockOperation.getDate())+"</a></td>");
 				out.print("<td>"+productStockOperation.getProductStock().getServiceStock().getName()+"</td>");
 				out.print("<td>"+(productStockOperation.getUnitsChanged()-productStockOperation.getUnitsReceived())+(productStockOperation.getUnitsReceived()>0?" ("+productStockOperation.getUnitsChanged()+"-"+productStockOperation.getUnitsReceived()+")":"")+"</td></tr>");
 			}
@@ -776,7 +776,7 @@
 		if(p!=null && p.getServiceStockUid()!=null){
 			sDocumentSource = p.getServiceStockUid();
 			sDocumentSourceText = p.getServiceStock().getName();
-			sFindMinDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date().getTime()-7*24*3600*1000);
+			sFindMinDate = ScreenHelper.stdDateFormat.format(new java.util.Date().getTime()-7*24*3600*1000);
 		}			
 	%>
 	var url="/_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>&documentuid="+document.getElementById("EditProductStockDocumentUid").value+"&finddocumentsource=<%=sDocumentSource%>&finddocumentmindate=<%=sFindMinDate%>&finddocumentsourcetext=<%=sDocumentSourceText%>&ReturnDocumentID="+documentUidField+"&ReturnDocumentName="+documentUidTextField+"&ReturnSourceName=EditSrcDestName";

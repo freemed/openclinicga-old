@@ -16,7 +16,7 @@
         String sClass = "1", sSupplierUid = "", sPrevSupplierUid = "", sProductStockUid = "",
                 sPreviousProductStockUid = "", sDateOrdered = "", sDateDeliveryDue = "", sProductName = "",
                 sServiceStockName = "";
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         ProductStock productStock = null;
         java.util.Date tmpDate;
 

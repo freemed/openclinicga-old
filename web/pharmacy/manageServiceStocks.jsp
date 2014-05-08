@@ -158,7 +158,7 @@
 
     StringBuffer stocksHtml = null;
     int foundStockCount = 0, authorisedUsersIdx = 1;
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     StringBuffer authorizedUsersHTML = new StringBuffer(),
                  authorizedUsersJS = new StringBuffer(),
                  authorizedUsersDB = new StringBuffer();
@@ -195,8 +195,8 @@
         stock.setUid(sEditStockUid);
         stock.setName(sEditStockName);
         stock.setServiceUid(sEditServiceUid);
-        if(sEditBegin.length() > 0)       stock.setBegin(stdDateFormat.parse(sEditBegin));
-        if(sEditEnd.length() > 0)         stock.setEnd(stdDateFormat.parse(sEditEnd));
+        if(sEditBegin.length() > 0)       stock.setBegin(ScreenHelper.parseDate(sEditBegin));
+        if(sEditEnd.length() > 0)         stock.setEnd(ScreenHelper.parseDate(sEditEnd));
         if(sEditOrderPeriod.length() > 0) stock.setOrderPeriodInMonths(Integer.parseInt(sEditOrderPeriod));
         if(sEditNosync.length() > 0) stock.setNosync(Integer.parseInt(sEditNosync));
         stock.setStockManagerUid(sEditManagerUid);
@@ -852,7 +852,7 @@
 
       var td = tr.insertCell(0);
       td.width = 16;
-      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web","delete",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);

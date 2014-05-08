@@ -3,7 +3,7 @@
 	//Now output the document as an XML-file to the brwoser
 	org.dom4j.Document document = DocumentHelper.createDocument();
 	Element root = document.addElement("message");
-	root.addAttribute("date", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date()));
+	root.addAttribute("date", ScreenHelper.fullDateFormatSS.format(new java.util.Date()));
 	//We zoeken de huidige status op van de stockgegevens
 	String pharmacyexportmodules = MedwanQuery.getInstance().getConfigString("pharmacyexportmodules","");
 	if(pharmacyexportmodules.contains("servicestockstatus")){
@@ -56,7 +56,7 @@
 					ProductStockOperation operation = (ProductStockOperation)operations.elementAt(i);
 					Element eOperation = eProductStock.addElement("operation");
 					eOperation.addAttribute("id", operation.getUid());
-					eOperation.addAttribute("date", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(operation.getDate()));
+					eOperation.addAttribute("date", ScreenHelper.fullDateFormatSS.format(operation.getDate()));
 					eOperation.addAttribute("type", ScreenHelper.checkString(operation.getDescription()));
 					eOperation.addAttribute("batch", ScreenHelper.checkString(operation.getBatchNumber()));
 					eOperation.addAttribute("sourcedestinationtype", ScreenHelper.checkString(operation.getSourceDestination().getObjectType()));

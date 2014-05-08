@@ -19,7 +19,7 @@
         StringBuffer html = new StringBuffer();
         String sClass = "1", sUserId, sUserName = "", sDescriptionType,
                 sDescription = "", productStockUid, sProductName;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         Hashtable usersHash = new Hashtable(),
                 descrTypeTranHash = new Hashtable(),
                 productStockHash = new Hashtable();
@@ -176,7 +176,7 @@
 
     int foundDeliveryCount;
     StringBuffer deliveriesHtml;
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // display options
     boolean displayEditFields = true;
@@ -216,7 +216,7 @@
         sourceDestination.setObjectUid(sEditSrcDestUid);
         operation.setSourceDestination(sourceDestination);
 
-        if (sEditOperationDate.length() > 0) operation.setDate(stdDateFormat.parse(sEditOperationDate));
+        if (sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.parseDate(sEditOperationDate));
         operation.setProductStockUid(sEditProductStockUid);
         if (sEditUnitsChanged.length() > 0) operation.setUnitsChanged(Integer.parseInt(sEditUnitsChanged));
         operation.setUpdateUser(activeUser.userid);

@@ -21,15 +21,15 @@
 			Batch batch = (Batch)batches.elementAt(n);
 			if(batch!=null){
 				if(batch.getLevel()>0 && (batch.getEnd()==null || !batch.getEnd().before(new java.util.Date()))){
-					sActiveBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations(\""+batch.getUid()+"\");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
+					sActiveBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations(\""+batch.getUid()+"\");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":ScreenHelper.stdDateFormat.format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
 					totalActive+=batch.getLevel();
 				}
 				else if(batch.getLevel()<=0){
-					sUsedBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations("+batch.getUid()+");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
+					sUsedBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations("+batch.getUid()+");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":ScreenHelper.stdDateFormat.format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
 					totalUsed+=batch.getLevel();
 				}
 				else {
-					sExpiredBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations("+batch.getUid()+");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
+					sExpiredBatches.append("<tr><td class='admin2'><a href='javascript:showBatchOperations("+batch.getUid()+");'>"+batch.getBatchNumber()+"</a></td><td class='admin2right'>"+batch.getLevel()+"</td><td class='admin2'>"+(batch.getEnd()==null?"":ScreenHelper.stdDateFormat.format(batch.getEnd()))+"</td><td class='admin2'>"+batch.getComment()+"</td></tr>");
 					totalExpired+=batch.getLevel();
 				}
 				totalStock-=batch.getLevel();

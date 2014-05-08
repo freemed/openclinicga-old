@@ -15,7 +15,7 @@
         Vector idsVector = new Vector();
         String sClass = "1", sOperationUid, srcDestType = "", srcDestUid, srcDestTypeTran = "",
                 srcDestName = "", sOperationDescr, labelType, sProductName;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date operationDate;
         ProductStock productStock;
         Iterator iter = vOperations.iterator();
@@ -118,7 +118,7 @@
     
     int foundOperationCount = 0;
     StringBuffer operationsHtml = null;
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // get data from form
     sFindOperationDescr  = checkString(request.getParameter("FindOperationDescr"));
@@ -162,7 +162,7 @@
         operation.setProductStockUid(sEditProductStockUid);
         operation.setUpdateUser(activeUser.userid);
 
-        if(sEditOperationDate.length() > 0) operation.setDate(stdDateFormat.parse(sEditOperationDate));
+        if(sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.parseDate(sEditOperationDate));
         if(sEditUnitsChanged.length() > 0)  operation.setUnitsChanged(Integer.parseInt(sEditUnitsChanged));
 
         //***** save operation *****
@@ -446,7 +446,7 @@
 
                           <%-- medic --%>
                           if(srcDestType.indexOf('medic')>-1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTran("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
                                                                                          +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             transactionForm.EditSrcDestUid.value = "<%=activeUser.userid%>";
                             transactionForm.EditSrcDestName.value = "<%=activeUser.person.firstname+" "+activeUser.person.lastname%>";
@@ -460,7 +460,7 @@
                           }
                           <%-- patient --%>
                           else if(srcDestType.indexOf('patient')>-1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTran("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
                                                                                          +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             transactionForm.EditSrcDestUid.value = "<%=activePatient.personid%>";
                             transactionForm.EditSrcDestName.value = "<%=activePatient.firstname+" "+activePatient.lastname%>";
@@ -474,7 +474,7 @@
                           }
                           <%-- service --%>
                           else if(srcDestType.indexOf('service')>-1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTran("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
                                                                                          +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             <%
                                 // get active service of active user

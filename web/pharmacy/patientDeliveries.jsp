@@ -11,11 +11,10 @@
 	}
 	long n3months = 1000*3600;
 	n3months=n3months*24*92;
-	String sExpiryDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(new java.util.Date().getTime()-n3months));
+	String sExpiryDate = ScreenHelper.stdDateFormat.format(new java.util.Date(new java.util.Date().getTime()-n3months));
 	if(request.getParameter("submit")!=null){
 		sExpiryDate = request.getParameter("expirydate");
 	}
-	System.out.println("test");
 %>
 <form name='transactionForm' id='transactionForm' method='post'>
 	<table>
@@ -35,7 +34,7 @@
 	</tr>
 <%
 	try{
-		java.util.Date dDate = new SimpleDateFormat("dd/MM/yyyy").parse(sExpiryDate);
+		java.util.Date dDate = ScreenHelper.parseDate(sExpiryDate);
 		String sQuery = " select * from oc_productstockoperations where oc_operation_srcdesttype='patient' and oc_operation_date>? and oc_operation_srcdestuid=? order by oc_operation_date desc";
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps = conn.prepareStatement(sQuery);
@@ -45,7 +44,7 @@
 		while(rs.next()){
 			ProductStockOperation operation = ProductStockOperation.get(rs.getString("oc_operation_serverid")+"."+rs.getString("oc_operation_objectid"));
 			if(operation!=null && operation.getProductStock()!=null){
-				out.println("<tr><td class='admin'>"+(operation.getUnitsChanged()!=0?"<a href='javascript:cancelOperation(\""+operation.getUid()+"\");'><img src='"+sCONTEXTPATH+"/_img/erase.png' title='"+getTranNoLink("web","delete",sWebLanguage)+"'/></a>":"")+"</td><td class='admin'>"+operation.getProductStock().getServiceStock().getName()+"</td><td class='admin2'>"+operation.getProductStock().getProduct().getName()+"</td><td class='admin2'>"+(operation.getDescription().indexOf("delivery")==-1?"-":"")+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getProductStock().getProduct().getPackageUnits()+" "+getTran("product.unit",operation.getProductStock().getProduct().getUnit(),sWebLanguage)+"</td><td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"?")+"</td><td class='admin2'>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td></tr>");
+				out.println("<tr><td class='admin'>"+(operation.getUnitsChanged()!=0?"<a href='javascript:cancelOperation(\""+operation.getUid()+"\");'><img src='"+sCONTEXTPATH+"/_img/erase.png' title='"+getTranNoLink("web","delete",sWebLanguage)+"'/></a>":"")+"</td><td class='admin'>"+operation.getProductStock().getServiceStock().getName()+"</td><td class='admin2'>"+operation.getProductStock().getProduct().getName()+"</td><td class='admin2'>"+(operation.getDescription().indexOf("delivery")==-1?"-":"")+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getProductStock().getProduct().getPackageUnits()+" "+getTran("product.unit",operation.getProductStock().getProduct().getUnit(),sWebLanguage)+"</td><td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"?")+"</td><td class='admin2'>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td></tr>");
 			}
 		}
 		rs.close();

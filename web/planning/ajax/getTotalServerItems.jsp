@@ -26,7 +26,7 @@
 			}
 		}
 		conn.close();
-		out.println(sResults);
+		out.print(sResults);
 	}
 	catch(Exception e){
 		e.printStackTrace();

@@ -4,7 +4,7 @@
 <%
 	long n3months = 1000*3600;
 	n3months=n3months*24*92;
-	String sExpiryDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(new java.util.Date().getTime()+n3months));
+	String sExpiryDate = ScreenHelper.stdDateFormat.format(new java.util.Date(new java.util.Date().getTime()+n3months));
 	if(request.getParameter("submit")!=null){
 		sExpiryDate = request.getParameter("expirydate");
 	}
@@ -25,7 +25,7 @@
 	</tr>
 <%
 	try{
-		java.util.Date dDate = new SimpleDateFormat("dd/MM/yyyy").parse(sExpiryDate);
+		java.util.Date dDate = ScreenHelper.parseDate(sExpiryDate);
 		String sQuery = " select c.oc_stock_name,d.oc_product_name,a.oc_batch_number,a.oc_batch_level,a.oc_batch_end from oc_batches a,oc_productstocks b, oc_servicestocks c, oc_products d"+ 
 						" where "+
 						" a.oc_batch_end<? and"+
@@ -48,7 +48,7 @@
 			else {
 				sColor="";
 			}
-			out.println("<tr><td class='admin'>"+rs.getString("oc_stock_name")+"</td><td class='admin2'>"+rs.getString("oc_product_name")+"</td><td class='admin2'>"+rs.getString("oc_batch_number")+"</td><td class='admin2'><b>"+rs.getString("oc_batch_level")+"</b></td><td class='admin2'><font "+sColor+">"+new SimpleDateFormat("dd/MM/yyyy").format(dExp)+"</font></td></tr>");
+			out.println("<tr><td class='admin'>"+rs.getString("oc_stock_name")+"</td><td class='admin2'>"+rs.getString("oc_product_name")+"</td><td class='admin2'>"+rs.getString("oc_batch_number")+"</td><td class='admin2'><b>"+rs.getString("oc_batch_level")+"</b></td><td class='admin2'><font "+sColor+">"+ScreenHelper.stdDateFormat.format(dExp)+"</font></td></tr>");
 		}
 		rs.close();
 		ps.close();

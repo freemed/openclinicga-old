@@ -77,7 +77,7 @@
 			out.println("<tr class='admin2'>");
 			out.println("<td><a href='javascript:doDelete(\""+operation.getUid()+"\");'><img src='_img/icon_delete.gif'/></a></td>");
 			out.println("<td>"+operation.getUid()+"</td>");
-			out.println("<td>"+new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())+"</td>");
+			out.println("<td>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td>");
 			out.println("<td>"+servicename+"</td>");
 			out.println("<td>"+productname+"</td>");
 			out.println("<td>"+operation.getUnitsChanged()+"</td>");

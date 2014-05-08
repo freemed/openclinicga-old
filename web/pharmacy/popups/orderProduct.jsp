@@ -39,7 +39,7 @@
            sSelectedDateOrdered = "", sSelectedDateDeliveryDue = "", sSelectedImportance = "",
            sSelectedProductName = "";
 
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // defaults
     if(sEditDescription.length()==0) sEditDescription = sEditProductName;
@@ -83,8 +83,8 @@
         order.setDescription(sEditDescription);
         order.setProductStockUid(sEditProductStockUid);
         if(sEditPackagesOrdered.length() > 0) order.setPackagesOrdered(Integer.parseInt(sEditPackagesOrdered));
-        if(sEditDateOrdered.length() > 0)     order.setDateOrdered(stdDateFormat.parse(sEditDateOrdered));
-        if(sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(stdDateFormat.parse(sEditDateDeliveryDue));
+        if(sEditDateOrdered.length() > 0)     order.setDateOrdered(ScreenHelper.parseDate(sEditDateOrdered));
+        if(sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(ScreenHelper.parseDate(sEditDateDeliveryDue));
         order.setImportance(sEditImportance); // (native|high|low)
         order.setUpdateUser(activeUser.userid);
 

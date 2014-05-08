@@ -6,7 +6,7 @@
 
 <%
     String date = checkString(request.getParameter("date"));
-    java.util.Date dDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+    java.util.Date dDate = ScreenHelper.parseDate(date);
     ProductStock productStock = ProductStock.get(request.getParameter("productStockUid"));
 %>
 

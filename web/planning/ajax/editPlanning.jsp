@@ -15,16 +15,17 @@
         calendar.set(Calendar.MILLISECOND, 00);
         return calendar;
     }
-    private boolean setDates(Planning planning, HttpServletRequest request, SimpleDateFormat fullDateFormat,int[]defaultDates) throws Exception {
+    private boolean setDates(Planning planning, HttpServletRequest request, int[]defaultDates) throws Exception {
        boolean bRefresh = false; // variable to refresh if fout with date
        try{
             String sPlanningDateDay = checkString(request.getParameter("appointmentDateDay")),
-                    sPlanningDateHour = checkString(request.getParameter("appointmentDateHour")),
-                    sPlanningDateMinutes = checkString(request.getParameter("appointmentDateMinutes"));
+                   sPlanningDateHour = checkString(request.getParameter("appointmentDateHour")),
+                   sPlanningDateMinutes = checkString(request.getParameter("appointmentDateMinutes"));
+            
             // set appointment End date
             String sPlanningDateEndDay = checkString(request.getParameter("appointmentDateEndDay")),
-                    sPlanningDateEndHour = checkString(request.getParameter("appointmentDateEndHour")),
-                    sPlanningDateEndMinutes = checkString(request.getParameter("appointmentDateEndMinutes"));
+                   sPlanningDateEndHour = checkString(request.getParameter("appointmentDateEndHour")),
+                   sPlanningDateEndMinutes = checkString(request.getParameter("appointmentDateEndMinutes"));
 
             int defaultBeginHour = defaultDates[0];
             int defaultBeginMin = defaultDates[1];
@@ -48,18 +49,19 @@
                 bRefresh = true;
             }
 
-            Date beginDate =  fullDateFormat.parse(sPlanningDateDay+" "+sPlanningDateHour+":"+sPlanningDateMinutes);
-            Date enddate = (fullDateFormat.parse(sPlanningDateDay+" "+sPlanningDateEndHour+":"+sPlanningDateEndMinutes));
-            if(beginDate.compareTo(enddate)>-1){
+            Date beginDate = ScreenHelper.fullDateFormat.parse(sPlanningDateDay+" "+sPlanningDateHour+":"+sPlanningDateMinutes),
+                 endDate = ScreenHelper.fullDateFormat.parse(sPlanningDateDay+" "+sPlanningDateEndHour+":"+sPlanningDateEndMinutes);
+                 
+            if(beginDate.compareTo(endDate)>-1){
                 // set begin date -5 min of end date if begin date is after the default end date
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTime(enddate);
+                calendar.setTime(endDate);
                 calendar.add(Calendar.MINUTE,-5);
                 beginDate = calendar.getTime();
             }
             planning.setPlannedDate(beginDate);
 
-            long minutes = ((enddate.getTime()-planning.getPlannedDate().getTime())/1000)/60;
+            long minutes = ((endDate.getTime()-planning.getPlannedDate().getTime())/1000)/60;
             if(minutes>55){
                   planning.setEstimatedtime((minutes/60+":"+(minutes-((minutes/60)*60))));
             }else{
@@ -78,7 +80,6 @@
     String sFindPlanningUID = checkString(request.getParameter("FindPlanningUID"));
     String sPage = checkString(request.getParameter("Page"));
     String sFindUserUID = checkString(request.getParameter("FindUserUID"));
-    SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     String sEstimatedTime = "";
     boolean show = false;
     String appointmentDateDay = "", appointmentDateHour = "", appointmentDateMinutes = "",
@@ -122,11 +123,11 @@
             planning.setUid(sEditPlanningUID);
             planning.setEstimatedtime(sEditEstimatedtime);
 			try{
-	            planning.setEffectiveDate(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(sEditEffectiveDate));
+	            planning.setEffectiveDate(ScreenHelper.fullDateFormat.parse(sEditEffectiveDate));
 			}
 			catch(Exception e){};
 			try{
-	            planning.setCancelationDate(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(sEditCancelationDate));
+	            planning.setCancelationDate(ScreenHelper.fullDateFormat.parse(sEditCancelationDate));
 			}
 			catch(Exception e){};
 			
@@ -135,7 +136,7 @@
             planning.setPatientUID(sEditPatientUID);
             planning.setTransactionUID(sEditTransactionUID);
             planning.setContextID(sEditContext);
-            setDates(planning, request, fullDateFormat,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
+            setDates(planning, request,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
             ObjectReference orContact = new ObjectReference();
             orContact.setObjectType(sEditContactType);
             orContact.setObjectUid(sEditContactUID);
@@ -180,7 +181,7 @@
             String sEditPlanningUID = checkString(request.getParameter("AppointmentID"));
             planning = new Planning();
             // set appointment date
-            boolean bRefresh = setDates(planning, request, fullDateFormat,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
+            boolean bRefresh = setDates(planning, request,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
             if(planning.updateDate(sEditPlanningUID)){
                 out.write("<script>clientMsg.setValid('"+HTMLEntities.htmlentities(getTranNoLink("web.control","dataissaved",sWebLanguage))+"',null,1000);"+((bRefresh)?"refreshAppointments();":"")+"</script>");
 
@@ -203,10 +204,10 @@
         if(Integer.parseInt(planning.getUserUID())<=0){
             planning.setUserUID(activeUser.userid);
         }
-        setDates(planning, request, fullDateFormat,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
+        setDates(planning, request,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
         // appointment date
         if (planning.getPlannedDate()!=null){
-            appointmentDateDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedDate());
+            appointmentDateDay = ScreenHelper.stdDateFormat.format(planning.getPlannedDate());
             appointmentDateHour = new SimpleDateFormat("HH").format(planning.getPlannedDate());
             appointmentDateMinutes = new SimpleDateFormat("mm").format(planning.getPlannedDate());
         } else {
@@ -217,7 +218,7 @@
         // appointment edn date
         planning.setPlannedEndDate();
         if (planning.getPlannedEndDate()!=null){
-            appointmentDateEndDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedEndDate());
+            appointmentDateEndDay = ScreenHelper.stdDateFormat.format(planning.getPlannedEndDate());
             appointmentDateEndHour = new SimpleDateFormat("HH").format(planning.getPlannedEndDate());
             appointmentDateEndMinutes = new SimpleDateFormat("mm").format(planning.getPlannedEndDate());
         } else {
@@ -233,7 +234,7 @@
         planning = Planning.get(sFindPlanningUID);
         // appointment date
         if (planning.getPlannedDate()!=null){
-            appointmentDateDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedDate());
+            appointmentDateDay = ScreenHelper.stdDateFormat.format(planning.getPlannedDate());
             appointmentDateHour = new SimpleDateFormat("HH").format(planning.getPlannedDate());
             appointmentDateMinutes = new SimpleDateFormat("mm").format(planning.getPlannedDate());
         } else {
@@ -243,7 +244,7 @@
         }
         // appointment edn date
         if (planning.getPlannedEndDate()!=null){
-            appointmentDateEndDay = new SimpleDateFormat("dd/MM/yyyy").format(planning.getPlannedEndDate());
+            appointmentDateEndDay = ScreenHelper.stdDateFormat.format(planning.getPlannedEndDate());
             appointmentDateEndHour = new SimpleDateFormat("HH").format(planning.getPlannedEndDate());
             appointmentDateEndMinutes = new SimpleDateFormat("mm").format(planning.getPlannedEndDate());
         } else {
@@ -348,7 +349,7 @@
         <td class='admin'><%=getTran("planning","transaction",sWebLanguage)%></td>
         <td class='admin2'>
             <input type="text" id="EditTransactionUID" name="EditTransactionUID" value="<%=planning.getTransactionUID()%>"/>
-            <input class="text" type="text" readonly size="<%=sTextWidth%>" value="<%=new SimpleDateFormat("dd/MM/yyyy").format(transaction.getUpdateTime())+": "+sTransactionType%>"/>
+            <input class="text" type="text" readonly size="<%=sTextWidth%>" value="<%=ScreenHelper.stdDateFormat.format(transaction.getUpdateTime())+": "+sTransactionType%>"/>
         </td>
     </tr>
     <%}%>

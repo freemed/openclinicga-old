@@ -109,7 +109,7 @@
                     // alternate row-style
                     String onclick="";
                     if(unitsIn>0 || unitsOut>0){
-                        onclick="onclick=\"showUnitsForDay('"+new SimpleDateFormat("dd/MM/yyyy").format(calendar.getTime())+"','"+productStockUid+"');\"" +
+                        onclick="onclick=\"showUnitsForDay('"+ScreenHelper.stdDateFormat.format(calendar.getTime())+"','"+productStockUid+"');\"" +
                                 " onmouseover=\"this.style.cursor='hand';\" " +
                                 " onmouseout=\"this.style.cursor='default';\" ";
                     }

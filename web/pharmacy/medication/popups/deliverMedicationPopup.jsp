@@ -99,7 +99,7 @@
             sSelectedSrcDestUid = "", sSelectedSrcDestName = "", sSelectedOperationDate = "",
             sSelectedProductName = "", sSelectedUnitsChanged = "", sSelectedProductStockUid = "";
 
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // display options
     boolean displayEditFields = true;
@@ -153,7 +153,7 @@
         sourceDestination.setObjectType(sEditSrcDestType);
         sourceDestination.setObjectUid(sEditSrcDestUid);
         operation.setSourceDestination(sourceDestination);
-        if (sEditOperationDate.length() > 0) operation.setDate(stdDateFormat.parse(sEditOperationDate));
+        if (sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.parseDate(sEditOperationDate));
         operation.setProductStockUid(sEditProductStockUid);
         if (sEditUnitsChanged.length() > 0) operation.setUnitsChanged(new Double(sEditUnitsChanged).intValue());
         operation.setUpdateUser(activeUser.userid);
@@ -297,10 +297,10 @@
                             		for(int n=0;n<batches.size();n++){
                             			Batch batch = (Batch)batches.elementAt(n);
                             			if(!batch.getEnd().before(new java.util.Date()) || MedwanQuery.getInstance().getConfigInt("enableExpiredProductsDistribution",0)>0){
-                            				productStockBatches+="$"+batch.getUid()+";"+batch.getBatchNumber()+";"+batch.getLevel()+";"+new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())+";"+batch.getComment();
+                            				productStockBatches+="$"+batch.getUid()+";"+batch.getBatchNumber()+";"+batch.getLevel()+";"+ScreenHelper.stdDateFormat.format(batch.getEnd())+";"+batch.getComment();
                             			}
                             			else {
-                            				expiredProductStockBatches+="$"+batch.getUid()+";"+batch.getBatchNumber()+";"+batch.getLevel()+";"+new SimpleDateFormat("dd/MM/yyyy").format(batch.getEnd())+";"+batch.getComment();
+                            				expiredProductStockBatches+="$"+batch.getUid()+";"+batch.getBatchNumber()+";"+batch.getLevel()+";"+ScreenHelper.stdDateFormat.format(batch.getEnd())+";"+batch.getComment();
                             				expiredQuantity+=batch.getLevel();
                             			}
                             		}
@@ -738,7 +738,7 @@ openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceS
 		if(productStock!=null && productStock.getServiceStockUid()!=null){
 			sDocumentSource=productStock.getServiceStockUid();
 			sDocumentSourceText=productStock.getServiceStock().getName();
-			sFindMinDate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date().getTime()-7*24*3600*1000);
+			sFindMinDate=ScreenHelper.stdDateFormat.format(new java.util.Date().getTime()-7*24*3600*1000);
 		}
 		
 	%>

@@ -66,7 +66,7 @@ if (activePatient!=null){
                     ExaminationVO examination;
                     
                     String sTextAdd = getTran("web","add",sWebLanguage);
-                    SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormat;
 
                     Iterator iter = vPatientMissedPlannings.iterator();
                     while(iter.hasNext()){
@@ -77,7 +77,7 @@ if (activePatient!=null){
                         calPlanningStop.set(Calendar.SECOND, 00);
                         calPlanningStop.set(Calendar.MILLISECOND, 00);
 
-                        if(planning.getEstimatedtime().length() > 0){
+                        if(checkString(planning.getEstimatedtime()).length() > 0){
                             try{
                                 aHour = planning.getEstimatedtime().split(":");
                                 calPlanningStop.setTime(planning.getPlannedDate());

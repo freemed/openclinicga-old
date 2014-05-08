@@ -37,7 +37,7 @@ String productStockUid=checkString(request.getParameter("productStockUid"));
 		if(productStockOperation!=null && checkString(productStockOperation.getPrescriptionUid()).length()>0){
 			prescription=getTran("web","yes",sWebLanguage);;
 		}
-		String date=new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate());
+		String date=ScreenHelper.stdDateFormat.format(operation.getDate());
 		String thirdparty=checkString(operation.getThirdParty());
 		if(operation != null && operation.getType()!=null){
 			if(operation.getType().equalsIgnoreCase("receipt")){

@@ -8,7 +8,7 @@
     private String objectsToHtml(Vector deliveries, String sWebLanguage) {
         StringBuffer html = new StringBuffer();
         ProductStockOperation delivery;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         String sClass = "1";
 
         // run thru deliveries

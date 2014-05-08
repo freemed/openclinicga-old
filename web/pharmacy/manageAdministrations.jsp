@@ -8,7 +8,7 @@
 <%
     int adminDays = MedwanQuery.getInstance().getConfigInt("administrationSchemaDays", 5);
     SimpleDateFormat compactDateFormat = new SimpleDateFormat("yyyyMMdd"),
-                     stdDateFormat     = new SimpleDateFormat("dd/MM/yyyy");
+                     stdDateFormat     = ScreenHelper.stdDateFormat;
     //--- SAVE ------------------------------------------------------------------------------------
     if(request.getParameter("saveButton") != null){
         Hashtable requestParameters = RequestParameterParser.getInstance().parseRequestParameters(request, "drugprescr");
@@ -28,7 +28,7 @@
     java.util.Date dStart = new java.util.Date(ScreenHelper.getDate(new java.util.Date()).getTime() - 2 * 24 * 3600 * 1000);
     String sStartDate = checkString(request.getParameter("startdate"));
     if (sStartDate.length() > 0) {
-        dStart = new java.util.Date(stdDateFormat.parse(sStartDate).getTime() - 2 * 24 * 3600 * 1000);
+        dStart = new java.util.Date(ScreenHelper.parseDate(sStartDate).getTime() - 2 * 24 * 3600 * 1000);
     }
 %>
 <form name="formAdministrations" method="post">
@@ -142,7 +142,7 @@
             for (int d = 0; d < adminDays; d++) {
     %>
                     <td class="admin" colspan="<%=hours%>" width="<%=80/(adminDays)%>%">
-                        <center><a href="<c:url value='/main.do'/>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(dStart.getTime() + d * 24 * 3600 * 1000))%>"><%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(dStart.getTime() + d * 24 * 3600 * 1000))%></a></center>
+                        <center><a href="<c:url value='/main.do'/>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.stdDateFormat.format(new java.util.Date(dStart.getTime() + d * 24 * 3600 * 1000))%>"><%=ScreenHelper.stdDateFormat.format(new java.util.Date(dStart.getTime() + d * 24 * 3600 * 1000))%></a></center>
                     </td>
                 <%
             }

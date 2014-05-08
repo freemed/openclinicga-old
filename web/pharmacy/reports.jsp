@@ -10,8 +10,8 @@
 		ServiceStock serviceStock = (ServiceStock)serviceStocks.elementAt(n);
 		stocks+="<option value='"+serviceStock.getUid()+"'>"+serviceStock.getName()+"</option>";
 	}
-	String firstdayPreviousMonth="01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
-	String lastdayPreviousMonth=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
+	String firstdayPreviousMonth="01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date(ScreenHelper.parseDate("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
+	String lastdayPreviousMonth=ScreenHelper.stdDateFormat.format(new java.util.Date(ScreenHelper.parseDate("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
 	out.print(ScreenHelper.writeTblHeader(getTran("Web","pharmacy.reports",sWebLanguage),sCONTEXTPATH)
 	        +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("start","reports",firstdayPreviousMonth,sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("end","reports",lastdayPreviousMonth,sWebLanguage)+"&nbsp;</td></tr>"
 	        +"<tr><td>"+getTran("web","servicestock",sWebLanguage)+"</td><td><select name='servicestockuid' id='servicestockuid' class='text'>"+stocks+"</select></td></tr>"

@@ -16,7 +16,7 @@
         StringBuffer html = new StringBuffer();
         String sClass = "1", sStockUid = "", sServiceStockName = "", sProductName = "", sStockBegin = "",
                 sOrderLevel = "", sMinimumLevel = "";
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         Product product;
         int stockLevel;
 
@@ -93,7 +93,7 @@
     private StringBuffer objectsToHtml2(Vector objects, String serviceUid, String sWebLanguage,User activeUser) {
         StringBuffer html = new StringBuffer();
         String sClass = "1", sStockUid = "", sProductUid = "", sProductName = "", sStockBegin = "";
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         Product product;
 
         // frequently used translations
@@ -303,8 +303,8 @@
         if(sEditMinimumLevel.length() > 0) stock.setMinimumLevel(Integer.parseInt(sEditMinimumLevel));
         if(sEditMaximumLevel.length() > 0) stock.setMaximumLevel(Integer.parseInt(sEditMaximumLevel));
         if(sEditOrderLevel.length() > 0)   stock.setOrderLevel(Integer.parseInt(sEditOrderLevel));
-        if(sEditBegin.length() > 0)        stock.setBegin(ScreenHelper.stdDateFormat.parse(sEditBegin));
-        if(sEditEnd.length() > 0)          stock.setEnd(ScreenHelper.stdDateFormat.parse(sEditEnd));
+        if(sEditBegin.length() > 0)        stock.setBegin(ScreenHelper.parseDate(sEditBegin));
+        if(sEditEnd.length() > 0)          stock.setEnd(ScreenHelper.parseDate(sEditEnd));
 
         // does product exist ?
         String existingStockUid = stock.exists();

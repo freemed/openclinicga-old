@@ -7,11 +7,11 @@
 <%
 	long lmonth = 1000 * 3600 * 24 ;
 	lmonth=lmonth*32;
-	java.util.Date date = new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime());
+	java.util.Date date = new java.util.Date(ScreenHelper.parseDate("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime());
 	String year = request.getParameter("year");
 	String month = request.getParameter("month");
 	if(year!=null && month!=null){
-		date = new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse("01/"+month+"/"+year).getTime());
+		date = new java.util.Date(ScreenHelper.parseDate("01/"+month+"/"+year).getTime());
 	}
 	else{
 		year = new SimpleDateFormat("yyyy").format(date);

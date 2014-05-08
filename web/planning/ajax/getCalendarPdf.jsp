@@ -35,7 +35,7 @@
     String sDay = checkString(request.getParameter("day"));
     String sDayToShow = checkString(request.getParameter("dayToShow"));
     boolean isPatient = checkString(request.getParameter("ispatient")).equals("true");
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy"), fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat, fullDateFormat = ScreenHelper.fullDateFormat;
     String sBegin = checkString(activeUser.getParameter("PlanningFindFrom"));
     String sProjectName = checkString((String)session.getAttribute("activeProjectTitle")).toLowerCase();
 
@@ -55,7 +55,7 @@
     if (sEnd.length() == 0) {
         sEnd = 20 + "";
     }
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sdf = ScreenHelper.stdDateFormat;
     Date startOfWeek = sdf.parse(sDay + "/" + sMonth + "/" + sYear);
     long week=604800000;
     Date endOfWeek = new Date(startOfWeek.getTime()+week);
@@ -90,8 +90,8 @@
         }
 
         if(bShow){
-        	if(!sActiveDate.equals(new SimpleDateFormat("dd/MM/yyyy").format(plannedStart))){
-        		sActiveDate=new SimpleDateFormat("dd/MM/yyyy").format(plannedStart);
+        	if(!sActiveDate.equals(ScreenHelper.stdDateFormat.format(plannedStart))){
+        		sActiveDate=ScreenHelper.stdDateFormat.format(plannedStart);
         		if(isPatient){
         			calendarGenerator.addDateRow(appointment);
         		}

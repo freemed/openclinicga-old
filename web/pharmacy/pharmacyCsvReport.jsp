@@ -74,7 +74,7 @@
 		sOutput.append(getTranNoLink("pharmacy.report","article",sWebLanguage)+";"+getTranNoLink("pharmacy.report","expirydate",sWebLanguage)+";"+getTranNoLink("pharmacy.report","quantity",sWebLanguage)+";"+getTranNoLink("pharmacy.report","unit",sWebLanguage)+";"+getTranNoLink("pharmacy.report","fobprice",sWebLanguage)+";"+getTranNoLink("pharmacy.report","salesprice",sWebLanguage)+";"+getTranNoLink("pharmacy.report","totalprice",sWebLanguage)+"\r\n");
 		String sActiveSupplier="?***$$poo",sActiveDate="", sActiveDocument="";
 		double documenttotal=0;
-		Vector operations = ProductStockOperation.getReceipts("", new SimpleDateFormat("dd/MM/yyyy").parse(sStart), new SimpleDateFormat("dd/MM/yyyy").parse(sEnd), "OC_OPERATION_SRCDESTUID,OC_OPERATION_ORDERUID", "");
+		Vector operations = ProductStockOperation.getReceipts("", ScreenHelper.parseDate(sStart), ScreenHelper.parseDate(sEnd), "OC_OPERATION_SRCDESTUID,OC_OPERATION_ORDERUID", "");
 		boolean initialized=false;
 		boolean changed=false;
 		for(int n=0;n<operations.size();n++){
@@ -101,7 +101,7 @@
 				sActiveDate="";
 				sActiveDocument="";
 			}
-			if(!sActiveDate.equalsIgnoreCase(new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate())) || !sActiveDocument.equalsIgnoreCase(operation.getOrderUID())){
+			if(!sActiveDate.equalsIgnoreCase(ScreenHelper.stdDateFormat.format(operation.getDate())) || !sActiveDocument.equalsIgnoreCase(operation.getOrderUID())){
 				if(initialized & !changed){
 					//Close previous document
 					sOutput.append(";;;;;"+getTranNoLink("web","total",sWebLanguage)+";"+documenttotal+"\r\n\r\n");
@@ -109,7 +109,7 @@
 					changed=true;
 				}
 				//Print document header
-				sActiveDate=new SimpleDateFormat("dd/MM/yyyy").format(operation.getDate());
+				sActiveDate=ScreenHelper.stdDateFormat.format(operation.getDate());
 				sActiveDocument=operation.getOrderUID();
 				sOutput.append(getTranNoLink("web","date",sWebLanguage)+": "+sActiveDate+"       "+getTranNoLink("web","document",sWebLanguage)+": "+sActiveDocument+"\r\n");
 			}
@@ -120,7 +120,7 @@
 				sOutput.append("?;");
 			}
 			if(operation.getBatchEnd()!=null){
-				sOutput.append(new SimpleDateFormat("dd/MM/yyyy").format(operation.getBatchEnd())+";");
+				sOutput.append(ScreenHelper.stdDateFormat.format(operation.getBatchEnd())+";");
 			}
 			else {
 				sOutput.append(";");

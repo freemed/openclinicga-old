@@ -4,7 +4,9 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.Date" %>
 <%@include file="/includes/validateUser.jsp" %>
-<%=checkPermission("planning.user", "select", activeUser)%><%!
+<%=checkPermission("planning.user", "select", activeUser)%>
+
+<%!
     private int testItemMargin(List l, Planning a) {
         for (int i = 0; i < l.size(); i++) {
             Planning tempA = (Planning) l.get(i);
@@ -20,14 +22,16 @@
         }
         return a.getMargin();
     }
-%><%
+%>
+
+<%
     String sYear = checkString(request.getParameter("year"));
     String sUserId = checkString(request.getParameter("FindUserUID"));
     String sPatientId = checkString(request.getParameter("PatientID"));
     String sMonth = checkString(request.getParameter("month"));
     String sDay = checkString(request.getParameter("day"));
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy"),
-            fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat,
+            fullDateFormat = ScreenHelper.fullDateFormat;
     String sBegin = checkString(activeUser.getParameter("PlanningFindFrom"));
     if (sBegin.length() == 0) {
         sBegin = 8 + "";
@@ -36,8 +40,7 @@
     if (sEnd.length() == 0) {
         sEnd = 20 + "";
     }
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    Date startOfWeek = sdf.parse(sDay + "/" + sMonth + "/" + sYear);
+    Date startOfWeek = ScreenHelper.parseDate(sDay + "/" + sMonth + "/" + sYear);
     long week=604800000;
     Date endOfWeek = new Date(startOfWeek.getTime()+week);
     // display all registered appointments for the active User
