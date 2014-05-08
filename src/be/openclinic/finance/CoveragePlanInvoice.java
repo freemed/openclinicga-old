@@ -439,7 +439,7 @@ public class CoveragePlanInvoice extends Invoice {
             // set question marks
             int qmIdx = 1;
             if(sInvoiceNr.length() > 0) ps.setInt(qmIdx++,Integer.parseInt(sInvoiceNr));
-            if(sInvoiceDate.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(stdDateFormat.parse(sInvoiceDate).getTime()));
+            if(sInvoiceDate.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(ScreenHelper.parseDate(sInvoiceDate).getTime()));
             if(sInvoiceInsurarUid.length() > 0) ps.setString(qmIdx++,sInvoiceInsurarUid);
             if(sInvoiceStatus.length() > 0) ps.setString(qmIdx++,sInvoiceStatus);
 
@@ -455,7 +455,7 @@ public class CoveragePlanInvoice extends Invoice {
             }
 
             if(sInvoiceNr.length() > 0) ps.setInt(qmIdx++,Integer.parseInt(sInvoiceNr));
-            if(sInvoiceDate.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(stdDateFormat.parse(sInvoiceDate).getTime()));
+            if(sInvoiceDate.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(ScreenHelper.parseDate(sInvoiceDate).getTime()));
             if(sInvoiceInsurarUid.length() > 0) ps.setString(qmIdx++,sInvoiceInsurarUid);
             if(sInvoiceStatus.length() > 0) ps.setString(qmIdx++,sInvoiceStatus);
 

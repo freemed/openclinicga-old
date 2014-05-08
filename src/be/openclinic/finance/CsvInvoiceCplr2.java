@@ -62,13 +62,8 @@ public class CsvInvoiceCplr2 {
 			            sOutput+="\r\n\r\n"+ScreenHelper.getTran("hospital.statistics", "visits", "fr");
 			            sOutput+="\r\n#;RECU;NOM ET PRENOM;MATRIC;CARTE;AFFECT;STATUT;SERVICE;TOTAL;PATIENT;ASSUREUR;ASSUREUR_COMPL;DATE\r\n";
 	                }
-	                try {
-						date = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						date=debet.getDate();
-						e.printStackTrace();
-					}
+	                date = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(debet.getDate()));
+
 	                sServiceUid=debet.getServiceUid();
 	                if(sServiceUid!=null && sServiceUid.length()>0){
 	                	Service service = Service.getService(sServiceUid);
@@ -99,7 +94,7 @@ public class CsvInvoiceCplr2 {
 	                	sOutput+=(total100pct-total85pct-totalext)+";";
 	                	sOutput+=total85pct+";";
 	                	sOutput+=totalext+";";
-	                	sOutput+=(prevdate!=null?new SimpleDateFormat("dd/MM/yyyy").format(prevdate):new SimpleDateFormat("dd/MM/yyyy").format(date))+"\r\n";
+	                	sOutput+=(prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date))+"\r\n";
 	                	categories = new TreeMap();
 	                	total100pct=0;
 	                	total85pct=0;
@@ -181,7 +176,7 @@ public class CsvInvoiceCplr2 {
 	            	sOutput+=(total100pct-total85pct-totalext)+";";
 	            	sOutput+=total85pct+";";
 	            	sOutput+=totalext+";";
-	            	sOutput+=(prevdate!=null?new SimpleDateFormat("dd/MM/yyyy").format(prevdate):new SimpleDateFormat("dd/MM/yyyy").format(date))+"\r\n";
+	            	sOutput+=(prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date))+"\r\n";
 	            	//Print totals
 	            	sOutput+=";";
 	            	sOutput+=";";
@@ -195,7 +190,7 @@ public class CsvInvoiceCplr2 {
 	            	sOutput+=(generaltotal100pct-generaltotal85pct-generaltotalext)+";";
 	            	sOutput+=generaltotal85pct+";";
 	            	sOutput+=generaltotalext+";";
-	            	sOutput+=prevdate!=null?new SimpleDateFormat("dd/MM/yyyy").format(prevdate):new SimpleDateFormat("dd/MM/yyyy").format(date)+"\r\n";
+	            	sOutput+=prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date)+"\r\n";
 	            }
             	total100pct=0;
             	total85pct=0;
@@ -250,13 +245,7 @@ public class CsvInvoiceCplr2 {
 		                	continue;
 		                }
 		                initialized=true;
-		                try {
-							date = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()));
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							date=debet.getDate();
-							e.printStackTrace();
-						}
+		                date = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(debet.getDate()));
 		                displayDate = !date.equals(prevdate);
 		                sPatientName = debet.getPatientName()+";"+debet.getEncounter().getPatientUID();
 		                displayPatientName = displayDate || !sPatientName.equals(sPrevPatientName) || (debet.getPatientInvoiceUid()!=null && debet.getPatientInvoiceUid().indexOf(".")>=0 && invoiceid.indexOf(debet.getPatientInvoiceUid().split("\\.")[1])<0 && invoiceid.length()>0);
@@ -390,7 +379,7 @@ public class CsvInvoiceCplr2 {
     private static String printDebet2(SortedMap categories, boolean displayDate, Date date, String invoiceid,String adherent,String beneficiary,double total100pct,double total85pct,String recordnumber,int linecounter,String insurarreference,String beneficiarynr,String beneficiaryage,String beneficiarysex,String affiliatecompany){
     	String sOutput="";
         sOutput+=linecounter+";";
-        sOutput+=new SimpleDateFormat("dd/MM/yyyy").format(date)+";";
+        sOutput+=ScreenHelper.stdDateFormat.format(date)+";";
         sOutput+=insurarreference+";";
         sOutput+=invoiceid+";";
         sOutput+=beneficiarynr+";";

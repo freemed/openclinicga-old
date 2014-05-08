@@ -208,7 +208,7 @@ public class Balance extends OC_Object implements Comparable{
                     ps.setTimestamp(11,new Timestamp(this.getUpdateDateTime().getTime()));
                     ps.setString(12,this.getUpdateUser());
                     ps.setInt(13,iVersion);
-                    //ScreenHelper.getSQLTimestamp(ps,14, new SimpleDateFormat("dd/MM/yyyy").format(this.closedTime),new SimpleDateFormat("hh:mm").format(this.closedTime));
+                    //ScreenHelper.getSQLTimestamp(ps,14, ScreenHelper.stdDateFormat.format(this.closedTime),new SimpleDateFormat("hh:mm").format(this.closedTime));
                     ScreenHelper.getSQLTimestamp(ps,14,this.closedTime);
                     ps.setInt(15,Integer.parseInt(ids[0]));
                     ps.setInt(16,Integer.parseInt(ids[1]));

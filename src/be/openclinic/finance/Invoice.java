@@ -20,8 +20,8 @@ public class Invoice extends OC_Object {
     protected double balance;
     protected String verifier;
 
-    protected static SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    protected static SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    protected static SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
+    protected static SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormat;
     
 
 	//--- SETTERS & GETTERS -----------------------------------------------------------------------

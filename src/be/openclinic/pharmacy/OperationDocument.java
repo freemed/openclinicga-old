@@ -237,10 +237,10 @@ public class OperationDocument extends OC_Object {
     	    		ps.setString(i++, destination);
     	    	}
     	    	if(mindate!=null && mindate.length()>0){
-    	    		ps.setDate(i++, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(mindate).getTime()));
+    	    		ps.setDate(i++, new java.sql.Date(ScreenHelper.parseDate(mindate).getTime()));
     	    	}
     	    	if(maxdate!=null && maxdate.length()>0){
-    	    		ps.setDate(i++, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(maxdate).getTime()));
+    	    		ps.setDate(i++, new java.sql.Date(ScreenHelper.parseDate(maxdate).getTime()));
     	    	}
     	    	if(reference!=null && reference.length()>0){
     	    		ps.setString(i++, reference);

@@ -1657,7 +1657,7 @@ public class ProductStockOperation extends OC_Object{
             if(sFindSrcDestType.length() > 0)     ps.setString(questionMarkIdx++,sFindSrcDestType);
             if(sFindOperationDate.length() > 0)  {
                 ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(sFindOperationDate));
-                ps.setDate(questionMarkIdx++,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sFindOperationDate).getTime()+24*60*60000));
+                ps.setDate(questionMarkIdx++,new java.sql.Date(ScreenHelper.parseDate(sFindOperationDate).getTime()+24*60*60000));
             }
             if(sFindProductStockUid.length() > 0) ps.setString(questionMarkIdx++,sFindProductStockUid);
             if(sFindUnitsChanged.length() > 0)    ps.setString(questionMarkIdx++,sFindUnitsChanged);

@@ -741,21 +741,18 @@ public class Wicket extends OC_Object{
         PreparedStatement ps = null;
         ResultSet rs = null;
         Date fromDate=null,toDate=null;
-        try {
-            if(ScreenHelper.checkString(sDateFrom).length()==0){
-                fromDate=new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-            }
-            else {
-                fromDate=new SimpleDateFormat("dd/MM/yyyy").parse(sDateFrom);
-            }
-            if(ScreenHelper.checkString(sDateTo).length()==0){
-                toDate=new Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())).getTime()+24*3600*1000-1);
-            }
-            else {
-                toDate=new Date(new SimpleDateFormat("dd/MM/yyyy").parse(sDateTo).getTime()+24*3600*1000-1);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+        if(ScreenHelper.checkString(sDateFrom).length()==0){
+            fromDate=ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date()));
+        }
+        else {
+            fromDate=ScreenHelper.parseDate(sDateFrom);
+        }
+        if(ScreenHelper.checkString(sDateTo).length()==0){
+            toDate=new Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())).getTime()+24*3600*1000-1);
+        }
+        else {
+            toDate=new Date(ScreenHelper.parseDate(sDateTo).getTime()+24*3600*1000-1);
         }
 
         Vector vResults = new Vector();
@@ -853,23 +850,19 @@ public class Wicket extends OC_Object{
         PreparedStatement ps = null;
         ResultSet rs = null;
         Date fromDate=null,toDate=null;
-        try {
-            if(ScreenHelper.checkString(sDateFrom).length()==0){
-                fromDate=new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-            }
-            else {
-                fromDate=new SimpleDateFormat("dd/MM/yyyy").parse(sDateFrom);
-            }
-            if(ScreenHelper.checkString(sDateTo).length()==0){
-                toDate=new Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())).getTime()+24*3600*1000-1);
-            }
-            else {
-                toDate=new Date(new SimpleDateFormat("dd/MM/yyyy").parse(sDateTo).getTime()+24*3600*1000-1);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
 
+        if(ScreenHelper.checkString(sDateFrom).length()==0){
+            fromDate=ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date()));
+        }
+        else {
+            fromDate=ScreenHelper.parseDate(sDateFrom);
+        }
+        if(ScreenHelper.checkString(sDateTo).length()==0){
+            toDate=new Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())).getTime()+24*3600*1000-1);
+        }
+        else {
+            toDate=new Date(ScreenHelper.parseDate(sDateTo).getTime()+24*3600*1000-1);
+        }
 
         Vector vResults = new Vector();
         WicketCredit wicket;

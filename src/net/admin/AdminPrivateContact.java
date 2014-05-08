@@ -64,7 +64,7 @@ public class AdminPrivateContact{
     public boolean saveToDB(String sPersonID, Connection connection) {
         boolean bReturn = true;
         if (this.begin==null || this.begin.length()==0){
-            this.begin=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+            this.begin=ScreenHelper.stdDateFormat.format(new Date());
         }
         String sSelect = "";
         try  {

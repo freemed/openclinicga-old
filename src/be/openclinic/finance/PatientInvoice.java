@@ -825,9 +825,9 @@ public class PatientInvoice extends Invoice {
 
             // set question marks
             int qmIdx = 1;
-            SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
             if(sInvoiceNr.length() > 0) ps.setInt(qmIdx++,Integer.parseInt(sInvoiceNr));
-            if(sInvoiceDate.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(stdDateFormat.parse(sInvoiceDate).getTime()));
+            if(sInvoiceDate.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(ScreenHelper.parseDate(sInvoiceDate).getTime()));
             if(sInvoicePatientUid.length() > 0) ps.setString(qmIdx++,sInvoicePatientUid);
             if(sInvoiceStatus.length() > 0) ps.setString(qmIdx++,sInvoiceStatus);
             if(sInvoiceBalanceMin.length() > 0) ps.setDouble(qmIdx++,Double.parseDouble(sInvoiceBalanceMin));
@@ -1082,10 +1082,10 @@ public class PatientInvoice extends Invoice {
 
             // set question marks
             int qmIdx = 1;
-            SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
             if(sInvoicePatientUid.length() > 0) ps.setString(qmIdx++,sInvoicePatientUid);
-            if(sInvoiceDateFrom.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(stdDateFormat.parse(sInvoiceDateFrom).getTime()));
-            if(sInvoiceDateTo.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(stdDateFormat.parse(sInvoiceDateTo).getTime()));
+            if(sInvoiceDateFrom.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(ScreenHelper.parseDate(sInvoiceDateFrom).getTime()));
+            if(sInvoiceDateTo.length() > 0) ps.setDate(qmIdx++,new java.sql.Date(ScreenHelper.parseDate(sInvoiceDateTo).getTime()));
             if(sInvoiceStatus.length() > 0) ps.setString(qmIdx,sInvoiceStatus);
 
             rs = ps.executeQuery();

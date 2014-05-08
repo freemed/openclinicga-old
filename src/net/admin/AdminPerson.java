@@ -238,7 +238,7 @@ public class AdminPerson extends OC_Object{
 	        if(rs.next()){
 	        	java.sql.Timestamp ld = rs.getTimestamp("lastdate");
 	        	if(ld!=null){
-	        		lastDate=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(ld);
+	        		lastDate=ScreenHelper.fullDateFormatSS.format(ld);
 	        	}
 	        }
 	        rs.close();
@@ -721,7 +721,7 @@ public class AdminPerson extends OC_Object{
 
                     // Er werd een nieuw dossier aangemaakt, genereer eventueel de bijgaande prestatiecode
                     if (export && MedwanQuery.getInstance().getConfigInt("exportEnabled")==1){
-                        ExportActivityVO exportActivityVO=new ExportActivityVO(Integer.parseInt(personid),Integer.parseInt(this.updateuserid),new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),null,"RECORD-CREATION."+personid+"."+MedwanQuery.getInstance().getConfigString("serverId"));
+                        ExportActivityVO exportActivityVO=new ExportActivityVO(Integer.parseInt(personid),Integer.parseInt(this.updateuserid),ScreenHelper.stdDateFormat.format(new java.util.Date()),null,"RECORD-CREATION."+personid+"."+MedwanQuery.getInstance().getConfigString("serverId"));
                         exportActivityVO.setMedicalCenter(activeMedicalCenter);
                         exportActivityVO.setMD(activeMD);
                         exportActivityVO.setPara(activePara);
@@ -1005,7 +1005,7 @@ public class AdminPerson extends OC_Object{
 
                     // Er werd een nieuw dossier aangemaakt, genereer eventueel de bijgaande prestatiecode
                     if (export && MedwanQuery.getInstance().getConfigInt("exportEnabled")==1){
-                        ExportActivityVO exportActivityVO=new ExportActivityVO(Integer.parseInt(personid),Integer.parseInt(this.updateuserid),new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),null,"RECORD-CREATION."+personid+"."+MedwanQuery.getInstance().getConfigString("serverId"));
+                        ExportActivityVO exportActivityVO=new ExportActivityVO(Integer.parseInt(personid),Integer.parseInt(this.updateuserid),ScreenHelper.stdDateFormat.format(new java.util.Date()),null,"RECORD-CREATION."+personid+"."+MedwanQuery.getInstance().getConfigString("serverId"));
                         exportActivityVO.setMedicalCenter(activeMedicalCenter);
                         exportActivityVO.setMD(activeMD);
                         exportActivityVO.setPara(activePara);
@@ -1448,7 +1448,7 @@ public class AdminPerson extends OC_Object{
                 tempPat.pension = ScreenHelper.checkString(rs.getString("pension"));
                 //tempPat.setPension(ScreenHelper.checkString(rs.getString("pension")));
                 if(rs.getDate("dateofbirth") != null){
-                    tempPat.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("dateofbirth"));
+                    tempPat.dateOfBirth = ScreenHelper.stdDateFormat.format(rs.getDate("dateofbirth"));
                 }else{
                     tempPat.dateOfBirth = "";
                 }
@@ -1522,7 +1522,7 @@ public class AdminPerson extends OC_Object{
                 tempPat.pension = ScreenHelper.checkString(rs.getString("pension"));
                 //tempPat.setPension(ScreenHelper.checkString(rs.getString("pension")));
                 if(rs.getDate("dateofbirth") != null){
-                    tempPat.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("dateofbirth"));
+                    tempPat.dateOfBirth = ScreenHelper.stdDateFormat.format(rs.getDate("dateofbirth"));
                 }else{
                     tempPat.dateOfBirth = "";
                 }
@@ -1658,7 +1658,7 @@ public class AdminPerson extends OC_Object{
                 if (sDateOfBirth.trim().length()>0) {
                     java.sql.Date dDate=null;
                     try {
-                        dDate=new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sDateOfBirth).getTime());
+                        dDate=new java.sql.Date(ScreenHelper.parseDate(sDateOfBirth).getTime());
                     }
                     catch(Exception e){
                         e.printStackTrace();
@@ -1686,7 +1686,7 @@ public class AdminPerson extends OC_Object{
                     tempPat.pension = ScreenHelper.checkString(rs.getString("pension"));
                     //tempPat.setPension(ScreenHelper.checkString(rs.getString("pension")));
                     if(rs.getDate("dateofbirth") != null){
-                        tempPat.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("dateofbirth"));
+                        tempPat.dateOfBirth = ScreenHelper.stdDateFormat.format(rs.getDate("dateofbirth"));
                     }else{
                         tempPat.dateOfBirth = "";
                     }
@@ -1786,7 +1786,7 @@ public class AdminPerson extends OC_Object{
                 ps = ad_conn.prepareStatement(sSelect.trim());
 
                 if (sDateOfBirth.trim().length()>0) {
-                    ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sDateOfBirth.replaceAll("-","/")).getTime()));
+                    ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(sDateOfBirth.replaceAll("-","/")).getTime()));
                 }
                 rs = ps.executeQuery();
 
@@ -1809,7 +1809,7 @@ public class AdminPerson extends OC_Object{
                     tempPat.pension = ScreenHelper.checkString(rs.getString("pension"));
                     //tempPat.setPension(ScreenHelper.checkString(rs.getString("pension")));
                     if(rs.getDate("dateofbirth") != null){
-                        tempPat.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("dateofbirth"));
+                        tempPat.dateOfBirth = ScreenHelper.stdDateFormat.format(rs.getDate("dateofbirth"));
                     }else{
                         tempPat.dateOfBirth = "";
                     }
@@ -1904,7 +1904,7 @@ public class AdminPerson extends OC_Object{
                 ps = ad_conn.prepareStatement(sSelect.trim());
 
                 if (sDateOfBirth.trim().length()>0) {
-                    ps.setDate(1,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sDateOfBirth.replaceAll("-","/")).getTime()));
+                    ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(sDateOfBirth.replaceAll("-","/")).getTime()));
                 }
                 
                 rs = ps.executeQuery();
@@ -1928,7 +1928,7 @@ public class AdminPerson extends OC_Object{
                     tempPat.pension = ScreenHelper.checkString(rs.getString("pension"));
                     //tempPat.setPension(ScreenHelper.checkString(rs.getString("pension")));
                     if(rs.getDate("dateofbirth") != null){
-                        tempPat.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("dateofbirth"));
+                        tempPat.dateOfBirth = ScreenHelper.stdDateFormat.format(rs.getDate("dateofbirth"));
                     }else{
                         tempPat.dateOfBirth = "";
                     }
@@ -2340,7 +2340,7 @@ public class AdminPerson extends OC_Object{
                     sValue = (String)hSelect.get(sKey);
 
                     if (sKey.equalsIgnoreCase(" dateofbirth = ? OR")){
-                        ps.setDate(iIndex,new Date(new SimpleDateFormat("dd/MM/yyyy").parse(sValue).getTime()));
+                        ps.setDate(iIndex,new Date(ScreenHelper.parseDate(sValue).getTime()));
                     }
                     else {
                         ps.setString(iIndex,sValue);
@@ -2409,7 +2409,7 @@ public class AdminPerson extends OC_Object{
                     sValue = (String)hSelect.get(sKey);
 
                     if (sKey.equalsIgnoreCase(" dateofbirth = ? AND")){
-                        ps.setDate(iIndex,new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sValue).getTime()));
+                        ps.setDate(iIndex,new java.sql.Date(ScreenHelper.parseDate(sValue).getTime()));
                     }
                     else {
                         ps.setString(iIndex,sValue.toUpperCase());
@@ -2477,7 +2477,7 @@ public class AdminPerson extends OC_Object{
                     sValue = (String)hSelect.get(sKey);
 
                     if (sKey.equalsIgnoreCase(" dateofbirth = ? AND")){
-                        ps.setDate(iIndex,new Date(new SimpleDateFormat("dd/MM/yyyy").parse(sValue).getTime()));
+                        ps.setDate(iIndex,new Date(ScreenHelper.parseDate(sValue).getTime()));
                     }
                     else {
                         ps.setString(iIndex,sValue);
@@ -2609,7 +2609,7 @@ public class AdminPerson extends OC_Object{
             if(sFindDOB.length() > 0){
                 try{
                     sFindDOB = sFindDOB.replaceAll("-","/");
-                    new SimpleDateFormat("dd/MM/yyyy").parse(sFindDOB);
+                    ScreenHelper.parseDate(sFindDOB);
                     sSelect+= " dateofbirth = ? AND";
                 }
                 catch(Exception e){
@@ -2645,7 +2645,7 @@ public class AdminPerson extends OC_Object{
 
                 rs = ps.executeQuery();
 
-                SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
                 while(rs.next()){
                     hInfo = new Hashtable();
                     if(bIsUser){
@@ -2704,7 +2704,7 @@ public class AdminPerson extends OC_Object{
             if(sFindDOB.length() > 0){
                 try{
                     sFindDOB = sFindDOB.replaceAll("-","/");
-                    new SimpleDateFormat("dd/MM/yyyy").parse(sFindDOB);
+                    ScreenHelper.parseDate(sFindDOB);
                     sSelect+= " dateofbirth = ? AND";
                 }
                 catch(Exception e){
@@ -2754,7 +2754,7 @@ public class AdminPerson extends OC_Object{
 
                 rs = ps.executeQuery();
 
-                SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
                 while(rs.next()){
                     hInfo = new Hashtable();
                     hInfo.put("personid",ScreenHelper.checkString(rs.getString("personid")));
@@ -2786,13 +2786,9 @@ public class AdminPerson extends OC_Object{
         return vResults;
     }
 
+    //--- GET AGE IN MONTHS -----------------------------------------------------------------------
     public double getAgeInMonths(){
-    	long millis =0;
-    	try {
-			millis= new java.util.Date().getTime()-new SimpleDateFormat("dd/MM/yyyy").parse(this.dateOfBirth).getTime();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+    	long millis = new java.util.Date().getTime()-ScreenHelper.parseDate(this.dateOfBirth).getTime();
     	long month=(365/12)*24*3600;
     	month*=1000;
     	double age =millis/month;
@@ -2805,11 +2801,11 @@ public class AdminPerson extends OC_Object{
 
         if(this.dateOfBirth.length() > 0){
             try{
-                java.util.Date dob = new SimpleDateFormat("dd/MM/yyyy").parse(this.dateOfBirth);
-                GregorianCalendar dateOfBirth = new GregorianCalendar();
+                java.util.Date dob = ScreenHelper.parseDate(this.dateOfBirth);
+                Calendar dateOfBirth = Calendar.getInstance();
                 dateOfBirth.setTime(dob);
 
-                GregorianCalendar now = new GregorianCalendar();
+                Calendar now = Calendar.getInstance();
 
                 //*** check wether the birthday in the current year is passed ***
                 // check month
@@ -2834,7 +2830,7 @@ public class AdminPerson extends OC_Object{
                 }
             }
             catch(Exception e){
-                e.printStackTrace();
+                Debug.printStackTrace(e);
             }
         }
 
@@ -3043,7 +3039,7 @@ public class AdminPerson extends OC_Object{
                 sValue = (String) hSelect.get(sKey);
 
                 if (sKey.equalsIgnoreCase(" dateofbirth = ? AND")) {
-                    ps.setDate(iIndex, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sValue).getTime()));
+                    ps.setDate(iIndex, new java.sql.Date(ScreenHelper.parseDate(sValue).getTime()));
                 } else {
                     ps.setString(iIndex, sValue);
                 }
@@ -3212,7 +3208,7 @@ public class AdminPerson extends OC_Object{
                 sValue = (String) hSelect.get(sKey);
 
                 if (sKey.equalsIgnoreCase(" dateofbirth = ? AND")) {
-                    ps.setDate(iIndex, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sValue).getTime()));
+                    ps.setDate(iIndex, new java.sql.Date(ScreenHelper.parseDate(sValue).getTime()));
                 } else {
                     ps.setString(iIndex, sValue);
                 }

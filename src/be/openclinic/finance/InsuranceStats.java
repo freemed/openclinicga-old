@@ -51,7 +51,7 @@ public class InsuranceStats {
 	
 	public java.util.Date getOneYearAgo(){
 		try {
-			return new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1)+"");
+			return ScreenHelper.parseDate(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1)+"");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

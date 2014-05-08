@@ -4,6 +4,8 @@ import be.openclinic.medical.Prescription;
 import be.openclinic.common.KeyValue;
 import be.openclinic.common.Util;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
+
 import java.util.*;
 import java.text.SimpleDateFormat;
 import java.sql.Connection;
@@ -89,7 +91,7 @@ public class AdministrationSchema {
         this.date = date;
         this.personuid = personuid;
         SortedMap schemaTimes = new TreeMap();
-        Vector prescriptions= Prescription.find(personuid,"","",new SimpleDateFormat("dd/MM/yyyy").format(new Date(date.getTime()+24*3600*1000)),new SimpleDateFormat("dd/MM/yyyy").format(date),"","","");
+        Vector prescriptions= Prescription.find(personuid,"","",ScreenHelper.stdDateFormat.format(new Date(date.getTime()+24*3600*1000)),ScreenHelper.stdDateFormat.format(date),"","","");
         //We inventariseren eerst alle noodzakelijke tijdstippen
         for (int n=0;n<prescriptions.size();n++){
             Prescription prescription= (Prescription)prescriptions.elementAt(n);
@@ -118,7 +120,7 @@ public class AdministrationSchema {
         this.date = dateBegin;
         this.personuid = personuid;
         SortedMap schemaTimes = new TreeMap();
-        Vector prescriptions= Prescription.find(personuid,"","",new SimpleDateFormat("dd/MM/yyyy").format(dateBegin),new SimpleDateFormat("dd/MM/yyyy").format(dateEnd),"","","");
+        Vector prescriptions= Prescription.find(personuid,"","",ScreenHelper.stdDateFormat.format(dateBegin),ScreenHelper.stdDateFormat.format(dateEnd),"","","");
         //We inventariseren eerst alle noodzakelijke tijdstippen
         for (int n=0;n<prescriptions.size();n++){
             Prescription prescription= (Prescription)prescriptions.elementAt(n);
@@ -157,7 +159,6 @@ public class AdministrationSchema {
             try {
 				dbConnection.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             prescriptionSchemas.add(administrationSchemaLine);

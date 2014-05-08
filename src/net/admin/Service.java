@@ -461,7 +461,7 @@ public class Service {
                     service.contract = ScreenHelper.checkString(rs.getString("contract"));
                     service.contracttype = ScreenHelper.checkString(rs.getString("contracttype"));
                     service.contactperson = ScreenHelper.checkString(rs.getString("contactperson"));
-                    service.contractdate = rs.getDate("contractdate")!=null?new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("contractdate")):null;
+                    service.contractdate = rs.getDate("contractdate")!=null?ScreenHelper.stdDateFormat.format(rs.getDate("contractdate")):null;
                     service.contactaddress = ScreenHelper.checkString(rs.getString("contactaddress"));
                     service.contactzipcode = ScreenHelper.checkString(rs.getString("contactzipcode"));
                     service.contactcity = ScreenHelper.checkString(rs.getString("contactcity"));

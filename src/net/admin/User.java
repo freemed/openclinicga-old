@@ -105,9 +105,9 @@ public class User extends OC_Object {
                 String sSql = "select count(*) as total,OC_DEBET_PRESTATIONUID from oc_debets WHERE OC_DEBET_DATE>? AND OC_DEBET_UPDATEUID=? group by OC_DEBET_PRESTATIONUID";
                 PreparedStatement ps = dbOpenClinic.prepareStatement(sSql);
                 int year = Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1;
-                java.util.Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+year);
-                if(startDate.before(new SimpleDateFormat("dd/MM/yyyy").parse(MedwanQuery.getInstance().getConfigString("resetUserDebetsDate","01/01/1900")))){
-                	startDate=new SimpleDateFormat("dd/MM/yyyy").parse(MedwanQuery.getInstance().getConfigString("resetUserDebetsDate","01/01/1900"));
+                java.util.Date startDate = ScreenHelper.parseDate(new SimpleDateFormat("dd/MM/").format(new java.util.Date())+year);
+                if(startDate.before(ScreenHelper.parseDate(MedwanQuery.getInstance().getConfigString("resetUserDebetsDate","01/01/1900")))){
+                	startDate=ScreenHelper.parseDate(MedwanQuery.getInstance().getConfigString("resetUserDebetsDate","01/01/1900"));
                 }
                 ps.setDate(1, new java.sql.Date(startDate.getTime()));
                 ps.setInt(2,Integer.parseInt(userid));
