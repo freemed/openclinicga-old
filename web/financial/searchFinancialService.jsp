@@ -38,11 +38,11 @@
         String sLabel = getTran("Service",sID.trim(), sWebLanguage);
         if(sIcon.length()==0){
             sIcon = "<img src='"+sCONTEXTPATH+"/_img/menu_tee_plus.gif' onclick='populateService(\""+sID+"\")'"
-                +" alt='"+getTran("Web.Occup","medwan.common.open",sWebLanguage)+"'>";
+                +" alt='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>";
         }
 
         return "<tr><td>"
-            +sIcon+"&nbsp;<img src='"+sCONTEXTPATH+"/_img/icon_view.gif' alt='"+getTran("Web","view",sWebLanguage)+"'"
+            +sIcon+"&nbsp;<img src='"+sCONTEXTPATH+"/_img/icon_view.gif' alt='"+getTranNoLink("Web","view",sWebLanguage)+"'"
             +" onclick='viewService(\""+sID+"\")'></td><td>"+sID+"</td>"
             +"<td><a href='#' onclick='selectParentService(\""+sID+"\",\""+sLabel+"\")' title='"+getTran("Web","select",sWebLanguage)+"'>"+sLabel+"</a></td></tr>";
     }

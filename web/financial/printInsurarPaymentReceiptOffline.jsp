@@ -41,7 +41,7 @@
 		if(receiptid>=MedwanQuery.getInstance().getConfigInt("maximumNumberOfReceipts",10000)){
 			MedwanQuery.getInstance().setOpenclinicCounter("RECEIPT",0);
 		}
-		content+=printer.CENTER+receiptid+" - "+printer.BOLD+ScreenHelper.getTranNoLink("web","receiptforinsurarcredit",sWebLanguage).toUpperCase()+" #"+creditnumber+" - "+new SimpleDateFormat("dd/MM/yyyy").format(credit.getDate())+printer.NOTBOLD+printer.LF;
+		content+=printer.CENTER+receiptid+" - "+printer.BOLD+ScreenHelper.getTranNoLink("web","receiptforinsurarcredit",sWebLanguage).toUpperCase()+" #"+creditnumber+" - "+ScreenHelper.stdDateFormat.format(credit.getDate())+printer.NOTBOLD+printer.LF;
         double totalCredit=credit.getAmount();
         //Patientgegevens
         content+=printer.LF;
@@ -54,7 +54,7 @@
 
 		//Afdrukken van betalingsgegevens
 		content+=printer.LEFT+printer.UNDERLINE+ScreenHelper.getTran("web","payments",sWebLanguage)+printer.NOTUNDERLINE+printer.LF;
-           content+=printer.LEFT+new SimpleDateFormat("dd/MM/yyyy").format(credit.getDate())+"  "+ScreenHelper.getTran("credit.type",credit.getType(),sWebLanguage)+": "+priceFormat.format(credit.getAmount())+" "+sCurrency+printer.LF;
+           content+=printer.LEFT+ScreenHelper.stdDateFormat.format(credit.getDate())+"  "+ScreenHelper.getTran("credit.type",credit.getType(),sWebLanguage)+": "+priceFormat.format(credit.getAmount())+" "+sCurrency+printer.LF;
            if(credit.getComment()!=null && credit.getComment().length()>0){
 			content+=printer.LEFT+"---------------------------------------------------------------------------------".substring(0,48)+printer.LF;
            	content+=printer.LEFT+credit.getComment()+printer.LF;

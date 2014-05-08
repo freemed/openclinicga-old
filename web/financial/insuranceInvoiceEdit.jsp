@@ -122,11 +122,11 @@
                     <td class='admin'><%=getTran("web", "period", sWebLanguage)%></td>
                     <td class="admin2">
                         <%
-                            Date previousmonth=new Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1);
+                            Date previousmonth=new Date(ScreenHelper.parseDate(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1);
                         %>
                         <%=writeDateField("EditBegin", "EditForm", new SimpleDateFormat("01/MM/yyyy").format(previousmonth), sWebLanguage)%>
                         <%=getTran("web","to",sWebLanguage)%>
-                        <%=writeDateField("EditEnd", "EditForm", new SimpleDateFormat("dd/MM/yyyy").format(previousmonth), sWebLanguage)%>
+                        <%=writeDateField("EditEnd", "EditForm", ScreenHelper.stdDateFormat.format(previousmonth), sWebLanguage)%>
 		               <input type="hidden" name="EditInvoiceService" id="EditInvoiceService" value="">
                         <% if(insurarInvoice==null || insurarInvoice.getStatus()==null || insurarInvoice.getStatus().equalsIgnoreCase("open")){ %>
 			               <input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">

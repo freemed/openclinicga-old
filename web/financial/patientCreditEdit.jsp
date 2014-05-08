@@ -136,7 +136,7 @@ if (sFindPatientCreditUID.length() > 0) {
                 wicketCredit.setUserUID(Integer.parseInt(activeUser.userid));
             }
 
-            wicketCredit.setOperationDate(new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(sEditCreditDate).getTime()));
+            wicketCredit.setOperationDate(new Timestamp(ScreenHelper.parseDate(sEditCreditDate).getTime()));
             wicketCredit.setOperationType(sEditCreditType);
             wicketCredit.setAmount(Double.parseDouble(sEditCreditAmount));
 
@@ -182,7 +182,7 @@ if (sFindPatientCreditUID.length() > 0) {
         credit = PatientCredit.get(sEditCreditUid);
 
         sEditCreditUid        = credit.getUid();
-        sEditCreditDate       = checkString(new SimpleDateFormat("dd/MM/yyyy").format(credit.getDate()));
+        sEditCreditDate       = checkString(ScreenHelper.stdDateFormat.format(credit.getDate()));
         sEditCreditInvoiceUid = credit.getInvoiceUid();
         sEditCreditInvoiceNr  = sEditCreditInvoiceUid.substring(sEditCreditInvoiceUid.indexOf(".")+1);
         sEditCreditAmount     = Double.toString(credit.getAmount());
@@ -202,7 +202,7 @@ if (sFindPatientCreditUID.length() > 0) {
         	sEditCreditAmount=sEditBalance;
         }
         sEditCreditInvoiceNr = patientInvoice.getInvoiceUid();
-        sEditCreditDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+        sEditCreditDate = checkString(ScreenHelper.stdDateFormat.format(new java.util.Date()));
 
 
         if (sScreenType.equalsIgnoreCase("doCancellation")){

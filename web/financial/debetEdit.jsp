@@ -89,7 +89,7 @@ System.out.println(0);
                 <% if(activeUser.getAccessRight("financial.debet.add")){ %>
 	                <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew()">&nbsp;
 	            <% } %>
-                <input type="button" class="button" name="ButtonDate" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>';loadUnassignedDebets()">&nbsp;
+                <input type="button" class="button" name="ButtonDate" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=ScreenHelper.stdDateFormat.format(new Date())%>';loadUnassignedDebets()">&nbsp;
             </td>
         </tr>
     </table>

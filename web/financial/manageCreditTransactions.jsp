@@ -53,7 +53,7 @@
         CreditTransaction credit = CreditTransaction.get(sEditCreditUID);
         sEditCreditUID          = credit.getUid();
         sEditCreditAmount       = Double.toString(credit.getAmount());
-        sEditCreditDate         = checkString(new SimpleDateFormat("dd/MM/yyyy").format(credit.getDate()));
+        sEditCreditDate         = checkString(ScreenHelper.stdDateFormat.format(credit.getDate()));
         sEditCreditBalanceUID   = credit.getBalance().getUid();
         sEditCreditEncounterUID = "";
         sEditCreditEncounterName= "";

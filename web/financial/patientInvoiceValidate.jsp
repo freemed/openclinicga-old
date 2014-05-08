@@ -6,7 +6,7 @@
 	PatientInvoice invoice = PatientInvoice.get(invoiceuid);
 	if(invoice!=null){
 		invoice.setAcceptationUid(activeUser.userid);
-       	invoice.setAcceptationDate(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date()));
+       	invoice.setAcceptationDate(ScreenHelper.fullDateFormat.format(new java.util.Date()));
 		invoice.store();
 	}
 %>

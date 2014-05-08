@@ -287,7 +287,7 @@
 	        				signatures+=", ";
 	        			}
 	        			String ptr=(String)pointers.elementAt(n);
-	        			signatures+=ptr.split(";")[0]+" - "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new SimpleDateFormat("yyyyMMddHHmmSSsss").parse(ptr.split(";")[1]));
+	        			signatures+=ptr.split(";")[0]+" - "+ScreenHelper.fullDateFormat.format(new SimpleDateFormat("yyyyMMddHHmmSSsss").parse(ptr.split(";")[1]));
 	        		}
 	        		if(signatures.length()>0){
 		    	        %>

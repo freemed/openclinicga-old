@@ -109,12 +109,12 @@
 	String sInvoiceService = checkString(request.getParameter("EditInvoiceService"));
 	java.util.Date begin=null,end=null;
 	try{
-		begin = new SimpleDateFormat("dd/MM/yyyy").parse(sBegin);
+		begin = ScreenHelper.parseDate(sBegin);
 	}
 	catch(Exception e){
 	}
 	try{
-		end = new SimpleDateFormat("dd/MM/yyyy").parse(sEnd);
+		end = ScreenHelper.parseDate(sEnd);
 	}
 	catch(Exception e){
 	}

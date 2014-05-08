@@ -8,7 +8,7 @@
 	String sDebetDate = checkString(request.getParameter("EditDate"));
 	java.util.Date dDebetDate=null;
 	try{
-		dDebetDate=new SimpleDateFormat("dd/MM/yyyy").parse(sDebetDate);
+		dDebetDate=ScreenHelper.parseDate(sDebetDate);
 	}
 	catch(Exception e){}
 	String sPrestationUID = checkString(request.getParameter("PrestationUID"));

@@ -19,7 +19,7 @@
 		if(receiptid>=MedwanQuery.getInstance().getConfigInt("maximumNumberOfReceipts",10000)){
 			MedwanQuery.getInstance().setOpenclinicCounter("RECEIPT",0);
 		}
-		content+=printer.CENTER+receiptid+" - "+printer.BOLD+ScreenHelper.getTran("web","receiptforinvoice",sWebLanguage).toUpperCase()+" #"+invoice.getInvoiceNumber()+" - "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate())+printer.NOTBOLD+printer.LF;
+		content+=printer.CENTER+receiptid+" - "+printer.BOLD+ScreenHelper.getTran("web","receiptforinvoice",sWebLanguage).toUpperCase()+" #"+invoice.getInvoiceNumber()+" - "+ScreenHelper.stdDateFormat.format(invoice.getDate())+printer.NOTBOLD+printer.LF;
         double totalCredit=0;
         for(int n=0;n<invoice.getCredits().size();n++){
             PatientCredit credit = PatientCredit.get((String)invoice.getCredits().elementAt(n));

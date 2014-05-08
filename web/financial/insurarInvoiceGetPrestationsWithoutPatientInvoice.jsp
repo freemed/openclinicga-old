@@ -46,7 +46,7 @@
                                 sEncounterName=debet.getEncounterUid();
                             }
                             oldencounter=sEncounterName;
-                            sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                            sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                             olddate=sDate;
                         }
                         else {
@@ -61,12 +61,12 @@
                                     sEncounterName=debet.getEncounterUid();
                                 }
                                 oldencounter=sEncounterName;
-                                sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                                sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                                 olddate=sDate;
                             }
                             else {
                                 sEncounterName="";
-                                if(!olddate.equalsIgnoreCase(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()))){
+                                if(!olddate.equalsIgnoreCase(ScreenHelper.stdDateFormat.format(debet.getDate()))){
                                     sPatientName = debet.getPatientName();
                                     oldname=sPatientName;
                                     if (debet.getEncounter()!=null){
@@ -76,7 +76,7 @@
                                         sEncounterName=debet.getEncounterUid();
                                     }
                                     oldencounter=sEncounterName;
-                                    sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                                    sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                                     olddate=sDate;
                                 }
                                 else {
@@ -119,12 +119,12 @@
         StringBuffer sReturn = new StringBuffer();
         Date begin = null, end =null;
         try{
-            begin = new SimpleDateFormat("dd/MM/yyyy").parse(sEditBegin);
+            begin = ScreenHelper.parseDate(sEditBegin);
         }
         catch(Exception e){
         }
         try{
-            end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
+            end = ScreenHelper.parseDate(sEditEnd);
         }
         catch(Exception e){
         }
@@ -174,7 +174,7 @@
                                 sEncounterName=debet.getEncounterUid();
                             }
                             oldencounter=sEncounterName;
-                            sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                            sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                             olddate=sDate;
                         }
                         else {
@@ -189,12 +189,12 @@
                                     sEncounterName=debet.getEncounterUid();
                                 }
                                 oldencounter=sEncounterName;
-                                sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                                sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                                 olddate=sDate;
                             }
                             else {
                                 sEncounterName="";
-                                if(!olddate.equalsIgnoreCase(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()))){
+                                if(!olddate.equalsIgnoreCase(ScreenHelper.stdDateFormat.format(debet.getDate()))){
                                     sPatientName = debet.getPatientName();
                                     oldname=sPatientName;
                                     if (debet.getEncounter()!=null){
@@ -204,7 +204,7 @@
                                         sEncounterName=debet.getEncounterUid();
                                     }
                                     oldencounter=sEncounterName;
-                                    sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                                    sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                                     olddate=sDate;
                                 }
                                 else {
@@ -266,14 +266,14 @@
 
     if ((insurarInvoice==null)||(!checkString(insurarInvoice.getStatus()).equalsIgnoreCase("closed") && !checkString(insurarInvoice.getStatus()).equalsIgnoreCase("canceled"))) {
         String sInsurarUid = checkString(request.getParameter("InsurarUid"));
-        Date begin=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
+        Date begin=ScreenHelper.parseDate("01/01/1900");
         Date end=new Date();
         try{
-            begin = new SimpleDateFormat("dd/MM/yyyy").parse(sEditBegin);
+            begin = ScreenHelper.parseDate(sEditBegin);
         }
         catch(Exception e){}
         try{
-            end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
+            end = ScreenHelper.parseDate(sEditEnd);
         }
         catch(Exception e){}
         Vector vUnassignedDebets = Debet.getUnassignedInsurarDebetsWithoutPatientInvoice(sInsurarUid,begin,end);

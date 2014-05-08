@@ -87,7 +87,7 @@
                 wicketCredit.setUserUID(Integer.parseInt(activeUser.userid));
             }
 
-            wicketCredit.setOperationDate(new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(sEditCreditDate).getTime()));
+            wicketCredit.setOperationDate(new Timestamp(ScreenHelper.parseDate(sEditCreditDate).getTime()));
             wicketCredit.setOperationType(sEditCreditType);
             wicketCredit.setAmount(Double.parseDouble(sEditCreditAmount));
 
@@ -121,7 +121,7 @@
         InsurarCredit credit = InsurarCredit.get(sEditCreditUid);
 
         sEditCreditUid         = credit.getUid();
-        sEditCreditDate        = checkString(new SimpleDateFormat("dd/MM/yyyy").format(credit.getDate()));
+        sEditCreditDate        = checkString(ScreenHelper.stdDateFormat.format(credit.getDate()));
         sEditCreditInsurarUid  = credit.getInsurarUid();
         sEditCreditInsurarName = Insurar.get(sEditCreditInsurarUid).getName();
         sEditCreditInvoiceUid  = credit.getInvoiceUid();

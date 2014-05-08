@@ -88,7 +88,7 @@
         sEditBalanceOwnerType = tmpBalance.getOwner().getObjectType();
 
         //if(tmpBalance.getDate() != null){
-        //    sEditBalanceDate    = new SimpleDateFormat("dd/MM/yyyy").format(tmpBalance.getDate());
+        //    sEditBalanceDate    = ScreenHelper.stdDateFormat.format(tmpBalance.getDate());
         //}
 
         if(tmpBalance.getOwner().getObjectType().equalsIgnoreCase("PERSON")){
@@ -208,7 +208,7 @@
             }
 
             if (dDate != null) {
-                sDate = new SimpleDateFormat("dd/MM/yyyy").format(dDate);
+                sDate = ScreenHelper.stdDateFormat.format(dDate);
             }
             sbResults.append("<tr  class='list");
             sbResults.append(sClass);

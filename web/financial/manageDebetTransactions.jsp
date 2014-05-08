@@ -72,7 +72,7 @@
         DebetTransaction debet = DebetTransaction.get(sEditDebetUID);
         sEditDebetAmount = checkString(Double.toString(debet.getAmount()));
         sEditDebetBalanceUID = checkString(debet.getBalance().getUid());
-        sEditDebetDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()));
+        sEditDebetDate = checkString(ScreenHelper.stdDateFormat.format(debet.getDate()));
         sEditDebetDescription = checkString(debet.getDescription());
         sEditDebetEncounterUID = "";
         sEditDebetEncounterName = "";

@@ -57,7 +57,7 @@ be.openclinic.pharmacy.ProductStockOperation" %>
         <%
             String sDate = "";
             if(balance.getDate() != null){
-                sDate = new SimpleDateFormat("dd/MM/yyyy").format(balance.getDate());
+                sDate = ScreenHelper.stdDateFormat.format(balance.getDate());
             }
         %>
         <%-- date --%>

@@ -46,7 +46,7 @@
                                 sEncounterName=debet.getEncounterUid();
                             }
                             oldencounter=sEncounterName;
-                            sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                            sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                             olddate=sDate;
                         }
                         else {
@@ -61,12 +61,12 @@
                                     sEncounterName=debet.getEncounterUid();
                                 }
                                 oldencounter=sEncounterName;
-                                sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                                sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                                 olddate=sDate;
                             }
                             else {
                                 sEncounterName="";
-                                if(!olddate.equalsIgnoreCase(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()))){
+                                if(!olddate.equalsIgnoreCase(ScreenHelper.stdDateFormat.format(debet.getDate()))){
                                     sPatientName = debet.getPatientName();
                                     oldname=sPatientName;
                                     if (debet.getEncounter()!=null){
@@ -76,7 +76,7 @@
                                         sEncounterName=debet.getEncounterUid();
                                     }
                                     oldencounter=sEncounterName;
-                                    sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                                    sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                                     olddate=sDate;
                                 }
                                 else {
@@ -166,7 +166,7 @@
                                 sEncounterName=debet.getEncounterUid();
                             }
                             oldencounter=sEncounterName;
-                            sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                            sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                             olddate=sDate;
                         }
                         else {
@@ -181,12 +181,12 @@
                                     sEncounterName=debet.getEncounterUid();
                                 }
                                 oldencounter=sEncounterName;
-                                sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                                sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                                 olddate=sDate;
                             }
                             else {
                                 sEncounterName="";
-                                if(!olddate.equalsIgnoreCase(new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate()))){
+                                if(!olddate.equalsIgnoreCase(ScreenHelper.stdDateFormat.format(debet.getDate()))){
                                     sPatientName = debet.getPatientName();
                                     oldname=sPatientName;
                                     if (debet.getEncounter()!=null){
@@ -196,7 +196,7 @@
                                         sEncounterName=debet.getEncounterUid();
                                     }
                                     oldencounter=sEncounterName;
-                                    sDate = new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate());
+                                    sDate = ScreenHelper.stdDateFormat.format(debet.getDate());
                                     olddate=sDate;
                                 }
                                 else {
@@ -262,14 +262,14 @@
 
     if ((insurarInvoice==null)||(!checkString(insurarInvoice.getStatus()).equalsIgnoreCase("closed") && !checkString(insurarInvoice.getStatus()).equalsIgnoreCase("canceled"))) {
         String sInsurarUid = checkString(request.getParameter("InsurarUid"));
-        Date begin=new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
+        Date begin=ScreenHelper.parseDate("01/01/1900");
         Date end=new Date();
         try{
-            begin = new SimpleDateFormat("dd/MM/yyyy").parse(sEditBegin);
+            begin = ScreenHelper.parseDate(sEditBegin);
         }
         catch(Exception e){}
         try{
-            end = new SimpleDateFormat("dd/MM/yyyy").parse(sEditEnd);
+            end = ScreenHelper.parseDate(sEditEnd);
             end = new java.util.Date(end.getTime()+(24*3600*1000)-1);
         }
         catch(Exception e){}
