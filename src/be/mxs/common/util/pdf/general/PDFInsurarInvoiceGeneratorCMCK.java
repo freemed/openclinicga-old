@@ -142,7 +142,7 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             cell=createValueCell(getTran("web","cmck.ident.1.1"),15,8,Font.BOLD);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table2.addCell(cell);
-            cell=createValueCell(getTran("web","date")+": "+new SimpleDateFormat("dd/MM/yyyy").format(invoice.getDate()),10,8,Font.BOLD);
+            cell=createValueCell(getTran("web","date")+": "+ScreenHelper.formatDate(invoice.getDate()),10,8,Font.BOLD);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             table2.addCell(cell);
             cell = createEmptyCell(5);
@@ -225,7 +225,7 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             cell=createLabelCell(getTran("web","period")+":", 10);
             table.addCell(cell);
             Date begin = new Date();
-            Date end = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900");
+            Date end = ScreenHelper.stdDateFormat.parse("01/01/1900");
             SortedMap invoices = new TreeMap();
             Hashtable bcinvoices=new Hashtable();
             String uid;
@@ -242,7 +242,7 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
             	if(debet.getPatientInvoiceUid()!=null){
         			PatientInvoice inv = PatientInvoice.get(debet.getPatientInvoiceUid());
         			if(inv!=null && inv.getUid()!=null && inv.getUid().equalsIgnoreCase(debet.getPatientInvoiceUid())){
-        				invoicedate=new SimpleDateFormat("dd//MM/yyyy").format(debet.getDate());
+        				invoicedate=ScreenHelper.formatDate(debet.getDate());
         				invoicenumber=ScreenHelper.checkString(inv.getInvoiceNumber());
         				insurarreference=ScreenHelper.checkString(inv.getInsurarreference());
         			}
@@ -1007,7 +1007,7 @@ public class PDFInsurarInvoiceGeneratorCMCK extends PDFInvoiceGenerator {
         cell.setBorder(PdfPCell.BOX);
         cell.setPaddingRight(5);
         invoiceTable.addCell(cell);
-        cell = createLabelCell(new SimpleDateFormat("dd/MM/yyyy").format(date),120,7);
+        cell = createLabelCell(ScreenHelper.formatDate(date),120,7);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setBorder(PdfPCell.BOX);
