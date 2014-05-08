@@ -22,7 +22,7 @@
         sEditWicketOperationUID              = checkString(request.getParameter("FindWicketOperationUID"));
     }
 
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // today as default date
     if(sEditWicketOperationDate.length()==0){

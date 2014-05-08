@@ -13,7 +13,7 @@
     String trandate= ScreenHelper.checkString(request.getParameter("trandate"));
     Date d = new Date();
     try{
-        d = new SimpleDateFormat("dd/MM/yyyy").parse(trandate);
+        d = ScreenHelper.parseDate(trandate);
     }
     catch(Exception e){
 

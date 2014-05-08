@@ -49,20 +49,20 @@
     }
 
     if(sBegin.length() > 0){
-        leave.begin = ScreenHelper.stdDateFormat.parse(sBegin);
+        leave.begin = ScreenHelper.parseDate(sBegin);
     }
     if(sEnd.length() > 0){
-        leave.end = ScreenHelper.stdDateFormat.parse(sEnd);
+        leave.end = ScreenHelper.parseDate(sEnd);
     }    
     if(sDuration.length() > 0){
         leave.duration = Double.parseDouble(sDuration);
     }
     leave.type = sType;
     if(sRequestDate.length() > 0){
-        leave.requestDate = ScreenHelper.stdDateFormat.parse(sRequestDate);
+        leave.requestDate = ScreenHelper.parseDate(sRequestDate);
     }
     if(sAuthorizationDate.length() > 0){
-        leave.authorizationDate = ScreenHelper.stdDateFormat.parse(sAuthorizationDate);
+        leave.authorizationDate = ScreenHelper.parseDate(sAuthorizationDate);
     }
     leave.authorizedBy = sAuthorizedBy;
     leave.episodeCode = sEpisodeCode;

@@ -87,12 +87,12 @@
 
         Insurance insurance = (Insurance) iter.next();
         if (insurance.getStart() != null) {
-            sStartDate = new SimpleDateFormat("dd/MM/yyyy").format(insurance.getStart());
+            sStartDate = ScreenHelper.stdDateFormat.format(insurance.getStart());
         } else {
             sStartDate = "";
         }
         if (insurance.getStop() != null) {
-            sStopDate = new SimpleDateFormat("dd/MM/yyyy").format(insurance.getStop());
+            sStopDate = ScreenHelper.stdDateFormat.format(insurance.getStop());
         } else {
             sStopDate = "";
         }

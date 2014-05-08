@@ -157,9 +157,9 @@
         if (sEditDiagnosisUID.length() > 0) {
             Diagnosis tmpDiagnosis = Diagnosis.get(sEditDiagnosisUID);
             //sEditDiagnosisDate          = tmpDiagnosis.getDate().toString();
-            sEditDiagnosisDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpDiagnosis.getDate()));
+            sEditDiagnosisDate = checkString(ScreenHelper.stdDateFormat.format(tmpDiagnosis.getDate()));
             if (tmpDiagnosis.getEndDate() != null) {
-                sEditDiagnosisEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpDiagnosis.getEndDate()));
+                sEditDiagnosisEndDate = checkString(ScreenHelper.stdDateFormat.format(tmpDiagnosis.getEndDate()));
             } else {
                 sEditDiagnosisEndDate = "";
             }
@@ -177,7 +177,7 @@
 
 
         if (sEditDiagnosisDate.length() == 0) {
-            sEditDiagnosisDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(getDate())));
+            sEditDiagnosisDate = checkString(ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(getDate())));
         }
         if (sEditDiagnosisEncounter.length() == 0) {
             Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
@@ -211,7 +211,7 @@
                 <%
                     String sFromDate = "";
                     if(sFindDiagnosisFromDate.length() > 0){
-                        sFromDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sFindDiagnosisFromDate));
+                        sFromDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sFindDiagnosisFromDate));
                     }
                     out.print(writeDateField("FindDiagnosisFromDate","FindDiagnosisForm",sFromDate,sWebLanguage));
                 %>&nbsp;
@@ -219,7 +219,7 @@
                 <%
                     String sToDate = "";
                     if(sFindDiagnosisToDate.length() > 0){
-                        sToDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sFindDiagnosisToDate));
+                        sToDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sFindDiagnosisToDate));
                     }
                     out.print(writeDateField("FindDiagnosisToDate","FindDiagnosisForm",sToDate,sWebLanguage));
                 %>&nbsp;
@@ -405,14 +405,14 @@
 
                     String sEnddate = "";
                     if (dTmp.getEndDate() != null) {
-                        sEnddate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(dTmp.getEndDate()));
+                        sEnddate = checkString(ScreenHelper.stdDateFormat.format(dTmp.getEndDate()));
                     }
                     sbResuslts.append("<tr class=\"list" + sClass + "\"" +
                             " onmouseover=\"this.style.cursor='hand';\"" +
                             " onmouseout=\"this.style.cursor='default';\"" +
                             " onclick=\"doSelect('" + dTmp.getUid() + "');\">" +
                             //        "   <td nowrap>" + sPatientName + "</td>" +
-                            "   <td>" + checkString(new SimpleDateFormat("dd/MM/yyyy").format(dTmp.getDate())) + "</td>" +
+                            "   <td>" + checkString(ScreenHelper.stdDateFormat.format(dTmp.getDate())) + "</td>" +
                             "   <td>" + sEnddate + "</td>" +
                             "   <td>" + sCodeType.toUpperCase() + "</td>" +
                             "   <td>" + sCode + ": " + sCodeLabel + "</td>" +

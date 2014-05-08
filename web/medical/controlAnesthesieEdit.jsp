@@ -56,7 +56,7 @@
     }
     else {
         ac = new AnesthesieControl();
-        ac.setDate(new SimpleDateFormat("dd/MM/yyyy").parse(getDate()));
+        ac.setDate(ScreenHelper.parseDate(getDate()));
         ac.setControlPerformedById(activeUser.userid);
         sControlByName = ScreenHelper.getFullUserName(activeUser.userid,ad_conn);
     }
@@ -67,7 +67,7 @@
     <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%></td>
-            <td class="admin2" colspan="3"><%=writeDateField("EditDate","editForm",checkString(new SimpleDateFormat("dd/MM/yyyy").format(ac.getDate())),sWebLanguage)%></td>
+            <td class="admin2" colspan="3"><%=writeDateField("EditDate","editForm",checkString(ScreenHelper.stdDateFormat.format(ac.getDate())),sWebLanguage)%></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","begin_hour",sWebLanguage)%></td>

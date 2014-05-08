@@ -19,8 +19,8 @@
         StringBuffer sTmp = new StringBuffer();
         sTmp.append("<tr id='rowTooth").append(iTotal).append("'>")
              .append("<td class='admin2'>")
-              .append("<a href='javascript:deleteTooth(rowTooth").append(iTotal).append(");'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
-              .append("<a href='javascript:editTooth(rowTooth").append(iTotal).append(");'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTran("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
+              .append("<a href='javascript:deleteTooth(rowTooth").append(iTotal).append(");'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
+              .append("<a href='javascript:editTooth(rowTooth").append(iTotal).append(");'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
              .append("</td>")
              .append("<td class='admin2'>&nbsp;").append(sDate).append("</td>")
              .append("<td class='admin2'>&nbsp;").append(sToothNr).append("</td>")
@@ -82,6 +82,7 @@
 
             if(teeth[n].split("£").length>0){
                 sTmpDate = teeth[n].split("£")[0];
+                sTmpDate = ScreenHelper.convertDate(sTmpDate);
             }
 
             if(teeth[n].split("£").length>1){
@@ -165,7 +166,7 @@
         <%-- DATE --%>
         <tr>
             <td class="admin">
-                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">
@@ -302,8 +303,8 @@ function addTooth(displayAlert){
     tr.id = "rowTooth"+iTeethIndex;
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteTooth(rowTooth"+iTeethIndex+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                  +"<a href='javascript:editTooth(rowTooth"+iTeethIndex+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    td.innerHTML = "<a href='javascript:deleteTooth(rowTooth"+iTeethIndex+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                  +"<a href='javascript:editTooth(rowTooth"+iTeethIndex+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -376,8 +377,8 @@ function updateTooth(){
 
     <%-- update table object --%>
     row = tblTeeth.rows[editTeethRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteTooth("+editTeethRowid.id+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editTooth("+editTeethRowid.id+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteTooth("+editTeethRowid.id+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editTooth("+editTeethRowid.id+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+ transactionForm.toothDate.value;
     row.cells[2].innerHTML = "&nbsp;"+ transactionForm.toothNr.value;

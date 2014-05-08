@@ -52,14 +52,14 @@
         }
         else {
             reference = new Reference();
-            reference.setRequestDate(new SimpleDateFormat("dd/MM/yyyy").parse(getDate()));
+            reference.setRequestDate(ScreenHelper.parseDate(getDate()));
             reference.setCreationUserUID(activeUser.userid);
             sCreationUserName = ScreenHelper.getFullUserName(activeUser.userid,ad_conn);
         }
         ad_conn.close();
 
         if (reference.getExecutionDate()!=null){
-            sExecutionDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(reference.getExecutionDate()));
+            sExecutionDate = checkString(ScreenHelper.stdDateFormat.format(reference.getExecutionDate()));
         }
 
         if (checkString(reference.getRequestServiceUID()).length()>0){
@@ -71,7 +71,7 @@
     <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("openclinic.chuk","reference.request.date",sWebLanguage)%></td>
-            <td class="admin2"><%=writeDateField("EditRequestDate","editForm",checkString(new SimpleDateFormat("dd/MM/yyyy").format(reference.getRequestDate())),sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("EditRequestDate","editForm",checkString(ScreenHelper.stdDateFormat.format(reference.getRequestDate())),sWebLanguage)%></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","reference.request.service",sWebLanguage)%></td>

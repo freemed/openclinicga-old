@@ -1,12 +1,9 @@
 <%@page import="be.mxs.common.model.vo.healthrecord.TransactionVO,
                 be.mxs.common.model.vo.healthrecord.ItemVO"%>
-<%@ page import="java.util.*" %>
-<%@ page import="be.openclinic.system.Item" %>
+<%@page import="java.util.*" %>
+<%@page import="be.openclinic.system.Item" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%
-
-%>
 <%!
     //--- GET LAST ITEM VALUE ---------------------------------------------------------------------
     private String getLastItemValue(HttpServletRequest request, String sItemType) {
@@ -20,41 +17,41 @@
     }
     //--- ADD CHIRURGIE ---------------------------------------------------------------------------
     private String addChirurgie(int iTotal, String sTmpChirurgieDateBegin, String sTmpChirurgieDateEnd, String sTmpChirurgieDescr, String sWebLanguage) {
-        return "<tr id='rowChirurgie" + iTotal + "'>"
-                + "<td width='36'>"
-                + " <a href='javascript:deleteChirurgie(rowChirurgie" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> "
-                + " <a href='javascript:editChirurgie(rowChirurgie" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>"
-                + "</td>"
-                + "<td>&nbsp;" + sTmpChirurgieDateBegin + "</td>"
-                + "<td>&nbsp;" + sTmpChirurgieDateEnd + "</td>"
-                + "<td>&nbsp;" + sTmpChirurgieDescr + "</td>"
-                + "</tr>";
+        return "<tr id='rowChirurgie"+iTotal+"'>"
+               +"<td width='36'>"
+                +"<a href='javascript:deleteChirurgie(rowChirurgie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
+                +"<a href='javascript:editChirurgie(rowChirurgie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
+               +"</td>"
+               +"<td>&nbsp;"+sTmpChirurgieDateBegin+"</td>"
+               +"<td>&nbsp;"+sTmpChirurgieDateEnd+"</td>"
+               +"<td>&nbsp;"+sTmpChirurgieDescr+"</td>"
+               +"</tr>";
     }
 
     //--- ADD HEELKUNDE ---------------------------------------------------------------------------
     private String addHeelkunde(int iTotal, String sTmpHeelkundeDateBegin, String sTmpHeelkundeDateEnd, String sTmpHeelkundeDescr, String sWebLanguage) {
-        return "<tr id='rowHeelkunde" + iTotal + "'>"
-                + "<td width='36'>"
-                + " <a href='javascript:deleteHeelkunde(rowHeelkunde" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> "
-                + " <a href='javascript:editHeelkunde(rowHeelkunde" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>"
-                + "</td>"
-                + "<td>&nbsp;" + sTmpHeelkundeDateBegin + "</td>"
-                + "<td>&nbsp;" + sTmpHeelkundeDateEnd + "</td>"
-                + "<td>&nbsp;" + sTmpHeelkundeDescr + "</td>"
-                + "</tr>";
+        return "<tr id='rowHeelkunde"+iTotal+"'>"
+               +"<td width='36'>"
+                +"<a href='javascript:deleteHeelkunde(rowHeelkunde"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
+                +"<a href='javascript:editHeelkunde(rowHeelkunde"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
+               +"</td>"
+               +"<td>&nbsp;"+sTmpHeelkundeDateBegin+"</td>"
+               +"<td>&nbsp;"+sTmpHeelkundeDateEnd+"</td>"
+               +"<td>&nbsp;"+sTmpHeelkundeDescr+"</td>"
+               +"</tr>";
     }
 
     //--- ADD LETSEL ------------------------------------------------------------------------------
     private String addLetsel(int iTotal, String sTmpLetselsDate, String sTmpLetselsDescr, String sTmpLetselsBI, String sWebLanguage) {
-        return "<tr id='rowLetsels" + iTotal + "'>"
-                + "<td>"
-                + " <a href='javascript:deleteLetsels(rowLetsels" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> "
-                + " <a href='javascript:editLetsels(rowLetsels" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>"
-                + "</td>"
-                + "<td>&nbsp;" + sTmpLetselsDate + "</td>"
-                + "<td>&nbsp;" + sTmpLetselsDescr + "</td>"
-                + "<td>&nbsp;" + sTmpLetselsBI + (sTmpLetselsBI.equals("") ? "" : "%") + "</td>"
-                + "</tr>";
+        return "<tr id='rowLetsels"+iTotal+"'>"
+               +"<td>"
+                +"<a href='javascript:deleteLetsels(rowLetsels"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
+                +"<a href='javascript:editLetsels(rowLetsels"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
+               +"</td>"
+               +"<td>&nbsp;"+sTmpLetselsDate+"</td>"
+               +"<td>&nbsp;"+sTmpLetselsDescr+"</td>"
+               +"<td>&nbsp;"+sTmpLetselsBI+(sTmpLetselsBI.equals("") ? "" : "%")+"</td>"
+               +"</tr>";
     }
 %>
 
@@ -110,11 +107,12 @@
         sChirurgie = "";
 
         while (sTmpChirurgie.toLowerCase().indexOf("<tr>") > -1) {
-            sTmpChirurgieDate = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("<td>") + 4, sTmpChirurgie.toLowerCase().indexOf("</td>"));
-            sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("</td>") + 11);
+            sTmpChirurgieDate = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("<td>")+4, sTmpChirurgie.toLowerCase().indexOf("</td>"));
+            sTmpChirurgieDate = ScreenHelper.convertDate(sTmpChirurgieDate);
+            sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("</td>")+11);
             sTmpChirurgieDescr = sTmpChirurgie.substring(0, sTmpChirurgie.toLowerCase().indexOf("</td>"));
-            sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("</tr>") + 5);
-            sChirurgie += "rowChirurgie" + iTotal + "=" + sTmpChirurgieDate + "££" + sTmpChirurgieDescr + "$";
+            sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("</tr>")+5);
+            sChirurgie += "rowChirurgie"+iTotal+"="+sTmpChirurgieDate+"££"+sTmpChirurgieDescr+"$";
             sDivChirurgie += addChirurgie(iTotal, sTmpChirurgieDate, "", sTmpChirurgieDescr, sWebLanguage);
             iTotal++;
         }
@@ -129,24 +127,26 @@
 
             if (sTmpChirurgie.toLowerCase().indexOf("£") > -1) {
                 sTmpChirurgieDateBegin = sTmpChirurgie.substring(0, sTmpChirurgie.toLowerCase().indexOf("£"));
-                sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("£") + 1);
+                sTmpChirurgieDateBegin = ScreenHelper.convertDate(sTmpChirurgieDateBegin);
+                sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("£")+1);
             }
             if (sTmpChirurgie.toLowerCase().indexOf("£") > -1) {
                 sTmpChirurgieDateEnd = sTmpChirurgie.substring(0, sTmpChirurgie.toLowerCase().indexOf("£"));
-                sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("£") + 1);
+                sTmpChirurgieDateEnd = ScreenHelper.convertDate(sTmpChirurgieDateEnd);
+                sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("£")+1);
             }
             if (sTmpChirurgie.toLowerCase().indexOf("$") > -1) {
                 sTmpChirurgieDescr = sTmpChirurgie.substring(0, sTmpChirurgie.toLowerCase().indexOf("$"));
-                sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("$") + 1);
+                sTmpChirurgie = sTmpChirurgie.substring(sTmpChirurgie.toLowerCase().indexOf("$")+1);
             }
 
-            sChirurgie += "rowChirurgie" + iTotal + "=" + sTmpChirurgieDateBegin + "£" + sTmpChirurgieDateEnd + "£" + sTmpChirurgieDescr + "$";
+            sChirurgie += "rowChirurgie"+iTotal+"="+sTmpChirurgieDateBegin+"£"+sTmpChirurgieDateEnd+"£"+sTmpChirurgieDescr+"$";
             sDivChirurgie += addChirurgie(iTotal, sTmpChirurgieDateBegin, sTmpChirurgieDateEnd, sTmpChirurgieDescr, sWebLanguage);
             iTotal++;
         }
     } else if (sChirurgie.length() > 0) {
         String sTmpChirurgie = sChirurgie;
-        sChirurgie += "rowChirurgie" + iTotal + "=££" + sTmpChirurgie + "$";
+        sChirurgie += "rowChirurgie"+iTotal+"=££"+sTmpChirurgie+"$";
         sDivChirurgie += addChirurgie(iTotal, "", "", sTmpChirurgie, sWebLanguage);
         iTotal++;
     }
@@ -159,19 +159,22 @@
 
         while (sTmpHeelkunde.toLowerCase().indexOf("$") > -1) {
             sTmpHeelkundeDateBegin = sTmpHeelkunde.substring(0, sTmpHeelkunde.toLowerCase().indexOf("£"));
-            sTmpHeelkunde = sTmpHeelkunde.substring(sTmpHeelkunde.toLowerCase().indexOf("£") + 1);
+            sTmpHeelkundeDateBegin = ScreenHelper.convertDate(sTmpHeelkundeDateBegin);
+            sTmpHeelkunde = sTmpHeelkunde.substring(sTmpHeelkunde.toLowerCase().indexOf("£")+1);
             sTmpHeelkundeDateEnd = sTmpHeelkunde.substring(0, sTmpHeelkunde.toLowerCase().indexOf("£"));
-            sTmpHeelkunde = sTmpHeelkunde.substring(sTmpHeelkunde.toLowerCase().indexOf("£") + 1);
+            sTmpHeelkundeDateEnd = ScreenHelper.convertDate(sTmpHeelkundeDateEnd);
+            sTmpHeelkunde = sTmpHeelkunde.substring(sTmpHeelkunde.toLowerCase().indexOf("£")+1);
             sTmpHeelkundeDescr = sTmpHeelkunde.substring(0, sTmpHeelkunde.toLowerCase().indexOf("$"));
-            sTmpHeelkunde = sTmpHeelkunde.substring(sTmpHeelkunde.toLowerCase().indexOf("$") + 1);
+            sTmpHeelkunde = sTmpHeelkunde.substring(sTmpHeelkunde.toLowerCase().indexOf("$")+1);
 
-            sHeelkunde += "rowHeelkunde" + iTotal + "=" + sTmpHeelkundeDateBegin + "£" + sTmpHeelkundeDateEnd + "£" + sTmpHeelkundeDescr + "$";
+            sHeelkunde += "rowHeelkunde"+iTotal+"="+sTmpHeelkundeDateBegin+"£"+sTmpHeelkundeDateEnd+"£"+sTmpHeelkundeDescr+"$";
             sDivHeelkunde += addHeelkunde(iTotal, sTmpHeelkundeDateBegin, sTmpHeelkundeDateEnd, sTmpHeelkundeDescr, sWebLanguage);
             iTotal++;
         }
-    } else if (sHeelkunde.length() > 0) {
+    } 
+    else if (sHeelkunde.length() > 0) {
         String sTmpHeelkunde = sHeelkunde;
-        sHeelkunde += "rowHeelkunde" + iTotal + "=££" + sTmpHeelkunde + "$";
+        sHeelkunde += "rowHeelkunde"+iTotal+"=££"+sTmpHeelkunde+"$";
         sDivHeelkunde += addHeelkunde(iTotal, "", "", sTmpHeelkunde, sWebLanguage);
         iTotal++;
     }
@@ -183,13 +186,14 @@
         sLetsels = "";
 
         while (sTmpLetsels.toLowerCase().indexOf("<tr>") > -1) {
-            sTmpLetselsDate = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("<td>") + 4, sTmpLetsels.toLowerCase().indexOf("</td>"));
-            sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("</td>") + 11);
+            sTmpLetselsDate = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("<td>")+4, sTmpLetsels.toLowerCase().indexOf("</td>"));
+            sTmpLetselsDate = ScreenHelper.convertDate(sTmpLetselsDate);
+            sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("</td>")+11);
             sTmpLetselsDescr = sTmpLetsels.substring(0, sTmpLetsels.toLowerCase().indexOf("</td>"));
-            sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("</td>") + 11);
+            sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("</td>")+11);
             sTmpLetselsBI = sTmpLetsels.substring(0, sTmpLetsels.toLowerCase().indexOf("</td>"));
-            sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("</tr>") + 5);
-            sLetsels += "rowLetsels" + iTotal + "=" + sTmpLetselsDate + "£" + sTmpLetselsDescr + "£" + sTmpLetselsBI + "$";
+            sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("</tr>")+5);
+            sLetsels += "rowLetsels"+iTotal+"="+sTmpLetselsDate+"£"+sTmpLetselsDescr+"£"+sTmpLetselsBI+"$";
             sDivLetsels += addLetsel(iTotal, sTmpLetselsDate, sTmpLetselsDescr, sTmpLetselsBI, sWebLanguage);
             iTotal++;
         }
@@ -205,28 +209,29 @@
 
             if (sTmpLetsels.toLowerCase().indexOf("£") > -1) {
                 sTmpLetselsDate = sTmpLetsels.substring(0, sTmpLetsels.toLowerCase().indexOf("£"));
-                sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("£") + 1);
+                sTmpLetselsDate = ScreenHelper.convertDate(sTmpLetselsDate);
+                sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("£")+1);
             }
             if (sTmpLetsels.toLowerCase().indexOf("£") > -1) {
                 sTmpLetselsDescr = sTmpLetsels.substring(0, sTmpLetsels.toLowerCase().indexOf("£"));
-                sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("£") + 1);
+                sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("£")+1);
             }
             if (sTmpLetsels.toLowerCase().indexOf("$") > -1) {
                 sTmpLetselsBI = sTmpLetsels.substring(0, sTmpLetsels.toLowerCase().indexOf("$"));
-                sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("$") + 1);
+                sTmpLetsels = sTmpLetsels.substring(sTmpLetsels.toLowerCase().indexOf("$")+1);
             }
 
-            sLetsels += "rowLetsels" + iTotal + "=" + sTmpLetselsDate + "£" + sTmpLetselsDescr + "£" + sTmpLetselsBI + "$";
+            sLetsels += "rowLetsels"+iTotal+"="+sTmpLetselsDate+"£"+sTmpLetselsDescr+"£"+sTmpLetselsBI+"$";
             sDivLetsels += addLetsel(iTotal, sTmpLetselsDate, sTmpLetselsDescr, sTmpLetselsBI, sWebLanguage);
             iTotal++;
         }
-    } else if (sLetsels.length() > 0) {
+    }
+    else if (sLetsels.length() > 0) {
         String sTmpLetsels = sLetsels;
-        sLetsels += "rowLetsels" + iTotal + "£" + sTmpLetsels + "£$";
+        sLetsels += "rowLetsels"+iTotal+"£"+sTmpLetsels+"£$";
         sDivLetsels += addLetsel(iTotal, "", sTmpLetsels, "", sWebLanguage);
         iTotal++;
     }
-
 %>
 
 <table class="list" width="100%" border="0" cellspacing="1">
@@ -383,7 +388,6 @@ document.getElementById("transactionForm").ButtonUpdateChirurgie.disabled = true
 document.getElementById("transactionForm").ButtonUpdateHeelkunde.disabled = true;
 document.getElementById("transactionForm").ButtonUpdateLetsels.disabled = true;
 
-
 function addChirurgie(){
   if(isAtLeastOneChirurgieFieldFilled()){
     var beginDate = document.getElementById("transactionForm").ChirurgieDateBegin.value;
@@ -409,8 +413,8 @@ function addChirurgie(){
       tr.id = "rowChirurgie"+iIndexPersoonlijk;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteChirurgie(rowChirurgie"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editChirurgie(rowChirurgie"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteChirurgie(rowChirurgie"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editChirurgie(rowChirurgie"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -462,8 +466,8 @@ function updateChirurgie(){
 
     // update table object
     var row = tblChirurgie.rows[editChirurgieRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteChirurgie("+editChirurgieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editChirurgie("+editChirurgieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteChirurgie("+editChirurgieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editChirurgie("+editChirurgieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ChirurgieDateBegin.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ChirurgieDateEnd.value;
     row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ChirurgieDescription.value;
@@ -513,8 +517,8 @@ function addHeelkunde(){
       tr.id = "rowHeelkunde"+iIndexPersoonlijk;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -574,8 +578,8 @@ function updateHeelkunde(){
 
     // update table object
     var row = tblHeelkunde.rows[editHeelkundeRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteHeelkunde("+editHeelkundeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editHeelkunde("+editHeelkundeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteHeelkunde("+editHeelkundeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editHeelkunde("+editHeelkundeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").HeelkundeDateBegin.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").HeelkundeDateEnd.value;
     row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").HeelkundeDescription.value;
@@ -605,8 +609,8 @@ function addLetsels(){
     tr.id = "rowLetsels"+iIndexPersoonlijk;
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteLetsels(rowLetsels"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                  +"<a href='javascript:editLetsels(rowLetsels"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    td.innerHTML = "<a href='javascript:deleteLetsels(rowLetsels"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                  +"<a href='javascript:editLetsels(rowLetsels"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -667,8 +671,8 @@ function updateLetsels(){
     var sBI = formatBI(document.getElementById("transactionForm").LetselsBI.value);
 
     var row = tblLetsels.rows[editLetselsRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").LetselsDate.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").LetselsDescription.value;
     row.cells[3].innerHTML = "&nbsp;"+sBI;

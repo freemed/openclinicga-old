@@ -77,7 +77,7 @@
            sSelectedPrescriberFullName = "";
     
     // variables
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -93,8 +93,8 @@
         prescr.setPrescriberUid(sEditPrescriberUid);
         prescr.setCareUid(sEditCareUid);
         prescr.setTimeUnit(sEditTimeUnit);
-        if(sEditDateBegin.length() > 0) prescr.setBegin(stdDateFormat.parse(sEditDateBegin));
-        if(sEditDateEnd.length() > 0) prescr.setEnd(stdDateFormat.parse(sEditDateEnd));
+        if(sEditDateBegin.length() > 0) prescr.setBegin(ScreenHelper.parseDate(sEditDateBegin));
+        if(sEditDateEnd.length() > 0) prescr.setEnd(ScreenHelper.parseDate(sEditDateEnd));
         if(sEditTimeUnitCount.length() > 0) prescr.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
         if(sEditUnitsPerTimeUnit.length() > 0) prescr.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
         prescr.setUpdateUser(activeUser.userid);
@@ -233,7 +233,7 @@
             <td align="right">
                <%
                    if(sAction.startsWith("showDetails")){
-                       %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTran("Web","Back",sWebLanguage)%>'><%
+                       %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
                    }
                %>
             </td>

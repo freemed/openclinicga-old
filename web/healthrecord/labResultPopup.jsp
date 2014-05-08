@@ -41,7 +41,7 @@
         reqLabAnalysis.setResultComment(checkString(request.getParameter("EditResultComment")));
         reqLabAnalysis.setResultRefMax(checkString(request.getParameter("EditResultRefMax")));
         reqLabAnalysis.setResultRefMin(checkString(request.getParameter("EditResultRefMin")));
-        reqLabAnalysis.setResultDate(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("EditResultDate")).getTime()));
+        reqLabAnalysis.setResultDate(new java.util.Date(ScreenHelper.parseDate(request.getParameter("EditResultDate")).getTime()));
         reqLabAnalysis.setResultUserId(request.getParameter("EditResultUserId"));
         reqLabAnalysis.setResultProvisional(request.getParameter("EditResultProvisional"));
 
@@ -198,10 +198,10 @@
         <td class="admin2">
             <%
                 if(editable){
-                    %><%=writeDateField("EditResultDate","transactionForm",new SimpleDateFormat("dd/MM/yyyy").format(analysis.getResultDate()),sWebLanguage)%><%
+                    %><%=writeDateField("EditResultDate","transactionForm",ScreenHelper.stdDateFormat.format(analysis.getResultDate()),sWebLanguage)%><%
                 }
                 else{
-                    %><%=new SimpleDateFormat("dd/MM/yyyy").format(analysis.getResultDate())%><%
+                    %><%=ScreenHelper.stdDateFormat.format(analysis.getResultDate())%><%
                 }
             %>
         </td>

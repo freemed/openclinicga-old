@@ -65,8 +65,8 @@
     // object that contains search criteria
     SalaryCalculation searchObj = new SalaryCalculation();
     searchObj.personId = Integer.parseInt(sPersonId);
-    searchObj.begin = ScreenHelper.stdDateFormat.parse("01/0"+sMonth);
-    searchObj.end   = ScreenHelper.stdDateFormat.parse(daysInMonth+"/0"+sMonth);
+    searchObj.begin = ScreenHelper.parseDate("01/0"+sMonth);
+    searchObj.end   = ScreenHelper.parseDate(daysInMonth+"/0"+sMonth);
     
     List calculations = SalaryCalculation.getList(searchObj);
     Debug.println("Found "+calculations.size()+" calculations for personId:"+sPersonId+" in month:"+sMonth);

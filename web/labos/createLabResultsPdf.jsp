@@ -4,9 +4,9 @@
                 com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,be.mxs.common.util.pdf.general.PDFLabResultGenerator,java.util.Vector,java.util.Enumeration" %>
 <%
-    java.util.Date startdate=new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+    java.util.Date startdate=ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date()));
     if(request.getParameter("startdate")!=null){
-        startdate=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("startdate"));
+        startdate=ScreenHelper.parseDate(request.getParameter("startdate"));
     }
     Vector labrequestids = new Vector();
     Enumeration parameters = request.getParameterNames();

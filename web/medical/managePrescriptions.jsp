@@ -18,7 +18,7 @@
         StringBuffer html = new StringBuffer();
         String sClass = "1", sDateBeginFormatted, sDateEndFormatted = "",
                 sProductName = "", sProductUid, sPreviousProductUid = "";
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpDate;
         Product product;
 
@@ -94,7 +94,7 @@
                 sProductUid, sPreviousProductUid = "", sTimeUnit, sTimeUnitCount = "",
                 sUnitsPerTimeUnit, sPrescrRule = "", sProductUnit, timeUnitTran = "";
         DecimalFormat unitCountDeci = new DecimalFormat("#.#");
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpDate;
 
         // frequently used translations
@@ -289,7 +289,7 @@
 
     // variables
     int foundPrescrCount = 0;
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     StringBuffer prescriptionsHtml = null;
     boolean patientIsHospitalized = activePatient.isHospitalized();
 
@@ -338,8 +338,8 @@
         prescr.setPrescriberUid(sEditPrescriberUid);
         prescr.setProductUid(sEditProductUid);
         prescr.setTimeUnit(sEditTimeUnit);
-        if (sEditDateBegin.length() > 0) prescr.setBegin(stdDateFormat.parse(sEditDateBegin));
-        if (sEditDateEnd.length() > 0) prescr.setEnd(stdDateFormat.parse(sEditDateEnd));
+        if (sEditDateBegin.length() > 0) prescr.setBegin(ScreenHelper.parseDate(sEditDateBegin));
+        if (sEditDateEnd.length() > 0) prescr.setEnd(ScreenHelper.parseDate(sEditDateEnd));
         if (sEditTimeUnitCount.length() > 0) prescr.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
         if (sEditUnitsPerTimeUnit.length() > 0) prescr.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
         if (sEditRequiredPackages.length() > 0) prescr.setRequiredPackages(Integer.parseInt(sEditRequiredPackages));

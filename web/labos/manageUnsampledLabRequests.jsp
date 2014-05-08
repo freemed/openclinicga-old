@@ -80,8 +80,8 @@
             labRequest = (LabRequest) unsampledRequests.elementAt(n);
             if(labRequest.getPersonid()>0){
                 out.print("<tr>");
-                out.print("<td>" + (labRequest.getRequestdate()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate()):"") + "<BR/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
-                out.print("<td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?new SimpleDateFormat("dd/MM/yyyy").format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")<br/><i>"+labRequest.getServicename()+" - "+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td>");
+                out.print("<td>" + (labRequest.getRequestdate()!=null?ScreenHelper.fullDateFormat.format(labRequest.getRequestdate()):"") + "<BR/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
+                out.print("<td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?ScreenHelper.stdDateFormat.format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")<br/><i>"+labRequest.getServicename()+" - "+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td>");
                 out.print("<td><table width='100%' cellspacing='1' cellpadding='0'>");
                 Hashtable samples = labRequest.findOpenSamples(sWebLanguage);
                 Enumeration enumeration = samples.elements();

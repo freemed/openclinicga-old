@@ -23,7 +23,7 @@
 			    <table class="list" cellspacing="1" cellpadding="0" width="100%">   
 			         <tr>
 			            <td class="admin" width="<%=sTDAdminWidth%>">
-			                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+			                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
 			                <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
 			            </td>
 			            <td class="admin2">

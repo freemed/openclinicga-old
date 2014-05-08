@@ -11,7 +11,7 @@
 <%=sJSDIAGRAM2%>
 <%=sCSSNORMAL%>
 <HEAD><TITLE><%=getTran("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%></TITLE></HEAD>
-<body title="<%=getTran("Web.Occup","medwan.common.click-for-history",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/itemHistory.jsp"/>?itemType=<%=request.getParameter("itemType")%>';">
+<body title="<%=getTranNoLink("Web.Occup","medwan.common.click-for-history",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/itemHistory.jsp"/>?itemType=<%=request.getParameter("itemType")%>';">
 <script>
 <%!
     private class Item{

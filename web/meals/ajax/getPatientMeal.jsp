@@ -5,7 +5,7 @@
 <%@ page import="java.util.Date" %>
 <%@include file="/includes/validateUser.jsp" %>
 <%
-    SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    SimpleDateFormat simple = ScreenHelper.fullDateFormat;
     String sMealId = checkString(request.getParameter("mealId"));
     String sPatientMealId = checkString(request.getParameter("patientmealId"));
     String sFindMealByDay = checkString(request.getParameter("FindMealByDay"));

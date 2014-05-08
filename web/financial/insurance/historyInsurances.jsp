@@ -33,13 +33,13 @@
         }
 
         if (insurance.getStart() != null) {
-            sStart = new SimpleDateFormat("dd/MM/yyyy").format(insurance.getStart());
+            sStart = ScreenHelper.stdDateFormat.format(insurance.getStart());
         } else {
             sStart = "";
         }
 
         if (insurance.getStop() != null) {
-            sStop = new SimpleDateFormat("dd/MM/yyyy").format(insurance.getStop());
+            sStop = ScreenHelper.stdDateFormat.format(insurance.getStop());
         } else {
             sStop = "";
         }

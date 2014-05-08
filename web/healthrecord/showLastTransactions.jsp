@@ -62,7 +62,7 @@
                             %>
                             <a href="<%=sCONTEXTPATH+sForward%>?be.mxs.healthrecord.createTransaction.transactionType=<%=transaction.getTransactionType()%>&be.mxs.healthrecord.transaction_id=<%=transaction.getTransactionId()%>&be.mxs.healthrecord.server_id=<%=transaction.getServerId()%>&ts=<%=getTs()%>&useTemplate=no" onMouseOver="window.status='';return true;">
                                 <tr height="18px" class="list<%=sClass%>" >
-                                    <td><%=new SimpleDateFormat("dd/MM/yyyy").format(transaction.getUpdateTime())%></td>
+                                    <td><%=ScreenHelper.stdDateFormat.format(transaction.getUpdateTime())%></td>
                                     <td><%=getTran("Web.occup",transaction.getTransactionType(),sWebLanguage)%></td>
                                 </tr>
                             </a>

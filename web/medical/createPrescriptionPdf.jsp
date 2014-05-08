@@ -13,7 +13,7 @@
         // Save the prescription first
         java.util.Date date = new java.util.Date();
         try{
-            date=new SimpleDateFormat("dd/MM/yyyy").parse(checkString(request.getParameter("prescriptiondate")));
+            date=ScreenHelper.parseDate(checkString(request.getParameter("prescriptiondate")));
         }
         catch (Exception e){
         }

@@ -253,7 +253,7 @@
     while (iterFev1.hasNext()){
         hRespiratoryFunctionFev1 = (Hashtable) iterFev1.next();
         bFound = true;
-        sFEV1EndDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format((java.sql.Date) hRespiratoryFunctionFev1.get("updatetime")));
+        sFEV1EndDate = checkString(ScreenHelper.stdDateFormat.format((java.sql.Date) hRespiratoryFunctionFev1.get("updatetime")));
         if(sFEV1BeginDate.trim().length() == 0){
             sFEV1BeginDate = sFEV1EndDate;
         }
@@ -274,7 +274,7 @@
 
     while (iterFVC.hasNext()){
         hRespiratoryFunctionFVC = (Hashtable) iterFVC.next();
-        sFVCEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format((java.sql.Date) hRespiratoryFunctionFVC.get("updatetime")));
+        sFVCEndDate = checkString(ScreenHelper.stdDateFormat.format((java.sql.Date) hRespiratoryFunctionFVC.get("updatetime")));
         if(sFVCBeginDate.trim().length() == 0){
             sFVCBeginDate = sFVCEndDate;
         }
@@ -333,7 +333,7 @@
         			<%-- DATE --%>
 			        <tr>
 			            <td class="admin" width="<%=sTDAdminWidth%>">
-			                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+			                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
 			                <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
 			            </td>
 			            <td class="admin2">

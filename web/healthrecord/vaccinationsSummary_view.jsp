@@ -28,7 +28,7 @@
               <%--- NEEDLE ---%>
               <td align="center">
                 <logic:notEqual name="vaccinationInfoVO" scope="page" property="nextStatus" value="-">
-                  <a href="<c:url value='/healthrecord/manageNextVaccination.do'/>?ts=<%=getTs()%>&status=<bean:write name="vaccinationInfoVO" scope="page" property="nextStatus"/>&vaccination=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" translate="false" property="value"/><logic:present name="vaccinName"><logic:notEqual name="vaccinName" scope="page" value="">&vaccination_name=<bean:write name="vaccinName" scope="page"/></logic:notEqual></logic:present>"  title="<%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>" onMouseOver="window.status='';return true;"><img border="0" src='<c:url value="/_img/needle.gif"/>'></a>
+                  <a href="<c:url value='/healthrecord/manageNextVaccination.do'/>?ts=<%=getTs()%>&status=<bean:write name="vaccinationInfoVO" scope="page" property="nextStatus"/>&vaccination=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" translate="false" property="value"/><logic:present name="vaccinName"><logic:notEqual name="vaccinName" scope="page" value="">&vaccination_name=<bean:write name="vaccinName" scope="page"/></logic:notEqual></logic:present>"  title="<%=getTranNoLink("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>" onMouseOver="window.status='';return true;"><img border="0" src='<c:url value="/_img/needle.gif"/>'></a>
                 </logic:notEqual>
               </td>
 
@@ -126,7 +126,7 @@
           <logic:iterate id="examinationVO" scope="session" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="personalVaccinationsInfoVO.otherVaccinations">
             <tr class="list">
               <td align="center">
-                <a href="<c:url value='/healthrecord/manageVaccination.do'/>?vaccination=<bean:write name='examinationVO' scope='page' property='messageKey'/>&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;" title="<%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>"><img border="0" src='<c:url value="/_img/needle.gif"/>'></a>
+                <a href="<c:url value='/healthrecord/manageVaccination.do'/>?vaccination=<bean:write name='examinationVO' scope='page' property='messageKey'/>&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;" title="<%=getTranNoLink("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>"><img border="0" src='<c:url value="/_img/needle.gif"/>'></a>
               </td>
               <td><mxs:beanTranslator name="examinationVO" scope="page" property="messageKey"/></td>
             </tr>

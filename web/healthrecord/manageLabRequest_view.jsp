@@ -156,7 +156,7 @@
 <table width="100%" class="list" cellspacing="1">
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>">
-            <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+            <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
             <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
         </td>
         <td class="admin2">
@@ -212,7 +212,7 @@
         <td class="admin2">
             <input id="hour" size="5" type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_HOUR" property="value"/>" onblur="limitLength(this);"/>
             <a href="javascript:setCurrentTime('hour');">
-                <img src="<c:url value="/_img/icon_compose.gif"/>" class="link" style='vertical-align:bottom' title="<%=getTran("web","currenttime",sWebLanguage)%>" border="0"/>
+                <img src="<c:url value="/_img/icon_compose.gif"/>" class="link" style='vertical-align:bottom' title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>" border="0"/>
             </a>
         </td>
     </tr>
@@ -624,7 +624,7 @@
 
         <%-- insert cells in row --%>
         var td = tr.insertCell(0);
-        td.innerHTML = "<center><a href=\"#\" onclick=\"deleteLA(rowLA"+iIndexLA+",'"+monster+"');\"><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web","delete",sWebLanguage)%>' border='0'></a></center>";
+        td.innerHTML = "<center><a href=\"#\" onclick=\"deleteLA(rowLA"+iIndexLA+",'"+monster+"');\"><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a></center>";
         tr.appendChild(td);
 
         <%-- default data --%>

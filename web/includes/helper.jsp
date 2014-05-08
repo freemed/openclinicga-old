@@ -334,13 +334,13 @@
     public String getLastTransactionAccess(String sTrans, String sWebLanguage, HttpServletRequest request){
         String sReturn = "";
 
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy '"+getTranNoLink("web.occup"," - ",sWebLanguage)+"' HH:mm:ss");
+        //SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy '"+getTranNoLink("web.occup"," - ",sWebLanguage)+"' HH:mm:ss");
         java.util.List l = AccessLog.getLastAccess(sTrans,2);
         if(l.size() > 1){
             Object[] ss = (Object[])l.get(1);
             Timestamp t = (Timestamp)ss[0];
             Hashtable u = User.getUserName((String)ss[1]);
-            sReturn+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ dateformat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
+            sReturn+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ScreenHelper.fullDateFormat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
             sReturn+= " | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTran("web", "history", sWebLanguage)+"', width: 420,height:370},{evalScripts: true} );\" class='link linkdark history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
         }
 
@@ -463,11 +463,11 @@
 
             // sPage is a link
             if(sPage.indexOf("()") < 0){
-                tableHeader += "<a class='previousButton' alt='"+getTran("Web","Back",sLanguage)+"' title='"+getTran("Web","Back",sLanguage)+"' href='"+sPage+"'>&nbsp;</a>";
+                tableHeader += "<a class='previousButton' alt='"+getTranNoLink("Web","Back",sLanguage)+"' title='"+getTran("Web","Back",sLanguage)+"' href='"+sPage+"'>&nbsp;</a>";
             }
             // sPage is a javascript function (like "doBack()")
             else{
-                tableHeader+= "<a class='previousButton' alt='"+getTran("Web","Back",sLanguage)+"' title='"+getTran("Web","Back",sLanguage)+"' href='javascript:"+sPage+"'>&nbsp;</a>";
+                tableHeader+= "<a class='previousButton' alt='"+getTranNoLink("Web","Back",sLanguage)+"' title='"+getTran("Web","Back",sLanguage)+"' href='javascript:"+sPage+"'>&nbsp;</a>";
             }
 
             tableHeader+= "</td>";
@@ -514,7 +514,7 @@
         sJS+= "userinterval=window.setInterval(";
 
         // put NOW and username in statusbar
-        sJS+= "'window.status=\""+new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())+"  -  "+activeUser.person.firstname+" "+activeUser.person.lastname;
+        sJS+= "'window.status=\""+ScreenHelper.stdDateFormat.format(new java.util.Date())+"  -  "+activeUser.person.firstname+" "+activeUser.person.lastname;
 
         // add medical centre to statusbar if medical center specified
         sJS+= (checkString((String) (session.getAttribute("activeMedicalCenter"))).length() > 0 ? " ("+getTran("Web.Occup", "MedicalCenter", activeUser.person.language)+" = "+session.getAttribute("activeMedicalCenter")+")" : "");
@@ -592,8 +592,11 @@
         return sReturn;
     }
 
+    /*
     //--- GET ITEM TYPE ---------------------------------------------------------------------------
+    // should be named 'getItemValue'
     public String getItemType(Collection collection, String sItemType){
+    	Debug.println("\nsItemType : "+sItemType); /////////
         String sText = "";
         ItemVO item;
         Object[] aItems = collection.toArray();
@@ -617,7 +620,65 @@
             }
         }
 
+    	Debug.println("DONE : "+sText); /////////
         return sText;
+    }
+    */
+
+    // new version (old : above)
+    //--- GET ITEM TYPE ---------------------------------------------------------------------------
+    // should be named 'getItemValue'
+    public String getItemType(Collection collection, String sItemType){
+        String sText = "";
+        ItemVO item = null;
+        Object[] items = collection.toArray();
+        int i = 1, y = 0;
+
+        // check all items
+        for(y=0; y<items.length; y++){
+            item = (ItemVO)items[y];
+            
+            // a - for singular itemtype
+            if(item.getType().toLowerCase().equals(sItemType.toLowerCase())){
+                sText+= checkString(item.getValue());
+            }
+            
+            // b - for composed itemtype (1 to 15)
+            for(i=1; i<=15; i++){
+                if(item.getType().toLowerCase().equals(sItemType.toLowerCase()+i)){
+                    sText+= checkString(item.getValue());
+                }
+                else{
+                	if(i>1) break; // check item "2" too
+                }
+            }
+        }
+        
+        // when value comes from single item
+        if(i==1){
+        	// convert date-value to EU-date for date-items
+        	item = getItemFomCollection(collection,sItemType);
+        	if(item.isDateItem()){
+        		sText = ScreenHelper.convertDate(sText);
+        	}
+        }
+        
+        return sText;
+    }
+    
+    //--- GET ITEM FROM COLLECTION ----------------------------------------------------------------
+    public ItemVO getItemFomCollection(Collection items, String sItemType){
+        Iterator iterator = items.iterator();
+        ItemVO item;
+        while(iterator.hasNext()){
+            item = (ItemVO)iterator.next();
+            
+            if(item!=null && item.getType().equalsIgnoreCase(sItemType)){
+                return item;
+            }
+        }
+        
+        return null;
     }
     
     //--- AUTO LOGIN ------------------------------------------------------------------------------

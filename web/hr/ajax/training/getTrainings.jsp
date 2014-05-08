@@ -42,13 +42,13 @@
     // compose object to pass search criteria with
     Training findObject = new Training();
     findObject.personId = Integer.parseInt(sPatientId); // required
-    if(sBeginDate.length() > 0) findObject.begin = ScreenHelper.stdDateFormat.parse(sBeginDate);
-    if(sEndDate.length() > 0) findObject.end = ScreenHelper.stdDateFormat.parse(sEndDate);
+    if(sBeginDate.length() > 0) findObject.begin = ScreenHelper.parseDate(sBeginDate);
+    if(sEndDate.length() > 0) findObject.end = ScreenHelper.parseDate(sEndDate);
     findObject.institute = sInstitute;
     findObject.type = sType;
     findObject.level = sLevel;
     findObject.diploma = sDiploma;
-    if(sDiplomaDate.length() > 0) findObject.diplomaDate = ScreenHelper.stdDateFormat.parse(sDiplomaDate);
+    if(sDiplomaDate.length() > 0) findObject.diplomaDate = ScreenHelper.parseDate(sDiplomaDate);
     findObject.diploma = sDiploma;
     findObject.diplomaCode1 = sDiplomaCode1;
     findObject.diplomaCode2 = sDiplomaCode2;

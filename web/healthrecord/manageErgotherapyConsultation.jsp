@@ -47,6 +47,7 @@
 
             if (sTmpErgotherapy.toLowerCase().indexOf("£") > -1) {
             	sTmpErgotherapyDate = sTmpErgotherapy.substring(0, sTmpErgotherapy.toLowerCase().indexOf("£"));
+            	sTmpErgotherapyDate = ScreenHelper.convertDate(sTmpErgotherapyDate);
                 sTmpErgotherapy = sTmpErgotherapy.substring(sTmpErgotherapy.toLowerCase().indexOf("£") + 1);
             }
             if (sTmpErgotherapy.toLowerCase().indexOf("£") > -1) {
@@ -83,7 +84,7 @@
     <table class="list" cellspacing="1" cellpadding="0" width="100%">
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">
-                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
             	<%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">
@@ -261,8 +262,8 @@
 	      tr.id = "rowErgotherapy"+iIndexPersoonlijk;
 	
 	      var td = tr.insertCell(0);
-	      td.innerHTML = "<a href='javascript:deleteErgotherapy(rowErgotherapy"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-	                    +"<a href='javascript:editErgotherapy(rowErgotherapy"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+	      td.innerHTML = "<a href='javascript:deleteErgotherapy(rowErgotherapy"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+	                    +"<a href='javascript:editErgotherapy(rowErgotherapy"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 	      tr.appendChild(td);
 	
 	      td = tr.insertCell(1);
@@ -321,8 +322,8 @@
 
 	    // update table object
 	    var row = tblErgotherapy.rows[editErgotherapyRowid.rowIndex];
-	    row.cells[0].innerHTML = "<a href='javascript:deleteErgotherapy("+editErgotherapyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-	                            +"<a href='javascript:editErgotherapy("+editErgotherapyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+	    row.cells[0].innerHTML = "<a href='javascript:deleteErgotherapy("+editErgotherapyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+	                            +"<a href='javascript:editErgotherapy("+editErgotherapyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 	    row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ErgotherapyDate.value;
 	    row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ErgotherapyObservation.value;
 	    row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ErgotherapyConclusion.value;

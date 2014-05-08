@@ -24,7 +24,7 @@
             if (activeProblem.getComment().trim().length() > 0){
                 comment = ":&nbsp;<i>"+activeProblem.getComment().trim()+"</i>";
             }
-            sbProblemList.append("<tr class='list"+sClass+"'><td><b>"+(activeProblem.getCode() != null && activeProblem.getCode().length() > 0 ? (activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(), sWebLanguage)+"</b>") : "")+comment+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin())+"</td></tr>");
+            sbProblemList.append("<tr class='list"+sClass+"'><td><b>"+(activeProblem.getCode() != null && activeProblem.getCode().length() > 0 ? (activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(), sWebLanguage)+"</b>") : "")+comment+"</td><td>"+ScreenHelper.stdDateFormat.format(activeProblem.getBegin())+"</td></tr>");
         }
 
         if (activeProblems.size() > 0){
@@ -119,12 +119,12 @@
         sEditProblemGravity = Integer.toString(tmpProblem.getGravity());
         sEditProblemPatient = tmpProblem.getPatientuid();
         if (tmpProblem.getBegin() != null){
-            sEditProblemBeginDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpProblem.getBegin()));
+            sEditProblemBeginDate = checkString(ScreenHelper.stdDateFormat.format(tmpProblem.getBegin()));
         } else {
             sEditProblemBeginDate = "";
         }
         if (tmpProblem.getEnd() != null){
-            sEditProblemEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpProblem.getEnd()));
+            sEditProblemEndDate = checkString(ScreenHelper.stdDateFormat.format(tmpProblem.getEnd()));
         } else {
             sEditProblemEndDate = "";
         }
@@ -146,7 +146,7 @@
                 <%
                     String sBeginDate = "";
                     if (sFindProblemBeginDate != null && sFindProblemBeginDate.length() > 0){
-                        sBeginDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sFindProblemBeginDate));
+                        sBeginDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sFindProblemBeginDate));
                     }
                     out.print(writeDateField("FindProblemBeginDate", "FindProblemForm", sBeginDate, sWebLanguage));
                 %>&nbsp;
@@ -154,7 +154,7 @@
                 <%
                     String sEndDate = "";
                     if (sFindProblemEndDate != null && sFindProblemEndDate.length() > 0){
-                        sEndDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sFindProblemEndDate));
+                        sEndDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sFindProblemEndDate));
                     }
                     out.print(writeDateField("FindProblemEndDate", "FindProblemForm", sEndDate, sWebLanguage));
                 %>&nbsp;
@@ -248,7 +248,7 @@
             tmpProblem = (Problem) iter.next();
             tmpDate = tmpProblem.getEnd();
             if (tmpProblem.getBegin() != null){
-                sBegin = new SimpleDateFormat("dd/MM/yyyy").format(tmpProblem.getBegin());
+                sBegin = ScreenHelper.stdDateFormat.format(tmpProblem.getBegin());
             } else {
                 sBegin = "";
             }
@@ -262,7 +262,7 @@
                 }
                 sClass = sClassActive;
             } else {
-                sEnd = new SimpleDateFormat("dd/MM/yyyy").format(tmpProblem.getEnd());
+                sEnd = ScreenHelper.stdDateFormat.format(tmpProblem.getEnd());
                 if (sClassPassive.equals("")){
                     sClassPassive = "1";
                 } else {
@@ -391,9 +391,9 @@
                 <%
                     String sBeginDate;
                     if (sEditProblemBeginDate != null && sEditProblemBeginDate.length() > 0){
-                        sBeginDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sEditProblemBeginDate));
+                        sBeginDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sEditProblemBeginDate));
                     } else {
-                        sBeginDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(getDate()));
+                        sBeginDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(getDate()));
                     }
                     out.print(writeDateField("EditProblemBeginDate", "EditProblemForm", sBeginDate, sWebLanguage));
                 %>
@@ -407,7 +407,7 @@
                 <%
                     String sEndDate = "";
                     if (sEditProblemEndDate != null && sEditProblemEndDate.length() > 0){
-                        sEndDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sEditProblemEndDate));
+                        sEndDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sEditProblemEndDate));
                     }
 
                     out.print(writeDateField("EditProblemEndDate", "EditProblemForm", sEndDate, sWebLanguage));

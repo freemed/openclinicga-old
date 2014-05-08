@@ -47,10 +47,10 @@
     }
 
     if(sCareerBegin.length() > 0){
-        career.begin = ScreenHelper.stdDateFormat.parse(sCareerBegin);
+        career.begin = ScreenHelper.parseDate(sCareerBegin);
     }
     if(sCareerEnd.length() > 0){
-        career.end = ScreenHelper.stdDateFormat.parse(sCareerEnd);
+        career.end = ScreenHelper.parseDate(sCareerEnd);
     }
 
     career.contractUid = sContractUid;

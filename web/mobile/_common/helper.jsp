@@ -222,7 +222,7 @@
 	}
 	
     // common stuff
-    final SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    final SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     final String sAPPNAME = "OpenClinic Mobile",
                  sWEBTITLE = "MXS - "+sAPPNAME;  
     final String ITEM_PREFIX = "be.mxs.common.model.vo.healthrecord.IConstants.";

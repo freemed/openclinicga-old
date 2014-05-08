@@ -66,7 +66,7 @@ GA Open Source Edition by
 <% } else { %>
 <img src="../_img/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
 <b>MXS SA/NV</b>
-<br>Pastoriestraat 50, 3370 Boutersem Belgium<br>Tel: +32 16 721047 -
+<br>Pastoriestraat 58, 3370 Boutersem Belgium<br>Tel: +32 16 721047 -
 <a href="mailto:mxs@rwandamed.org">info@mxs.be</a>
 <% } %>
 

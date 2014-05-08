@@ -44,7 +44,7 @@
     }
 
     if(sDate.length() > 0){
-        disRec.date = ScreenHelper.stdDateFormat.parse(sDate);
+        disRec.date = ScreenHelper.parseDate(sDate);
     }
     
     disRec.title = sTitle;

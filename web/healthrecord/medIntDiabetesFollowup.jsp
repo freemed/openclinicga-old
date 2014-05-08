@@ -20,7 +20,7 @@
     int maxValueYIns = MedwanQuery.getInstance().getConfigInt("maxValueY_insuline");
     if(maxValueYIns < 0) maxValueYIns = 350; // default
 
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     java.util.Date date;
     String value;
 
@@ -455,7 +455,7 @@
             <table class="list" width="100%" cellspacing="0">
                 <%-- GLYCEMY GRAPH --------------------------------------------------------------%>
                 <%
-                    Hashtable glyDatesAndValues = MedwanQuery.getGlycemyShots(activePatient.personid, stdDateFormat.parse(sBeginDate), now.getTime());
+                    Hashtable glyDatesAndValues = MedwanQuery.getGlycemyShots(activePatient.personid, ScreenHelper.parseDate(sBeginDate), now.getTime());
 
                     // sort hash on dates (DB only sorted them on day, not on hour)
                     Vector dates = new Vector(glyDatesAndValues.keySet());
@@ -469,7 +469,7 @@
                     for (int i = 0; i < dates.size(); i++) {
                         date = (java.util.Date) dates.get(i);
                         value = (String) glyDatesAndValues.get(date);
-                        sGlyEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date));
+                        sGlyEndDate = checkString(ScreenHelper.fullDateFormat.format(date));
 
                         // keep notice of the earlyest date
                         if (sGlyBeginDate.trim().length() == 0) {
@@ -606,7 +606,7 @@
                 </script>
 
                 <%
-                    Hashtable insDatesAndValues = MedwanQuery.getInsulineShots(activePatient.personid,"RAPID",stdDateFormat.parse(sBeginDate),now.getTime());
+                    Hashtable insDatesAndValues = MedwanQuery.getInsulineShots(activePatient.personid,"RAPID",ScreenHelper.parseDate(sBeginDate),now.getTime());
 
                     // sort hash on dates (DB only sorted them on day, not on hour)
                     dates = new Vector(insDatesAndValues.keySet());
@@ -620,7 +620,7 @@
                     for(int i=0; i<dates.size(); i++){
                         date = (java.util.Date)dates.get(i);
                         value = (String)insDatesAndValues.get(date);
-                        sInsEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date));
+                        sInsEndDate = checkString(ScreenHelper.fullDateFormat.format(date));
 
                         // keep notice of the earlyest date
                         if(sInsBeginDate.trim().length()==0){
@@ -756,7 +756,7 @@
 
                 <%-- INSULINE SEMIRAPID GRAPH ---------------------------------------------------%>
                 <%
-                    insDatesAndValues = MedwanQuery.getInsulineShots(activePatient.personid,"SEMIRAPID",stdDateFormat.parse(sBeginDate),now.getTime());
+                    insDatesAndValues = MedwanQuery.getInsulineShots(activePatient.personid,"SEMIRAPID",ScreenHelper.parseDate(sBeginDate),now.getTime());
 
                     // sort hash on dates (DB only sorted them on day, not on hour)
                     dates = new Vector(insDatesAndValues.keySet());
@@ -770,7 +770,7 @@
                     for(int i=0; i<dates.size(); i++){
                         date = (java.util.Date)dates.get(i);
                         value = (String)insDatesAndValues.get(date);
-                        sInsEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date));
+                        sInsEndDate = checkString(ScreenHelper.fullDateFormat.format(date));
 
                         // keep notice of the earlyest date
                         if(sInsBeginDate.trim().length()==0){
@@ -906,7 +906,7 @@
 
                 <%-- INSULINE SLOW GRAPH --------------------------------------------------------%>
                 <%
-                    insDatesAndValues = MedwanQuery.getInsulineShots(activePatient.personid,"SLOW",stdDateFormat.parse(sBeginDate),now.getTime());
+                    insDatesAndValues = MedwanQuery.getInsulineShots(activePatient.personid,"SLOW",ScreenHelper.parseDate(sBeginDate),now.getTime());
 
                     // sort hash on dates (DB only sorted them on day, not on hour)
                     dates = new Vector(insDatesAndValues.keySet());
@@ -920,7 +920,7 @@
                     for(int i=0; i<dates.size(); i++){
                         date = (java.util.Date)dates.get(i);
                         value = (String)insDatesAndValues.get(date);
-                        sInsEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date));
+                        sInsEndDate = checkString(ScreenHelper.fullDateFormat.format(date));
 
                         // keep notice of the earlyest date
                         if(sInsBeginDate.trim().length()==0){

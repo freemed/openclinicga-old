@@ -24,7 +24,7 @@
 			        <%-- DATE --%>
 			        <tr>
 			            <td class="admin" width="<%=sTDAdminWidth%>">
-			                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+			                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
 			                <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
 			            </td>
 			            <td class="admin2">
@@ -32,11 +32,11 @@
 			                <script>writeTranDate();</script>
 			            </td>
 			        </tr>
-			    </table>
-			    <div style="padding-top:5px;"></div>
+			        
+			        <%-- spacer --%>
+			        <tr><td colspan="2" class="admin2" style="height:5px;"></td></tr>
 			    
-    		    <%-- SUBJECTIVE EXAMINATION -----------------------------------------------------%>
-				<table class="list" width="100%" cellspacing="1">    				    
+    		   		<%-- SUBJECTIVE EXAMINATION -----------------------------------------------------%> 				    
 			        <tr class="admin">
 			            <td colspan="2"><%=getTran("web","subjective.examination",sWebLanguage)%></td>
 			        </tr>

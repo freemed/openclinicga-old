@@ -220,7 +220,7 @@ if (activePatient!=null){
     </tr>
     <tr>
         <td><%=aTrans[15]%></td>
-        <td><b><%=new SimpleDateFormat("dd/MM/yyyy").format(transaction.getUpdateTime())%></b></td>
+        <td><b><%=ScreenHelper.stdDateFormat.format(transaction.getUpdateTime())%></b></td>
     </tr>
 </table>
 

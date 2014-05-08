@@ -27,10 +27,10 @@
     findObject.personId = Integer.parseInt(sPatientId); // required
     /*
     if(sBegin.length() > 0){
-        findObject.begin = ScreenHelper.stdDateFormat.parse(sBegin);
+        findObject.begin = ScreenHelper.parseDate(sBegin);
     }
     if(sEnd.length() > 0){
-        findObject.end = ScreenHelper.stdDateFormat.parse(sEnd);
+        findObject.end = ScreenHelper.parseDate(sEnd);
     }
     */
     

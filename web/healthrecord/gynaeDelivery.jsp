@@ -165,7 +165,7 @@
         <%-- ###################################### WORK ######################################--%> <%-- DATE --%>
         <tr>
             <td class="admin">
-                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;<%=getTran("Web.Occup", "medwan.common.date", sWebLanguage)%>
+                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;<%=getTran("Web.Occup", "medwan.common.date", sWebLanguage)%>
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this);calculateGestAge();' onchange='calculateGestAge();' onKeyUp='calculateGestAge()'>
@@ -1641,7 +1641,7 @@ if(itemAgeDateEcho!=null){
             tr = tblDilatation.insertRow(tblDilatation.rows.length);
             tr.id = "rowDilatation" + iDilatationIndex;
             var td = tr.insertCell(0);
-            td.innerHTML = "<a href='javascript:deleteDilatation(rowDilatation" + iDilatationIndex + "," + transactionForm.dilatationHour.value + convertTimeToNbForGraph(transactionForm.dilatationMinutes.value) + ")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
+            td.innerHTML = "<a href='javascript:deleteDilatation(rowDilatation" + iDilatationIndex + "," + transactionForm.dilatationHour.value + convertTimeToNbForGraph(transactionForm.dilatationMinutes.value) + ")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
             tr.appendChild(td);
             td = tr.insertCell(1);
             td.innerHTML = "&nbsp;" + transactionForm.dilatationHour.value + ":" + transactionForm.dilatationMinutes.value;
@@ -1698,7 +1698,7 @@ if(itemAgeDateEcho!=null){
             tr = tblEngagement.insertRow(tblEngagement.rows.length);
             tr.id = "rowEngagement" + iEngagementIndex;
             var td = tr.insertCell(0);
-            td.innerHTML = "<a href='javascript:deleteEngagement(rowEngagement" + iEngagementIndex + "," + transactionForm.engagementHour.value + convertTimeToNbForGraph(transactionForm.engagementMinutes.value) + ")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
+            td.innerHTML = "<a href='javascript:deleteEngagement(rowEngagement" + iEngagementIndex + "," + transactionForm.engagementHour.value + convertTimeToNbForGraph(transactionForm.engagementMinutes.value) + ")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
             tr.appendChild(td);
             td = tr.insertCell(1);
             td.innerHTML = "&nbsp;" + transactionForm.engagementHour.value + ":" + transactionForm.engagementMinutes.value;
@@ -1756,7 +1756,7 @@ if(itemAgeDateEcho!=null){
             tr = tblAction.insertRow(tblAction.rows.length);
             tr.id = "rowAction" + iActionIndex;
             var td = tr.insertCell(0);
-            td.innerHTML = "<a href='javascript:deleteAction(rowAction" + iActionIndex + ",\"" + transactionForm.actionHour.value + transactionForm.actionMinutes.value + transactionForm.actionLetter.value + "\");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
+            td.innerHTML = "<a href='javascript:deleteAction(rowAction" + iActionIndex + ",\"" + transactionForm.actionHour.value + transactionForm.actionMinutes.value + transactionForm.actionLetter.value + "\");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
             tr.appendChild(td);
             td = tr.insertCell(1);
             td.innerHTML = "&nbsp;" + transactionForm.actionHour.value + ":" + transactionForm.actionMinutes.value;

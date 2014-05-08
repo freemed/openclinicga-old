@@ -86,7 +86,7 @@
     <table class="list" width='100%' cellspacing="0" cellpadding="0">
         <tr class="admin">
             <td width="1%" nowrap>
-                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td nowrap>

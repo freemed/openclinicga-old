@@ -57,7 +57,7 @@
                 }
                 rs2.close();
                 ps2.close();
-                out.println("<tr><td class='admin' colspan='2'>" + getTran("healthnet.site", source, sWebLanguage) + (maxDate!=null?" ("+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(maxDate)+")":"")+ "</td><td class='admin'>" + getTran("web", "total", sWebLanguage) +"<br/>"+total+ "</td><td class='admin'>" + getTran("web", "occupied", sWebLanguage) + "<br/>"+occupied + (total>0?" (" + occupied*100/total+"%)":"")+ "</td><td class='admin'>" + getTran("web", "available", sWebLanguage) +"<br/>"+(occupied>=total?"0":"<b>"+(total-occupied)+"</b>") + (total>0?" (" + (occupied>total?0:total-occupied)*100/total+"%)":"")+ "</td></tr>");
+                out.println("<tr><td class='admin' colspan='2'>" + getTran("healthnet.site", source, sWebLanguage) + (maxDate!=null?" ("+ScreenHelper.fullDateFormat.format(maxDate)+")":"")+ "</td><td class='admin'>" + getTran("web", "total", sWebLanguage) +"<br/>"+total+ "</td><td class='admin'>" + getTran("web", "occupied", sWebLanguage) + "<br/>"+occupied + (total>0?" (" + occupied*100/total+"%)":"")+ "</td><td class='admin'>" + getTran("web", "available", sWebLanguage) +"<br/>"+(occupied>=total?"0":"<b>"+(total-occupied)+"</b>") + (total>0?" (" + (occupied>total?0:total-occupied)*100/total+"%)":"")+ "</td></tr>");
             }
             String sQuery2 = "select count(*) total from HealthNetEncounters where hn_source=? and hn_serviceid=? and hn_end is null";
             PreparedStatement ps2 = oc_conn.prepareStatement(sQuery2);

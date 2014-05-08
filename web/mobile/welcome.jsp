@@ -22,7 +22,7 @@
 				ps.setString(1,activeUser.userid);
 				ResultSet rs = ps.executeQuery();
 				if(rs.next()){
-					out.println("<font color='#999999'>"+getTran("mobile","lastlogin",activeUser)+": "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(rs.getTimestamp("maxtime"))+"</font>");
+					out.println("<font color='#999999'>"+getTran("mobile","lastlogin",activeUser)+": "+ScreenHelper.fullDateFormatSS.format(rs.getTimestamp("maxtime"))+"</font>");
 				}
 				rs.close();
 				ps.close();

@@ -17,7 +17,7 @@
     }
     wicketOp.setOperationDate(getSQLTime());
     try{
-        wicketOp.setOperationDate(new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(sEditWicketOperationDate).getTime()));
+        wicketOp.setOperationDate(new Timestamp(ScreenHelper.parseDate(sEditWicketOperationDate).getTime()));
     }
     catch(Exception e){};
     wicketOp.setAmount(Double.parseDouble(sEditWicketOperationAmount));

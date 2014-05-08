@@ -70,9 +70,9 @@
         calculation.personId = Integer.parseInt(sPersonId);
         calculation.source = sSource;
         calculation.type = sType;
-        calculation.begin = ScreenHelper.stdDateFormat.parse(sBegin);
-        calculation.end = ScreenHelper.stdDateFormat.parse(sBegin);
-        //calculation.end = ScreenHelper.stdDateFormat.parse(sEnd);
+        calculation.begin = ScreenHelper.parseDate(sBegin);
+        calculation.end = ScreenHelper.parseDate(sBegin);
+        //calculation.end = ScreenHelper.parseDate(sEnd);
         sSalCalUID = calculation.store(activeUser.userid); // first store calculation to obtain UID
         
         // parse codes
@@ -95,7 +95,7 @@
         calculation.source = "manual"; // >< 'script'
         calculation.type = "workschedule"; // default
 
-        calculation.begin = ScreenHelper.stdDateFormat.parse(sBegin);
+        calculation.begin = ScreenHelper.parseDate(sBegin);
         calculation.end = calculation.begin;
 
         show = true;

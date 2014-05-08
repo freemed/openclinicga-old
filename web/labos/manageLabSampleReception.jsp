@@ -48,8 +48,8 @@
                 LabRequest labRequest = LabRequest.getUnsampledRequest(serverid, transactionid, sWebLanguage);
                 if (labRequest != null) {
                     out.print("<tr>");
-                    out.print("<td colspan='2'>" + (labRequest.getRequestdate()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate()):"") + "<BR/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
-                    out.print("<td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?new SimpleDateFormat("dd/MM/yyyy").format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")<br/><i>"+labRequest.getServicename()+" - "+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td>");
+                    out.print("<td colspan='2'>" + (labRequest.getRequestdate()!=null?ScreenHelper.fullDateFormat.format(labRequest.getRequestdate()):"") + "<BR/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
+                    out.print("<td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?ScreenHelper.stdDateFormat.format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")<br/><i>"+labRequest.getServicename()+" - "+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td>");
                     out.print("</tr>");
                     Hashtable allsamples=labRequest.findAllSamples(sWebLanguage);
                     Hashtable unreceived = labRequest.findUnreceivedSamples(sWebLanguage);
@@ -79,8 +79,8 @@
             for(int n=0;n<unsampledRequests.size();n++){
                 LabRequest labRequest = (LabRequest)unsampledRequests.elementAt(n);
                 if(labRequest!=null && labRequest.getRequestdate()!=null) {
-                    out.print("<tr><td class='admin2'><b><a href='javascript:selectRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+");'>"+new SimpleDateFormat("dd/MM/yyyy").format(labRequest.getRequestdate())+"</a> "+labRequest.getPatientname()+" </b></td><td class='admin2'> "+labRequest.getPatientgender()+" </td>"+
-                            "<td class='admin2'> "+new SimpleDateFormat("dd/MM/yyyy").format(labRequest.getPatientdateofbirth())+" </td><td class='admin2'><i> "+labRequest.getServicename()+"</i></td></tr>");
+                    out.print("<tr><td class='admin2'><b><a href='javascript:selectRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+");'>"+ScreenHelper.stdDateFormat.format(labRequest.getRequestdate())+"</a> "+labRequest.getPatientname()+" </b></td><td class='admin2'> "+labRequest.getPatientgender()+" </td>"+
+                            "<td class='admin2'> "+ScreenHelper.stdDateFormat.format(labRequest.getPatientdateofbirth())+" </td><td class='admin2'><i> "+labRequest.getServicename()+"</i></td></tr>");
                 }
             }
         }

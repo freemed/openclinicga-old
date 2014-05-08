@@ -21,7 +21,7 @@
                     sReturn += "<tr class='list" + sClass+"'"
                             + ""
                             +(wicketOps.getOperationType().equalsIgnoreCase("patient.payment")?"":"  onclick=\"setWicket('" + wicketOps.getUid() + "');\"")+">"
-                            + "<td>" +new SimpleDateFormat("dd/MM/yyyy").format(wicketOps.getOperationDate())+ "</td>"
+                            + "<td>" +ScreenHelper.stdDateFormat.format(wicketOps.getOperationDate())+ "</td>"
                             + "<td>" +wicketOps.getUid()+ "</td>"
                             + "<td>" +HTMLEntities.htmlentities(getTran("service",Wicket.get(wicketOps.getWicketUID()).getServiceUID(),sWeblanguage))+ "</td>"
                             + "<td>" +HTMLEntities.htmlentities(getTran((wicketOps.getOperationType().equalsIgnoreCase("patient.payment")?"credit.type.hidden":"credit.type"),wicketOps.getOperationType(),sWeblanguage))+ "</td>"

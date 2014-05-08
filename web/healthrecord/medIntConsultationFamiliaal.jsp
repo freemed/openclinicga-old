@@ -3,48 +3,46 @@
                 java.util.Collection" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%
-
-%>
 <%!
     //--- ADD KINDEREN ----------------------------------------------------------------------------
     private String addKinderen(int iTotal, String sTmpKinderenGeboortejaar, String sTmpKinderenGeslacht, String sTmpKinderenFirstname, String sWebLanguage) {
         StringBuffer sOut = new StringBuffer();
 
-        sOut.append("<tr id='rowKinderen" + iTotal + "'>")
-            .append(" <td width='36'>")
-            .append("  <a href='javascript:deleteKinderen(rowKinderen" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> ")
-            .append("  <a href='javascript:editKinderen(rowKinderen" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>")
-            .append(" </td>");
+        sOut.append("<tr id='rowKinderen"+iTotal+"'>")
+             .append("<td width='36'>")
+              .append("<a href='javascript:deleteKinderen(rowKinderen"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> ")
+              .append("<a href='javascript:editKinderen(rowKinderen"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>")
+             .append("</td>");
 
-        sOut.append("<td>&nbsp;" + sTmpKinderenGeboortejaar + "</td>");
+        sOut.append("<td>&nbsp;"+sTmpKinderenGeboortejaar+"</td>");
 
         // M/F
         sOut.append("<td>&nbsp;");
-        if (sTmpKinderenGeslacht.equalsIgnoreCase("M")) {
+        if(sTmpKinderenGeslacht.equalsIgnoreCase("M")){
             sOut.append(getTran("Web.Occup", "Male", sWebLanguage));
-        } else if (sTmpKinderenGeslacht.equalsIgnoreCase("F")) {
+        }
+        else if(sTmpKinderenGeslacht.equalsIgnoreCase("F")){
             sOut.append(getTran("Web.Occup", "Female", sWebLanguage));
         }
         sOut.append("</td>");
 
-        sOut.append(" <td>&nbsp;" + sTmpKinderenFirstname + "</td>")
-                .append("</tr>");
+        sOut.append(" <td>&nbsp;"+sTmpKinderenFirstname+"</td>")
+            .append("</tr>");
 
         return sOut.toString();
     }
 
     //--- ADD FAMI --------------------------------------------------------------------------------
     private String addFami(int iTotal, String sTmpFamiDate, String sTmpFamiDescr, String sTmpFamiVerwantschap, String sWebLanguage) {
-        return "<tr id='rowFami" + iTotal + "'>"
-                + "<td width='36'>"
-                + " <a href='javascript:deleteFami(rowFami" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> "
-                + " <a href='javascript:editFami(rowFami" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>"
-                + "</td>"
-                + "<td>&nbsp;" + sTmpFamiDate + "</td>"
-                + "<td>&nbsp;" + sTmpFamiDescr + "</td>"
-                + "<td>&nbsp;" + sTmpFamiVerwantschap + "</td>"
-                + "</tr>";
+        return "<tr id='rowFami"+iTotal+"'>"
+               +"<td width='36'>"
+                +"<a href='javascript:deleteFami(rowFami"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
+                +"<a href='javascript:editFami(rowFami"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
+               +"</td>"
+               +"<td>&nbsp;"+sTmpFamiDate+"</td>"
+               +"<td>&nbsp;"+sTmpFamiDescr+"</td>"
+               +"<td>&nbsp;"+sTmpFamiVerwantschap+"</td>"
+               +"</tr>";
     }
 
     //--- GET LAST ITEM VALUE ---------------------------------------------------------------------
@@ -107,6 +105,7 @@
             sTmpKinderenGeslacht = sTmpKinderen.substring(sTmpKinderen.toLowerCase().indexOf("<td>")+4,sTmpKinderen.toLowerCase().indexOf("</td>"));
             sTmpKinderen = sTmpKinderen.substring(sTmpKinderen.toLowerCase().indexOf("</td>")+11);
             sTmpKinderenGeboortejaar = sTmpKinderen.substring(0,sTmpKinderen.toLowerCase().indexOf("</td>"));
+            sTmpKinderenGeboortejaar = ScreenHelper.convertDate(sTmpKinderenGeboortejaar);
             sTmpKinderen = sTmpKinderen.substring(sTmpKinderen.toLowerCase().indexOf("</tr>")+5);
             sKinderen += "rowKinderen"+iTotal+"="+sTmpKinderenGeslacht+"£"+sTmpKinderenGeboortejaar+"$";
             sDivKinderen += addKinderen(iTotal,sTmpKinderenGeslacht,sTmpKinderenGeboortejaar,"",sWebLanguage);
@@ -124,6 +123,7 @@
 
             if (sTmpKinderen.toLowerCase().indexOf("£")>-1){
                 sTmpKinderenGeboortejaar = sTmpKinderen.substring(0,sTmpKinderen.toLowerCase().indexOf("£"));
+                sTmpKinderenGeboortejaar = ScreenHelper.convertDate(sTmpKinderenGeboortejaar);
                 sTmpKinderen = sTmpKinderen.substring(sTmpKinderen.toLowerCase().indexOf("£")+1);
             }
 
@@ -162,6 +162,7 @@
 
             if (sTmpFami.toLowerCase().indexOf("£")>-1){
                 sTmpFamiDate = sTmpFami.substring(0,sTmpFami.toLowerCase().indexOf("£"));
+                sTmpFamiDate = ScreenHelper.convertDate(sTmpFamiDate);
                 sTmpFami = sTmpFami.substring(sTmpFami.toLowerCase().indexOf("£")+1);
             }
 
@@ -371,8 +372,8 @@ function addKinderen(){
       tr.id = "rowKinderen"+iIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteKinderen(rowKinderen"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editKinderen(rowKinderen"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteKinderen(rowKinderen"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editKinderen(rowKinderen"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -391,7 +392,6 @@ function addKinderen(){
       td = tr.insertCell(3);
       td.innerHTML = "&nbsp;"+document.getElementById("transactionForm").KinderenFirstname.value;
       tr.appendChild(td);
-
 
       <%-- reset --%>
       clearKinderenFields();
@@ -435,7 +435,6 @@ function editKinderen(rowid){
 
 function updateKinderen(){
   if(isAtLeastOneKinderenFieldFilled()){
-    <%-- update arrayString --%>
     newRow = editKinderenRowid.id+"="
              +document.getElementById("transactionForm").KinderenGeboortejaar.value+"£"
              +document.getElementById("transactionForm").KinderenGeslacht.value+"£"
@@ -445,22 +444,21 @@ function updateKinderen(){
 
     <%-- update table object --%>
     var row = tblKinderen.rows[editKinderenRowid.rowIndex];
-    //row = tblKinderen.rows[editKinderenRowid.rowIndex];
 
-    row.cells[0].innerHTML = "<a href='javascript:deleteKinderen("+editKinderenRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editKinderen("+editKinderenRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteKinderen("+editKinderenRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editKinderen("+editKinderenRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").KinderenGeboortejaar.value;
 
-      <%-- translate gender --%>
-      if(document.getElementById("transactionForm").KinderenGeslacht.value == "M"){
-        row.cells[2].innerHTML = "&nbsp;<%=getTran("Web.Occup","male",sWebLanguage)%>";
-      }
-      else if(document.getElementById("transactionForm").KinderenGeslacht.value == "F"){
-        row.cells[2].innerHTML = "&nbsp;<%=getTran("Web.Occup","female",sWebLanguage)%>";
-      }
+    <%-- translate gender --%>
+    if(document.getElementById("transactionForm").KinderenGeslacht.value == "M"){
+      row.cells[2].innerHTML = "&nbsp;<%=getTran("Web.Occup","male",sWebLanguage)%>";
+    }
+    else if(document.getElementById("transactionForm").KinderenGeslacht.value == "F"){
+      row.cells[2].innerHTML = "&nbsp;<%=getTran("Web.Occup","female",sWebLanguage)%>";
+    }
 
-      row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").KinderenFirstname.value;
+    row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").KinderenFirstname.value;
 
     <%-- reset --%>
     clearKinderenFields();
@@ -479,8 +477,8 @@ function addFami(){
     tr.id = "rowFami"+iIndex;
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteFami(rowFami"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                  +"<a href='javascript:editFami(rowFami"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a> ";
+    td.innerHTML = "<a href='javascript:deleteFami(rowFami"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                  +"<a href='javascript:editFami(rowFami"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a> ";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -546,8 +544,8 @@ function updateFami(){
     <%-- update table object --%>
     var row = tblFami.rows[editFamiRowid.rowIndex];
       
-    row.cells[0].innerHTML = "<a href='javascript:deleteFami("+editFamiRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editFami("+editFamiRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteFami("+editFamiRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editFami("+editFamiRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").FamiDate.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").FamiDescription.value;
     row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").FamiVerwantschap.value;
@@ -558,4 +556,3 @@ function updateFami(){
   }
 }
 </script>
-

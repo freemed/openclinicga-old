@@ -159,9 +159,9 @@
         Diagnosis tmpDiagnosis = Diagnosis.get(sEditDiagnosisUID);
 
         //sEditDiagnosisDate          = tmpDiagnosis.getDate().toString();
-        sEditDiagnosisDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpDiagnosis.getDate()));
+        sEditDiagnosisDate = checkString(ScreenHelper.stdDateFormat.format(tmpDiagnosis.getDate()));
         if (tmpDiagnosis.getEndDate() != null) {
-            sEditDiagnosisEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpDiagnosis.getEndDate()));
+            sEditDiagnosisEndDate = checkString(ScreenHelper.stdDateFormat.format(tmpDiagnosis.getEndDate()));
         } else {
             sEditDiagnosisEndDate = "";
         }
@@ -179,7 +179,7 @@
 
 
     if (sEditDiagnosisDate.length() == 0) {
-        sEditDiagnosisDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(getDate())));
+        sEditDiagnosisDate = checkString(ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(getDate())));
     }
 
     if (sEditDiagnosisEncounter.length() == 0) {
@@ -214,7 +214,7 @@
                 <%
                     String sFromDate = "";
                     if(sFindDiagnosisFromDate.length() > 0){
-                        sFromDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sFindDiagnosisFromDate));
+                        sFromDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sFindDiagnosisFromDate));
                     }
                     out.print(writeDateField("FindDiagnosisFromDate","FindDiagnosisForm",sFromDate,sWebLanguage));
                 %>&nbsp;
@@ -222,7 +222,7 @@
                 <%
                     String sToDate = "";
                     if(sFindDiagnosisToDate.length() > 0){
-                        sToDate = new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getSQLDate(sFindDiagnosisToDate));
+                        sToDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sFindDiagnosisToDate));
                     }
                     out.print(writeDateField("FindDiagnosisToDate","FindDiagnosisForm",sToDate,sWebLanguage));
                 %>&nbsp;
@@ -340,7 +340,7 @@
 
     int iCountResults = 0;
     if(sFindDiagnosisToDate.length()==0){
-        sFindDiagnosisToDate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        sFindDiagnosisToDate=ScreenHelper.stdDateFormat.format(new java.util.Date());
     }
     if(sFindDiagnosisFromDate.length()==0){
         sFindDiagnosisFromDate="01/01/1900";
@@ -403,7 +403,7 @@
             if (checkString(sEncounterUID).length() > 0) {
                 Encounter eTmp = Encounter.get(sEncounterUID);
                 sEncounterName = eTmp.getEncounterDisplayName(sWebLanguage);
-                sEncounterDuration = (eTmp.getDurationInDays(new SimpleDateFormat("dd/MM/yyyy").parse(sFindDiagnosisFromDate),new SimpleDateFormat("dd/MM/yyyy").parse(sFindDiagnosisToDate))+1)+"";
+                sEncounterDuration = (eTmp.getDurationInDays(ScreenHelper.parseDate(sFindDiagnosisFromDate),ScreenHelper.parseDate(sFindDiagnosisToDate))+1)+"";
                 sPatientName = ScreenHelper.getFullPersonName(eTmp.getPatientUID(), ad_conn);
             } else {
                 sEncounterName = "";
@@ -416,7 +416,7 @@
                 sAuthorName = "";
             }
             if (dTmp.getEncounter().getEnd() != null) {
-                sEndDate = checkString(new SimpleDateFormat("dd/MM/yyyy").format(dTmp.getEncounter().getEnd()));
+                sEndDate = checkString(ScreenHelper.stdDateFormat.format(dTmp.getEncounter().getEnd()));
                 sTotalDuration=Math.ceil((dTmp.getEncounter().getEnd().getTime()+1000-dTmp.getDate().getTime())/(1000.0*60*60*24))+"";
             } else {
                 sEndDate = "";
@@ -427,7 +427,7 @@
                     " onmouseout=\"this.style.cursor='default';\"" +
                     " onclick=\"doSelect('" + dTmp.getUid() + "','" + dTmp.getEncounter().getPatientUID() + "');\">" +
                     "   <td nowrap><b>" + sPatientName + "</b></td>" +
-                    "   <td>" + checkString(new SimpleDateFormat("dd/MM/yyyy").format(dTmp.getDate())) + "</td>" +
+                    "   <td>" + checkString(ScreenHelper.stdDateFormat.format(dTmp.getDate())) + "</td>" +
                     "   <td>" + sEndDate + "</td>" +
                     "   <td>" + sCode + ": " + sCodeLabel + "</td>" +
                     "   <td><i> (" + sAuthorName + ")</i></td>" +

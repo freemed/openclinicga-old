@@ -54,10 +54,10 @@
     }
 
     if(sBegin.length() > 0){
-        training.begin = ScreenHelper.stdDateFormat.parse(sBegin);
+        training.begin = ScreenHelper.parseDate(sBegin);
     }
     if(sEnd.length() > 0){
-        training.end = ScreenHelper.stdDateFormat.parse(sEnd);
+        training.end = ScreenHelper.parseDate(sEnd);
     }
 
     training.institute = sInstitute;
@@ -66,7 +66,7 @@
     training.diploma = sDiploma;
     
     if(sDiplomaDate.length() > 0){
-        training.diplomaDate = ScreenHelper.stdDateFormat.parse(sDiplomaDate);
+        training.diplomaDate = ScreenHelper.parseDate(sDiplomaDate);
     }
     
     training.diplomaCode1 = sDiplomaCode1;

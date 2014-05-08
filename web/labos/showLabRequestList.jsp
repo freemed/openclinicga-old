@@ -15,7 +15,7 @@
             LabRequest labRequest;
             for(int n=0;n<requestList.size();n++){
                 labRequest = (LabRequest)requestList.elementAt(n);
-                out.print("<tr><td class='text'><input type='checkbox' "+(n<5?"checked":"")+" name='show."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"'/>"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate())+"</td></tr>");
+                out.print("<tr><td class='text'><input type='checkbox' "+(n<5?"checked":"")+" name='show."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"'/>"+ScreenHelper.fullDateFormat.format(labRequest.getRequestdate())+"</td></tr>");
             }
         %>
     </table>

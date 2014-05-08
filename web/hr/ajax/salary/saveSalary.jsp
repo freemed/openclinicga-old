@@ -315,10 +315,10 @@
     salary.contractUid = sContractUid;
 
     if(sBegin.length() > 0){
-        salary.begin = ScreenHelper.stdDateFormat.parse(sBegin);
+        salary.begin = ScreenHelper.parseDate(sBegin);
     }
     if(sEnd.length() > 0){
-        salary.end = ScreenHelper.stdDateFormat.parse(sEnd);
+        salary.end = ScreenHelper.parseDate(sEnd);
     }
     
     if(sSalary.length() > 0){

@@ -36,7 +36,7 @@
         <%-- DATE --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">
-                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">
@@ -97,7 +97,7 @@
     
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>   
-        <input class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","printlabels",sWebLanguage)%>" onclick="printLabels()"/>&nbsp;
+        <input class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","printlabels",sWebLanguage)%>" onclick="printLabels()"/><br>&nbsp;
         <%=getButtonsHtml(request,activeUser,activePatient,"occup.anatomopathology",sWebLanguage)%>
     <%=ScreenHelper.alignButtonsStop()%>
 

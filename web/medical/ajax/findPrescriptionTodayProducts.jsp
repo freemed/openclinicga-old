@@ -22,7 +22,7 @@
                     }
                     out.println("<tr class='list"+l+"'><td valign='middle'><a href='javascript:copyproduct(\""+product.getUid()+"\");'>");
                     %>
-                    <img src='<c:url value="/_img/arrow_right.gif"/>' alt='<%=getTran("web","right",sWebLanguage)%>'/></a>&nbsp;
+                    <img src='<c:url value="/_img/arrow_right.gif"/>' alt='<%=getTranNoLink("web","right",sWebLanguage)%>'/></a>&nbsp;
                     <%
                     out.print("<a href='javascript:copycontent(\""+product.getUid()+"\");'>"+product.getName()+"</a></td></tr>");
                     ap.put(product.getName(),"1");

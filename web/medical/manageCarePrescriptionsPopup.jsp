@@ -13,7 +13,7 @@
         StringBuffer html = new StringBuffer();
         String sClass = "1", sDateBeginFormatted, sDateEndFormatted, sCareDescr = "",
         	   sCareUid, sPreviousCareUid = "", sPrescriber;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpDate;
 
         // frequently used translations
@@ -113,7 +113,7 @@
             <td align="right">
                <%
                    if(sAction.startsWith("showDetails")){
-                       %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTran("Web","Back",sWebLanguage)%>'><%
+                       %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
                    }
                %>
             </td>
@@ -127,7 +127,7 @@
         else{
             //--- DISPLAY ACTIVE PRESCRIPTIONS (for activePatient) --------------------------------
             if (!sAction.startsWith("showDetails")) {
-                Vector activePrescrs = CarePrescription.findActive(activePatient.personid, "", "", new SimpleDateFormat("dd/MM/yyyy").format(ScreenHelper.getDate(new Date(new Date().getTime()-48*60*60000))), "", "", sSortCol, sSortDir);
+                Vector activePrescrs = CarePrescription.findActive(activePatient.personid, "", "", ScreenHelper.stdDateFormat.format(ScreenHelper.getDate(new Date(new Date().getTime()-48*60*60000))), "", "", sSortCol, sSortDir);
                 prescriptionsHtml = objectsToHtml(activePrescrs, sWebLanguage);
                 foundPrescrCount = activePrescrs.size();
 

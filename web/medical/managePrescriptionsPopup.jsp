@@ -31,7 +31,7 @@
                 sPreviousProductUid = "", sTimeUnit, sTimeUnitCount, sUnitsPerTimeUnit, sPrescrRule = "",
                 sProductUnit, timeUnitTran, sSupplyingServiceName, sSupplyingServiceUid,
                 sServiceStockUid, sServiceStockName;
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         DecimalFormat unitCountDeci = new DecimalFormat("#.#");
         Product product = null;
         java.util.Date tmpDate;
@@ -240,7 +240,7 @@
     // variables
     int foundPrescrCount;
     StringBuffer prescriptionsHtml;
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     //boolean patientIsHospitalized = (activePatient!=null && activePatient.isHospitalized());
     boolean displayEditFields = false;
 
@@ -267,8 +267,8 @@
         prescr.setPrescriberUid(sEditPrescriberUid);
         prescr.setProductUid(sEditProductUid);
         prescr.setTimeUnit(sEditTimeUnit);
-        if(sEditDateBegin.length() > 0) prescr.setBegin(stdDateFormat.parse(sEditDateBegin));
-        if(sEditDateEnd.length() > 0) prescr.setEnd(stdDateFormat.parse(sEditDateEnd));
+        if(sEditDateBegin.length() > 0) prescr.setBegin(ScreenHelper.parseDate(sEditDateBegin));
+        if(sEditDateEnd.length() > 0) prescr.setEnd(ScreenHelper.parseDate(sEditDateEnd));
         if(sEditTimeUnitCount.length() > 0) prescr.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
         if(sEditUnitsPerTimeUnit.length() > 0) prescr.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
         if(sEditRequiredPackages.length() > 0) prescr.setRequiredPackages(Integer.parseInt(sEditRequiredPackages));
@@ -494,7 +494,7 @@
                 if(sAction.startsWith("showDetails")){
             %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';"
                    onClick="doBackToOverview();" style='vertical-align:middle;' border='0'
-                   src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTran("Web","Back",sWebLanguage)%>'><%
+                   src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
             }
         %>
         </td>

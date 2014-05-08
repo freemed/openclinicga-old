@@ -27,7 +27,7 @@
         ItemVO id=transactionVO.getItem(sPREFIX+"ITEM_TYPE_MIR2_IDENTIFICATION_RX");
         ItemVO protocol=transactionVO.getItem(sPREFIX+"ITEM_TYPE_OTHER_REQUESTS_VALIDATION");
         out.print("<tr><td class='admin2'><a href='javascript:selectTran("+transactionVO.getServerId()+","+transactionVO.getTransactionId()+")'><b>"
-                +new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())+"</b></a></td>" +
+                +ScreenHelper.stdDateFormat.format(transactionVO.getUpdateTime())+"</b></a></td>" +
                 "<td class='admin2'>"+(id!=null?id.getValue():"?")+"</td>" +
                 "<td class='admin2'><b>"+(type!=null && !type.getValue().equalsIgnoreCase("0") && !type.getValue().equalsIgnoreCase("")?getTran("mir_type",type.getValue(),sWebLanguage):"?")+"</b></td>" +
                 "<td class='admin2'>"+(protocol!=null?getTran("web","yes",sWebLanguage):getTran("web","no",sWebLanguage))+"</td></tr>");

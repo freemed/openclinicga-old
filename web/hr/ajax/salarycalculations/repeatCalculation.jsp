@@ -101,8 +101,8 @@
         
     //*** SAVE ********************************************************************************
     if(sAction.equalsIgnoreCase("save")){
-        java.util.Date startDate = ScreenHelper.stdDateFormat.parse(sBegin),
-                       endDate   = ScreenHelper.stdDateFormat.parse(sEnd);
+        java.util.Date startDate = ScreenHelper.parseDate(sBegin),
+                       endDate   = ScreenHelper.parseDate(sEnd);
 
         Calendar periodBegin = Calendar.getInstance();
         periodBegin.setTime(startDate);
@@ -154,7 +154,7 @@
         calculation.source = "manual"; // >< 'script'
         calculation.type = "workschedule"; // default
 
-        calculation.begin = ScreenHelper.stdDateFormat.parse(sBegin);
+        calculation.begin = ScreenHelper.parseDate(sBegin);
         calculation.end = calculation.begin;
 
         show = true;

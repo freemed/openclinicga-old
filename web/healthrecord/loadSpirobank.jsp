@@ -21,7 +21,7 @@
         if (MedwanQuery.getInstance().getConfigString("spiroBankOut").length() > 0){
             Imed.Spirometry spirometry = Imed.readSpiro(MedwanQuery.getInstance().getConfigString("spiroBankOut"),activePatient);
             if (spirometry.initialized){
-                out.print("<script>window.opener.document.getElementsByName('trandate')[0].value='"+new SimpleDateFormat("dd/MM/yyyy").format(spirometry.date)+"';</script>");
+                out.print("<script>window.opener.document.getElementsByName('trandate')[0].value='"+ScreenHelper.stdDateFormat.format(spirometry.date)+"';</script>");
                 out.print("<script>window.opener.document.getElementsByName('MyFEV1')[0].value='"+spirometry.fev1+"';</script>");
                 out.print("<script>window.opener.document.getElementsByName('MyFEV1pct')[0].value='"+spirometry.fev1pct+"';</script>");
                 out.print("<script>window.opener.document.getElementsByName('MyFVC')[0].value='"+spirometry.fvc+"';</script>");

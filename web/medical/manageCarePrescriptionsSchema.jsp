@@ -35,7 +35,7 @@
         java.util.Date dStart = new java.util.Date(new java.util.Date().getTime() - 2 * 24 * 3600 * 1000);
         String sStartDate = checkString(request.getParameter("startdate"));
         if (sStartDate.length() > 0) {
-            dStart = new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sStartDate).getTime() - 2 * 24 * 3600 * 1000);
+            dStart = new java.util.Date(ScreenHelper.parseDate(sStartDate).getTime() - 2 * 24 * 3600 * 1000);
         }
 
         CarePrescriptionAdministrationSchema schema = new CarePrescriptionAdministrationSchema(dStart, new Date(dStart.getTime() + adminDays * 24 * 3600 * 1000), activePatient.personid);
@@ -48,7 +48,7 @@
             for (int d = 0; d < adminDays; d++) {
                 %>
                     <td class="admin" colspan="<%=hours%>%>">
-                        <center><a href="<c:url value='/main.do'/>?Page=medical/manageCarePrescriptionsSchema.jsp&startdate=<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date(dStart.getTime() + d * 24 * 3600 * 1000))%>"><%=new SimpleDateFormat("dd/MM/yyyy").format(new Date(dStart.getTime() + d * 24 * 3600 * 1000))%></a></center>
+                        <center><a href="<c:url value='/main.do'/>?Page=medical/manageCarePrescriptionsSchema.jsp&startdate=<%=ScreenHelper.stdDateFormat.format(new Date(dStart.getTime() + d * 24 * 3600 * 1000))%>"><%=ScreenHelper.stdDateFormat.format(new Date(dStart.getTime() + d * 24 * 3600 * 1000))%></a></center>
                     </td>
                 <%
             }
@@ -123,6 +123,6 @@
   <%-- DO TODAY --%>
   function doToday(){
     window.location.href = "<c:url value='/main.do'/>?Page=medical/manageCarePrescriptionsSchema.jsp"+
-    		               "&startdate=<%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())%>";
+    		               "&startdate=<%=ScreenHelper.stdDateFormat.format(new java.util.Date())%>";
   }
 </script>

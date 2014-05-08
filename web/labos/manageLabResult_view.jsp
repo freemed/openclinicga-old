@@ -55,7 +55,7 @@
         Iterator requestsIterator = requestList.keySet().iterator();
         while(requestsIterator.hasNext()){
             labRequest = (LabRequest)requestList.get(requestsIterator.next());
-            out.print("<td>"+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate())+"<br/>"+labRequest.getTransactionid()+"<br/>"+
+            out.print("<td>"+ScreenHelper.fullDateFormat.format(labRequest.getRequestdate())+"<br/>"+labRequest.getTransactionid()+"<br/>"+
                     "<a href='javascript:printRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + getTran("web","print",sWebLanguage) + "</b></a></td>");
             out.print("<td>"+MedwanQuery.getInstance().getLabel("web","sampler",sWebLanguage)+"</td>");
             out.print("<td>"+MedwanQuery.getInstance().getLabel("web","sampletakendatetime",sWebLanguage)+"</td>");
@@ -112,13 +112,13 @@
                     boolean bAbnormal=(result.length()>0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*")>-1);
                     out.print("<td"+(bAbnormal?" bgcolor='#FF8C68'":"")+">"+result+(bAbnormal?" "+checkString(requestedLabAnalysis.getResultModifier().toUpperCase()):"")+"</td>");
                     out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSampler()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getSampler()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSampletakendatetime()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(requestedLabAnalysis.getSampletakendatetime()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSamplereceptiondatetime()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(requestedLabAnalysis.getSamplereceptiondatetime()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getWorklisteddatetime()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(requestedLabAnalysis.getWorklisteddatetime()):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSampletakendatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getSampletakendatetime()):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSamplereceptiondatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getSamplereceptiondatetime()):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getWorklisteddatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getWorklisteddatetime()):"")+"</td>");
                     out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getTechnicalvalidation()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getTechnicalvalidation()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getTechnicalvalidationdatetime()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(requestedLabAnalysis.getTechnicalvalidationdatetime()):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getTechnicalvalidationdatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getTechnicalvalidationdatetime()):"")+"</td>");
                     out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidation()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getFinalvalidation()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidationdatetime()!=null?new SimpleDateFormat("dd/MM/yyyy HH:mm").format(requestedLabAnalysis.getFinalvalidationdatetime()):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidationdatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getFinalvalidationdatetime()):"")+"</td>");
                     out.print("</tr>");
                 }
             }

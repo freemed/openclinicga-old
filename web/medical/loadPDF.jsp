@@ -78,7 +78,7 @@
 
             // date of birth
             if (activePatient.dateOfBirth!=null && activePatient.dateOfBirth.length()>0){
-                double lAge = new SimpleDateFormat("dd/MM/yyyy").parse(activePatient.dateOfBirth).getTime();
+                double lAge = ScreenHelper.parseDate(activePatient.dateOfBirth).getTime();
                 double lNow = new java.util.Date().getTime();
                 double lAgeInSeconds = (lNow-lAge)/1000;
                 double fAgeInYears = lAgeInSeconds/(60*60*24*365);
@@ -134,11 +134,11 @@
         //*** Replace SYSTEM parameters ***************************************
         SessionContainerWO sessionContainerWO= (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName() );
         if (sessionContainerWO.getCurrentTransactionVO()!=null){
-            outFDF.SetValue("s.transactionupdatetime",new SimpleDateFormat("dd/MM/yyyy").format(sessionContainerWO.getCurrentTransactionVO().getUpdateTime()));
+            outFDF.SetValue("s.transactionupdatetime",ScreenHelper.stdDateFormat.format(sessionContainerWO.getCurrentTransactionVO().getUpdateTime()));
         }
 
         outFDF.SetValue("s.today",new SimpleDateFormat("dd MM yyyy").format(new java.util.Date()));
-        outFDF.SetValue("s.todayslash",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+        outFDF.SetValue("s.todayslash",ScreenHelper.stdDateFormat.format(new java.util.Date()));
         outFDF.SetValue("s.todayddmmyy",new SimpleDateFormat("dd/MM/yy").format(new java.util.Date()));
 
         if (session.getAttribute("activeMD")!=null && ((String)session.getAttribute("activeMD")).length()>2){

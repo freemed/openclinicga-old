@@ -77,7 +77,7 @@
     <table class="list" cellspacing="1" cellpadding="0" width="100%">
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">
-                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">
@@ -162,10 +162,12 @@ if (sSuivi.indexOf("£")>-1){
 
         if (sTmpSuivi.toString().toLowerCase().indexOf("£")>-1){
             sTmpDateBegin = sTmpSuivi.substring(0,sTmpSuivi.toString().toLowerCase().indexOf("£"));
+            sTmpDateBegin = ScreenHelper.convertDate(sTmpDateBegin);
             sTmpSuivi = new StringBuffer(sTmpSuivi.substring(sTmpSuivi.toString().toLowerCase().indexOf("£")+1));
         }
         if (sTmpSuivi.toString().toLowerCase().indexOf("£")>-1){
             sTmpDateEnd = sTmpSuivi.substring(0,sTmpSuivi.toString().toLowerCase().indexOf("£"));
+            sTmpDateEnd = ScreenHelper.convertDate(sTmpDateEnd);
             sTmpSuivi = new StringBuffer(sTmpSuivi.substring(sTmpSuivi.toString().toLowerCase().indexOf("£")+1));
         }
         if (sTmpSuivi.toString().toLowerCase().indexOf("£")>-1){
@@ -396,10 +398,12 @@ if (sSummary.indexOf("£")>-1){
 
         if (sTmpSummary.toString().toLowerCase().indexOf("£")>-1){
             sTmpDateBegin = sTmpSummary.substring(0,sTmpSummary.toString().toLowerCase().indexOf("£"));
+            sTmpDateBegin = ScreenHelper.convertDate(sTmpDateBegin);
             sTmpSummary = new StringBuffer(sTmpSummary.substring(sTmpSummary.toString().toLowerCase().indexOf("£")+1));
         }
         if (sTmpSummary.toString().toLowerCase().indexOf("£")>-1){
             sTmpDateEnd = sTmpSummary.substring(0,sTmpSummary.toString().toLowerCase().indexOf("£"));
+            sTmpDateEnd = ScreenHelper.convertDate(sTmpDateEnd);
             sTmpSummary = new StringBuffer(sTmpSummary.substring(sTmpSummary.toString().toLowerCase().indexOf("£")+1));
         }
         if (sTmpSummary.toString().toLowerCase().indexOf("£")>-1){
@@ -525,8 +529,8 @@ if (sSummary.indexOf("£")>-1){
       tr.id = "rowSuivi"+iSuiviIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteSuivi(rowSuivi"+iSuiviIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editSuivi(rowSuivi"+iSuiviIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteSuivi(rowSuivi"+iSuiviIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editSuivi(rowSuivi"+iSuiviIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -576,8 +580,8 @@ if (sSummary.indexOf("£")>-1){
 
       <%-- update table object --%>
       row = tblSuivi.rows[editSuiviRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='javascript:deleteSuivi("+editSuiviRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                              +"<a href='javascript:editSuivi("+editSuiviRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='javascript:deleteSuivi("+editSuiviRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                              +"<a href='javascript:editSuivi("+editSuiviRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = "&nbsp;"+transactionForm.suiviMolecule.options[transactionForm.suiviMolecule.selectedIndex].text;
       row.cells[2].innerHTML = "&nbsp;"+transactionForm.suiviDateBegin.value;
@@ -644,8 +648,8 @@ if (sSummary.indexOf("£")>-1){
       tr.id = "rowSummary"+iSummaryIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteSummary(rowSummary"+iSummaryIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editSummary(rowSummary"+iSummaryIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteSummary(rowSummary"+iSummaryIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editSummary(rowSummary"+iSummaryIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -695,8 +699,8 @@ if (sSummary.indexOf("£")>-1){
 
       <%-- update table object --%>
       row = tblSummary.rows[editSummaryRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='javascript:deleteSummary("+editSummaryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                              +"<a href='javascript:editSummary("+editSummaryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='javascript:deleteSummary("+editSummaryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                              +"<a href='javascript:editSummary("+editSummaryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = "&nbsp;"+transactionForm.summaryMolecule.options[transactionForm.summaryMolecule.selectedIndex].text;
       row.cells[2].innerHTML = "&nbsp;"+transactionForm.summaryDateBegin.value;

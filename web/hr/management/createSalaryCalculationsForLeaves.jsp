@@ -49,10 +49,10 @@
         java.util.Date periodBegin = null, periodEnd = null;
         
         if(sPeriodBegin.length() > 0){
-            periodBegin = ScreenHelper.stdDateFormat.parse(sPeriodBegin);
+            periodBegin = ScreenHelper.parseDate(sPeriodBegin);
         }
         if(sPeriodEnd.length() > 0){
-            periodEnd = ScreenHelper.stdDateFormat.parse(sPeriodEnd);
+            periodEnd = ScreenHelper.parseDate(sPeriodEnd);
         }
         
         int[] counters;

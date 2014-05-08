@@ -64,19 +64,19 @@
            sDateTo   = checkString(request.getParameter("dateTo"));
 
     if (sSelectedTranCtxt.length() == 0) sSelectedTranCtxt = "allContexts";
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat dateFormat = ScreenHelper.stdDateFormat;
     StringBuffer sOut = new StringBuffer();
     int cbCounter = 0;
 
     // parse date from if any specified
     java.util.Date dateFrom;
-    if (sDateFrom.length() > 0) dateFrom = dateFormat.parse(sDateFrom);
-    else                        dateFrom = new java.util.Date(0); // 1970
+    if(sDateFrom.length() > 0) dateFrom = dateFormat.parse(sDateFrom);
+    else                       dateFrom = new java.util.Date(0); // 1970
 
     // parse date to if any specified
     java.util.Date dateTo;
-    if (sDateTo.length() > 0) dateTo = dateFormat.parse(sDateTo);
-    else                      dateTo = new java.util.Date(); // now
+    if(sDateTo.length() > 0) dateTo = dateFormat.parse(sDateTo);
+    else                     dateTo = new java.util.Date(); // now
 
     //--- PRINT PDF -------------------------------------------------------------------------------
     if(sAction.equals("print")){
@@ -112,7 +112,7 @@
         catch(DocumentException dex){
             response.setContentType("text/html");
             PrintWriter writer = response.getWriter();
-            writer.print(this.getClass().getName() + " caught an exception: " + dex.getClass().getName() + "<br>");
+            writer.print(this.getClass().getName()+" caught an exception: "+dex.getClass().getName()+"<br>");
             writer.print("<pre>");
             dex.printStackTrace(writer);
             writer.print("</pre>");
@@ -147,10 +147,10 @@
             // header
             sOut.append("<tr class='admin'>")
                  .append("<td width='30'>&nbsp;</td>")
-                 .append("<td width='80'><DESC>" + getTran("web", "date", sWebLanguage) + "</DESC></td>")
-                 .append("<td width='45%'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
-                 .append("<td width='250'>" + getTran("web.occup", "medwan.common.context", sWebLanguage) + "</td>")
-                 .append("<td width='200'>" + getTran("web.occup", "medwan.common.user", sWebLanguage) + "</td>")
+                 .append("<td width='80'><DESC>"+getTran("web", "date", sWebLanguage)+"</DESC></td>")
+                 .append("<td width='45%'>"+getTran("web.occup", "medwan.common.contacttype", sWebLanguage)+"</td>")
+                 .append("<td width='250'>"+getTran("web.occup", "medwan.common.context", sWebLanguage)+"</td>")
+                 .append("<td width='200'>"+getTran("web.occup", "medwan.common.user", sWebLanguage)+"</td>")
                 .append("</tr>");
 
             // records
@@ -161,14 +161,14 @@
                 tranDate = new Timestamp(transaction.getUpdateTime().getTime());
 
                 if (tranDate.getTime() >= dateFrom.getTime() && tranDate.getTime() <= dateTo.getTime()) {
-                    tranID = transaction.getTransactionId() + "";
-                    serverID = transaction.getServerId() + "";
+                    tranID = transaction.getTransactionId()+"";
+                    serverID = transaction.getServerId()+"";
                     tranType = transaction.getTransactionType();
 
                     // exclude vaccinations
                     if (!tranType.endsWith("TRANSACTION_TYPE_VACCINATION") && !tranType.endsWith("TRANSACTION_TYPE_ALERT")) {
                         transaction = MedwanQuery.getInstance().loadTransaction(transaction.getServerId(), transaction.getTransactionId().intValue());
-                        tranUser = transaction.getUser().getPersonVO().lastname + "," + transaction.getUser().getPersonVO().firstname;
+                        tranUser = transaction.getUser().getPersonVO().lastname+","+transaction.getUser().getPersonVO().firstname;
 
                         // private info ?
                         boolean privateInfo = false;
@@ -217,14 +217,14 @@
                                 if(sClass.equals("")) sClass = "1";
                                 else                  sClass = "";
 
-                                sOut.append("<tr class=\"list" + sClass + "\" >")
+                                sOut.append("<tr class=\"list"+sClass+"\" >")
                                      .append("<td align='center'>")
-                                      .append("<input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
+                                      .append("<input type='checkbox' value='"+tranID+"_"+serverID+"' name='tranAndServerID_"+cbCounter+"'>")
                                      .append("</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + sExaminationName + "</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+dateFormat.format(tranDate)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+sExaminationName+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+getTran("service", tranCtxt, sWebLanguage)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+tranUser+"</td>")
                                     .append("</tr>");
 
                                 cbCounter++;
@@ -235,14 +235,14 @@
                                     if (sClass.equals("")) sClass = "1";
                                     else sClass = "";
 
-                                    sOut.append("<tr class=\"list" + sClass + "\" >")
+                                    sOut.append("<tr class=\"list"+sClass+"\" >")
                                          .append("<td align='center'>")
-                                          .append("<input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
+                                          .append("<input type='checkbox' value='"+tranID+"_"+serverID+"' name='tranAndServerID_"+cbCounter+"'>")
                                          .append("</td>")
-                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
-                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
-                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+dateFormat.format(tranDate)+"</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+getTran("web.occup", tranType, sWebLanguage)+"</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+getTran("service", tranCtxt, sWebLanguage)+"</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+tranUser+"</td>")
                                         .append("</tr>");
 
                                     cbCounter++;
@@ -253,14 +253,14 @@
                                 if (sClass.equals("")) sClass = "1";
                                 else sClass = "";
 
-                                sOut.append("<tr class=\"list" + sClass + "\" >")
+                                sOut.append("<tr class=\"list"+sClass+"\" >")
                                      .append("<td align='center'>")
-                                      .append("<input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
+                                      .append("<input type='checkbox' value='"+tranID+"_"+serverID+"' name='tranAndServerID_"+cbCounter+"'>")
                                      .append("</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + dateFormat.format(tranDate) + "</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+dateFormat.format(tranDate)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+getTran("web.occup", tranType, sWebLanguage)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+getTran("service", tranCtxt, sWebLanguage)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+tranUser+"</td>")
                                     .append("</tr>");
 
                                 cbCounter++;
@@ -297,8 +297,8 @@
             // header
             sOut.append("<tr class='admin'>")
                  .append("<td width='30'>&nbsp;</td>")
-                 .append("<td width='*'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
-                 .append("<td width='250'>" + getTran("web.occup", "medwan.common.context", sWebLanguage) + "</td>")
+                 .append("<td width='*'>"+getTran("web.occup", "medwan.common.contacttype", sWebLanguage)+"</td>")
+                 .append("<td width='250'>"+getTran("web.occup", "medwan.common.context", sWebLanguage)+"</td>")
                 .append("</tr>");
 
             // records
@@ -338,12 +338,12 @@
                                 if (sClass.equals("")) sClass = "1";
                                 else sClass = "";
 
-                                sOut.append("<tr class=\"list" + sClass + "\" >")
+                                sOut.append("<tr class=\"list"+sClass+"\" >")
                                      .append("<td align='center'>")
-                                      .append(" <input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
+                                      .append(" <input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
                                      .append("</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">"+getTran("web.occup", tranType, sWebLanguage)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">"+getTran("service", tranCtxt, sWebLanguage)+"</td>")
                                     .append("</tr>");
 
                                 cbCounter++;
@@ -354,12 +354,12 @@
                                     if (sClass.equals("")) sClass = "1";
                                     else sClass = "";
 
-                                    sOut.append("<tr class=\"list" + sClass + "\" >")
+                                    sOut.append("<tr class=\"list"+sClass+"\" >")
                                          .append("<td align='center'>")
-                                          .append("<input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
+                                          .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
                                          .append("</td>")
-                                         .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                         .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">"+getTran("web.occup", tranType, sWebLanguage)+"</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">"+getTran("service", tranCtxt, sWebLanguage)+"</td>")
                                         .append("</tr>");
 
                                     cbCounter++;
@@ -370,12 +370,12 @@
                                 if (sClass.equals("")) sClass = "1";
                                 else sClass = "";
 
-                                sOut.append("<tr class=\"list" + sClass + "\" >")
+                                sOut.append("<tr class=\"list"+sClass+"\" >")
                                      .append("<td align='center'>")
-                                      .append("<input type='checkbox' value='" + tranType + "' name='tranType_" + cbCounter + "'>")
+                                      .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
                                      .append("</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranType_" + cbCounter + "')\">" + getTran("service", tranCtxt, sWebLanguage) + "</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">"+getTran("web.occup", tranType, sWebLanguage)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">"+getTran("service", tranCtxt, sWebLanguage)+"</td>")
                                     .append("</tr>");
 
                                 cbCounter++;
@@ -416,9 +416,9 @@
             // header
             sOut.append("<tr class='admin'>")
                  .append("<std width='30'>&nbsp;</td>")
-                 .append("<td width='80'>" + getTran("web", "date", sWebLanguage) + "</td>")
-                 .append("<td width='70%'>" + getTran("web.occup", "medwan.common.contacttype", sWebLanguage) + "</td>")
-                 .append("<td width='200'>" + getTran("web.occup", "medwan.common.user", sWebLanguage) + "</td>")
+                 .append("<td width='80'>"+getTran("web", "date", sWebLanguage)+"</td>")
+                 .append("<td width='70%'>"+getTran("web.occup", "medwan.common.contacttype", sWebLanguage)+"</td>")
+                 .append("<td width='200'>"+getTran("web.occup", "medwan.common.user", sWebLanguage)+"</td>")
                 .append("</tr>");
 
             // records
@@ -430,15 +430,15 @@
                 while (setIter.hasNext()) {
                     transaction = (TransactionVO) hTrans.get(setIter.next().toString());
 
-                    tranID = transaction.getTransactionId() + "";
-                    serverID = transaction.getServerId() + "";
+                    tranID = transaction.getTransactionId()+"";
+                    serverID = transaction.getServerId()+"";
                     tranDate = new Timestamp(transaction.getUpdateTime().getTime());
                     tranType = transaction.getTransactionType();
 
                     // exclude vaccinations
                     if (!tranType.endsWith("TRANSACTION_TYPE_VACCINATION") && !tranType.endsWith("TRANSACTION_TYPE_ALERT")) {
                         transaction = MedwanQuery.getInstance().loadTransaction(transaction.getServerId(), transaction.getTransactionId().intValue());
-                        tranUser = transaction.getUser().getPersonVO().lastname + "," + transaction.getUser().getPersonVO().firstname;
+                        tranUser = transaction.getUser().getPersonVO().lastname+","+transaction.getUser().getPersonVO().firstname;
 
                         // private info ?
                         boolean privateInfo = false;
@@ -454,13 +454,13 @@
                             if (sClass.equals("")) sClass = "1";
                             else sClass = "";
 
-                            sOut.append("<tr class=\"list" + sClass + "\" >")
+                            sOut.append("<tr class=\"list"+sClass+"\" >")
                                  .append("<td align='center'>")
-                                  .append("<input type='checkbox' value='" + tranID + "_" + serverID + "' name='tranAndServerID_" + cbCounter + "'>")
+                                  .append("<input type='checkbox' value='"+tranID+"_"+serverID+"' name='tranAndServerID_"+cbCounter+"'>")
                                  .append("</td>")
-                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + (tranDate == null ? "" : dateFormat.format(tranDate)) + "</td>")
-                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + getTran("web.occup", tranType, sWebLanguage) + "</td>")
-                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_" + cbCounter + "')\">" + tranUser + "</td>")
+                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+(tranDate == null ? "" : dateFormat.format(tranDate))+"</td>")
+                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+getTran("web.occup", tranType, sWebLanguage)+"</td>")
+                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">"+tranUser+"</td>")
                                 .append("</tr>");
                         }
 
@@ -484,44 +484,47 @@
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         if (sDateFrom.length() == 0) {
             // get date of oldest transaction of active patient (except vaccinations and alerts)
-            sSelect = "SELECT t.updateTime FROM Healthrecord h, Transactions t" +
-                    " WHERE h.personId = ?" +
-                    "  AND t.healthRecordId = h.healthRecordId " +
-                    "  AND t.transactionType NOT IN ('be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ALERT')" +
-                    " ORDER BY t.updateTime ASC";
+            sSelect = "SELECT t.updateTime FROM Healthrecord h, Transactions t"+
+                      " WHERE h.personId = ?"+
+                      "  AND t.healthRecordId = h.healthRecordId "+
+                      "  AND t.transactionType NOT IN ('be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION',"+
+                                                      "'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ALERT')"+
+                      " ORDER BY t.updateTime ASC";
 
             ps = oc_conn.prepareStatement(sSelect);
-            ps.setInt(1, Integer.parseInt(activePatient.personid));
+            ps.setInt(1,Integer.parseInt(activePatient.personid));
             rs = ps.executeQuery();
-            if (rs.next()) {
+            if(rs.next()){
                 sDateFrom = dateFormat.format(new java.util.Date(rs.getDate(1).getTime()));
             }
 
             // close DB-stuff
-            if (rs != null) rs.close();
-            if (ps != null) ps.close();
+            if(rs!=null) rs.close();
+            if(ps!=null) ps.close();
         }
 
         if (sDateTo.length() == 0) {
             // get date of yougest transaction of active patient (except vaccinations and alerts)
-            sSelect = "SELECT t.updateTime FROM Healthrecord h, Transactions t" +
-                      " WHERE h.personId = ?" +
-                      "  AND t.healthRecordId = h.healthRecordId " +
-                      "  AND t.transactionType NOT IN ('be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION','be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ALERT')" +
+            sSelect = "SELECT t.updateTime FROM Healthrecord h, Transactions t"+
+                      " WHERE h.personId = ?"+
+                      "  AND t.healthRecordId = h.healthRecordId "+
+                      "  AND t.transactionType NOT IN ('be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION',"+
+                                                      "'be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ALERT')"+
                       " ORDER BY t.updateTime DESC";
 
             ps = oc_conn.prepareStatement(sSelect);
-            ps.setInt(1, Integer.parseInt(activePatient.personid));
+            ps.setInt(1,Integer.parseInt(activePatient.personid));
             rs = ps.executeQuery();
-            if (rs.next()) {
+            if(rs.next()){
                 sDateTo = dateFormat.format(new java.util.Date(rs.getDate(1).getTime()));
             }
 
             // close DB-stuff
-            if (rs != null) rs.close();
-            if (ps != null) ps.close();
+            if(rs!=null) rs.close();
+            if(ps!=null) ps.close();
         }
 		oc_conn.close();
+		
         %>
             <a name="top"></a>
 

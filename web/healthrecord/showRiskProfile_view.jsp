@@ -14,7 +14,7 @@
             <%
                 if(activeUser.getAccessRight("occup.riskprofile.add") || activeUser.getAccessRight("occup.riskprofile.edit")){
                     %>
-                        <a href="<c:url value='/healthrecord/manageRiskProfileContext.do'/>?ts=<%=getTs()%>&webLanguage=<%=sWebLanguage%>" class="underlined" title="<%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%>"><%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%></a>
+                        <a href="<c:url value='/healthrecord/manageRiskProfileContext.do'/>?ts=<%=getTs()%>&webLanguage=<%=sWebLanguage%>" class="underlined" title="<%=getTranNoLink("Web.Occup","medwan.common.update",sWebLanguage)%>"><%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%></a>
                     <%
                 }
             %>
@@ -98,7 +98,7 @@
             <%
                 if (activeUser.getAccessRight("occup.riskprofile.add") || activeUser.getAccessRight("occup.riskprofile.edit")){
                     %>
-                        <a href="<c:url value='/healthrecord/manageRiskProfileRisks.do?ts='/><%=getTs()%>" class="underlined" title="<%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%>"><%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%></a>
+                        <a href="<c:url value='/healthrecord/manageRiskProfileRisks.do?ts='/><%=getTs()%>" class="underlined" title="<%=getTranNoLink("Web.Occup","medwan.common.update",sWebLanguage)%>"><%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%></a>
                     <%
                 }
             %>
@@ -138,7 +138,7 @@
             <%
                 if (activeUser.getAccessRight("occup.riskprofile.add") || activeUser.getAccessRight("occup.riskprofile.edit")){
                     %>
-                        <a href="<c:url value='/healthrecord/manageRiskProfileExaminations.do?ts='/><%=getTs()%>" class="underlined" title="<%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%>"><%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%></a>
+                        <a href="<c:url value='/healthrecord/manageRiskProfileExaminations.do?ts='/><%=getTs()%>" class="underlined" title="<%=getTranNoLink("Web.Occup","medwan.common.update",sWebLanguage)%>"><%=getTran("Web.Occup","medwan.common.update",sWebLanguage)%></a>
                     <%
                 }
             %>

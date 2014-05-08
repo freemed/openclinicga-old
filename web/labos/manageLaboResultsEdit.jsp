@@ -103,7 +103,7 @@
                 Iterator requestsIterator = requestList.keySet().iterator();
                 while (requestsIterator.hasNext()) {
                     LabRequest labRequest = (LabRequest) requestList.get(requestsIterator.next());
-                    out.print("<td>" + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate()) + "&nbsp;&nbsp;&nbsp; &nbsp;<a href='javascript:showRequest(" + labRequest.getServerid() + "," + labRequest.getTransactionid() + ")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
+                    out.print("<td>" + ScreenHelper.fullDateFormat.format(labRequest.getRequestdate()) + "&nbsp;&nbsp;&nbsp; &nbsp;<a href='javascript:showRequest(" + labRequest.getServerid() + "," + labRequest.getTransactionid() + ")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
                 }
             %>
         </tr>

@@ -21,7 +21,7 @@
     SortedMap hVaccins = new TreeMap();
     Hashtable hData = new Hashtable();
     String sVaccinationType = checkString(request.getParameter("VaccinType"));
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     sSelect = "SELECT i2.* FROM Healthrecord h, Transactions t, Items i, Items i2" +
             " WHERE h.personId = " + activePatient.personid +
@@ -50,9 +50,9 @@
 
         if (!activeTransaction.equalsIgnoreCase(sTransaction)) {
             if (activeTransaction.length() > 0) {
-                hVaccins.put(new Long(stdDateFormat.parse((String) hData.get("date")).getTime() + activeTransactionId.intValue()), hData);
+                hVaccins.put(new Long(ScreenHelper.parseDate((String) hData.get("date")).getTime() + activeTransactionId.intValue()), hData);
                 if (Debug.enabled) {
-                    Debug.println("stored " + stdDateFormat.parse((String) hData.get("date")).getTime() + " + " + activeTransactionId.intValue());
+                    Debug.println("stored " + ScreenHelper.parseDate((String) hData.get("date")).getTime() + " + " + activeTransactionId.intValue());
                 }
             }
 
@@ -81,9 +81,9 @@
     }
 
     if (activeTransaction.length() > 0) {
-        hVaccins.put(new Long(stdDateFormat.parse((String) hData.get("date")).getTime() + activeTransactionId.intValue()), hData);
+        hVaccins.put(new Long(ScreenHelper.parseDate((String) hData.get("date")).getTime() + activeTransactionId.intValue()), hData);
         if (Debug.enabled) {
-            Debug.println("stored " + stdDateFormat.parse((String) hData.get("date")).getTime() + " + " + activeTransactionId.intValue());
+            Debug.println("stored " + ScreenHelper.parseDate((String) hData.get("date")).getTime() + " + " + activeTransactionId.intValue());
         }
     }
 

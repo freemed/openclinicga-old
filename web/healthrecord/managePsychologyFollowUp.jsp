@@ -44,6 +44,7 @@
 
             if (sTmpPsychology.toLowerCase().indexOf("£") > -1) {
             	sTmpPsychologyDate = sTmpPsychology.substring(0, sTmpPsychology.toLowerCase().indexOf("£"));
+            	sTmpPsychologyDate = ScreenHelper.convertDate(sTmpPsychologyDate);
                 sTmpPsychology = sTmpPsychology.substring(sTmpPsychology.toLowerCase().indexOf("£") + 1);
             }
             if (sTmpPsychology.toLowerCase().indexOf("£") > -1) {
@@ -197,8 +198,8 @@
       tr.id = "rowPsychology"+iIndexPersoonlijk;
 	
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deletePsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editPsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deletePsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editPsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 	
       td = tr.insertCell(1);
@@ -265,8 +266,8 @@ function updatePsychology(){
 
     // update table object
     var row = tblPsychology.rows[editPsychologyRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deletePsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editPsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deletePsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editPsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyDate.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyTime.value;
     row.cells[3].innerHTML = document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");

@@ -53,10 +53,10 @@
     }
 
     if(sBeginDate.length() > 0){
-        contract.beginDate = ScreenHelper.stdDateFormat.parse(sBeginDate);
+        contract.beginDate = ScreenHelper.parseDate(sBeginDate);
     }
     if(sEndDate.length() > 0){
-        contract.endDate = ScreenHelper.stdDateFormat.parse(sEndDate);
+        contract.endDate = ScreenHelper.parseDate(sEndDate);
     }
 
     contract.functionCode = sFunctionCode;

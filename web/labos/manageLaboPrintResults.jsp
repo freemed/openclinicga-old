@@ -17,7 +17,7 @@
     <table width="100%" class="menu" cellspacing="0" cellpadding="0">
         <tr>
             <td><%=getTran("web","stardate",sWebLanguage)%>
-                <input type="text" class="text" size="12" maxLength="10" name="startdate" value="<%=checkString(request.getParameter("startdate")).length()>0?checkString(request.getParameter("startdate")):new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>" id="trandate" OnBlur='checkDate(this)'>
+                <input type="text" class="text" size="12" maxLength="10" name="startdate" value="<%=checkString(request.getParameter("startdate")).length()>0?checkString(request.getParameter("startdate")):ScreenHelper.stdDateFormat.format(new Date())%>" id="trandate" OnBlur='checkDate(this)'>
                 <script>writeTranDate();</script>
                 <input class="button" type="submit" name="submit" value="<%=getTran("web","find",sWebLanguage)%>"/>
             </td>
@@ -34,7 +34,7 @@
 %>
         <form  name="printfrm" id="printfrm" target="_print" action="<c:url value='/labos/createLabResultsPdf.jsp'/>" method="post">
 <%
-        Date date=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("startdate"));
+        Date date=ScreenHelper.parseDate(request.getParameter("startdate"));
         Vector r = LabRequest.findServiceValidatedRequestsSince("",date,sWebLanguage,999);
 
         SortedMap services = new TreeMap();
@@ -58,7 +58,7 @@
                 Enumeration requestsEnumeration = requests.keys();
                 while (requestsEnumeration.hasMoreElements()){
                     LabRequest labRequest=(LabRequest)requestsEnumeration.nextElement();
-                    out.print("<tr bgcolor='#FFFCD6'><td>&nbsp;</td><td><input type='checkbox' name='print."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"' checked /></td><td><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a> "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate())+"</td><td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?new SimpleDateFormat("dd/MM/yyyy").format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")</td><td><i>"+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td></tr>");
+                    out.print("<tr bgcolor='#FFFCD6'><td>&nbsp;</td><td><input type='checkbox' name='print."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"' checked /></td><td><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a> "+ScreenHelper.fullDateFormat.format(labRequest.getRequestdate())+"</td><td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?ScreenHelper.stdDateFormat.format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")</td><td><i>"+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td></tr>");
                 }
             }
         %>

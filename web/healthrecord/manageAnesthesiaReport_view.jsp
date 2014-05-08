@@ -31,7 +31,7 @@
                 sProductName = "", sProductUid, sPreviousProductUid = "", sTimeUnit = "", sTimeUnitCount = "",
                 sUnitsPerTimeUnit = "", sPrescrRule = "", sProductUnit = "", timeUnitTran = "";
         DecimalFormat unitCountDeci = new DecimalFormat("#.#");
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
         // frequently used translations
         String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
@@ -166,7 +166,7 @@
         <%-- DATE --%>
         <tr>
             <td class="admin" colspan="2">
-                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">

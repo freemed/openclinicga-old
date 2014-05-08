@@ -611,7 +611,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                                     }
                                 %>
                                 <td>
-                                  <img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt='<%=getTran("Web","delete",sWebLanguage)%>' onclick="removeLabAnalysis('<%=sLabID%>','<%=sLabComment%>','<%=sLabCodeOther%>','<%=sLabCode%>');" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
+                                  <img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="removeLabAnalysis('<%=sLabID%>','<%=sLabComment%>','<%=sLabCodeOther%>','<%=sLabCode%>');" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
                                 </td>
                               </tr>
                           <%

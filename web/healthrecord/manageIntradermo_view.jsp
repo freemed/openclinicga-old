@@ -158,7 +158,7 @@
 
   <%-- trandate now by default if no other date specified --%>
   if(transactionForm.trandate.value.length == 0){
-    transactionForm.trandate.value = "<%=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())%>";
+    transactionForm.trandate.value = "<%=ScreenHelper.stdDateFormat.format(new java.util.Date())%>";
   }
 
   <%-- SET BELONGING FIELDS ACTIVE --%>

@@ -73,7 +73,7 @@
     TransactionVO transactionVO;
     while (iterator.hasNext()){
         transactionVO = (findTransaction(transactions,(String)iterator.next()));
-        out.print("<td class='menuItem'><b>"+new SimpleDateFormat("dd/MM/yyyy").format(transactionVO.getUpdateTime())+"</b></td>");
+        out.print("<td class='menuItem'><b>"+ScreenHelper.stdDateFormat.format(transactionVO.getUpdateTime())+"</b></td>");
     }
     out.print("<td/></tr>");
     //Then output the Users

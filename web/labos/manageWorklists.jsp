@@ -112,14 +112,14 @@ be.openclinic.medical.RequestedLabAnalysis,java.util.Date,be.openclinic.medical.
             if (worklistType.equalsIgnoreCase("incomplete")) {
                 results = LabRequest.findOpenRequests(worklistAnalyses, sWebLanguage);
             } else if (worklistType.equalsIgnoreCase("today")) {
-                results = LabRequest.findRequestsSince(worklistAnalyses, new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(new Date())), sWebLanguage);
+                results = LabRequest.findRequestsSince(worklistAnalyses, ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())), sWebLanguage);
             }
             boolean bTechnicallyValidated=true;
             for (int n = 0; n < results.size(); n++) {
                 LabRequest labRequest = (LabRequest) results.elementAt(n);
                 out.print("<tr>");
-                out.print("<td><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a><br/>"+new SimpleDateFormat("dd/MM/yyyy").format(labRequest.getRequestdate())+"</td>");
-                out.print("<td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?new SimpleDateFormat("dd/MM/yyyy").format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")<br/><i>"+labRequest.getServicename()+" - "+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td>");
+                out.print("<td><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a><br/>"+ScreenHelper.stdDateFormat.format(labRequest.getRequestdate())+"</td>");
+                out.print("<td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?ScreenHelper.stdDateFormat.format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")<br/><i>"+labRequest.getServicename()+" - "+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td>");
                 //Add all analysis results/requests
                 for (int i = 0; i < profileAnalysis.size(); i++) {
                     Hashtable analysis = (Hashtable) profileAnalysis.elementAt(i);

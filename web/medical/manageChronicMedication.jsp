@@ -15,7 +15,7 @@
                 sProductUid, sPreviousProductUid = "", sTimeUnit, sTimeUnitCount = "",
                 sUnitsPerTimeUnit, timeUnitTran, sPrescrRule = "", sProductUnit, sPrescriberFullName = "";
         DecimalFormat unitCountDeci = new DecimalFormat("#.#");
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpBeginDate;
         Product product = null;
 
@@ -165,7 +165,7 @@
 
     // variables
     int foundMedicationCount = 0;
-    SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     StringBuffer medications = null;
     boolean patientIsHospitalized = activePatient.isHospitalized();
 
@@ -205,7 +205,7 @@
         medication.setProductUid(sEditProductUid);
         medication.setTimeUnit(sEditTimeUnit);
         medication.setComment(sEditComment);
-        if(sEditDateBegin.length() > 0) medication.setBegin(stdDateFormat.parse(sEditDateBegin));
+        if(sEditDateBegin.length() > 0) medication.setBegin(ScreenHelper.parseDate(sEditDateBegin));
         if(sEditTimeUnitCount.length() > 0) medication.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
         if(sEditUnitsPerTimeUnit.length() > 0) medication.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
         medication.setUpdateUser(activeUser.userid);

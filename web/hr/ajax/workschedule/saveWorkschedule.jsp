@@ -119,10 +119,10 @@
     }
 
     if(sBegin.length() > 0){
-        workschedule.begin = ScreenHelper.stdDateFormat.parse(sBegin);
+        workschedule.begin = ScreenHelper.parseDate(sBegin);
     }
     if(sEnd.length() > 0){
-        workschedule.end = ScreenHelper.stdDateFormat.parse(sEnd);
+        workschedule.end = ScreenHelper.parseDate(sEnd);
     }
 
     if(sFTE.length() > 0){

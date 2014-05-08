@@ -15,8 +15,8 @@
     String sSortDir = checkString(request.getParameter("SortDir"));
     if(sSortDir.length() == 0) sSortDir = "DESC"; // default
 
-    SimpleDateFormat stdDateFormat  = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat fullDateFormat  = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    SimpleDateFormat stdDateFormat  = ScreenHelper.stdDateFormat;
+    SimpleDateFormat fullDateFormat  = ScreenHelper.fullDateFormatSS;
 
     String sFindWicketUid      = checkString(request.getParameter("FindWicketUid")),
            sFindWicketFromDate = checkString(request.getParameter("FindWicketFromDate")),
@@ -121,7 +121,7 @@
             
             String sModify="";
             if(credit.getUserUID()!=Integer.parseInt(credit.getUpdateUser())){
-            	sModify=" ! "+getTran("web","modified.by",sWebLanguage)+" "+ScreenHelper.getFullUserName(credit.getUpdateUser())+" "+getTran("web","on",sWebLanguage)+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(credit.getUpdateDateTime());
+            	sModify=" ! "+getTran("web","modified.by",sWebLanguage)+" "+ScreenHelper.getFullUserName(credit.getUpdateUser())+" "+getTran("web","on",sWebLanguage)+" "+ScreenHelper.fullDateFormat.format(credit.getUpdateDateTime());
             }
 
             sCreditsHtml.append("<tr class='list"+sClass+"'>")
@@ -382,8 +382,8 @@
             <%
                 if(sToDate.length()==0) sToDate = stdDateFormat.format(new java.util.Date()); // now
                 
-                double dBeginBalance = wicket.calculateBalance(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sFromDate).getTime()-1)),
-                       dEndBalance   = wicket.calculateBalance(new java.util.Date(new SimpleDateFormat("dd/MM/yyyy").parse(sToDate).getTime()+24*3600*1000-1));
+                double dBeginBalance = wicket.calculateBalance(new java.util.Date(ScreenHelper.parseDate(sFromDate).getTime()-1)),
+                       dEndBalance   = wicket.calculateBalance(new java.util.Date(ScreenHelper.parseDate(sToDate).getTime()+24*3600*1000-1));
 
 
                 String sBeginBalance = priceFormat.format(dBeginBalance),

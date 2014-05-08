@@ -37,7 +37,7 @@
             try {
                 sDate=this.date.replaceAll("-","/");
                 sDate=sDate + " " + this.time;
-                calNow.setTime(new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(sDate).getTime()));
+                calNow.setTime(new java.sql.Date(ScreenHelper.fullDateFormat.parse(sDate).getTime()));
             } catch (ParseException e){
                 e.printStackTrace();
             }
@@ -212,7 +212,7 @@
     <table class="list" width="100%" cellspacing="1">                        
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">
-                <a href="javascript:openHistoryPopup();" title="<%=getTran("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
+                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("Web.Occup","History",sWebLanguage)%>">...</a>&nbsp;
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">

@@ -21,7 +21,7 @@
 %>
 <%=sCSSNORMAL%>
 
-<body title="<%=getTran("Web.Occup","medwan.common.click-for-graph",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/itemGraph.jsp"/>?itemType=<%=request.getParameter("itemType")%>';">
+<body title="<%=getTranNoLink("Web.Occup","medwan.common.click-for-graph",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/itemGraph.jsp"/>?itemType=<%=request.getParameter("itemType")%>';">
 <%
     String format = "";
     if (request.getParameter("itemType").indexOf("MEDIDOC")>-1){
@@ -33,7 +33,6 @@
     int vals = 0;
 
     MessageReader messageReader = new MessageReaderMedidoc();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     for (int n=0; n<items.size(); n++){
         vals++;
@@ -75,7 +74,7 @@
             sVal = getTranNoLink("Web.Occup",sVal,sWebLanguage);
         }
 
-        sHTML+="<tr class='list'><td width='70'>"+dateFormat.format(((ItemVO)items.get(n)).getDate())+"</td><td>"+sVal+"</td></tr>";
+        sHTML+="<tr class='list'><td width='70'>"+ScreenHelper.stdDateFormat.format(((ItemVO)items.get(n)).getDate())+"</td><td>"+sVal+"</td></tr>";
     }
 %>
 

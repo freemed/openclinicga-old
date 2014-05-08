@@ -33,7 +33,7 @@
                 sProductName = "", sProductUid = "", sPreviousProductUid = "", sTimeUnit = "", sTimeUnitCount = "",
                 sUnitsPerTimeUnit = "", sPrescrRule = "", sProductUnit = "", timeUnitTran = "";
         DecimalFormat unitCountDeci = new DecimalFormat("#.#");
-        SimpleDateFormat stdDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
         // frequently used translations
         String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
@@ -384,7 +384,7 @@
                     <%
                         SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
                         TransactionVO curTran = sessionContainerWO.getCurrentTransactionVO();
-                        Encounter encounter = Encounter.getActiveEncounterOnDate(new Timestamp(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(new SimpleDateFormat("dd/MM/yyyy 23:99").format(curTran.getUpdateTime())).getTime()),activePatient.personid);
+                        Encounter encounter = Encounter.getActiveEncounterOnDate(new Timestamp(ScreenHelper.fullDateFormat.parse(new SimpleDateFormat("dd/MM/yyyy 23:99").format(curTran.getUpdateTime())).getTime()),activePatient.personid);
                         String rfe="";
                         if(encounter!=null){
                             rfe = ReasonForEncounter.getReasonsForEncounterAsHtml(encounter,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
@@ -488,7 +488,7 @@
                                     if(activeProblem.getComment().trim().length()>0){
                                         comment=":&nbsp;<i>"+activeProblem.getComment().trim()+"</i>";
                                     }
-                                    out.print("<tr class='list" + sClass + "'><td><b>"+(activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sWebLanguage)+"</b>"+comment)+"</td><td>"+new SimpleDateFormat("dd/MM/yyyy").format(activeProblem.getBegin())+"</td></tr>");
+                                    out.print("<tr class='list" + sClass + "'><td><b>"+(activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sWebLanguage)+"</b>"+comment)+"</td><td>"+ScreenHelper.stdDateFormat.format(activeProblem.getBegin())+"</td></tr>");
                                 }
                                 out.print("</table>");
                             }
@@ -542,10 +542,10 @@
                     </td>
                 </tr>
                 <tr class="admin">
-                    <td align="center"><%=getTran("curative","medication.paperprescriptions",sWebLanguage)%> (<%=new SimpleDateFormat("dd/MM/yyyy").format(((TransactionVO)transaction).getUpdateTime())%>)</td>
+                    <td align="center"><%=getTran("curative","medication.paperprescriptions",sWebLanguage)%> (<%=ScreenHelper.stdDateFormat.format(((TransactionVO)transaction).getUpdateTime())%>)</td>
                 </tr>
                 <%
-                    Vector paperprescriptions = PaperPrescription.find(activePatient.personid,"",new SimpleDateFormat("dd/MM/yyyy").format(((TransactionVO)transaction).getUpdateTime()),new SimpleDateFormat("dd/MM/yyyy").format(((TransactionVO)transaction).getUpdateTime()),"","DESC");
+                    Vector paperprescriptions = PaperPrescription.find(activePatient.personid,"",ScreenHelper.stdDateFormat.format(((TransactionVO)transaction).getUpdateTime()),ScreenHelper.stdDateFormat.format(((TransactionVO)transaction).getUpdateTime()),"","DESC");
                     if(paperprescriptions.size()>0){
                         out.print("<tr><td><table width='100%'>");
                         String l="";
@@ -553,7 +553,7 @@
                             if(l.length()==0) l = "1";
                             else              l = "";
                             PaperPrescription paperPrescription = (PaperPrescription)paperprescriptions.elementAt(n);
-                            out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+new SimpleDateFormat("dd/MM/yyyy").format(paperPrescription.getBegin())+"</b></td><td><i>");
+                            out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b></td><td><i>");
                             Vector products =paperPrescription.getProducts();
                             for(int i=0;i<products.size();i++){
                                 out.print(products.elementAt(i)+"<br/>");

@@ -18,7 +18,7 @@
         <tr>
             <td>
                 <%=getTran("web","stardate",sWebLanguage)%>
-                <input type="text" class="text" size="12" maxLength="10" name="startdate" value="<%=checkString(request.getParameter("startdate")).length()>0?checkString(request.getParameter("startdate")):new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>" id="trandate" OnBlur='checkDate(this)'>
+                <input type="text" class="text" size="12" maxLength="10" name="startdate" value="<%=checkString(request.getParameter("startdate")).length()>0?checkString(request.getParameter("startdate")):ScreenHelper.stdDateFormat.format(new Date())%>" id="trandate" OnBlur='checkDate(this)'>
                 <script>writeTranDate();</script>
                 <input class="button" type="submit" name="submit" value="<%=getTran("web","find",sWebLanguage)%>"/>
             </td>
@@ -32,7 +32,7 @@
 </script>
 <%
     if(request.getParameter("startdate")!=null){
-        Date date=new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("startdate"));
+        Date date=ScreenHelper.parseDate(request.getParameter("startdate"));
         SortedMap requestList = new TreeMap();
         Vector r = LabRequest.findMyValidatedRequestsSince(Integer.parseInt(activeUser.userid),date,sWebLanguage,25);
         if(r.size()>20){
@@ -69,7 +69,7 @@
             Iterator requestsIterator = requestList.keySet().iterator();
             while (requestsIterator.hasNext()) {
                 LabRequest labRequest = (LabRequest) requestList.get(requestsIterator.next());
-                out.print("<td><b>"+labRequest.getPatientname()+"</b><br/>" + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(labRequest.getRequestdate()) + "<br/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
+                out.print("<td><b>"+labRequest.getPatientname()+"</b><br/>" + ScreenHelper.fullDateFormat.format(labRequest.getRequestdate()) + "<br/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
             }
         %>
         </tr>

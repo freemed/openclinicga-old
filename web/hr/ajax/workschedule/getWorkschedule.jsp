@@ -129,10 +129,10 @@
                    sFTE       = checkString(workScheduleElem.elementText("FTE"));
 
             if(sBeginDate.length() > 0){
-                workschedule.begin = ScreenHelper.stdDateFormat.parse(sBeginDate);
+                workschedule.begin = ScreenHelper.parseDate(sBeginDate);
             }
             if(sEndDate.length() > 0){
-                workschedule.end = ScreenHelper.stdDateFormat.parse(sEndDate);
+                workschedule.end = ScreenHelper.parseDate(sEndDate);
             }
             if(sFTE.length() > 0){
                 workschedule.fte = Integer.parseInt(sFTE);

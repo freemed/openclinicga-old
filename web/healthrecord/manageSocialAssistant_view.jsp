@@ -24,7 +24,7 @@
 			        <%-- DATE --%>
 			        <tr>
 			            <td class="admin" width="<%=sTDAdminWidth%>">
-			                <a href="javascript:openHistoryPopup();" title="<%=getTran("web.occup","History",sWebLanguage)%>">...</a>&nbsp;
+			                <a href="javascript:openHistoryPopup();" title="<%=getTranNoLink("web.occup","History",sWebLanguage)%>">...</a>&nbsp;
 			                <%=getTran("web.occup","medwan.common.date",sWebLanguage)%>
 			            </td>
 			            <td class="admin2">
