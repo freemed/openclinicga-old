@@ -26,7 +26,8 @@
     // delete all examinations for the specified service,
     // then add all selected examinations (those in request)
     if(sAction.equals("save")){
-        ServiceExamination.deleteAllExaminationsForService(sFindServiceCode);
+    	MedwanQuery.getInstance().setServiceexaminations(new Hashtable());
+    	ServiceExamination.deleteAllExaminationsForService(sFindServiceCode);
 
         String examId;
 		Enumeration params = request.getParameterNames();

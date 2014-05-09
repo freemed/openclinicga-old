@@ -2795,6 +2795,46 @@ public class AdminPerson extends OC_Object{
     	return age;
     }
     
+    public static int getYearsBetween(java.util.Date begin,java.util.Date end){
+        int age = -1;
+
+        if(begin!=null && end!=null){
+
+        	try{
+        		GregorianCalendar start = new GregorianCalendar();
+        		start.setTime(begin);
+                GregorianCalendar stop = new GregorianCalendar();
+                stop.setTime(end);
+
+                //*** check wether the birthday in the current year is passed ***
+                // check month
+                if(stop.get(Calendar.MONTH) < start.get(Calendar.MONTH)){
+                    // dob not passed
+                    age = stop.get(Calendar.YEAR) - start.get(Calendar.YEAR) - 1;
+                }
+                else if(stop.get(Calendar.MONTH) > start.get(Calendar.MONTH)){
+                    // dob passed
+                    age = stop.get(Calendar.YEAR) - start.get(Calendar.YEAR);
+                }
+                else if(stop.get(Calendar.MONTH) == start.get(Calendar.MONTH)){
+                    // check day
+                    if(stop.get(Calendar.DAY_OF_MONTH) < start.get(Calendar.DAY_OF_MONTH)){
+                        // dob not passed
+                        age = stop.get(Calendar.YEAR) - start.get(Calendar.YEAR) - 1;
+                    }
+                    else if(stop.get(Calendar.DAY_OF_MONTH) >= start.get(Calendar.DAY_OF_MONTH)){
+                        // dob passed
+                        age = stop.get(Calendar.YEAR) - start.get(Calendar.YEAR);
+                    }
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return age;
+    }
     //--- GET AGE ------------------------------------------------------------------------------------
     public int getAge(){
         int age = -1;

@@ -73,7 +73,6 @@ public class ServiceDiagnosis {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);
-
             if(serviceID.length() > 0)      { ps.setString(i++,serviceID);ps.setString(i++,serviceID);}
             if(diagnoseCode.length() > 0){ ps.setString(i++,diagnoseCode);}
             if(codeType.length() > 0){ ps.setString(i++,codeType);}

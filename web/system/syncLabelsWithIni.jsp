@@ -75,10 +75,10 @@
     // excluded label types
     String excludedLabelTypes = MedwanQuery.getInstance().getConfigString("excludedLabelTypesNew");
     if(excludedLabelTypes.length() == 0){
-        excludedLabelTypes = "labanalysis,labanalysis.short,labanalysis.monster,labanalysis.refcomment,"+
-                             "labprofiles,activitycodes,worktime,patientsharecoverageinsurance,patientsharecoverageinsurance2,"+
-                             "urgency.origin,encountertype,prestation.type,product.productgroup,"+
-                             "insurance.types,labanalysis.group,drug.category"; // default
+        excludedLabelTypes = "labanalysis, labanalysis.short, labanalysis.monster, labanalysis.refcomment, "+
+                             "labprofiles, activitycodes, worktime, patientsharecoverageinsurance, patientsharecoverageinsurance2, "+
+                             "urgency.origin ,encountertype ,prestation.type ,product.productgroup, "+
+                             "insurance.types ,labanalysis.group ,drug.category"; // default
     }
     excludedLabelTypes = excludedLabelTypes.toLowerCase();
     
@@ -193,7 +193,7 @@
     <%-- EXCLUDED TYPES --%>
     <tr height="22">
         <td>&nbsp;<%=getTran("web.translations","Excludedtypes",sWebLanguage)%></td>
-        <td width="500"><%=excludedLabelTypes%></td>
+        <td><%=excludedLabelTypes%></td>
     </tr>
     
     <%-- BUTTONS --%>

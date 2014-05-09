@@ -17,6 +17,18 @@
     }
 
 public String getComplexResult(String id, Map map, String sWebLanguage) {
+    String sReturn = "<input type='hidden' name='result." + id + "' />";
+    sReturn += "<input type='hidden' id='resultAntibio." + id + ".germ1' name='resultAntibio." + id + ".germ1' value='" + checkString((String) map.get("germ1")) + "'/>";
+    sReturn += "<input type='hidden' id='resultAntibio." + id + ".germ2' name='resultAntibio." + id + ".germ2' value='" + checkString((String) map.get("germ2")) + "' />";
+    sReturn += "<input type='hidden' id='resultAntibio." + id + ".germ3' name='resultAntibio." + id + ".germ3' value='" + checkString((String) map.get("germ3")) + "' />";
+    sReturn += "<input type='hidden' id='resultAntibio." + id + ".antibio1' name='resultAntibio." + id + ".ANTIBIOGRAMME1' value='" + checkString((String) map.get("ANTIBIOGRAMME1")) + "' />";
+    sReturn += "<input type='hidden' id='resultAntibio." + id + ".antibio2' name='resultAntibio." + id + ".ANTIBIOGRAMME2' value='" + checkString((String) map.get("ANTIBIOGRAMME2")) + "' />";
+    sReturn += "<input type='hidden' id='resultAntibio." + id + ".antibio3' name='resultAntibio." + id + ".ANTIBIOGRAMME3' value='" + checkString((String) map.get("ANTIBIOGRAMME3")) + "' />";
+    sReturn += "<a class='link' style='padding-left:2px' href='javascript:void(0)' onclick='openComplexResult(\"" + id + "\")'>" + getTranNoLink("web", "viewantibiogramresult", sWebLanguage) + "</a>";
+    return sReturn;
+}
+
+public String getComplexResultNew(String id, Map map, String sWebLanguage) {
 	    String sReturn = "<input type='hidden' name='result." + id + "' />";
 	    sReturn += "<input type='hidden' id='resultAntibio." + id + ".germ1' name='resultAntibio." + id + ".germ1' value='" + checkString((String) map.get("germ1")) + "'/>";
 	    sReturn += "<input type='hidden' id='resultAntibio." + id + ".germ2' name='resultAntibio." + id + ".germ2' value='" + checkString((String) map.get("germ2")) + "' />";
@@ -24,7 +36,7 @@ public String getComplexResult(String id, Map map, String sWebLanguage) {
 	    sReturn += "<input type='hidden' id='resultAntibio." + id + ".antibio1' name='resultAntibio." + id + ".ANTIBIOGRAMME1' value='" + checkString((String) map.get("ANTIBIOGRAMME1")) + "' />";
 	    sReturn += "<input type='hidden' id='resultAntibio." + id + ".antibio2' name='resultAntibio." + id + ".ANTIBIOGRAMME2' value='" + checkString((String) map.get("ANTIBIOGRAMME2")) + "' />";
 	    sReturn += "<input type='hidden' id='resultAntibio." + id + ".antibio3' name='resultAntibio." + id + ".ANTIBIOGRAMME3' value='" + checkString((String) map.get("ANTIBIOGRAMME3")) + "' />";
-	    sReturn += "<a class='link' style='padding-left:2px' href='javascript:void(0)' onclick='openComplexResult(\"" + id + "\")'>" + getTranNoLink("labanalysis", "viewantibiogramresult", sWebLanguage) + "</a>";
+	    sReturn += "<a class='link' style='padding-left:2px' href='javascript:void(0)' onclick='openComplexResultNew(\"" + id + "\")'>" + getTranNoLink("web", "viewantibiogramresult", sWebLanguage) + "</a>";
 	    return sReturn;
 	}
 
@@ -119,7 +131,7 @@ public String getComplexResult(String id, Map map, String sWebLanguage) {
                     RequestedLabAnalysis requestedLabAnalysis=(RequestedLabAnalysis)labRequest.getAnalyses().get(analysisCode);
                     String result="";
                     if(requestedLabAnalysis!=null){
-                    	if(!analysis.getEditor().equalsIgnoreCase("antibiogram")){
+                    	if(!analysis.getEditor().equalsIgnoreCase("antibiogram") && !analysis.getEditor().equalsIgnoreCase("antibiogramnew")){
                     		if(analysis.getLimitedVisibility()>0 && !activeUser.getAccessRight("labos.limitedvisibility.select")){
                     			result=getTran("web","invisible",sWebLanguage);	
                     		}
@@ -130,9 +142,17 @@ public String getComplexResult(String id, Map map, String sWebLanguage) {
 	                    		result="?";
 	                    	}
                     	}
-                    	else {
+                    	else if(analysis.getEditor().equalsIgnoreCase("antibiogram")){
 	                    	if(requestedLabAnalysis.existsNonEmptyAntibiogrammesByUid(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode())){
 	                        	result = getComplexResult(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()), sWebLanguage);                        	
+	                    	}
+	                    	else {
+	                    		result="?";
+	                    	}
+                    	}
+                    	else if(analysis.getEditor().equalsIgnoreCase("antibiogramnew")){
+	                    	if(requestedLabAnalysis.existsNonEmptyAntibiogrammesByUid(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode())){
+	                        	result = getComplexResultNew(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode()), sWebLanguage);                        	
 	                    	}
 	                    	else {
 	                    		result="?";
@@ -164,7 +184,12 @@ public String getComplexResult(String id, Map map, String sWebLanguage) {
     openComplexResult = function(id) {
         var params = "antibiogramuid=" + id + "&editable=false";
         var url = "<c:url value="/labos/ajax/getComplexResult.jsp" />?ts=" + new Date().getTime();
-        Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:600});
+        Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:600});
+    }
+    openComplexResultNew = function(id) {
+        var params = "antibiogramuid=" + id + "&editable=false";
+        var url = "<c:url value="/labos/ajax/getComplexResultNew.jsp" />?ts=" + new Date().getTime();
+        Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:600});
     }
     addObserversToAntibiogram = function(id) {
         $("germ1").value = $F("resultAntibio." + id + ".germ1");

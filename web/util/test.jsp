@@ -2,6 +2,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-	Product product=Product.get("1.0");
+	MedwanQuery.getInstance().setServiceexaminations(new Hashtable());
 %>
-*<%=product.getFullProductSubGroupName(sWebLanguage)%>*

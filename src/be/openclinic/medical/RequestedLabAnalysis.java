@@ -1662,37 +1662,20 @@ public class RequestedLabAnalysis {
     	  return exists;
       }
       public static List getAntibiogrammesGerm(String s){
-          List l = new LinkedList();
+         List l = new LinkedList();
          PreparedStatement ps = null;
           ResultSet rs = null;
           Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "SELECT OC_AB_GERM1,OC_AB_GERM2,OC_AB_GERM3 FROM OC_ANTIBIOGRAMS"+
-                             " WHERE LOWER(OC_AB_GERM1) like '"+s.toLowerCase()+"%' OR LOWER(OC_AB_GERM2) like '"+s.toLowerCase()+"%' OR LOWER(OC_AB_GERM3) like '"+s.toLowerCase()+"%'";
+            String sSelect = "SELECT OC_GERM_NAME FROM OC_GERMS"+
+                             " WHERE OC_GERM_NAME like '"+s+"%'";
             ps = oc_conn.prepareStatement(sSelect);
 
             rs = ps.executeQuery();
             String sResult = "";
            while(rs.next()){
-              if(rs.getString("OC_AB_GERM1")!=null && rs.getString("OC_AB_GERM1").startsWith(s)){
-
-                   sResult = "<b>"+s+"</b>"+rs.getString("OC_AB_GERM1").substring(s.length());
-                  if(!l.contains(sResult)){
-                      l.add(sResult);
-                  }
-              }
-               if(rs.getString("OC_AB_GERM2")!=null && rs.getString("OC_AB_GERM2").startsWith(s)){
-                   sResult = "<b>"+s+"</b>"+rs.getString("OC_AB_GERM2").substring(s.length());
-                    if(!l.contains(sResult)){
-                      l.add(sResult);
-                  }
-              }
-               if(rs.getString("OC_AB_GERM3")!=null && rs.getString("OC_AB_GERM3").startsWith(s)){
-                   sResult = "<b>"+s+"</b>"+rs.getString("OC_AB_GERM3").substring(s.length());
-                    if(!l.contains(sResult)){
-                      l.add(sResult);
-                  }
-              }
+               sResult = rs.getString("OC_GERM_NAME");
+               l.add(sResult);
            }
            rs.close();
            ps.close();

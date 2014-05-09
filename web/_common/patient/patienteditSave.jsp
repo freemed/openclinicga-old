@@ -135,6 +135,18 @@
             if (sTracnetID.trim().length() > 0) {
                 activePatient.adminextends.put("tracnetid", sTracnetID);
             }
+            if(checkString(request.getParameter("FatherProfession")).length()>0){
+                activePatient.adminextends.put("fatherprofession", request.getParameter("FatherProfession"));
+            }
+            if(checkString(request.getParameter("MotherProfession")).length()>0){
+                activePatient.adminextends.put("motherprofession", request.getParameter("MotherProfession"));
+            }
+            if(checkString(request.getParameter("FatherStudy")).length()>0){
+                activePatient.adminextends.put("fatherstudy", request.getParameter("FatherStudy"));
+            }
+            if(checkString(request.getParameter("MotherStudy")).length()>0){
+                activePatient.adminextends.put("motherstudy", request.getParameter("MotherStudy"));
+            }
 
             if (sDeathCertificateOn.trim().length() > 0) {
                 activePatient.adminextends.put("deathcertificateon", sDeathCertificateOn);

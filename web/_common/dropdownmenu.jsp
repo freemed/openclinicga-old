@@ -181,7 +181,6 @@
     String sPage = checkString(request.getParameter("Page")).toLowerCase(),
            sPersonID = checkString(request.getParameter("personid")),
            sPatientNew = checkString(request.getParameter("PatientNew"));
-   
     if(sPage.startsWith("start") || sPage.startsWith("_common/patientslist") || sPatientNew.equals("true")){
         session.removeAttribute("activePatient");
         activePatient = null;
@@ -225,8 +224,10 @@
         %><script>window.location.href='<c:url value="main.do?Page=novipaccess.jsp"/>';</script><%
         out.flush();
     }
-    session.setAttribute("activePatient",activePatient);
-  
+    if(activePatient!=null){
+    	session.setAttribute("activePatient",activePatient);
+    }
+
     boolean bMenu = false;
     if((activePatient!=null) && (activePatient.lastname!=null) && (activePatient.personid.trim().length() > 0)){
         if(!sPage.equals("patientslist.jsp")){
@@ -236,7 +237,7 @@
     else{
         activePatient = new AdminPerson();
     }
-    
+
     boolean isEmployee = activePatient.isEmployee();
     Debug.println("dropdownmenu : isEmployee : "+isEmployee);
 %>

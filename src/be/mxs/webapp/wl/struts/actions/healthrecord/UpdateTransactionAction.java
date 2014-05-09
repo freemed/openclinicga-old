@@ -130,7 +130,15 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
             TransactionVO oldTransaction = new TransactionVO(new Integer( IdentifierFactory.getInstance().getTemporaryNewIdentifier()),sessionContainerWO.getCurrentTransactionVO().getTransactionType(),new Date(),new Date(),IConstants.TRANSACTION_STATUS_CLOSED, sessionContainerWO.getCurrentTransactionVO().getUser(),items,sessionContainerWO.getCurrentTransactionVO().getServerId(),sessionContainerWO.getCurrentTransactionVO().getVersion(),sessionContainerWO.getCurrentTransactionVO().getVersionserverId(),sessionContainerWO.getCurrentTransactionVO().getTimestamp());
 
 
-            Hashtable requestParameters = RequestParameterParser.getInstance().parseRequestParameters(request, "currentTransactionVO");
+            Hashtable dirtyRequestParameters = RequestParameterParser.getInstance().parseRequestParameters(request, "currentTransactionVO");
+            Hashtable requestParameters = new Hashtable();
+            Enumeration dirtypars = dirtyRequestParameters.keys();
+            while(dirtypars.hasMoreElements()){
+            	String key = (String)dirtypars.nextElement();
+            	if(key.indexOf("_currentTransactionVO")<0){
+            		requestParameters.put(key,dirtyRequestParameters.get(key));
+            	}
+            }
 
             String actionForwardKey;
 

@@ -2865,6 +2865,7 @@
             <column name="OC_PRESTATION_CLASS" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PRESTATION_MODIFIERS" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_PRESTATION_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PRESTATION_NOMENCLATURE" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_PRESTATION_OBJECTID">
@@ -2903,6 +2904,7 @@
             <column name="OC_PRESTATION_CLASS" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_PRESTATION_MODIFIERS" dbtype="varchar" javatype="string" size="255"/>
             <column name="OC_PRESTATION_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_PRESTATION_NOMENCLATURE" dbtype="varchar" javatype="string" size="50"/>
         </columns>
 		<indexes>
 			<index name="OC_PRESTATION_OBJECTID">
@@ -2942,6 +2944,17 @@
             <column name="OC_REAGENT_UPDATEUID" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_REAGENT_VERSION" dbtype="int" javatype="integer"/>
 		</columns>
+	</table>
+	<table name="OC_GERMS" db="openclinic" sync="NONE">
+		<columns>
+            <column name="OC_GERM_CODE" dbtype="varchar" javatype="string" size="50"/>
+            <column name="OC_GERM_NAME" dbtype="varchar" javatype="string" size="255"/>
+		</columns>
+		<indexes>
+			<index name="OC_GERM_NAME">
+				<indexcolumn order="ASC" name="OC_GERM_NAME"/>
+			</index>
+		</indexes>
 	</table>
 	<table name="OC_REAGENTS_HISTORY" db="openclinic" sync="NONE">
 		<columns>

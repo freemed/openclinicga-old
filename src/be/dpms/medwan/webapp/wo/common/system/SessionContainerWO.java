@@ -431,6 +431,10 @@ public class SessionContainerWO extends be.mxs.webapp.wo.common.system.SessionCo
         String itemValue;
         if (getCurrentTransactionVO()!=null){
             try {
+            	Hashtable historyItems=null;
+                if(getCurrentTransactionVO().getTransactionId()<=0){
+                	historyItems = MedwanQuery.getInstance().loadRepeatableTransactionItems(getCurrentTransactionVO().getTransactionType());
+                }
                 loadItemPrevious();
                 Collection items = getItemPrevious();
                 if (items!=null){
@@ -461,6 +465,28 @@ public class SessionContainerWO extends be.mxs.webapp.wo.common.system.SessionCo
                                     }
                                 }
                                 html += "<input type='hidden' name='PreviousValue_currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value' value='"+itemValue.replaceAll("\\'","´")+"'/>";
+                                if(getCurrentTransactionVO().getTransactionId()<=0){
+	                                String repeat=(String)historyItems.get(actualItem.getType());
+	                                if(repeat!=null){
+	                                	if(repeat.indexOf("repeat-splitcheck")>-1 && repeat.split(";").length>1){
+	                                		String name = repeat.split(";")[1];
+	                                		String[] itemids = itemValue.replaceAll("\\'","´").replaceAll("\\*\\*", ";").replaceAll("\\*", "").split(";");
+	                                		for(int i=0;i<itemids.length;i++){
+	                                			html+="<script>if(document.getElementsByName('"+name+itemids[i]+"').length>0){document.getElementsByName('"+name+itemids[i]+"')[0].checked=true;document.getElementsByName('"+name+itemids[i]+"')[0].className='modified'}</script>";
+	                                		}
+	                                		
+	                                	}
+	                                	else if(repeat.indexOf("repeat")>-1){
+		                                	html+=  "<script>if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value').length>0){"
+		                                			+"if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].type=='text') {document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value=document.getElementsByName('PreviousValue_currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value;document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].className='modified'}"
+		                                            +"else if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].type=='textarea') {document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value=document.getElementsByName('PreviousValue_currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value;document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].className='modified'}"
+		                                            +"else if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].type=='radio' && document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value==document.getElementsByName('PreviousValue_currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value) {document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].checked=true;document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].className='modified'}"
+		                                            +"else if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].type=='checkbox' && document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value==document.getElementsByName('PreviousValue_currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value) {document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].checked=true;document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].className='modified'}"
+		                                            +"else if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].type=='select-one') {for(m=0;m<document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].options.length;m++){if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].options[m].value==document.getElementsByName('PreviousValue_currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].value){document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].selectedIndex=m;document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+actualItem.getItemId()+"]>.value')[0].className='modified'}}}"
+		                                            +"}</script>";
+	                                	}
+	                                }
+                                }
                                 break;
                             }
                         }

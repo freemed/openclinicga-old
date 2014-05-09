@@ -610,6 +610,7 @@
 				        <option value="checkbox" <%="checkbox".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","checkbox",sWebLanguage)%></option>
 				        <option value="checkboxcomment" <%="checkboxcomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","checkboxcomment",sWebLanguage)%></option>
 				        <option value="antibiogram" <%="antibiogram".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogram",sWebLanguage)%></option>
+				        <option value="antibiogramnew" <%="antibiogramnew".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogramnew",sWebLanguage)%></option>
 				        <option value="virtual" <%="virtual".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","virtual",sWebLanguage)%></option>
 				      </select>
 				</td>

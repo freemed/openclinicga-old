@@ -789,11 +789,10 @@ h4, h4 a {
 INPUT.text {
   FONT-WEIGHT: normal;
   FONT-SIZE: 10px;
-  height: 18px;
   BACKGROUND: #ffffff;
   COLOR: black;
   background: url( "../../_img/back_input.png" ) no-repeat ;
-  FONT-FAMILY: arial, sans-serif; /*  border: 1px #505050 solid;    */
+  FONT-FAMILY: arial, sans-serif; 
 }
 
 .strike {
@@ -1256,13 +1255,14 @@ hr.popup {
 INPUT.modified {
   FONT-WEIGHT: normal;
   FONT-SIZE: 10px;
-  border-color: darkblue;
+  BORDER-COLOR: darkblue;
   COLOR: black;
-  BORDER-TOP-STYLE: solid;
   FONT-FAMILY: arial, sans-serif;
-  BORDER-RIGHT-STYLE: solid;
+  BORDER-TOP-STYLE: solid;
+BORDER-RIGHT-STYLE: solid;
   BORDER-LEFT-STYLE: solid;
   BORDER-BOTTOM-STYLE: solid;
+  -moz-appearance: none;
 }
 
 TEXTAREA.modified {

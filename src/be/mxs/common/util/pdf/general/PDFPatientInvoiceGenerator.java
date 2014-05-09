@@ -713,7 +713,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
         // patient share
         table.addCell(createLabelCell(getTran("system.manage","categorypatientshare"),2));
-        cell = createValueCell(":   "+patientShare+" %",2);
+        cell = createValueCell(":   "+(insurar.getUid().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("MFP",""))?MedwanQuery.getInstance().getConfigString("MFPPatientShares",patientShare+""):patientShare+"")+" %",2);
         table.addCell(cell);
         table.addCell(createLabelCell(getTran("hrm","dossiernr"),1));
         table.addCell(createValueCell(":   "+insurance.getInsuranceNr(),2));
@@ -725,7 +725,7 @@ public class PDFPatientInvoiceGenerator extends PDFInvoiceGenerator {
 
         // insurar share
         table.addCell(createLabelCell(getTran("system.manage","categoryinsurarshare"),2));
-        cell = createValueCell(":   "+(100-patientShare)+" %",2);
+        cell = createValueCell(":   "+(insurar.getUid().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("MFP",""))?MedwanQuery.getInstance().getConfigString("MFPInsurarShares",(100-patientShare)+""):(100-patientShare)+"")+" %",2);
         table.addCell(cell);
         table.addCell(createEmptyCell(3));
 

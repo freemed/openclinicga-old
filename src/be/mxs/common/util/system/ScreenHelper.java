@@ -1606,7 +1606,7 @@ public class ScreenHelper {
         String defaults = ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemDefaultsHTML();
         defaults += "<script>function loadDefaults(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if(document.getElementsByName('DefaultValue_'+document.all[n].name)[0]!=null) {"
+                    +"if(document.getElementsByName('DefaultValue_'+document.all[n].name).length>0) {"
                     +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
                     +"if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
                     +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
@@ -1614,27 +1614,27 @@ public class ScreenHelper {
                     +"if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
-                    +"}</script>";
+                    +"document.getElementById('ie5menu').style.visibility = 'hidden';}</script>";
 
         // previous
         defaults += ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemPreviousHTML();
         defaults += "<script>function loadPrevious(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if(document.getElementsByName('PreviousValue_'+document.all[n].name]!=null) {"
+                    +"if(document.getElementsByName('PreviousValue_'+document.all[n].name).length>0) {"
                     +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"else if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"else if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"else if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"else if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
-                    +"}</script>";
+                    +"document.getElementById('ie5menu').style.visibility = 'hidden';}</script>";
 
         // previous context
         defaults += ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemPreviousContextHTML();
         defaults += "<script>function loadPreviousContext(){"
                     +"for (n=0;n<document.all.length;n++){"
-                    +"if(document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0]!=null) {"
+                    +"if(document.getElementsByName('PreviousContextValue_'+document.all[n].name).length>0) {"
                     +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
                     +"if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
                     +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
@@ -1642,7 +1642,7 @@ public class ScreenHelper {
                     +"if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
-                    +"}</script>";
+                    +"document.getElementById('ie5menu').style.visibility = 'hidden';}</script>";
 
         return defaults;
     }
@@ -2243,7 +2243,6 @@ public class ScreenHelper {
     	Vector exams = (Vector)MedwanQuery.getInstance().getServiceexaminations().get(serviceId+"."+language); 
     	if(exams==null){
 	        exams = new Vector();
-	        
 	        Service service = Service.getService(serviceId);
 	        if(service!=null && service.comment.indexOf("NOEXAMS")<0){
 		        PreparedStatement ps = null;
@@ -2334,6 +2333,7 @@ public class ScreenHelper {
 	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 	        try{
 	            sSelect = "SELECT distinct examinationid FROM ServiceExaminations WHERE serviceid in ("+allserviceids+")";
+	            System.out.println(sSelect);
 	            ps = oc_conn.prepareStatement(sSelect);
 	            rs = ps.executeQuery();
 	            while(rs.next()){
@@ -2642,6 +2642,7 @@ public class ScreenHelper {
                     || checkString(request.getParameter("be.mxs.healthrecord.transaction_id")).equalsIgnoreCase("currentTransaction")
                     || MedwanQuery.getInstance().getConfigString("doNotAskForContext").equalsIgnoreCase("on")) {
                 result += "<script>show('content-details');hide('confirm');</script>";
+                result+=getDefaults(request);
             }
         }
         catch (Exception e) {

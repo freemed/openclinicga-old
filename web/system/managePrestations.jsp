@@ -53,6 +53,7 @@
            sEditPrestationPrice = checkString(request.getParameter("EditPrestationPrice")),
            sEditPrestationFlag1 = checkString(request.getParameter("EditPrestationFlag1")),
            sEditPrestationServiceUid = checkString(request.getParameter("EditPrestationServiceUid")),
+           sEditPrestationNomenclature = checkString(request.getParameter("EditPrestationNomenclature")),
 		   sEditCareProvider = checkString(request.getParameter("EditCareProvider"));
 		if(sEditPrestationVariablePrice.length()==0){
 			sEditPrestationVariablePrice="0";
@@ -154,6 +155,7 @@
         prestation.setVariablePrice(Integer.parseInt(sEditPrestationVariablePrice));
         prestation.setPrestationClass(sEditPrestationClass);
         prestation.setServiceUid(sEditPrestationServiceUid);
+        prestation.setNomenclature(sEditPrestationNomenclature);
         prestation.setFlag1(sEditPrestationFlag1);
         try{
         	prestation.setUpdateDateTime(ScreenHelper.parseDate(sEditPrestationUpdatetime));
@@ -314,6 +316,12 @@
                         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","code.alias",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="text" class="text" name="EditPrestationCodeAlias" size="80" maxlength="250" value="<%=prestation.getReferenceObject()==null?"":checkString(prestation.getReferenceObject().getObjectUid())%>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","code.nomenclature",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="text" class="text" name="EditPrestationNomenclature" size="80" maxlength="250" value="<%=checkString(prestation.getNomenclature())%>">
                         </td>
                     </tr>
                     <tr>

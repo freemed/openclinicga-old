@@ -373,6 +373,75 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
                 }
+                else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("antibiogramnew")){
+	                //Stel het resultaat samen
+                	//Voor elk van de ingevulde kiemen geven we de sensibiliteits-gegevens
+                	Map ab = RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode());
+                	result="";
+                	String result2="";
+                	if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getLimitedVisibility()>0 && !user.getAccessRight("labos.limitedvisibility.select")){
+                		result=MedwanQuery.getInstance().getLabel("web","invisible",sPrintLanguage);                	}
+                	else {
+	                	if(ab.get("germ1")!=null && !(ab.get("germ1")+"").equalsIgnoreCase("")){
+	                		result+=ab.get("germ1")+"\n";
+	                		result2+="\n";
+	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME1");
+	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+	                			String[] tests = antibiotics.split(",");
+	                			for(int n=0;n<tests.length;n++){
+	                				if(tests[n].split("=").length==2){
+	                					result+="\t"+getAntibioticNew(tests[n].split("=")[0])+"\n";
+	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+	                				}
+	                			}
+	                		}
+	                	}
+	                	if(ab.get("germ2")!=null && !(ab.get("germ2")+"").equalsIgnoreCase("")){
+	                		if(result.length()>0){
+	                			result+="\n";
+	                    		result2+="\n";
+	                		}
+	                		result2+="\n";
+	                		result+=ab.get("germ2")+"\n";
+	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME2");
+	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+	                			String[] tests = antibiotics.split(",");
+	                			for(int n=0;n<tests.length;n++){
+	                				if(tests[n].split("=").length==2){
+	                					result+="\t"+getAntibioticNew(tests[n].split("=")[0])+"\n";
+	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+	                				}
+	                			}
+	                		}
+	                	}
+	                	if(ab.get("germ3")!=null && !(ab.get("3")+"").equalsIgnoreCase("")){
+	                		if(result.length()>0){
+	                			result+="\n";
+	                    		result2+="\n";
+	                		}
+	                		result2+="\n";
+	                		result+=ab.get("germ3")+"\n";
+	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME3");
+	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+	                			String[] tests = antibiotics.split(",");
+	                			for(int n=0;n<tests.length;n++){
+	                				if(tests[n].split("=").length==2){
+	                					result+="\t"+getAntibioticNew(tests[n].split("=")[0])+"\n";
+	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], sPrintLanguage)+"\n";
+	                				}
+	                			}
+	                		}
+	                	}
+                	}
+                	cell=createLabelCourier(result2,8,3,Font.BOLD);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                subTable.addCell(cell);
+                	cell=createLabelCourier(result,8,52,Font.NORMAL);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                subTable.addCell(cell);
+                }
                 else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("numeric")){
 	                cell=createLabelCourier(result,8,15,Font.BOLD);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -477,6 +546,75 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
             subTable.setWidthPercentage(100);
         }
         doc.add(table);
+    }
+    
+    private String getAntibioticNew(String id){
+    	if(id.equalsIgnoreCase("1")){
+    		return ScreenHelper.getTranNoLink("antibiotics","pen",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("2")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","oxa",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("3")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","amp",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("4")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","amc",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("5")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","czo",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("6")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","mec",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("7")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","ctx",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("8")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","gen",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("9")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","amk",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("10")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","chl",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("11")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","tcy",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("12")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","col",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("13")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","ery",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("14")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","lin",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("15")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","pri",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("16")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","sxt",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("17")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","nit",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("18")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","nal",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("19")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","cip",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("20")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","ipm",sPrintLanguage);
+    	}
+    	else if("*21*22*23*24*25*26*27*28*29*30*31*32*33*".indexOf("*"+id+"*")>-1){
+    		return MedwanQuery.getInstance().getLabel("antibiotics",MedwanQuery.getInstance().getConfigString("extraAntibiotics","").split(";").length>Integer.parseInt(id)-20?MedwanQuery.getInstance().getConfigString("extraAntibiotics","").split(";")[Integer.parseInt(id)-20]:"",sPrintLanguage);
+    	}
+    	else {
+    		return "?";
+    	}
     }
     
     private String getAntibiotic(String id){

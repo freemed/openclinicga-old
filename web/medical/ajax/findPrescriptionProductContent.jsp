@@ -9,7 +9,7 @@
         ps.setInt(2,Integer.parseInt(sProductUid.split("\\.")[1]));
         ResultSet rs = ps.executeQuery();
         if (rs.next()){
-            out.println("$"+checkString(rs.getString("OC_PRODUCT_PRESCRIPTIONINFO"))+"$"+rs.getString("OC_PRODUCT_NAME")+"$");
+            out.println("$"+checkString(rs.getString("OC_PRODUCT_PRESCRIPTIONINFO"))+"$R/ "+rs.getString("OC_PRODUCT_NAME")+"$");
         }
         else {
             out.println("$$$");

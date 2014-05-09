@@ -45,9 +45,11 @@
 		
         String sQuery="select sum(number) number, sum(quantity) quantity, sum(total) total, sum(patientincome) patientincome, sum(insurarincome) insurarincome, oc_debet_serviceuid, oc_prestation_description, oc_prestation_code from ("+
                         " select count(*) number,sum(oc_debet_quantity) quantity,sum(oc_debet_amount+oc_debet_insuraramount+oc_debet_extrainsuraramount) total,sum(oc_debet_amount) patientincome, sum(oc_debet_insuraramount+oc_debet_extrainsuraramount) insurarincome, oc_debet_serviceuid, oc_prestation_description, oc_prestation_code" +
-                        " from oc_debets a, oc_prestations b" +
+                        " from oc_debets a, oc_prestations b, oc_encounters c, adminview d" +
                         " where" +
                         " oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and"+ 
+                        " oc_encounter_objectid=replace(a.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and"+ 
+                        " d.personid=c.oc_encounter_patientuid and"+
                         " (oc_debet_patientinvoiceuid is not null and oc_debet_patientinvoiceuid<>'') and"+
                         " oc_debet_date between ? and ? and"+
                         " oc_debet_serviceuid in ("+Service.getChildIdsAsString(service)+")"+

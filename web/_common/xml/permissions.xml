@@ -26,6 +26,7 @@
         <permission type="Web.Occup" id="anesthesiareport">occup.anesthesiareport</permission>
         <permission type="Web.Occup" id="anesthesiadailynote">occup.anesthesia.daily.note</permission>
         <permission type="Web.Occup" id="dentistconsultation">occup.dentist.consultation</permission>
+        <permission type="Web.Occup" id="occupophtalmology">occupophtalmology</permission>
         <permission type="Web.Occup" id="stomatoimaging">occup.stomato.imaging</permission>
         <permission type="Web.Occup" id="stomatooperationprotocol">occup.stomato.operation.protocol</permission>
         <permission type="Web.Occup" id="delivery">occup.delivery</permission>

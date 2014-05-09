@@ -126,7 +126,7 @@
     ///////////////////////////////////////////////////////////////////////////
    
     net.admin.Parameter parameter = new net.admin.Parameter();
-    parameter.parameter = "usershortcut$"+sShortcutId+"$"+sShortcutSubtypeId;
+    parameter.parameter = "usershortcut$"+sShortcutId;
     parameter.value = sIconName+"$"+sIconOnClick+"$"+sIconText;
 
     // store in DB and update activeUser    

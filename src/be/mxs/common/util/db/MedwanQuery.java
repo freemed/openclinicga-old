@@ -2062,6 +2062,26 @@ public class MedwanQuery {
         }
     }
     
+    public String getGermCode(String germ){
+    	String germcode="";
+    	Connection conn = getOpenclinicConnection();
+    	try{
+	    	PreparedStatement ps = conn.prepareStatement("select oc_germ_code from oc_germs where oc_germ_name=?");
+	    	ps.setString(1, germ);
+	    	ResultSet rs = ps.executeQuery();
+	    	if(rs.next()){
+	    		germcode=rs.getString("oc_germ_code");
+	    	}
+	    	rs.close();
+	    	ps.close();
+	    	conn.close();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	return germcode;
+    }
+    
     public static MedwanQuery getInstance(){
         if(medwanQuery == null){
             medwanQuery = new MedwanQuery(null);
@@ -2279,6 +2299,29 @@ public class MedwanQuery {
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+    
+    public Hashtable loadRepeatableTransactionItems(String transactionTypeId){
+    	Hashtable items = new Hashtable();
+        PreparedStatement ps;
+        Connection OccupdbConnection;
+        try{
+            OccupdbConnection = getOpenclinicConnection();
+            ps = OccupdbConnection.prepareStatement("select * from TransactionItems where transactionTypeId=? and modifier like '%repeat%'");
+            ps.setString(1, transactionTypeId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                items.put(rs.getString("itemTypeId"),rs.getString("modifier"));
+            }
+            rs.close();
+            ps.close();
+            OccupdbConnection.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return items;
+    	
     }
     
     public Vector loadTransactionItems(String transactionTypeId, ItemContextVO itemContextVO){

@@ -190,7 +190,7 @@
     </tr>
         
     <%-- SHORTCUT SUB-TYPE (hidden) --%>
-    <tr id="shortcutSubtypeTR" id="shortcutSubtypeTR">
+    <tr id="shortcutSubtypeTR">
     </tr>
 
     <%-- SHORTCUT ICON --%>
@@ -335,8 +335,8 @@
         parameters: params,
         onComplete: function(resp){
           var html = trim(resp.responseText);
-          
           if(html.length > 0){
+        	document.getElementById("shortcutSubtypeTR").style.display ="";
             document.getElementById("shortcutSubtypeTR").innerHTML = "<td class='admin'><%=getTran("web","subtype",sWebLanguage)%>&nbsp;*&nbsp;</td><td class='admin2'>"+resp.responseText+"</td>";
           }
           else{
@@ -379,7 +379,7 @@
 
       <%-- subtype --%>
       if(okToSave){
-        if(document.getElementById("shortcutSubtypeTR").style.display=="block"){
+        if(document.getElementById("ShortcutSubtype")){
           if(document.getElementById("ShortcutSubtype").selectedIndex < 1){
             document.getElementById("ShortcutSubtype").focus();
             alertDialog("web.manage","dataMissing");
@@ -484,7 +484,7 @@
     }
         
     <%-- visually mark edited shortcut icon --%>
-    if(editedIcon.style.border=="white 2px solid"){
+    if(editedIcon.style.border=="2px solid white"){
       editedIcon.style.border = "2px solid darkblue";
     }
     else{

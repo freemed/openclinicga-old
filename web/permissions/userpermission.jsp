@@ -578,7 +578,12 @@
           }
 
 		  function councilLookup(userid){
-              openPopup("/_common/search/councilLookup.jsp&council="+document.getElementById("council").value+"&regnr="+document.getElementById("Editorganisationid").value+"&language=<%=sWebLanguage%>&userid="+userid,600,400,document.getElementById("council").value);
+			  if(!userid){
+				  alert('<%=getTranNoLink("web","save.user.record.first",sWebLanguage)%>');
+			  }
+			  else {
+				  openPopup("/_common/search/councilLookup.jsp&council="+document.getElementById("council").value+"&regnr="+document.getElementById("Editorganisationid").value+"&language=<%=sWebLanguage%>&userid="+userid,600,400,document.getElementById("council").value);
+			  }
 		  }
           <%-- CHECK MEDICAL CENTER LENGTH --%>
           function checkMedicalCenterLength(){

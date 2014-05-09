@@ -47,11 +47,11 @@
         Debug.println(updatedRows);
         Debug.println("2 = " + sItemValue);
     }
-
+	
     // refresh values in session
     ((SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName())).loadItemDefaults();
 %>
 <script>
-    history.go(-1);
-    return false;
+	if(window.opener.document.getElementById('ie5menu')) window.opener.document.getElementById('ie5menu').style.visibility='hidden';
+    window.close();
 </script>

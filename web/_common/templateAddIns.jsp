@@ -1,7 +1,8 @@
 <%@ include file="/includes/validateUser.jsp" %>
 <input type="hidden" name="prestationsVerified" value="0" id="prestationsVerified">
 <%
-    // prestations verified
+
+	// prestations verified
     int prestationsVerified = 0;
 
     if(activePatient != null){
@@ -62,7 +63,9 @@ function testItemValue(type,value){
   var type = "BE.MXS.COMMON.MODEL.VO.HEALTHRECORD.ICONSTANTS."+type;
   new Ajax.Request('_common/search/searchByAjax/autocompletionItemsValuesShow.jsp',{asynchronous:false,method:"POST",postBody:'&itemValue='+value+"&item="+type+"&testValue=1"});
 }
+<%
 
+%>
 <%-- CHECK SAVE BUTTON --%>
 function checkSaveButton(){
   if(myForm!=null && myForm.name=="SF") return true;
@@ -73,7 +76,7 @@ function checkSaveButton(){
   var alertAnyway = false;
 
   <%
-      if(request.getQueryString().indexOf("manageMedicalDecisionComment.jsp") > -1){
+      if(request.getQueryString()!=null && request.getQueryString().indexOf("manageMedicalDecisionComment.jsp") > -1){
           %>alertAnyway = true;<%
       }
   %>
@@ -87,6 +90,9 @@ function checkSaveButton(){
 
   return discardFormData;
 }
+<%
+
+%>
 
 function verifyPrestationCheck(){
   if(document.getElementById('prestationsVerified').value=='0'){
@@ -147,7 +153,9 @@ function checkAfter(afterId,beforeObj){
 <script>
   var myForm = document;
 </script>
+<%
 
+%>
 <% response.setHeader("Content-Type","text/html; charset=ISO-8859-1"); %>
 
 <%=sJSSHORTCUTS%>
@@ -327,22 +335,22 @@ function setPopup(itemType){
 }
 
 function setPopup(itemType,itemValue){
-  if(ie){
-    if(itemValue!=null){
-      document.getElementById("SetDefaultValue").url = "<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue;
-    }
-    else{
-      document.getElementById("SetDefaultValue").url = "";
-    }
-  }
-  else{
-    if(itemValue!=null){
-      document.getElementById("SetDefaultValue").setAttribute("url","<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue);
-    }
-    else{
-      document.getElementById("SetDefaultValue").setAttribute("url","");
-    }
-  }
+	  if(ie){
+	    if(itemValue!=null){
+	      document.getElementById("SetDefaultValue").url = "javascript:openPage('<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue+"','')";
+	    }
+	    else{
+	      document.getElementById("SetDefaultValue").url = "";
+	    }
+	  }
+	  else{
+	    if(itemValue!=null){
+	      document.getElementById("SetDefaultValue").setAttribute("url","javascript:openPage('<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue+"','')");
+	    }
+	    else{
+	      document.getElementById("SetDefaultValue").setAttribute("url","");
+	    }
+	  }
 
   sHistoryURL = "<c:url value="healthrecord/itemHistory.jsp"/>?itemType="+itemType+"&ts=<%=getTs()%>";
   sGraphURL = "<c:url value="/healthrecord/itemGraph.jsp"/>?itemType="+itemType+"&ts=<%=getTs()%>";

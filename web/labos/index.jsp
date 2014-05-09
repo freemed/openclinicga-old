@@ -22,6 +22,8 @@
     if(activeUser.getAccessRight("labos.biologicvalidationbyrequest.select"))out.print(writeTblChild("main.do?Page=labos/manageRequestFinalValidation.jsp&open=true&Action=find",getTran("web","requestFinalValidation",sWebLanguage)));
     if(activeUser.getAccessRight("labos.printnewresults.select"))out.print(writeTblChild("main.do?Page=labos/manageLaboPrintResults.jsp&open=true&Action=find",getTran("web","printnewlabresults",sWebLanguage)));
     if(activeUser.getAccessRight("labos.openpatientlaboresults.select"))out.print(writeTblChild("main.do?Page=labos/manageLaboResultsEdit.jsp&type=patient&open=true&Action=find",getTran("web","fastresultsedit",sWebLanguage)));
+    out.print("<tr><td colspan='2' class='admin'>WHONet</td></tr>");
+    out.print(writeTblChild("main.do?Page=system/exportToWHONet.jsp",getTran("Web.Manage","exporttowhonet",sWebLanguage)));
     out.print(ScreenHelper.writeTblFooter());
 %>
 
