@@ -221,13 +221,13 @@ public class Config {
         try{
             ps = co_conn.prepareStatement(sInsert);
             ps.setString(1,objConfig.getOc_key());
-            ps.setString(2,objConfig.getOc_value().toString());
+            ps.setString(2,objConfig.getOc_value()==null?"":objConfig.getOc_value().toString());
             ps.setInt(3,objConfig.getUpdateuserid());
             ps.setTimestamp(4,objConfig.getUpdatetime());
-            ps.setString(5,objConfig.getComment().toString());
+            ps.setString(5,objConfig.getComment()==null?"":objConfig.getComment().toString());
             ps.setString(6,objConfig.getDefaultvalue());
             ps.setInt(7,objConfig.getOverride());
-            ps.setString(8,objConfig.getSql_value().toString());
+            ps.setString(8,objConfig.getSql_value()==null?"":objConfig.getSql_value().toString());
             ps.setTimestamp(9,objConfig.getDeletetime());
 
             ps.executeUpdate();
@@ -243,45 +243,50 @@ public class Config {
     }
 
     public static void saveConfig(Config objConfig){
-        PreparedStatement ps;
-    	Connection co_conn = MedwanQuery.getInstance().getConfigConnection();
-
-        String sUpdate = " UPDATE OC_Config SET oc_value = ?," +
-                                              " oc_key = ?," +
-                                              " updateuserid = ?," +
-                                              " updatetime = ?, "+
-                                              " comment = ?," +
-                                              " defaultvalue = ?," +
-                                              " override = ?," +
-                                              " sql_value = ?," +
-                                              " deletetime = ?," +
-                                              " synchronize = ?"+
-                         " WHERE oc_key = ?";
-
-        try{
-            ps = co_conn.prepareStatement(sUpdate);
-            ps.setString(1,objConfig.getOc_value().toString());
-            ps.setString(2,objConfig.getOc_key());
-            ps.setInt(3,objConfig.getUpdateuserid());
-            ps.setTimestamp(4,objConfig.getUpdatetime());
-            ps.setString(5,objConfig.getComment().toString());
-            ps.setString(6,objConfig.getDefaultvalue());
-            ps.setInt(7,objConfig.getOverride());
-            ps.setString(8,objConfig.getSql_value().toString());
-            ps.setTimestamp(9,objConfig.getDeletetime());
-            ps.setString(10,objConfig.getSynchronize());
-            ps.setString(11,objConfig.getOc_key());
-
-            ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        try {
-			co_conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    	if(!exists(objConfig.oc_key)){
+    		addConfig(objConfig);
+    	}
+    	else {
+	        PreparedStatement ps;
+	    	Connection co_conn = MedwanQuery.getInstance().getConfigConnection();
+	
+	        String sUpdate = " UPDATE OC_Config SET oc_value = ?," +
+	                                              " oc_key = ?," +
+	                                              " updateuserid = ?," +
+	                                              " updatetime = ?, "+
+	                                              " comment = ?," +
+	                                              " defaultvalue = ?," +
+	                                              " override = ?," +
+	                                              " sql_value = ?," +
+	                                              " deletetime = ?," +
+	                                              " synchronize = ?"+
+	                         " WHERE oc_key = ?";
+	
+	        try{
+	            ps = co_conn.prepareStatement(sUpdate);
+	            ps.setString(1,objConfig.getOc_value()==null?"":objConfig.getOc_value().toString());
+	            ps.setString(2,objConfig.getOc_key());
+	            ps.setInt(3,objConfig.getUpdateuserid());
+	            ps.setTimestamp(4,objConfig.getUpdatetime());
+	            ps.setString(5,objConfig.getComment()==null?"":objConfig.getComment().toString());
+	            ps.setString(6,objConfig.getDefaultvalue());
+	            ps.setInt(7,objConfig.getOverride());
+	            ps.setString(8,objConfig.getSql_value()==null?"":objConfig.getSql_value().toString());
+	            ps.setTimestamp(9,objConfig.getDeletetime());
+	            ps.setString(10,objConfig.getSynchronize());
+	            ps.setString(11,objConfig.getOc_key());
+	
+	            ps.executeUpdate();
+	            ps.close();
+	        }catch(Exception e){
+	            e.printStackTrace();
+	        }
+	        try {
+				co_conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+    	}
     }
 
     public static void deleteConfig(String oc_key){
@@ -311,6 +316,7 @@ public class Config {
         ResultSet rs;
 
         Config objConfig = new Config();
+        objConfig.setOc_key(oc_key);
 
         String sSelect = " SELECT * FROM OC_Config WHERE oc_key = ?";
 
@@ -322,7 +328,6 @@ public class Config {
             rs = ps.executeQuery();
 
             if(rs.next()){
-                objConfig.setOc_key(ScreenHelper.checkString(rs.getString("oc_key")));
                 objConfig.setOc_value(new StringBuffer(ScreenHelper.checkString(rs.getString("oc_value"))));
                                 
                 objConfig.setUpdateuserid(rs.getInt("updateuserid"));
