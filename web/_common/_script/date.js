@@ -1,6 +1,12 @@
 function isFutureDate(d){
   var dateParts = d.split("/");
-  var date = new Date(dateParts[2],(dateParts[1]-1),dateParts[0]);
+  var date;
+  if(dateFormat=="dd/MM/yyyy"){
+    date = new Date(dateParts[2],(dateParts[1]-1),dateParts[0]);
+  }
+  else{
+	date = new Date(dateParts[2],(dateParts[0]-1),dateParts[1]);
+  }
   return date>new Date();
 }
 
@@ -223,7 +229,7 @@ function checkDate(sobject){
         sYear = "20"+sYear.substring(0,2);
       }
     }
-    if(isDate(sDay,sMonth,sYear)){  
+    if(isDate(sDay,sMonth,sYear)){
 	  if(dateFormat.startsWith("MM")){
 		// US
         sobject.value = sMonth+"/"+sDay+"/"+sYear;
