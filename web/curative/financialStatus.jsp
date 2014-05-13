@@ -9,7 +9,7 @@
 %>
 <table width="100%" cellpadding="0" cellspacing="0" class="list">
     <tr class="admin">
-        <td width="200">
+        <td width="150">
             <%=getTran("curative","financial.status.title",sWebLanguage)%>&nbsp;
             <a href="<c:url value='/main.do'/>?Page=financial/editBalance.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_edit.gif'/>" class="link" title="<%=getTranNoLink("web","editBalance",sWebLanguage)%>" style="vertical-align:-4px;"></a>
             <a href="<c:url value='/main.do'/>?Page=financial/debetEdit.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/money.gif'/>" class="link" title="<%=getTranNoLink("web","debetEdit",sWebLanguage)%>" style="vertical-align:-4px;"></a>
@@ -27,7 +27,7 @@
 			    	<td colspan="3"><b><%=getTran("web","deliveries.in.last.24.hours",sWebLanguage)%></b></td>
 			    </tr>
 		   	<%
-	   		Vector debets = Debet.getPatientDebetPrestations(activePatient.personid, ScreenHelper.stdDateFormat.format(new java.util.Date()), "", "", "");
+	   		Vector debets = Debet.getPatientDebetPrestations(activePatient.personid,ScreenHelper.formatDate(new java.util.Date()), "", "", "");
 			int n=0;
 	   		for(;n<debets.size();n++){
 	   			if(n%3==0){
