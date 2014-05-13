@@ -117,7 +117,7 @@
         } else if(sWebLanguage.trim().length() == 0) {
             sWebLanguage = "fr";
             session.setAttribute(sAPPTITLE + "WebLanguage", sWebLanguage);
-        }
+        }       
     }
     
     if(activeUser==null){
