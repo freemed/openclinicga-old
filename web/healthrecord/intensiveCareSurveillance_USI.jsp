@@ -216,7 +216,7 @@
                 <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
             </td>
             <td class="admin2">
-                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)' <%if(usi_data_holders.size() > 0) out.print("readonly");%>>
+                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date"/>" id="trandate" OnBlur='checkDate(this)' <%if(usi_data_holders.size() > 0) out.print("readonly");%>>
                 <% if(usi_data_holders.size() == 0){%><script>writeTranDate();</script><%}%>
             </td>
         </tr>
@@ -355,12 +355,12 @@
 
   function deleteSurveillance(set){
     if(yesnoDialog("Web","areYouSureToDelete")){
-      window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value + "&DataSetNr="+set+"&Action=DELETE","","toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
+      window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value + "&DataSetNr="+set+"&Action=DELETE","","toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
     }
   }
 
   function editSurveillance(set){
-    window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value+"&DataSetNr="+set,""," toolbar=no, status=no, scrollbars=no, resizable=yes, menubar=no");
+    window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value+"&DataSetNr="+set,""," toolbar=no, status=no, scrollbars=no, resizable=yes, menubar=no");
   }
 
   function doBack(){

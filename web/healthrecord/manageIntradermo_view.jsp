@@ -24,7 +24,7 @@
                 <%=getTran("web","date",sWebLanguage)%>
             </td>
             <td class="admin2">
-                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE" property="value" formatType="date" format="dd-mm-yyyy"/>" id="trandate" onBlur="if(checkDate(this)){ checkAfter('nextdate',this); }"/>
+                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE" property="value" formatType="date"/>" id="trandate" onBlur="if(checkDate(this)){ checkAfter('nextdate',this); }"/>
                 <script>writeTranDate();</script>
             </td>
         </tr>
@@ -33,7 +33,7 @@
         <tr>
             <td class="admin"><%=getTran("web.occup","intradermo.nextdate",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEXTDATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEXTDATE" property="value" formatType="date" format="dd-mm-yyyy"/>" id="nextdate" onBlur="if(checkDate(this)){ checkBefore('trandate',this); }"/>
+                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEXTDATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEXTDATE" property="value" formatType="date"/>" id="nextdate" onBlur="if(checkDate(this)){ checkBefore('trandate',this); }"/>
                 <script>writeMyDate("nextdate","<c:url value="/_img/calbtn.gif"/>","<%=getTranNoLink("web","PutToday",sWebLanguage)%>");</script>
             </td>
         </tr>
@@ -42,7 +42,7 @@
         <tr>
             <td class="admin"><%=getTran("web.occup","intradermo.readdate",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_READDATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_READDATE" property="value" formatType="date" format="dd-mm-yyyy"/>" id="readdate" onBlur="if(checkDate(this)){ checkBefore('trandate',this); }"/>
+                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_READDATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_READDATE" property="value" formatType="date"/>" id="readdate" onBlur="if(checkDate(this)){ checkBefore('trandate',this); }"/>
                 <script>writeMyDate("readdate","<c:url value="/_img/calbtn.gif"/>","<%=getTranNoLink("web","PutToday",sWebLanguage)%>");</script>
             </td>
         </tr>

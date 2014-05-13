@@ -46,7 +46,7 @@
 	            <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
 	        </td>
 	        <td class="admin2">
-	            <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" OnBlur='checkDate(this)'>
+	            <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date"/>" id="trandate" OnBlur='checkDate(this)'>
 	            <script>writeTranDate();</script>
 	        </td>
 	    </tr>
@@ -109,7 +109,7 @@
 				    <tr>
 				        <td class='admin'><%=getTran("web.occup","medwan.common.enddate_treatment",sWebLanguage)%>&nbsp;</td>
 				        <td class='admin2'>
-				            <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PHYSIO_CONS_FIN_TRAIT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PHYSIO_CONS_FIN_TRAIT" property="value" formatType="date" format="dd-mm-yyyy"/>" id="endtreatdate"/>
+				            <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PHYSIO_CONS_FIN_TRAIT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PHYSIO_CONS_FIN_TRAIT" property="value" formatType="date"/>" id="endtreatdate"/>
 				            <script>writeMyDate("endtreatdate");</script>
 				        </td>
 				    </tr>

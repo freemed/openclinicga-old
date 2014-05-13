@@ -160,7 +160,7 @@
             <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>
         </td>
         <td class="admin2">
-            <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date" format="dd-mm-yyyy"/>" id="trandate" onBlur='checkDate(this)'>
+            <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date"/>" id="trandate" onBlur='checkDate(this)'>
             <script>writeTranDate();</script>&nbsp;&nbsp;&nbsp;
             <input type="button" class="button" name="ButtonSearchLA" value="<%=getTran("Web","add",sWebLanguage)%>" onclick='openSearchWindow();'/>
             <input type="button" class="button" name="ButtonQuickList" value="<%=getTran("Web","quicklist",sWebLanguage)%>" onclick='openQuickListWindow();'/>

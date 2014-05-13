@@ -8,7 +8,7 @@
     <tr class="admin">
         <td width="50%">
             <%=getTran("Web.Occup","medwan.occupational-medicine.risk-profile",sWebLanguage)%>
-            <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>&nbsp;<mxs:propertyAccessorI18N name="riskProfileb" scope="page" property="dateBegin" formatType="date" format="dd-mm-yyyy"/>
+            <%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%>&nbsp;<mxs:propertyAccessorI18N name="riskProfileb" scope="page" property="dateBegin" formatType="date"/>
         </td>
         <td align="right" style="vertical-align:top;">
             <%
