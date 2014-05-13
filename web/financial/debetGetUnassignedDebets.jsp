@@ -78,7 +78,7 @@
         return sReturn;
     }
 %>
-<table width="100%" cellspacing="0">
+<table width="100%" cellspacing="0" id='debetsTable'>
     <tr class="admin">
         <td><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web.finance","encounter",sWebLanguage))%></td>

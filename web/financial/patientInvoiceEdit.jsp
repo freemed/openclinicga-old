@@ -44,6 +44,7 @@
         return sReturn.toString();
     }
 %>
+
 <%
 	boolean isInsuranceAgent=false;
 	if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0 && MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+activeUser.getParameter("insuranceagent")+"*")>-1){
@@ -53,16 +54,36 @@
 	
 	String sExternalSignatureCode= checkString(request.getParameter("externalsignaturecode"));
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
-	PatientInvoice patientInvoice=null;
-    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", sInsurarReferenceDate="", sVerifier="",sEditComment="",sPatientInvoiceMfpDoctor="",sPatientInvoiceMfpPost="",sPatientInvoiceMfpAgent="",sPatientInvoiceMfpDrugsRecipient="",sPatientInvoiceMfpDrugsIdCard="",sPatientInvoiceMfpDrugsIdCardPlace="",sPatientInvoiceMfpDrugsIdCardDate="";
+	
+    boolean quickInvoice = checkString(request.getParameter("QuickInvoice")).equalsIgnoreCase("true");
+    String sQuickInvoiceTotalDebets = checkString(request.getParameter("QuickInvoiceTotalDebets"));
+    
 
-    if (sFindPatientInvoiceUID.length() > 0) {
+    ///// DEBUG /////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n############## financial/patientInvoiceEdit.jsp ##############");
+        Debug.println("sExternalSignatureCode   : "+sExternalSignatureCode);
+        Debug.println("sFindPatientInvoiceUID   : "+sFindPatientInvoiceUID);
+        Debug.println("quickInvoice             : "+quickInvoice);
+        Debug.println("sQuickInvoiceTotalDebets : "+sQuickInvoiceTotalDebets);
+        Debug.println("isInsuranceAgent         : "+isInsuranceAgent+"\n");
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    PatientInvoice patientInvoice=null;
+    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", 
+    	   sInsurarReferenceDate="", sVerifier="",sEditComment="",sPatientInvoiceMfpDoctor="",
+    	   sPatientInvoiceMfpPost="",sPatientInvoiceMfpAgent="",sPatientInvoiceMfpDrugsRecipient="",
+    	   sPatientInvoiceMfpDrugsIdCard="",sPatientInvoiceMfpDrugsIdCardPlace="",sPatientInvoiceMfpDrugsIdCardDate="";
+
+    if(sFindPatientInvoiceUID.length() > 0){
     	if(sFindPatientInvoiceUID.split("\\.").length==2){
-    		patientInvoice=patientInvoice.get(sFindPatientInvoiceUID);
+    		patientInvoice = patientInvoice.get(sFindPatientInvoiceUID);
     	}
     	else {
     		patientInvoice = PatientInvoice.getViaInvoiceUID(sFindPatientInvoiceUID);
     	}
+    	
         if (patientInvoice!=null && patientInvoice.getDate()!=null){
             sPatientInvoiceID = checkString(patientInvoice.getInvoiceUid());
             sPatientId = patientInvoice.getPatientUid();
@@ -100,6 +121,7 @@
         patientInvoice.setStatus(MedwanQuery.getInstance().getConfigString("defaultPatientInvoiceStatus","open"));
         sPatientId = activePatient.personid;
     }
+    
 	if(patientInvoice!=null && patientInvoice.getDate()!=null){
 	    double dBalance = 0;
 	    Vector vDebets = patientInvoice.getDebetStrings();
@@ -144,12 +166,12 @@
 	        <tr>
 	            <td width="<%=sTDAdminWidth%>"><%=getTran("web.finance","invoiceid",sWebLanguage)%></td>
 	            <td>
-	                <input type="text" class="text" id="FindPatientInvoiceUID" name="FindPatientInvoiceUID" onblur="isNumber(this)" value="<%=sFindPatientInvoiceUID%>">
+	                <input type="text" class="text" id="FindPatientInvoiceUID" name="FindPatientInvoiceUID" onblur="isNumber(this)" value="<%=ScreenHelper.getObjectId(sFindPatientInvoiceUID)%>">
 	                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPatientInvoice();">
 	                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear()">
 	                <input type="button" class="button" name="ButtonFind" value="<%=getTran("web","find",sWebLanguage)%>" onclick="doFind()">
 	                <% if(!isInsuranceAgent){ %>
-	                <input type="button" class="button" name="ButtonNew" value="<%=getTran("web","new",sWebLanguage)%>" onclick="doNew()">
+	                    <input type="button" class="button" name="ButtonNew" value="<%=getTran("web","new",sWebLanguage)%>" onclick="doNew()">
 	                <% } %>
 	            </td>
 	        </tr>
@@ -157,27 +179,26 @@
 	</form>
 	<div id="divOpenPatientInvoices" class="searchResults" style="height:120px;"></div>
 	<script>
-	    function searchPatientInvoice(){
-	        openPopup("/_common/search/searchPatientInvoice.jsp&FindInvoicePatient=<%=sPatientId%>&doFunction=doFind()&ReturnFieldInvoiceNr=FindPatientInvoiceUID&FindInvoicePatientId=<%=sPatientId%>&Action=search&header=false&PopupHeight=420&ts=<%=getTs()%>");
-	    }
+	  function searchPatientInvoice(){
+	    openPopup("/_common/search/searchPatientInvoice.jsp&FindInvoicePatient=<%=sPatientId%>&doFunction=doFind()&ReturnFieldInvoiceNr=FindPatientInvoiceUID&FindInvoicePatientId=<%=sPatientId%>&Action=search&header=false&PopupHeight=420&ts=<%=getTs()%>");
+	  }
 	
-	    function doFind(){
-	        if (FindForm.FindPatientInvoiceUID.value.length>0){
-	            FindForm.submit();
-	        }
+	  function doFind(){
+	    if(FindForm.FindPatientInvoiceUID.value.length>0){
+	      FindForm.submit();
 	    }
+	  }
 	
-	    function doNew(){
-	        FindForm.FindPatientInvoiceUID.value = "";
-	        EditForm.EditInvoiceUID.value = "";
+	  function doNew(){
+	    FindForm.FindPatientInvoiceUID.value = "";
+	    EditForm.EditInvoiceUID.value = "";
+	    FindForm.submit();
+	  }
 	
-	        FindForm.submit();
-	    }
-	
-	    function doClear(){
-	        FindForm.FindPatientInvoiceUID.value='';
-	        FindForm.FindPatientInvoiceUID.focus();
-	    }
+	  function doClear(){
+	    FindForm.FindPatientInvoiceUID.value='';
+	    FindForm.FindPatientInvoiceUID.focus();
+	  }
 	</script>
 	<%
 	
@@ -199,8 +220,7 @@
 	                		for(int n=0;n<invoiceSeries.length;n++){
 	                    		out.println("<input type='radio' class='text' name='invoiceseries' value='"+invoiceSeries[n]+"'/>"+invoiceSeries[n]);
 	                		}
-	                	}
-	
+	                	}	
 	                %>
 	            </td>
 	            <td class="admin" nowrap><%=getTran("web.finance","insurarreference",sWebLanguage)%><BR/><%=getTran("web.finance","otherreference",sWebLanguage)%></td>
@@ -413,8 +433,7 @@
 	        <tr>
 	            <td class='admin' nowrap><%=getTran("web.finance","prestations",sWebLanguage)%></td>
 	            <td class='admin2' colspan='3'>
-	                <div style="height:120px;"class="searchResults" id="patientInvoiceDebets" name="patientInvoiceDebets" >
-	                </div>
+	                <div style="height:120px;"class="searchResults" id="patientInvoiceDebets" name="patientInvoiceDebets"></div>
 	                <input class='button' type="button" id="ButtonDebetSelectAll" name="ButtonDebetSelectAll" value="<%=getTran("web","selectall",sWebLanguage)%>" onclick="selectAll('cbDebet',true,'ButtonDebetSelectAll','ButtonDebetDeselectAll',true);">&nbsp;
 	                <input class='button' type="button" id="ButtonDebetDeselectAll" name="ButtonDebetDeselectAll" value="<%=getTran("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbDebet',false,'ButtonDebetDeselectAll','ButtonDebetSelectAll',true);">
 	            </td>
@@ -543,7 +562,7 @@
 	                            	Vector userWickets = Wicket.getWicketsForUser(activeUser.userid);
 	                            	if(userWickets.size()>0){
 	                        %>
-                               	<input class="button" type="button" name="buttonPayment" value='<%=getTranNoLink("Web.finance","payment",sWebLanguage)%>' onclick="doPayment('<%=patientInvoice.getUid()%>');">
+                               	<input class="button" type="button" name="buttonPayment" id="buttonPayment" value='<%=getTranNoLink("Web.finance","payment",sWebLanguage)%>' onclick="doPayment('<%=patientInvoice.getUid()%>');">
 	                        <%
 	                            	}
 	                            }
@@ -569,8 +588,8 @@
 	    <div id="divMessage"></div>
 	    <input type='hidden' id="EditPatientInvoiceUID" name='EditPatientInvoiceUID' value='<%=checkString(patientInvoice.getUid())%>'>
 	</form>
-	<script>
 	
+	<script>	
 		function doValidate(invoiceuid){
 	        var today = new Date();
 	        var url= '<c:url value="/financial/patientInvoiceValidate.jsp"/>?ts='+today;
@@ -632,8 +651,8 @@
 				bInvoiceSeries=true;
 	        }
 	        if ((document.getElementById('EditDate').value.length>8)&&(!document.getElementById('invoiceStatus').selectedIndex || document.getElementById('invoiceStatus').selectedIndex>-1)&&bInvoiceSeries){
-	            var invoiceDate = new Date(document.getElementById('EditDate').value.substring(6)+"/"+document.getElementById('EditDate').value.substring(3,5)+"/"+document.getElementById('EditDate').value.substring(0,2));
-	            if(invoiceDate> new Date()){
+	            var invoiceDate = document.getElementById('EditDate').value;
+	            if(isFutureDate(invoiceDate)){
 	                var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=dateinfuture";
 	                var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
 	                (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","dateinfuture",sWebLanguage)%>");
@@ -731,7 +750,7 @@
 		                      doFind();
 		                  },
 		                  onFailure: function(){
-		                      $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
+		                      $('divMessage').innerHTML = "Error in function doSave() => AJAX";
 		                  }
 		              }
 		            );
@@ -854,13 +873,11 @@
 	  }
 
 	  function loadOpenPatientInvoices(){
-	    var params = '';
-	    var today = new Date();
-	    var url= '<c:url value="/financial/patientInvoiceGetOpenPatientInvoices.jsp"/>?PatientId=<%=sPatientId%>&ts='+today;
 	    document.getElementById('divOpenPatientInvoices').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	    var url= '<c:url value="/financial/patientInvoiceGetOpenPatientInvoices.jsp"/>?PatientId=<%=sPatientId%>&ts='+new Date();
 	    new Ajax.Request(url,{
 		  method: "GET",
-	      parameters: params,
+	      parameters: "",
 	      onSuccess: function(resp){
 	        $('divOpenPatientInvoices').innerHTML=resp.responseText;
 	      }
@@ -868,15 +885,19 @@
 	  }
 	
 	  function loadDebets(){
-	    var params = '';
-	    var today = new Date();
-	    var url= '<c:url value="/financial/getPatientDebets.jsp"/>?PatientUID=<%=sPatientId%>&PatientInvoiceUID='+EditForm.EditPatientInvoiceUID.value+'&EditInvoiceService=' +EditForm.EditInvoiceService.value+'&Begin='+EditForm.EditBegin.value+'&End='+EditForm.EditEnd.value+'&ts='+today;
 	    document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	    
+	    var url= "<c:url value='/financial/getPatientDebets.jsp'/>?PatientUID=<%=sPatientId%>"+
+	    		 "&PatientInvoiceUID="+EditForm.EditPatientInvoiceUID.value+
+	    		 "&EditInvoiceService="+EditForm.EditInvoiceService.value+
+	    		 "&Begin="+EditForm.EditBegin.value+
+	    		 "&End="+EditForm.EditEnd.value+
+	    		 "&ts="+new Date();
 	    new Ajax.Request(url,{
 		  method: "GET",
-	      parameters: params,
+	      parameters: "",
 	      onSuccess: function(resp){
-	        $('patientInvoiceDebets').innerHTML=resp.responseText;
+	        $('patientInvoiceDebets').innerHTML = resp.responseText;
 	        doBalance();
 	      }
 	    });
@@ -924,7 +945,17 @@
 	  }
 	  
 	  function doPayment(invoiceUid){
-	    openPopup("/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+"&ScreenType=doPayment&EditBalance="+document.getElementById('EditBalance').value);
+		var url = "/financial/patientCreditEdit.jsp&ts=<%=getTs()%>&EditCreditInvoiceUid="+invoiceUid+
+                  "&ScreenType=doPayment&EditBalance="+document.getElementById('EditBalance').value;
+		<%
+		    if(quickInvoice){
+		        %>
+		          var total = formatNumber('<%=sQuickInvoiceTotalDebets%>',<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+		          url+= "&EditCreditAmount="+total;
+		        <%		        
+		    }
+		%>
+		openPopup(url);	    
 	  }
 	
 	  function doInvoiceCancel(invoiceUid){
@@ -944,6 +975,12 @@
 	  loadOpenPatientInvoices();
 	  doBalance();
 	  document.getElementById('EditBalance').value = formatNumber(document.getElementById('EditBalance').value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+	  
+	  <% 
+	      if(quickInvoice && patientInvoice!=null && patientInvoice.getDate()!=null){
+	          %>document.getElementById("buttonPayment").onclick();<%
+	      }
+	  %>
 	</script>
 <%
 	}

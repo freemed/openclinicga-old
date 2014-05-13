@@ -23,7 +23,36 @@
     String sEditInvoiceDrugsRecipient=checkString(request.getParameter("EditInvoiceDrugsRecipient"));
     String sEditInvoiceDrugsIdCardPlace=checkString(request.getParameter("EditInvoiceDrugsIdCardPlace"));
     String sEditInvoiceDrugsIdCardDate=checkString(request.getParameter("EditInvoiceDrugsIdCardDate"));
-	
+    
+    boolean quickInvoice = checkString(request.getParameter("QuickInvoice")).equalsIgnoreCase("true");
+
+    ///// DEBUG /////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n****************** patientInvoiceSave.jsp **************");
+        Debug.println("sEditDate            : "+sEditDate);
+        Debug.println("sEditPatientInvUID   : "+sEditPatientInvoiceUID);
+        Debug.println("sEditInvoiceUID      : "+sEditInvoiceUID);
+        Debug.println("sEditStatus          : "+sEditStatus);
+        Debug.println("sEditBalance         : "+sEditBalance);
+        Debug.println("sEditCBs             : "+sEditCBs);
+        Debug.println("sEditInvoiceSeries   : "+sEditInvoiceSeries);
+        Debug.println("sEditInsurarRef      : "+sEditInsurarReference);
+        Debug.println("sEditInvoiceVerifier : "+sEditInvoiceVerifier);
+        Debug.println("sEditInsurarRefDate  : "+sEditInsurarReferenceDate);
+        Debug.println("sEditReduction       : "+sEditReduction);
+        Debug.println("sEditComment         : "+sEditComment);
+        Debug.println("acceptationuid       : "+acceptationuid);
+        Debug.println("sEditInvoiceDoctor   : "+sEditInvoiceDoctor);
+        Debug.println("sEditInvoicePost     : "+sEditInvoicePost);
+        Debug.println("sEditInvoiceAgent    : "+sEditInvoiceAgent);
+        Debug.println("sEditInvoiceDrugsIdCard      : "+sEditInvoiceDrugsIdCard);
+        Debug.println("sEditInvoiceDrugsRecipient   : "+sEditInvoiceDrugsRecipient);
+        Debug.println("sEditInvoiceDrugsIdCardPlace : "+sEditInvoiceDrugsIdCardPlace);
+        Debug.println("sEditInvoiceDrugsIdCardDate  : "+sEditInvoiceDrugsIdCardDate);
+        Debug.println("quickInvoice         : "+quickInvoice+"\n");
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+
     PatientInvoice patientinvoice = new PatientInvoice();
     AdminPerson invoicePatient=activePatient;
 
@@ -65,6 +94,7 @@
     patientinvoice.setCredits(new Vector());
     double dTotalCredits = 0;
     double dTotalDebets = 0;
+    
     if (sEditCBs.length() > 0) {
         String[] aCBs = sEditCBs.split(",");
         String sID;
@@ -72,13 +102,12 @@
         Debet debet;
 
         for (int i = 0; i < aCBs.length; i++) {
-            if (checkString(aCBs[i]).length() > 0) {
-	
+            if (checkString(aCBs[i]).length() > 0) {	
                 if (checkString(aCBs[i]).startsWith("cbDebet")) {
                     sID = aCBs[i].substring(7);
-                    patientinvoice.getDebets().add(Debet.get(sID));
-
                     debet = Debet.get(sID);
+                    patientinvoice.getDebets().add(debet);
+
                     if(sEditStatus.equalsIgnoreCase("canceled")){
                         debet.setAmount(0);
                         debet.setInsurarAmount(0);
@@ -105,60 +134,94 @@
         	patientinvoice.setAcceptationUid(acceptationuid);
         }
     }
-    double dBalance = Double.parseDouble(sEditBalance);
-	// patient heeft te veel betaald => aanmaken van credit en saldo invoice = 0
-    if (dBalance < 0) {
-		Encounter encounter = Encounter.getActiveEncounter(invoicePatient.personid);
-		if(encounter==null){
-			encounter = Encounter.getLastEncounter(invoicePatient.personid);
-		}
+    else{
+    	if(quickInvoice){
+    		// no checkboxes (cb) specified --> count all open debets    		
+    		Vector unassignedDebets = Debet.getUnassignedPatientDebets(activePatient.personid);
+    		String sDebetUID; 
+    		Debet debet;
+    		
+	        for(int i=0; i<unassignedDebets.size(); i++){
+                sDebetUID = checkString((String)unassignedDebets.get(i));
 
-        double dCredit = dBalance;
-        dBalance = 0;
-        PatientCredit patientcredit = new PatientCredit();
-        patientcredit.setAmount(dCredit * (-1));
-        patientcredit.setEncounterUid(encounter==null?"":encounter.getUid());
-        patientcredit.setDate(ScreenHelper.getSQLDate(getDate()));
-        patientcredit.setType("transfer.de.credit");
-        patientcredit.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
-        patientcredit.setUpdateUser(activeUser.userid);
-        patientcredit.store();
+                if(sDebetUID.length() > 0){
+	                debet = Debet.get(sDebetUID);
 		
-        PatientCredit credit;
-        String sCreditUid;
-        double dTmpCredits = 0;
-        boolean paymentCovered=false;
-		
-        for (int i = 0; i < patientinvoice.getCredits().size(); i++) {
-            sCreditUid = checkString((String) patientinvoice.getCredits().elementAt(i));
-
-            if (sCreditUid.length() > 0) {
-                credit = PatientCredit.get(sCreditUid);
-
-                if (credit != null) {
-                    dTmpCredits += credit.getAmount();
-                    if (dTmpCredits > dTotalDebets) {
-                        if(!paymentCovered){
-                        	credit.setAmount(new BigDecimal("" + (credit.getAmount() - (dTmpCredits - dTotalDebets))).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                        }
-                        else {
-                        	credit.setAmount(0);
-                        }
-                        credit.store();
-                        paymentCovered=true;
-                    }
+	                if(debet!=null){
+		                patientinvoice.getDebets().add(debet);
+		                
+		                if(sEditStatus.equalsIgnoreCase("canceled")){
+		                    debet.setAmount(0);
+		                    debet.setInsurarAmount(0);
+		                    debet.setCredited(1);
+		                    debet.store();
+		                }
+		                
+                        dTotalDebets+= debet.getAmount();
+	                }
                 }
-            }
-        }
+	        }    		
+    	}
     }
-    patientinvoice.setBalance(dBalance);
-
+    
+	if(!quickInvoice){
+	    double dBalance = Double.parseDouble(sEditBalance);
+	    
+		// patient heeft te veel betaald => aanmaken van credit en saldo invoice = 0
+	    if (dBalance < 0) {
+			Encounter encounter = Encounter.getActiveEncounter(invoicePatient.personid);
+			if(encounter==null){
+				encounter = Encounter.getLastEncounter(invoicePatient.personid);
+			}
+	
+	        double dCredit = dBalance;
+	        dBalance = 0;
+	        PatientCredit patientcredit = new PatientCredit();
+	        patientcredit.setAmount(dCredit * (-1));
+	        patientcredit.setEncounterUid(encounter==null?"":encounter.getUid());
+	        patientcredit.setDate(ScreenHelper.getSQLDate(getDate()));
+	        patientcredit.setType("transfer.de.credit");
+	        patientcredit.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
+	        patientcredit.setUpdateUser(activeUser.userid);
+	        patientcredit.store();
+			
+	        PatientCredit credit;
+	        String sCreditUid;
+	        double dTmpCredits = 0;
+	        boolean paymentCovered=false;
+			
+	        for (int i = 0; i < patientinvoice.getCredits().size(); i++) {
+	            sCreditUid = checkString((String) patientinvoice.getCredits().elementAt(i));
+	
+	            if (sCreditUid.length() > 0) {
+	                credit = PatientCredit.get(sCreditUid);
+	
+	                if (credit != null) {
+	                    dTmpCredits += credit.getAmount();
+	                    if (dTmpCredits > dTotalDebets) {
+	                        if(!paymentCovered){
+	                        	credit.setAmount(new BigDecimal("" + (credit.getAmount() - (dTmpCredits - dTotalDebets))).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+	                        }
+	                        else {
+	                        	credit.setAmount(0);
+	                        }
+	                        credit.store();
+	                        paymentCovered=true;
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    patientinvoice.setBalance(dBalance);
+	}
+	
     String sMessage;
     if (patientinvoice.store()) {
     	//Nu zetten we de reducties op orde
     	//Eerst verwijderen we de bestaande reducties
     	if(sEditReduction.length()>0){
         	PatientCredit.deletePatientInvoiceReductions(patientinvoice.getUid());
+        	
 	    	//Bereken de korting
 	    	double reduction = Double.parseDouble(sEditReduction);
 	    	if(reduction>0){
@@ -175,7 +238,8 @@
 	    	}
     	}
         sMessage = getTran("web", "dataissaved", sWebLanguage);
-    } else {
+    } 
+    else {
         sMessage = getTran("web.control", "dberror", sWebLanguage);
     }
 %>
@@ -185,5 +249,6 @@
 "EditComment":"<%=checkString(patientinvoice.getComment())%>",
 "EditInsurarReference":"<%=patientinvoice.getInsurarreference()%>",
 "EditInsurarReferenceDate":"<%=patientinvoice.getInsurarreferenceDate()%>",
-"EditInvoiceUID":"<%=patientinvoice.getInvoiceUid()%>"
+"EditInvoiceUID":"<%=patientinvoice.getInvoiceUid()%>",
+"TotalDebets":"<%=dTotalDebets%>"
 }

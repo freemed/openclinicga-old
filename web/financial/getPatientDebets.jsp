@@ -1,10 +1,13 @@
-<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.text.*" %>
-<%@ include file="/includes/validateUser.jsp" %>
-<%!
-    private String addDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked, java.util.Date begin, java.util.Date end,User activeUser,PatientInvoice patientInvoice){
-        StringBuffer sReturn = new StringBuffer();
+<%@page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.text.*" %>
+<%@include file="/includes/validateUser.jsp" %>
 
-            if (vDebets!=null){
+<%!
+    //--- ADD DEBETS ------------------------------------------------------------------------------
+    private String addDebets(Vector vDebets, String sClass, String sWebLanguage, boolean bChecked, 
+    		                 java.util.Date begin, java.util.Date end,User activeUser, PatientInvoice patientInvoice){
+        StringBuffer sReturn = new StringBuffer();
+        
+        if (vDebets!=null){
             Debet debet;
             Encounter encounter;
             Prestation prestation;
@@ -101,12 +104,14 @@
         return sReturn.toString();
     }
 %>
+
 <%
 	String sPatientInvoiceUid=checkString(request.getParameter("PatientInvoiceUID"));
 	String sPatientId=checkString(request.getParameter("PatientUID"));
+	String sInvoiceService = checkString(request.getParameter("EditInvoiceService"));
+
 	String sBegin=checkString(request.getParameter("Begin"));
 	String sEnd=checkString(request.getParameter("End"));
-	String sInvoiceService = checkString(request.getParameter("EditInvoiceService"));
 	java.util.Date begin=null,end=null;
 	try{
 		begin = ScreenHelper.parseDate(sBegin);
@@ -119,16 +124,27 @@
 	catch(Exception e){
 	}
 
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n##################### financial/getPatientDebets.jsp ##################");
+        Debug.println("sPatientInvoiceUid : "+sPatientInvoiceUid);
+        Debug.println("sPatientId         : "+sPatientId);
+        Debug.println("sInvoiceService    : "+sInvoiceService);
+        Debug.println("sBegin             : "+sBegin);
+        Debug.println("sEnd               : "+sEnd+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+
 	Vector vDebets = new Vector();
-	PatientInvoice patientInvoice=null;
-	if(sPatientInvoiceUid.length()>0){
+	PatientInvoice patientInvoice = null;
+	if(sPatientInvoiceUid.length() > 0){
 		patientInvoice = PatientInvoice.get(sPatientInvoiceUid);
 		if(patientInvoice!=null){
 			vDebets = patientInvoice.getDebetStrings();
 		}
 	}
-
- %>
+%>
 <table width="100%" class="list" cellspacing="2">
     <tr class="gray">
         <td width="20"><%=getTran("web","invoiceabbreviation",sWebLanguage)%></td>
@@ -143,13 +159,15 @@
         <td><%=getTran("web","extrainsuranceinvoiceid2",sWebLanguage)%></td>
     </tr>
 <%
-	boolean isInsuranceAgent=false;
+	boolean isInsuranceAgent = false;
 	if(activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0 && MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+activeUser.getParameter("insuranceagent")+"*")>-1){
 		//This is an insurance agent, limit the functionalities
 		isInsuranceAgent=true;
 	}
+	
     String sClass = "";
-    out.print(addDebets(vDebets,sClass,sWebLanguage, true,null,null,activeUser,patientInvoice));
+    out.print(addDebets(vDebets,sClass,sWebLanguage,true,null,null,activeUser,patientInvoice));
+    
     if (!isInsuranceAgent && (patientInvoice==null || checkString(patientInvoice.getAcceptationUid()).length()==0) && (patientInvoice==null || (!(checkString(patientInvoice.getStatus()).equalsIgnoreCase("closed") || checkString(patientInvoice.getStatus()).equalsIgnoreCase("canceled"))))){
         Vector vUnassignedDebets;
         if(sInvoiceService.length()==0){
@@ -158,6 +176,7 @@
         else {
         	vUnassignedDebets=Debet.getUnassignedPatientDebets(sPatientId,sInvoiceService);
         }
+        
         out.print(addDebets(vUnassignedDebets,sClass,sWebLanguage, false,begin,end,activeUser,patientInvoice));
     }
 %>

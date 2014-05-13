@@ -5,15 +5,23 @@
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
     String sPatientId = checkString(request.getParameter("PatientId"));
 
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n########## financial/patientInvoiceGetOpenPatientInvoices.jsp ##########");
+        Debug.println("sCurrency  : "+sCurrency);
+        Debug.println("sPatientId : "+sPatientId+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
     Vector vOpenPatientInvoices = PatientInvoice.getPatientInvoicesWhereDifferentStatus(sPatientId, "'closed','canceled'");
     String sReturn = "";
     Hashtable hSort = new Hashtable();
     PatientInvoice patientinvoice;
 
-    for (int i = 0; i < vOpenPatientInvoices.size(); i++) {
-        patientinvoice = (PatientInvoice) vOpenPatientInvoices.elementAt(i);
+    for(int i=0; i<vOpenPatientInvoices.size(); i++){
+        patientinvoice = (PatientInvoice)vOpenPatientInvoices.elementAt(i);
 
-        if (patientinvoice != null) {
+        if (patientinvoice!=null){
             hSort.put(patientinvoice.getDate().getTime()+"="+patientinvoice.getUid()," onclick=\"setPatientInvoice('"+patientinvoice.getInvoiceUid()+"');\">"
                  +"<td class='hand'>"+ScreenHelper.getSQLDate(patientinvoice.getDate())+"</td>"
                  +"<td class='hand'>"+patientinvoice.getInvoiceUid()+"</td>"
@@ -27,14 +35,11 @@
     Collections.reverse(keys);
     Iterator it = keys.iterator();
     String sClass = "";
-    while (it.hasNext()) {
-        if (sClass.equals("")) {
-            sClass = "1";
-        } else {
-            sClass = "";
-        }
-        sReturn += "<tr class='list" + sClass
-                + "' "+ hSort.get(it.next());
+    while(it.hasNext()){
+        if(sClass.equals("")) sClass = "1";
+        else                  sClass = "";
+        
+        sReturn+= "<tr class='list"+sClass+ "' "+hSort.get(it.next());
     }
 %>
 <table id="searchresults" width="100%" cellspacing="0">

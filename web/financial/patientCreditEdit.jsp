@@ -9,35 +9,35 @@
 <%=checkPermission("financial.patientCreditEdit","select",activeUser)%>
 <%=sJSSTRINGFUNCTIONS%>
 <%=sJSPROTOTYPE%>
+
 <%
-String sFindPatientCreditUID = checkString(request.getParameter("FindPatientCreditUID"));
-PatientCredit credit=null;
-String sPatientId="";
-
-if (sFindPatientCreditUID.length() > 0) {
-    credit = PatientCredit.get(MedwanQuery.getInstance().getConfigString("serverId")+"."+sFindPatientCreditUID);
-    if (credit!=null && credit.getDate()!=null){
-        sPatientId = credit.getEncounter().getPatientUID();
-        if(request.getParameter("LoadPatientId")!=null && (activePatient==null || !sPatientId.equalsIgnoreCase(activePatient.personid))){
-        	if(activePatient==null){
-        		activePatient=new AdminPerson();
-        		session.setAttribute("activePatient",activePatient);
-        	}
-        	activePatient.initialize(sPatientId);
-        }
-    	%>
-    	<script>
-    		url='<c:url value="/main.do"/>?Page=financial/patientCreditEdit.jsp&ts=<%=ScreenHelper.getTs()%>&EditCreditUid=<%=credit.getUid()%>';
-    		window.location.href=url;
-    	</script>
-    	<%
-    	out.flush();
-    }
-    else{
-    	out.println(getTran("web","credit.does.not.exist",sWebLanguage)+": "+sFindPatientCreditUID);
-    }
-
-} 
+	String sFindPatientCreditUID = checkString(request.getParameter("FindPatientCreditUID"));
+	PatientCredit credit=null;
+	String sPatientId="";
+	
+	if(sFindPatientCreditUID.length() > 0){
+	    credit = PatientCredit.get(MedwanQuery.getInstance().getConfigString("serverId")+"."+sFindPatientCreditUID);
+	    if (credit!=null && credit.getDate()!=null){
+	        sPatientId = credit.getEncounter().getPatientUID();
+	        if(request.getParameter("LoadPatientId")!=null && (activePatient==null || !sPatientId.equalsIgnoreCase(activePatient.personid))){
+	        	if(activePatient==null){
+	        		activePatient=new AdminPerson();
+	        		session.setAttribute("activePatient",activePatient);
+	        	}
+	        	activePatient.initialize(sPatientId);
+	        }
+	    	%>
+	    	<script>
+	    		url='<c:url value="/main.do"/>?Page=financial/patientCreditEdit.jsp&ts=<%=ScreenHelper.getTs()%>&EditCreditUid=<%=credit.getUid()%>';
+	    		window.location.href=url;
+	    	</script>
+	    	<%
+	    	out.flush();
+	    }
+	    else{
+	    	out.println(getTran("web","credit.does.not.exist",sWebLanguage)+": "+sFindPatientCreditUID);
+	    }	
+	} 
 
     String sAction = checkString(request.getParameter("Action"));
     String sScreenType = checkString(request.getParameter("ScreenType"));
@@ -204,7 +204,6 @@ if (sFindPatientCreditUID.length() > 0) {
         sEditCreditInvoiceNr = patientInvoice.getInvoiceUid();
         sEditCreditDate = checkString(ScreenHelper.stdDateFormat.format(new java.util.Date()));
 
-
         if (sScreenType.equalsIgnoreCase("doCancellation")){
             sEditCreditType = "correction";
             sEditCreditDescr = getTran("web","canceled",sWebLanguage);
@@ -301,16 +300,17 @@ if (sFindPatientCreditUID.length() > 0) {
     <input type="hidden" name="Action">
     <input type="hidden" name="EditCreditUid" id="EditCreditUid" value="<%=sEditCreditUid%>"/>
     <input type="hidden" name="ScreenType" value="<%=sScreenType%>">
+    
     <%=writeTableHeader("financial","patientCreditEdit",sWebLanguage," doBack();")%>
     <table class="list"width="100%" cellspacing="1">
-    <tr>
-        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","creditid",sWebLanguage)%></td>
-        <td class="admin2"><div id="creditid"></div></td>
-    </tr>
-    <tr>
-        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
-        <td class="admin2"><%=writeDateField("EditCreditDate","EditForm",sEditCreditDate,sWebLanguage)%></td>
-    </tr>
+	    <tr>
+	        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","creditid",sWebLanguage)%></td>
+	        <td class="admin2"><div id="creditid"></div></td>
+	    </tr>
+	    <tr>
+	        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
+	        <td class="admin2"><%=writeDateField("EditCreditDate","EditForm",sEditCreditDate,sWebLanguage)%></td>
+	    </tr>
         <tr>
             <td class="admin"><%=getTran("web","invoice",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
@@ -447,8 +447,10 @@ if (sFindPatientCreditUID.length() > 0) {
     <%-- display message --%>
     <br><br><span id="msgArea">&nbsp;<%=msg%></span>
 </form>
-<script>
 
+<script>
+  var dateFormat = "<%=ScreenHelper.stdDateFormat.toPattern()%>";
+   
   function clearMessage(){
     <%
         if(msg.length() > 0){
