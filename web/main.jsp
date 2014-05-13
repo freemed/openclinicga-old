@@ -100,6 +100,7 @@
     </tr>
 </table>
 <script>
+  var dateFormat = "<%=ScreenHelper.stdDateFormat.toPattern()%>";
   var ie = document.all;
   var ns6 = document.getElementById && !document.all;
   
