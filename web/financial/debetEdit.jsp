@@ -1,12 +1,12 @@
-<%@page import="be.openclinic.finance.*,
-                be.openclinic.adt.Encounter,java.util.*" %>
-<%@page import="java.util.Date" %>
+<%@ page import="be.openclinic.finance.*,be.openclinic.adt.Encounter,java.util.*" %>
+<%@ page import="java.util.Date" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.debet","select",activeUser)%>
 <script src='<%=sCONTEXTPATH%>/_common/_script/prototype.js'></script>
-
 <%
+System.out.println(0);
+
 	String sEditDebetUID = checkString(request.getParameter("EditDebetUID"));
     String sFindDateBegin        = checkString(request.getParameter("FindDateBegin")),
            sFindDateEnd        = checkString(request.getParameter("FindDateEnd")),
@@ -48,14 +48,13 @@
 	            sEditEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
 	        }
         }
-    }
-    else {
+    } else {
         sEditDebetUID = "-1";
 
         debet = new Debet();
         debet.setQuantity(1);
         debet.setUid(sEditDebetUID);
-        debet.setDate(new java.util.Date());
+        debet.setDate(ScreenHelper.getSQLDate(getDate()));
         Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
         if (encounter != null) {
             sEditEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
@@ -90,7 +89,7 @@
                 <% if(activeUser.getAccessRight("financial.debet.add")){ %>
 	                <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew()">&nbsp;
 	            <% } %>
-                <input type="button" class="button" name="ButtonDate" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=ScreenHelper.formatDate(new Date())%>';loadUnassignedDebets()">&nbsp;
+                <input type="button" class="button" name="ButtonDate" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=ScreenHelper.stdDateFormat.format(new Date())%>';loadUnassignedDebets()">&nbsp;
             </td>
         </tr>
     </table>
@@ -102,7 +101,7 @@
     <table class='list' border='0' width='100%' cellspacing='1'>
         <tr>
             <td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("Web","date",sWebLanguage)%> *</td>
-            <td class='admin2'><%=ScreenHelper.writeDateField("EditDate","EditForm",ScreenHelper.formatDate(debet.getDate()),true,false,sWebLanguage,sCONTEXTPATH,"")%></td>
+            <td class='admin2'><%=ScreenHelper.writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(debet.getDate()),true,false,sWebLanguage,sCONTEXTPATH,"")%></td>
         </tr>
         <tr>
             <td class='admin'><%=getTran("Web","insurance",sWebLanguage)%> *</td>
@@ -420,38 +419,27 @@
     			}
             	%>
                 <input class='button' type="button" name="buttonInvoice" value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick="doInvoice();">
-<<<<<<< .mine
                 <input class='hiddenredbutton' type="button" name="buttonQuickInvoice" id="buttonQuickInvoice" value='<%=getTranNoLink("Web","patientQuickInvoiceEdit",sWebLanguage)%>' onclick="doQuickInvoice();">
             </td>
-=======
->>>>>>> .r1198
         </tr>
     </table>
     <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>.
     <div id="divMessage" name="divMessage"></div>
-    
     <input type='hidden' id="EditDebetUID" name='EditDebetUID' value='<%=sEditDebetUID%>'>
     <input type='hidden' id="prestationids" name="prestationids" value=""/>
 </form>
-
-<form name="ForwardForm" method="post" action="">
-    <input type="hidden" name="QuickInvoice" value="true"/>
-    <input type="hidden" name="FindPatientInvoiceUID" value=""/>
-    <input type="hidden" name="QuickInvoiceTotalDebets" value=""/>
-</form>
-
 <script>
 	function checkSaveButtonRights(){
 		if(document.getElementById('buttonSave')){
 			var bInvisible=(document.getElementById('EditDebetUID').value=='' || document.getElementById('EditDebetUID').value=='-1') && <%=activeUser.getAccessRight("financial.debet.add")?"false":"true"%>;
 			if(!bInvisible){
-			  bInvisible=(document.getElementById('EditDebetUID').value!='' && document.getElementById('EditDebetUID').value!='-1') && <%=activeUser.getAccessRight("financial.debet.edit")?"false":"true"%>;
+				bInvisible=(document.getElementById('EditDebetUID').value!='' && document.getElementById('EditDebetUID').value!='-1') && <%=activeUser.getAccessRight("financial.debet.edit")?"false":"true"%>;
 			}
 			if(bInvisible){
-			  document.getElementById('buttonSave').style.visibility = "hidden";
+				document.getElementById('buttonSave').hide();
 			}
 			else {
-              document.getElementById('buttonSave').style.visibility = "visible";
+				document.getElementById('buttonSave').show();
 			}
 		}
 	}
@@ -460,43 +448,11 @@
 		window.location.href="<c:url value='/main.do?Page=financial/patientInvoiceEdit.jsp'/>";
 	}
 	
-<<<<<<< .mine
 	function doQuickInvoice(){
 		window.location.href="<c:url value='/main.do?Page=financial/patientInvoiceEdit.jsp&quick=1'/>";
 	}
 	
 	function changeQuicklistPrestations(prestations,bInvoice){
-=======
-	<%-- DO QUICK INVOICE --%>
-	function doQuickInvoice(){
-      document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-      var url = "<c:url value='/financial/patientInvoiceSave.jsp'/>?ts="+new Date();
-      new Ajax.Request(url,{
-        method: "POST",
-        postBody: "QuickInvoice=true"+
-                  "&EditDate="+document.getElementById("EditDate").value+
-                  "&EditStatus=open",
-        onSuccess: function(resp){
-          var data = eval('('+resp.responseText+')');          
-          openInvoiceEdit(data.EditPatientInvoiceUID,data.TotalDebets);
-        },
-        onFailure: function(){
-          $("divMessage").innerHTML = "Error in function doQuickInvoice() => AJAX";
-        }
-      });
-	}
-	
-	<%-- OPEN INVOICE EDIT --%>
-	function openInvoiceEdit(invUID,totalDebets){
-      var url = "<c:url value='/main.do'/>?Page=financial/patientInvoiceEdit.jsp";    		 
-      ForwardForm.action = url;
-      ForwardForm.FindPatientInvoiceUID.value = invUID;
-      ForwardForm.QuickInvoiceTotalDebets.value = totalDebets;
-      ForwardForm.submit();
-	}
-	
-	function changeQuicklistPrestations(prestations){
->>>>>>> .r1198
 		$('prestationids').value=prestations;
         EditForm.EditPrestationName.style.backgroundColor='white';
         document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
@@ -504,21 +460,21 @@
         var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
         new Ajax.Request(url,{
                 method: "POST",
-                postBody: 'PrestationUIDs='+prestations +
-	                '&EditDebetUID='+EditForm.EditDebetUID.value+
-    	            '&EditInsuranceUID='+EditForm.EditInsuranceUID.value+
-    	            '&EditDate='+EditForm.EditDate.value+
-                   '&CoverageInsurance='+EditForm.coverageinsurance.value+
-                   '&PrestationServiceUid='+EditForm.EditDebetServiceUid.value+
-                   '&PrestationServiceName='+EditForm.EditDebetServiceName.value+
+                postBody: 'PrestationUIDs=' + prestations +
+	                '&EditDebetUID=' + EditForm.EditDebetUID.value+
+    	            '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
+    	            '&EditDate=' + EditForm.EditDate.value+
+                   '&CoverageInsurance=' + EditForm.coverageinsurance.value+
+                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
+                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
                    <%
 		               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
         	       %>
-            	       '&CoverageInsurance2='+EditForm.coverageinsurance2.value+
+            	       '&CoverageInsurance2=' + EditForm.coverageinsurance2.value+
             	   <%
 		               	}
         		   %>
-                   '&EditQuantity='+EditForm.EditQuantity.value,
+                   '&EditQuantity=' + EditForm.EditQuantity.value,
                 onSuccess: function(resp){
                     $('divMessage').innerHTML = "";
                     var label = eval('('+resp.responseText+')');
@@ -540,6 +496,8 @@
         checkSaveButtonRights();
 	}
 	
+
+
 	function changePrestation(bFirst){
 		  $('prestationids').value='';
 	      if (EditForm.EditPrestationName.value.length==0 && EditForm.EditPrestationGroup.value.length==0){
@@ -554,22 +512,22 @@
 	              var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
 	              new Ajax.Request(url,{
 	                      method: "POST",
-	                      postBody: 'PrestationUID='+EditForm.EditPrestationName.value +
-		 	 	              '&EditDebetUID='+EditForm.EditDebetUID.value+
-		                      '&PrestationGroupUID='+EditForm.EditPrestationGroup.value+
-		                      '&EditInsuranceUID='+EditForm.EditInsuranceUID.value+
-		       	              '&EditDate='+EditForm.EditDate.value+
-		                      '&CoverageInsurance='+EditForm.coverageinsurance.value+
-			                   '&PrestationServiceUid='+EditForm.EditDebetServiceUid.value+
-			                   '&PrestationServiceName='+EditForm.EditDebetServiceName.value+
+	                      postBody: 'PrestationUID=' + EditForm.EditPrestationName.value +
+		 	 	              '&EditDebetUID=' + EditForm.EditDebetUID.value+
+		                      '&PrestationGroupUID=' + EditForm.EditPrestationGroup.value+
+		                      '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
+		       	              '&EditDate=' + EditForm.EditDate.value+
+		                      '&CoverageInsurance=' + EditForm.coverageinsurance.value+
+			                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
+			                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
 		                      <%
 					               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
 			        	       %>
-			                      '&CoverageInsurance2='+EditForm.coverageinsurance2.value+
+			                      '&CoverageInsurance2=' + EditForm.coverageinsurance2.value+
 			                  <%
 					               	}
 			                  %>
-		                      '&EditQuantity='+EditForm.EditQuantity.value,
+		                      '&EditQuantity=' + EditForm.EditQuantity.value,
 	                      onSuccess: function(resp){
 	                          $('divMessage').innerHTML = "";
 	                          var label = eval('('+resp.responseText+')');
@@ -605,23 +563,23 @@
 	              var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
 	              new Ajax.Request(url,{
 	                      method: "POST",
-	                      postBody: 'PrestationUID='+EditForm.EditPrestationName.value +
-		                      '&EditPrice='+EditForm.tmpPrestationPrice.value+
-		 	 	              '&EditDebetUID='+EditForm.EditDebetUID.value+
-		                      '&PrestationGroupUID='+EditForm.EditPrestationGroup.value+
-		                      '&EditInsuranceUID='+EditForm.EditInsuranceUID.value+
-		       	              '&EditDate='+EditForm.EditDate.value+
-		                      '&CoverageInsurance='+EditForm.coverageinsurance.value+
-			                   '&PrestationServiceUid='+EditForm.EditDebetServiceUid.value+
-			                   '&PrestationServiceName='+EditForm.EditDebetServiceName.value+
+	                      postBody: 'PrestationUID=' + EditForm.EditPrestationName.value +
+		                      '&EditPrice=' + EditForm.tmpPrestationPrice.value+
+		 	 	              '&EditDebetUID=' + EditForm.EditDebetUID.value+
+		                      '&PrestationGroupUID=' + EditForm.EditPrestationGroup.value+
+		                      '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
+		       	              '&EditDate=' + EditForm.EditDate.value+
+		                      '&CoverageInsurance=' + EditForm.coverageinsurance.value+
+			                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
+			                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
 		                      <%
 					               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
 			        	       %>
-			                      '&CoverageInsurance2='+EditForm.coverageinsurance2.value+
+			                      '&CoverageInsurance2=' + EditForm.coverageinsurance2.value+
 			                  <%
 					               	}
 			                  %>
-		                      '&EditQuantity='+EditForm.EditQuantity.value,
+		                      '&EditQuantity=' + EditForm.EditQuantity.value,
 	                      onSuccess: function(resp){
 	                          $('divMessage').innerHTML = "";
 	                          var label = eval('('+resp.responseText+')');
@@ -649,22 +607,22 @@
           var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
           new Ajax.Request(url,{
                   method: "POST",
-                  postBody: 'PrestationUIDs='+document.getElementById('prestationids').value
-	                +'&EditDebetUID='+EditForm.EditDebetUID.value
-                  	+'&PrestationUID='+EditForm.EditPrestationName.value
-	                +'&CoverageInsurance='+EditForm.coverageinsurance.value
-    	            +'&EditDate='+EditForm.EditDate.value
-                    +'&PrestationServiceUid='+EditForm.EditDebetServiceUid.value
-                    +'&PrestationServiceName='+EditForm.EditDebetServiceName.value
+                  postBody: 'PrestationUIDs=' + document.getElementById('prestationids').value
+	                +'&EditDebetUID=' + EditForm.EditDebetUID.value
+                  	+'&PrestationUID=' + EditForm.EditPrestationName.value
+	                +'&CoverageInsurance=' + EditForm.coverageinsurance.value
+    	            +'&EditDate=' + EditForm.EditDate.value
+                    +'&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value
+                    +'&PrestationServiceName=' + EditForm.EditDebetServiceName.value
 	                   <%
 		               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
 		       	       %>
-	    		            +'&CoverageInsurance2='+EditForm.coverageinsurance2.value
+	    		            +'&CoverageInsurance2=' + EditForm.coverageinsurance2.value
 	    		       <%
 		               	}
 	    		       %>
-                    +'&EditInsuranceUID='+EditForm.EditInsuranceUID.value
-                    +'&EditQuantity='+EditForm.EditQuantity.value,
+                    +'&EditInsuranceUID=' + EditForm.EditInsuranceUID.value
+                    +'&EditQuantity=' + EditForm.EditQuantity.value,
                   onSuccess: function(resp){
                       var label = eval('('+resp.responseText+')');
                       $('EditAmount').value=label.EditAmount*EditForm.EditQuantity.value;
@@ -678,6 +636,7 @@
               }
           );
       }
+
   }
   
   function findPerformer(){
@@ -694,7 +653,7 @@
       new Ajax.Request(url,{
           method: "POST",
           postBody: prests
-                  +'&encounteruid='+encounteruid,
+                  +'&encounteruid=' + encounteruid,
           onSuccess: function(resp){
               var label = eval('('+resp.responseText+')');
               for(z=1;z<$('EditCareProvider').options.length;z++){
@@ -754,30 +713,30 @@
           }
           new Ajax.Request(url,{
                   method: "POST",
-                  postBody: 'EditDate='+EditForm.EditDate.value
-                          +'&EditDebetUID='+EditForm.EditDebetUID.value
-                          +'&EditInsuranceUID='+EditForm.EditInsuranceUID.value
-                          +'&EditPrestationUID='+EditForm.EditPrestationUID.value
-                          +'&EditPrestationGroupUID='+EditForm.EditPrestationGroup.value
-                          +'&EditAmount='+EditForm.EditAmount.value
-                          +'&EditInsurarAmount='+EditForm.EditInsurarAmount.value
-                          +'&EditEncounterUID='+EditForm.EditEncounterUID.value
-                          +'&EditPatientInvoiceUID='+EditForm.EditPatientInvoiceUID.value
-                          +'&EditInsuranceInvoiceUID='+EditForm.EditInsuranceInvoiceUID.value
-                          +'&EditComment='+EditForm.EditComment.value
-                          +'&EditQuantity='+EditForm.EditQuantity.value
-                          +'&EditExtraInsurarUID='+EditForm.coverageinsurance.value
+                  postBody: 'EditDate=' + EditForm.EditDate.value
+                          +'&EditDebetUID=' + EditForm.EditDebetUID.value
+                          +'&EditInsuranceUID=' + EditForm.EditInsuranceUID.value
+                          +'&EditPrestationUID=' + EditForm.EditPrestationUID.value
+                          +'&EditPrestationGroupUID=' + EditForm.EditPrestationGroup.value
+                          +'&EditAmount=' + EditForm.EditAmount.value
+                          +'&EditInsurarAmount=' + EditForm.EditInsurarAmount.value
+                          +'&EditEncounterUID=' + EditForm.EditEncounterUID.value
+                          +'&EditPatientInvoiceUID=' + EditForm.EditPatientInvoiceUID.value
+                          +'&EditInsuranceInvoiceUID=' + EditForm.EditInsuranceInvoiceUID.value
+                          +'&EditComment=' + EditForm.EditComment.value
+                          +'&EditQuantity=' + EditForm.EditQuantity.value
+                          +'&EditExtraInsurarUID=' + EditForm.coverageinsurance.value
                           <%
 	  		               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
     			   	       %>
-                	          +'&EditExtraInsurarUID2='+EditForm.coverageinsurance2.value
+                	          +'&EditExtraInsurarUID2=' + EditForm.coverageinsurance2.value
                 	      <%
 	  		               	}
                 	      %>
-                          +'&EditCareProvider='+EditForm.EditCareProvider.value
-                          +'&EditCredit='+sCredited
-                          +'&EditServiceUid='+EditForm.EditDebetServiceUid.value
-                         +prests,
+                          +'&EditCareProvider=' + EditForm.EditCareProvider.value
+                          +'&EditCredit=' + sCredited
+                          +'&EditServiceUid=' + EditForm.EditDebetServiceUid.value
+                          + prests,
                   onSuccess: function(resp){
                       var label = eval('('+resp.responseText+')');
                       $('divMessage').innerHTML=label.Message;
@@ -866,13 +825,8 @@
     changePrestation(true);
     findPerformer();
     checkSaveButtonRights();
-<<<<<<< .mine
     document.getElementById('buttonadmin').innerHTML="<input class='button' type='button' name='buttonSave' id='buttonSave' value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick='doSave();'/>&nbsp;<input class='button' type='button' name='buttonInvoice' value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick='doInvoice()'/>&nbsp;<input class='hiddenredbutton' type='button' name='buttonQuickInvoice' id='buttonQuickInvoice' value='<%=getTranNoLink("Web","patientQuickInvoiceEdit",sWebLanguage)%>' onclick='doQuickInvoice()'/>";
     checkQuickInvoice();
-=======
-    document.getElementById('buttonadmin').innerHTML = "<input class='button' type='button' name='buttonSave' id='buttonSave' value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick='doSave();'/>&nbsp;"+
-                                                       "<input class='button' type='button' name='buttonInvoice' value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick='doInvoice()'/>";
->>>>>>> .r1198
   }
 
   function setDebet(sUid){
@@ -882,7 +836,7 @@
 
   function loadUnassignedDebets(){
     document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-    var params = 'FindDateBegin='+EditForm.FindDateBegin.value
+    var params = 'FindDateBegin=' + EditForm.FindDateBegin.value
                 +"&FindDateEnd="+EditForm.FindDateEnd.value
                 +"&FindAmountMin="+EditForm.FindAmountMin.value
                 +"&FindAmountMax="+EditForm.FindAmountMax.value;
@@ -892,17 +846,7 @@
 	  method: "GET",
       parameters: params,
       onSuccess: function(resp){
-        $('divUnassignedDebets').innerHTML=resp.responseText;      
-        
-        <%
-            if(MedwanQuery.getInstance().getConfigParam("enablequickinvoice","0").equals("1")){
-	            %>
-			        if(document.getElementById("debetsTable").rows.length > 1){
-			          document.getElementById('buttonadmin').innerHTML+= "&nbsp;<input class='button' type='button' name='buttonQuickInvoice' value='<%=getTranNoLink("Web","patientQuickInvoice",sWebLanguage)%>' onclick='doQuickInvoice()'/>";
-			        }
-			    <%
-		    }
-	    %>
+        $('divUnassignedDebets').innerHTML=resp.responseText;
       }
 	});
   }
