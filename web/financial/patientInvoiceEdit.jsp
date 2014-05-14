@@ -54,10 +54,39 @@
 	
 	String sExternalSignatureCode= checkString(request.getParameter("externalsignaturecode"));
 	String sFindPatientInvoiceUID = checkString(request.getParameter("FindPatientInvoiceUID"));
+<<<<<<< .mine
+	boolean automaticPayment=false;
+	
+	if(!isInsuranceAgent && checkString(request.getParameter("quick")).equals("1")){
+		Vector unassignedDebets = Debet.getUnassignedPatientDebets(activePatient.personid);
+		if(unassignedDebets.size()>0){
+			PatientInvoice invoice=new PatientInvoice();
+			invoice.setCreateDateTime(new java.util.Date());
+			invoice.setDate(new java.util.Date());
+			invoice.setPatientUid(activePatient.personid);
+			invoice.setStatus("open");
+			invoice.setUpdateDateTime(new java.util.Date());
+			invoice.setUpdateUser(activeUser.userid);
+			invoice.setVersion(1);
+			invoice.setDebets(new Vector());
+			for(int n=0;n<unassignedDebets.size();n++){
+				Debet debet = Debet.get((String)unassignedDebets.elementAt(n));
+				invoice.getDebets().add(debet);
+			}
+			invoice.store();
+			sFindPatientInvoiceUID=invoice.getUid();
+			automaticPayment=true;
+		}
+	}
+	
+	PatientInvoice patientInvoice=null;
+    String sPatientInvoiceID = "", sPatientId = "", sClosed ="", sInsurarReference="", sInsurarReferenceDate="", sVerifier="",sEditComment="",sPatientInvoiceMfpDoctor="",sPatientInvoiceMfpPost="",sPatientInvoiceMfpAgent="",sPatientInvoiceMfpDrugsRecipient="",sPatientInvoiceMfpDrugsIdCard="",sPatientInvoiceMfpDrugsIdCardPlace="",sPatientInvoiceMfpDrugsIdCardDate="";
+=======
 	
     boolean quickInvoice = checkString(request.getParameter("QuickInvoice")).equalsIgnoreCase("true");
     String sQuickInvoiceTotalDebets = checkString(request.getParameter("QuickInvoiceTotalDebets"));
     
+>>>>>>> .r1198
 
     ///// DEBUG /////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -975,12 +1004,23 @@
 	  loadOpenPatientInvoices();
 	  doBalance();
 	  document.getElementById('EditBalance').value = formatNumber(document.getElementById('EditBalance').value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+<<<<<<< .mine
+	  
+	  <%
+	  	if(automaticPayment){
+	  %>
+	  	doPayment('<%=sFindPatientInvoiceUID%>');
+	  <%
+	  	}
+	  %>
+=======
 	  
 	  <% 
 	      if(quickInvoice && patientInvoice!=null && patientInvoice.getDate()!=null){
 	          %>document.getElementById("buttonPayment").onclick();<%
 	      }
 	  %>
+>>>>>>> .r1198
 	</script>
 <%
 	}

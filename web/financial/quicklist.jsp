@@ -69,24 +69,43 @@
 	%>
 	</table>
 	<input type="button" name="submit" value="<%=getTran("web","save",sWebLanguage)%>" class="button" onclick="savePrestations()"/>
+	<%if(MedwanQuery.getInstance().getConfigInt("enableQuickInvoicing",0)==1){ %>
+	<input type="button" class="redbutton" name="submit" value="<%=getTranNoLink("web","save.and.quickinvoice",sWebLanguage)%>" onclick="savePrestationsAndInvoice()"/>
+	<%} %>
 </form>
 
 <script>
 
-	function savePrestations(){
-		var selectedPrestations="";
-		var allPrestations = document.getElementById("transactionForm").elements;
-		for(n=0;n<allPrestations.length;n++){
-			if(allPrestations[n].name.indexOf("prest.")==0 && allPrestations[n].checked){
-				//register prestation in window opener
-				if(selectedPrestations.length>0){
-					selectedPrestations=selectedPrestations+";";
-				}
-				selectedPrestations=selectedPrestations+allPrestations[n].name.substring(6)+"="+document.getElementById("quant."+allPrestations[n].name.substring(6)).value;
+function savePrestations(){
+	var selectedPrestations="";
+	var allPrestations = document.getElementById("transactionForm").elements;
+	for(n=0;n<allPrestations.length;n++){
+		if(allPrestations[n].name.indexOf("prest.")==0 && allPrestations[n].checked){
+			//register prestation in window opener
+			if(selectedPrestations.length>0){
+				selectedPrestations=selectedPrestations+";";
 			}
+			selectedPrestations=selectedPrestations+allPrestations[n].name.substring(6)+"="+document.getElementById("quant."+allPrestations[n].name.substring(6)).value;
 		}
-		window.opener.changeQuicklistPrestations(selectedPrestations);
-		window.close();
 	}
-	
+	window.opener.changeQuicklistPrestations(selectedPrestations,false);
+	window.close();
+}
+
+function savePrestationsAndInvoice(){
+	var selectedPrestations="";
+	var allPrestations = document.getElementById("transactionForm").elements;
+	for(n=0;n<allPrestations.length;n++){
+		if(allPrestations[n].name.indexOf("prest.")==0 && allPrestations[n].checked){
+			//register prestation in window opener
+			if(selectedPrestations.length>0){
+				selectedPrestations=selectedPrestations+";";
+			}
+			selectedPrestations=selectedPrestations+allPrestations[n].name.substring(6)+"="+document.getElementById("quant."+allPrestations[n].name.substring(6)).value;
+		}
+	}
+	window.opener.changeQuicklistPrestations(selectedPrestations,true);
+	window.close();
+}
+
 </script>

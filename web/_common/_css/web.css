@@ -993,6 +993,32 @@ input.button {
   background: url( "../../_img/button-bg.png" ) top left repeat-x;
 }
 
+input.redbutton {
+  padding-bottom: 2px;
+  font-family: arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  color: white;
+  height: 18px;
+
+  border: solid 1px #b5b5b5;
+  cursor: pointer;
+  background-color: #ff3300;
+}
+
+input.hiddenredbutton {
+  padding-bottom: 2px;
+  font-family: arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  color: white;
+  height: 18px;
+  visibility: hidden;
+  border: solid 1px #b5b5b5;
+  cursor: pointer;
+  background-color: #ff3300;
+}
+
 input.button:focus {
   outline: none;
 }

@@ -420,6 +420,11 @@
     			}
             	%>
                 <input class='button' type="button" name="buttonInvoice" value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick="doInvoice();">
+<<<<<<< .mine
+                <input class='hiddenredbutton' type="button" name="buttonQuickInvoice" id="buttonQuickInvoice" value='<%=getTranNoLink("Web","patientQuickInvoiceEdit",sWebLanguage)%>' onclick="doQuickInvoice();">
+            </td>
+=======
+>>>>>>> .r1198
         </tr>
     </table>
     <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>.
@@ -455,6 +460,13 @@
 		window.location.href="<c:url value='/main.do?Page=financial/patientInvoiceEdit.jsp'/>";
 	}
 	
+<<<<<<< .mine
+	function doQuickInvoice(){
+		window.location.href="<c:url value='/main.do?Page=financial/patientInvoiceEdit.jsp&quick=1'/>";
+	}
+	
+	function changeQuicklistPrestations(prestations,bInvoice){
+=======
 	<%-- DO QUICK INVOICE --%>
 	function doQuickInvoice(){
       document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
@@ -484,6 +496,7 @@
 	}
 	
 	function changeQuicklistPrestations(prestations){
+>>>>>>> .r1198
 		$('prestationids').value=prestations;
         EditForm.EditPrestationName.style.backgroundColor='white';
         document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
@@ -514,6 +527,9 @@
                     document.getElementById('prestationcontent').innerHTML=label.PrestationContent;
                     $('EditQuantity').style.visibility='hidden';
                     findPerformer();
+                    if(bInvoice){
+                    	doSave(true);
+                    }
                 },
                 onFailure: function(){
                     $('divMessage').innerHTML = "Error in function changePrestation() => AJAX";
@@ -692,9 +708,32 @@
           }
       }
 	  );
-}
+	}
 
-  function doSave(){
+  function checkQuickInvoice(){
+	  encounteruid=EditForm.EditEncounterUID.value;
+      var today = new Date();
+      var url= '<c:url value="/financial/checkQuickInvoice.jsp"/>?personid=<%=activePatient.personid%>&ts='+today;
+      new Ajax.Request(url,{
+          method: "POST",
+          postBody: "",
+          onSuccess: function(resp){
+              var label = resp.responseText;
+              if(label.indexOf("<OK>")>-1){
+            	  document.getElementById('buttonQuickInvoice').style.visibility='visible';
+              }
+              else {
+            	  document.getElementById('buttonQuickInvoice').style.visibility='hidden';
+              }
+          },
+          onFailure: function(){
+              $('divMessage').innerHTML = "Error in function checkQuickInvoice() => AJAX";
+          }
+      }
+	  );
+	}
+
+  function doSave(bInvoice){
       if((EditForm.EditDate.value.length>0)
           &&(EditForm.EditInsuranceUID.value.length>0)
           &&(EditForm.EditPrestationUID.value.length>0 || EditForm.EditPrestationGroup.value.length>0 || document.getElementById('prestationcontent').innerHTML.length>0)
@@ -745,12 +784,16 @@
                       $('EditDebetUID').value=label.EditDebetUID;
                       doNew();
                       loadUnassignedDebets();
+                      if(bInvoice){
+                    	  doQuickInvoice();
+                      }
                   },
                   onFailure: function(){
                       $('divMessage').innerHTML = "Error in function doSave() => AJAX";
                   }
               }
           );
+          checkQuickInvoice();
       }
       else {
           alertDialog("web.manage","datamissing");
@@ -823,8 +866,13 @@
     changePrestation(true);
     findPerformer();
     checkSaveButtonRights();
+<<<<<<< .mine
+    document.getElementById('buttonadmin').innerHTML="<input class='button' type='button' name='buttonSave' id='buttonSave' value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick='doSave();'/>&nbsp;<input class='button' type='button' name='buttonInvoice' value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick='doInvoice()'/>&nbsp;<input class='hiddenredbutton' type='button' name='buttonQuickInvoice' id='buttonQuickInvoice' value='<%=getTranNoLink("Web","patientQuickInvoiceEdit",sWebLanguage)%>' onclick='doQuickInvoice()'/>";
+    checkQuickInvoice();
+=======
     document.getElementById('buttonadmin').innerHTML = "<input class='button' type='button' name='buttonSave' id='buttonSave' value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick='doSave();'/>&nbsp;"+
                                                        "<input class='button' type='button' name='buttonInvoice' value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick='doInvoice()'/>";
+>>>>>>> .r1198
   }
 
   function setDebet(sUid){
@@ -885,4 +933,5 @@
   changePrestation(true);
   loadUnassignedDebets();
   checkSaveButtonRights();
+  checkQuickInvoice();
 </script>
