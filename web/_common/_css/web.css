@@ -1336,6 +1336,11 @@ a.previousButton {
   opacity: 0.8;
 }
 
+td.imagehub {
+  height: 30px;
+  background: url( "../../_img/imagehub.png" ) left top no-repeat;
+}
+
 a.previousButton:hover {
   cursor: pointer;
   filter: alpha( opacity = 100 );

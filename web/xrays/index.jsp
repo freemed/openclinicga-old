@@ -7,6 +7,7 @@
     }
     if(activeUser.getAccessRight("rx.openxrayrequests.select")) out.print(writeTblChildWithCode("javascript:showImagingRequests(1);",getTran("Web","openXRayRequestToExecute",sWebLanguage)));
     if(activeUser.getAccessRight("rx.xrayrequesttoprotocol.select")) out.print(writeTblChildWithCode("javascript:showImagingRequests(2);",getTran("web","openXRayRequestToValidate",sWebLanguage)));
+    if(activeUser.getAccessRight("rx.openxrayrequests.select") && MedwanQuery.getInstance().getConfigInt("enableImageHub",0)==1) out.print(writeTblChildWithCode("javascript:showImageHub();",getTran("web","imagehub",sWebLanguage)));
     out.print(ScreenHelper.writeTblFooter());
 %>
 <script>
@@ -20,5 +21,9 @@
     else if(type==2){
       window.location.href = "<c:url value='/main.do'/>?Page=xrays/manageXRayRequests.jsp&tovalidate=true&ts=<%=getTs()%>";
     }
+  }
+  
+  function showImageHub(){
+	  showModalDialog("<c:url value='/xrays/ih_getstudies.jsp'/>","","dialogTop:"+((screen.height-400)/2)+"; dialogLeft:"+((screen.width-600)/2)+";dialogWidth:600px;dialogHeight:400px");
   }
 </script>

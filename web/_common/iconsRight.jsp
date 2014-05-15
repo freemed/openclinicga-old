@@ -256,10 +256,19 @@
         			initBarcode();
         		}
         	}
+        
+        function openImageHub(){
+        	openPopup('xrays/ih_getstudies.jsp',600,400);
+        }
         </script>
         <img class="link" onclick="initBarcode2();"  border='0' src="<c:url value='/_img/androidbarcode.gif'/>" title="<%=getTranNoLink("web","barcode",sWebLanguage)%>"/>
         <%
-			if(activePatient!=null){			
+			if(activePatient!=null){
+				if(MedwanQuery.getInstance().getConfigInt("enableImageHub",0)==1){
+		%>
+        	<img class="link" onclick="openImageHub()"  border='0' src="<c:url value='/_img/aexist.png'/>" title="<%=getTranNoLink("web","imagehub",sWebLanguage)%>"/>
+		<%
+				}
 		%>
         	<img class="link" onclick="window.location.href='<c:url value="/mobile/patientMenu.jsp"/>'"  border='0' src="<c:url value='/_img/blackberry.jpg'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>
         <%
