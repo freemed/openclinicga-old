@@ -263,7 +263,7 @@
         </script>
         <img class="link" onclick="initBarcode2();"  border='0' src="<c:url value='/_img/androidbarcode.gif'/>" title="<%=getTranNoLink("web","barcode",sWebLanguage)%>"/>
         <%
-			if(activePatient!=null){
+			if(activePatient!=null && activePatient.personid!=null && activePatient.personid.length()>0){
 				if(MedwanQuery.getInstance().getConfigInt("enableImageHub",0)==1){
 		%>
         	<img class="link" onclick="openImageHub()"  border='0' src="<c:url value='/_img/aexist.png'/>" title="<%=getTranNoLink("web","imagehub",sWebLanguage)%>"/>

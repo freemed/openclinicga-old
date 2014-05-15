@@ -25,22 +25,35 @@
 	//PatientID = serverid + personid
 	//Voor demo: comment5
 	String patientId = activePatient.comment5;
+	if(patientId.length()==0){
+		patientId=MedwanQuery.getInstance().getConfigString("imageHubServerId","0")+"."+activePatient.personid;
+	}
 	String securityCode = MedwanQuery.getInstance().getConfigString("imageHubGetStudiesSecurityCode","1234");
 	String imageHubURL = MedwanQuery.getInstance().getConfigString("imageHubGetStudiesURL","https://imagehub.aexist.nl/imagehub/rest/demo");
 
 	HttpClient client = new HttpClient();
 	PostMethod method = new PostMethod(imageHubURL);
 	method.addRequestHeader("content-type", "application/xml");
-	File fileToUpload = new File("e:/temp/get_studies.xml");
-	method.setRequestBody(new FileInputStream(fileToUpload));
+	org.dom4j.Document document = DocumentHelper.createDocument();
+	Element root = DocumentHelper.createElement("get_studies");
+	root.addAttribute("xmlns", "imagehub");
+	root.addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+	document.setRootElement(root);
+	Element element = root.addElement("security_code");
+	element.setText(securityCode);
+	element = root.addElement("patient_id");
+	element.setText(patientId);
+	element = root.addElement("user_id");
+	element.setText("1234");
+	method.setRequestBody(new ByteArrayInputStream(document.asXML().getBytes("UTF-8")));
 	int statusCode = client.executeMethod(method);
 	if(statusCode==200){
 		String resp = method.getResponseBodyAsString();
 		System.out.println(resp);
 		BufferedReader br = new BufferedReader(new StringReader(resp));
 		SAXReader reader=new SAXReader(false);
-		org.dom4j.Document document=reader.read(br);
-		Element root = document.getRootElement();
+		document=reader.read(br);
+		root = document.getRootElement();
 		Element studies = root.element("studies");
 		if(studies!=null){
 			Iterator iStudies = studies.elementIterator("study");
@@ -53,7 +66,11 @@
 				out.println("</tr>");
 			}
 		}
-
+		else {
+			out.println("<tr>");
+			out.println("<td class='admin2' colspan='3'>"+root.elementText("return_description")+"</td>");
+			out.println("</tr>");
+		}
 	}
 	else {
 		out.println("Error reading from ImageHub");
