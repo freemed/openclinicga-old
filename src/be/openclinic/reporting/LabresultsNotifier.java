@@ -7,7 +7,13 @@ import java.util.Vector;
 import java.text.*; 
 
 import be.mxs.common.util.db.MedwanQuery;
+
+import java.net.URLEncoder;
 import java.sql.*;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 
 import be.mxs.common.util.system.HTMLEntities;
 import be.mxs.common.util.system.ScreenHelper;
@@ -319,8 +325,8 @@ public class LabresultsNotifier {
 				int transactionId = rs.getInt("OC_NOTIFIER_TRANSACTIONID");
 				String transport = rs.getString("OC_NOTIFIER_TRANSPORT");
 				String result = rs.getString("OC_NOTIFIER_RESULTS");
-				String sentto = rs.getString("OC_NOTIFIER_SENTTO");
-				
+				String sentto = ScreenHelper.checkString(rs.getString("OC_NOTIFIER_SENTTO")).replace("+", "");
+				System.out.println("Trying to send messages to "+sentto);
 				TransactionVO transactionVO = MedwanQuery.getInstance().loadTransaction(MedwanQuery.getInstance().getConfigInt("serverId"), transactionId);
 				if(transactionVO.getHealthrecordId() == 0){
 					MedwanQuery.getInstance().getObjectCache().removeObject("transaction",MedwanQuery.getInstance().getConfigInt("serverId")+"."+transactionId);
@@ -336,30 +342,59 @@ public class LabresultsNotifier {
 				sUserFirstname = sUserFirstname.charAt(0) + sUserFirstname.substring(1).toLowerCase();					
 
 				if(transport.equalsIgnoreCase("sms")){
-					try{
-						String sResult = "Lab " + MedwanQuery.getInstance().getLabel("sendhtmlmail", "for", user.language) + " " + patient.lastname.toUpperCase()+" "+sPatientFirstname + "\n" + result;
-						String sPinCode = MedwanQuery.getInstance().getConfigString("smsPincode","0000"); 
-						String sPort= MedwanQuery.getInstance().getConfigString("smsDevicePort","/dev/ttyS20");
-						int nBaudrate=MedwanQuery.getInstance().getConfigInt("smsBaudrate",115200);
-						System.setProperty("smslib.serial.polling", MedwanQuery.getInstance().getConfigString("smsPolling","false"));
-						SendSMS sendSMS = new SendSMS();				
-						if (sResult.length() > 160){ 					
-							Vector vSMSs = new Vector();
-							vSMSs = splitSMSText(sResult);
-							Enumeration<String> eSMSs = vSMSs.elements();
-							String sSMS;
-							while (eSMSs.hasMoreElements()){
-								sSMS = eSMSs.nextElement();
-								sendSMS.send("modem.nokia",sPort, nBaudrate, "Nokia", "2690", sPinCode, sentto, sSMS);
+					String sResult = "Lab " + MedwanQuery.getInstance().getLabel("sendhtmlmail", "for", user.language) + " " + patient.lastname.toUpperCase()+" "+sPatientFirstname + "\n" + result;
+					if(MedwanQuery.getInstance().getConfigString("smsgateway","").equalsIgnoreCase("smsglobal")){
+						try {						
+							HttpClient client = new HttpClient();
+							PostMethod method = new PostMethod(MedwanQuery.getInstance().getConfigString("smsglobal.url","http://www.smsglobal.com/http-api.php"));
+							Vector<NameValuePair> vNvp = new Vector<NameValuePair>();
+							vNvp.add(new NameValuePair("action","sendsms"));
+							vNvp.add(new NameValuePair("user",MedwanQuery.getInstance().getConfigString("smsglobal.user","")));
+							vNvp.add(new NameValuePair("password",MedwanQuery.getInstance().getConfigString("smsglobal.password","")));
+							vNvp.add(new NameValuePair("from",MedwanQuery.getInstance().getConfigString("smsglobal.from","")));
+							vNvp.add(new NameValuePair("to",sentto));
+							vNvp.add(new NameValuePair("text",URLEncoder.encode(sResult,"utf-8")));
+							NameValuePair[] nvp = new NameValuePair[vNvp.size()];
+							vNvp.copyInto(nvp);
+							method.setQueryString(nvp);
+							client.executeMethod(method);
+							String sResponse=method.getResponseBodyAsString();
+							if(sResponse.contains("OK: 0")){
+								System.out.println("SMS correctly sent transactionid "+transactionId+" to "+sentto+": "+sResponse);
+								setSpoolMessageSent(transactionId,transport);
 							}
+							else {
+								System.out.println("Error sending SMS with transactionid "+transactionId+" to "+sentto+": "+sResponse);
+							}
+						} catch (Exception e) {				
+							e.printStackTrace();
 						}
-						else { 
-							sendSMS.send("modem.nokia", sPort, nBaudrate, "Nokia", "2690", sPinCode, sentto, sResult);
-						}						
-						setSpoolMessageSent(transactionId,transport);
 					}
-					catch(Exception m){
-						
+					else if(MedwanQuery.getInstance().getConfigString("smsgateway","").equalsIgnoreCase("nokia")){
+						try{
+							String sPinCode = MedwanQuery.getInstance().getConfigString("smsPincode","0000"); 
+							String sPort= MedwanQuery.getInstance().getConfigString("smsDevicePort","/dev/ttyS20");
+							int nBaudrate=MedwanQuery.getInstance().getConfigInt("smsBaudrate",115200);
+							System.setProperty("smslib.serial.polling", MedwanQuery.getInstance().getConfigString("smsPolling","false"));
+							SendSMS sendSMS = new SendSMS();				
+							if (sResult.length() > 160){ 					
+								Vector vSMSs = new Vector();
+								vSMSs = splitSMSText(sResult);
+								Enumeration<String> eSMSs = vSMSs.elements();
+								String sSMS;
+								while (eSMSs.hasMoreElements()){
+									sSMS = eSMSs.nextElement();
+									sendSMS.send("modem.nokia",sPort, nBaudrate, "Nokia", "2690", sPinCode, sentto, sSMS);
+								}
+							}
+							else { 
+								sendSMS.send("modem.nokia", sPort, nBaudrate, "Nokia", "2690", sPinCode, sentto, sResult);
+							}						
+							setSpoolMessageSent(transactionId,transport);
+						}
+						catch(Exception m){
+							
+						}
 					}
 				}
 				else if(transport.equalsIgnoreCase("simplemail")){
@@ -498,30 +533,58 @@ public class LabresultsNotifier {
 			sResult = "Lab " + MedwanQuery.getInstance().getLabel("sendhtmlmail", "for", user.language) + " " + patient.lastname.toUpperCase()+" "+sPatientFirstname + "\n" +
 						sResult;
 			sSMSDestination = getSMSDestinationByTransactionId(sTransactionId).replaceAll(";", " ").replaceAll(",", " ");						
-						
-			try {						
-				String sPinCode = MedwanQuery.getInstance().getConfigString("smsPincode","0000"); 
-				String sPort= MedwanQuery.getInstance().getConfigString("smsDevicePort","/dev/ttyS20");
-				int nBaudrate=MedwanQuery.getInstance().getConfigInt("smsBaudrate",115200);
-				System.setProperty("smslib.serial.polling", MedwanQuery.getInstance().getConfigString("smsPolling","false"));
-				SendSMS sendSMS = new SendSMS();				
-				if (sResult.length() > 160){ 					
-					Vector vSMSs = new Vector();
-					vSMSs = splitSMSText(sResult);
-					Enumeration<String> eSMSs = vSMSs.elements();
-					String sSMS;
-					while (eSMSs.hasMoreElements()){
-						sSMS = eSMSs.nextElement();
-						sendSMS.send("modem.nokia",sPort, nBaudrate, "Nokia", "2690", sPinCode, sSMSDestination, sSMS);
+
+			if(MedwanQuery.getInstance().getConfigString("smsgateway","").equalsIgnoreCase("smsglobal")){
+				try {						
+					HttpClient client = new HttpClient();
+					PostMethod method = new PostMethod(MedwanQuery.getInstance().getConfigString("smsglobal.url","http://www.smsglobal.com/http-api.php"));
+					Vector<NameValuePair> vNvp = new Vector<NameValuePair>();
+					vNvp.add(new NameValuePair("action","sendsms"));
+					vNvp.add(new NameValuePair("user",MedwanQuery.getInstance().getConfigString("smsglobal.user","")));
+					vNvp.add(new NameValuePair("password",MedwanQuery.getInstance().getConfigString("smsglobal.password","")));
+					vNvp.add(new NameValuePair("from",MedwanQuery.getInstance().getConfigString("smsglobal.from","")));
+					vNvp.add(new NameValuePair("to",sSMSDestination));
+					vNvp.add(new NameValuePair("text",URLEncoder.encode(sResult,"utf-8")));
+					NameValuePair[] nvp = new NameValuePair[vNvp.size()];
+					vNvp.copyInto(nvp);
+					method.setQueryString(nvp);
+					client.executeMethod(method);
+					String sResponse=method.getResponseBodyAsString();
+					if(sResponse.contains("OK: 0")){
+						i = i + 1;
 					}
+					else {
+						System.out.println(sResponse);
+					}
+				} catch (Exception e) {				
+					e.printStackTrace();
 				}
-				else { 
-					sendSMS.send("modem.nokia", sPort, nBaudrate, "Nokia", "2690", sPinCode, sSMSDestination, sResult);
-				}							
-			i = i + 1;
-			} catch (Exception e) {				
-				e.printStackTrace();
-			}			
+			}
+			else if(MedwanQuery.getInstance().getConfigString("smsgateway","").equalsIgnoreCase("nokia")){
+				try {						
+					String sPinCode = MedwanQuery.getInstance().getConfigString("smsPincode","0000"); 
+					String sPort= MedwanQuery.getInstance().getConfigString("smsDevicePort","/dev/ttyS20");
+					int nBaudrate=MedwanQuery.getInstance().getConfigInt("smsBaudrate",115200);
+					System.setProperty("smslib.serial.polling", MedwanQuery.getInstance().getConfigString("smsPolling","false"));
+					SendSMS sendSMS = new SendSMS();				
+					if (sResult.length() > 160){ 					
+						Vector vSMSs = new Vector();
+						vSMSs = splitSMSText(sResult);
+						Enumeration<String> eSMSs = vSMSs.elements();
+						String sSMS;
+						while (eSMSs.hasMoreElements()){
+							sSMS = eSMSs.nextElement();
+							sendSMS.send("modem.nokia",sPort, nBaudrate, "Nokia", "2690", sPinCode, sSMSDestination, sSMS);
+						}
+					}
+					else { 
+						sendSMS.send("modem.nokia", sPort, nBaudrate, "Nokia", "2690", sPinCode, sSMSDestination, sResult);
+					}							
+					i = i + 1;
+				} catch (Exception e) {				
+					e.printStackTrace();
+				}
+			}
 		}
 		return i;
 	}
