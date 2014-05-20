@@ -25,6 +25,8 @@
     String sFindDate = checkString(request.getParameter("FindDate"));
 %>
 <script>
+var dateFormat = "<%=ScreenHelper.stdDateFormat.toPattern()%>";
+
 var ClientMsg = Class.create();
 ClientMsg.prototype = {
   initialize:function(div){
