@@ -102,8 +102,8 @@
                     }
 
                     // count units
-                    unitsIn = productStock.getTotalUnitsInForDate(calendar.getTime());
-                    unitsOut = productStock.getTotalUnitsOutForDate(calendar.getTime());
+                    unitsIn = productStock.getTotalUnitsInForDate(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(calendar.getTime())));
+                    unitsOut = productStock.getTotalUnitsOutForDate(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(calendar.getTime())));
                     unitsDiff = unitsIn - unitsOut;
 
                     // alternate row-style
@@ -126,9 +126,6 @@
                 }
             %>
         </tbody>
-    </table>
-    <%-- MONTH TOTAL --%>
-    <table width="100%" class="list" cellspacing="1">
         <%
             // count units
             unitsIn   = productStock.getTotalUnitsInForMonth(calendar.getTime());

@@ -33,6 +33,11 @@
     <%
     MedwanQuery.getInstance("http://" + request.getServerName() +":"+request.getServerPort()+ request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR);
     reloadSingleton(request.getSession());
+    
+    if(MedwanQuery.getInstance().getConfigString("doInitialSetup","").length()>0){
+    	UpdateSystem.updateSetup("os",MedwanQuery.getInstance().getConfigString("doInitialSetup",""),request);
+    	MedwanQuery.getInstance().setConfigString("doInitialSetup","");
+    }
 
     //*** retreive application version ***
     String version = "version unknown";

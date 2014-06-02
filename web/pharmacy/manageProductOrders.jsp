@@ -40,8 +40,10 @@
             if (!sProductStockUid.equals(sPreviousProductStockUid)) {
                 sPreviousProductStockUid = sProductStockUid;
                 productStock = ProductStock.get(sProductStockUid);
-                sProductName = productStock.getProduct().getName();
-                sServiceStockName = productStock.getServiceStock().getName();
+                if(productStock!=null){
+	                sProductName = productStock.getProduct().getName();
+	                sServiceStockName = productStock.getServiceStock().getName();
+                }
             }
 
             // translate importance
@@ -179,6 +181,7 @@
             sEditBatchEnd = checkString(request.getParameter("EditBatchEnd")),
             sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
             sEditProductStockDocumentUidText = "",
+            sEditProductStockOperationUid = checkString(request.getParameter("EditProductStockOperationUid")),
             sEditImportance = checkString(request.getParameter("EditImportance")); // (native|high|low)
 
             if(sEditProductStockDocumentUid.length()>0){
@@ -213,7 +216,7 @@
             sFindServiceName = "", sFindServiceStockName = "", sFindProductName = "", sDeliveredQuantity="",
             sFindSupplierUid = "", sFindSupplierName = "", sFindDateDeliveredSince = "";
 
-    int nTotalPackagesDelivered=0;
+    int nTotalPackagesDelivered=0, nPackagesActualOrder=0;
     // get find-data from form
     sFindDescription = (checkString(request.getParameter("FindDescription"))+"%").replaceAll("%%", "%");
     sFindSupplierUid = checkString(request.getParameter("FindSupplierUid"));
@@ -313,7 +316,33 @@
    		nPackagesDelivered=Integer.parseInt(sEditPackagesDelivered);
    	 }
    	 catch(Exception e){}
-	 
+     ProductStockOperation operation = new ProductStockOperation();
+     if(sEditProductStockOperationUid.length()>0){
+     	operation = ProductStockOperation.get(sEditProductStockOperationUid);
+     	nPackagesActualOrder = operation.getUnitsChanged();
+     }
+     else {
+     	 operation.setUid("-1");
+         operation.setCreateDateTime(new java.util.Date());
+     }
+
+     if(sAction.equals("deleteOperation") && sEditProductStockOperationUid.length()>0){
+    	ProductStockOperation.delete(sEditProductStockOperationUid); 
+        ProductOrder order=null;
+        order = ProductOrder.get(sEditOrderUid);
+        order.setPackagesDelivered(order.getDeliveredQuantity());
+        if(order.getPackagesDelivered()==order.getPackagesOrdered() || request.getParameter("closeOrder")!=null){
+        	order.setStatus("closed");
+        	orderIsClosed=true;
+        }
+        else {
+        	order.setStatus("open");
+        	orderIsClosed=false;
+        }
+        order.store();
+        sAction="showDetails";
+     }
+     
    	 if (sAction.equals("save") && sEditOrderUid.length() > 0) {
         String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
         if (!sPrevUsedDocument.equals(sEditProductStockDocumentUid)) {
@@ -323,12 +352,9 @@
         ProductOrder order=null;
         // save order
         if(sEditOrderUid.length()>0){
-        	if(nPackagesDelivered>0){
+        	if(nPackagesDelivered>0 || sEditProductStockOperationUid.length()>0){
 	            //first save the productstock operation
-	            ProductStockOperation operation = new ProductStockOperation();
-	            operation.setUid("-1");
-	            operation.setCreateDateTime(new java.util.Date());
-	            operation.setDate(new java.util.Date());
+	            operation.setDate(ScreenHelper.stdDateFormat.parse(sEditDateDelivered));
 	            operation.setDescription(MedwanQuery.getInstance().getConfigString("pharmacyOrderReceptionDescription","medicationreceipt.4"));
 	            operation.setProductStockUid(sEditProductStockUid);
 	            if(sEditBatchNumber.length()>0){
@@ -368,10 +394,11 @@
 				if(productStock!=null){
 		            if(productStock.getProduct()!=null && request.getParameter("EditPrice")!=null){
 		            	try{
+		            		Pointer.deletePointers("drugprice."+productStock.getProduct().getUid()+"."+operation.getUid());
 		            		Pointer.storePointer("drugprice."+productStock.getProduct().getUid()+"."+operation.getUid(),nPackagesDelivered+";"+Double.parseDouble(request.getParameter("EditPrice")));
 		            	}
 		            	catch(Exception e){
-		            		e.printStackTrace();
+		            		//e.printStackTrace();
 		            	}
 		            }
 				}
@@ -385,6 +412,10 @@
             if(order.getPackagesDelivered()==order.getPackagesOrdered() || request.getParameter("closeOrder")!=null){
             	order.setStatus("closed");
             	orderIsClosed=true;
+            }
+            else {
+            	order.setStatus("open");
+            	orderIsClosed=false;
             }
             order.store();
         }
@@ -611,17 +642,20 @@
                             <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch(<%=displayDeliveredOrders%>,'<%=sDefaultSortCol%>');">
 
                             <%-- since 1 --%>
-                            <span id="sinceDiv" <%=(displayUndeliveredOrders?"style='display:none;'":"")%>>
+                            <%if(displayDeliveredOrders){ %>
+                            <span id="sinceDiv" >
                                 <%=getTran("Web","since",sWebLanguage)%>&nbsp;<%=ScreenHelper.writeDateField("FindDateDeliveredSince","transactionForm",sFindDateDeliveredSince,true,false,sWebLanguage,sCONTEXTPATH)%>&nbsp;
                             </span>
-
+							<%} %>
                             <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
                             <input type="button" class="button" name="searchComplementButton" value="<%=getTranNoLink("Web.manage",(displayDeliveredOrders?"undeliveredOrders":"deliveredOrders"),sWebLanguage)%>" onclick="doSearch(<%=!displayDeliveredOrders%>,'<%=sSortCol%>');">
 
                             <%-- since 2 --%>
-                            <span id="sinceDiv" <%=(displayDeliveredOrders?"style='display:none;'":"")%>>
+                            <%if(displayUndeliveredOrders){ %>
+                            <span id="sinceDiv" >
                                 <%=getTran("Web","since",sWebLanguage)%>&nbsp;<%=ScreenHelper.writeDateField("FindDateDeliveredSince","transactionForm",sFindDateDeliveredSince,true,false,sWebLanguage,sCONTEXTPATH)%>
                             </span>
+							<%} %>
 
                             <%-- display message --%>
                             <span id="msgArea"><%=msg%></span>
@@ -766,8 +800,9 @@
 
         //--- EDIT FIELDS -------------------------------------------------------------------------
         if(displayEditFields){
-            if(!orderIsClosed){
+            if(!orderIsClosed  || sEditProductStockOperationUid.length()>0){
                 %>
+                	<input type='hidden' name='EditProductStockOperationUid' id='EditProductStockOperationUid' value='<%=sEditProductStockOperationUid %>'/>
                     <table class="list" width="100%" cellspacing="1">
                         <%-- servicestock --%>
                         <tr>
@@ -800,27 +835,27 @@
                         </tr>
                         <%-- PackagesDelivered --%>
                         <tr>
-                            <td class="admin"><%=getTran("Web","register.delivery",sWebLanguage)%>&nbsp;(max = <%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered %>)</td>
+                            <td class="admin"><%=getTran("Web","register.delivery",sWebLanguage)%>&nbsp;(max = <%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered+nPackagesActualOrder %>)</td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditPackagesDelivered" value="<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>" size="5" maxLength="5" onKeyUp="if(!isNumberLimited(this,0,<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered%>)){alertDialog('web','number.out.of.limits');this.value=''}">
+                                <input type="text" class="text" name="EditPackagesDelivered" value="<%=nPackagesActualOrder==0?Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered:nPackagesActualOrder%>" size="5" maxLength="5" onKeyUp="if(!isNumberLimited(this,0,<%=Integer.parseInt(sSelectedPackagesOrdered)-nTotalPackagesDelivered+nPackagesActualOrder%>)){alertDialog('web','number.out.of.limits');this.value=''}">
                             </td>
                         </tr>
                         <tr>
                             <td class="admin"><%=getTran("Web","batch",sWebLanguage)%></td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditBatchNumber" value="" size="25" maxLength="50"/>
+                                <input type="text" class="text" name="EditBatchNumber" value="<%=checkString(operation.getBatchNumber()) %>" size="25" maxLength="50"/>
                             </td>
                         </tr>
                         <tr>
                             <td class="admin"><%=getTran("Web","batch.expiration",sWebLanguage)%></td>
                             <td class="admin2">
-                                <%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%>
+                                <%=writeDateField("EditBatchEnd","transactionForm",operation.getBatchEnd()==null?"":ScreenHelper.stdDateFormat.format(operation.getBatchEnd()),sWebLanguage)%>
                             </td>
                         </tr>
                         <tr>
                             <td class="admin"><%=getTran("Web","batch.comment",sWebLanguage)%></td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditBatchComment" value="" size="80" maxLength="255"/>
+                                <input type="text" class="text" name="EditBatchComment" value="<%=checkString(operation.getBatchComment()) %>" size="80" maxLength="255"/>
                             </td>
                         </tr>
                         <tr>
@@ -836,7 +871,19 @@
                         <tr>
                             <td class="admin"><%=getTran("Web","unitprice",sWebLanguage)%></td>
                             <td class="admin2">
-                                <input type="text" class="text" name="EditPrice" value="" size="15" maxLength="15" onKeyUp="if(!isNumber(this,0)){this.value=''}">
+                            <%
+                            	String sPrice="";
+	                            if(operation.getProductStock()!=null){
+									sPrice=Pointer.getPointer("drugprice."+operation.getProductStock().getProductUid()+"."+operation.getUid());
+									if(sPrice.split(";").length>1){
+										sPrice=sPrice.split(";")[1];
+									}
+									else {
+										sPrice="";
+									}
+	                            }
+                            %>
+                                <input type="text" class="text" name="EditPrice" value="<%=sPrice %>" size="15" maxLength="15" onKeyUp="if(!isNumber(this,0)){this.value=''}">
                             </td>
                         </tr>
                         <%-- Comment --%>
@@ -942,6 +989,7 @@
             else{
                 // order is not editable
                 %>
+                	<input type='hidden' name='EditProductStockOperationUid' id='EditProductStockOperationUid' value=''/>
                     <table class="list" width="100%" cellspacing="1">
                         <%-- description --%>
                         <tr>
@@ -1008,10 +1056,9 @@
             Vector operations = ProductStockOperation.searchProductStockOperations("", "", "", "", "", sEditOrderUid,"");
 			System.out.println("operations="+operations);
             if(operations.size()>0){
-    			System.out.println("operations.size()="+operations.size());
 	            out.println("<table width='100%'>");
 	            out.println("<tr class='admin'>");
-	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))+"</td>");
+	            out.println("<td/><td>"+HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))+"</td>");
 	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","description",sWebLanguage))+"</td>");
 	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","PackagesDelivered",sWebLanguage))+"</td>");
 	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","productstockoperationdocument",sWebLanguage))+"</td>");
@@ -1019,15 +1066,18 @@
 	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","batch.expiration",sWebLanguage))+"</td>");
 	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","supplier",sWebLanguage))+"</td>");
 	            out.println("</tr>");
-    			System.out.println("a");
 	            for(int n=0;n<operations.size();n++){
-	    			System.out.println("b");
-	            	ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
-	    			System.out.println("c");
+	            	operation = (ProductStockOperation)operations.elementAt(n);
 	            	if(operation!=null){
-	            		out.println("<tr><td class='admin'>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td><td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td><td class='admin2'>"+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getDocumentUID()+"</td><td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td><td class='admin2'>"+(operation.getBatchEnd()!=null?ScreenHelper.stdDateFormat.format(operation.getBatchEnd()):"")+"</td><td class='admin2'>"+(operation.getSourceDestination()!=null?operation.getSourceDestination().getObjectUid():"")+"</td></tr>");
+	            		out.println("<tr>");
+	    	            %>
+	    	            <td class='admin'>
+	    	            	<img src='<c:url value="_img/icon_edit.gif"/>' onclick='doShowOperationDetails("<%=sEditOrderUid%>","<%=operation.getUid()%>");'/>
+	    	            	<img src='<c:url value="_img/icon_delete.gif"/>' onclick='doDeleteOperation("<%=sEditOrderUid%>","<%=operation.getUid()%>");'/>
+	    	            </td>
+	    	            <%
+	    	            out.println("<td class='admin'>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td><td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td><td class='admin2'>"+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getDocumentUID()+"</td><td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td><td class='admin2'>"+(operation.getBatchEnd()!=null?ScreenHelper.stdDateFormat.format(operation.getBatchEnd()):"")+"</td><td class='admin2'>"+(operation.getSourceDestination()!=null?operation.getSourceDestination().getObjectUid():"")+"</td></tr>");
 	            	}
-	    			System.out.println("d");
 	            }
 	            out.println("</table>");
 			}
@@ -1192,15 +1242,34 @@
 
   <%-- DO SHOW DETAILS --%>
   function doShowDetails(orderUid){
-    if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
-    if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
-    if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
+	    if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
+	    if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
+	    if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
 
-    transactionForm.EditOrderUid.value = orderUid;
-    transactionForm.Action.value = "showDetails";
-    transactionForm.submit();
+	    transactionForm.EditOrderUid.value = orderUid;
+	    transactionForm.Action.value = "showDetails";
+	    transactionForm.submit();
+	  }
+
+  function doShowOperationDetails(orderUid,operationUid){
+	    if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
+	    if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
+	    if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
+
+	    transactionForm.EditOrderUid.value = orderUid;
+	    transactionForm.EditProductStockOperationUid.value = operationUid;
+	    transactionForm.Action.value = "showDetails";
+	    transactionForm.submit();
+	  }
+
+  function doDeleteOperation(orderUid,operationUid){
+	    if(yesnoDialog("Web","areYouSureToDelete")){
+		    transactionForm.EditOrderUid.value = orderUid;
+		    transactionForm.EditProductStockOperationUid.value = operationUid;
+		    transactionForm.Action.value = "deleteOperation";
+		    transactionForm.submit();
+	    }
   }
-
   <%-- CLEAR SEARCH FIELDS --%>
   function clearSearchFields(){
     transactionForm.FindSupplierUid.value = "";

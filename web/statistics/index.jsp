@@ -92,7 +92,7 @@ if(true){
 
         out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.download",sWebLanguage),sCONTEXTPATH)
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"patients.list\",\"openclinic\");",getTran("Web","statistics.download.patients",sWebLanguage))
-            +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("begin","stats","01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("end","stats","31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;</td></tr>"
+            +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("begin","stats",ScreenHelper.stdDateFormat.format(new java.util.Date()),sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("end","stats","31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date()),sWebLanguage)+"&nbsp;</td></tr>"
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"global.list\",\"openclinic\");",getTran("Web","statistics.download.global",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"globalrfe.list\",\"openclinic\");",getTran("Web","statistics.download.globalrfe",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"encounter.list\",\"openclinic\");",getTran("Web","statistics.download.encounterlist",sWebLanguage))
@@ -106,7 +106,6 @@ if(true){
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"wicketcredits.list\",\"openclinic\");",getTran("Web","statistics.download.wicketcredits",sWebLanguage))
             +writeTblChildWithCodeNoButton("javascript:downloadStats(\"hmk.invoices.list\",\"openclinic\");",getTran("Web","statistics.download.invoicessummary",sWebLanguage))
             +(MedwanQuery.getInstance().getConfigInt("datacenterEnabled",0)==1?writeTblChildWithCodeNoButton("javascript:downloadDatacenterStats(\"service.income.list\",\"stats\");",getTran("Web","statistics.download.serviceincomelist",sWebLanguage)):"")
-            +writeTblChildWithCodeNoButton("javascript:downloadStats(\"hmk.doctors.income\",\"openclinic\");",getTran("Web","statistics.download.doctorsincome",sWebLanguage))
             +ScreenHelper.writeTblFooter()+"<br>");
 
          out.print(ScreenHelper.writeTblHeader(getTran("Web","financial",sWebLanguage),sCONTEXTPATH)
