@@ -154,6 +154,7 @@
                     hMenu.put(getTran("Web.Occup","medwan.common.db-management",sWebLanguage),"main.do?Page=system/checkDB.jsp");
                     hMenu.put(getTran("web.manage","ManageConfiguration",sWebLanguage),"main.do?Page=system/manageConfig.jsp");
                     hMenu.put(getTran("web.manage","ManageConfigurationTabbed",sWebLanguage),"main.do?Page=system/manageConfigTabbed.jsp");
+                    hMenu.put(getTran("web.manage","ManageConfigurationPerCategory",sWebLanguage),"main.do?Page=util/configparameters.jsp");
                     hMenu.put(getTran("web.manage","manageTransactionItems",sWebLanguage),"main.do?Page=system/manageTransactionItems.jsp");
                     hMenu.put(getTran("web.manage","ManageServerId",sWebLanguage),"main.do?Page=system/manageServerId.jsp");
                     hMenu.put(getTran("web.manage","applications",sWebLanguage),"main.do?Page=system/manageApplications.jsp");

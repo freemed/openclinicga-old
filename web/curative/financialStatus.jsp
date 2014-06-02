@@ -9,7 +9,7 @@
 %>
 <table width="100%" cellpadding="0" cellspacing="0" class="list">
     <tr class="admin">
-        <td width="150">
+        <td>
             <%=getTran("curative","financial.status.title",sWebLanguage)%>&nbsp;
             <a href="<c:url value='/main.do'/>?Page=financial/editBalance.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_edit.gif'/>" class="link" title="<%=getTranNoLink("web","editBalance",sWebLanguage)%>" style="vertical-align:-4px;"></a>
             <a href="<c:url value='/main.do'/>?Page=financial/debetEdit.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/money.gif'/>" class="link" title="<%=getTranNoLink("web","debetEdit",sWebLanguage)%>" style="vertical-align:-4px;"></a>

@@ -38,8 +38,8 @@
                 "<table width='100%' cellspacing='0' class='list'>"+
                  "<tr class='admin'>"+
                   "<td width='2%'>"+
-                   "<a href='#'><img id='Input_"+headerIdx+"_S' border='0' src='"+sCONTEXTPATH+"/_img/plus.png' OnClick='showD(\"Input_"+headerIdx+"\",\"Input_"+headerIdx+"_S\",\"Input_"+headerIdx+"_H\")' style='display:none'></a>"+
-                   "<a href='#'><img id='Input_"+headerIdx+"_H' border='0' src='"+sCONTEXTPATH+"/_img/minus.png' OnClick='hideD(\"Input_"+headerIdx+"\",\"Input_"+headerIdx+"_S\", \"Input_"+headerIdx+"_H\")'></a>"+
+                   "<a href='#'><img id='Input_"+headerIdx+"_S' name='Input_"+headerIdx+"_S' border='0' src='"+sCONTEXTPATH+"/_img/plus.png' OnClick='showD(\"Input_"+headerIdx+"\",\"Input_"+headerIdx+"_S\",\"Input_"+headerIdx+"_H\")' style='display:none'></a>"+
+                   "<a href='#'><img id='Input_"+headerIdx+"_H' name='Input_"+headerIdx+"_H' border='0' src='"+sCONTEXTPATH+"/_img/minus.png' OnClick='hideD(\"Input_"+headerIdx+"\",\"Input_"+headerIdx+"_S\", \"Input_"+headerIdx+"_H\")'></a>"+
                   "</td>"+
                   "<td>"+sHeader+"</td>"+
                   "<td>Permission</td>"+
@@ -50,7 +50,7 @@
                 "<td width='8%'>&nbsp;"+getTran("web","delete",sWebLanguage)+"</td>"+
                 "<td align='right'><a href=\"#topp\" class=\"topbutton\">&nbsp;</a></td>"+
                "</tr>"+
-               "<tbody id='Input_"+headerIdx+"'>";
+               "<tbody id='Input_"+headerIdx+"' name='Input_"+headerIdx+"'>";
     }
     
     public String writeFooter(){

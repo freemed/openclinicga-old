@@ -22,6 +22,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <script>  
+	var dateFormat = "<%=ScreenHelper.stdDateFormat.toPattern()%>";
   <%-- ALERT DIALOG --%>
   function alertDialog(labelType,labelId){
     if(window.showModalDialog){

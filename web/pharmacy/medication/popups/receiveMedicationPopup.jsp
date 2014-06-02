@@ -3,7 +3,6 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("medication.medicationreceipt","all",activeUser)%>
-
 <%
     String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
            sDefaultSrcDestType = "type2patient", sServiceStockUid = "", sSourceStockName = "", sEditRemaining;
@@ -293,58 +292,59 @@
   }
 
   function showBatchInfo(){
+
     if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="servicestock"){
       if(transactionForm.EditSrcDestUid.value.length>0){
-        var params = "";
-        var today = new Date();
-	    var url= '<c:url value="/pharmacy/medication/ajax/getProductStockBatches.jsp"/>?destinationproductstockuid=<%=sEditProductStockUid%>&sourceservicestockuid='+transactionForm.EditSrcDestUid.value+'&ts='+today;
-	    new Ajax.Request(url,{
-	      method: "POST",
-	      parameters: params,
-	      onSuccess: function(resp){
-	        $("batch").innerHTML = resp.responseText;
-	      }
-	    }); 
-    }
-    else{
-        document.getElementById("batch").innerHTML = "<table>"+
-        "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img src='<c:url value="/_img/icon_search.gif"/>' onclick='findbatch();'/></td></tr>"+
-        "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
-        "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
-       "</table>";
+	        var params = "";
+	        var today = new Date();
+		    var url= '<c:url value="/pharmacy/medication/ajax/getProductStockBatches.jsp"/>?destinationproductstockuid=<%=sEditProductStockUid%>&sourceservicestockuid='+transactionForm.EditSrcDestUid.value+'&ts='+today;
+		    new Ajax.Request(url,{
+		      method: "POST",
+		      parameters: params,
+		      onSuccess: function(resp){
+		        $("batch").innerHTML = resp.responseText;
+		      }
+		    }); 
+	    }
+	    else{
+	        document.getElementById("batch").innerHTML = "<table>"+
+	        "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img src='<c:url value="/_img/icon_search.gif"/>' onclick='findbatch();'/></td></tr>"+
+	        "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+	        "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+	       "</table>";
+		}
+		setTimeout("updateMaxVal();",500);
+	  }
+	  else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="supplier"){
+	    document.getElementById("batch").innerHTML = "<table>"+
+	                                                  "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+	                                                  "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+	                                                  "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+	                                                 "</table>";
+	    setMaxQuantityValue(999999);
+	}		
+	else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="patient"){
+	  document.getElementById("batch").innerHTML = "<table>"+
+	                                                "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+	                                               "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+	                                               "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+	                                               "<tr><td><%=getTran("web","origin",sWebLanguage)%></td>"+
+	                                                "<td>"+
+	                					                "<input class='text' TYPE='text' NAME='EditReceiveComment' id='EditReceiveComment' readonly size='50' TITLE='' VALUE='' onchange=''>"+
+	                					                "<img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir' onclick='findsearchsource(\"EditReceiveCommentID\",\"EditReceiveComment\");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick=\"document.getElementsByName('EditReceiveComment')[0].value='';\">"+
+	                					                "<input TYPE='hidden' NAME='EditReceiveCommentID' id='EditReceiveCommentID' VALUE=''>"+
+	                                                "</td></tr>"+
+	                                               "</table>";
+	  setMaxQuantityValue(999999);  
+	}	
+	else{
+	    document.getElementById("batch").innerHTML = "<table>"+
+	    "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+	   "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+	   "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+	   "</table>";
+	  setMaxQuantityValue(999999);
 	}
-	setTimeout("updateMaxVal();",500);
-  }
-  else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="supplier"){
-    document.getElementById("batch").innerHTML = "<table>"+
-                                                  "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
-                                                  "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
-                                                  "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
-                                                 "</table>";
-    setMaxQuantityValue(999999);
-  }		
-    else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="patient"){
-      document.getElementById("batch").innerHTML = "<table>"+
-                                                    "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
-                                                    "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
-                                                    "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
-                                                    "<tr><td><%=getTran("web","origin",sWebLanguage)%></td>"+
-                                                    "<td>"+
-                    					                "<input class='text' TYPE='text' NAME='EditReceiveComment' id='EditReceiveComment' readonly size='50' TITLE='' VALUE='' onchange=''>"+
-                    					                "<img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir' onclick='findsearchsource(\"EditReceiveCommentID\",\"EditReceiveComment\");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick=\"document.getElementsByName('EditReceiveComment')[0].value='';\">"+
-                    					                "<input TYPE='hidden' NAME='EditReceiveCommentID' id='EditReceiveCommentID' VALUE=''>"+
-                                                    "</td></tr>"+
-                                                   "</table>";
-      setMaxQuantityValue(999999);  
-    }	
-    else{
-        document.getElementById("batch").innerHTML = "<table>"+
-        "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
-        "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
-        "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
-       "</table>";
-      setMaxQuantityValue(999999);
-    }
   }
 
   function setMaxQuantityValue(mq){
@@ -355,6 +355,7 @@
     else{
       document.getElementById("maxquantity").innerHTML = "";
     }
+
   }
 
   function updateMaxVal(){

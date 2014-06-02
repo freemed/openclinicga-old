@@ -336,7 +336,6 @@ function getToday(sobject){
   if(sDay.length < 2) sDay = "0"+sDay;
   var sMonth = (today.getMonth()+1)+"";
   if(sMonth.length < 2) sMonth = "0"+sMonth;
-    
   if(dateFormat.startsWith("MM")){
 	// US
 	sobject.value = (sMonth+"/"+sDay+"/"+today.getFullYear());

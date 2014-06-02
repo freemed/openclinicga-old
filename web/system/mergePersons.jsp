@@ -3,7 +3,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
-<%=checkPermission("system.management","all",activeUser)%>
+<%=checkPermission("system.mergepersons","all",activeUser)%>
 
 <form name="mergeForm" method="post">
     <%-- HIDDEN FIELDS --%>

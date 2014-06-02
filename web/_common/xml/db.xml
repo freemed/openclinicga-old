@@ -3039,6 +3039,7 @@
             <column name="begindate" dbtype="datetime" javatype="date"/>
             <column name="enddate" dbtype="datetime" javatype="date"/>
             <column name="updateserverid" dbtype="int" javatype="integer"/>
+            <column name="archivefilecode" dbtype="varchar" javatype="string" size="50"/>
 		</columns>
 		<indexes>
 			<index name="admin_personid">
@@ -3102,6 +3103,7 @@
             <column name="begindate" dbtype="datetime" javatype="date"/>
             <column name="enddate" dbtype="datetime" javatype="date"/>
             <column name="updateserverid" dbtype="int" javatype="integer"/>
+            <column name="archivefilecode" dbtype="varchar" javatype="string" size="50"/>
 		</columns>
 		<indexes>
 			<index name="adminhistory_personid">
