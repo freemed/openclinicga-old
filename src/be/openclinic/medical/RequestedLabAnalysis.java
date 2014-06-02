@@ -284,7 +284,7 @@ public class RequestedLabAnalysis {
                 ps.setInt(1,Integer.parseInt(patientId));
                 ResultSet rs = ps.executeQuery();
                 if(rs.next()){
-                    setResultRefMax(getResultRefMax(rs.getString("gender"),new Double(MedwanQuery.getInstance().getNrYears(rs.getDate("dateofbirth"), new java.util.Date())).intValue()));
+                    setResultRefMax(getResultRefMax(rs.getString("gender"),new Double(MedwanQuery.getInstance().getNrMonths(rs.getDate("dateofbirth"), new java.util.Date())).intValue()));
                 }
                 rs.close();
                 ps.close();
@@ -320,7 +320,7 @@ public class RequestedLabAnalysis {
                 ps.setInt(1,Integer.parseInt(patientId));
                 ResultSet rs = ps.executeQuery();
                 if(rs.next()){
-                    setResultRefMin(getResultRefMin(rs.getString("gender"),new Double(MedwanQuery.getInstance().getNrYears(rs.getDate("dateofbirth"), new java.util.Date())).intValue()));
+                    setResultRefMin(getResultRefMin(rs.getString("gender"),new Double(MedwanQuery.getInstance().getNrMonths(rs.getDate("dateofbirth"), new java.util.Date())).intValue()));
                 }
                 rs.close();
                 ps.close();

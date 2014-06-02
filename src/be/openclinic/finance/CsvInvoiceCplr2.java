@@ -60,8 +60,9 @@ public class CsvInvoiceCplr2 {
 	                if(!initialized){
 			            //Eerst consultaties
 			            sOutput+="\r\n\r\n"+ScreenHelper.getTran("hospital.statistics", "visits", "fr");
-			            sOutput+="\r\n#;RECU;NOM ET PRENOM;MATRIC;CARTE;AFFECT;STATUT;SERVICE;TOTAL;PATIENT;ASSUREUR;ASSUREUR_COMPL;DATE\r\n";
+			            sOutput+="\r\n#;RECU;NOM ET PRENOM;MATRIC;CARTE;AFFECT;STATUT;SERVICE;TOTAL;PATIENT;ASSUREUR;ASSUREUR_COMPL;DATE;REF BON\r\n";
 	                }
+	                initialized=true;
 	                date = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(debet.getDate()));
 
 	                sServiceUid=debet.getServiceUid();
@@ -94,7 +95,8 @@ public class CsvInvoiceCplr2 {
 	                	sOutput+=(total100pct-total85pct-totalext)+";";
 	                	sOutput+=total85pct+";";
 	                	sOutput+=totalext+";";
-	                	sOutput+=(prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date))+"\r\n";
+	                	sOutput+=(prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date))+";";
+	                	sOutput+=insurarreference+"\r\n";
 	                	categories = new TreeMap();
 	                	total100pct=0;
 	                	total85pct=0;
@@ -176,11 +178,12 @@ public class CsvInvoiceCplr2 {
 	            	sOutput+=(total100pct-total85pct-totalext)+";";
 	            	sOutput+=total85pct+";";
 	            	sOutput+=totalext+";";
-	            	sOutput+=(prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date))+"\r\n";
+                	sOutput+=(prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date))+";";
+                	sOutput+=insurarreference+"\r\n";
 	            	//Print totals
 	            	sOutput+=";";
-	            	sOutput+=";";
 	            	sOutput+=ScreenHelper.getTran("web", "total", "fr")+";";
+	            	sOutput+=";";
 	            	sOutput+=";";
 	            	sOutput+=";";
 	            	sOutput+=";";
@@ -190,7 +193,8 @@ public class CsvInvoiceCplr2 {
 	            	sOutput+=(generaltotal100pct-generaltotal85pct-generaltotalext)+";";
 	            	sOutput+=generaltotal85pct+";";
 	            	sOutput+=generaltotalext+";";
-	            	sOutput+=prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date)+"\r\n";
+	            	sOutput+=";";
+	            	sOutput+="\r\n";
 	            }
             	total100pct=0;
             	total85pct=0;

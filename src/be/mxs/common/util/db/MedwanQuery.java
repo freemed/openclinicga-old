@@ -3387,6 +3387,14 @@ public class MedwanQuery {
         return (float) (days - feb29s) / 365;
     }
     
+    public double getNrMonths(java.util.Date startDate, java.util.Date endDate){
+    	long millis = endDate.getTime()-startDate.getTime();
+    	long month=(365/12)*24*3600;
+    	month*=1000;
+    	double age =millis/month;
+    	return age;
+    }
+    
     //--- GET AGE DECIMAL -------------------------------------------------------------------------
     public float getAgeDecimal(int personId){
         Connection OccupdbConnection;

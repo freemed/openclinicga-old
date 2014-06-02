@@ -972,7 +972,7 @@ public class ScreenHelper {
         }
         
         return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)"+sExtraCondition+"){dateError(this);}else{"+sExtraOnBlur+"}'>"
-              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
+              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document."+sForm+"."+sName+");return false;'>"
               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
     }
 
