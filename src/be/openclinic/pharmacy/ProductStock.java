@@ -777,7 +777,8 @@ public class ProductStock extends OC_Object implements Comparable {
     //--- GET TOTAL UNITS IN FOR DATE -------------------------------------------------------------
     public int getTotalUnitsInForDate(java.util.Date date) {
         int units = 0;
-        java.util.Date dateUntill = new java.util.Date(date.getTime() + (24 * 3600 * 1000) - 1); // add one day
+        long day = 24 * 3600 * 1000;
+        java.util.Date dateUntill = new java.util.Date(date.getTime() + day - 1); // add one day
         Vector receipts = ProductStockOperation.getReceipts(getUid(), "", date, dateUntill, "OC_OPERATION_DATE", "ASC");
         ProductStockOperation receipt;
         for (int i = 0; i < receipts.size(); i++) {
@@ -789,7 +790,8 @@ public class ProductStock extends OC_Object implements Comparable {
     //--- GET TOTAL UNITS OUT FOR DATE ------------------------------------------------------------
     public int getTotalUnitsOutForDate(java.util.Date date) {
         int units = 0;
-        java.util.Date dateUntill = new java.util.Date(date.getTime() + (24 * 3600 * 1000) - 1); // add one day
+        long day = 24 * 3600 * 1000;
+        java.util.Date dateUntill = new java.util.Date(date.getTime() + day - 1); // add one day
         Vector deliveries = ProductStockOperation.getDeliveries(getUid(), "", date, dateUntill, "OC_OPERATION_DATE", "ASC");
         ProductStockOperation delivery;
         for (int i = 0; i < deliveries.size(); i++) {

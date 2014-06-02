@@ -802,6 +802,7 @@ public class ProductOrder extends OC_Object{
 	            if(sFindPackagesOrdered.length() > 0) sSelect+= "po.OC_ORDER_PACKAGESORDERED = ? AND ";
 	            if(sFindDateOrdered.length() > 0)     sSelect+= "po.OC_ORDER_DATEORDERED >= ? AND ";
 	            if(sFindDateDeliveryDue.length() > 0) sSelect+= "po.OC_ORDER_DATEDELIVERYDUE >= ? AND ";
+	            if(sFindDateDeliveredSince.length() > 0) sSelect+= "po.OC_ORDER_DATEDELIVERED >= ? AND ";
 	
 	            // remove last AND if any
 	            if(sSelect.indexOf("AND ")>0){
@@ -821,6 +822,7 @@ public class ProductOrder extends OC_Object{
 	        if(sFindPackagesOrdered.length() > 0) ps.setString(questionMarkIdx++,sFindPackagesOrdered);
 	        if(sFindDateOrdered.length() > 0)     ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(sFindDateOrdered));
 	        if(sFindDateDeliveryDue.length() > 0) ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(sFindDateDeliveryDue));
+	        if(sFindDateDeliveredSince.length() > 0) ps.setDate(questionMarkIdx++,ScreenHelper.getSQLDate(sFindDateDeliveredSince));
 	
 	        // execute
 	        rs = ps.executeQuery();
