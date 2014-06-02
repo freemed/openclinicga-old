@@ -1044,6 +1044,7 @@
                             <td class="admin2">
                                 <%-- BACK TO OVERVIEW --%>
                                 <input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();">
+                                <input class="button" type="button" name="editButton" value='<%=getTranNoLink("Web","edit",sWebLanguage)%>' onclick="doEditDetails('<%=sEditOrderUid%>');">
                                 <%-- display message --%>
                                 <span id="msgArea"><%=msg%></span>
                             </td>
@@ -1087,6 +1088,7 @@
     <input type="hidden" name="Action">
     <input type="hidden" name="SortCol" value="<%=sSortCol%>">
     <input type="hidden" name="SortDir" value="<%=sSortDir%>">
+    <input type="hidden" name="forceedit" value="0">
     <input type="hidden" name="EditOrderUid" value="<%=sEditOrderUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
     <input type="hidden" name="DisplayDeliveredOrders" value="<%=displayDeliveredOrders%>">
@@ -1270,6 +1272,17 @@
 		    transactionForm.submit();
 	    }
   }
+  function doEditDetails(orderUid){
+    if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
+    if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
+    if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
+
+    transactionForm.EditOrderUid.value = orderUid;
+    transactionForm.forceedit.value="1";
+    transactionForm.Action.value = "showDetails";
+    transactionForm.submit();
+  }
+
   <%-- CLEAR SEARCH FIELDS --%>
   function clearSearchFields(){
     transactionForm.FindSupplierUid.value = "";
