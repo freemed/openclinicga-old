@@ -791,6 +791,7 @@ INPUT.text {
   FONT-SIZE: 10px;
   BACKGROUND: #ffffff;
   COLOR: black;
+  height: 18px;
   background: url( "../../_img/back_input.png" ) no-repeat ;
   FONT-FAMILY: arial, sans-serif; 
 }
@@ -2067,6 +2068,7 @@ div#login #error_msg div{
   border: 1px solid red;
   background-image: url( '../../_img/background_error.png' );
 }
+
 div#loginopeninsurance #login_field {
   float: left;
   width: 250px;
