@@ -423,7 +423,7 @@ function checkDropdown(evt){
       if((target.id.indexOf("menu") > -1) || (target.id.indexOf("ddIcon") > -1)){
         if(bSaveHasNotChanged == false) {
           dropDownChecked = true;
-          if(checkSaveButton()){
+          if(checkSaveButton()==true){
             target.click();
           }
         }
