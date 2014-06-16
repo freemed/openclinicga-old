@@ -491,6 +491,15 @@
       window.open("<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=ScreenHelper.getTs()%>&PersonID="+barcode.substring(1), "Popup"+new Date().getTime(), "toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no").moveTo((screen.width - 800) / 2, (screen.height - 600) / 2);
     }
   }
+  
+  function getTransactionHistory(transactionid,depth){
+	    openPopup("healthrecord/getTransactionHistory.jsp&ts=<%=getTs()%>&transactionid="+transactionid+"&depth="+depth,1000,600);
+}
+
+  function getWicketOperationHistory(uid,depth){
+	    openPopup("financial/getWicketOperationHistory.jsp&ts=<%=getTs()%>&uid="+uid+"&depth="+depth,1000,600);
+}
+
     
   <%-- CREATE ARCHIVE FILE --%>
   function createArchiveFile(){

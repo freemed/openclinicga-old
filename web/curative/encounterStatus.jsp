@@ -76,6 +76,13 @@
                 <tr class='admin'>
                     <td>
                         <%=getTran("web","id",sWebLanguage)%>
+                        <%
+	                        if(checkString(activeEncounter.getType()).equalsIgnoreCase("visit") && activeEncounter.getEnd()==null && activeUser.getAccessRight("adt.encounter.edit")){
+	                    %>
+	                    	<img class="link" src="<c:url value='/_img/keywords.gif'/>"  onclick="closeEncounter('<%=activeEncounter.getUid() %>')" alt="<%=getTran("web","close",sWebLanguage)%>"  title="<%=getTran("web","close",sWebLanguage)%>" style="vertical-align:-4px;"/>
+	                    <% 
+	                        }
+                       	%>
                     </td>
                     <td><%=getTran("web","type",sWebLanguage)%></td>
                     <td><%=getTran("web","begindate",sWebLanguage)%></td>
@@ -161,6 +168,17 @@
 
     function goRead(EncounterUid){
         openPopup("adt/editEncounter.jsp&ReadOnly=yes&Popup=yes&EditEncounterUID=" + EncounterUid + "&ts=<%=getTs()%>",800);
+    }
+    
+    function closeEncounter(uid){
+	    var url= '<c:url value="/adt/closeEncounter.jsp"/>?uid='+uid;
+		new Ajax.Request(url,{
+		  method: "GET",
+	      parameters: "",
+	      onSuccess: function(resp){
+	        window.location.reload();
+	      }
+		});
     }
 
 </script>

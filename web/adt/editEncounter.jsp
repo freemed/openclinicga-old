@@ -239,6 +239,7 @@
                             debet.setCreateDateTime(new Date());
                             debet.setUpdateDateTime(new Date());
                             debet.setUpdateUser(activeUser.userid);
+                            debet.setServiceUid(tmpEncounter.getServiceUID());
                             debet.store();
                         }
                     }

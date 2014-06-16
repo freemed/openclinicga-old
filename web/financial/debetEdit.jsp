@@ -15,9 +15,9 @@ System.out.println(0);
 
     String sEditEncounterName = "",sEditDebetServiceUid="",sEditDebetServiceName="",sDefaultServiceUid="",sDefaultServiceName="";
     Debet debet;
-
+    Encounter activeEncounter = null;
     if(activePatient!=null){
-    	Encounter activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
+    	activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
     	if(activeEncounter!=null){
     		sEditDebetServiceUid=checkString(activeEncounter.getServiceUID());
 	        if(sEditDebetServiceUid!=null){
@@ -834,6 +834,41 @@ System.out.println(0);
     EditForm.submit();
   }
 
+  function checkAdmissionDaysInvoiced(){
+	  <%
+	  	if(activeEncounter!=null && activeEncounter.getType().equalsIgnoreCase("admission") && Encounter.getAccountedAccomodationDays(activeEncounter.getUid())<activeEncounter.getDurationInDays()){	
+	  		Prestation pStay=null;
+            if (activeEncounter.getService()!=null && activeEncounter.getService().stayprestationuid!=null) {
+            	pStay = Prestation.get(activeEncounter.getService().stayprestationuid);
+            }
+            if(pStay!=null && pStay.getUid()!=null && pStay.getUid().split("\\.").length>1){
+		  	%>
+				var answer=yesnoDialogDirectText("<%=getTranNoLink("web","invoice.remaining.admission.days",sWebLanguage)+": "+(activeEncounter.getDurationInDays()-Encounter.getAccountedAccomodationDays(activeEncounter.getUid()))+" x "+pStay.getDescription()%>?");
+				if(answer=='1'){
+					invoiceRemainingAdmissionDays('<%=activeEncounter.getUid()%>');
+				}
+		  	<%
+            }
+            else {
+	      	%>
+	      		alert("<%=getTranNoLink("web","warn.invoice.remaining.admission.days",sWebLanguage)+": "+(activeEncounter.getDurationInDays()-Encounter.getAccountedAccomodationDays(activeEncounter.getUid()))%>");
+	      	<%
+            }
+	  	}
+	  %>
+  }
+  
+  function invoiceRemainingAdmissionDays(encounteruid){
+	    var today = new Date();
+	    var url= '<c:url value="/financial/invoiceRemainingAdmissionDays.jsp"/>?encounteruid='+encounteruid+'&insuranceuid='+document.getElementById('EditInsuranceUID').value+'&ts='+today;
+		new Ajax.Request(url,{
+		  method: "POST",
+	      parameters: "",
+	      onSuccess: function(resp){
+	    	  loadUnassignedDebets();
+	      }
+		});
+  }
   function loadUnassignedDebets(){
     document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
     var params = 'FindDateBegin=' + EditForm.FindDateBegin.value
@@ -878,4 +913,5 @@ System.out.println(0);
   loadUnassignedDebets();
   checkSaveButtonRights();
   checkQuickInvoice();
+  checkAdmissionDaysInvoiced();
 </script>

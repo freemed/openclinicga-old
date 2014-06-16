@@ -7,6 +7,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
+<%=sJSDATE %>
 <script>var myForm = document;</script>
 
 <%!
@@ -133,15 +134,15 @@
 		            // forward
 		            String sForward = MedwanQuery.getInstance().getForward(sTransactionType);
 		            if(sForward!=null){
-		                sForward = sForward.substring(0,sForward.indexOf("main.do")) + "medical/viewLastTransaction.jsp" + sForward.substring(sForward.indexOf("main.do") + 8);
+		                sForward = sForward.substring(0,sForward.indexOf("main.do")) + "medical/viewLastTransaction.jsp" + sForward.substring(sForward.indexOf("main.do") + 7);
 		            }
 		             
 		            %>
 	                    <%-- CLICKABLE RECORD HEADER (indent == 0) --%>
 		                <tr class="list<%=sClass%>">
 		                    <td>
-		                        <img id="tr<%=itemCount%>S" src="<c:url value='/_img/plus.png'/>" onclick="showD('tr<%=itemCount%>','tr<%=itemCount%>S','tr<%=itemCount%>H');">
-		                        <img id="tr<%=itemCount%>H" src="<c:url value='/_img/minus.png'/>" onclick="hideD('tr<%=itemCount%>','tr<%=itemCount%>S','tr<%=itemCount%>H');" style="display:none">
+		                        <img id="tr<%=itemCount%>S" name="tr<%=itemCount%>S" src="<c:url value='/_img/plus.png'/>" onclick="showD('tr<%=itemCount%>','tr<%=itemCount%>S','tr<%=itemCount%>H');">
+		                        <img id="tr<%=itemCount%>H" name="tr<%=itemCount%>H" src="<c:url value='/_img/minus.png'/>" onclick="hideD('tr<%=itemCount%>','tr<%=itemCount%>S','tr<%=itemCount%>H');" style="display:none">
 		                    </td>
 		                    <td><%=recordRow.getResult()%></td>
 		                    <td>
@@ -153,7 +154,7 @@
 		                </tr>
 	
 		                <%-- HIDDEN TABLE --%>
-		                <tr id="tr<%=itemCount%>" style="display:none">
+		                <tr id="tr<%=itemCount%>" name="tr<%=itemCount%>" style="display:none">
 		                    <td colspan="4">
 		                        <table class="list" width="100%" cellspacing="1">
 		            <%
@@ -296,7 +297,7 @@
                         else{
                             %>
                                 <tr>
-                                    <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.occup",sLabel,sWebLanguage)%></td>
+                                    <td class="admin" width="<%=sTDAdminWidth%>"><%=getTranNoLink("web.occup",sLabel,sWebLanguage)%></td>
                                     <td class="admin2" width="*"><%=getTranNoLink("web.occup",sResult,sWebLanguage)%></td>
                                 </tr>
                             <%

@@ -502,6 +502,7 @@
 </table>
 
 <%
+String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','ProductUnit','EditUnitsPerTimeUnit','UnitsPerPackage',null,'EditServiceStockUid');\"";
     if(!"true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) && activePatient == null){
         // display message
         %><%=getTran("web", "firstselectaperson", sWebLanguage)%><%
@@ -517,9 +518,6 @@
 %>
 <table class="list" width="100%" cellspacing="1">
 <%-- product --%>
-<%
-    String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','ProductUnit','EditUnitsPerTimeUnit','UnitsPerPackage',null,'EditServiceStockUid');\"";
-%>
 <tr>
     <td class="admin"><%=getTran("Web", "product", sWebLanguage)%>&nbsp;*&nbsp;</td>
     <td class="admin2">
@@ -1466,8 +1464,10 @@ document.onmousedown = function(e){
 <%=writeJSButtons("transactionForm","saveButton")%>
 
 <%
-    if("true".equalsIgnoreCase(request.getParameter("findProduct"))){
-        //out.print("<script>transactionForm.document.getElementById('findProduct').onclick;</script>");
+    if(MedwanQuery.getInstance().getConfigInt("enableAutomaticProductSearchInPrescriptions",1)==1 && "true".equalsIgnoreCase(request.getParameter("findProduct"))){
+        if(sEditPrescrUid.length()==0){
+        	out.print("<script>searchProduct('EditProductUid','EditProductName','ProductUnit','EditUnitsPerTimeUnit','UnitsPerPackage',null,'EditServiceStockUid');</script>");
+        }
     }
 %>
 

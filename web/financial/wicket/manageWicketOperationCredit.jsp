@@ -22,6 +22,7 @@
         sEditWicketOperationUID              = checkString(request.getParameter("FindWicketOperationUID"));
     }
     SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
+    int version = 0;
 
     // today as default date
     if(sEditWicketOperationDate.length()==0){
@@ -36,6 +37,7 @@
         sEditWicketOperationComment = wicketOp.getComment().toString();
         sEditWicketOperationType = wicketOp.getOperationType();
         sEditWicketOperationWicket = wicketOp.getWicketUID();
+        version = wicketOp.getVersion();
     }
 
     if (!(sEditWicketOperationWicket.length() > 0)) {
@@ -95,15 +97,32 @@
         </tr>
         <tr>
             <td class="admin" ><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
-            <td class="admin2"><%=writeDateField("EditWicketOperationDate","EditForm",sEditWicketOperationDate,sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("EditWicketOperationDate","EditForm",sEditWicketOperationDate,sWebLanguage)%>
+            <%
+            if(version>1){
+            %>
+            <a href='javascript:void(0)' onclick='getWicketOperationHistory("<%=sEditWicketOperationUID %>",20)' class='link transactionhistory' title='<%=getTranNoLink("web","modificationshistory",sWebLanguage)%>' alt="<%=getTranNoLink("web","modificationshistory",sWebLanguage)%>">...</a>
+            <%
+            }
+            %>
+            </td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("wicket","operation_type",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2">
+            	<%
+            		if(sEditWicketOperationType.equalsIgnoreCase("patient.payment")){
+            			out.println(getTran("credit.type","patient.payment",sWebLanguage));
+            		}
+            		else {
+            	%>
                 <select class="text" name='EditWicketOperationType'>
                 <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%=ScreenHelper.writeSelect("wicketcredit.type",sEditWicketOperationType,sWebLanguage)%>
                 </select>
+                <%
+            		}
+                %>
             </td>
         </tr>
         <tr>
@@ -120,7 +139,7 @@
         </tr>
         <%=ScreenHelper.setFormButtonsStart()%>
         	<%
-        		if(activeUser.getAccessRight("financial.wicketoperation.edit") || sEditWicketOperationUID.length()==0){
+        		if(!sEditWicketOperationType.equalsIgnoreCase("patient.payment") && (activeUser.getAccessRight("financial.wicketoperation.edit") || sEditWicketOperationUID.length()==0)){
         	%>
             	<input class='button' type="button" name="EditSaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
             <%

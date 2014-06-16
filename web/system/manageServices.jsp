@@ -157,6 +157,8 @@
             } else {
                 hServiceInfo.put("inactive",new Integer(0));
             }
+            System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSS");
+
             Service.manageServiceSave(hServiceInfo);
 
             Label objLabel;
@@ -240,6 +242,7 @@
             }
             hServiceInfo.put("oldserviceid",sEditOldServiceCode);
 
+            System.out.println("UUUUUUUUUUUUUUUUUUUUUUUUUU");
             Service.manageServiceUpdate(hServiceInfo);
 
             //***** update labels for all supported languages *****

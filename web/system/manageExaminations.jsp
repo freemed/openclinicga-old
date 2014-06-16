@@ -6,7 +6,7 @@
 <%=checkPermission("system.manageexaminations","select",activeUser)%>
 <%
     String msg = "", sEditPriority = "", sEditData = "", sEditTranType = "", sEditExamName = "", 
-           sEditRequiredPrestation = "", sEditRequiredPrestationClass = "", sEditRequiredPrestationInvoiced = "",
+    		sEditRequiredInvoicable = "", sEditRequiredPrestation = "", sEditRequiredPrestationClass = "", sEditRequiredPrestationInvoiced = "",
            sEditRequiredPrestationClassInvoiced = "";
     boolean bQueryInsert = false;
     boolean bQueryUpdate = false;
@@ -33,16 +33,18 @@
         sEditTranType = checkString(request.getParameter("EditTransactionType"));
         sEditExamName = checkString(request.getParameter("EditExamName"));
        
+        sEditRequiredInvoicable = checkString(request.getParameter("EditRequiredInvoicable"));
         sEditRequiredPrestation = checkString(request.getParameter("EditRequiredPrestation"));
         sEditRequiredPrestationClass = checkString(request.getParameter("EditRequiredPrestationClass"));
         sEditRequiredPrestationInvoiced = checkString(request.getParameter("EditRequiredPrestationInvoiced"));
         sEditRequiredPrestationClassInvoiced = checkString(request.getParameter("EditRequiredPrestationClassInvoiced"));
 
         if(sEditTranType.length() > 0){
-        	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestation", sEditRequiredPrestation);
-        	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestationClass", sEditRequiredPrestationClass);
-        	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestation.invoiced", sEditRequiredPrestationInvoiced.length()>0?"1":"0");
-        	MedwanQuery.getInstance().setConfigString(sEditTranType+".requiredPrestationClass.invoiced", sEditRequiredPrestationClassInvoiced.length()>0?"1":"0");
+        	MedwanQuery.getInstance().setConfigString(sEditTranType.split("\\&")[0]+".requiredInvoicable", sEditRequiredInvoicable.length()>0?"1":"0");
+        	MedwanQuery.getInstance().setConfigString(sEditTranType.split("\\&")[0]+".requiredPrestation", sEditRequiredPrestation);
+        	MedwanQuery.getInstance().setConfigString(sEditTranType.split("\\&")[0]+".requiredPrestationClass", sEditRequiredPrestationClass);
+        	MedwanQuery.getInstance().setConfigString(sEditTranType.split("\\&")[0]+".requiredPrestation.invoiced", sEditRequiredPrestationInvoiced.length()>0?"1":"0");
+        	MedwanQuery.getInstance().setConfigString(sEditTranType.split("\\&")[0]+".requiredPrestationClass.invoiced", sEditRequiredPrestationClassInvoiced.length()>0?"1":"0");
         }
         if(sEditPriority.length()==0){
             sEditPriority = "0";
@@ -254,10 +256,16 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="admin"><%=getTran("web","required.invoicable",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="checkbox" class="test" name="EditRequiredInvoicable" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredInvoicable",0)==1?"checked":"" %>/><%=getTran("web","invoicable",sWebLanguage) %>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="admin"><%=getTran("web","required.prestationcode",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="text" class="normal" size="20" maxLength="20" name="EditRequiredPrestation" value="<%=MedwanQuery.getInstance().getConfigString(sEditTranType+".requiredPrestation")%>">
-                            <input type="checkbox" class="test" name="EditRequiredPrestationInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType+".requiredPrestation.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage) %>
+                            <input type="text" class="normal" size="20" maxLength="20" name="EditRequiredPrestation" value="<%=MedwanQuery.getInstance().getConfigString(sEditTranType.split("\\&")[0]+".requiredPrestation")%>">
+                            <input type="checkbox" class="test" name="EditRequiredPrestationInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredPrestation.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage) %>
                         </td>
                     </tr>
                     <tr>
@@ -265,9 +273,9 @@
                         <td class="admin2">
                         	<select class="text" name="EditRequiredPrestationClass">
                         		<option value=""></option>
-                        		<%=ScreenHelper.writeSelect("prestation.class", MedwanQuery.getInstance().getConfigString(sEditTranType+".requiredPrestationClass"), sWebLanguage, false, true) %>
+                        		<%=ScreenHelper.writeSelect("prestation.class", MedwanQuery.getInstance().getConfigString(sEditTranType.split("\\&")[0]+".requiredPrestationClass"), sWebLanguage, false, true) %>
                         	</select>
-                            <input type="checkbox" class="test" name="EditRequiredPrestationClassInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType+".requiredPrestationClass.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage) %>
+                            <input type="checkbox" class="test" name="EditRequiredPrestationClassInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredPrestationClass.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage) %>
                         </td>
                     </tr>
                     <tr>

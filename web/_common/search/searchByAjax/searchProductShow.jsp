@@ -84,15 +84,9 @@
         if(sClass.length()==0) sClass = "1";
         else                   sClass = "";
 
-        boolean inStock;
-        if(sSearchSupplierUid.length()==0){
-	        inStock = activePatient!=null && activePatient.getActiveDivision()!=null && product.isInStock(activePatient.getActiveDivision().code);
-	        if(MedwanQuery.getInstance().getConfigInt("assumeStock",0)==1){
-	        	inStock = true;
-	        }
-        }
-        else{
-     		inStock=product.isInStock(sSearchSupplierUid);
+        boolean inStock=product.isInServiceStock(sSearchSupplierUid);
+        if(MedwanQuery.getInstance().getConfigInt("assumeStock",0)==1){
+        	inStock = true;
         }
 
         sProductName = checkString(product.getName());

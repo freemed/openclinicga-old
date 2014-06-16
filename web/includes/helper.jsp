@@ -290,7 +290,7 @@
             result+= "</td>";
 
             // context selector
-            result+="<td>"+getLastTransactionAccess("T."+transactionVO.getServerId()+"."+transactionVO.getTransactionId(),language,request)+"</td>";
+            result+="<td>"+getLastTransactionAccess("T."+transactionVO.getServerId()+"."+transactionVO.getTransactionId(),language,request,transactionVO.getVersion())+"</td>";
             result+= "<td align='right' style='padding-top:2px;'>"+
                       "<select id='ctxt' class='text' onchange=\"document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value')[0].value=this.value;show('content-details');if($('confirm'))hide('confirm');\">";
             UserVO user = sessionContainerWO.getUserVO();
@@ -331,7 +331,7 @@
     }
     
     //--- GET LAST TRANSACTION ACCESS -------------------------------------------------------------
-    public String getLastTransactionAccess(String sTrans, String sWebLanguage, HttpServletRequest request){
+    public String getLastTransactionAccess(String sTrans, String sWebLanguage, HttpServletRequest request,int version){
         String sReturn = "";
 
         //SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy '"+getTranNoLink("web.occup"," - ",sWebLanguage)+"' HH:mm:ss");
@@ -341,7 +341,7 @@
             Timestamp t = (Timestamp)ss[0];
             Hashtable u = User.getUserName((String)ss[1]);
             sReturn+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ScreenHelper.fullDateFormat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
-            sReturn+= " | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTran("web", "history", sWebLanguage)+"', width: 420,height:370},{evalScripts: true} );\" class='link linkdark history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
+            sReturn+= " | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTranNoLink("web", "accesshistory", sWebLanguage)+"', width: 420,height:370},{evalScripts: true} );\" class='link linkdark history' title='"+getTranNoLink("web","accesshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","accesshistory",sWebLanguage)+"\">...</a>"+(version>1?"<a href='javascript:void(0)' onclick='getTransactionHistory(\""+sTrans+"\",20)' class='link transactionhistory' title='"+getTranNoLink("web","modificationshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","modificationshistory",sWebLanguage)+"\">...</a>":"")+"</div>";
         }
 
         return sReturn;
@@ -764,6 +764,9 @@
     
     public String getButtonsHtml(HttpServletRequest req, User activeUser, AdminPerson activePatient,
                                  String sAccessRight, String sWebLanguage, boolean displayPrintButton){
+    	if(req.getParameter("nobuttons")!=null){
+    		return "";
+    	}
         StringBuffer html = new StringBuffer();
         html.append("<div id='buttonsDiv' style='visibility:visible;width:100%;text-align:center'>");
 
@@ -772,7 +775,7 @@
         if(sPrintLanguage.length()==0){
             sPrintLanguage = activePatient.language;
         }
-
+	
         if(sAccessRight.length()==0 || !sAccessRight.equalsIgnoreCase("readonly") && ((activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0) || activeUser.getAccessRight(sAccessRight+".add") || activeUser.getAccessRight(sAccessRight+".edit"))){
         	if(displayPrintButton){
 	            html.append(getTran("Web.Occup","PrintLanguage",sWebLanguage)).append("&nbsp;")

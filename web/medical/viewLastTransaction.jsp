@@ -34,7 +34,7 @@
             <tr>
                 <td style="vertical-align:top;" class="white">
                     <%
-                        ScreenHelper.setIncludePage("/content.jsp", pageContext);
+                        ScreenHelper.setIncludePage("/healthrecord/content.jsp", pageContext);
                     %>
                 </td>
             </tr>
