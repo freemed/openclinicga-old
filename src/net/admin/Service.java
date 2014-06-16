@@ -12,6 +12,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.jdbmonitor.common.ObjectCache;
+
 public class Service {
 
     public String type;
@@ -1112,6 +1114,7 @@ public class Service {
 
     public static void manageServiceUpdate(Hashtable hService){
         MedwanQuery.getInstance().services.remove(hService.get("serviceid").toString().toUpperCase());
+        MedwanQuery.getInstance().getObjectCache().reset();
         PreparedStatement ps = null;
 
         String sUpdate = " UPDATE Services SET" +

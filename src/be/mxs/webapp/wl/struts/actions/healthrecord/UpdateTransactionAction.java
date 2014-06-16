@@ -14,6 +14,7 @@ import be.mxs.common.model.vo.healthrecord.util.TransactionFactoryGeneral;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.Mail;
+import be.mxs.common.util.system.Pointer;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.webapp.wl.exceptions.SessionContainerFactoryException;
 import be.mxs.webapp.wl.servlet.http.RequestParameterParser;
@@ -299,6 +300,9 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
 
                     //Sla de transactie op
                     returnedTransactionVO = MedwanQuery.getInstance().updateTransaction(sessionContainerWO.getPersonVO().personId.intValue(),oldTransaction);
+                    if(returnedTransactionVO.getVersion()>1){
+                    	Pointer.storePointer("TU."+returnedTransactionVO.getServerId()+"."+returnedTransactionVO.getTransactionId()+"."+returnedTransactionVO.getVersion(),sessionContainerWO.getUserVO().userId+"");
+                    }
                     if (MedwanQuery.getInstance().getConfigInt("automatedDebet",0)==1){
                         ItemVO ctxt=returnedTransactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT");
                         try{

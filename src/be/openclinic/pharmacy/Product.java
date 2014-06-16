@@ -1057,6 +1057,57 @@ public class Product extends OC_Object implements Comparable {
         return isInStock;
     }
 
+    public static boolean isInServiceStock(String sProductUID,String sServiceUID){
+    	boolean isInStock = false;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            if(sServiceUID!=null && sServiceUID.length()>0){
+            	//Eerst controleren we of het product in de dienststock bestaat
+                String sQuery = "select oc_stock_level" +
+                        " from oc_productstocks" +
+                        " where" +
+                        " oc_stock_productuid=? and" +
+                        " oc_stock_servicestockuid=?";
+                PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+                ps.setString(1,sProductUID);
+                ps.setString(2,sServiceUID);
+                ResultSet rs = ps.executeQuery();
+                while(rs.next() && !isInStock){
+                	isInStock=rs.getInt("oc_stock_level")>0;
+                }
+                rs.close();
+                ps.close();
+            }
+            if(!isInStock){
+                //Het product bestaat niet in de dienststock, dus testen we de centrale stock
+                String sQuery = "select oc_stock_level" +
+                        " from oc_productstocks" +
+                        " where" +
+                        " oc_stock_productuid=? and" +
+                        " oc_stock_servicestockuid=?";
+                PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+                ps.setString(1,sProductUID);
+                ps.setString(2,MedwanQuery.getInstance().getConfigString("centralStockCode","0.0"));
+                ResultSet rs = ps.executeQuery();
+                while(rs.next() && !isInStock){
+                	isInStock=rs.getInt("oc_stock_level")>0;
+                }
+                rs.close();
+                ps.close();
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return isInStock;
+    }
+
     public static int quantityAvailable(String sProductUID,String sServiceStockUID){
         int quantity = 0;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -1093,6 +1144,10 @@ public class Product extends OC_Object implements Comparable {
 
     public boolean isInStock(String sServiceUID){
         return Product.isInStock(getUid(),sServiceUID);
+    }
+
+    public boolean isInServiceStock(String sServiceUID){
+        return Product.isInServiceStock(getUid(),sServiceUID);
     }
 
     public int quantityAvailable(String sServiceUID){

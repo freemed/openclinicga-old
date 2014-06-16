@@ -3659,6 +3659,30 @@ public class MedwanQuery {
         return itemVO;
     }
 
+    public ItemVO getItemHistory(int serverId, int itemId, int version){
+        ItemVO itemVO = null;
+        Connection OccupdbConnection;
+        try{
+            OccupdbConnection = getOpenclinicConnection();
+            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement("SELECT * from ItemsHistory where serverid=? and itemId=? and version=?");
+            Occupstatement.setInt(1, serverId);
+            Occupstatement.setInt(2, itemId);
+            Occupstatement.setInt(3, version);
+            ResultSet Occuprs = Occupstatement.executeQuery();
+            if(Occuprs.next()){
+                ItemContextVO itemContextVO = new ItemContextVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()), "", "");
+                itemVO = new ItemVO(new Integer(Occuprs.getInt("itemId")), Occuprs.getString("type"), Occuprs.getString("value"), Occuprs.getDate("date"), itemContextVO);
+            }
+            Occuprs.close();
+            Occupstatement.close();
+            OccupdbConnection.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return itemVO;
+    }
+
     //--- GET LAST ITEMS --------------------------------------------------------------------------
     public Hashtable getLastItems(String healthRecordId){
         Hashtable hashtable = new Hashtable();
@@ -4016,13 +4040,13 @@ public class MedwanQuery {
         try{
             OccupdbConnection = getOpenclinicConnection();
             String sItemType;
-            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement("SELECT c.start,c.stop,d.*,a.transactionType,a.creationDate,a.updateTime as ut,a.status,a.userId,b.*,a.healthRecordId from Transactions a,Items b,UsersView c,AdminView d where a.userId=c.userid and c.personid=d.personid and a.transactionId=b.transactionId and a.serverid=b.serverid and a.serverid=? and a.transactionId=? order by b.priority");
+            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement("SELECT c.start,c.stop,d.*,a.transactionType,a.creationDate,a.updateTime as ut,a.ts,a.status,a.userId,b.*,a.healthRecordId from Transactions a,Items b,UsersView c,AdminView d where a.userId=c.userid and c.personid=d.personid and a.transactionId=b.transactionId and a.serverid=b.serverid and a.serverid=? and a.transactionId=? order by b.priority");
             Occupstatement.setInt(1, serverId);
             Occupstatement.setInt(2, transactionId);
             ResultSet Occuprs = Occupstatement.executeQuery();
             boolean bInitialized = false;
             String transactionType, userid;
-            Date creationDate, updateTime, dateBegin, dateEnd, dateStart;
+            Date creationDate, updateTime, dateBegin, dateEnd, dateStart,timestamp;
             int status, version, versionserverid;
             UserVO userVO;
             ItemContextVO itemContextVO;
@@ -4033,11 +4057,12 @@ public class MedwanQuery {
                     
                     creationDate = new Date(Occuprs.getDate("creationDate").getTime());
                     updateTime = new Date(Occuprs.getDate("ut").getTime());
+                    timestamp = new Date(Occuprs.getTimestamp("ts").getTime());
                     status = Occuprs.getInt("status");
                     version = Occuprs.getInt("version");
                     versionserverid = Occuprs.getInt("versionserverid");
                     userid = Occuprs.getString("userId");
-                    transactionVO = new TransactionVO(new Integer(transactionId), transactionType, creationDate, updateTime, status, null, new Vector(), serverId, version, versionserverid, creationDate);
+                    transactionVO = new TransactionVO(new Integer(transactionId), transactionType, creationDate, updateTime, status, null, new Vector(), serverId, version, versionserverid, timestamp);
                     transactionVO.setHealthrecordId(Occuprs.getInt("healthRecordId"));
                     dateBegin = null;
                     dateEnd = null;
@@ -4081,16 +4106,17 @@ public class MedwanQuery {
             Occupstatement.setInt(4, Integer.parseInt(versionServerId));
             ResultSet Occuprs = Occupstatement.executeQuery();
             String transactionType, userid;
-            Date creationDate, updateTime;
+            Date creationDate, updateTime,timestamp;
             int status;
             ItemContextVO itemContextVO;
             if(Occuprs.next()){
                 transactionType = Occuprs.getString("transactionType");
                 creationDate = new Date(Occuprs.getDate("creationDate").getTime());
+                timestamp=new Date(Occuprs.getTimestamp("ts").getTime());
                 updateTime = new Date(Occuprs.getDate("updateTime").getTime());
                 status = Occuprs.getInt("status");
                 userid = Occuprs.getString("userId");
-                transactionVO = new TransactionVO(new Integer(transactionId), transactionType, creationDate, updateTime, status, null, new Vector(), Integer.parseInt(serverId), Integer.parseInt(version), Integer.parseInt(versionServerId), creationDate);
+                transactionVO = new TransactionVO(new Integer(transactionId), transactionType, creationDate, updateTime, status, null, new Vector(), Integer.parseInt(serverId), Integer.parseInt(version), Integer.parseInt(versionServerId), timestamp);
                 transactionVO.setUser(getUser(userid));
                 Occuprs.close();
                 Occupstatement.close();
@@ -4102,7 +4128,7 @@ public class MedwanQuery {
                     transactionVO.getItems().add(new ItemVO(new Integer(Occuprs.getInt("itemId")), Occuprs.getString("type"), Occuprs.getString("value"), Occuprs.getDate("date"), itemContextVO));
                 }
             } else{
-                transactionVO = loadTransactionHistory(transactionId, serverId, version, versionServerId);
+                transactionVO = loadTransactionHistory(serverId, transactionId, version, versionServerId);
             }
             Occuprs.close();
             Occupstatement.close();
@@ -4126,14 +4152,19 @@ public class MedwanQuery {
             ResultSet Occuprs = Occupstatement.executeQuery();
             String transactionType, userid;
             int status;
-            Date creationDate, updateTime;
+            Date creationDate, updateTime,timestamp;
             if(Occuprs.next()){
                 transactionType = Occuprs.getString("transactionType");
                 creationDate = new Date(Occuprs.getDate("creationDate").getTime());
                 updateTime = new Date(Occuprs.getDate("updateTime").getTime());
+                timestamp=creationDate;
+                try{
+                	timestamp = new Date(Occuprs.getTimestamp("ts").getTime());
+                }
+                catch(Exception r){}
                 status = Occuprs.getInt("status");
                 userid = Occuprs.getString("userId");
-                transactionVO = new TransactionVO(new Integer(transactionId), transactionType, creationDate, updateTime, status, null, new Vector(), Integer.parseInt(serverId), Integer.parseInt(version), Integer.parseInt(versionServerId), creationDate);
+                transactionVO = new TransactionVO(new Integer(transactionId), transactionType, creationDate, updateTime, status, null, new Vector(), Integer.parseInt(serverId), Integer.parseInt(version), Integer.parseInt(versionServerId), timestamp);
                 transactionVO.setUser(getUser(userid));
                 Occuprs.close();
                 Occupstatement.close();
@@ -4142,7 +4173,7 @@ public class MedwanQuery {
                 Occupstatement.setInt(2, Integer.parseInt(transactionId));
                 Occupstatement.setInt(3, Integer.parseInt(version));
                 Occupstatement.setInt(4, Integer.parseInt(versionServerId));
-                for (Occuprs = Occupstatement.executeQuery(); Occuprs.next(); transactionVO.getItems().add(getItem(Integer.parseInt(serverId), Occuprs.getInt("itemId")))){
+                for (Occuprs = Occupstatement.executeQuery(); Occuprs.next(); transactionVO.getItems().add(getItemHistory(Integer.parseInt(serverId), Occuprs.getInt("itemId"),Integer.parseInt(version)))){
                 }
             }
             Occuprs.close();
@@ -5548,9 +5579,9 @@ public class MedwanQuery {
             if(rs.next()){
                 healthRecordId = rs.getInt("healthRecordId");
                 sSelect = "insert into TransactionsHistory(transactionId,creationDate,transactionType," +
-                        "  updateTime,status,healthRecordId,userId,serverid,versionserverid,version)" +
+                        "  updateTime,status,healthRecordId,userId,serverid,versionserverid,version,ts)" +
                         " select transactionId,creationDate,transactionType,updateTime,status,healthRecordId," +
-                        "        userId,serverid,versionserverid,version" +
+                        "        userId,serverid,versionserverid,version,ts" +
                         " from Transactions where serverid=? and transactionId=?";
                 rs.close();
                 ps.close();

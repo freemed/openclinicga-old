@@ -9,6 +9,7 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.webapp.wl.exceptions.SessionContainerFactoryException;
 import be.mxs.webapp.wl.session.SessionContainerFactory;
 import be.openclinic.adt.Encounter;
+import be.openclinic.finance.Insurance;
 import be.openclinic.finance.Prestation;
 import be.openclinic.system.Application;
 import net.admin.*;
@@ -1119,6 +1120,13 @@ public class ScreenHelper {
 	        			e.printStackTrace();
 	        		}
     			}
+        	}
+        	int nInvoicable=MedwanQuery.getInstance().getConfigInt(transaction.getTransactionType()+".requiredInvoicable",0);
+        	if(nInvoicable==1){
+        		//Check if invoicing conditions have been met
+        		if(Encounter.getActiveEncounter(sPersonId)==null || Insurance.getMostInterestingInsuranceForPatient(sPersonId)==null){
+        			sMessage = getTranNoLink("web","notinvoicable",activeUser.person.language);
+        		}
         	}
         	String sPrestationClass=MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestationClass","");
             if(checkString(sPrestationClass).length()>0){

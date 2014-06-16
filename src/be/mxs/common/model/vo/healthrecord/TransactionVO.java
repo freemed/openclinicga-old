@@ -115,7 +115,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
     }
 
     public Date getTimestamp() {
-        return creationDate;
+        return timestamp;
     }
 
     public Date getCreationDate() {
@@ -168,17 +168,24 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
     		sBaseItemType = (String)baseItemNames.get(i);
     		Debug.println("sBaseItemType : "+sBaseItemType); ////////
         	item = getItem(sBaseItemType);	
-        	
-        	// when the value _is_ a date
-        	if(item.isDateItem()){
-        		// convert to EU dateformat ANYWAY
-        		item.setValue(ScreenHelper.convertToEUDate(item.getValue()));
-        	}
-        	else{
-	        	String sItemValue = getItemSeriesValue(sBaseItemType);
+        	if(item!=null){
 	        	
-	        	if(containsDateValue(sItemValue)){
-                    item.setValue(ScreenHelper.convertToEUDateConcatinated(item.getValue()));	        		
+	        	// when the value _is_ a date
+	        	if(item.isDateItem()){
+	        		try{
+		        		// convert to EU dateformat ANYWAY
+		        		item.setValue(ScreenHelper.convertToEUDate(item.getValue()));
+	        		}
+	        		catch(Exception e){
+	        			e.printStackTrace();
+	        		}
+	        	}
+	        	else{
+		        	String sItemValue = getItemSeriesValue(sBaseItemType);
+		        	
+		        	if(containsDateValue(sItemValue)){
+	                    item.setValue(ScreenHelper.convertToEUDateConcatinated(item.getValue()));	        		
+		        	}
 	        	}
         	}
     	}

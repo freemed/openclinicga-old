@@ -22,6 +22,10 @@ public class ObjectCache {
     int removals=0;
     int requests=0;
 
+    public void reset(){
+    	objectsTable=new Hashtable();
+    }
+    
     public void putObject(String type,OC_Object object){
     	if(object!=null){
 	    	timeTable.add(type+"."+object.getUid());
