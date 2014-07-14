@@ -25,13 +25,13 @@
 				connects++;
 				Element payment = (Element)payments.next();
 				//We found the element, first let's check if the element doesn't exist yet
-				PreparedStatement ps = conn.prepareStatement("select * from OC_FINANCE where SITE_ID=? and PREST_ID=? and PAYMENT_ID=?");
+				PreparedStatement ps = conn.prepareStatement("select count(*) total from OC_FINANCE where SITE_ID=? and PREST_ID=? and PAYMENT_ID=?");
 				System.out.print("ID "+payment.elementText("payment_id")+"."+payment.elementText("prest_id")+"... ");
 				ps.setString(1,root.attributeValue("caisffid"));
 				ps.setInt(2,Integer.parseInt(payment.elementText("prest_id")));
 				ps.setInt(3,Integer.parseInt(payment.elementText("payment_id")));
 				ResultSet rs = ps.executeQuery();
-				if(!rs.next()){
+				if(rs.next() && rs.getInt("total")==0){
 					System.out.println(" is new");
 					//The payment doesn't exist yet, let's store it
 					rs.close();
