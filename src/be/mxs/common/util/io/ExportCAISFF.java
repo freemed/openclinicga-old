@@ -112,7 +112,7 @@ public class ExportCAISFF {
 
 		    	if(sType.equalsIgnoreCase("patient.payment") && sInvoice.length()>0){
 		    		//We found a patient payment, now let's look for the invoice connected to the payment
-		    		ps2 = conn.prepareStatement("select * from oc_debets a,oc_encounters b,oc_prestations c where b.oc_encounter_objectid=replace(oc_debet_encounteruid,'1.','') and oc_prestation_objectid=replace(oc_debet_prestationuid,'1.','') and oc_debet_patientinvoiceuid=? and oc_debet_credited=0");
+		    		ps2 = conn.prepareStatement("select distinct * from oc_debets a,oc_encounters b,oc_prestations c where b.oc_encounter_objectid=replace(oc_debet_encounteruid,'1.','') and oc_prestation_objectid=replace(oc_debet_prestationuid,'1.','') and oc_debet_patientinvoiceuid=? and oc_debet_credited=0");
 		    		ps2.setString(1, sInvoice);
 		    		rs2 = ps2.executeQuery();
 		    		while(rs2.next()){
