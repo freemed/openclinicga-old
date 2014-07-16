@@ -162,7 +162,10 @@
                     hMenu.put(getTran("web.manage","manageGglobalhealthbarometerdata",sWebLanguage),"main.do?Page=system/manageGlobalHealthBarometerData.jsp");
                     hMenu.put(getTran("web.manage","manageDatacenterConfig",sWebLanguage),"main.do?Page=system/manageDatacenterConfig.jsp");
                     hMenu.put(getTran("web.manage","manageDateFormat",sWebLanguage),"main.do?Page=system/manageDateFormat.jsp");
-                    hMenu.put(getTran("web.manage","screenDesigner",sWebLanguage),"main.do?Page=system/screenDesigner.jsp");
+
+	                if(MedwanQuery.getInstance().getConfigInt("enableScreenDesigner",0)==1){
+                        hMenu.put(getTran("web.manage","screenDesigner",sWebLanguage),"main.do?Page=system/screenDesigner.jsp");
+                    }
                     
                     out.print(ScreenHelper.writeTblHeader(getTran("web.manage","setup",sWebLanguage),sCONTEXTPATH)
                             + sortMenu(hMenu)
