@@ -110,15 +110,16 @@
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n\n################## sAction : "+sAction+" ############################");
-        Debug.println("* sEditOperationUid    : "+sEditOperationUid);
-        Debug.println("* sEditOperationDescr  : "+sEditOperationDescr);
-        Debug.println("* sEditUnitsChanged    : "+sEditUnitsChanged);
-        Debug.println("* sEditSrcDestType     : "+sEditSrcDestType);
-        Debug.println("* sEditSrcDestUid      : "+sEditSrcDestUid);
-        Debug.println("* sEditSrcDestName     : "+sEditSrcDestName);
-        Debug.println("* sEditOperationDate   : "+sEditOperationDate);
-        Debug.println("* sEditProductStockUid : "+sEditProductStockUid+"\n");
+        Debug.println("\n################### medication/receiveMedication.jsp ###################");
+        Debug.println("sAction              : "+sAction);
+        Debug.println("sEditOperationUid    : "+sEditOperationUid);
+        Debug.println("sEditOperationDescr  : "+sEditOperationDescr);
+        Debug.println("sEditUnitsChanged    : "+sEditUnitsChanged);
+        Debug.println("sEditSrcDestType     : "+sEditSrcDestType);
+        Debug.println("sEditSrcDestUid      : "+sEditSrcDestUid);
+        Debug.println("sEditSrcDestName     : "+sEditSrcDestName);
+        Debug.println("sEditOperationDate   : "+sEditOperationDate);
+        Debug.println("sEditProductStockUid : "+sEditProductStockUid+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 

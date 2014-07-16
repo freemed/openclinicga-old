@@ -232,7 +232,7 @@
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n################### pharacy/manageProductStocks.jsp ##################");
+        Debug.println("\n#################### pharacy/manageProductStocks.jsp ###################");
         Debug.println("sAction                : "+sAction);
         Debug.println("sEditStockUid          : "+sEditStockUid);
         Debug.println("sEditServiceStockUid   : "+sEditServiceStockUid);
@@ -1005,7 +1005,7 @@
     }
   }
 
-  <%-- CHECK PRODUCT FIELDS --%>
+  <%-- CHECK STOCK FIELDS --%>
   function checkStockFields(){
     var maySubmit = true;
     <%-- required fields --%>
@@ -1023,17 +1023,14 @@
       <%-- check levels --%>
       if(maySubmit){
         if(transactionForm.EditMaximumLevel.value.length>0 && transactionForm.EditMinimumLevel.value.length>0){
-          var maxLevel = parseInt(transactionForm.EditMaximumLevel.value);
-          var minLevel = parseInt(transactionForm.EditMinimumLevel.value);
+          var maxLevel = parseInt(transactionForm.EditMaximumLevel.value),
+              minLevel = parseInt(transactionForm.EditMinimumLevel.value);
 
           if(maxLevel >= minLevel){
             maySubmit = true;
           }
           else{
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=maxmustbelargerthanmin";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","maxmustbelargerthanmin",sWebLanguage)%>");
-
+            alertDialog("web","maxmustbelargerthanmin");
             transactionForm.EditMaximumLevel.focus();
             maySubmit = false;
           }
@@ -1043,16 +1040,14 @@
       <%-- check dates --%>
       if(maySubmit){
         if(transactionForm.EditBegin.value.length>0 && transactionForm.EditEnd.value.length>0){
-          var dateBegin = transactionForm.EditBegin.value;
-          var dateEnd   = transactionForm.EditEnd.value;
+          var dateBegin = transactionForm.EditBegin.value,
+              dateEnd   = transactionForm.EditEnd.value;
 
           if(before(dateBegin,dateEnd)){
             maySubmit = true;
           }
           else{
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
+            alertDialog("web.occup","endMustComeAfterBegin");
             transactionForm.EditEnd.focus();
             maySubmit = false;
           }
@@ -1217,9 +1212,7 @@
   <%-- popup : deliver product --%>
   function deliverProduct(productStockUid,productName,stockLevel){
     if(stockLevel <= 0){
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=insufficientStock";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","insufficientStock",sWebLanguage)%>");
+      alertDialog("web.manage","insufficientStock");
     }
     else{
       openPopup("pharmacy/medication/popups/deliverMedicationPopup.jsp&EditProductStockUid="+productStockUid+"&EditProductName="+productName+"&ts=<%=getTs()%>",750,400);
@@ -1233,12 +1226,12 @@
 
   <%-- popup : search supplier --%>
   function printFiche(productStockUid,productStockName){
-		openPopup("pharmacy/viewProductStockFiches.jsp&ts=<%=getTs()%>&Action=find&FindProductStockUid="+productStockUid+"&GetYear=<%=new SimpleDateFormat("yyyy").format(new java.util.Date())%>&FindServiceStockName=<%=sServiceStockName%>",700,500);
-	  }
+	openPopup("pharmacy/viewProductStockFiches.jsp&ts=<%=getTs()%>&Action=find&FindProductStockUid="+productStockUid+"&GetYear=<%=new SimpleDateFormat("yyyy").format(new java.util.Date())%>&FindServiceStockName=<%=sServiceStockName%>",700,500);
+  }
 
   function printPDFFiche(productStockUid){
-		openPopup("statistics/pharmacy/getProductStockFile.jsp&ts=<%=getTs()%>&ProductStockUid="+productStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getProductStockFile.jsp&ts=<%=getTs()%>&ProductStockUid="+productStockUid,200,200);
+  }
 
   <%-- popup : CALCULATE ORDER --%>
   function doCalculateOrder(serviceStockUid,serviceStockName){
@@ -1264,19 +1257,21 @@
     }
   }
 
+  <%-- SHOW SEARCH RESULTS --%>
   function showSearchResults(s){
-	  table =document.getElementById("searchresults");
-	  rows=table.rows;
-	  for(var n=1;n<rows.length;n++){
-		  cell=rows[n].cells[3];
-		  if(cell.firstChild.nodeValue.toLowerCase().indexOf(s.toLowerCase())>=0){
-			 rows[n].style.display='';
-		  }
-		  else{
-			 rows[n].style.display='none';
-		  }
+	table = document.getElementById("searchresults");
+	rows = table.rows;
+	for(var n=1;n<rows.length;n++){
+	  cell = rows[n].cells[3];
+	  if(cell.firstChild.nodeValue.toLowerCase().indexOf(s.toLowerCase())>=0){
+		 rows[n].style.display = "";
+      }
+	  else{
+	    rows[n].style.display = "none";
 	  }
+	}
   }
+  
   <%-- DO BACK TO PREVIOUS MODULE --%>
   function doBackToPrevModule(){
     window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=pharmacy/manageServiceStocks.jsp&DisplaySearchFields=true&ts=<%=getTs()%>";
@@ -1288,15 +1283,16 @@
   }
 
   if('<%=sAction%>'=='findShowOverview'){
-      document.getElementById('filtersection').style.display='';
-	  <%-- close "search in progress"-popup that might still be open --%>
-	  var popup = window.open("","Searching","width=1,height=1");
-	  popup.close();
-	  if(document.getElementById("filter")){
-		  window.setTimeout("document.getElementById('filter').focus()",500);
-	  }
+     document.getElementById('filtersection').style.display='';
+      
+	 <%-- close "search in progress"-popup that might still be open --%>
+	 var popup = window.open("","Searching","width=1,height=1");
+	 popup.close();
+	 if(document.getElementById("filter")){
+       window.setTimeout("document.getElementById('filter').focus()",500);
+     }
    }
-   else {
-      document.getElementById('filtersection').style.display='none';
+   else{
+    document.getElementById('filtersection').style.display='none';
    }
 </script>

@@ -1,22 +1,25 @@
-<%@page import="be.openclinic.pharmacy.OperationDocument"%>
-<%@page import="be.openclinic.pharmacy.ProductStockOperation,
+<%@page import="be.openclinic.pharmacy.OperationDocument,
+                be.openclinic.pharmacy.ProductStockOperation,
                 be.openclinic.pharmacy.Batch,
-                be.openclinic.pharmacy.ProductStock"%>
-<%@ page import="be.openclinic.medical.Prescription" %>
+                be.openclinic.pharmacy.ProductStock,
+                be.openclinic.medical.Prescription,
+                be.openclinic.pharmacy.ServiceStock"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("medication.medicationdelivery","all",activeUser)%>
+
 <%
     String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
-            sDefaultSrcDestType = "";
+           sDefaultSrcDestType = "";
 
     // action
     String sAction = checkString(request.getParameter("Action"));
-    if (sAction.length() == 0) sAction = "deliverMedication"; // default
+    if(sAction.length()==0) sAction = "deliverMedication"; // default
+    
 	Hashtable availableProductStocks = new Hashtable();
     Vector availableProductStocksVector = new Vector();
-    int iMaxQuantity=99;
-    int iMaxStock=0;
+    int iMaxQuantity = 99;
+    int iMaxStock = 0;
 
     // retreive form data
     String sEditOperationUid = checkString(request.getParameter("EditOperationUid")),
@@ -30,21 +33,24 @@
             sEditProductStockUid = checkString(request.getParameter("EditProductStockUid")),
             sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
             sEditEncounterUid = checkString(request.getParameter("EditEncounterUID")),
-            sEditProductStockDocumentUidText = "",
             sEditBatchUid = checkString(request.getParameter("EditBatchUid")),
-            sEditServiceStockUid = "",
-            sEditServiceStockName = "",
             sEditPrescriptionUid = checkString(request.getParameter("EditPrescriptionUid"));
+            
+     String sEditProductStockDocumentUidText = "",
+            sEditServiceStockUid = "",
+            sEditServiceStockName = "";
+     
     Prescription prescription=null;
-    if (sEditUnitsChanged.length()==0 && sEditPrescriptionUid.length() > 0){
+    if(sEditUnitsChanged.length()==0 && sEditPrescriptionUid.length() > 0){
         prescription = Prescription.get(sEditPrescriptionUid);
         if (prescription!=null) {
             sEditUnitsChanged = (prescription.getRequiredPackages()-prescription.getDeliveredQuantity())+"";
             iMaxQuantity=new Double(Double.parseDouble(sEditUnitsChanged)).intValue();
         }
     }
+    
     // lookup available productStocks if none provided
-    if (sEditProductStockUid.length() == 0 && sEditPrescriptionUid.length() > 0) {
+    if(sEditProductStockUid.length() == 0 && sEditPrescriptionUid.length() > 0) {
     	if(prescription!=null){
 			Vector productStocks=ProductStock.find("",prescription.getProductUid(),"1","","","","","","","","","OC_STOCK_LEVEL","DESC");
 			for(int n=0;n<productStocks.size();n++){
@@ -81,17 +87,22 @@
     }
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        Debug.println("\n\n################## sAction : " + sAction + " ############################");
-        Debug.println("* sEditOperationUid    : " + sEditOperationUid);
-        Debug.println("* sEditOperationDescr  : " + sEditOperationDescr);
-        Debug.println("* sEditUnitsChanged    : " + sEditUnitsChanged);
-        Debug.println("* sEditSrcDestType     : " + sEditSrcDestType);
-        Debug.println("* sEditSrcDestUid      : " + sEditSrcDestUid);
-        Debug.println("* sEditSrcDestName     : " + sEditSrcDestName);
-        Debug.println("* sEditOperationDate   : " + sEditOperationDate);
-        Debug.println("* sEditProductName     : " + sEditProductName);
-        Debug.println("* sEditProductStockUid : " + sEditProductStockUid + "\n");
+    if(Debug.enabled){
+        Debug.println("\n################## medication/deliverMedicationPopup.jsp ################");
+        Debug.println("sAction              : "+sAction);
+        Debug.println("sEditOperationUid    : "+sEditOperationUid);
+        Debug.println("sEditOperationDescr  : "+sEditOperationDescr);
+        Debug.println("sEditUnitsChanged    : "+sEditUnitsChanged);
+        Debug.println("sEditSrcDestType     : "+sEditSrcDestType);
+        Debug.println("sEditSrcDestUid      : "+sEditSrcDestUid);
+        Debug.println("sEditSrcDestName     : "+sEditSrcDestName);
+        Debug.println("sEditOperationDate   : "+sEditOperationDate);
+        Debug.println("sEditProductName     : "+sEditProductName);
+        Debug.println("sEditProductStockUid : "+sEditProductStockUid);
+        Debug.println("sEditProductStockDoc.: "+sEditProductStockDocumentUid);
+        Debug.println("sEditEncounterUid    : "+sEditEncounterUid);
+        Debug.println("sEditBatchUid        : "+sEditBatchUid);
+        Debug.println("sEditPrescriptionUid : "+sEditPrescriptionUid+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
@@ -167,26 +178,23 @@
 
         String sResult=operation.store();
         if(sResult==null){
-
-        // reload opener to see the change in level
-        %>
-        
-		<%@page import="be.openclinic.pharmacy.ServiceStock"%>
-		<script>
-			if(window.opener.document.getElementById('EditServiceStockUid') && window.opener.document.getElementById('ServiceId')){
-				window.opener.location.href='<c:url value="/"/>main.do?Page=pharmacy/manageProductStocks.jsp&Action=findShowOverview&EditServiceStockUid='+window.opener.document.getElementById('EditServiceStockUid').value+'&DisplaySearchFields=false&ServiceId='+window.opener.document.getElementById('ServiceId').value;
-			}
-	        window.close();
-        </script>
-        <%
+	        // reload opener to see the change in level
+	        %>        
+			  <script>
+			    if(window.opener.document.getElementById('EditServiceStockUid') && window.opener.document.getElementById('ServiceId')){
+			  	  window.opener.location.href='<c:url value="/"/>main.do?Page=pharmacy/manageProductStocks.jsp&Action=findShowOverview&EditServiceStockUid='+window.opener.document.getElementById('EditServiceStockUid').value+'&DisplaySearchFields=false&ServiceId='+window.opener.document.getElementById('ServiceId').value;
+			    }
+		        window.close();
+	          </script>
+	        <%
         }
         else {
-        %>
-        <script>
-            alertDialogMessage('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
-        </script>
-        <%
-        sAction = "showDetailsNew";
+	        %>
+	          <script>
+	            alertDialogMessage('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
+	          </script>
+	        <%
+        	sAction = "showDetailsNew";
         }
     }
 
@@ -252,6 +260,7 @@
         sSelectedProductName     = sEditProductName;
     }
 %>
+
 <form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/template.jsp"/>?Page=pharmacy/medication/popups/deliverMedicationPopup.jsp&ts=<%=getTs()%>' onKeyDown="if(enterEvent(event,13)){doDeliver();}" onClick="clearMessage();">
     <%-- page title --%>
     <%=writeTableHeader("Web.manage","deliverproducts",sWebLanguage,"")%>
@@ -264,13 +273,15 @@
         if(displayEditFields){
             %>
                 <table class="list" width="100%" cellspacing="1">
-                    <%-- Product name --%>
+                    <%-- PRODUCT --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","product",sWebLanguage)%>&nbsp;</td>
                         <td class="admin2">
                             <b><%=sSelectedProductName%></b>
                         </td>
                     </tr>
+                    
+                    <%-- PHARMACY --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","pharmacy",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
@@ -311,114 +322,134 @@
                             %>
                         </td>
                     </tr>
+                    
+                    <%-- BATCH --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","batch",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2"><div id="batch" name="batch"/></td>
                     </tr>
+                    
 					<%
 						if(prescription==null){
-					%>
-	                    <%-- description --%>
-	                    <tr>
-	                        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","description",sWebLanguage)%>&nbsp;*</td>
-	                        <td class="admin2">
-	                            <select class="text" name="EditOperationDescr" id="EditOperationDescr" onChange="displaySrcDestSelector();" style="vertical-align:-2;">
-	                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
-	                                <%=ScreenHelper.writeSelectUnsorted("productstockoperation.medicationdelivery",sSelectedOperationDescr,sWebLanguage)%>
-	                            </select>
-	                        </td>
-	                    </tr>
-	                <%
+							%>
+			                    <%-- DESCRIPTION --%>
+			                    <tr>
+			                        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","description",sWebLanguage)%>&nbsp;*</td>
+			                        <td class="admin2">
+			                            <select class="text" name="EditOperationDescr" id="EditOperationDescr" onChange="displaySrcDestSelector();" style="vertical-align:-2;">
+			                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+			                                <%=ScreenHelper.writeSelectUnsorted("productstockoperation.medicationdelivery",sSelectedOperationDescr,sWebLanguage)%>
+			                            </select>
+			                        </td>
+			                    </tr>
+			                <%
 						}
 						else {
-	                %>
-                           <input type="hidden" name="EditOperationDescr" value="<%=sSelectedOperationDescr%>">
-	                <%
+	                		%>
+                           		<input type="hidden" name="EditOperationDescr" value="<%=sSelectedOperationDescr%>">
+	                		<%
 						}
 	                %>
-                    <%-- units changed --%>
+	                
+                    <%-- UNITS CHANGED --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","unitschanged",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
                             <input class="text" type="text" name="EditUnitsChanged" id="EditUnitsChanged" size="10" maxLength="10" value="<%=sSelectedUnitsChanged%>" onKeyUp="if(this.value=='0'){this.value='';}isNumber(this);setMaxQuantityValue(setMaxQuantity);" onblur="validateMaxFocus(this);" <%=(sAction.equals("showDetails")?"READONLY":"")%>><span id="maxquantity" name="maxquantity"/>
                         </td>
                     </tr>
+                    
 					<%
 						if(prescription==null){
-					%>
-	                    <%-- SourceDestination type --%>
-	                    <tr height="23" id='destinationline'>
-	                        <td class="admin" id='id1'><%=getTran("web","deliveredto",sWebLanguage)%>&nbsp;*</td>
-	                        <td class="admin2">
-	                            <select class="text" name="EditSrcDestType" id="EditSrcDestType" onChange="displaySrcDestSelector();" style="vertical-align:-2;">
-	                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
-	                                <%=ScreenHelper.writeSelectUnsorted("productstockoperation.sourcedestinationtype",sSelectedSrcDestType,sWebLanguage)%>
-	                            </select>
-	                            <%-- SOURCE DESTINATION SELECTOR --%>
-	                            <span id="SrcDestSelector" style="visibility:hidden;">
-	                                <input class="text" type="text" name="EditSrcDestName" id="EditSrcDestName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>" onchange="if(document.getElementById('EditSrcDestType')[document.getElementById('EditSrcDestType').selectedIndex].value=='servicestock'){showBatches(false);}">
-	                                <span id="SearchSrcDestButtonDiv"><%-- filled by JS below --%></span>
-	                                <input type="hidden" name="EditSrcDestUid" id="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
-	                            </span>
-	                        </td>
-	                    </tr>
-				        <tr id='encounterline'>
-				            <td class='admin'><%=getTran("web","encounter",sWebLanguage)%> *</td>
-				            <td class='admin2'>
-				                <input type="hidden" name="EditEncounterUID" id="EditEncounterUID" value="<%=sEditEncounterUid%>">
-				                <%
-					                Encounter encounter = Encounter.get(sEditEncounterUid);
-									String sEditEncounterName="";
-					                if (encounter != null && encounter.getEncounterDisplayName(sWebLanguage)!=null && encounter.getEncounterDisplayName(sWebLanguage).indexOf("null")==-1 ){
-					                    sEditEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
-					                }
-
-				                %>
-				                <input class="text" type="text" name="EditEncounterName" id="EditEncounterName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterName%>">
-				                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditEncounterUID','EditEncounterName');">
-				                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditEncounterUID').value='';document.getElementById('EditForm.EditEncounterName').value='';">
-				            </td>
-				        </tr>
-	                    <%-- operation date --%>
-	                    <tr>
-	                        <td class="admin"><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
-	                        <td class="admin2"><%=writeDateField("EditOperationDate","transactionForm",sSelectedOperationDate,sWebLanguage)%></td>
-	                    </tr>
-	                    <tr id='documentline'>
-	                        <td class="admin"><%=getTran("Web","productstockoperationdocument",sWebLanguage)%></td>
-		                    <td class="admin2">
-		                    	<input type='text' class='text' name='EditProductStockDocumentUid' id='EditProductStockDocumentUid' size='10' value="<%=sEditProductStockDocumentUid %>" readonly/>
-		                    	<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick="searchDocument('EditProductStockDocumentUid','EditProductStockDocumentUidText');">&nbsp;
-		                    	<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="transactionForm.EditProductStockDocumentUid.value='';document.getElementById('EditProductStockDocumentUidText').innerHTML='';">
-		                    	<label class='text' name='EditProductStockDocumentUidText' id='EditProductStockDocumentUidText'><%=sEditProductStockDocumentUidText %></label>
-		                    </td>
-	                    </tr>
-	                    <tr id='prescriptionline'>
-	                        <td class="admin" width="20%"><%=getTran("Web","prescriptionid",sWebLanguage)%></td>
-	                        <td class="admin2">
-	                            <input class="text" type="text" name="EditPrescriptionUid" size="10" maxLength="10" value="<%=sEditPrescriptionUid%>" <%=(sAction.equals("showDetails")?"READONLY":"")%>>
-	                        </td>
-	                    </tr>
-	                    
-	                <%
+							%>			                    
+			                    <%-- DOCUMENT --%>
+			                    <tr id='documentline'>
+			                        <td class="admin"><%=getTran("Web","document",sWebLanguage)%> <%=(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)==1?"*":"")%></td>
+				                    <td class="admin2">
+				                    	<input type='text' class='text' name='EditProductStockDocumentUid' id='EditProductStockDocumentUid' size='10' value="<%=sEditProductStockDocumentUid %>" readonly/>
+				                    	<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick="searchDocument('EditProductStockDocumentUid','EditProductStockDocumentUidText');">&nbsp;
+				                    	<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="transactionForm.EditProductStockDocumentUid.value='';document.getElementById('EditProductStockDocumentUidText').innerHTML='';">
+				                    	<label class='text' name='EditProductStockDocumentUidText' id='EditProductStockDocumentUidText'><%=sEditProductStockDocumentUidText %></label>
+				                    	
+				                    	<%
+				                    	    if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)==1){
+				                    	    	%>&nbsp;&nbsp;<i><%=getTran("web.occup","documentSpecifiesSourceDestination",sWebLanguage)%></i><%
+				                    	    }
+				                        %>
+				                    </td>
+			                    </tr>
+			                    
+			                    <%-- SOURCE DESTINATION TYPE --%>
+			                    <tr height="23" id='destinationline'>
+			                        <td class="admin" id='id1'><%=getTran("web","deliveredto",sWebLanguage)%>&nbsp;*</td>
+			                        <td class="admin2">
+			                            <select class="text" name="EditSrcDestType" id="EditSrcDestType" onChange="displaySrcDestSelector();" style="vertical-align:-2;">
+			                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+			                                <%=ScreenHelper.writeSelectUnsorted("productstockoperation.sourcedestinationtype",sSelectedSrcDestType,sWebLanguage)%>
+			                            </select>
+			                            
+			                            <%-- SOURCE DESTINATION SELECTOR --%>
+			                            <span id="SrcDestSelector" style="visibility:hidden;">
+			                                <input class="text" type="text" name="EditSrcDestName" id="EditSrcDestName" size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>" onchange="if(document.getElementById('EditSrcDestType')[document.getElementById('EditSrcDestType').selectedIndex].value=='servicestock'){showBatches(false);}" readonly>
+			                                <span id="SearchSrcDestButtonDiv"><%-- filled by JS below --%></span>
+			                                <input type="hidden" name="EditSrcDestUid" id="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
+			                            </span>
+			                        </td>
+			                    </tr>
+						        
+			                    <%-- OPERATION DATE --%>
+			                    <tr>
+			                        <td class="admin"><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
+			                        <td class="admin2"><%=writeDateField("EditOperationDate","transactionForm",sSelectedOperationDate,sWebLanguage)%></td>
+			                    </tr>
+			                    
+			                    <%-- ENCOUNTER --%>
+						        <tr id='encounterline'>
+						            <td class='admin'><%=getTran("web","encounter",sWebLanguage)%>&nbsp;*</td>
+						            <td class='admin2'>
+						                <input type="hidden" name="EditEncounterUID" id="EditEncounterUID" value="<%=sEditEncounterUid%>">
+						                <%
+							                Encounter encounter = Encounter.get(sEditEncounterUid);
+											String sEditEncounterName="";
+							                if (encounter != null && encounter.getEncounterDisplayName(sWebLanguage)!=null && encounter.getEncounterDisplayName(sWebLanguage).indexOf("null")==-1 ){
+							                    sEditEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
+							                }
+		
+						                %>
+						                <input class="text" type="text" name="EditEncounterName" id="EditEncounterName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterName%>">
+						                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditEncounterUID','EditEncounterName');">
+						                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditEncounterUID').value='';document.getElementById('EditForm.EditEncounterName').value='';">
+						            </td>
+						        </tr>
+			                    
+			                    <%-- PRESCRIPTION --%>
+			                    <tr id='prescriptionline'>
+			                        <td class="admin" width="20%"><%=getTran("Web","prescriptionid",sWebLanguage)%></td>
+			                        <td class="admin2">
+			                            <input class="text" type="text" name="EditPrescriptionUid" size="10" maxLength="10" value="<%=sEditPrescriptionUid%>" <%=(sAction.equals("showDetails")?"READONLY":"")%>>
+			                        </td>
+			                    </tr>	                    
+			                <%
 						}
 						else {
-	                %>
-                           <input type="hidden" name="EditSrcDestType" id="EditSrcDestType" value="<%=sSelectedSrcDestType%>">
-                           <input type="hidden" name="EditSrcDestName" id="EditSrcDestName" value="<%=sSelectedSrcDestName%>">
-                           <input type="hidden" name="EditSrcDestUid" id="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
-                           <input type="hidden" name="EditPrescriptionUid" id="EditPrescriptionUid" value="<%=sEditPrescriptionUid%>">
-	                <%
+							// prescription specified
+	                        %>
+	                            <input type="hidden" name="EditSrcDestType" id="EditSrcDestType" value="<%=sSelectedSrcDestType%>">
+	                            <input type="hidden" name="EditSrcDestName" id="EditSrcDestName" value="<%=sSelectedSrcDestName%>">
+	                            <input type="hidden" name="EditSrcDestUid" id="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
+	                            <input type="hidden" name="EditPrescriptionUid" id="EditPrescriptionUid" value="<%=sEditPrescriptionUid%>">
+	                        <%
 						}
-	                %>
-                    <%
+					
                         // get previous used values to reuse in javascript
                         String sPrevUsedSrcDestUid  = checkString((String)session.getAttribute("PrevUsedDeliverySrcDestUid")),
                                sPrevUsedSrcDestName = checkString((String)session.getAttribute("PrevUsedDeliverySrcDestName"));
+                        
                         String supplierCode = "";
                         if(sPrevUsedSrcDestUid.length()==0){
                             if(sSelectedProductStockUid.length() > 0){
                                	ProductStock productStock = ProductStock.get(sSelectedProductStockUid);
+                               	
                                 // get supplier service from product
                                 if(productStock!=null){
                                     supplierCode = checkString(productStock.getProduct().getSupplierUid());
@@ -431,181 +462,198 @@
                             }
                         }
                     %>
-                    <script>
-                      var prevSrcDestType;
+                </table>
+                    
+                <script>
+                  var prevSrcDestType;
 
-                      function validateMaxFocus(o){
-                          if(o.value*1>setMaxQuantity){
-                        	  alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
-                              o.focus();
-                              return false;
-                          }
-                          return true;
-                      }
+                  <%-- VALIDATE MAX FOCUS --%>
+                  function validateMaxFocus(o){
+                    if(o.value*1>setMaxQuantity){
+                      alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
+                      o.focus();
+                      return false;
+                    }
+                    return true;
+                  }
 
-                      function validateMax(o){
-                          if(o.value*1>setMaxQuantity){
-                              alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
-                              return false;
-                          }
-                          return true;
-                        }
+                  <%-- VALIDATE MAX --%>
+                  function validateMax(o){
+                    if(o.value*1>setMaxQuantity){
+                      alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
+                      return false;
+                    }
+                    return true;
+                  }
 
-                      <%-- DISPLAY SOURCE DESTINATION SELECTOR --%>
-                      function displaySrcDestSelector(){
-                        var srcDestType, emptyEditSrcDest, srcDestUid, srcDestName;
-						document.getElementById('prescriptionline').style.visibility="hidden";
-						//For specific EditOperationDescr values, an EditSrcDestType value may be forced
-						if('<%=MedwanQuery.getInstance().getConfigString("forceservicestockforproductstockoperations","medicationdelivery.2")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
-							transactionForm.EditSrcDestType.value='servicestock';
-						}
-						if('<%=MedwanQuery.getInstance().getConfigString("forcepatientforproductstockoperations","medicationdelivery.1")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
-							transactionForm.EditSrcDestType.value='patient';
-						}
-						if('<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3;medicationdelivery.4;medicationdelivery.5;medicationdelivery.99;")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
-							document.getElementById('destinationline').style.visibility="hidden";
-							document.getElementById('documentline').style.visibility="hidden";
-							document.getElementById('EditProductStockDocumentUid').value='';
-							document.getElementById('EditProductStockDocumentUidText').innerHTML='';
-							transactionForm.EditSrcDestType.value="";
-							transactionForm.EditSrcDestUid.value="";
-							transactionForm.EditSrcDestName.value="";
-						}
-						else {
-							document.getElementById('destinationline').style.visibility="visible";
-						}
-						//End forced EditSrcDestType
+                  <%-- DISPLAY SOURCE DESTINATION SELECTOR --%>
+                  function displaySrcDestSelector(){
+                    var srcDestType, emptyEditSrcDest, srcDestUid, srcDestName;
+					document.getElementById('prescriptionline').style.visibility = "hidden";
 						
-                        srcDestType = transactionForm.EditSrcDestType.value;
-                        if(srcDestType.length > 0){
-                            document.getElementById('SrcDestSelector').style.visibility = 'visible';
+					// For specific EditOperationDescr values, an EditSrcDestType value may be forced
+					if('<%=MedwanQuery.getInstance().getConfigString("forceservicestockforproductstockoperations","medicationdelivery.2")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+					  transactionForm.EditSrcDestType.value='servicestock';
+					}
+					if('<%=MedwanQuery.getInstance().getConfigString("forcepatientforproductstockoperations","medicationdelivery.1")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+					  transactionForm.EditSrcDestType.value='patient';
+					}
+						
+					if('<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3;medicationdelivery.4;medicationdelivery.5;medicationdelivery.99;")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
+					  document.getElementById('destinationline').style.visibility="hidden";
+					  document.getElementById('documentline').style.visibility="hidden";
+					  document.getElementById('EditProductStockDocumentUid').value='';
+					  document.getElementById('EditProductStockDocumentUidText').innerHTML='';
+					  transactionForm.EditSrcDestType.value="";
+					  transactionForm.EditSrcDestUid.value="";
+					  transactionForm.EditSrcDestName.value="";
+					}
+					else{
+					  document.getElementById('destinationline').style.visibility="visible";
+					}
+					//End forced EditSrcDestType
+						
+                    srcDestType = transactionForm.EditSrcDestType.value;
+                    if(srcDestType.length > 0){
+                      document.getElementById('SrcDestSelector').style.visibility = 'visible';
 
-                          <%-- medic --%>
-                          if(srcDestType.indexOf('user') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";
-	                        document.getElementById('prescriptionline').style.visibility="hidden";
-							document.getElementById('documentline').style.visibility="hidden";
-							document.getElementById('EditProductStockDocumentUid').value='';
-							document.getElementById('EditProductStockDocumentUidText').innerHTML='';
-							document.getElementById('encounterline').style.visibility="hidden";
-							document.getElementById('EditProductStockEncounterUid').value='';
-
-                            if('<%=sPrevUsedSrcDestUid%>'.length > 0){
-                              transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
-                              transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
-                            }
-                            else{
-                              transactionForm.EditSrcDestUid.value = "<%=activeUser.userid%>";
-                              transactionForm.EditSrcDestName.value = "<%=activeUser.person.firstname+" "+activeUser.person.lastname%>";
-                            }
-                          }
-                          <%-- patient --%>
-                          else if(srcDestType.indexOf('patient') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";
-                            document.getElementById('prescriptionline').style.visibility="visible";
-							document.getElementById('documentline').style.visibility="hidden";
-							document.getElementById('EditProductStockDocumentUid').value='';
-							document.getElementById('EditProductStockDocumentUidText').innerHTML='';
-							document.getElementById('encounterline').style.visibility="visible";
-
-                            if('<%=sEditSrcDestName%>'.length == 0 && '<%=sPrevUsedSrcDestUid%>'.length > 0){
-                              transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
-                              transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
-                            }
-                            else{
-                              <%
-                                  if(activePatient!=null){
-                                      %>
-                                        transactionForm.EditSrcDestUid.value = "<%=activePatient.personid%>";
-                                        transactionForm.EditSrcDestName.value = "<%=activePatient.firstname+" "+activePatient.lastname%>";
-                                      <%
-                                  }
-                                  else{
-                                      %>
-                                        transactionForm.EditSrcDestUid.value = "";
-                                        transactionForm.EditSrcDestName.value = "";
-                                      <%
-                                  }
-                              %>
-                            }
-							//Here we have to set the patient encounter when it is active
-							setPatientEncounter();
-                          }
-                          <%-- service --%>
-                          else if(srcDestType.indexOf('servicestock') > -1 && '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","")%>'.indexOf(document.getElementById('EditOperationDescr').value)==-1){
-								document.getElementById('documentline').style.visibility="visible";
-								document.getElementById('encounterline').style.visibility="hidden";
-							<%
-								if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)!=1){
-							%>
-		                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-        		                    +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";
-		                            if('<%=sPrevUsedSrcDestUid%>'.length > 0){
-		                              transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
-		                              transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
-		                            }
-		                            else if('<%=supplierCode%>'.length > 0){
-		                              transactionForm.EditSrcDestUid.value = "<%=supplierCode%>";
-		                              transactionForm.EditSrcDestName.value = "<%=getTranNoLink("service",supplierCode,sWebLanguage)%>";
-		                            }
-		                            else if('"<%=centralPharmacyCode%>"'.length > 0){
-		                              transactionForm.EditSrcDestUid.value = "<%=centralPharmacyCode%>";
-		                              transactionForm.EditSrcDestName.value = "<%=getTranNoLink("service",centralPharmacyCode,sWebLanguage)%>";
-		                            }
-		                            else{
-		                              transactionForm.EditSrcDestUid.value = "";
-		                              transactionForm.EditSrcDestName.value = "";
-		                            }
-		                    <%
-								} else {
-									sPrevUsedSrcDestUid="";
-									sPrevUsedSrcDestName="";
-									if(sEditProductStockDocumentUid.length()>0){
-										OperationDocument document = OperationDocument.get(sEditProductStockDocumentUid);
-										if(document!=null){
-											sPrevUsedSrcDestUid=document.getDestinationuid();
-											if(sPrevUsedSrcDestUid.length()>0){
-												sPrevUsedSrcDestName=document.getDestination().getName();
-											}
-										}
-									}
-                            %>
-									document.getElementById('SearchSrcDestButtonDiv').innerHTML ="";
-									if(document.getElementById('EditProductStockDocumentUid').value.length==0){
-			                            transactionForm.EditSrcDestUid.value = "";
-			                            transactionForm.EditSrcDestName.value = "";
-									}
-									else {
-			                            transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
-			                            transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
-									}
-	                        <%
-								}
-                            %>
-                          }
+                      <%-- medic --%>
+                      if(srcDestType.indexOf('user') > -1){
+                        document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                                                                                     +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";
+	                    document.getElementById('prescriptionline').style.visibility="hidden";
+					    document.getElementById('documentline').style.visibility="hidden";
+						document.getElementById('EditProductStockDocumentUid').value='';
+						document.getElementById('EditProductStockDocumentUidText').innerHTML='';
+						document.getElementById('encounterline').style.visibility="hidden";
+						document.getElementById('EditProductStockEncounterUid').value='';
+ 
+						if('<%=sPrevUsedSrcDestUid%>'.length > 0){
+                          transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
+                          transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
                         }
                         else{
-                          transactionForm.EditSrcDestType.value = "<%=sDefaultSrcDestType%>";
-							document.getElementById('encounterline').style.visibility="hidden";
-                          document.getElementById('SrcDestSelector').style.visibility = 'hidden';
+                          transactionForm.EditSrcDestUid.value = "<%=activeUser.userid%>";
+                          transactionForm.EditSrcDestName.value = "<%=activeUser.person.firstname+" "+activeUser.person.lastname%>";
                         }
-						if(document.getElementById('EditOperationDescr').value=='<%=MedwanQuery.getInstance().getConfigString("productstockoperationexpireddrugsevacuation","medicationdelivery.4")%>'){
-							showBatches(true);
-						}
-						else {
-							showBatches(false);
-						}
-                        prevSrcDestType = srcDestType;
                       }
-                    </script>
-                </table>
+                      <%-- patient --%>
+                      else if(srcDestType.indexOf('patient') > -1){
+                        document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                                                                                         +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";
+                        document.getElementById('prescriptionline').style.visibility="visible";
+						document.getElementById('documentline').style.visibility="hidden";
+						document.getElementById('EditProductStockDocumentUid').value='';
+						document.getElementById('EditProductStockDocumentUidText').innerHTML='';
+						document.getElementById('encounterline').style.visibility="visible";
+
+                        if('<%=sEditSrcDestName%>'.length == 0 && '<%=sPrevUsedSrcDestUid%>'.length > 0){
+                          transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
+                          transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
+                        }
+                        else{
+                          <%
+                            if(activePatient!=null){
+                              %>
+                                transactionForm.EditSrcDestUid.value = "<%=activePatient.personid%>";
+                                transactionForm.EditSrcDestName.value = "<%=activePatient.firstname+" "+activePatient.lastname%>";
+                              <%
+                            }
+                            else{
+                              %>
+                                transactionForm.EditSrcDestUid.value = "";
+                                transactionForm.EditSrcDestName.value = "";
+                              <%
+                            }
+                          %>
+                        }
+                            
+						// Here we have to set the patient encounter when it is active
+						setPatientEncounter();
+                      }
+                      <%-- service --%>
+                      else if(srcDestType.indexOf('servicestock') > -1 && '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","")%>'.indexOf(document.getElementById('EditOperationDescr').value)==-1){
+						document.getElementById('documentline').style.visibility="visible";
+						document.getElementById('encounterline').style.visibility="hidden";
+								
+						<%
+							if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)!=1){
+							    %>
+			                      document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"+
+	        		                                                                            "<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";
+	        		                                                                              
+			                      if('<%=sPrevUsedSrcDestUid%>'.length > 0){
+			                        transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
+			                        transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
+			                      }
+			                      else if('<%=supplierCode%>'.length > 0){
+		                            transactionForm.EditSrcDestUid.value = "<%=supplierCode%>";
+		                            transactionForm.EditSrcDestName.value = "<%=getTranNoLink("service",supplierCode,sWebLanguage)%>";
+		                          }
+		                          else if('"<%=centralPharmacyCode%>"'.length > 0){
+		                            transactionForm.EditSrcDestUid.value = "<%=centralPharmacyCode%>";
+		                            transactionForm.EditSrcDestName.value = "<%=getTranNoLink("service",centralPharmacyCode,sWebLanguage)%>";
+		                          }
+		                          else{
+		                            transactionForm.EditSrcDestUid.value = "";
+		                            transactionForm.EditSrcDestName.value = "";
+		                          }
+		                        <%
+							}
+							else{
+								// productstockoperationdocumentmandatory == 1
+								sPrevUsedSrcDestUid="";
+								sPrevUsedSrcDestName="";
+								
+								if(sEditProductStockDocumentUid.length()>0){
+									OperationDocument document = OperationDocument.get(sEditProductStockDocumentUid);
+									if(document!=null){
+										sPrevUsedSrcDestUid=document.getDestinationuid();
+										if(sPrevUsedSrcDestUid.length()>0){
+											sPrevUsedSrcDestName=document.getDestination().getName();
+										}
+									}
+								}
+									
+	                            %>
+								  document.getElementById('SearchSrcDestButtonDiv').innerHTML = "";
+								  
+								  if(document.getElementById('EditProductStockDocumentUid').value.length==0){
+			                        transactionForm.EditSrcDestUid.value = "";
+			                        transactionForm.EditSrcDestName.value = "";
+								  }
+								  else {
+			                        transactionForm.EditSrcDestUid.value = "<%=sPrevUsedSrcDestUid%>";
+			                        transactionForm.EditSrcDestName.value = "<%=sPrevUsedSrcDestName%>";
+								  }
+		                        <%
+							}
+                        %>
+                      }
+                    }
+                    else{
+                      transactionForm.EditSrcDestType.value = "<%=sDefaultSrcDestType%>";
+					  document.getElementById('encounterline').style.visibility="hidden";
+                      document.getElementById('SrcDestSelector').style.visibility = 'hidden';
+                    }
+                        
+					if(document.getElementById('EditOperationDescr').value=='<%=MedwanQuery.getInstance().getConfigString("productstockoperationexpireddrugsevacuation","medicationdelivery.4")%>'){
+					  showBatches(true);
+					}
+					else{
+					  showBatches(false);
+					}
+						
+				    prevSrcDestType = srcDestType;
+                  }
+                </script>
+                
                 <%-- indication of obligated fields --%>
                 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
 
                 <%-- display message --%>
                 <br><span id="msgArea"><%=msg%></span>
+                
                 <%-- EDIT BUTTONS --%>
                 <%=ScreenHelper.alignButtonsStart()%>
                     <%
@@ -622,6 +670,7 @@
     <input type="hidden" name="Action">
     <input type="hidden" name="EditOperationUid" value="<%=sEditOperationUid%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
 	var setMaxQuantity=<%=iMaxQuantity%>;
@@ -655,41 +704,78 @@
       else if(transactionForm.EditUnitsChanged.value.length==0){
         transactionForm.EditUnitsChanged.focus();
       }
-      else if(transactionForm.EditSrcDestType.value.length==0){
+      else if(<%=MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)%>==1){
+        if(document.getElementById("EditProductStockDocumentUid").value.length==0){
+          document.getElementById("EditProductStockDocumentUid").focus();
+        }
+      }
+      else if(transactionForm.EditSrcDestType.value.length==0 && document.getElementById('destinationline').style.visibility!="hidden"){
         transactionForm.EditSrcDestType.focus();
       }
       else if(transactionForm.EditSrcDestUid.value.length==0){
         transactionForm.EditSrcDestName.focus();
       }
       else if(transactionForm.EditOperationDate.value.length==0){
-          transactionForm.EditOperationDate.focus();
-        }
-      else if(transactionForm.EditEncounterName.value.length==0){
-          transactionForm.EditEncounterName.focus();
-        }
+        transactionForm.EditOperationDate.focus();
+      }
+      else if(transactionForm.EditEncounterName.value.length==0 && document.getElementById('encounterline').style.visibility!="hidden"){
+        transactionForm.EditEncounterName.focus();
+      }
     }
   }
 
   <%-- CHECK PRODUCT FIELDS --%>
   function checkStockFields(){
     var maySubmit = true;
+    
     <%-- required fields --%>
     var productStockChecked=transactionForm.EditProductStockUid.checked;
     for(i=0;i<transactionForm.EditProductStockUid.length; i++){
-        if(transactionForm.EditProductStockUid[i].checked){
-        	productStockChecked=true;
-        }
+      if(transactionForm.EditProductStockUid[i].checked){
+      	productStockChecked=true;
+      }
     }
-    if(!transactionForm.EditOperationDescr.value.length>0 ||
-       !transactionForm.EditUnitsChanged.value.length>0 ||
-       !(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.indexOf("patient")<0 || transactionForm.EditEncounterName.value.length>0) ||
-       !(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
-       !(transactionForm.EditSrcDestName.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5*medicationdelivery.99")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1) ||
-       !transactionForm.EditOperationDate.value.length>0 ||
-       !transactionForm.EditEncounterUID.value.length>0 ||
-       !(transactionForm.EditSrcDestType.value!='servicestock' || transactionForm.EditProductStockDocumentUid.value.length>0 || <%=MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)%><1) ||
-       !productStockChecked){
-      maySubmit = false;
+    
+    if(maySubmit==true){
+      if(transactionForm.EditOperationDescr.value.length==0 ||
+         transactionForm.EditUnitsChanged.value.length==0 ||
+         transactionForm.EditOperationDate.value.length==0 ||
+         !productStockChecked){
+        maySubmit = false;
+      }
+    }
+    
+    if(maySubmit==true){
+      if(transactionForm.EditSrcDestType.value.indexOf("patient")>-1 && transactionForm.EditEncounterUID.value.length==0){
+        maySubmit = false;
+      }
+    }
+    
+    if(maySubmit==true){
+      if(transactionForm.EditSrcDestType.value=='servicestock' && <%=MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)%>==1 && transactionForm.EditProductStockDocumentUid.value.length==0){
+        maySubmit = false;
+      }
+    }
+    
+    if(maySubmit==true){
+      if(transactionForm.EditSrcDestType.value=='servicestock' && transactionForm.EditSrcDestUid.value.length==0){
+        //maySubmit = false;
+      }
+    }
+
+    if(maySubmit==true){
+      if(!(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.indexOf("patient")<0 || transactionForm.EditEncounterName.value.length>0)){
+        maySubmit = false;
+      }
+    }
+
+    if(maySubmit==true){
+      if(!(transactionForm.EditSrcDestType.style.visibility='hidden' || transactionForm.EditSrcDestType.value.length>0 || '<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutdestination","medicationdelivery.3*medicationdelivery.4*medicationdelivery.5")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1)){
+        maySubmit = false;
+      }
+    }
+    	     
+    if(maySubmit==false){
       alertDialog("web.manage","datamissing");
     }
 
@@ -743,7 +829,15 @@ openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceS
 		}
 		
 	%>
-    openPopup("/_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>&documentuid="+document.getElementById("EditProductStockDocumentUid").value+"&finddocumentsource=<%=sDocumentSource%>&finddocumentmindate=<%=sFindMinDate%>&finddocumentsourcetext=<%=sDocumentSourceText%>&ReturnDocumentID="+documentUidField+"&ReturnDocumentName="+documentUidTextField+"&ReturnDestinationID=EditSrcDestUid&ReturnDestinationName=EditSrcDestName");
+    openPopup("/_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>"+
+    		  "&documentuid="+document.getElementById("EditProductStockDocumentUid").value+
+    		  "&finddocumentsource=<%=sDocumentSource%>"+
+    		  "&finddocumentmindate=<%=sFindMinDate%>"+
+    		  "&finddocumentsourcetext=<%=sDocumentSourceText%>"+
+    		  "&ReturnDocumentID="+documentUidField+
+    		  "&ReturnDocumentName="+documentUidTextField+
+    		  "&ReturnDestinationID=EditSrcDestUid"+
+    		  "&ReturnDestinationName=EditSrcDestName");
   }
 
   <%-- CLEAR MESSAGE --%>
@@ -840,27 +934,29 @@ openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceS
         }
     }
     
-    function setPatientEncounter(){
-    	if(document.getElementById("EditSrcDestUid").value.length>0){
-	        var params = 'personid=' + document.getElementById("EditSrcDestUid").value;
-	        var today = new Date();
-	        var url= '<c:url value="/pharmacy/getActivePatientEncounter.jsp"/>?ts='+today;
-	   		new Ajax.Request(url,{
-	   				method: "GET",
-	                   parameters: params,
-	                   onSuccess: function(resp){
-	                       var label = eval('('+resp.responseText+')');
-	                       $('EditEncounterUID').value=label.EncounterUid;
-	                       $('EditEncounterName').value=label.EncounterName;
-	                   }
-	   			}
-	   		);
-    	}
+  <%-- SET PATIENT ENCOUNTER --%>
+  function setPatientEncounter(){
+   	if(document.getElementById("EditSrcDestUid").value.length>0){
+      var params = 'personid=' + document.getElementById("EditSrcDestUid").value;
+      var today = new Date();
+      var url= '<c:url value="/pharmacy/getActivePatientEncounter.jsp"/>?ts='+today;
+      new Ajax.Request(url,{
+	  	method: "GET",
+        parameters: params,
+        onSuccess: function(resp){
+          var label = eval('('+resp.responseText+')');
+          $('EditEncounterUID').value=label.EncounterUid;
+          $('EditEncounterName').value=label.EncounterName;
+        }
+      });
     }
+  }
 
-    function searchEncounter(encounterUidField,encounterNameField){
-	    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode="+encounterUidField+"&VarText="+encounterNameField+"&FindEncounterPatient="+document.getElementById("EditSrcDestUid").value);
-	}
+  <%-- SEARCH ENCOUNTER --%>
+  function searchEncounter(encounterUidField,encounterNameField){
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode="+encounterUidField+"&VarText="+encounterNameField+
+    		  "&FindEncounterPatient="+document.getElementById("EditSrcDestUid").value);
+  }
 
-    displaySrcDestSelector();
+  displaySrcDestSelector();
 </script>

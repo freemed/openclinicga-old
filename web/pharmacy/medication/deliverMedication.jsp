@@ -81,12 +81,12 @@
 
             //*** display operation in one row ***
             html.append("<tr class='list" + sClass + "' onclick=\"doShowDetailsDelivery('" + operation.getUid() + "');\"  title='" + detailsTran + "'>")
-                    .append(" <td>" + sDescription + (prescription!=null?" ("+prescription.getPrescriber().firstname+" "+prescription.getPrescriber().lastname+")":"")+"</td>")
-                    .append(" <td>" + (operation.getDate() == null ? "" : stdDateFormat.format(operation.getDate())) + "</td>")
-                    .append(" <td>" + operation.getProductStock().getServiceStock().getName() + "</td>")
-                    .append(" <td><b>" + sProductName + "</b></td>")
-                    .append(" <td>" + Math.abs(operation.getUnitsChanged()) + "</td>")
-                    .append(" <td>" + sUserName + "</td>")
+                    .append("<td>" + sDescription + (prescription!=null?" ("+prescription.getPrescriber().firstname+" "+prescription.getPrescriber().lastname+")":"")+"</td>")
+                    .append("<td>" + (operation.getDate() == null ? "" : stdDateFormat.format(operation.getDate())) + "</td>")
+                    .append("<td>" + operation.getProductStock().getServiceStock().getName() + "</td>")
+                    .append("<td><b>" + sProductName + "</b></td>")
+                    .append("<td>" + Math.abs(operation.getUnitsChanged()) + "</td>")
+                    .append("<td>" + sUserName + "</td>")
                     .append("</tr>");
         }
 
@@ -147,26 +147,27 @@
 
     // retreive form data
     String sEditOperationUid = checkString(request.getParameter("EditOperationUid")),
-            sEditOperationDescr = checkString(request.getParameter("EditOperationDescr")),
-            sEditUnitsChanged = checkString(request.getParameter("EditUnitsChanged")),
-            sEditSrcDestType = checkString(request.getParameter("EditSrcDestType")),
-            sEditSrcDestUid = checkString(request.getParameter("EditSrcDestUid")),
-            sEditSrcDestName = checkString(request.getParameter("EditSrcDestName")),
-            sEditProductName = checkString(request.getParameter("EditProductName")),
-            sEditOperationDate = checkString(request.getParameter("EditOperationDate")),
-            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
+           sEditOperationDescr = checkString(request.getParameter("EditOperationDescr")),
+           sEditUnitsChanged = checkString(request.getParameter("EditUnitsChanged")),
+           sEditSrcDestType = checkString(request.getParameter("EditSrcDestType")),
+           sEditSrcDestUid = checkString(request.getParameter("EditSrcDestUid")),
+           sEditSrcDestName = checkString(request.getParameter("EditSrcDestName")),
+           sEditProductName = checkString(request.getParameter("EditProductName")),
+           sEditOperationDate = checkString(request.getParameter("EditOperationDate")),
+           sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
     ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        Debug.println("\n\n################## sAction : " + sAction + " ############################");
-        Debug.println("* sEditOperationUid    : " + sEditOperationUid);
-        Debug.println("* sEditOperationDescr  : " + sEditOperationDescr);
-        Debug.println("* sEditUnitsChanged    : " + sEditUnitsChanged);
-        Debug.println("* sEditSrcDestType     : " + sEditSrcDestType);
-        Debug.println("* sEditSrcDestUid      : " + sEditSrcDestUid);
-        Debug.println("* sEditSrcDestName     : " + sEditSrcDestName);
-        Debug.println("* sEditOperationDate   : " + sEditOperationDate);
-        Debug.println("* sEditProductStockUid : " + sEditProductStockUid + "\n");
+    if(Debug.enabled){
+        Debug.println("\n################### medication/deliverMedication.jsp ###################");
+        Debug.println("sAction              : "+sAction);
+        Debug.println("sEditOperationUid    : "+sEditOperationUid);
+        Debug.println("sEditOperationDescr  : "+sEditOperationDescr);
+        Debug.println("sEditUnitsChanged    : "+sEditUnitsChanged);
+        Debug.println("sEditSrcDestType     : "+sEditSrcDestType);
+        Debug.println("sEditSrcDestUid      : "+sEditSrcDestUid);
+        Debug.println("sEditSrcDestName     : "+sEditSrcDestName);
+        Debug.println("sEditOperationDate   : "+sEditOperationDate);
+        Debug.println("sEditProductStockUid : "+sEditProductStockUid+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
