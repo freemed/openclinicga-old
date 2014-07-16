@@ -302,7 +302,6 @@ public class Label implements Serializable {
         try{
             String sSelect = "SELECT * FROM OC_LABELS"+
                              " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelValue+"=? AND "+lcaseLabelLang+"=?";
-
             ps = loc_conn.prepareStatement(sSelect);
             ps.setString(1,type.toLowerCase());
             ps.setString(2,value);

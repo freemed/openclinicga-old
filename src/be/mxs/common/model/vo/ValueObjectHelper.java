@@ -4,6 +4,7 @@ import be.mxs.common.model.vo.healthrecord.ItemVO;
 import be.mxs.common.model.util.BeanAccessor;
 import be.mxs.common.model.util.BeanModifier;
 import be.mxs.common.model.util.OptionBean;
+import be.mxs.common.util.system.ScreenHelper;
 
 import java.util.*;
 import java.lang.reflect.Method;
@@ -131,10 +132,6 @@ public class ValueObjectHelper {
             modelObject = valueObjectContainer.getValueObject();
 
             try {
-                if (modelObject instanceof ItemVO) {
-                    itemVO = (ItemVO) modelObject;
-                }
-
                 if (BeanAccessor.getInstance().getPropertyValue(model, valueObjectContainer.getValueObjectPath()) instanceof Collection) {
                     objectsCollection = (Collection) objectCollections.get(valueObjectContainer.getValueObjectPath());
 
@@ -159,7 +156,12 @@ public class ValueObjectHelper {
                     try {
                         objectFieldPath = (String) properties.nextElement();
                         parameterValue = (String) newPropertyValuesHashtable.get(objectFieldPath);
-                        fieldValue = BeanAccessor.getInstance().getPropertyValue(modelObject, objectFieldPath);
+                        try{
+                            fieldValue = ScreenHelper.checkString((String)BeanAccessor.getInstance().getPropertyValue(modelObject, objectFieldPath));
+                        }
+                        catch(Exception e){
+                        	fieldValue = BeanAccessor.getInstance().getPropertyValue(modelObject, objectFieldPath);
+                        }
 
                         if ( (modelObject instanceof OptionBean) && (objectFieldPath.equals("checked")) ) {
 
@@ -223,8 +225,8 @@ public class ValueObjectHelper {
                             itemVO = (ItemVO) o;
                         }
                     }
-
-                } catch (BeanAccessor.BeanAccessorException e) {
+                }
+                catch (BeanAccessor.BeanAccessorException e) {
                     throw new ValueObjectHelperException(e.getClass() + " - " + e.getMessage());
                 }
             }

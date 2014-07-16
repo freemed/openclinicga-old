@@ -156,9 +156,9 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
     
     //--- CONVERT ITEMS TO EU DATE ----------------------------------------------------------------
     public void convertItemsToEUDate(){
-    	System.out.println("================================================="); //////////////////
-    	System.out.println("============ CONVERTING ITEM-VALUES ============="); //////////////////
-    	System.out.println("================================================="); //////////////////
+    	Debug.println("================================================="); //////////////////
+    	Debug.println("============ CONVERTING ITEM-VALUES ============="); //////////////////
+    	Debug.println("================================================="); //////////////////
     	Vector baseItemNames = this.getBaseItemNames();
     	String sBaseItemType;
     	ItemVO item;
@@ -260,7 +260,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
             sItemTypeBase = getItemTypeBase(itemVO.getType());
             if(!itemNames.contains(sItemTypeBase)){
                 itemNames.add(sItemTypeBase);
-                System.out.println("add baseitemname : "+sItemTypeBase); ////////                
+                Debug.println("add baseitemname : "+sItemTypeBase); ////////                
             }
         }
         
@@ -576,21 +576,19 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         return isInSpecifiedContext;
     }
     
-    //--- IS RECENT TRAN --------------------------------------------------------------------------
-    // periodType = constant from java.util.Calendar
-    // --> java.util.Calendar.YEAR
-    public boolean isRecentTran(int periodType, int amount){
-        boolean isRecentTran = false;
-        
-        java.util.Calendar cal = Calendar.getInstance();
-        cal.setTime(new java.util.Date()); // now
-        cal.add(periodType,-1*amount); // revert
-        java.util.Date refDate = cal.getTime();
-        if(this.updateTime.getTime() >= refDate.getTime()){
-            isRecentTran = true;
-        }
-        
-        return isRecentTran;
-    }
+    //--- DISPLAY ITEMS ---------------------------------------------------------------------------
+    public void displayItems(){
+    	Debug.println("\n************************* DISPLAY ITEMS **************************");
+    	Debug.println("items : "+items.size()+"\n");
+    	
+        Iterator itemIter = items.iterator();
+	    ItemVO itemVO;
+	    while(itemIter.hasNext()){
+	        itemVO = (ItemVO)itemIter.next();
+	        Debug.println("["+itemVO.getItemId()+"] "+itemVO.getType()+" : "+itemVO.getValue());
+	    }	    
+
+    	Debug.println("\n******************************************************************\n");
+    }    
     
 }

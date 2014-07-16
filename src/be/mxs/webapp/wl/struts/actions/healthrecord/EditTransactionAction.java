@@ -7,6 +7,7 @@ import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.model.vo.healthrecord.HealthRecordVO;
 import be.mxs.common.model.vo.healthrecord.util.TransactionFactoryGeneral;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Debug;
 import be.mxs.services.healthrecord.exceptions.TransactionNotFoundException;
 import be.mxs.webapp.wl.exceptions.SessionContainerFactoryException;
 import be.mxs.webapp.wl.session.SessionContainerFactory;
@@ -37,7 +38,6 @@ public class EditTransactionAction extends Action {
 
         try {
             SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName() );
-
 
             // get parameters
             String transactionType = request.getParameter("be.mxs.healthrecord.createTransaction.transactionType"),
@@ -141,6 +141,15 @@ public class EditTransactionAction extends Action {
                         planning.store();
                     }
                 }
+                
+                if(transactionType.indexOf("_CUSTOMEXAMINATION") > -1){
+                    String sCustomExamType = transactionType.substring(transactionType.indexOf("_CUSTOMEXAMINATION")+"_CUSTOMEXAMINATION".length());
+                    Debug.println("Loading CUSTOM EXAMINATION of type '"+sCustomExamType+"'");                                        
+                    sParameters+= "&CustomExamType="+sCustomExamType;               	
+
+                    transactionType = transactionType.substring(0,transactionType.indexOf("_CUSTOMEXAMINATION")+"_CUSTOMEXAMINATION".length());
+                }
+                
                 actionForward = new ActionForward(MedwanQuery.getInstance().getForward(transactionType)+"&"+sParameters, true);
             }
         }

@@ -445,7 +445,7 @@ public class Examination {
                 examination.setMessageKey(ScreenHelper.checkString(rs.getString("messagekey")));
             }
             else{
-                throw new Exception("ERROR : EXAMINATION of type '"+examinationType+"' NOT FOUND");
+                throw new Exception("INFO : EXAMINATION of type '"+examinationType+"' NOT FOUND");
             }
         }
         catch(Exception e){

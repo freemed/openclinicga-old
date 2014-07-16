@@ -219,7 +219,7 @@ public class ScreenHelper {
     public static boolean isDateValue(String sValue){
     	boolean isDateValue = false;
     	
-    	if(parseDate(sValue)!=null){
+    	if(parseDate(sValue)!=null){  
     		isDateValue = true;
     	}
     	
@@ -233,7 +233,7 @@ public class ScreenHelper {
     	cal.set(Calendar.HOUR,0);
     	cal.set(Calendar.MINUTE,0);
     	cal.set(Calendar.SECOND,0);
-    	cal.set(Calendar.MILLISECOND,0);
+    	cal.set(Calendar.MILLISECOND,0); 
     	
     	return cal.getTime(); // past midnight
     }
@@ -250,6 +250,11 @@ public class ScreenHelper {
     	cal.add(Calendar.DAY_OF_YEAR,1);
     	
     	return cal.getTime(); // next midnight
+    }
+
+    //--- GET LABEL -------------------------------------------------------------------------------
+    public static String getLabel(String sType, String sID, String sLanguage, String sObject){
+        return "<label for='"+sObject+"'>"+getTran(sType,sID,sLanguage)+"</label>";
     }
     
     //--- LEFT ------------------------------------------------------------------------------------
@@ -320,7 +325,7 @@ public class ScreenHelper {
 	        stringBuffer.append((String)vector.get(i));	        
 	    	if(addApostrophes) stringBuffer.append("'");
 	        
-	        if(i<vector.size()){
+	        if(i<vector.size()-1){
 	        	stringBuffer.append(sDelimeter);
 	        }
 	    }		    
@@ -363,7 +368,7 @@ public class ScreenHelper {
                 if(labelValue.length() == 0){
                     if(checkString(MedwanQuery.getInstance().getConfigString("showLinkNoTranslation")).equals("on")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
-                        return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                        return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
                     }
                     else{
                         return sID;
@@ -384,7 +389,7 @@ public class ScreenHelper {
                 if(typeHashtable == null){
                     if(checkString(MedwanQuery.getInstance().getConfigString("showLinkNoTranslation")).equals("on")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
-                        return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                        return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
                     }
                     else{
                         return sID;
@@ -395,7 +400,7 @@ public class ScreenHelper {
                 if(idHashtable == null){
                     if(checkString(MedwanQuery.getInstance().getConfigString("showLinkNoTranslation")).equals("on")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
-                        return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                        return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
                     }
                     else{
                         return sID;
@@ -406,7 +411,7 @@ public class ScreenHelper {
                 if(label == null){
                     if(checkString(MedwanQuery.getInstance().getConfigString("showLinkNoTranslation")).equals("on")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
-                        return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                        return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
                     }
                     else{
                         return sID;
@@ -419,7 +424,7 @@ public class ScreenHelper {
                 if(labelValue==null || labelValue.trim().length()==0){
                     if(label.showLink==null || label.showLink.equals("1")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
-                        return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                        return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
                     }
                 }
             }
@@ -590,6 +595,73 @@ public class ScreenHelper {
 	                    // empty label : return id as labelValue
 	                    if(labelValue==null || labelValue.trim().length()==0) {
 	                        return sID;
+	                    }
+	                }
+	            }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return labelValue.replaceAll("##CR##","\n");
+    }
+    
+    //--- GET TRAN NO ID --------------------------------------------------------------------------
+    public static String getTranNoId(String sType, String sID, String sLanguage) {    	
+    	if(sID==null){
+    		Debug.println("WARNING - getTranNoId : sID is null for sType:"+sType+" and sLanguage:"+sLanguage);
+    		return "";
+    	}
+    	
+        String labelValue = "";
+        if(sLanguage!=null && sLanguage.equalsIgnoreCase("f")){
+        	sLanguage = "fr";
+        }
+        else if(sLanguage!=null && sLanguage.equalsIgnoreCase("n")){
+        	sLanguage = "nl";
+        }
+        else if(sLanguage!=null && sLanguage.equalsIgnoreCase("e")){
+        	sLanguage = "en";
+        }
+
+        try{
+            if(sLanguage!=null && sLanguage.length() == 2){	
+	            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
+	                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
+	            }
+	            else{
+	                Hashtable labels = MedwanQuery.getInstance().getLabels();
+	                if(labels==null){
+	                    saveUnknownLabel(sType,sID,sLanguage);
+	                    return "";
+	                }
+	                else{
+	                    Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
+	                    if(langHashtable == null){
+	                        return "";
+	                    }
+	
+	                    Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
+	                    if(typeHashtable == null){
+	                        return "";
+	                    }
+	
+	                    Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
+	                    if(idHashtable == null){
+	                        return "";
+	                    }
+	
+	                    Label label = (Label)idHashtable.get(sID.toLowerCase());
+	                    if(label == null){
+	                        return "";
+	                    }
+	
+	                    labelValue = label.value;
+	
+	                    // empty label : return id as labelValue
+	                    if(labelValue==null || labelValue.trim().length()==0) {
+	                        return "";
 	                    }
 	                }
 	            }

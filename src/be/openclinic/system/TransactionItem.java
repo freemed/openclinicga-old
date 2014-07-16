@@ -65,7 +65,7 @@ public class TransactionItem {
         this.updatetime = updatetime;
     }
 
-    public static boolean exists(String sTranid,String sItemid){
+    public static boolean exists(String sTranTypeId, String sItemid){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -76,25 +76,24 @@ public class TransactionItem {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect);
-            ps.setString(1,sTranid);
+            ps.setString(1,sTranTypeId);
             ps.setString(2,sItemid);
 
             rs = ps.executeQuery();
-
             if(rs.next()){
                 bExists = true;
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
@@ -108,7 +107,8 @@ public class TransactionItem {
 
         TransactionItem objTI = new TransactionItem();
 
-        String sSelect =" SELECT defaultValue,modifier FROM TransactionItems WHERE transactionTypeId=? AND itemTypeId=?";
+        String sSelect = "SELECT defaultValue,modifier FROM TransactionItems"+
+                         " WHERE transactionTypeId=? AND itemTypeId=?";
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -176,10 +176,12 @@ public class TransactionItem {
         }
     }
 
+    //--- DELETE TRANSACTION ITEM -----------------------------------------------------------------
     public static void deleteTransactionItem(String tranid, String itemid){
         PreparedStatement ps = null;
 
-        String sDelete = " DELETE FROM TransactionItems WHERE transactionTypeId=? AND itemTypeId=?";
+        String sDelete = "DELETE FROM TransactionItems"+
+                         " WHERE transactionTypeId=? AND itemTypeId=?";
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -189,13 +191,16 @@ public class TransactionItem {
 
             ps.executeUpdate();
             ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
