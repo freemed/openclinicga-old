@@ -14,7 +14,6 @@
 			// trim off the second part (document-type)
 			sMenuPath = sMenuPath.substring(0,sMenuPath.indexOf("$"));
 		}
-        
         String[] pathParts = sMenuPath.split("\\.");
         int menuDepth = 0;
         Element menuElem = null;
@@ -106,7 +105,7 @@
            sShortcutIcon     = checkString(request.getParameter("ShortcutIcon")),
            sShortcutIconText = checkString(request.getParameter("ShortcutIconText"));
 
-    String sIconsDir = MedwanQuery.getInstance().getConfigString("baseDirectory","c:/projects/openclinic")+"/_img/shortcutIcons";
+    String sIconsDir = MedwanQuery.getInstance().getConfigString("localProjectPath")+"/_img/shortcutIcons";
     
     /// DEBUG //////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -144,7 +143,7 @@
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","type",sWebLanguage)%>&nbsp;*&nbsp;</td>
         <td class="admin2">
-            <select name="ShortcutType" id="ShortcutType" class="text" onchange="getSubtypes(this);">
+            <select name="ShortcutType" class="text" onchange="getSubtypes(this);">
                 <option value="-1"><%=getTran("web","choose",sWebLanguage)%></option>
                 <%
                     /*
@@ -190,7 +189,11 @@
     </tr>
         
     <%-- SHORTCUT SUB-TYPE (hidden) --%>
-    <tr id="shortcutSubtypeTR">
+    <tr id="shortcutSubtypeTR" style="display:none;">
+        <td class="admin"><%=getTran("web","subtype",sWebLanguage)%>&nbsp;*&nbsp;</td>
+        <td class="admin2" id="shortcutSubtypeTD">
+            <%-- ajax --%>
+        </td>
     </tr>
 
     <%-- SHORTCUT ICON --%>
@@ -215,11 +218,11 @@
                                 %><br><%
                             }
                             
-                            %><img class="link" id="icon_<%=i%>" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=icon.getName()%>" onClick="selectIcon(this);" style="border:2px solid white;width:20px;height:20px;" name="<%=icon.getName()%>" title="<%=icon.getName()%>"/>&nbsp;&nbsp;<%
+                            %><img class="link" id="icon_<%=i%>" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=icon.getName()%>" onClick="selectIcon(this);" style="border:2px solid white;width:20px;height:20px;" filename="<%=icon.getName()%>" title="<%=icon.getName()%>"/>&nbsp;&nbsp;<%
                         }
                     }
                     else{
-                        %><font color="red"><%=(getTran("web.userprofile","directoryNotFound",sWebLanguage)+" : '"+sIconsDir+"' (--> baseDirectory)")%></font><%
+                        %><font color="red"><%=(getTran("web.userprofile","directoryNotFound",sWebLanguage)+" : '"+sIconsDir+"' (--> localProjectPath)")%></font><%
                     }
                 %>
             </div>
@@ -228,7 +231,7 @@
     
     <%-- SHORTCUT ICON TEXT --%>
     <tr>
-        <td class="admin"><%=getTran("web","iconText",sWebLanguage)%>&nbsp;</td>
+        <td class="admin"><%=getTran("web","iconText",sWebLanguage)%>&nbsp;*&nbsp;</td>
         <td class="admin2">
             <input type="text" name="ShortcutIconText" id="ShortcutIconText" value="<%=sShortcutIconText%>" size="40" maxLength="50">
         </td>
@@ -252,12 +255,13 @@
 
 <script>
   document.getElementById("msgDiv").innerHTML = "<%=getTran("web","maxIcons",sWebLanguage)%>:&nbsp;<%=MedwanQuery.getInstance().getConfigString("maxUserDefinedShortcuts","5")%>";
+
   var selectedShortcuts = new Array();
   var clickedIcon, editedIcon, prevFullShortcutType = "";
   var numberOfSavedShortcuts = 0;
   
   loadSavedShortcuts();
-
+  
   <%-- APPEND SELECTED SHORTCUTS --%>
   function appendSelectedShortcuts(shortcutType){
     selectedShortcuts.push(shortcutType);
@@ -267,7 +271,7 @@
   function loadSavedShortcuts(){
 	document.getElementById("savedShortcutsTD").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";     
     var url = "<c:url value='/userprofile/ajax/loadSavedShortcuts.jsp'/>?ts="+new Date().getTime();
-    var params = "UserId=<%=activeUser.userid%>&noaccessvalidation=1";
+    var params = "UserId=<%=activeUser.userid%>";
     
     new Ajax.Updater("savedShortcutsTD",url,{ 
       method: "GET",
@@ -294,10 +298,10 @@
     
     <%-- clear previous selected icon --%>
     document.getElementById("ShortcutIcon").value = "";
-
+    
     if(clickedIcon!=null){
-    	<%-- visually mark selected icon --%>
-      if(clickedIcon.style.border.indexOf("white")>-1){
+      <%-- visually mark selected icon --%>
+      if(clickedIcon.style.border=="white 2px solid"){
         clickedIcon.style.border = "2px solid darkblue";
       }
       else{
@@ -305,7 +309,8 @@
       }
     
       <%-- keep track of id of selected icon --%>
-      document.getElementById("ShortcutIcon").value = clickedIcon.name;
+      document.getElementById("ShortcutIcon").value = clickedIcon.filename;
+    
       var typeSelect = document.getElementById("ShortcutType");
       if(typeSelect.selectedIndex > 0){
         document.getElementById("ShortcutIconText").value = typeSelect.options[typeSelect.selectedIndex].text;
@@ -320,7 +325,7 @@
     }
   }
   
-  <%-- GET SHORTCUT SUBTYPES --%>
+  <%-- GET shortcut SUBTYPES --%>
   var tmpSubtype;
   
   function getSubtypes(select,subtypeToSelect){
@@ -335,13 +340,15 @@
         parameters: params,
         onComplete: function(resp){
           var html = trim(resp.responseText);
+          
           if(html.length > 0){
-        	document.getElementById("shortcutSubtypeTR").style.display ="";
-            document.getElementById("shortcutSubtypeTR").innerHTML = "<td class='admin'><%=getTran("web","subtype",sWebLanguage)%>&nbsp;*&nbsp;</td><td class='admin2'>"+resp.responseText+"</td>";
+            document.getElementById("shortcutSubtypeTR").style.display = "block";
           }
           else{
-            document.getElementById("shortcutSubtypeTR").innerHTML = "";
+            document.getElementById("shortcutSubtypeTR").style.display = "none";
           }
+          
+          document.getElementById("shortcutSubtypeTD").innerHTML = resp.responseText;
 
           <%-- select the right subtype --%>
           if(tmpSubtype.length > 0){
@@ -366,6 +373,7 @@
   function saveShortcut(){
     var okToSave = true;
     var fullShortcutType;
+ 
     var maxNumberOfShortcuts = "<%=MedwanQuery.getInstance().getConfigString("maxUserDefinedShortcuts","5")%>";
     if((numberOfSavedShortcuts < maxNumberOfShortcuts) || document.getElementById("EditMode").value=="true"){
       <%-- type --%>
@@ -379,7 +387,7 @@
 
       <%-- subtype --%>
       if(okToSave){
-        if(document.getElementById("ShortcutSubtype")){
+        if(document.getElementById("shortcutSubtypeTR").style.display=="block"){
           if(document.getElementById("ShortcutSubtype").selectedIndex < 1){
             document.getElementById("ShortcutSubtype").focus();
             alertDialog("web.manage","dataMissing");
@@ -422,22 +430,26 @@
         }
       }
     
+      <%-- description --%>
+      if(okToSave){
+        if(document.getElementById("ShortcutIconText").value.length==0){
+          document.getElementById("ShortcutIconText").focus();
+          alertDialog("web.manage","dataMissing");
+          okToSave = false;
+        }
+      }
+    
       if(okToSave){
         disableButtons();
 
         if(prevFullShortcutType.length==0){
           prevFullShortcutType = fullShortcutType;
         }
-        subtype="";
-        if(document.getElementById("ShortcutSubtype")){
-        	subtype=document.getElementById("ShortcutSubtype").value;
-        }
         
 	    var url = "<c:url value='/userprofile/ajax/saveShortcut.jsp'/>?ts="+new Date().getTime();
         var params = "UserId=<%=activeUser.userid%>"+
 				     "&PrevShortcutId="+prevFullShortcutType+
 				     "&ShortcutId="+fullShortcutType+
-				     "&ShortcutSubtypeId="+subtype+
                      "&IconName="+document.getElementById("ShortcutIcon").value+
                      "&IconText="+document.getElementById("ShortcutIconText").value;
         new Ajax.Request(url,{
@@ -457,13 +469,13 @@
     }
   }
   
-  <%-- GET FULL SHORTCUT TYPE --%>
+  <%-- GET FULL  SHORTCUT TYPE --%>
   function getFullShortcutType(){
     var type = document.getElementById("ShortcutType").options[document.getElementById("ShortcutType").selectedIndex].value;
     var fullType = type;
   
     <%-- add subtype, if any (only for documents) --%>
-    if(document.getElementById("ShortcutSubtype")){       
+    if(document.getElementById("shortcutSubtypeTR").style.display=="block"){       
       if(document.getElementById("ShortcutSubtype").selectedIndex > 0){
         var subtype = document.getElementById("ShortcutSubtype").options[document.getElementById("ShortcutSubtype").selectedIndex].value;
         fullType+= "$"+subtype;
@@ -484,7 +496,7 @@
     }
         
     <%-- visually mark edited shortcut icon --%>
-    if(editedIcon.style.border=="2px solid white"){
+    if(editedIcon.style.border=="white 2px solid"){
       editedIcon.style.border = "2px solid darkblue";
     }
     else{
@@ -514,7 +526,7 @@
           <%-- select the right icon --%>
           var icons = document.getElementById("iconsDiv").getElementsByTagName("img");
           for(var i=0; i<icons.length; i++){
-            if(icons[i].name==data.iconName){
+            if(icons[i].filename==data.iconName){
               selectIcon(icons[i]);
               break;
             }
@@ -528,7 +540,7 @@
   
   <%-- DELETE SHORTCUT --%>
   function deleteShortcut(){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDialog("web","areYouSureToDelete")==1){
       disableButtons();
      
       var select = document.getElementById("ShortcutType");
@@ -602,7 +614,10 @@
     }
     document.getElementById("shortcutSubtypeTR").style.display = "none";
     document.getElementById("ShortcutIconText").value = "";
-    
+
+    if(document.getElementById("deleteButton")!=undefined){
+      document.getElementById("deleteButton").style.visibility = "hidden";
+    }
     selectIcon();   
      
     <%-- deselect all saved shortcut icons --%>

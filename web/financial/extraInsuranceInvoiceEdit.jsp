@@ -38,31 +38,31 @@
     </table>
 </form>
 <script>
+  FindForm.FindInsurarInvoiceUID.focus();
+
+  function searchInsurarInvoice(){
+    openPopup("/_common/search/searchExtraInsurarInvoice.jsp&ts=<%=getTs()%>&doFunction=doFind()&ReturnFieldInvoiceNr=FindInsurarInvoiceUID&FindInvoiceInsurar=<%=sFindInsurarInvoiceUID%>");
+  }
+
+  function doFind(){
+    if(FindForm.FindInsurarInvoiceUID.value.length > 0){
+      FindForm.submit();
+    }
+  }
+
+  function doNew(){
+    FindForm.FindInsurarInvoiceUID.value = "";
+    FindForm.submit();
+  }
+
+  function doClear(){
+    doClearInsurarInvoice();
+  }
+
+  function doClearInsurarInvoice(){
+    FindForm.FindInsurarInvoiceUID.value = "";
     FindForm.FindInsurarInvoiceUID.focus();
-
-    function searchInsurarInvoice(){
-        openPopup("/_common/search/searchExtraInsurarInvoice.jsp&ts=<%=getTs()%>&doFunction=doFind()&ReturnFieldInvoiceNr=FindInsurarInvoiceUID&FindInvoiceInsurar=<%=sFindInsurarInvoiceUID%>");
-    }
-
-    function doFind(){
-        if(FindForm.FindInsurarInvoiceUID.value.length > 0){
-            FindForm.submit();
-        }
-    }
-
-    function doNew(){
-        FindForm.FindInsurarInvoiceUID.value = "";
-        FindForm.submit();
-    }
-
-    function doClear(){
-        doClearInsurarInvoice();
-    }
-
-    function doClearInsurarInvoice(){
-        FindForm.FindInsurarInvoiceUID.value = "";
-        FindForm.FindInsurarInvoiceUID.focus();
-    }
+  }
 </script>
 <div id="divOpenInsurarInvoices" style="height:120px;" class="searchResults"></div>
 <form name='EditForm' id="EditForm" method='POST'>
@@ -253,49 +253,46 @@
 </form>
 <script>
 function doSave(){
-
-    if((EditForm.EditDate.value.length > 0) && (EditForm.EditStatus.selectedIndex > -1 && EditForm.EditInsurarUID.value.length>0)){
-        var sCbs = "";
-        for (i = 0; i < EditForm.elements.length; i++){
-            elm = EditForm.elements[i];
-
-            if((elm.type == 'checkbox') && (elm.checked)){
-                sCbs += elm.name.split("=")[0].replace("cbDebet","d").replace("cbInsurarInvoice","c")+",";
-            }
-        }
-
-        EditForm.ButtonSave.disabled = true;
-        var today = new Date();
-        var url = '<c:url value="/financial/extraInsuranceInvoiceSave.jsp"/>?ts='+today;
-        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Saving";
-        new Ajax.Request(url, {
-            method: "POST",
-            postBody: 'EditDate='+EditForm.EditDate.value
-                   +'&EditInsurarInvoiceUID='+EditForm.EditInsurarInvoiceUID.value
-                   +'&EditInvoiceUID='+EditForm.EditInvoiceUID.value
-                   +'&EditInsurarUID='+EditForm.EditInsurarUID.value
-                   +'&EditStatus='+EditForm.EditStatus.value
-                   +'&EditCBs='+sCbs
-                   +'&EditBalance='+EditForm.EditBalance.value,
-            onSuccess: function(resp){
-                var label = eval('('+resp.responseText+')');
-                $('divMessage').innerHTML = label.Message;
-                $('EditInsurarInvoiceUID').value = label.EditInsurarInvoiceUID;
-                $('EditInvoiceUID').value = label.EditInvoiceUID;
-                $('FindInsurarInvoiceUID').value = label.EditInvoiceUID;
-                EditForm.ButtonSave.disabled = false;
-                window.setTimeout("loadOpenInsurarInvoices()",200);
-                window.setTimeout("doFind()",200);
-            },
-            onFailure: function(){
-                $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
-            }
-        }
-                );
+  if((EditForm.EditDate.value.length > 0) && (EditForm.EditStatus.selectedIndex > -1 && EditForm.EditInsurarUID.value.length>0)){
+    var sCbs = "";
+    for (i = 0; i < EditForm.elements.length; i++){
+      elm = EditForm.elements[i];
+      if((elm.type == 'checkbox') && (elm.checked)){
+        sCbs += elm.name.split("=")[0].replace("cbDebet","d").replace("cbInsurarInvoice","c")+",";
+      }
     }
-    else{
-      alertDialog("web.manage","datamissing");
-    }
+
+    EditForm.ButtonSave.disabled = true;
+    var today = new Date();
+    var url = '<c:url value="/financial/extraInsuranceInvoiceSave.jsp"/>?ts='+today;
+    document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Saving";
+    new Ajax.Request(url, {
+      method: "POST",
+      postBody: 'EditDate='+EditForm.EditDate.value
+               +'&EditInsurarInvoiceUID='+EditForm.EditInsurarInvoiceUID.value
+               +'&EditInvoiceUID='+EditForm.EditInvoiceUID.value
+               +'&EditInsurarUID='+EditForm.EditInsurarUID.value
+               +'&EditStatus='+EditForm.EditStatus.value
+               +'&EditCBs='+sCbs
+               +'&EditBalance='+EditForm.EditBalance.value,
+      onSuccess: function(resp){
+        var label = eval('('+resp.responseText+')');
+        $('divMessage').innerHTML = label.Message;
+        $('EditInsurarInvoiceUID').value = label.EditInsurarInvoiceUID;
+        $('EditInvoiceUID').value = label.EditInvoiceUID;
+        $('FindInsurarInvoiceUID').value = label.EditInvoiceUID;
+        EditForm.ButtonSave.disabled = false;
+        window.setTimeout("loadOpenInsurarInvoices()",200);
+        window.setTimeout("doFind()",200);
+      },
+      onFailure: function(){
+        $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
+      }
+    });
+  }
+  else{
+    alertDialog("web.manage","datamissing");
+  }
 }
 
 function countDebets(){

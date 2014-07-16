@@ -98,20 +98,20 @@
 </form>
 
 <script>
-    editForm.EditBalanceMax.focus();
+  editForm.EditBalanceMax.focus();
 
-    function doBack(){
-        history.go(-1);
-        return false;
-    }
+  function doBack(){
+    history.go(-1);
+    return false;
+  }
 
-    function doSave(){
-        editForm.buttonSave.disabled = true;
-        editForm.Action.value = "SAVE";
-        editForm.submit();
-    }
+  function doSave(){
+    editForm.buttonSave.disabled = true;
+    editForm.Action.value = "SAVE";
+    editForm.submit();
+  }
 
-    function doHistory(){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/historyBalance.jsp&EditCreditBalanceUID=<%=tmpBalance.getUid()%>&ts=<%=getTs()%>";
-    }
+  function doHistory(){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/historyBalance.jsp&EditCreditBalanceUID=<%=tmpBalance.getUid()%>&ts=<%=getTs()%>";
+  }
 </script>

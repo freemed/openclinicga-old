@@ -71,7 +71,7 @@ function checkSaveButton(){
   if(myForm!=null && myForm.name=="SF") return true;
   var discardFormData = true;
   var sFormCurrStatus = getFormData();
-  <%-- alert(sFormBeginStatus+"\n\n"+sFormCurrStatus); --%>
+  <!-- alert(sFormBeginStatus+"\n\n"+sFormCurrStatus); -->
 
   var alertAnyway = false;
 

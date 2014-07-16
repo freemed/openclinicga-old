@@ -1,13 +1,15 @@
-<%@page import="be.mxs.common.util.io.messync.Examination"%>
-<%@page import="be.openclinic.system.ServiceExamination,java.util.*"%>
+<%@page import="be.mxs.common.util.io.messync.Examination,
+                be.openclinic.system.ServiceExamination,
+                java.util.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("system.manageserviceexaminations","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
 <%
-    String sAction          = checkString(request.getParameter("Action")),
-           sFindServiceCode = checkString(request.getParameter("FindServiceCode")),
+    String sAction = checkString(request.getParameter("Action"));
+
+    String sFindServiceCode = checkString(request.getParameter("FindServiceCode")),
            sFindServiceText = checkString(request.getParameter("FindServiceText"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +131,7 @@
 		        	// header
 		        	%>
 		        	    <tr class="admin">
-		        	        <td colspan="5"><b><%=sServiceName.toUpperCase()%></b>&nbsp;
+		        	        <td colspan="5"><b><%=sServiceName%></b>&nbsp;
 		        	            <a href="javascript:void(0);" onclick="checkAll(true,'<%=sServiceId%>');"><%=getTran("web.manage.checkDb","checkAll",sWebLanguage)%></a>
 	                            <a href="javascript:void(0);" onclick="checkAll(false,'<%=sServiceId%>');"><%=getTran("web.manage.checkDb","uncheckAll",sWebLanguage)%></a>
 	                        </td>

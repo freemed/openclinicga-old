@@ -37,7 +37,15 @@
     	    	}
     	    }
     	    
-    	    String sTranLabel = getTranNoLink(sLabelType,sTranType,sWebLanguage);
+    	    String sTranLabel = "";
+    	    if(sTranType.indexOf("_CUSTOMEXAMINATION") > -1){
+    	    	String sTranTypeId = sTranType.substring(sTranType.indexOf("_CUSTOMEXAMINATION")+"_CUSTOMEXAMINATION".length());
+    	        sTranLabel = getTranNoLink("examination",sTranTypeId,sWebLanguage);
+    	    }
+    	    else{
+    	    	sTranLabel = getTranNoLink(sLabelType,sTranType,sWebLanguage);
+    	    }
+    	    
     	    if(sTranSubtype.length() > 0){
     	        sTranLabel+= " ["+getTranNoLink(sLabelType,sTranSubtype,sWebLanguage)+"]";	
     	    }

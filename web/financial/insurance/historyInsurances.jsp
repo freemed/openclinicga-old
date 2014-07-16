@@ -113,18 +113,18 @@
 </form>
 
 <script>
-    function doSearch(sortCol){
-       HistoryInsuranceForm.SortColumn.value = sortCol;
-       HistoryInsuranceForm.submit();
-    }
+  function doSearch(sortCol){
+    HistoryInsuranceForm.SortColumn.value = sortCol;
+    HistoryInsuranceForm.submit();
+  }
 
-    function doSelect(id){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/insurance/editInsurance.jsp&EditInsuranceUID=" + id + "&ts=<%=getTs()%>";
-    }
+  function doSelect(id){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/insurance/editInsurance.jsp&EditInsuranceUID=" + id + "&ts=<%=getTs()%>";
+  }
 
-    function doBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
-    }
+  function doBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
+  }
 
   function updateRowStyles(){
     var sClassName;

@@ -98,15 +98,15 @@
         }
         sbResults.append(
                 "<tr class=\"list" + sClass + "\"" +
-                        " onmouseover=\"this.style.cursor='hand';\"" +
-                        " onmouseout=\"this.style.cursor='default';\"" +
-                        " onclick=\"doSelect('" + insurance.getUid() + "');\">" +
-                        "   <td>" + checkString(insurance.getType()) + "</td>" +
-                        "   <td>" + sStartDate + "</td>" +
-                        "   <td>" + sStopDate + "</td>" +
-                        "   <td>" + checkString(insurance.getInsuranceNr()) + "</td>" +
-                        "   <td>" + checkString(insurance.getCompany()) + "</td>" +
-                        "</tr>");
+                " onmouseover=\"this.style.cursor='hand';\"" +
+                " onmouseout=\"this.style.cursor='default';\"" +
+                " onclick=\"doSelect('" + insurance.getUid() + "');\">" +
+	                "<td>" + checkString(insurance.getType()) + "</td>" +
+	                "<td>" + sStartDate + "</td>" +
+	                "<td>" + sStopDate + "</td>" +
+	                "<td>" + checkString(insurance.getInsuranceNr()) + "</td>" +
+	                "<td>" + checkString(insurance.getCompany()) + "</td>" +
+                "</tr>");
     }
 
     String sortTran = getTran("web", "clicktosort", sWebLanguage);
@@ -133,37 +133,36 @@
         }
     %>
 <script>
-    function doClear(){
-        FindInsuranceForm.FindInsuranceType.value = "";
-        FindInsuranceForm.FindInsuranceStop.value = "";
-        FindInsuranceForm.FindInsuranceStart.value = "";
-        FindInsuranceForm.FindInsuranceNr.value = "";
+  function doClear(){
+    FindInsuranceForm.FindInsuranceType.value = "";
+    FindInsuranceForm.FindInsuranceStop.value = "";
+    FindInsuranceForm.FindInsuranceStart.value = "";
+    FindInsuranceForm.FindInsuranceNr.value = "";
+  }
+  function doFind(){
+    if(FindInsuranceForm.FindInsuranceStart.value != ""
+    || FindInsuranceForm.FindInsuranceStop.value != ""
+    || FindInsuranceForm.FindInsuranceNr.value != ""
+    || FindInsuranceForm.FindInsuranceType.value != ""){
+      FindInsuranceForm.Action.value = "SEARCH";
+      FindInsuranceForm.buttonfind.disabled = true;
+      FindInsuranceForm.submit();
     }
-    function doFind(){
-        if(FindInsuranceForm.FindInsuranceStart.value != ""
-        || FindInsuranceForm.FindInsuranceStop.value != ""
-        || FindInsuranceForm.FindInsuranceNr.value != ""
-        || FindInsuranceForm.FindInsuranceType.value != "")
-        {
-            FindInsuranceForm.Action.value = "SEARCH";
-            FindInsuranceForm.buttonfind.disabled = true;
-            FindInsuranceForm.submit();
-        }
-    }
+  }
 
-    function doNew(){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/insurance/editInsurance.jsp&ts=<%=getTs()%>";
-    }
+  function doNew(){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/insurance/editInsurance.jsp&ts=<%=getTs()%>";
+  }
 
-    function doBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/index.jsp&ts=<%=getTs()%>";
-    }
+  function doBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/index.jsp&ts=<%=getTs()%>";
+  }
 
-    function doSearchBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/index.jsp&ts=<%=getTs()%>";
-    }
+  function doSearchBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/index.jsp&ts=<%=getTs()%>";
+  }
 
-    function doSelect(id){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/insurance/editInsurance.jsp&EditInsuranceUID=" + id + "&ts=<%=getTs()%>";
-    }
+  function doSelect(id){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/insurance/editInsurance.jsp&EditInsuranceUID=" + id + "&ts=<%=getTs()%>";
+  }
 </script>

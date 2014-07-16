@@ -152,7 +152,7 @@
           if(lastEvent.target.id.indexOf("menu") > -1 || lastEvent.target.id.indexOf("ddIcon") > -1){
             if(!bSaveHasNotChanged){
               dropDownChecked = true;
-              if(checkSaveButton("<c:url value="/"/>", "<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")){
+              if(checkSaveButton()){
                 lastEvent.target.click();
               }
             }
@@ -163,7 +163,7 @@
           if(lastEvent.srcElement.id.indexOf("menu") > -1 || lastEvent.srcElement.id.indexOf("ddIcon") > -1){
             if(!bSaveHasNotChanged){
               dropDownChecked = true;
-              if(checkSaveButton("<c:url value="/"/>","<%=getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>")){
+              if(checkSaveButton()){
                 lastEvent.srcElement.click();
               }
             }

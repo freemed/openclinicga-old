@@ -155,54 +155,55 @@
     </table>
     <input type='hidden' name='Action' value=''>
     <input type='hidden' name='EditUID' value='<%=ac.getUid()%>'>
-    <script>
-    function calculateInterval(sBegin, sEnd, sReturn){
-        document.getElementById(sReturn).value = "";
-        if ((document.getElementById(sBegin).value.length>0) && (document.getElementById(sEnd).value.length>0)){
-            var aTimeBegin = document.getElementById(sBegin).value.split(":");
-            var startHour = aTimeBegin[0];
-            if(startHour.length==0) startHour = 0;
-            var startMinute = aTimeBegin[1];
-            if(startMinute.length==0) startMinute = 0;
+    
+<script>
+  function calculateInterval(sBegin, sEnd, sReturn){
+    document.getElementById(sReturn).value = "";
+    if ((document.getElementById(sBegin).value.length>0) && (document.getElementById(sEnd).value.length>0)){
+      var aTimeBegin = document.getElementById(sBegin).value.split(":");
+      var startHour = aTimeBegin[0];
+      if(startHour.length==0) startHour = 0;
+      var startMinute = aTimeBegin[1];
+      if(startMinute.length==0) startMinute = 0;
 
-            var aTimeEnd = document.getElementById(sEnd).value.split(":");
-            var stopHour = aTimeEnd[0];
-            if(stopHour.length==0) stopHour = 0;
-            var stopMinute = aTimeEnd[1];
-            if(stopMinute.length==0) stopMinute = 0;
+      var aTimeEnd = document.getElementById(sEnd).value.split(":");
+      var stopHour = aTimeEnd[0];
+      if(stopHour.length==0) stopHour = 0;
+      var stopMinute = aTimeEnd[1];
+      if(stopMinute.length==0) stopMinute = 0;
 
-            var dateFrom = new Date(2000,1,1,0,0,0);
-            dateFrom.setHours(startHour);
-            dateFrom.setMinutes(startMinute);
+      var dateFrom = new Date(2000,1,1,0,0,0);
+      dateFrom.setHours(startHour);
+      dateFrom.setMinutes(startMinute);
 
-            var dateUntil = new Date(2000,1,1,0,0,0);
-            dateUntil.setHours(stopHour);
-            dateUntil.setMinutes(stopMinute);
+      var dateUntil = new Date(2000,1,1,0,0,0);
+      dateUntil.setHours(stopHour);
+      dateUntil.setMinutes(stopMinute);
 
-            var iMinutes = getMinutesInInterval(dateFrom,dateUntil);
-            var sHour = parseInt(iMinutes / 60);
-            var sMinutes = (iMinutes % 60)+"";
+      var iMinutes = getMinutesInInterval(dateFrom,dateUntil);
+      var sHour = parseInt(iMinutes / 60);
+      var sMinutes = (iMinutes % 60)+"";
 
-            document.getElementById(sReturn).value = sHour+":"+sMinutes;
-            checkTime(document.getElementById(sReturn));
-        }
+      document.getElementById(sReturn).value = sHour+":"+sMinutes;
+      checkTime(document.getElementById(sReturn));
     }
+  }
 
-    function getMinutesInInterval(from,until){
-        var millisDiff = until.getTime() - from.getTime();
-        return (millisDiff/60000);
-    }
+  function getMinutesInInterval(from,until){
+    var millisDiff = until.getTime() - from.getTime();
+    return (millisDiff/60000);
+  }
 
-    function searchUser(userID,userName){
-        openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+userID+"&ReturnName="+userName);
-    }
+  function searchUser(userID,userName){
+    openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+userID+"&ReturnName="+userName);
+  }
 
-    function submitForm(){
-        editForm.buttonSave.disabled = true;
-        editForm.Action.value = "SAVE";
-        editForm.submit();
-    }
-    </script>
+  function submitForm(){
+    editForm.buttonSave.disabled = true;
+    editForm.Action.value = "SAVE";
+    editForm.submit();
+  }
+</script>
 </form>
 <%
     

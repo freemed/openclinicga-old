@@ -43,7 +43,7 @@
     <%=writeTableHeader("web.manage","manageDateFormat",sWebLanguage," doBack();")%>
     
     <table width="100%" cellspacing="1" cellpadding="0" class="list">
-        <%-- language --%>
+        <%-- date format --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","dateFormat",sWebLanguage)%></td>
             <td class="admin2">

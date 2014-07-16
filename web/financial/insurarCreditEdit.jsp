@@ -387,25 +387,23 @@
   }             
 
   function loadUnassignedCredits(sInsurarUid){
-      if (EditForm.FindCreditInsurarUid.value.length>0){
-        document.getElementById('divCredits').innerHTML="<br><br><br><div id='ajaxLoader' style='display:block;text-align:center;'><img src='<c:url value='/_img/ajax-loader.gif'/>'/><br>Loading..</div>";
-        var params = 'FindDateBegin=' + document.getElementById('FindDateBegin').value
+    if(EditForm.FindCreditInsurarUid.value.length>0){
+      document.getElementById('divCredits').innerHTML="<br><br><br><div id='ajaxLoader' style='display:block;text-align:center;'><img src='<c:url value='/_img/ajax-loader.gif'/>'/><br>Loading..</div>";
+      var params = 'FindDateBegin=' + document.getElementById('FindDateBegin').value
                 +"&FindDateEnd="+document.getElementById('FindDateEnd').value
                 +"&FindAmountMin="+document.getElementById('FindAmountMin').value
                 +"&FindAmountMax="+document.getElementById('FindAmountMax').value
                 +"&insurarUid="+sInsurarUid;
-        var today = new Date();
-        var url= "<c:url value="/financial/getUnassignedInsurarCredits.jsp"/>?ts="+today;
-        new Ajax.Request(url,
-          {
-            method: "GET",
-            parameters: params,
-            onSuccess: function(resp){
-              $("divCredits").innerHTML = resp.responseText;
-            }
-          }
-        );
-      }
+      var today = new Date();
+      var url= "<c:url value="/financial/getUnassignedInsurarCredits.jsp"/>?ts="+today;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: params,
+        onSuccess: function(resp){
+          $("divCredits").innerHTML = resp.responseText;
+        }
+      });
+    }
   }
 
   function selectCredit(creditUid,creditDate,amount,type,descr, invoiceUid, wicketuid){
@@ -417,11 +415,11 @@
     EditForm.EditCreditDescription.value = descr;
     EditForm.EditCreditInvoiceUid.value = invoiceUid;
 
-    if (invoiceUid.indexOf(".")>-1){
-        EditForm.EditCreditInvoiceNr.value = invoiceUid.split(".")[1];
+    if(invoiceUid.indexOf(".")>-1){
+      EditForm.EditCreditInvoiceNr.value = invoiceUid.split(".")[1];
     }
-    else {
-        EditForm.EditCreditInvoiceNr.value = "";
+    else{
+      EditForm.EditCreditInvoiceNr.value = "";
     }
     EditForm.EditCreditInsurarUid.value = EditForm.FindCreditInsurarUid.value;
     EditForm.EditCreditInsurarName.value = EditForm.FindCreditInsurarName.value;
@@ -448,43 +446,40 @@
   }
 
   function clearFindFields(){
-      EditForm.FindDateBegin.value = "";
-      EditForm.FindDateEnd.value = "";
-      EditForm.FindAmountMin.value = "";
-      EditForm.FindAmountMax.value = "";
+    EditForm.FindDateBegin.value = "";
+    EditForm.FindDateEnd.value = "";
+    EditForm.FindAmountMin.value = "";
+    EditForm.FindAmountMax.value = "";
   }
   
   function doPrintPdf(creditUid){
-      var url = "<c:url value='/financial/createInsurarPaymentReceiptPdf.jsp'/>?CreditUid="+creditUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
-      window.open(url,"PaymentReceiptPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    var url = "<c:url value='/financial/createInsurarPaymentReceiptPdf.jsp'/>?CreditUid="+creditUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
+    window.open(url,"PaymentReceiptPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
   function doPrintPatientPaymentReceipt(){
-  	  var params = '';
-      var today = new Date();
-      var url= '<c:url value="/financial/printInsurarPaymentReceiptOffline.jsp"/>?credituid='+document.getElementById('EditCreditUid').value+'&ts='+today+'&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>';
-      new Ajax.Request(url,{
-				method: "GET",
-              parameters: params,
-              onSuccess: function(resp){
-              	var label = eval('('+resp.responseText+')');
-              	if(label.message.length>0){
-                  	alert(label.message.unhtmlEntities());
-                  };
-              },
-				onFailure: function(){
-					alert("Error printing receipt");
-              }
-          }
-		);
+  	var params = '';
+    var today = new Date();
+    var url= '<c:url value="/financial/printInsurarPaymentReceiptOffline.jsp"/>?credituid='+document.getElementById('EditCreditUid').value+'&ts='+today+'&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>';
+    new Ajax.Request(url,{
+	  method: "GET",
+      parameters: params,
+      onSuccess: function(resp){
+       	var label = eval('('+resp.responseText+')');
+       	if(label.message.length>0){
+       	  alert(label.message.unhtmlEntities());
+        };
+      },
+	  onFailure: function(){
+		alert("Error printing receipt");
+      }
+    });
   }
   
-
   EditForm.EditCreditDate.focus();
   loadUnassignedCredits(EditForm.FindCreditInsurarUid.value);
   if(document.getElementById('EditCreditUid').value.length>0){
-      document.getElementById('printsection').style.visibility='visible';
-      document.getElementById('PrintLanguage').show();
+    document.getElementById('printsection').style.visibility='visible';
+    document.getElementById('PrintLanguage').show();
   }
-
 </script>

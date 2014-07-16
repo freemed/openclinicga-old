@@ -1,34 +1,34 @@
 <%@ page import="be.openclinic.finance.*,be.mxs.common.util.system.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <script>
-	function searchInsuranceCategory(){
-	    openPopup("/_common/search/searchInsuranceCategory.jsp&ts=<%=getTs()%>&VarCode=EditInsuranceCategoryLetter&VarText=EditInsuranceInsurarName&VarCat=EditInsuranceCategory&VarCompUID=EditInsurarUID&VarTyp=EditInsuranceType&VarTypName=EditInsuranceTypeName&VarFunction=checkInsuranceAuthorization()&Active=1");
-	}
+  function searchInsuranceCategory(){
+	openPopup("/_common/search/searchInsuranceCategory.jsp&ts=<%=getTs()%>&VarCode=EditInsuranceCategoryLetter&VarText=EditInsuranceInsurarName&VarCat=EditInsuranceCategory&VarCompUID=EditInsurarUID&VarTyp=EditInsuranceType&VarTypName=EditInsuranceTypeName&VarFunction=checkInsuranceAuthorization()&Active=1");
+  }
 	
-    function doBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
-    }
+  function doBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
+  }
 
-    function doSearchBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
-    }
+  function doSearchBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
+  }
 
-    function doSave(){
-    	if("<%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","$$").replaceAll("\\*","")%>"==document.getElementById('EditInsurarUID').value && document.getElementById('EditInsuranceNr').value==''){
-    		alert("<%=getTranNoLink("web","insurancenr.mandatory",sWebLanguage)%>");
-    	}
-    	else if("<%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","$$").replaceAll("\\*","")%>"==document.getElementById('EditInsurarUID').value && document.getElementById('EditInsuranceStatus').value==''){
-    		alert("<%=getTranNoLink("web","insurancestatus.mandatory",sWebLanguage)%>");
-    	}
-    	else if(EditInsuranceForm.EditInsuranceStart && EditInsuranceForm.EditInsuranceStart.value.length<8){
-    		alert("<%=getTranNoLink("web","insurancedatestart.mandatory",sWebLanguage)%>");
-    	}
-    	else {
-            EditInsuranceForm.EditSaveButton.disabled = true;
-            EditInsuranceForm.Action.value = "SAVE";
-            EditInsuranceForm.submit();
-        }
+  function doSave(){
+    if("<%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","$$").replaceAll("\\*","")%>"==document.getElementById('EditInsurarUID').value && document.getElementById('EditInsuranceNr').value==''){
+      alertDialog("<%=getTranNoLink("web","insurancenr.mandatory",sWebLanguage)%>");
     }
+    else if("<%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","$$").replaceAll("\\*","")%>"==document.getElementById('EditInsurarUID').value && document.getElementById('EditInsuranceStatus').value==''){
+      alertDialog("<%=getTranNoLink("web","insurancestatus.mandatory",sWebLanguage)%>");
+    }
+   	else if(EditInsuranceForm.EditInsuranceStart && EditInsuranceForm.EditInsuranceStart.value.length<8){
+   	  alertDialog("<%=getTranNoLink("web","insurancedatestart.mandatory",sWebLanguage)%>");
+   	}
+  	else {
+      EditInsuranceForm.EditSaveButton.disabled = true;
+      EditInsuranceForm.Action.value = "SAVE";
+      EditInsuranceForm.submit();
+    }
+  }
 </script>
 
 <%=checkPermission("financial.insurance","select",activeUser)%>

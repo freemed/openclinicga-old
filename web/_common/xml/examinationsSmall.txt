@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Examinations>
+	<Row>
+		<id>1001</id>
+		<class>imaging</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR2</transactiontype>
+		<fr>Imagerie m&#233;dicale</fr>
+		<en>Medical imaging</en>
+	</Row>
+	<Row>
+		<id>1055</id>
+		<class>internal.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL</transactiontype>
+		<fr>Protocole d&apos;echographie abdominale</fr>
+		<en>Abdominal echography protocol</en>
+	</Row>
+	<Row>
+		<id>1109</id>
+		<class>ophtalmology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_IOTA</transactiontype>
+		<fr>Consultation ophtalmologique - mod&#232;le IOTA</fr>
+		<en>Ophtalmology consultation - IOTA model</en>
+	</Row>
+</Examinations>

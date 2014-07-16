@@ -96,7 +96,8 @@
 	    if((activeUser.vServices.size()>1)&&(sCheckService.trim().equals("true"))){
 	        ScreenHelper.setIncludePage("startChangeService.jsp?NextPage=_common/start.jsp", pageContext);
 	    }
-	    if(MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCountry","").length()==0 || MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCity","").length()==0){
+	    if(MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCountry","").length()==0 ||
+	       MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCity","").length()==0){
 	        out.println("<script>window.open('popup.jsp?Page=system/manageGlobalHealthBarometerData.jsp&PopupWidth=800&PopupHeight=600&AutoClose=1','GlobalHealthBarometer', 'toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no');</script>");
 	    }
         out.print("<center><h4>"+getTran("Web","welcome",sWebLanguage)+" "+activeUser.person.firstname+" "+activeUser.person.lastname+"</h4></center>");

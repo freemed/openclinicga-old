@@ -193,46 +193,45 @@
     }
 %>
 <script>
+  function doFind(){
+    if ((document.getElementById("FindDateBegin").value.length>0)
+      ||(document.getElementById("FindDateEnd").value.length>0)
+      ||(document.getElementById("FindAmountMin").value.length>0)
+      ||(document.getElementById("FindAmountMax").value.length>0)
+      ||(document.getElementById("FindInvoiceId").value.length>0)
+    ){
+      FindForm.submit();
+    }
+    else {
+      alertDialog("web.manage","datamissing");
+    }
+  }
 
-        function doFind(){
-            if ((document.getElementById("FindDateBegin").value.length>0)
-            ||(document.getElementById("FindDateEnd").value.length>0)
-            ||(document.getElementById("FindAmountMin").value.length>0)
-            ||(document.getElementById("FindAmountMax").value.length>0)
-            ||(document.getElementById("FindInvoiceId").value.length>0)
-            ){
-                FindForm.submit();
-            }
-            else {
-              alertDialog("web.manage","datamissing");
-            }
-        }
+  function clearFields(){
+    document.getElementById("FindDateBegin").value="";
+    document.getElementById("FindDateEnd").value="";
+    document.getElementById("FindAmountMin").value="";
+    document.getElementById("FindAmountMax").value="";
+    document.getElementById("FindInvoiceId").value="";
+    document.getElementById("FindTypePatient").checked=false;
+    document.getElementById("FindTypeInsurar").checked=false;
+  }
 
-        function clearFields(){
-            document.getElementById("FindDateBegin").value="";
-            document.getElementById("FindDateEnd").value="";
-            document.getElementById("FindAmountMin").value="";
-            document.getElementById("FindAmountMax").value="";
-            document.getElementById("FindInvoiceId").value="";
-            document.getElementById("FindTypePatient").checked=false;
-            document.getElementById("FindTypeInsurar").checked=false;
-        }
-
-          function openInvoice(sInvoiceId, sType){
-            if (sType=="<%=getTran("web","patient",sWebLanguage)%>"){
-                openPopup("/financial/patientInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=610&PopupHeight=660&FindPatientInvoiceUID="+sInvoiceId);
-            }
-            else if(sType=="<%=getTran("web","insurar",sWebLanguage)%>"){
-                openPopup("/financial/insuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
-            }
-            else if(sType=="<%=getTran("web","extrainsurar",sWebLanguage)%>"){
-                openPopup("/financial/extraInsuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
-            }
-            else if(sType=="<%=getTran("web","complementarycoverage2",sWebLanguage)%>"){
-                openPopup("/financial/extraInsuranceInvoiceEdit2.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
-            }
-        }
-    </script>
+  function openInvoice(sInvoiceId, sType){
+    if(sType=="<%=getTran("web","patient",sWebLanguage)%>"){
+      openPopup("/financial/patientInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=610&PopupHeight=660&FindPatientInvoiceUID="+sInvoiceId);
+    }
+    else if(sType=="<%=getTran("web","insurar",sWebLanguage)%>"){
+      openPopup("/financial/insuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
+    }
+    else if(sType=="<%=getTran("web","extrainsurar",sWebLanguage)%>"){
+      openPopup("/financial/extraInsuranceInvoiceEdit.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
+    }
+    else if(sType=="<%=getTran("web","complementarycoverage2",sWebLanguage)%>"){
+      openPopup("/financial/extraInsuranceInvoiceEdit2.jsp&ts=<%=getTs()%>&PopupWidth=600&PopupHeight=690&FindInsurarInvoiceUID="+sInvoiceId);
+    }
+  }
+</script>
 <%
     }
     catch(Exception e){

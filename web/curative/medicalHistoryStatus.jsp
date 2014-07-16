@@ -181,7 +181,7 @@ try{
                                                                     else{
                                                                         %>
                                                                             <a href="<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<%=transactionType%>&be.mxs.healthrecord.transaction_id=<%=transactionVO.getTransactionId()%>&be.mxs.healthrecord.server_id=<%=transactionVO.getServerId()%>&ts=<%=getTs()%>" onMouseOver="window.status='';return true;">
-                                                                                <%=getTran("web.occup",transactionType,sWebLanguage)%>
+                                                                                <%=ScreenHelper.uppercaseFirstLetter(getTranNoLink("web.occup",transactionType,sWebLanguage))%>
                                                                         <%
 
                                                                         // add vaccination type

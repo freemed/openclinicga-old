@@ -217,7 +217,7 @@
             %>
             <tr class="<%=(verifiedExaminationVO.getPlannedExaminationDue().equalsIgnoreCase("medwan.common.true")?"menuItemRed":"list"+sClass)%>">
                 <%-- examination name --%>
-                <td><img src="<c:url value="/_img/pijl.gif"/>"><button class='buttoninvisible'></button>  <%=examName%></td>
+                <td><img src="<c:url value="/_img/pijl.gif"/>"><button class='buttoninvisible'></button>  <%=ScreenHelper.uppercaseFirstLetter(examName)%></td>
                 <%-- create --%>
                 <td align="center">
                     <%
@@ -339,7 +339,7 @@
 	                                %>
 	                                <tr class="list<%=sInnerClass%>">
 	                                    <%-- examination name --%>
-	                                    <td><img src="<c:url value="/_img/pijl.gif"/>"><button class='buttoninvisible'></button> <%=examName%></td>
+	                                    <td><img src="<c:url value="/_img/pijl.gif"/>"><button class='buttoninvisible'></button> <%=ScreenHelper.uppercaseFirstLetter(examName)%></td>
 	                                    <%-- create --%>
 	                                    <td align="center">
 	                                        <%

@@ -265,7 +265,13 @@
                     currentContext = sessionContainerWO.getFlags().getContext();
                 }
 
-                result+= "&nbsp;"+ScreenHelper.getTran("Web.Occup",transactionVO.getTransactionType(),language);
+                if(transactionVO.getTransactionType().indexOf("_CUSTOMEXAMINATION") > -1){
+                	String sCustomExamType = transactionVO.getTransactionType().substring(transactionVO.getTransactionType().indexOf("_CUSTOMEXAMINATION")+"_CUSTOMEXAMINATION".length());
+                	result+= "&nbsp;"+ScreenHelper.uppercaseFirstLetter(getTran("examination",sCustomExamType,language));
+                }
+                else{
+                    result+= "&nbsp;"+ScreenHelper.getTran("web.occup",transactionVO.getTransactionType(),language);
+                }
 
                 // subtitle
                 if(subTitle.length() > 0){
@@ -808,7 +814,7 @@
         }
 
         // back button
-        html.append("<input class='button' type='button' name='backButton' value='").append(getTran("Web","back",sWebLanguage)).append("' onclick='doBack();'>\n");
+        html.append("<input class='button' type='button' name='backButton' id='backButton' value='").append(getTran("Web","back",sWebLanguage)).append("' onclick='doBack();'>\n");
 
         html.append("</div>");
         
