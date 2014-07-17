@@ -108,7 +108,7 @@
             <td class="admin"/>
             <td class="admin2" colspan="2">
                 <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doSave();">
-                <input class="button" type="button" name="clearButton" value="<%=getTranNoLink("web.manage","clearAll",sWebLanguage)%>" onclick="clearAll();">&nbsp;&nbsp;
+                <input class="button" type="button" name="clearButton" value="<%=getTranNoLink("web.manage","clearallmessages",sWebLanguage)%>" onclick="clearAll();">&nbsp;&nbsp;
                 <input class="button" type="button" name="backButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">&nbsp;
             </td>
         </tr>

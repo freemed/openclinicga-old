@@ -776,7 +776,6 @@
                         }
                         try {
                             sSelect += ")";
-                        System.out.println(sSelect);
                             psCheck = connectionCheck.prepareStatement(sSelect);
                             psCheck.execute();
                             psCheck.close();

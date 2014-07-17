@@ -8,9 +8,9 @@
         if (vCredits != null) {
             String sInsurarCreditUID;
             InsurarCredit insurarcredit;
-            String sChecked = "";
-            if (bChecked) {
-                sChecked = " checked";
+            String sImage = "_img/check.gif";
+            if (!bChecked) {
+                sImage = " _img/uncheck.gif";
             }
 
             for (int i = 0; i < vCredits.size(); i++) {
@@ -27,7 +27,7 @@
                         }
 
                         sReturn += "<tr class='list" + sClass + "'>"
-                                + "<td><input type='checkbox' name='c" + insurarcredit.getUid() + "=" + insurarcredit.getAmount() + "' onclick='doBalance(this, false)'" + sChecked + "></td>"
+                                + "<td><img src='"+sImage+"' name='cbCredit" + insurarcredit.getUid() + "=" + insurarcredit.getAmount() + "' onclick='doBalance(this, false)'></td>"
                                 + "<td>" + ScreenHelper.getSQLDate(insurarcredit.getDate()) + "</td>"
                                 + "<td>" + HTMLEntities.htmlentities(getTran("credit.type", checkString(insurarcredit.getType()), sWebLanguage)+(checkString(insurarcredit.getComment()).length()>0?" ("+insurarcredit.getComment()+")":"")) + "</td>"
                                 + "<td>" + insurarcredit.getAmount() + "</td>"
@@ -53,7 +53,7 @@
 	InsurarInvoice insurarInvoice = null;
 	
 	if (sEditInsurarInvoiceUID.length() > 0) {
-	    insurarInvoice = InsurarInvoice.get(sEditInsurarInvoiceUID);
+	    insurarInvoice = InsurarInvoice.getWithoutDebets(sEditInsurarInvoiceUID);
 	    Vector vInsurarCredits = insurarInvoice.getCredits();
 	    out.print(addDebetCredits(vInsurarCredits, sClass, true, sWebLanguage));
 	}

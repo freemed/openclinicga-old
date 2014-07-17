@@ -5,8 +5,6 @@
 	if(request.getParameter("deleteoperation")!=null){
 		ProductStockOperation operation = ProductStockOperation.get(request.getParameter("deleteoperation"));
 		if(operation!=null){
-			System.out.println("canceling operation "+operation.getUid());
-			System.out.println("result="+operation.cancel(true));
 		}
 	}
 	long n3months = 1000*3600;

@@ -258,7 +258,6 @@
 				total=0;
 				while(j.hasNext()){
 					etiology=(String)j.next();
-					System.out.println("etiology="+etiology);
 					TreeMap provinces = (TreeMap)etiologies.get(etiology.split(";")[1]+";"+etiology.split(";")[2]);
 					out.println("<tr><td class='admin'>"+etiology.split(";")[1].toUpperCase()+"</td><td class='admin'>"+etiology.split(";")[2]+"</td>");
 					i = allProvinces.iterator();

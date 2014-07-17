@@ -9,7 +9,6 @@
     ByteArrayOutputStream baosPDF = null;
     try {
         Hashtable parameters = new Hashtable();
-        System.out.println("sProductStockId="+sProductStockId);
         parameters.put("productStockUID",sProductStockId);
         parameters.put("year",sYear);
     	baosPDF = pdfGenerator.generatePDFDocumentBytes(request,"productStockFile",parameters);

@@ -49,7 +49,6 @@
 	int statusCode = client.executeMethod(method);
 	if(statusCode==200){
 		String resp = method.getResponseBodyAsString();
-		System.out.println(resp);
 		BufferedReader br = new BufferedReader(new StringReader(resp));
 		SAXReader reader=new SAXReader(false);
 		document=reader.read(br);

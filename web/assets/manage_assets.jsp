@@ -4,7 +4,6 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="../assets/includes/commonFunctions.jsp"%>
 <%
-	System.out.println("0");
 %>
 <%=checkPermission("assets","edit",activeUser)%>
 
@@ -13,7 +12,6 @@
 <%=sJSSTRINGFUNCTIONS%>
 <%=sJSSORTTABLE%>
 <%
-	System.out.println("1");
 %>
 <script src="<%=sCONTEXTPATH%>/assets/includes/commonFunctions.js"></script> 
 
@@ -26,7 +24,6 @@
     ///////////////////////////////////////////////////////////////////////////
 %>            
 <%
-	System.out.println("2");
 %>
 
 <form name="SearchForm" id="SearchForm" method="POST">
@@ -101,7 +98,6 @@
     </table>
 </form>
 <%
-	System.out.println("3");
 %>
 
 <script>

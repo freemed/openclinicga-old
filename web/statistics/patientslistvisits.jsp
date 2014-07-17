@@ -32,7 +32,6 @@
 				" oc_encounter_type='visit' and "+
 				" oc_debet_serviceuid like ?"+
 				" order by oc_encounter_objectid";
-				System.out.println(sql);
 	Hashtable insurars = new Hashtable();
     Connection oc_conn=MedwanQuery.getInstance().getLongOpenclinicConnection();
 	PreparedStatement ps = oc_conn.prepareStatement(sql);

@@ -77,7 +77,6 @@
         
         // parse codes
         calculation.codes = parseCodes(sSalCalUID,sCodes);
-        System.out.println("calculation.codes : "+calculation.codes.size()); ////////////
         Debug.println("Saving "+calculation.codes.size()+" codes");
         
         calculation.store(activeUser.userid); // save again, the calculation now contains codes

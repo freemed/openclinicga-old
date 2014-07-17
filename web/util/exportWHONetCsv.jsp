@@ -5,12 +5,10 @@
 	java.util.Date exportdate= new SimpleDateFormat("yyyyMMddHHmmss").parse(MedwanQuery.getInstance().getConfigString("lastWHONetExport","19000101000000"));
 	try{
 		exportdate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(request.getParameter("exportdate")+" "+request.getParameter("exporttime"));
-		System.out.println("exportdate="+new SimpleDateFormat("yyyyMMddHHmmss").format(exportdate));
 		StringBuffer exportstring = WHONetUtils.getWHONetFile(exportdate,true);
 	    response.setContentType("application/octet-stream");
 	    response.setHeader("Content-Disposition", "Attachment;Filename=\"OpenClinicWHONetExport" + new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date()) + ".csv\"");
 	    ServletOutputStream os = response.getOutputStream();
-	    System.out.println(exportstring.toString());
 	    byte[] b = exportstring.toString().getBytes();
 	    for (int n=0;n<b.length;n++) {
 	        os.write(b[n]);

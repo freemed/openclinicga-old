@@ -23,7 +23,6 @@
 			BufferedReader r = new BufferedReader(new StringReader(xml));
 			SAXReader reader=new SAXReader(false);
 			document=reader.read(r);
-			System.out.println(document.asXML());
 			root=document.getRootElement();
 			if(root.getName().equalsIgnoreCase("registration")){
 				out.println("<tr class='admin'><td colspan='2'>"+getTran("Web.UserProfile","organisationId",language)+"</td><td colspan='2'>"+root.attributeValue("id")+"</td></tr>");

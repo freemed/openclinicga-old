@@ -1055,7 +1055,6 @@
             }
             //Also list all existing operations on this product order
             Vector operations = ProductStockOperation.searchProductStockOperations("", "", "", "", "", sEditOrderUid,"");
-			System.out.println("operations="+operations);
             if(operations.size()>0){
 	            out.println("<table width='100%'>");
 	            out.println("<tr class='admin'>");

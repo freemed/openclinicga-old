@@ -113,10 +113,8 @@
         sLongLabelId = userParameter.getParameter().substring("usershortcut$".length());
 
         // parse 'parameter' of parameter
-        System.out.println("userParameter.getParameter() : "+userParameter.getParameter()); ///////////
        	String[] iconTypes = userParameter.getParameter().split("\\$");
         String sSubtype = "";
-        System.out.println("iconTypes.length : "+iconTypes.length); //////////
         if(iconTypes.length>=3){
         	sSubtype = iconTypes[2]; 
         }
@@ -143,9 +141,6 @@
    		}
        	
        	// replace placeholders for parameters
-       	System.out.println("sLongLabelId : "+sLongLabelId); //////////
-       	System.out.println("sIconOnClick : "+sIconOnClick); //////////
-       	System.out.println("sSubtype     : "+sSubtype); //////////
        	if(sLongLabelId.startsWith("hidden.clinicalDocuments$")){
        	    sIconOnClick = sIconOnClick.replaceAll("@parameter1@",sSubtype);
        	}

@@ -91,7 +91,6 @@
         if (labAnalysis == null) {
             // labRequest not found : insert in DB
             LabAnalysis a = (LabAnalysis)allanalyses.get(analysisCode);
-			System.out.println("editor for "+a.getLabcode()+" = "+a.getEditor());
         	if(a!=null && MedwanQuery.getInstance().getConfigString("virtualLabAnalysisEditors","virtual").indexOf(a.getEditor())<0){    
 	            labAnalysis = new RequestedLabAnalysis();
 	            labAnalysis.setServerId(sServerId);

@@ -139,7 +139,6 @@
             if(origBaos!=null) origBaos.reset();
         }
     }
-    System.out.println(">>>>>>>>>");
 %>
 
 <form name="printForm" id="printForm" method="POST">
@@ -160,7 +159,6 @@
         <tr>
             <td class="admin">
 		        <%
-		        System.out.println(">>>>>>>>>2");
 
 		            if(Picture.exists(Integer.parseInt(activePatient.personid))){
 		           	    %><input type="checkbox" name="section_2" id="section_2" value="on" <%=(sSection2.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","photo",sWebLanguage,"section_2")%><%
@@ -214,7 +212,6 @@
             </td>
         </tr>
          <%
-	        System.out.println(">>>>>>>>>3");
 
          %>
         <%-- 9 : vaccinations --%>
@@ -259,7 +256,6 @@
             </td>
         </tr>   
          <%
-	        System.out.println(">>>>>>>>>4");
 
          %>
             
@@ -322,7 +318,6 @@
 	                .append("</tr>");
 			}
 			*/
-	        System.out.println(">>>>>>>>>5");
 
 
 			//*** 2 - admissions ***
@@ -345,7 +340,6 @@
 	                 .append("<td class='admin2' width='150'>"+getTran("web","service",sWebLanguage)+"&nbsp;</td>")
 	                 .append("<td class='admin2' width='*'>"+getTran("openclinic.chuk","rfe",sWebLanguage)+"&nbsp;</td>")
                     .append("</tr>");
-    	        System.out.println(">>>>>>>>>5.1");
 
 		        Encounter encounter;
 				for(int i=0; i<visits.size(); i++){
@@ -354,7 +348,6 @@
 	                    // alternate row-style
 	                    if(sClass.length()==0) sClass = "1";
 	                    else                   sClass = "";
-	        	        System.out.println(">>>>>>>>>5.2");
 	
 					    // one counter
 	                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
@@ -368,7 +361,6 @@
 	                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+(encounter.getService()==null?"":encounter.getService().getLabel(sWebLanguage))+"</td>")
 	                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
 	                        .append("</tr>");
-	        	        System.out.println(">>>>>>>>>5.3");
 	
 	                    cbCounter++;
 					}
@@ -393,7 +385,6 @@
             sOut.append("</tbody>");
         %>      
                  <%
-	        System.out.println(">>>>>>>>>6");
 
          %>
         
@@ -429,21 +420,15 @@
         </tr>  
             
         <%
-        System.out.println(">>>>>>7");
             //************************************************************************************
 	        //*** list all saved examination-types as options ************************************
             //************************************************************************************
 	        SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-	        System.out.println(">>>>>>7.0");
 	        if(sessionContainerWO.getHealthRecordVO()!=null && sessionContainerWO.getHealthRecordVO().getTransactions()!=null){
 		        Collection transactions = sessionContainerWO.getHealthRecordVO().getTransactions();
-		        System.out.println(">>>>>>7.0.1");
 		        Iterator tranIter = transactions.iterator();
-		        System.out.println(">>>>>>7.0.2");
 		        Hashtable hTrans = new Hashtable();
-		        System.out.println(">>>>>>7.0.3");
 		        TransactionVO transaction, newTransaction;
-		        System.out.println(">>>>>>7.1");
 		
 		        String sSelectedTranCtxt = "allContexts";
 		        sOut = new StringBuffer();
@@ -453,27 +438,21 @@
 		        String tranID, serverID, tranType, tranUserName = "", tranCtxt, sExaminationName, sDocType;
 		        Timestamp tranDate;
 		        ItemVO docTypeItem;
-		        System.out.println(">>>>>>7.2");
 	         
 	            SortedSet set = new TreeSet();
 	
 	            while(tranIter.hasNext()){
-	                System.out.println(">>>>>>7.3");
 	                transaction = (TransactionVO)tranIter.next();
 	                tranDate = new Timestamp(transaction.getUpdateTime().getTime());
-	                System.out.println(">>>>>>7.4");
 	
 	                sTransTranslation = getTran("web.occup",transaction.getTransactionType(),sWebLanguage);
 	                newTransaction = (TransactionVO)hTrans.get(sTransTranslation);
-	                System.out.println(">>>>>>7.5");
 	 
 	                if(newTransaction==null){
 	                    hTrans.put(sTransTranslation,transaction);
 	                    set.add(sTransTranslation);
 	                }
-	                System.out.println(">>>>>>7.6");
 	            }
-	            System.out.println(">>>>>>8");
 	
 	            /*
 		        // subtitle		         

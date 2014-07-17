@@ -19,11 +19,9 @@
     Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 	PreparedStatement ps = oc_conn.prepareStatement(sql);
 	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(sBegin).getTime()));
-	System.out.println("start="+new java.sql.Date(ScreenHelper.parseDate(sBegin).getTime()));
 	long l = 24*3600*1000-1;
 	java.util.Date e = ScreenHelper.parseDate(sEnd);
 	e.setTime(e.getTime()+l);
-	System.out.println("end="+e);
 	ps.setTimestamp(2,new java.sql.Timestamp(e.getTime()));
 	ps.setString(3,checkString(request.getParameter("statserviceid"))+"%");
 	ResultSet rs = ps.executeQuery();

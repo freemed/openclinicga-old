@@ -51,7 +51,6 @@
 	            if (files != null && !files.isEmpty()){
 	                UploadFile file = (UploadFile) files.get("filename");
 	                sFileName= new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new java.util.Date())+".ext";
-	                System.out.println(upBean.getFolderstore()+"/"+sFileName);
 	                file.setFileName(sFileName);
 	                upBean.store(mrequest, "filename");
 					if(mrequest.getParameter("filetype").equalsIgnoreCase("prestationscsv")){
@@ -222,9 +221,7 @@
 						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");
 					}
 					else if(mrequest.getParameter("filetype").equalsIgnoreCase("labxml")){
-						System.out.println("1");
 						if(mrequest.getParameter("erase")!=null){
-							System.out.println("2");
 							ObjectCacheFactory.getInstance().resetObjectCache();
 							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							PreparedStatement ps = conn.prepareStatement("delete from Labanalysis");
@@ -245,7 +242,6 @@
 							conn.close();
 							UpdateSystem.updateCounters();
 						}						String type,id,language,label;
-						System.out.println("3");
 						//Read file as a prestations csv file
 		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
 						BufferedReader br = new BufferedReader(new FileReader(f));
@@ -367,7 +363,6 @@
 							product.setUpdateUser(activeUser.userid);
 							product.store();
 						}
-						System.out.println("5");
 						i = root.elementIterator("drugcategory");
 						if(i.hasNext() && mrequest.getParameter("erase")!=null){
 							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
@@ -443,7 +438,6 @@
 		}
 	}
 	else {
-		System.out.println("-----------------> Exit");
 	}
 %>
 <form name="readMessageForm" method="post" enctype="multipart/form-data">

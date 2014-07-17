@@ -57,7 +57,6 @@
     </table>
 </form>
 <%
-	System.out.println("----------------- start load table --------------------------");
 	int lines=0;
 	String sFileName = "";
 	MultipartFormDataRequest mrequest;
@@ -70,7 +69,6 @@
 	            if (files != null && !files.isEmpty()){
 	                UploadFile file = (UploadFile) files.get("filename");
 	                sFileName= new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new java.util.Date())+".ext";
-	                System.out.println(upBean.getFolderstore()+"/"+sFileName);
 	                file.setFileName(sFileName);
 	                upBean.store(mrequest, "filename");
 					if(mrequest.getParameter("filetype").equalsIgnoreCase("prestationscsv")){
@@ -224,9 +222,7 @@
 						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");
 					}
 					else if(mrequest.getParameter("filetype").equalsIgnoreCase("labxml")){
-						System.out.println("1");
 						if(mrequest.getParameter("erase")!=null){
-							System.out.println("2");
 							ObjectCacheFactory.getInstance().resetObjectCache();
 							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							PreparedStatement ps = conn.prepareStatement("delete from Labanalysis");
@@ -247,7 +243,6 @@
 							conn.close();
 							UpdateSystem.updateCounters();
 						}						String type,id,language,label;
-						System.out.println("3");
 						//Read file as a prestations csv file
 		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
 						BufferedReader br = new BufferedReader(new FileReader(f));
@@ -335,22 +330,18 @@
 						out.println("<h3>"+lines+" " +getTran("web","records.loaded",sWebLanguage)+"</h3>");
 					}					
 					else if(mrequest.getParameter("filetype").equalsIgnoreCase("drugsxml")){
-						System.out.println("1");
 						if(mrequest.getParameter("erase")!=null){
 							ObjectCacheFactory.getInstance().resetObjectCache();
 							Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 							PreparedStatement ps = conn.prepareStatement("delete from oc_products");
 							ps.execute();
 							ps.close();
-							System.out.println("2");
 							ps = conn.prepareStatement("delete from oc_labels where oc_label_type in ('product.productgroup','product.unit')");
 							ps.execute();
 							ps.close();
-							System.out.println("3");
 							conn.close();
 							UpdateSystem.updateCounters();
 						}						
-						System.out.println("4");
 						String type,id,language,label;
 						//Read file as a prestations csv file
 		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
@@ -375,7 +366,6 @@
 							product.setUpdateUser(activeUser.userid);
 							product.store();
 						}
-						System.out.println("5");
 						i = root.elementIterator("druggroup");
 						while(i.hasNext()){
 							lines++;
@@ -386,7 +376,6 @@
 								MedwanQuery.getInstance().storeLabel("product.productgroup", element.elementText("code")+"", lbl.attributeValue("language"), (element.elementText("code")+"............................").substring(0,11)+" "+lbl.getText(), Integer.parseInt(activeUser.userid));
 							}
 						}
-						System.out.println("6");
 						i = root.elementIterator("drugform");
 						while(i.hasNext()){
 							lines++;
@@ -397,7 +386,6 @@
 								MedwanQuery.getInstance().storeLabel("product.unit", element.elementText("code")+"", lbl.attributeValue("language"), lbl.getText(), Integer.parseInt(activeUser.userid));
 							}
 						}
-						System.out.println("7");
 						br.close();
 						reloadSingleton(session);
 		                f.delete();

@@ -80,7 +80,6 @@
 		for(int n=0;n<operations.size();n++){
 			changed=false;
 			ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
-			System.out.println("operationid="+operation.getUid());
 			Product product = null;
 			if(operation.getProductStock()!=null && operation.getProductStock().getProduct()!=null){
 				product = operation.getProductStock().getProduct();

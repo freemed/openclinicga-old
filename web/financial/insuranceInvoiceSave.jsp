@@ -31,7 +31,7 @@
 
     insurarinvoice.setDebets(new Vector());
     insurarinvoice.setCredits(new Vector());
-
+    
     if (sEditCBs.length() > 0) {
         String[] aCBs = sEditCBs.split(",");
         String sID;

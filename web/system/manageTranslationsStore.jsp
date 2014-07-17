@@ -12,7 +12,6 @@
     while (tokenizer.hasMoreTokens()) {
         tmpLang = tokenizer.nextToken();
         String val=checkString(request.getParameter("EditLabelValue"+tmpLang.toUpperCase())).replaceAll("<BR>","\n").replaceAll("<PLUS>","+");
-        System.out.println("val="+val);
         hTranslations.put(tmpLang.toUpperCase(),val);
     }
 

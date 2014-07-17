@@ -28,7 +28,6 @@ String sSql = 	"select distinct OC_PATIENTINVOICE_OBJECTID,OC_PATIENTINVOICE_ACC
 					(serviceid.length()>0?" AND OC_DEBET_SERVICEUID like ?":"")+
 					" AND NOT EXISTS (select * from OC_POINTERS WHERE OC_POINTER_KEY='INVSIGN.'"+MedwanQuery.getInstance().concatSign()+"OC_DEBET_PATIENTINVOICEUID)"+
 					" ORDER BY OC_INSURAR_NAME,OC_PATIENTINVOICE_DATE";
-	System.out.println(sSql);
 	PreparedStatement ps = conn.prepareStatement(sSql);
 	ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(start).getTime()));
 	ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(end).getTime()));

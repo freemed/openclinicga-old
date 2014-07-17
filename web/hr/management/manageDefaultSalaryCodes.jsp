@@ -12,27 +12,23 @@
     private Vector parseCodes(String sSalCalUID, String sCodes){
     	Vector codes = new Vector();
     	
-    	System.out.println("parseCodes : "+sCodes); /////////
     	String[] codesAsString = sCodes.split("\\$");
     	SalaryCalculationCode code;
     	String[] codeAsString;
     	
     	for(int i=0; i<codesAsString.length; i++){
     		codeAsString = codesAsString[i].split("\\|");
-        	System.out.println(" codeAsString : "+codeAsString[1]); /////////
     		
     		code = new SalaryCalculationCode();
     		code.setUid("-1"); // codes are always deleted and re-inserted
     		code.calculationUid = sSalCalUID;
      		code.duration = Float.parseFloat(codeAsString[0].replace(",",".")); 
-        	System.out.println(" duration : "+code.duration); /////////
     	    code.code = codeAsString[1]; 
     	    //code.label = codeAsString[2];
     		
     		codes.add(code);
     	}
 
-    	System.out.println("codes : "+codes.size()); /////////
     	return codes;    	
     }
 %>

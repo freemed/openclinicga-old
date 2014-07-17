@@ -569,7 +569,6 @@
 	    else if(rgbScaled <= 170) sColor = "ff7700"; // orange
 	    else if(rgbScaled <= 256) sColor = "ff3311"; // red3 = heavy
 	    else{
-	    	System.out.println("rgbScaled : "+rgbScaled); // todo
 	    }
         */
         
@@ -601,7 +600,6 @@
         if(hexG.length() < 2) hexG = "0"+hexG;
         if(hexB.length() < 2) hexB = "0"+hexB;
 
-		//System.out.println("rgbToHtml : "+r+", "+g+", "+b+" --> "+hexR+hexG+hexB); // todo
         return hexR+hexG+hexB; 
 	}
 	

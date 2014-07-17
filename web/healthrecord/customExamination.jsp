@@ -107,7 +107,6 @@
                     key = (String)cellAttrEnum.nextElement();
                     
                     if(key.startsWith("Attr_")){
-                        System.out.println("cell attributes ("+cell.get("Attr_id")+") key : "+key+" = "+ScreenHelper.checkString((String)cell.get(key))); //////
                         sHtml.append(" "+key.substring(key.indexOf("_")+1)+"='"+ScreenHelper.checkString((String)cell.get(key))+"'");                                
                     }
                 }
@@ -133,10 +132,8 @@
 			                        Debug.println("ITEM "+ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CUSTOMEXAM_"+sCellId+"_"+screenItem.getItemTypeId()+" : "+itemVO.getItemId()); /////////  
 	
 		                        	String sValue = "";
-			                        System.out.println("............................ transaction.isNew() : "+transaction.isNew()); //////////////////
 		                        	if(transaction.isNew()) sValue = checkString(screenItem.getDefaultValue());
 		                        	else               		sValue = itemVO.getValue();
-			                        System.out.println("................ sValue : "+sValue); //////////////////
 			                        	
 			                        //*** label *******************************
 			                        if(screenItem.getHtmlElement().equals("label")){
@@ -335,7 +332,6 @@
 
         <%-- configured items --%>
         <%
-            System.out.println("############################## tran.getUpdateTime() : "+tran.getUpdateTime()); ////////////
             Screen screen = Screen.getByExamId(sCustomExamType,tran.getUpdateTime());
             if(Debug.enabled) tran.displayItems();
             

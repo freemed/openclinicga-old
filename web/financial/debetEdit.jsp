@@ -5,7 +5,6 @@
 <%=checkPermission("financial.debet","select",activeUser)%>
 <script src='<%=sCONTEXTPATH%>/_common/_script/prototype.js'></script>
 <%
-System.out.println(0);
 
 	String sEditDebetUID = checkString(request.getParameter("EditDebetUID"));
     String sFindDateBegin        = checkString(request.getParameter("FindDateBegin")),
@@ -764,8 +763,26 @@ System.out.println(0);
 	}
 	
   	function searchEncounter(encounterUidField,encounterNameField){
-	    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode="+encounterUidField+"&VarText="+encounterNameField+"&FindEncounterPatient=<%=activePatient.personid%>");
+	    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode="+encounterUidField+"&VarText="+encounterNameField+"&VarFunction=validateServiceUid()&FindEncounterPatient=<%=activePatient.personid%>");
 	}
+  	
+  	function validateServiceUid(){
+      var today = new Date();
+      var url= '<c:url value="/financial/getDebetServiceUid.jsp"/>?encounteruid='+document.getElementById('EditEncounterUID').value+'&ts='+today;
+      new Ajax.Request(url,{
+          method: "POST",
+          postBody: "",
+          onSuccess: function(resp){
+              var label = eval('('+resp.responseText+')');
+    		  document.getElementById('EditDebetServiceUid').value=label.uid;
+    		  document.getElementById('EditDebetServiceName').value=label.name;
+          },
+          onFailure: function(){
+              $('divMessage').innerHTML = "Error in function validateServiceUid() => AJAX";
+          }
+      }
+	  );
+  	}
 
     function searchPrestation(){
     	document.getElementById('EditPrestationGroup').value='';

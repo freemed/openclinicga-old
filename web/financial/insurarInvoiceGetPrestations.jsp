@@ -11,11 +11,11 @@
 	            Prestation prestation;
 	            String sEncounterName, sPrestationDescription, sPatientName,sDate;
 	            String oldname="",oldencounter="",olddate="";
-	            String sChecked = "";
 	            Hashtable hSort = new Hashtable();
 	
-	            if (bChecked) {
-	                sChecked = " checked";
+	            String sImage = "_img/check.gif";
+	            if (!bChecked) {
+	                sImage = " _img/uncheck.gif";
 	            }
 	            int count=0,count2=0;
 	
@@ -100,7 +100,7 @@
 	                        } else {
 	                            sClass = "";
 	                        }
-	                        sReturn.append("<tr class='list" + sClass + "'><td><1>" + debet.getUid() + "=" + debet.getInsurarAmount() + "<2>" + sChecked + "></td>"
+	                        sReturn.append("<tr class='list" + sClass + "'><td><img src='"+sImage+"' name='cbDebet" + debet.getUid() + "=" + debet.getInsurarAmount() + "' onclick='doBalance(this, true)'></td>"
 	                                        + "<td>" + HTMLEntities.htmlentities(sPatientName) + "</td>"
 	                                        + "<td>" + HTMLEntities.htmlentities(sDate) + "</td>"
 	                                        + "<td>" + HTMLEntities.htmlentities(sEncounterName) + "</td>"
@@ -126,11 +126,11 @@
             Debet debet;
             Prestation prestation;
             String sEncounterName, sPrestationDescription, sPatientName,sDate;
-            String sChecked = "";
             Hashtable hSort = new Hashtable();
 
-            if (bChecked) {
-                sChecked = " checked";
+            String sImage = "_img/check.gif";
+            if (!bChecked) {
+                sImage = " _img/uncheck.gif";
             }
             String oldname="",oldencounter="",olddate="";
             //Firts we will sort the records
@@ -225,7 +225,7 @@
                         } else {
                             sClass = "";
                         }
-                        sReturn.append("<tr class='list" + sClass + "'><td><1>" + debet.getUid() + "=" + debet.getInsurarAmount() + "<2>" + sChecked + "></td>"
+                        sReturn.append("<tr class='list" + sClass + "'><td><img src='"+sImage+"' name='cbDebet" + debet.getUid() + "=" + debet.getInsurarAmount() + "' onclick='doBalance(this, true)'></td>"
                                         + "<td>" + HTMLEntities.htmlentities(sPatientName) + "</td>"
                                         + "<td>" + HTMLEntities.htmlentities(sDate) + "</td>"
                                         + "<td>" + HTMLEntities.htmlentities(sEncounterName) + "</td>"
@@ -267,7 +267,7 @@
         s = addDebets(vDebets, sClass, sWebLanguage, true);
     }
 
-    if ((insurarInvoice==null)||(!checkString(insurarInvoice.getStatus()).equalsIgnoreCase("closed") && !checkString(insurarInvoice.getStatus()).equalsIgnoreCase("canceled"))) {
+    if (request.getParameter("ShowUnassigned").equalsIgnoreCase("true") && (insurarInvoice==null || (!insurarInvoice.getStatus().equalsIgnoreCase("closed") && !insurarInvoice.getStatus().equalsIgnoreCase("canceled")))) {
         String sInsurarUid = checkString(request.getParameter("InsurarUid"));
         Date begin=ScreenHelper.parseDate("01/01/1900");
         Date end=new Date();
@@ -301,6 +301,7 @@
     }
    	s += "<tr><td bgcolor='grey' colspan='6'><font style='color: white;'>"+(vUnassignedDebets.size()+vDebets.size())+" "+getTranNoLink("web","records.loaded",sWebLanguage)+"</font></td></tr>";
     out.print(s);
+
 %>
 </table>
 

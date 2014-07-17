@@ -44,7 +44,6 @@
 		Vector tmpItems = (Vector)tran.getItems();
 		for(int i=0; i<tmpItems.size(); i++){
 			ItemVO item = (ItemVO)tmpItems.get(i);
-			System.out.println("["+i+"] "+item.getType()+" : "+item.getValue()); 
 		}
 	%>
    

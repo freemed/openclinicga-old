@@ -42,9 +42,7 @@
            
         // required
         String sRequired = item.getAttribute("Attr_required");
-        System.out.println("sRequired 111111111111111 : "+sRequired); /////////////
         if(sRequired.length()==0) sRequired = "false";
-        System.out.println("sRequired 222222222222222 : "+sRequired); /////////////
         sHtml+= "<td>"+(sRequired.equals("true")?"<img src='"+sCONTEXTPATH+"/_img/check.gif' alt='true'>":"<img src='"+sCONTEXTPATH+"/_img/uncheck.gif' alt='false'>")+"</td>";
 
         // followedBy

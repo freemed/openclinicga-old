@@ -121,6 +121,7 @@
                 <tr id="period" style="visibility: hidden">
                     <td class='admin'><%=getTran("web", "period", sWebLanguage)%></td>
                     <td class="admin2">
+                    	<input type='checkbox' name='showunassigned' id='showunassigned' value='1'/><%=getTran("web","showunassigned",sWebLanguage)%>
                         <%
                             Date previousmonth=new Date(ScreenHelper.parseDate(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1);
                         %>
@@ -133,7 +134,7 @@
 			               <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
 			               <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
 						<%}%>                        
-                        &nbsp;<input type="button" class="button" name="update" value="<%=getTran("web","update",sWebLanguage)%>" onclick="changeInsurar();"/>
+                        &nbsp;<input type="button" class="button" name="updateDebets" id="updateDebets" value="<%=getTran("web","update",sWebLanguage)%>" onclick="changeInsurar(0);"/>
                         &nbsp;<input type="button" class="button" name="updateBalance" value="<%=getTranNoLink("web","updateBalance",sWebLanguage)%>" onclick="updateBalance();"/>
                     </td>
                 </tr>
@@ -158,8 +159,8 @@
                     </td>
                     <td class='admin2'>
                         <div id="divCredits" style="height:120px;" class="searchResults"></div>
-                        <input class='button' type="button" name="ButtonInsurarInvoiceSelectAll" id="ButtonInsurarInvoiceSelectAll" value="<%=getTran("web","selectall",sWebLanguage)%>" onclick="selectAll('cbInsurarInvoice',true,'ButtonInsurarInvoiceSelectAll', 'ButtonInsurarInvoiceDeselectAll',false);">&nbsp;
-                        <input class='button' type="button" name="ButtonInsurarInvoiceDeselectAll" id="ButtonInsurarInvoiceDeselectAll" value="<%=getTran("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbInsurarInvoice',false,'ButtonInsurarInvoiceDeselectAll', 'ButtonInsurarInvoiceSelectAll',false);">
+                        <input class='button' type="button" name="ButtonInsurarInvoiceSelectAll" id="ButtonInsurarInvoiceSelectAll" value="<%=getTran("web","selectall",sWebLanguage)%>" onclick="selectAll('cbCredit',true,'ButtonInsurarInvoiceSelectAll', 'ButtonInsurarInvoiceDeselectAll',false);">&nbsp;
+                        <input class='button' type="button" name="ButtonInsurarInvoiceDeselectAll" id="ButtonInsurarInvoiceDeselectAll" value="<%=getTran("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbCredit',false,'ButtonInsurarInvoiceDeselectAll', 'ButtonInsurarInvoiceSelectAll',false);">
                     </td>
                 </tr>
                 <tr>
@@ -261,18 +262,27 @@
 function doSave() {
 
     if ((EditForm.EditDate.value.length > 0) && (EditForm.EditStatus.selectedIndex > -1 && EditForm.EditInsurarUID.value.length>0)) {
-        var sCbs = "";
-        for (i = 0; i < EditForm.elements.length; i++) {
-            elm = EditForm.elements[i];
-
-            if ((elm.type == 'checkbox') && (elm.checked)) {
-                sCbs += elm.name.split("=")[0].replace("cbDebet","d").replace("cbInsurarInvoice","c") + ",";
+        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Saving";
+        EditForm.ButtonSave.disabled = true;
+    	var images = document.getElementsByTagName("img");
+    	var selectedimages = [];
+        for (i = 0; i < images.length; i++) {
+            var elm = images[i];
+            if (elm.name.indexOf('cbDebet') > -1) {
+                if (elm.src.indexOf('/check.gif')>0) {
+                    var uid = elm.name.split("=")[0].replace('cbDebet','d');
+                    selectedimages.push(uid);
+                }
+            }
+            else if (elm.name.indexOf('cbCredit') > -1) {
+                if (elm.src.indexOf('/check.gif')>0) {
+                    var uid = elm.name.split("=")[0].replace('cbCredit','c');
+                    selectedimages.push(uid);
+                }
             }
         }
-        EditForm.ButtonSave.disabled = true;
         var today = new Date();
         var url = '<c:url value="/financial/insuranceInvoiceSave.jsp"/>?ts=' + today;
-        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Saving";
         new Ajax.Request(url, {
             method: "POST",
             postBody: 'EditDate=' + EditForm.EditDate.value
@@ -280,7 +290,7 @@ function doSave() {
                     + '&EditInvoiceUID=' + EditForm.EditInvoiceUID.value
                     + '&EditInsurarUID=' + EditForm.EditInsurarUID.value
                     + '&EditStatus=' + EditForm.EditStatus.value
-                    + '&EditCBs=' + sCbs
+                    + '&EditCBs=' + selectedimages.join()
                     + '&EditBalance=' + EditForm.EditBalance.value,
             onSuccess: function(resp) {
                 var label = eval('(' + resp.responseText + ')');
@@ -305,10 +315,11 @@ function doSave() {
 
 function countDebets(){
     var tot=0;
-    for (i = 0; i < EditForm.elements.length; i++) {
-        var elm = EditForm.elements[i];
+    var images = document.getElementsByTagName("img");
+    for (i = 0; i < images.length; i++) {
+        var elm = images[i];
         if (elm.name.indexOf('cbDebet') > -1) {
-            if (elm.checked) {
+            if (elm.src.indexOf('/check.gif')>0) {
                 var amount = elm.name.split("=")[1];
                 tot = tot + parseFloat(amount.replace(",","."));
             }
@@ -319,10 +330,11 @@ function countDebets(){
 
 function countCredits(){
     var tot=0;
-    for (i = 0; i < EditForm.elements.length; i++) {
-        var elm = EditForm.elements[i];
+    var images = document.getElementsByTagName("img");
+    for (i = 0; i < images.length; i++) {
+        var elm = images[i];
         if (elm.name.indexOf('cbCredit') > -1) {
-            if (elm.checked) {
+            if (elm.src.indexOf('/check.gif')>0) {
                 var amount = elm.name.split("=")[1];
                 tot = tot + parseFloat(amount.replace(",","."));
             }
@@ -332,18 +344,21 @@ function countCredits(){
 }
 
 function updateBalance(){
-    EditForm.EditBalance.value = countDebets()+countCredits();
+    EditForm.EditBalance.value = countDebets()-countCredits();
     EditForm.EditBalance.value = format_number(EditForm.EditBalance.value*1, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 }
 
 function selectAll(sStartsWith, bValue, buttonDisable, buttonEnable, bAdd) {
-    var tot=0;
-    for (i = 0; i < EditForm.elements.length; i++) {
-        var elm = EditForm.elements[i];
+	var images = document.getElementsByTagName("img");
+    for (i = 0; i < images.length; i++) {
+        var elm = images[i];
 
         if (elm.name.indexOf(sStartsWith) > -1) {
-            if ((elm.type == 'checkbox') && (elm.checked != bValue)) {
-                elm.checked = bValue;
+            if (bValue) {
+                elm.src='_img/check.gif';
+            }
+            else {
+                elm.src='_img/uncheck.gif';
             }
         }
     }
@@ -352,9 +367,14 @@ function selectAll(sStartsWith, bValue, buttonDisable, buttonEnable, bAdd) {
 
 function doBalance(oObject, bAdd) {
     var amount = oObject.name.split("=")[1];
-
+    if (oObject.src.indexOf('/check.gif')>0){
+    	oObject.src='_img/uncheck.gif';
+    }
+    else{
+    	oObject.src='_img/check.gif';
+    }
     if (bAdd) {
-        if (oObject.checked) {
+        if (oObject.src.indexOf('/check.gif')>0) {
             EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value.replace(",",".")) + parseFloat(amount.replace(",","."));
         }
         else {
@@ -362,7 +382,7 @@ function doBalance(oObject, bAdd) {
         }
     }
     else {
-        if (oObject.checked) {
+        if (oObject.src.indexOf('/check.gif')>0) {
             EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value.replace(",",".")) - parseFloat(amount.replace(",","."));
         }
         else {
@@ -389,7 +409,7 @@ function doPrintPdf(invoiceUid) {
 }
 
 function searchInsurar() {
-    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsurarUID&ReturnFieldInsurarName=EditInsurarText&doFunction=changeInsurar()&excludePatientSelfIsurarUID=true&PopupHeight=500&PopupWith=500");
+    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsurarUID&ReturnFieldInsurarName=EditInsurarText&doFunction=changeInsurar(0)&excludePatientSelfIsurarUID=true&PopupHeight=500&PopupWith=500");
 }
 
 function doClearInsurar() {
@@ -408,7 +428,7 @@ function loadOpenInsurarInvoices() {
         method: "GET",
         parameters: params,
         onSuccess: function(resp) {
-            $('divOpenInsurarInvoices').innerHTML = resp.responseText;
+        	$('divOpenInsurarInvoices').innerHTML = resp.responseText;
         }
     }
             );
@@ -419,7 +439,8 @@ function setInsurarInvoice(sUid) {
     FindForm.submit();
 }
 
-function changeInsurar() {
+function changeInsurar(counter) {
+	//Load important invoice data
 	var tot=0;
     if(EditForm.EditInsurarUID.value.length>0){
         document.getElementById("invoicedetails").style.visibility="visible";
@@ -435,15 +456,13 @@ function changeInsurar() {
             + '&EditBegin=' + EditForm.EditBegin.value
             + '&EditEnd=' + EditForm.EditEnd.value
             + '&EditInvoiceService=' + EditForm.EditInvoiceService.value
+            + '&ShowUnassigned=' + document.getElementById('showunassigned').checked
             + '&EditInsurarInvoiceUID=<%=checkString(insurarInvoice.getUid())%>';
-
     new Ajax.Request(url, {
         method: "POST",
         postBody: pb,
         onSuccess: function(resp) {
             var s=resp.responseText;
-            s=s.replace(/<1>/g,"<input type='checkbox' name='cbDebet");
-            s=s.replace(/<2>/g,"' onclick='doBalance(this, true)' ");
             $('divPrestations').innerHTML = s;
             tot=tot+countDebets();
             document.getElementById('EditBalance').value=format_number(tot, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
@@ -482,5 +501,7 @@ function searchService(serviceUidField,serviceNameField){
 
 FindForm.FindInsurarInvoiceUID.focus();
 loadOpenInsurarInvoices();
-window.setTimeout("changeInsurar();",1000);
+</script>
+<script>
+	window.setTimeout("document.getElementById('updateDebets').onclick();",1000);
 </script>
