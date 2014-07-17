@@ -241,7 +241,7 @@ public class CsvInvoiceCplr2 {
                 	if(service !=null){
                 		sService=service.getLabel("fr");
                 	}
-	            	sOutput+="\r\n"+activeServiceUid+": "+sService+"\r\n#;NOM;MATRICULE;ADHERENT;RECU;REF BON;TOTAL;PATIENT;ASSUREUR\r\n";
+	            	sOutput+="\r\n"+activeServiceUid+": "+sService+"\r\n#;NOM;MATRICULE;ADHERENT;RECU;REF BON;TOTAL;PATIENT;ASSUREUR;ASSUREUR_COMPL\r\n";
 	            	debetcount=0;
 		            for(int i=0; i<debets.size(); i++){
 		                debet = (Debet)debets.get(i);

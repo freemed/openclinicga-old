@@ -751,7 +751,7 @@ public class Encounter extends OC_Object {
                 sSelect = "select * from OC_ENCOUNTER_SERVICES where " +
                         " OC_ENCOUNTER_SERVERID=? AND" +
                         " OC_ENCOUNTER_OBJECTID=?" +
-                        " ORDER BY OC_ENCOUNTER_SERVICEENDDATE DESC";
+                        " ORDER BY OC_ENCOUNTER_SERVICEBEGINDATE DESC";
             }
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));

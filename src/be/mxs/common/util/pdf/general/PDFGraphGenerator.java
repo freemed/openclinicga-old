@@ -93,9 +93,7 @@ public class PDFGraphGenerator extends PDFOfficialBasic {
             	Enumeration pars = parameters.keys();
             	int n=0;
             	while(pars.hasMoreElements()){
-            		System.out.println("n="+n);
             		String parameterkey=(String)pars.nextElement();
-            		System.out.println("parameterkey="+parameterkey);
             		values[n]=new KeyValue(parameterkey,(String)parameters.get(parameterkey));
             		n++;
             	}

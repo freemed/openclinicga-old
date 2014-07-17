@@ -432,7 +432,6 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 			ProductStock stock = (ProductStock)productStocks.elementAt(n);
 			//First find the product subcategory
 			String uid=stock.getProduct()==null?"|"+stock.getUid():stock.getProduct().getFullProductSubGroupName(sPrintLanguage)+"|"+stock.getUid();
-			System.out.println("uid for "+stock.getUid()+" = "+uid);
 			stocks.put(uid, stock);
 		}
 		
@@ -514,7 +513,6 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 			ProductStock stock = (ProductStock)productStocks.elementAt(n);
 			//First find the product subcategory
 			String uid=stock.getProduct()==null?"|"+stock.getUid():stock.getProduct().getFullProductSubGroupName(sPrintLanguage)+"|"+stock.getUid();
-			System.out.println("uid for "+stock.getUid()+" = "+uid);
 			stocks.put(uid, stock);
 		}
 		
@@ -586,7 +584,6 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
  			ProductStock stock = (ProductStock)productStocks.elementAt(n);
  			//First find the product subcategory
  			String uid=stock.getProduct()==null?"|"+stock.getUid():stock.getProduct().getFullProductSubGroupName(sPrintLanguage)+"|"+stock.getUid();
- 			System.out.println("uid for "+stock.getUid()+" = "+uid);
  			stocks.put(uid, stock);
  		}
  		
@@ -708,7 +705,6 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
  			ProductStock stock = (ProductStock)productStocks.elementAt(n);
  			//First find the product subcategory
  			String uid=stock.getProduct()==null?"|"+stock.getUid():stock.getProduct().getFullProductSubGroupName(sPrintLanguage)+"|"+stock.getUid();
- 			System.out.println("uid for "+stock.getUid()+" = "+uid);
  			stocks.put(uid, stock);
  		}
  		
@@ -936,7 +932,6 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 					addPriceBoldCol(row, 20, sectiontotal);
 					sectiontotal=0;
 				}
-				System.out.println("searching document: "+operation.getDocumentUID());
 				//We have to print the order title
 				if(ScreenHelper.checkString(operation.getDocumentUID()).length()==0){
 					row =t.addElement("row");

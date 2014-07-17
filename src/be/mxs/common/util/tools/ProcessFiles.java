@@ -62,12 +62,10 @@ public class ProcessFiles {
 	    		}
 	    		//*/	    		
 	    	}
-	    	System.out.println(sFullString);	    	
 	    }
 	    
 
 	    if (file.isDirectory()) {
-	      System.out.println(sFullString);
 	      File[] files = file.listFiles();
 	      for (int i = 0; i < files.length; i++)
 	    	  pMoveFiles(indent + 3, sFromDir, files[i], destDir);

@@ -96,7 +96,6 @@ public abstract class PDFBasic {
             User registeringUser = new User();
             registeringUser.initialize(transactionVO.user.getUserId().intValue());
             String username = registeringUser.person.lastname+" "+registeringUser.person.firstname;
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@ username : "+username); //////////////
             
             cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.user").toUpperCase()+" : "+username,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
             cell.setColspan(10);

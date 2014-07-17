@@ -233,21 +233,51 @@ public class PDFUserCardGeneratorNew extends PDFOfficialBasic {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table2.addCell(cell);
             
-            //Registration number
-            cell=createLabel(ScreenHelper.getTranNoLink("web","regnumber",user.person.language)+":",6,1,Font.ITALIC);
-            cell.setColspan(300);
-            cell.setBorder(PdfPCell.NO_BORDER);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            cell.setPadding(1);
-            table2.addCell(cell);
-            cell=createLabel(ScreenHelper.checkString(person.getID("immatnew")),8,1,Font.BOLD);
-            cell.setColspan(700);
-            cell.setBorder(PdfPCell.NO_BORDER);
-            cell.setPadding(1);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            table2.addCell(cell);
+            if(MedwanQuery.getInstance().getConfigInt("enableHMKCardModel")==1){
+	            //ID number
+	            cell=createLabel(ScreenHelper.getTranNoLink("web","ID",user.person.language)+":",6,1,Font.ITALIC);
+	            cell.setColspan(300);
+	            cell.setBorder(PdfPCell.NO_BORDER);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            cell.setPadding(1);
+	            table2.addCell(cell);
+	            cell=createLabel(ScreenHelper.checkString(person.personid),8,1,Font.BOLD);
+	            cell.setColspan(700);
+	            cell.setBorder(PdfPCell.NO_BORDER);
+	            cell.setPadding(1);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            table2.addCell(cell);
+	            //ID number
+	            cell=createLabel(ScreenHelper.getTranNoLink("web","natreg.short",user.person.language)+":",6,1,Font.ITALIC);
+	            cell.setColspan(300);
+	            cell.setBorder(PdfPCell.NO_BORDER);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            cell.setPadding(1);
+	            table2.addCell(cell);
+	            cell=createLabel(ScreenHelper.checkString(person.getID("natreg")),8,1,Font.BOLD);
+	            cell.setColspan(700);
+	            cell.setBorder(PdfPCell.NO_BORDER);
+	            cell.setPadding(1);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            table2.addCell(cell);
+            }
+            else {
+	            //Registration number
+	            cell=createLabel(ScreenHelper.getTranNoLink("web","regnumber",user.person.language)+":",6,1,Font.ITALIC);
+	            cell.setColspan(300);
+	            cell.setBorder(PdfPCell.NO_BORDER);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            cell.setPadding(1);
+	            table2.addCell(cell);
+	            cell=createLabel(ScreenHelper.checkString(person.getID("immatnew")),8,1,Font.BOLD);
+	            cell.setColspan(700);
+	            cell.setBorder(PdfPCell.NO_BORDER);
+	            cell.setPadding(1);
+	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	            table2.addCell(cell);
+	            table2.addCell(createBorderlessCell("\n", 1000));
+            }
 
-            table2.addCell(createBorderlessCell("\n", 1000));
             
             //Barcode
             PdfContentByte cb = docWriter.getDirectContent();

@@ -246,7 +246,6 @@ public abstract class AC_Object {
     				field = AC_Object.class.getDeclaredField(key);
     			}
     			field.setAccessible(true);
-    			System.out.println("field type ="+field.getType().getName());
     			if (String.class.equals(field.getType())){
     				ps.setString(index++, (String)field.get(this));
     			}

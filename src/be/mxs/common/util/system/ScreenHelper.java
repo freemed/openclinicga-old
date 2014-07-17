@@ -2428,7 +2428,6 @@ public class ScreenHelper {
 	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 	        try{
 	            sSelect = "SELECT distinct examinationid FROM ServiceExaminations WHERE serviceid in ("+allserviceids+")";
-	            System.out.println(sSelect);
 	            ps = oc_conn.prepareStatement(sSelect);
 	            rs = ps.executeQuery();
 	            while(rs.next()){

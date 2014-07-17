@@ -712,7 +712,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
             sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d"+
                       " WHERE e.OC_ENCOUNTER_PATIENTUID = ?"+
             		  "  AND d.OC_DEBET_CREDITED = 0"+
-            		  "  AND (d.oc_debet_encounteruid="+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid")+")"+ 
+            		  "  AND e.oc_encounter_objectid=replace(d.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','')"+ 
                       "  AND (d.OC_DEBET_PATIENTINVOICEUID is null OR d.OC_DEBET_PATIENTINVOICEUID = ' ')"+
             		  " order by OC_DEBET_DATE DESC";
             ps = loc_conn.prepareStatement(sSelect);
@@ -970,13 +970,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
                 //Now find the most recent service for this encounter
                 EncounterService encounterService = encounter.getLastEncounterService();
                 if (encounterService != null) {
-                    encounter.setServiceUID(encounterService.serviceUID);
                     encounter.setManagerUID(encounterService.managerUID);
                     encounter.setBedUID(encounterService.bedUID);
                 }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1100,13 +1102,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
                 //Now find the most recent service for this encounter
                 EncounterService encounterService = encounter.getLastEncounterService();
                 if (encounterService != null) {
-                    encounter.setServiceUID(encounterService.serviceUID);
                     encounter.setManagerUID(encounterService.managerUID);
                     encounter.setBedUID(encounterService.bedUID);
                 }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1226,6 +1230,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
+                //Now find the most recent service for this encounter
+                EncounterService encounterService = encounter.getLastEncounterService();
+                if (encounterService != null) {
+                    encounter.setManagerUID(encounterService.managerUID);
+                    encounter.setBedUID(encounterService.bedUID);
+                }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1353,6 +1366,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
+                //Now find the most recent service for this encounter
+                EncounterService encounterService = encounter.getLastEncounterService();
+                if (encounterService != null) {
+                    encounter.setManagerUID(encounterService.managerUID);
+                    encounter.setBedUID(encounterService.bedUID);
+                }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1474,6 +1496,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
+                //Now find the most recent service for this encounter
+                EncounterService encounterService = encounter.getLastEncounterService();
+                if (encounterService != null) {
+                    encounter.setManagerUID(encounterService.managerUID);
+                    encounter.setBedUID(encounterService.bedUID);
+                }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1593,6 +1624,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
+                //Now find the most recent service for this encounter
+                EncounterService encounterService = encounter.getLastEncounterService();
+                if (encounterService != null) {
+                    encounter.setManagerUID(encounterService.managerUID);
+                    encounter.setBedUID(encounterService.bedUID);
+                }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1714,6 +1754,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
+                //Now find the most recent service for this encounter
+                EncounterService encounterService = encounter.getLastEncounterService();
+                if (encounterService != null) {
+                    encounter.setManagerUID(encounterService.managerUID);
+                    encounter.setBedUID(encounterService.bedUID);
+                }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1887,13 +1936,16 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
                 //Now find the most recent service for this encounter
                 EncounterService encounterService = encounter.getLastEncounterService();
                 if (encounterService != null) {
-                    encounter.setServiceUID(encounterService.serviceUID);
                     encounter.setManagerUID(encounterService.managerUID);
                     encounter.setBedUID(encounterService.bedUID);
                 }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1924,6 +1976,7 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 MedwanQuery.getInstance().getObjectCache().putObject("debet", debet);
                 vDebets.add(debet);
             }
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -2006,6 +2059,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
+                //Now find the most recent service for this encounter
+                EncounterService encounterService = encounter.getLastEncounterService();
+                if (encounterService != null) {
+                    encounter.setManagerUID(encounterService.managerUID);
+                    encounter.setBedUID(encounterService.bedUID);
+                }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -2118,6 +2180,15 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
+                //Now find the most recent service for this encounter
+                EncounterService encounterService = encounter.getLastEncounterService();
+                if (encounterService != null) {
+                    encounter.setManagerUID(encounterService.managerUID);
+                    encounter.setBedUID(encounterService.bedUID);
+                }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************

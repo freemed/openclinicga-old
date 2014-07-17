@@ -1443,7 +1443,6 @@ public class PDFInsurarInvoiceGeneratorBRARUDI extends PDFInvoiceGenerator {
             nif = ScreenHelper.checkString(insurar.getContactPerson());
             characters=0;
             for(int n=0;n<nif.length();n++){
-            	System.out.println(nif.charAt(n));
             	cell=createValueCell(nif.charAt(n)+"",3);
             	cell.setBorder(PdfPCell.BOX);
             	cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);

@@ -132,8 +132,59 @@ public class InsurarInvoice extends Invoice {
                     }
                     rs.close();
                     ps.close();
-
                     insurarInvoice.debets = Debet.getFullInsurarDebetsViaInvoiceUid(insurarInvoice.getUid());
+                    insurarInvoice.credits = InsurarCredit.getInsurarCreditsViaInvoiceUID(insurarInvoice.getUid());
+                }
+                catch(Exception e){
+                    Debug.println("OpenClinic => InsurarInvoice.java => get => "+e.getMessage());
+                    e.printStackTrace();
+                }
+                finally{
+                    try{
+                        if(rs!=null)rs.close();
+                        if(ps!=null)ps.close();
+                        oc_conn.close();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return insurarInvoice;
+    }
+
+    public static InsurarInvoice getWithoutDebets(String uid){
+        InsurarInvoice insurarInvoice = new InsurarInvoice();
+
+        if(uid!=null && uid.length()>0){
+            String [] ids = uid.split("\\.");
+
+            if (ids.length==2){
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                String sSelect = "SELECT * FROM OC_INSURARINVOICES WHERE OC_INSURARINVOICE_SERVERID = ? AND OC_INSURARINVOICE_OBJECTID = ?";
+                Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+                try{
+                    ps = oc_conn.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
+                    rs = ps.executeQuery();
+
+                    if(rs.next()){
+                        insurarInvoice.setUid(uid);
+                        insurarInvoice.setDate(rs.getTimestamp("OC_INSURARINVOICE_DATE"));
+                        insurarInvoice.setInvoiceUid(rs.getInt("OC_INSURARINVOICE_ID")+"");
+                        insurarInvoice.setInsurarUid(rs.getString("OC_INSURARINVOICE_INSURARUID"));
+                        insurarInvoice.setCreateDateTime(rs.getTimestamp("OC_INSURARINVOICE_CREATETIME"));
+                        insurarInvoice.setUpdateDateTime(rs.getTimestamp("OC_INSURARINVOICE_UPDATETIME"));
+                        insurarInvoice.setUpdateUser(rs.getString("OC_INSURARINVOICE_UPDATEUID"));
+                        insurarInvoice.setVersion(rs.getInt("OC_INSURARINVOICE_VERSION"));
+                        insurarInvoice.setBalance(rs.getDouble("OC_INSURARINVOICE_BALANCE"));
+                        insurarInvoice.setStatus(rs.getString("OC_INSURARINVOICE_STATUS"));
+                    }
+                    rs.close();
+                    ps.close();
                     insurarInvoice.credits = InsurarCredit.getInsurarCreditsViaInvoiceUID(insurarInvoice.getUid());
                 }
                 catch(Exception e){
@@ -775,7 +826,7 @@ public class InsurarInvoice extends Invoice {
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            sSelect = "SELECT * FROM OC_INSURARINVOICES WHERE  OC_INSURARINVOICE_STATUS not in ("+sStatus+")";
+            sSelect = "SELECT * FROM OC_INSURARINVOICES WHERE  OC_INSURARINVOICE_STATUS not in ("+sStatus+") order by OC_INSURARINVOICE_DATE DESC";
             ps = oc_conn.prepareStatement(sSelect);
 
             rs = ps.executeQuery();
@@ -876,14 +927,15 @@ public class InsurarInvoice extends Invoice {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
-
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
                 //Now find the most recent service for this encounter
-                Encounter.EncounterService encounterService = encounter.getLastEncounterService();
+                EncounterService encounterService = encounter.getLastEncounterService();
                 if (encounterService != null) {
-                    encounter.setServiceUID(encounterService.serviceUID);
                     encounter.setManagerUID(encounterService.managerUID);
                     encounter.setBedUID(encounterService.bedUID);
                 }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -995,14 +1047,15 @@ public class InsurarInvoice extends Invoice {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
-
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
                 //Now find the most recent service for this encounter
-                Encounter.EncounterService encounterService = encounter.getLastEncounterService();
+                EncounterService encounterService = encounter.getLastEncounterService();
                 if (encounterService != null) {
-                    encounter.setServiceUID(encounterService.serviceUID);
                     encounter.setManagerUID(encounterService.managerUID);
                     encounter.setBedUID(encounterService.bedUID);
                 }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************
@@ -1118,14 +1171,15 @@ public class InsurarInvoice extends Invoice {
                 encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                 encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                 encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
-
+                encounter.setServiceUID(debet.getServiceUid());
+                /*
                 //Now find the most recent service for this encounter
-                Encounter.EncounterService encounterService = encounter.getLastEncounterService();
+                EncounterService encounterService = encounter.getLastEncounterService();
                 if (encounterService != null) {
-                    encounter.setServiceUID(encounterService.serviceUID);
                     encounter.setManagerUID(encounterService.managerUID);
                     encounter.setBedUID(encounterService.bedUID);
                 }
+                */
                 debet.setEncounter(encounter);
 
                 //*********************

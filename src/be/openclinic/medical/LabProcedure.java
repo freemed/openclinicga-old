@@ -308,7 +308,6 @@ public class LabProcedure extends OC_Object{
 					" a.finalvalidationdatetime is not null) a" +
 					" group by procedureuid,updateTime" +
 					" order by procedureuid,updateTime";
-			System.out.println(sSql);
 			conn=MedwanQuery.getInstance().getOpenclinicConnection();
 			ps=conn.prepareStatement(sSql);
 			ps.setTimestamp(1, new java.sql.Timestamp(begin.getTime()));

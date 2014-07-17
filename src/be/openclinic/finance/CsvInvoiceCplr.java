@@ -47,7 +47,7 @@ public class CsvInvoiceCplr {
 	            Date date=null,prevdate=null;
 	            boolean displayPatientName=false,displayDate=false;
 	            SortedMap categories = new TreeMap(), totalcategories = new TreeMap();
-	            double total100pct=0,total85pct=0,generaltotal100pct=0,generaltotal85pct=0,daytotal100pct=0,daytotal85pct=0;
+	            double total100pct=0,total85pct=0,totalcomp=0,generaltotal100pct=0,generaltotal85pct=0,generaltotalcomp=0,daytotal100pct=0,daytotal85pct=0,daytotalcomp=0;
 	            String invoiceid="",adherent="",recordnumber="",insurarreference="",status="",sService="",sServiceUid,sPrevService="";
 	            int linecounter=1;
 	            boolean initialized=false;
@@ -60,7 +60,7 @@ public class CsvInvoiceCplr {
 	                if(!initialized){
 			            //Eerst consultaties
 			            sOutput+="\r\n\r\n"+ScreenHelper.getTran("hospital.statistics", "visits", "fr");
-			            sOutput+="\r\n#;RECU;NOM ET PRENOM;MATRIC;CARTE;AFFECT;STATUT;SERVICE;TOTAL;PATIENT;ASSUREUR;DATE;REF BON\r\n";
+			            sOutput+="\r\n#;RECU;NOM ET PRENOM;MATRIC;CARTE;AFFECT;STATUT;SERVICE;TOTAL;PATIENT;ASSUREUR;ASSUREUR_COMPL;DATE;REF BON\r\n";
 	                }
 	                initialized=true;
 	                date = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(debet.getDate()));
@@ -92,15 +92,18 @@ public class CsvInvoiceCplr {
 	                	sOutput+=status+";";
 	                	sOutput+=sService+";";
 	                	sOutput+=total100pct+";";
-	                	sOutput+=(total100pct-total85pct)+";";
+	                	sOutput+=(total100pct-total85pct-totalcomp)+";";
 	                	sOutput+=total85pct+";";
+	                	sOutput+=totalcomp+";";
 	                	sOutput+=(prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date))+";";
 	                	sOutput+=insurarreference+"\r\n";
 	                	categories = new TreeMap();
 	                	total100pct=0;
 	                	total85pct=0;
+	                	totalcomp=0;
 	                	daytotal100pct=0;
 	                	daytotal85pct=0;
+	                	daytotalcomp=0;
 	                	invoiceid="";
 	                	adherent="";
 	                	recordnumber="";
@@ -153,8 +156,10 @@ public class CsvInvoiceCplr {
 	                int rTotal=(int)(rAmount+rInsurarAmount+rExtraInsurarAmount);
 	                total100pct+=rTotal;
 	                total85pct+=rInsurarAmount;
+	                totalcomp+=rExtraInsurarAmount;
 	                generaltotal100pct+=rTotal;
 	                generaltotal85pct+=rInsurarAmount;
+	                generaltotalcomp+=rExtraInsurarAmount;
 	                prevdate = date;
 	                sPrevPatientName = sPatientName;
 	                debetcount++;
@@ -171,8 +176,9 @@ public class CsvInvoiceCplr {
 	            	sOutput+=status+";";
 	            	sOutput+=sService+";";
 	            	sOutput+=total100pct+";";
-	            	sOutput+=(total100pct-total85pct)+";";
+	            	sOutput+=(total100pct-total85pct-totalcomp)+";";
 	            	sOutput+=total85pct+";";
+	            	sOutput+=totalcomp+";";
                 	sOutput+=(prevdate!=null?ScreenHelper.stdDateFormat.format(prevdate):ScreenHelper.stdDateFormat.format(date))+";";
                 	sOutput+=insurarreference+"\r\n";
 	            	//Print totals
@@ -185,17 +191,21 @@ public class CsvInvoiceCplr {
 	            	sOutput+=";";
 	            	sOutput+=";";
 	            	sOutput+=generaltotal100pct+";";
-	            	sOutput+=(generaltotal100pct-generaltotal85pct)+";";
+	            	sOutput+=(generaltotal100pct-generaltotal85pct-generaltotalcomp)+";";
 	            	sOutput+=generaltotal85pct+";";
+	            	sOutput+=generaltotalcomp+";";
 	            	sOutput+=";";
 	            	sOutput+="\r\n";
 	            }
             	total100pct=0;
             	total85pct=0;
+            	totalcomp=0;
             	generaltotal100pct=0;
             	generaltotal85pct=0;
+            	generaltotalcomp=0;
         		daytotal100pct=0;
         		daytotal85pct=0;
+        		daytotalcomp=0;
             	invoiceid="";
             	adherent="";
             	recordnumber="";
@@ -233,7 +243,7 @@ public class CsvInvoiceCplr {
                 	if(service !=null){
                 		sService=service.getLabel("fr");
                 	}
-	            	sOutput+="\r\n"+activeServiceUid+": "+sService+"\r\n#;NOM;MATRICULE;ADHERENT;RECU;REF BON;TOTAL;PATIENT;ASSUREUR\r\n";
+	            	sOutput+="\r\n"+activeServiceUid+": "+sService+"\r\n#;NOM;MATRICULE;ADHERENT;RECU;REF BON;TOTAL;PATIENT;ASSUREUR;ASSUREUR_COMPL\r\n";
 	            	debetcount=0;
 		            for(int i=0; i<debets.size(); i++){
 		                debet = (Debet)debets.get(i);
@@ -254,12 +264,15 @@ public class CsvInvoiceCplr {
 		                	sOutput+=invoiceid+";";
 		                	sOutput+=insurarreference+";";
 		                	sOutput+=total100pct+";";
-		                	sOutput+=(total100pct-total85pct)+";";
-		                	sOutput+=total85pct+"\r\n";
+		                	sOutput+=(total100pct-total85pct-totalcomp)+";";
+		                	sOutput+=total85pct+";";
+		                	sOutput+=totalcomp+"\r\n";
 		                	total100pct=0;
 		                	total85pct=0;
+		                	totalcomp=0;
 	                		daytotal100pct=0;
 	                		daytotal85pct=0;
+	                		daytotalcomp=0;
 		                	invoiceid="";
 		                	adherent="";
 		                	recordnumber="";
@@ -312,8 +325,10 @@ public class CsvInvoiceCplr {
 		                int rTotal=(int)(rAmount+rInsurarAmount+rExtraInsurarAmount);
 		                total100pct+=rTotal;
 		                total85pct+=rInsurarAmount;
+		                totalcomp+=rExtraInsurarAmount;
 		                generaltotal100pct+=rTotal;
 		                generaltotal85pct+=rInsurarAmount;
+		                generaltotalcomp+=rExtraInsurarAmount;
 		                prevdate = date;
 		                sPrevPatientName = sPatientName;
 		                debetcount++;
@@ -327,8 +342,9 @@ public class CsvInvoiceCplr {
 	                	sOutput+=invoiceid+";";
 	                	sOutput+=insurarreference+";";
 	                	sOutput+=total100pct+";";
-	                	sOutput+=(total100pct-total85pct)+";";
-	                	sOutput+=total85pct+"\r\n";
+	                	sOutput+=(total100pct-total85pct-totalcomp)+";";
+	                	sOutput+=total85pct+";";
+	                	sOutput+=totalcomp+"\r\n";
 	                	//Print the totals
 	                	sOutput+=";";
 	                	sOutput+=ScreenHelper.getTran("web", "total", "fr")+";";
@@ -337,14 +353,18 @@ public class CsvInvoiceCplr {
 	                	sOutput+=";";
 	                	sOutput+=";";
 	                	sOutput+=generaltotal100pct+";";
-	                	sOutput+=(generaltotal100pct-generaltotal85pct)+";";
-	                	sOutput+=generaltotal85pct+"\r\n";
+	                	sOutput+=(generaltotal100pct-generaltotal85pct-generaltotalcomp)+";";
+	                	sOutput+=generaltotal85pct+";";
+	                	sOutput+=generaltotalcomp+"\r\n";
 	                	generaltotal100pct=0;
 	                	generaltotal85pct=0;
+	                	generaltotalcomp=0;
 	                	total100pct=0;
 	                	total85pct=0;
+	                	totalcomp=0;
                 		daytotal100pct=0;
                 		daytotal85pct=0;
+                		daytotalcomp=0;
 	                	invoiceid="";
 	                	adherent="";
 	                	recordnumber="";

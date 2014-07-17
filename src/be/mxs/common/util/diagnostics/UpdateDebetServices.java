@@ -14,6 +14,15 @@ public class UpdateDebetServices {
 	/**
 	 * @param args
 	 */
+	public static String checkString(String s){
+		if(s==null){
+			return "";
+		}
+		else {
+			return s;
+		}
+	}
+	
 	public static void main(String[] args) {
 		int batchsize=1000;
 		String sDatabaseType="";
@@ -46,7 +55,7 @@ public class UpdateDebetServices {
 						ps2.setInt(1, Integer.parseInt(prestationuid.split("\\.")[1]));
 						ResultSet rs2 = ps2.executeQuery();
 						if(rs2.next()){
-							serviceuid = ScreenHelper.checkString(rs2.getString("OC_PRESTATION_SERVICEUID"));
+							serviceuid = checkString(rs2.getString("OC_PRESTATION_SERVICEUID"));
 							if(serviceuid.length()>0){
 								bDone=true;
 							}
@@ -61,7 +70,7 @@ public class UpdateDebetServices {
 							ps2.setInt(1, Integer.parseInt(encounteruid.split("\\.")[1]));
 							ResultSet rs2 = ps2.executeQuery();
 							if(rs2.next()){
-								serviceuid = ScreenHelper.checkString(rs2.getString("OC_ENCOUNTER_SERVICEUID"));
+								serviceuid = checkString(rs2.getString("OC_ENCOUNTER_SERVICEUID"));
 							}
 							rs2.close();
 							ps2.close();
@@ -73,6 +82,7 @@ public class UpdateDebetServices {
 					ps2.executeUpdate();
 					ps2.close();
 					Thread.sleep(50);
+					System.out.print(".");
 				}
 				rs.close();
 				ps.close();

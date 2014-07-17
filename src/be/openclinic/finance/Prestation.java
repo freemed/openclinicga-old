@@ -404,7 +404,6 @@ public class Prestation extends OC_Object{
     		ps.setInt(4,this.getVersion());
     		ResultSet rs = ps.executeQuery();
     		if(rs.next()){
-    			System.out.println("1");
     			p=rs.getDouble("OC_TARIFF_PRICE");
     		}
     		else {
@@ -421,7 +420,6 @@ public class Prestation extends OC_Object{
 	    		ps.setInt(3,this.getVersion());
 				rs = ps.executeQuery();
 				if(rs.next()){
-	    			System.out.println("2");
 					p=rs.getDouble("OC_TARIFF_PRICE");
 				}
     		}

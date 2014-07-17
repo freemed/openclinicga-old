@@ -78,7 +78,6 @@ public class ProductStock extends OC_Object implements Comparable {
     		destinationtypes+=",'servicestock'";
     	}
     	String sQuery="select sum(total) total,min(year) minyear,min(month) minmonth from (select sum(oc_operation_unitschanged) total,year(oc_operation_date) year,month(oc_operation_date) month from oc_productstockoperations where oc_operation_description like '%delivery%' and oc_operation_srcdesttype in ("+destinationtypes+") and oc_operation_productstockuid=? and oc_operation_date<=? group by year(oc_operation_date),month(oc_operation_date)) a";
-        System.out.println(sQuery);
     	Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
         	PreparedStatement ps = oc_conn.prepareStatement(sQuery);
