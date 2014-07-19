@@ -155,6 +155,21 @@ public class Pointer {
 		}
 	}
 	
+	public static void deleteLoosePointers(String key){
+		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		PreparedStatement ps = null;
+		try{
+			ps=conn.prepareStatement("DELETE from OC_POINTERS where OC_POINTER_KEY like ?");
+			ps.setString(1, key+"%");
+			ps.execute();
+			ps.close();
+			conn.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	public static void storePointer(String key,String value){
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps = null;
