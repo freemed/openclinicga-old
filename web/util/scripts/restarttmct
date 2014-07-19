@@ -1,0 +1,5 @@
+kill -9 $(ps aux | grep -v grep | grep tomcat | awk '{print $2}')
+mv /var/tomcat/logs/catalina.out /var/tomcat/logs/catalina.out-`date +%Y_%m_%d_%H:%M:%S`
+find /var/tomcat/logs -name "*" -mtime +8 -exec rm -f {} \;
+cd /var/tomcat/bin
+./startup.sh
