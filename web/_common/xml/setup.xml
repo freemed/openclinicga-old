@@ -11,8 +11,8 @@
 		<config key="PatientLanguages" value="fr,nl,de,en,es,pt"/>
 		<config key="supportedLanguages" value="fr,en,es,pt,nl"/>
 		<config key="mxsref" value="BE"/>
-		<config key="priceFormat" value="#,##0.00"/>
-		<config key="priceFormatInsurar" value="#,##0.00"/>
+		<config key="priceFormat" value="#0.00"/>
+		<config key="priceFormatInsurar" value="#0.00"/>
 		<config key="currencyDecimals" value="2"/>
 		<labels type="professional.council.url">
 		</labels>
@@ -95,8 +95,8 @@
 		<config key="PatientLanguages" value="pt,es,en,fr"/>
 		<config key="supportedLanguages" value="pt,es,en,fr"/>
 		<config key="mxsref" value="BR"/>
-		<config key="priceFormat" value="#,##0.00"/>
-		<config key="priceFormatInsurar" value="#,##0.00"/>
+		<config key="priceFormat" value="#0.00"/>
+		<config key="priceFormatInsurar" value="#0.00"/>
 		<config key="currencyDecimals" value="2"/>
 		<labels type="professional.council.url">
 		</labels>
@@ -326,8 +326,8 @@
 		<config key="PatientLanguages" value="fr,en,es,it,sw"/>
 		<config key="supportedLanguages" value="en"/>
 		<config key="mxsref" value="ZM"/>
-		<config key="priceFormat" value="#,##0.00"/>
-		<config key="priceFormatInsurar" value="#,##0.00"/>
+		<config key="priceFormat" value="#0.00"/>
+		<config key="priceFormatInsurar" value="#0.00"/>
 		<config key="currencyDecimals" value="2"/>
 		<labels type="professional.council.url">
 		</labels>
@@ -346,14 +346,34 @@
 		<config key="PatientLanguages" value="fr,en,es,it,sw"/>
 		<config key="supportedLanguages" value="en"/>
 		<config key="mxsref" value="NG"/>
-		<config key="priceFormat" value="#,##0.00"/>
-		<config key="priceFormatInsurar" value="#,##0.00"/>
+		<config key="priceFormat" value="#0.00"/>
+		<config key="priceFormatInsurar" value="#0.00"/>
 		<config key="currencyDecimals" value="2"/>
 		<labels type="professional.council.url">
 		</labels>
 		<labels type="professional.councils">
 		</labels>
 		<project>ng</project>
+	</country>
+	<country code="ga">
+		<config key="currency" value="XAF"/>
+		<config key="currencyPdf" value="XAF"/>
+		<config key="countrycode" value="GA"/>
+		<config key="DefaultCountry" value="GA"/>
+		<config key="defaultSearchCountry" value="GABON"/>
+		<config key="zipcodetable" value="gabonzipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,en,es,it,sw"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="GA"/>
+		<config key="priceFormat" value="#0.00"/>
+		<config key="priceFormatInsurar" value="#0.00"/>
+		<config key="currencyDecimals" value="2"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
+		<project>ga</project>
 	</country>
 	<os code="windows">
 		<config key="DocumentsFolder" value="$setupdir$documents"/>

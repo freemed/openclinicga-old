@@ -2,7 +2,7 @@
 <%@page import="be.openclinic.pharmacy.Product,
                 java.text.DecimalFormat,
                 be.openclinic.pharmacy.ProductSchema,
-                be.openclinic.common.KeyValue,be.openclinic.finance.*,
+                be.openclinic.common.KeyValue,be.openclinic.finance.*,be.mxs.common.util.system.Pointer,
                 java.util.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
@@ -281,6 +281,22 @@
         }
 
         sEditProductUid = product.getUid();
+        
+        //Update pump
+        if(request.getParameter("pump.price")!=null && request.getParameter("pump.quantity")!=null){
+        	double pump_price=0,pump_quantity=0;
+        	try{
+        		pump_price=Double.parseDouble(request.getParameter("pump.price"));
+        		pump_quantity=Double.parseDouble(request.getParameter("pump.quantity"));
+        		if(pump_price>0 && pump_quantity>0){
+        			Pointer.deleteLoosePointers("drugprice."+product.getUid()+".");
+        			Pointer.storePointer("drugprice."+product.getUid()+".0.0",pump_quantity+";"+pump_price);
+        		}
+        	}
+        	catch(Exception e){
+        		e.printStackTrace();
+        	}
+        }
     }
     //--- DELETE ----------------------------------------------------------------------------------
     else if (sAction.equals("delete") && sEditProductUid.length() > 0) {
@@ -608,9 +624,17 @@
                     </tr>
                     <%-- UnitPrice --%>
                     <tr>
-                        <td class="admin" nowrap><%=getTran("Web","lastyearsaverageprice",sWebLanguage)%> *</td>
+                        <td class="admin" nowrap><%=getTran("Web","lastyearsaverageprice",sWebLanguage)%></td>
                         <td class="admin2">
                             <input disabled class="greytext" type="text" name="AverageUnitPrice" size="15" maxLength="15" value="<%=ScreenHelper.getPriceFormat(Double.parseDouble(sAverageUnitPrice))%>" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
+                        </td>
+                    </tr>
+                    <%-- UnitPrice --%>
+                    <tr>
+                        <td class="admin" nowrap><%=getTran("Web","reinitialize.lastyearsaverageprice",sWebLanguage)%></td>
+                        <td class="admin2">
+                            <input type="text" name="pump.price" size="15" maxLength="15" value="" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
+                            &nbsp, <%=getTran("Web","quantity",sWebLanguage)%>: <input type="text" name="pump.quantity" size="15" maxLength="15" value="" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
                     <%-- PackageUnits --%>
