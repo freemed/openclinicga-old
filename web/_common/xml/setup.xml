@@ -376,8 +376,8 @@
 		<project>ga</project>
 	</country>
 	<country code="sn">
-		<config key="currency" value="XAF"/>
-		<config key="currencyPdf" value="XAF"/>
+		<config key="currency" value="XOF"/>
+		<config key="currencyPdf" value="XOF"/>
 		<config key="countrycode" value="SN"/>
 		<config key="DefaultCountry" value="SN"/>
 		<config key="defaultSearchCountry" value="SENEGAL"/>
