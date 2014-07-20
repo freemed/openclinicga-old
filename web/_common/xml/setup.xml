@@ -375,6 +375,26 @@
 		</labels>
 		<project>ga</project>
 	</country>
+	<country code="sn">
+		<config key="currency" value="XAF"/>
+		<config key="currencyPdf" value="XAF"/>
+		<config key="countrycode" value="SN"/>
+		<config key="DefaultCountry" value="SN"/>
+		<config key="defaultSearchCountry" value="SENEGAL"/>
+		<config key="zipcodetable" value="senegalzipcodes"/>
+		<config key="DefaultLanguage" value="fr"/>
+		<config key="PatientLanguages" value="fr,en,es,it,sw"/>
+		<config key="supportedLanguages" value="fr,en"/>
+		<config key="mxsref" value="SN"/>
+		<config key="priceFormat" value="#0.00"/>
+		<config key="priceFormatInsurar" value="#0.00"/>
+		<config key="currencyDecimals" value="2"/>
+		<labels type="professional.council.url">
+		</labels>
+		<labels type="professional.councils">
+		</labels>
+		<project>sn</project>
+	</country>
 	<os code="windows">
 		<config key="DocumentsFolder" value="$setupdir$documents"/>
 		<config key="fingerprintBinDirectory" value="$setupdir$web-inf/lib"/>

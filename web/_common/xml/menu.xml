@@ -89,7 +89,7 @@
             <Menu labelid="manageDiagnosesPop" accessrights="diagnoses.populationdiagnoses" url="/main.do?Page=medical/manageDiagnosesPop.jsp"/>
             <Menu labelid="manageDiagnosesPatient" accessrights="diagnoses.patientdiagnoses" url="/main.do?Page=medical/manageDiagnosesPatient.jsp"/>
         </Menu>
-        <Menu labelid="meals" accessrights="patientmeals" url="/main.do?Page=meals/manageMeals.jsp"/>
+        <Menu labelid="meals" accessrights="manage.patientMeals" url="/main.do?Page=meals/manageMeals.jsp"/>
 		<Menu labelid="assets" accessrights="assets.select">
 		    <Menu labelid="assets" accessrights="assets.select" url="/main.do?Page=assets/manage_assets.jsp"/>
 		    <Menu labelid="maintenancePlans" accessrights="maintenanceplans.select" url="/main.do?Page=assets/manage_maintenancePlans.jsp"/>

@@ -2,7 +2,7 @@
                 java.util.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%=checkPermission("curative","select",activeUser)%>
+<%=checkPermission("examinations","select",activeUser)%>
 
 <%!
     //--- WRITE EXAMINATION -----------------------------------------------------------------------

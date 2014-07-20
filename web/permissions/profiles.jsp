@@ -92,72 +92,87 @@
         sUserProfileName = checkString(request.getParameter("UserProfileName"));
         UserProfile userProfile;
         UserProfilePermission userProfilePermission;
+		if(sUserProfileName.length()>0){
 
-        //*** INSERT PROFILE ***
-        if(sUserProfileID.length()==0){
-            sUserProfileID = MedwanQuery.getInstance().getNewResultCounterValue("UserProfileID");
-            userProfile = new UserProfile();
-            userProfile.setUserprofileid(Integer.parseInt(sUserProfileID));
-            userProfile.setUserprofilename(sUserProfileName);
-            userProfile.setUpdatetime(getSQLTime());
-            userProfile.insert();
-        }
-        //*** UPDATE PROFILE ***
-        else{
-            userProfile = new UserProfile();
-            userProfile.setUserprofileid(Integer.parseInt(sUserProfileID));
-            userProfile.setUserprofilename(sUserProfileName);
-            userProfile.setUpdatetime(getSQLTime());
-            userProfile.update();
-
-            // remove all permissions in profile (except 'sa');
-            // they will be added again later
-            userProfile.removePermissions();
-        }
-        
-        sSearchProfileID = sUserProfileID;
-        String sTmpName, sTmpValue, sTmpScreenID, sTmpPermission;
-        Enumeration e = request.getParameterNames();
-        while(e.hasMoreElements()){
-            sTmpName = (String)e.nextElement();
-            
-            if(sTmpName.toLowerCase().endsWith(".select") ||
-               sTmpName.toLowerCase().endsWith(".add") ||
-               sTmpName.toLowerCase().endsWith(".edit") ||
-               sTmpName.toLowerCase().endsWith(".delete")){
-                sTmpScreenID = sTmpName.substring(sTmpName.indexOf("$")+1,sTmpName.lastIndexOf(".")).toLowerCase();
-                sTmpPermission = sTmpName.substring(sTmpName.lastIndexOf(".")+1).toLowerCase();
-                
-                userProfilePermission = new UserProfilePermission();
-                userProfilePermission.setUserprofileid(Integer.parseInt(sUserProfileID));
-                userProfilePermission.setScreenid(sTmpScreenID);
-                userProfilePermission.setPermission(sTmpPermission);
-                int updatedRows = userProfilePermission.setActiveProfilePermission();
-
-                // insert if not found
-                if(updatedRows==0){
-                    userProfilePermission.setUpdatetime(getSQLTime());
-                    userProfilePermission.insert();
-                }
-            }
-            // default page
-            else if(sTmpName.equalsIgnoreCase("defaultpage")){
-                sTmpValue = checkString(request.getParameter(sTmpName));
-                if(sTmpValue.length() > 0){
-                    userProfilePermission = new UserProfilePermission();
-                    userProfilePermission.setUserprofileid(Integer.parseInt(sUserProfileID));
-                    userProfilePermission.setScreenid("defaultpage");
-                    userProfilePermission.deleteByScreenAndId();
-                    userProfilePermission.setPermission(sTmpValue.toLowerCase());
-                    userProfilePermission.setUpdatetime(getSQLTime());
-                    userProfilePermission.insert();
-                }
-            }
-        }
-
-        // reload permissions in user-object
-        activeUser.initialize(Integer.parseInt(activeUser.userid));
-        session.setAttribute("activeUser",activeUser);
+	        //*** INSERT PROFILE ***
+	        if(sUserProfileID.length()==0){
+	        	//First find out if the user profile name does not exist yet
+				userProfile = UserProfile.getUserProfileByName(sUserProfileName);
+				if(userProfile!=null){
+					sUserProfileID=userProfile.getUserprofileid()+"";
+					userProfile.setUpdatetime(getSQLTime());
+		            userProfile.update();
+	
+		            // remove all permissions in profile (except 'sa');
+		            // they will be added again later
+		            userProfile.removePermissions();
+				}
+				else {
+		        	sUserProfileID = MedwanQuery.getInstance().getNewResultCounterValue("UserProfileID");
+		            userProfile = new UserProfile();
+		            userProfile.setUserprofileid(Integer.parseInt(sUserProfileID));
+		            userProfile.setUserprofilename(sUserProfileName);
+		            userProfile.setUpdatetime(getSQLTime());
+		            userProfile.insert();
+				}
+	        }
+	        //*** UPDATE PROFILE ***
+	        else{
+	            userProfile = new UserProfile();
+	            userProfile.setUserprofileid(Integer.parseInt(sUserProfileID));
+	            userProfile.setUserprofilename(sUserProfileName);
+	            userProfile.setUpdatetime(getSQLTime());
+	            userProfile.update();
+	
+	            // remove all permissions in profile (except 'sa');
+	            // they will be added again later
+	            userProfile.removePermissions();
+	        }
+	        
+	        sSearchProfileID = sUserProfileID;
+	        String sTmpName, sTmpValue, sTmpScreenID, sTmpPermission;
+	        Enumeration e = request.getParameterNames();
+	        while(e.hasMoreElements()){
+	            sTmpName = (String)e.nextElement();
+	            
+	            if(sTmpName.toLowerCase().endsWith(".select") ||
+	               sTmpName.toLowerCase().endsWith(".add") ||
+	               sTmpName.toLowerCase().endsWith(".edit") ||
+	               sTmpName.toLowerCase().endsWith(".delete")){
+	                sTmpScreenID = sTmpName.substring(sTmpName.indexOf("$")+1,sTmpName.lastIndexOf(".")).toLowerCase();
+	                sTmpPermission = sTmpName.substring(sTmpName.lastIndexOf(".")+1).toLowerCase();
+	                
+	                userProfilePermission = new UserProfilePermission();
+	                userProfilePermission.setUserprofileid(Integer.parseInt(sUserProfileID));
+	                userProfilePermission.setScreenid(sTmpScreenID);
+	                userProfilePermission.setPermission(sTmpPermission);
+	                int updatedRows = userProfilePermission.setActiveProfilePermission();
+	
+	                // insert if not found
+	                if(updatedRows==0){
+	                    userProfilePermission.setUpdatetime(getSQLTime());
+	                    userProfilePermission.insert();
+	                }
+	            }
+	            // default page
+	            else if(sTmpName.equalsIgnoreCase("defaultpage")){
+	                sTmpValue = checkString(request.getParameter(sTmpName));
+	                if(sTmpValue.length() > 0){
+	                    userProfilePermission = new UserProfilePermission();
+	                    userProfilePermission.setUserprofileid(Integer.parseInt(sUserProfileID));
+	                    userProfilePermission.setScreenid("defaultpage");
+	                    userProfilePermission.deleteByScreenAndId();
+	                    userProfilePermission.setPermission(sTmpValue.toLowerCase());
+	                    userProfilePermission.setUpdatetime(getSQLTime());
+	                    userProfilePermission.insert();
+	                }
+	            }
+	        }
+	
+	        // reload permissions in user-object
+	        activeUser.initialize(Integer.parseInt(activeUser.userid));
+	        session.setAttribute("activeUser",activeUser);
+		}
     }
     else{
         //*** DELETE USER PERMISSION ***
@@ -300,50 +315,6 @@
                         }
                     %>
                     
-            		<%=writeHeader(getTran("web","other",sWebLanguage),headerIdx,true,sWebLanguage)%>                    
-			            <tr height="22" class="list">
-			                <td/>
-			                <td><%=getTran("Web.UserProfile","DefaultPage",sWebLanguage)%></td>
-			                <td colspan="11">
-			                    <select name="DefaultPage" class="text">
-			                        <option/>
-			                        <%
-			                            String sSelected = sDefaultPage;
-			                            xmlReader = new SAXReader();
-			                            String sDefaultPageXML = MedwanQuery.getInstance().getConfigString("templateSource")+"defaultPages.xml";
-			                            String sType, setSelected = "";
-			                            
-			                            try{
-			                                Document document = xmlReader.read(new URL(sDefaultPageXML));
-			                                if(document!=null){
-			                                    Element root = document.getRootElement();
-			                                    if(root!=null){
-			                                        Iterator elements = root.elementIterator("defaultPage");
-			                                        Element ePage;
-			                                        
-			                                        while(elements.hasNext()){
-			                                            ePage = (Element)elements.next();
-			                                            sType = checkString(ePage.attributeValue("type")).toLowerCase();
-			                                        
-			                                            if(sType.equals(sSelected)) setSelected = " selected";
-			                                            else                        setSelected = "";
-			                                            
-			                                            out.print("<option value=\""+sType+"\""+setSelected+">"+getTranNoLink("defaultPage",sType,sWebLanguage)+"</option>");
-			                                        }
-			                                    }
-			                                }
-			                                else{
-			                                    out.print("<option value='administration'"+setSelected+">"+getTranNoLink("defaultPage","administratioon",sWebLanguage)+"</option>");
-			                                }
-			                            }
-			                            catch(DocumentException e){
-			                                out.print("<option value='administration'"+setSelected+">"+getTranNoLink("defaultPage","administratioon",sWebLanguage)+"</option>");
-			                            }
-			                        %>
-			                    </select>
-			                </td>
-			            </tr>
-                    <%=writeFooter()%>
                 </td>
             </tr>
         </table>

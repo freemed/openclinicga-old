@@ -91,7 +91,7 @@
     </application>
     <application type="Web" id="curative">
         <permission type="Web" id="curative">curative</permission>
-        <permission type="Web" id="medical">medical</permission>
+<!--    <permission type="Web" id="medical">medical</permission>  -->
         <permission type="Web" id="problemlist">problemlist</permission>
         <permission type="Web" id="examinations">examinations</permission>
     </application>
@@ -124,7 +124,6 @@
         <permission type="web" id="manageRestrictedDiagnosis">restricteddiagnosis</permission>
     </application>
     <application type="Web" id="meals">
-        <permission type="web" id="patientmeals">patientmeals</permission>
         <permission type="web" id="manageMeals">manage.meals</permission>
         <permission type="web" id="managePatientMeals">manage.patientMeals</permission>
 
