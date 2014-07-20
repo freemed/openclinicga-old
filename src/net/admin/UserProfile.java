@@ -45,6 +45,17 @@ public class UserProfile {
     public void setUpdatetime(Timestamp updatetime) {
         this.updatetime = updatetime;
     }
+    
+    public static UserProfile getUserProfileByName(String sName){
+    	Vector userprofiles = getUserProfiles();
+    	for(int n=0;n<userprofiles.size();n++){
+    		UserProfile profile = (UserProfile)userprofiles.elementAt(n);
+    		if(profile.getUserprofilename().equalsIgnoreCase(sName)){
+    			return profile;
+    		}
+    	}
+    	return null;
+    }
 
     public static Vector getUserProfiles(){
         PreparedStatement ps = null;
