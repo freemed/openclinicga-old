@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Frank Verbeke (Post Factum bvba) -->
+
 <!DOCTYPE model SYSTEM "openwork.dtd">
 <model name="OpenCklinic" date="21/12/2010" version="4.0.52">
     <table name="Applications" db="openclinic" sync="NONE">
@@ -524,7 +524,44 @@
     </table> 
         
 
-    <!-- ####################################### VARIA TABLES ##################################### -->
+    <!-- ####################################### VARIA TABLES ##################################### --> 
+    <table name="oc_screens" db="openclinic" sync="NONE">
+    	<columns>
+			<column name="OC_SCREEN_SERVERID" dbtype="int" javatype="integer"/>  
+			<column name="OC_SCREEN_OBJECTID" dbtype="int" javatype="integer"/>  
+			<column name="OC_SCREEN_TRANSACTIONTYPE" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_SCREEN_XMLDATA" dbtype="binary" javatype="bytes"/>
+			<column name="OC_SCREEN_CREATIONDATE" dbtype="datetime" javatype="date"/>
+	        <column name="OC_SCREEN_UPDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_SCREEN_UPDATEID" dbtype="int" javatype="integer"/>
+    	</columns>
+    	<indexes>
+	        <index name="OC_SCREEN_OBJECTID">
+	            <indexcolumn order="ASC" name="OC_SCREEN_OBJECTID"/>
+	        </index>
+    	</indexes>
+    </table>
+    
+    <table name="oc_screens_history" db="openclinic" sync="NONE">
+    	<columns>
+			<column name="OC_SCREEN_SERVERID" dbtype="int" javatype="integer"/>  
+			<column name="OC_SCREEN_OBJECTID" dbtype="int" javatype="integer"/>  
+			<column name="OC_SCREEN_TRANSACTIONTYPE" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_SCREEN_XMLDATA" dbtype="binary" javatype="bytes"/>
+			<column name="OC_SCREEN_CREATIONDATE" dbtype="datetime" javatype="date"/>
+	        <column name="OC_SCREEN_UPDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_SCREEN_UPDATEID" dbtype="int" javatype="integer"/>
+    	</columns>
+    	<indexes>
+	        <index name="OC_SCREEN_OBJECTID">
+	            <indexcolumn order="ASC" name="OC_SCREEN_OBJECTID"/>
+	        </index>
+	        <index name="OC_SCREEN_UPDATETIME">
+	            <indexcolumn order="ASC" name="OC_SCREEN_UPDATETIME"/>
+	        </index>
+    	</indexes>
+    </table>
+    
     <table name="AutoCompleteItemValues" db="openclinic" sync="NONE">
     	<columns>
     		<column name="type" dbtype="varchar" javatype="string" size="255"/>
