@@ -1,35 +1,1272 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <Examinations>
-  <Row>
-    <id>1001</id>
-    <class>imaging</class>
-    <transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR2</transactiontype>
-    <fr>Imagerie médicale</fr>
-    <en>Medical imaging</en>
-  </Row>
-  <Row>
-    <id>1055</id>
-    <class>internal.medicine</class>
-    <transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL</transactiontype>
-    <fr>Protocole d'echographie abdominale</fr>
-    <en>Abdominal echography protocol</en>
-  </Row>
-  <Row>
-    <id>1109</id>
-    <class>ophtalmology</class>
-    <transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_IOTA</transactiontype>
-    <fr>Consultation ophtalmologique - modèle IOTA</fr>
-    <en>Ophtalmology consultation - IOTA model</en>
-  </Row>
-  <Row>
-    <id>1171</id>
-    <creationDate>10/06/2014</creationDate>
-    <userId>4</userId>
-    <class>customExamination</class>
-    <transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CUSTOMEXAMINATION1171</transactiontype>
-    <fr>rrrrrrrrrrrr</fr>
-    <en>rrrrrrrrrrrrrr</en>
-    <es>rrrrrrrrrrrrrrr</es>
-  </Row>
+	<Row>
+		<id>1001</id>
+		<class>imaging</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MIR2</transactiontype>
+		<fr>Imagerie m&#233;dicale</fr>
+		<en>Medical imaging</en>
+	</Row>
+	<Row>
+		<id>1002</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION</transactiontype>
+		<fr>Consultation m&#233;decine g&#233;n&#233;rale</fr>
+		<en>Consultation</en>
+	</Row>
+	<Row>
+		<id>1003</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NURSE_EXAMINATION</transactiontype>
+		<fr>Examen param&#233;dical (consultation)</fr>
+		<en>Paramedical examination (consultation)</en>
+	</Row>
+	<Row>
+		<id>1004</id>
+		<class>ent</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_AUDIOMETRY</transactiontype>
+		<fr>Audiom&#233;trie</fr>
+		<en>Audiometry</en>
+	</Row>
+	<Row>
+		<id>1005</id>
+		<class>lab</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_LAB_REQUEST&amp;be.mxs.healthrecord.transaction_template=lab.general.xml</transactiontype>
+		<fr>Demande d&apos;examens laboratoire</fr>
+		<en>Lab request</en>
+	</Row>
+	<Row>
+		<id>1006</id>
+		<class>ophtalmology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY</transactiontype>
+		<fr>Examen de la vision</fr>
+		<en>Vision examiniation</en>
+	</Row>
+	<Row>
+		<id>1007</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_URINE_EXAMINATION</transactiontype>
+		<fr>Examen d&apos;urine</fr>
+		<en>Urine analysis</en>
+	</Row>
+	<Row>
+		<id>1008</id>
+		<class>internal.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ECG</transactiontype>
+		<fr>ECG</fr>
+		<en>ECG</en>
+	</Row>
+	<Row>
+		<id>1009</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MEDICALCARE</transactiontype>
+		<fr>Soins m&#233;dicaux</fr>
+		<en>Medical care</en>
+	</Row>
+	<Row>
+		<id>1010</id>
+		<class>pneumology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_RESP_FUNC_EX</transactiontype>
+		<fr>Examen de la fonction pulmonaire</fr>
+		<en>Lungfunction examination</en>
+	</Row>
+	<Row>
+		<id>1011</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_BIOMETRY</transactiontype>
+		<fr>Biom&#233;trie</fr>
+		<en>Biometrics</en>
+	</Row>
+	<Row>
+		<id>1013</id>
+		<class>cardiology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CARDIOVASCULAR_RISK</transactiontype>
+		<fr>Risque cardiovasculaire</fr>
+		<en>Cardiovascular risk assessment</en>
+	</Row>
+	<Row>
+		<id>1014</id>
+		<class>stomatology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DENTIST</transactiontype>
+		<fr>Consultation dentiste</fr>
+		<en>Dentist consultation</en>
+	</Row>
+	<Row>
+		<id>1016</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OTHER_REQUESTS</transactiontype>
+		<fr>Envoi au sp&#233;cialiste</fr>
+		<en>Referral to specialist</en>
+	</Row>
+	<Row>
+		<id>1017</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Tedivax</transactiontype>
+		<fr>Vaccination t&#233;tanos</fr>
+		<en>Vaccination tetatons</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.Tedivax">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.recovery_booster</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="MinInterval">28</Item>
+					<Item ID="MaxInterval">120</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">120</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="MinInterval">365</Item>
+					<Item ID="MaxInterval">540</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">540</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">3500</Item>
+					<Item ID="MaxInterval">7300</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.recovery_booster</Item>
+					<Item ID="MinInterval">7300</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">3500</Item>
+					<Item ID="MaxInterval">7300</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.recovery_booster</Item>
+					<Item ID="MinInterval">7301</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.recovery_booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">180</Item>
+					<Item ID="MaxInterval">1800</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.recovery_booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.recovery_booster</Item>
+					<Item ID="MinInterval">1800</Item>
+					<Item ID="MaxInterval">9999999</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1018</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_INTRADERMO</transactiontype>
+		<fr>Intradermo</fr>
+		<en>Intradermo</en>
+	</Row>
+	<Row>
+		<id>1019</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Twinrix</transactiontype>
+		<fr>Vaccination H&#233;patite A+B</fr>
+		<en>Vaccination hepatitis A+B</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.Twinrix">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="MinInterval">30</Item>
+					<Item ID="MaxInterval">60</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">61</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="MinInterval">150</Item>
+					<Item ID="MaxInterval">360</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">361</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">30</Item>
+					<Item ID="MaxInterval">120</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.only_if_no_confirmed_immunization</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1800</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.only_if_no_confirmed_immunization</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1800</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.only_if_no_confirmed_immunization</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="MinInterval">999998</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1020</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.YellowFever</transactiontype>
+		<fr>Vaccination Fi&#232;vre Jaune</fr>
+		<en>Vaccionation yellow fever</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.YellowFever">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">3470</Item>
+					<Item ID="MaxInterval">7300</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">7301</Item>
+					<Item ID="MaxInterval">10950</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">3470</Item>
+					<Item ID="MaxInterval">7300</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">7301</Item>
+					<Item ID="MaxInterval">10950</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1021</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.FSME</transactiontype>
+		<fr>Vaccination FSME</fr>
+		<en>Vaccination FSME</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.FSME">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="MinInterval">90</Item>
+					<Item ID="MaxInterval">180</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">181</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="MinInterval">270</Item>
+					<Item ID="MaxInterval">360</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">361</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1005</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1005</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1022</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Typhus</transactiontype>
+		<fr>Vaccination Typhus</fr>
+		<en>Vaccination Typhus</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.Typhus">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1095</Item>
+					<Item ID="MaxInterval">1825</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">1826</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1735</Item>
+					<Item ID="MaxInterval">3650</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">3651</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1023</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Mencevax</transactiontype>
+		<fr>Vaccination m&#233;ningocoques</fr>
+		<en>Vaccination meningocoques</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.Mencevax">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1005</Item>
+					<Item ID="MaxInterval">1825</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">1826</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1735</Item>
+					<Item ID="MaxInterval">3650</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.firstbooster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">3651</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1735</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1024</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Polio</transactiontype>
+		<fr>Vaccination Polio</fr>
+		<en>Vaccination polio</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.Polio">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="MinInterval">60</Item>
+					<Item ID="MaxInterval">120</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">121</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="MinInterval">300</Item>
+					<Item ID="MaxInterval">500</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">501</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">3500</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">3500</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1025</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Hepatitisb</transactiontype>
+		<fr>Vaccination H&#233;patite B</fr>
+		<en>Vaccination hepatitis B</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.hepatitisb">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="MinInterval">30</Item>
+					<Item ID="MaxInterval">60</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">61</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">150</Item>
+					<Item ID="MaxInterval">360</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">361</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">1800</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.only_if_no_confirmed_immunization</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="MinInterval">999998</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1026</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Hepatitisa</transactiontype>
+		<fr>Vaccination H&#233;patite A</fr>
+		<en>Vaccination hepatitis A</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.hepatitisa">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="MinInterval">150</Item>
+					<Item ID="MaxInterval">600</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="MinInterval">600</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">601</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="MinInterval">1800</Item>
+					<Item ID="MaxInterval">999999</Item>
+					<Item ID="Comment">be.mxs.healthrecord.vaccination.comment.interval_to_long</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="MinInterval">999998</Item>
+					<Item ID="MaxInterval">999999</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1027</id>
+		<class>vaccinations</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Other</transactiontype>
+		<fr>Vaccinations Autre</fr>
+		<en>Vaccination other</en>
+		<Data Type="Vaccination">
+			<Element ID="Vaccination" Label="be.mxs.healthrecord.vaccination.Other">
+				<Modifier Type="ValueList">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.fourth</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.fifth</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.status-none</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.first</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="MinInterval">365</Item>
+					<Item ID="MaxInterval">9999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.second</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="MinInterval">365</Item>
+					<Item ID="MaxInterval">9999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.third</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.fourth</Item>
+					<Item ID="MinInterval">365</Item>
+					<Item ID="MaxInterval">9999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.fourth</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.fifth</Item>
+					<Item ID="MinInterval">365</Item>
+					<Item ID="MaxInterval">9999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.fifth</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">365</Item>
+					<Item ID="MaxInterval">9999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+					<Item ID="MinInterval">365</Item>
+					<Item ID="MaxInterval">9999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="NextSubtype">be.mxs.healthrecord.vaccination.subtype.immune</Item>
+					<Item ID="MinInterval">365</Item>
+					<Item ID="MaxInterval">9999999</Item>
+				</Modifier>
+				<Modifier Type="Rule">
+					<Item ID="Subtype">be.mxs.healthrecord.vaccination.subtype.booster</Item>
+				</Modifier>
+			</Element>
+		</Data>
+	</Row>
+	<Row>
+		<id>1028</id>
+		<class>anesthesia</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ANESTHESIA_REPORT</transactiontype>
+		<fr>Rapport d&apos;anesth&#233;sie</fr>
+		<en>Anesthesia report</en>
+	</Row>
+	<Row>
+		<id>1029</id>
+		<class>anesthesia</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ANESTHESIA_PREOP</transactiontype>
+		<fr>Dossier pr&#233;op&#233;ratoire</fr>
+		<en>Anesthesia record</en>
+	</Row>
+	<Row>
+		<id>1030</id>
+		<class>gynecology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DELIVERY</transactiontype>
+		<fr>Accouchement</fr>
+		<en>Delivery</en>
+	</Row>
+	<Row>
+		<id>1031</id>
+		<class>gynecology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_POST_PARTUM_MOTHER</transactiontype>
+		<fr>Suivi Post-partum de la m&#232;re</fr>
+		<en>Post-partum follow-up of the mother</en>
+	</Row>
+	<Row>
+		<id>1032</id>
+		<class>gynecology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_POST_PARTUM_CHILD</transactiontype>
+		<fr>Suivi Post-partum de l&apos;enfant</fr>
+		<en>Post-partum follow-up of the child</en>
+	</Row>
+	<Row>
+		<id>1033</id>
+		<class>intensive.care</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SURVEILLANCE_PROTOCOL</transactiontype>
+		<fr>Protocole de surveillance</fr>
+		<en>Surveillance protocol</en>
+	</Row>
+	<Row>
+		<id>1034</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NURSE_FOLLOWUP</transactiontype>
+		<fr>Examen param&#233;dical (hospitalisation)</fr>
+		<en>Paramedical examination (admission)</en>
+	</Row>
+	<Row>
+		<id>1035</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROLOGY_TRANSFER</transactiontype>
+		<fr>Transfert de patient</fr>
+		<en>Patient transfer</en>
+	</Row>
+	<Row>
+		<id>1036</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROLOGY_FOLLOWUP</transactiontype>
+		<fr>Dossier de suivi du patient psychiatrique</fr>
+		<en>Follow-up of the psychiatric patient</en>
+	</Row>
+	<Row>
+		<id>1037</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROLOGY_CAREFILE</transactiontype>
+		<fr>Dossier de soins psychiatriques</fr>
+		<en>Psychiatric care</en>
+	</Row>
+	<Row>
+		<id>1038</id>
+		<class>internal.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DIABETES_FOLLOWUP</transactiontype>
+		<fr>Suivi du patient diab&#233;tique</fr>
+		<en>Follow-up diabetes patients</en>
+	</Row>
+	<Row>
+		<id>1039</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_REFERENCE</transactiontype>
+		<fr>Lettre de r&#233;f&#233;rence - contre-r&#233;f&#233;rence</fr>
+		<en>Referral letter</en>
+	</Row>
+	<Row>
+		<id>1040</id>
+		<class>physiotherapy</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PHYSIO_CONS</transactiontype>
+		<fr>Consultation physioth&#233;rapie</fr>
+		<en>Consultation physiotherapy</en>
+	</Row>
+	<Row>
+		<id>1041</id>
+		<class>physiotherapy</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PHYSIO_REP</transactiontype>
+		<fr>Rapport de physioth&#233;rapie</fr>
+		<en>Physiotherapy report</en>
+	</Row>
+	<Row>
+		<id>1042</id>
+		<class>emergencies</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_URGENCE_CONSULTATION</transactiontype>
+		<fr>Consultation Urgence</fr>
+		<en>Emergency consultation</en>
+	</Row>
+	<Row>
+		<id>1043</id>
+		<class>anesthesia</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ANESTHESIE_SUPERVISION</transactiontype>
+		<fr>Surveillance pendant l&apos;anesth&#233;sie</fr>
+		<en>Surveillance during anaestesia</en>
+	</Row>
+	<Row>
+		<id>1045</id>
+		<class>physiotherapy</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_KINESITHERAPY_APPLICATION</transactiontype>
+		<fr>Demande de kin&#233;sith&#233;rapie</fr>
+		<en>Fysiotherapy order</en>
+	</Row>
+	<Row>
+		<id>1046</id>
+		<class>ophtalmology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_CONSULTATION</transactiontype>
+		<fr>Consultation ophtalmologique</fr>
+		<en>Ophtalmology consultation</en>
+	</Row>
+	<Row>
+		<id>1047</id>
+		<class>ophtalmology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_OPERATION_PROTOCOL</transactiontype>
+		<fr>Protocole op&#233;ratoire ophtalmologique</fr>
+		<en>Ophtalmology surgery protocol</en>
+	</Row>
+	<Row>
+		<id>1049</id>
+		<class>stomatology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_STOMATOLOGY_CONSULTATION</transactiontype>
+		<fr>Consultation maxillofaciale</fr>
+		<en>Maxillofacial consultation</en>
+	</Row>
+	<Row>
+		<id>1050</id>
+		<class>pneumology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_BRONCHOSCOPY_PROTOCOL</transactiontype>
+		<fr>Protocole de bronchoscopie</fr>
+		<en>Bronchoscopy protocol</en>
+	</Row>
+	<Row>
+		<id>1051</id>
+		<class>endoscopy</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OESOPHAGOGASTRODUODENOSCOPY_PROTOCOL</transactiontype>
+		<fr>Protocole d&apos;oesophago- gastro-duod&#233;noscopie</fr>
+		<en>Oesophago- gastro-duodenoscopy protocol</en>
+	</Row>
+	<Row>
+		<id>1052</id>
+		<class>endoscopy</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_COLONOSCOPY_PROTOCOL</transactiontype>
+		<fr>Protocole de colonoscopie</fr>
+		<en>Colonoscopy protocol</en>
+	</Row>
+	<Row>
+		<id>1053</id>
+		<class>endoscopy</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PROCTOLOGY_PROTOCOL</transactiontype>
+		<fr>Protocole de proctologie</fr>
+		<en>Proctology protocol</en>
+	</Row>
+	<Row>
+		<id>1054</id>
+		<class>cardiology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CARDIO_ECHOGRAPHY_PROTOCOL</transactiontype>
+		<fr>Protocole d&apos;echographie cardiaque</fr>
+		<en>Cardial echography protocol</en>
+	</Row>
+	<Row>
+		<id>1055</id>
+		<class>internal.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL</transactiontype>
+		<fr>Protocole d&apos;echographie abdominale</fr>
+		<en>Abdominal echography protocol</en>
+	</Row>
+	<Row>
+		<id>1056</id>
+		<class>internal.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_THYROID_ECHOGRAPHY_PROTOCOL</transactiontype>
+		<fr>Protocole d&apos;echographie thyroïdienne</fr>
+		<en>Thyroid echography protocol</en>
+	</Row>
+	<Row>
+		<id>1057</id>
+		<class>intensive.care</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DAILY_NOTE</transactiontype>
+		<fr>Note quotidienne</fr>
+		<en>Daily note</en>
+	</Row>
+	<Row>
+		<id>1058</id>
+		<class>stomatology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PROTOCOL_IMAGES_STOMATOLOGY</transactiontype>
+		<fr>Protocole d&apos;imagerie stomatologique</fr>
+		<en>Dentist imaging</en>
+	</Row>
+	<Row>
+		<id>1059</id>
+		<class>physiotherapy</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT</transactiontype>
+		<fr>Consultation et traitement kin&#233;sith&#233;rapeutique</fr>
+		<en>Consultation kinesitherapy</en>
+	</Row>
+	<Row>
+		<id>1060</id>
+		<class>surgery</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPERATION_PROTOCOL</transactiontype>
+		<fr>Protocole op&#233;ratoire</fr>
+		<en>Surgery protocol</en>
+	</Row>
+	<Row>
+		<id>1061</id>
+		<class>pediatrics</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PEDIATRY_CONSULTATION</transactiontype>
+		<fr>Consultation p&#233;diatrie</fr>
+		<en>Pediatric consultation</en>
+	</Row>
+	<Row>
+		<id>1062</id>
+		<class>stomatology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_STOMATOLOGY_OPERATION_PROTOCOL</transactiontype>
+		<fr>Protocole op&#233;ratoire stomatologique</fr>
+		<en>Stomatology surgery protocol</en>
+	</Row>
+	<Row>
+		<id>1063</id>
+		<class>pediatrics</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PEDIATRY_DELIVERY</transactiontype>
+		<fr>Donn&#233;es d&apos;accouchement</fr>
+		<en>Delivery data</en>
+	</Row>
+	<Row>
+		<id>1064</id>
+		<class>surgery</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SURGERY_CONSULTATION</transactiontype>
+		<fr>Consultation chirurgie</fr>
+		<en>Surgery consultation</en>
+	</Row>
+	<Row>
+		<id>1065</id>
+		<class>dermatology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DERMATOLOGY_CONSULTATION</transactiontype>
+		<fr>Consultation dermatologie</fr>
+		<en>Dermatology consultation</en>
+	</Row>
+	<Row>
+		<id>1066</id>
+		<class>gynecology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GYNAE_CONSULTATION</transactiontype>
+		<fr>Consultation gynaecologie</fr>
+		<en>Gynaecology consultation</en>
+	</Row>
+	<Row>
+		<id>1067</id>
+		<class>ent</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ORL_CONSULTATION</transactiontype>
+		<fr>Consultation ORL</fr>
+		<en>ORL consultation</en>
+	</Row>
+	<Row>
+		<id>1068</id>
+		<class>intensive.care</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SURVEILLANCE_USI</transactiontype>
+		<fr>Protocole surveillance USI</fr>
+		<en>Intensive care surveillance</en>
+	</Row>
+	<Row>
+		<id>1069</id>
+		<class>dermatology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DERMATOLOGY_LEPROSY_BEGIN</transactiontype>
+		<fr>Consultation l&#232;pre - d&#233;but</fr>
+		<en>Leprosy consultation - start</en>
+	</Row>
+	<Row>
+		<id>1070</id>
+		<class>dermatology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DERMATOLOGY_LEPROSY_FOLLOWUP</transactiontype>
+		<fr>Consultation l&#232;pre - suivi</fr>
+		<en>Leprosy consultation  - follow-up</en>
+	</Row>
+	<Row>
+		<id>1071</id>
+		<class>dermatology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DERMATOLOGY_LEPROSY_END</transactiontype>
+		<fr>Consultation l&#232;pre - fin</fr>
+		<en>Leprosy consultation -end</en>
+	</Row>
+	<Row>
+		<id>1072</id>
+		<class>hiv</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TRACNET_SUIVI</transactiontype>
+		<fr>TRACnet - Dossier psychosocial - suivi</fr>
+		<en>TRACnet - Psychosocial record - follow-up</en>
+	</Row>
+	<Row>
+		<id>1073</id>
+		<class>hiv</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TRACNET_COUNSELLING_PRE_ARVS</transactiontype>
+		<fr>TRACnet - Dossier psychosocial - counselling pre-ARV&apos;s</fr>
+		<en>TRACNet - Psychosocial record - pre-ARV councelling</en>
+	</Row>
+	<Row>
+		<id>1074</id>
+		<class>hiv</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TRACNET_INITIAL_BILAN</transactiontype>
+		<fr>TRACnet - Dossier biologique - bilan initial et suivi</fr>
+		<en>TRACnet - Laboratory record - initial results and follow-up</en>
+	</Row>
+	<Row>
+		<id>1075</id>
+		<class>hiv</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TRACNET_SUIVI_ARV</transactiontype>
+		<fr>TRACnet - Dossier biologique - suivi du traitement aux ARV</fr>
+		<en>TRACnet - Laboratory record - follow-up of ARV treatment</en>
+	</Row>
+	<Row>
+		<id>1076</id>
+		<class>hiv</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TRACNET_SUIVI_CLINIQUE</transactiontype>
+		<fr>TRACnet - Dossier clinique - suivi</fr>
+		<en>TRACnet - Clinical record - follow-up</en>
+	</Row>
+	<Row>
+		<id>1077</id>
+		<class>hiv</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TRACNET_VISIT_REPORT</transactiontype>
+		<fr>TRACnet - Visite à domicile</fr>
+		<en>TRACnet - Home visit</en>
+	</Row>
+	<Row>
+		<id>1078</id>
+		<class>hiv</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TRACNET_ADMISSION_FORM</transactiontype>
+		<fr>TRACnet - Dossier clinique - admission</fr>
+		<en>TRACnet - Clinical record - admission</en>
+	</Row>
+	<Row>
+		<id>1079</id>
+		<class>hiv</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_TRACNET_PSYCHO_SOCIAL</transactiontype>
+		<fr>TRACnet - Dossier psychosocial - &#233;valuation</fr>
+		<en>TRACnet - Psychosocial record - evaluation</en>
+	</Row>
+	<Row>
+		<id>1080</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MCD</transactiontype>
+		<fr>Donn&#233;es cliniques minimales (hospitalisation)</fr>
+		<en>Vital signs</en>
+	</Row>
+	<Row>
+		<id>1081</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EMG</transactiontype>
+		<fr>EMG</fr>
+		<en>Operation protocol (Gynaecology)</en>
+	</Row>
+	<Row>
+		<id>1082</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EEG</transactiontype>
+		<fr>EEG</fr>
+		<en>Minimal clinical data</en>
+	</Row>
+	<Row>
+		<id>1083</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ERGOTHERAPY</transactiontype>
+		<fr>Ergotherapie</fr>
+		<en>Vaccination PCV13</en>
+	</Row>
+	<Row>
+		<id>1084</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MEETINGREPORT</transactiontype>
+		<fr>Rapport d&apos;entretien service social</fr>
+		<en>Vaccination VAR</en>
+	</Row>
+	<Row>
+		<id>1085</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_PSYCHOLOGYFOLLOWUP</transactiontype>
+		<fr>Fiche de suivi psychologique</fr>
+		<en>Vaccination VAA</en>
+	</Row>
+	<Row>
+		<id>1086</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_PHYSIOTHERAPYREPORT</transactiontype>
+		<fr>Fiche d&apos;evaluation physioth&#233;rapeutique du patient</fr>
+		<en>Physiotherapy evaluation form</en>
+	</Row>
+	<Row>
+		<id>1087</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_OUTPATIENTSUMMARY</transactiontype>
+		<fr>R&#233;sum&#233; de la visite</fr>
+		<en>Outpatient summary</en>
+	</Row>
+	<Row>
+		<id>1088</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_NEUROPSY_INPATIENTSUMMARY</transactiontype>
+		<fr>R&#233;sum&#233; du s&#233;jour</fr>
+		<en>Inpatient admission summary</en>
+	</Row>
+	<Row>
+		<id>1089</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_CONSULTATION</transactiontype>
+		<fr>Consultation HI</fr>
+		<en>Consultation HI</en>
+	</Row>
+	<Row>
+		<id>1090</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_KINECONSULTATION</transactiontype>
+		<fr>Consultation kin&#233;sith&#233;rapie HI</fr>
+		<en>Consultation physiotherapy HI</en>
+	</Row>
+	<Row>
+		<id>1091</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_SURGERY_EXAMINATION</transactiontype>
+		<fr>Examen chirurgical HI</fr>
+		<en>Surgical examination HI</en>
+	</Row>
+	<Row>
+		<id>1092</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_HC_CONTACT</transactiontype>
+		<fr>Consultation Centre de Sant&#233; type AMC</fr>
+		<en>Health Center Consultation type AMC</en>
+	</Row>
+	<Row>
+		<id>1093</id>
+		<class>lab</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ANATOMOPATHOLOGY</transactiontype>
+		<fr>Examen anatomo-pathologique</fr>
+		<en>Pathology examination</en>
+	</Row>
+	<Row>
+		<id>1094</id>
+		<class>ophtalmology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_DSW</transactiontype>
+		<fr>Examen visuel type Ergovision</fr>
+		<en>Vision examination type Ergovision</en>
+	</Row>
+	<Row>
+		<id>1095</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ORTHOPROSTESIS_CONSULTATION_TREATMENT</transactiontype>
+		<fr>Consultation ortho-proth&#232;ses HI</fr>
+		<en>Orthoprosthesis consultation HI</en>
+	</Row>
+	<Row>
+		<id>1096</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_MOBILE_TECHNIQUE_SUPPORT</transactiontype>
+		<fr>Consultation mobilisation HI</fr>
+		<en>Mobilisation consultation HI</en>
+	</Row>
+	<Row>
+		<id>1097</id>
+		<class>handicapinternational</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_SOCIALASSISTANT</transactiontype>
+		<fr>Consultation assistante sociale HI</fr>
+		<en>Social assistant consultation HI</en>
+	</Row>
+	<Row>
+		<id>1098</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ALERT</transactiontype>
+		<fr>Alerte</fr>
+		<en>Warning</en>
+	</Row>
+	<Row>
+		<id>1099</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_PVV</transactiontype>
+		<fr>Consultation PVV</fr>
+		<en>Consultation PVV</en>
+	</Row>
+	<Row>
+		<id>1099</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_CPN</transactiontype>
+		<fr>Consultation CPN</fr>
+		<en>Consultation PNC</en>
+	</Row>
+	<Row>
+		<id>1100</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_PMTCT</transactiontype>
+		<fr>Consultation PMTCT</fr>
+		<en>Consultation PMTCT</en>
+	</Row>
+	<Row>
+		<id>1101</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_ACCOUCHEMENT</transactiontype>
+		<fr>Consultation accouchement</fr>
+		<en>Consultation delivery</en>
+	</Row>
+	<Row>
+		<id>1102</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_SUIVI_ENFANTS</transactiontype>
+		<fr>Consultation suivi enfants VIH pos</fr>
+		<en>Consultation HIV pos children follow-up</en>
+	</Row>
+	<Row>
+		<id>1103</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_PLANNING_FAMILIAL</transactiontype>
+		<fr>Consultation planning familial</fr>
+		<en>Consultation family planning</en>
+	</Row>
+	<Row>
+		<id>1104</id>
+		<class>healthcenter</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CS_CONSULTATION</transactiontype>
+		<fr>Consultation</fr>
+		<en>Consultation</en>
+	</Row>
+	<Row>
+		<id>1105</id>
+		<class>gynecology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPERATION_PROTOCOL_GYN</transactiontype>
+		<fr>Protocole op&#233;ratoire gyn&#233;cologique</fr>
+		<en>Gynecology surgery report</en>
+	</Row>
+	<Row>
+		<id>1106</id>
+		<class>ophtalmology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_CDO</transactiontype>
+		<fr>Consultation ophtalmologique - mod&#232;le CDO</fr>
+		<en>Ophtalmology consultation - CDO model</en>
+	</Row>
+	<Row>
+		<id>1107</id>
+		<class>neuropsychiatry</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EP</transactiontype>
+		<fr>Potentiels &#233;voqu&#233;s</fr>
+		<en>Evoked potentials</en>
+	</Row>
+	<Row>
+		<id>1108</id>
+		<class>general.medicine</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_RMH_OUTPATIENT</transactiontype>
+		<fr>Consultation externe (RMH)</fr>
+		<en>Outpatient consultation (RMH)</en>
+	</Row>
+	<Row>
+		<id>1109</id>
+		<class>ophtalmology</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_OPHTALMOLOGY_IOTA</transactiontype>
+		<fr>Consultation ophtalmologique - mod&#232;le IOTA</fr>
+		<en>Ophtalmology consultation - IOTA model</en>
+	</Row>
 </Examinations>
