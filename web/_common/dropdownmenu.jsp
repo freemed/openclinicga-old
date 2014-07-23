@@ -721,6 +721,10 @@
         }
     %>
   }    
+  
+  function showversionhistory(){
+	    var w = window.open("<c:url value='/util/versions.txt'/>");
+  }
     
   function downloadPharmacyExport(){
     var w = window.open("<c:url value='/pharmacy/exportFile.jsp'/>");

@@ -1,0 +1,15 @@
+4.89.9 - Updated pharmacy stock operation document management
+4.89.10 - Removal of unnecessary debugging messages from 64 code modules
+4.89.11 - Added module for resetting Average Weighed Unit Price in product management screen (Pharmacy)
+4.89.12 - Bug preventing pharmacy stock out operations to other destinations than patients
+4.89.13 - Insurer invoice creation code completely rewritten for improving performance when handling invoices with more than 10.000 healthcare deliveries
+4.89.14 - Added country specific code and data for Ghana
+4.89.15 - Added country specific code and data for Senegal
+4.89.16 - Added util/versions.txt file to code
+4.89.17 - Optimized query in getUnassignedPatientDebets function in Debet class (retrieval of healthcare deliveries to be invoiced for a patient)
+4.89.18 - Updated background color of browser type images in system/monitorConnections.jsp module
+4.89.19 - Removal of a few unused permissions from _common/xml/permissions.xml
+4.89.20 - Correction of permission bug in curative/manageExaminations.jsp
+4.89.21 - Multiple user profiles with the same name could be created, which is not very clean. UserProfile class updated.
+4.89.22 - Database statement not properly closed after retrieval of last transaction in MedwanQuery
+4.89.23 - Corrected system/manageServiceExaminations.jsp (test version slipped into production release)
