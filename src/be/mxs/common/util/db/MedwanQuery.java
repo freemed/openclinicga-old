@@ -3796,7 +3796,6 @@ public class MedwanQuery {
                     ts = new java.util.Date(timestamp.getTime());
                 }
                 transactionVO = new TransactionVO(new Integer(Occuprs.getInt("transactionId")), Occuprs.getString("transactionType"), Occuprs.getDate("creationdate"), Occuprs.getDate("updateTime"), Occuprs.getInt("Status"), null, null, Occuprs.getInt("serverid"), Occuprs.getInt("version"), Occuprs.getInt("versionserverid"), ts);
-                return transactionVO;
             }
             Occuprs.close();
             Occupstatement.close();

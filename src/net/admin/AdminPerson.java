@@ -2069,7 +2069,7 @@ public class AdminPerson extends OC_Object{
                 " gender, dateofbirth, comment, sourceid, language, engagement, pension,statute, claimant, searchname, updatetime," +
                 " claimant_expiration, native_country,native_town, motive_end_of_service, startdate_inactivity, enddate_inactivity," +
                 " code_inactivity, update_status, person_type, situation_end_of_service, updateuserid," +
-                " comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid" +
+                " comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid, archivefilecode" +
                 " FROM Admin WHERE personid = ?";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
@@ -2087,8 +2087,8 @@ public class AdminPerson extends OC_Object{
                        .append("  statute, claimant, searchname, updatetime, claimant_expiration, native_country,")
                        .append("  native_town, motive_end_of_service, startdate_inactivity, enddate_inactivity,")
                        .append("  code_inactivity, update_status, person_type, situation_end_of_service, updateuserid,")
-                       .append("  comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid) ")
-                       .append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"); // 38
+                       .append("  comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid,archivefilecode) ")
+                       .append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"); // 39
                 ps2 = ad_conn.prepareStatement(sbQuery.toString());
 
                 Object obj;
@@ -2117,7 +2117,7 @@ public class AdminPerson extends OC_Object{
                 rsMD.close();
 
                 // set questionmarks in query
-                for(int i=1; i<=38; i++){
+                for(int i=1; i<=39; i++){
                     obj = rs.getObject(i);
 
                     if(obj==null){
@@ -2175,12 +2175,12 @@ public class AdminPerson extends OC_Object{
                    .append("  statute, claimant, searchname, updatetime, claimant_expiration, native_country,")
                    .append("  native_town, motive_end_of_service, startdate_inactivity, enddate_inactivity,")
                    .append("  code_inactivity, update_status, person_type, situation_end_of_service, updateuserid,")
-                   .append("  comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid) ")
+                   .append("  comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid, archivefilecode) ")
                    .append("SELECT personid, immatold, immatnew, candidate, lastname,firstname,")
 			       .append(" gender, dateofbirth, comment, sourceid, language, engagement, pension,statute, claimant, searchname, updatetime,")
 			       .append(" claimant_expiration, native_country,native_town, motive_end_of_service, startdate_inactivity, enddate_inactivity,")
 			       .append(" code_inactivity, update_status, person_type, situation_end_of_service, updateuserid,")
-			       .append(" comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid")
+			       .append(" comment1, comment2, comment3, comment4, comment5, natreg, middlename, begindate, enddate, updateserverid, archivefilecode")
 			       .append(" FROM Admin WHERE personid = ?");
             ps2 = ad_conn.prepareStatement(sbQuery.toString());
             ps2.setInt(1,Integer.parseInt(personid));
