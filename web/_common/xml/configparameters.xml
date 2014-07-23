@@ -1,43 +1,55 @@
 <parameters>
-	<parametergroup id="sys" name="System">
-		<parameter name="serverId" default="1" type="integer" class="advanced"/>
-		<parameter name="admindbName" default="ocadmin" type="text" class="basic"/>
+	<parametergroup id="sys" name="System" class="advanced">
+		<parameter name="serverId" default="1" type="integer"/>
+		<parameter name="templateSource" default="http://localhost/openclinic/_common/xml/" type="text"/>
+		<parameter name="PatientLanguages" default="fr,en" type="text"/>
+		<parameter name="supportedLanguages" default="fr,en,es" type="text"/>
+		<parameter name="DefaultLanguage" default="fr" type="text"/>
+		<parameter name="admindbName" default="ocadmin" type="text"/>
 	</parametergroup>
+	
 	<parametergroup id="struct" name="Hospital structure">
 		<parameter name="adt.bed.imagewidth" default="250" type="integer" class="advanced"/>
 	</parametergroup>
+	
 	<parametergroup id="fin" name="Finance">
-		<parameter name="allowVariablePrestationPrices" default="0" type="select" options="0;1" class="basic"/>
-		<parameter name="anesthesiaPrestationUid" default="$$$" type="text" class="basic">
+		<parameter name="allowVariablePrestationPrices" default="0" type="select" options="0;1"/>
+		<parameter name="anesthesiaPrestationUid" default="$$$" type="text">
 			<description language="en">For some care deliveries (typically surgical procedures), the automatic addition of an 'anesthesia cost' can be configured by specifying a percentage of the original care delivery cost that has to be added for anesthesia. This parameter identifies the 'anesthesia care delivery' that will be added in the OC_DEBETS table (the price being defined as a percentage in the source surgical procedure). This value refers to the UID of the care delivery.</description>
 		</parameter>
-		<parameter name="applyLowerProductMargins" default="0" type="integer" class="basic">
+		<parameter name="applyLowerProductMargins" default="0" type="integer">
 			<description language="en">Indicates if downward price revisions are allowed when calculating product margins on drugs. 0=not-allowed, 1=allowed.</description>
 		</parameter>
 	</parametergroup>
+	
 	<parametergroup id="nurs" name="Nursing">
-		<parameter name="administrationSchemaDays" default="5" type="integer" class="basic">
+		<parameter name="administrationSchemaDays" default="5" type="integer">
 			<description language="en">The number of days for which the care plans and drug prescriptions are shown in the nursing module.</description>
 		</parameter>
 	</parametergroup>
+	
 	<parametergroup id="vacc" name="Vaccinations">
 		<parameter name="activeVaccinations" default="*504*506*517*525*526*527*529*530*531*539*1017*1019*1020*1021*1022*1024*1025*1026*1027*" type="text" class="advanced">
 			<description language="en">Asterisk-separated list of id-numbers of immunizations that are being handled by OpenClinic. The id-numbers refer to the id column in the Examinations table in the openclinic database. This parameter can also be managed using the GUI in the 'system&gt;manage&gt;manage active vaccinations' menu</description>
 		</parameter>
 	</parametergroup>
+	
 	<parametergroup id="lab" name="Lab">
 		<parameter name="abnormalModifiers" default="*+*++*+++*-*--*---*h*hh*hhh*l*ll*lll*" type="text" class="advanced">
 			<description language="en">Lab results that have any of the possible values (asterisk-separated list) in their modifier field will be considered abnormal.</description>
 		</parameter>
 	</parametergroup>
+	
 	<parametergroup id="pha" name="Pharmacy">
-		<parameter name="activeMedicationLatency" default="60" type="integer" class="basic">
+		<parameter name="activeMedicationLatency" default="60" type="integer">
 			<description language="en">The number of days drug prescriptions are being considered 'active prescriptions' and therefore are shown on the 'Medical Summary' home page.</description>
 		</parameter>
 	</parametergroup>
+	
 	<parametergroup id="openinsurance" name="OpenInsurance">
 		<parameter name="activeInsuranceServiceUID" default="INS" type="text" class="advanced">
 			<description language="en">The OpenInsurance software keeps the last selected insurance company in memory when coding patient encounters. The value is then used for preventing from having to re-select the same insurance company as long as they code data for the same company.</description>
 		</parameter>
 	</parametergroup>
+	
 </parameters>

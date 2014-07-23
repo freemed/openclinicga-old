@@ -19,7 +19,7 @@
 <!ELEMENT column EMPTY>
 <!ATTLIST column
 	name CDATA #REQUIRED
-	dbtype (int | float | char | varchar | text | image | bit | datetime | smalldatetime | timestamp | binary) #REQUIRED
+	dbtype (int | float | char | varchar | text | image | bit | datetime | smalldatetime | timestamp | binary | longblob) #REQUIRED
 	size CDATA #IMPLIED
 	javatype (integer | float | string | bytes | boolean | date | timestamp) #REQUIRED
 	primary (0 | 1) #IMPLIED

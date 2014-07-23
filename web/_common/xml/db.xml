@@ -1557,7 +1557,7 @@
             <column name="OC_DOCUMENT_CREATETIME" dbtype="datetime" javatype="date"/>
             <column name="OC_DOCUMENT_UPDATETIME" dbtype="datetime" javatype="date"/>
             <column name="OC_DOCUMENT_UPDATEUID" dbtype="int" javatype="integer"/>
-            <column name="OC_DOCUMENT_VALUE" dbtype="text" javatype="string"/>
+            <column name="OC_DOCUMENT_VALUE" dbtype="longblob" javatype="bytes"/>
 		</columns>
 	</table>
 

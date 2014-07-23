@@ -172,8 +172,11 @@ try{
                                                                                     if (item!=null){
                                                                                         sDocumentTitle = checkString(item.getValue());
                                                                                     }
+                                                                                    
+                                                                                    if(sDocumentTitle.length() > 0){
+                                                                                        %>(<%=sDocumentTitle%>)<%                                                                                    	
+                                                                                    }
                                                                                 %>
-                                                                                (<%=sDocumentTitle%>)
                                                                             </a>
                                                                         <%
                                                                     }
