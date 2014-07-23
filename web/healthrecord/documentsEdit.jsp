@@ -43,21 +43,19 @@
             <td class="admin"><%=getTran("web","documents",sWebLanguage)%></td>
             <td class="admin2">
                 <div id="divDocuments">
-                <%
-                    TransactionVO tran = (TransactionVO)transaction;
-                    String sDocuments = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_EXTERNAL_DOCUMENT_DOCUMENTS");
-
-                    String[] aDocuments = sDocuments.split(";");
-
-                    for (int i=0;i<aDocuments.length;i++){
-                        if (checkString(aDocuments[i]).length()>0){
-                            %>
-                            <a href="#" onclick="openDocument('<%=aDocuments[i]%>')"><%=be.openclinic.healthrecord.Document.getName(aDocuments[i])%></a><br>
-                            <%
-                        }
-                    }
-
-                %>
+	                <%
+	                    TransactionVO tran = (TransactionVO)transaction;
+	                    String sDocuments = getItemType(tran.getItems(),sPREFIX+"ITEM_TYPE_EXTERNAL_DOCUMENT_DOCUMENTS");
+	                    Debug.println("sDocuments : "+sDocuments);
+	
+	                    String[] aDocuments = sDocuments.split(";");
+	
+	                    for(int i=0;i<aDocuments.length;i++){
+	                        if(checkString(aDocuments[i]).length()>0){
+	                            %><a href="#" onclick="openDocument('<%=aDocuments[i]%>')"><%=be.openclinic.healthrecord.Document.getName(aDocuments[i])%></a><br><%
+	                        }
+	                    }
+	                %>
                 </div>
             </td>
         </tr>
@@ -67,16 +65,15 @@
             <td class="admin"/>
             <td class="admin2">
                 <%
-                  if ((activeUser.getAccessRight("occup.documents.add") || activeUser.getAccessRight("occup.documents.edit"))){
-                %>
-                <input class="button" type="button" name="buttonSave" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
-                <%
-                  }
+                    if((activeUser.getAccessRight("occup.documents.add") || activeUser.getAccessRight("occup.documents.edit"))){
+                        %><input class="button" type="button" name="buttonSave" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/><%
+                    }
                 %>
                 <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){doBack();}">
             </td>
         </tr>
     </table>
+    
     <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
     
     <input type="hidden" id="EditDocument" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EXTERNAL_DOCUMENT_DOCUMENTS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EXTERNAL_DOCUMENT_DOCUMENTS" property="value"/>">
@@ -86,6 +83,7 @@
 <%-- UPLOAD FORM --%>
 <form target="_newForm" name="uploadForm" action="<c:url value='/healthrecord/documentUpload.jsp'/>" method="post" enctype="multipart/form-data">
     <%=writeTableHeader("Web","upload_file",sWebLanguage," doBack();")%>
+    
     <table class="list" width="100%" cellspacing="1">
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","doc_upload",sWebLanguage)%></td>
@@ -121,6 +119,7 @@
     window.location.href = '<%=sCONTEXTPATH%>/main.do?Page=curative/index.jsp&ts=<%=getTs()%>';
   }
 
+  <%-- OPEN DOCUMENT --%>
   function openDocument(sId){
     var url = '<c:url value="/_common/search/viewDocument.jsp"/>?ts='+new Date();
 
@@ -131,8 +130,8 @@
         var file = eval('('+resp.responseText+')');
         window.open("<c:url value="/"/><%=MedwanQuery.getInstance().getConfigString("tempdir","/documents/")%>"+file.Filename);
       },
-      onFailure: function(){
-        $('divMessage').innerHTML = "Error in function openDocument() => AJAX";
+      onFailure: function(resp){
+        $('divMessage').innerHTML = "Error in function openDocument() => "+resp.responseText;
       }
     });
   }

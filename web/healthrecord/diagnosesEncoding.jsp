@@ -49,7 +49,7 @@
   </tr>
   <tr>
     <td id='icpccodes'>
-	  <table width='100%'>
+	  <table width='100%' id="icpccodesTable">
 	    <%
 		    Iterator items = curTran.getItems().iterator();
 		    ItemVO item;

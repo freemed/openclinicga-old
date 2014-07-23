@@ -32,14 +32,14 @@
 	    
 	    <%-- 0 - physician --%>
 	    <tr>
-	        <td class="admin"><%=getTran("web","cdo.physician",sWebLanguage)%></td>
+	        <td class="admin"><%=getTran("web","cdo.physician",sWebLanguage)%>&nbsp;*&nbsp;</td>
 	        <td class="admin2" nowrap colspan="1">
 	            <select id='physician' class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_PHYSICIAN" property="itemId"/>]>.value" >
 	                <option></option>
 	                <%=ScreenHelper.writeSelectUpperCase("cdo.physician",((TransactionVO)transaction).getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_PHYSICIAN"),sWebLanguage,false,false)%>
 	            </select>
 	        </td>
-            <td class="admin"><%=getTran("web","reference",sWebLanguage)%></td>
+            <td class="admin"><%=getTran("web","reference",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2" colspan='3'>
                 <input class='text' type="radio" onDblClick="uncheckRadio(this);" id="rbreferenceyes" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_REFERENCE" property="itemId"/>]>.value" value="medwan.common.yes" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_REFERENCE;value=medwan.common.yes" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.yes",sWebLanguage,"rbexecutionyes")%>
                 <input class='text' type="radio" onDblClick="uncheckRadio(this);" id="rbreferenceno" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_REFERENCE" property="itemId"/>]>.value" value="medwan.common.no" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_REFERENCE;value=medwan.common.no" property="value" outputString="checked"/>><%=getLabel("Web.Occup","medwan.common.no",sWebLanguage,"rbexecutionno")%>
@@ -48,7 +48,7 @@
 	    
 	    <%-- 1 - actual complaints --%>
 	    <tr>
-	        <td class="admin"><%=getTran("web","actual.complaints",sWebLanguage)%></td>
+	        <td class="admin"><%=getTran("web","actual.complaints",sWebLanguage)%>&nbsp;*&nbsp;</td>
 	        <td class="admin2" colspan="5">	
 	        	<input type="hidden" id="complaints" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_1" property="value"/>"/>
 	        	<table width='100%'>
@@ -419,23 +419,27 @@
 					    						<tr height="32px"/>
 					    						<tr height="32px">
 					    							<td width="16%">
+	    					                            <br><br><br>
 					    								<center>
 															<input type="checkbox" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_18_LEFT_U_L" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_18_LEFT_U_L;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
 														</center>
 													</td>
 					    							<td width="16%"/>
 					    							<td width="16%">
+	    					                            <br><br><br>
 					    								<center>
 															<input type="checkbox" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_18_LEFT_U_R" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_18_LEFT_U_R;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
 														</center>
 													</td>
 					    							<td width="16%">
+	    					                            <br><br><br>
 					    								<center>
 															<input type="checkbox" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_18_RIGHT_U_L" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_18_RIGHT_U_L;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
 														</center>
 													</td>
 					    							<td width="16%"/>
 					    							<td width="16%">
+	    					                            <br><br><br>
 					    								<center>
 															<input type="checkbox" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_18_RIGHT_U_R" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CDO_18_RIGHT_U_R;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/>
 														</center>
